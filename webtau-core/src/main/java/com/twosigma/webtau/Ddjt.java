@@ -3,6 +3,7 @@ package com.twosigma.webtau;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.expectation.*;
 import com.twosigma.webtau.expectation.code.ThrowExceptionMatcher;
+import com.twosigma.webtau.expectation.contain.ContainMatcher;
 import com.twosigma.webtau.expectation.equality.EqualMatcher;
 import com.twosigma.webtau.expectation.ranges.GreaterThanMatcher;
 
@@ -15,9 +16,6 @@ import java.util.regex.Pattern;
  * Convenient class for a single static * imports
  */
 public class Ddjt {
-    private Ddjt() {
-    }
-
     public static TableData header(String... columnNames) {
         return new TableData(Arrays.stream(columnNames));
     }
@@ -32,6 +30,10 @@ public class Ddjt {
 
     public static EqualMatcher equal(Object expected) {
         return new EqualMatcher(expected);
+    }
+
+    public static ContainMatcher contain(Object expected) {
+        return new ContainMatcher(expected);
     }
 
     public static GreaterThanMatcher beGreaterThan(Comparable base) {

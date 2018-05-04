@@ -6,7 +6,7 @@ import com.twosigma.webtau.expectation.ValueMatcher;
 
 public class EqualMatcher implements ValueMatcher {
     private EqualComparator equalComparator;
-    private Object expected;
+    private final Object expected;
 
     public EqualMatcher(Object expected) {
         this.expected = expected;

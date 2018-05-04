@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
-public class WebTauDsl {
+public class WebTauDsl extends Ddjt {
     public static final WebTauConfig cfg = WebTauConfig.INSTANCE;
 
     public static final CurrentWebDriver driver = new CurrentWebDriver();
@@ -77,10 +77,6 @@ public class WebTauDsl {
 
     public static ValueMatcher beVisible() {
         return new VisibleValueMatcher();
-    }
-
-    public static ValueMatcher beGreaterThan(Comparable base) {
-        return new GreaterThanMatcher(base);
     }
 
     public static ValueMatcher getBeVisible() {
