@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation.components;
+package com.twosigma.webtau.expectation.contain.handlers;
 
-public class Wallet {
-    private String walletId;
+import com.twosigma.webtau.expectation.ActualPath;
+import com.twosigma.webtau.expectation.contain.ContainAnalyzer;
+import com.twosigma.webtau.expectation.contain.ContainHandler;
 
-    public Wallet(String walletId) {
-        this.walletId = walletId;
+public class IterableContainHandler implements ContainHandler {
+    @Override
+    public boolean handle(Object actual, Object expected) {
+        return actual instanceof Iterable;
     }
 
-    public String getWalletId() {
-        return walletId;
+    @Override
+    public void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+
     }
 }
