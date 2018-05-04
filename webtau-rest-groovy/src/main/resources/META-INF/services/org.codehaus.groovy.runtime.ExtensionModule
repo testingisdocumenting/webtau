@@ -1,0 +1,14 @@
+#
+# Copyright (c) 2016 Two Sigma Investments, LP.
+# All Rights Reserved
+#
+# THIS IS UNPUBLISHED PROPRIETARY SOURCE CODE OF
+# Two Sigma Investments, LP.
+#
+# The copyright notice above does not evidence any
+# actual or intended publication of such source code.
+#
+
+moduleName=two-sigma-rest-testing
+moduleVersion=1.0
+extensionClasses=com.twosigma.webtau.http.HttpExtensions

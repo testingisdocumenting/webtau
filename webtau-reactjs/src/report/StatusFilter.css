@@ -1,0 +1,20 @@
+.status-filter {
+    font-size: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.test-summary {
+    cursor: pointer;
+}
+
+.test-summary.selected {
+    color: #eee;
+    font-weight: bold;
+}

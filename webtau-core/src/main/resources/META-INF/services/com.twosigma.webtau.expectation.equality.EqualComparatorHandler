@@ -1,0 +1,12 @@
+com.twosigma.webtau.expectation.equality.handlers.NumbersEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.StringEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.RecordAndMapEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.MapsEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.MapAndBeanEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.TableDataEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.IterableAndTableDataEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.IterableEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.StreamAndIterableEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.RegexpEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.TraceableValueEqualHandler
+com.twosigma.webtau.expectation.equality.handlers.LiveValueEqualHandler

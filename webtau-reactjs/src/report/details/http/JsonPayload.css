@@ -1,0 +1,15 @@
+.json-value-highlight {
+    padding: 3px;
+    margin: 3px;
+    border-radius: 5px;
+}
+
+.json-value-highlight.passed {
+    background-color: rgba(57, 215, 40, 0.2);
+    color: #444;
+}
+
+.json-value-highlight.failed {
+    background-color: rgba(215, 84, 80, 0.2);
+    color: #444;
+}
