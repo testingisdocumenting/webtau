@@ -1,4 +1,8 @@
 {
   "title": "WebTau",
-  "type": "Guide"
+  "type": "Guide",
+  "viewOn": {
+    "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+    "title": "View On GitHub"
+  }
 }
