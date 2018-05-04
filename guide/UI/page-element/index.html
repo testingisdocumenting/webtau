@@ -24,11 +24,11 @@
 </span><span class="code-line">        box<span class="token operator">.</span><span class="token function">setValue</span><span class="token punctuation">(</span>it<span class="token operator">.</span>query<span class="token punctuation">)</span>
 </span><span class="code-line">        box<span class="token operator">.</span><span class="token function">sendKeys</span><span class="token punctuation">(</span><span class="token string">&quot;\n&quot;</span><span class="token punctuation">)</span>
 </span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="assertions">Assertions<a href="#assertions"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="columns content-block"><div class="column border" style="flex:10;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">waitTo</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Synchronization point with dynamic UI.</span><span> </span><span class="simple-text">Executes matcher multiple time until it matches or time runs out.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-</span></pre></div></div></div></div><div class="columns content-block"><div class="column border" style="flex:10;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">waitToNot</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Synchronization point with dynamic UI.</span><span> </span><span class="simple-text">Executes negated matcher multiple time until it matches or time runs out.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-</span></pre></div></div></div></div><div class="columns content-block"><div class="column border" style="flex:10;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">should</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Executes passed matcher against page element&#x27;s underlying value</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="assertions">Assertions<a href="#assertions"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="columns content-block"><div class="column border" style="flex:3;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">waitTo</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Synchronization point with dynamic UI.</span><span> </span><span class="simple-text">Executes matcher multiple time until it matches or time runs out.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></pre></div></div></div></div><div class="columns content-block"><div class="column border" style="flex:3;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">waitToNot</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Synchronization point with dynamic UI.</span><span> </span><span class="simple-text">Executes negated matcher multiple time until it matches or time runs out.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></pre></div></div></div></div><div class="columns content-block"><div class="column border" style="flex:3;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">should</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Executes passed matcher against page element&#x27;s underlying value</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 </span><span class="code-line">search<span class="token operator">.</span>welcomeMessage<span class="token operator">.</span>should <span class="token operator">==</span> <span class="token string">&#x27;welcome to super search&#x27;</span>
-</span></pre></div></div></div></div><div class="columns content-block"><div class="column border" style="flex:10;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">shouldNot</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Executes negated matcher against page element&#x27;s underlying value</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+</span></pre></div></div></div></div><div class="columns content-block"><div class="column border" style="flex:3;text-align:right"><div class="paragraph content-block"><span class="strong-emphasis"><span class="simple-text">shouldNot</span></span></div></div><div class="column" style="flex:10"><div class="paragraph content-block"><span class="simple-text">Executes negated matcher against page element&#x27;s underlying value</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 </span><span class="code-line">search<span class="token operator">.</span>welcomeMessage<span class="token operator">.</span>shouldNot <span class="token operator">==</span> <span class="token string">&#x27;welcome to boring search&#x27;</span>
 </span></pre></div></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Page Object<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Matchers<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></span></div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
@@ -436,7 +436,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "config": {
               "left": {
                 "align": "right",
-                "width": 120.0
+                "portion": 3.0
               },
               "border": true
             },
@@ -512,7 +512,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "config": {
               "left": {
                 "align": "right",
-                "width": 120.0
+                "portion": 3.0
               },
               "border": true
             },
@@ -601,7 +601,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "config": {
               "left": {
                 "align": "right",
-                "width": 120.0
+                "portion": 3.0
               },
               "border": true
             },
@@ -690,7 +690,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "config": {
               "left": {
                 "align": "right",
-                "width": 120.0
+                "portion": 3.0
               },
               "border": true
             },

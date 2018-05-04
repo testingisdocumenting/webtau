@@ -335,7 +335,7 @@ docPath = "screenshots"</text>
     <url>/webtau/guide/UI/finders-and-filters#filters</url>
     <fullTitle>WebTau: Finders And Filters, Filters [UI]</fullTitle>
     <text>
-      <text>&lt;div id="menu"> 
+      <text>&lt;div id="menu">
  &lt;ul> 
   &lt;li> &lt;a href="/book">book&lt;/a> &lt;/li> 
   &lt;li> &lt;a href="/orders">orders&lt;/a> &lt;/li> 
