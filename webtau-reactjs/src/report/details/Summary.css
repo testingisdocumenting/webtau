@@ -1,0 +1,23 @@
+.single-summary {
+}
+
+.single-summary > .file-name-and-scenario {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.file-name-and-scenario > .file-name {
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.file-name-and-scenario > .scenario {
+    font-size: 14px;
+}
+
+.single-summary-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 172px);
+    grid-gap: 25px;
+}

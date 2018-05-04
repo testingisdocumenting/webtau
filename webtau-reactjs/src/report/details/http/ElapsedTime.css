@@ -1,0 +1,14 @@
+.http-call-elapsed-time {
+    color: #3e474b;
+    padding-right: 30px;
+}
+
+.http-call-elapsed-time > .elapsed-seconds,
+.http-call-elapsed-time > .elapsed-millis {
+    margin-right: 2px;
+}
+
+.http-call-elapsed-time > .time-unit {
+    color: #888;
+    margin-right: 7px;
+}

@@ -1,0 +1,10 @@
+{
+  "description": "Executes passed matcher against page element\u0027s underlying value",
+  "example": "search.open()\nsearch.welcomeMessage.should \u003d\u003d \u0027welcome to super search\u0027",
+  "report": [
+    "\u003e re-opening http://localhost:8180/search",
+    ". opened http://localhost:8180/search",
+    "\u003e expecting by css #welcome to equal welcome to super search",
+    ". by css #welcome equals welcome to super search"
+  ]
+}

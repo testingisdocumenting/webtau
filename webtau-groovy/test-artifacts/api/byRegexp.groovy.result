@@ -1,0 +1,10 @@
+{
+  "description": "filter by regexp",
+  "example": "open(\"/finders-and-filters\")\n$(\"#menu ul li a\").get(~/ord.../).should \u003d\u003d \u0027orders\u0027",
+  "report": [
+    "\u003e opening http://localhost:8180/finders-and-filters",
+    ". staying at http://localhost:8180/finders-and-filters",
+    "\u003e expecting by css #menu ul li a , element(s) with regexp ord... to equal orders",
+    ". by css #menu ul li a , element(s) with regexp ord... equals orders"
+  ]
+}

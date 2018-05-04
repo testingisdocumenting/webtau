@@ -1,0 +1,6 @@
+.overall-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 172px);
+    grid-gap: 25px;
+    padding: 40px;
+}
