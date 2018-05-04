@@ -1,6 +1,0 @@
-.card {
-    width: 100%;
-    background-color: #fff;
-    box-shadow:var(--webtau-card-shadow);
-    border: 1px solid var(--webtau-card-border-color);
-}
