@@ -1,4 +1,4 @@
-toc =[
+toc = [
   {
     "sectionTitle": "",
     "dirName": "",
@@ -29,6 +29,10 @@ toc =[
         "fileName": "getting-started",
         "dirName": "REST",
         "pageSectionIdTitles": [
+          {
+            "title": "Installation",
+            "id": "installation"
+          },
           {
             "title": "Bare Minimum",
             "id": "bare-minimum"

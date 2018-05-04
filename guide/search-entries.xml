@@ -3,7 +3,13 @@
     <url>/webtau/guide</url>
     <fullTitle>WebTau WebTau</fullTitle>
     <text>
-      <text>Java API and Groovy Framework to test: Web UI Web REST import static com.twosigma.webtau.WebTauGroovyDsl.*
+      <text>WebTau ( Web   T est  au tomation) - Java API and Groovy Framework to test: Web REST Web UI import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+scenario("simple get") {
+    http.get("/weather") {
+        temperature.should == 88
+    }
+} import static com.twosigma.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
 scenario("""# Search facts
@@ -19,6 +25,14 @@ information will be displayed in a special box
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/getting-started#installation</url>
+    <fullTitle>WebTau: Getting Started, Installation [REST]</fullTitle>
+    <text>
+      <text>Download and unzip  https://github.com/twosigma/webtau/releases/ webtau . Add it to your  PATH .</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/getting-started#bare-minimum</url>
     <fullTitle>WebTau: Getting Started, Bare Minimum [REST]</fullTitle>
     <text>
@@ -30,7 +44,7 @@ scenario("simple get") {
     http.get("/weather") {
         temperature.should == 88
     }
-} To run test, navigate to  examples  dir and webtau rest/restGet.groovy --url=https://my-server</text>
+} To run test, navigate to  examples  dir and webtau rest/restGet.groovy --url=https://my-server Note: using  package  and  import  is optional and is mainly for IDE auto completion. Imports will be added implicitly during command line run.</text>
       <score>STANDARD</score>
     </text>
   </entry>
