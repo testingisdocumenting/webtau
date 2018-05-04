@@ -1,0 +1,436 @@
+<mdoc>
+  <entry>
+    <url>/webtau</url>
+    <fullTitle>WebTau WebTau</fullTitle>
+    <text>
+      <text>WebTau ( Web   T est  au tomation) - Java API and Groovy Framework to test: Web REST Web UI import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+scenario("simple get") {
+    http.get("/weather") {
+        temperature.should == 88
+    }
+} import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
+
+scenario("""# Search facts
+Enter a fact in a search box and 
+information will be displayed in a special box
+""") {
+    search.open()
+    search.submit(query: "search this")
+
+    search.numberOfResults.waitTo == 2
+}</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/getting-started#installation</url>
+    <fullTitle>WebTau: Getting Started, Installation [REST]</fullTitle>
+    <text>
+      <text>Download and unzip  https://github.com/twosigma/webtau/releases/ webtau . Add it to your  PATH .</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/getting-started#bare-minimum</url>
+    <fullTitle>WebTau: Getting Started, Bare Minimum [REST]</fullTitle>
+    <text>
+      <text>package rest
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+scenario("simple get") {
+    http.get("/weather") {
+        temperature.should == 88
+    }
+} To run test, navigate to  examples  dir and webtau rest/restGet.groovy --url=https://my-server Note: using  package  and  import  is optional and is mainly for IDE auto completion. Imports will be added implicitly during command line run.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/getting-started#config-file</url>
+    <fullTitle>WebTau: Getting Started, Config File [REST]</fullTitle>
+    <text>
+      <text>Url parameter can be moved to a  test.cfg  file. url = "http://localhost:8180" configuration/environments Specify multiple environments  to streamline tests execution.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/CRUD#example</url>
+    <fullTitle>WebTau: CRUD, Example [REST]</fullTitle>
+    <text>
+      <text>We have an app that lets to create, read, update, and delete customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. package rest.springboot
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+scenario("CRUD operations for customer") {
+    def customerPayload = [firstName: "FN", lastName: "LN"]
+
+    int id = http.post("/customers", customerPayload) {
+        return id
+    }
+
+    http.get("/customers/${id}") {
+        firstName.should == customerPayload.firstName
+        lastName.should == customerPayload.lastName
+    }
+
+    def changedLastName = "NLN"
+    http.put("/customers/${id}", [*:customerPayload, lastName: changedLastName]) {
+        lastName.should == changedLastName
+    }
+
+    http.get("/customers/${id}") {
+        lastName.should == changedLastName
+    }
+
+    http.delete("/customers/${id}") {
+        statusCode.should == 204
+    }
+
+    http.get("/customers/${id}") {
+        statusCode.should == 404
+    }
+}</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/CRUD#report</url>
+    <fullTitle>WebTau: CRUD, Report [REST]</fullTitle>
+    <text>
+      <text>After your test executions a report will be produced</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/CRUD#spring-boot</url>
+    <fullTitle>WebTau: CRUD, Spring Boot [REST]</fullTitle>
+    <text>
+      <text>WebTau is framework agnostic. But to make it concrete  /customer   CRUD  endpoint is created by using  https://projects.spring.io/spring-boot/ Spring Boot Three files are required to have a working REST end point with  CRUD  operations. Domain object package com.example.demo.springboot.app.data;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+public class Customer {
+    private Long id;
+    private String firstName;
+    private String lastName;
+
+    @Id
+    @GeneratedValue
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+} Repository package com.example.demo.springboot.app.data;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+
+@Api(tags = "customer")
+@RepositoryRestResource(collectionResourceRel = "customers", path = "customers")
+public interface CustomerRepository extends JpaRepository&lt;Customer, Long> {
+    @ApiOperation("find all customers ordered by last name")
+    Iterable&lt;Customer> findAllByOrderByLastName();
+
+    @Override
+    void deleteAll();
+} Entry point package com.example.demo.springboot.app;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+@SpringBootApplication
+@EnableJpaRepositories
+@EnableSwagger2
+@Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
+public class SpringBootDemoApp {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootDemoApp.class, args);
+    }
+
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
+    }
+}</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/headers#request-header-provider</url>
+    <fullTitle>WebTau: Headers, Request Header Provider [REST]</fullTitle>
+    <text>
+      <text>Specify  httpHeaderProvider  config parameter to add additional header information to all your requests import rest.headers.auth.Auth
+
+url = "http://localhost:8080"
+
+httpHeaderProvider = Auth.&amp;authHeader Where  Auth.&amp;authHeader  implemented as package rest.headers.auth
+
+import com.twosigma.webtau.console.ConsoleOutputs
+import com.twosigma.webtau.http.HttpRequestHeader
+
+class Auth {
+    static HttpRequestHeader authHeader(HttpRequestHeader original) {
+        ConsoleOutputs.out('auth header injection point')
+        return original.merge([Authorization: 'Bearer &lt;token>'])
+    }
+} This removes implementation details from your tests and make them less brittle.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/documentation#scenarios</url>
+    <fullTitle>WebTau: Documentation, Scenarios [REST]</fullTitle>
+    <text>
+      <text>You provide  REST end points  so users can execute various scenarios. You need to test those scenarios and then document them. To automate the process let's capture executed scenarios and use them inside your documentation.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/documentation#test-artifacts</url>
+    <fullTitle>WebTau: Documentation, Test Artifacts [REST]</fullTitle>
+    <text>
+      <text>To capture artifacts use  http.doc.capture package rest
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+scenario("extracting id after POST to use inside GET request") {
+    def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) {
+        return id
+    }
+    http.doc.capture('employee-post')
+
+    http.get("/employee/$id") {
+        firstName.should == 'FN'
+        lastName.should == 'LN'
+    }
+    http.doc.capture('employee-get') // capture previous HTTP call as &lt;docDir>/employee-get
+} employee-get  directory will be created with request and response json files. By default directory will be created in a working directory. To change it add  docPath  to your  test.cfg  file url = "http://localhost:8080"
+
+docPath = "../../../doc-artifacts"</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/documentation#document-rest-calls</url>
+    <fullTitle>WebTau: Documentation, Document REST calls [REST]</fullTitle>
+    <text>
+      <text>If you have user facing scenario tests, capture them and refer inside your documentation. Set your documentation build pipeline like the one below. Combine REST requests and responses with Open API generated specs for the complete documentation.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/complex-types#list-of-objects</url>
+    <fullTitle>WebTau: Complex Types, List Of Objects [REST]</fullTitle>
+    <text>
+      <text>Use  TableData  to assert complex types like  list of objects package rest.springboot
+
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+
+scenario("list Customers and assert with a Table Data") {
+    http.delete("/customers")
+
+    http.post("/customers", [firstName: "FN1", lastName: "LN1"])
+    http.post("/customers", [firstName: "FN2", lastName: "LN2"])
+    http.post("/customers", [firstName: "FN3", lastName: "LN3"])
+
+    http.get("/customers/search/findAllByOrderByLastName") {
+        _embedded.customers.should == ['firstName' | 'lastName'] {
+                                       __________________________
+                                             'FN1' |      'LN1'
+                                             'FN2' |      'LN2'
+                                             'FN3' |      'LN3' }
+    }
+
+    http.doc.capture('complex-return-type')
+}</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/configuration#base-url</url>
+    <fullTitle>WebTau: Configuration, Base URL [UI]</fullTitle>
+    <text>
+      <text>Robust tests don't specify full URL of an application under test. Instead you pass only relative URL to functions like  open . Define base URL portion either inside a  test.cfg  file url = "http://localhost:8180"
+userName = 'testUser'
+environments {
+   dev {
+       url = "http://dev.host:8080"
+   }
+} or pass as a command line argument  --url=http://...</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/configuration#timeouts</url>
+    <fullTitle>WebTau: Configuration, Timeouts [UI]</fullTitle>
+    <text>
+      <text>Default timeout in milliseconds for  waitTo  and  waitToNot waitTimeout = 25000
+ --waitTimeout=25000
+</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/configuration#window-size</url>
+    <fullTitle>WebTau: Configuration, Window Size [UI]</fullTitle>
+    <text>
+      <text>Browser window size can be set using  windowWidth  and  windowHeight url = "http://localhost:8180"
+
+windowWidth = 1280
+windowHeight = 800</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/configuration#documentation-artifacts</url>
+    <fullTitle>WebTau: Configuration, Documentation Artifacts [UI]</fullTitle>
+    <text>
+      <text>By default all generated documentation artifacts (e.g. screenshots) are created in the current directory. To override url = "http://localhost:8180"
+
+docPath = "screenshots"</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/finders-and-filters#filters</url>
+    <fullTitle>WebTau: Finders And Filters, Filters [UI]</fullTitle>
+    <text>
+      <text>&lt;div id="menu"> 
+ &lt;ul> 
+  &lt;li> &lt;a href="/book">book&lt;/a> &lt;/li> 
+  &lt;li> &lt;a href="/orders">orders&lt;/a> &lt;/li> 
+  &lt;li> &lt;a href="/help">help&lt;/a> &lt;/li> 
+ &lt;/ul> 
+&lt;/div> $("#menu ul li a").get("orders") 
+$("#menu ul li a").get(~/orders/) 
+$("#menu ul li a").get(2) 
+</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/page-object#test-encapsulation</url>
+    <fullTitle>WebTau: Page Object, Test Encapsulation [UI]</fullTitle>
+    <text>
+      <text>Robust tests should not depend on implementation details. UI has plenty of those: UI Elements placement Actions UI test should not depend on any of them. Move elements placement and available actions outside of UI test. Multiple tests can then reuse that information. And more importantly you will have only one place to change if UI changes.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/page-object#definition</url>
+    <fullTitle>WebTau: Page Object, Definition [UI]</fullTitle>
+    <text>
+      <text>PageObject  is just a simple class. Usage of a special  action  method is optional. Used to add additional reporting information.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/page-object#grouping</url>
+    <fullTitle>WebTau: Page Object, Grouping [UI]</fullTitle>
+    <text>
+      <text>To make it easier to refer  PageObjects  from different tests combine them in one file later just static import all of them</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/page-element#methods</url>
+    <fullTitle>WebTau: Page Element, Methods [UI]</fullTitle>
+    <text>
+      <text>Below are the methods that are available on  PageElement  instance. Examples below refer following page object</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/page-element#assertions</url>
+    <fullTitle>WebTau: Page Element, Assertions [UI]</fullTitle>
+    <text>
+      <text>waitTo Synchronization point with dynamic UI. Executes matcher multiple time until it matches or time runs out. search.open()
+ waitToNot Synchronization point with dynamic UI. Executes negated matcher multiple time until it matches or time runs out. search.open()
+ should Executes passed matcher against page element's underlying value search.open()
+search.welcomeMessage.should == 'welcome to super search'
+ shouldNot Executes negated matcher against page element's underlying value search.open()
+search.welcomeMessage.shouldNot == 'welcome to boring search'
+</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/matchers#values</url>
+    <fullTitle>WebTau: Matchers, Values [UI]</fullTitle>
+    <text>
+      <text>regexp checks if an element or its value matches provided matcher search.open()
+search.welcomeMessage.should == ~/welcome to \w+ search/
+search.welcomeMessage.shouldNot == ~/welcome to \w+ S.*/
+search.welcomeMessage.waitTo == ~/welcome to \w+ search/
+search.welcomeMessage.waitToNot == ~/welcome to \w+ S.*/
+</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/configuration/cli#overrides</url>
+    <fullTitle>WebTau: Cli, Overrides [Configuration]</fullTitle>
+    <text>
+      <text>Any config file parameter can be overridden with a command line parameter Given config file waitTimeout = 2500
+url = http://my-server
+ Values can be overridden using webtau --waitTimeout=25000 --url=http://another-server</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/configuration/environments#select</url>
+    <fullTitle>WebTau: Environments, Select [Configuration]</fullTitle>
+    <text>
+      <text>waitTimeout = 2500
+url = http://my-server
+
+environments {
+   dev {
+       url = "http://localhost:8080"
+   }
+}
+ webtau --env=dev</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+</mdoc>
