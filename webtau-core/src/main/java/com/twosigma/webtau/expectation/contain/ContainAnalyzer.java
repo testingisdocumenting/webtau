@@ -25,33 +25,27 @@ import com.twosigma.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static java.util.stream.Collectors.joining;
 
 public class ContainAnalyzer {
     private static List<ContainHandler> handlers = discoverHandlers();
 
-    private final boolean isNegative;
     private final List<Mismatch> mismatches;
 
     public static ContainAnalyzer containAnalyzer() {
-        return new ContainAnalyzer(false);
-    }
-
-    public static ContainAnalyzer negativeContainAnalyzer() {
-        return new ContainAnalyzer(true);
+        return new ContainAnalyzer();
     }
 
     public boolean contains(ActualPath actualPath, Object actual, Object expected) {
-        ContainHandler handler = handlers.stream().
-                filter(h -> h.handle(actual, expected)).findFirst().
-                orElseThrow(() -> noHandlerFound(actual, expected));
+        return contains(actual, expected,
+                (handler) -> handler.analyzeContain(this, actualPath, actual, expected));
+    }
 
-        int before = mismatches.size();
-        handler.analyze(this, actualPath, actual, expected);
-        int after = mismatches.size();
-
-        return after == before;
+    public boolean containsNot(ActualPath actualPath, Object actual, Object expected) {
+        return contains(actual, expected,
+                (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
     }
 
     public void reportMismatch(ContainHandler reporter, ActualPath actualPath, String mismatch) {
@@ -61,29 +55,30 @@ public class ContainAnalyzer {
     public String generateMismatchReport() {
         List<String> reports = new ArrayList<>();
         if (!mismatches.isEmpty()) {
-            reports.add("does not contain:\n\n" +
-                    mismatches.stream().map(Mismatch::fullMessage).collect(joining("\n")));
+            reports.add(mismatches.stream().map(Mismatch::fullMessage).collect(joining("\n")));
         }
 
         return reports.stream().collect(joining("\n\n"));
     }
 
-    public boolean contains() {
-        boolean isMismatch = mismatches.isEmpty();
-        return isNegative() != isMismatch;
+    public boolean hasMismatches() {
+        return mismatches.isEmpty();
     }
 
-    /**
-     * comparator operates in two mode: should and shouldNot
-     * @return true if the mode is shouldNot
-     */
-    public boolean isNegative() {
-        return isNegative;
-    }
-
-    private ContainAnalyzer(boolean isNegative) {
-        this.isNegative = isNegative;
+    private ContainAnalyzer() {
         this.mismatches = new ArrayList<>();
+    }
+
+    private boolean contains(Object actual, Object expected, Consumer<ContainHandler> handle) {
+        ContainHandler handler = handlers.stream().
+                filter(h -> h.handle(actual, expected)).findFirst().
+                orElseThrow(() -> noHandlerFound(actual, expected));
+
+        int before = mismatches.size();
+        handle.accept(handler);
+        int after = mismatches.size();
+
+        return after == before;
     }
 
     private static List<ContainHandler> discoverHandlers() {

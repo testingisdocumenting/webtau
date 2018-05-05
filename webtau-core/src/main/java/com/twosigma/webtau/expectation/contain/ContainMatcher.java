@@ -26,6 +26,7 @@ public class ContainMatcher implements ValueMatcher {
 
     public ContainMatcher(Object expected) {
         this.expected = expected;
+        this.containAnalyzer = ContainAnalyzer.containAnalyzer();
     }
 
     @Override
@@ -40,13 +41,14 @@ public class ContainMatcher implements ValueMatcher {
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return containAnalyzer.generateMismatchReport();
+        return actualPath + " expect to contain " + DataRenderers.render(expected) + "\n" +
+                containAnalyzer.generateMismatchReport();
     }
 
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
-        containAnalyzer = ContainAnalyzer.containAnalyzer();
-        return analyzeContain(actualPath, actual);
+        containAnalyzer.contains(actualPath, actual, expected);
+        return containAnalyzer.hasMismatches();
     }
 
     @Override
@@ -61,18 +63,13 @@ public class ContainMatcher implements ValueMatcher {
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " contains " + DataRenderers.render(expected) + "\nactual: " +
-                DataRenderers.render(actual);
+        return actualPath + " expect to not contain " + DataRenderers.render(expected) + "\n" +
+                containAnalyzer.generateMismatchReport();
     }
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
-        containAnalyzer = ContainAnalyzer.negativeContainAnalyzer();
-        return analyzeContain(actualPath, actual);
-    }
-
-    private boolean analyzeContain(ActualPath actualPath, Object actual) {
-        containAnalyzer.contains(actualPath, actual, expected);
-        return containAnalyzer.contains();
+        containAnalyzer.containsNot(actualPath, actual, expected);
+        return containAnalyzer.hasMismatches();
     }
 }

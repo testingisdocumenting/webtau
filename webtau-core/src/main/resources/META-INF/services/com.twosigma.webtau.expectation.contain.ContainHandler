@@ -15,3 +15,4 @@
 #
 
 com.twosigma.webtau.expectation.contain.handlers.StringContainHandler
+com.twosigma.webtau.expectation.contain.handlers.IterableContainHandler

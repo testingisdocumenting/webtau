@@ -20,6 +20,9 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.contain.ContainAnalyzer;
 import com.twosigma.webtau.expectation.contain.ContainHandler;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 public class StringContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
@@ -27,14 +30,23 @@ public class StringContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+        analyze(containAnalyzer, actualPath, actual, expected, String::contains);
+    }
+
+    @Override
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+        analyze(containAnalyzer, actualPath, actual, expected,
+                (actualString, expectedString) -> !actualString.contains(expectedString));
+    }
+
+    private void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected,
+                         BiFunction<String, String, Boolean> predicate) {
         String actualString = (String) actual;
         String expectedString = (String) expected;
 
-        if (!actualString.contains(expectedString)) {
-            containAnalyzer.reportMismatch(this, actualPath,
-                    "             actual: " + actualString + "\n" +
-                            "expected to contain: " + expectedString);
+        if (!predicate.apply(actualString, expectedString)) {
+            containAnalyzer.reportMismatch(this, actualPath, actualString);
         }
     }
 }

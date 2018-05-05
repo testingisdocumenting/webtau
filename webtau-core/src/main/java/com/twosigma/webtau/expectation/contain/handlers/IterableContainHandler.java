@@ -16,9 +16,15 @@
 
 package com.twosigma.webtau.expectation.contain.handlers;
 
+import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.contain.ContainAnalyzer;
 import com.twosigma.webtau.expectation.contain.ContainHandler;
+import com.twosigma.webtau.expectation.equality.ComparatorResult;
+import com.twosigma.webtau.expectation.equality.EqualComparator;
+
+import java.util.Iterator;
+import java.util.function.BiFunction;
 
 public class IterableContainHandler implements ContainHandler {
     @Override
@@ -27,7 +33,54 @@ public class IterableContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+        EqualComparator equalComparator = EqualComparator.comparator();
 
+        boolean reachedEnd = forEachActual(actualPath, actual,
+                ((indexedPath, actualValue) -> {
+                    ComparatorResult comparatorResult = equalComparator.compare(indexedPath, actualValue, expected);
+                    return !comparatorResult.isMismatch();
+                }));
+
+        if (! reachedEnd) {
+            containAnalyzer.reportMismatch(this, actualPath, equalComparator.generateMismatchReport());
+        }
+    }
+
+    @Override
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+        EqualComparator equalComparator = EqualComparator.comparator();
+
+        forEachActual(actualPath, actual, ((indexedPath, actualValue) -> {
+            ComparatorResult comparatorResult = equalComparator.compare(indexedPath, actualValue, expected);
+
+            if (!comparatorResult.isMismatch()) {
+                containAnalyzer.reportMismatch(this, indexedPath,
+                        "equals " + DataRenderers.render(actualValue));
+            }
+
+            return false;
+        }));
+    }
+
+    private boolean forEachActual(ActualPath actualPath,
+                                  Object actual,
+                                  BiFunction<ActualPath, Object, Boolean> function) {
+        Iterable actualIterable = (Iterable) actual;
+        Iterator iterator = actualIterable.iterator();
+
+        int idx = 0;
+        while (iterator.hasNext()) {
+            Object v = iterator.next();
+            ActualPath indexedPath = actualPath.index(idx);
+            Boolean terminate = function.apply(indexedPath, v);
+            if (terminate) {
+                return true;
+            }
+
+            idx++;
+        }
+
+        return false;
     }
 }

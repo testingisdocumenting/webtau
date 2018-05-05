@@ -47,10 +47,6 @@ class StringContainHandlerTest {
     @Test
     void "mismatches report should have both values"() {
         assert ! analyzer.contains(createActualPath("text"), "hello world", "disc")
-
-        Assert.assertEquals("does not contain:\n" +
-                "\n" +
-                "text:              actual: hello world\n" +
-                "      expected to contain: disc", analyzer.generateMismatchReport())
+        Assert.assertEquals("text: hello world", analyzer.generateMismatchReport())
     }
 }

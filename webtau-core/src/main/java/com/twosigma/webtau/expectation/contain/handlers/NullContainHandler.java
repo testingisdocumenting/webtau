@@ -27,7 +27,12 @@ public class NullContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+        containAnalyzer.reportMismatch(this, actualPath, actual + " doesn't contain " + expected);
+    }
+
+    @Override
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
         containAnalyzer.reportMismatch(this, actualPath, actual + " doesn't contain " + expected);
     }
 }

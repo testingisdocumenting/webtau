@@ -78,8 +78,8 @@ public class EqualComparator {
     }
 
     public boolean areEqual() {
-        boolean isMismatch = mismatches.isEmpty() && missing.isEmpty() && extra.isEmpty();
-        return isNegative() != isMismatch;
+        boolean isMatch = mismatches.isEmpty() && missing.isEmpty() && extra.isEmpty();
+        return isNegative() != isMatch;
     }
 
     public String generateMismatchReport() {
