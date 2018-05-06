@@ -23,8 +23,10 @@ import com.twosigma.webtau.expectation.contain.ContainHandler;
 import com.twosigma.webtau.expectation.equality.ComparatorResult;
 import com.twosigma.webtau.expectation.equality.EqualComparator;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.function.BiFunction;
+import java.util.List;
+import java.util.function.BiConsumer;
 
 public class IterableContainHandler implements ContainHandler {
     @Override
@@ -34,53 +36,23 @@ public class IterableContainHandler implements ContainHandler {
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
-        EqualComparator equalComparator = EqualComparator.comparator();
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
+        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 
-        boolean reachedEnd = forEachActual(actualPath, actual,
-                ((indexedPath, actualValue) -> {
-                    ComparatorResult comparatorResult = equalComparator.compare(indexedPath, actualValue, expected);
-                    return !comparatorResult.isMismatch();
-                }));
-
-        if (! reachedEnd) {
-            containAnalyzer.reportMismatch(this, actualPath, equalComparator.generateMismatchReport());
+        if (indexedValues.isEmpty()) {
+            containAnalyzer.reportMismatch(this, actualPath, analyzer.getEqualComparator()
+                    .generateMismatchReport());
         }
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
-        EqualComparator equalComparator = EqualComparator.comparator();
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
+        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 
-        forEachActual(actualPath, actual, ((indexedPath, actualValue) -> {
-            ComparatorResult comparatorResult = equalComparator.compare(indexedPath, actualValue, expected);
-
-            if (!comparatorResult.isMismatch()) {
-                containAnalyzer.reportMismatch(this, indexedPath,
-                        "equals " + DataRenderers.render(actualValue));
-            }
-
-            return false;
-        }));
-    }
-
-    private boolean forEachActual(ActualPath actualPath,
-                                  Object actual,
-                                  BiFunction<ActualPath, Object, Boolean> function) {
-        Iterable actualIterable = (Iterable) actual;
-        Iterator iterator = actualIterable.iterator();
-
-        int idx = 0;
-        while (iterator.hasNext()) {
-            Object v = iterator.next();
-            ActualPath indexedPath = actualPath.index(idx);
-            Boolean terminate = function.apply(indexedPath, v);
-            if (terminate) {
-                return true;
-            }
-
-            idx++;
-        }
-
-        return false;
+        indexedValues.forEach(indexedValue ->
+                containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
+                        "equals " + DataRenderers.render(indexedValue.getValue()))
+        );
     }
 }

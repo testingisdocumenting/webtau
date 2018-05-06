@@ -36,11 +36,11 @@ public class TraceableValueEqualHandler implements EqualComparatorHandler {
 
         if (result.isMismatch()) {
             traceableValue.updateCheckLevel(equalComparator.isNegative() ?
-                CheckLevel.FuzzyFailed:
+                CheckLevel.FuzzyPassed:
                 CheckLevel.ExplicitFailed);
         } else {
             traceableValue.updateCheckLevel(equalComparator.isNegative() ?
-                CheckLevel.FuzzyPassed:
+                CheckLevel.ExplicitFailed:
                 CheckLevel.ExplicitPassed);
         }
     }

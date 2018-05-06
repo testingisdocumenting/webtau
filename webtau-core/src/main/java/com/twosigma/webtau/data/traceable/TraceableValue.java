@@ -16,7 +16,12 @@
 
 package com.twosigma.webtau.data.traceable;
 
+import java.util.function.Supplier;
+
 public class TraceableValue {
+    private static ThreadLocal<Boolean> isTracingDisabled = ThreadLocal.withInitial(() -> Boolean.FALSE);
+    private static ThreadLocal<TraceableValueModifier> traceableValueModifier = ThreadLocal.withInitial(() -> null);
+
     private CheckLevel checkLevel;
     private final Object value;
 
@@ -35,6 +40,13 @@ public class TraceableValue {
     }
 
     public void updateCheckLevel(CheckLevel newCheckLevel) {
+        if (isTracingDisabled.get()) {
+            return;
+        }
+
+        TraceableValueModifier modifier = TraceableValue.traceableValueModifier.get();
+        newCheckLevel = modifier != null ? modifier.modify(newCheckLevel) : newCheckLevel;
+
         if (newCheckLevel.ordinal() > checkLevel.ordinal()) {
             checkLevel = newCheckLevel;
         }
@@ -42,5 +54,14 @@ public class TraceableValue {
 
     public CheckLevel getCheckLevel() {
         return checkLevel;
+    }
+
+    public static <R> R withDisabledChecks(Supplier<R> code) {
+        try {
+            isTracingDisabled.set(true);
+            return code.get();
+        } finally {
+            isTracingDisabled.set(false);
+        }
     }
 }
