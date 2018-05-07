@@ -4,13 +4,15 @@ We have an app that lets to create, read, update, and delete customer records. R
 
 Here is an example of a `CRUD` operations test.
 
-:include-file: examples/rest/springboot/customerCrud.groovy
+:include-file: examples/rest/springboot/customerCrud.groovy {commentsType: "inline"}
 
 # Report
 
 After your test executions a report will be produced
 
 :include-image: img/rest-report-http-calls.png {fit: true}
+
+Note: asserted values are being tracked and highlighted inside the report 
 
 # Spring Boot
 

@@ -18,14 +18,13 @@ package com.twosigma.webtau.http.datanode;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.twosigma.webtau.expectation.equality.EqualComparator;
 import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
-import javafx.scene.control.Tab;
 
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.http.datanode.DataNode;
 
 public class DataNodeEqualHandler implements EqualComparatorHandler {
     @Override
@@ -39,18 +38,34 @@ public class DataNodeEqualHandler implements EqualComparatorHandler {
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual,
-                        Object expected) {
+    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
 
-        Object convertedActual = convertBasedOnExpected((DataNode) actual, expected);
-        equalComparator.compare(actualPath, convertedActual, expected);
+        if (expected instanceof Map) {
+            compareWithMap(equalComparator, actualPath, (DataNode) actual, (Map) expected);
+        } else {
+            Object convertedActual = convertBasedOnExpected((DataNode) actual, expected);
+            equalComparator.compare(actualPath, convertedActual, expected);
+        }
+    }
+
+    private void compareWithMap(EqualComparator equalComparator, ActualPath actualPath, DataNode actual, Map expected) {
+        Map<String, DataNode> actualAsMap = actual.asMap();
+
+        Set keys = expected.keySet();
+        for (Object key : keys) {
+            String p = (String) key;
+            ActualPath propertyPath = actualPath.property(p);
+
+            Object expectedValue = expected.get(p);
+            if (! actualAsMap.containsKey(p)) {
+                equalComparator.reportMissing(this, propertyPath, expectedValue);
+            } else {
+                equalComparator.compare(propertyPath, actualAsMap.get(p), expectedValue);
+            }
+        }
     }
 
     private Object convertBasedOnExpected(DataNode actual, Object expected) {
-        if (expected instanceof Map) {
-            return actual.asMap();
-        }
-
         if (expected instanceof List || expected instanceof TableData) {
             return actual.all();
         }

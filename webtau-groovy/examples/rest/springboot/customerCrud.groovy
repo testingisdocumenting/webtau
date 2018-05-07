@@ -10,13 +10,12 @@ scenario("CRUD operations for customer") {
     }
 
     http.get("/customers/${id}") {
-        firstName.should == customerPayload.firstName
-        lastName.should == customerPayload.lastName
+        body.should == customerPayload // only specified properties will be asserted against
     }
 
     def changedLastName = "NLN"
     http.put("/customers/${id}", [*:customerPayload, lastName: changedLastName]) {
-        lastName.should == changedLastName
+        lastName.should == changedLastName // specifying body is optional
     }
 
     http.get("/customers/${id}") {
