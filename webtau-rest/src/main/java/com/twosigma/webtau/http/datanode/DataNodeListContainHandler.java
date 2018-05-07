@@ -41,16 +41,17 @@ public class DataNodeListContainHandler implements ContainHandler {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
         List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
 
+        // earlier traceable value is disabled and indexes of matches are found
+        // it is done to avoid marking every mismatching entry as failed
+        // now for found entries we simulate comparison again but this time values will be properly marked as matched
+        EqualComparator equalComparator = EqualComparator.comparator();
+
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getEqualComparator()
                     .generateMismatchReport());
 
-            dataNodes.forEach(n -> n.get().updateCheckLevel(CheckLevel.ExplicitFailed));
+            dataNodes.forEach(n -> equalComparator.compare(actualPath, n, expected));
         } else {
-            // earlier traceable value is disabled and indexes of matches are found
-            // it is done to avoid marking every mismatching entry as failed
-            // now for found entries we simulate comparison again but this time values will be properly marked as matched
-            EqualComparator equalComparator = EqualComparator.comparator();
             indexedValues.forEach(iv -> equalComparator.compare(actualPath, dataNodes.get(iv.getIdx()), expected));
         }
     }

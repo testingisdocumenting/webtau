@@ -1,7 +1,6 @@
 package rest.springboot
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("list Customers and assert with a Table Data") {
     http.delete("/customers")
@@ -18,5 +17,5 @@ scenario("list Customers and assert with a Table Data") {
                                              'FN3' |      'LN3' }
     }
 
-    http.doc.capture('complex-return-type')
+    http.doc.capture('list-match')
 }

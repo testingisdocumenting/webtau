@@ -50,13 +50,14 @@ class DataNodeListContainHandlerTest {
 
     @Test
     void "should mark all items as failed when item is not present"() {
-        def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), [1, 2, 3])
+        def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), listOfNames)
 
         code {
-            dataNode.should contain(8)
-        } should throwException(~/body expect to contain 8/)
+            dataNode.should contain([firstName: 'FN8', lastName: 'LN8'])
+        } should throwException(~/body expect to contain \{firstName=FN8, lastName=LN8}/)
 
-        dataNode.all().collect { it.get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed]
+        dataNode.all().collect { it.get('firstName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
+        dataNode.all().collect { it.get('lastName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
     }
 
     @Test
