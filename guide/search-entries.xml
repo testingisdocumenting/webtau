@@ -72,13 +72,12 @@ scenario("CRUD operations for customer") {
     }
 
     http.get("/customers/${id}") {
-        firstName.should == customerPayload.firstName
-        lastName.should == customerPayload.lastName
+        body.should == customerPayload // only specified properties will be asserted against
     }
 
     def changedLastName = "NLN"
     http.put("/customers/${id}", [*:customerPayload, lastName: changedLastName]) {
-        lastName.should == changedLastName
+        lastName.should == changedLastName // specifying body is optional
     }
 
     http.get("/customers/${id}") {
@@ -100,7 +99,7 @@ scenario("CRUD operations for customer") {
     <url>/webtau/guide/REST/CRUD#report</url>
     <fullTitle>WebTau: CRUD, Report [REST]</fullTitle>
     <text>
-      <text>After your test executions a report will be produced</text>
+      <text>After your test executions a report will be produced Note: asserted values are being tracked and highlighted inside the report</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -258,13 +257,28 @@ docPath = "../../../doc-artifacts"</text>
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/complex-types#contain</url>
+    <fullTitle>WebTau: Complex Types, Contain [REST]</fullTitle>
+    <text>
+      <text>Use  contain  mathcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test. Given the response we want to make sure there is an entry with a specified  firstName  and  lastName . package rest.springboot
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+scenario("list Customers and assert that it contains a specified entry") {
+    http.get("/customers/search/findAllByOrderByLastName") {
+        _embedded.customers.should contain([firstName: 'FN1', lastName: 'LN1'])
+    }
+}</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/complex-types#list-of-objects</url>
     <fullTitle>WebTau: Complex Types, List Of Objects [REST]</fullTitle>
     <text>
-      <text>Use  TableData  to assert complex types like  list of objects package rest.springboot
+      <text>If you want to make sure that all the values are in the list are what you need - use  TableData . package rest.springboot
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("list Customers and assert with a Table Data") {
     http.delete("/customers")
@@ -281,7 +295,7 @@ scenario("list Customers and assert with a Table Data") {
                                              'FN3' |      'LN3' }
     }
 
-    http.doc.capture('complex-return-type')
+    http.doc.capture('list-match')
 }</text>
       <score>STANDARD</score>
     </text>
