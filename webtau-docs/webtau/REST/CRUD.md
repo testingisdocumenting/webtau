@@ -1,6 +1,7 @@
 # Example
 
-We have an app that lets to create, read, update, and delete customer records. Records are being served under `/customers`.
+We have an app that exposes create, read, update, and delete operations for customer records. Records are being served 
+under `/customers`.
 
 Here is an example of a `CRUD` operations test.
 
@@ -8,7 +9,7 @@ Here is an example of a `CRUD` operations test.
 
 # Report
 
-After your test executions a report will be produced
+After your test executions a report will be produced.
 
 :include-image: img/rest-report-http-calls.png {fit: true}
 
@@ -16,10 +17,10 @@ Note: asserted values are being tracked and highlighted inside the report
 
 # Spring Boot
 
-WebTau is framework agnostic. But to make it concrete `/customer` `CRUD` endpoint
-is created by using [Spring Boot](https://projects.spring.io/spring-boot/)
+WebTau is framework agnostic. However, to make a concrete example, the `/customer` `CRUD` endpoint
+is created by using [Spring Boot](https://projects.spring.io/spring-boot/).
 
-Three files are required to have a working REST end point with `CRUD` operations.
+Three files are required to have a working REST endpoint with `CRUD` operations.
 
 1. Domain object
 

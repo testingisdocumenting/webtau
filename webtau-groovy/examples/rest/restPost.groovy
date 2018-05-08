@@ -12,5 +12,5 @@ scenario("extracting id after POST to use inside GET request") {
         firstName.should == 'FN'
         lastName.should == 'LN'
     }
-    http.doc.capture('employee-get') // capture previous HTTP call as <docDir>/employee-get
+    http.doc.capture('employee-get') // capture previous HTTP call into <docDir>/employee-get
 }
