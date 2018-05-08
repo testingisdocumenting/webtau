@@ -19,4 +19,4 @@ Url parameter can be moved to a `test.cfg` file.
 
 :include-file: examples/rest/url.cfg {title: "examples/rest/test.cfg"}
 
-[Specify multiple environments](configuration/environments) to streamline tests execution.
+[Specify multiple environments](configuration/environments) to streamline test execution.

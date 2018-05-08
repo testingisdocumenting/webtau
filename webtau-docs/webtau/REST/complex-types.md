@@ -1,16 +1,16 @@
 # Contain
 
-Use `contain` mathcher to test scenarios like search or list of recently created entries. 
+Use `contain` matcher to test scenarios like search or list of recently created entries. 
 This way you don't have to assume an existing state of your backend under test.
  
 :include-json: doc-artifacts/list-match/response.json {title: "Response"}
 
-Given the response we want to make sure there is an entry with a specified `firstName` and `lastName`.
+Given the response, we want to make sure there is an entry with a specified `firstName` and `lastName`.
  
 :include-file: examples/rest/springboot/listContain.groovy
 
 # List Of Objects
 
-If you want to make sure that all the values are in the list are what you need - use `TableData`.
+If you want to make sure that all the values in the list are what you need - use `TableData`.
 
 :include-file: examples/rest/springboot/listMatch.groovy
