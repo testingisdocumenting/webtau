@@ -26,10 +26,10 @@ class LazyTestResourceTest {
         def sequence = []
 
         sequence << 1
-        def data = createLazyResource("resource name") {
+        def data = new LazyTestResource("resource name", {
             sequence << 2
             return new LazyData(firstName: 'first-name', score: 100)
-        }
+        })
         sequence << 3
 
         data.firstName.should == 'first-name'

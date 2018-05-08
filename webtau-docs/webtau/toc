@@ -1,6 +1,7 @@
 REST
     getting-started
     CRUD
+    CRUD-separated
     headers
     documentation
     complex-types

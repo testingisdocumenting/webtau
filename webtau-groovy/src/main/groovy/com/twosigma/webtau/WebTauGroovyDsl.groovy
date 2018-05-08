@@ -16,14 +16,15 @@
 
 package com.twosigma.webtau
 
-import com.twosigma.webtau.WebTauDsl
+import com.twosigma.webtau.data.LazyTestResource
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import com.twosigma.webtau.utils.RegexpUtils
 
+import java.util.function.Supplier
 import java.util.regex.Pattern
 
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.none
+import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 class WebTauGroovyDsl extends WebTauDsl {
     private static final Pattern PLACEHOLDER_PATTERN = ~/<(\w+)>/
@@ -40,6 +41,30 @@ class WebTauGroovyDsl extends WebTauDsl {
 
     static void sscenario(String description, Closure code) {
         testRunner.sscenario(description, code)
+    }
+
+    /**
+     * Multiple scenarios may need the same data setup. If you want those scenarios to run independently,
+     * data needs to be initialized on the first request. Typically this is done by moving
+     * initialization to `beforeAll` sort of function. In webtau you create lazy resources instead.
+     *
+     * <pre>
+     * def lazySharedData = createLazyResource("resource name") {
+     *      def result = callToInitializeTheResouce()
+     *      return new MySharedData(firstName: result.firstName, score: result.score)
+     * }
+     * ...
+     * scenario('scenario description') {
+     *     http.get("/resource/${lazySharedData.firstName}") {
+     *         ...
+     *     }
+     * }
+     * </pre>
+     * @param name name of the resource
+     * @param supplier resource initialization function
+     */
+    static <E> E createLazyResource(String name, Supplier<E> supplier) {
+        return new LazyTestResource<E>(name, supplier)
     }
 
     static Closure action(String description, Closure code) {
