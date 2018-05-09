@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.http;
 
-import com.google.gson.*;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ExpectationHandler;
 import com.twosigma.webtau.expectation.ExpectationHandlers;
@@ -25,14 +24,16 @@ import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.StructuredDataNode;
+import com.twosigma.webtau.http.json.JsonRequestBody;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
+import com.twosigma.webtau.utils.JsonParseException;
+import com.twosigma.webtau.utils.JsonUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -48,8 +49,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class Http {
     private static final HttpResponseValidator EMPTY = (header, body) -> {
     };
-
-    private static final Gson gson = createGson();
 
     public static final Http http = new Http();
     public final HttpDocumentation doc = new HttpDocumentation();
@@ -89,6 +88,14 @@ public class Http {
         post(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        post(url, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E post(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, new JsonRequestBody(requestBody), validator);
+    }
+
     public void post(String url, HttpRequestBody requestBody) {
         post(url, requestBody, EMPTY);
     }
@@ -103,6 +110,10 @@ public class Http {
 
     public void put(String url, HttpRequestBody requestBody, HttpResponseValidator validator) {
         put(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        put(url, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E delete(String url, HttpResponseValidatorWithReturn validator) {
@@ -282,12 +293,12 @@ public class Http {
                 return new StructuredDataNode(id, new TraceableValue(response.getContent()));
             }
 
-            MapOrList mapOrList = gson.fromJson(response.getContent(), MapOrList.class);
+            Object mapOrList = JsonUtils.deserialize(response.getContent());
 
-            return mapOrList.list != null ?
-                    DataNodeBuilder.fromList(id, mapOrList.list) :
-                    DataNodeBuilder.fromMap(id, mapOrList.map);
-        } catch (JsonSyntaxException e) {
+            return mapOrList instanceof List ?
+                    DataNodeBuilder.fromList(id, (List<Object>) mapOrList) :
+                    DataNodeBuilder.fromMap(id, (Map<String, Object>) mapOrList);
+        } catch (JsonParseException e) {
             throw new RuntimeException("error parsing body: " + response.getContent(), e);
         }
     }
@@ -314,28 +325,5 @@ public class Http {
 
     private interface HttpCall {
         HttpResponse execute(String fullUrl, HttpRequestHeader fullHeader);
-    }
-
-    private static Gson createGson() {
-        return new GsonBuilder().registerTypeAdapter(MapOrList.class, new MapOrListDeserializer()).create();
-    }
-
-    private static class MapOrList {
-        private Map map;
-        private List list;
-    }
-
-    private static class MapOrListDeserializer implements JsonDeserializer<MapOrList> {
-        @Override
-        public MapOrList deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            MapOrList result = new MapOrList();
-            if (jsonElement.isJsonArray()) {
-                result.list = jsonDeserializationContext.deserialize(jsonElement, List.class);
-            } else {
-                result.map = jsonDeserializationContext.deserialize(jsonElement, Map.class);
-            }
-
-            return result;
-        }
     }
 }

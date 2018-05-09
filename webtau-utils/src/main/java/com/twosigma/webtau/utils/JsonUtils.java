@@ -16,65 +16,61 @@
 
 package com.twosigma.webtau.utils;
 
-import com.google.gson.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 public class JsonUtils {
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(MapOrList.class, new MapOrListDeserializer()).create();
-    private static final Gson gsonPretty = new GsonBuilder().registerTypeAdapter(MapOrList.class, new MapOrListDeserializer()).setPrettyPrinting().create();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     private JsonUtils() {
     }
 
-    public static String serialize(Object data) {
-        return gson.toJson(data);
+    public static String serialize(Object json) {
+        try {
+            return mapper.writeValueAsString(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException();
+        }
     }
 
-    @SuppressWarnings("unchecked")
-    public static Map<String, ?> deserializeAsMap(String data) {
+    public static String serializePrettyPrint(Object json) {
         try {
-            return gson.fromJson(data, Map.class);
-        } catch (JsonSyntaxException e) {
-            throw new JsonSyntaxException("error parsing " + data, e);
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @SuppressWarnings("unchecked")
-    public static List<?> deserializeAsList(String data) {
-        return gson.fromJson(data, List.class);
+    public static Map<String, ?> deserializeAsMap(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(json, Map.class);
+        } catch (IOException e) {
+            throw new JsonParseException(e.getMessage());
+        }
     }
 
-    public static Object deserialize(String data) {
-        MapOrList mapOrList = gson.fromJson(data, MapOrList.class);
-
-        return mapOrList.list != null ?
-                mapOrList.list :
-                mapOrList.map;
+    @SuppressWarnings("unchecked")
+    public static List<?> deserializeAsList(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(json, List.class);
+        } catch (IOException e) {
+            throw new JsonParseException(e.getMessage());
+        }
     }
 
-    public static String serializePrettyPrint(Object data) {
-        return gsonPretty.toJson(data);
-    }
-
-    private static class MapOrList {
-        private Map map;
-        private List list;
-    }
-
-    private static class MapOrListDeserializer implements JsonDeserializer<MapOrList> {
-        @Override
-        public MapOrList deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-            MapOrList result = new MapOrList();
-            if (jsonElement.isJsonArray()) {
-                result.list = jsonDeserializationContext.deserialize(jsonElement, List.class);
-            } else {
-                result.map = jsonDeserializationContext.deserialize(jsonElement, Map.class);
-            }
-
-            return result;
+    public static Object deserialize(String json) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(json, Object.class);
+        } catch (IOException e) {
+            throw new JsonParseException(e.getMessage());
         }
     }
 }

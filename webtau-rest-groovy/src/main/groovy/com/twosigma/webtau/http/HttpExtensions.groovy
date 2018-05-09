@@ -29,15 +29,15 @@ class HttpExtensions {
         return http.get(url, new HttpQueryParams(queryParams), closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, Map<String, ?> requestBody, Closure validation) {
+    static def post(Http http, String url, Map<String, Object> requestBody, Closure validation) {
         return http.post(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
-    static void post(Http http, String url, Map<String, ?> requestBody) {
+    static void post(Http http, String url, Map<String, Object> requestBody) {
         http.post(url, new JsonRequestBody(requestBody))
     }
 
-    static def put(Http http, String url, Map<String, ?> requestBody, Closure validation) {
+    static def put(Http http, String url, Map<String, Object> requestBody, Closure validation) {
         return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 

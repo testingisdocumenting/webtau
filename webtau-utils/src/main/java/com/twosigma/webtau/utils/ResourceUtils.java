@@ -53,6 +53,15 @@ public class ResourceUtils {
     }
 
     /**
+     * checks if given resource exists
+     * @param resourcePath resource path
+     * @return true if resource exists
+     */
+    public static boolean hasResource(String resourcePath) {
+        return resourceStream(resourcePath) != null;
+    }
+
+    /**
      * textual content from the classpath by resource path
      * @param resourcePath resource path like path/to/meta.json
      * @return text content of the resource

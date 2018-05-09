@@ -84,4 +84,8 @@ public class HeaderDataNode implements DataNode {
     public String toString() {
         return dataNode.toString();
     }
+
+    public DataNode statusCode() {
+        return dataNode.get("statusCode");
+    }
 }

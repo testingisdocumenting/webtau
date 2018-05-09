@@ -19,8 +19,10 @@ package com.twosigma.webtau.cfg;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.console.ansi.FontStyle;
+import com.twosigma.webtau.utils.ResourceUtils;
 import com.twosigma.webtau.utils.StringUtils;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -30,6 +32,7 @@ import java.util.stream.Stream;
 import static com.twosigma.webtau.cfg.ConfigValue.declare;
 
 public class WebTauConfig {
+    private static final String WEBTAU_CFG_RESOURCE_PATH = "webtau.cfg";
     public static final WebTauConfig INSTANCE = new WebTauConfig();
 
     private final ConfigValue config = declare("config", "config path", () -> "test.cfg");
@@ -65,6 +68,7 @@ public class WebTauConfig {
     protected WebTauConfig() {
         acceptConfigValues("environment variable", envVarsAsMap());
         acceptConfigValues("system property", systemPropsAsMap());
+        acceptConfigValues("webtau.cfg resource", webTauResourceCfgAsMap());
     }
 
     public Stream<ConfigValue> getCfgValuesStream() {
@@ -195,5 +199,23 @@ public class WebTauConfig {
 
     private static Map<String, ?> envVarsAsMap() {
         return System.getenv();
+    }
+
+    private static Map<String, ?> webTauResourceCfgAsMap() {
+        if (!ResourceUtils.hasResource(WEBTAU_CFG_RESOURCE_PATH)) {
+            return Collections.emptyMap();
+        }
+
+        try {
+            Properties properties = new Properties();
+            properties.load(ResourceUtils.resourceStream(WEBTAU_CFG_RESOURCE_PATH));
+
+            Map<String, String> asMap = new LinkedHashMap<>();
+            properties.forEach((k, v) -> asMap.put(k.toString(), v.toString()));
+
+            return asMap;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

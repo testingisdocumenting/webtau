@@ -14,27 +14,26 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config
+package com.twosigma.webtau.http.config;
 
-import com.twosigma.webtau.http.HttpRequestHeader
-import com.twosigma.webtau.http.HttpUrl
-import com.twosigma.webtau.http.config.HttpConfiguration
-import com.twosigma.webtau.cfg.WebTauConfig
+import com.twosigma.webtau.cfg.WebTauConfig;
+import com.twosigma.webtau.http.HttpRequestHeader;
+import com.twosigma.webtau.http.HttpUrl;
 
-class WebTauHttpConfiguration implements HttpConfiguration {
-    private WebTauConfig cfg = WebTauConfig.INSTANCE
+public class WebTauHttpConfiguration implements HttpConfiguration {
+    private WebTauConfig cfg = WebTauConfig.INSTANCE;
 
     @Override
-    String fullUrl(String url) {
+    public String fullUrl(String url) {
         if (HttpUrl.isFull(url)) {
-            return url
+            return url;
         }
 
-        return HttpUrl.concat(cfg.baseUrl, url)
+        return HttpUrl.concat(cfg.getBaseUrl(), url);
     }
 
     @Override
-    HttpRequestHeader fullHeader(HttpRequestHeader given) {
-        return given
+    public HttpRequestHeader fullHeader(HttpRequestHeader given) {
+        return given;
     }
 }

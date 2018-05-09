@@ -34,11 +34,11 @@ class HttpExtensionsTest {
     @BeforeClass
     static void startServer() {
         testServer.start(7823)
-        testServer.registerGet("/object", new TestServerJsonResponse("{'id': 10, 'price': 100, 'amount': 30, 'list': [1, 2, 3], 'complexList': [{'k1': 'v1', 'k2': 'v2'}, {'k1': 'v11', 'k2': 'v22'}]}"))
+        testServer.registerGet("/object", new TestServerJsonResponse(/{"id": 10, "price": 100, "amount": 30, "list": [1, 2, 3], "complexList": [{"k1": "v1", "k2": "v2"}, {"k1": "v11", "k2": "v22"}]}/))
         testServer.registerPost("/echo", new TestServerResponseEcho())
         testServer.registerPut("/echo", new TestServerResponseEcho())
         testServer.registerDelete("/resource", new TestServerTextResponse(''))
-        testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{'a': 1, 'b': 'text'}"))
+        testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
     }
 
     @AfterClass
@@ -70,7 +70,7 @@ class HttpExtensionsTest {
         }
 
         assert id == 10
-        assert id.getClass() == Double
+        assert id.getClass() == Integer
     }
 
     @Test
