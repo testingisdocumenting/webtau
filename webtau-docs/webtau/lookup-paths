@@ -1,2 +1,4 @@
 ../../webtau-groovy/
+../../webtau-rest-groovy/src/test/groovy
+../../webtau-rest-groovy/src/test/resources
 ../../webtau-testapp/src/main/java

@@ -45,6 +45,7 @@ import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
 
 public class Http {
     private static final HttpResponseValidator EMPTY = (header, body) -> {
@@ -310,17 +311,46 @@ public class Http {
      * @param v value returned from a validation callback
      * @return extracted regular value
      */
+    @SuppressWarnings("unchecked")
     private Object extractOriginalValue(Object v) {
-        // TODO handle maps and list inside
         if (v instanceof DataNode) {
-            return ((DataNode) v).get().getValue();
+            DataNode dataNode = (DataNode) v;
+
+            if (dataNode.isList()) {
+                return extractOriginalFromList(dataNode);
+            }
+
+            if (dataNode.isSingleValue()) {
+                return dataNode.get().getValue();
+            }
+
+            return extractOriginalFromMap(dataNode);
         }
 
         if (v instanceof TraceableValue) {
             return ((TraceableValue) v).getValue();
         }
 
+        if (v instanceof List) {
+            return ((List) v).stream().map(this::extractOriginalValue).collect(toList());
+        }
+
         return v;
+    }
+
+    private Object extractOriginalFromList(DataNode dataNode) {
+        return dataNode.elements().stream()
+                .map(this::extractOriginalValue)
+                .collect(toList());
+    }
+
+    private Object extractOriginalFromMap(DataNode dataNode) {
+        LinkedHashMap<Object, Object> result = new LinkedHashMap<>();
+        dataNode.asMap().forEach((k, v) -> {
+            result.put(k, extractOriginalValue(v));
+        });
+
+        return result;
     }
 
     private interface HttpCall {

@@ -27,7 +27,6 @@ import com.twosigma.webtau.expectation.contain.handlers.IterableContainAnalyzer;
 import com.twosigma.webtau.expectation.equality.EqualComparator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DataNodeListContainHandler implements ContainHandler {
     @Override
@@ -80,6 +79,6 @@ public class DataNodeListContainHandler implements ContainHandler {
 
     private List<DataNode> getDataNodes(Object actual) {
         DataNode listNode = (DataNode) actual;
-        return listNode.all();
+        return listNode.elements();
     }
 }

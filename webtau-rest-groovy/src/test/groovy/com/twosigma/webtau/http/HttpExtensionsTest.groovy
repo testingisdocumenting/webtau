@@ -16,10 +16,12 @@
 
 package com.twosigma.webtau.http
 
+import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
 import com.twosigma.webtau.http.testserver.TestServerTextResponse
+import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -34,7 +36,7 @@ class HttpExtensionsTest {
     @BeforeClass
     static void startServer() {
         testServer.start(7823)
-        testServer.registerGet("/object", new TestServerJsonResponse(/{"id": 10, "price": 100, "amount": 30, "list": [1, 2, 3], "complexList": [{"k1": "v1", "k2": "v2"}, {"k1": "v11", "k2": "v22"}]}/))
+        testServer.registerGet("/object", new TestServerJsonResponse(ResourceUtils.textContent("objectTestResponse.json")))
         testServer.registerPost("/echo", new TestServerResponseEcho())
         testServer.registerPut("/echo", new TestServerResponseEcho())
         testServer.registerDelete("/resource", new TestServerTextResponse(''))
@@ -50,6 +52,7 @@ class HttpExtensionsTest {
     void "use groovy closure as validation"() {
         http.get("/object") {
             price.should == 100
+            assert price instanceof DataNode
         }
     }
 
@@ -94,12 +97,44 @@ class HttpExtensionsTest {
     }
 
     @Test
-    void "can send delete and return status code"() {
-        int statusCode = http.delete("/resource") {
+    void "can return status code from delete"() {
+        def statusCode = http.delete("/resource") {
             return statusCode
         }
 
         assert statusCode == 200
+    }
+
+    @Test
+    void "can return list from get"() {
+        def list = http.get("/object") {
+            return list
+        }
+
+        assert list == [1, 2, 3]
+        assert list.getClass() == ArrayList
+    }
+
+    @Test
+    void "can return object from get"() {
+        def object = http.get("/object") {
+            return object
+        }
+
+        assert object == [k1: 'v1', k2: 'v2']
+        assert object.getClass() == LinkedHashMap
+        assert object.k1.getClass() == String
+    }
+
+    @Test
+    void "can return list of objects from get"() {
+        def complexList = http.get("/object") {
+            return complexList
+        }
+
+        assert complexList == [[k1: 'v1', k2: 'v2'], [k1: 'v11', k2: 'v22']]
+        assert complexList.getClass() == ArrayList
+        assert complexList[0].getClass() == LinkedHashMap
     }
 
     @Test
@@ -126,6 +161,36 @@ class HttpExtensionsTest {
         }
 
         assert a == 1
+    }
+
+    @Test
+    void "groovy find on list"() {
+        def found = http.get("object") {
+            return list.find { it > 1 }
+        }
+
+        assert found == 2
+        assert found.getClass() == Integer
+    }
+
+    @Test
+    void "groovy findAll on list"() {
+        def found = http.get("object") {
+            return list.findAll { it > 1 }
+        }
+
+        assert found == [2, 3]
+        assert found[0].getClass() == Integer
+    }
+
+    @Test
+    void "groovy transform list"() {
+        def found = http.get("object") {
+            return list.collect { "world#${it}" }
+        }
+
+        assert found == ['world#1', 'world#2', 'world#3']
+        assert found[0] instanceof GString
     }
 
     @Test

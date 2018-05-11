@@ -99,8 +99,8 @@ public class DataNodeAnsiPrinter {
         openScope("[", skipIndent);
 
         int idx = 0;
-        int size = dataNode.all().size();
-        for (DataNode n : dataNode.all()) {
+        int size = dataNode.elements().size();
+        for (DataNode n : dataNode.elements()) {
             printNode(n, false);
 
             boolean isLast = idx == size - 1;

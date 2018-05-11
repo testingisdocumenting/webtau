@@ -51,7 +51,7 @@ public class DataNodeToMapOfValuesConverter {
 
     private List<Object> convertToList(DataNode dataNode) {
         List<Object> converted = new ArrayList<>();
-        dataNode.all().forEach(n -> converted.add(convert(n)));
+        dataNode.elements().forEach(n -> converted.add(convert(n)));
 
         return converted;
     }

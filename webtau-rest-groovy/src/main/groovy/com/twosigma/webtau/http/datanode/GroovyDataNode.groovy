@@ -18,7 +18,6 @@ package com.twosigma.webtau.http.datanode
 
 import com.twosigma.webtau.data.traceable.TraceableValue
 import com.twosigma.webtau.expectation.ActualPath
-import com.twosigma.webtau.expectation.Should
 import com.twosigma.webtau.expectation.ShouldAndWaitProperty
 
 class GroovyDataNode implements DataNodeExpectations, DataNode {
@@ -78,8 +77,8 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
-    List<DataNode> all() {
-        return node.all().collect { new GroovyDataNode(it) }
+    List<DataNode> elements() {
+        return node.elements().collect { new GroovyDataNode(it) }
     }
 
     @Override
@@ -97,6 +96,18 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
         return node.asMap().entrySet().collectEntries { [it.key, new GroovyDataNode(it.value)] }
     }
 
+    DataNode find(Closure predicate) {
+        return node.elements().find(removedDataNodeFromClosure(predicate))
+    }
+
+    List<DataNode> findAll(Closure predicate) {
+        return node.elements().findAll(removedDataNodeFromClosure(predicate))
+    }
+
+    List collect(Closure transformation) {
+        return node.elements().collect(removedDataNodeFromClosure(transformation))
+    }
+
     @Override
     String toString() {
         return node.toString()
@@ -105,5 +116,13 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     @Override
     ActualPath actualPath() {
         return node.actualPath()
+    }
+
+    private static Closure removedDataNodeFromClosure(Closure closure) {
+        def newClosure = { dataNode ->
+            return closure.call(dataNode.get().getValue())
+        }
+
+        return newClosure
     }
 }

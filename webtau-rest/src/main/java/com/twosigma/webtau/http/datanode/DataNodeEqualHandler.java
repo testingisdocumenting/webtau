@@ -67,7 +67,7 @@ public class DataNodeEqualHandler implements EqualComparatorHandler {
 
     private Object convertBasedOnExpected(DataNode actual, Object expected) {
         if (expected instanceof List || expected instanceof TableData) {
-            return actual.all();
+            return actual.elements();
         }
 
         return actual.get();
