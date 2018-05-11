@@ -66,6 +66,48 @@ toc = [
       },
       {
         "sectionTitle": "REST",
+        "pageTitle": "CRUD Separated",
+        "pageMeta": {},
+        "fileName": "CRUD-separated",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Lazy Resource",
+            "id": "lazy-resource"
+          },
+          {
+            "title": "Report",
+            "id": "report"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "REST",
+        "pageTitle": "Data Node",
+        "pageMeta": {},
+        "fileName": "data-node",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Special Values",
+            "id": "special-values"
+          },
+          {
+            "title": "Extracting Values",
+            "id": "extracting-values"
+          },
+          {
+            "title": "Find",
+            "id": "find"
+          },
+          {
+            "title": "Collect",
+            "id": "collect"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "REST",
         "pageTitle": "Headers",
         "pageMeta": {},
         "fileName": "headers",

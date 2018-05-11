@@ -52,7 +52,7 @@ scenario("simple get") {
     <url>/webtau/guide/REST/getting-started#config-file</url>
     <fullTitle>WebTau: Getting Started, Config File [REST]</fullTitle>
     <text>
-      <text>Url parameter can be moved to a  test.cfg  file. url = "http://localhost:8180" configuration/environments Specify multiple environments  to streamline tests execution.</text>
+      <text>Url parameter can be moved to a  test.cfg  file. url = "http://localhost:8180" configuration/environments Specify multiple environments  to streamline test execution.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -60,7 +60,7 @@ scenario("simple get") {
     <url>/webtau/guide/REST/CRUD#example</url>
     <fullTitle>WebTau: CRUD, Example [REST]</fullTitle>
     <text>
-      <text>We have an app that lets to create, read, update, and delete customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. package rest.springboot
+      <text>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. package rest.springboot
 
 import static com.twosigma.webtau.WebTauGroovyDsl.*
 
@@ -68,7 +68,7 @@ scenario("CRUD operations for customer") {
     def customerPayload = [firstName: "FN", lastName: "LN"]
 
     int id = http.post("/customers", customerPayload) {
-        return id
+        return id // return id value from response body
     }
 
     http.get("/customers/${id}") {
@@ -99,7 +99,7 @@ scenario("CRUD operations for customer") {
     <url>/webtau/guide/REST/CRUD#report</url>
     <fullTitle>WebTau: CRUD, Report [REST]</fullTitle>
     <text>
-      <text>After your test executions a report will be produced Note: asserted values are being tracked and highlighted inside the report</text>
+      <text>After your test executions a report will be produced. Note: asserted values are being tracked and highlighted inside the report</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -107,7 +107,7 @@ scenario("CRUD operations for customer") {
     <url>/webtau/guide/REST/CRUD#spring-boot</url>
     <fullTitle>WebTau: CRUD, Spring Boot [REST]</fullTitle>
     <text>
-      <text>WebTau is framework agnostic. But to make it concrete  /customer   CRUD  endpoint is created by using  https://projects.spring.io/spring-boot/ Spring Boot Three files are required to have a working REST end point with  CRUD  operations. Domain object package com.example.demo.springboot.app.data;
+      <text>WebTau is framework agnostic. However, to make a concrete example, the  /customer   CRUD  endpoint is created by using  https://projects.spring.io/spring-boot/ Spring Boot . Three files are required to have a working REST endpoint with  CRUD  operations. Domain object package com.example.demo.springboot.app.data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -194,14 +194,110 @@ public class SpringBootDemoApp {
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/CRUD-separated#lazy-resource</url>
+    <fullTitle>WebTau: CRUD Separated, Lazy Resource [REST]</fullTitle>
+    <text>
+      <text>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . package rest.springboot
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+class Customer {
+    Number id
+    String url // store url of the created entity
+}
+
+def customerPayload = [firstName: "FN", lastName: "LN"]
+
+def customer = createLazyResource("customer") { // lazy resource to be created on the first access
+    int id = http.post("/customers", customerPayload) {
+        return id
+    }
+
+    return new Customer(id: id, url: "/customers/${id}")
+}
+
+scenario("customer create") {
+    customer.id.shouldNot == null // accessing resource for the first time will trigger POST (in this example)
+}
+
+scenario("customer read") {
+    http.get(customer.url) { // convenient re-use of url defined above
+        body.should == customerPayload
+    }
+}
+
+scenario("customer update") {
+    def changedLastName = "NLN"
+    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {
+        lastName.should == changedLastName
+    }
+
+    http.get(customer.url) {
+        lastName.should == changedLastName
+    }
+}
+
+scenario("customer delete") {
+    http.delete(customer.url) {
+        statusCode.should == 204
+    }
+
+    http.get(customer.url) {
+        statusCode.should == 404
+    }
+} Note: to run one scenario at a time use  sscenario  (additional  s  in front)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/CRUD-separated#report</url>
+    <fullTitle>WebTau: CRUD Separated, Report [REST]</fullTitle>
+    <text>
+      <text>As you can see in the report below, each  CRUD  operation has its own entry. If you follow this pattern, then you can filter tests by  create ,  update ,  read ,  delete  to streamline investigation.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/data-node#special-values</url>
+    <fullTitle>WebTau: Data Node, Special Values [REST]</fullTitle>
+    <text>
+      <text>Values that you access inside validation block are special values of  DataNode  type. When you assert them using  should  statement they act as proxies that record every assertion you do.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/data-node#extracting-values</url>
+    <fullTitle>WebTau: Data Node, Extracting Values [REST]</fullTitle>
+    <text>
+      <text>As you have seen in  REST/CRUD CRUD example  you can return values back from a validation block. When you return a value from a validation block, it automatically gets converted to its correspondent primitive. Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/data-node#find</url>
+    <fullTitle>WebTau: Data Node, Find [REST]</fullTitle>
+    <text>
+      <text>Special values inside assertion block have convenient methods find  to find a single value and  findAll  to find all the values matching predicate</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/data-node#collect</url>
+    <fullTitle>WebTau: Data Node, Collect [REST]</fullTitle>
+    <text>
+      <text>Use  collect  to transform a collection of items</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/headers#request-header-provider</url>
     <fullTitle>WebTau: Headers, Request Header Provider [REST]</fullTitle>
     <text>
-      <text>Specify  httpHeaderProvider  config parameter to add additional header information to all your requests import rest.headers.auth.Auth
+      <text>Specify  httpHeaderProvider  config parameter to add additional header information to all your requests: import rest.headers.auth.Auth
 
 url = "http://localhost:8080"
 
-httpHeaderProvider = Auth.&amp;authHeader Where  Auth.&amp;authHeader  implemented as package rest.headers.auth
+httpHeaderProvider = Auth.&amp;authHeader Where  Auth.&amp;authHeader  is implemented as follows: package rest.headers.auth
 
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.http.HttpRequestHeader
@@ -211,7 +307,7 @@ class Auth {
         ConsoleOutputs.out('auth header injection point')
         return original.merge([Authorization: 'Bearer &lt;token>'])
     }
-} This removes implementation details from your tests and make them less brittle.</text>
+} This removes implementation details from your tests and makes them less brittle.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -219,7 +315,7 @@ class Auth {
     <url>/webtau/guide/REST/documentation#scenarios</url>
     <fullTitle>WebTau: Documentation, Scenarios [REST]</fullTitle>
     <text>
-      <text>You provide  REST end points  so users can execute various scenarios. You need to test those scenarios and then document them. To automate the process let's capture executed scenarios and use them inside your documentation.</text>
+      <text>You provide  REST endpoints  so users can execute various scenarios. You need to test those scenarios and then document them. To automate the process, let's capture executed scenarios and use them inside your documentation.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -227,7 +323,7 @@ class Auth {
     <url>/webtau/guide/REST/documentation#test-artifacts</url>
     <fullTitle>WebTau: Documentation, Test Artifacts [REST]</fullTitle>
     <text>
-      <text>To capture artifacts use  http.doc.capture package rest
+      <text>To capture artifacts use  http.doc.capture : package rest
 
 import static com.twosigma.webtau.WebTauGroovyDsl.*
 
@@ -241,8 +337,8 @@ scenario("extracting id after POST to use inside GET request") {
         firstName.should == 'FN'
         lastName.should == 'LN'
     }
-    http.doc.capture('employee-get') // capture previous HTTP call as &lt;docDir>/employee-get
-} employee-get  directory will be created with request and response json files. By default directory will be created in a working directory. To change it add  docPath  to your  test.cfg  file url = "http://localhost:8080"
+    http.doc.capture('employee-get') // capture previous HTTP call into &lt;docDir>/employee-get
+} An  employee-get  directory will be created with request and response json files. By default, the directory will be created in the current working directory. To change it add  docPath  to your  test.cfg  file. url = "http://localhost:8080"
 
 docPath = "../../../doc-artifacts"</text>
       <score>STANDARD</score>
@@ -252,7 +348,7 @@ docPath = "../../../doc-artifacts"</text>
     <url>/webtau/guide/REST/documentation#document-rest-calls</url>
     <fullTitle>WebTau: Documentation, Document REST calls [REST]</fullTitle>
     <text>
-      <text>If you have user facing scenario tests, capture them and refer inside your documentation. Set your documentation build pipeline like the one below. Combine REST requests and responses with Open API generated specs for the complete documentation.</text>
+      <text>If you have user facing scenario tests, capture them and refer to them inside your documentation. Set your documentation build pipeline like below. Combine REST requests and responses with Open API generated specs for complete documentation.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -260,7 +356,7 @@ docPath = "../../../doc-artifacts"</text>
     <url>/webtau/guide/REST/complex-types#contain</url>
     <fullTitle>WebTau: Complex Types, Contain [REST]</fullTitle>
     <text>
-      <text>Use  contain  mathcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test. Given the response we want to make sure there is an entry with a specified  firstName  and  lastName . package rest.springboot
+      <text>Use  contain  matcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test. Given the response, we want to make sure there is an entry with a specified  firstName  and  lastName . package rest.springboot
 
 import static com.twosigma.webtau.WebTauGroovyDsl.*
 
@@ -276,7 +372,7 @@ scenario("list Customers and assert that it contains a specified entry") {
     <url>/webtau/guide/REST/complex-types#list-of-objects</url>
     <fullTitle>WebTau: Complex Types, List Of Objects [REST]</fullTitle>
     <text>
-      <text>If you want to make sure that all the values are in the list are what you need - use  TableData . package rest.springboot
+      <text>If you want to make sure that all the values in the list are what you need - use  TableData . package rest.springboot
 
 import static com.twosigma.webtau.WebTauGroovyDsl.*
 
@@ -304,7 +400,7 @@ scenario("list Customers and assert with a Table Data") {
     <url>/webtau/guide/UI/configuration#base-url</url>
     <fullTitle>WebTau: Configuration, Base URL [UI]</fullTitle>
     <text>
-      <text>Robust tests don't specify full URL of an application under test. Instead you pass only relative URL to functions like  open . Define base URL portion either inside a  test.cfg  file url = "http://localhost:8180"
+      <text>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like  open . Define base URL portion either inside a  test.cfg  file url = "http://localhost:8180"
 userName = 'testUser'
 environments {
    dev {
@@ -425,9 +521,9 @@ search.welcomeMessage.waitToNot == ~/welcome to \w+ S.*/
     <url>/webtau/guide/configuration/cli#overrides</url>
     <fullTitle>WebTau: Cli, Overrides [Configuration]</fullTitle>
     <text>
-      <text>Any config file parameter can be overridden with a command line parameter Given config file waitTimeout = 2500
+      <text>Any config file parameter can be overridden with a command line parameter. For example, given this config file: waitTimeout = 2500
 url = http://my-server
- Values can be overridden using webtau --waitTimeout=25000 --url=http://another-server</text>
+ Values can be overridden as follows: webtau --waitTimeout=25000 --url=http://another-server</text>
       <score>STANDARD</score>
     </text>
   </entry>
