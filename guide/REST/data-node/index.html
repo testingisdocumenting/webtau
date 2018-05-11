@@ -30,10 +30,12 @@
 </span><span class="code-line"><span class="token indentation">  </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">  </span><span class="token key">&quot;complexList&quot;</span><span class="token punctuation">: </span><span class="token punctuation">[</span>
 </span><span class="code-line"><span class="token indentation">    </span><span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token indentation">      </span><span class="token key">&quot;id&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;id1&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">      </span><span class="token key">&quot;k1&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;v1&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">      </span><span class="token key">&quot;k2&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;v2&quot;</span>
 </span><span class="code-line"><span class="token indentation">    </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">    </span><span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token indentation">      </span><span class="token key">&quot;id&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;id2&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">      </span><span class="token key">&quot;k1&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;v11&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">      </span><span class="token key">&quot;k2&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;v22&quot;</span>
 </span><span class="code-line"><span class="token indentation">    </span><span class="token punctuation">}</span>
@@ -48,7 +50,17 @@
 </span><span class="code-line"><span class="token punctuation">}</span>
 </span><span class="code-line">
 </span><span class="code-line"><span class="token keyword">assert</span> found <span class="token operator">==</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
-</span><span class="code-line"><span class="token keyword">assert</span> found<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Integer</span></pre></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="collect">Collect<a href="#collect"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Use </span><code>collect</code><span class="simple-text"> to transform a collection of items</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">def</span> found <span class="token operator">=</span> http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;object&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token keyword">assert</span> found<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Integer</span></pre></div></div><div class="paragraph attention note content-block"><span class="icon-part"><span class="icon"><span class="icon glyphicon glyphicon-info-sign"></span></span><span class="label-message">Note:</span></span><span class="message-part"><span class="simple-text">While values inside a predicate are normal values, the result of </span><code>find</code><span class="simple-text"> and </span><code>findAll</code><span class="simple-text"> is still </span><code>DataNode</code></span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">def</span> id <span class="token operator">=</span> http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;object&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token keyword">def</span> found <span class="token operator">=</span> complexList<span class="token operator">.</span>find <span class="token punctuation">{</span>
+</span><span class="code-line">        <span class="token keyword">assert</span> k1<span class="token operator">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> String
+        k1 <span class="token operator">==</span> <span class="token string">&#x27;v1&#x27;</span>
+</span><span class="code-line">    <span class="token punctuation">}</span>
+</span><span class="code-line">    <span class="token keyword">assert</span> found<span class="token operator">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> GroovyDataNode
+
+    <span class="token keyword">return</span> found<span class="token operator">.</span>id
+<span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">assert</span> id<span class="token operator">.</span><span class="token function">getClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> String</span></pre></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="collect">Collect<a href="#collect"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Use </span><code>collect</code><span class="simple-text"> to transform a collection of items</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">def</span> found <span class="token operator">=</span> http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;object&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    <span class="token keyword">return</span> list<span class="token operator">.</span>collect <span class="token punctuation">{</span> <span class="token string">&quot;world#${it}&quot;</span> <span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">}</span>
 </span><span class="code-line">
@@ -354,10 +366,12 @@ ReactDOM.render(React.createElement(Documentation, {
               },
               "complexList": [
                 {
+                  "id": "id1",
                   "k1": "v1",
                   "k2": "v2"
                 },
                 {
+                  "id": "id2",
                   "k1": "v11",
                   "k2": "v22"
                 }
@@ -673,6 +687,209 @@ ReactDOM.render(React.createElement(Documentation, {
               " Integer"
             ],
             "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Note: While values inside a predicate are normal values, the result of ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "find",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " and ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "findAll",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " is still ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "DataNode",
+                "type": "InlinedCode"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "maxLineLength": 45,
+            "tokens": [
+              {
+                "type": "keyword",
+                "content": "def"
+              },
+              " id ",
+              {
+                "type": "operator",
+                "content": "\u003d"
+              },
+              " http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "get"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"object\""
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    ",
+              {
+                "type": "keyword",
+                "content": "def"
+              },
+              " found ",
+              {
+                "type": "operator",
+                "content": "\u003d"
+              },
+              " complexList",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "find ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n        ",
+              {
+                "type": "keyword",
+                "content": "assert"
+              },
+              " k1",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "getClass"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "operator",
+                "content": "\u003d\u003d"
+              },
+              " String\n        k1 ",
+              {
+                "type": "operator",
+                "content": "\u003d\u003d"
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027v1\u0027"
+              },
+              "\n    ",
+              {
+                "type": "punctuation",
+                "content": "}"
+              },
+              "\n    ",
+              {
+                "type": "keyword",
+                "content": "assert"
+              },
+              " found",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "getClass"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "operator",
+                "content": "\u003d\u003d"
+              },
+              " GroovyDataNode\n\n    ",
+              {
+                "type": "keyword",
+                "content": "return"
+              },
+              " found",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "id\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              },
+              "\n\n",
+              {
+                "type": "keyword",
+                "content": "assert"
+              },
+              " id",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "getClass"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "operator",
+                "content": "\u003d\u003d"
+              },
+              " String"
+            ],
+            "type": "Snippet"
           }
         ]
       },
@@ -844,7 +1061,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1525999225000,
+    "lastModifiedTime": 1526004435000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Data Node",

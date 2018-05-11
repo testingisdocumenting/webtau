@@ -277,7 +277,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#find</url>
     <fullTitle>WebTau: Data Node, Find [REST]</fullTitle>
     <text>
-      <text>Special values inside assertion block have convenient methods find  to find a single value and  findAll  to find all the values matching predicate</text>
+      <text>Special values inside assertion block have convenient methods find  to find a single value and  findAll  to find all the values matching predicate Note: While values inside a predicate are normal values, the result of  find  and  findAll  is still  DataNode</text>
       <score>STANDARD</score>
     </text>
   </entry>
