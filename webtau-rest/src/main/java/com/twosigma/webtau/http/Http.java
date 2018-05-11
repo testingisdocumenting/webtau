@@ -20,6 +20,7 @@ import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ExpectationHandler;
 import com.twosigma.webtau.expectation.ExpectationHandlers;
 import com.twosigma.webtau.http.config.HttpConfigurations;
+import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
@@ -314,17 +315,8 @@ public class Http {
     @SuppressWarnings("unchecked")
     private Object extractOriginalValue(Object v) {
         if (v instanceof DataNode) {
-            DataNode dataNode = (DataNode) v;
-
-            if (dataNode.isList()) {
-                return extractOriginalFromList(dataNode);
-            }
-
-            if (dataNode.isSingleValue()) {
-                return dataNode.get().getValue();
-            }
-
-            return extractOriginalFromMap(dataNode);
+            return new DataNodeToMapOfValuesConverter((id, traceableValue) -> traceableValue.getValue())
+                    .convert((DataNode) v);
         }
 
         if (v instanceof TraceableValue) {
@@ -336,21 +328,6 @@ public class Http {
         }
 
         return v;
-    }
-
-    private Object extractOriginalFromList(DataNode dataNode) {
-        return dataNode.elements().stream()
-                .map(this::extractOriginalValue)
-                .collect(toList());
-    }
-
-    private Object extractOriginalFromMap(DataNode dataNode) {
-        LinkedHashMap<Object, Object> result = new LinkedHashMap<>();
-        dataNode.asMap().forEach((k, v) -> {
-            result.put(k, extractOriginalValue(v));
-        });
-
-        return result;
     }
 
     private interface HttpCall {

@@ -17,6 +17,7 @@
 package com.twosigma.webtau.http
 
 import com.twosigma.webtau.http.datanode.DataNode
+import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
@@ -132,7 +133,7 @@ class HttpExtensionsTest {
             return complexList
         }
 
-        assert complexList == [[k1: 'v1', k2: 'v2'], [k1: 'v11', k2: 'v22']]
+        assert complexList == [[id: 'id1', k1: 'v1', k2: 'v2'], [id: 'id2', k1: 'v11', k2: 'v22']]
         assert complexList.getClass() == ArrayList
         assert complexList[0].getClass() == LinkedHashMap
     }
@@ -181,6 +182,21 @@ class HttpExtensionsTest {
 
         assert found == [2, 3]
         assert found[0].getClass() == Integer
+    }
+
+    @Test
+    void "groovy find on list of objects"() {
+        def id = http.get("object") {
+            def found = complexList.find {
+                assert k1.getClass() == String
+                k1 == 'v1'
+            }
+            assert found.getClass() == GroovyDataNode
+
+            return found.id
+        }
+
+        assert id.getClass() == String
     }
 
     @Test

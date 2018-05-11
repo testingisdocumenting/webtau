@@ -33,6 +33,9 @@ and `findAll` to find all the values matching predicate
 
 :include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "groovy findAll on list", bodyOnly: true}
 
+Note: While values inside a predicate are normal values, the result of `find` and `findAll` is still `DataNode`
+
+:include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "groovy find on list of objects", bodyOnly: true}
 
 # Collect
 

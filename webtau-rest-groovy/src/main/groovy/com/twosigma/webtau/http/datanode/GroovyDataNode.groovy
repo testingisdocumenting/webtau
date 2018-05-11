@@ -19,6 +19,7 @@ package com.twosigma.webtau.http.datanode
 import com.twosigma.webtau.data.traceable.TraceableValue
 import com.twosigma.webtau.expectation.ActualPath
 import com.twosigma.webtau.expectation.ShouldAndWaitProperty
+import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
 
 class GroovyDataNode implements DataNodeExpectations, DataNode {
     private DataNode node
@@ -52,12 +53,12 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
-    DataNode get(final String name) {
+    DataNode get(String name) {
         return new GroovyDataNode(node.get(name))
     }
 
     @Override
-    DataNode get(final int idx) {
+    DataNode get(int idx) {
         return new GroovyDataNode(node.get(idx))
     }
 
@@ -97,7 +98,10 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     DataNode find(Closure predicate) {
-        return node.elements().find(removedDataNodeFromClosure(predicate))
+        def result = node.elements().find(removedDataNodeFromClosure(predicate))
+        return (result instanceof DataNode) ?
+            new GroovyDataNode(result):
+            result
     }
 
     List<DataNode> findAll(Closure predicate) {
@@ -120,7 +124,17 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
 
     private static Closure removedDataNodeFromClosure(Closure closure) {
         def newClosure = { dataNode ->
-            return closure.call(dataNode.get().getValue())
+            def converter = new DataNodeToMapOfValuesConverter({ id, traceableValue ->
+                traceableValue.getValue()
+            })
+
+            def convertedToSimple = converter.convert(dataNode)
+
+            Closure cloned = closure.clone() as Closure
+            cloned.resolveStrategy = Closure.DELEGATE_FIRST
+            cloned.delegate = convertedToSimple
+
+            return cloned.call(convertedToSimple)
         }
 
         return newClosure
