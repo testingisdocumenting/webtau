@@ -37,7 +37,7 @@ class HttpExtensionsTest {
     @BeforeClass
     static void startServer() {
         testServer.start(7823)
-        testServer.registerGet("/object", new TestServerJsonResponse(ResourceUtils.textContent("objectTestResponse.json")))
+        testServer.registerGet("/end-point", new TestServerJsonResponse(ResourceUtils.textContent("objectTestResponse.json")))
         testServer.registerPost("/echo", new TestServerResponseEcho())
         testServer.registerPut("/echo", new TestServerResponseEcho())
         testServer.registerDelete("/resource", new TestServerTextResponse(''))
@@ -51,7 +51,7 @@ class HttpExtensionsTest {
 
     @Test
     void "use groovy closure as validation"() {
-        http.get("/object") {
+        http.get("/end-point") {
             price.should == 100
             assert price instanceof DataNode
         }
@@ -59,7 +59,7 @@ class HttpExtensionsTest {
 
     @Test
     void "use table data as expected"() {
-        http.get("/object") {
+        http.get("/end-point") {
             complexList.should == ["k1"   | "k2"] {
                                   __________________
                                     "v1"  | "v2"
@@ -69,7 +69,7 @@ class HttpExtensionsTest {
 
     @Test
     void "can return simple value from get"() {
-        def id = http.get("/object") {
+        def id = http.get("/end-point") {
             return id
         }
 
@@ -108,7 +108,7 @@ class HttpExtensionsTest {
 
     @Test
     void "can return list from get"() {
-        def list = http.get("/object") {
+        def list = http.get("/end-point") {
             return list
         }
 
@@ -118,7 +118,7 @@ class HttpExtensionsTest {
 
     @Test
     void "can return object from get"() {
-        def object = http.get("/object") {
+        def object = http.get("/end-point") {
             return object
         }
 
@@ -129,7 +129,7 @@ class HttpExtensionsTest {
 
     @Test
     void "can return list of objects from get"() {
-        def complexList = http.get("/object") {
+        def complexList = http.get("/end-point") {
             return complexList
         }
 
@@ -166,7 +166,7 @@ class HttpExtensionsTest {
 
     @Test
     void "groovy find on list"() {
-        def found = http.get("object") {
+        def found = http.get("/end-point") {
             return list.find { it > 1 }
         }
 
@@ -176,7 +176,7 @@ class HttpExtensionsTest {
 
     @Test
     void "groovy findAll on list"() {
-        def found = http.get("object") {
+        def found = http.get("/end-point") {
             return list.findAll { it > 1 }
         }
 
@@ -186,7 +186,7 @@ class HttpExtensionsTest {
 
     @Test
     void "groovy find on list of objects"() {
-        def id = http.get("object") {
+        def id = http.get("/end-point") {
             def found = complexList.find {
                 assert k1.getClass() == String
                 k1 == 'v1'
@@ -201,7 +201,7 @@ class HttpExtensionsTest {
 
     @Test
     void "groovy transform list"() {
-        def found = http.get("object") {
+        def found = http.get("/end-point") {
             return list.collect { "world#${it}" }
         }
 
