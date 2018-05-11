@@ -2,7 +2,7 @@
 
 Web Test Automation [User Guide](https://opensource.twosigma.com/webtau/guide/)
 
-Simple REST tests
+## Simple REST tests
 
 ```groovy
 scenario("simple get") {
@@ -12,7 +12,7 @@ scenario("simple get") {
 }
 ```
 
-Robust UI test
+## Robust UI tests
 
 ```groovy
 scenario("""# Search facts
@@ -25,3 +25,7 @@ information will be displayed in a special box
     search.numberOfResults.should == 2
 }
 ```
+
+## Precise Reporting
+
+![report-image](img/rest-crud-separated-report.png)
