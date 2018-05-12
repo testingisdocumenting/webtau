@@ -103,6 +103,10 @@ public class WebTauConfig {
         return env;
     }
 
+    public ConfigValue getConfigFileName() {
+        return config;
+    }
+
     public ConfigValue getWorkingDirConfigValue() {
         return workingDir;
     }

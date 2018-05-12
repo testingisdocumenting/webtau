@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.cli
 
+import com.twosigma.webtau.cfg.ConfigValue
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.cfg.WebTauConfig
@@ -23,21 +24,24 @@ import org.apache.commons.cli.*
 
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 
 class WebTauTestCliConfig {
     private static final String CLI_SOURCE = "command line argument"
     private static final String CFG_SOURCE = "config file"
 
-    private WebTauConfig cfg = WebTauConfig.INSTANCE
+    private final WebTauConfig cfg
 
     private List<String> testFiles
-    private String env
     private Path configPath
     private CommandLine commandLine
     private ConfigObject configObject
 
     WebTauTestCliConfig(String... args) {
+        this(WebTauConfig.INSTANCE, args)
+    }
+
+    WebTauTestCliConfig(WebTauConfig cfg, String... args) {
+        this.cfg = cfg
         parseArgs(args)
     }
 
@@ -82,12 +86,14 @@ class WebTauTestCliConfig {
         }
 
         testFiles = new ArrayList<>(commandLine.argList)
-        Path workingDir = Paths.get(cliValue(cfg.getWorkingDirConfigName(), ""))
-        configPath = workingDir.resolve(cliValue("config", "test.cfg"))
 
-        def envCliValue = cliValue(cfg.envConfigValue.key, "local")
-        cfg.acceptConfigValues(CLI_SOURCE, [(cfg.envConfigValue.key): envCliValue,
-                                            (cfg.workingDirConfigValue.key): workingDir])
+        setValueFromCli(cfg.workingDirConfigValue)
+        Path workingDir = cfg.workingDir
+
+        setValueFromCli(cfg.configFileName)
+        configPath = workingDir.resolve(cfg.configFileName.asString)
+
+        setValueFromCli(cfg.envConfigValue)
     }
 
     private static CommandLine createCommandLine(String[] args, Options options) {
@@ -99,9 +105,10 @@ class WebTauTestCliConfig {
         }
     }
 
-    private def cliValue(String name, defaultValue) {
-        return commandLine.hasOption(name) ? commandLine.getOptionValue(name) :
-                defaultValue
+    private def setValueFromCli(ConfigValue configValue) {
+        if (commandLine.hasOption(configValue.key)) {
+            configValue.set(CLI_SOURCE, commandLine.getOptionValue(configValue.key))
+        }
     }
 
     private Options createOptions() {
