@@ -87,13 +87,13 @@ class WebTauTestCliConfig {
 
         testFiles = new ArrayList<>(commandLine.argList)
 
-        setValueFromCli(cfg.workingDirConfigValue)
+        setValueFromCliIfPresent(cfg.workingDirConfigValue)
         Path workingDir = cfg.workingDir
 
-        setValueFromCli(cfg.configFileName)
+        setValueFromCliIfPresent(cfg.configFileName)
         configPath = workingDir.resolve(cfg.configFileName.asString)
 
-        setValueFromCli(cfg.envConfigValue)
+        setValueFromCliIfPresent(cfg.envConfigValue)
     }
 
     private static CommandLine createCommandLine(String[] args, Options options) {
@@ -105,7 +105,7 @@ class WebTauTestCliConfig {
         }
     }
 
-    private def setValueFromCli(ConfigValue configValue) {
+    private def setValueFromCliIfPresent(ConfigValue configValue) {
         if (commandLine.hasOption(configValue.key)) {
             configValue.set(CLI_SOURCE, commandLine.getOptionValue(configValue.key))
         }
