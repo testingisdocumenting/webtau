@@ -39,7 +39,11 @@ class WebTauTestCliConfig {
     private ConfigObject configObject
 
     WebTauTestCliConfig(String... args) {
-        this(WebTauConfig.INSTANCE, {System.exit(it)}, args)
+        this(WebTauConfig.INSTANCE, { System.exit(it) }, args)
+    }
+
+    WebTauTestCliConfig(WebTauConfig cfg, String... args) {
+        this(cfg, { System.exit(it) }, args)
     }
 
     WebTauTestCliConfig(WebTauConfig cfg, ExitHandler exitHandler, String... args) {

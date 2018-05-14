@@ -45,14 +45,14 @@ class WebTauTestCliConfigTest {
     @Test
     void "should exit if only config file provided"() {
         Integer retCode
-        new WebTauTestCliConfig({ retCode = it }, "--config=src/test/resources/test.cfg", "--env=dev")
+        new WebTauTestCliConfig(cfg, { retCode = it }, "--config=src/test/resources/test.cfg", "--env=dev")
 
         retCode.should == 1
     }
 
     @Test
     void "should set command line args source when env is specified"() {
-        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg", "--env=dev")
+        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg", "--env=dev", "testFile")
         cliConfig.parseConfig(groovy)
 
         cfg.envConfigValue.source.should == "command line argument"
@@ -60,7 +60,7 @@ class WebTauTestCliConfigTest {
 
     @Test
     void "should set default source when env is not specified"() {
-        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg")
+        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg", "testFile")
         cliConfig.parseConfig(groovy)
 
         cfg.envConfigValue.source.should == "default"
