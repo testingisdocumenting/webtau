@@ -39,7 +39,7 @@ class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
 
     @Override
     HttpRequestHeader fullHeader(HttpRequestHeader given) {
-        if (!headerProvider) {
+        if (!headerProvider.get()) {
             return given
         }
 
