@@ -24,19 +24,19 @@ import java.nio.file.Paths
 
 class WebTauTestCliConfigTest {
     private static def groovy = GroovyStandaloneEngine.createWithoutDelegating(Paths.get(""), [])
-    private static final cfg = WebTauConfig.INSTANCE
+    private final cfg = new WebTauConfig()
 
     @Test
-    void "should use default environment values when evn is not specified"() {
-        def cliConfig = new WebTauTestCliConfig("--config=src/test/resources/test.cfg", "testFile")
+    void "should use default environment values when env is not specified"() {
+        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg", "testFile")
         cliConfig.parseConfig(groovy)
 
         cfg.baseUrl.should == "http://localhost:8180"
     }
 
     @Test
-    void "should use environment specific values when evn is specified"() {
-        def cliConfig = new WebTauTestCliConfig("--config=src/test/resources/test.cfg", "--env=dev", "testFile")
+    void "should use environment specific values when env is specified"() {
+        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg", "--env=dev", "testFile")
         cliConfig.parseConfig(groovy)
 
         cfg.baseUrl.should == "http://dev.host:8080"
@@ -45,8 +45,33 @@ class WebTauTestCliConfigTest {
     @Test
     void "should exit if only config file provided"() {
         Integer retCode
-        new WebTauTestCliConfig({ retCode = it }, "--config=src/test/resources/test.cfg", "--env=dev")
+        new WebTauTestCliConfig(cfg, { retCode = it }, "--config=src/test/resources/test.cfg", "--env=dev")
 
         retCode.should == 1
+    }
+
+    @Test
+    void "should set command line args source when env is specified"() {
+        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg", "--env=dev", "testFile")
+        cliConfig.parseConfig(groovy)
+
+        cfg.envConfigValue.source.should == "command line argument"
+    }
+
+    @Test
+    void "should set default source when env is not specified"() {
+        def cliConfig = new WebTauTestCliConfig(cfg, "--config=src/test/resources/test.cfg", "testFile")
+        cliConfig.parseConfig(groovy)
+
+        cfg.envConfigValue.source.should == "default"
+    }
+
+    @Test
+    void "should set default source and value when cfg is not specified"() {
+        def cliConfig = new WebTauTestCliConfig(cfg, "testFile")
+        cliConfig.parseConfig(groovy)
+
+        cfg.configFileName.asString.should == "test.cfg"
+        cfg.configFileName.source.should == "default"
     }
 }
