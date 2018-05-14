@@ -88,7 +88,6 @@ public class WebTauConfig {
 
         acceptConfigValues("environment variable", envVarsAsMap());
         acceptConfigValues("system property", systemPropsAsMap());
-        acceptConfigValues("config resource " + config.getAsString(), webTauResourceCfgAsMap());
 
         handlers.forEach(h -> h.onAfterCreate(this));
     }
@@ -225,24 +224,6 @@ public class WebTauConfig {
 
     private static Map<String, ?> envVarsAsMap() {
         return System.getenv();
-    }
-
-    private Map<String, ?> webTauResourceCfgAsMap() {
-        if (!ResourceUtils.hasResource(config.getAsString())) {
-            return Collections.emptyMap();
-        }
-
-        try {
-            Properties properties = new Properties();
-            properties.load(ResourceUtils.resourceStream(config.getAsString()));
-
-            Map<String, String> asMap = new LinkedHashMap<>();
-            properties.forEach((k, v) -> asMap.put(k.toString(), v.toString()));
-
-            return asMap;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private static class CfgInstanceHolder {
