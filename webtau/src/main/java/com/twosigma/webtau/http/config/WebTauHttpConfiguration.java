@@ -21,19 +21,21 @@ import com.twosigma.webtau.http.HttpRequestHeader;
 import com.twosigma.webtau.http.HttpUrl;
 
 public class WebTauHttpConfiguration implements HttpConfiguration {
-    private WebTauConfig cfg = WebTauConfig.INSTANCE;
-
     @Override
     public String fullUrl(String url) {
         if (HttpUrl.isFull(url)) {
             return url;
         }
 
-        return HttpUrl.concat(cfg.getBaseUrl(), url);
+        return HttpUrl.concat(getCfg().getBaseUrl(), url);
     }
 
     @Override
     public HttpRequestHeader fullHeader(HttpRequestHeader given) {
         return given;
+    }
+
+    private WebTauConfig getCfg() {
+        return WebTauConfig.getInstance();
     }
 }

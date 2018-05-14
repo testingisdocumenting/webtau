@@ -15,8 +15,8 @@ during command line run.
 
 # Config File
 
-Url parameter can be moved to a `test.cfg` file.
+Url parameter can be moved to a `webtau.cfg` file.
 
-:include-file: examples/rest/url.cfg {title: "examples/rest/test.cfg"}
+:include-file: examples/rest/url.cfg {title: "examples/rest/webtau.cfg"}
 
 [Specify multiple environments](configuration/environments) to streamline test execution.

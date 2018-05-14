@@ -20,6 +20,7 @@ import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.console.ansi.FontStyle;
 import com.twosigma.webtau.utils.ResourceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import com.twosigma.webtau.utils.StringUtils;
 
 import java.io.IOException;
@@ -32,10 +33,10 @@ import java.util.stream.Stream;
 import static com.twosigma.webtau.cfg.ConfigValue.declare;
 
 public class WebTauConfig {
-    private static final String WEBTAU_CFG_RESOURCE_PATH = "webtau.cfg";
-    public static final WebTauConfig INSTANCE = new WebTauConfig();
+    private static final List<WebTauConfigHandler> handlers =
+            new ArrayList<>(ServiceLoaderUtils.load(WebTauConfigHandler.class));
 
-    private final ConfigValue config = declare("config", "config path", () -> "test.cfg");
+    private final ConfigValue config = declare("config", "config path", () -> "webtau.cfg");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", () -> null);
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
@@ -65,10 +66,31 @@ public class WebTauConfig {
 
     private final List<ConfigValue> freeFormCfgValues = new ArrayList<>();
 
+    public static WebTauConfig getInstance() {
+        return CfgInstanceHolder.INSTANCE;
+    }
+
+    /**
+     * Handlers are automatically discovered using service loader.
+     * Use this method to manually register additional config handler in front of the queue.
+     * @param handler config handler to add
+     */
+    public static void registerConfigHandlerAsFirstHandler(WebTauConfigHandler handler) {
+        handlers.add(0, handler);
+    }
+
+    public static void registerConfigHandlerAsLastHandler(WebTauConfigHandler handler) {
+        handlers.add(handler);
+    }
+
     protected WebTauConfig() {
+        handlers.forEach(h -> h.onBeforeCreate(this));
+
         acceptConfigValues("environment variable", envVarsAsMap());
         acceptConfigValues("system property", systemPropsAsMap());
-        acceptConfigValues("webtau.cfg resource", webTauResourceCfgAsMap());
+        acceptConfigValues("config resource " + config.getAsString(), webTauResourceCfgAsMap());
+
+        handlers.forEach(h -> h.onAfterCreate(this));
     }
 
     public Stream<ConfigValue> getCfgValuesStream() {
@@ -205,14 +227,14 @@ public class WebTauConfig {
         return System.getenv();
     }
 
-    private static Map<String, ?> webTauResourceCfgAsMap() {
-        if (!ResourceUtils.hasResource(WEBTAU_CFG_RESOURCE_PATH)) {
+    private Map<String, ?> webTauResourceCfgAsMap() {
+        if (!ResourceUtils.hasResource(config.getAsString())) {
             return Collections.emptyMap();
         }
 
         try {
             Properties properties = new Properties();
-            properties.load(ResourceUtils.resourceStream(WEBTAU_CFG_RESOURCE_PATH));
+            properties.load(ResourceUtils.resourceStream(config.getAsString()));
 
             Map<String, String> asMap = new LinkedHashMap<>();
             properties.forEach((k, v) -> asMap.put(k.toString(), v.toString()));
@@ -221,5 +243,9 @@ public class WebTauConfig {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static class CfgInstanceHolder {
+        private static final WebTauConfig INSTANCE = new WebTauConfig();
     }
 }

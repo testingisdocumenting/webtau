@@ -41,8 +41,6 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
 public class WebTauDsl extends Ddjt {
-    public static final WebTauConfig cfg = WebTauConfig.INSTANCE;
-
     public static final CurrentWebDriver driver = new CurrentWebDriver();
     public static final Http http = Http.http;
     public static final DocumentationDsl doc = new DocumentationDsl(driver);
@@ -57,7 +55,7 @@ public class WebTauDsl extends Ddjt {
     }
 
     public static WebTauConfig getCfg() {
-        return cfg;
+        return WebTauConfig.getInstance();
     }
 
     public static void open(String url) {
@@ -104,6 +102,6 @@ public class WebTauDsl extends Ddjt {
             return url;
         }
 
-        return HttpUrl.concat(cfg.getBaseUrl(), url);
+        return HttpUrl.concat(getCfg().getBaseUrl(), url);
     }
 }

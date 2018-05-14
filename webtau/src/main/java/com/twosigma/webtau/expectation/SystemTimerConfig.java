@@ -21,8 +21,6 @@ import com.twosigma.webtau.expectation.timer.ExpectationTimerConfig;
 import com.twosigma.webtau.cfg.WebTauConfig;
 
 public class SystemTimerConfig implements ExpectationTimerConfig {
-    private static WebTauConfig cfg = WebTauConfig.INSTANCE;
-
     @Override
     public ExpectationTimer createExpectationTimer() {
         return new SystemTimeExpectationTimer();
@@ -30,11 +28,15 @@ public class SystemTimerConfig implements ExpectationTimerConfig {
 
     @Override
     public long defaultTimeoutMillis() {
-        return cfg.waitTimeout();
+        return getCfg().waitTimeout();
     }
 
     @Override
     public long defaultTickMillis() {
         return 100;
+    }
+
+    private WebTauConfig getCfg() {
+        return WebTauConfig.getInstance();
     }
 }

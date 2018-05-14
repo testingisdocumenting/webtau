@@ -12,9 +12,9 @@ To capture artifacts use `http.doc.capture`:
 :include-file: examples/rest/restPost.groovy {commentsType: "inline"}
 
 An `employee-get` directory will be created with request and response json files. By default, the directory will be 
-created in the current working directory. To change it add `docPath` to your `test.cfg` file.
+created in the current working directory. To change it add `docPath` to your `webtau.cfg` file.
 
-:include-file: examples/rest/springboot/test.cfg {title: "test.cfg"}
+:include-file: examples/rest/springboot/webtau.cfg {title: "webtau.cfg"}
 
 # Document REST calls
 

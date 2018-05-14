@@ -16,19 +16,23 @@
 
 package com.twosigma.webtau.console;
 
+import com.twosigma.webtau.console.ansi.AnsiConsoleOutput;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class ConsoleOutputs {
+    private static final ConsoleOutput defaultOutput = new AnsiConsoleOutput();
+
     private static Set<ConsoleOutput> outputs = ServiceLoaderUtils.load(ConsoleOutput.class);
 
     public static void out(Object... styleOrValues) {
-        outputs.forEach(o -> o.out(styleOrValues));
+        getOutputsStream().forEach(o -> o.out(styleOrValues));
     }
 
     public static void err(Object... styleOrValues) {
-        outputs.forEach(o -> o.err(styleOrValues));
+        getOutputsStream().forEach(o -> o.err(styleOrValues));
     }
 
     public static void add(ConsoleOutput consoleOutput) {
@@ -37,5 +41,13 @@ public class ConsoleOutputs {
 
     public static void remove(ConsoleOutput consoleOutput) {
         outputs.remove(consoleOutput);
+    }
+
+    private static Stream<ConsoleOutput> getOutputsStream() {
+        if (outputs.isEmpty()) {
+            return Stream.of(defaultOutput);
+        }
+
+        return outputs.stream();
     }
 }
