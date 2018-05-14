@@ -61,8 +61,8 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
-    public List<DataNode> all() {
-        return dataNode.all();
+    public List<DataNode> elements() {
+        return dataNode.elements();
     }
 
     @Override

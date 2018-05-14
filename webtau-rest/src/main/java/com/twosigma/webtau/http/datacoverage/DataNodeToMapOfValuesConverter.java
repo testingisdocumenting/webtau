@@ -20,10 +20,11 @@ import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.toList;
 
 public class DataNodeToMapOfValuesConverter {
     private TraceableValueConverter traceableValueConverter;
@@ -50,10 +51,9 @@ public class DataNodeToMapOfValuesConverter {
     }
 
     private List<Object> convertToList(DataNode dataNode) {
-        List<Object> converted = new ArrayList<>();
-        dataNode.all().forEach(n -> converted.add(convert(n)));
-
-        return converted;
+        return dataNode.elements().stream()
+                .map(this::convert)
+                .collect(toList());
     }
 
     private Object convertSingleValue(DataNodeId id, TraceableValue value) {

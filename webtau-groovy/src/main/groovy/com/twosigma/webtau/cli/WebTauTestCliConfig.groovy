@@ -31,17 +31,20 @@ class WebTauTestCliConfig {
 
     private final WebTauConfig cfg
 
+    private final ExitHandler exitHandler
+
     private List<String> testFiles
     private Path configPath
     private CommandLine commandLine
     private ConfigObject configObject
 
     WebTauTestCliConfig(String... args) {
-        this(WebTauConfig.INSTANCE, args)
+        this(WebTauConfig.INSTANCE, {System.exit(it)}, args)
     }
 
-    WebTauTestCliConfig(WebTauConfig cfg, String... args) {
+    WebTauTestCliConfig(WebTauConfig cfg, ExitHandler exitHandler, String... args) {
         this.cfg = cfg
+        this.exitHandler = exitHandler
         parseArgs(args)
     }
 
@@ -79,10 +82,11 @@ class WebTauTestCliConfig {
         Options options = createOptions()
         commandLine = createCommandLine(args, options)
 
-        if (commandLine.hasOption("help") || args.length < 1) {
+        if (commandLine.hasOption("help") || commandLine.argList.isEmpty()) {
             HelpFormatter helpFormatter = new HelpFormatter()
             helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", options)
-            System.exit(1)
+            exitHandler.exit(1)
+            return
         }
 
         testFiles = new ArrayList<>(commandLine.argList)
@@ -121,5 +125,9 @@ class WebTauTestCliConfig {
 
     private Map commandLineArgsAsMap() {
         commandLine.options.collectEntries { [it.longOpt, it.value] }
+    }
+
+    interface ExitHandler {
+        void exit(int status)
     }
 }

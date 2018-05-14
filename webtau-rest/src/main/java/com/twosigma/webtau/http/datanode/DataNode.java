@@ -38,7 +38,7 @@ public interface DataNode extends ActualValueExpectations, DataNodeExpectations 
 
     boolean isSingleValue();
 
-    List<DataNode> all();
+    List<DataNode> elements();
 
     int numberOfChildren();
 

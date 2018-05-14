@@ -60,7 +60,7 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
-    public List<DataNode> all() {
+    public List<DataNode> elements() {
         return Collections.singletonList(new NullDataNode(id.peer(0)));
     }
 

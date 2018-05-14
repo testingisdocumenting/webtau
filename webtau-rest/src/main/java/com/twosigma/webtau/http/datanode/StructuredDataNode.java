@@ -83,7 +83,7 @@ public class StructuredDataNode implements DataNode {
     }
 
     @Override
-    public List<DataNode> all() {
+    public List<DataNode> elements() {
         return Collections.unmodifiableList(values);
     }
 

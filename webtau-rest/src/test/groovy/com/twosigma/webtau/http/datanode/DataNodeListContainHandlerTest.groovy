@@ -56,8 +56,8 @@ class DataNodeListContainHandlerTest {
             dataNode.should contain([firstName: 'FN8', lastName: 'LN8'])
         } should throwException(~/body expect to contain \{firstName=FN8, lastName=LN8}/)
 
-        dataNode.all().collect { it.get('firstName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
-        dataNode.all().collect { it.get('lastName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
+        dataNode.elements().collect { it.get('firstName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
+        dataNode.elements().collect { it.get('lastName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
     }
 
     @Test
@@ -65,7 +65,7 @@ class DataNodeListContainHandlerTest {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), [1, 2, 3])
         dataNode.shouldNot contain(8)
 
-        dataNode.all().collect { it.get().checkLevel }.should == [FuzzyPassed, FuzzyPassed, FuzzyPassed]
+        dataNode.elements().collect { it.get().checkLevel }.should == [FuzzyPassed, FuzzyPassed, FuzzyPassed]
     }
 
     @Test
