@@ -1,2 +1,2 @@
 CWD=`dirname "$0"`
-java -cp "$CWD/lib/*:$CLASSPATH" com.twosigma.webtau.cli.WebTauCliApp $*
+java -cp "$CWD/lib/*:$WEBTAU_CP" com.twosigma.webtau.cli.WebTauCliApp $*
