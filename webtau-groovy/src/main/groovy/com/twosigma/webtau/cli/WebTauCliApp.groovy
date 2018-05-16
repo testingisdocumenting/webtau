@@ -57,6 +57,7 @@ class WebTauCliApp implements StandaloneTestListener {
 
     private List<StandaloneTest> tests = []
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
+    private int problemCount = 0
 
     WebTauCliApp(String[] args) {
         ConsoleOutputs.add(consoleOutput)
@@ -103,7 +104,9 @@ class WebTauCliApp implements StandaloneTestListener {
     }
 
     static void main(String[] args) {
-        new WebTauCliApp(args).start(true)
+        def cliApp = new WebTauCliApp(args)
+        cliApp.start(true)
+        System.exit(cliApp.problemCount)
     }
 
     @Override
@@ -143,6 +146,8 @@ class WebTauCliApp implements StandaloneTestListener {
     @Override
     void afterAllTests() {
         generateReport()
+
+        problemCount = consoleTestReporter.failed + consoleTestReporter.errored + consoleTestReporter.skipped
     }
 
     void generateReport() {
