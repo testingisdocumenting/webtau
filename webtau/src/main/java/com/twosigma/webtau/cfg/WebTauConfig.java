@@ -66,7 +66,7 @@ public class WebTauConfig {
 
     private final List<ConfigValue> freeFormCfgValues = new ArrayList<>();
 
-    public static WebTauConfig getInstance() {
+    public static WebTauConfig getCfg() {
         return CfgInstanceHolder.INSTANCE;
     }
 

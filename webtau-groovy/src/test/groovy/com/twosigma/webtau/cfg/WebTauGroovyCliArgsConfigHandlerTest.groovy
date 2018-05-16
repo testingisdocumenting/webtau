@@ -20,7 +20,7 @@ import org.junit.Test
 
 class WebTauGroovyCliArgsConfigHandlerTest {
     @Test
-    void "sets config essential config values during first run and overrides other cfg values during second"() {
+    void "sets file config related values during first run and overrides other cfg values during second"() {
         def handler = new WebTauGroovyCliArgsConfigHandler('--env=dev', '--workingDir=/root/a',
             '--config=abc.cfg', '--url=http://localhost:3434', "test.groovy")
      

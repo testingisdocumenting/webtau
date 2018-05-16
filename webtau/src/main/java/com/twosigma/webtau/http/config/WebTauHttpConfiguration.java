@@ -16,9 +16,10 @@
 
 package com.twosigma.webtau.http.config;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.http.HttpRequestHeader;
 import com.twosigma.webtau.http.HttpUrl;
+
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class WebTauHttpConfiguration implements HttpConfiguration {
     @Override
@@ -33,9 +34,5 @@ public class WebTauHttpConfiguration implements HttpConfiguration {
     @Override
     public HttpRequestHeader fullHeader(HttpRequestHeader given) {
         return given;
-    }
-
-    private WebTauConfig getCfg() {
-        return WebTauConfig.getInstance();
     }
 }

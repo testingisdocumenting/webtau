@@ -16,14 +16,13 @@
 
 package com.twosigma.webtau;
 
+import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.expectation.ranges.GreaterThanMatcher;
 import com.twosigma.webtau.http.Http;
 import com.twosigma.webtau.http.HttpUrl;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.TokenizedMessage;
-import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.documentation.DocumentationDsl;
 import com.twosigma.webtau.driver.CurrentWebDriver;
 import com.twosigma.webtau.expectation.VisibleValueMatcher;
@@ -32,11 +31,10 @@ import com.twosigma.webtau.page.PageElement;
 import com.twosigma.webtau.page.path.ElementPath;
 import com.twosigma.webtau.page.path.GenericPageElement;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 
 import java.util.function.Supplier;
 
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
@@ -55,7 +53,7 @@ public class WebTauDsl extends Ddjt {
     }
 
     public static WebTauConfig getCfg() {
-        return WebTauConfig.getInstance();
+        return WebTauConfig.getCfg();
     }
 
     public static void open(String url) {

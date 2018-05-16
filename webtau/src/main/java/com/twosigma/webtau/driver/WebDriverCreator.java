@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.driver;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -25,6 +24,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class WebDriverCreator {
     private static List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
@@ -82,9 +83,5 @@ public class WebDriverCreator {
 
     private static void registerCleanup() {
         Runtime.getRuntime().addShutdownHook(new Thread(WebDriverCreator::closeAll));
-    }
-
-    private static WebTauConfig getCfg() {
-        return WebTauConfig.getInstance();
     }
 }

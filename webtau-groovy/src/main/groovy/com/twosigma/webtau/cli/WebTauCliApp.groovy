@@ -45,6 +45,8 @@ import com.twosigma.webtau.utils.JsonUtils
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
+
 class WebTauCliApp implements StandaloneTestListener {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter)
@@ -158,9 +160,5 @@ class WebTauCliApp implements StandaloneTestListener {
         FileUtils.writeTextContent(reportPath, new HtmlReportGenerator().generate(json))
 
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath)
-    }
-
-    private static WebTauConfig getCfg() {
-        return WebTauConfig.getInstance()
     }
 }

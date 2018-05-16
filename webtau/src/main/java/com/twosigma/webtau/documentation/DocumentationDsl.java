@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.documentation;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.documentation.annotations.ArrowImageAnnotation;
 import com.twosigma.webtau.documentation.annotations.BadgeImageAnnotation;
 import com.twosigma.webtau.documentation.annotations.HighlighterImageAnnotation;
@@ -29,6 +28,7 @@ import org.openqa.selenium.*;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
 public class DocumentationDsl {
@@ -111,9 +111,5 @@ public class DocumentationDsl {
     private Number getPixelRatio() {
         Object pixelRatio = ((JavascriptExecutor) driver).executeScript("return window.devicePixelRatio");
         return pixelRatio instanceof Number ? (Number) pixelRatio : 1;
-    }
-
-    private WebTauConfig getCfg() {
-        return WebTauConfig.getInstance();
     }
 }
