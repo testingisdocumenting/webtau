@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.documentation;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.documentation.annotations.ArrowImageAnnotation;
 import com.twosigma.webtau.documentation.annotations.BadgeImageAnnotation;
 import com.twosigma.webtau.documentation.annotations.HighlighterImageAnnotation;
@@ -29,11 +28,10 @@ import org.openqa.selenium.*;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
 public class DocumentationDsl {
-    private WebTauConfig cfg = WebTauConfig.INSTANCE;
-
     private TakesScreenshot screenshotTaker;
     private List<ImageAnnotation> annotations;
     private WebDriver driver;
@@ -71,7 +69,7 @@ public class DocumentationDsl {
 
     private void createScreenshot(String screenshotName) {
         Screenshot screenshot = new Screenshot(screenshotTaker);
-        screenshot.save(cfg.getDocArtifactsPath().resolve(screenshotName + ".png"));
+        screenshot.save(getCfg().getDocArtifactsPath().resolve(screenshotName + ".png"));
     }
 
     private void createAnnotations(String screenshotName) {
@@ -82,7 +80,7 @@ public class DocumentationDsl {
         result.put("pixelRatio", getPixelRatio());
 
         String annotationsJson = JsonUtils.serializePrettyPrint(result);
-        FileUtils.writeTextContent(cfg.getDocArtifactsPath().resolve(Paths.get(screenshotName + ".json")),
+        FileUtils.writeTextContent(getCfg().getDocArtifactsPath().resolve(Paths.get(screenshotName + ".json")),
                 annotationsJson);
     }
 

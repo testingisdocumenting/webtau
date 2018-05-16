@@ -16,62 +16,60 @@
 
 package com.twosigma.webtau.cli
 
+import com.twosigma.documentation.DocumentationArtifactsLocation
+import com.twosigma.webtau.WebTauGroovyDsl
+import com.twosigma.webtau.cfg.GroovyRunner
+import com.twosigma.webtau.cfg.WebTauConfig
+import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.documentation.DocumentationArtifactsLocation
-import com.twosigma.webtau.http.HttpRequestHeader
+import com.twosigma.webtau.driver.WebDriverCreator
 import com.twosigma.webtau.http.HttpValidationResult
-import com.twosigma.webtau.http.config.HttpConfiguration
-import com.twosigma.webtau.http.config.HttpConfigurations
 import com.twosigma.webtau.reporter.ConsoleStepReporter
+import com.twosigma.webtau.reporter.HtmlReportGenerator
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
+import com.twosigma.webtau.reporter.ScreenshotStepPayload
+import com.twosigma.webtau.reporter.ScreenshotStepReporter
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.runner.standalone.GroovyStandaloneEngine
 import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestListener
 import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import com.twosigma.webtau.runner.standalone.report.StandardConsoleTestListener
-import com.twosigma.webtau.WebTauGroovyDsl
-import com.twosigma.webtau.cfg.WebTauConfig
-import com.twosigma.webtau.driver.WebDriverCreator
-import com.twosigma.webtau.reporter.HtmlReportGenerator
-import com.twosigma.webtau.reporter.ScreenshotStepPayload
-import com.twosigma.webtau.reporter.ScreenshotStepReporter
 import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.JsonUtils
 
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class WebTauCliApp implements StandaloneTestListener {
-    private static def staticImports = ["com.twosigma.webtau.WebTauDsl"]
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
-    private static WebTauConfig cfg = WebTauConfig.INSTANCE
+class WebTauCliApp implements StandaloneTestListener {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter)
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
     private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
 
-    private WebTauTestCliConfig cliConfig
     private StandaloneTestRunner runner
 
     private List<StandaloneTest> tests = []
     private int problemCount = 0
+    private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
         ConsoleOutputs.add(consoleOutput)
 
-        cliConfig = new WebTauTestCliConfig(args)
+        cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
+        WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
+        WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
-        cliConfig.parseConfig(GroovyStandaloneEngine.createWithoutDelegating(cfg.workingDir, staticImports))
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
         runner = new StandaloneTestRunner(
-                GroovyStandaloneEngine.createWithDelegatingEnabled(cfg.workingDir, staticImports),
+                GroovyRunner.createWithDelegatingEnabled(cfg.workingDir),
                 cfg.getWorkingDir())
 
         StandaloneTestListeners.add(consoleTestReporter)
@@ -84,9 +82,7 @@ class WebTauCliApp implements StandaloneTestListener {
             StepReporters.add(stepReporter)
             StepReporters.add(screenshotStepReporter)
 
-            cliConfig.print()
-
-            initHttpConfigurationFromConfig()
+            cfg.print()
 
             testFiles().forEach {
                 runner.process(it, this)
@@ -104,31 +100,7 @@ class WebTauCliApp implements StandaloneTestListener {
     }
 
     private List<Path> testFiles() {
-        return cliConfig.getTestFiles().collect { Paths.get(it) }
-    }
-
-    void initHttpConfigurationFromConfig() {
-        def headersProvider = cliConfig.httpHeaderProvider()
-        if (! headersProvider) {
-            return
-        }
-
-        HttpConfigurations.add(new HttpConfiguration() {
-            @Override
-            String fullUrl(String url) {
-                return url
-            }
-
-            @Override
-            HttpRequestHeader fullHeader(HttpRequestHeader given) {
-                try {
-                    HttpConfigurations.disable()
-                    return headersProvider.call(given) as HttpRequestHeader
-                } finally {
-                    HttpConfigurations.enable()
-                }
-            }
-        })
+        return cliConfigHandler.testFiles.collect { Paths.get(it) }
     }
 
     static void main(String[] args) {

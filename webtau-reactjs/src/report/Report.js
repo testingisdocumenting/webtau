@@ -23,11 +23,16 @@ import Summary from './details/Summary'
 
 class Report {
     static overallHttpCallTimeForTest(test) {
-        const times = test.httpCalls.map(c => c.elapsedTime)
+        const httpCalls = test.httpCalls || []
+        const times = httpCalls.map(c => c.elapsedTime)
         return times.reduce((a, r) => a + r, 0)
     }
 
     static averageHttpCallTimeForTest(test) {
+        if (!test.httpCalls) {
+            return 0
+        }
+
         const overallTime = Report.overallHttpCallTimeForTest(test)
         return overallTime / test.httpCalls.length
     }

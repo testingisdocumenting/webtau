@@ -18,6 +18,7 @@ package com.twosigma.webtau.http.config;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 
 import com.twosigma.webtau.http.HttpRequestHeader;
 import com.twosigma.webtau.utils.ServiceUtils;
@@ -27,20 +28,21 @@ public class HttpConfigurations {
 
     private static List<HttpConfiguration> configurations = ServiceUtils.discover(HttpConfiguration.class);
 
-    public static void disable() {
-        enabled.set(false);
-    }
-
-    public static void enable() {
-        enabled.set(true);
-    }
-
     public static void add(HttpConfiguration configuration) {
         configurations.add(configuration);
     }
 
     public static void remove(HttpConfiguration configuration) {
         configurations.remove(configuration);
+    }
+
+    public static <E> E withDisabledConfigurations(Supplier<E> code) {
+        try {
+            disable();
+            return code.get();
+        } finally {
+            enable();
+        }
     }
 
     public static String fullUrl(String url) {
@@ -67,5 +69,13 @@ public class HttpConfigurations {
         }
 
         return finalHeaders;
+    }
+
+    private static void disable() {
+        enabled.set(false);
+    }
+
+    private static void enable() {
+        enabled.set(true);
     }
 }

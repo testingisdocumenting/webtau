@@ -1,6 +1,6 @@
 # Select
 
-```cfg {title: "test.cfg"}
+```cfg {title: "webtau.cfg"}
 waitTimeout = 2500
 url = http://my-server
 

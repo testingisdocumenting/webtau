@@ -14,26 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation;
+package com.twosigma.webtau.cfg;
 
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
-import com.twosigma.webtau.expectation.timer.ExpectationTimerConfig;
-
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-
-public class SystemTimerConfig implements ExpectationTimerConfig {
-    @Override
-    public ExpectationTimer createExpectationTimer() {
-        return new SystemTimeExpectationTimer();
-    }
-
-    @Override
-    public long defaultTimeoutMillis() {
-        return getCfg().waitTimeout();
-    }
-
-    @Override
-    public long defaultTickMillis() {
-        return 100;
-    }
+public interface WebTauConfigHandler {
+    void onBeforeCreate(WebTauConfig cfg);
+    void onAfterCreate(WebTauConfig cfg);
 }

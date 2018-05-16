@@ -14,75 +14,51 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli
+package com.twosigma.webtau.cfg
 
-import com.twosigma.webtau.cfg.ConfigValue
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.cfg.WebTauConfig
-import org.apache.commons.cli.*
+import org.apache.commons.cli.CommandLine
+import org.apache.commons.cli.DefaultParser
+import org.apache.commons.cli.HelpFormatter
+import org.apache.commons.cli.Options
+import org.apache.commons.cli.ParseException
 
-import java.nio.file.Files
-import java.nio.file.Path
-
-class WebTauTestCliConfig {
-    private static final String CLI_SOURCE = "command line argument"
-    private static final String CFG_SOURCE = "config file"
+class WebTauCliArgsConfig {
+    public static final String CLI_SOURCE = "command line argument"
 
     private final WebTauConfig cfg
 
     private final ExitHandler exitHandler
 
     private List<String> testFiles
-    private Path configPath
     private CommandLine commandLine
-    private ConfigObject configObject
+    private String[] args
 
-    WebTauTestCliConfig(String... args) {
-        this(WebTauConfig.INSTANCE, { System.exit(it) }, args)
-    }
-
-    WebTauTestCliConfig(WebTauConfig cfg, String... args) {
+    WebTauCliArgsConfig(WebTauConfig cfg, String... args) {
         this(cfg, { System.exit(it) }, args)
     }
 
-    WebTauTestCliConfig(WebTauConfig cfg, ExitHandler exitHandler, String... args) {
+    WebTauCliArgsConfig(WebTauConfig cfg, ExitHandler exitHandler, String... args) {
+        this.args = args
         this.cfg = cfg
         this.exitHandler = exitHandler
-        parseArgs(args)
+        parseArgs()
+    }
+
+    void setConfigFileRelatedCfgIfPresent() {
+        setValueFromCliIfPresent(cfg.workingDirConfigValue)
+        setValueFromCliIfPresent(cfg.configFileName)
+        setValueFromCliIfPresent(cfg.envConfigValue)
+    }
+
+    void setRestOfConfigValuesFromArgs() {
+        cfg.acceptConfigValues(CLI_SOURCE, commandLineArgsAsMap())
     }
 
     List<String> getTestFiles() {
         return testFiles
     }
 
-    void print() {
-        cfg.print()
-    }
-
-    Closure httpHeaderProvider() {
-        return configObject ? configObject.get("httpHeaderProvider") : null
-    }
-
-    void parseConfig(GroovyScriptEngine groovy) {
-        if (! Files.exists(configPath)) {
-            ConsoleOutputs.out("skipping config file as it is not found: ", Color.CYAN, configPath)
-            return
-        }
-
-        ConfigSlurper configSlurper = new ConfigSlurper(cfg.env)
-        def configScript = groovy.createScript(configPath.toAbsolutePath().toString(), new ConfigBinding())
-
-        configObject = configSlurper.parse(configScript)
-
-        if (configObject) {
-            cfg.acceptConfigValues(CFG_SOURCE, configObject.flatten())
-        }
-
-        cfg.acceptConfigValues(CLI_SOURCE, commandLineArgsAsMap())
-    }
-
-    private void parseArgs(String[] args) {
+    private void parseArgs() {
         Options options = createOptions()
         commandLine = createCommandLine(args, options)
 
@@ -94,14 +70,6 @@ class WebTauTestCliConfig {
         }
 
         testFiles = new ArrayList<>(commandLine.argList)
-
-        setValueFromCliIfPresent(cfg.workingDirConfigValue)
-        Path workingDir = cfg.workingDir
-
-        setValueFromCliIfPresent(cfg.configFileName)
-        configPath = workingDir.resolve(cfg.configFileName.asString)
-
-        setValueFromCliIfPresent(cfg.envConfigValue)
     }
 
     private static CommandLine createCommandLine(String[] args, Options options) {

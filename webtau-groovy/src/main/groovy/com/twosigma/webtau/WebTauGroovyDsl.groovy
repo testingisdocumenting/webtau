@@ -16,6 +16,9 @@
 
 package com.twosigma.webtau
 
+import com.twosigma.webtau.console.ConsoleOutputs
+import com.twosigma.webtau.console.ansi.Color
+import com.twosigma.webtau.console.ansi.FontStyle
 import com.twosigma.webtau.data.LazyTestResource
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import com.twosigma.webtau.utils.RegexpUtils
@@ -36,11 +39,22 @@ class WebTauGroovyDsl extends WebTauDsl {
     }
 
     static void scenario(String description, Closure code) {
-        testRunner.scenario(description, code)
+        // if test runner is not defined it means that groovy script was run as a simple script
+        // and not through webtau command line
+        // in this case we just run scenario code eagerly instead of registering it
+        if (!testRunner) {
+            runAdHoc(description, code);
+        } else {
+            testRunner.scenario(description, code)
+        }
     }
 
     static void sscenario(String description, Closure code) {
-        testRunner.sscenario(description, code)
+        if (!testRunner) {
+            runAdHoc(description, code);
+        } else {
+            testRunner.sscenario(description, code)
+        }
     }
 
     /**
@@ -75,6 +89,11 @@ class WebTauGroovyDsl extends WebTauDsl {
                     { -> tokenizedMessage(none("done " + withReplacedValues)) },
                     { -> code.curry(args).call() })
         }
+    }
+
+    private static void runAdHoc(String description, Closure code) {
+        ConsoleOutputs.out(Color.CYAN, "ad-hoc run ", Color.GREEN, FontStyle.BOLD, description)
+        code.run()
     }
 
     private static String replacePlaceholders(String description, args) {

@@ -2,7 +2,7 @@
 
 Specify `httpHeaderProvider` config parameter to add additional header information to all your requests:
 
-:include-file: examples/rest/headers/test.cfg
+:include-file: examples/rest/headers/webtau.cfg
 
 Where `Auth.&authHeader` is implemented as follows:
 
