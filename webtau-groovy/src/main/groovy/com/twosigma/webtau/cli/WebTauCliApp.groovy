@@ -60,7 +60,7 @@ class WebTauCliApp implements StandaloneTestListener {
     private StandaloneTestRunner runner
 
     private List<StandaloneTest> tests = []
-    private boolean failure = false
+    private int problemCount = 0
 
     WebTauCliApp(String[] args) {
         ConsoleOutputs.add(consoleOutput)
@@ -134,9 +134,7 @@ class WebTauCliApp implements StandaloneTestListener {
     static void main(String[] args) {
         def cliApp = new WebTauCliApp(args)
         cliApp.start(true)
-        if (cliApp.failure) {
-            System.exit(1)
-        }
+        System.exit(cliApp.problemCount)
     }
 
     @Override
@@ -171,13 +169,13 @@ class WebTauCliApp implements StandaloneTestListener {
         }
 
         tests.add(test)
-
-        failure = failure || test.hasError() || test.failed
     }
 
     @Override
     void afterAllTests() {
         generateReport()
+
+        problemCount = consoleTestReporter.failed + consoleTestReporter.errored + consoleTestReporter.skipped
     }
 
     void generateReport() {
