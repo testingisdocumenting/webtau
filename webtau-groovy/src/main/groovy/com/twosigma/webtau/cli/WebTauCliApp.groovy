@@ -56,6 +56,7 @@ class WebTauCliApp implements StandaloneTestListener {
     private StandaloneTestRunner runner
 
     private List<StandaloneTest> tests = []
+    private int problemCount = 0
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
     private int problemCount = 0
 
