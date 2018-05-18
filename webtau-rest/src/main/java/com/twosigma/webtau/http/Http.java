@@ -57,7 +57,10 @@ public class Http {
 
     private ThreadLocal<HttpValidationResult> lastValidationResult = new ThreadLocal<>();
 
+    private final OpenAPISpecValidator openApiValidator;
+
     private Http() {
+        openApiValidator = new OpenAPISpecValidator();
     }
 
     public <E> E get(String url, HttpResponseValidatorWithReturn validator) {
@@ -204,6 +207,8 @@ public class Http {
 
         HttpValidationResult result = new HttpValidationResult(requestMethod, url, fullUrl,
                 requestBody, response, header, body, elapsedTime);
+
+        openApiValidator.validateApiSpec(requestMethod, fullUrl, response, result);
 
         ExpectationHandler expectationHandler = (actualPath, actualValue, message) -> {
             result.addMismatch(message);

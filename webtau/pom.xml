@@ -35,6 +35,12 @@
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-config</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-rest</artifactId>
             <version>${project.version}</version>
         </dependency>
