@@ -19,9 +19,7 @@ package com.twosigma.webtau.http
 import org.junit.Before
 import org.junit.Test
 
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder
-import static org.hamcrest.core.StringContains.containsString
-import static org.junit.Assert.assertThat
+import static com.twosigma.webtau.Ddjt.contain
 
 class OpenAPISpecValidatorTest {
     private final static String GET = "GET"
@@ -46,10 +44,8 @@ class OpenAPISpecValidatorTest {
         validator.validateApiSpec(GET, URL, response, result)
 
         result.mismatches.size().should == 2
-        assertThat(result.mismatches, containsInAnyOrder(
-            containsString("does not match any allowed primitive type"),
-            containsString("missing required properties")
-        ))
+        result.mismatches.should contain(~/does not match any allowed primitive type/)
+        result.mismatches.should contain(~/missing required properties/)
     }
 
     @Test
