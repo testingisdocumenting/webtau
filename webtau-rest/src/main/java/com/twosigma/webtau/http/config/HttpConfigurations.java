@@ -71,14 +71,6 @@ public class HttpConfigurations {
         return finalHeaders;
     }
 
-    public static String getOpenApiSpecUrl() {
-        return configurations.stream()
-                .map(HttpConfiguration::openApiSpecUrl)
-                .filter(url -> url != null && !url.trim().isEmpty())
-                .findFirst()
-                .orElse(null);
-    }
-
     private static void disable() {
         enabled.set(false);
     }

@@ -39,6 +39,7 @@
         <module>webtau-junit-examples</module>
         <module>webtau-testapp</module>
         <module>webtau</module>
+        <module>webtau-config</module>
         <module>webtau-docs</module>
         <module>webtau-dist</module>
     </modules>

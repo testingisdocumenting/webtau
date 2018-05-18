@@ -35,9 +35,4 @@ public class WebTauHttpConfiguration implements HttpConfiguration {
     public HttpRequestHeader fullHeader(HttpRequestHeader given) {
         return given;
     }
-
-    @Override
-    public String openApiSpecUrl() {
-        return getCfg().getOpenApiSpecUrl();
-    }
 }

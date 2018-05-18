@@ -16,12 +16,6 @@
 
 package com.twosigma.webtau.http;
 
-import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
-import com.atlassian.oai.validator.interaction.ApiOperationResolver;
-import com.atlassian.oai.validator.model.ApiOperationMatch;
-import com.atlassian.oai.validator.model.Request;
-import com.atlassian.oai.validator.model.SimpleResponse;
-import com.atlassian.oai.validator.report.ValidationReport;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ExpectationHandler;
 import com.twosigma.webtau.expectation.ExpectationHandlers;
@@ -37,15 +31,11 @@ import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.utils.JsonParseException;
 import com.twosigma.webtau.utils.JsonUtils;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
-import io.swagger.parser.util.SwaggerDeserializationResult;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
@@ -55,7 +45,6 @@ import java.util.Map;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
-import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
@@ -68,27 +57,10 @@ public class Http {
 
     private ThreadLocal<HttpValidationResult> lastValidationResult = new ThreadLocal<>();
 
-    private final SwaggerRequestResponseValidator openApiValidator;
-    private final ApiOperationResolver apiOperationResolver;
+    private final OpenAPISpecValidator openApiValidator;
 
     private Http() {
-        String openApiSpecUrl = HttpConfigurations.getOpenApiSpecUrl();
-        if (openApiSpecUrl != null) {
-            openApiValidator = SwaggerRequestResponseValidator.createFor(openApiSpecUrl).build();
-
-            final SwaggerDeserializationResult swaggerParseResult =
-                            new SwaggerParser().readWithInfo(openApiSpecUrl, null, true);
-            final Swagger api = swaggerParseResult.getSwagger();
-            if (api == null) {
-                throw new IllegalArgumentException(
-                        format("Unable to load API descriptor from provided %s:\n\t%s",
-                                openApiSpecUrl, swaggerParseResult.getMessages().toString().replace("\n", "\n\t")));
-            }
-            apiOperationResolver = new ApiOperationResolver(api, null);
-        } else {
-            openApiValidator = null;
-            apiOperationResolver = null;
-        }
+        openApiValidator = new OpenAPISpecValidator();
     }
 
     public <E> E get(String url, HttpResponseValidatorWithReturn validator) {
@@ -236,7 +208,7 @@ public class Http {
         HttpValidationResult result = new HttpValidationResult(requestMethod, url, fullUrl,
                 requestBody, response, header, body, elapsedTime);
 
-        validateApiSpec(requestMethod, fullUrl, response, result);
+        openApiValidator.validateApiSpec(requestMethod, fullUrl, response, result);
 
         ExpectationHandler expectationHandler = (actualPath, actualValue, message) -> {
             result.addMismatch(message);
@@ -252,39 +224,6 @@ public class Http {
             ExpectationHandlers.removeLocal(expectationHandler);
             render(result);
         }
-    }
-
-    private void validateApiSpec(String requestMethod, String fullUrl, HttpResponse httpResponse, HttpValidationResult result) {
-        if (openApiValidator == null) {
-            return;
-        }
-
-        String path = extractPath(fullUrl);
-        Request.Method method = Enum.valueOf(Request.Method.class, requestMethod);
-
-        ApiOperationMatch apiOperationMatch = apiOperationResolver.findApiOperation(path, method);
-        if (!apiOperationMatch.isPathFound()) {
-            //TODO add a warning
-            return;
-        }
-
-        SimpleResponse response = SimpleResponse.Builder
-                .status(httpResponse.getStatusCode())
-                .withBody(httpResponse.getContent())
-                .build();
-
-        ValidationReport validationReport = openApiValidator.validateResponse(path, method, response);
-        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
-    }
-
-    private String extractPath(String fullUrl) {
-        URL url = null;
-        try {
-            url = new URL(fullUrl);
-        } catch (MalformedURLException ignore) {
-            //We wouldn't get as far as we did if it was an invalid URL so safe to ignore...
-        }
-        return url.getPath();
     }
 
     private void render(HttpValidationResult result) {

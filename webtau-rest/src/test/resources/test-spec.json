@@ -1,0 +1,48 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Test API"
+  },
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "test"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Test get method",
+        "operationId": "getTest",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/TestResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TestResponse": {
+      "type": "object",
+      "required": [
+        "mandatoryField"
+      ],
+      "properties": {
+        "mandatoryField": {
+          "type": "string"
+        },
+        "optionalField": {
+          "type": "string"
+        },
+        "intField": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
