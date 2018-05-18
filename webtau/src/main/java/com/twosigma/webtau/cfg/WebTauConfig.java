@@ -19,14 +19,13 @@ package com.twosigma.webtau.cfg;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.console.ansi.FontStyle;
-import com.twosigma.webtau.utils.ResourceUtils;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import com.twosigma.webtau.utils.StringUtils;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,10 +34,11 @@ import static com.twosigma.webtau.cfg.ConfigValue.declare;
 public class WebTauConfig {
     private static final List<WebTauConfigHandler> handlers =
             new ArrayList<>(ServiceLoaderUtils.load(WebTauConfigHandler.class));
+    private static final Supplier<Object> NO_DEFAULT = () -> null;
 
     private final ConfigValue config = declare("config", "config path", () -> "webtau.cfg");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
-    private final ConfigValue url = declare("url", "base url for application under test", () -> null);
+    private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
     private final ConfigValue docPath = declare("docPath", "path for screenshots and other generated " +
@@ -47,8 +47,9 @@ public class WebTauConfig {
     private final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
     private final ConfigValue headless = declare("headless", "run headless mode", () -> false);
-    private final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", () -> null);
-    private final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", () -> null);
+    private final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
+    private final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
+    private final ConfigValue openApiSpecUrl = declare("openApiSpecUrl", "url of OpenAPI 2 spec against which to validate responses", NO_DEFAULT);
 
     private final List<ConfigValue> enumeratedCfgValues = Arrays.asList(
             config,
@@ -62,7 +63,8 @@ public class WebTauConfig {
             windowHeight,
             headless,
             chromeDriverPath,
-            chromeBinPath);
+            chromeBinPath,
+            openApiSpecUrl);
 
     private final List<ConfigValue> freeFormCfgValues = new ArrayList<>();
 
@@ -174,6 +176,10 @@ public class WebTauConfig {
 
     public Path getChromeDriverPath() {
         return chromeDriverPath.getAsPath();
+    }
+
+    public String getOpenApiSpecUrl() {
+        return openApiSpecUrl.getAsString();
     }
 
     @Override
