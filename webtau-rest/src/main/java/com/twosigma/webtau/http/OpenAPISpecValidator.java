@@ -69,7 +69,6 @@ class OpenAPISpecValidator {
 
         ApiOperationMatch apiOperationMatch = apiOperationResolver.findApiOperation(path, method);
         if (!apiOperationMatch.isPathFound()) {
-            //TODO add a warning
             return;
         }
 
@@ -83,12 +82,10 @@ class OpenAPISpecValidator {
     }
 
     private String extractPath(String fullUrl) {
-        URL url = null;
         try {
-            url = new URL(fullUrl);
-        } catch (MalformedURLException ignore) {
-            //We wouldn't get as far as we did if it was an invalid URL so safe to ignore...
+            return new URL(fullUrl).getPath();
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("URL requested for Swagger validation is not valid: " + fullUrl, e);
         }
-        return url.getPath();
     }
 }
