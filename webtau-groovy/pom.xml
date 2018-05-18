@@ -36,6 +36,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.ivy</groupId>
+            <artifactId>ivy</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-standalone-runner-groovy</artifactId>
             <version>${project.version}</version>
