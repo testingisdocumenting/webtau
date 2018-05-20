@@ -18,6 +18,7 @@ package com.twosigma.webtau.runner.standalone.report
 
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
+import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
 import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestListenerAdapter
 
@@ -83,6 +84,6 @@ class StandardConsoleTestListener extends StandaloneTestListenerAdapter {
     }
 
     private static void displayStackTrace(Throwable t) {
-        ConsoleOutputs.out(GroovyStackTraceUtils.renderStackTraceWithoutLibCalls(t), "\n\n")
+        ConsoleOutputs.out(StackTraceUtils.renderStackTraceWithoutLibCalls(t), "\n\n")
     }
 }

@@ -36,7 +36,9 @@
         <module>webtau-rest-groovy</module>
         <module>webtau-groovy</module>
         <module>webtau-reactjs</module>
-        <module>webtau-junit-examples</module>
+        <module>webtau-report</module>
+        <module>webtau-junit5-examples</module>
+        <module>webtau-junit5</module>
         <module>webtau-testapp</module>
         <module>webtau</module>
         <module>webtau-config</module>

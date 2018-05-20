@@ -192,7 +192,10 @@ public class Http {
         try {
             step.execute(StepReportOptions.REPORT_ALL);
         } finally {
-            step.addPayload(lastValidationResult.get());
+            HttpValidationResult payload = lastValidationResult.get();
+            if (payload != null) {
+                step.addPayload(payload);
+            }
         }
 
         return (E) result[0];

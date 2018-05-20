@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.report.HtmlReportGenerator
-import org.junit.Test
+import java.util.stream.Stream;
 
-class HtmlReportGeneratorTest {
-    @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
-
-        assert html.contains(".list-of-tests")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
-    }
+public interface TestResultPayloadExtractor {
+    /**
+     * extracts TestResultPayloads from given step tests.
+     * As each test step executed, it can gain additional information like screenshots and REST responses.
+     * At the end of a test, that information needs to be extracted, summarized and presented to a report.
+     * @param testSteps test steps belonging to a single test
+     * @return summarized test result payloads
+     */
+    Stream<TestResultPayload> extract(Stream<TestStep<?>> testSteps);
 }

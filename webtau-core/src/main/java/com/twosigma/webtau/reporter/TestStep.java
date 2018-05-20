@@ -16,11 +16,11 @@
 
 package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.utils.TraceUtils;
-
 import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
+import static com.twosigma.webtau.reporter.stacktrace.StackTraceUtils.renderStackTrace;
 import static java.util.stream.Collectors.toList;
 
 public class TestStep<E> {
@@ -71,21 +71,30 @@ public class TestStep<E> {
         this.payloads = new ArrayList<>();
     }
 
-    public List<TestStepPayload> getCombinedPayloads() {
-        List<TestStepPayload> result = new ArrayList<>();
-        result.addAll(payloads);
-        children.forEach(s -> result.addAll(s.getCombinedPayloads()));
+    public Stream<TestStep<?>> children() {
+        return children.stream();
+    }
 
-        return result;
+    public Stream<TestStepPayload> getCombinedPayloads() {
+        Stream<TestStepPayload> result = payloads.stream();
+        Stream<TestStepPayload> childrenPayload = children.stream().flatMap(TestStep::getCombinedPayloads);
+
+        return Stream.concat(result, childrenPayload);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <V extends TestStepPayload> Stream<V> getCombinedPayloadsOfType(Class<V> type) {
+        return getCombinedPayloads()
+                .filter(p -> p.getClass().isAssignableFrom(type))
+                .map(p -> (V) p);
     }
 
     public void addPayload(TestStepPayload payload) {
         payloads.add(payload);
     }
 
-    public boolean hasPayload(Class<?> type) {
-        return payloads.stream().anyMatch(p -> type.isAssignableFrom(type)) ||
-                children.stream().anyMatch(s -> s.hasPayload(type));
+    public boolean hasPayload(Class<? extends TestStepPayload> type) {
+        return getCombinedPayloadsOfType(type).findAny().isPresent();
     }
 
     @SuppressWarnings("unchecked")
@@ -167,7 +176,7 @@ public class TestStep<E> {
     }
 
     private void fail(Throwable t) {
-        stackTrace = TraceUtils.stackTrace(t);
+        stackTrace = renderStackTrace(t);
         completionMessage = new TokenizedMessage();
         completionMessage.add("error", "failed").add(inProgressMessage).add("delimiter", ":")
                 .add("error", t.getMessage());
