@@ -16,29 +16,20 @@
 
 package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.WebTauDsl;
-import com.twosigma.webtau.page.PageElement;
 import com.twosigma.webtau.report.ScreenshotStepPayload;
 
-public class ScreenshotStepReporter implements StepReporter<PageElement> {
+import java.util.Optional;
+import java.util.stream.Stream;
+
+public class ScreenshotTestResultPayloadExtractor implements TestResultPayloadExtractor {
     @Override
-    public void onStepStart(TestStep<PageElement> step) {
-    }
+    public Stream<TestResultPayload> extract(Stream<TestStep<?>> testSteps) {
+        Stream<ScreenshotStepPayload> payloads = testSteps
+                .flatMap(s -> s.getCombinedPayloadsOfType(ScreenshotStepPayload.class));
 
-    @Override
-    public void onStepSuccess(TestStep<PageElement> step) {
-    }
-
-    @Override
-    public void onStepFailure(TestStep<PageElement> step) {
-        if (! WebTauDsl.wasBrowserUsed()) {
-            return;
-        }
-
-        if (step.hasPayload(ScreenshotStepPayload.class)) {
-            return;
-        }
-
-        step.addPayload(new ScreenshotStepPayload(WebTauDsl.takeScreenshotAsBase64()));
+        Optional<ScreenshotStepPayload> first = payloads.findFirst();
+        return first.map(screenshotStepPayload -> Stream.of(
+                new TestResultPayload("screenshot", screenshotStepPayload.getBase64png())))
+                .orElseGet(Stream::empty);
     }
 }

@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package com.twosigma.webtau.reporter.stacktrace
 
-import com.twosigma.webtau.report.HtmlReportGenerator
 import org.junit.Test
 
-class HtmlReportGeneratorTest {
+class StackTraceUtilsTest {
     @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
+    void "converts exception to string"() {
+        def e = new RuntimeException("for test")
+        def stackTrace = StackTraceUtils.renderStackTrace(e)
 
-        assert html.contains(".list-of-tests")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
+        assert stackTrace.contains("at com.twosigma.webtau.reporter.stacktrace.StackTraceUtilsTest.converts exception to string")
     }
 }

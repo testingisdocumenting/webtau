@@ -24,23 +24,19 @@ import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
-import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.driver.WebDriverCreator
-import com.twosigma.webtau.http.HttpValidationResult
+import com.twosigma.webtau.report.HtmlReportGenerator
 import com.twosigma.webtau.reporter.ConsoleStepReporter
-import com.twosigma.webtau.reporter.HtmlReportGenerator
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
-import com.twosigma.webtau.reporter.ScreenshotStepPayload
 import com.twosigma.webtau.reporter.ScreenshotStepReporter
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
+import com.twosigma.webtau.reporter.TestResultPayloadExtractors
 import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestListener
 import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import com.twosigma.webtau.runner.standalone.report.StandardConsoleTestListener
-import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.JsonUtils
 
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -124,20 +120,9 @@ class WebTauCliApp implements StandaloneTestListener {
     @Override
     void afterTestRun(StandaloneTest test) {
         def steps = test.steps
-        def listOfMaps = steps.collect { it.toMap() }
 
-        test.addResultPayload({ [steps: listOfMaps ]})
-
-        def payloads = steps.combinedPayloads.flatten()
-
-        def screenshotsPayloads = payloads.findAll { it instanceof ScreenshotStepPayload }
-        if (! screenshotsPayloads.isEmpty()) {
-            test.addResultPayload({ [screenshot: screenshotsPayloads[0].base64png] })
-        }
-
-        def httpPayloads = payloads.findAll { it instanceof HttpValidationResult }
-        if (! httpPayloads.isEmpty()) {
-            test.addResultPayload({ [httpCalls: httpPayloads*.toMap()] })
+        TestResultPayloadExtractors.extract(steps.stream()).each { p ->
+            test.addResultPayload(p)
         }
 
         tests.add(test)
@@ -145,25 +130,7 @@ class WebTauCliApp implements StandaloneTestListener {
 
     @Override
     void afterAllTests() {
-        generateReport()
-
+        HtmlReportGenerator.generateAndCreateFile(tests.reportTestEntry)
         problemCount = consoleTestReporter.failed + consoleTestReporter.errored + consoleTestReporter.skipped
-    }
-
-    void generateReport() {
-        def summary = [
-                total: consoleTestReporter.total,
-                passed: consoleTestReporter.passed,
-                failed: consoleTestReporter.failed,
-                skipped: consoleTestReporter.skipped,
-                errored: consoleTestReporter.errored]
-
-        def report = [summary: summary, tests: tests*.toMap()]
-        def json = JsonUtils.serializePrettyPrint(report)
-
-        def reportPath = cfg.getReportPath().toAbsolutePath()
-        FileUtils.writeTextContent(reportPath, new HtmlReportGenerator().generate(json))
-
-        ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath)
     }
 }

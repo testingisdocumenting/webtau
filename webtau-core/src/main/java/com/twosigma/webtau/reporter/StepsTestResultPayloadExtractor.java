@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.report.HtmlReportGenerator
-import org.junit.Test
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
-class HtmlReportGeneratorTest {
-    @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
+import static java.util.stream.Collectors.toList;
 
-        assert html.contains(".list-of-tests")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
+public class StepsTestResultPayloadExtractor implements TestResultPayloadExtractor {
+    @Override
+    public Stream<TestResultPayload> extract(Stream<TestStep<?>> testSteps) {
+        List<? extends Map<String, ?>> stepsAsMaps = testSteps.map(TestStep::toMap).collect(toList());
+
+        return Stream.of(new TestResultPayload("steps", stepsAsMaps));
     }
 }

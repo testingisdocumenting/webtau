@@ -26,28 +26,18 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>webtau</artifactId>
-
-    <properties>
-        <selenium.version>3.3.1</selenium.version>
-    </properties>
+    <artifactId>webtau-report</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-config</artifactId>
+            <artifactId>webtau-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-rest</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-report</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -64,21 +54,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-core-groovy</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -97,6 +74,8 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>addSources</goal>
+                            <goal>compile</goal>
                             <goal>addTestSources</goal>
                             <goal>testCompile</goal>
                         </goals>

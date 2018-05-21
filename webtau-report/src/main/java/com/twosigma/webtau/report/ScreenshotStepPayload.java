@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package com.twosigma.webtau.report;
 
-import com.twosigma.webtau.report.HtmlReportGenerator
-import org.junit.Test
+import com.twosigma.webtau.reporter.TestStepPayload;
 
-class HtmlReportGeneratorTest {
-    @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
+import java.util.Collections;
+import java.util.Map;
 
-        assert html.contains(".list-of-tests")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
+public class ScreenshotStepPayload implements TestStepPayload {
+    private String base64png;
+
+    public ScreenshotStepPayload(String base64png) {
+        this.base64png = base64png;
+    }
+
+    public String getBase64png() {
+        return base64png;
+    }
+
+    @Override
+    public Map<String, ?> toMap() {
+        return Collections.singletonMap("base64png", base64png);
     }
 }
