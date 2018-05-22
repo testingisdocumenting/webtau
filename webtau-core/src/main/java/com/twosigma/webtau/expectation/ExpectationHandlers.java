@@ -18,6 +18,7 @@ package com.twosigma.webtau.expectation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.twosigma.webtau.expectation.ExpectationHandler.Flow;
@@ -35,12 +36,13 @@ public class ExpectationHandlers {
         globalHandlers.remove(handler);
     }
 
-    public static void addLocal(ExpectationHandler handler) {
-        localHandlers.get().add(handler);
-    }
-
-    public static void removeLocal(ExpectationHandler handler) {
-        localHandlers.get().remove(handler);
+    public static <R> R withAdditionalHandler(ExpectationHandler handler, Supplier<R> code) {
+        try {
+            addLocal(handler);
+            return code.get();
+        } finally {
+            removeLocal(handler);
+        }
     }
 
     public static Flow onValueMismatch(ActualPath actualPath, Object actualValue, String message) {
@@ -48,5 +50,13 @@ public class ExpectationHandlers {
                 .map(h -> h.onValueMismatch(actualPath, actualValue, message))
                 .filter(flow -> flow == Flow.Terminate)
                 .findFirst().orElse(Flow.PassToNext);
+    }
+
+    private static void addLocal(ExpectationHandler handler) {
+        localHandlers.get().add(handler);
+    }
+
+    private static void removeLocal(ExpectationHandler handler) {
+        localHandlers.get().remove(handler);
     }
 }

@@ -36,7 +36,7 @@ class ContainMatcherTest {
     void "should throw exception when value contain expected value, but should not"() {
         code {
             actual("hello world").shouldNot(contain("world"))
-        } should throwException("[value] expect to not contain world\n" +
+        } should throwException("\n[value] expect to not contain world\n" +
             "[value]: hello world")
     }
 

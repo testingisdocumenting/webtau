@@ -219,12 +219,12 @@ public class Http {
         };
 
         try {
-            ExpectationHandlers.addLocal(expectationHandler);
-            Object returnedValue = validator.validate(header, body);
-            return (E) extractOriginalValue(returnedValue);
+            return ExpectationHandlers.withAdditionalHandler(expectationHandler, () -> {
+                Object returnedValue = validator.validate(header, body);
+                return (E) extractOriginalValue(returnedValue);
+            });
         } finally {
             lastValidationResult.set(result);
-            ExpectationHandlers.removeLocal(expectationHandler);
             render(result);
         }
     }

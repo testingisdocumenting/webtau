@@ -110,7 +110,7 @@ class IterableContainHandlerTest {
     void "contain matcher throws when contains but should not"() {
         code {
             actual(["hello", "world", "of", "testing"]).shouldNot(contain("of"))
-        } should throwException("[value] expect to not contain of\n" +
+        } should throwException("\n[value] expect to not contain of\n" +
             "[value][2]: equals of")
     }
 }

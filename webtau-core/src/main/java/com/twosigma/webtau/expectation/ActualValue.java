@@ -36,7 +36,7 @@ public class ActualValue implements ActualValueExpectations {
         boolean matches = valueMatcher.matches(actualPath, actual);
 
         if (!matches) {
-            handleMismatch(valueMatcher, actualPath);
+            handleMismatch(mismatchMessage(valueMatcher, actualPath, false), actualPath);
         }
     }
 
@@ -45,24 +45,23 @@ public class ActualValue implements ActualValueExpectations {
         ActualPath actualPath = extractPath(actual);
         boolean matches = valueMatcher.negativeMatches(actualPath, actual);
 
-         // TODO handlers
         if (!matches) {
-            throw new AssertionError(valueMatcher.negativeMismatchedMessage(actualPath, actual));
+            handleMismatch(mismatchMessage(valueMatcher, actualPath, true), actualPath);
         }
     }
 
     @Override
     public void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> result);
+        waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> result, false);
     }
 
     @Override
     public void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> ! result);
+        waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> ! result, true);
     }
 
     private void waitImpl(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis,
-                         Function<Boolean, Boolean> terminate) {
+                         Function<Boolean, Boolean> terminate, boolean isNegative) {
         ActualPath actualPath = extractPath(actual);
 
         expectationTimer.start();
@@ -75,11 +74,10 @@ public class ActualValue implements ActualValueExpectations {
             expectationTimer.tick(tickMillis);
         }
 
-        handleMismatch(valueMatcher, actualPath);
+        handleMismatch(mismatchMessage(valueMatcher, actualPath, isNegative), actualPath);
     }
 
-    private void handleMismatch(ValueMatcher valueMatcher, ActualPath actualPath) {
-        final String message = valueMatcher.mismatchedMessage(actualPath, actualPath);
+    private void handleMismatch(String message, ActualPath actualPath) {
         final Flow flow = ExpectationHandlers.onValueMismatch(actualPath, actual, message);
 
         if (flow != Flow.Terminate) {
@@ -91,5 +89,11 @@ public class ActualValue implements ActualValueExpectations {
         return (actual instanceof ActualPathAware) ?
             (((ActualPathAware) actual).actualPath()):
             createActualPath("[value]");
+    }
+
+    private String mismatchMessage(ValueMatcher matcher, ActualPath actualPath, boolean isNegative) {
+        return isNegative ?
+                matcher.negativeMismatchedMessage(actualPath, actual):
+                matcher.mismatchedMessage(actualPath, actual);
     }
 }
