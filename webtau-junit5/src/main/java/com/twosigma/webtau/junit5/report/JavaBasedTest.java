@@ -20,11 +20,13 @@ import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporter;
 import com.twosigma.webtau.reporter.TestStep;
 
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+
 public class JavaBasedTest implements StepReporter {
     private final ReportTestEntry reportTestEntry;
 
     public JavaBasedTest(String id, String name) {
-        reportTestEntry = new ReportTestEntry();
+        reportTestEntry = new ReportTestEntry(getCfg().getWorkingDir());
         reportTestEntry.setId(id);
         reportTestEntry.setScenario(name);
     }

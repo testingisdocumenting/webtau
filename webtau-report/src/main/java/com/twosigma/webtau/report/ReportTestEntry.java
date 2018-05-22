@@ -31,8 +31,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static com.twosigma.webtau.reporter.TestStatus.*;
+import static com.twosigma.webtau.reporter.TestStatus.Errored;
+import static com.twosigma.webtau.reporter.TestStatus.Failed;
+import static com.twosigma.webtau.reporter.TestStatus.Passed;
+import static com.twosigma.webtau.reporter.TestStatus.Skipped;
+
 
 public class ReportTestEntry {
     private String id;
@@ -46,8 +49,10 @@ public class ReportTestEntry {
     private List<TestStep<?>> steps;
 
     private boolean isRan;
+    private Path workingDir;
 
-    public ReportTestEntry() {
+    public ReportTestEntry(Path workingDir) {
+        this.workingDir = workingDir;
         payloads = new ArrayList<>();
         steps = new ArrayList<>();
     }
@@ -172,15 +177,15 @@ public class ReportTestEntry {
         return result;
     }
 
-    private static List<Map<String, ?>> extractFailedCodeSnippet(Throwable throwable) {
+    private List<Map<String, ?>> extractFailedCodeSnippet(Throwable throwable) {
         List<StackTraceCodeEntry> entries = StackTraceUtils.extractLocalCodeEntries(throwable);
         return entries.stream()
-                .filter(e -> Files.exists(getCfg().getWorkingDir().resolve(e.getFilePath())))
+                .filter(e -> Files.exists(workingDir.resolve(e.getFilePath())))
                 .map(e -> {
                     Map<String, Object> entry = new LinkedHashMap<>();
                     entry.put("filePath", e.getFilePath());
                     entry.put("lineNumbers", e.getLineNumbers());
-                    entry.put("snippet", FileUtils.fileTextContent(getCfg().getWorkingDir().resolve(e.getFilePath())));
+                    entry.put("snippet", FileUtils.fileTextContent(workingDir.resolve(e.getFilePath())));
 
                     return entry;
                 }).collect(Collectors.toList());
