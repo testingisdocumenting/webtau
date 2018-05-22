@@ -52,7 +52,7 @@ class StandaloneTestRunnerTest {
     @Test
     void "should extract failed code snippets"() {
         runner.runTests()
-        def failedSnippets = runner.tests[0].toMap().failedCodeSnippets
+        def failedSnippets = runner.tests[0].reportTestEntry.toMap().failedCodeSnippets
         def firstSnippet = failedSnippets[0]
 
         firstSnippet.filePath.should == 'StandaloneTest.groovy'

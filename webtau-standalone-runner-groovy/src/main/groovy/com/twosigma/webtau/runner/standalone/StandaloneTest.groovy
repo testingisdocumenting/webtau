@@ -32,13 +32,13 @@ import java.nio.file.Path
 class StandaloneTest implements StepReporter {
     private static StandaloneTestIdGenerator idGenerator = new StandaloneTestIdGenerator()
 
-    private final ReportTestEntry reportTestEntry;
+    private final ReportTestEntry reportTestEntry
 
     private final Path workingDir
     private final Closure code
 
     StandaloneTest(Path workingDir, Path filePath, String description, Closure code) {
-        this.reportTestEntry = new ReportTestEntry()
+        this.reportTestEntry = new ReportTestEntry(workingDir)
         this.reportTestEntry.setId(idGenerator.generate(filePath))
         this.reportTestEntry.setScenario(description)
         this.reportTestEntry.setFilePath(workingDir.relativize(filePath))
@@ -76,6 +76,10 @@ class StandaloneTest implements StepReporter {
 
     Throwable getException() {
         return reportTestEntry.exception
+    }
+
+    String getAssertionMessage() {
+        return reportTestEntry.assertionMessage
     }
 
     void addResultPayload(TestResultPayload payload) {
