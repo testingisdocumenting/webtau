@@ -19,7 +19,21 @@ import JSONTree from 'react-json-tree'
 
 import './JsonPayload.css'
 
-const jsonValueRenderer = (checks) => {
+const expandNode = () => true
+const jsonTheme = {tree: ({ style }) => ({style: { ...style, backgroundColor: undefined }})}
+
+function JsonPayload({json, checks}) {
+    return (
+        <div className="data json">
+            <JSONTree data={json}
+                      theme={jsonTheme}
+                      valueRenderer={jsonValueRenderer(checks)}
+                      shouldExpandNode={expandNode}/>
+        </div>
+    )
+}
+
+function jsonValueRenderer(checks) {
     checks = checks || {}
     checks.failedPaths = checks.failedPaths || []
     checks.passedPaths = checks.passedPaths || []
@@ -35,21 +49,6 @@ const jsonValueRenderer = (checks) => {
 
         return isHighlighted ? <span className={className}>{pretty}</span> : pretty;
     }
-}
-
-const expandNode = () => true
-
-const jsonTheme = {tree: ({ style }) => ({style: { ...style, backgroundColor: undefined }})}
-
-const JsonPayload = ({json, checks}) => {
-    return (
-        <div className="data json">
-            <JSONTree data={json}
-                      theme={jsonTheme}
-                      valueRenderer={jsonValueRenderer(checks)}
-                      shouldExpandNode={expandNode}/>
-        </div>
-    )
 }
 
 function buildPath(parts) {

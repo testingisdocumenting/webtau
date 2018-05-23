@@ -14,51 +14,59 @@
  * limitations under the License.
  */
 
-.steps .step .children {
+.steps {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.card.step-card {
+    padding: 15px;
+}
+
+.steps-children {
     margin-left: 15px;
 }
 
-.steps .step .message {
-}
-
-.steps .step .token {
+.step-token  {
     font-size: 14px;
 }
 
-.steps .step .token.id {
+.step-token.id {
     color: #333;
     font-weight: bold;
 }
 
-.steps .step .token.action {
+.step-token.action {
     color: #4862d7;
 }
 
-.steps .step .token.matcher {
+.step-token.matcher {
     color: #62a84b;
 }
 
-.steps .step .token.error {
+.step-token.error {
     color: #b02f08;
+    font-family: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
+    white-space: pre;
 }
 
-.steps .step .token.delimiter {
+.step-token.delimiter {
     color: #918693;
 }
 
-.steps .step .token.stringValue {
+.step-token.stringValue {
     color: #5e853c;
 }
 
-.steps .step .token.preposition {
+.step-token.preposition {
     color: #7f7885;
 }
 
-.steps .step .token.selectorType {
+.step-token.selectorType {
     color: #ab68ae;
     font-weight: bold;
 }
 
-.steps .step .token.selectorValue {
+.step-token.selectorValue {
     color: #ab68ae;
 }

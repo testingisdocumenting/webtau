@@ -19,7 +19,7 @@ import React from 'react'
 import Card from './Card'
 import './CardLabelAndNumber.css'
 
-const CardLabelAndNumber = ({label, secondaryLabel, number}) => {
+function CardLabelAndNumber({label, secondaryLabel, number}) {
     return (
         <Card className="card-label-and-number">
             <div className="card-number">{number}</div>

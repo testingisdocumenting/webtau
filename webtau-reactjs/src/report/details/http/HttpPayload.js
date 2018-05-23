@@ -14,19 +14,28 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+import React from 'react'
 
-import com.twosigma.webtau.report.HtmlReportGenerator
-import org.junit.Test
+import TextPayload from './TextPayload'
+import JsonPayload from './JsonPayload'
 
-class HtmlReportGeneratorTest {
-    @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
-
-        assert html.contains("--webtau-selected-test-background")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
-    }
+function PayloadData({type, data, checks}) {
+    return type.indexOf('json') !== -1 ?
+        <JsonPayload json={JSON.parse(data)} checks={checks}/> :
+        <TextPayload text={data}/>
 }
+
+function HttpPayload({caption, type, data, checks}) {
+    if (! data) {
+        return null
+    }
+
+    return (
+        <div className="payload">
+            <div className="caption">{caption}</div>
+            <PayloadData type={type} data={data} checks={checks}/>
+        </div>
+    )
+}
+
+export default HttpPayload

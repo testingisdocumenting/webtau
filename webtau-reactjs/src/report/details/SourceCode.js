@@ -25,20 +25,21 @@ import 'prismjs/themes/prism.css'
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
 
 import './SourceCode.css'
+import Card from '../widgets/Card'
 
 class SourceCode extends React.Component {
     render() {
         const {filePath, lineNumbers, snippet} = this.props
 
         return (
-            <div className="source-code">
+            <Card className="source-code">
                 <div className="file-path">{filePath}</div>
                 <pre data-line={lineNumbers.join(',')} className="language-groovy">
                     <code>
                         {snippet}
                     </code>
                 </pre>
-            </div>
+            </Card>
         )
     }
 

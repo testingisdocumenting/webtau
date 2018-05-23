@@ -16,6 +16,7 @@
 
 .source-code {
     margin-bottom: 15px;
+    overflow-x: auto;
 }
 
 .source-code > .file-path {

@@ -15,11 +15,12 @@
  */
 
 import TestSteps from './details/TestSteps'
-import HttpCalls from './details/http/HttpCalls'
+import TestHttpCalls from './details/http/TestHttpCalls'
 import ShortStackTrace from './details/ShortStackTrace'
 import Screenshot from './details/Screenshot'
 import FullStackTrace from './details/FullStackTrace'
 import Summary from './details/Summary'
+import StatusEnum from './StatusEnum'
 
 class Report {
     static overallHttpCallTimeForTest(test) {
@@ -39,8 +40,10 @@ class Report {
 
     constructor(report) {
         this.report = report
-        this.summary = report.summary
-        this.tests = enrichWithAdditionalDetails(report.tests)
+        this.tests = enrichTestsData(report.tests)
+        this.httpCalls = extractHttpCalls(this.tests)
+        this.testsSummary = report.summary
+        this.httpCallsSummary = buildHttpCallsSummary(this.httpCalls)
     }
 
     findTestById(id) {
@@ -48,19 +51,17 @@ class Report {
         return found.length ? found[0] : null
     }
 
-    filterByText(text) {
-        return this.tests.filter(t => textFilterPredicate(t, text))
+    findHttpCallByIdx(idx) {
+        return (idx >= 0 && idx < this.httpCalls.length) ? this.httpCalls[idx] : null
     }
 
     numberOfHttpCalls() {
-        return this.tests
-            .map(t => (t.httpCalls || []).length)
-            .reduce((prev, curr) => prev + curr, 0)
+        return this.httpCalls.length
     }
 
     overallHttpCallTime() {
-        return this.tests
-            .map(t => Report.overallHttpCallTimeForTest(t))
+        return this.httpCalls
+            .map(c => c.elapsedTime)
             .reduce((prev, curr) => prev + curr, 0)
     }
 
@@ -73,13 +74,14 @@ class Report {
         return this.overallHttpCallTime() / n
     }
 
-    withStatusAndFilteredByText(status, text) {
-        if (!status || status === 'Total') {
-            return this.filterByText(text)
-        }
+    testsWithStatusAndFilteredByText(status, text) {
+        return this.tests.filter(t => statusFilterPredicate(t.status, status) &&
+            textFilterPredicate(t.scenario, text))
+    }
 
-        return this.tests.filter(t => t.status === status &&
-            textFilterPredicate(t, text))
+    httpCallsWithStatusAndFilteredByText(status, text) {
+        return this.httpCalls.filter(c => statusFilterPredicate(c.status, status) &&
+            (textFilterPredicate(c.shortUrl, text) || textStartOnlyFilterPredicate(c.method, text)))
     }
 
     hasTestWithId(id) {
@@ -105,19 +107,87 @@ class Report {
     }
 }
 
-function textFilterPredicate(test, text) {
-    if (!text) {
+function extractHttpCalls(tests) {
+    return tests
+        .filter(t => t.httpCalls)
+        .map(t => enrichHttpCallsData(t, t.httpCalls)).reduce((acc, r) => acc.concat(r), [])
+}
+
+function statusFilterPredicate(actualStatus, status) {
+    if (!status || status === 'Total') {
         return true
     }
 
-    return test.scenario.indexOf(text) !== -1
+    return actualStatus === status
 }
 
-function enrichWithAdditionalDetails(tests) {
+function textFilterPredicate(actualText, text) {
+    return lowerCaseIndexOf(actualText, text) !== -1
+}
+
+function textStartOnlyFilterPredicate(actualText, text) {
+    return lowerCaseIndexOf(actualText, text) === 0
+}
+
+function lowerCaseIndexOf(text, part) {
+    if (! text) {
+        return -1
+    }
+
+    return text.toLowerCase().indexOf(part.toLowerCase())
+}
+
+function enrichTestsData(tests) {
     return tests.map(test => ({
             ...test,
             details: additionalDetails(test)
         }))
+}
+
+function enrichHttpCallsData(test, httpCalls) {
+    return httpCalls.map(httpCall => enrichHttpCallData(test, httpCall))
+}
+
+function buildHttpCallsSummary(httpCalls) {
+    return {
+        total: httpCalls.length,
+        passed: httpCalls.filter(c => c.status === StatusEnum.PASSED).length,
+        failed: httpCalls.filter(c => c.status === StatusEnum.FAILED).length,
+        skipped: 0,
+        errored: 0
+    }
+}
+
+function deriveHttpCallStatus(httpCall) {
+    if (httpCall.mismatches.length > 0) {
+        return StatusEnum.FAILED
+    }
+
+    return StatusEnum.PASSED
+}
+
+function enrichHttpCallData(test, httpCall) {
+    const shortUrl = removeHostFromUrl(httpCall.url)
+
+    return {
+        ...httpCall,
+        shortUrl,
+        test,
+        status: deriveHttpCallStatus(httpCall),
+        label: httpCall.method + ' ' + shortUrl
+    }
+}
+
+function removeHostFromUrl(url) {
+    const doubleSlashPattern = '://'
+    const doubleSlashStartIdx = url.indexOf(doubleSlashPattern)
+
+    if (doubleSlashStartIdx === -1) {
+        return url
+    }
+
+    const firstUrlSlashIdx = url.indexOf('/', doubleSlashStartIdx + doubleSlashPattern.length)
+    return url.substr(firstUrlSlashIdx)
 }
 
 function additionalDetails(test) {
@@ -129,7 +199,7 @@ function additionalDetails(test) {
     }
 
     if (test.hasOwnProperty('httpCalls')) {
-        details.push({tabName: 'HTTP calls', component: HttpCalls})
+        details.push({tabName: 'HTTP calls', component: TestHttpCalls})
     }
 
     if (test.hasOwnProperty('steps')) {

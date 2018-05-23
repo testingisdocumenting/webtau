@@ -18,9 +18,9 @@ import React from 'react'
 
 import './Card.css'
 
-const Card = ({className, children}) => {
+function Card({className, onClick, children}) {
     return (
-        <div className={"card" + (className ? ' ' + className : '')}>
+        <div className={"card" + (className ? (' ' + className) : '')} onClick={onClick}>
             {children}
         </div>
     )

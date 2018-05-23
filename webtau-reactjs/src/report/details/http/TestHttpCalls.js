@@ -17,16 +17,17 @@
 import React, {Component} from 'react'
 
 import ElapsedTime from './ElapsedTime'
-import Payload from './Payload'
+import HttpPayload from './HttpPayload'
 
-import './HttpCalls.css'
+import './TestHttpCalls.css'
 
-class HttpCalls extends Component {
+class TestHttpCalls extends Component {
     state = {}
 
-    static stateName = 'httpCall5Idxs'
+    static stateName = 'httpCallIdxs'
+
     static getDerivedStateFromProps(props) {
-        const callIdxs = props.urlState[HttpCalls.stateName]
+        const callIdxs = props.urlState[TestHttpCalls.stateName]
 
         const ids = callIdxs ? callIdxs.split('-') : []
         const expandedByIdx = {}
@@ -59,7 +60,7 @@ class HttpCalls extends Component {
     }
 
     renderRow(httpCall, idx) {
-        const className = 'http-call' + (httpCall.mismatches.length > 0 ? ' with-mismatches' : '')
+        const className = 'test-http-call' + (httpCall.mismatches.length > 0 ? ' with-mismatches' : '')
         const isExpanded = this.isExpanded(idx)
 
         return (
@@ -93,37 +94,60 @@ class HttpCalls extends Component {
         }
 
         onInternalStateUpdate({
-            [HttpCalls.stateName]: Object.keys(newExpandedByIdx).join('-') || ''
+            [TestHttpCalls.stateName]: Object.keys(newExpandedByIdx).join('-') || ''
         })
     }
 }
 
 function HttpCallDetails({httpCall}) {
-    const mismatches = httpCall.mismatches.map((m, idx) => <div key={idx} className="mismatch"><pre>{m}</pre></div>)
+    const mismatches = httpCall.mismatches.map((m, idx) => <div key={idx} className="mismatch">
+        <pre>{m}</pre>
+    </div>)
 
     return (
-        <tr className="http-call-details">
+        <tr className="test-http-call-details">
             <td/>
             <td/>
             <td/>
             <td/>
             <td>
                 {mismatches}
-                <div className="request">
-                    <Payload caption="Request"
-                             type={httpCall.requestType}
-                             data={httpCall.requestBody}/>
-                </div>
-
-                <div className="response">
-                    <Payload caption="Response"
-                             type={httpCall.responseType}
-                             data={httpCall.responseBody}
-                             checks={httpCall.responseBodyChecks}/>
+                <div className="request-response">
+                    <Request httpCall={httpCall}/>
+                    <Response httpCall={httpCall}/>
                 </div>
             </td>
         </tr>
     )
 }
 
-export default HttpCalls
+function Request({httpCall}) {
+    if (! httpCall.requestBody) {
+        return null
+    }
+
+    return (
+        <div className="request">
+            <HttpPayload caption="Request"
+                         type={httpCall.requestType}
+                         data={httpCall.requestBody}/>
+        </div>
+    )
+}
+
+function Response({httpCall}) {
+    if (! httpCall.responseBody) {
+        return null
+    }
+
+    return (
+        <div className="response">
+            <HttpPayload caption="Response"
+                         type={httpCall.responseType}
+                         data={httpCall.responseBody}
+                         checks={httpCall.responseBodyChecks}/>
+        </div>
+    )
+}
+
+export default TestHttpCalls

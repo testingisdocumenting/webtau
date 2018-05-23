@@ -18,7 +18,7 @@ import React from 'react'
 
 import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
 
-const NumberOfHttpCalls = ({number}) => {
+function NumberOfHttpCalls({number}) {
     if (!number) {
         return null
     }

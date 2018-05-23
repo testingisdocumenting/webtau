@@ -16,26 +16,25 @@
 
 import React from 'react'
 
-import TextPayload from './TextPayload'
-import JsonPayload from './JsonPayload'
+import NavigationEntry from './NavigationEntry'
 
-const PayloadData = ({type, data, checks}) => {
-    return type.indexOf('json') !== -1 ?
-        <JsonPayload json={JSON.parse(data)} checks={checks}/> :
-        <TextPayload text={data}/>
-}
+import './ListOfTests.css'
 
-const Payload = ({caption, type, data, checks}) => {
-    if (! data) {
-        return null
-    }
-
+function ListOfTests({tests, onSelect, selectedId}) {
     return (
-        <div className="payload">
-            <div className="caption">{caption}</div>
-            <PayloadData type={type} data={data} checks={checks}/>
+        <div className="list-of-tests">
+            {tests.map((test) => <TestEntry key={test.id} test={test} onSelect={onSelect} isSelected={test.id === selectedId}/>)}
         </div>
     )
 }
 
-export default Payload
+function TestEntry({test, onSelect, isSelected}) {
+    return (
+        <NavigationEntry label={test.scenario}
+                         status={test.status}
+                         isSelected={isSelected}
+                         onSelect={() => onSelect(test.id)}/>
+    )
+}
+
+export default ListOfTests

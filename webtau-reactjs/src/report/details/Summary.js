@@ -22,7 +22,9 @@ import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls'
 
 import Report from '../Report'
 
+import TestNameCard from './TestNameCard'
 import './Summary.css'
+import Card from '../widgets/Card'
 
 const OptionalPreBlock = ({className, message}) => {
     if (!message) {
@@ -43,15 +45,7 @@ const Summary = ({test}) => {
 
     return (
         <div className="single-summary">
-            <div className="file-name-and-scenario">
-                <div className="file-name">
-                    {test.fileName}
-                </div>
-
-                <div className="scenario">
-                    {test.scenario}
-                </div>
-            </div>
+            <TestNameCard test={test}/>
 
             <div className="single-summary-dashboard">
                 <NumberOfHttpCalls number={numberOfHttpCalls}/>
@@ -60,11 +54,7 @@ const Summary = ({test}) => {
             </div>
 
             <OptionalPreBlock className="context-description" message={test.contextDescription}/>
-            <OptionalPreBlock className="assertion" message={test.assertion}/>
-            {
-                !test.assertion ? <OptionalPreBlock className="exception-message" message={test.exceptionMessage}/> :
-                    null
-            }
+            <CardPreMessage message={test.exceptionMessage}/>
 
             {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs}/>)}
         </div>
@@ -90,6 +80,20 @@ function AverageHttpCallsTime({test}) {
     return (
         <CardLabelAndNumber label="Average Time (ms)"
                             number={Report.averageHttpCallTimeForTest(test).toFixed(2)}/>
+    )
+}
+
+function CardPreMessage({message}) {
+    if (!message) {
+        return null
+    }
+
+    return (
+        <Card className="card-pre-message">
+            <pre>
+                {message.trim()}
+            </pre>
+        </Card>
     )
 }
 

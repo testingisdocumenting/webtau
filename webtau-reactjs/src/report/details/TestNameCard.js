@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-.status-filter {
-    font-size: 12px;
+import React from 'react'
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+import Card from '../widgets/Card'
+import TestName from './TestName'
 
-    height: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
+import './TestNameCard.css'
+
+const TestNameCard = ({test, onTestSelect}) => {
+    return (
+        <Card className="test-name-card">
+            <TestName test={test} onTestSelect={onTestSelect}/>
+        </Card>
+    )
 }
 
-.test-summary {
-    cursor: pointer;
-}
-
-.test-summary.selected {
-    color: #eee;
-    font-weight: bold;
-}
+export default TestNameCard

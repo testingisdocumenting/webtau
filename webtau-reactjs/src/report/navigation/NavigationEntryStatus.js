@@ -16,10 +16,10 @@
 
 import React from 'react'
 
-import './ListOfTests.css'
+import './NavigationEntryStatus.css'
 
-const Status = ({status}) => {
-    const className = "status " + status.toLowerCase()
+function NavigationEntryStatus({status}) {
+    const className = "navigation-entry-status " + status.toLowerCase()
     return (
         <div className={className}>{mark()}</div>
     )
@@ -40,22 +40,4 @@ const Status = ({status}) => {
     }
 }
 
-const TestCard = ({test, onSelect, isSelected}) => {
-    const className = "test-card" + (isSelected ? " selected" : "")
-    return (
-        <div className={className} onClick={() => onSelect(test.id)}>
-            <div className="scenario">{test.scenario}</div>
-            <Status status={test.status}/>
-        </div>
-    )
-}
-
-const ListOfTests = ({tests, onSelect, selectedId}) => {
-    return (
-        <div className="list-of-tests">
-            {tests.map((test) => <TestCard key={test.id} test={test} onSelect={onSelect} isSelected={test.id === selectedId}/>)}
-        </div>
-    )
-}
-
-export default ListOfTests
+export default NavigationEntryStatus

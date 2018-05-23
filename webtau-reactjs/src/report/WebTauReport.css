@@ -17,16 +17,18 @@
 :root {
     --webtau-test-selection-background-color: #5b666c;
     --webtau-test-status-filter-background-color: #3e474b;
-    --webtau-selected-test-background: #906a59;
+    --webtau-selected-test-background: rgba(234, 211, 150, 0.2);
+    --webtau-selected-test-border-color: rgba(156, 186, 93, 0.78);
     --webtau-list-item-separation-color: #6d7a81;
-    --webtau-source-code-background-color: #f0edeb;
+    --webtau-list-items-color: #ddd;
+    --webtau-source-code-background-color: #fff;
     --webtau-card-border-color: rgba(91, 91, 91, 0.12);
     --webtau-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 body {
     color: #333;
-    background-color: #f8f8f8;
+    background-color: #f2f2f5;
     font-size: 14px;
     font-family: Helvetica, sans-serif
 }
@@ -47,18 +49,9 @@ body {
 
 .report > .report-name-area {
     grid-area: selection;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    color: #cdcdcd;
     background-color: var(--webtau-test-status-filter-background-color);
     border-bottom: 1px solid #50595e;
     padding-left: 20px;
-    cursor: pointer;
-}
-
-.report-name-area > .tool-name {
-    text-transform: lowercase;
 }
 
 .report > .search-area {
@@ -85,10 +78,10 @@ body {
 
 .report > .items-lists-area {
     grid-area: list;
-    color: #ddd;
+    color: var(--webtau-list-items-color);
     background-color: var(--webtau-test-selection-background-color);
 
-    height: 100%;
+    max-height: 100%;
     border-right: 1px solid var(--webtau-test-status-filter-background-color);
 
     overflow-y: auto;
