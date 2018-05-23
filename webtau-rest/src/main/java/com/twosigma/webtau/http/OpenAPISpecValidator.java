@@ -22,6 +22,8 @@ import com.atlassian.oai.validator.model.ApiOperationMatch;
 import com.atlassian.oai.validator.model.Request;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.ValidationReport;
+import com.twosigma.webtau.console.ConsoleOutputs;
+import com.twosigma.webtau.console.ansi.Color;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.parser.util.SwaggerDeserializationResult;
@@ -69,6 +71,7 @@ class OpenAPISpecValidator {
 
         ApiOperationMatch apiOperationMatch = apiOperationResolver.findApiOperation(path, method);
         if (!apiOperationMatch.isPathFound()) {
+            ConsoleOutputs.out(Color.YELLOW, "Path, ", path, " not found in OpenAPI spec");
             return;
         }
 

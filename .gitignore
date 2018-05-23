@@ -5,3 +5,4 @@ build
 target
 node_modules
 webtau.report.html
+.vertx
