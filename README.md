@@ -28,4 +28,4 @@ information will be displayed in a special box
 
 ## Precise Reporting
 
-![report-image](webtau-docs/webtau/img/rest-crud-separated-report.pngimg/rest-crud-separated-report.png)
+![report-image](webtau-docs/webtau/img/rest-crud-separated-report.png)
