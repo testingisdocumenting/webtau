@@ -21,10 +21,12 @@ import CardLabelAndNumber from './widgets/CardLabelAndNumber'
 
 import './OverallSummary.css'
 
-const OverallSummary = ({report}) => {
+function OverallSummary({report, onSwitchToHttpCalls}) {
     return (
         <div className="overall-summary">
-            <NumberOfHttpCalls number={report.numberOfHttpCalls()}/>
+            <div className="overall-number-of-http-calls" onClick={onSwitchToHttpCalls}>
+                <NumberOfHttpCalls number={report.numberOfHttpCalls()}/>
+            </div>
 
             <CardLabelAndNumber label="Average Time (ms)"
                                 number={report.averageHttpCallTime().toFixed(2)}/>

@@ -17,12 +17,18 @@
 import React, {Component} from 'react'
 import {DebounceInput} from 'react-debounce-input';
 
-import ListOfTests from './ListOfTests'
-import StatusFilter from './StatusFilter'
-import TestDetails from './TestDetails'
-import HttpCalls from './details/http/HttpCalls'
+import ListOfTests from './navigation/ListOfTests'
+import StatusFilter from './navigation/StatusFilter'
+import TestDetails from './details/TestDetails'
 import WebTauReportStateCreator from './WebTauReportStateCreator'
 import OverallSummary from './OverallSummary'
+
+import EntriesTypeSelection from './navigation/EntriesTypeSelection'
+
+import ListOfHttpCalls from './navigation/ListOfHttpCalls'
+import NavigationEntriesType from './navigation/NavigationEntriesType'
+
+import HttpCallDetails from './details/http/HttpCallDetails'
 
 import './WebTauReport.css'
 
@@ -37,12 +43,13 @@ class WebTauReport extends Component {
 
     render() {
         const {report} = this.props
-        const {testId, statusFilter, filterText} = this.state
+        const {entriesType, testId, statusFilter, filterText} = this.state
 
         return (
             <div className="report">
-                <div className="report-name-area" onClick={this.onReportNameClick}>
-                    <div className="tool-name">webtau</div>
+                <div className="report-name-area">
+                    <EntriesTypeSelection selectedType={entriesType}
+                                          onSelect={this.onEntriesTypeSelection}/>
                 </div>
 
                 <div className="search-area">
@@ -54,52 +61,102 @@ class WebTauReport extends Component {
                 </div>
 
                 <div className="items-lists-area">
-                    <ListOfTests tests={this.filteredTests}
-                                 selectedId={testId}
-                                 onSelect={this.onTestSelect}/>
+                    {this.renderListOEntries()}
                 </div>
 
                 <div className="test-details-area">
-                    {this.renderTestDetailsArea()}
+                    {this.renderDetailsArea()}
                 </div>
 
                 <div className="status-filter-area">
-                    <StatusFilter summary={report.summary}
+                    <StatusFilter summary={this.summary}
                                   onTitleClick={this.onHeaderTitleClick}
                                   selectedStatusFilter={statusFilter}
-                                  onTestStatusSelect={this.onTestStatusSelect}/>
+                                  onStatusSelect={this.onEntriesStatusSelect}/>
                 </div>
             </div>
         )
     }
 
-    renderTestDetailsArea() {
-        const {report} = this.props
-        const {testId, detailTabName} = this.state
+    renderListOEntries() {
+        const {testId, httpCallIdx, entriesType} = this.state
 
-        const selectedTest = testId ? report.findTestById(testId) : null
-
-        if (selectedTest) {
+        if (this.isTestsView) {
             return (
-                <TestDetails test={selectedTest}
+                <ListOfTests tests={this.filteredTests}
+                             selectedId={testId}
+                             onSelect={this.onTestSelect}/>
+            )
+        } else {
+            return (
+                <ListOfHttpCalls httpCalls={this.filteredHttpCalls}
+                                 selectedIdx={httpCallIdx}
+                                 onSelect={this.onHttpCallSelect}/>
+            )
+        }
+    }
+
+    renderDetailsArea() {
+        const {report} = this.props
+        const {detailTabName} = this.state
+
+        const selectedEntity = this.selectedEntity
+
+        if (selectedEntity === null) {
+            return (
+                <OverallSummary report={report}
+                                onSwitchToHttpCalls={this.onHttpCallsEntriesTypeSelection}/>
+            )
+        }
+
+        if (this.isTestsView) {
+            return (
+                <TestDetails test={selectedEntity}
                              selectedDetailTabName={detailTabName}
                              onDetailsTabSelection={this.onDetailsTabSelection}
-                             detailTabs={selectedTest.details}
+                             detailTabs={selectedEntity.details}
                              urlState={this.state}
                              onInternalStateUpdate={this.onDetailsStateUpdate}/>
             )
         }
 
         return (
-            <OverallSummary report={report}/>
+            <HttpCallDetails httpCall={selectedEntity} onTestSelect={this.onTestSelect}/>
         )
+    }
+
+    get summary() {
+        const {report} = this.props
+        return this.isTestsView ? report.testsSummary : report.httpCallsSummary
+    }
+
+    get isTestsView() {
+        return this.state.entriesType === NavigationEntriesType.TESTS
+    }
+
+    get selectedEntity() {
+        const {report} = this.props
+        const {httpCallIdx, testId} = this.state
+
+        if (this.isTestsView) {
+            return testId ? report.findTestById(testId) : null
+        }
+
+        return httpCallIdx === undefined ? null : report.findHttpCallByIdx(httpCallIdx)
     }
 
     get filteredTests() {
         const {report} = this.props
         const {statusFilter, filterText} = this.state
 
-        return report.withStatusAndFilteredByText(statusFilter, filterText)
+        return report.testsWithStatusAndFilteredByText(statusFilter, filterText)
+    }
+
+    get filteredHttpCalls() {
+        const {report} = this.props
+        const {statusFilter, filterText} = this.state
+
+        return report.httpCallsWithStatusAndFilteredByText(statusFilter, filterText)
     }
 
     onDetailsStateUpdate = (newState) => this.pushPartialUrlState(newState)
@@ -113,7 +170,6 @@ class WebTauReport extends Component {
         }
 
         this.pushFullUrlState({
-            ...createEmptyFullState(),
             detailTabName: this.state.detailTabName,
             statusFilter: this.state.statusFilter,
             filterText: this.state.filterText,
@@ -121,21 +177,37 @@ class WebTauReport extends Component {
         })
     }
 
-    onReportNameClick = () => {
-        this.pushFullUrlState(createEmptyFullState())
+    onHttpCallSelect = (idx) => {
+        const currentCallIdx = this.state.httpCallIdx
+        if (idx === currentCallIdx) {
+            return
+        }
+
+        this.pushFullUrlState({
+            entriesType: NavigationEntriesType.HTTP_CALLS,
+            statusFilter: this.state.statusFilter,
+            filterText: this.state.filterText,
+            httpCallIdx: idx
+        })
     }
 
-    onTestStatusSelect = (status) => {
-        const {report} = this.props
-        const {filterText} = this.state
-
-        const filtered = report.withStatusAndFilteredByText(status, filterText)
-        const firstTestId = filtered.length > 0 ? filtered[0].id : null
-
-        this.pushPartialUrlState({statusFilter: status, testId: firstTestId})
+    onEntriesStatusSelect = (status) => {
+        this.pushFullUrlState({
+            entriesType: this.state.entriesType,
+            statusFilter: status,
+            filterText: this.state.filterText,
+        })
     }
 
     onDetailsTabSelection = (tabName) => this.pushPartialUrlState({detailTabName: tabName})
+
+    onEntriesTypeSelection = (type) => {
+        this.pushFullUrlState({entriesType: type})
+    }
+
+    onHttpCallsEntriesTypeSelection = (type) => {
+        this.pushFullUrlState({entriesType: NavigationEntriesType.HTTP_CALLS, httpCallIdx: 0})
+    }
 
     onFilterTextChange = (e) => {
         this.pushPartialUrlState({filterText: e.target.value})
@@ -168,16 +240,6 @@ class WebTauReport extends Component {
         const searchParams = this._stateCreator.buildUrlSearchParams(fullState)
         window.history.pushState({}, '', '?' + searchParams)
         this.updateStateFromUrl()
-    }
-}
-
-function createEmptyFullState() {
-    return {
-        testId: '',
-        detailTabName: '',
-        statusFilter: '',
-        filterText: '',
-        [HttpCalls.stateName]: ''
     }
 }
 

@@ -15,25 +15,22 @@
  */
 
 .single-summary {
-}
-
-.single-summary > .file-name-and-scenario {
-    display: flex;
-    margin-bottom: 20px;
-}
-
-.file-name-and-scenario > .file-name {
-    font-size: 14px;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.file-name-and-scenario > .scenario {
-    font-size: 14px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 10px;
 }
 
 .single-summary-dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fill, 172px);
-    grid-gap: 25px;
+    grid-gap: 15px;
+}
+
+.card-pre-message {
+    padding: 15px;
+}
+
+.card-pre-message pre {
+    margin: 0;
+    padding: 0;
 }

@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+import React from 'react'
+import NavigationEntryStatus from './NavigationEntryStatus'
 
-import com.twosigma.webtau.report.HtmlReportGenerator
-import org.junit.Test
+import './NavigationEntry.css'
 
-class HtmlReportGeneratorTest {
-    @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
-
-        assert html.contains("--webtau-selected-test-background")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
-    }
+function NavigationEntry({label, status, isSelected, onSelect}) {
+    const className = 'navigation-entry' + (isSelected ? ' selected' : '')
+    return (
+        <div className={className} onClick={onSelect}>
+            <div className="label">{label}</div>
+            <NavigationEntryStatus status={status}/>
+        </div>
+    )
 }
+
+export default NavigationEntry

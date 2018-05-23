@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+import React from 'react'
 
-import com.twosigma.webtau.report.HtmlReportGenerator
-import org.junit.Test
+import './TestName.css'
 
-class HtmlReportGeneratorTest {
-    @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
+const TestName = ({test, onTestClick}) => {
+    const onClick = onTestClick ? () => onTestClick(test.id) : null
+    const className = 'test-name' + (onClick ? ' clickable' : '')
 
-        assert html.contains("--webtau-selected-test-background")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
-    }
+    return (
+        <div className={className} onClick={onClick}>
+            <div className="file-name">
+                {test.fileName}
+            </div>
+
+            <div className="scenario">
+                {test.scenario}
+            </div>
+        </div>
+    )
 }
+
+export default TestName

@@ -14,16 +14,34 @@
  * limitations under the License.
  */
 
+import TestHttpCalls from './details/http/TestHttpCalls'
+import NavigationEntriesType from './navigation/NavigationEntriesType'
+
 class WebTauReportStateCreator {
     constructor(report) {
         this.report = report
     }
 
+    static createEmptyFullState() {
+        return {
+            testId: '',
+            detailTabName: '',
+            statusFilter: '',
+            filterText: '',
+            entriesType: '',
+            [TestHttpCalls.stateName]: ''
+        }
+    }
+
     stateFromUrl(url) {
         const searchParams = WebTauReportStateCreator._searchParamsFromUrl(url)
 
+        const entriesType = searchParams.entriesType || NavigationEntriesType.TESTS
+
         const testIdFromParam = searchParams.testId
-        const testId = this.report.hasTestWithId(testIdFromParam) ? testIdFromParam : null
+        const testId = this.report.hasTestWithId(testIdFromParam) ? testIdFromParam : undefined
+
+        const httpCallIdx = searchParams.httpCallIdx ? searchParams.httpCallIdx | 0 : undefined
 
         const detailTabFromParam = searchParams.detailTabName
         const detailTabName = this.report.hasDetailWithTabName(testId, detailTabFromParam) ?
@@ -32,15 +50,25 @@ class WebTauReportStateCreator {
 
         const statusFilter = searchParams.statusFilter
 
-        return {...searchParams, testId, detailTabName, statusFilter}
+        return {
+            ...WebTauReportStateCreator.createEmptyFullState(),
+            ...searchParams,
+            entriesType,
+            testId,
+            httpCallIdx,
+            detailTabName,
+            statusFilter
+        }
     }
 
     buildUrlSearchParams(state) {
         const searchParams = new URLSearchParams();
 
         Object.keys(state).forEach(k => {
-            const v = state[k] || '';
-            searchParams.set(k, v.toString());
+            const v = state[k]
+            if (v !== undefined) {
+                searchParams.set(k, v.toString())
+            }
         });
 
         return searchParams.toString();

@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+.test-name {
+    display: flex;
+    padding: 15px;
+}
 
-import com.twosigma.webtau.report.HtmlReportGenerator
-import org.junit.Test
+.test-name.clickable {
+    cursor: pointer;
+}
 
-class HtmlReportGeneratorTest {
-    @Test
-    void "generates html using prebuilt javascript libs"() {
-        def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
+.test-name > .file-name {
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+}
 
-        assert html.contains("--webtau-selected-test-background")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
-    }
+.test-name > .scenario {
+    font-size: 14px;
 }

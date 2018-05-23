@@ -16,8 +16,8 @@
 
 import React from 'react'
 
-import DetailsTabSelection from './details/DetailsTabSelection'
-import NoDetailsDefined from './details/NoDetailsDefined'
+import DetailsTabSelection from './DetailsTabSelection'
+import NoDetailsDefined from './NoDetailsDefined'
 
 import './TestDetails.css'
 
