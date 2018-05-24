@@ -19,6 +19,8 @@ package com.twosigma.webtau.reporter
 import org.junit.BeforeClass
 import org.junit.Test
 
+import java.util.function.Supplier
+
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action
 import static com.twosigma.webtau.reporter.StepReportOptions.REPORT_ALL
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage
@@ -59,6 +61,14 @@ class TestStepTest {
     }
 
     @Test
+    void "step should be able to return a value"() {
+        def step = createStep('supplier step', { return 2 + 2 })
+        def stepResult = step.execute(REPORT_ALL)
+
+        assert stepResult == 4
+    }
+
+    @Test
     void "should recursively return all the payloads from test step and nested test steps"() {
         def payloads = rootStep.getCombinedPayloads().collect(toList())
         assert payloads*.toMap() == [[id: 'id1'], [name: 'name1'], [id: 'id2'], [name: 'name2'], [id: 'id3'], [name: 'name3']]
@@ -80,7 +90,7 @@ class TestStepTest {
         assert ! rootStep.hasPayload(PayloadC)
     }
 
-    private static TestStep createStep(String title, Closure stepCode = {}) {
+    private static TestStep createStep(String title, Supplier stepCode = { return null }) {
         TestStep.create(null, tokenizedMessage(action(title)), {
             tokenizedMessage(action('done ' + title))
         }, stepCode)

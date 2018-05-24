@@ -31,7 +31,7 @@ import static com.twosigma.webtau.Ddjt.code
 import static com.twosigma.webtau.Ddjt.throwException
 import static com.twosigma.webtau.http.Http.http
 
-class HttpExtensionsTest {
+class HttpTest {
     static TestServer testServer = new TestServer()
 
     @BeforeClass
@@ -218,5 +218,16 @@ class HttpExtensionsTest {
         } should throwException(~/body\.a:/)
 
         http.lastValidationResult.mismatches.should == [~/body\.a:/]
+    }
+
+    @Test
+    void "captures failed http call"() {
+        code {
+            http.get('mailto://demo', [a: 1, b: 'text']) {
+            }
+        } should throwException(HttpException, ~/error during http\.get/)
+
+        http.lastValidationResult.errorMessage.should == 'java.lang.ClassCastException: ' +
+            'sun.net.www.protocol.mailto.MailToURLConnection cannot be cast to java.net.HttpURLConnection'
     }
 }

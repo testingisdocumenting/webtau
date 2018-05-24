@@ -60,7 +60,8 @@ class TestHttpCalls extends Component {
     }
 
     renderRow(httpCall, idx) {
-        const className = 'test-http-call' + (httpCall.mismatches.length > 0 ? ' with-mismatches' : '')
+        const hasProblem = httpCall.mismatches.length > 0 || !!httpCall.errorMessage
+        const className = 'test-http-call' + (hasProblem ? ' with-problem' : '')
         const isExpanded = this.isExpanded(idx)
 
         return (
@@ -100,10 +101,6 @@ class TestHttpCalls extends Component {
 }
 
 function HttpCallDetails({httpCall}) {
-    const mismatches = httpCall.mismatches.map((m, idx) => <div key={idx} className="mismatch">
-        <pre>{m}</pre>
-    </div>)
-
     return (
         <tr className="test-http-call-details">
             <td/>
@@ -111,13 +108,33 @@ function HttpCallDetails({httpCall}) {
             <td/>
             <td/>
             <td>
-                {mismatches}
+                <Mismatches httpCall={httpCall}/>
+                <ErrorMessage httpCall={httpCall}/>
+
                 <div className="request-response">
                     <Request httpCall={httpCall}/>
                     <Response httpCall={httpCall}/>
                 </div>
             </td>
         </tr>
+    )
+}
+
+function Mismatches({httpCall}) {
+    return httpCall.mismatches.map((m, idx) => <div key={idx} className="mismatch">
+        <pre>{m}</pre>
+    </div>)
+}
+
+function ErrorMessage({httpCall}) {
+    if (! httpCall.errorMessage) {
+        return null
+    }
+
+    return (
+        <div className="error-message">
+            <pre>{httpCall.errorMessage}</pre>
+        </div>
     )
 }
 

@@ -24,10 +24,6 @@ import './HttpCallDetails.css'
 import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
 
 function HttpCallDetails({httpCall, onTestSelect}) {
-    const mismatches = httpCall.mismatches.map((m, idx) => <div key={idx} className="mismatch">
-        <pre>{m}</pre>
-    </div>)
-
     return (
         <div className="http-call-details">
             <div className="http-call-latency-and-name">
@@ -36,17 +32,42 @@ function HttpCallDetails({httpCall, onTestSelect}) {
                 <UrlAndTestNameCard httpCall={httpCall} onTestSelect={onTestSelect}/>
             </div>
 
-            {mismatches.length > 0 &&
-            <Card className="http-call-details-mismatches">
-                {mismatches}
-            </Card>
-            }
+            <Mismatches httpCall={httpCall}/>
+            <ErrorMessage httpCall={httpCall}/>
 
             <div className="request-response">
                 <Request httpCall={httpCall}/>
                 <Response httpCall={httpCall}/>
             </div>
         </div>
+    )
+}
+
+function Mismatches({httpCall}) {
+    if (httpCall.mismatches.length === 0) {
+        return null
+    }
+
+    const mismatches = httpCall.mismatches.map((m, idx) => <div key={idx} className="mismatch">
+        <pre>{m}</pre>
+    </div>)
+
+    return (
+        <Card className="http-call-details-mismatches">
+            {mismatches}
+        </Card>
+    )
+}
+
+function ErrorMessage({httpCall}) {
+    if (!httpCall.errorMessage) {
+        return null
+    }
+
+    return (
+        <Card className="http-call-details-error-message">
+            {httpCall.errorMessage}
+        </Card>
     )
 }
 

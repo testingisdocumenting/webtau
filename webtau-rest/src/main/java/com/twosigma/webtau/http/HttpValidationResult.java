@@ -30,33 +30,43 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class HttpValidationResult implements TestStepPayload {
-    private String url;
-    private String fullUrl;
+    private final String fullUrl;
+    private final String requestMethod;
+    private final HttpRequestBody requestBody;
 
-    private HttpRequestBody requestBody;
+    private final List<String> mismatches;
+
     private HttpResponse response;
-    private HeaderDataNode responseHeader;
-    private DataNode responseBody;
+    private HeaderDataNode responseHeaderNode;
+    private DataNode responseBodyNode;
     private long elapsedTime;
+    private String errorMessage;
 
-    private String requestMethod;
-
-    private List<String> mismatches;
-
-    public HttpValidationResult(String requestMethod, String url, String fullUrl, 
-                                HttpRequestBody requestBody,
-                                HttpResponse response,
-                                HeaderDataNode responseHeader, DataNode responseBody,
-                                long elapsedTime) {
+    public HttpValidationResult(String requestMethod, String fullUrl, HttpRequestBody requestBody) {
         this.requestMethod = requestMethod;
-        this.url = url;
         this.fullUrl = fullUrl;
         this.requestBody = requestBody;
-        this.response = response;
-        this.responseHeader = responseHeader;
-        this.responseBody = responseBody;
-        this.elapsedTime = elapsedTime;
         this.mismatches = new ArrayList<>();
+    }
+
+    public HttpResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(HttpResponse response) {
+        this.response = response;
+    }
+
+    public void setResponseHeaderNode(HeaderDataNode responseHeader) {
+        this.responseHeaderNode = responseHeader;
+    }
+
+    public void setResponseBodyNode(DataNode responseBody) {
+        this.responseBodyNode = responseBody;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
     }
 
     public String getRequestType() {
@@ -91,8 +101,12 @@ public class HttpValidationResult implements TestStepPayload {
         return mismatches.stream().collect(Collectors.joining("\n"));
     }
 
-    public String getUrl() {
-        return url;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     public String getFullUrl() {
@@ -104,11 +118,11 @@ public class HttpValidationResult implements TestStepPayload {
     }
 
     public HeaderDataNode getHeader() {
-        return responseHeader;
+        return responseHeaderNode;
     }
 
     public DataNode getBody() {
-        return responseBody;
+        return responseBodyNode;
     }
 
     public long getElapsedTime() {
@@ -121,23 +135,28 @@ public class HttpValidationResult implements TestStepPayload {
         result.put("method", requestMethod);
         result.put("url", fullUrl);
 
+        result.put("elapsedTime", elapsedTime);
+        result.put("errorMessage", errorMessage);
+        result.put("mismatches", mismatches);
+
+        if (response != null) {
+            result.put("responseType", response.getContentType());
+            result.put("responseStatusCode", response.getStatusCode());
+            result.put("responseBody", response.getContent());
+        }
+
         if (requestBody != null) {
             result.put("requestType", requestBody.type());
             result.put("requestBody", requestBody.asString());
         }
 
-        result.put("responseType", response.getContentType());
-        result.put("responseStatusCode", response.getStatusCode());
-        result.put("responseBody", response.getContent());
+        if (responseBodyNode != null) {
+            Map<String, Object> responseBodyChecks = new LinkedHashMap<>();
+            result.put("responseBodyChecks", responseBodyChecks);
+            responseBodyChecks.put("failedPaths", extractPaths(responseBodyNode, CheckLevel::isFailed));
+            responseBodyChecks.put("passedPaths", extractPaths(responseBodyNode, CheckLevel::isPassed));
 
-        result.put("elapsedTime", elapsedTime);
-
-        result.put("mismatches", getMismatches());
-
-        Map<String, Object> responseBodyChecks = new LinkedHashMap<>();
-        result.put("responseBodyChecks", responseBodyChecks);
-        responseBodyChecks.put("failedPaths", extractPaths(responseBody, CheckLevel::isFailed));
-        responseBodyChecks.put("passedPaths", extractPaths(responseBody, CheckLevel::isPassed));
+        }
 
         return result;
     }

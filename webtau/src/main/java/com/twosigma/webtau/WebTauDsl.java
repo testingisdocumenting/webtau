@@ -34,7 +34,6 @@ import org.openqa.selenium.OutputType;
 
 import java.util.function.Supplier;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
@@ -48,7 +47,11 @@ public class WebTauDsl extends Ddjt {
                                        TokenizedMessage inProgressMessage,
                                        Supplier<TokenizedMessage> completionMessageSupplier,
                                        Runnable action) {
-        TestStep<E> step = TestStep.create(context, inProgressMessage, completionMessageSupplier, action);
+        TestStep<E> step = TestStep.create(context, inProgressMessage, completionMessageSupplier, () -> {
+            action.run();
+            return null;
+        });
+
         step.execute(StepReportOptions.REPORT_ALL);
     }
 

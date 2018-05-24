@@ -46,7 +46,7 @@
 
 .step-token.error {
     color: #b02f08;
-    font-family: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
+    font-family: var(--webtau-monospace-font);
     white-space: pre;
 }
 

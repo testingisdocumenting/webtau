@@ -113,11 +113,9 @@ public class StackTraceUtils {
         String stackTrace = renderStackTrace(t);
         List<String> lines = Arrays.asList(stackTrace.split("\n"));
 
-        return lines.get(0) + "\n" +
-                lines.subList(1, lines.size())
-                        .stream()
-                        .filter(filter)
-                        .collect(Collectors.joining("\n"));
+        return lines.stream()
+                .filter(filter)
+                .collect(Collectors.joining("\n")).trim();
     }
 
     private static boolean isStandardCall(String stackTraceLine) {

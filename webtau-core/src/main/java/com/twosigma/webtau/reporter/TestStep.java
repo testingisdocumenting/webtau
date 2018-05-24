@@ -28,7 +28,7 @@ public class TestStep<E> {
 
     private TokenizedMessage inProgressMessage;
     private Supplier<TokenizedMessage> completionMessageSupplier;
-    private Runnable action;
+    private Supplier action;
     private TokenizedMessage completionMessage;
 
     private boolean isInProgress;
@@ -45,7 +45,7 @@ public class TestStep<E> {
     public static <E> TestStep<E> create(E context,
                                          TokenizedMessage inProgressMessage,
                                          Supplier<TokenizedMessage> completionMessageSupplier,
-                                         Runnable action) {
+                                         Supplier action) {
         TestStep<E> step = new TestStep<>(context, inProgressMessage, completionMessageSupplier, action);
         TestStep<?> localCurrentStep = TestStep.currentStep.get();
 
@@ -61,7 +61,7 @@ public class TestStep<E> {
     private TestStep(E context,
                      TokenizedMessage inProgressMessage,
                      Supplier<TokenizedMessage> completionMessageSupplier,
-                     Runnable action) {
+                     Supplier action) {
         this.context = context;
         this.children = new ArrayList<>();
         this.inProgressMessage = inProgressMessage;
@@ -128,16 +128,19 @@ public class TestStep<E> {
         return !isSuccessful;
     }
 
-    public void execute(StepReportOptions stepReportOptions) {
+    @SuppressWarnings("unchecked")
+    public <R> R execute(StepReportOptions stepReportOptions) {
         try {
             if (stepReportOptions != StepReportOptions.SKIP_START) {
                 StepReporters.onStart(this);
             }
 
-            action.run();
+            R r = (R) action.get();
 
             complete(completionMessageSupplier.get());
             StepReporters.onSuccess(this);
+
+            return r;
         } catch (Throwable e) {
             fail(e);
             StepReporters.onFailure(this);
