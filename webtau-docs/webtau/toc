@@ -6,6 +6,7 @@ REST
     headers
     documentation
     complex-types
+    openAPI-spec
 UI
     configuration
     finders-and-filters
