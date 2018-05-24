@@ -24,6 +24,7 @@
     --webtau-source-code-background-color: #fff;
     --webtau-card-border-color: rgba(91, 91, 91, 0.12);
     --webtau-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
 }
 
 body {

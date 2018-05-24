@@ -68,6 +68,6 @@ class OpenAPISpecValidatorTest {
     }
 
     static HttpValidationResult emptyResult() {
-        return new HttpValidationResult(null, null, null, null, null, null, null, 0)
+        return new HttpValidationResult(null, null, null)
     }
 }

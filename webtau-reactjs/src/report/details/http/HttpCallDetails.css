@@ -36,8 +36,15 @@
 .http-call-details-url-test-name,
 .http-call-details-mismatches,
 .http-call-details-request-details,
-.http-call-details-response-details {
+.http-call-details-response-details,
+.http-call-details-error-message {
     padding: 15px;
+}
+
+.http-call-details-mismatches,
+.http-call-details-error-message {
+    font-family: var(--webtau-monospace-font);
+    white-space: pre;
 }
 
 .http-call-details-url {

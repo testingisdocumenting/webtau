@@ -151,16 +151,24 @@ function enrichHttpCallsData(test, httpCalls) {
 function buildHttpCallsSummary(httpCalls) {
     return {
         total: httpCalls.length,
-        passed: httpCalls.filter(c => c.status === StatusEnum.PASSED).length,
-        failed: httpCalls.filter(c => c.status === StatusEnum.FAILED).length,
+        passed: count(StatusEnum.PASSED),
+        failed: count(StatusEnum.FAILED),
         skipped: 0,
-        errored: 0
+        errored: count(StatusEnum.ERRORED)
+    }
+
+    function count(status) {
+        return httpCalls.filter(c => c.status === status).length
     }
 }
 
 function deriveHttpCallStatus(httpCall) {
     if (httpCall.mismatches.length > 0) {
         return StatusEnum.FAILED
+    }
+
+    if (httpCall.errorMessage) {
+        return StatusEnum.ERRORED
     }
 
     return StatusEnum.PASSED

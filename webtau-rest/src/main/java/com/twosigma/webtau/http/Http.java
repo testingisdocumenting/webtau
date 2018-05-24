@@ -29,6 +29,7 @@ import com.twosigma.webtau.http.json.JsonRequestBody;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
+import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
 import com.twosigma.webtau.utils.JsonParseException;
 import com.twosigma.webtau.utils.JsonUtils;
 import org.apache.commons.io.IOUtils;
@@ -41,6 +42,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
@@ -157,7 +159,6 @@ public class Http {
         return requestWithBody("PUT", fullUrl, requestHeader, requestBody);
     }
 
-    @SuppressWarnings("unchecked")
     private <E> E executeAndValidateHttpCall(String requestMethod, String url, HttpCall httpCall,
                                              HttpRequestHeader requestHeader,
                                              HttpRequestBody requestBody,
@@ -165,56 +166,66 @@ public class Http {
         String fullUrl = HttpConfigurations.fullUrl(url);
         HttpRequestHeader fullHeader = HttpConfigurations.fullHeader(requestHeader);
 
-        Object[] result = new Object[1];
+        HttpValidationResult validationResult = new HttpValidationResult(requestMethod, fullUrl, requestBody);
 
-        Runnable httpCallRunnable = () -> {
-            try {
-                long startTime = System.currentTimeMillis();
-                HttpResponse response = httpCall.execute(fullUrl, fullHeader);
-                long endTime = System.currentTimeMillis();
-
-                result[0] = validateAndRecord(requestMethod, url, fullUrl, validator, requestBody, response,
-                        endTime - startTime);
-
-                HttpValidationResult validationResult = getLastValidationResult();
-                if (validationResult.hasMismatches()) {
-                    throw new AssertionError("\n" + validationResult.renderMismatches());
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("error during http." + requestMethod.toLowerCase() + "(" + fullUrl + ")", e);
-            }
-        };
-
-        TestStep<E> step = TestStep.create(null, tokenizedMessage(action("executing HTTP " + requestMethod), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("executed HTTP " + requestMethod), urlValue(fullUrl)),
-                httpCallRunnable);
-
+        TestStep<E> step = createHttpStep(validationResult, requestMethod, fullUrl, httpCall, fullHeader, validator);
         try {
-            step.execute(StepReportOptions.REPORT_ALL);
+            return step.execute(StepReportOptions.REPORT_ALL);
         } finally {
+            lastValidationResult.set(validationResult);
+
             HttpValidationResult payload = lastValidationResult.get();
             if (payload != null) {
                 step.addPayload(payload);
             }
         }
+    }
 
-        return (E) result[0];
+    private <E> TestStep<E> createHttpStep(HttpValidationResult validationResult,
+                                           String requestMethod, String fullUrl, HttpCall httpCall,
+                                           HttpRequestHeader fullRequestHeader,
+                                           HttpResponseValidatorWithReturn validator) {
+        Supplier httpCallSupplier = () -> {
+            try {
+                long startTime = System.currentTimeMillis();
+                HttpResponse response = httpCall.execute(fullUrl, fullRequestHeader);
+                long endTime = System.currentTimeMillis();
+
+                validationResult.setElapsedTime(endTime - startTime);
+                validationResult.setResponse(response);
+
+                Object result = validateAndRecord(validationResult, requestMethod, fullUrl, validator);
+
+                if (validationResult.hasMismatches()) {
+                    throw new AssertionError("\n" + validationResult.renderMismatches());
+                }
+
+                return result;
+            } catch (Exception e) {
+                validationResult.setErrorMessage(StackTraceUtils.fullCauseMessage(e));
+                throw new HttpException("error during http." + requestMethod.toLowerCase() + "(" + fullUrl + ")", e);
+            }
+        };
+
+        return TestStep.create(null, tokenizedMessage(action("executing HTTP " + requestMethod), urlValue(fullUrl)),
+                () -> tokenizedMessage(action("executed HTTP " + requestMethod), urlValue(fullUrl)),
+                httpCallSupplier);
     }
 
     @SuppressWarnings("unchecked")
-    private <E> E validateAndRecord(String requestMethod, String url, String fullUrl,
-                                    HttpResponseValidatorWithReturn validator,
-                                    HttpRequestBody requestBody, HttpResponse response, long elapsedTime) {
-        HeaderDataNode header = createHeaderDataNode(response);
-        DataNode body = createBodyDataNode(response);
+    private <E> E validateAndRecord(HttpValidationResult validationResult,
+                                    String requestMethod, String fullUrl,
+                                    HttpResponseValidatorWithReturn validator) {
+        HeaderDataNode header = createHeaderDataNode(validationResult.getResponse());
+        DataNode body = createBodyDataNode(validationResult.getResponse());
 
-        HttpValidationResult result = new HttpValidationResult(requestMethod, url, fullUrl,
-                requestBody, response, header, body, elapsedTime);
+        validationResult.setResponseHeaderNode(header);
+        validationResult.setResponseBodyNode(body);
 
-        openApiValidator.validateApiSpec(requestMethod, fullUrl, response, result);
+        openApiValidator.validateApiSpec(requestMethod, fullUrl, validationResult.getResponse(), validationResult);
 
         ExpectationHandler expectationHandler = (actualPath, actualValue, message) -> {
-            result.addMismatch(message);
+            validationResult.addMismatch(message);
             return ExpectationHandler.Flow.Terminate;
         };
 
@@ -224,8 +235,7 @@ public class Http {
                 return (E) extractOriginalValue(returnedValue);
             });
         } finally {
-            lastValidationResult.set(result);
-            render(result);
+            render(validationResult);
         }
     }
 

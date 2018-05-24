@@ -34,13 +34,16 @@ class HttpValidationResultTest {
         n.get('childA').get().updateCheckLevel(CheckLevel.FuzzyFailed)
         n.get('childB').get().updateCheckLevel(CheckLevel.ExplicitPassed)
 
-        def validationResult = new HttpValidationResult('POST', '/test/url', 'http://site/test/url', null,
-                new HttpResponse(content: responseAsJson, contentType: 'application/json', statusCode: 200),
-                new HeaderDataNode(), n, 100)
+        def validationResult = new HttpValidationResult('POST', 'http://site/test/url', null)
+        validationResult.setResponse(new HttpResponse(content: responseAsJson, contentType: 'application/json', statusCode: 200))
+        validationResult.setElapsedTime(100)
+        validationResult.setResponseHeaderNode(new HeaderDataNode())
+        validationResult.setResponseBodyNode(n)
 
         validationResult.toMap().should equal([method: 'POST', url: 'http://site/test/url', responseType: 'application/json',
                                                responseBody: responseAsJson,
                                                mismatches: [],
+                                               errorMessage: null,
                                                responseStatusCode: 200,
                                                elapsedTime: 100,
                                                responseBodyChecks: [failedPaths: ['root.childA'], passedPaths:['root.childB']]])
