@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package com.twosigma.webtau.report;
 
-import com.twosigma.webtau.http.validation.HttpValidationHandler;
-import com.twosigma.webtau.http.validation.HttpValidationResult;
+import java.util.stream.Stream;
 
-public class OpenApiResponseValidator implements HttpValidationHandler {
-    @Override
-    public void validate(HttpValidationResult validationResult) {
-        OpenApi.coverage.recordOperation(validationResult);
-        OpenApi.validator.validateApiSpec(validationResult);
-    }
+public interface ReportDataProvider {
+    Stream<ReportData> provide(Stream<ReportTestEntry> testEntries);
 }

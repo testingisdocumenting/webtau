@@ -14,15 +14,24 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.http.validation.HttpValidationHandler;
-import com.twosigma.webtau.http.validation.HttpValidationResult;
+import java.util.Collections;
+import java.util.Map;
 
-public class OpenApiResponseValidator implements HttpValidationHandler {
+public class ScreenshotStepPayload implements TestStepPayload {
+    private String base64png;
+
+    ScreenshotStepPayload(String base64png) {
+        this.base64png = base64png;
+    }
+
+    public String getBase64png() {
+        return base64png;
+    }
+
     @Override
-    public void validate(HttpValidationResult validationResult) {
-        OpenApi.coverage.recordOperation(validationResult);
-        OpenApi.validator.validateApiSpec(validationResult);
+    public Map<String, ?> toMap() {
+        return Collections.singletonMap("base64png", base64png);
     }
 }

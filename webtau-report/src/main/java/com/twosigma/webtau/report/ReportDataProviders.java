@@ -16,24 +16,15 @@
 
 package com.twosigma.webtau.report;
 
-import com.twosigma.webtau.reporter.TestStepPayload;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
-public class ScreenshotStepPayload implements TestStepPayload {
-    private String base64png;
+public class ReportDataProviders {
+    private static final Set<ReportDataProvider> providers = ServiceLoaderUtils.load(ReportDataProvider.class);
 
-    public ScreenshotStepPayload(String base64png) {
-        this.base64png = base64png;
-    }
-
-    public String getBase64png() {
-        return base64png;
-    }
-
-    @Override
-    public Map<String, ?> toMap() {
-        return Collections.singletonMap("base64png", base64png);
+    public static Stream<ReportData> provide(Stream<ReportTestEntry> testEntries) {
+        return providers.stream().flatMap(e -> e.provide(testEntries));
     }
 }

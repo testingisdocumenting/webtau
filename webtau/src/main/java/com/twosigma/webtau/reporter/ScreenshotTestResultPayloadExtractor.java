@@ -16,8 +16,6 @@
 
 package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.report.ScreenshotStepPayload;
-
 import java.util.Optional;
 import java.util.stream.Stream;
 

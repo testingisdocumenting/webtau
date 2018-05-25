@@ -53,6 +53,15 @@ public class ResourceUtils {
     }
 
     /**
+     * {@link URL} of the specified resource. Null if resource is not found
+     * @param resourcePath resource path like path/to/meta.json
+     * @return url of the resource
+     */
+    public static URL resourceUrl(String resourcePath) {
+        return ResourceUtils.class.getClassLoader().getResource(resourcePath);
+    }
+
+    /**
      * checks if given resource exists
      * @param resourcePath resource path
      * @return true if resource exists

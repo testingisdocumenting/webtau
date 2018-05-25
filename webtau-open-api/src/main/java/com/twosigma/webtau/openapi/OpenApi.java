@@ -19,4 +19,5 @@ package com.twosigma.webtau.openapi;
 public class OpenApi {
     public static final OpenApiSpec spec = new OpenApiSpec(OpenApiSpecConfig.openApiSpecUrl.getAsString());
     public static final OpenApiSpecValidator validator = new OpenApiSpecValidator(spec);
+    public static final OpenApiCoverage coverage = new OpenApiCoverage(spec);
 }

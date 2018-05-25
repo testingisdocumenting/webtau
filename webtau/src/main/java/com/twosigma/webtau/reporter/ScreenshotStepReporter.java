@@ -18,7 +18,6 @@ package com.twosigma.webtau.reporter;
 
 import com.twosigma.webtau.WebTauDsl;
 import com.twosigma.webtau.page.PageElement;
-import com.twosigma.webtau.report.ScreenshotStepPayload;
 
 public class ScreenshotStepReporter implements StepReporter<PageElement, Void> {
     @Override

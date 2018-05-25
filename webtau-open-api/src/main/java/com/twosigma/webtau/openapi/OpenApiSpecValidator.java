@@ -17,17 +17,16 @@
 package com.twosigma.webtau.openapi;
 
 import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
-import com.atlassian.oai.validator.model.ApiOperationMatch;
 import com.atlassian.oai.validator.model.Request;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.ValidationReport;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Optional;
+
+import static com.twosigma.webtau.http.HttpUrl.extractPath;
 
 public class OpenApiSpecValidator {
     private final SwaggerRequestResponseValidator openApiValidator;
@@ -45,12 +44,9 @@ public class OpenApiSpecValidator {
             return;
         }
 
-        String path = extractPath(result.getFullUrl());
-        Request.Method method = Enum.valueOf(Request.Method.class, result.getRequestMethod());
-
-        ApiOperationMatch apiOperationMatch = openAPISpec.findApiOperation(path, method);
-        if (!apiOperationMatch.isPathFound()) {
-            ConsoleOutputs.out(Color.YELLOW, "Path, ", path, " not found in OpenAPI spec");
+        Optional<OpenApiOperation> apiOperation = openAPISpec.findApiOperation(result.getRequestMethod(), result.getFullUrl());
+        if (! apiOperation.isPresent()) {
+            ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " not found in OpenAPI spec");
             return;
         }
 
@@ -59,15 +55,10 @@ public class OpenApiSpecValidator {
                 .withBody(result.getResponseContent())
                 .build();
 
-        ValidationReport validationReport = openApiValidator.validateResponse(path, method, response);
-        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
-    }
+        Request.Method method = Enum.valueOf(Request.Method.class, result.getRequestMethod());
+        String relativePath = extractPath(result.getFullUrl());
 
-    private String extractPath(String fullUrl) {
-        try {
-            return new URL(fullUrl).getPath();
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("URL requested for Swagger validation is not valid: " + fullUrl, e);
-        }
+        ValidationReport validationReport = openApiValidator.validateResponse(relativePath, method, response);
+        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
     }
 }
