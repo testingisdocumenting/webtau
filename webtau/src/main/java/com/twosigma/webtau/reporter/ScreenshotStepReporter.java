@@ -20,17 +20,17 @@ import com.twosigma.webtau.WebTauDsl;
 import com.twosigma.webtau.page.PageElement;
 import com.twosigma.webtau.report.ScreenshotStepPayload;
 
-public class ScreenshotStepReporter implements StepReporter<PageElement> {
+public class ScreenshotStepReporter implements StepReporter<PageElement, Void> {
     @Override
-    public void onStepStart(TestStep<PageElement> step) {
+    public void onStepStart(TestStep<PageElement, Void> step) {
     }
 
     @Override
-    public void onStepSuccess(TestStep<PageElement> step) {
+    public void onStepSuccess(TestStep<PageElement, Void> step) {
     }
 
     @Override
-    public void onStepFailure(TestStep<PageElement> step) {
+    public void onStepFailure(TestStep<PageElement, Void> step) {
         if (! WebTauDsl.wasBrowserUsed()) {
             return;
         }

@@ -27,8 +27,8 @@ public class TestResultPayloadExtractors {
     private static final Set<TestResultPayloadExtractor> extractors =
             ServiceLoaderUtils.load(TestResultPayloadExtractor.class);
 
-    public static Stream<TestResultPayload> extract(Stream<TestStep<?>> testSteps) {
-        List<TestStep<?>> steps = testSteps.collect(Collectors.toList());
+    public static Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
+        List<TestStep<?, ?>> steps = testSteps.collect(Collectors.toList());
         return extractors.stream().flatMap(e -> e.extract(steps.stream()));
     }
 }

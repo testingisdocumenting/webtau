@@ -19,8 +19,6 @@ package com.twosigma.webtau.reporter;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.expectation.timer.ExpectationTimer;
 
-import java.util.function.Supplier;
-
 import static com.twosigma.webtau.Ddjt.actual;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
@@ -31,13 +29,13 @@ public class ValueMatcherExpectationSteps {
     public static <C, V> void shouldStep(C context, V value, StepReportOptions stepReportOptions, TokenizedMessage valueDescription, ValueMatcher valueMatcher) {
         executeStep(context, value, valueDescription, valueMatcher, false,
                 tokenizedMessage(action("expecting")),
-                runnable(() -> actual(value).should(valueMatcher)), stepReportOptions);
+                () -> actual(value).should(valueMatcher), stepReportOptions);
     }
 
     public static <C, V> void shouldNotStep(C context, V value, StepReportOptions stepReportOptions, TokenizedMessage valueDescription, ValueMatcher valueMatcher) {
         executeStep(context, value, valueDescription, valueMatcher, true,
                 tokenizedMessage(action("expecting")),
-                runnable(() -> actual(value).shouldNot(valueMatcher)), stepReportOptions);
+                () -> actual(value).shouldNot(valueMatcher), stepReportOptions);
     }
 
     public static <C, V> void waitStep(C context, V value, StepReportOptions stepReportOptions,
@@ -45,7 +43,7 @@ public class ValueMatcherExpectationSteps {
                                        ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(context, value, valueDescription, valueMatcher, false,
                 tokenizedMessage(action("waiting"), TO),
-                runnable(() -> actual(value).waitTo(valueMatcher, expectationTimer, tickMillis, timeOutMillis)), stepReportOptions);
+                () -> actual(value).waitTo(valueMatcher, expectationTimer, tickMillis, timeOutMillis), stepReportOptions);
     }
 
     public static <C, V> void waitNotStep(C context, V value, StepReportOptions stepReportOptions,
@@ -53,15 +51,15 @@ public class ValueMatcherExpectationSteps {
                                           ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(context, value, valueDescription, valueMatcher, true,
                 tokenizedMessage(action("waiting"), TO),
-                runnable(() -> actual(value).waitToNot(valueMatcher, expectationTimer, tickMillis, timeOutMillis)),
+                () -> actual(value).waitToNot(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 stepReportOptions);
     }
 
     private static <C, V> void executeStep(C context, V value, TokenizedMessage elementDescription,
                                            ValueMatcher valueMatcher, boolean isNegative,
-                                           TokenizedMessage messageStart, Supplier expectationValidation,
+                                           TokenizedMessage messageStart, Runnable expectationValidation,
                                            StepReportOptions stepReportOptions) {
-        TestStep<C> step = TestStep.create(context,
+        TestStep<C, Void> step = TestStep.create(context,
                 messageStart.add(elementDescription)
                         .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
                 () -> tokenizedMessage(elementDescription)
@@ -71,12 +69,5 @@ public class ValueMatcherExpectationSteps {
                 expectationValidation);
 
         step.execute(stepReportOptions);
-    }
-
-    private static Supplier runnable(Runnable r) {
-        return () -> {
-            r.run();
-            return null;
-        };
     }
 }

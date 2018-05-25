@@ -16,38 +16,49 @@
 
 package com.twosigma.webtau.reporter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static com.twosigma.webtau.reporter.stacktrace.StackTraceUtils.renderStackTrace;
 import static java.util.stream.Collectors.toList;
 
-public class TestStep<E> {
-    private E context;
+public class TestStep<C, R> {
+    private C context;
 
     private TokenizedMessage inProgressMessage;
     private Supplier<TokenizedMessage> completionMessageSupplier;
-    private Supplier action;
+    private Supplier<R> action;
     private TokenizedMessage completionMessage;
 
     private boolean isInProgress;
     private boolean isSuccessful;
 
-    private List<TestStep<?>> children;
-    private TestStep<?> parent;
+    private List<TestStep<?, ?>> children;
+    private TestStep<?, ?> parent;
     private String stackTrace;
 
     private List<TestStepPayload> payloads;
 
-    private static ThreadLocal<TestStep<?>> currentStep = new ThreadLocal<>();
+    private static ThreadLocal<TestStep<?, ?>> currentStep = new ThreadLocal<>();
 
-    public static <E> TestStep<E> create(E context,
+    public static <C> TestStep<C, Void> create(C context,
+                                               TokenizedMessage inProgressMessage,
+                                               Supplier<TokenizedMessage> completionMessageSupplier,
+                                               Runnable action) {
+        return create(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
+    }
+
+    public static <C, R> TestStep<C, R> create(C context,
                                          TokenizedMessage inProgressMessage,
                                          Supplier<TokenizedMessage> completionMessageSupplier,
-                                         Supplier action) {
-        TestStep<E> step = new TestStep<>(context, inProgressMessage, completionMessageSupplier, action);
-        TestStep<?> localCurrentStep = TestStep.currentStep.get();
+                                         Supplier<R> action) {
+        TestStep<C, R> step = new TestStep<>(context, inProgressMessage, completionMessageSupplier, action);
+        TestStep<?, ?> localCurrentStep = TestStep.currentStep.get();
 
         step.parent = localCurrentStep;
         if (localCurrentStep != null) {
@@ -58,10 +69,10 @@ public class TestStep<E> {
         return step;
     }
 
-    private TestStep(E context,
+    private TestStep(C context,
                      TokenizedMessage inProgressMessage,
                      Supplier<TokenizedMessage> completionMessageSupplier,
-                     Supplier action) {
+                     Supplier<R> action) {
         this.context = context;
         this.children = new ArrayList<>();
         this.inProgressMessage = inProgressMessage;
@@ -71,7 +82,7 @@ public class TestStep<E> {
         this.payloads = new ArrayList<>();
     }
 
-    public Stream<TestStep<?>> children() {
+    public Stream<TestStep<?, ?>> children() {
         return children.stream();
     }
 
@@ -98,12 +109,12 @@ public class TestStep<E> {
     }
 
     @SuppressWarnings("unchecked")
-    public E getFirstAvailableContext() {
+    public C getFirstAvailableContext() {
         if (context != null) {
             return context;
         }
 
-        return (E) children.stream()
+        return (C) children.stream()
                 .map(TestStep::getFirstAvailableContext)
                 .filter(Objects::nonNull)
                 .findFirst().orElse(null);
@@ -128,14 +139,13 @@ public class TestStep<E> {
         return !isSuccessful;
     }
 
-    @SuppressWarnings("unchecked")
-    public <R> R execute(StepReportOptions stepReportOptions) {
+    public R execute(StepReportOptions stepReportOptions) {
         try {
             if (stepReportOptions != StepReportOptions.SKIP_START) {
                 StepReporters.onStart(this);
             }
 
-            R r = (R) action.get();
+            R r = action.get();
 
             complete(completionMessageSupplier.get());
             StepReporters.onSuccess(this);
@@ -146,7 +156,7 @@ public class TestStep<E> {
             StepReporters.onFailure(this);
             throw e;
         } finally {
-            TestStep<?> localCurrentStep = TestStep.currentStep.get();
+            TestStep<?, ?> localCurrentStep = TestStep.currentStep.get();
             if (localCurrentStep != null) {
                 currentStep.set(localCurrentStep.parent);
             }
@@ -183,5 +193,12 @@ public class TestStep<E> {
         completionMessage = new TokenizedMessage();
         completionMessage.add("error", "failed").add(inProgressMessage).add("delimiter", ":")
                 .add("error", t.getMessage());
+    }
+
+    private static Supplier<Void> toSupplier(Runnable s) {
+        return () -> {
+            s.run();
+            return null;
+        };
     }
 }

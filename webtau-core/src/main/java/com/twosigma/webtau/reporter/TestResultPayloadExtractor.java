@@ -26,5 +26,5 @@ public interface TestResultPayloadExtractor {
      * @param testSteps test steps belonging to a single test
      * @return summarized test result payloads
      */
-    Stream<TestResultPayload> extract(Stream<TestStep<?>> testSteps);
+    Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps);
 }
