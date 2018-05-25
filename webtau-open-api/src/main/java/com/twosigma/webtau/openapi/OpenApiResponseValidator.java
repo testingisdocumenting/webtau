@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg;
+package com.twosigma.webtau.openapi;
 
-import java.util.stream.Stream;
+import com.twosigma.webtau.http.validation.HttpValidationHandler;
+import com.twosigma.webtau.http.validation.HttpValidationResult;
 
-public interface WebTauConfigHandler {
-    default void onBeforeCreate(WebTauConfig cfg) {}
-    default void onAfterCreate(WebTauConfig cfg) {};
-    default Stream<ConfigValue> additionalConfigValues() { return Stream.empty(); }
+public class OpenApiResponseValidator implements HttpValidationHandler {
+    @Override
+    public void validate(HttpValidationResult validationResult) {
+        OpenApi.validator.validateApiSpec(validationResult);
+
+    }
 }

@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 public class ConsoleOutputs {
     private static final ConsoleOutput defaultOutput = new AnsiConsoleOutput();
 
-    private static Set<ConsoleOutput> outputs = ServiceLoaderUtils.load(ConsoleOutput.class);
+    private static final Set<ConsoleOutput> outputs = ServiceLoaderUtils.load(ConsoleOutput.class);
 
     public static void out(Object... styleOrValues) {
         getOutputsStream().forEach(o -> o.out(styleOrValues));

@@ -19,6 +19,8 @@ package com.twosigma.webtau.http
 import com.twosigma.webtau.data.traceable.CheckLevel
 import com.twosigma.webtau.http.datanode.DataNodeBuilder
 import com.twosigma.webtau.http.datanode.DataNodeId
+import com.twosigma.webtau.http.validation.HeaderDataNode
+import com.twosigma.webtau.http.validation.HttpValidationResult
 import com.twosigma.webtau.utils.JsonUtils
 import org.junit.Test
 

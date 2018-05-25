@@ -14,70 +14,49 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.openapi;
 
 import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
-import com.atlassian.oai.validator.interaction.ApiOperationResolver;
 import com.atlassian.oai.validator.model.ApiOperationMatch;
 import com.atlassian.oai.validator.model.Request;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.ValidationReport;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
-import io.swagger.models.Swagger;
-import io.swagger.parser.SwaggerParser;
-import io.swagger.parser.util.SwaggerDeserializationResult;
+import com.twosigma.webtau.http.HttpResponse;
+import com.twosigma.webtau.http.validation.HttpValidationResult;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static java.lang.String.format;
-
-class OpenAPISpecValidator {
+public class OpenApiSpecValidator {
     private final SwaggerRequestResponseValidator openApiValidator;
-    private final ApiOperationResolver apiOperationResolver;
+    private final OpenApiSpec openAPISpec;
 
-    OpenAPISpecValidator() {
-        this(getCfg().getOpenApiSpecUrl());
+    public OpenApiSpecValidator(OpenApiSpec openApiSpec) {
+        this.openAPISpec = openApiSpec;
+        this.openApiValidator = openApiSpec.isSpecDefined() ?
+                SwaggerRequestResponseValidator.createFor(openApiSpec.getSpecUrl()).build():
+                null;
     }
 
-    OpenAPISpecValidator(String openApiSpecUrl) {
-        if (openApiSpecUrl != null && !openApiSpecUrl.trim().isEmpty()) {
-            openApiValidator = SwaggerRequestResponseValidator.createFor(openApiSpecUrl).build();
-
-            final SwaggerDeserializationResult swaggerParseResult =
-                    new SwaggerParser().readWithInfo(openApiSpecUrl, null, true);
-            final Swagger api = swaggerParseResult.getSwagger();
-            if (api == null) {
-                throw new IllegalArgumentException(
-                        format("Unable to load API descriptor from provided %s:\n\t%s",
-                                openApiSpecUrl, swaggerParseResult.getMessages().toString().replace("\n", "\n\t")));
-            }
-            apiOperationResolver = new ApiOperationResolver(api, null);
-        } else {
-            openApiValidator = null;
-            apiOperationResolver = null;
-        }
-    }
-
-    void validateApiSpec(String requestMethod, String fullUrl, HttpResponse httpResponse, HttpValidationResult result) {
-        if (openApiValidator == null) {
+    public void validateApiSpec(HttpValidationResult result) {
+        if (! openAPISpec.isSpecDefined()) {
             return;
         }
 
-        String path = extractPath(fullUrl);
-        Request.Method method = Enum.valueOf(Request.Method.class, requestMethod);
+        String path = extractPath(result.getFullUrl());
+        Request.Method method = Enum.valueOf(Request.Method.class, result.getRequestMethod());
 
-        ApiOperationMatch apiOperationMatch = apiOperationResolver.findApiOperation(path, method);
+        ApiOperationMatch apiOperationMatch = openAPISpec.findApiOperation(path, method);
         if (!apiOperationMatch.isPathFound()) {
             ConsoleOutputs.out(Color.YELLOW, "Path, ", path, " not found in OpenAPI spec");
             return;
         }
 
         SimpleResponse response = SimpleResponse.Builder
-                .status(httpResponse.getStatusCode())
-                .withBody(httpResponse.getContent())
+                .status(result.getResponseStatusCode())
+                .withBody(result.getResponseContent())
                 .build();
 
         ValidationReport validationReport = openApiValidator.validateResponse(path, method, response);

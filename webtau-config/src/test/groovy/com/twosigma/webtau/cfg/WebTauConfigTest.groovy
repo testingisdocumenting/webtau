@@ -44,4 +44,10 @@ class WebTauConfigTest {
 
         cfg.get('userDefined').should == 'user-1'
     }
+
+    @Test
+    void "let register additional config values via service loaders"() {
+        WebTauConfig cfg = new WebTauConfig()
+        cfg.get('customConfig').should == 'default config value'
+    }
 }

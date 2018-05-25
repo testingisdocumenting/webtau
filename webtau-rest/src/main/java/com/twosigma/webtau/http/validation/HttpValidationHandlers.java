@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg;
+package com.twosigma.webtau.http.validation;
 
-import java.util.stream.Stream;
+import com.twosigma.webtau.utils.ServiceUtils;
 
-public interface WebTauConfigHandler {
-    default void onBeforeCreate(WebTauConfig cfg) {}
-    default void onAfterCreate(WebTauConfig cfg) {};
-    default Stream<ConfigValue> additionalConfigValues() { return Stream.empty(); }
+import java.util.List;
+
+public class HttpValidationHandlers {
+    private static final List<HttpValidationHandler> configurations = ServiceUtils.discover(HttpValidationHandler.class);
+
+    public static void validate(HttpValidationResult validationResult) {
+        configurations.forEach(c -> c.validate(validationResult));
+    }
 }

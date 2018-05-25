@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg;
+package com.twosigma.webtau.http.validation;
 
-import java.util.stream.Stream;
-
-public interface WebTauConfigHandler {
-    default void onBeforeCreate(WebTauConfig cfg) {}
-    default void onAfterCreate(WebTauConfig cfg) {};
-    default Stream<ConfigValue> additionalConfigValues() { return Stream.empty(); }
+public interface HttpValidationHandler {
+    void validate(HttpValidationResult validationResult);
 }

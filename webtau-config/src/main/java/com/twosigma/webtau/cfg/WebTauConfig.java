@@ -49,22 +49,8 @@ public class WebTauConfig {
     private final ConfigValue headless = declare("headless", "run headless mode", () -> false);
     private final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
     private final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
-    private final ConfigValue openApiSpecUrl = declare("openApiSpecUrl", "url of OpenAPI 2 spec against which to validate responses", NO_DEFAULT);
 
-    private final List<ConfigValue> enumeratedCfgValues = Arrays.asList(
-            config,
-            env,
-            url,
-            workingDir,
-            waitTimeout,
-            docPath,
-            reportPath,
-            windowWidth,
-            windowHeight,
-            headless,
-            chromeDriverPath,
-            chromeBinPath,
-            openApiSpecUrl);
+    private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
     private final List<ConfigValue> freeFormCfgValues = new ArrayList<>();
 
@@ -95,16 +81,19 @@ public class WebTauConfig {
     }
 
     public Stream<ConfigValue> getCfgValuesStream() {
-        return enumeratedCfgValues.stream();
+        return enumeratedCfgValues.values().stream();
     }
 
     public String get(String key) {
-        Optional<ConfigValue> configValue = freeFormCfgValues.stream().filter(v -> v.match(key)).findFirst();
+        Stream<ConfigValue> allValues =
+                Stream.concat(enumeratedCfgValues.values().stream(), freeFormCfgValues.stream());
+
+        Optional<ConfigValue> configValue = allValues.filter(v -> v.match(key)).findFirst();
         return configValue.map(ConfigValue::getAsString).orElse("");
     }
 
     public void acceptConfigValues(String source, Map<String, ?> values) {
-        enumeratedCfgValues.forEach(v -> v.accept(source, values));
+        enumeratedCfgValues.values().forEach(v -> v.accept(source, values));
 
         registerFreeFormCfgValues(values);
         freeFormCfgValues.forEach(v -> v.accept(source, values));
@@ -178,25 +167,21 @@ public class WebTauConfig {
         return chromeDriverPath.getAsPath();
     }
 
-    public String getOpenApiSpecUrl() {
-        return openApiSpecUrl.getAsString();
-    }
-
     @Override
     public String toString() {
-        return enumeratedCfgValues.stream().map(ConfigValue::toString).collect(Collectors.joining("\n"));
+        return enumeratedCfgValues.values().stream().map(ConfigValue::toString).collect(Collectors.joining("\n"));
     }
 
     public void print() {
-        int maxKeyLength = enumeratedCfgValues.stream()
+        int maxKeyLength = enumeratedCfgValues.values().stream()
                 .filter(ConfigValue::nonDefault)
                 .map(v -> v.getKey().length()).max(Integer::compareTo).orElse(0);
 
-        int maxValueLength = enumeratedCfgValues.stream()
+        int maxValueLength = enumeratedCfgValues.values().stream()
                 .filter(ConfigValue::nonDefault)
                 .map(v -> v.getAsString().length()).max(Integer::compareTo).orElse(0);
 
-        enumeratedCfgValues.stream().filter(ConfigValue::nonDefault).forEach(v -> {
+        enumeratedCfgValues.values().stream().filter(ConfigValue::nonDefault).forEach(v -> {
                     String valueAsText = v.getAsString();
                     int valuePadding = maxValueLength - valueAsText.length();
 
@@ -210,7 +195,7 @@ public class WebTauConfig {
 
     private void registerFreeFormCfgValues(Map<String, ?> values) {
         Stream<String> keys = values.keySet().stream()
-                .filter(k -> noConfigValuePresent(enumeratedCfgValues, k));
+                .filter(k -> noConfigValuePresent(enumeratedCfgValues.values(), k));
 
         keys.filter(k -> noConfigValuePresent(freeFormCfgValues, k))
                 .forEach(k -> {
@@ -219,7 +204,7 @@ public class WebTauConfig {
                 });
     }
 
-    private boolean noConfigValuePresent(List<ConfigValue> configValues, String key) {
+    private boolean noConfigValuePresent(Collection<ConfigValue> configValues, String key) {
         return configValues.stream().noneMatch(cv -> cv.match(key));
     }
 
@@ -230,6 +215,28 @@ public class WebTauConfig {
 
     private static Map<String, ?> envVarsAsMap() {
         return System.getenv();
+    }
+
+    private Map<String, ConfigValue> enumerateRegisteredConfigValues() {
+        Stream<ConfigValue> standardConfigValues = Stream.of(
+                config,
+                env,
+                url,
+                workingDir,
+                waitTimeout,
+                docPath,
+                reportPath,
+                windowWidth,
+                windowHeight,
+                headless,
+                chromeDriverPath,
+                chromeBinPath);
+
+        Stream<ConfigValue> additionalConfigValues = handlers.stream()
+                .flatMap(WebTauConfigHandler::additionalConfigValues);
+
+        return Stream.concat(standardConfigValues, additionalConfigValues)
+                .collect(Collectors.toMap(ConfigValue::getKey, v -> v, (o, n) -> n, LinkedHashMap::new));
     }
 
     private static class CfgInstanceHolder {

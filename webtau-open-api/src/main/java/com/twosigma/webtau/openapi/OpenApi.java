@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.openapi;
 
-import com.twosigma.webtau.http.datanode.DataNode;
-
-public interface HttpResponseValidator {
-    void validate(HeaderDataNode header, DataNode body);
+public class OpenApi {
+    public static final OpenApiSpec spec = new OpenApiSpec(OpenApiSpecConfig.openApiSpecUrl.getAsString());
+    public static final OpenApiSpecValidator validator = new OpenApiSpecValidator(spec);
 }

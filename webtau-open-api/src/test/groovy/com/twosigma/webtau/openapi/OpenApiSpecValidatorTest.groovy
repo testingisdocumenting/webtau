@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http
+package com.twosigma.webtau.openapi
 
+import com.twosigma.webtau.http.HttpResponse
+import com.twosigma.webtau.http.validation.HttpValidationResult
 import org.junit.Before
 import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.contain
 
-class OpenAPISpecValidatorTest {
+class OpenApiSpecValidatorTest {
     private final static String GET = "GET"
     private final static String URL = "http://myhost.com:1234/"
 
-    private OpenAPISpecValidator validator
+    private OpenApiSpecValidator validator
 
     @Before
     void setUp() throws Exception {
         def specUrl = this.class.classLoader.getResource("test-spec.json")
-        validator = new OpenAPISpecValidator(specUrl.toString())
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()))
     }
 
     @Test

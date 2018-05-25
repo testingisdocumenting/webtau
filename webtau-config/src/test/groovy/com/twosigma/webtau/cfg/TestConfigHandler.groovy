@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg;
+package com.twosigma.webtau.cfg
 
-import java.util.stream.Stream;
+import java.util.stream.Stream
 
-public interface WebTauConfigHandler {
-    default void onBeforeCreate(WebTauConfig cfg) {}
-    default void onAfterCreate(WebTauConfig cfg) {};
-    default Stream<ConfigValue> additionalConfigValues() { return Stream.empty(); }
+import static com.twosigma.webtau.cfg.ConfigValue.declare
+
+class TestConfigHandler implements WebTauConfigHandler {
+    private final ConfigValue customConfig = declare('customConfig', 'custom config description',
+        { -> 'default config value' });
+
+    @Override
+    Stream<ConfigValue> additionalConfigValues() {
+        return Stream.of(customConfig)
+    }
 }

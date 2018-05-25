@@ -27,6 +27,12 @@ import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.StructuredDataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
+import com.twosigma.webtau.http.validation.HeaderDataNode;
+import com.twosigma.webtau.http.validation.HttpResponseValidator;
+import com.twosigma.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
+import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn;
+import com.twosigma.webtau.http.validation.HttpValidationHandlers;
+import com.twosigma.webtau.http.validation.HttpValidationResult;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
@@ -51,19 +57,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
 public class Http {
-    private static final HttpResponseValidator EMPTY = (header, body) -> {
-    };
+    private static final HttpResponseValidator EMPTY = (header, body) -> {};
 
     public static final Http http = new Http();
+
     public final HttpDocumentation doc = new HttpDocumentation();
 
-    private ThreadLocal<HttpValidationResult> lastValidationResult = new ThreadLocal<>();
-
-    private final OpenAPISpecValidator openApiValidator;
-
-    private Http() {
-        openApiValidator = new OpenAPISpecValidator();
-    }
+    private final ThreadLocal<HttpValidationResult> lastValidationResult = new ThreadLocal<>();
 
     public <E> E get(String url, HttpResponseValidatorWithReturn validator) {
         return executeAndValidateHttpCall("GET", url,
@@ -194,13 +194,13 @@ public class Http {
                 validationResult.setElapsedTime(endTime - startTime);
                 validationResult.setResponse(response);
 
-                R result = validateAndRecord(validationResult, requestMethod, fullUrl, validator);
+                R validationBlockReturnedValue = validateAndRecord(validationResult, validator);
 
                 if (validationResult.hasMismatches()) {
                     throw new AssertionError("\n" + validationResult.renderMismatches());
                 }
 
-                return result;
+                return validationBlockReturnedValue;
             } catch (Exception e) {
                 validationResult.setErrorMessage(StackTraceUtils.fullCauseMessage(e));
                 throw new HttpException("error during http." + requestMethod.toLowerCase() + "(" + fullUrl + ")", e);
@@ -214,7 +214,6 @@ public class Http {
 
     @SuppressWarnings("unchecked")
     private <R> R validateAndRecord(HttpValidationResult validationResult,
-                                    String requestMethod, String fullUrl,
                                     HttpResponseValidatorWithReturn validator) {
         HeaderDataNode header = createHeaderDataNode(validationResult.getResponse());
         DataNode body = createBodyDataNode(validationResult.getResponse());
@@ -222,7 +221,7 @@ public class Http {
         validationResult.setResponseHeaderNode(header);
         validationResult.setResponseBodyNode(body);
 
-        openApiValidator.validateApiSpec(requestMethod, fullUrl, validationResult.getResponse(), validationResult);
+        HttpValidationHandlers.validate(validationResult);
 
         ExpectationHandler expectationHandler = (actualPath, actualValue, message) -> {
             validationResult.addMismatch(message);
@@ -240,7 +239,7 @@ public class Http {
     }
 
     private void render(HttpValidationResult result) {
-        new DataNodeAnsiPrinter().print(result.getBody());
+        new DataNodeAnsiPrinter().print(result.getBodyNode());
     }
 
     private HttpResponse requestWithoutBody(String method, String fullUrl, HttpRequestHeader requestHeader) {

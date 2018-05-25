@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.openapi;
 
-import com.twosigma.webtau.http.datanode.DataNode;
+import com.twosigma.webtau.cfg.ConfigValue;
+import com.twosigma.webtau.cfg.WebTauConfigHandler;
 
-public class HttpResponseValidatorIgnoringReturn implements HttpResponseValidatorWithReturn {
-    private final HttpResponseValidator validator;
+import java.util.stream.Stream;
 
-    public HttpResponseValidatorIgnoringReturn(HttpResponseValidator validator) {
-        this.validator = validator;
-    }
+import static com.twosigma.webtau.cfg.ConfigValue.declare;
+
+public class OpenApiSpecConfig implements WebTauConfigHandler {
+    static final ConfigValue openApiSpecUrl = declare("openApiSpecUrl",
+            "url of OpenAPI 2 spec against which to validate responses", () -> null);
 
     @Override
-    public Object validate(HeaderDataNode header, DataNode body) {
-        validator.validate(header, body);
+    public Stream<ConfigValue> additionalConfigValues() {
         return null;
     }
 }
