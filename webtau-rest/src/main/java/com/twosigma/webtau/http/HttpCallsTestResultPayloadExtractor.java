@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 
 public class HttpCallsTestResultPayloadExtractor implements TestResultPayloadExtractor {
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep<?>> testSteps) {
+    public Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
         Stream<HttpValidationResult> payloads = testSteps
                 .flatMap(s -> s.getCombinedPayloadsOfType(HttpValidationResult.class));
 

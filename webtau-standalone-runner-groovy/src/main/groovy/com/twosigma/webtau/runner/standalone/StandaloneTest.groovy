@@ -70,7 +70,7 @@ class StandaloneTest implements StepReporter {
         return reportTestEntry.isFailed()
     }
 
-    List<TestStep<?>> getSteps() {
+    List<TestStep<?, ?>> getSteps() {
         return reportTestEntry.steps
     }
 

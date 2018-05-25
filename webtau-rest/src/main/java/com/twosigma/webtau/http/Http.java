@@ -159,7 +159,7 @@ public class Http {
         return requestWithBody("PUT", fullUrl, requestHeader, requestBody);
     }
 
-    private <E> E executeAndValidateHttpCall(String requestMethod, String url, HttpCall httpCall,
+    private <R> R executeAndValidateHttpCall(String requestMethod, String url, HttpCall httpCall,
                                              HttpRequestHeader requestHeader,
                                              HttpRequestBody requestBody,
                                              HttpResponseValidatorWithReturn validator) {
@@ -168,7 +168,7 @@ public class Http {
 
         HttpValidationResult validationResult = new HttpValidationResult(requestMethod, fullUrl, requestBody);
 
-        TestStep<E> step = createHttpStep(validationResult, requestMethod, fullUrl, httpCall, fullHeader, validator);
+        TestStep<Void, R> step = createHttpStep(validationResult, requestMethod, fullUrl, httpCall, fullHeader, validator);
         try {
             return step.execute(StepReportOptions.REPORT_ALL);
         } finally {
@@ -181,11 +181,11 @@ public class Http {
         }
     }
 
-    private <E> TestStep<E> createHttpStep(HttpValidationResult validationResult,
-                                           String requestMethod, String fullUrl, HttpCall httpCall,
-                                           HttpRequestHeader fullRequestHeader,
-                                           HttpResponseValidatorWithReturn validator) {
-        Supplier httpCallSupplier = () -> {
+    private <R> TestStep<Void, R> createHttpStep(HttpValidationResult validationResult,
+                                                 String requestMethod, String fullUrl, HttpCall httpCall,
+                                                 HttpRequestHeader fullRequestHeader,
+                                                 HttpResponseValidatorWithReturn validator) {
+        Supplier<R> httpCallSupplier = () -> {
             try {
                 long startTime = System.currentTimeMillis();
                 HttpResponse response = httpCall.execute(fullUrl, fullRequestHeader);
@@ -194,7 +194,7 @@ public class Http {
                 validationResult.setElapsedTime(endTime - startTime);
                 validationResult.setResponse(response);
 
-                Object result = validateAndRecord(validationResult, requestMethod, fullUrl, validator);
+                R result = validateAndRecord(validationResult, requestMethod, fullUrl, validator);
 
                 if (validationResult.hasMismatches()) {
                     throw new AssertionError("\n" + validationResult.renderMismatches());
@@ -213,7 +213,7 @@ public class Http {
     }
 
     @SuppressWarnings("unchecked")
-    private <E> E validateAndRecord(HttpValidationResult validationResult,
+    private <R> R validateAndRecord(HttpValidationResult validationResult,
                                     String requestMethod, String fullUrl,
                                     HttpResponseValidatorWithReturn validator) {
         HeaderDataNode header = createHeaderDataNode(validationResult.getResponse());
@@ -232,7 +232,7 @@ public class Http {
         try {
             return ExpectationHandlers.withAdditionalHandler(expectationHandler, () -> {
                 Object returnedValue = validator.validate(header, body);
-                return (E) extractOriginalValue(returnedValue);
+                return (R) extractOriginalValue(returnedValue);
             });
         } finally {
             render(validationResult);

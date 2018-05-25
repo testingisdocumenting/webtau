@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 public class ScreenshotTestResultPayloadExtractor implements TestResultPayloadExtractor {
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep<?>> testSteps) {
+    public Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
         Stream<ScreenshotStepPayload> payloads = testSteps
                 .flatMap(s -> s.getCombinedPayloadsOfType(ScreenshotStepPayload.class));
 

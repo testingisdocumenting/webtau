@@ -46,7 +46,7 @@ public class ReportTestEntry {
     private Throwable exception;
 
     private List<TestResultPayload> payloads;
-    private List<TestStep<?>> steps;
+    private List<TestStep<?, ?>> steps;
 
     private boolean isRan;
     private Path workingDir;
@@ -137,11 +137,11 @@ public class ReportTestEntry {
         return payloads;
     }
 
-    public List<TestStep<?>> getSteps() {
+    public List<TestStep<?, ?>> getSteps() {
         return steps;
     }
 
-    public void addStep(TestStep<?> step) {
+    public void addStep(TestStep<?, ?> step) {
         steps.add(step);
     }
 
@@ -149,7 +149,7 @@ public class ReportTestEntry {
         payloads.add(testResultPayload);
     }
 
-    public void setSteps(List<TestStep<?>> steps) {
+    public void setSteps(List<TestStep<?, ?>> steps) {
         this.steps = steps;
     }
 
