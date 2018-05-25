@@ -16,12 +16,11 @@
 
 package com.twosigma.webtau.http.datanode;
 
+import com.twosigma.webtau.data.traceable.TraceableValue;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import com.twosigma.webtau.data.traceable.TraceableValue;
 
 import static java.util.stream.Collectors.joining;
 
@@ -84,7 +83,9 @@ public class StructuredDataNode implements DataNode {
 
     @Override
     public List<DataNode> elements() {
-        return Collections.unmodifiableList(values);
+        return values == null ?
+                Collections.emptyList() :
+                Collections.unmodifiableList(values);
     }
 
     @Override

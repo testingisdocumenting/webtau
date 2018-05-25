@@ -175,6 +175,15 @@ class HttpTest {
     }
 
     @Test
+    void "groovy find on body that is not a list"() {
+        def found = http.get("/end-point") {
+            return body.find { it > 1 }
+        }
+
+        assert found == null
+    }
+
+    @Test
     void "groovy findAll on list"() {
         def found = http.get("/end-point") {
             return list.findAll { it > 1 }
@@ -182,6 +191,15 @@ class HttpTest {
 
         assert found == [2, 3]
         assert found[0].getClass() == Integer
+    }
+
+    @Test
+    void "groovy findAll on body that is not a list"() {
+        def found = http.get("/end-point") {
+            return body.findAll { it > 1 }
+        }
+
+        assert found == []
     }
 
     @Test
@@ -201,12 +219,21 @@ class HttpTest {
 
     @Test
     void "groovy transform list"() {
-        def found = http.get("/end-point") {
+        def transformed = http.get("/end-point") {
             return list.collect { "world#${it}" }
         }
 
-        assert found == ['world#1', 'world#2', 'world#3']
-        assert found[0] instanceof GString
+        assert transformed == ['world#1', 'world#2', 'world#3']
+        assert transformed[0] instanceof GString
+    }
+
+    @Test
+    void "groovy transform on body that is not a list"() {
+        def transformed = http.get("/end-point") {
+            return body.collect { "world#${it}" }
+        }
+
+        assert transformed == []
     }
 
     @Test
