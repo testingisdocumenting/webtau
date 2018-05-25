@@ -201,7 +201,9 @@ public class Http {
                 }
 
                 return validationBlockReturnedValue;
-            } catch (Exception e) {
+            } catch (AssertionError e) {
+                throw e;
+            } catch (Throwable e) {
                 validationResult.setErrorMessage(StackTraceUtils.fullCauseMessage(e));
                 throw new HttpException("error during http." + requestMethod.toLowerCase() + "(" + fullUrl + ")", e);
             }
