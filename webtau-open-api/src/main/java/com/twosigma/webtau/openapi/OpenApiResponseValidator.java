@@ -23,6 +23,5 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
     @Override
     public void validate(HttpValidationResult validationResult) {
         OpenApi.validator.validateApiSpec(validationResult);
-
     }
 }

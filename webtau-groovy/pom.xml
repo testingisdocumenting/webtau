@@ -36,6 +36,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-open-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.ivy</groupId>
             <artifactId>ivy</artifactId>
         </dependency>

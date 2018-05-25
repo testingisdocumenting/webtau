@@ -29,6 +29,6 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return null;
+        return Stream.of(openApiSpecUrl);
     }
 }
