@@ -42,7 +42,7 @@
         }
       }
     },
-    "/${customerId}": {
+    "/{customerId}": {
       "get": {
         "summary": "Get customer by ID",
         "operationId": "getByCustomerId",
@@ -63,6 +63,9 @@
             "schema": {
               "$ref": "#/definitions/Customer"
             }
+          },
+          "404": {
+            "description": "not found"
           }
         }
       },
@@ -106,7 +109,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "successful operation"
           }
         }
