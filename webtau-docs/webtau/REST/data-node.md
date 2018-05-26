@@ -1,6 +1,6 @@
 # Special Values
 
-:include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "use groovy closure as validation", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "use groovy closure as validation", bodyOnly: true}
 
 Values that you access inside validation block are special values of `DataNode` type. When you assert them using `should` statement
 they act as proxies that record every assertion you do. 
@@ -10,7 +10,7 @@ they act as proxies that record every assertion you do.
 
 As you have seen in [CRUD example](REST/CRUD) you can return values back from a validation block.
 
-:include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "can return simple value from get", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "can return simple value from get", bodyOnly: true}
 
 When you return a value from a validation block, it automatically gets converted to its correspondent primitive. 
 
@@ -26,19 +26,19 @@ Special values inside assertion block have convenient methods
 
 `find` to find a single value
 
-:include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "groovy find on list", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "groovy find on list", bodyOnly: true}
 
 
 and `findAll` to find all the values matching predicate
 
-:include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "groovy findAll on list", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "groovy findAll on list", bodyOnly: true}
 
 Note: While values inside a predicate are normal values, the result of `find` and `findAll` is still `DataNode`
 
-:include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "groovy find on list of objects", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "groovy find on list of objects", bodyOnly: true}
 
 # Collect
 
 Use `collect` to transform a collection of items
 
-:include-groovy: com/twosigma/webtau/http/HttpExtensionsTest.groovy {entry: "groovy transform list", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "groovy transform list", bodyOnly: true}
