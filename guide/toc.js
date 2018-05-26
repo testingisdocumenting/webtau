@@ -156,6 +156,27 @@ toc = [
             "id": "list-of-objects"
           }
         ]
+      },
+      {
+        "sectionTitle": "REST",
+        "pageTitle": "OpenAPI Spec",
+        "pageMeta": {},
+        "fileName": "openAPI-spec",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Validation",
+            "id": "validation"
+          },
+          {
+            "title": "Current limitations",
+            "id": "current-limitations"
+          },
+          {
+            "title": "Validations report",
+            "id": "validations-report"
+          }
+        ]
       }
     ]
   },
