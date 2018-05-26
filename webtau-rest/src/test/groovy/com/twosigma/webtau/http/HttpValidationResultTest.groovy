@@ -34,7 +34,7 @@ class HttpValidationResultTest {
         n.get('childA').get().updateCheckLevel(CheckLevel.FuzzyFailed)
         n.get('childB').get().updateCheckLevel(CheckLevel.ExplicitPassed)
 
-        def validationResult = new HttpValidationResult('POST', 'http://site/test/url', null)
+        def validationResult = new HttpValidationResult('POST', 'http://site/test/url', null, null)
         validationResult.setResponse(new HttpResponse(content: responseAsJson, contentType: 'application/json', statusCode: 200))
         validationResult.setElapsedTime(100)
         validationResult.setResponseHeaderNode(new HeaderDataNode())

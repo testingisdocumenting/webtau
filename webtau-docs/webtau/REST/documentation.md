@@ -9,12 +9,20 @@ To automate the process, let's capture executed scenarios and use them inside yo
 
 To capture artifacts use `http.doc.capture`:
 
-:include-file: examples/rest/restPost.groovy {commentsType: "inline"}
+:include-file: examples/rest/restPost.groovy {title: "test.groovy", commentsType: "inline"}
 
-An `employee-get` directory will be created with request and response json files. By default, the directory will be 
-created in the current working directory. To change it add `docPath` to your `webtau.cfg` file.
+An `employee-get` directory will be created with request and response data files. 
 
-:include-file: examples/rest/springboot/webtau.cfg {title: "webtau.cfg"}
+:include-json: doc-artifacts/employee-get/response.json {title: "employee-get/response.json" }
+
+Directory will also contain a json file with an array containing paths of all the asserted values. 
+
+:include-json: doc-artifacts/employee-get/paths.json {title: "employee-get/paths.json" }
+
+By default, the directory will be created in the current working directory.
+To change it add `docPath` to your `webtau.cfg` file.
+
+:include-file: examples/rest/docArtifacts.cfg {title: "webtau.cfg"}
 
 # Document REST calls
 

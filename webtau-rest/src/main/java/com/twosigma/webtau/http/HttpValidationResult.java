@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 public class HttpValidationResult implements TestStepPayload {
     private final String fullUrl;
     private final String requestMethod;
+    private HttpRequestHeader requestHeader;
     private final HttpRequestBody requestBody;
 
     private final List<String> mismatches;
@@ -42,11 +43,19 @@ public class HttpValidationResult implements TestStepPayload {
     private long elapsedTime;
     private String errorMessage;
 
-    public HttpValidationResult(String requestMethod, String fullUrl, HttpRequestBody requestBody) {
+    public HttpValidationResult(String requestMethod,
+                                String fullUrl,
+                                HttpRequestHeader requestHeader,
+                                HttpRequestBody requestBody) {
         this.requestMethod = requestMethod;
         this.fullUrl = fullUrl;
+        this.requestHeader = requestHeader;
         this.requestBody = requestBody;
         this.mismatches = new ArrayList<>();
+    }
+
+    public HttpRequestHeader getRequestHeader() {
+        return requestHeader;
     }
 
     public HttpResponse getResponse() {
@@ -63,6 +72,14 @@ public class HttpValidationResult implements TestStepPayload {
 
     public void setResponseBodyNode(DataNode responseBody) {
         this.responseBodyNode = responseBody;
+    }
+
+    public List<String> getFailedPaths() {
+        return extractPaths(responseBodyNode, CheckLevel::isFailed);
+    }
+
+    public List<String> getPassedPaths() {
+        return extractPaths(responseBodyNode, CheckLevel::isPassed);
     }
 
     public void setElapsedTime(long elapsedTime) {
@@ -153,9 +170,8 @@ public class HttpValidationResult implements TestStepPayload {
         if (responseBodyNode != null) {
             Map<String, Object> responseBodyChecks = new LinkedHashMap<>();
             result.put("responseBodyChecks", responseBodyChecks);
-            responseBodyChecks.put("failedPaths", extractPaths(responseBodyNode, CheckLevel::isFailed));
-            responseBodyChecks.put("passedPaths", extractPaths(responseBodyNode, CheckLevel::isPassed));
-
+            responseBodyChecks.put("failedPaths", getFailedPaths());
+            responseBodyChecks.put("passedPaths", getPassedPaths());
         }
 
         return result;
