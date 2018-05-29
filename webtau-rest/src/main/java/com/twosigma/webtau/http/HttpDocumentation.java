@@ -19,6 +19,7 @@ package com.twosigma.webtau.http;
 import com.twosigma.documentation.DocumentationArtifactsLocation;
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 import com.twosigma.webtau.utils.FileUtils;
+import com.twosigma.webtau.utils.JsonUtils;
 
 import java.nio.file.Path;
 

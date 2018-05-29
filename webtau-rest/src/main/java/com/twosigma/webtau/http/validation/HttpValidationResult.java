@@ -18,6 +18,7 @@ package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.http.HttpRequestBody;
+import com.twosigma.webtau.http.HttpRequestHeader;
 import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datacoverage.TraceableValueConverter;
