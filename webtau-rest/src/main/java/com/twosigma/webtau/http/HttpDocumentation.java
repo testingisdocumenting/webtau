@@ -31,6 +31,12 @@ public class HttpDocumentation {
             throw new IllegalStateException("no http calls were made yet");
         }
 
+        String requestHeader = lastValidationResult.getRequestHeader().toString();
+        if (! requestHeader.isEmpty()) {
+            FileUtils.writeTextContent(path.resolve("request.header.txt"),
+                    requestHeader);
+        }
+
         if (lastValidationResult.getRequestType() != null) {
             String fileName = "request." + fileExtensionForType(lastValidationResult.getRequestType());
             FileUtils.writeTextContent(path.resolve(fileName), lastValidationResult.getRequestContent());
@@ -39,6 +45,11 @@ public class HttpDocumentation {
         if (lastValidationResult.getResponseType() != null) {
             String fileName = "response." + fileExtensionForType(lastValidationResult.getResponseType());
             FileUtils.writeTextContent(path.resolve(fileName), lastValidationResult.getResponseContent());
+        }
+
+        if (lastValidationResult.getPassedPaths() != null) {
+            FileUtils.writeTextContent(path.resolve("paths.json"),
+                    JsonUtils.serialize(lastValidationResult.getPassedPaths()));
         }
     }
 

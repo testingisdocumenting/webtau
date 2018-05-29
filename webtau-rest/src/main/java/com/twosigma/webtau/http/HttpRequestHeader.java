@@ -21,6 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import static java.util.stream.Collectors.joining;
+
 public class HttpRequestHeader {
     public static final HttpRequestHeader EMPTY = new HttpRequestHeader(Collections.emptyMap());
 
@@ -43,6 +45,9 @@ public class HttpRequestHeader {
 
     @Override
     public String toString() {
-        return properties.toString();
+        return properties.entrySet()
+                .stream()
+                .map(e -> e.getKey() + ": " + e.getValue())
+                .collect(joining("\n"));
     }
 }
