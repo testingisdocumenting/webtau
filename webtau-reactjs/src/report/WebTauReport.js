@@ -29,6 +29,7 @@ import ListOfHttpCalls from './navigation/ListOfHttpCalls'
 import NavigationEntriesType from './navigation/NavigationEntriesType'
 
 import HttpCallDetails from './details/http/HttpCallDetails'
+import StatusEnum from './StatusEnum'
 
 import './WebTauReport.css'
 
@@ -42,8 +43,7 @@ class WebTauReport extends Component {
     }
 
     render() {
-        const {report} = this.props
-        const {entriesType, testId, statusFilter, filterText} = this.state
+        const {entriesType, statusFilter, filterText} = this.state
 
         return (
             <div className="report">
@@ -79,7 +79,7 @@ class WebTauReport extends Component {
     }
 
     renderListOEntries() {
-        const {testId, httpCallIdx, entriesType} = this.state
+        const {testId, httpCallId} = this.state
 
         if (this.isTestsView) {
             return (
@@ -90,7 +90,7 @@ class WebTauReport extends Component {
         } else {
             return (
                 <ListOfHttpCalls httpCalls={this.filteredHttpCalls}
-                                 selectedIdx={httpCallIdx}
+                                 selectedId={httpCallId}
                                  onSelect={this.onHttpCallSelect}/>
             )
         }
@@ -105,7 +105,8 @@ class WebTauReport extends Component {
         if (selectedEntity === null) {
             return (
                 <OverallSummary report={report}
-                                onSwitchToHttpCalls={this.onHttpCallsEntriesTypeSelection}/>
+                                onSwitchToHttpCalls={this.onHttpCallsEntriesTypeSelection}
+                                onSwitchToSkippedHttpCalls={this.onHttpSkippedCallsSelection}/>
             )
         }
 
@@ -136,13 +137,13 @@ class WebTauReport extends Component {
 
     get selectedEntity() {
         const {report} = this.props
-        const {httpCallIdx, testId} = this.state
+        const {httpCallId, testId} = this.state
 
         if (this.isTestsView) {
             return testId ? report.findTestById(testId) : null
         }
 
-        return httpCallIdx === undefined ? null : report.findHttpCallByIdx(httpCallIdx)
+        return httpCallId === undefined ? null : report.findHttpCallById(httpCallId)
     }
 
     get filteredTests() {
@@ -177,9 +178,9 @@ class WebTauReport extends Component {
         })
     }
 
-    onHttpCallSelect = (idx) => {
-        const currentCallIdx = this.state.httpCallIdx
-        if (idx === currentCallIdx) {
+    onHttpCallSelect = (id) => {
+        const currentCallId = this.state.httpCallId
+        if (id === currentCallId) {
             return
         }
 
@@ -187,7 +188,7 @@ class WebTauReport extends Component {
             entriesType: NavigationEntriesType.HTTP_CALLS,
             statusFilter: this.state.statusFilter,
             filterText: this.state.filterText,
-            httpCallIdx: idx
+            httpCallId: id
         })
     }
 
@@ -205,8 +206,16 @@ class WebTauReport extends Component {
         this.pushFullUrlState({entriesType: type})
     }
 
-    onHttpCallsEntriesTypeSelection = (type) => {
-        this.pushFullUrlState({entriesType: NavigationEntriesType.HTTP_CALLS, httpCallIdx: 0})
+    onHttpCallsEntriesTypeSelection = () => {
+        this.pushFullUrlState({entriesType: NavigationEntriesType.HTTP_CALLS, httpCallId: undefined})
+    }
+
+    onHttpSkippedCallsSelection = () => {
+        this.pushFullUrlState({
+            entriesType: NavigationEntriesType.HTTP_CALLS,
+            httpCallId: undefined,
+            statusFilter: StatusEnum.SKIPPED
+        })
     }
 
     onFilterTextChange = (e) => {
@@ -238,7 +247,15 @@ class WebTauReport extends Component {
 
     pushFullUrlState(fullState) {
         const searchParams = this._stateCreator.buildUrlSearchParams(fullState)
-        window.history.pushState({}, '', '?' + searchParams)
+
+        const currentUrl = document.location.search
+        const newUrl = '?' + searchParams
+
+        if (currentUrl === newUrl) {
+            return
+        }
+
+        window.history.pushState({}, '', newUrl)
         this.updateStateFromUrl()
     }
 }

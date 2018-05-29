@@ -20,10 +20,15 @@ import HttpPayload from './HttpPayload'
 import Card from '../../widgets/Card'
 import TestName from '../TestName'
 
-import './HttpCallDetails.css'
 import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
 
+import './HttpCallDetails.css'
+
 function HttpCallDetails({httpCall, onTestSelect}) {
+    if (! httpCall.test) {
+        return <HttpCallSkippedDetails httpCall={httpCall}/>
+    }
+
     return (
         <div className="http-call-details">
             <div className="http-call-latency-and-name">
@@ -39,6 +44,16 @@ function HttpCallDetails({httpCall, onTestSelect}) {
                 <Request httpCall={httpCall}/>
                 <Response httpCall={httpCall}/>
             </div>
+        </div>
+    )
+}
+
+function HttpCallSkippedDetails({httpCall}) {
+    return (
+        <div className="http-call-details">
+            <Card className="http-call-no-details">
+                {httpCall.label} was not exercised
+            </Card>
         </div>
     )
 }

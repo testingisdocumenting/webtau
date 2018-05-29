@@ -37,7 +37,8 @@
 .http-call-details-mismatches,
 .http-call-details-request-details,
 .http-call-details-response-details,
-.http-call-details-error-message {
+.http-call-details-error-message,
+.http-call-no-details {
     padding: 15px;
 }
 

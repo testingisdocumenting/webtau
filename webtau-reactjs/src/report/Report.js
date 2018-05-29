@@ -42,8 +42,9 @@ class Report {
         this.report = report
         this.tests = enrichTestsData(report.tests)
         this.httpCalls = extractHttpCalls(this.tests)
-        this.testsSummary = report.summary
-        this.httpCallsSummary = buildHttpCallsSummary(this.httpCalls)
+        this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedUrls || []), ...this.httpCalls]
+        this.testsSummary = buildTestsSummary(report.summary)
+        this.httpCallsSummary = buildHttpCallsSummary(this.httpCallsCombinedWithSkipped)
     }
 
     findTestById(id) {
@@ -51,8 +52,34 @@ class Report {
         return found.length ? found[0] : null
     }
 
-    findHttpCallByIdx(idx) {
-        return (idx >= 0 && idx < this.httpCalls.length) ? this.httpCalls[idx] : null
+    findHttpCallById(id) {
+        const found = this.httpCallsCombinedWithSkipped.filter(t => t.id === id)
+        return found.length ? found[0] : null
+    }
+
+    hasUrlCoverage() {
+        return !!this.report.openApiSkippedUrls
+    }
+
+    openApiUrlsCoverage() {
+        const openApiCoveredUrls = this.numberOfOpenApiCoveredUrls()
+        const openApiSkippedUrls = this.numberOfOpenApiSkippedUrls()
+
+        const total = openApiCoveredUrls + openApiSkippedUrls
+
+        if (total === 0) {
+            return 0
+        }
+
+        return openApiCoveredUrls / total
+    }
+
+    numberOfOpenApiCoveredUrls() {
+        return (this.report.openApiCoveredUrls || []).length
+    }
+
+    numberOfOpenApiSkippedUrls() {
+        return (this.report.openApiSkippedUrls || []).length
     }
 
     numberOfHttpCalls() {
@@ -80,7 +107,7 @@ class Report {
     }
 
     httpCallsWithStatusAndFilteredByText(status, text) {
-        return this.httpCalls.filter(c => statusFilterPredicate(c.status, status) &&
+        return this.httpCallsCombinedWithSkipped.filter(c => statusFilterPredicate(c.status, status) &&
             (textFilterPredicate(c.shortUrl, text) || textStartOnlyFilterPredicate(c.method, text)))
     }
 
@@ -111,6 +138,10 @@ function extractHttpCalls(tests) {
     return tests
         .filter(t => t.httpCalls)
         .map(t => enrichHttpCallsData(t, t.httpCalls)).reduce((acc, r) => acc.concat(r), [])
+}
+
+function convertSkippedToHttpCalls(skippedCalls) {
+    return skippedCalls.map(c => enrichSkippedHttpCall(c))
 }
 
 function statusFilterPredicate(actualStatus, status) {
@@ -148,17 +179,27 @@ function enrichHttpCallsData(test, httpCalls) {
     return httpCalls.map(httpCall => enrichHttpCallData(test, httpCall))
 }
 
-function buildHttpCallsSummary(httpCalls) {
-    return {
-        total: httpCalls.length,
-        passed: count(StatusEnum.PASSED),
-        failed: count(StatusEnum.FAILED),
-        skipped: 0,
-        errored: count(StatusEnum.ERRORED)
-    }
+function buildTestsSummary(summary) {
+    return [
+        {label: 'Total', value: summary.total},
+        {label: StatusEnum.PASSED, value: summary.passed},
+        {label: StatusEnum.FAILED, value: summary.failed},
+        {label: StatusEnum.SKIPPED, value: summary.skipped},
+        {label: StatusEnum.ERRORED, value: summary.errored}
+    ]
+}
+
+function buildHttpCallsSummary(httpCallsCombinedWithSkipped) {
+    return [
+        {label: 'Total', value: httpCallsCombinedWithSkipped.length},
+        {label: StatusEnum.SKIPPED, value: count(StatusEnum.SKIPPED)},
+        {label: StatusEnum.PASSED, value: count(StatusEnum.PASSED)},
+        {label: StatusEnum.FAILED, value: count(StatusEnum.FAILED)},
+        {label: StatusEnum.ERRORED, value: count(StatusEnum.ERRORED)}
+    ]
 
     function count(status) {
-        return httpCalls.filter(c => c.status === status).length
+        return httpCallsCombinedWithSkipped.filter(c => c.status === status).length
     }
 }
 
@@ -178,11 +219,22 @@ function enrichHttpCallData(test, httpCall) {
     const shortUrl = removeHostFromUrl(httpCall.url)
 
     return {
+        id: generateHttpCallId(),
         ...httpCall,
         shortUrl,
         test,
         status: deriveHttpCallStatus(httpCall),
         label: httpCall.method + ' ' + shortUrl
+    }
+}
+
+function enrichSkippedHttpCall(skipped) {
+    return {
+        id: generateHttpCallId(),
+        shortUrl: skipped.url,
+        method: skipped.method,
+        status: StatusEnum.SKIPPED,
+        label: skipped.method + ' ' + skipped.url,
     }
 }
 
@@ -196,6 +248,11 @@ function removeHostFromUrl(url) {
 
     const firstUrlSlashIdx = url.indexOf('/', doubleSlashStartIdx + doubleSlashPattern.length)
     return url.substr(firstUrlSlashIdx)
+}
+
+let lastId = 1
+function generateHttpCallId() {
+    return 'httpcall' + lastId++
 }
 
 function additionalDetails(test) {
