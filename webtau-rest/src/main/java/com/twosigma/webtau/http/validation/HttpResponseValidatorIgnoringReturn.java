@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package com.twosigma.webtau.http.validation;
 
-import com.twosigma.webtau.reporter.TestStepPayload;
+import com.twosigma.webtau.http.datanode.DataNode;
 
-import java.util.Collections;
-import java.util.Map;
+public class HttpResponseValidatorIgnoringReturn implements HttpResponseValidatorWithReturn {
+    private final HttpResponseValidator validator;
 
-public class ScreenshotStepPayload implements TestStepPayload {
-    private String base64png;
-
-    public ScreenshotStepPayload(String base64png) {
-        this.base64png = base64png;
-    }
-
-    public String getBase64png() {
-        return base64png;
+    public HttpResponseValidatorIgnoringReturn(HttpResponseValidator validator) {
+        this.validator = validator;
     }
 
     @Override
-    public Map<String, ?> toMap() {
-        return Collections.singletonMap("base64png", base64png);
+    public Object validate(HeaderDataNode header, DataNode body) {
+        validator.validate(header, body);
+        return null;
     }
 }

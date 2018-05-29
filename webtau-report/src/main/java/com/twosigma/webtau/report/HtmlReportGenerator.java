@@ -55,6 +55,10 @@ public class HtmlReportGenerator {
         report.put("summary", generateSummary(testEntries));
         report.put("tests", testEntries.stream().map(ReportTestEntry::toMap).collect(Collectors.toList()));
 
+        ReportDataProviders.provide(testEntries.stream())
+                .map(ReportData::toMap)
+                .forEach(report::putAll);
+
         return generate(JsonUtils.serializePrettyPrint(report));
     }
 

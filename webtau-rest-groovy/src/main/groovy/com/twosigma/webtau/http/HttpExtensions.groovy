@@ -19,6 +19,8 @@ package com.twosigma.webtau.http
 import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.json.JsonRequestBody
+import com.twosigma.webtau.http.validation.HeaderDataNode
+import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn
 
 class HttpExtensions {
     static def get(Http http, String url, Closure validation) {

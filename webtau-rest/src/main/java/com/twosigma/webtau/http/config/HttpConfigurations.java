@@ -26,7 +26,7 @@ import com.twosigma.webtau.utils.ServiceUtils;
 public class HttpConfigurations {
     private static final AtomicBoolean enabled = new AtomicBoolean(true);
 
-    private static List<HttpConfiguration> configurations = ServiceUtils.discover(HttpConfiguration.class);
+    private static final List<HttpConfiguration> configurations = ServiceUtils.discover(HttpConfiguration.class);
 
     public static void add(HttpConfiguration configuration) {
         configurations.add(configuration);

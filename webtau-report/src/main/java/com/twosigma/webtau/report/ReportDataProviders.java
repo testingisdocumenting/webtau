@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.report;
 
-import com.twosigma.webtau.http.datanode.DataNode;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
-public interface HttpResponseValidator {
-    void validate(HeaderDataNode header, DataNode body);
+import java.util.Set;
+import java.util.stream.Stream;
+
+public class ReportDataProviders {
+    private static final Set<ReportDataProvider> providers = ServiceLoaderUtils.load(ReportDataProvider.class);
+
+    public static Stream<ReportData> provide(Stream<ReportTestEntry> testEntries) {
+        return providers.stream().flatMap(e -> e.provide(testEntries));
+    }
 }

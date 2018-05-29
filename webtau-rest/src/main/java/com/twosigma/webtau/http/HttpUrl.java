@@ -16,17 +16,30 @@
 
 package com.twosigma.webtau.http;
 
-import java.util.Arrays;
-import java.util.List;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class HttpUrl {
-    private static final List<String> fullUrlPrefixes = Arrays.asList("http:", "https:", "file:", "mailto:");
-
     private HttpUrl() {
     }
 
     public static boolean isFull(String url) {
-        return fullUrlPrefixes.stream().anyMatch(p -> url.toLowerCase().startsWith(p));
+        int colonIdx = url.indexOf(':');
+        int slashIdx = url.indexOf('/');
+
+        return colonIdx != -1 && colonIdx < slashIdx;
+    }
+
+    public static String extractPath(String url) {
+        if (!isFull(url)) {
+            return url;
+        }
+
+        try {
+            return new URL(url).getPath();
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("invalid url: " + url, e);
+        }
     }
 
     public static String concat(String left, String right) {

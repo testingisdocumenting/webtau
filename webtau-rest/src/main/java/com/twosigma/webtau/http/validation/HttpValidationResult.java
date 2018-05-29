@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.data.traceable.CheckLevel;
+import com.twosigma.webtau.http.HttpRequestBody;
+import com.twosigma.webtau.http.HttpRequestHeader;
+import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datacoverage.TraceableValueConverter;
 import com.twosigma.webtau.http.datanode.DataNode;
@@ -102,6 +105,10 @@ public class HttpValidationResult implements TestStepPayload {
         return response.getContent();
     }
 
+    public int getResponseStatusCode() {
+        return response.getStatusCode();
+    }
+
     public void addMismatch(String message) {
         mismatches.add(message);
     }
@@ -134,11 +141,11 @@ public class HttpValidationResult implements TestStepPayload {
         return requestMethod;
     }
 
-    public HeaderDataNode getHeader() {
+    public HeaderDataNode getHeaderNode() {
         return responseHeaderNode;
     }
 
-    public DataNode getBody() {
+    public DataNode getBodyNode() {
         return responseBodyNode;
     }
 

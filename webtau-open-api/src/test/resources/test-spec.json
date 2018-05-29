@@ -1,0 +1,82 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Test API"
+  },
+  "tags": [
+    {
+      "name": "test"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Test get method",
+        "operationId": "getTest",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/TestResponse"
+            }
+          }
+        }
+      }
+    },
+    "/customer/{id}": {
+      "get": {
+        "summary": "get customer",
+        "operationId": "getCustomer",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/TestResponse"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "update customer",
+        "operationId": "updateCustomer",
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/TestResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "delete customer",
+        "operationId": "deleteCustomer",
+        "responses": {
+          "200": {
+            "description": "success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "TestResponse": {
+      "type": "object",
+      "required": [
+        "mandatoryField"
+      ],
+      "properties": {
+        "mandatoryField": {
+          "type": "string"
+        },
+        "optionalField": {
+          "type": "string"
+        },
+        "intField": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.openapi;
 
-import com.twosigma.webtau.http.datanode.DataNode;
+import com.twosigma.webtau.http.validation.HttpValidationHandler;
+import com.twosigma.webtau.http.validation.HttpValidationResult;
 
-public interface HttpResponseValidatorWithReturn {
-    Object validate(HeaderDataNode header, DataNode body);
+public class OpenApiResponseValidator implements HttpValidationHandler {
+    @Override
+    public void validate(HttpValidationResult validationResult) {
+        OpenApi.coverage.recordOperation(validationResult);
+        OpenApi.validator.validateApiSpec(validationResult);
+    }
 }

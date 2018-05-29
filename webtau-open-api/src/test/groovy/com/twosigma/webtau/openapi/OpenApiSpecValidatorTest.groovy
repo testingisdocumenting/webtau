@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http
+package com.twosigma.webtau.openapi
 
+import com.twosigma.webtau.http.HttpResponse
+import com.twosigma.webtau.http.validation.HttpValidationResult
+import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.Before
 import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.contain
 
-class OpenAPISpecValidatorTest {
+class OpenApiSpecValidatorTest {
     private final static String GET = "GET"
     private final static String URL = "http://myhost.com:1234/"
 
-    private OpenAPISpecValidator validator
+    private OpenApiSpecValidator validator
 
     @Before
-    void setUp() throws Exception {
-        def specUrl = this.class.classLoader.getResource("test-spec.json")
-        validator = new OpenAPISpecValidator(specUrl.toString())
+    void setUp() {
+        def specUrl = ResourceUtils.resourceUrl("test-spec.json")
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()))
     }
 
     @Test
@@ -38,10 +41,9 @@ class OpenAPISpecValidatorTest {
         //This should generate two errors: one for missing mandatoryField and one for invalid type of intField.
         //It should generate no errors for the missing optionalField
         def testResponse = "{\"intField\": \"abc\"}"
-        def response = ok(testResponse)
-        def result = emptyResult()
+        def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(GET, URL, response, result)
+        validator.validateApiSpec(result)
 
         result.mismatches.size().should == 2
         result.mismatches.should contain(~/does not match any allowed primitive type/)
@@ -51,10 +53,9 @@ class OpenAPISpecValidatorTest {
     @Test
     void "valid response generates no mismatches"() {
         def testResponse = "{\"mandatoryField\": \"foo\"}"
-        def response = ok(testResponse)
-        def result = emptyResult()
+        def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(GET, URL, response, result)
+        validator.validateApiSpec(result)
 
         result.mismatches.size().should == 0
     }
@@ -67,7 +68,10 @@ class OpenAPISpecValidatorTest {
         return response
     }
 
-    static HttpValidationResult emptyResult() {
-        return new HttpValidationResult(null, null, null, null)
+    static HttpValidationResult validationResult(method, url, response) {
+        def result = new HttpValidationResult(method, url, null, null)
+        result.setResponse(response)
+
+        return result
     }
 }

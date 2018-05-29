@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.http.validation;
 
 import java.util.List;
 import java.util.Map;

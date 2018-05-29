@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.http.validation.HttpValidationResult;
 import com.twosigma.webtau.reporter.TestResultPayload;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractor;
 import com.twosigma.webtau.reporter.TestStep;

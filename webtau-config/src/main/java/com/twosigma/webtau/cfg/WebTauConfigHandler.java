@@ -16,7 +16,10 @@
 
 package com.twosigma.webtau.cfg;
 
+import java.util.stream.Stream;
+
 public interface WebTauConfigHandler {
-    void onBeforeCreate(WebTauConfig cfg);
-    void onAfterCreate(WebTauConfig cfg);
+    default void onBeforeCreate(WebTauConfig cfg) {}
+    default void onAfterCreate(WebTauConfig cfg) {};
+    default Stream<ConfigValue> additionalConfigValues() { return Stream.empty(); }
 }

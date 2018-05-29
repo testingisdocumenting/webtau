@@ -34,6 +34,7 @@
         <module>webtau-standalone-runner-groovy</module>
         <module>webtau-rest</module>
         <module>webtau-rest-groovy</module>
+        <module>webtau-open-api</module>
         <module>webtau-groovy</module>
         <module>webtau-reactjs</module>
         <module>webtau-report</module>

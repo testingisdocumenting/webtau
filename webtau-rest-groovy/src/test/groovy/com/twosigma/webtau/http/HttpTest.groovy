@@ -242,7 +242,7 @@ class HttpTest {
             http.get("params", [a: 1, b: 'text']) {
                 a.should == 2
             }
-        } should throwException(~/body\.a:/)
+        } should throwException(AssertionError, ~/body\.a:/)
 
         http.lastValidationResult.mismatches.should == [~/body\.a:/]
     }
