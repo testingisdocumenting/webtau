@@ -32,6 +32,12 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
 
-        return Stream.of(new ReportData("nonCoveredUrls", nonCovered));
+        List<? extends Map<String, ?>> covered = OpenApi.coverage.coveredOperations()
+                .map(OpenApiOperation::toMap)
+                .collect(Collectors.toList());
+
+        return Stream.of(
+                new ReportData("openApiSkippedUrls", nonCovered),
+                new ReportData("openApiCoveredUrls", covered));
     }
 }

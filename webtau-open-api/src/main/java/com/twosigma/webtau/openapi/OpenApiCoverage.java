@@ -39,6 +39,10 @@ public class OpenApiCoverage {
         apiOperation.map(coveredOperations::add);
     }
 
+    public Stream<OpenApiOperation> coveredOperations() {
+        return coveredOperations.stream();
+    }
+
     public Stream<OpenApiOperation> nonCoveredOperations() {
         return spec.availableOperationsStream().filter(o -> !coveredOperations.contains(o));
     }
