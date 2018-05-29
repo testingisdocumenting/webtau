@@ -16,11 +16,19 @@
 
 .overall-summary {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 172px);
+    grid-template-columns: 1fr;
     grid-gap: 25px;
     padding: 40px;
 }
 
-.overall-number-of-http-calls {
+.overall-http-calls-time,
+.overall-http-calls-coverage {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 172px);
+    grid-gap: 25px;
+}
+
+.overall-number-of-http-calls,
+.overall-number-of-skipped {
     cursor: pointer;
 }

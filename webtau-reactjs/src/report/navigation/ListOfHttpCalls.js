@@ -20,24 +20,23 @@ import NavigationEntry from './NavigationEntry'
 
 import './ListOfHttpCalls.css'
 
-function ListOfHttpCalls({httpCalls, onSelect, selectedIdx}) {
+function ListOfHttpCalls({httpCalls, onSelect, selectedId}) {
     return (
         <div className="list-of-http-calls">
-            {httpCalls.map((httpCall, idx) => <HttpCallEntry key={idx}
-                                                             idx={idx}
-                                                             httpCall={httpCall}
-                                                             onSelect={onSelect}
-                                                             isSelected={idx === selectedIdx}/>)}
+            {httpCalls.map((httpCall) => <HttpCallEntry key={httpCall.id}
+                                                        httpCall={httpCall}
+                                                        onSelect={onSelect}
+                                                        isSelected={httpCall.id === selectedId}/>)}
         </div>
     )
 }
 
-function HttpCallEntry({httpCall, idx, onSelect, isSelected}) {
+function HttpCallEntry({httpCall, onSelect, isSelected}) {
     return (
         <NavigationEntry label={httpCall.label}
                          status={httpCall.status}
                          isSelected={isSelected}
-                         onSelect={() => onSelect(idx)}/>
+                         onSelect={() => onSelect(httpCall.id)}/>
     )
 }
 

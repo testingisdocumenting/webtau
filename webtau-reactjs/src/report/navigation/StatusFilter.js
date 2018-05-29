@@ -19,12 +19,11 @@ import React from 'react'
 import './StatusFilter.css'
 
 function StatusFilter({summary, onTitleClick, onStatusSelect, selectedStatusFilter}) {
-    const labels = ["Total", "Passed", "Skipped", "Failed", "Errored"]
     return (
         <div className="status-filter">
-            {labels.map(l => <SummaryEntry key={l} label={l} number={summary[l.toLowerCase()]}
-                                           selectedLabel={selectedStatusFilter}
-                                           onStatusSelect={onStatusSelect}/>)}
+            {summary.map(e => <SummaryEntry key={e.label} label={e.label} number={e.value}
+                                            selectedLabel={selectedStatusFilter}
+                                            onStatusSelect={onStatusSelect}/>)}
         </div>
     )
 }

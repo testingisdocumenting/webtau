@@ -41,7 +41,7 @@ class WebTauReportStateCreator {
         const testIdFromParam = searchParams.testId
         const testId = this.report.hasTestWithId(testIdFromParam) ? testIdFromParam : undefined
 
-        const httpCallIdx = searchParams.httpCallIdx ? searchParams.httpCallIdx | 0 : undefined
+        const httpCallId = searchParams.httpCallId ? searchParams.httpCallId : undefined
 
         const detailTabFromParam = searchParams.detailTabName
         const detailTabName = this.report.hasDetailWithTabName(testId, detailTabFromParam) ?
@@ -55,7 +55,7 @@ class WebTauReportStateCreator {
             ...searchParams,
             entriesType,
             testId,
-            httpCallIdx,
+            httpCallId,
             detailTabName,
             statusFilter
         }

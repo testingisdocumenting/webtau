@@ -21,9 +21,18 @@ import CardLabelAndNumber from './widgets/CardLabelAndNumber'
 
 import './OverallSummary.css'
 
-function OverallSummary({report, onSwitchToHttpCalls}) {
+function OverallSummary({report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls}) {
     return (
         <div className="overall-summary">
+            <CallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
+            <UrlCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
+        </div>
+    )
+}
+
+function CallsTiming({report, onSwitchToHttpCalls}) {
+    return (
+        <div className="overall-http-calls-time">
             <div className="overall-number-of-http-calls" onClick={onSwitchToHttpCalls}>
                 <NumberOfHttpCalls number={report.numberOfHttpCalls()}/>
             </div>
@@ -33,6 +42,28 @@ function OverallSummary({report, onSwitchToHttpCalls}) {
 
             <CardLabelAndNumber label="Overall Time (s)"
                                 number={(report.overallHttpCallTime() / 1000.0).toFixed(2)}/>
+        </div>
+    )
+}
+
+function UrlCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
+    if (! report.hasUrlCoverage()) {
+        return null
+    }
+
+    const urlCoveragePercentage = (report.openApiUrlsCoverage() * 100).toFixed(2) + ' %'
+    return (
+        <div className="overall-http-calls-coverage">
+            <CardLabelAndNumber label="Open API urls coverage"
+                                number={urlCoveragePercentage}/>
+            <CardLabelAndNumber label="Covered urls"
+                                number={report.numberOfOpenApiCoveredUrls()}/>
+
+            <div className="overall-number-of-skipped" onClick={onSwitchToSkippedHttpCalls}>
+                <CardLabelAndNumber label="Skipped urls"
+                                    number={report.numberOfOpenApiSkippedUrls()}
+                                    onClick={onSwitchToSkippedHttpCalls}/>
+            </div>
         </div>
     )
 }
