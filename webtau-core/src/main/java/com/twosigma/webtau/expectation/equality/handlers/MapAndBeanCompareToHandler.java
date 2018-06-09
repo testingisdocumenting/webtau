@@ -17,15 +17,15 @@
 package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 import com.twosigma.webtau.utils.JavaBeanUtils;
 
 import java.util.Map;
 
-public class MapAndBeanEqualHandler implements EqualComparatorHandler {
+public class MapAndBeanCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return isMapOfProps(expected) && isBean(actual);
     }
 
@@ -48,7 +48,7 @@ public class MapAndBeanEqualHandler implements EqualComparatorHandler {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         Map<String, ?> expectedMap = (Map<String, ?>) expected;
         Map<String, ?> actualAsMap = JavaBeanUtils.convertBeanToMap(actual);
 
@@ -56,9 +56,9 @@ public class MapAndBeanEqualHandler implements EqualComparatorHandler {
             ActualPath propertyPath = actualPath.property(p);
 
             if (! actualAsMap.containsKey(p)) {
-                equalComparator.reportMissing(this, propertyPath, expectedMap.get(p));
+                comparator.reportMissing(this, propertyPath, expectedMap.get(p));
             } else {
-                equalComparator.compare(propertyPath, actualAsMap.get(p), expectedMap.get(p));
+                comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedMap.get(p));
             }
         });
     }

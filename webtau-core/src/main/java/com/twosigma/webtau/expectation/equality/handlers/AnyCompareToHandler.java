@@ -29,37 +29,24 @@ public class AnyCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public boolean handleGreaterLess(Object actual, Object expected) {
+    public boolean handleGreaterLessEqual(Object actual, Object expected) {
         return actual instanceof Comparable && expected instanceof Comparable;
     }
 
     @Override
-    public void compareEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
-        boolean areEqual = actual.equals(expected);
-        if (areEqual) {
-            compareToComparator.reportEqual(this, actualPath, renderActualExpected(actual, expected));
-        } else {
-            compareToComparator.reportNotEqual(this, actualPath, renderActualExpected(actual, expected));
-        }
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        boolean isEqual = actual.equals(expected);
+        comparator.reportEqualOrNotEqual(this, isEqual, actualPath, renderActualExpected(actual, expected));
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void compareGreaterLess(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         Comparable<Object> actualComparable = (Comparable<Object>) actual;
         int compareTo = actualComparable.compareTo(expected);
 
         String message = renderActualExpected(actual, expected);
-
-        if (compareTo == 0) {
-            compareToComparator.reportEqual(this, actualPath, message);
-        } else if (compareTo < 0) {
-            compareToComparator.reportLess(this, actualPath, message);
-            compareToComparator.reportNotEqual(this, actualPath, message);
-        } else {
-            compareToComparator.reportGreater(this, actualPath, message);
-            compareToComparator.reportNotEqual(this, actualPath, message);
-        }
+        comparator.reportCompareToValue(this, compareTo, actualPath, message);
     }
 
     private String renderActualExpected(Object actual, Object expected) {

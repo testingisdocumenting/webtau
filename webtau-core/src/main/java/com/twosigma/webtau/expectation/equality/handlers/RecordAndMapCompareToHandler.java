@@ -16,27 +16,26 @@
 
 package com.twosigma.webtau.expectation.equality.handlers;
 
-import java.util.Map;
-
 import com.twosigma.webtau.data.table.Record;
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-public class RecordAndMapEqualHandler implements EqualComparatorHandler {
+import java.util.Map;
+
+public class RecordAndMapCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof Record && mapWithStringKeys(expected);
     }
 
     private boolean mapWithStringKeys(Object expected) {
         return expected instanceof Map &&
                 ((Map<?, ?>) expected).keySet().stream().allMatch(k -> k instanceof String);
-
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         Record actualRecord = (Record) actual;
         Map expectedMap = (Map) expected;
 
@@ -47,9 +46,9 @@ public class RecordAndMapEqualHandler implements EqualComparatorHandler {
             if (actualRecord.getHeader().has(name)) {
                 Object actualValue = actualRecord.get(name);
                 Object expectedValue = expectedMap.get(name);
-                equalComparator.compare(propertyPath, actualValue, expectedValue);
+                comparator.compareUsingEqualOnly(propertyPath, actualValue, expectedValue);
             } else {
-                equalComparator.reportMismatch(this, actualPath, propertyPath + " is not found");
+                comparator.reportMissing(this, actualPath, expectedMap.get(name));
             }
         }
     }

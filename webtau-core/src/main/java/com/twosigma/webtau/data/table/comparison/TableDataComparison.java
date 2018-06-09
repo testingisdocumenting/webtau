@@ -16,11 +16,11 @@
 
 package com.twosigma.webtau.data.table.comparison;
 
-import java.util.Set;
-
 import com.twosigma.webtau.data.table.Record;
 import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+
+import java.util.Set;
 
 import static com.twosigma.webtau.Ddjt.createActualPath;
 import static java.util.stream.Collectors.toSet;
@@ -90,12 +90,13 @@ public class TableDataComparison {
     }
 
     private void compare(int rowIdx, String columnName, Object actual, Object expected) {
-        EqualComparator ec = EqualComparator.comparator();
-        ec.compare(createActualPath(columnName), actual, expected);
+        CompareToComparator comparator = CompareToComparator.comparator();
+        boolean isEqual = comparator.compareIsEqual(createActualPath(columnName), actual, expected);
 
-        if (ec.areEqual())
+        if (isEqual) {
             return;
+        }
 
-        comparisonResult.addMismatch(rowIdx, rowIdx, columnName, ec.generateMismatchReport());
+        comparisonResult.addMismatch(rowIdx, rowIdx, columnName, comparator.generateEqualMismatchReport());
     }
 }

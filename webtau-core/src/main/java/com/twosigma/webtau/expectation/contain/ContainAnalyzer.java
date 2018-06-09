@@ -43,7 +43,7 @@ public class ContainAnalyzer {
                 (handler) -> handler.analyzeContain(this, actualPath, actual, expected));
     }
 
-    public boolean containsNot(ActualPath actualPath, Object actual, Object expected) {
+    public boolean notContains(ActualPath actualPath, Object actual, Object expected) {
         return contains(actual, expected,
                 (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
     }

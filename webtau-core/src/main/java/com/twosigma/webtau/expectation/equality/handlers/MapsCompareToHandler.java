@@ -17,35 +17,37 @@
 package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-public class MapsEqualHandler implements EqualComparatorHandler {
+public class MapsCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof Map && expected instanceof Map;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
         Map<?, ?> actualMap = (Map) actual;
         Map<?, ?> expectedMap = (Map) expected;
 
-        Comparator comparator = new Comparator(equalComparator, actualPath, actualMap, expectedMap);
+        Comparator comparator = new Comparator(compareToComparator, actualPath, actualMap, expectedMap);
         comparator.compare();
     }
 
     private class Comparator {
-        private EqualComparator equalComparator;
+        private CompareToComparator compareToComparator;
         private ActualPath actualPath;
         private Map<?, ?> actualMap;
         private Map<?, ?> expectedMap;
         private Set<Object> allKeys;
 
-        Comparator(EqualComparator equalComparator, ActualPath actualPath, Map<?, ?> actualMap, Map<?, ?> expectedMap) {
-            this.equalComparator = equalComparator;
+        Comparator(CompareToComparator compareToComparator, ActualPath actualPath, Map<?, ?> actualMap, Map<?, ?> expectedMap) {
+            this.compareToComparator = compareToComparator;
             this.actualPath = actualPath;
             this.actualMap = actualMap;
             this.expectedMap = expectedMap;
@@ -62,11 +64,11 @@ public class MapsEqualHandler implements EqualComparatorHandler {
             ActualPath propertyPath = actualPath.property(key.toString());
 
             if (! actualMap.containsKey(key)) {
-                equalComparator.reportMissing(MapsEqualHandler.this, propertyPath, expectedMap.get(key));
+                compareToComparator.reportMissing(MapsCompareToHandler.this, propertyPath, expectedMap.get(key));
             } else if (! expectedMap.containsKey(key)) {
-                equalComparator.reportExtra(MapsEqualHandler.this, propertyPath, actualMap.get(key));
+                compareToComparator.reportExtra(MapsCompareToHandler.this, propertyPath, actualMap.get(key));
             } else {
-                equalComparator.compare(propertyPath, actualMap.get(key), expectedMap.get(key));
+                compareToComparator.compareUsingEqualOnly(propertyPath, actualMap.get(key), expectedMap.get(key));
             }
         }
     }

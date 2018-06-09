@@ -19,19 +19,20 @@ package com.twosigma.webtau.expectation.equality.handlers
 import com.twosigma.webtau.data.DummyLiveValue
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.Ddjt.actual
+import static com.twosigma.webtau.Ddjt.equal
 
-class LiveValueEqualHandlerTest {
+class LiveValueCompareToHandlerTest {
     @Test
     void "handles instances of live value as actual and any other value as expected"() {
-        def handler = new LiveValueEqualHandler()
+        def handler = new LiveValueCompareToHandler()
 
         def liveValue = new DummyLiveValue([])
 
-        assert handler.handle(liveValue, "hello")
-        assert handler.handle(liveValue, 100)
+        assert handler.handleEquality(liveValue, "hello")
+        assert handler.handleEquality(liveValue, 100)
 
-        assert ! handler.handle(100, 100)
+        assert ! handler.handleEquality(100, 100)
     }
 
     @Test

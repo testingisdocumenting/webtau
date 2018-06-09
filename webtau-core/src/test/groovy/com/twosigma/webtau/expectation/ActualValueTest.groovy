@@ -22,7 +22,8 @@ import com.twosigma.webtau.expectation.timer.DummyExpectationTimer
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.Ddjt.actual
+import static com.twosigma.webtau.Ddjt.equal
 
 class ActualValueTest {
     LiveValue liveValue
@@ -69,7 +70,7 @@ class ActualValueTest {
     @Test
     void "custom handler for waitToNot"() {
         def expectationTimer = new DummyExpectationTimer(2)
-        testCustomHandler('equals 1') {
+        testCustomHandler('equals to 1') {
             actual(ones).waitToNot(equal(1), expectationTimer, 1000, 10)
         }
     }
@@ -83,7 +84,7 @@ class ActualValueTest {
 
     @Test
     void "custom handler for shouldNot"() {
-        testCustomHandler('equals 1') {
+        testCustomHandler('equals to 1') {
             actual(ones).shouldNot(equal(1))
         }
     }

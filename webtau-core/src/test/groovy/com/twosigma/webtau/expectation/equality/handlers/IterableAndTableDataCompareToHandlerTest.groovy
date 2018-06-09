@@ -16,12 +16,15 @@
 
 package com.twosigma.webtau.expectation.equality.handlers
 
-import com.twosigma.webtau.expectation.equality.EqualComparator
+import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.Ddjt.actual
+import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.Ddjt.equal
+import static com.twosigma.webtau.Ddjt.header
 
-class IterableAndTableDataEqualHandlerTest {
+class IterableAndTableDataCompareToHandlerTest {
     @Test
     void "should compare list of beans and table data"() {
         def beans = [new SimpleBean(price: 2, lot: 2, symbol: "SA"),
@@ -41,12 +44,10 @@ class IterableAndTableDataEqualHandlerTest {
                 "SA", 2, 2,
                 "SB", 2, 2)
 
-        def equalComparator = EqualComparator.comparator()
-        equalComparator.compare(createActualPath("beans"), beans, expected)
+        def comparator = CompareToComparator.comparator()
+        assert !comparator.compareIsEqual(createActualPath("beans"), beans, expected)
 
-        assert ! equalComparator.areEqual()
-
-        def report = equalComparator.generateMismatchReport()
+        def report = comparator.generateEqualMismatchReport()
         assert report.contains("lot:   actual: 1.0")
     }
 

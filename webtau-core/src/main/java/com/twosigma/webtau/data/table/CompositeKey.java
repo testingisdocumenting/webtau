@@ -16,8 +16,7 @@
 
 package com.twosigma.webtau.data.table;
 
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.stream.Stream;
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
 /**
- * Composite key to be used in structures like {@link TableData}. Keys comparison rules are dictated by {@link EqualComparatorHandler}.
+ * Composite key to be used in structures like {@link TableData}. Keys comparison rules are dictated by {@link CompareToComparator}.
  */
 public class CompositeKey {
     private List<Object> values;
@@ -49,10 +48,8 @@ public class CompositeKey {
             return false;
 
         List<Object> otherValues = ((CompositeKey) other).values;
-        EqualComparator ec = EqualComparator.comparator();
-        ec.compare(createActualPath(""), values, otherValues);
-
-        return ec.areEqual();
+        CompareToComparator comparator = CompareToComparator.comparator();
+        return comparator.compareIsEqual(createActualPath(""), values, otherValues);
     }
 
     public int hashCode() {

@@ -16,39 +16,37 @@
 
 package com.twosigma.webtau.http.datanode;
 
+import com.twosigma.webtau.data.table.TableData;
+import com.twosigma.webtau.expectation.ActualPath;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
-
-import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.expectation.ActualPath;
-
-public class DataNodeEqualHandler implements EqualComparatorHandler {
+public class DataNodeCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleNulls() {
         return true;
     }
 
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof DataNode;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
-
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         if (expected instanceof Map) {
-            compareWithMap(equalComparator, actualPath, (DataNode) actual, (Map) expected);
+            compareWithMap(comparator, actualPath, (DataNode) actual, (Map) expected);
         } else {
             Object convertedActual = convertBasedOnExpected((DataNode) actual, expected);
-            equalComparator.compare(actualPath, convertedActual, expected);
+            comparator.compareUsingEqualOnly(actualPath, convertedActual, expected);
         }
     }
 
-    private void compareWithMap(EqualComparator equalComparator, ActualPath actualPath, DataNode actual, Map expected) {
+    private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map expected) {
         Map<String, DataNode> actualAsMap = actual.asMap();
 
         Set keys = expected.keySet();
@@ -58,9 +56,9 @@ public class DataNodeEqualHandler implements EqualComparatorHandler {
 
             Object expectedValue = expected.get(p);
             if (! actualAsMap.containsKey(p)) {
-                equalComparator.reportMissing(this, propertyPath, expectedValue);
+                comparator.reportMissing(this, propertyPath, expectedValue);
             } else {
-                equalComparator.compare(propertyPath, actualAsMap.get(p), expectedValue);
+                comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedValue);
             }
         }
     }

@@ -23,9 +23,9 @@ import com.twosigma.webtau.page.path.GenericPageElement
 import org.junit.Before
 import org.junit.Test
 
-class PageElementEqualHandlerTest {
+class PageElementCompareToHandlerTest {
     FakeWebDriver driver
-    def handler = new PageElementEqualHandler()
+    def handler = new PageElementCompareToHandler()
 
     @Before
     void init() {
@@ -36,10 +36,10 @@ class PageElementEqualHandlerTest {
     void "handles page element and any other value"() {
         def pageElement = new GenericPageElement(driver, new ElementPath())
 
-        handler.handle(pageElement, "hello").should == true
-        handler.handle(pageElement, 100).should == true
+        handler.handleEquality(pageElement, "hello").should == true
+        handler.handleEquality(pageElement, 100).should == true
 
-        handler.handle(100, 100).should == false
+        handler.handleEquality(100, 100).should == false
     }
 
     @Test

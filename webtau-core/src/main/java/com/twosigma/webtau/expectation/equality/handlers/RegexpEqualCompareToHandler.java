@@ -17,30 +17,27 @@
 package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
 import java.util.regex.Pattern;
 
-public class RegexpEqualHandler implements EqualComparatorHandler {
+public class RegexpEqualCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof String && expected instanceof Pattern;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         Pattern expectedPattern = (Pattern) expected;
 
-        boolean areEqual = expectedPattern.matcher(actual.toString()).find();
-        if (areEqual) {
-            return;
-        }
-
-        equalComparator.reportMismatch(this, actualPath, mismatchMessage(actual, expected));
+        boolean isEqual = expectedPattern.matcher(actual.toString()).find();
+        comparator.reportEqualOrNotEqual(this, isEqual,
+                actualPath, renderActualExpected(actual, expected));
     }
 
-    private String mismatchMessage(Object actual, Object expected) {
+    private String renderActualExpected(Object actual, Object expected) {
         return "   actual string: " + actual.toString() + "\n" +
                "expected pattern: " + expected.toString();
     }
