@@ -19,7 +19,7 @@ package com.twosigma.webtau.expectation.contain;
 import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.contain.handlers.NullContainHandler;
-import com.twosigma.webtau.expectation.equality.Mismatch;
+import com.twosigma.webtau.expectation.equality.ActualPathMessage;
 import com.twosigma.webtau.utils.ServiceUtils;
 import com.twosigma.webtau.utils.TraceUtils;
 
@@ -32,7 +32,7 @@ import static java.util.stream.Collectors.joining;
 public class ContainAnalyzer {
     private static List<ContainHandler> handlers = discoverHandlers();
 
-    private final List<Mismatch> mismatches;
+    private final List<ActualPathMessage> mismatches;
 
     public static ContainAnalyzer containAnalyzer() {
         return new ContainAnalyzer();
@@ -49,13 +49,13 @@ public class ContainAnalyzer {
     }
 
     public void reportMismatch(ContainHandler reporter, ActualPath actualPath, String mismatch) {
-        mismatches.add(new Mismatch(actualPath, mismatch));
+        mismatches.add(new ActualPathMessage(actualPath, mismatch));
     }
 
     public String generateMismatchReport() {
         List<String> reports = new ArrayList<>();
         if (!mismatches.isEmpty()) {
-            reports.add(mismatches.stream().map(Mismatch::fullMessage).collect(joining("\n")));
+            reports.add(mismatches.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
         }
 
         return reports.stream().collect(joining("\n\n"));

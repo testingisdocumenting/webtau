@@ -19,12 +19,12 @@ package com.twosigma.webtau.expectation.equality;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.utils.StringUtils;
 
-public class Mismatch {
+public class ActualPathMessage {
     private ActualPath actualPath;
     private String message;
     private String fullMessage;
 
-    public Mismatch(ActualPath actualPath, String message) {
+    public ActualPathMessage(ActualPath actualPath, String message) {
         this.actualPath = actualPath;
         this.message = message;
         this.fullMessage = StringUtils.concatWithIndentation(actualPath.getPath() + ": ", message);
@@ -38,12 +38,12 @@ public class Mismatch {
         return message;
     }
 
-    public String fullMessage() {
+    public String getFullMessage() {
         return fullMessage;
     }
 
     @Override
     public String toString() {
-        return fullMessage();
+        return getFullMessage();
     }
 }

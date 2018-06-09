@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.converters;
+package com.twosigma.webtau.expectation.equality;
 
-import java.util.Map;
 
-public class MapToMapConverter implements ToMapConverter {
-    @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, ?> convert(Object v) {
-        if (v instanceof Map) {
-            return (Map<String, ?>) v;
-        }
+import com.twosigma.webtau.expectation.ActualPath;
 
-        return null;
+public interface CompareToHandler {
+    boolean handleEquality(Object actual, Object expected);
+
+    default boolean handleGreaterLess(Object actual, Object expected) {
+        return false;
     }
+
+    default boolean handleNulls() {
+        return false;
+    }
+
+    void compareEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected);
+
+    void compareGreaterLess(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected);
 }
