@@ -19,27 +19,27 @@ package com.twosigma.webtau.expectation.equality.handlers;
 import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.ComparatorResult;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-public class TraceableValueEqualHandler implements EqualComparatorHandler {
+public class TraceableValueCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof TraceableValue;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         TraceableValue traceableValue = (TraceableValue) actual;
-        ComparatorResult result = equalComparator.compare(actualPath, traceableValue.getValue(), expected);
 
-        if (result.isMismatch()) {
-            traceableValue.updateCheckLevel(equalComparator.isNegative() ?
+        boolean isEqual = comparator.compareIsEqual(actualPath, traceableValue.getValue(), expected);
+
+        if (! isEqual) {
+            traceableValue.updateCheckLevel(comparator.isNegative() ?
                 CheckLevel.FuzzyPassed:
                 CheckLevel.ExplicitFailed);
         } else {
-            traceableValue.updateCheckLevel(equalComparator.isNegative() ?
+            traceableValue.updateCheckLevel(comparator.isNegative() ?
                 CheckLevel.ExplicitFailed:
                 CheckLevel.ExplicitPassed);
         }

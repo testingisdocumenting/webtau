@@ -18,17 +18,18 @@ package com.twosigma.webtau.expectation.equality.handlers
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.Ddjt.actual
+import static com.twosigma.webtau.Ddjt.equal
 
-class RegexpEqualHandlerTest {
+class RegexpEqualCompareToHandlerTest {
     @Test
     void "handles instances of String value as actual and Pattern as expected"() {
-        def handler = new RegexpEqualHandler()
+        def handler = new RegexpEqualCompareToHandler()
 
-        assert handler.handle("test", ~/regexp/)
+        assert handler.handleEquality("test", ~/regexp/)
 
-        assert ! handler.handle("test", "another text")
-        assert ! handler.handle(100, ~/regexp/)
+        assert ! handler.handleEquality("test", "another text")
+        assert ! handler.handleEquality(100, ~/regexp/)
     }
 
     @Test

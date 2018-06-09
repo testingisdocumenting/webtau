@@ -18,7 +18,7 @@ package com.twosigma.webtau.expectation.code;
 
 import com.twosigma.webtau.expectation.CodeBlock;
 import com.twosigma.webtau.expectation.CodeMatcher;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
 
 import java.util.regex.Pattern;
 
@@ -30,7 +30,7 @@ public class ThrowExceptionMatcher implements CodeMatcher {
     private Class expectedClass;
     private String thrownMessage;
     private Class thrownClass;
-    private EqualComparator comparator;
+    private CompareToComparator comparator;
 
     public ThrowExceptionMatcher(String expectedMessage) {
         this.expectedMessage = expectedMessage;
@@ -66,7 +66,7 @@ public class ThrowExceptionMatcher implements CodeMatcher {
 
     @Override
     public String mismatchedMessage(CodeBlock codeBlock) {
-        return comparator.generateMismatchReport();
+        return comparator.generateEqualMismatchReport();
     }
 
     @Override
@@ -78,20 +78,24 @@ public class ThrowExceptionMatcher implements CodeMatcher {
             thrownClass = t.getClass();
         }
 
-        comparator = EqualComparator.comparator();
+        comparator = CompareToComparator.comparator();
+
+        boolean isEqual = true;
 
         if (expectedMessage != null) {
-            comparator.compare(createActualPath("expected exception message"), thrownMessage, expectedMessage);
+            isEqual = comparator.compareIsEqual(createActualPath("expected exception message"), thrownMessage, expectedMessage);
         }
 
         if (expectedMessageRegexp != null) {
-            comparator.compare(createActualPath("expected exception message"), thrownMessage, expectedMessageRegexp);
+            isEqual =  comparator.compareIsEqual(createActualPath("expected exception message"),
+                    thrownMessage, expectedMessageRegexp) && isEqual;
         }
 
         if (expectedClass != null) {
-            comparator.compare(createActualPath("expected exception class"), thrownClass, expectedClass);
+            isEqual = comparator.compareIsEqual(createActualPath("expected exception class"),
+                    thrownClass, expectedClass) && isEqual;
         }
 
-        return comparator.areEqual();
+        return isEqual;
     }
 }

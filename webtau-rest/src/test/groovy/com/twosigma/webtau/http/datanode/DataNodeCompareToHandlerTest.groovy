@@ -21,7 +21,7 @@ import org.junit.Test
 import static com.twosigma.webtau.data.traceable.CheckLevel.ExplicitPassed
 import static com.twosigma.webtau.data.traceable.CheckLevel.None
 
-class DataNodeEqualHandlerTest {
+class DataNodeCompareToHandlerTest {
     @Test
     void "should only check explicitly specified properties when compared against map"() {
         def node = DataNodeBuilder.fromMap(new DataNodeId("node"), [

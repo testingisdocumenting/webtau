@@ -17,8 +17,7 @@
 package com.twosigma.webtau.expectation.contain.handlers;
 
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.ComparatorResult;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,13 +27,13 @@ public class IterableContainAnalyzer {
     private ActualPath actualPath;
     private Object actual;
     private Object expected;
-    private EqualComparator equalComparator;
+    private CompareToComparator comparator;
 
     public IterableContainAnalyzer(ActualPath actualPath, Object actual, Object expected) {
         this.actualPath = actualPath;
         this.actual = actual;
         this.expected = expected;
-        this.equalComparator = EqualComparator.comparator();
+        this.comparator = CompareToComparator.comparator();
     }
 
     public List<IndexedValue> containingIndexedValues() {
@@ -48,8 +47,8 @@ public class IterableContainAnalyzer {
             Object actualValue = iterator.next();
             ActualPath indexedPath = actualPath.index(idx);
 
-            ComparatorResult comparatorResult = equalComparator.compare(indexedPath, actualValue, expected);
-            if (!comparatorResult.isMismatch()) {
+            boolean isEqual = comparator.compareIsEqual(indexedPath, actualValue, expected);
+            if (isEqual) {
                 matchedIndexes.add(new IndexedValue(idx, actualValue));
             }
 
@@ -59,7 +58,7 @@ public class IterableContainAnalyzer {
         return matchedIndexes;
     }
 
-    public EqualComparator getEqualComparator() {
-        return equalComparator;
+    public CompareToComparator getComparator() {
+        return comparator;
     }
 }

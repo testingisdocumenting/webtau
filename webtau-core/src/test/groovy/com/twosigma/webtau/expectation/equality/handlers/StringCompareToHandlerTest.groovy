@@ -16,23 +16,25 @@
 
 package com.twosigma.webtau.expectation.equality.handlers
 
-import com.twosigma.webtau.expectation.equality.EqualComparator
+import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.Ddjt.actual
+import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.Ddjt.equal
 import static org.junit.Assert.assertEquals
 
-class StringEqualHandlerTest {
+class StringCompareToHandlerTest {
     @Test
     void "handles instances of String and Characters as actual or expected"() {
-        def handler = new StringEqualHandler()
+        def handler = new StringCompareToHandler()
 
-        assert handler.handle("test", "test")
-        assert handler.handle("t", Character.valueOf('t'.toCharArray()[0]))
-        assert handler.handle(Character.valueOf('t'.toCharArray()[0]), "t")
+        assert handler.handleEquality("test", "test")
+        assert handler.handleEquality("t", Character.valueOf('t'.toCharArray()[0]))
+        assert handler.handleEquality(Character.valueOf('t'.toCharArray()[0]), "t")
 
-        assert ! handler.handle("test", 100)
-        assert ! handler.handle("test", ~/regexp/)
+        assert ! handler.handleEquality("test", 100)
+        assert ! handler.handleEquality("test", ~/regexp/)
     }
 
     @Test
@@ -42,14 +44,13 @@ class StringEqualHandlerTest {
 
     @Test
     void "reports types before conversion to string in case of failure"() {
-        def comparator = EqualComparator.comparator()
-        comparator.compare(createActualPath("text"), Character.valueOf('t'.toCharArray()[0]), "b")
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(createActualPath("text"), Character.valueOf('t'.toCharArray()[0]), "b")
 
         assertEquals("mismatches:\n" +
                 "\n" +
                 "text:   actual: t <java.lang.String>(before conversion: t <java.lang.Character>)\n" +
                 "      expected: b <java.lang.String>",
-                comparator.generateMismatchReport())
-
+                comparator.generateEqualMismatchReport())
     }
 }

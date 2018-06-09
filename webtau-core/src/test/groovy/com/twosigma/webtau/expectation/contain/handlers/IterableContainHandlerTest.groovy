@@ -51,12 +51,12 @@ class IterableContainHandlerTest {
 
     @Test
     void "no mismatches when collection doesn't contain a value and should not"() {
-        assert analyzer.containsNot(createActualPath("list"), ["hello", "world", "of", "testing"], "off")
+        assert analyzer.notContains(createActualPath("list"), ["hello", "world", "of", "testing"], "off")
     }
 
     @Test
     void "mismatches when collection contain a value but should not"() {
-        assert !analyzer.containsNot(createActualPath("list"), ["hello", "world", "of", "testing"], "of")
+        assert !analyzer.notContains(createActualPath("list"), ["hello", "world", "of", "testing"], "of")
         Assert.assertEquals("list[2]: equals of", analyzer.generateMismatchReport())
     }
 

@@ -18,18 +18,18 @@ package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.data.live.LiveValue;
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-public class LiveValueEqualHandler implements EqualComparatorHandler {
+public class LiveValueCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof LiveValue;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         LiveValue actualLiveValue = (LiveValue) actual;
-        equalComparator.compare(actualPath, actualLiveValue.get(), expected);
+        comparator.compareIsEqual(actualPath, actualLiveValue.get(), expected);
     }
 }

@@ -22,7 +22,7 @@ import com.twosigma.webtau.expectation.ActualPath;
 public interface CompareToHandler {
     boolean handleEquality(Object actual, Object expected);
 
-    default boolean handleGreaterLess(Object actual, Object expected) {
+    default boolean handleGreaterLessEqual(Object actual, Object expected) {
         return false;
     }
 
@@ -30,7 +30,9 @@ public interface CompareToHandler {
         return false;
     }
 
-    void compareEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected);
+    void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected);
 
-    void compareGreaterLess(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected);
+    default void compareGreaterLessEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
+        throw new UnsupportedOperationException("doesn't handle greater-less comparison");
+    }
 }

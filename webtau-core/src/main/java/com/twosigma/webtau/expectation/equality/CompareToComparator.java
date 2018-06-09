@@ -19,6 +19,7 @@ package com.twosigma.webtau.expectation.equality;
 import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.handlers.AnyCompareToHandler;
+import com.twosigma.webtau.expectation.equality.handlers.NullCompareToHandler;
 import com.twosigma.webtau.utils.ServiceUtils;
 import com.twosigma.webtau.utils.TraceUtils;
 
@@ -31,14 +32,17 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 
 public class CompareToComparator {
-    private static List<CompareToHandler> handlers = discoverHandlers();
+    private static final String MISMATCHES_LABEL = "mismatches";
+    private static final String MATCHES_LABEL = "matches";
 
-    private List<ActualPathMessage> equalMessages = new ArrayList<>();
-    private List<ActualPathMessage> notEqualMessages = new ArrayList<>();
-    private List<ActualPathMessage> greaterMessages = new ArrayList<>();
-    private List<ActualPathMessage> lessMessages = new ArrayList<>();
-    private List<ActualPathMessage> missingMessages = new ArrayList<>();
-    private List<ActualPathMessage> extraMessages = new ArrayList<>();
+    private static final List<CompareToHandler> handlers = discoverHandlers();
+
+    private final List<ActualPathMessage> equalMessages = new ArrayList<>();
+    private final List<ActualPathMessage> notEqualMessages = new ArrayList<>();
+    private final List<ActualPathMessage> greaterMessages = new ArrayList<>();
+    private final List<ActualPathMessage> lessMessages = new ArrayList<>();
+    private final List<ActualPathMessage> missingMessages = new ArrayList<>();
+    private final List<ActualPathMessage> extraMessages = new ArrayList<>();
 
     private final boolean isNegative;
 
@@ -58,63 +62,63 @@ public class CompareToComparator {
         return new CompareToComparator(isNegative);
     }
 
-    private CompareToComparator(final boolean isNegative) {
+    private CompareToComparator(boolean isNegative) {
         this.isNegative = isNegative;
     }
 
-    public boolean compareEqual(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareTo(actualPath, actual, expected);
+    public boolean compareIsEqual(ActualPath actualPath, Object actual, Object expected) {
+        CompareToResult compareResult = compareUsingEqualOnly(actualPath, actual, expected);
 
         return compareResult.getNotEqualMessages().isEmpty() &&
                 compareResult.hasNoExtraOrMissing();
     }
 
-    public boolean compareGreater(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareTo(actualPath, actual, expected);
+    public boolean compareIsGreater(ActualPath actualPath, Object actual, Object expected) {
+        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
 
         return compareResult.getLessMessages().isEmpty() &&
                 compareResult.getEqualMessages().isEmpty() &&
                 compareResult.hasNoExtraOrMissing();
     }
 
-    public boolean compareGreaterOrEqual(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareTo(actualPath, actual, expected);
+    public boolean compareIsGreaterOrEqual(ActualPath actualPath, Object actual, Object expected) {
+        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
 
         return compareResult.getLessMessages().isEmpty() &&
                 compareResult.hasNoExtraOrMissing();
     }
 
-    public boolean compareLess(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareTo(actualPath, actual, expected);
+    public boolean compareIsLess(ActualPath actualPath, Object actual, Object expected) {
+        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
 
         return compareResult.getGreaterMessages().isEmpty() &&
                 compareResult.getEqualMessages().isEmpty() &&
                 compareResult.hasNoExtraOrMissing();
     }
 
-    public boolean compareLessOrEqual(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareTo(actualPath, actual, expected);
+    public boolean compareIsLessOrEqual(ActualPath actualPath, Object actual, Object expected) {
+        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
 
         return compareResult.getGreaterMessages().isEmpty() &&
                 compareResult.hasNoExtraOrMissing();
     }
 
-    public CompareToResult compareEqualOnly(ActualPath actualPath, Object actual, Object expected) {
+    public CompareToResult compareUsingEqualOnly(ActualPath actualPath, Object actual, Object expected) {
         CompareToHandler handler = getCompareToEqualHandler(actual, expected);
 
         CompareToComparator comparator = freshCopy();
-        handler.compareEqual(comparator, actualPath, actual, expected);
+        handler.compareEqualOnly(comparator, actualPath, actual, expected);
 
         mergeResults(comparator);
 
         return createCompareToResult(comparator);
     }
 
-    public CompareToResult compareTo(ActualPath actualPath, Object actual, Object expected) {
+    public CompareToResult compareUsingCompareTo(ActualPath actualPath, Object actual, Object expected) {
         CompareToHandler handler = getCompareToGreaterLessHandler(actual, expected);
 
         CompareToComparator comparator = freshCopy();
-        handler.compareGreaterLess(comparator, actualPath, actual, expected);
+        handler.compareGreaterLessEqual(comparator, actualPath, actual, expected);
 
         mergeResults(comparator);
 
@@ -150,7 +154,7 @@ public class CompareToComparator {
 
     private CompareToHandler getCompareToGreaterLessHandler(Object actual, Object expected) {
         return handlers.stream().
-                filter(h -> h.handleGreaterLess(actual, expected)).findFirst().
+                filter(h -> h.handleGreaterLessEqual(actual, expected)).findFirst().
                 orElseThrow(() -> noHandlerFound(actual, expected));
     }
 
@@ -163,35 +167,46 @@ public class CompareToComparator {
     }
 
     public String generateGreaterThanMismatchReport() {
-        return generateReportPart("mismatches", Arrays.asList(lessMessages, equalMessages));
+        return generateReportPart(MISMATCHES_LABEL, Arrays.asList(lessMessages, equalMessages));
     }
 
     public String generateGreaterThanOrEqualMismatchReport() {
-        return generateReportPart("mismatches", Collections.singletonList(lessMessages));
+        return generateReportPart(MISMATCHES_LABEL, Collections.singletonList(lessMessages));
     }
 
     public String generateLessThanOrEqualMismatchReport() {
-        return generateReportPart("mismatches", Collections.singletonList(greaterMessages));
+        return generateReportPart(MISMATCHES_LABEL, Collections.singletonList(greaterMessages));
     }
 
     public String generateLessThanMismatchReport() {
-        return generateReportPart("mismatches", Arrays.asList(greaterMessages, equalMessages));
+        return generateReportPart(MISMATCHES_LABEL, Arrays.asList(greaterMessages, equalMessages));
+    }
+
+    public String generateEqualMismatchReport() {
+        return combineReportParts(
+                generateReportPart(MISMATCHES_LABEL, Collections.singletonList(notEqualMessages)),
+                generateReportPart("missing, but expected values", Collections.singletonList(missingMessages)),
+                generateReportPart("unexpected values", Collections.singletonList(extraMessages)));
     }
 
     public String generateGreaterThanMatchReport() {
-        return generateReportPart("matches", Collections.singletonList(greaterMessages));
+        return generateReportPart(MATCHES_LABEL, Collections.singletonList(greaterMessages));
     }
 
     public String generateGreaterThanOrEqualMatchReport() {
-        return generateReportPart("matches", Arrays.asList(greaterMessages, equalMessages));
+        return generateReportPart(MATCHES_LABEL, Arrays.asList(greaterMessages, equalMessages));
     }
 
     public String generateLessThanMatchReport() {
-        return generateReportPart("matches", Collections.singletonList(lessMessages));
+        return generateReportPart(MATCHES_LABEL, Collections.singletonList(lessMessages));
     }
 
     public String generateLessThanOrEqualToMatchReport() {
-        return generateReportPart("matches", Arrays.asList(equalMessages, lessMessages));
+        return generateReportPart(MATCHES_LABEL, Arrays.asList(equalMessages, lessMessages));
+    }
+
+    public String generateEqualMatchReport() {
+        return generateReportPart(MATCHES_LABEL, Collections.singletonList(equalMessages));
     }
 
     public void reportMissing(CompareToHandler reporter, ActualPath actualPath, Object value) {
@@ -218,6 +233,26 @@ public class CompareToComparator {
         lessMessages.add(new ActualPathMessage(actualPath, message));
     }
 
+    public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ActualPath actualPath, String message) {
+        if (isEqual) {
+            reportEqual(reporter, actualPath, message);
+        } else {
+            reportNotEqual(reporter, actualPath, message);
+        }
+    }
+
+    public void reportCompareToValue(CompareToHandler reporter, int compareTo, ActualPath actualPath, String message) {
+        if (compareTo == 0) {
+            reportEqual(reporter, actualPath, message);
+        } else if (compareTo < 0) {
+            reportLess(reporter, actualPath, message);
+            reportNotEqual(reporter, actualPath, message);
+        } else {
+            reportGreater(reporter, actualPath, message);
+            reportNotEqual(reporter, actualPath, message);
+        }
+    }
+
     private String generateReportPart(String label, List<List<ActualPathMessage>> messagesGroups) {
         if (messagesGroups.stream().allMatch(List::isEmpty)) {
             return "";
@@ -229,12 +264,17 @@ public class CompareToComparator {
                 .collect(joining("\n"));
     }
 
+    private String combineReportParts(String... parts) {
+        return Arrays.stream(parts).filter(p -> !p.isEmpty()).collect(joining("\n\n"));
+    }
+
     private static List<CompareToHandler> discoverHandlers() {
         List<CompareToHandler> result = new ArrayList<>();
 
         List<CompareToHandler> discovered = ServiceUtils.discover(CompareToHandler.class);
 
         discovered.stream().filter(CompareToHandler::handleNulls).forEach(result::add);
+        result.add(new NullCompareToHandler());
         discovered.stream().filter(h -> ! h.handleNulls()).forEach(result::add);
 
         result.add(new AnyCompareToHandler());
@@ -244,7 +284,7 @@ public class CompareToComparator {
 
     private RuntimeException noHandlerFound(Object actual, Object expected) {
         return new RuntimeException(
-            "no compareTo handler found for\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
+            "no compareUsingCompareTo handler found for\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
             "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
     }
 }

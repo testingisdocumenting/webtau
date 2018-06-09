@@ -21,7 +21,7 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
 public class EqualMatcher implements ValueMatcher {
-    private EqualComparator equalComparator;
+    private CompareToComparator comparator;
     private final Object expected;
 
     public EqualMatcher(Object expected) {
@@ -40,13 +40,14 @@ public class EqualMatcher implements ValueMatcher {
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return equalComparator.generateMismatchReport();
+        return "doesn't equal to " + DataRenderers.render(expected) + "\n" +
+                comparator.generateEqualMismatchReport();
     }
 
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
-        equalComparator = EqualComparator.comparator();
-        return compare(actualPath, actual);
+        comparator = CompareToComparator.comparator();
+        return comparator.compareIsEqual(actualPath, actual, expected);
     }
 
     @Override
@@ -56,22 +57,19 @@ public class EqualMatcher implements ValueMatcher {
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-        return "doesn't equal " + DataRenderers.render(expected);
+        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
+                comparator.generateEqualMismatchReport();
     }
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " equals " + DataRenderers.render(expected) + "\nactual:\n" + actual;
+        return "equals to " + DataRenderers.render(expected) + ", but shouldn't\n" +
+                comparator.generateEqualMatchReport();
     }
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
-        equalComparator = EqualComparator.negativeComparator();
-        return compare(actualPath, actual);
-    }
-
-    private boolean compare(ActualPath actualPath, Object actual) {
-        equalComparator.compare(actualPath, actual, expected);
-        return equalComparator.areEqual();
+        comparator = CompareToComparator.negativeComparator();
+        return !comparator.compareIsEqual(actualPath, actual, expected);
     }
 }

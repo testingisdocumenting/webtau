@@ -16,25 +16,23 @@
 
 package com.twosigma.webtau.expectation;
 
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 import com.twosigma.webtau.page.ElementValue;
-import com.twosigma.webtau.page.PageElement;
 
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
-public class PageElementEqualHandler implements EqualComparatorHandler {
+public class ElementValueCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
-        return actual instanceof PageElement;
+    public boolean handleEquality(Object actual, Object expected) {
+        return actual instanceof ElementValue;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
-        PageElement actualPageElement = (PageElement) actual;
-        ElementValue elementValue = actualPageElement.elementValue();
-        Object actualValue = elementValue.get();
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        ElementValue actualElementValue = (ElementValue) actual;
+        Object actualValue = actualElementValue.get();
 
-        equalComparator.compare(createActualPath(elementValue.getName()), actualValue, expected);
+        comparator.compareUsingEqualOnly(createActualPath(actualElementValue.getName()), actualValue, expected);
     }
 }

@@ -20,13 +20,8 @@ import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.contain.ContainAnalyzer;
 import com.twosigma.webtau.expectation.contain.ContainHandler;
-import com.twosigma.webtau.expectation.equality.ComparatorResult;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 public class IterableContainHandler implements ContainHandler {
     @Override
@@ -40,8 +35,8 @@ public class IterableContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 
         if (indexedValues.isEmpty()) {
-            containAnalyzer.reportMismatch(this, actualPath, analyzer.getEqualComparator()
-                    .generateMismatchReport());
+            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
+                    .generateEqualMismatchReport());
         }
     }
 

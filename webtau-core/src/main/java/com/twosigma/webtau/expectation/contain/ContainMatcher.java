@@ -69,7 +69,7 @@ public class ContainMatcher implements ValueMatcher {
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
-        containAnalyzer.containsNot(actualPath, actual, expected);
+        containAnalyzer.notContains(actualPath, actual, expected);
         return containAnalyzer.hasMismatches();
     }
 }

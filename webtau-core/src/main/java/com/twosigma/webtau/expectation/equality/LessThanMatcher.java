@@ -48,7 +48,7 @@ public class LessThanMatcher implements ValueMatcher {
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
         compareToComparator = CompareToComparator.comparator();
-        return compareToComparator.compareLess(actualPath, actual, expected);
+        return compareToComparator.compareIsLess(actualPath, actual, expected);
     }
 
     @Override
@@ -72,6 +72,6 @@ public class LessThanMatcher implements ValueMatcher {
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
         compareToComparator = CompareToComparator.negativeComparator();
-        return compareToComparator.compareGreaterOrEqual(actualPath, actual, expected);
+        return compareToComparator.compareIsGreaterOrEqual(actualPath, actual, expected);
     }
 }

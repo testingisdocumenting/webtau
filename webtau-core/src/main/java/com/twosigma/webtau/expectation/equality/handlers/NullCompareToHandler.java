@@ -17,30 +17,36 @@
 package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
 import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
-public class NullEqualHandler implements EqualComparatorHandler {
+public class NullCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual == null || expected == null;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
-        if (actual == null && expected == null) {
-            return;
-        }
+    public boolean handleNulls() {
+        return true;
+    }
 
-        if (actual == null) {
-            equalComparator.reportMismatch(this, actualPath,
+    @Override
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        if (actual == null && expected == null) {
+            comparator.reportEqual(this, actualPath,
                     "  actual: null\n" +
-                              "expected: " + renderValueAndType(expected));
+                            "expected: null");
+        } else if (actual == null) {
+            comparator.reportNotEqual(this, actualPath,
+                    "  actual: null\n" +
+                            "expected: " + renderValueAndType(expected));
         } else {
-            equalComparator.reportMismatch(this, actualPath, "  actual: " + renderValueAndType(actual) + "\n" +
-                "expected: null\n");
+            comparator.reportNotEqual(this, actualPath,
+                    "  actual: " + renderValueAndType(actual) + "\n" +
+                            "expected: null\n");
         }
     }
 }

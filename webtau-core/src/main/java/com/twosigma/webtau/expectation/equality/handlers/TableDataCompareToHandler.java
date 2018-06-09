@@ -21,20 +21,20 @@ import com.twosigma.webtau.data.table.comparison.TableDataComparison;
 import com.twosigma.webtau.data.table.comparison.TableDataComparisonReport;
 import com.twosigma.webtau.data.table.comparison.TableDataComparisonResult;
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.EqualComparator;
-import com.twosigma.webtau.expectation.equality.EqualComparatorHandler;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-public class TableDataEqualHandler implements EqualComparatorHandler {
+public class TableDataCompareToHandler implements CompareToHandler {
     @Override
-    public boolean handle(Object actual, Object expected) {
+    public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof TableData && expected instanceof TableData;
     }
 
     @Override
-    public void compare(EqualComparator equalComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         TableDataComparisonResult result = TableDataComparison.compare((TableData) actual, (TableData) expected);
         if (! result.areEqual()) {
-            equalComparator.reportMismatch(this, actualPath, new TableDataComparisonReport(result).generate());
+            comparator.reportNotEqual(this, actualPath, new TableDataComparisonReport(result).generate());
         }
     }
 }
