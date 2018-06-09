@@ -14,75 +14,64 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.ranges;
+package com.twosigma.webtau.expectation.equality;
 
-import com.twosigma.webtau.data.converters.ToNumberConverters;
 import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
-@Deprecated // will be replaced with a more generic version that hundles other than numbers values
 public class GreaterThanMatcher implements ValueMatcher {
-    private Comparable base;
-    private int compareToRes;
+    private CompareToComparator compareToComparator;
+    private final Object expected;
 
-    public GreaterThanMatcher(Comparable base) {
-        this.base = base;
+    public GreaterThanMatcher(Object expected) {
+        this.expected = expected;
     }
 
     @Override
     public String matchingMessage() {
-        return "to be greater than " + DataRenderers.render(base);
+        return "to be greater than " + DataRenderers.render(expected);
     }
 
     @Override
     public String matchedMessage(ActualPath actualPath, Object actual) {
-        return "greater than " + DataRenderers.render(base) + renderActual(actual);
+        return "greater than " + DataRenderers.render(expected) + "\n" +
+                compareToComparator.generateGreaterThanMatchReport();
     }
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return equalsOrLessThenMessage(actual);
+        return "less then or equal to " + DataRenderers.render(expected) + "\n" +
+                compareToComparator.generateGreaterThanMismatchReport();
     }
 
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
-        compareToRes = compareTo((Comparable) ToNumberConverters.convert(actual));
-        return compareToRes < 0;
+        compareToComparator = CompareToComparator.comparator();
+        return compareToComparator.compareGreater(actualPath, actual, expected);
     }
 
     @Override
     public String negativeMatchingMessage() {
-        return "to be less than or equal to " + DataRenderers.render(base);
+        return "to be less than or equal to " + DataRenderers.render(expected);
     }
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-        return equalsOrLessThenMessage(actual);
+        return "less than or equal to " + DataRenderers.render(expected) + '\n' +
+                compareToComparator.generateLessThanOrEqualToMatchReport();
     }
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return "greater than " + DataRenderers.render(base) + renderActual(actual);
+        return actualPath + " is greater than " + DataRenderers.render(expected) +
+                ", but should be less or equal to\n" +
+                compareToComparator.generateLessThanOrEqualMismatchReport();
     }
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
-        compareToRes = compareTo((Comparable) ToNumberConverters.convert(actual));
-        return compareToRes >= 0;
-    }
-
-    @SuppressWarnings("unchecked")
-    private int compareTo(Comparable actual) {
-        return base.compareTo(actual);
-    }
-
-    private String equalsOrLessThenMessage(Object actual) {
-        return (compareToRes == 0 ? "equals ": "less than ") +
-                DataRenderers.render(base) + (compareToRes == 0 ? "" : renderActual(actual));
-    }
-
-    private String renderActual(Object actual) {
-        return " (actual equals " + DataRenderers.render(actual) + ")";
+        compareToComparator = CompareToComparator.negativeComparator();
+        return compareToComparator.compareLessOrEqual(actualPath, actual, expected);
     }
 }

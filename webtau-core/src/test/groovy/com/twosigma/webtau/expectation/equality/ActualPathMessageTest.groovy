@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.converters;
+package com.twosigma.webtau.expectation.equality
 
-import java.util.Map;
+import org.junit.Assert
+import org.junit.Test
 
-public class MapToMapConverter implements ToMapConverter {
-    @Override
-    @SuppressWarnings("unchecked")
-    public Map<String, ?> convert(Object v) {
-        if (v instanceof Map) {
-            return (Map<String, ?>) v;
-        }
+import static com.twosigma.webtau.Ddjt.createActualPath
 
-        return null;
+class ActualPathMessageTest {
+    @Test
+    void "should align multiline mismatch"() {
+        def m = new ActualPathMessage(createActualPath("my.var[0]"), "two lines\nmismatch message")
+
+        Assert.assertEquals("my.var[0]: two lines\n" +
+                            "           mismatch message", m.getFullMessage())
     }
 }

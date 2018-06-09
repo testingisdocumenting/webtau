@@ -31,9 +31,9 @@ import static java.util.stream.Collectors.joining;
 public class EqualComparator {
     private static List<EqualComparatorHandler> handlers = discoverHandlers();
 
-    private List<Mismatch> mismatches = new ArrayList<>();
-    private List<ActualPathWithValue> missing = new ArrayList<>();
-    private List<ActualPathWithValue> extra = new ArrayList<>();
+    private List<ActualPathMessage> mismatches = new ArrayList<>();
+    private List<ActualPathMessage> missing = new ArrayList<>();
+    private List<ActualPathMessage> extra = new ArrayList<>();
 
     private final boolean isNegative;
 
@@ -86,32 +86,32 @@ public class EqualComparator {
         List<String> reports = new ArrayList<>();
         if (! mismatches.isEmpty()) {
             reports.add("mismatches:\n\n" +
-                    mismatches.stream().map(Mismatch::fullMessage).collect(joining("\n")));
+                    mismatches.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
         }
 
         if (! missing.isEmpty()) {
             reports.add("missing, but expected values:\n\n" +
-                    missing.stream().map(ActualPathWithValue::getFullMessage).collect(joining("\n")));
+                    missing.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
         }
 
         if (! extra.isEmpty()) {
             reports.add("unexpected values:\n\n" +
-                    extra.stream().map(ActualPathWithValue::getFullMessage).collect(joining("\n")));
+                    extra.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
         }
 
         return reports.stream().collect(joining("\n\n"));
     }
 
     public void reportMismatch(EqualComparatorHandler reporter, ActualPath actualPath, String mismatch) {
-        mismatches.add(new Mismatch(actualPath, mismatch));
+        mismatches.add(new ActualPathMessage(actualPath, mismatch));
     }
 
     public void reportMissing(EqualComparatorHandler reporter, ActualPath actualPath, Object value) {
-        missing.add(new ActualPathWithValue(actualPath, value));
+        missing.add(new ActualPathMessage(actualPath, DataRenderers.render(value)));
     }
 
     public void reportExtra(EqualComparatorHandler reporter, ActualPath actualPath, Object value) {
-        extra.add(new ActualPathWithValue(actualPath, value));
+        extra.add(new ActualPathMessage(actualPath, DataRenderers.render(value)));
     }
 
     public int getNumberOfMismatches() {

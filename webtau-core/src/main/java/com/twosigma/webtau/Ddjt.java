@@ -17,11 +17,19 @@
 package com.twosigma.webtau;
 
 import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.expectation.*;
+import com.twosigma.webtau.expectation.ActualCode;
+import com.twosigma.webtau.expectation.ActualCodeExpectations;
+import com.twosigma.webtau.expectation.ActualPath;
+import com.twosigma.webtau.expectation.ActualValue;
+import com.twosigma.webtau.expectation.ActualValueExpectations;
+import com.twosigma.webtau.expectation.CodeBlock;
 import com.twosigma.webtau.expectation.code.ThrowExceptionMatcher;
 import com.twosigma.webtau.expectation.contain.ContainMatcher;
 import com.twosigma.webtau.expectation.equality.EqualMatcher;
-import com.twosigma.webtau.expectation.ranges.GreaterThanMatcher;
+import com.twosigma.webtau.expectation.equality.GreaterThanMatcher;
+import com.twosigma.webtau.expectation.equality.GreaterThanOrEqualMatcher;
+import com.twosigma.webtau.expectation.equality.LessThanMatcher;
+import com.twosigma.webtau.expectation.equality.LessThanOrEqualMatcher;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -52,8 +60,20 @@ public class Ddjt {
         return new ContainMatcher(expected);
     }
 
-    public static GreaterThanMatcher beGreaterThan(Comparable base) {
-        return new GreaterThanMatcher(base);
+    public static GreaterThanMatcher beGreaterThan(Object expected) {
+        return new GreaterThanMatcher(expected);
+    }
+
+    public static GreaterThanOrEqualMatcher beGreaterThanOrEqual(Comparable expected) {
+        return new GreaterThanOrEqualMatcher(expected);
+    }
+
+    public static LessThanMatcher beLessThan(Object expected) {
+        return new LessThanMatcher(expected);
+    }
+
+    public static LessThanOrEqualMatcher beLessThanOrEqual(Comparable expected) {
+        return new LessThanOrEqualMatcher(expected);
     }
 
     public static ThrowExceptionMatcher throwException(String expectedMessage) {
