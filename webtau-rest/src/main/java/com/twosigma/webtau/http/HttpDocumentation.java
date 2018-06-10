@@ -40,12 +40,16 @@ public class HttpDocumentation {
 
         if (lastValidationResult.getRequestType() != null) {
             String fileName = "request." + fileExtensionForType(lastValidationResult.getRequestType());
-            FileUtils.writeTextContent(path.resolve(fileName), lastValidationResult.getRequestContent());
+            FileUtils.writeTextContent(path.resolve(fileName),
+                    prettyPrintContent(lastValidationResult.getRequestType(),
+                            lastValidationResult.getRequestContent()));
         }
 
         if (lastValidationResult.getResponseType() != null) {
             String fileName = "response." + fileExtensionForType(lastValidationResult.getResponseType());
-            FileUtils.writeTextContent(path.resolve(fileName), lastValidationResult.getResponseContent());
+            FileUtils.writeTextContent(path.resolve(fileName),
+                    prettyPrintContent(lastValidationResult.getResponseType(),
+                            lastValidationResult.getResponseContent()));
         }
 
         if (lastValidationResult.getPassedPaths() != null) {
@@ -55,6 +59,18 @@ public class HttpDocumentation {
     }
 
     private String fileExtensionForType(String type) {
-        return type.contains("json") ? "json" : "data";
+        return isJson(type) ? "json" : "data";
+    }
+
+    private String prettyPrintContent(String type, String content) {
+        if (isJson(type)) {
+            return JsonUtils.serializePrettyPrint(JsonUtils.deserialize(content));
+        }
+
+        return content;
+    }
+
+    private boolean isJson(String type) {
+        return type.contains("json");
     }
 }
