@@ -23,7 +23,7 @@ function EntriesTypeSelection({selectedType, onSelect}) {
     return (
         <div className="entries-type-selection">
             <div className="webtau-link">
-                <a href="https://github.com/twosigma/webtau" target="_blank">webtau</a>
+                <a href="https://github.com/twosigma/webtau" target="_blank" rel="noopener noreferrer">webtau</a>
             </div>
             <div className="selection-area">
                 <EntryType selectedType={selectedType}
