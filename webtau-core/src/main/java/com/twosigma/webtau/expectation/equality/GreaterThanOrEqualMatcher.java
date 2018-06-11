@@ -71,7 +71,7 @@ public class GreaterThanOrEqualMatcher implements ValueMatcher {
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
-        compareToComparator = CompareToComparator.negativeComparator();
+        compareToComparator = CompareToComparator.comparator();
         return compareToComparator.compareIsLess(actualPath, actual, expected);
     }
 }

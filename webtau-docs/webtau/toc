@@ -7,6 +7,7 @@ REST
     documentation
     complex-types
     openAPI-spec
+    matchers
 UI
     configuration
     finders-and-filters
