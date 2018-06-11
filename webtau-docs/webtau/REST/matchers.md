@@ -30,7 +30,7 @@ body.shouldNot == [1, 2, 3]
 
 # Contain
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "contain matcher", bodyOnly: true, pathsFile: "doc-artifacts/end-point-list-contain-matchers/paths.json"}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "contain matcher", bodyOnly: true}
 
 :include-meta: {rightSide: true}
-:include-json: listTestResponse.json {title: "response"}
+:include-json: listTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-list-contain-matchers/paths.json"}
