@@ -37,6 +37,11 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     }
 
     @Override
+    public boolean handleGreaterLessEqual(Object actual, Object expected) {
+        return handles(actual);
+    }
+
+    @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         if (expected instanceof Map) {
             compareWithMap(comparator, actualPath, (DataNode) actual, (Map) expected);
@@ -44,6 +49,12 @@ public class DataNodeCompareToHandler implements CompareToHandler {
             Object convertedActual = convertBasedOnExpected((DataNode) actual, expected);
             comparator.compareUsingEqualOnly(actualPath, convertedActual, expected);
         }
+    }
+
+    @Override
+    public void compareGreaterLessEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
+        DataNode actualDataNode = (DataNode) actual;
+        compareToComparator.compareUsingCompareTo(actualPath, actualDataNode.get(), expected);
     }
 
     private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map expected) {
@@ -61,6 +72,10 @@ public class DataNodeCompareToHandler implements CompareToHandler {
                 comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedValue);
             }
         }
+    }
+
+    private boolean handles(Object actual) {
+        return actual instanceof DataNode;
     }
 
     private Object convertBasedOnExpected(DataNode actual, Object expected) {

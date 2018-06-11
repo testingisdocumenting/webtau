@@ -21,6 +21,7 @@ import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode
 import static org.junit.Assert.assertEquals
 
 class IterableCompareToHandlerTest {
@@ -35,7 +36,7 @@ class IterableCompareToHandlerTest {
 
     @Test
     void "should report mismatched elements"() {
-        CompareToComparator comparator = CompareToComparator.comparator()
+        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2, 5], [3, 2, 4])
 
         assertEquals("mismatches:\n" +
@@ -48,7 +49,7 @@ class IterableCompareToHandlerTest {
 
     @Test
     void "should report missing elements"() {
-        CompareToComparator comparator = CompareToComparator.comparator()
+        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2], [1, 2, 3])
 
         assertEquals("missing, but expected values:\n" +
@@ -58,7 +59,7 @@ class IterableCompareToHandlerTest {
 
     @Test
     void "should report extra elements"() {
-        CompareToComparator comparator = CompareToComparator.comparator()
+        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2, 3], [1, 2])
 
         assertEquals("unexpected values:\n" +

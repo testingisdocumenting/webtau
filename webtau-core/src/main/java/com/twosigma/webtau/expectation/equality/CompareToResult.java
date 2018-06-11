@@ -27,6 +27,30 @@ public class CompareToResult {
     private List<ActualPathMessage> missingMessages = new ArrayList<>();
     private List<ActualPathMessage> extraMessages = new ArrayList<>();
 
+    public boolean isEqual() {
+        return notEqualMessages.isEmpty() && hasNoExtraAndNoMissing();
+    }
+
+    public boolean isNotEqual() {
+        return equalMessages.isEmpty() || hasExtraOrMissing();
+    }
+
+    public boolean isGreater() {
+        return lessMessages.isEmpty() && equalMessages.isEmpty() && hasNoExtraAndNoMissing();
+    }
+
+    public boolean isGreaterOrEqual() {
+        return lessMessages.isEmpty() && hasNoExtraAndNoMissing();
+    }
+
+    public boolean isLess() {
+        return greaterMessages.isEmpty() && equalMessages.isEmpty() && hasNoExtraAndNoMissing();
+    }
+
+    public boolean isLessOrEqual() {
+        return greaterMessages.isEmpty() && hasNoExtraAndNoMissing();
+    }
+
     public List<ActualPathMessage> getEqualMessages() {
         return equalMessages;
     }
@@ -63,8 +87,12 @@ public class CompareToResult {
         return missingMessages;
     }
 
-    public boolean hasNoExtraOrMissing() {
+    public boolean hasNoExtraAndNoMissing() {
         return extraMessages.isEmpty() && missingMessages.isEmpty();
+    }
+
+    public boolean hasExtraOrMissing() {
+        return !extraMessages.isEmpty() || !missingMessages.isEmpty();
     }
 
     void setMissingMessages(List<ActualPathMessage> missingMessages) {

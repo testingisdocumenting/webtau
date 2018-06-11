@@ -32,6 +32,15 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 
 public class CompareToComparator {
+    public enum AssertionMode {
+        EQUAL,
+        NOT_EQUAL,
+        GREATER_THAN,
+        GREATER_THAN_OR_EQUAL,
+        LESS_THAN,
+        LESS_THAN_OR_EQUAL
+    }
+
     private static final String MISMATCHES_LABEL = "mismatches";
     private static final String MATCHES_LABEL = "matches";
 
@@ -44,126 +53,62 @@ public class CompareToComparator {
     private final List<ActualPathMessage> missingMessages = new ArrayList<>();
     private final List<ActualPathMessage> extraMessages = new ArrayList<>();
 
-    private final boolean isNegative;
+    private AssertionMode assertionMode;
 
     public static CompareToComparator comparator() {
-        return new CompareToComparator(false);
+        return new CompareToComparator(null);
     }
 
-    public static CompareToComparator negativeComparator() {
-        return new CompareToComparator(true);
+    public static CompareToComparator comparator(AssertionMode assertionMode) {
+        return new CompareToComparator(assertionMode);
     }
 
-    /**
-     * creates new instance of comparator without any collected mismatches. Preserves isNegative switch.
-     * @return fresh copy of equal comparator
-     */
-    public CompareToComparator freshCopy() {
-        return new CompareToComparator(isNegative);
-    }
-
-    private CompareToComparator(boolean isNegative) {
-        this.isNegative = isNegative;
+    private CompareToComparator(AssertionMode assertionMode) {
+        this.assertionMode = assertionMode;
     }
 
     public boolean compareIsEqual(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareUsingEqualOnly(actualPath, actual, expected);
+        CompareToResult compareResult = compareUsingEqualOnly(AssertionMode.EQUAL, actualPath, actual, expected);
+        return compareResult.isEqual();
+    }
 
-        return compareResult.getNotEqualMessages().isEmpty() &&
-                compareResult.hasNoExtraOrMissing();
+    public boolean compareIsNotEqual(ActualPath actualPath, Object actual, Object expected) {
+        CompareToResult compareResult = compareUsingEqualOnly(AssertionMode.NOT_EQUAL, actualPath, actual, expected);
+        return compareResult.isNotEqual();
     }
 
     public boolean compareIsGreater(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
-
-        return compareResult.getLessMessages().isEmpty() &&
-                compareResult.getEqualMessages().isEmpty() &&
-                compareResult.hasNoExtraOrMissing();
+        CompareToResult compareResult = compareUsingCompareTo(AssertionMode.GREATER_THAN, actualPath, actual, expected);
+        return compareResult.isGreater();
     }
 
     public boolean compareIsGreaterOrEqual(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
-
-        return compareResult.getLessMessages().isEmpty() &&
-                compareResult.hasNoExtraOrMissing();
+        CompareToResult compareResult = compareUsingCompareTo(AssertionMode.GREATER_THAN_OR_EQUAL, actualPath, actual, expected);
+        return compareResult.isGreaterOrEqual();
     }
 
     public boolean compareIsLess(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
-
-        return compareResult.getGreaterMessages().isEmpty() &&
-                compareResult.getEqualMessages().isEmpty() &&
-                compareResult.hasNoExtraOrMissing();
+        CompareToResult compareResult = compareUsingCompareTo(AssertionMode.LESS_THAN, actualPath, actual, expected);
+        return compareResult.isLess();
     }
 
     public boolean compareIsLessOrEqual(ActualPath actualPath, Object actual, Object expected) {
-        CompareToResult compareResult = compareUsingCompareTo(actualPath, actual, expected);
-
-        return compareResult.getGreaterMessages().isEmpty() &&
-                compareResult.hasNoExtraOrMissing();
+        CompareToResult compareResult = compareUsingCompareTo(AssertionMode.LESS_THAN_OR_EQUAL, actualPath, actual, expected);
+        return compareResult.isLessOrEqual();
     }
 
     public CompareToResult compareUsingEqualOnly(ActualPath actualPath, Object actual, Object expected) {
-        CompareToHandler handler = getCompareToEqualHandler(actual, expected);
-
-        CompareToComparator comparator = freshCopy();
-        handler.compareEqualOnly(comparator, actualPath, actual, expected);
-
-        mergeResults(comparator);
-
-        return createCompareToResult(comparator);
+        validateAssertionModeIsPresent();
+        return compareUsingEqualOnly(assertionMode, actualPath, actual, expected);
     }
 
     public CompareToResult compareUsingCompareTo(ActualPath actualPath, Object actual, Object expected) {
-        CompareToHandler handler = getCompareToGreaterLessHandler(actual, expected);
-
-        CompareToComparator comparator = freshCopy();
-        handler.compareGreaterLessEqual(comparator, actualPath, actual, expected);
-
-        mergeResults(comparator);
-
-        return createCompareToResult(comparator);
+        validateAssertionModeIsPresent();
+        return compareUsingCompareTo(assertionMode, actualPath, actual, expected);
     }
 
-    private CompareToResult createCompareToResult(CompareToComparator comparator) {
-        CompareToResult result = new CompareToResult();
-        result.setEqualMessages(comparator.equalMessages);
-        result.setNotEqualMessages(comparator.notEqualMessages);
-        result.setGreaterMessages(comparator.greaterMessages);
-        result.setLessMessages(comparator.lessMessages);
-        result.setMissingMessages(comparator.missingMessages);
-        result.setExtraMessages(comparator.extraMessages);
-
-        return result;
-    }
-
-    private void mergeResults(CompareToComparator comparator) {
-        equalMessages.addAll(comparator.equalMessages);
-        notEqualMessages.addAll(comparator.notEqualMessages);
-        greaterMessages.addAll(comparator.greaterMessages);
-        lessMessages.addAll(comparator.lessMessages);
-        missingMessages.addAll(comparator.missingMessages);
-        extraMessages.addAll(comparator.extraMessages);
-    }
-
-    private CompareToHandler getCompareToEqualHandler(Object actual, Object expected) {
-        return handlers.stream().
-                filter(h -> h.handleEquality(actual, expected)).findFirst().
-                orElseThrow(() -> noHandlerFound(actual, expected));
-    }
-
-    private CompareToHandler getCompareToGreaterLessHandler(Object actual, Object expected) {
-        return handlers.stream().
-                filter(h -> h.handleGreaterLessEqual(actual, expected)).findFirst().
-                orElseThrow(() -> noHandlerFound(actual, expected));
-    }
-
-    /**
-     * comparator operates in two mode: should and shouldNot
-     * @return true if the mode is shouldNot
-     */
-    public boolean isNegative() {
-        return isNegative;
+    public AssertionMode getAssertionMode() {
+        return assertionMode;
     }
 
     public String generateGreaterThanMismatchReport() {
@@ -251,6 +196,73 @@ public class CompareToComparator {
             reportGreater(reporter, actualPath, message);
             reportNotEqual(reporter, actualPath, message);
         }
+    }
+
+    private CompareToResult compareUsingEqualOnly(AssertionMode mode, ActualPath actualPath, Object actual, Object expected) {
+        setAssertionMode(mode);
+        CompareToHandler handler = getCompareToEqualHandler(actual, expected);
+
+        CompareToComparator comparator = CompareToComparator.comparator(mode);
+        handler.compareEqualOnly(comparator, actualPath, actual, expected);
+
+        mergeResults(comparator);
+
+        return createCompareToResult(comparator);
+    }
+
+    private CompareToResult compareUsingCompareTo(AssertionMode mode, ActualPath actualPath, Object actual, Object expected) {
+        setAssertionMode(mode);
+        CompareToHandler handler = getCompareToGreaterLessHandler(actual, expected);
+
+        CompareToComparator comparator = CompareToComparator.comparator(mode);
+        handler.compareGreaterLessEqual(comparator, actualPath, actual, expected);
+
+        mergeResults(comparator);
+
+        return createCompareToResult(comparator);
+    }
+
+    private void setAssertionMode(AssertionMode mode) {
+        assertionMode = mode;
+    }
+
+    private void validateAssertionModeIsPresent() {
+        if (assertionMode == null) {
+            throw new IllegalStateException("assertionMode is not set");
+        }
+    }
+
+    private CompareToResult createCompareToResult(CompareToComparator comparator) {
+        CompareToResult result = new CompareToResult();
+        result.setEqualMessages(comparator.equalMessages);
+        result.setNotEqualMessages(comparator.notEqualMessages);
+        result.setGreaterMessages(comparator.greaterMessages);
+        result.setLessMessages(comparator.lessMessages);
+        result.setMissingMessages(comparator.missingMessages);
+        result.setExtraMessages(comparator.extraMessages);
+
+        return result;
+    }
+
+    private void mergeResults(CompareToComparator comparator) {
+        equalMessages.addAll(comparator.equalMessages);
+        notEqualMessages.addAll(comparator.notEqualMessages);
+        greaterMessages.addAll(comparator.greaterMessages);
+        lessMessages.addAll(comparator.lessMessages);
+        missingMessages.addAll(comparator.missingMessages);
+        extraMessages.addAll(comparator.extraMessages);
+    }
+
+    private CompareToHandler getCompareToEqualHandler(Object actual, Object expected) {
+        return handlers.stream().
+                filter(h -> h.handleEquality(actual, expected)).findFirst().
+                orElseThrow(() -> noHandlerFound(actual, expected));
+    }
+
+    private CompareToHandler getCompareToGreaterLessHandler(Object actual, Object expected) {
+        return handlers.stream().
+                filter(h -> h.handleGreaterLessEqual(actual, expected)).findFirst().
+                orElseThrow(() -> noHandlerFound(actual, expected));
     }
 
     private String generateReportPart(String label, List<List<ActualPathMessage>> messagesGroups) {

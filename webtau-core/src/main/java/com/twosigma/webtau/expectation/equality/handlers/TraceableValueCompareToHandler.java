@@ -20,28 +20,73 @@ import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
+import com.twosigma.webtau.expectation.equality.CompareToResult;
 
 public class TraceableValueCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof TraceableValue;
+        return handles(actual);
+    }
+
+    @Override
+    public boolean handleGreaterLessEqual(Object actual, Object expected) {
+        return handles(actual);
+    }
+
+    @Override
+    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        TraceableValue traceableValue = (TraceableValue) actual;
+
+        CompareToResult result = comparator.compareUsingCompareTo(actualPath, traceableValue.getValue(), expected);
+        traceableValue.updateCheckLevel(determineCompareToCheckLevel(result, comparator.getAssertionMode()));
     }
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         TraceableValue traceableValue = (TraceableValue) actual;
 
-        boolean isEqual = comparator.compareIsEqual(actualPath, traceableValue.getValue(), expected);
+        CompareToResult result = comparator.compareUsingEqualOnly(actualPath, traceableValue.getValue(), expected);
+        traceableValue.updateCheckLevel(determineEqualOnlyCheckLevel(result, comparator.getAssertionMode()));
+    }
 
-        if (! isEqual) {
-            traceableValue.updateCheckLevel(comparator.isNegative() ?
-                CheckLevel.FuzzyPassed:
-                CheckLevel.ExplicitFailed);
-        } else {
-            traceableValue.updateCheckLevel(comparator.isNegative() ?
-                CheckLevel.ExplicitFailed:
-                CheckLevel.ExplicitPassed);
+    private CheckLevel determineCompareToCheckLevel(CompareToResult result, AssertionMode assertionMode) {
+        if (result.isGreater() && assertionMode == AssertionMode.GREATER_THAN ||
+                result.isGreaterOrEqual() && assertionMode == AssertionMode.GREATER_THAN_OR_EQUAL ||
+                result.isLess() && assertionMode == AssertionMode.LESS_THAN ||
+                result.isLessOrEqual() && assertionMode == AssertionMode.LESS_THAN_OR_EQUAL) {
+            return CheckLevel.FuzzyPassed;
         }
+
+        if (result.isGreaterOrEqual() && assertionMode == AssertionMode.LESS_THAN ||
+                result.isGreater() && assertionMode == AssertionMode.LESS_THAN_OR_EQUAL ||
+                result.isLessOrEqual() && assertionMode == AssertionMode.GREATER_THAN ||
+                result.isLess() && assertionMode == AssertionMode.GREATER_THAN_OR_EQUAL) {
+            return CheckLevel.ExplicitFailed;
+        }
+
+        return CheckLevel.None;
+    }
+
+    private CheckLevel determineEqualOnlyCheckLevel(CompareToResult result, AssertionMode assertionMode) {
+        if (result.isNotEqual() && assertionMode == AssertionMode.EQUAL ||
+                result.isEqual() && assertionMode == AssertionMode.NOT_EQUAL) {
+            return CheckLevel.ExplicitFailed;
+        }
+
+        if (result.isEqual() && assertionMode == AssertionMode.EQUAL) {
+            return CheckLevel.ExplicitPassed;
+        }
+
+        if (result.isNotEqual() && assertionMode == AssertionMode.NOT_EQUAL) {
+            return CheckLevel.FuzzyPassed;
+        }
+
+        return CheckLevel.None;
+    }
+
+    private boolean handles(Object actual) {
+        return actual instanceof TraceableValue;
     }
 }

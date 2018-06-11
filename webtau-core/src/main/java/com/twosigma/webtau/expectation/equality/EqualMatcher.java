@@ -69,7 +69,7 @@ public class EqualMatcher implements ValueMatcher {
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
-        comparator = CompareToComparator.negativeComparator();
-        return !comparator.compareIsEqual(actualPath, actual, expected);
+        comparator = CompareToComparator.comparator();
+        return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
 }

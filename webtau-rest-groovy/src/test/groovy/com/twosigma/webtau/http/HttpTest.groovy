@@ -27,7 +27,12 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
+import static com.twosigma.webtau.Ddjt.beGreaterThan
+import static com.twosigma.webtau.Ddjt.beGreaterThanOrEqual
+import static com.twosigma.webtau.Ddjt.beLessThan
+import static com.twosigma.webtau.Ddjt.beLessThanOrEqual
 import static com.twosigma.webtau.Ddjt.code
+import static com.twosigma.webtau.Ddjt.contain
 import static com.twosigma.webtau.Ddjt.throwException
 import static com.twosigma.webtau.http.Http.http
 
@@ -38,6 +43,8 @@ class HttpTest {
     static void startServer() {
         testServer.start(7823)
         testServer.registerGet("/end-point", new TestServerJsonResponse(ResourceUtils.textContent("objectTestResponse.json")))
+        testServer.registerGet("/end-point-numbers", new TestServerJsonResponse(ResourceUtils.textContent("numbersTestResponse.json")))
+        testServer.registerGet("/end-point-list", new TestServerJsonResponse(ResourceUtils.textContent("listTestResponse.json")))
         testServer.registerPost("/echo", new TestServerResponseEcho())
         testServer.registerPut("/echo", new TestServerResponseEcho())
         testServer.registerDelete("/resource", new TestServerTextResponse(''))
@@ -122,7 +129,7 @@ class HttpTest {
             return object
         }
 
-        assert object == [k1: 'v1', k2: 'v2']
+        assert object == [k1: 'v1', k2: 'v2', k3: 'v3']
         assert object.getClass() == LinkedHashMap
         assert object.k1.getClass() == String
     }
@@ -234,6 +241,52 @@ class HttpTest {
         }
 
         assert transformed == []
+    }
+
+    @Test
+    void "equality matcher"() {
+        http.get("/end-point") {
+            id.shouldNot == 0
+            amount.should == 30
+
+            list.should == [1, 2, 3]
+
+            object.should == [k1: 'v1', k3: 'v3']
+
+            complexList.should == ["k1"   | "k2"] {
+                                   ________________
+                                    "v1"  | "v2"
+                                    "v11" | "v22" }
+        }
+
+        http.doc.capture("end-point-object-equality-matchers")
+    }
+
+    @Test
+    void "compare numbers with greater less matchers"() {
+        http.get("/end-point-numbers") {
+            id.should beGreaterThan(0)
+            price.should beGreaterThanOrEqual(100)
+            amount.should beLessThan(150)
+            list[1].should beLessThanOrEqual(2)
+
+            id.shouldNot beLessThanOrEqual(0)
+            price.shouldNot beLessThan(100)
+            amount.shouldNot beGreaterThanOrEqual(150)
+            list[1].shouldNot beGreaterThan(2)
+        }
+
+        http.doc.capture("end-point-numbers-matchers")
+    }
+
+    @Test
+    void "contain matcher"() {
+        http.get("/end-point-list") {
+            body.should contain([k1: 'v1', k2: 'v2'])
+            body[1].k2.should contain(20)
+        }
+
+        http.doc.capture("end-point-list-contain-matchers")
     }
 
     @Test

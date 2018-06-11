@@ -21,6 +21,7 @@ import org.junit.Before
 import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode
 import static org.junit.Assert.assertEquals
 
 class MapsCompareToHandlerTest {
@@ -28,7 +29,7 @@ class MapsCompareToHandlerTest {
 
     @Before
     void init() {
-        comparator = CompareToComparator.comparator()
+        comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
     }
 
     @Test

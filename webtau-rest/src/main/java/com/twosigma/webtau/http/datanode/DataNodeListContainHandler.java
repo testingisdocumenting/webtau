@@ -28,6 +28,9 @@ import com.twosigma.webtau.expectation.equality.CompareToComparator;
 
 import java.util.List;
 
+import static com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode;
+import static com.twosigma.webtau.expectation.equality.CompareToComparator.comparator;
+
 public class DataNodeListContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
@@ -43,7 +46,7 @@ public class DataNodeListContainHandler implements ContainHandler {
         // earlier, traceable value is disabled and indexes of matches are found
         // it is done to avoid marking every mismatching entry as failed
         // now, for found entries we simulate comparison again but this time values will be properly marked as matched
-        CompareToComparator comparator = CompareToComparator.comparator();
+        CompareToComparator comparator = comparator(AssertionMode.EQUAL);
 
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
@@ -64,7 +67,7 @@ public class DataNodeListContainHandler implements ContainHandler {
         if (indexedValues.isEmpty()) {
             dataNodes.forEach(n -> n.get().updateCheckLevel(CheckLevel.FuzzyPassed));
         } else {
-            CompareToComparator comparator = CompareToComparator.negativeComparator();
+            CompareToComparator comparator = comparator(AssertionMode.NOT_EQUAL);
 
             indexedValues.forEach(indexedValue -> {
                 ActualPath indexedPath = actualPath.index(indexedValue.getIdx());
