@@ -99,7 +99,11 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
         }
 
         private void compareZonedDateTimes(ZonedDateTime actual, ZonedDateTime expected) {
-            report(actual.compareTo(expected), renderActualExpectedNormalized(actual, expected));
+            ZonedDateTime normalizedActual = actual.withZoneSameInstant(UTC);
+            ZonedDateTime normalizedExpected = expected.withZoneSameInstant(UTC);
+
+            report(normalizedActual.compareTo(normalizedExpected), renderActualExpectedWithNormalized(actual, expected,
+                    normalizedActual, normalizedExpected));
         }
 
         private void compareZonedDateTimeAndLocalDate(ZonedDateTime actual, LocalDate expected) {
@@ -139,10 +143,8 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
                     "expected: " + renderValueAndType(expected);
         }
 
-        private String renderActualExpectedNormalized(ZonedDateTime actual, ZonedDateTime expected) {
-            String normalizedActual = actual.withZoneSameInstant(UTC).toString();
-            String normalizedExpected = expected.withZoneSameInstant(UTC).toString();
-
+        private String renderActualExpectedWithNormalized(ZonedDateTime actual, ZonedDateTime expected,
+                                                          ZonedDateTime normalizedActual, ZonedDateTime normalizedExpected) {
             return "  actual: " + renderValueAndType(actual) + "(UTC normalized: " + normalizedActual + ")\n" +
                     "expected: " + renderValueAndType(expected) + "(UTC normalized: " + normalizedExpected + ")";
         }

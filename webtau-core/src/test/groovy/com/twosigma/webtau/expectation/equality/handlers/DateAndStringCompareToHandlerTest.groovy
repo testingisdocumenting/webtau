@@ -79,6 +79,12 @@ class DateAndStringCompareToHandlerTest {
     }
 
     @Test
+    void "actual zoned date time string equals expected zoned date time instance"() {
+        actual("2018-01-02T10:00:00+01:00:00").should(equal(
+            ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC"))))
+    }
+
+    @Test
     void "actual zoned date time string less than expected zoned date time instance, when should be greater"() {
         code {
             actual("2018-01-02T10:00:00+01:00:00").should(beGreaterThan(
