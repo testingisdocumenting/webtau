@@ -34,3 +34,14 @@ body.shouldNot == [1, 2, 3]
 
 :include-meta: {rightSide: true}
 :include-json: listTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-list-contain-matchers/paths.json"}
+
+# Date and Time
+
+You can assert `actual` string against `LocalDate` and `ZonedDateTime`. String will be automatically converted 
+using ISO formatter.
+
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "working with dates", bodyOnly: true}
+
+:include-meta: {rightSide: true}
+:include-json: datesTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-dates-matchers/paths.json"}
+
