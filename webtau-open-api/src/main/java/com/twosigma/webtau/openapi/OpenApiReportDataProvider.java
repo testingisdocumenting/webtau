@@ -37,7 +37,7 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
                 .collect(Collectors.toList());
 
         return Stream.of(
-                new ReportData("openApiSkippedUrls", nonCovered),
-                new ReportData("openApiCoveredUrls", covered));
+                new ReportData("openApiSkippedOperations", nonCovered),
+                new ReportData("openApiCoveredOperations", covered));
     }
 }

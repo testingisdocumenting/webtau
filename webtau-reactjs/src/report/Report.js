@@ -42,7 +42,7 @@ class Report {
         this.report = report
         this.tests = enrichTestsData(report.tests)
         this.httpCalls = extractHttpCalls(this.tests)
-        this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedUrls || []), ...this.httpCalls]
+        this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedOperations || []), ...this.httpCalls]
         this.testsSummary = buildTestsSummary(report.summary)
         this.httpCallsSummary = buildHttpCallsSummary(this.httpCallsCombinedWithSkipped)
     }
@@ -57,29 +57,29 @@ class Report {
         return found.length ? found[0] : null
     }
 
-    hasUrlCoverage() {
-        return !!this.report.openApiSkippedUrls
+    hasOperationCoverage() {
+        return !!this.report.openApiSkippedOperations
     }
 
-    openApiUrlsCoverage() {
-        const openApiCoveredUrls = this.numberOfOpenApiCoveredUrls()
-        const openApiSkippedUrls = this.numberOfOpenApiSkippedUrls()
+    openApiOperationsCoverage() {
+        const openApiCoveredOperations = this.numberOfOpenApiCoveredOperations()
+        const openApiSkippedOperations = this.numberOfOpenApiSkippedOperations()
 
-        const total = openApiCoveredUrls + openApiSkippedUrls
+        const total = openApiCoveredOperations + openApiSkippedOperations
 
         if (total === 0) {
             return 0
         }
 
-        return openApiCoveredUrls / total
+        return openApiCoveredOperations / total
     }
 
-    numberOfOpenApiCoveredUrls() {
-        return (this.report.openApiCoveredUrls || []).length
+    numberOfOpenApiCoveredOperations() {
+        return (this.report.openApiCoveredOperations || []).length
     }
 
-    numberOfOpenApiSkippedUrls() {
-        return (this.report.openApiSkippedUrls || []).length
+    numberOfOpenApiSkippedOperations() {
+        return (this.report.openApiSkippedOperations || []).length
     }
 
     numberOfHttpCalls() {
