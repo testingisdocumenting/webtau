@@ -27,6 +27,11 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+
 import static com.twosigma.webtau.Ddjt.beGreaterThan
 import static com.twosigma.webtau.Ddjt.beGreaterThanOrEqual
 import static com.twosigma.webtau.Ddjt.beLessThan
@@ -42,9 +47,10 @@ class HttpTest {
     @BeforeClass
     static void startServer() {
         testServer.start(7823)
-        testServer.registerGet("/end-point", new TestServerJsonResponse(ResourceUtils.textContent("objectTestResponse.json")))
-        testServer.registerGet("/end-point-numbers", new TestServerJsonResponse(ResourceUtils.textContent("numbersTestResponse.json")))
-        testServer.registerGet("/end-point-list", new TestServerJsonResponse(ResourceUtils.textContent("listTestResponse.json")))
+        testServer.registerGet("/end-point", jsonResponse("objectTestResponse.json"))
+        testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"))
+        testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"))
+        testServer.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"))
         testServer.registerPost("/echo", new TestServerResponseEcho())
         testServer.registerPut("/echo", new TestServerResponseEcho())
         testServer.registerDelete("/resource", new TestServerTextResponse(''))
@@ -290,6 +296,24 @@ class HttpTest {
     }
 
     @Test
+    void "working with dates"() {
+        http.get("/end-point-dates") {
+            def expectedDate = LocalDate.of(2018, 6, 12)
+            def expectedTime = ZonedDateTime.of(expectedDate,
+                LocalTime.of(9, 0, 0),
+                ZoneId.of("UTC"))
+
+            tradeDate.should == expectedDate
+            transactionTime.should == expectedTime
+            transactionTime.should beGreaterThanOrEqual(expectedDate)
+
+            paymentSchedule.should contain(expectedDate)
+        }
+
+        http.doc.capture("end-point-dates-matchers")
+    }
+
+    @Test
     void "captures failed assertions"() {
         code {
             http.get("params", [a: 1, b: 'text']) {
@@ -309,5 +333,9 @@ class HttpTest {
 
         http.lastValidationResult.errorMessage.should == 'java.lang.ClassCastException: ' +
             'sun.net.www.protocol.mailto.MailToURLConnection cannot be cast to java.net.HttpURLConnection'
+    }
+
+    private static TestServerJsonResponse jsonResponse(String resourceName) {
+        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName))
     }
 }
