@@ -22,7 +22,7 @@
 }
 
 .overall-http-calls-time,
-.overall-operations-coverage {
+.overall-http-operations-coverage {
     display: grid;
     grid-template-columns: repeat(auto-fill, 172px);
     grid-gap: 25px;

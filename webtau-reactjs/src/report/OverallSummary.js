@@ -25,7 +25,7 @@ function OverallSummary({report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls
     return (
         <div className="overall-summary">
             <CallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
-            <OperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
+            <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
         </div>
     )
 }
@@ -46,14 +46,14 @@ function CallsTiming({report, onSwitchToHttpCalls}) {
     )
 }
 
-function OperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
-    if (! report.hasOperationCoverage()) {
+function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
+    if (! report.hasHttpOperationCoverage()) {
         return null
     }
 
     const operationCoveragePercentage = (report.openApiOperationsCoverage() * 100).toFixed(2) + ' %'
     return (
-        <div className="overall-operations-coverage">
+        <div className="overall-http-operations-coverage">
             <CardLabelAndNumber label="Open API operations coverage"
                                 number={operationCoveragePercentage}/>
             <CardLabelAndNumber label="Covered operations"

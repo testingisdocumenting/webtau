@@ -57,7 +57,7 @@ class Report {
         return found.length ? found[0] : null
     }
 
-    hasOperationCoverage() {
+    hasHttpOperationCoverage() {
         return !!this.report.openApiSkippedOperations
     }
 
