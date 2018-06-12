@@ -25,7 +25,7 @@ function OverallSummary({report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls
     return (
         <div className="overall-summary">
             <CallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
-            <UrlCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
+            <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
         </div>
     )
 }
@@ -46,22 +46,22 @@ function CallsTiming({report, onSwitchToHttpCalls}) {
     )
 }
 
-function UrlCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
-    if (! report.hasUrlCoverage()) {
+function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
+    if (! report.hasHttpOperationCoverage()) {
         return null
     }
 
-    const urlCoveragePercentage = (report.openApiUrlsCoverage() * 100).toFixed(2) + ' %'
+    const operationCoveragePercentage = (report.openApiOperationsCoverage() * 100).toFixed(2) + ' %'
     return (
-        <div className="overall-http-calls-coverage">
-            <CardLabelAndNumber label="Open API urls coverage"
-                                number={urlCoveragePercentage}/>
-            <CardLabelAndNumber label="Covered urls"
-                                number={report.numberOfOpenApiCoveredUrls()}/>
+        <div className="overall-http-operations-coverage">
+            <CardLabelAndNumber label="Open API operations coverage"
+                                number={operationCoveragePercentage}/>
+            <CardLabelAndNumber label="Covered operations"
+                                number={report.numberOfOpenApiCoveredOperations()}/>
 
             <div className="overall-number-of-skipped" onClick={onSwitchToSkippedHttpCalls}>
-                <CardLabelAndNumber label="Skipped urls"
-                                    number={report.numberOfOpenApiSkippedUrls()}
+                <CardLabelAndNumber label="Skipped operations"
+                                    number={report.numberOfOpenApiSkippedOperations()}
                                     onClick={onSwitchToSkippedHttpCalls}/>
             </div>
         </div>
