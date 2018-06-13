@@ -110,7 +110,7 @@ public class OpenApiSpec {
 
     private String combineWithBasePath(String url) {
         return api.getBasePath() != null ?
-                api.getBasePath() + url:
+                HttpUrl.concat(api.getBasePath(), url):
                 url;
     }
 
