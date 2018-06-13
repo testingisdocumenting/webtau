@@ -54,7 +54,7 @@ function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
     const operationCoveragePercentage = (report.openApiOperationsCoverage() * 100).toFixed(2) + ' %'
     return (
         <div className="overall-http-operations-coverage">
-            <CardLabelAndNumber label="Open API operations coverage"
+            <CardLabelAndNumber label="Operations coverage"
                                 number={operationCoveragePercentage}/>
             <CardLabelAndNumber label="Covered operations"
                                 number={report.numberOfOpenApiCoveredOperations()}/>
