@@ -1,0 +1,12 @@
+{
+  "swagger": "2.0",
+  "basePath": "/",
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Test get method",
+        "operationId": "getTest"
+      }
+    }
+  }
+}
