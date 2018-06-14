@@ -30,6 +30,7 @@ import com.twosigma.webtau.expectation.equality.GreaterThanMatcher;
 import com.twosigma.webtau.expectation.equality.GreaterThanOrEqualMatcher;
 import com.twosigma.webtau.expectation.equality.LessThanMatcher;
 import com.twosigma.webtau.expectation.equality.LessThanOrEqualMatcher;
+import com.twosigma.webtau.expectation.equality.NotEqualMatcher;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
@@ -56,7 +57,15 @@ public class Ddjt {
         return new EqualMatcher(expected);
     }
 
+    public static NotEqualMatcher notEqual(Object expected) {
+        return new NotEqualMatcher(expected);
+    }
+
     public static ContainMatcher contain(Object expected) {
+        return new ContainMatcher(expected);
+    }
+
+    public static ContainMatcher containing(Object expected) {
         return new ContainMatcher(expected);
     }
 
@@ -64,7 +73,7 @@ public class Ddjt {
         return new GreaterThanMatcher(expected);
     }
 
-    public static GreaterThanOrEqualMatcher beGreaterThanOrEqual(Comparable expected) {
+    public static GreaterThanOrEqualMatcher beGreaterThanOrEqual(Object expected) {
         return new GreaterThanOrEqualMatcher(expected);
     }
 
@@ -72,8 +81,24 @@ public class Ddjt {
         return new LessThanMatcher(expected);
     }
 
-    public static LessThanOrEqualMatcher beLessThanOrEqual(Comparable expected) {
+    public static LessThanOrEqualMatcher beLessThanOrEqual(Object expected) {
         return new LessThanOrEqualMatcher(expected);
+    }
+
+    public static GreaterThanMatcher greaterThan(Object expected) {
+        return beGreaterThan(expected);
+    }
+
+    public static GreaterThanOrEqualMatcher greaterThanOrEqual(Object expected) {
+        return beGreaterThanOrEqual(expected);
+    }
+
+    public static LessThanMatcher lessThan(Object expected) {
+        return beLessThan(expected);
+    }
+
+    public static LessThanOrEqualMatcher lessThanOrEqual(Object expected) {
+        return beLessThanOrEqual(expected);
     }
 
     public static ThrowExceptionMatcher throwException(String expectedMessage) {

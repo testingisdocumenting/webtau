@@ -38,6 +38,11 @@ import static com.twosigma.webtau.Ddjt.beLessThan
 import static com.twosigma.webtau.Ddjt.beLessThanOrEqual
 import static com.twosigma.webtau.Ddjt.code
 import static com.twosigma.webtau.Ddjt.contain
+import static com.twosigma.webtau.Ddjt.greaterThan
+import static com.twosigma.webtau.Ddjt.greaterThanOrEqual
+import static com.twosigma.webtau.Ddjt.lessThan
+import static com.twosigma.webtau.Ddjt.lessThanOrEqual
+import static com.twosigma.webtau.Ddjt.notEqual
 import static com.twosigma.webtau.Ddjt.throwException
 import static com.twosigma.webtau.http.Http.http
 
@@ -48,6 +53,7 @@ class HttpTest {
     static void startServer() {
         testServer.start(7823)
         testServer.registerGet("/end-point", jsonResponse("objectTestResponse.json"))
+        testServer.registerGet("/end-point-mixed", jsonResponse("mixedTestResponse.json"))
         testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"))
         testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"))
         testServer.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"))
@@ -257,9 +263,11 @@ class HttpTest {
 
             list.should == [1, 2, 3]
 
-            object.should == [k1: 'v1', k3: 'v3']
+            object.k1.should == ~/v\d/ // regular expression matching
 
-            complexList.should == ["k1"   | "k2"] {
+            object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times
+
+            complexList.should == ["k1"   | "k2"] { // matching only specified fields, but number of entries must be exact
                                    ________________
                                     "v1"  | "v2"
                                     "v11" | "v22" }
@@ -311,6 +319,28 @@ class HttpTest {
         }
 
         http.doc.capture("end-point-dates-matchers")
+    }
+
+    @Test
+    void "matchers combo"() {
+        http.get("/end-point-mixed") {
+            list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value
+
+            object.should == [k1: 'v1', k3: ~/v\d/] // regular expression match against k3
+
+            complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2
+
+            complexList[1].should == [
+                k1: notEqual('v1'), // any value but v1
+                k2: greaterThanOrEqual(120)]
+
+            complexList.should == ["k1"   | "k2"] {
+                                  ___________________________
+                                   ~/v\d/ | lessThan(120)
+                                    "v11" | greaterThan(150) } // using matchers as cell values
+        }
+
+        http.doc.capture("end-point-mixing-matchers")
     }
 
     @Test

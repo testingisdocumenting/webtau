@@ -27,3 +27,4 @@ com.twosigma.webtau.expectation.equality.handlers.RecordAndMapCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.MapsCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.DateAndStringCompareToHandler
+com.twosigma.webtau.expectation.equality.handlers.ValueMatcherCompareToHandler

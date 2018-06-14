@@ -27,26 +27,26 @@ class ContainMatcherTest {
     @Test
     void "should throw exception when value doesn't contain expected value"() {
         code {
-            actual("hello world").should(contain("world!"))
-        } should throwException("\n[value] expect to contain world!\n" +
-            "[value]: hello world")
+            actual('hello world').should(contain('world!'))
+        } should throwException('\n[value] expect to contain "world!"\n' +
+            '[value]: hello world')
     }
 
     @Test
     void "should throw exception when value contain expected value, but should not"() {
         code {
-            actual("hello world").shouldNot(contain("world"))
-        } should throwException("\n[value] expect to not contain world\n" +
-            "[value]: hello world")
+            actual('hello world').shouldNot(contain('world'))
+        } should throwException('\n[value] expect to not contain "world"\n' +
+            '[value]: hello world')
     }
 
     @Test
     void "should pass when value contains expected value"() {
-        actual("hello world").should(contain("world"))
+        actual('hello world').should(contain('world'))
     }
 
     @Test
     void "should pass when value doesn't contains expected value and should not"() {
-        actual("hello world").shouldNot(contain("world!"))
+        actual('hello world').shouldNot(contain('world!'))
     }
 }

@@ -16,11 +16,11 @@
 
 package com.twosigma.webtau.data.render;
 
-public class ToStringRenderer implements DataRenderer {
+import java.util.Objects;
+
+public class AnyRenderer implements DataRenderer {
     @Override
     public String render(Object data) {
-        return data instanceof String ?
-                "\"" + data + "\"" :
-                null;
+        return Objects.toString(data);
     }
 }

@@ -16,7 +16,7 @@ will be automatically mapped to response `body.id`. If you need to access body e
 body.shouldNot == [1, 2, 3] 
 ``` 
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "equality matcher", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "equality matcher", bodyOnly: true, commentsType: "inline"}
 
 :include-meta: {rightSide: true}
 :include-json: objectTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-object-equality-matchers/paths.json"}
@@ -44,4 +44,16 @@ using ISO formatter.
 
 :include-meta: {rightSide: true}
 :include-json: datesTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-dates-matchers/paths.json"}
+
+# Mixing Matchers
+
+You can use matchers in place of expected values to build a more complex expectation. 
+
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "matchers combo", bodyOnly: true, commentsType: "inline"}
+
+Note: names `greaterThan` and `beGreaterThan` are interchangeable. For better readability use `greaterThan` version when mixing matchers and `beGreaterThan` as 
+a top level matcher.  
+
+:include-meta: {rightSide: true}
+:include-json: mixedTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-mixing-matchers/paths.json"}
 

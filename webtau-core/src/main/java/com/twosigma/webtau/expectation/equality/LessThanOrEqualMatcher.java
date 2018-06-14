@@ -74,4 +74,9 @@ public class LessThanOrEqualMatcher implements ValueMatcher {
         compareToComparator = CompareToComparator.comparator();
         return compareToComparator.compareIsGreater(actualPath, actual, expected);
     }
+
+    @Override
+    public String toString() {
+        return GreaterLessEqualMatcherRenderer.render(this, compareToComparator, expected);
+    }
 }

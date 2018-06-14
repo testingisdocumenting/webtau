@@ -44,37 +44,37 @@ class MapsCompareToHandlerTest {
 
     @Test
     void "should report missing keys on both sides in case of mismatch"() {
-        comparator.compareUsingEqualOnly(createActualPath("map"),
-                [k6: 'v1', k2: [k21: 'v21', k23: "v23"], k3: 'v3'],
-                [k1: 'v1', k2: [k22: 'v21', k24: "v24"], k3: 'v3-'])
+        comparator.compareUsingEqualOnly(createActualPath('map'),
+                [k6: 'v1', k2: [k21: 'v21', k23: 'v23'], k3: 'v3'],
+                [k1: 'v1', k2: [k22: 'v21', k24: 'v24'], k3: 'v3-'])
 
         def report = comparator.generateEqualMismatchReport()
-        assertEquals("mismatches:\n" +
-                "\n" +
-                "map.k3:   actual: v3 <java.lang.String>\n" +
-                "        expected: v3- <java.lang.String>\n" +
-                "\n" +
-                "missing, but expected values:\n" +
-                "\n" +
-                "map.k1: v1\n" +
-                "map.k2.k22: v21\n" +
-                "map.k2.k24: v24\n" +
-                "\n" +
-                "unexpected values:\n" +
-                "\n" +
-                "map.k2.k21: v21\n" +
-                "map.k2.k23: v23\n" +
-                "map.k6: v1", report)
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'map.k3:   actual: "v3" <java.lang.String>\n' +
+                '        expected: "v3-" <java.lang.String>\n' +
+                '\n' +
+                'missing, but expected values:\n' +
+                '\n' +
+                'map.k1: "v1"\n' +
+                'map.k2.k22: "v21"\n' +
+                'map.k2.k24: "v24"\n' +
+                '\n' +
+                'unexpected values:\n' +
+                '\n' +
+                'map.k2.k21: "v21"\n' +
+                'map.k2.k23: "v23"\n' +
+                'map.k6: "v1"', report)
     }
 
     @Test
     void "should report mismatch reason when it shouldn't mismatch and passes"() {
-        comparator.compareUsingEqualOnly(createActualPath("map"),
+        comparator.compareUsingEqualOnly(createActualPath('map'),
             [k1: 'v1', k2: 'v2'],
             [k1: 'v1'])
 
-        assertEquals("unexpected values:\n" +
-            "\n" +
-            "map.k2: v2", comparator.generateEqualMismatchReport())
+        assertEquals('unexpected values:\n' +
+            '\n' +
+            'map.k2: "v2"', comparator.generateEqualMismatchReport())
     }
 }

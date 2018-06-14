@@ -16,12 +16,12 @@
 
 package com.twosigma.webtau.data.render;
 
+import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.TraceUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import com.twosigma.webtau.utils.ServiceUtils;
-import com.twosigma.webtau.utils.TraceUtils;
 
 public class DataRenderers {
     private static final List<DataRenderer> renders = discover();
@@ -40,6 +40,7 @@ public class DataRenderers {
         renders.addAll(ServiceUtils.discover(DataRenderer.class));
         renders.add(new TableDataRenderer());
         renders.add(new ToStringRenderer());
+        renders.add(new AnyRenderer());
 
         return renders;
     }
