@@ -51,7 +51,7 @@ class DateAndStringCompareToHandlerTest {
     void "actual local date string doesn't equal expected local date instance"() {
         code {
             actual("2018-06-10").should(equal(LocalDate.of(2018, 6, 9)))
-        } should throwException("\ndoesn't equal to 2018-06-09\n" +
+        } should throwException("\ndoesn't equal 2018-06-09\n" +
             "mismatches:\n" +
             "\n" +
             "[value]:   actual: 2018-06-10 <java.time.LocalDate>\n" +

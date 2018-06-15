@@ -35,13 +35,13 @@ public class EqualMatcher implements ValueMatcher {
 
     @Override
     public String matchedMessage(ActualPath actualPath, Object actual) {
-        return "equal to " + DataRenderers.render(expected) + "\n" +
+        return "equals " + DataRenderers.render(expected) + "\n" +
                 comparator.generateEqualMatchReport();
     }
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return "doesn't equal to " + DataRenderers.render(expected) + "\n" +
+        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
                 comparator.generateEqualMismatchReport();
     }
 
@@ -58,13 +58,13 @@ public class EqualMatcher implements ValueMatcher {
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-        return "doesn't equal to " + DataRenderers.render(expected) + "\n" +
+        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
                 comparator.generateNotEqualMatchReport();
     }
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return "equals to " + DataRenderers.render(expected) + ", but shouldn't\n" +
+        return "equals " + DataRenderers.render(expected) + ", but shouldn't\n" +
                 comparator.generateNotEqualMismatchReport();
     }
 

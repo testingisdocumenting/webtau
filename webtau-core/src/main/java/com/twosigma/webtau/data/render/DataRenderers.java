@@ -39,8 +39,8 @@ public class DataRenderers {
         renders.add(new NullRenderer());
         renders.addAll(ServiceUtils.discover(DataRenderer.class));
         renders.add(new TableDataRenderer());
-        renders.add(new ToStringRenderer());
-        renders.add(new AnyRenderer());
+        renders.add(new StringRenderer());
+        renders.add(Objects::toString);
 
         return renders;
     }

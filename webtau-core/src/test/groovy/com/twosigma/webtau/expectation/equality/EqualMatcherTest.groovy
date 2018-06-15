@@ -31,7 +31,7 @@ class EqualMatcherTest {
         def actual = expected
 
         assert matcher.matches(actualPath, actual)
-        assert matcher.matchedMessage(actualPath, actual) == "equal to $expected\n" +
+        assert matcher.matchedMessage(actualPath, actual) == "equals $expected\n" +
             'matches:\n\n' + simpleActualExpectedWithIntegers(actual, expected)
     }
 
@@ -40,7 +40,7 @@ class EqualMatcherTest {
         def actual = expected + 1
         assert !matcher.matches(actualPath, actual)
 
-        assert matcher.mismatchedMessage(actualPath, actual) ==  "doesn't equal to $expected\n" +
+        assert matcher.mismatchedMessage(actualPath, actual) ==  "doesn't equal $expected\n" +
             "mismatches:\n\n" +
             simpleActualExpectedWithIntegers(actual, expected)
     }
@@ -49,7 +49,7 @@ class EqualMatcherTest {
     void "negative match"() {
         def actual = expected + 1
         assert matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMatchedMessage(actualPath, actual) == "doesn't equal to $expected\n" +
+        assert matcher.negativeMatchedMessage(actualPath, actual) == "doesn't equal $expected\n" +
             "matches:\n\n" +
             simpleActualExpectedWithIntegers(actual, expected)
     }
@@ -58,7 +58,7 @@ class EqualMatcherTest {
     void "negative mismatch"() {
         def actual = expected
         assert !matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMismatchedMessage(actualPath, actual) ==  "equals to $expected, but shouldn't\n" +
+        assert matcher.negativeMismatchedMessage(actualPath, actual) ==  "equals $expected, but shouldn't\n" +
             "mismatches:\n\n" +
             simpleActualExpectedWithIntegers(actual, expected)
     }
