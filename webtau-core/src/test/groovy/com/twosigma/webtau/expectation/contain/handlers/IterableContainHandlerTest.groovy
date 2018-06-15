@@ -39,78 +39,78 @@ class IterableContainHandlerTest {
     void "handles iterable as actual and anything as expected"() {
         def handler = new IterableContainHandler()
         assert handler.handle([1, 2], 1)
-        assert handler.handle([1, 2], "hello")
-        assert !handler.handle("hello", "hello")
-        assert !handler.handle(1, "hello")
+        assert handler.handle([1, 2], 'hello')
+        assert !handler.handle('hello', 'hello')
+        assert !handler.handle(1, 'hello')
     }
 
     @Test
     void "no mismatches when collection contains a value"() {
-        assert analyzer.contains(createActualPath("list"), ["hello", "world", "of", "testing"], "world")
+        assert analyzer.contains(createActualPath('list'), ['hello', 'world', 'of', 'testing'], 'world')
     }
 
     @Test
     void "no mismatches when collection doesn't contain a value and should not"() {
-        assert analyzer.notContains(createActualPath("list"), ["hello", "world", "of", "testing"], "off")
+        assert analyzer.notContains(createActualPath('list'), ['hello', 'world', 'of', 'testing'], 'off')
     }
 
     @Test
     void "mismatches when collection contain a value but should not"() {
-        assert !analyzer.notContains(createActualPath("list"), ["hello", "world", "of", "testing"], "of")
-        Assert.assertEquals("list[2]: equals of", analyzer.generateMismatchReport())
+        assert !analyzer.notContains(createActualPath('list'), ['hello', 'world', 'of', 'testing'], 'of')
+        Assert.assertEquals('list[2]: equals "of"', analyzer.generateMismatchReport())
     }
 
     @Test
     void "mismatch report contains information about each match attempt"() {
-        assert !analyzer.contains(createActualPath("list"), ["hello", "world", "of", "testing"], "off")
+        assert !analyzer.contains(createActualPath('list'), ['hello', 'world', 'of', 'testing'], 'off')
 
-        Assert.assertEquals("list: mismatches:\n" +
-            "      \n" +
-            "      list[0]:   actual: hello <java.lang.String>\n" +
-            "               expected: off <java.lang.String>\n" +
-            "      list[1]:   actual: world <java.lang.String>\n" +
-            "               expected: off <java.lang.String>\n" +
-            "      list[2]:   actual: of <java.lang.String>\n" +
-            "               expected: off <java.lang.String>\n" +
-            "      list[3]:   actual: testing <java.lang.String>\n" +
-            "               expected: off <java.lang.String>", analyzer.generateMismatchReport())
+        Assert.assertEquals('list: mismatches:\n' +
+            '      \n' +
+            '      list[0]:   actual: "hello" <java.lang.String>\n' +
+            '               expected: "off" <java.lang.String>\n' +
+            '      list[1]:   actual: "world" <java.lang.String>\n' +
+            '               expected: "off" <java.lang.String>\n' +
+            '      list[2]:   actual: "of" <java.lang.String>\n' +
+            '               expected: "off" <java.lang.String>\n' +
+            '      list[3]:   actual: "testing" <java.lang.String>\n' +
+            '               expected: "off" <java.lang.String>', analyzer.generateMismatchReport())
 
     }
 
     @Test
     void "works with complex types"() {
-        assert !analyzer.contains(createActualPath("list"), [
-            [firstName: "FN1", lastName: "LN1"],
-            [firstName: "FN2", lastName: "LN2"],
-            [firstName: "FN3", lastName: "LN3"],
-        ], [firstName: "FN31", lastName: "LN3"])
+        assert !analyzer.contains(createActualPath('list'), [
+            [firstName: 'FN1', lastName: 'LN1'],
+            [firstName: 'FN2', lastName: 'LN2'],
+            [firstName: 'FN3', lastName: 'LN3'],
+        ], [firstName: 'FN31', lastName: 'LN3'])
 
-        Assert.assertEquals("list: mismatches:\n" +
-            "      \n" +
-            "      list[0].firstName:   actual: FN1 <java.lang.String>\n" +
-            "                         expected: FN31 <java.lang.String>\n" +
-            "      list[0].lastName:   actual: LN1 <java.lang.String>\n" +
-            "                        expected: LN3 <java.lang.String>\n" +
-            "      list[1].firstName:   actual: FN2 <java.lang.String>\n" +
-            "                         expected: FN31 <java.lang.String>\n" +
-            "      list[1].lastName:   actual: LN2 <java.lang.String>\n" +
-            "                        expected: LN3 <java.lang.String>\n" +
-            "      list[2].firstName:   actual: FN3 <java.lang.String>\n" +
-            "                         expected: FN31 <java.lang.String>", analyzer.generateMismatchReport())
+        Assert.assertEquals('list: mismatches:\n' +
+            '      \n' +
+            '      list[0].firstName:   actual: "FN1" <java.lang.String>\n' +
+            '                         expected: "FN31" <java.lang.String>\n' +
+            '      list[0].lastName:   actual: "LN1" <java.lang.String>\n' +
+            '                        expected: "LN3" <java.lang.String>\n' +
+            '      list[1].firstName:   actual: "FN2" <java.lang.String>\n' +
+            '                         expected: "FN31" <java.lang.String>\n' +
+            '      list[1].lastName:   actual: "LN2" <java.lang.String>\n' +
+            '                        expected: "LN3" <java.lang.String>\n' +
+            '      list[2].firstName:   actual: "FN3" <java.lang.String>\n' +
+            '                         expected: "FN31" <java.lang.String>', analyzer.generateMismatchReport())
     }
 
     @Test
     void "contain matcher throws when doesn't match"() {
         code {
-            actual(["hello", "world", "of", "testing"]).should(contain("wod"))
-        } should throwException(~/\[value] expect to contain wod/)
+            actual(['hello', 'world', 'of', 'testing']).should(contain('wod'))
+        } should throwException(~/\[value] expect to contain "wod"/)
     }
 
     @Test
     void "contain matcher throws when contains but should not"() {
         code {
-            actual(["hello", "world", "of", "testing"]).shouldNot(contain("of"))
-        } should throwException("\n[value] expect to not contain of\n" +
-            "[value][2]: equals of")
+            actual(['hello', 'world', 'of', 'testing']).shouldNot(contain('of'))
+        } should throwException('\n[value] expect to not contain "of"\n' +
+            '[value][2]: equals "of"')
     }
 }

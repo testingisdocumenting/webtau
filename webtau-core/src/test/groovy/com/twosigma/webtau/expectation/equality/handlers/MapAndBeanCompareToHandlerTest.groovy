@@ -34,7 +34,7 @@ class MapAndBeanCompareToHandlerTest {
     @Test
     void "should only handle map as expected and bean as actual"() {
         def handler = new MapAndBeanCompareToHandler()
-        assert ! handler.handleEquality(10, "test")
+        assert ! handler.handleEquality(10, 'test')
         assert ! handler.handleEquality([k: 1], [k: 1])
 
         assert handler.handleEquality(new SmallBean(), [k2: 2])
@@ -42,16 +42,16 @@ class MapAndBeanCompareToHandlerTest {
 
     @Test
     void "should only check explicitly specified properties"() {
-        comparator.compareIsEqual(createActualPath("bean"),
-                new SmallBean(), [price: 120, name: "n2"])
+        comparator.compareIsEqual(createActualPath('bean'),
+                new SmallBean(), [price: 120, name: 'n2'])
 
         def report = comparator.generateEqualMismatchReport()
-        assertEquals("mismatches:\n" +
-                "\n" +
-                "bean.price:   actual: 100 <java.math.BigDecimal>(before conversion: 100 <java.lang.Long>)\n" +
-                "            expected: 120 <java.math.BigDecimal>(before conversion: 120 <java.lang.Integer>)\n" +
-                "bean.name:   actual: n1 <java.lang.String>\n" +
-                "           expected: n2 <java.lang.String>", report)
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'bean.price:   actual: 100 <java.math.BigDecimal>(before conversion: 100 <java.lang.Long>)\n' +
+                '            expected: 120 <java.math.BigDecimal>(before conversion: 120 <java.lang.Integer>)\n' +
+                'bean.name:   actual: "n1" <java.lang.String>\n' +
+                '           expected: "n2" <java.lang.String>', report)
     }
 
     class SmallBean {

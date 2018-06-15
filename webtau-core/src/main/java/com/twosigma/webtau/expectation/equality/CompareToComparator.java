@@ -127,11 +127,22 @@ public class CompareToComparator {
         return generateReportPart(MISMATCHES_LABEL, Arrays.asList(greaterMessages, equalMessages));
     }
 
+    public String generateNotEqualMismatchReport() {
+        return generateReportPart(MISMATCHES_LABEL, Collections.singletonList(equalMessages));
+    }
+
     public String generateEqualMismatchReport() {
         return combineReportParts(
                 generateReportPart(MISMATCHES_LABEL, Collections.singletonList(notEqualMessages)),
                 generateReportPart("missing, but expected values", Collections.singletonList(missingMessages)),
                 generateReportPart("unexpected values", Collections.singletonList(extraMessages)));
+    }
+
+    public String generateNotEqualMatchReport() {
+        return combineReportParts(
+                generateReportPart(MATCHES_LABEL, Collections.singletonList(notEqualMessages)),
+                generateReportPart("missing values", Collections.singletonList(missingMessages)),
+                generateReportPart("extra values", Collections.singletonList(extraMessages)));
     }
 
     public String generateGreaterThanMatchReport() {

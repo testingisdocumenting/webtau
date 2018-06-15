@@ -23,15 +23,15 @@ import com.twosigma.webtau.expectation.ValueMatcher;
 public class ContainMatcher implements ValueMatcher {
     private ContainAnalyzer containAnalyzer;
     private final Object expected;
+    private Boolean isNegative;
 
     public ContainMatcher(Object expected) {
         this.expected = expected;
-        this.containAnalyzer = ContainAnalyzer.containAnalyzer();
     }
 
     @Override
     public String matchingMessage() {
-        return "co contain " + DataRenderers.render(expected);
+        return "to contain " + DataRenderers.render(expected);
     }
 
     @Override
@@ -47,6 +47,9 @@ public class ContainMatcher implements ValueMatcher {
 
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
+        containAnalyzer = ContainAnalyzer.containAnalyzer();
+        isNegative = false;
+
         containAnalyzer.contains(actualPath, actual, expected);
         return containAnalyzer.hasMismatches();
     }
@@ -69,7 +72,23 @@ public class ContainMatcher implements ValueMatcher {
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
+        containAnalyzer = ContainAnalyzer.containAnalyzer();
+        isNegative = true;
+
         containAnalyzer.notContains(actualPath, actual, expected);
         return containAnalyzer.hasMismatches();
+    }
+
+    @Override
+    public String toString() {
+        String renderedExpected = DataRenderers.render(expected);
+
+        if (isNegative == null) {
+            return this.getClass().getCanonicalName() + " " + renderedExpected;
+        } else if (isNegative) {
+            return "<not contain " + renderedExpected + ">";
+        } else {
+            return "<contain " + renderedExpected + ">";
+        }
     }
 }

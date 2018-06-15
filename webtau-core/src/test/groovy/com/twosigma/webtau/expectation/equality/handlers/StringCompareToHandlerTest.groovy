@@ -47,10 +47,10 @@ class StringCompareToHandlerTest {
         def comparator = CompareToComparator.comparator()
         comparator.compareIsEqual(createActualPath("text"), Character.valueOf('t'.toCharArray()[0]), "b")
 
-        assertEquals("mismatches:\n" +
-                "\n" +
-                "text:   actual: t <java.lang.String>(before conversion: t <java.lang.Character>)\n" +
-                "      expected: b <java.lang.String>",
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text:   actual: "t" <java.lang.String>(before conversion: t <java.lang.Character>)\n' +
+                '      expected: "b" <java.lang.String>',
                 comparator.generateEqualMismatchReport())
     }
 }

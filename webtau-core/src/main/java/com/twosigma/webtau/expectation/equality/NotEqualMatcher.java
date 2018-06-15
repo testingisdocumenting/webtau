@@ -20,63 +20,62 @@ import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
-public class GreaterThanMatcher implements ValueMatcher {
-    private CompareToComparator compareToComparator;
+public class NotEqualMatcher implements ValueMatcher {
+    private CompareToComparator comparator;
     private final Object expected;
 
-    public GreaterThanMatcher(Object expected) {
+    public NotEqualMatcher(Object expected) {
         this.expected = expected;
     }
 
     @Override
     public String matchingMessage() {
-        return "to be greater than " + DataRenderers.render(expected);
+        return "to not equal " + DataRenderers.render(expected);
     }
 
     @Override
     public String matchedMessage(ActualPath actualPath, Object actual) {
-        return "greater than " + DataRenderers.render(expected) + "\n" +
-                compareToComparator.generateGreaterThanMatchReport();
+        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
+                comparator.generateNotEqualMatchReport();
     }
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return "less then or equal to " + DataRenderers.render(expected) + "\n" +
-                compareToComparator.generateGreaterThanMismatchReport();
+        return "equals " + DataRenderers.render(expected) + ", but shouldn't\n" +
+                comparator.generateNotEqualMismatchReport();
     }
 
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
-        compareToComparator = CompareToComparator.comparator();
-        return compareToComparator.compareIsGreater(actualPath, actual, expected);
+        comparator = CompareToComparator.comparator();
+        return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
 
     @Override
     public String negativeMatchingMessage() {
-        return "to be less than or equal to " + DataRenderers.render(expected);
+        return "to equal " + DataRenderers.render(expected);
     }
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-        return "less than or equal to " + DataRenderers.render(expected) + '\n' +
-                compareToComparator.generateLessThanOrEqualToMatchReport();
+        return "equals " + DataRenderers.render(expected) + "\n" +
+                comparator.generateEqualMatchReport();
     }
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " is greater than " + DataRenderers.render(expected) +
-                ", but should be less or equal to\n" +
-                compareToComparator.generateLessThanOrEqualMismatchReport();
+        return "doesn't equal " + DataRenderers.render(expected) + ", but should\n" +
+                comparator.generateEqualMismatchReport();
     }
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
-        compareToComparator = CompareToComparator.comparator();
-        return compareToComparator.compareIsLessOrEqual(actualPath, actual, expected);
+        comparator = CompareToComparator.comparator();
+        return comparator.compareIsEqual(actualPath, actual, expected);
     }
 
     @Override
     public String toString() {
-        return GreaterLessEqualMatcherRenderer.render(this, compareToComparator, expected);
+        return EqualNotEqualMatcherRenderer.render(this, comparator, expected);
     }
 }

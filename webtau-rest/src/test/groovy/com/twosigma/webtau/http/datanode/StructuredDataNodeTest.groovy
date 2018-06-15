@@ -58,7 +58,7 @@ class StructuredDataNodeTest {
 
         code {
             node.shouldNot(equal(10))
-        } should throwException(~/equals to 10/)
+        } should throwException(~/equals 10/)
 
         node.get().checkLevel.should == CheckLevel.ExplicitFailed
     }
