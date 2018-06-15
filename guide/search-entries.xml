@@ -447,6 +447,32 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/matchers#equality</url>
+    <fullTitle>WebTau: Matchers, Equality [REST]</fullTitle>
+    <text>
+      <text>Identifiers inside validation closure are automatically mapped to a response body. So typing id.shouldNot == null 
+ will be automatically mapped to response  body.id . If you need to access body explicitly use body.shouldNot == [1, 2, 3] 
+</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/matchers#date-and-time</url>
+    <fullTitle>WebTau: Matchers, Date and Time [REST]</fullTitle>
+    <text>
+      <text>You can assert  actual  string against  LocalDate  and  ZonedDateTime . String will be automatically converted using ISO formatter.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/matchers#mixing-matchers</url>
+    <fullTitle>WebTau: Matchers, Mixing Matchers [REST]</fullTitle>
+    <text>
+      <text>You can use matchers in place of expected values to build a more complex expectation. Note: names  greaterThan  and  beGreaterThan  are interchangeable. For better readability use  greaterThan  version when mixing matchers and  beGreaterThan  as a top level matcher.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/UI/configuration#base-url</url>
     <fullTitle>WebTau: Configuration, Base URL [UI]</fullTitle>
     <text>

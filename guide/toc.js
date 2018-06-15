@@ -177,6 +177,39 @@ toc = [
             "id": "validations-report"
           }
         ]
+      },
+      {
+        "sectionTitle": "REST",
+        "pageTitle": "Matchers",
+        "pageMeta": {
+          "type": [
+            "two-sides"
+          ]
+        },
+        "fileName": "matchers",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Equality",
+            "id": "equality"
+          },
+          {
+            "title": "Greater/Less/Equal",
+            "id": "greaterlessequal"
+          },
+          {
+            "title": "Contain",
+            "id": "contain"
+          },
+          {
+            "title": "Date and Time",
+            "id": "date-and-time"
+          },
+          {
+            "title": "Mixing Matchers",
+            "id": "mixing-matchers"
+          }
+        ]
       }
     ]
   },
