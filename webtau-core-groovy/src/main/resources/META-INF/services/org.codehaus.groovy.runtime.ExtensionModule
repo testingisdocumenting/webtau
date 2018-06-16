@@ -14,6 +14,6 @@
 # limitations under the License.
 #
 
-moduleName=two-sigma-td
+moduleName=webtau-core-groovy
 moduleVersion=1.0
-extensionClasses=com.twosigma.webtau.data.table.TableDataExtension,com.twosigma.webtau.expectation.ExpectationExtension,com.twosigma.webtau.data.time.TestTimeExtension
+extensionClasses=com.twosigma.webtau.data.expectation.ExpectationExtension,com.twosigma.webtau.data.table.TableDataExtension,com.twosigma.webtau.data.time.TestTimeExtension

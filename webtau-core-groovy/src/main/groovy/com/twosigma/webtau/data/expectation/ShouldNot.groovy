@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation;
+package com.twosigma.webtau.data.expectation
 
-import com.twosigma.webtau.Ddjt;
-import com.twosigma.webtau.expectation.equality.EqualMatcher;
+import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
 
-import java.util.function.Consumer;
+class ShouldNot {
+    private Object actual
 
-public class ShouldAndWaitProperty<E> {
-    private E actual;
-    private Consumer<EqualMatcher> shouldHandler;
-
-    public ShouldAndWaitProperty(E actual, Consumer<EqualMatcher> shouldHandler) {
-        this.actual = actual;
-        this.shouldHandler = shouldHandler;
+    ShouldNot(Object actual) {
+        this.actual = actual
     }
 
-    public boolean equals(Object expected) {
-        shouldHandler.accept(Ddjt.equal(expected));
-        return true;
+    boolean equals(Object expected) {
+        throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 }

@@ -33,7 +33,7 @@ public class DataNodeCompareToHandler implements CompareToHandler {
 
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof DataNode;
+        return handles(actual);
     }
 
     @Override

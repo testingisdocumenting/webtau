@@ -14,6 +14,4 @@
 # limitations under the License.
 #
 
-moduleName=webtau-rest-groovy
-moduleVersion=1.0
-extensionClasses=com.twosigma.webtau.http.HttpExtensions
+com.twosigma.webtau.groovy.ast.ShouldAstTransformation

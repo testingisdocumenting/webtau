@@ -77,6 +77,19 @@ class HttpTest {
     }
 
     @Test
+    void "handles nulls"() {
+        code {
+            http.post("/echo", [a: null]) {
+                a.shouldNot == null
+            }
+        } should throwException('\nequals [null], but shouldn\'t\n' +
+            'mismatches:\n' +
+            '\n' +
+            'body.a:   actual: null\n' +
+            '        expected: null')
+    }
+
+    @Test
     void "use table data as expected"() {
         http.get("/end-point") {
             complexList.should == ["k1"   | "k2"] {

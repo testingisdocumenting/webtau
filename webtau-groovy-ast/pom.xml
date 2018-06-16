@@ -26,8 +26,8 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>webtau-core-groovy</artifactId>
-    <version>0.1</version>
+    <artifactId>webtau-groovy-ast</artifactId>
+
 
     <dependencies>
         <dependency>
@@ -37,28 +37,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-groovy-ast</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-core</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-            <type>test-jar</type>
         </dependency>
     </dependencies>
 
@@ -72,8 +52,6 @@
                         <goals>
                             <goal>addSources</goal>
                             <goal>compile</goal>
-                            <goal>addTestSources</goal>
-                            <goal>testCompile</goal>
                         </goals>
                     </execution>
                 </executions>
