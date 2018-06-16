@@ -33,6 +33,10 @@ public class OpenApiCoverage {
     }
 
     public void recordOperation(HttpValidationResult validationResult) {
+        if (!spec.isSpecDefined()) {
+            return;
+        }
+
         Optional<OpenApiOperation> apiOperation = spec.findApiOperation(
                 validationResult.getRequestMethod(),
                 validationResult.getFullUrl());

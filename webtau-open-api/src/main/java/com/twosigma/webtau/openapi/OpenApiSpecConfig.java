@@ -25,7 +25,7 @@ import static com.twosigma.webtau.cfg.ConfigValue.declare;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue openApiSpecUrl = declare("openApiSpecUrl",
-            "url of OpenAPI 2 spec against which to validate responses", () -> null);
+            "url of OpenAPI 2 spec against which to validate responses", () -> "");
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
