@@ -19,6 +19,8 @@ package com.twosigma.webtau.data.expectation
 import com.twosigma.webtau.expectation.ActualValue
 import com.twosigma.webtau.expectation.ValueMatcher
 
+import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
+
 class ExpectationExtension {
     static void should(actual, ValueMatcher valueMatcher) {
         new ActualValue(actual).should(valueMatcher)
@@ -29,10 +31,10 @@ class ExpectationExtension {
     }
 
     static Should getShould(actual) {
-        throw new UnsupportedOperationException("this method call should have been replaced with AST")
+        throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
     static ShouldNot getShouldNot(actual) {
-        throw new UnsupportedOperationException("this method call should have been replaced with AST")
+        throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 }

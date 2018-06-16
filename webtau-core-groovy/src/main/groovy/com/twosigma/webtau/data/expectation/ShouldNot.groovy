@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.data.expectation
 
+import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
+
 class ShouldNot {
     private Object actual
 
@@ -24,6 +26,6 @@ class ShouldNot {
     }
 
     boolean equals(Object expected) {
-        throw new UnsupportedOperationException("this method call should have been replaced with AST")
+        throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 }

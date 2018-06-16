@@ -20,6 +20,8 @@ import com.twosigma.webtau.data.traceable.TraceableValue
 import com.twosigma.webtau.expectation.ActualPath
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
 
+import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
+
 class GroovyDataNode implements DataNodeExpectations, DataNode {
     private DataNode node
 
@@ -31,7 +33,7 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
         switch (name) {
             case "should":
             case "shouldNot":
-                throw new IllegalStateException("should property access must be replaced with AST transformation")
+                throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
             case "waitTo":
             case "waitToNot":
                 throw new UnsupportedOperationException("waitTo and waitToNot is not supported for data node")
