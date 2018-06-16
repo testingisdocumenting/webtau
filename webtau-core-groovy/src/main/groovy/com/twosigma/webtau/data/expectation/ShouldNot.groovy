@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.groovy.expectation
+package com.twosigma.webtau.data.expectation
 
 class ShouldNot {
     private Object actual

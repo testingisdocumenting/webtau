@@ -40,12 +40,6 @@
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -58,8 +52,6 @@
                         <goals>
                             <goal>addSources</goal>
                             <goal>compile</goal>
-                            <goal>addTestSources</goal>
-                            <goal>testCompile</goal>
                         </goals>
                     </execution>
                 </executions>

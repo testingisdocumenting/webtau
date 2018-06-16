@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.groovy.expectation
+package com.twosigma.webtau.data.expectation
 
-import com.twosigma.webtau.expectation.ActualValue
-import com.twosigma.webtau.expectation.ValueMatcher
+class Should {
+    private Object actual
 
-class ExpectationExtension {
-    static void should(actual, ValueMatcher valueMatcher) {
-        new ActualValue(actual).should(valueMatcher)
+    Should(Object actual) {
+        this.actual = actual
     }
 
-    static void shouldNot(actual, ValueMatcher valueMatcher) {
-        new ActualValue(actual).shouldNot(valueMatcher)
-    }
-
-    static Should getShould(actual) {
-        throw new UnsupportedOperationException("this method call should have been replaced with AST")
-    }
-
-    static ShouldNot getShouldNot(actual) {
+    boolean equals(Object expected) {
         throw new UnsupportedOperationException("this method call should have been replaced with AST")
     }
 }
