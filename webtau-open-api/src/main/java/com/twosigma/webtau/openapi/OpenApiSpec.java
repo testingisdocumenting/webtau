@@ -26,6 +26,7 @@ import io.swagger.parser.SwaggerParser;
 import io.swagger.parser.util.SwaggerDeserializationResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,7 +57,7 @@ public class OpenApiSpec {
                             specUrl, swaggerParseResult.getMessages().toString().replace("\n", "\n\t")));
         }
 
-        operations = enumerateOperations();
+        operations = isSpecDefined ? enumerateOperations() : Collections.emptyList();
     }
 
     public boolean isSpecDefined() {
