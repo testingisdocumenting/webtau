@@ -26,6 +26,11 @@ import com.twosigma.webtau.expectation.equality.CompareToResult;
 
 public class TraceableValueCompareToHandler implements CompareToHandler {
     @Override
+    public boolean handleNulls() {
+        return true;
+    }
+
+    @Override
     public boolean handleEquality(Object actual, Object expected) {
         return handles(actual);
     }

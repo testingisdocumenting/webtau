@@ -14,6 +14,4 @@
 # limitations under the License.
 #
 
-moduleName=webtau-core-groovy
-moduleVersion=1.0
-extensionClasses=com.twosigma.webtau.data.table.TableDataExtension,com.twosigma.webtau.data.time.TestTimeExtension
+com.twosigma.webtau.groovy.ast.ShouldAstTransformation

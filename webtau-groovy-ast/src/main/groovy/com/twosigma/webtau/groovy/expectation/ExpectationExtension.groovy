@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation
+package com.twosigma.webtau.groovy.expectation
+
+import com.twosigma.webtau.expectation.ActualValue
+import com.twosigma.webtau.expectation.ValueMatcher
+
 class ExpectationExtension {
     static void should(actual, ValueMatcher valueMatcher) {
         new ActualValue(actual).should(valueMatcher)
@@ -25,10 +29,10 @@ class ExpectationExtension {
     }
 
     static Should getShould(actual) {
-        return new Should(actual)
+        throw new UnsupportedOperationException("this method call should have been replaced with AST")
     }
 
     static ShouldNot getShouldNot(actual) {
-        return new ShouldNot(actual)
+        throw new UnsupportedOperationException("this method call should have been replaced with AST")
     }
 }

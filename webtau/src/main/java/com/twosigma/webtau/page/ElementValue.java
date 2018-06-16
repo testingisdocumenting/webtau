@@ -17,16 +17,15 @@
 package com.twosigma.webtau.page;
 
 import com.twosigma.webtau.expectation.ActualValueExpectations;
-import com.twosigma.webtau.expectation.ShouldAndWaitProperty;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.expectation.timer.ExpectationTimer;
+import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TokenizedMessage;
-import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder;
 import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
 
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.OF;
+import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ElementValue<E> implements ActualValueExpectations {
     private PageElement parent;
@@ -82,21 +81,5 @@ public class ElementValue<E> implements ActualValueExpectations {
         ValueMatcherExpectationSteps.waitNotStep(this.parent, this, StepReportOptions.REPORT_ALL,
                 this.describe(), valueMatcher,
                 expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    public ShouldAndWaitProperty getShould() {
-        return new ShouldAndWaitProperty<>(this, this::should);
-    }
-
-    public ShouldAndWaitProperty getShouldNot() {
-        return new ShouldAndWaitProperty<>(this, this::shouldNot);
-    }
-
-    public ShouldAndWaitProperty getWaitTo() {
-        return new ShouldAndWaitProperty<>(this, this::waitTo);
-    }
-
-    public ShouldAndWaitProperty getWaitToNot() {
-        return new ShouldAndWaitProperty<>(this, this::waitToNot);
     }
 }

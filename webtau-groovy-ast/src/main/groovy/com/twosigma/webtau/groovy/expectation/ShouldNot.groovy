@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation;
+package com.twosigma.webtau.groovy.expectation
 
-import com.twosigma.webtau.Ddjt;
-import com.twosigma.webtau.expectation.equality.EqualMatcher;
+class ShouldNot {
+    private Object actual
 
-import java.util.function.Consumer;
-
-public class ShouldAndWaitProperty<E> {
-    private E actual;
-    private Consumer<EqualMatcher> shouldHandler;
-
-    public ShouldAndWaitProperty(E actual, Consumer<EqualMatcher> shouldHandler) {
-        this.actual = actual;
-        this.shouldHandler = shouldHandler;
+    ShouldNot(Object actual) {
+        this.actual = actual
     }
 
-    public boolean equals(Object expected) {
-        shouldHandler.accept(Ddjt.equal(expected));
-        return true;
+    boolean equals(Object expected) {
+        throw new UnsupportedOperationException("this method call should have been replaced with AST")
     }
 }

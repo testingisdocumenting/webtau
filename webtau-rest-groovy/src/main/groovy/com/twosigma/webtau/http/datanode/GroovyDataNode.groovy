@@ -18,7 +18,6 @@ package com.twosigma.webtau.http.datanode
 
 import com.twosigma.webtau.data.traceable.TraceableValue
 import com.twosigma.webtau.expectation.ActualPath
-import com.twosigma.webtau.expectation.ShouldAndWaitProperty
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
 
 class GroovyDataNode implements DataNodeExpectations, DataNode {
@@ -31,13 +30,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     def getProperty(String name) {
         switch (name) {
             case "should":
-                return new ShouldAndWaitProperty<>(node, this.&should)
             case "shouldNot":
-                return new ShouldAndWaitProperty<>(node, this.&shouldNot)
+                throw new IllegalStateException("should property access must be replaced with AST transformation")
             case "waitTo":
-                return new ShouldAndWaitProperty<>(node, this.&waitTo)
             case "waitToNot":
-                return new ShouldAndWaitProperty<>(node, this.&waitToNot)
+                throw new UnsupportedOperationException("waitTo and waitToNot is not supported for data node")
             default:
                 return get(name)
         }

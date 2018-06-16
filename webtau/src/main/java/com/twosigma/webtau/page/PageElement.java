@@ -17,7 +17,6 @@
 package com.twosigma.webtau.page;
 
 import com.twosigma.webtau.expectation.ActualValueExpectations;
-import com.twosigma.webtau.expectation.ShouldAndWaitProperty;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.expectation.timer.ExpectationTimer;
 import com.twosigma.webtau.reporter.StepReportOptions;
@@ -26,8 +25,6 @@ import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
 import org.openqa.selenium.WebElement;
 
 import java.util.regex.Pattern;
-
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public interface PageElement extends ActualValueExpectations {
     PageElement all();
@@ -68,21 +65,5 @@ public interface PageElement extends ActualValueExpectations {
         ValueMatcherExpectationSteps.waitNotStep(this, this.elementValue(), StepReportOptions.REPORT_ALL,
                 this.describe(), valueMatcher,
                 expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    default ShouldAndWaitProperty getShould() {
-        return new ShouldAndWaitProperty<>(this, this::should);
-    }
-
-    default ShouldAndWaitProperty getShouldNot() {
-        return new ShouldAndWaitProperty<>(this, this::shouldNot);
-    }
-
-    default ShouldAndWaitProperty getWaitTo() {
-        return new ShouldAndWaitProperty<>(this, this::waitTo);
-    }
-
-    default ShouldAndWaitProperty getWaitToNot() {
-        return new ShouldAndWaitProperty<>(this, this::waitToNot);
     }
 }

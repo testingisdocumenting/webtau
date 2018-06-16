@@ -23,7 +23,7 @@ class WebTauGroovyCliArgsConfigHandlerTest {
     void "sets file config related values during first run and overrides other cfg values during second"() {
         def handler = new WebTauGroovyCliArgsConfigHandler('--env=dev', '--workingDir=/root/a',
             '--config=abc.cfg', '--url=http://localhost:3434', "test.groovy")
-     
+
         def cfg = createConfig()
 
         handler.onAfterCreate(cfg)
@@ -31,7 +31,7 @@ class WebTauGroovyCliArgsConfigHandlerTest {
         cfg.env.should == 'dev'
         cfg.workingDir.toString().should == '/root/a'
         cfg.configFileName.asString.should == 'abc.cfg'
-        cfg.baseUrl.should == null
+        cfg.baseUrl.should == ""
 
         handler.onAfterCreate(cfg)
 

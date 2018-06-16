@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation
-
-import com.twosigma.webtau.Ddjt
-
+package com.twosigma.webtau.groovy.expectation
 
 class Should {
     private Object actual
@@ -27,12 +24,6 @@ class Should {
     }
 
     boolean equals(Object expected) {
-        // TODO later replace with AST
-        // this method will only have exception
-        // also this won't work if actual is null as it won't even reach this place
-        new ActualValue(actual).should(Ddjt.equal(expected))
-        return true
-
-        // throw new IllegalStateException("should not reach this place")
+        throw new UnsupportedOperationException("this method call should have been replaced with AST")
     }
 }
