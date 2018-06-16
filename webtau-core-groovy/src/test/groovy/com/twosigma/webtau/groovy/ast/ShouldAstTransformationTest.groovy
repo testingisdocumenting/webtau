@@ -40,7 +40,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
             '         expected: null')
     }
 
-    void testShouldNotTransformationOnMap() {
+    void testShouldTransformationOnMap() {
         code {
             assertScript('[a:1, b:2].should == [a: 3]')
         } should throwException('\ndoesn\'t equal {a=3}\n' +
