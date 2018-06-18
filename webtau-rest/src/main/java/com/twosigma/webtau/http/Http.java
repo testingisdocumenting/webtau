@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ExpectationHandler;
@@ -253,8 +254,6 @@ public class Http {
     }
 
     private Integer defaultExpectedStatusCodeByRequest(HttpValidationResult validationResult) {
-        boolean noContent = validationResult.getResponseContent().isEmpty();
-
         switch (validationResult.getRequestMethod()) {
             case "GET":
                 return 200;
@@ -262,14 +261,18 @@ public class Http {
                 return 201;
             case "PUT":
             case "DELETE":
-                return noContent ? 204 : 200;
+                return validationResult.hasContent() ? 200 : 204;
             default:
                 return 200;
         }
     }
 
     private void render(HttpValidationResult result) {
-        new DataNodeAnsiPrinter().print(result.getBodyNode());
+        if (result.getResponse().isBinary()) {
+            ConsoleOutputs.out("binary content, size: " + (result.getResponse().getBinaryContent()).length);
+        } else {
+            new DataNodeAnsiPrinter().print(result.getBodyNode());
+        }
     }
 
     private HttpResponse requestWithoutBody(String method, String fullUrl, HttpRequestHeader requestHeader) {
@@ -316,8 +319,13 @@ public class Http {
 
         InputStream inputStream = connection.getResponseCode() < 400 ? connection.getInputStream() : connection.getErrorStream();
         httpResponse.setStatusCode(connection.getResponseCode());
-        httpResponse.setContent(inputStream != null ? IOUtils.toString(inputStream, StandardCharsets.UTF_8) : "");
         httpResponse.setContentType(connection.getContentType() != null ? connection.getContentType() : "");
+
+        if (httpResponse.isJson() || httpResponse.isText()) {
+            httpResponse.setTextContent(inputStream != null ? IOUtils.toString(inputStream, StandardCharsets.UTF_8) : "");
+        } else {
+            httpResponse.setBinaryContent(inputStream != null ? IOUtils.toByteArray(inputStream) : new byte[0]);
+        }
 
         return httpResponse;
     }
@@ -334,21 +342,27 @@ public class Http {
     private static DataNode createBodyDataNode(HttpResponse response) {
         try {
             DataNodeId id = new DataNodeId("body");
-            if (response.getContent().isEmpty()) {
+
+            if ((response.isText() || response.isJson())
+                    && response.getTextContent().isEmpty()) {
                 return new StructuredDataNode(id, new TraceableValue(""));
             }
 
-            if (!response.getContentType().contains("/json")) {
-                return new StructuredDataNode(id, new TraceableValue(response.getContent()));
+            if (response.isText()) {
+                return new StructuredDataNode(id, new TraceableValue(response.getTextContent()));
             }
 
-            Object mapOrList = JsonUtils.deserialize(response.getContent());
+            if (response.isJson()) {
+                Object mapOrList = JsonUtils.deserialize(response.getTextContent());
 
-            return mapOrList instanceof List ?
-                    DataNodeBuilder.fromList(id, (List<Object>) mapOrList) :
-                    DataNodeBuilder.fromMap(id, (Map<String, Object>) mapOrList);
+                return mapOrList instanceof List ?
+                        DataNodeBuilder.fromList(id, (List<Object>) mapOrList) :
+                        DataNodeBuilder.fromMap(id, (Map<String, Object>) mapOrList);
+            }
+
+            return new StructuredDataNode(id, new TraceableValue(response.getBinaryContent()));
         } catch (JsonParseException e) {
-            throw new RuntimeException("error parsing body: " + response.getContent(), e);
+            throw new RuntimeException("error parsing body: " + response.getTextContent(), e);
         }
     }
 

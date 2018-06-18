@@ -24,8 +24,8 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-
 import javax.servlet.ServletException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -105,7 +105,7 @@ public class TestServer implements HttpConfiguration {
     private class RequestHandler extends AbstractHandler {
         @Override
         public void handle(String url, Request baseRequest, HttpServletRequest request,
-                           HttpServletResponse response) throws IOException, ServletException {
+                           HttpServletResponse response) throws IOException {
 
             Map<String, TestServerResponse> responses = findResponses(request);
 
@@ -117,10 +117,10 @@ public class TestServer implements HttpConfiguration {
             if (testServerResponse == null) {
                 response.setStatus(404);
             } else {
-                String responseBody = testServerResponse.responseBody(serverRequest);
+                byte[] responseBody = testServerResponse.responseBody(serverRequest);
                 response.setStatus(testServerResponse.responseStatusCode());
                 response.setContentType(testServerResponse.responseType(serverRequest));
-                response.getWriter().println(responseBody != null ? responseBody : "");
+                response.getOutputStream().write(responseBody);
             }
 
             baseRequest.setHandled(true);

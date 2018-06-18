@@ -14,25 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau
+package com.twosigma.webtau.data.render;
 
-import com.twosigma.webtau.http.testserver.TestServerRequest
-import com.twosigma.webtau.http.testserver.TestServerResponse
-
-class TestServerHtmlResponse implements TestServerResponse {
-    private String response
-
-    TestServerHtmlResponse(String response) {
-        this.response = response
-    }
-
+public class ByteArrayRenderer implements DataRenderer {
     @Override
-    byte[] responseBody(final TestServerRequest request) {
-        return response.getBytes()
-    }
-
-    @Override
-    String responseType(TestServerRequest request) {
-        return "text/html"
+    public String render(Object data) {
+        return data.getClass().equals(byte[].class) ?
+                "binary content of size " + ((byte[])data).length:
+                null;
     }
 }

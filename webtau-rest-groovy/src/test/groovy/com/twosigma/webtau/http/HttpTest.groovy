@@ -19,6 +19,7 @@ package com.twosigma.webtau.http
 import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServer
+import com.twosigma.webtau.http.testserver.TestServerBinaryResponse
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
 import com.twosigma.webtau.http.testserver.TestServerTextResponse
@@ -57,9 +58,10 @@ class HttpTest {
         testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"))
         testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"))
         testServer.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"))
+        testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("dummy-image.png")))
         testServer.registerPost("/echo", new TestServerResponseEcho(201))
         testServer.registerPut("/echo", new TestServerResponseEcho(200))
-        testServer.registerDelete("/resource", new TestServerTextResponse(''))
+        testServer.registerDelete("/resource", new TestServerTextResponse('abc'))
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
     }
 
@@ -266,6 +268,18 @@ class HttpTest {
         }
 
         assert transformed == []
+    }
+
+    @Test
+    void "binary content"() {
+        byte[] expectedImage = ResourceUtils.binaryContent("dummy-image.png")
+
+        byte[] content = http.get("/binary") {
+            body.should == expectedImage
+            return body
+        }
+
+        content.length.should == expectedImage.length
     }
 
     @Test

@@ -79,6 +79,10 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     }
 
     private Object convertBasedOnExpected(DataNode actual, Object expected) {
+        if (actual.isBinary()) {
+            return actual.get();
+        }
+
         if (expected instanceof List || expected instanceof TableData) {
             return actual.elements();
         }

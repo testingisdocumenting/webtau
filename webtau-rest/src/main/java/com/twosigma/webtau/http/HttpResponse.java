@@ -17,17 +17,26 @@
 package com.twosigma.webtau.http;
 
 public class HttpResponse {
-    private String content;
+    private String textContent;
+    private byte[] binaryContent;
     private String contentType;
 
     private int statusCode;
-    
-    public String getContent() {
-        return content;
+
+    public String getTextContent() {
+        return textContent;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTextContent(String content) {
+        this.textContent = content;
+    }
+
+    public byte[] getBinaryContent() {
+        return binaryContent;
+    }
+
+    public void setBinaryContent(byte[] binaryContent) {
+        this.binaryContent = binaryContent;
     }
 
     public int getStatusCode() {
@@ -40,6 +49,26 @@ public class HttpResponse {
 
     public String getContentType() {
         return contentType;
+    }
+
+    public boolean hasContent() {
+        return binaryContent != null || (textContent != null && !textContent.isEmpty());
+    }
+
+    public boolean isJson() {
+        return contentType.contains("/json");
+    }
+
+    public boolean isXml() {
+        return contentType.contains("/xml");
+    }
+
+    public boolean isText() {
+        return contentType.startsWith("text/");
+    }
+
+    public boolean isBinary() {
+        return !isJson() && !isXml() && !isText();
     }
 
     public void setContentType(String contentType) {

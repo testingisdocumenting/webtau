@@ -52,7 +52,7 @@ public class OpenApiSpecValidator {
 
         SimpleResponse response = SimpleResponse.Builder
                 .status(result.getResponseStatusCode())
-                .withBody(result.getResponseContent())
+                .withBody(result.getResponseTextContent())
                 .build();
 
         Request.Method method = Enum.valueOf(Request.Method.class, result.getRequestMethod());

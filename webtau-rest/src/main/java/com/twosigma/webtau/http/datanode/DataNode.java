@@ -17,13 +17,13 @@
 package com.twosigma.webtau.http.datanode;
 
 import com.twosigma.webtau.data.traceable.TraceableValue;
-import com.twosigma.webtau.expectation.*;
+import com.twosigma.webtau.expectation.ActualPath;
+import com.twosigma.webtau.expectation.ActualValueExpectations;
 
 import java.util.List;
 import java.util.Map;
 
 import static com.twosigma.webtau.Ddjt.createActualPath;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public interface DataNode extends ActualValueExpectations, DataNodeExpectations {
     DataNodeId id();
@@ -45,6 +45,12 @@ public interface DataNode extends ActualValueExpectations, DataNodeExpectations 
     int numberOfElements();
 
     Map<String, DataNode> asMap();
+
+    default boolean isBinary() {
+        return get() != null &&
+                get().getValue() != null &&
+                get().getValue().getClass().equals(byte[].class);
+    }
 
     @Override
     default ActualPath actualPath() {
