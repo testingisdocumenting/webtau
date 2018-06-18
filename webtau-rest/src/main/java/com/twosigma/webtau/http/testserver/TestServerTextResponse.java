@@ -24,8 +24,8 @@ public class TestServerTextResponse implements TestServerResponse {
     }
 
     @Override
-    public String responseBody(TestServerRequest request) {
-        return response;
+    public byte[] responseBody(TestServerRequest request) {
+        return response.getBytes();
     }
 
     @Override

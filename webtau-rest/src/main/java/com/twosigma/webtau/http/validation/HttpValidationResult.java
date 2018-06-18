@@ -102,7 +102,7 @@ public class HttpValidationResult implements TestStepPayload {
     }
 
     public String getResponseContent() {
-        return response.getContent();
+        return response.getTextContent();
     }
 
     public int getResponseStatusCode() {
@@ -166,7 +166,7 @@ public class HttpValidationResult implements TestStepPayload {
         if (response != null) {
             result.put("responseType", response.getContentType());
             result.put("responseStatusCode", response.getStatusCode());
-            result.put("responseBody", response.getContent());
+            result.put("responseBody", response.getTextContent());
         }
 
         if (requestBody != null) {

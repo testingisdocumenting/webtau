@@ -18,8 +18,8 @@ package com.twosigma.webtau.http.testserver;
 
 public class TestServerResponseEcho implements TestServerResponse {
     @Override
-    public String responseBody(TestServerRequest request) {
-        return request.getRequestBody();
+    public byte[] responseBody(TestServerRequest request) {
+        return request.getRequestBody().getBytes();
     }
 
     @Override

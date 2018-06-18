@@ -38,6 +38,7 @@ public class DataRenderers {
         List<DataRenderer> renders = new ArrayList<>();
         renders.add(new NullRenderer());
         renders.addAll(ServiceUtils.discover(DataRenderer.class));
+        renders.add(new ByteArrayRenderer());
         renders.add(new TableDataRenderer());
         renders.add(new StringRenderer());
         renders.add(Objects::toString);

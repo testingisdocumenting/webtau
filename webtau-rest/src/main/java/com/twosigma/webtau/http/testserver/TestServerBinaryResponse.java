@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau
+package com.twosigma.webtau.http.testserver;
 
-import com.twosigma.webtau.http.testserver.TestServerRequest
-import com.twosigma.webtau.http.testserver.TestServerResponse
+public class TestServerBinaryResponse implements TestServerResponse {
+    private final byte[] content;
 
-class TestServerHtmlResponse implements TestServerResponse {
-    private String response
-
-    TestServerHtmlResponse(String response) {
-        this.response = response
+    public TestServerBinaryResponse(byte[] content) {
+        this.content = content;
     }
 
     @Override
-    byte[] responseBody(final TestServerRequest request) {
-        return response.getBytes()
+    public byte[] responseBody(TestServerRequest request) {
+        return content;
     }
 
     @Override
-    String responseType(TestServerRequest request) {
-        return "text/html"
+    public String responseType(TestServerRequest request) {
+        return "application/octet-stream";
     }
 }

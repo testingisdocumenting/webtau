@@ -19,6 +19,7 @@ com.twosigma.webtau.expectation.equality.handlers.TraceableValueCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.NumbersCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.StringCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.RegexpEqualCompareToHandler
+com.twosigma.webtau.expectation.equality.handlers.ByteArrayCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.TableDataCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.IterableAndTableDataCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.StreamAndIterableCompareToHandler
