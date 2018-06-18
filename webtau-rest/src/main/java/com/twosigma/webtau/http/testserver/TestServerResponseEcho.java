@@ -17,6 +17,12 @@
 package com.twosigma.webtau.http.testserver;
 
 public class TestServerResponseEcho implements TestServerResponse {
+    private final int statusCode;
+
+    public TestServerResponseEcho(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
     @Override
     public String responseBody(TestServerRequest request) {
         return request.getRequestBody();
@@ -25,5 +31,10 @@ public class TestServerResponseEcho implements TestServerResponse {
     @Override
     public String responseType(TestServerRequest request) {
         return request.getRequestType();
+    }
+
+    @Override
+    public int responseStatusCode() {
+        return statusCode;
     }
 }

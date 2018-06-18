@@ -57,8 +57,8 @@ class HttpTest {
         testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"))
         testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"))
         testServer.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"))
-        testServer.registerPost("/echo", new TestServerResponseEcho())
-        testServer.registerPut("/echo", new TestServerResponseEcho())
+        testServer.registerPost("/echo", new TestServerResponseEcho(201))
+        testServer.registerPut("/echo", new TestServerResponseEcho(200))
         testServer.registerDelete("/resource", new TestServerTextResponse(''))
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
     }
@@ -332,6 +332,21 @@ class HttpTest {
         }
 
         http.doc.capture("end-point-dates-matchers")
+    }
+
+    @Test
+    void "implicit status code check when no explicit check present"() {
+        code {
+            def id = http.get("/no-resource") { id }
+        } should throwException('\ndoesn\'t equal 200\n' +
+            'mismatches:\n' +
+            '\n' +
+            'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
+            '                   expected: 200 <java.lang.Integer>')
+
+        http.get("/no-resource") {
+            statusCode.should == 404
+        }
     }
 
     @Test
