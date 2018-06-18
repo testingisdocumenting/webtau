@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ExpectationHandler;
@@ -51,6 +52,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.twosigma.webtau.Ddjt.equal;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -234,10 +236,36 @@ public class Http {
         try {
             return ExpectationHandlers.withAdditionalHandler(expectationHandler, () -> {
                 Object returnedValue = validator.validate(header, body);
+                validateStatusCode(validationResult);
                 return (R) extractOriginalValue(returnedValue);
             });
         } finally {
             render(validationResult);
+        }
+    }
+
+    private void validateStatusCode(HttpValidationResult validationResult) {
+        DataNode statusCode = validationResult.getHeaderNode().statusCode();
+        if (statusCode.get().getCheckLevel() != CheckLevel.None) {
+            return;
+        }
+
+        statusCode.should(equal(defaultExpectedStatusCodeByRequest(validationResult)));
+    }
+
+    private Integer defaultExpectedStatusCodeByRequest(HttpValidationResult validationResult) {
+        boolean noContent = validationResult.getResponseContent().isEmpty();
+
+        switch (validationResult.getRequestMethod()) {
+            case "GET":
+                return 200;
+            case "POST":
+                return 201;
+            case "PUT":
+            case "DELETE":
+                return noContent ? 204 : 200;
+            default:
+                return 200;
         }
     }
 

@@ -24,6 +24,7 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import javax.servlet.ServletException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -117,7 +118,7 @@ public class TestServer implements HttpConfiguration {
                 response.setStatus(404);
             } else {
                 byte[] responseBody = testServerResponse.responseBody(serverRequest);
-                response.setStatus(200);
+                response.setStatus(testServerResponse.responseStatusCode());
                 response.setContentType(testServerResponse.responseType(serverRequest));
                 response.getOutputStream().write(responseBody);
             }
