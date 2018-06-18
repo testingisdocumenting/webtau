@@ -38,13 +38,13 @@ class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
     }
 
     @Override
-    HttpRequestHeader fullHeader(HttpRequestHeader given) {
+    HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
         if (!headerProvider.get()) {
             return given
         }
 
         return HttpConfigurations.withDisabledConfigurations {
-            return headerProvider.get().call(given) as HttpRequestHeader
+            return headerProvider.get().call(fullUrl, passedUrl, given) as HttpRequestHeader
         }
     }
 }

@@ -32,7 +32,7 @@ public class WebTauHttpConfiguration implements HttpConfiguration {
     }
 
     @Override
-    public HttpRequestHeader fullHeader(HttpRequestHeader given) {
+    public HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
         return given;
     }
 }

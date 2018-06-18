@@ -16,12 +16,12 @@
 
 package com.twosigma.webtau.http.config;
 
+import com.twosigma.webtau.http.HttpRequestHeader;
+import com.twosigma.webtau.utils.ServiceUtils;
+
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
-
-import com.twosigma.webtau.http.HttpRequestHeader;
-import com.twosigma.webtau.utils.ServiceUtils;
 
 public class HttpConfigurations {
     private static final AtomicBoolean enabled = new AtomicBoolean(true);
@@ -58,14 +58,14 @@ public class HttpConfigurations {
         return finalUrl;
     }
 
-    public static HttpRequestHeader fullHeader(HttpRequestHeader given) {
+    public static HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
         if (! enabled.get()) {
             return given;
         }
 
         HttpRequestHeader finalHeaders = given;
         for (HttpConfiguration configuration : configurations) {
-            finalHeaders = configuration.fullHeader(finalHeaders);
+            finalHeaders = configuration.fullHeader(fullUrl, passedUrl, finalHeaders);
         }
 
         return finalHeaders;

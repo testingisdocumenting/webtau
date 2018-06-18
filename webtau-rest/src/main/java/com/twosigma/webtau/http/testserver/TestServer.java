@@ -24,7 +24,6 @@ import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import javax.servlet.ServletException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,7 +97,7 @@ public class TestServer implements HttpConfiguration {
     }
 
     @Override
-    public HttpRequestHeader fullHeader(HttpRequestHeader given) {
+    public HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
         return given;
     }
 
