@@ -51,6 +51,10 @@ public class HttpResponse {
         return contentType;
     }
 
+    public boolean hasContent() {
+        return binaryContent != null || (textContent != null && !textContent.isEmpty());
+    }
+
     public boolean isJson() {
         return contentType.contains("/json");
     }

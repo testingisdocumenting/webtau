@@ -49,7 +49,7 @@ public class HttpDocumentation {
             String fileName = "response." + fileExtensionForType(lastValidationResult.getResponseType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getResponseType(),
-                            lastValidationResult.getResponseContent()));
+                            lastValidationResult.getResponseTextContent()));
         }
 
         if (lastValidationResult.getPassedPaths() != null) {

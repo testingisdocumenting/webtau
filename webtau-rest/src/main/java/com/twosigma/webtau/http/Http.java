@@ -16,8 +16,8 @@
 
 package com.twosigma.webtau.http;
 
-import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.console.ConsoleOutputs;
+import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ExpectationHandler;
 import com.twosigma.webtau.expectation.ExpectationHandlers;
@@ -254,8 +254,6 @@ public class Http {
     }
 
     private Integer defaultExpectedStatusCodeByRequest(HttpValidationResult validationResult) {
-        boolean noContent = validationResult.getResponseContent().isEmpty();
-
         switch (validationResult.getRequestMethod()) {
             case "GET":
                 return 200;
@@ -263,7 +261,7 @@ public class Http {
                 return 201;
             case "PUT":
             case "DELETE":
-                return noContent ? 204 : 200;
+                return validationResult.hasContent() ? 200 : 204;
             default:
                 return 200;
         }

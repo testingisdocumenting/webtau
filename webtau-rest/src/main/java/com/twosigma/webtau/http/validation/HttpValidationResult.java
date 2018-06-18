@@ -101,8 +101,12 @@ public class HttpValidationResult implements TestStepPayload {
         return requestBody != null ? requestBody.asString() : null;
     }
 
-    public String getResponseContent() {
+    public String getResponseTextContent() {
         return response.getTextContent();
+    }
+
+    public boolean hasContent() {
+        return response.hasContent();
     }
 
     public int getResponseStatusCode() {

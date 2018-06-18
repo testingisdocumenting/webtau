@@ -61,7 +61,7 @@ class HttpTest {
         testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("dummy-image.png")))
         testServer.registerPost("/echo", new TestServerResponseEcho(201))
         testServer.registerPut("/echo", new TestServerResponseEcho(200))
-        testServer.registerDelete("/resource", new TestServerTextResponse(''))
+        testServer.registerDelete("/resource", new TestServerTextResponse('abc'))
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
     }
 
