@@ -20,5 +20,5 @@ import com.twosigma.webtau.http.HttpRequestHeader;
 
 public interface HttpConfiguration {
     String fullUrl(String url);
-    HttpRequestHeader fullHeader(HttpRequestHeader given);
+    HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given);
 }

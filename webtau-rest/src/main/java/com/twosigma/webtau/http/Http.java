@@ -167,7 +167,7 @@ public class Http {
                                              HttpRequestBody requestBody,
                                              HttpResponseValidatorWithReturn validator) {
         String fullUrl = HttpConfigurations.fullUrl(url);
-        HttpRequestHeader fullHeader = HttpConfigurations.fullHeader(requestHeader);
+        HttpRequestHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
 
         HttpValidationResult validationResult = new HttpValidationResult(requestMethod, fullUrl, requestHeader, requestBody);
 
