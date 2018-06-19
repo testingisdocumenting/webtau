@@ -28,6 +28,7 @@ import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.StructuredDataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
+import com.twosigma.webtau.http.multipart.MultiPartFileRequestBody;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
 import com.twosigma.webtau.http.validation.HeaderDataNode;
 import com.twosigma.webtau.http.validation.HttpResponseValidator;
@@ -72,6 +73,14 @@ public class Http {
         return executeAndValidateHttpCall("GET", url,
                 this::getToFullUrl,
                 HttpRequestHeader.EMPTY, null, validator);
+    }
+
+    public MultiPartFileRequestBody multiPart(byte[] fileContent) {
+        return new MultiPartFileRequestBody("file", "uploaded-file", fileContent);
+    }
+
+    public MultiPartFileRequestBody multiPart(String fieldName, String fileName, byte[] fileContent) {
+        return new MultiPartFileRequestBody(fieldName, fileName, fileContent);
     }
 
     public void get(String url, HttpResponseValidator validator) {
@@ -294,10 +303,6 @@ public class Http {
     private HttpResponse requestWithBody(String method, String fullUrl,
                                          HttpRequestHeader requestHeader,
                                          HttpRequestBody requestBody) {
-        if (requestBody.isBinary()) {
-            throw new UnsupportedOperationException("binary is not supported yet");
-        }
-
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
             connection.setRequestMethod(method);
@@ -306,7 +311,11 @@ public class Http {
             requestHeader.forEachProperty(connection::setRequestProperty);
             connection.setDoOutput(true);
 
-            IOUtils.write(requestBody.asString(), connection.getOutputStream(), UTF_8);
+            if (requestBody.isBinary()) {
+                connection.getOutputStream().write(requestBody.asBytes());
+            } else {
+                IOUtils.write(requestBody.asString(), connection.getOutputStream(), UTF_8);
+            }
 
             return extractHttpResponse(connection);
         } catch (IOException e) {

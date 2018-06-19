@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.http.testserver;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class TestServerTextResponse implements TestServerResponse {
     private String response;
 
@@ -24,12 +26,12 @@ public class TestServerTextResponse implements TestServerResponse {
     }
 
     @Override
-    public byte[] responseBody(TestServerRequest request) {
+    public byte[] responseBody(HttpServletRequest request) {
         return response.getBytes();
     }
 
     @Override
-    public String responseType(TestServerRequest request) {
+    public String responseType(HttpServletRequest request) {
         return "text/html";
     }
 }

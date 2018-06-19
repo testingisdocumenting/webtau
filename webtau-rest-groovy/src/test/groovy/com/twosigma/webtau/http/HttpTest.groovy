@@ -21,6 +21,8 @@ import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerBinaryResponse
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
+import com.twosigma.webtau.http.testserver.TestServerMultiPartContentEcho
+import com.twosigma.webtau.http.testserver.TestServerMultiPartMetaEcho
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
 import com.twosigma.webtau.http.testserver.TestServerTextResponse
 import com.twosigma.webtau.utils.ResourceUtils
@@ -61,6 +63,8 @@ class HttpTest {
         testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("dummy-image.png")))
         testServer.registerPost("/echo", new TestServerResponseEcho(201))
         testServer.registerPut("/echo", new TestServerResponseEcho(200))
+        testServer.registerPost("/echo-multipart-content", new TestServerMultiPartContentEcho(201, 0))
+        testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201, 0))
         testServer.registerDelete("/resource", new TestServerTextResponse('abc'))
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
     }
@@ -271,7 +275,25 @@ class HttpTest {
     }
 
     @Test
-    void "binary content"() {
+    void "send binary content"() {
+        byte[] content = [0, 1, 2, 101, 102, 103, 0] as byte[]
+        http.post("/echo-multipart-content", http.multiPart(content)) {
+            body.should == content
+        }
+
+        http.post("/echo-multipart-meta", http.multiPart(content)) {
+            fieldName.should == 'file'
+            fileName.should == 'uploaded-file'
+        }
+
+        http.post("/echo-multipart-meta", http.multiPart('differentField', 'myFile.png', content)) {
+            fieldName.should == 'differentField'
+            fileName.should == 'myFile.png'
+        }
+    }
+
+    @Test
+    void "receive binary content"() {
         byte[] expectedImage = ResourceUtils.binaryContent("dummy-image.png")
 
         byte[] content = http.get("/binary") {
