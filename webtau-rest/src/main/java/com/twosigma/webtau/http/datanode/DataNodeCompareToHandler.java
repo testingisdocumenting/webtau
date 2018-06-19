@@ -16,12 +16,10 @@
 
 package com.twosigma.webtau.http.datanode;
 
-import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,8 +44,8 @@ public class DataNodeCompareToHandler implements CompareToHandler {
         if (expected instanceof Map) {
             compareWithMap(comparator, actualPath, (DataNode) actual, (Map) expected);
         } else {
-            Object convertedActual = convertBasedOnExpected((DataNode) actual, expected);
-            comparator.compareUsingEqualOnly(actualPath, convertedActual, expected);
+            Object extractedActual = extractActual((DataNode) actual);
+            comparator.compareUsingEqualOnly(actualPath, extractedActual, expected);
         }
     }
 
@@ -78,15 +76,19 @@ public class DataNodeCompareToHandler implements CompareToHandler {
         return actual instanceof DataNode;
     }
 
-    private Object convertBasedOnExpected(DataNode actual, Object expected) {
+    private Object extractActual(DataNode actual) {
         if (actual.isBinary()) {
             return actual.get();
         }
 
-        if (expected instanceof List || expected instanceof TableData) {
+        if (actual.isSingleValue()) {
+            return actual.get();
+        }
+
+        if (actual.isList()) {
             return actual.elements();
         }
 
-        return actual.get();
+        return actual.asMap();
     }
 }
