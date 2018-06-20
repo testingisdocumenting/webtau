@@ -28,7 +28,9 @@ import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.StructuredDataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
-import com.twosigma.webtau.http.multipart.MultiPartFileRequestBody;
+import com.twosigma.webtau.http.multipart.MultiPartFile;
+import com.twosigma.webtau.http.multipart.MultiPartFormData;
+import com.twosigma.webtau.http.multipart.MultiPartFormField;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
 import com.twosigma.webtau.http.validation.HeaderDataNode;
 import com.twosigma.webtau.http.validation.HttpResponseValidator;
@@ -48,6 +50,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,14 +77,6 @@ public class Http {
         return executeAndValidateHttpCall("GET", url,
                 this::getToFullUrl,
                 HttpRequestHeader.EMPTY, null, validator);
-    }
-
-    public MultiPartFileRequestBody multiPart(byte[] fileContent) {
-        return new MultiPartFileRequestBody("file", "uploaded-file", fileContent);
-    }
-
-    public MultiPartFileRequestBody multiPart(String fieldName, String fileName, byte[] fileContent) {
-        return new MultiPartFileRequestBody(fieldName, fileName, fileContent);
     }
 
     public void get(String url, HttpResponseValidator validator) {
@@ -149,6 +145,53 @@ public class Http {
 
     public void delete(String url) {
         delete(url, EMPTY);
+    }
+
+    public MultiPartFormData formData(MultiPartFormField... fields) {
+        MultiPartFormData formData = new MultiPartFormData();
+        Arrays.stream(fields).forEach(formData::addField);
+
+        return formData;
+    }
+
+    public MultiPartFormData formData(Map<String, Object> fields) {
+        return new MultiPartFormData(fields);
+    }
+
+    public MultiPartFormField formField(byte[] fileContent) {
+        return formField("file", fileContent, null);
+    }
+
+    public MultiPartFormField formField(String fieldName, byte[] fileContent) {
+        return formField(fieldName, fileContent, null);
+    }
+
+    public MultiPartFormField formField(String fieldName, Path file) {
+        return formField(fieldName, file, file.getFileName().toString());
+    }
+
+    public MultiPartFormField formField(String fieldName, Path file, String fileName) {
+        return MultiPartFormField.fileFormField(fieldName, file, fileName);
+    }
+
+    public MultiPartFormField formField(String fieldName, byte[] fileContent, String fileName) {
+        return MultiPartFormField.binaryFormField(fieldName, fileContent, fileName);
+    }
+
+    public MultiPartFormField formField(String fieldName, String textContent, String fileName) {
+        return MultiPartFormField.textFormField(fieldName, textContent, fileName);
+    }
+
+    public MultiPartFormField formField(String fieldName, String textContent) {
+        return formField(fieldName, textContent, null);
+    }
+
+    public MultiPartFile formFile(String fileName, byte[] fileContent) {
+        return new MultiPartFile(fileName, fileContent);
+    }
+
+    public MultiPartFile formFile(String fileName, Path file) {
+        return new MultiPartFile(fileName, file);
     }
 
     public HttpValidationResult getLastValidationResult() {

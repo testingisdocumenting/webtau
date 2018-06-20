@@ -4,6 +4,7 @@ REST
     CRUD-separated
     data-node
     headers
+    files-upload
     documentation
     complex-types
     openAPI-spec

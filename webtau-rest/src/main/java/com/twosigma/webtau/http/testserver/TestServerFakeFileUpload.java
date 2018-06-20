@@ -17,6 +17,7 @@
 package com.twosigma.webtau.http.testserver;
 
 import com.twosigma.webtau.utils.JsonUtils;
+import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,20 +26,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
-
-public class TestServerMultiPartMetaEcho implements TestServerResponse {
-    private final int statusCode;
-
-    public TestServerMultiPartMetaEcho(int statusCode) {
-        this.statusCode = statusCode;
-    }
-
+public class TestServerFakeFileUpload implements TestServerResponse {
     @Override
     public byte[] responseBody(HttpServletRequest request) throws IOException, ServletException {
         Collection<Part> parts = request.getParts();
-        return JsonUtils.serialize(parts.stream().map(this::partToMap).collect(toList())).getBytes();
+        return JsonUtils.serialize(createResponse(parts)).getBytes();
     }
 
     @Override
@@ -48,14 +42,30 @@ public class TestServerMultiPartMetaEcho implements TestServerResponse {
 
     @Override
     public int responseStatusCode() {
-        return statusCode;
+        return 201;
     }
 
-    private Map<String, Object> partToMap(Part part) {
+    private Map<String, Object> createResponse(Collection<Part> parts) {
+        Optional<Part> file = findPart(parts, "file");
+        Optional<Part> descriptionPart = findPart(parts, "fileDescription");
+
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("fieldName", part.getName());
-        result.put("fileName", part.getSubmittedFileName());
+        result.put("timestamp", System.currentTimeMillis());
+        result.put("fileName", file.map(Part::getSubmittedFileName).orElse("backend-generated-name-as-no-name-provided"));
+        result.put("description", descriptionPart.map(this::extractContent).orElse(null));
 
         return result;
+    }
+
+    private Optional<Part> findPart(Collection<Part> parts, String name) {
+        return parts.stream().filter(p -> p.getName().equals(name)).findFirst();
+    }
+
+    private String extractContent(Part p) {
+        try {
+            return IOUtils.toString(p.getInputStream(), "UTF-8");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
