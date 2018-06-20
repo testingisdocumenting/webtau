@@ -16,13 +16,13 @@
 
 package com.twosigma.webtau.expectation;
 
+import com.twosigma.webtau.expectation.ExpectationHandler.Flow;
+import com.twosigma.webtau.utils.ServiceUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
-import com.twosigma.webtau.expectation.ExpectationHandler.Flow;
-import com.twosigma.webtau.utils.ServiceUtils;
 
 public class ExpectationHandlers {
     private static List<ExpectationHandler> globalHandlers = ServiceUtils.discover(ExpectationHandler.class);
@@ -45,9 +45,9 @@ public class ExpectationHandlers {
         }
     }
 
-    public static Flow onValueMismatch(ActualPath actualPath, Object actualValue, String message) {
+    public static Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
         return Stream.concat(localHandlers.get().stream(), globalHandlers.stream())
-                .map(h -> h.onValueMismatch(actualPath, actualValue, message))
+                .map(h -> h.onValueMismatch(valueMatcher, actualPath, actualValue, message))
                 .filter(flow -> flow == Flow.Terminate)
                 .findFirst().orElse(Flow.PassToNext);
     }
