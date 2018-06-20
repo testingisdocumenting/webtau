@@ -20,6 +20,7 @@ import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerBinaryResponse
+import com.twosigma.webtau.http.testserver.TestServerFakeFileUpload
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerMultiPartContentEcho
 import com.twosigma.webtau.http.testserver.TestServerMultiPartMetaEcho
@@ -30,6 +31,7 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
+import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -60,11 +62,13 @@ class HttpTest {
         testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"))
         testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"))
         testServer.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"))
-        testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("dummy-image.png")))
+        testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("image.png")))
         testServer.registerPost("/echo", new TestServerResponseEcho(201))
         testServer.registerPut("/echo", new TestServerResponseEcho(200))
-        testServer.registerPost("/echo-multipart-content", new TestServerMultiPartContentEcho(201, 0))
-        testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201, 0))
+        testServer.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0))
+        testServer.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1))
+        testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201))
+        testServer.registerPost("/file-upload", new TestServerFakeFileUpload())
         testServer.registerDelete("/resource", new TestServerTextResponse('abc'))
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
     }
@@ -275,26 +279,154 @@ class HttpTest {
     }
 
     @Test
-    void "send binary content"() {
+    void "send form data"() {
         byte[] content = [0, 1, 2, 101, 102, 103, 0] as byte[]
-        http.post("/echo-multipart-content", http.multiPart(content)) {
+
+        http.post("/echo-multipart-content-part-one", http.formData(http.formField('file', content))) {
             body.should == content
         }
 
-        http.post("/echo-multipart-meta", http.multiPart(content)) {
-            fieldName.should == 'file'
-            fileName.should == 'uploaded-file'
+        http.post("/echo-multipart-content-part-two", http.formData(
+            http.formField('file', content),
+            http.formField('saveAs', 'second-form-parameter'))) {
+
+            body.should == 'second-form-parameter'.getBytes()
         }
 
-        http.post("/echo-multipart-meta", http.multiPart('differentField', 'myFile.png', content)) {
-            fieldName.should == 'differentField'
-            fileName.should == 'myFile.png'
+        http.post("/echo-multipart-meta", http.formData(
+            http.formField('file', content),
+            http.formField('additionalField', 'hello'))) {
+
+            body.should contain([
+                    fieldName: 'file',
+                    fileName: null])
+
+            body.should contain([
+                    fieldName: 'additionalField',
+                    fileName: null])
+        }
+
+        http.post("/echo-multipart-meta", http.formData(
+            http.formField('file', content, 'myFileName'))) {
+
+            body.should contain([
+                fieldName: 'file',
+                fileName: 'myFileName'])
+        }
+    }
+
+    @Test
+    void "send form file data from specified path"() {
+        def imagePath = Paths.get("src/test/resources/image.png")
+
+        http.post("/echo-multipart-content-part-one", http.formData(http.formField('file', imagePath))) {
+            body.should == imagePath.readBytes()
+        }
+
+
+        http.post("/echo-multipart-meta", http.formData(http.formField('file', imagePath))) {
+            body.should contain([
+                fieldName: 'file',
+                fileName: 'image.png'])
+        }
+
+        http.post("/echo-multipart-meta", http.formData(http.formField('file', imagePath, 'nameOverride'))) {
+            body.should contain([
+                fieldName: 'file',
+                fileName: 'nameOverride'])
+        }
+    }
+
+    @Test
+    void "send form map based syntax with default file name"() {
+        byte[] fileContent = [1, 2, 3, 4] as byte[]
+
+        http.post("/echo-multipart-meta", http.formData(file: fileContent, userName: 'userName')) {
+            body.should contain([
+                fieldName: 'file',
+                fileName: null])
+        }
+    }
+
+    @Test
+    void "send form map based syntax with specified file name"() {
+        byte[] content = [1] as byte[]
+
+        http.post("/echo-multipart-meta", http.formData(
+                file: http.formFile('myFileName', content),
+                userName: 'userName')) {
+            body.should contain([
+                fieldName: 'file',
+                fileName: 'myFileName'])
+
+            body.should contain([
+                fieldName: 'userName',
+                fileName: null])
+        }
+    }
+
+    @Test
+    void "file upload example simple"() {
+        def imagePath = Paths.get("src/test/resources/image.png")
+
+        http.post("/file-upload", http.formData(file: imagePath)) {
+            fileName.should == 'image.png'
+        }
+    }
+
+    @Test
+    void "file upload example with file name override"() {
+        def imagePath = Paths.get("src/test/resources/image.png")
+
+        http.post("/file-upload", http.formData(file: http.formFile('myFileName.png', imagePath))) {
+            fileName.should == 'myFileName.png'
+        }
+    }
+
+    @Test
+    void "file upload example multiple fields"() {
+        def imagePath = Paths.get("src/test/resources/image.png")
+
+        http.post("/file-upload", http.formData(file: imagePath, fileDescription: 'new report')) {
+            fileName.should == 'image.png'
+            description.should == 'new report'
+        }
+    }
+
+    @Test
+    void "file upload example with in-memory content"() {
+        byte[] fileContent = [1, 2, 3, 4] as byte[]
+
+        http.post("/file-upload", http.formData(file: fileContent)) {
+            fileName.should == 'backend-generated-name-as-no-name-provided'
+        }
+    }
+
+    @Test
+    void "file upload example with in-memory content and file name"() {
+        byte[] fileContent = [1, 2, 3, 4] as byte[]
+
+        http.post("/file-upload", http.formData(
+                file: http.formFile('myFileName.dat', fileContent))) {
+            fileName.should == 'myFileName.dat'
+        }
+    }
+
+    @Test
+    void "file upload example with file path and name override"() {
+        def imagePath = Paths.get("src/test/resources/image.png")
+
+        http.post("/file-upload", http.formData(
+                file: http.formFile('myFileName.dat', imagePath),
+                fileDescription: 'new report')) {
+            fileName.should == 'myFileName.dat'
+            description.should == 'new report'
         }
     }
 
     @Test
     void "receive binary content"() {
-        byte[] expectedImage = ResourceUtils.binaryContent("dummy-image.png")
+        byte[] expectedImage = ResourceUtils.binaryContent("image.png")
 
         byte[] content = http.get("/binary") {
             body.should == expectedImage
