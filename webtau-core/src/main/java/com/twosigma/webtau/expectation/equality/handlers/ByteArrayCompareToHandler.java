@@ -21,8 +21,8 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-import javax.xml.bind.DatatypeConverter;
 import java.util.Arrays;
+import java.util.Formatter;
 import java.util.Objects;
 
 public class ByteArrayCompareToHandler implements CompareToHandler {
@@ -78,6 +78,15 @@ public class ByteArrayCompareToHandler implements CompareToHandler {
 
         String possibleEllipsisPrefix = startIdx > 0 ? "..." : "";
         String possibleEllipsisSuffix = (startIdx + len) < array.length ? "..." : "";
-        return possibleEllipsisPrefix + DatatypeConverter.printHexBinary(subArray) + possibleEllipsisSuffix;
+        return possibleEllipsisPrefix + renderAsHex(subArray) + possibleEllipsisSuffix;
+    }
+
+    private String renderAsHex(byte[] content) {
+        Formatter formatter = new Formatter();
+        for (byte b : content) {
+            formatter.format("%02X", b);
+        }
+
+        return formatter.toString();
     }
 }
