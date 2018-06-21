@@ -93,6 +93,10 @@ public class HttpValidationResult implements TestStepPayload {
         return requestBody != null ? requestBody.type() : null;
     }
 
+    public boolean isRequestBinary() {
+        return requestBody != null && requestBody.isBinary();
+    }
+
     public String getResponseType() {
         return response.getContentType();
     }

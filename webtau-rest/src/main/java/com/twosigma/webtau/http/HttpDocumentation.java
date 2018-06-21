@@ -38,7 +38,7 @@ public class HttpDocumentation {
                     requestHeader);
         }
 
-        if (lastValidationResult.getRequestType() != null) {
+        if (lastValidationResult.getRequestType() != null && !lastValidationResult.isRequestBinary()) {
             String fileName = "request." + fileExtensionForType(lastValidationResult.getRequestType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getRequestType(),
