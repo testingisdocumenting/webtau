@@ -18,9 +18,6 @@ package com.twosigma.webtau.http.multipart;
 
 import com.twosigma.webtau.http.HttpRequestBody;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +26,7 @@ import java.util.UUID;
 
 public class MultiPartFormData implements HttpRequestBody {
     private final String boundary;
-    private List<MultiPartFormField> fields;
+    private final List<MultiPartFormField> fields;
 
     public MultiPartFormData() {
         this.fields = new ArrayList<>();
@@ -76,38 +73,20 @@ public class MultiPartFormData implements HttpRequestBody {
 
     @Override
     public byte[] asBytes() {
-        try {
-            return buildMultiPartRequest();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return buildMultiPartRequest();
     }
 
-    private byte[] buildMultiPartRequest() throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private byte[] buildMultiPartRequest() {
+        MultiPartContentBuilder builder = new MultiPartContentBuilder();
 
         fields.forEach(field -> {
-            writeBoundary(outputStream);
-            field.writeRequest(outputStream);
-            write(outputStream, "\r\n");
+            builder.writeln("--" + boundary);
+            field.writeRequest(builder);
+            builder.newLine();
         });
 
-        write(outputStream,"--" + boundary + "--\r\n");
-        outputStream.flush();
-        outputStream.close();
+        builder.writeln("--" + boundary + "--");
 
-        return outputStream.toByteArray();
-    }
-
-    private void writeBoundary(OutputStream outputStream) {
-        write(outputStream, "--" + boundary + "\r\n");
-    }
-
-    private void write(OutputStream outputStream, String text) {
-        try {
-            outputStream.write(text.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return builder.toByteArray();
     }
 }

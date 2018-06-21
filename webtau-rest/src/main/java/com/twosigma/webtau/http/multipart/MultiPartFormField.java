@@ -18,8 +18,6 @@ package com.twosigma.webtau.http.multipart;
 
 import com.twosigma.webtau.utils.FileUtils;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Path;
 
 public class MultiPartFormField {
@@ -51,22 +49,25 @@ public class MultiPartFormField {
         this.fileName = fileName;
     }
 
-    void writeRequest(OutputStream outputStream) {
-        try {
-            outputStream.write(("Content-Disposition: form-data; " +
-                    "name=\"" + fieldName + "\"" +
-                    (fileName != null ?
-                            "; filename=\"" + fileName + "\"\r\n" : "\r\n")).getBytes());
-            if (contentType != null) {
-                outputStream.write(("Content-Type: " + contentType + "\r\n").getBytes());
-            }
+    void writeRequest(MultiPartContentBuilder builder) {
+        builder.writeHeader("Content-Disposition", "form-data");
+        builder.write("; ");
+        builder.writeAttr("name", fieldName);
+        builder.write("; ");
 
-            outputStream.write("\r\n".getBytes());
-
-            outputStream.write(content);
-            outputStream.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (fileName != null) {
+            builder.writeAttr("filename", fileName);
+            builder.newLine();
+        } else {
+            builder.newLine();
         }
+
+        if (contentType != null) {
+            builder.writeHeader("Content-Type", contentType);
+            builder.newLine();
+        }
+
+        builder.newLine();
+        builder.write(content);
     }
 }

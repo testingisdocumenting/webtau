@@ -112,10 +112,6 @@ public class TestServer implements HttpConfiguration {
             MultipartConfigElement multipartConfigElement = new MultipartConfigElement((String) null);
             request.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, multipartConfigElement);
 
-//            TestServerRequest serverRequest = new TestServerRequest();
-//            serverRequest.setRequestBody(IOUtils.toString(baseRequest.getReader()));
-//            serverRequest.setRequestType(baseRequest.getContentType());
-
             TestServerResponse testServerResponse = responses.get(baseRequest.getOriginalURI());
             if (testServerResponse == null) {
                 response.setStatus(404);

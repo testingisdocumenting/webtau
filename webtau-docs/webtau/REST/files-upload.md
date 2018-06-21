@@ -12,11 +12,11 @@ Use `http.formFile` to override file name that is being sent to the backend.
 
 :include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "file upload example with file name override", bodyOnly: true}
 
-You can specify additional to `file` form fields in the same request 
+Multiple form fields can be specified like in the example below. 
 
 :include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "file upload example multiple fields", bodyOnly: true}
 
-# In Memory Content
+# In-Memory Content
 
 If your test already has content, you can explicitly pass it as is.
 
@@ -27,7 +27,3 @@ Note: no file name is passed and this particular backend generated file name on 
 Use `http.formFile` to provide a file name
 
 :include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "file upload example with in-memory content and file name", bodyOnly: true}
-
-
-
-
