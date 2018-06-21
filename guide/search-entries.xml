@@ -96,6 +96,14 @@ scenario("CRUD operations for customer") {
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/CRUD#implicit-statuscode-check</url>
+    <fullTitle>WebTau: CRUD, Implicit statusCode Check [REST]</fullTitle>
+    <text>
+      <text>If you don't have an explicit  statusCode  validation it will be automatically validated based on the rules below Method Expected Code [{text=GET, type=SimpleText}] [{text=200, type=SimpleText}] [{text=POST, type=SimpleText}] [{text=201, type=SimpleText}] [{text=PUT, type=SimpleText}] [{text=200, type=SimpleText}] [{text=PUT (no content), type=SimpleText}] [{text=204, type=SimpleText}] [{text=DELETE, type=SimpleText}] [{text=200, type=SimpleText}] [{text=DELETE (no content), type=SimpleText}] [{text=204, type=SimpleText}]</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/CRUD#report</url>
     <fullTitle>WebTau: CRUD, Report [REST]</fullTitle>
     <text>
@@ -199,7 +207,9 @@ public class SpringBootDemoApp {
     <text>
       <text>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . package rest.springboot
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.createLazyResource
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 class Customer {
     Number id
@@ -217,7 +227,7 @@ def customer = createLazyResource("customer") { // lazy resource to be created o
 }
 
 scenario("customer create") {
-    customer.id.shouldNot == null // accessing resource for the first time will trigger POST (in this example)
+    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)
 }
 
 scenario("customer read") {
@@ -303,11 +313,27 @@ import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.http.HttpRequestHeader
 
 class Auth {
-    static HttpRequestHeader authHeader(HttpRequestHeader original) {
+    static HttpRequestHeader authHeader(String fullUrl, String url, HttpRequestHeader original) {
         ConsoleOutputs.out('auth header injection point')
         return original.merge([Authorization: 'Bearer &lt;token>'])
     }
 } This removes implementation details from your tests and makes them less brittle.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/files-upload#file-system-content</url>
+    <fullTitle>WebTau: Files Upload, File System Content [REST]</fullTitle>
+    <text>
+      <text>In following examples backend expects a file passed as  multipart/form-data . File content is expected to be stored in  file  field. Backend responds with received file name and file description. To  POST  form data, you need to use the same  http.post  statement as you saw in previous examples. Second parameter should be  http.formData  instead of a map payload we used for  JSON . Use  http.formFile  to override file name that is being sent to the backend. Multiple form fields can be specified like in the example below.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/files-upload#in-memory-content</url>
+    <fullTitle>WebTau: Files Upload, In-Memory Content [REST]</fullTitle>
+    <text>
+      <text>If your test already has content, you can explicitly pass it as is. Note: no file name is passed and this particular backend generated file name on your behalf. Use  http.formFile  to provide a file name</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -447,12 +473,47 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/matchers#response-mapping</url>
+    <fullTitle>WebTau: Matchers, Response Mapping [REST]</fullTitle>
+    <text>
+      <text>Identifiers inside validation closure are automatically mapped to a response body. In case of an array response you need to access values using  body .</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/matchers#should-and-should-not</url>
+    <fullTitle>WebTau: Matchers, Should and Should Not [REST]</fullTitle>
+    <text>
+      <text>Matchers in webtau are triggered with  should  and  shouldNot  keywords. myValue.should contain(10)
+myValue.shouldNot equal("hello")
+ Some matchers have alternative shortcuts. myValue.should != 10
+ Additionally  shouldBe  and  shouldNotBe  alias keywords are available to make certain matcher combinations easier to read myValue.shouldBe greaterThan(10)
+myValue.shouldBe > 10
+</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/matchers#equality</url>
     <fullTitle>WebTau: Matchers, Equality [REST]</fullTitle>
     <text>
-      <text>Identifiers inside validation closure are automatically mapped to a response body. So typing id.shouldNot == null 
- will be automatically mapped to response  body.id . If you need to access body explicitly use body.shouldNot == [1, 2, 3] 
-</text>
+      <text>Webtau defines its own set of equality rules to simplify testing.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/matchers#greaterlessequal</url>
+    <fullTitle>WebTau: Matchers, Greater/Less/Equal [REST]</fullTitle>
+    <text>
+      <text>Standard operations  > ,  >= ,  &lt; ,  &lt;=  are supported as shortcuts for  greaterThan ,  greaterThanOrEqual ,  lessThan , and  lessThanOrEqual .</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/matchers#contain</url>
+    <fullTitle>WebTau: Matchers, Contain [REST]</fullTitle>
+    <text>
+      <text>Use  contain  when you cannot rely on order.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -468,7 +529,7 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
     <url>/webtau/guide/REST/matchers#mixing-matchers</url>
     <fullTitle>WebTau: Matchers, Mixing Matchers [REST]</fullTitle>
     <text>
-      <text>You can use matchers in place of expected values to build a more complex expectation. Note: names  greaterThan  and  beGreaterThan  are interchangeable. For better readability use  greaterThan  version when mixing matchers and  beGreaterThan  as a top level matcher.</text>
+      <text>You can use matchers in place of expected values to build a more complex expectation.</text>
       <score>STANDARD</score>
     </text>
   </entry>

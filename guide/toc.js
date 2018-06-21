@@ -55,6 +55,10 @@ toc = [
             "id": "example"
           },
           {
+            "title": "Implicit statusCode Check",
+            "id": "implicit-statuscode-check"
+          },
+          {
             "title": "Report",
             "id": "report"
           },
@@ -116,6 +120,23 @@ toc = [
           {
             "title": "Request Header Provider",
             "id": "request-header-provider"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "REST",
+        "pageTitle": "Files Upload",
+        "pageMeta": {},
+        "fileName": "files-upload",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "File System Content",
+            "id": "file-system-content"
+          },
+          {
+            "title": "In-Memory Content",
+            "id": "in-memory-content"
           }
         ]
       },
@@ -189,6 +210,14 @@ toc = [
         "fileName": "matchers",
         "dirName": "REST",
         "pageSectionIdTitles": [
+          {
+            "title": "Response Mapping",
+            "id": "response-mapping"
+          },
+          {
+            "title": "Should and Should Not",
+            "id": "should-and-should-not"
+          },
           {
             "title": "Equality",
             "id": "equality"
