@@ -280,7 +280,7 @@ public class Http {
 
         HttpValidationHandlers.validate(validationResult);
 
-        ExpectationHandler expectationHandler = (actualPath, actualValue, message) -> {
+        ExpectationHandler expectationHandler = (valueMatcher, actualPath, actualValue, message) -> {
             validationResult.addMismatch(message);
             return ExpectationHandler.Flow.Terminate;
         };

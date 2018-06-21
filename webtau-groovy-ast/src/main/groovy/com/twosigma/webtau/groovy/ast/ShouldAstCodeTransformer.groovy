@@ -62,20 +62,52 @@ class ShouldAstCodeTransformer extends ClassCodeExpressionTransformer {
             return super.transform(exp)
         }
 
-        return createEqualCall(leftExpression, binaryExpression.rightExpression)
+        return createMatcherValidationCall(leftExpression,
+                binaryExpression.operation.text,
+                binaryExpression.rightExpression)
     }
 
     private static boolean isSupportedBinaryOperation(BinaryExpression binaryExpression) {
-        return binaryExpression.operation.text == '=='
+        return matcherMethodForOperation(binaryExpression.operation.text) != null
     }
 
     private static boolean isShouldOrWait(PropertyExpression leftExpression) {
-        return leftExpression.propertyAsString in ['should', 'shouldNot', 'waitTo', 'waitToNot']
+        return leftExpression.propertyAsString in [
+                'should',
+                'shouldBe',
+                'shouldNot',
+                'shouldNotBe',
+                'waitTo',
+                'waitToBe',
+                'waitToNot',
+                'waitToNotBe',
+        ]
     }
 
-    private static MethodCallExpression createEqualCall(PropertyExpression leftExpression, Expression rightExpression) {
+    private static MethodCallExpression createMatcherValidationCall(PropertyExpression leftExpression,
+                                                                    String operationText,
+                                                                    Expression rightExpression) {
         new MethodCallExpression(leftExpression.objectExpression, leftExpression.property,
             new ArgumentListExpression(new StaticMethodCallExpression(
-                new ClassNode(Ddjt), 'equal', rightExpression)))
+                new ClassNode(Ddjt), matcherMethodForOperation(operationText), rightExpression)))
+    }
+
+    static String matcherMethodForOperation(String operationText) {
+        switch (operationText) {
+            case '==':
+                return 'equal'
+            case '!=':
+                return 'notEqual'
+            case '>':
+                return 'greaterThan'
+            case '>=':
+                return 'greaterThanOrEqual'
+            case '<':
+                return 'lessThan'
+            case '<=':
+                return 'lessThanOrEqual'
+            default:
+                return null
+        }
     }
 }

@@ -16,6 +16,17 @@
 
 package com.twosigma.webtau.groovy.ast
 
+import com.twosigma.webtau.expectation.ActualPath
+import com.twosigma.webtau.expectation.ExpectationHandler
+import com.twosigma.webtau.expectation.ExpectationHandlers
+import com.twosigma.webtau.expectation.ValueMatcher
+import com.twosigma.webtau.expectation.equality.EqualMatcher
+import com.twosigma.webtau.expectation.equality.GreaterThanMatcher
+import com.twosigma.webtau.expectation.equality.GreaterThanOrEqualMatcher
+import com.twosigma.webtau.expectation.equality.LessThanMatcher
+import com.twosigma.webtau.expectation.equality.LessThanOrEqualMatcher
+import com.twosigma.webtau.expectation.equality.NotEqualMatcher
+
 import static com.twosigma.webtau.Ddjt.code
 import static com.twosigma.webtau.Ddjt.throwException
 
@@ -68,5 +79,35 @@ class ShouldAstTransformationTest extends GroovyTestCase {
             '[value]:   actual: 2 <java.lang.Integer>\n' +
             '         expected: 2 <java.lang.Integer>')
 
+    }
+
+    void testOperationsOverload() {
+        def failedMatchers = []
+
+        def expectationHandler = { ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message ->
+            failedMatchers.add(valueMatcher.getClass())
+
+            return ExpectationHandler.Flow.Terminate
+        }
+
+        ExpectationHandlers.withAdditionalHandler(expectationHandler) {
+            assertScript("3.should == 2")
+            assertScript("3.should != 3")
+
+            assertScript("3.shouldBe < 2")
+            assertScript("3.shouldBe <= 2")
+            assertScript("2.shouldBe > 3")
+            assertScript("2.shouldBe >= 3")
+
+            assertScript("3.shouldNotBe > 2")
+            assertScript("3.shouldNotBe >= 2")
+            assertScript("2.shouldNotBe < 3")
+            assertScript("2.shouldNotBe <= 3")
+        }
+
+        failedMatchers.should == [
+                EqualMatcher, NotEqualMatcher,
+                LessThanMatcher, LessThanOrEqualMatcher, GreaterThanMatcher, GreaterThanOrEqualMatcher,
+                GreaterThanMatcher, GreaterThanOrEqualMatcher, LessThanMatcher, LessThanOrEqualMatcher]
     }
 }

@@ -92,7 +92,7 @@ class ActualValueTest {
     static void testCustomHandler(expectedMessagePart, code) {
         def messages = []
 
-        def handler = { path, value, message ->
+        def handler = { matcher, path, value, message ->
             messages.add([path: path, value: value, message: message])
             return ExpectationHandler.Flow.Terminate
         }
