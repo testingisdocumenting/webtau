@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.http.testserver;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class TestServerBinaryResponse implements TestServerResponse {
     private final byte[] content;
 
@@ -24,12 +26,12 @@ public class TestServerBinaryResponse implements TestServerResponse {
     }
 
     @Override
-    public byte[] responseBody(TestServerRequest request) {
+    public byte[] responseBody(HttpServletRequest request) {
         return content;
     }
 
     @Override
-    public String responseType(TestServerRequest request) {
+    public String responseType(HttpServletRequest request) {
         return "application/octet-stream";
     }
 }

@@ -20,11 +20,12 @@ import com.twosigma.webtau.http.HttpRequestHeader;
 import com.twosigma.webtau.http.HttpUrl;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
-import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -104,21 +105,20 @@ public class TestServer implements HttpConfiguration {
     private class RequestHandler extends AbstractHandler {
         @Override
         public void handle(String url, Request baseRequest, HttpServletRequest request,
-                           HttpServletResponse response) throws IOException {
+                           HttpServletResponse response) throws IOException, ServletException {
 
             Map<String, TestServerResponse> responses = findResponses(request);
 
-            TestServerRequest serverRequest = new TestServerRequest();
-            serverRequest.setRequestBody(IOUtils.toString(baseRequest.getReader()));
-            serverRequest.setRequestType(baseRequest.getContentType());
+            MultipartConfigElement multipartConfigElement = new MultipartConfigElement((String) null);
+            request.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, multipartConfigElement);
 
             TestServerResponse testServerResponse = responses.get(baseRequest.getOriginalURI());
             if (testServerResponse == null) {
                 response.setStatus(404);
             } else {
-                byte[] responseBody = testServerResponse.responseBody(serverRequest);
+                byte[] responseBody = testServerResponse.responseBody(request);
                 response.setStatus(testServerResponse.responseStatusCode());
-                response.setContentType(testServerResponse.responseType(serverRequest));
+                response.setContentType(testServerResponse.responseType(request));
                 response.getOutputStream().write(responseBody);
             }
 

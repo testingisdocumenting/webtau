@@ -14,24 +14,31 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.testserver;
+package com.twosigma.webtau.http.multipart;
 
-import javax.servlet.http.HttpServletRequest;
+import com.twosigma.webtau.utils.FileUtils;
 
-public class TestServerJsonResponse implements TestServerResponse {
-    private String response;
+import java.nio.file.Path;
 
-    public TestServerJsonResponse(String response) {
-        this.response = response;
+public class MultiPartFile {
+    private final String name;
+    private final byte[] content;
+
+    public MultiPartFile(String name, byte[] content) {
+        this.name = name;
+        this.content = content;
     }
 
-    @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        return response.getBytes();
+    public MultiPartFile(String name, Path file) {
+        this.name = name;
+        this.content = FileUtils.fileBinaryContent(file);
     }
 
-    @Override
-    public String responseType(HttpServletRequest request) {
-        return "application/json";
+    public String getName() {
+        return name;
+    }
+
+    public byte[] getContent() {
+        return content;
     }
 }

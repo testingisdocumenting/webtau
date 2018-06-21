@@ -29,6 +29,10 @@
     <artifactId>webtau-rest</artifactId>
     <version>0.1</version>
 
+    <properties>
+        <jetty.version>9.4.2.v20170220</jetty.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
@@ -45,7 +49,13 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>9.4.2.v20170220</version>
+            <version>${jetty.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
 
         <dependency>

@@ -16,9 +16,13 @@
 
 package com.twosigma.webtau.http.testserver;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
 public interface TestServerResponse {
-    byte[] responseBody(TestServerRequest request);
-    String responseType(TestServerRequest request);
+    byte[] responseBody(HttpServletRequest request) throws IOException, ServletException;
+    String responseType(HttpServletRequest request);
 
     default int responseStatusCode() {
         return 200;

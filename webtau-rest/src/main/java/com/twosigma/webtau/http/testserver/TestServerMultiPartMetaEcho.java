@@ -16,34 +16,46 @@
 
 package com.twosigma.webtau.http.testserver;
 
-import org.apache.commons.io.IOUtils;
+import com.twosigma.webtau.utils.JsonUtils;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class TestServerResponseEcho implements TestServerResponse {
+import static java.util.stream.Collectors.toList;
+
+public class TestServerMultiPartMetaEcho implements TestServerResponse {
     private final int statusCode;
 
-    public TestServerResponseEcho(int statusCode) {
+    public TestServerMultiPartMetaEcho(int statusCode) {
         this.statusCode = statusCode;
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        try {
-            return IOUtils.toString(request.getReader()).getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public byte[] responseBody(HttpServletRequest request) throws IOException, ServletException {
+        Collection<Part> parts = request.getParts();
+        return JsonUtils.serialize(parts.stream().map(this::partToMap).collect(toList())).getBytes();
     }
 
     @Override
     public String responseType(HttpServletRequest request) {
-        return request.getContentType();
+        return "application/json";
     }
 
     @Override
     public int responseStatusCode() {
         return statusCode;
+    }
+
+    private Map<String, Object> partToMap(Part part) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("fieldName", part.getName());
+        result.put("fileName", part.getSubmittedFileName());
+
+        return result;
     }
 }

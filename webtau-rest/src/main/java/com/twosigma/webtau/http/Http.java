@@ -28,6 +28,9 @@ import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.StructuredDataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
+import com.twosigma.webtau.http.multipart.MultiPartFile;
+import com.twosigma.webtau.http.multipart.MultiPartFormData;
+import com.twosigma.webtau.http.multipart.MultiPartFormField;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
 import com.twosigma.webtau.http.validation.HeaderDataNode;
 import com.twosigma.webtau.http.validation.HttpResponseValidator;
@@ -47,6 +50,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +145,53 @@ public class Http {
 
     public void delete(String url) {
         delete(url, EMPTY);
+    }
+
+    public MultiPartFormData formData(MultiPartFormField... fields) {
+        MultiPartFormData formData = new MultiPartFormData();
+        Arrays.stream(fields).forEach(formData::addField);
+
+        return formData;
+    }
+
+    public MultiPartFormData formData(Map<String, Object> fields) {
+        return new MultiPartFormData(fields);
+    }
+
+    public MultiPartFormField formField(byte[] fileContent) {
+        return formField("file", fileContent, null);
+    }
+
+    public MultiPartFormField formField(String fieldName, byte[] fileContent) {
+        return formField(fieldName, fileContent, null);
+    }
+
+    public MultiPartFormField formField(String fieldName, Path file) {
+        return formField(fieldName, file, file.getFileName().toString());
+    }
+
+    public MultiPartFormField formField(String fieldName, Path file, String fileName) {
+        return MultiPartFormField.fileFormField(fieldName, file, fileName);
+    }
+
+    public MultiPartFormField formField(String fieldName, byte[] fileContent, String fileName) {
+        return MultiPartFormField.binaryFormField(fieldName, fileContent, fileName);
+    }
+
+    public MultiPartFormField formField(String fieldName, String textContent, String fileName) {
+        return MultiPartFormField.textFormField(fieldName, textContent, fileName);
+    }
+
+    public MultiPartFormField formField(String fieldName, String textContent) {
+        return formField(fieldName, textContent, null);
+    }
+
+    public MultiPartFile formFile(String fileName, byte[] fileContent) {
+        return new MultiPartFile(fileName, fileContent);
+    }
+
+    public MultiPartFile formFile(String fileName, Path file) {
+        return new MultiPartFile(fileName, file);
     }
 
     public HttpValidationResult getLastValidationResult() {
@@ -294,10 +346,6 @@ public class Http {
     private HttpResponse requestWithBody(String method, String fullUrl,
                                          HttpRequestHeader requestHeader,
                                          HttpRequestBody requestBody) {
-        if (requestBody.isBinary()) {
-            throw new UnsupportedOperationException("binary is not supported yet");
-        }
-
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
             connection.setRequestMethod(method);
@@ -306,7 +354,11 @@ public class Http {
             requestHeader.forEachProperty(connection::setRequestProperty);
             connection.setDoOutput(true);
 
-            IOUtils.write(requestBody.asString(), connection.getOutputStream(), UTF_8);
+            if (requestBody.isBinary()) {
+                connection.getOutputStream().write(requestBody.asBytes());
+            } else {
+                IOUtils.write(requestBody.asString(), connection.getOutputStream(), UTF_8);
+            }
 
             return extractHttpResponse(connection);
         } catch (IOException e) {
