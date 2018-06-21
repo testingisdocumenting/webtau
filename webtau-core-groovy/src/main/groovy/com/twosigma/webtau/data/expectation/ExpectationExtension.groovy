@@ -26,15 +26,31 @@ class ExpectationExtension {
         new ActualValue(actual).should(valueMatcher)
     }
 
+    static void shouldBe(actual, ValueMatcher valueMatcher) {
+        should(actual, valueMatcher)
+    }
+
     static void shouldNot(actual, ValueMatcher valueMatcher) {
         new ActualValue(actual).shouldNot(valueMatcher)
+    }
+
+    static void shouldNotBe(actual, ValueMatcher valueMatcher) {
+        shouldNot(actual, valueMatcher)
     }
 
     static Should getShould(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
+    static Should getShouldBe(actual) {
+        getShould(actual)
+    }
+
     static ShouldNot getShouldNot(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
+    }
+
+    static ShouldNot getShouldNotBe(actual) {
+        getShouldNot(actual)
     }
 }

@@ -26,10 +26,22 @@ public interface ActualValueExpectations {
     void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis);
     void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis);
 
+    default void shouldBe(ValueMatcher valueMatcher) {
+        should(valueMatcher);
+    }
+
+    default void shouldNotBe(ValueMatcher valueMatcher) {
+        shouldNot(valueMatcher);
+    }
+
     default void waitTo(ValueMatcher valueMatcher) {
         waitTo(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
                 ExpectationTimerConfigProvider.defaultTickMillis(),
                 ExpectationTimerConfigProvider.defaultTimeoutMillis());
+    }
+
+    default void waitToBe(ValueMatcher valueMatcher) {
+        waitTo(valueMatcher);
     }
 
     default void waitTo(ValueMatcher valueMatcher, long tickMillis, long timeOutMillis) {
@@ -38,10 +50,18 @@ public interface ActualValueExpectations {
                 timeOutMillis);
     }
 
+    default void waitToBe(ValueMatcher valueMatcher, long tickMillis, long timeOutMillis) {
+        waitTo(valueMatcher, tickMillis, timeOutMillis);
+    }
+
     default void waitTo(ValueMatcher valueMatcher, long timeOutMillis) {
         waitTo(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
                 ExpectationTimerConfigProvider.defaultTickMillis(),
                 timeOutMillis);
+    }
+
+    default void waitToBe(ValueMatcher valueMatcher, long timeOutMillis) {
+        waitTo(valueMatcher, timeOutMillis);
     }
 
     default void waitToNot(ValueMatcher valueMatcher) {
@@ -50,15 +70,27 @@ public interface ActualValueExpectations {
                 ExpectationTimerConfigProvider.defaultTimeoutMillis());
     }
 
+    default void waitToNotBe(ValueMatcher valueMatcher) {
+        waitToNot(valueMatcher);
+    }
+
     default void waitToNot(ValueMatcher valueMatcher, long tickMillis, long timeOutMillis) {
         waitToNot(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
                 tickMillis,
                 timeOutMillis);
     }
 
+    default void waitToNotBe(ValueMatcher valueMatcher, long tickMillis, long timeOutMillis) {
+        waitToNot(valueMatcher, tickMillis, timeOutMillis);
+    }
+
     default void waitToNot(ValueMatcher valueMatcher, long timeOutMillis) {
         waitToNot(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
                 ExpectationTimerConfigProvider.defaultTickMillis(),
                 timeOutMillis);
+    }
+
+    default void waitToNotBe(ValueMatcher valueMatcher, long timeOutMillis) {
+        waitToNot(valueMatcher, timeOutMillis);
     }
 }

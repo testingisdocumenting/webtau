@@ -36,7 +36,7 @@ public class ActualValue implements ActualValueExpectations {
         boolean matches = valueMatcher.matches(actualPath, actual);
 
         if (!matches) {
-            handleMismatch(mismatchMessage(valueMatcher, actualPath, false), actualPath);
+            handleMismatch(valueMatcher, mismatchMessage(valueMatcher, actualPath, false), actualPath);
         }
     }
 
@@ -46,7 +46,7 @@ public class ActualValue implements ActualValueExpectations {
         boolean matches = valueMatcher.negativeMatches(actualPath, actual);
 
         if (!matches) {
-            handleMismatch(mismatchMessage(valueMatcher, actualPath, true), actualPath);
+            handleMismatch(valueMatcher, mismatchMessage(valueMatcher, actualPath, true), actualPath);
         }
     }
 
@@ -74,11 +74,11 @@ public class ActualValue implements ActualValueExpectations {
             expectationTimer.tick(tickMillis);
         }
 
-        handleMismatch(mismatchMessage(valueMatcher, actualPath, isNegative), actualPath);
+        handleMismatch(valueMatcher, mismatchMessage(valueMatcher, actualPath, isNegative), actualPath);
     }
 
-    private void handleMismatch(String message, ActualPath actualPath) {
-        final Flow flow = ExpectationHandlers.onValueMismatch(actualPath, actual, message);
+    private void handleMismatch(ValueMatcher valueMatcher, String message, ActualPath actualPath) {
+        final Flow flow = ExpectationHandlers.onValueMismatch(valueMatcher, actualPath, actual, message);
 
         if (flow != Flow.Terminate) {
             throw new AssertionError("\n" + message);

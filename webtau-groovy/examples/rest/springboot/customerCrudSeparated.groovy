@@ -1,6 +1,8 @@
 package rest.springboot
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.createLazyResource
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 class Customer {
     Number id
@@ -18,7 +20,7 @@ def customer = createLazyResource("customer") { // lazy resource to be created o
 }
 
 scenario("customer create") {
-    customer.id.shouldNot == null // accessing resource for the first time will trigger POST (in this example)
+    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)
 }
 
 scenario("customer read") {

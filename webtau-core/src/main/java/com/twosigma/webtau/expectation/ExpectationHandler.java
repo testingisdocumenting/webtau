@@ -22,6 +22,6 @@ public interface ExpectationHandler {
         PassToNext
     }
 
-    Flow onValueMismatch(ActualPath actualPath, Object actualValue, String message);
+    Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message);
 //    Flow onCodeMismatch(ActualPath actualPath, CodeBlock codeBlock, String message);
 }

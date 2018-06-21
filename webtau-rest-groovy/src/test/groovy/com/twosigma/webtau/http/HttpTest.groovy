@@ -33,10 +33,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-import static com.twosigma.webtau.Ddjt.beGreaterThan
-import static com.twosigma.webtau.Ddjt.beGreaterThanOrEqual
-import static com.twosigma.webtau.Ddjt.beLessThan
-import static com.twosigma.webtau.Ddjt.beLessThanOrEqual
 import static com.twosigma.webtau.Ddjt.code
 import static com.twosigma.webtau.Ddjt.contain
 import static com.twosigma.webtau.Ddjt.greaterThan
@@ -54,6 +50,8 @@ class HttpTest {
     static void startServer() {
         testServer.start(7823)
         testServer.registerGet("/end-point", jsonResponse("objectTestResponse.json"))
+        testServer.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"))
+        testServer.registerGet("/end-point-simple-list", jsonResponse("simpleListTestResponse.json"))
         testServer.registerGet("/end-point-mixed", jsonResponse("mixedTestResponse.json"))
         testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"))
         testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"))
@@ -283,9 +281,23 @@ class HttpTest {
     }
 
     @Test
+    void "simple object mapping example"() {
+        http.get("/end-point-simple-object") {
+            k1.should == 'v1'
+        }
+    }
+
+    @Test
+    void "simple list mapping example"() {
+        http.get("/end-point-simple-list") {
+            body[0].k1.should == 'v1'
+        }
+    }
+
+    @Test
     void "equality matcher"() {
         http.get("/end-point") {
-            id.shouldNot == 0
+            id.should != 0
             amount.should == 30
 
             list.should == [1, 2, 3]
@@ -306,15 +318,15 @@ class HttpTest {
     @Test
     void "compare numbers with greater less matchers"() {
         http.get("/end-point-numbers") {
-            id.should beGreaterThan(0)
-            price.should beGreaterThanOrEqual(100)
-            amount.should beLessThan(150)
-            list[1].should beLessThanOrEqual(2)
+            id.shouldBe > 0
+            price.shouldBe >= 100
+            amount.shouldBe < 150
+            list[1].shouldBe <= 2
 
-            id.shouldNot beLessThanOrEqual(0)
-            price.shouldNot beLessThan(100)
-            amount.shouldNot beGreaterThanOrEqual(150)
-            list[1].shouldNot beGreaterThan(2)
+            id.shouldNotBe <= 0
+            price.shouldNotBe < 100
+            amount.shouldNotBe >= 150
+            list[1].shouldNotBe > 2
         }
 
         http.doc.capture("end-point-numbers-matchers")
@@ -324,7 +336,7 @@ class HttpTest {
     void "contain matcher"() {
         http.get("/end-point-list") {
             body.should contain([k1: 'v1', k2: 'v2'])
-            body[1].k2.should contain(20)
+            body[1].k2.shouldNot contain(22)
         }
 
         http.doc.capture("end-point-list-contain-matchers")
@@ -340,7 +352,7 @@ class HttpTest {
 
             tradeDate.should == expectedDate
             transactionTime.should == expectedTime
-            transactionTime.should beGreaterThanOrEqual(expectedDate)
+            transactionTime.shouldBe >= expectedDate
 
             paymentSchedule.should contain(expectedDate)
         }
