@@ -102,7 +102,7 @@ public class StructuredDataNode implements DataNode {
 
     @Override
     public Map<String, DataNode> asMap() {
-        return Collections.unmodifiableMap(children);
+        return children != null ? Collections.unmodifiableMap(children) : Collections.emptyMap();
     }
 
     @Override

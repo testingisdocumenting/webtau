@@ -68,7 +68,7 @@ public class HttpResponse {
     }
 
     public boolean isBinary() {
-        return !isJson() && !isXml() && !isText();
+        return !isJson() && !isXml() && !isText() && !contentType.isEmpty();
     }
 
     public void setContentType(String contentType) {

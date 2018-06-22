@@ -27,12 +27,28 @@ class HttpExtensions {
         return http.get(url, closureToHttpResponseValidator(validation))
     }
 
+    static def get(Http http, String url, HttpRequestHeader header, Closure validation) {
+        return http.get(url, header, closureToHttpResponseValidator(validation))
+    }
+
+    static def get(Http http, String url, Map<String, ?> queryParams, HttpRequestHeader header, Closure validation) {
+        return http.get(url, new HttpQueryParams(queryParams), header, closureToHttpResponseValidator(validation))
+    }
+
     static def get(Http http, String url, Map<String, ?> queryParams, Closure validation) {
         return http.get(url, new HttpQueryParams(queryParams), closureToHttpResponseValidator(validation))
     }
 
     static def post(Http http, String url, Map<String, Object> requestBody, Closure validation) {
         return http.post(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
+    static def post(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
+        return http.post(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
+    static def post(Http http, String url, HttpRequestHeader header, HttpRequestBody requestBody, Closure validation) {
+        return http.post(url, header, requestBody, closureToHttpResponseValidator(validation))
     }
 
     static def post(Http http, String url, HttpRequestBody requestBody, Closure validation) {
@@ -47,8 +63,16 @@ class HttpExtensions {
         return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
+    static def put(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
+        return http.put(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
     static def delete(Http http, String url, Closure validation) {
         return http.delete(url, closureToHttpResponseValidator(validation))
+    }
+
+    static def delete(Http http, String url, HttpRequestHeader header, Closure validation) {
+        return http.delete(url, header, closureToHttpResponseValidator(validation))
     }
 
     private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(validation) {

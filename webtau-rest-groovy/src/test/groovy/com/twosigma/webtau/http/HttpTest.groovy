@@ -24,6 +24,7 @@ import com.twosigma.webtau.http.testserver.TestServerFakeFileUpload
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerMultiPartContentEcho
 import com.twosigma.webtau.http.testserver.TestServerMultiPartMetaEcho
+import com.twosigma.webtau.http.testserver.TestServerRequestHeaderEcho
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
 import com.twosigma.webtau.http.testserver.TestServerTextResponse
 import com.twosigma.webtau.utils.ResourceUtils
@@ -50,10 +51,19 @@ import static com.twosigma.webtau.http.Http.http
 class HttpTest {
     static TestServer testServer = new TestServer()
 
+    private final static byte[] sampleFile = [1, 2, 3]
+
     @BeforeClass
     static void startServer() {
         testServer.start(7823)
-        testServer.registerGet("/end-point", jsonResponse("objectTestResponse.json"))
+
+        def objectTestResponse = jsonResponse("objectTestResponse.json")
+
+        testServer.registerGet("/end-point", objectTestResponse)
+        testServer.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse)
+        testServer.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201))
+        testServer.registerPut("/end-point", objectTestResponse)
+        testServer.registerDelete("/end-point", objectTestResponse)
         testServer.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"))
         testServer.registerGet("/end-point-simple-list", jsonResponse("simpleListTestResponse.json"))
         testServer.registerGet("/end-point-mixed", jsonResponse("mixedTestResponse.json"))
@@ -63,6 +73,11 @@ class HttpTest {
         testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("image.png")))
         testServer.registerPost("/echo", new TestServerResponseEcho(201))
         testServer.registerPut("/echo", new TestServerResponseEcho(200))
+        testServer.registerGet("/echo-header", new TestServerRequestHeaderEcho(200))
+        testServer.registerGet("/echo-header?qp1=v1", new TestServerRequestHeaderEcho(200))
+        testServer.registerPost("/echo-header", new TestServerRequestHeaderEcho(201))
+        testServer.registerPut("/echo-header", new TestServerRequestHeaderEcho(200))
+        testServer.registerDelete("/echo-header", new TestServerRequestHeaderEcho(200))
         testServer.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0))
         testServer.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1))
         testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201))
@@ -202,6 +217,61 @@ class HttpTest {
         }
 
         assert a == 1
+    }
+
+    @Test
+    void "explicit header passing"() {
+        def headerPayload = [
+                'Custom-Header-One': 'custom-value-one',
+                'Custom-Header-Two': 'custom-value-two']
+
+        def header = http.header(headerPayload)
+        def expectations = {
+            body.should == headerPayload
+        }
+
+        http.get("/echo-header", header, expectations)
+        http.get("/echo-header", [qp1: 'v1'], header, expectations)
+        http.post("/echo-header", header, [:], expectations)
+        http.put("/echo-header", header, [:], expectations)
+        http.delete("/echo-header", header, expectations)
+    }
+
+    @Test
+    void "explicit header passing example"() {
+        http.get("/end-point", http.header('Accept', 'application/octet-stream')) {
+            // assertions go here
+        }
+
+        http.get("/end-point", [queryParam1: 'queryParamValue1'],
+                http.header('Accept', 'application/octet-stream')) {
+            // assertions go here
+        }
+
+        http.post("/end-point", http.header('Accept', 'application/octet-stream'),
+                [fileId: 'myFile']) {
+            // assertions go here
+        }
+
+        http.put("/end-point", http.header('Accept', 'application/octet-stream'),
+                [fileId: 'myFile', file: sampleFile]) {
+            // assertions go here
+        }
+
+        http.delete("/end-point", http.header('Custom-Header', 'special-value'))
+    }
+
+    @Test
+    void "header creation"() {
+        def varArgHeader = http.header(
+                'My-Header1', 'Value1',
+                'My-Header2', 'Value2')
+
+        def mapBasedHeader = http.header([
+                'My-Header1': 'Value1',
+                'My-Header2': 'Value2'])
+
+        assert varArgHeader == mapBasedHeader
     }
 
     @Test
@@ -573,7 +643,7 @@ class HttpTest {
             'sun.net.www.protocol.mailto.MailToURLConnection cannot be cast to java.net.HttpURLConnection'
     }
 
-    private static TestServerJsonResponse jsonResponse(String resourceName) {
-        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName))
+    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode = 200) {
+        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode)
     }
 }
