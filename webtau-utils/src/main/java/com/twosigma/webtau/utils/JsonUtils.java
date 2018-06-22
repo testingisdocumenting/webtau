@@ -42,6 +42,10 @@ public class JsonUtils {
     }
 
     public static String serializePrettyPrint(Object json) {
+        if (json == null) {
+            return null;
+        }
+
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
         } catch (JsonProcessingException e) {
