@@ -30,6 +30,10 @@ public class JsonUtils {
     }
 
     public static String serialize(Object json) {
+        if (json == null) {
+            return null;
+        }
+
         try {
             return mapper.writeValueAsString(json);
         } catch (JsonProcessingException e) {
