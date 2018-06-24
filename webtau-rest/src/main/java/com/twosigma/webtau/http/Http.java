@@ -396,10 +396,6 @@ public class Http {
 
         try {
             return ExpectationHandlers.withAdditionalHandler(expectationHandler, () -> {
-                if (validator == EMPTY_RESPONSE_VALIDATOR) {
-                    return null;
-                }
-
                 Object returnedValue = validator.validate(header, body);
                 validateStatusCode(validationResult);
                 return (R) extractOriginalValue(returnedValue);
