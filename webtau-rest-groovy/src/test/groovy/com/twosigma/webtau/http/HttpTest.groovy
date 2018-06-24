@@ -33,6 +33,7 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
+import javax.servlet.http.HttpServletRequest
 import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalTime
@@ -300,16 +301,26 @@ class HttpTest {
     @Test
     void "no validation request"() {
         def counter = [:].withDefault { 0 }
-        def responseCounter = [
-                responseBody: { request ->
-                    counter[request.method]++
-                    return "".bytes
-                },
-                responseType: { request -> "application/json"},
-        ] as TestServerResponse
+        def responseCounter = { statusCode -> new TestServerResponse() {
+            @Override
+            byte[] responseBody(HttpServletRequest request) {
+                counter[request.method]++
+                return "".bytes
+            }
 
-        testServer.registerPost("/no-body", responseCounter)
-        testServer.registerPut("/no-body", responseCounter)
+            @Override
+            String responseType(HttpServletRequest request) {
+                return "application/json"
+            }
+
+            @Override
+            int responseStatusCode() {
+                return statusCode
+            }
+        }}
+
+        testServer.registerPost("/no-body", responseCounter(201))
+        testServer.registerPut("/no-body", responseCounter(204))
 
         def header = http.header('Custom', 'Value')
         http.post("/no-body", header)
