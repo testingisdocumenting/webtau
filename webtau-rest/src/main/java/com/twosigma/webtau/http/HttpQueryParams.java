@@ -18,11 +18,14 @@ package com.twosigma.webtau.http;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class HttpQueryParams {
+    public static final HttpQueryParams EMPTY = new HttpQueryParams(Collections.emptyMap());
+
     private Map<String, ?> params;
     private String asString;
 
@@ -31,6 +34,12 @@ public class HttpQueryParams {
         this.asString = this.params.entrySet().stream()
                 .map(e -> decode(e.getKey()) + "=" + decode(e.getValue().toString()))
                 .collect(Collectors.joining("&"));
+    }
+
+    public String attachToUrl(String url) {
+        return params.isEmpty() ?
+                url:
+                url + "?" + toString();
     }
 
     @Override
