@@ -25,6 +25,7 @@ import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerMultiPartContentEcho
 import com.twosigma.webtau.http.testserver.TestServerMultiPartMetaEcho
 import com.twosigma.webtau.http.testserver.TestServerRequestHeaderEcho
+import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
 import com.twosigma.webtau.http.testserver.TestServerTextResponse
 import com.twosigma.webtau.utils.ResourceUtils
@@ -272,6 +273,51 @@ class HttpTest {
                 'My-Header2': 'Value2'])
 
         assert varArgHeader == mapBasedHeader
+    }
+
+    @Test
+    void "no body request"() {
+        def noBodyExpectation = {
+            body.should == ""
+        }
+
+        http.post("/echo", noBodyExpectation)
+        http.put("/echo", noBodyExpectation << { statusCode.should == 200 })
+
+        def headerValues = [Custom: 'Value']
+        def header = http.header(headerValues)
+
+        http.post("/echo-header", header) {
+            body.should == headerValues
+        }
+
+        http.put("/echo-header", header) {
+            body.should == headerValues
+            statusCode.should == 200
+        }
+    }
+
+    @Test
+    void "no validation request"() {
+        def counter = [:].withDefault { 0 }
+        def responseCounter = [
+                responseBody: { request ->
+                    counter[request.method]++
+                    return "".bytes
+                },
+                responseType: { request -> "application/json"},
+        ] as TestServerResponse
+
+        testServer.registerPost("/no-body", responseCounter)
+        testServer.registerPut("/no-body", responseCounter)
+
+        def header = http.header('Custom', 'Value')
+        http.post("/no-body", header)
+        http.post("/no-body")
+        http.put("/no-body", header)
+        http.put("/no-body")
+
+        counter.should == [POST: 2, PUT:2]
     }
 
     @Test
