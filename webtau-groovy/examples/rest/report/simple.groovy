@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package rest.report
 
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
-import java.util.Set;
-import java.util.stream.Stream;
+scenario("no op") {
 
-public class ReportDataProviders {
-    private static final Set<ReportDataProvider> providers = ServiceLoaderUtils.load(ReportDataProvider.class);
-
-    public static Stream<ReportData> provide(ReportTestEntries testEntries) {
-        return providers.stream().flatMap(e -> e.provide(testEntries));
-    }
 }

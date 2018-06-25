@@ -18,20 +18,18 @@ package com.twosigma.webtau.report;
 
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.reporter.TestStatus;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
 
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
-public class HtmlReportGenerator {
+public class HtmlReportGenerator implements ReportGenerator {
     private String css;
     private String bundleJavaScript;
 
@@ -42,39 +40,28 @@ public class HtmlReportGenerator {
         bundleJavaScript = ResourceUtils.textContent(manifest.get("main.js").toString());
     }
 
-    public static void generateAndCreateFile(List<ReportTestEntry> testEntries) {
+    public void generate(ReportTestEntries testEntries) {
         Path reportPath = getCfg().getReportPath().toAbsolutePath();
 
         HtmlReportGenerator generator = new HtmlReportGenerator();
-        FileUtils.writeTextContent(reportPath, generator.generate(testEntries));
+        FileUtils.writeTextContent(reportPath, generator.generateHtml(testEntries));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
     }
 
-    public String generate(List<ReportTestEntry> testEntries) {
+    private String generateHtml(ReportTestEntries testEntries) {
         Map<String, Object> report = new LinkedHashMap<>();
-        report.put("summary", generateSummary(testEntries));
-        report.put("tests", testEntries.stream().map(ReportTestEntry::toMap).collect(Collectors.toList()));
+        report.put("summary", testEntries.createSummary().toMap());
+        report.put("tests", testEntries.map(ReportTestEntry::toMap).collect(Collectors.toList()));
 
-        ReportDataProviders.provide(testEntries.stream())
+        ReportDataProviders.provide(testEntries)
                 .map(ReportData::toMap)
                 .forEach(report::putAll);
 
-        return generate(JsonUtils.serializePrettyPrint(report));
+        return generateHtml(report);
     }
 
-    public String generate(String reportJson) {
-        return generateHtml("testReport = " + reportJson + ";");
-    }
-
-    private Map<String, ?> generateSummary(List<ReportTestEntry> testEntries) {
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put("total", testEntries.size());
-        result.put("passed", testEntries.stream().filter(e -> e.getTestStatus() == TestStatus.Passed).count());
-        result.put("failed", testEntries.stream().filter(e -> e.getTestStatus() == TestStatus.Failed).count());
-        result.put("skipped", testEntries.stream().filter(e -> e.getTestStatus() == TestStatus.Skipped).count());
-        result.put("errored", testEntries.stream().filter(e -> e.getTestStatus() == TestStatus.Errored).count());
-
-        return result;
+    String generateHtml(Map<String, Object> report) {
+        return generateHtml("testReport = " + JsonUtils.serializePrettyPrint(report) + ";");
     }
 
     private String generateHtml(String reportAssignmentJavaScript) {

@@ -18,6 +18,8 @@ package com.twosigma.webtau.cfg
 
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
+import com.twosigma.webtau.report.ReportGenerator
+import com.twosigma.webtau.report.ReportGenerators
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -45,9 +47,13 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         def parsedConfig = configSlurper.parse(configScript)
         cfg.acceptConfigValues("config file", parsedConfig.flatten())
 
+        if (!parsedConfig) {
+            return
+        }
+
         def headerProvider = httpHeaderProvider(parsedConfig)
         if (headerProvider) {
-            // we cannot add configuration here since most likely config setup will be triggered
+            // we cannot add configuration here using HttpConfigurations.add since most likely config setup will be triggered
             // as part of the first cfg value access (e.g. baseUrl lookup).
             // to lookup base url webtau loops through registered handlers, adding new handlers will cause
             // loop exception.
@@ -55,14 +61,20 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             // and adding actual header provider now
             GroovyConfigBasedHttpConfiguration.setHeaderProvider(headerProvider)
         }
+
+        def reportGenerator = reportGenerator(parsedConfig)
+        if (reportGenerator) {
+            ReportGenerators.add(reportGenerator)
+        }
     }
 
     private static Closure httpHeaderProvider(parsedConfig) {
-        if (!parsedConfig) {
-            return null
-        }
-
         def provider = parsedConfig.get("httpHeaderProvider")
         return provider ? provider as Closure : null
+    }
+
+    private static ReportGenerator reportGenerator(parsedConfig) {
+        def generator = parsedConfig.get("reportGenerator")
+        return generator ? generator as ReportGenerator : null
     }
 }

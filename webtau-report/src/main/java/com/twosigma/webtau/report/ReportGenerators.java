@@ -19,12 +19,15 @@ package com.twosigma.webtau.report;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
 import java.util.Set;
-import java.util.stream.Stream;
 
-public class ReportDataProviders {
-    private static final Set<ReportDataProvider> providers = ServiceLoaderUtils.load(ReportDataProvider.class);
+public class ReportGenerators {
+    private static final Set<ReportGenerator> generators = ServiceLoaderUtils.load(ReportGenerator.class);
 
-    public static Stream<ReportData> provide(ReportTestEntries testEntries) {
-        return providers.stream().flatMap(e -> e.provide(testEntries));
+    public static void generate(ReportTestEntries testEntries) {
+        generators.forEach(g -> g.generate(testEntries));
+    }
+
+    public static void add(ReportGenerator reportGenerator) {
+        generators.add(reportGenerator);
     }
 }

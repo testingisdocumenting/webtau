@@ -2,7 +2,7 @@
 
 Standard headers like `Content-Type` and `Accept` are set on your behalf. 
 When payload content is present then values are based on the content type you are sending. 
-When no palyload is present, it defaults to `application/json`.   
+When no payload is present, it defaults to `application/json`.   
 
 # Common Header
 
