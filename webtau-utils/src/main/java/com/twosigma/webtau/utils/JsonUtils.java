@@ -55,6 +55,10 @@ public class JsonUtils {
 
     @SuppressWarnings("unchecked")
     public static Map<String, ?> deserializeAsMap(String json) {
+        if (json == null) {
+            return null;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, Map.class);
@@ -65,6 +69,10 @@ public class JsonUtils {
 
     @SuppressWarnings("unchecked")
     public static List<?> deserializeAsList(String json) {
+        if (json == null) {
+            return null;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, List.class);
@@ -74,6 +82,10 @@ public class JsonUtils {
     }
 
     public static Object deserialize(String json) {
+        if (json == null) {
+            return null;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, Object.class);
