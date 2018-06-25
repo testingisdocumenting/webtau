@@ -14,35 +14,23 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.testserver;
+package com.twosigma.webtau.http;
 
-import javax.servlet.http.HttpServletRequest;
+public class EmptyRequestBody implements HttpRequestBody {
+    public static final HttpRequestBody INSTANCE = new EmptyRequestBody();
 
-public class TestServerJsonResponse implements TestServerResponse {
-    private final String response;
-    private final int statusCode;
-
-    public TestServerJsonResponse(String response, int statusCode) {
-        this.response = response;
-        this.statusCode = statusCode;
-    }
-
-    public TestServerJsonResponse(String response) {
-        this(response, 200);
+    @Override
+    public boolean isBinary() {
+        return false;
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        return response.getBytes();
-    }
-
-    @Override
-    public String responseType(HttpServletRequest request) {
+    public String type() {
         return "application/json";
     }
 
     @Override
-    public int responseStatusCode() {
-        return statusCode;
+    public String asString() {
+        return "";
     }
 }

@@ -16,24 +16,31 @@
 
 package com.twosigma.webtau.http.testserver;
 
-import javax.servlet.http.HttpServletRequest;
+import com.twosigma.webtau.utils.JsonUtils;
 
-public class TestServerJsonResponse implements TestServerResponse {
-    private final String response;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class TestServerRequestHeaderEcho implements TestServerResponse {
     private final int statusCode;
 
-    public TestServerJsonResponse(String response, int statusCode) {
-        this.response = response;
+    public TestServerRequestHeaderEcho(int statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public TestServerJsonResponse(String response) {
-        this(response, 200);
     }
 
     @Override
     public byte[] responseBody(HttpServletRequest request) {
-        return response.getBytes();
+        Map<String, String> header = new LinkedHashMap<>();
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String name = headerNames.nextElement();
+            header.put(name, request.getHeader(name));
+        }
+
+        return JsonUtils.serialize(header).getBytes();
     }
 
     @Override
