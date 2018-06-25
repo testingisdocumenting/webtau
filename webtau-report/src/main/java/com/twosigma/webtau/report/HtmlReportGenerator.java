@@ -43,8 +43,7 @@ public class HtmlReportGenerator implements ReportGenerator {
     public void generate(ReportTestEntries testEntries) {
         Path reportPath = getCfg().getReportPath().toAbsolutePath();
 
-        HtmlReportGenerator generator = new HtmlReportGenerator();
-        FileUtils.writeTextContent(reportPath, generator.generateHtml(testEntries));
+        FileUtils.writeTextContent(reportPath, generateHtml(testEntries));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
     }
 

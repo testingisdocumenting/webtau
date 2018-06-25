@@ -1,6 +1,6 @@
 # Location
 
-By default report is generated at `<workingdir>/webtau.report.html`. To change location use `--reportPath` option. 
+By default report is generated at `<workingdir>/webtau.report.html`. To change the location use `--reportPath` option. 
 
 # Summary
 
