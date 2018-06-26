@@ -40,7 +40,8 @@ public class HttpDocumentation {
 
         if (lastValidationResult.getRequestType() != null
                 && !lastValidationResult.isRequestBinary()
-                && lastValidationResult.getRequestContent() != null) {
+                && lastValidationResult.getRequestContent() != null
+                && !lastValidationResult.getRequestContent().isEmpty()) {
             String fileName = "request." + fileExtensionForType(lastValidationResult.getRequestType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getRequestType(),
