@@ -50,6 +50,21 @@ public class OpenApiSpecValidator {
             return;
         }
 
+        SimpleRequest request = buildRequest(result);
+        SimpleResponse response = buildResponse(result);
+
+        ValidationReport validationReport = openApiValidator.validate(request, response);
+        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
+    }
+
+    private SimpleResponse buildResponse(HttpValidationResult result) {
+        return SimpleResponse.Builder
+                    .status(result.getResponseStatusCode())
+                    .withBody(result.getResponseTextContent())
+                    .build();
+    }
+
+    private SimpleRequest buildRequest(HttpValidationResult result) {
         String relativePath = extractPath(result.getFullUrl());
 
         SimpleRequest.Builder builder = new SimpleRequest.Builder(result.getRequestMethod(), relativePath);
@@ -60,14 +75,6 @@ public class OpenApiSpecValidator {
             result.getRequestHeader().forEachProperty(builder::withHeader);
         }
 
-        SimpleRequest request = builder.build();
-
-        SimpleResponse response = SimpleResponse.Builder
-                .status(result.getResponseStatusCode())
-                .withBody(result.getResponseTextContent())
-                .build();
-
-        ValidationReport validationReport = openApiValidator.validate(request, response);
-        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
+        return builder.build();
     }
 }
