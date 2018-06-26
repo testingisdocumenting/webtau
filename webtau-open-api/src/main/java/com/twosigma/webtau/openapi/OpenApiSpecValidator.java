@@ -17,7 +17,7 @@
 package com.twosigma.webtau.openapi;
 
 import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
-import com.atlassian.oai.validator.model.Request;
+import com.atlassian.oai.validator.model.SimpleRequest;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.ValidationReport;
 import com.twosigma.webtau.console.ConsoleOutputs;
@@ -50,15 +50,24 @@ public class OpenApiSpecValidator {
             return;
         }
 
+        String relativePath = extractPath(result.getFullUrl());
+
+        SimpleRequest.Builder builder = new SimpleRequest.Builder(result.getRequestMethod(), relativePath);
+        if (result.getRequestContent() != null) {
+            builder.withBody(result.getRequestContent());
+        }
+        if (result.getRequestHeader() != null) {
+            result.getRequestHeader().forEachProperty(builder::withHeader);
+        }
+
+        SimpleRequest request = builder.build();
+
         SimpleResponse response = SimpleResponse.Builder
                 .status(result.getResponseStatusCode())
                 .withBody(result.getResponseTextContent())
                 .build();
 
-        Request.Method method = Enum.valueOf(Request.Method.class, result.getRequestMethod());
-        String relativePath = extractPath(result.getFullUrl());
-
-        ValidationReport validationReport = openApiValidator.validateResponse(relativePath, method, response);
+        ValidationReport validationReport = openApiValidator.validate(request, response);
         validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
     }
 }
