@@ -16,33 +16,55 @@
 
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.report.ReportGenerators
+import com.twosigma.webtau.report.ReportTestEntries
 import org.junit.Test
+
+import static com.twosigma.webtau.Ddjt.code
+import static com.twosigma.webtau.Ddjt.throwException
 
 class WebTauGroovyFileConfigHandlerTest {
     @Test
     void "should use default environment values when env is not specified"() {
         def cfg = createConfig()
+        handle(cfg)
 
-        def handler = new WebTauGroovyFileConfigHandler()
-        handler.onAfterCreate(cfg)
-
-        cfg.baseUrl.should == "http://localhost:8180"
+        cfg.baseUrl.should == 'http://localhost:8180'
     }
 
     @Test
     void "should use environment specific values when env is specified"() {
         def cfg = createConfig()
-        cfg.envConfigValue.set("test", "dev")
+        cfg.envConfigValue.set('test', 'dev')
 
+        handle(cfg)
+
+        cfg.baseUrl.should == 'http://dev.host:8080'
+    }
+
+    @Test
+    void "should let specify custom reporter"() {
+        def cfg = createConfig()
+        cfg.envConfigValue.set('test', 'prod')
+
+        handle(cfg)
+
+        cfg.reportPath.toFile().deleteOnExit()
+
+        // prod report throws exception on purpose
+        code {
+            ReportGenerators.generate(new ReportTestEntries())
+        } should throwException('report issue 0')
+    }
+
+    private static void handle(WebTauConfig cfg) {
         def handler = new WebTauGroovyFileConfigHandler()
         handler.onAfterCreate(cfg)
-
-        cfg.baseUrl.should == "http://dev.host:8080"
     }
 
     private static WebTauConfig createConfig() {
         def cfg = new WebTauConfig()
-        cfg.configFileName.set("test", "src/test/resources/webtau.cfg")
+        cfg.configFileName.set('test', 'src/test/resources/webtau.cfg')
 
         return cfg
     }

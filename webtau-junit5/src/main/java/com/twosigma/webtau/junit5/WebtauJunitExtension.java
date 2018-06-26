@@ -18,7 +18,7 @@ package com.twosigma.webtau.junit5;
 
 import com.twosigma.webtau.junit5.report.JavaBasedTest;
 import com.twosigma.webtau.junit5.report.ReportJavaTestEntries;
-import com.twosigma.webtau.report.HtmlReportGenerator;
+import com.twosigma.webtau.report.ReportGenerators;
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
@@ -84,9 +84,8 @@ public class WebtauJunitExtension implements
         private final static ShutdownHook INSTANCE = new ShutdownHook();
 
         private ShutdownHook() {
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                HtmlReportGenerator.generateAndCreateFile(ReportJavaTestEntries.get());
-            }));
+            Runtime.getRuntime().addShutdownHook(new Thread(() ->
+                    ReportGenerators.generate(ReportJavaTestEntries.get())));
         }
 
         void noOp() {

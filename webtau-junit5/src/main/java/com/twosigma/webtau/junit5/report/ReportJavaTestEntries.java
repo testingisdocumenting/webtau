@@ -16,35 +16,21 @@
 
 package com.twosigma.webtau.junit5.report;
 
+import com.twosigma.webtau.report.ReportTestEntries;
 import com.twosigma.webtau.report.ReportTestEntry;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * Global storage of all java based test entries.
  * Is used to generate report at the end of all tests run.
  */
 public class ReportJavaTestEntries {
-    private static final List<ReportTestEntry> entries = Collections.synchronizedList(new ArrayList<>());
+    private static final ReportTestEntries entries = new ReportTestEntries();
 
     public static void add(ReportTestEntry testEntry) {
         entries.add(testEntry);
     }
 
-    public static List<ReportTestEntry> get() {
+    public static ReportTestEntries get() {
         return entries;
-    }
-
-    public static <E> Stream<E> map(Function<ReportTestEntry, E> mapFunc) {
-        return entries.stream().map(mapFunc);
-    }
-
-    public static void forEach(Consumer<ReportTestEntry> consumer) {
-        entries.forEach(consumer);
     }
 }

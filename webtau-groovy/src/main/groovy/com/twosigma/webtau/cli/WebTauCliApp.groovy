@@ -25,7 +25,8 @@ import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.driver.WebDriverCreator
-import com.twosigma.webtau.report.HtmlReportGenerator
+import com.twosigma.webtau.report.ReportGenerators
+import com.twosigma.webtau.report.ReportTestEntries
 import com.twosigma.webtau.reporter.ConsoleStepReporter
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
 import com.twosigma.webtau.reporter.ScreenshotStepReporter
@@ -130,7 +131,7 @@ class WebTauCliApp implements StandaloneTestListener {
 
     @Override
     void afterAllTests() {
-        HtmlReportGenerator.generateAndCreateFile(tests.reportTestEntry)
+        ReportGenerators.generate(new ReportTestEntries(tests.reportTestEntry))
         problemCount = consoleTestReporter.failed + consoleTestReporter.errored + consoleTestReporter.skipped
     }
 }

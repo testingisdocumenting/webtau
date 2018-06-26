@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package com.twosigma.webtau.report
 
-import com.twosigma.webtau.report.HtmlReportGenerator
 import org.junit.Test
 
 class HtmlReportGeneratorTest {
     @Test
     void "generates html using prebuilt javascript libs"() {
         def generator = new HtmlReportGenerator()
-        def html = generator.generate("{summary: 'summary'}")
+        def html = generator.generateHtml([summary: 'summary'])
 
-        assert html.contains("--webtau-selected-test-background")
-        assert html.contains("testReport = {summary: 'summary'}")
-        assert html.contains("Minified React error")
+        assert html.contains('--webtau-selected-test-background')
+        assert html.contains('testReport = {\n  "summary" : "summary"\n}')
+        assert html.contains('Minified React error')
     }
 }

@@ -19,5 +19,5 @@ package com.twosigma.webtau.report;
 import java.util.stream.Stream;
 
 public interface ReportDataProvider {
-    Stream<ReportData> provide(Stream<ReportTestEntry> testEntries);
+    Stream<ReportData> provide(ReportTestEntries testEntries);
 }

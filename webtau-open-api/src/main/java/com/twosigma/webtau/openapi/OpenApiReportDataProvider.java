@@ -18,7 +18,7 @@ package com.twosigma.webtau.openapi;
 
 import com.twosigma.webtau.report.ReportData;
 import com.twosigma.webtau.report.ReportDataProvider;
-import com.twosigma.webtau.report.ReportTestEntry;
+import com.twosigma.webtau.report.ReportTestEntries;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 
 public class OpenApiReportDataProvider implements ReportDataProvider {
     @Override
-    public Stream<ReportData> provide(Stream<ReportTestEntry> testEntries) {
+    public Stream<ReportData> provide(ReportTestEntries testEntries) {
         List<? extends Map<String, ?>> nonCovered = OpenApi.coverage.nonCoveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
