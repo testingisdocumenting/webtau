@@ -6,3 +6,4 @@ target
 node_modules
 webtau.report.html
 .vertx
+webtau-rest-groovy/doc-artifacts/*
