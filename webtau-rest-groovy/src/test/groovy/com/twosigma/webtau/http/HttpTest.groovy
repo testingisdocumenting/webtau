@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http
 
+import com.twosigma.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServer
@@ -34,6 +35,8 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import javax.servlet.http.HttpServletRequest
+import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.LocalTime
@@ -49,6 +52,7 @@ import static com.twosigma.webtau.Ddjt.lessThanOrEqual
 import static com.twosigma.webtau.Ddjt.notEqual
 import static com.twosigma.webtau.Ddjt.throwException
 import static com.twosigma.webtau.http.Http.http
+import static org.junit.Assert.assertFalse
 
 class HttpTest {
     static TestServer testServer = new TestServer()
@@ -83,6 +87,7 @@ class HttpTest {
         testServer.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0))
         testServer.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1))
         testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201))
+        testServer.registerPost("/empty", new TestServerJsonResponse(null, 201))
         testServer.registerPost("/file-upload", new TestServerFakeFileUpload())
         testServer.registerDelete("/resource", new TestServerTextResponse('abc'))
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
@@ -279,7 +284,7 @@ class HttpTest {
     @Test
     void "no body request"() {
         def noBodyExpectation = {
-            body.should == ""
+            body.should == null
         }
 
         http.post("/echo", noBodyExpectation)
@@ -296,6 +301,22 @@ class HttpTest {
             body.should == headerValues
             statusCode.should == 200
         }
+    }
+
+    @Test
+    void "no files generated for empty request and response"() {
+        http.post("/empty") {
+            body.should == null
+        }
+
+        http.doc.capture('empty')
+
+        Path docRoot = DocumentationArtifactsLocation.resolve('empty')
+        Path requestFile = docRoot.resolve("request.json")
+        assertFalse(Files.exists(requestFile))
+
+        Path responseFile = docRoot.resolve("response.json")
+        assertFalse(Files.exists(responseFile))
     }
 
     @Test

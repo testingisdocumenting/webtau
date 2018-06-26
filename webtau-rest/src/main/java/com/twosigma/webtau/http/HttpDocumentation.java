@@ -48,7 +48,8 @@ public class HttpDocumentation {
         }
 
         if (lastValidationResult.getResponseType() != null
-                && lastValidationResult.getResponseTextContent() != null) {
+                && lastValidationResult.getResponseTextContent() != null
+                && !lastValidationResult.getResponseTextContent().isEmpty()) {
             String fileName = "response." + fileExtensionForType(lastValidationResult.getResponseType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getResponseType(),

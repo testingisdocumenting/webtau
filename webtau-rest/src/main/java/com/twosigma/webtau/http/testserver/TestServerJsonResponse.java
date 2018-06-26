@@ -33,7 +33,7 @@ public class TestServerJsonResponse implements TestServerResponse {
 
     @Override
     public byte[] responseBody(HttpServletRequest request) {
-        return response.getBytes();
+        return response == null ? null : response.getBytes();
     }
 
     @Override

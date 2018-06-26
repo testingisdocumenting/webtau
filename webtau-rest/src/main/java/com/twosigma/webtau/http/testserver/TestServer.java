@@ -119,7 +119,9 @@ public class TestServer implements HttpConfiguration {
                 byte[] responseBody = testServerResponse.responseBody(request);
                 response.setStatus(testServerResponse.responseStatusCode());
                 response.setContentType(testServerResponse.responseType(request));
-                response.getOutputStream().write(responseBody);
+                if (responseBody != null) {
+                    response.getOutputStream().write(responseBody);
+                }
             }
 
             baseRequest.setHandled(true);
