@@ -24,6 +24,7 @@ import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datacoverage.TraceableValueConverter;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.reporter.TestStepPayload;
+import com.twosigma.webtau.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -105,8 +106,16 @@ public class HttpValidationResult implements TestStepPayload {
         return requestBody != null ? requestBody.asString() : null;
     }
 
+    public boolean notNullOrEmptyRequestContent() {
+        return StringUtils.notNullOrEmpty(getRequestContent());
+    }
+
     public String getResponseTextContent() {
         return response.getTextContent();
+    }
+
+    public boolean notNullOrEmptyResponseTextContent() {
+        return StringUtils.notNullOrEmpty(response.getTextContent());
     }
 
     public boolean hasContent() {

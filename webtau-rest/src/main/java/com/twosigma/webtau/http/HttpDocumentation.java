@@ -40,8 +40,7 @@ public class HttpDocumentation {
 
         if (lastValidationResult.getRequestType() != null
                 && !lastValidationResult.isRequestBinary()
-                && lastValidationResult.getRequestContent() != null
-                && !lastValidationResult.getRequestContent().isEmpty()) {
+                && lastValidationResult.notNullOrEmptyRequestContent()) {
             String fileName = "request." + fileExtensionForType(lastValidationResult.getRequestType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getRequestType(),
@@ -49,8 +48,7 @@ public class HttpDocumentation {
         }
 
         if (lastValidationResult.getResponseType() != null
-                && lastValidationResult.getResponseTextContent() != null
-                && !lastValidationResult.getResponseTextContent().isEmpty()) {
+                && lastValidationResult.notNullOrEmptyResponseTextContent()) {
             String fileName = "response." + fileExtensionForType(lastValidationResult.getResponseType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getResponseType(),

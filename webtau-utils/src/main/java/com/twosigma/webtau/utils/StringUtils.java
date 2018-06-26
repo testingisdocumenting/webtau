@@ -36,7 +36,7 @@ public class StringUtils {
     public static String stripIndentation(String text) {
         List<String> lines = trimEmptyLines(Arrays.asList(text.replace("\r", "").split("\n")));
         Integer indentation = lines.stream().
-                filter(StringUtils::notEmptyLine).
+                filter(StringUtils::notNullOrEmpty).
                 map(StringUtils::lineIndentation).min(Integer::compareTo).orElse(0);
 
         return lines.stream().map(l -> removeIndentation(l, indentation)).collect(Collectors.joining("\n"));
@@ -80,16 +80,20 @@ public class StringUtils {
                 "");
     }
 
+    public static boolean nullOrEmpty(String s) {
+        return s == null || s.trim().isEmpty();
+    }
+
+    public static boolean notNullOrEmpty(String s) {
+        return !nullOrEmpty(s);
+    }
+
     private static String removeIndentation(String line, Integer indentation) {
         if (line.trim().isEmpty()) {
             return line;
         }
 
         return line.substring(indentation);
-    }
-
-    private static boolean notEmptyLine(String s) {
-        return ! s.trim().isEmpty(); // TODO replace with more pragmatic impl
     }
 
     private static List<String> trimEmptyLines(List<String> lines) {
@@ -101,7 +105,7 @@ public class StringUtils {
 
     private static int firstNonEmptyLineIdx(List<String> lines) {
         for (int i = 0; i < lines.size(); i++) {
-            if (notEmptyLine(lines.get(i))) {
+            if (notNullOrEmpty(lines.get(i))) {
                 return i;
             }
         }
@@ -111,7 +115,7 @@ public class StringUtils {
 
     private static int firstFromEndNonEmptyLineIdx(List<String> lines) {
         for (int i = lines.size() - 1; i >= 0; i--) {
-            if (notEmptyLine(lines.get(i))) {
+            if (notNullOrEmpty(lines.get(i))) {
                 return i;
             }
         }

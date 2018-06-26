@@ -491,7 +491,7 @@ public class Http {
         try {
             DataNodeId id = new DataNodeId("body");
 
-            if (!response.isBinary() && nullOrEmptyResponse(response.getTextContent())) {
+            if (!response.isBinary() && response.nullOrEmptyTextContent()) {
                 return new StructuredDataNode(id, new TraceableValue(null));
             }
 
@@ -512,10 +512,6 @@ public class Http {
             throw new RuntimeException("error parsing body: " + response.getTextContent(), e);
         }
     }
-
-    private static boolean nullOrEmptyResponse(String content) {
-            return content == null || content.isEmpty();
-        }
 
     /**
      * Response consist of DataNode and Traceable values but we need to return back a simple value that can be used for
