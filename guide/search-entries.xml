@@ -300,10 +300,18 @@ scenario("customer delete") {
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/REST/headers#request-header-provider</url>
-    <fullTitle>WebTau: Headers, Request Header Provider [REST]</fullTitle>
+    <url>/webtau/guide/REST/headers#standard-header</url>
+    <fullTitle>WebTau: Headers, Standard Header [REST]</fullTitle>
     <text>
-      <text>Specify  httpHeaderProvider  config parameter to add additional header information to all your requests: import rest.headers.auth.Auth
+      <text>Standard headers like  Content-Type  and  Accept  are set on your behalf. When payload content is present then values are based on the content type you are sending. When no payload is present, it defaults to  application/json .</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/headers#common-header</url>
+    <fullTitle>WebTau: Headers, Common Header [REST]</fullTitle>
+    <text>
+      <text>If each http request requires the same header you can specify that header using  httpHeaderProvider . Common example is specifying authentication header. import rest.headers.auth.Auth
 
 url = "http://localhost:8080"
 
@@ -318,6 +326,14 @@ class Auth {
         return original.merge([Authorization: 'Bearer &lt;token>'])
     }
 } This removes implementation details from your tests and makes them less brittle.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/headers#explicit-header</url>
+    <fullTitle>WebTau: Headers, Explicit Header [REST]</fullTitle>
+    <text>
+      <text>To explicitly set header pass  http.header(values)  as an additional parameter. Additionally  http.header  accepts values as a map.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -469,6 +485,57 @@ API spec validation failure: ERROR - Response status 201 not defined for path ''
 
 Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
  They are also available in the HTML report:</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/report#location</url>
+    <fullTitle>WebTau: Report, Location [REST]</fullTitle>
+    <text>
+      <text>By default report is generated at  &lt;workingdir>/webtau.report.html . To change the location use  --reportPath  option.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/report#summary</url>
+    <fullTitle>WebTau: Report, Summary [REST]</fullTitle>
+    <text>
+      <text>Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/report#navigation</url>
+    <fullTitle>WebTau: Report, Navigation [REST]</fullTitle>
+    <text>
+      <text>Report is a self contained single page application. Url tracks your navigation through screens, so you can share url with your teammates to narrow down a problem.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/report#additional-reports</url>
+    <fullTitle>WebTau: Report, Additional Reports [REST]</fullTitle>
+    <text>
+      <text>To generate custom reports, or upload report data to your server, specify  reportGenerator  config property. import rest.report.Report
+
+url = "http://localhost:8080"
+
+reportGenerator = Report.&amp;generateReport Where  Report.&amp;generateReport  is implemented as following package rest.report
+
+import com.twosigma.webtau.console.ConsoleOutputs
+import com.twosigma.webtau.console.ansi.Color
+import com.twosigma.webtau.report.ReportTestEntries
+
+import static com.twosigma.webtau.WebTauDsl.cfg
+
+class Report {
+    static void generateReport(ReportTestEntries entries) {
+        def reportPath = cfg.workingDir.resolve('report.txt')
+
+        ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath)
+        reportPath.toFile().text = entries.size()
+    }
+}</text>
       <score>STANDARD</score>
     </text>
   </entry>

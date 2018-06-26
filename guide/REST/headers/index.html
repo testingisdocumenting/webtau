@@ -8,11 +8,11 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png" type="image/ico"/>
 <body>
-<div id="mdoc"><span data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/headers">Headers</a><div class="page-sections"><div class="page-section selected"><a href="#request-header-provider">Request Header Provider</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/configuration">Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element">Page Element</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Headers</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Thu May 17 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/headers.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="request-header-provider">Request Header Provider<a href="#request-header-provider"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Specify </span><code>httpHeaderProvider</code><span class="simple-text"> config parameter to add additional header information to all your requests:</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">import rest<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>auth<span class="token punctuation">.</span>Auth
+<div id="mdoc"><span data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/headers">Headers</a><div class="page-sections"><div class="page-section selected"><a href="#standard-header">Standard Header</a></div><div class="page-section"><a href="#common-header">Common Header</a></div><div class="page-section"><a href="#explicit-header">Explicit Header</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/configuration">Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element">Page Element</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Headers</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Tue Jun 26 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/headers.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="standard-header">Standard Header<a href="#standard-header"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Standard headers like </span><code>Content-Type</code><span class="simple-text"> and </span><code>Accept</code><span class="simple-text"> are set on your behalf.</span><span> </span><span class="simple-text">When payload content is present then values are based on the content type you are sending.</span><span> </span><span class="simple-text">When no payload is present, it defaults to </span><code>application/json</code><span class="simple-text">.</span></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="common-header">Common Header<a href="#common-header"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">If each http request requires the same header you can specify that header using </span><code>httpHeaderProvider</code><span class="simple-text">.</span><span> </span><span class="simple-text">Common example is specifying authentication header.</span></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">webtau.cfg</div><div class="copy-to-clipboard">Copy content</div></div><div class="snippet with-title"><pre><span class="code-line">import rest<span class="token punctuation">.</span>headers<span class="token punctuation">.</span>auth<span class="token punctuation">.</span>Auth
 
 url <span class="token operator">=</span> <span class="token string">&quot;http://localhost:8080&quot;</span>
 </span><span class="code-line">
-</span><span class="code-line">httpHeaderProvider <span class="token operator">=</span> Auth<span class="token punctuation">.</span><span class="token operator">&amp;</span>authHeader</span></pre></div></div><div class="paragraph content-block"><span class="simple-text">Where </span><code>Auth.&amp;authHeader</code><span class="simple-text"> is implemented as follows:</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> rest<span class="token operator">.</span>headers<span class="token operator">.</span>auth
+</span><span class="code-line">httpHeaderProvider <span class="token operator">=</span> Auth<span class="token punctuation">.</span><span class="token operator">&amp;</span>authHeader</span></pre></div></div><div class="paragraph content-block"><span class="simple-text">Where </span><code>Auth.&amp;authHeader</code><span class="simple-text"> is implemented as follows:</span></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">rest/headers/auth/Auth.groovy</div><div class="copy-to-clipboard">Copy content</div></div><div class="snippet with-title"><pre><span class="code-line"><span class="token keyword">package</span> rest<span class="token operator">.</span>headers<span class="token operator">.</span>auth
 
 <span class="token keyword">import</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>console<span class="token operator">.</span>ConsoleOutputs
 <span class="token keyword">import</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>http<span class="token operator">.</span>HttpRequestHeader
@@ -22,7 +22,34 @@ url <span class="token operator">=</span> <span class="token string">&quot;http:
 </span><span class="code-line">        ConsoleOutputs<span class="token operator">.</span><span class="token function">out</span><span class="token punctuation">(</span><span class="token string">&#x27;auth header injection point&#x27;</span><span class="token punctuation">)</span>
 </span><span class="code-line">        <span class="token keyword">return</span> original<span class="token operator">.</span><span class="token function">merge</span><span class="token punctuation">(</span><span class="token punctuation">[</span>Authorization<span class="token punctuation">:</span> <span class="token string">&#x27;Bearer &lt;token&gt;&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre></div></div><div class="paragraph content-block"><span class="simple-text">This removes implementation details from your tests and makes them less brittle.</span></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Data Node<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Files Upload<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></span></div>
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre></div></div><div class="paragraph content-block"><span class="simple-text">This removes implementation details from your tests and makes them less brittle.</span></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="explicit-header">Explicit Header<a href="#explicit-header"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">To explicitly set header pass </span><code>http.header(values)</code><span class="simple-text"> as an additional parameter.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line">http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;/end-point&quot;</span><span class="token punctuation">,</span> http<span class="token operator">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">&#x27;Accept&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;application/octet-stream&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token comment">// assertions go here</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line">http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;/end-point&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>queryParam1<span class="token punctuation">:</span> <span class="token string">&#x27;queryParamValue1&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+</span><span class="code-line">        http<span class="token operator">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">&#x27;Accept&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;application/octet-stream&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token comment">// assertions go here</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line">http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/end-point&quot;</span><span class="token punctuation">,</span> http<span class="token operator">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">&#x27;Accept&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;application/octet-stream&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+</span><span class="code-line">        <span class="token punctuation">[</span>fileId<span class="token punctuation">:</span> <span class="token string">&#x27;myFile&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token comment">// assertions go here</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line">http<span class="token operator">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">&quot;/end-point&quot;</span><span class="token punctuation">,</span> http<span class="token operator">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">&#x27;Accept&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;application/octet-stream&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+</span><span class="code-line">        <span class="token punctuation">[</span>fileId<span class="token punctuation">:</span> <span class="token string">&#x27;myFile&#x27;</span><span class="token punctuation">,</span> file<span class="token punctuation">:</span> sampleFile<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    <span class="token comment">// assertions go here</span>
+</span><span class="code-line"><span class="token punctuation">}</span>
+</span><span class="code-line">
+</span><span class="code-line">http<span class="token operator">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token string">&quot;/end-point&quot;</span><span class="token punctuation">,</span> http<span class="token operator">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token string">&#x27;Custom-Header&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;special-value&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">)</span></span></pre></div></div><div class="paragraph content-block"><span class="simple-text">Additionally </span><code>http.header</code><span class="simple-text"> accepts values as a map.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">def</span> varArgHeader <span class="token operator">=</span> http<span class="token operator">.</span><span class="token function">header</span><span class="token punctuation">(</span>
+</span><span class="code-line">        <span class="token string">&#x27;My-Header1&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;Value1&#x27;</span><span class="token punctuation">,</span>
+</span><span class="code-line">        <span class="token string">&#x27;My-Header2&#x27;</span><span class="token punctuation">,</span> <span class="token string">&#x27;Value2&#x27;</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">def</span> mapBasedHeader <span class="token operator">=</span> http<span class="token operator">.</span><span class="token function">header</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+</span><span class="code-line">        <span class="token string">&#x27;My-Header1&#x27;</span><span class="token punctuation">:</span> <span class="token string">&#x27;Value1&#x27;</span><span class="token punctuation">,</span>
+</span><span class="code-line">        <span class="token string">&#x27;My-Header2&#x27;</span><span class="token punctuation">:</span> <span class="token string">&#x27;Value2&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">assert</span> varArgHeader <span class="token operator">==</span> mapBasedHeader</span></pre></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Data Node<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Files Upload<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></span></div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
@@ -43,15 +70,69 @@ ReactDOM.render(React.createElement(Documentation, {
     "type": "Page",
     "content": [
       {
-        "title": "Request Header Provider",
-        "id": "request-header-provider",
+        "title": "Standard Header",
+        "id": "standard-header",
         "type": "Section",
         "content": [
           {
             "type": "Paragraph",
             "content": [
               {
-                "text": "Specify ",
+                "text": "Standard headers like ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "Content-Type",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " and ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "Accept",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " are set on your behalf.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "When payload content is present then values are based on the content type you are sending.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "When no payload is present, it defaults to ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "application/json",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Common Header",
+        "id": "common-header",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "If each http request requires the same header you can specify that header using ",
                 "type": "SimpleText"
               },
               {
@@ -59,7 +140,14 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "InlinedCode"
               },
               {
-                "text": " config parameter to add additional header information to all your requests:",
+                "text": ".",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Common example is specifying authentication header.",
                 "type": "SimpleText"
               }
             ]
@@ -109,6 +197,7 @@ ReactDOM.render(React.createElement(Documentation, {
               },
               "authHeader"
             ],
+            "title": "webtau.cfg",
             "type": "Snippet"
           },
           {
@@ -319,6 +408,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "content": "}"
               }
             ],
+            "title": "rest/headers/auth/Auth.groovy",
             "type": "Snippet"
           },
           {
@@ -331,9 +421,618 @@ ReactDOM.render(React.createElement(Documentation, {
             ]
           }
         ]
+      },
+      {
+        "title": "Explicit Header",
+        "id": "explicit-header",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "To explicitly set header pass ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "http.header(values)",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " as an additional parameter.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "maxLineLength": 75,
+            "tokens": [
+              "http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "get"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"/end-point\""
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "header"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027Accept\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027application/octet-stream\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    ",
+              {
+                "type": "comment",
+                "content": "// assertions go here"
+              },
+              "\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              },
+              "\n\nhttp",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "get"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"/end-point\""
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "["
+              },
+              "queryParam1",
+              {
+                "type": "punctuation",
+                "content": ":"
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027queryParamValue1\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": "]"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              "\n        http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "header"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027Accept\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027application/octet-stream\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    ",
+              {
+                "type": "comment",
+                "content": "// assertions go here"
+              },
+              "\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              },
+              "\n\nhttp",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "post"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"/end-point\""
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "header"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027Accept\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027application/octet-stream\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              "\n        ",
+              {
+                "type": "punctuation",
+                "content": "["
+              },
+              "fileId",
+              {
+                "type": "punctuation",
+                "content": ":"
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027myFile\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": "]"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    ",
+              {
+                "type": "comment",
+                "content": "// assertions go here"
+              },
+              "\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              },
+              "\n\nhttp",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "put"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"/end-point\""
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "header"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027Accept\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027application/octet-stream\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              "\n        ",
+              {
+                "type": "punctuation",
+                "content": "["
+              },
+              "fileId",
+              {
+                "type": "punctuation",
+                "content": ":"
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027myFile\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " file",
+              {
+                "type": "punctuation",
+                "content": ":"
+              },
+              " sampleFile",
+              {
+                "type": "punctuation",
+                "content": "]"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    ",
+              {
+                "type": "comment",
+                "content": "// assertions go here"
+              },
+              "\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              },
+              "\n\nhttp",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "delete"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"/end-point\""
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "header"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027Custom-Header\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027special-value\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              }
+            ],
+            "entry": "explicit header passing example",
+            "bodyOnly": true,
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Additionally ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "http.header",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " accepts values as a map.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "maxLineLength": 37,
+            "tokens": [
+              {
+                "type": "keyword",
+                "content": "def"
+              },
+              " varArgHeader ",
+              {
+                "type": "operator",
+                "content": "\u003d"
+              },
+              " http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "header"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              "\n        ",
+              {
+                "type": "string",
+                "content": "\u0027My-Header1\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027Value1\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              "\n        ",
+              {
+                "type": "string",
+                "content": "\u0027My-Header2\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027Value2\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n\n",
+              {
+                "type": "keyword",
+                "content": "def"
+              },
+              " mapBasedHeader ",
+              {
+                "type": "operator",
+                "content": "\u003d"
+              },
+              " http",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "header"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "punctuation",
+                "content": "["
+              },
+              "\n        ",
+              {
+                "type": "string",
+                "content": "\u0027My-Header1\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ":"
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027Value1\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ","
+              },
+              "\n        ",
+              {
+                "type": "string",
+                "content": "\u0027My-Header2\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ":"
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027Value2\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": "]"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n\n",
+              {
+                "type": "keyword",
+                "content": "assert"
+              },
+              " varArgHeader ",
+              {
+                "type": "operator",
+                "content": "\u003d\u003d"
+              },
+              " mapBasedHeader"
+            ],
+            "entry": "header creation",
+            "bodyOnly": true,
+            "type": "Snippet"
+          }
+        ]
       }
     ],
-    "lastModifiedTime": 1526573459000,
+    "lastModifiedTime": 1530010583000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Headers",
@@ -342,8 +1041,16 @@ ReactDOM.render(React.createElement(Documentation, {
       "dirName": "REST",
       "pageSectionIdTitles": [
         {
-          "title": "Request Header Provider",
-          "id": "request-header-provider"
+          "title": "Standard Header",
+          "id": "standard-header"
+        },
+        {
+          "title": "Common Header",
+          "id": "common-header"
+        },
+        {
+          "title": "Explicit Header",
+          "id": "explicit-header"
         }
       ]
     }

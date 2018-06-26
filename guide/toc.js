@@ -118,8 +118,16 @@ toc = [
         "dirName": "REST",
         "pageSectionIdTitles": [
           {
-            "title": "Request Header Provider",
-            "id": "request-header-provider"
+            "title": "Standard Header",
+            "id": "standard-header"
+          },
+          {
+            "title": "Common Header",
+            "id": "common-header"
+          },
+          {
+            "title": "Explicit Header",
+            "id": "explicit-header"
           }
         ]
       },
@@ -196,6 +204,31 @@ toc = [
           {
             "title": "Validations report",
             "id": "validations-report"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "REST",
+        "pageTitle": "Report",
+        "pageMeta": {},
+        "fileName": "report",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Location",
+            "id": "location"
+          },
+          {
+            "title": "Summary",
+            "id": "summary"
+          },
+          {
+            "title": "Navigation",
+            "id": "navigation"
+          },
+          {
+            "title": "Additional Reports",
+            "id": "additional-reports"
           }
         ]
       },
