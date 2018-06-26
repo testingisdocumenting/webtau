@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.utils.StringUtils;
+
 public class HttpResponse {
     private String textContent;
     private byte[] binaryContent;
@@ -29,6 +31,10 @@ public class HttpResponse {
 
     public void setTextContent(String content) {
         this.textContent = content;
+    }
+
+    public boolean nullOrEmptyTextContent() {
+        return StringUtils.nullOrEmpty(textContent);
     }
 
     public byte[] getBinaryContent() {

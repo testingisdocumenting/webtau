@@ -31,6 +31,6 @@ public class EmptyRequestBody implements HttpRequestBody {
 
     @Override
     public String asString() {
-        return "";
+        return null;
     }
 }

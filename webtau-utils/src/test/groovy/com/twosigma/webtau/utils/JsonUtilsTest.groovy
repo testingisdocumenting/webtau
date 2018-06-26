@@ -77,4 +77,39 @@ class JsonUtilsTest {
         def map = JsonUtils.deserialize(mapJson)
         assert map instanceof Map
     }
+
+    @Test
+    void "should serialize null as null"() {
+        def asText = JsonUtils.serialize(null)
+
+        assert asText == null
+    }
+
+    @Test
+    void "should pretty serialize null as null"() {
+        def asText = JsonUtils.serializePrettyPrint(null)
+
+        assert asText == null
+    }
+
+    @Test
+    void "should deserialize null to map"() {
+        def map = JsonUtils.deserializeAsMap(null)
+
+        assert map == null
+    }
+
+    @Test
+    void "should deserialize null to list"() {
+        def list = JsonUtils.deserializeAsList(null)
+
+        assert list == null
+    }
+
+    @Test
+    void "should deserialize null to object"() {
+        def obj = JsonUtils.deserialize(null)
+
+        assert obj == null
+    }
 }

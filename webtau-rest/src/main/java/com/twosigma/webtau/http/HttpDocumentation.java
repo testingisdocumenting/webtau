@@ -38,14 +38,17 @@ public class HttpDocumentation {
                     requestHeader);
         }
 
-        if (lastValidationResult.getRequestType() != null && !lastValidationResult.isRequestBinary()) {
+        if (lastValidationResult.getRequestType() != null
+                && !lastValidationResult.isRequestBinary()
+                && lastValidationResult.notNullOrEmptyRequestContent()) {
             String fileName = "request." + fileExtensionForType(lastValidationResult.getRequestType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getRequestType(),
                             lastValidationResult.getRequestContent()));
         }
 
-        if (lastValidationResult.getResponseType() != null) {
+        if (lastValidationResult.getResponseType() != null
+                && lastValidationResult.notNullOrEmptyResponseTextContent()) {
             String fileName = "response." + fileExtensionForType(lastValidationResult.getResponseType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getResponseType(),

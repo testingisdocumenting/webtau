@@ -491,9 +491,8 @@ public class Http {
         try {
             DataNodeId id = new DataNodeId("body");
 
-            if ((response.isText() || response.isJson())
-                    && response.getTextContent().isEmpty()) {
-                return new StructuredDataNode(id, new TraceableValue(""));
+            if (!response.isBinary() && response.nullOrEmptyTextContent()) {
+                return new StructuredDataNode(id, new TraceableValue(null));
             }
 
             if (response.isText()) {

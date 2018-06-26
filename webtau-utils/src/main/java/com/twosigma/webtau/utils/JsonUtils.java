@@ -30,6 +30,10 @@ public class JsonUtils {
     }
 
     public static String serialize(Object json) {
+        if (json == null) {
+            return null;
+        }
+
         try {
             return mapper.writeValueAsString(json);
         } catch (JsonProcessingException e) {
@@ -38,6 +42,10 @@ public class JsonUtils {
     }
 
     public static String serializePrettyPrint(Object json) {
+        if (json == null) {
+            return null;
+        }
+
         try {
             return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
         } catch (JsonProcessingException e) {
@@ -47,6 +55,10 @@ public class JsonUtils {
 
     @SuppressWarnings("unchecked")
     public static Map<String, ?> deserializeAsMap(String json) {
+        if (json == null) {
+            return null;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, Map.class);
@@ -57,6 +69,10 @@ public class JsonUtils {
 
     @SuppressWarnings("unchecked")
     public static List<?> deserializeAsList(String json) {
+        if (json == null) {
+            return null;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, List.class);
@@ -66,6 +82,10 @@ public class JsonUtils {
     }
 
     public static Object deserialize(String json) {
+        if (json == null) {
+            return null;
+        }
+
         ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, Object.class);
