@@ -24,9 +24,12 @@ import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.twosigma.webtau.http.HttpUrl.extractPath;
+import static com.twosigma.webtau.http.HttpUrl.extractQueryParams;
 
 public class OpenApiSpecValidator {
     private final SwaggerRequestResponseValidator openApiValidator;
@@ -73,6 +76,11 @@ public class OpenApiSpecValidator {
         }
         if (result.getRequestHeader() != null) {
             result.getRequestHeader().forEachProperty(builder::withHeader);
+        }
+
+        Map<String, List<String>> queryParams = extractQueryParams(result.getFullUrl());
+        if (queryParams != null) {
+            queryParams.forEach(builder::withQueryParam);
         }
 
         return builder.build();
