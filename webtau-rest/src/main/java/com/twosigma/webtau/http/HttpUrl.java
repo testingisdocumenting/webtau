@@ -18,11 +18,7 @@ package com.twosigma.webtau.http;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class HttpUrl {
     private HttpUrl() {
@@ -55,7 +51,7 @@ public class HttpUrl {
             queryParams = extractQueryParamsFromFullUrl(url);
         }
 
-        return queryParams == null ? new HashMap<>() : HttpQueryParamsParser.parseQueryParams(queryParams);
+        return queryParams == null ? Collections.emptyMap() : HttpQueryParamsParser.parseQueryParams(queryParams);
     }
 
     private static String extractQueryParamsFromRelativeUrl(String url) {
