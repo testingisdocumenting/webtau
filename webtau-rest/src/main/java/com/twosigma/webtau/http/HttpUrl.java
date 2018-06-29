@@ -44,12 +44,9 @@ public class HttpUrl {
     }
 
     public static Map<String, List<String>> extractQueryParams(String url) {
-        String queryParams;
-        if (!isFull(url)) {
-            queryParams = extractQueryParamsFromRelativeUrl(url);
-        } else {
-            queryParams = extractQueryParamsFromFullUrl(url);
-        }
+        String queryParams = isFull(url) ?
+                extractQueryParamsFromFullUrl(url) :
+                extractQueryParamsFromRelativeUrl(url);
 
         return queryParams == null ? Collections.emptyMap() : HttpQueryParamsParser.parseQueryParams(queryParams);
     }
