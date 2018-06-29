@@ -78,10 +78,7 @@ public class OpenApiSpecValidator {
             result.getRequestHeader().forEachProperty(builder::withHeader);
         }
 
-        Map<String, List<String>> queryParams = extractQueryParams(result.getFullUrl());
-        if (queryParams != null) {
-            queryParams.forEach(builder::withQueryParam);
-        }
+        extractQueryParams(result.getFullUrl()).forEach(builder::withQueryParam);
 
         return builder.build();
     }

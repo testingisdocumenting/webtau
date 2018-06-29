@@ -81,8 +81,8 @@ class HttpUrlTest {
 
         HttpUrl.extractQueryParams('https://localhost:8080/relative/path?a&b=c').should == expectedNullParams
 
-        Assert.assertNull(HttpUrl.extractQueryParams('relative/path'))
-        Assert.assertNull(HttpUrl.extractQueryParams('https://localhost:8080/relative/path'))
+        HttpUrl.extractQueryParams('relative/path').should == [:]
+        HttpUrl.extractQueryParams('https://localhost:8080/relative/path').should == [:]
     }
 
     @Test
