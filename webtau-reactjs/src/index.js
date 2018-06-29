@@ -22,6 +22,10 @@ import Report from './report/Report'
 
 import './index.css'
 
+if (process.env.NODE_ENV !== "production") {
+    global.testReport = require('./test-data/testData').report
+}
+
 global.WebTauReport = WebTauReport
 
 global.renderReport = () => {
