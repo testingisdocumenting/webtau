@@ -66,4 +66,28 @@ class HttpUrlTest {
             HttpUrl.extractPath('garbage://localhost:8080/relative/path').should == '/relative/path'
         } should throwException(IllegalArgumentException, 'invalid url: garbage://localhost:8080/relative/path')
     }
+
+    @Test
+    void "extract query params from a given url"() {
+        def expectedParams = [a: ['b'], c: ['d']]
+        def expectedMultiParams = [a: ['b', 'c']]
+        def expectedNullParams = [a: [null], b: ['c']]
+
+        HttpUrl.extractQueryParams('relative/path?a=b&c=d').should == expectedParams
+        HttpUrl.extractQueryParams('https://localhost:8080/relative/path?a=b&c=d').should == expectedParams
+        HttpUrl.extractQueryParams('https://localhost:8080/relative/path?a=b&a=c').should == expectedMultiParams
+        HttpUrl.extractQueryParams('https://localhost:8080/relative/path?a[0]=b&a[1]=c').should == expectedMultiParams
+
+        HttpUrl.extractQueryParams('https://localhost:8080/relative/path?a&b=c').should == expectedNullParams
+
+        HttpUrl.extractQueryParams('relative/path').should == [:]
+        HttpUrl.extractQueryParams('https://localhost:8080/relative/path').should == [:]
+    }
+
+    @Test
+    void "validates full url before before extracting query params"() {
+        code {
+            HttpUrl.extractQueryParams('garbage://localhost:8080/relative/path').should == '/relative/path'
+        } should throwException(IllegalArgumentException, 'invalid url: garbage://localhost:8080/relative/path')
+    }
 }

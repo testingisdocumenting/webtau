@@ -18,6 +18,7 @@ package com.twosigma.webtau.http;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.*;
 
 public class HttpUrl {
     private HttpUrl() {
@@ -37,6 +38,31 @@ public class HttpUrl {
 
         try {
             return new URL(url).getPath();
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("invalid url: " + url, e);
+        }
+    }
+
+    public static Map<String, List<String>> extractQueryParams(String url) {
+        String queryParams = isFull(url) ?
+                extractQueryParamsFromFullUrl(url) :
+                extractQueryParamsFromRelativeUrl(url);
+
+        return queryParams == null ? Collections.emptyMap() : HttpQueryParamsParser.parseQueryParams(queryParams);
+    }
+
+    private static String extractQueryParamsFromRelativeUrl(String url) {
+        int queryParamsStart = url.indexOf('?');
+        if (queryParamsStart < 0) {
+            return null;
+        } else {
+            return url.substring(queryParamsStart + 1);
+        }
+    }
+
+    private static String extractQueryParamsFromFullUrl(String url) {
+        try {
+            return new URL(url).getQuery();
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("invalid url: " + url, e);
         }
