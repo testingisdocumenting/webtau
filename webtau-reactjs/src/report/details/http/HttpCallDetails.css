@@ -42,6 +42,11 @@
     padding: 15px;
 }
 
+.http-call-details-request-details,
+.http-call-details-response-details {
+    overflow-x: auto;
+}
+
 .http-call-details-mismatches,
 .http-call-details-error-message {
     font-family: var(--webtau-monospace-font);

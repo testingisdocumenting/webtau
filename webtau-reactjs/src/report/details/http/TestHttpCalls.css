@@ -20,6 +20,11 @@
     grid-column-gap: 20px;
 }
 
+.test-http-call-details .request-response > .request,
+.test-http-call-details .request-response > .response {
+    overflow-x: auto;
+}
+
 .test-http-call {
     cursor: pointer;
 }
