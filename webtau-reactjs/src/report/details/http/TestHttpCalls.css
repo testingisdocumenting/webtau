@@ -63,19 +63,8 @@
     margin-right: 15px;
 }
 
-.test-http-call .payload {
+.test-http-call .http-payload {
     margin-left: 10px;
-}
-
-.test-http-call .payload .caption {
-    color: #888;
-    text-transform: uppercase;
-    margin-top: 10px;
-}
-
-.test-http-call .payload .data {
-    margin-left: 15px;
-    margin-bottom: 20px;
 }
 
 .test-http-call.with-problem {
@@ -102,7 +91,6 @@
 
 .http-table td {
     color: #555;
-    line-height: 22px;
 
     border-bottom:  1px solid #dce0e4;
 }

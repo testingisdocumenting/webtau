@@ -171,7 +171,8 @@ function lowerCaseIndexOf(text, part) {
 function enrichTestsData(tests) {
     return tests.map(test => ({
             ...test,
-            details: additionalDetails(test)
+            details: additionalDetails(test),
+            httpCalls: enrichHttpCallsData(test, test.httpCalls)
         }))
 }
 

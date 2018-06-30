@@ -95,7 +95,9 @@ function Request({httpCall}) {
         <Card className="http-call-details-request-details">
             <HttpPayload caption="Request"
                          type={httpCall.requestType}
-                         data={httpCall.requestBody}/>
+                         data={httpCall.requestBody}
+                         httpCallId={httpCall.id}
+                         payloadType='request'/>
         </Card>
     )
 }
@@ -110,7 +112,9 @@ function Response({httpCall}) {
             <HttpPayload caption="Response"
                          type={httpCall.responseType}
                          data={httpCall.responseBody}
-                         checks={httpCall.responseBodyChecks}/>
+                         checks={httpCall.responseBodyChecks}
+                         httpCallId={httpCall.id}
+                         payloadType='response'/>
         </Card>
     )
 }

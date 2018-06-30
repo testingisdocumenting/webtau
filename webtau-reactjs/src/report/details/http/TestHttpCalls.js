@@ -147,7 +147,9 @@ function Request({httpCall}) {
         <div className="request">
             <HttpPayload caption="Request"
                          type={httpCall.requestType}
-                         data={httpCall.requestBody}/>
+                         data={httpCall.requestBody}
+                         httpCallId={httpCall.id}
+                         payloadType='request'/>
         </div>
     )
 }
@@ -162,7 +164,9 @@ function Response({httpCall}) {
             <HttpPayload caption="Response"
                          type={httpCall.responseType}
                          data={httpCall.responseBody}
-                         checks={httpCall.responseBodyChecks}/>
+                         checks={httpCall.responseBodyChecks}
+                         httpCallId={httpCall.id}
+                         payloadType='response'/>
         </div>
     )
 }
