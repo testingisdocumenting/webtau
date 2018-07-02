@@ -31,6 +31,8 @@ import NavigationEntriesType from './navigation/NavigationEntriesType'
 import HttpCallDetails from './details/http/HttpCallDetails'
 import StatusEnum from './StatusEnum'
 
+import FullScreenPayload from './FullScreenPayload'
+
 import './WebTauReport.css'
 
 class WebTauReport extends Component {
@@ -43,6 +45,17 @@ class WebTauReport extends Component {
     }
 
     render() {
+        const {payloadType} = this.state
+
+        if (payloadType) {
+            return this.renderPayload()
+        } else {
+            return this.renderReport()
+        }
+
+    }
+
+    renderReport() {
         const {entriesType, statusFilter, filterText} = this.state
 
         return (
@@ -75,6 +88,17 @@ class WebTauReport extends Component {
                                   onStatusSelect={this.onEntriesStatusSelect}/>
                 </div>
             </div>
+        )
+    }
+
+    renderPayload() {
+        const {report} = this.props
+        const {payloadType, httpCallId} = this.state
+
+        return (
+            <FullScreenPayload report={report}
+                               payloadType={payloadType}
+                               httpCallId={httpCallId}/>
         )
     }
 

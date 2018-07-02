@@ -29,6 +29,8 @@ class WebTauReportStateCreator {
             statusFilter: '',
             filterText: '',
             entriesType: '',
+            payloadType: '',
+            httpCallId: '',
             [TestHttpCalls.stateName]: ''
         }
     }
