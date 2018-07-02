@@ -50,7 +50,10 @@ function Token({type, value}) {
 
     switch (type) {
         case 'url':
-            return <a className="step-token url" href={value}>{value}</a>
+            return <a className="step-token url"
+                      href={value}
+                      target="_blank"
+                      rel="noopener noreferrer">{value}</a>
         default:
             return <span className={className}>{valueToUse}</span>
 
