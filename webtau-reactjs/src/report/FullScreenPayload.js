@@ -50,6 +50,8 @@ export default function FullScreenPayload({report, payloadType, httpCallId}) {
                                  data={httpCall.responseBody}
                                  checks={httpCall.responseBodyChecks}/>
                 )
+            default:
+                return <div>unsupported payload type: {payloadType}</div>
         }
     }
 }
