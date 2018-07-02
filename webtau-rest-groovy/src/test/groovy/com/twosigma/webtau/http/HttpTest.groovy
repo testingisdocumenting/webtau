@@ -124,8 +124,8 @@ class HttpTest {
         http.get("/end-point") {
             complexList.should == ["k1"   | "k2"] {
                                   __________________
-                                    "v1"  | "v2"
-                                    "v11" | "v22" }
+                                    "v1"  | 30
+                                    "v11" | 40 }
         }
     }
 
@@ -195,7 +195,7 @@ class HttpTest {
             return complexList
         }
 
-        assert complexList == [[id: 'id1', k1: 'v1', k2: 'v2'], [id: 'id2', k1: 'v11', k2: 'v22']]
+        assert complexList == [[id: 'id1', k1: 'v1', k2: 30], [id: 'id2', k1: 'v11', k2: 40]]
         assert complexList.getClass() == ArrayList
         assert complexList[0].getClass() == LinkedHashMap
     }
@@ -382,6 +382,18 @@ class HttpTest {
     }
 
     @Test
+    void "groovy findAlll, collect, and sum"() {
+        def sum = http.get("/end-point") {
+            return complexList
+                    .findAll { it.k1.startsWith('v1') }
+                    .collect { it.k2 }
+                    .sum()
+        }
+
+        assert sum == 70
+    }
+
+    @Test
     void "groovy findAll on body that is not a list"() {
         def found = http.get("/end-point") {
             return body.findAll { it > 1 }
@@ -413,6 +425,15 @@ class HttpTest {
 
         assert transformed == ['world#1', 'world#2', 'world#3']
         assert transformed[0] instanceof GString
+    }
+
+    @Test
+    void "groovy transform list by referencing node"() {
+        def ids = http.get("/end-point") {
+            return complexList.collect { it.id }
+        }
+
+        assert ids == ['id1', 'id2']
     }
 
     @Test
@@ -610,8 +631,8 @@ class HttpTest {
 
             complexList.should == ["k1"   | "k2"] { // matching only specified fields, but number of entries must be exact
                                    ________________
-                                    "v1"  | "v2"
-                                    "v11" | "v22" }
+                                    "v1"  | 30
+                                    "v11" | 40 }
         }
 
         http.doc.capture("end-point-object-equality-matchers")

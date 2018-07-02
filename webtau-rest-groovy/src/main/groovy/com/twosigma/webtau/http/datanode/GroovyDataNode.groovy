@@ -103,8 +103,9 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
             result
     }
 
-    List<DataNode> findAll(Closure predicate) {
-        return node.elements().findAll(removedDataNodeFromClosure(predicate))
+    DataNode findAll(Closure predicate) {
+        def list = node.elements().findAll(removedDataNodeFromClosure(predicate))
+        return wrapIntoDataNode('findAll', list)
     }
 
     List collect(Closure transformation) {
@@ -119,6 +120,10 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     @Override
     ActualPath actualPath() {
         return node.actualPath()
+    }
+
+    private DataNode wrapIntoDataNode(String operationId, List list) {
+        return new GroovyDataNode(new StructuredDataNode(node.id().child(operationId), list))
     }
 
     private static Closure removedDataNodeFromClosure(Closure closure) {
