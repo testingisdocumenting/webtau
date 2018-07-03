@@ -29,12 +29,14 @@ class LazyTestResource<E> {
     }
 
     def getProperty(String name) {
-        synchronized (this) {
-            if (this.@originalCache == null) {
-                this.@originalCache = this.@originalSupplier.get()
-            }
+        return get()."$name"
+    }
 
-            return this.@originalCache."$name"
+    synchronized E get() {
+        if (this.@originalCache == null) {
+            this.@originalCache = this.@originalSupplier.get()
         }
+
+        return this.@originalCache
     }
 }
