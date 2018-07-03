@@ -7,7 +7,7 @@ Web Test Automation [User Guide](https://opensource.twosigma.com/webtau/guide/)
 ```groovy
 scenario("simple get") {
     http.get("/weather") {
-        temperature.should == 88
+        temperature.shouldBe < 100
     }
 }
 ```
