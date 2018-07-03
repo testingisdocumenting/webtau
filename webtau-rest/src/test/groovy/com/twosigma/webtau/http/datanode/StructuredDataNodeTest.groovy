@@ -62,4 +62,19 @@ class StructuredDataNodeTest {
 
         node.get().checkLevel.should == CheckLevel.ExplicitFailed
     }
+
+    @Test
+    void "shortcut for children props"() {
+        def node = DataNodeBuilder.fromList(new DataNodeId("body"), [
+                [name: 'name1', score: 10],
+                [name: 'name2', score: 20],
+        ])
+
+        node.name.should(equal(['name1', 'name2']))
+
+        node.get(0).get('name').get().checkLevel.should == CheckLevel.ExplicitPassed
+        node.get(1).get('name').get().checkLevel.should == CheckLevel.ExplicitPassed
+        node.get(0).get('score').get().checkLevel.should == CheckLevel.None
+        node.get(1).get('score').get().checkLevel.should == CheckLevel.None
+    }
 }

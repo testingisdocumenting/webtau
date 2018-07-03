@@ -3,7 +3,7 @@
 :include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "use groovy closure as validation", bodyOnly: true}
 
 Values that you access inside validation block are special values of `DataNode` type. When you assert them using `should` statement
-they act as proxies that record every assertion you do. 
+they act as proxies that record every assertion that you do. 
 
 
 # Extracting Values
@@ -17,10 +17,16 @@ When you return a value from a validation block, it automatically gets converted
 Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only
 to get values required for consequent test calls.  
 
+# Properties On Lists
+
+:include-json: objectTestResponse.json
+
+If you have a list of objects like `complexList` above, you can access all its children property value with `complexList.k2`.
+
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "groovy children key shortcut", bodyOnly: true}
 
 # Find
 
-:include-json: objectTestResponse.json
 
 Special values inside assertion block have convenient methods
 
@@ -42,3 +48,9 @@ Note: While values inside a predicate are normal values, the result of `find` an
 Use `collect` to transform a collection of items
 
 :include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "groovy transform list", bodyOnly: true}
+
+# Combine
+
+Methods `find` and `collect` can be chained
+ 
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "groovy findAll, collect, and sum", bodyOnly: true}

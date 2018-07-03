@@ -21,6 +21,7 @@ import com.twosigma.webtau.data.traceable.TraceableValue;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
@@ -56,7 +57,13 @@ public class StructuredDataNode implements DataNode {
 
     @Override
     public DataNode get(String name) {
-        return (children != null && children.containsKey(name)) ? children.get(name) : new NullDataNode(id.child(name));
+        if (isList()) {
+            return getAsCollectFromList(name);
+        }
+
+        return (children != null && children.containsKey(name)) ?
+                children.get(name):
+                new NullDataNode(id.child(name));
     }
 
     @Override
@@ -116,5 +123,12 @@ public class StructuredDataNode implements DataNode {
         }
 
         return "{" + children.entrySet().stream().map(e -> e.getKey() + ": " + e.getValue()).collect(joining(", "))  + "}";
+    }
+
+    private DataNode getAsCollectFromList(String name) {
+        return new StructuredDataNode(id.child(name),
+                values.stream()
+                        .map(n -> n.get(name))
+                        .collect(Collectors.toList()));
     }
 }

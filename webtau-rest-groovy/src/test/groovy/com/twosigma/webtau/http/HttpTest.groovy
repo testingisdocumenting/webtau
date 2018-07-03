@@ -382,18 +382,6 @@ class HttpTest {
     }
 
     @Test
-    void "groovy findAlll, collect, and sum"() {
-        def sum = http.get("/end-point") {
-            return complexList
-                    .findAll { it.k1.startsWith('v1') }
-                    .collect { it.k2 }
-                    .sum()
-        }
-
-        assert sum == 70
-    }
-
-    @Test
     void "groovy findAll on body that is not a list"() {
         def found = http.get("/end-point") {
             return body.findAll { it > 1 }
@@ -443,6 +431,25 @@ class HttpTest {
         }
 
         assert transformed == []
+    }
+
+    @Test
+    void "groovy findAll, collect, and sum"() {
+        def sum = http.get("/end-point") {
+            return complexList
+                    .findAll { k1.startsWith('v1') }
+                    .collect { k2 }
+                    .sum()
+        }
+
+        assert sum == 70
+    }
+
+    @Test
+    void "groovy children key shortcut"() {
+        http.get("/end-point") {
+            complexList.k2.should == [30, 40]
+        }
     }
 
     @Test
