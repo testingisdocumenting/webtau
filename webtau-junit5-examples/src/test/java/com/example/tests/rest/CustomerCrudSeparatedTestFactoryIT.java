@@ -16,10 +16,8 @@
 
 package com.example.tests.rest;
 
-import com.twosigma.webtau.junit5.Webtau;
-import org.junit.jupiter.api.BeforeEach;
+import com.twosigma.webtau.junit5.WebTau;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
 
 import java.util.LinkedHashMap;
@@ -29,10 +27,9 @@ import java.util.stream.Stream;
 
 import static com.twosigma.webtau.WebTauDsl.equal;
 import static com.twosigma.webtau.WebTauDsl.http;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-@Webtau
+@WebTau
 public class CustomerCrudSeparatedTestFactoryIT {
     private static final Map<String, Object> customerPayload = createCustomerPayload(); // creating payload as a map
     private static final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();

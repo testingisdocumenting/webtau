@@ -16,10 +16,8 @@
 
 package com.example.tests.rest;
 
-import com.twosigma.webtau.junit5.Webtau;
-import com.twosigma.webtau.utils.ResourceUtils;
+import com.twosigma.webtau.junit5.WebTau;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +28,7 @@ import static com.twosigma.webtau.WebTauDsl.equal;
 import static com.twosigma.webtau.WebTauDsl.http;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@Webtau
+@WebTau
 @DisplayName("customer")
 public class CustomerCrudSeparatedIT {
     private static final Map<String, Object> customerPayload = createCustomerPayload(); // creating payload as a map

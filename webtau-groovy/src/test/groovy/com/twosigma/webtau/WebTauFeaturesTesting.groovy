@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau
 
+import com.twosigma.webtau.cli.WebTauCliApp
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.driver.WebDriverCreator
@@ -25,7 +26,6 @@ import com.twosigma.webtau.reporter.TestStep
 import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestListener
 import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
-import com.twosigma.webtau.cli.WebTauCliApp
 import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.JsonUtils
 import com.twosigma.webtau.utils.ResourceUtils
@@ -40,7 +40,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class WebtauFeaturesTesting implements StepReporter, StandaloneTestListener {
+class WebTauFeaturesTesting implements StepReporter, StandaloneTestListener {
     private static final int testServerPort = 8180
     private static WebTauFeaturesTestServer testServer
 

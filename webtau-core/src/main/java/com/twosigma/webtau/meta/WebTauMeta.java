@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5;
+package com.twosigma.webtau.meta;
 
-import org.junit.jupiter.api.extension.ExtendWith;
+import com.twosigma.webtau.utils.ResourceUtils;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class WebTauMeta {
+    private static final WebTauMeta INSTANCE = new WebTauMeta();
+    private final String version;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+    public static String getVersion() {
+        return INSTANCE.version;
+    }
 
-@Target({ TYPE, ANNOTATION_TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(WebtauJunitExtension.class)
-public @interface Webtau {
+    private WebTauMeta() {
+        version = ResourceUtils.textContent("webtau.version").trim();
+    }
 }

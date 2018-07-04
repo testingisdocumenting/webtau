@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.meta.WebTauMeta
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
@@ -64,7 +65,9 @@ class WebTauCliArgsConfig {
 
         if (commandLine.hasOption("help") || commandLine.argList.isEmpty()) {
             HelpFormatter helpFormatter = new HelpFormatter()
-            helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", options)
+
+            def header = "version: " + WebTauMeta.version
+            helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", header, options, "")
             exitHandler.exit(1)
             return
         }
