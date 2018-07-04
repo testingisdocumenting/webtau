@@ -18,6 +18,7 @@ package com.twosigma.webtau.report;
 
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
+import com.twosigma.webtau.meta.WebTauMeta;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
@@ -51,6 +52,7 @@ public class HtmlReportGenerator implements ReportGenerator {
         Map<String, Object> report = new LinkedHashMap<>();
         report.put("summary", testEntries.createSummary().toMap());
         report.put("tests", testEntries.map(ReportTestEntry::toMap).collect(Collectors.toList()));
+        report.put("version", WebTauMeta.getVersion());
 
         ReportDataProviders.provide(testEntries)
                 .map(ReportData::toMap)

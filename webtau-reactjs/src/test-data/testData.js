@@ -17,6 +17,7 @@
 import deepNestedJson from './deepNestedJson'
 
 const report = {
+    "version": "0.13.0",
     "summary": {
         "total": 4,
         "passed": 4,
