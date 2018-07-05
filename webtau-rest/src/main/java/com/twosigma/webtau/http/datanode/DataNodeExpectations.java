@@ -26,7 +26,7 @@ import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
 
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-interface DataNodeExpectations extends ActualValueExpectations, ActualPathAware {
+public interface DataNodeExpectations extends ActualValueExpectations, ActualPathAware {
     @Override
     default void should(ValueMatcher valueMatcher) {
         ValueMatcherExpectationSteps.shouldStep(null, this, StepReportOptions.SKIP_START,
