@@ -19,8 +19,12 @@ package com.twosigma.webtau.http;
 public interface HttpRequestBody {
     boolean isBinary();
     String type();
-    String asString();
+
+    default String asString() {
+        throw new UnsupportedOperationException();
+    }
+
     default byte[] asBytes() {
-        return asString().getBytes();
+        throw new UnsupportedOperationException();
     }
 }

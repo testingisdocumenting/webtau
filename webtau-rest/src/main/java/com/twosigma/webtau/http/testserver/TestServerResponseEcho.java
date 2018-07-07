@@ -31,7 +31,7 @@ public class TestServerResponseEcho implements TestServerResponse {
     @Override
     public byte[] responseBody(HttpServletRequest request) {
         try {
-            return IOUtils.toString(request.getReader()).getBytes();
+            return IOUtils.toByteArray(request.getInputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
