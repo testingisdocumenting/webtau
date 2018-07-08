@@ -20,7 +20,7 @@
 
     <groupId>com.twosigma.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>0.14.0</version>
+    <version>0.115.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -55,7 +55,7 @@
 
     <scm>
         <connection>scm:git:https://github.com/twosigma/webtau</connection>
-      <tag>{project.version}</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencyManagement>
