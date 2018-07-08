@@ -39,16 +39,24 @@ class HttpExtensions {
         return http.get(url, new HttpQueryParams(queryParams), closureToHttpResponseValidator(validation))
     }
 
+    static def post(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
+        return http.post(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
     static def post(Http http, String url, Map<String, Object> requestBody, Closure validation) {
         return http.post(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, Closure validation) {
-        return http.post(url, closureToHttpResponseValidator(validation))
+    static def post(Http http, String url, HttpRequestHeader header, byte[] requestBody, Closure validation) {
+        return http.post(url, header, requestBody, closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
-        return http.post(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    static def post(Http http, String url, byte[] requestBody, Closure validation) {
+        return http.post(url, requestBody, closureToHttpResponseValidator(validation))
+    }
+
+    static def post(Http http, String url, Closure validation) {
+        return http.post(url, closureToHttpResponseValidator(validation))
     }
 
     static def post(Http http, String url, HttpRequestHeader header, Closure validation) {
@@ -67,16 +75,24 @@ class HttpExtensions {
         http.post(url, new JsonRequestBody(requestBody))
     }
 
+    static def put(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
+        return http.put(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
     static def put(Http http, String url, Map<String, Object> requestBody, Closure validation) {
         return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
-    static def put(Http http, String url, Closure validation) {
-        return http.put(url, closureToHttpResponseValidator(validation))
+    static def put(Http http, String url, HttpRequestHeader header, byte[] requestBody, Closure validation) {
+        return http.put(url, header, requestBody, closureToHttpResponseValidator(validation))
     }
 
-    static def put(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
-        return http.put(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    static def put(Http http, String url, byte[] requestBody, Closure validation) {
+        return http.put(url, requestBody, closureToHttpResponseValidator(validation))
+    }
+
+    static def put(Http http, String url, Closure validation) {
+        return http.put(url, closureToHttpResponseValidator(validation))
     }
 
     static def put(Http http, String url, HttpRequestHeader header, Closure validation) {

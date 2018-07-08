@@ -626,6 +626,31 @@ class HttpTest implements HttpConfiguration {
     }
 
     @Test
+    void "send binary content"() {
+        byte[] expectedImage = ResourceUtils.binaryContent("image.png")
+
+        http.post("/echo", expectedImage) {
+            header.contentType.should == 'application/octet-stream'
+            body.should == expectedImage
+        }
+
+        http.put("/echo", expectedImage) {
+            header.contentType.should == 'application/octet-stream'
+            body.should == expectedImage
+        }
+
+        http.post("/echo", http.header('Content-Type', 'application/pdf'), expectedImage) {
+            header.contentType.should == 'application/pdf'
+            body.should == expectedImage
+        }
+
+        http.put("/echo", http.header('Content-Type', 'application/pdf'), expectedImage) {
+            header.contentType.should == 'application/pdf'
+            body.should == expectedImage
+        }
+    }
+
+    @Test
     void "simple object mapping example"() {
         http.get("/end-point-simple-object") {
             k1.should == 'v1'
