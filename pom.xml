@@ -32,9 +32,11 @@
         <module>webtau-core</module>
         <module>webtau-core-groovy</module>
         <module>webtau-standalone-runner-groovy</module>
-        <module>webtau-rest</module>
-        <module>webtau-rest-groovy</module>
+        <module>webtau-http</module>
+        <module>webtau-http-groovy</module>
         <module>webtau-open-api</module>
+        <module>webtau-pdf</module>
+        <module>webtau-test-server</module>
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
         <module>webtau-reactjs</module>
@@ -42,10 +44,10 @@
         <module>webtau-junit5-examples</module>
         <module>webtau-junit5</module>
         <module>webtau-testapp</module>
-        <module>webtau</module>
         <module>webtau-config</module>
         <module>webtau-docs</module>
         <module>webtau-dist</module>
+        <module>webtau</module>
     </modules>
 
     <properties>
@@ -89,6 +91,12 @@
                 <groupId>org.apache.ivy</groupId>
                 <artifactId>ivy</artifactId>
                 <version>2.4.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>1.7.25</version>
             </dependency>
 
             <dependency>

@@ -26,34 +26,12 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>webtau</artifactId>
-
-    <properties>
-        <selenium.version>3.3.1</selenium.version>
-    </properties>
+    <artifactId>webtau-http</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-pdf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-http</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-report</artifactId>
+            <artifactId>webtau-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -64,26 +42,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-reactjs</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>${selenium.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-core-groovy</artifactId>
+            <artifactId>webtau-test-server</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -92,6 +58,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-core-groovy</artifactId>
+            <scope>test</scope>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

@@ -57,6 +57,7 @@ class WebTauCliApp implements StandaloneTestListener {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
+        System.setProperty("java.awt.headless", "true")
         ConsoleOutputs.add(consoleOutput)
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)

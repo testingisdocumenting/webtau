@@ -23,10 +23,12 @@ import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.expectation.VisibleValueMatcher;
 import com.twosigma.webtau.http.Http;
 import com.twosigma.webtau.http.HttpUrl;
+import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.page.Cookies;
 import com.twosigma.webtau.page.PageElement;
 import com.twosigma.webtau.page.path.ElementPath;
 import com.twosigma.webtau.page.path.GenericPageElement;
+import com.twosigma.webtau.pdf.Pdf;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.TokenizedMessage;
@@ -54,6 +56,10 @@ public class WebTauDsl extends Ddjt {
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();
+    }
+
+    public static Pdf pdf(DataNode node) {
+        return Pdf.pdf(node);
     }
 
     public static void open(String url) {
