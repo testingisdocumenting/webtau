@@ -47,7 +47,7 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-rest</artifactId>
+            <artifactId>webtau-http</artifactId>
             <version>${project.version}</version>
         </dependency>
 

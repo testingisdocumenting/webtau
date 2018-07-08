@@ -54,7 +54,7 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-rest-groovy</artifactId>
+            <artifactId>webtau-http-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 

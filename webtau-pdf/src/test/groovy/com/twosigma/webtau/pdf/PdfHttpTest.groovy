@@ -16,10 +16,15 @@
 
 package com.twosigma.webtau.pdf
 
+import com.twosigma.webtau.http.HttpRequestHeader
+import com.twosigma.webtau.http.config.HttpConfiguration
+import com.twosigma.webtau.http.config.HttpConfigurations
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerBinaryResponse
 import com.twosigma.webtau.utils.ResourceUtils
+import org.junit.After
 import org.junit.AfterClass
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -27,14 +32,14 @@ import static com.twosigma.webtau.Ddjt.contain
 import static com.twosigma.webtau.http.Http.http
 import static com.twosigma.webtau.pdf.Pdf.pdf
 
-class PdfHttpTest {
+class PdfHttpTest implements HttpConfiguration {
     static TestServer testServer = new TestServer()
 
-    private final static byte[] sampleFile = [1, 2, 3]
+    private static final int PORT = 7823
 
     @BeforeClass
     static void startServer() {
-        testServer.start(7823)
+        testServer.start(PORT)
 
         testServer.registerGet("/report",
                 new TestServerBinaryResponse(ResourceUtils.binaryContent("report.pdf")))
@@ -43,6 +48,16 @@ class PdfHttpTest {
     @AfterClass
     static void stopServer() {
         testServer.stop()
+    }
+
+    @Before
+    void initCfg() {
+        HttpConfigurations.add(this)
+    }
+
+    @After
+    void cleanCfg() {
+        HttpConfigurations.remove(this)
     }
 
     @Test
@@ -59,5 +74,15 @@ class PdfHttpTest {
             pdf.pageText(0).should contain('Quarterly earnings:')
             pdf.pageText(1).should == 'Intentional blank page\n'
         }
+    }
+
+    @Override
+    String fullUrl(String url) {
+        return "http://localhost:${PORT}${url}"
+    }
+
+    @Override
+    HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
+        return given
     }
 }

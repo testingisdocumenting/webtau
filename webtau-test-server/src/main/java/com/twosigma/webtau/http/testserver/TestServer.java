@@ -16,10 +16,6 @@
 
 package com.twosigma.webtau.http.testserver;
 
-import com.twosigma.webtau.http.HttpRequestHeader;
-import com.twosigma.webtau.http.HttpUrl;
-import com.twosigma.webtau.http.config.HttpConfiguration;
-import com.twosigma.webtau.http.config.HttpConfigurations;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -33,7 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestServer implements HttpConfiguration {
+public class TestServer {
     private int port;
     private Map<String, TestServerResponse> getResponses;
     private Map<String, TestServerResponse> postResponses;
@@ -57,8 +53,6 @@ public class TestServer implements HttpConfiguration {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        HttpConfigurations.add(this);
     }
 
     public void stop() {
@@ -68,8 +62,6 @@ public class TestServer implements HttpConfiguration {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        HttpConfigurations.remove(this);
     }
 
     public void registerGet(String relativeUrl, TestServerResponse response) {
@@ -86,20 +78,6 @@ public class TestServer implements HttpConfiguration {
 
     public void registerDelete(String relativeUrl, TestServerResponse response) {
         deleteResponses.put(relativeUrl, response);
-    }
-
-    @Override
-    public String fullUrl(String url) {
-        if (HttpUrl.isFull(url)) {
-            return url;
-        }
-
-        return HttpUrl.concat("http://localhost:" + port, url);
-    }
-
-    @Override
-    public HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
-        return given;
     }
 
     private class RequestHandler extends AbstractHandler {
