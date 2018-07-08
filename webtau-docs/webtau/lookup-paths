@@ -1,5 +1,6 @@
 ../../webtau-groovy/
-../../webtau-rest-groovy/
-../../webtau-rest-groovy/src/test/groovy
-../../webtau-rest-groovy/src/test/resources
+../../webtau-http-groovy/
+../../webtau-http-groovy/src/test/groovy
+../../webtau-http-groovy/src/test/resources
+../../webtau-pdf/src/test/groovy
 ../../webtau-testapp/src/main/java

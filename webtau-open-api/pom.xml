@@ -28,6 +28,10 @@
 
     <artifactId>webtau-open-api</artifactId>
 
+    <properties>
+        <swagger.validator.versoin>1.4.2</swagger.validator.versoin>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
@@ -43,8 +47,14 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-rest</artifactId>
+            <artifactId>webtau-http</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.oai</groupId>
+            <artifactId>swagger-request-validator-core</artifactId>
+            <version>${swagger.validator.versoin}</version>
         </dependency>
 
         <dependency>

@@ -26,37 +26,13 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>webtau</artifactId>
+    <artifactId>webtau-test-server</artifactId>
 
     <properties>
-        <selenium.version>3.3.1</selenium.version>
+        <jetty.version>9.4.2.v20170220</jetty.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-pdf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-http</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-report</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
@@ -64,27 +40,25 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-reactjs</artifactId>
-            <version>${project.version}</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>${selenium.version}</version>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-core-groovy</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
             <scope>test</scope>
         </dependency>
 

@@ -5,6 +5,7 @@ REST
     data-node
     headers
     files-upload
+    PDF
     documentation
     complex-types
     openAPI-spec
