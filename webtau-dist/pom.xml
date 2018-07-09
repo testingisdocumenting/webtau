@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.twosigma.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>0.115.0-SNAPSHOT</version>
+        <version>0.14.0</version>
     </parent>
 
     <artifactId>webtau-dist</artifactId>
