@@ -40,6 +40,7 @@ class Report {
 
     constructor(report) {
         this.report = report
+        this.config = report.config
         this.tests = failedTestsAtTheTop(enrichTestsData(report.tests))
         this.httpCalls = extractHttpCalls(this.tests)
         this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedOperations || []), ...this.httpCalls]
