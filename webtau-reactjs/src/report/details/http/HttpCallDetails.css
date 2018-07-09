@@ -50,7 +50,11 @@
 .http-call-details-mismatches,
 .http-call-details-error-message {
     font-family: var(--webtau-monospace-font);
-    white-space: pre;
+    white-space: pre-wrap;
+}
+
+.http-call-details-mismatches pre {
+    white-space: pre-wrap;
 }
 
 .http-call-details-url {
