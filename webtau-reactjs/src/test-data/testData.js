@@ -19,8 +19,8 @@ import deepNestedJson from './deepNestedJson'
 const report = {
     "summary": {
         "total": 4,
-        "passed": 4,
-        "failed": 0,
+        "passed": 3,
+        "failed": 1,
         "skipped": 0,
         "errored": 0
     },
@@ -196,7 +196,7 @@ const report = {
     }, {
         "id": "customerCrudSeparated.groovy-4",
         "scenario": "customer delete",
-        "status": "Passed",
+        "status": "Failed",
         "fileName": "rest/springboot/customerCrudSeparated.groovy",
         "httpCalls": [{
             "method": "DELETE",
