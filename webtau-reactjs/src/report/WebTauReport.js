@@ -21,7 +21,7 @@ import ListOfTests from './navigation/ListOfTests'
 import StatusFilter from './navigation/StatusFilter'
 import TestDetails from './details/TestDetails'
 import WebTauReportStateCreator from './WebTauReportStateCreator'
-import OverallSummary from './OverallSummary'
+import OverallSummary from './summary/OverallSummary'
 
 import EntriesTypeSelection from './navigation/EntriesTypeSelection'
 

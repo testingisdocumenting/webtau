@@ -20,6 +20,7 @@ import ElapsedTime from './ElapsedTime'
 import HttpPayload from './HttpPayload'
 
 import './TestHttpCalls.css'
+import '../../widgets/Table.css'
 
 class TestHttpCalls extends Component {
     state = {}
@@ -41,7 +42,7 @@ class TestHttpCalls extends Component {
 
         return (
             <div className="http">
-                <table className="http-table">
+                <table className="http-table table">
                     <thead>
                     <tr>
                         <th width="35px"/>

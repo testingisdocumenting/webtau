@@ -24,6 +24,10 @@ const report = {
         "skipped": 0,
         "errored": 0
     },
+    "config": [
+        {key: 'env', value: 'dev', source: 'command line'},
+        {key: 'url', value: 'https://blahlong-url-maybe-need-shortening.com/v1', source: 'config file'},
+    ],
     "tests": [{
         "id": "customerCrudSeparated.groovy-1",
         "scenario": "customer create",
