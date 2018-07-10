@@ -73,6 +73,10 @@ public class HttpResponse {
         return contentType.startsWith("text/");
     }
 
+    public boolean isPdf() {
+        return contentType.contains("/pdf");
+    }
+
     public boolean isBinary() {
         return !isJson() && !isXml() && !isText() && !contentType.isEmpty();
     }
