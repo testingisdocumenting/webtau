@@ -135,14 +135,19 @@ class DataNodeAnsiPrinterTest {
                     key1: 'value1',
                     key2: 'value2',
                     key3: [],
-                    key4: [:]]))
+                    key4: [[:], [:]],
+                    key5: [:]]))
         }
 
         Assert.assertEquals('{\n' +
                 '  "key1": "value1",\n' +
                 '  "key2": "value2",\n' +
                 '  "key3": [],\n' +
-                '  "key4": {}\n' +
+                '  "key4": [\n' +
+                '    {},\n' +
+                '    {}\n' +
+                '  ],\n' +
+                '  "key5": {}\n' +
                 '}', textOnly)
     }
 
