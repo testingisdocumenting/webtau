@@ -106,19 +106,15 @@ public class HttpValidationResult implements TestStepPayload {
         return requestBody != null ? requestBody.asString() : null;
     }
 
-    public boolean notNullOrEmptyRequestContent() {
-        return StringUtils.notNullOrEmpty(getRequestContent());
+    public boolean nullOrEmptyRequestContent() {
+        return StringUtils.nullOrEmpty(getRequestContent());
     }
 
     public String getResponseTextContent() {
         return response.getTextContent();
     }
 
-    public boolean notNullOrEmptyResponseTextContent() {
-        return StringUtils.notNullOrEmpty(response.getTextContent());
-    }
-
-    public boolean hasContent() {
+    public boolean hasResponseContent() {
         return response.hasContent();
     }
 
