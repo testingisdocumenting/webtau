@@ -55,7 +55,7 @@ class HttpValidationResultTest {
     }
 
     @Test
-    void "should handle binary request and response"() {
+    void "should replace binary content with placeholder"() {
         def binaryContent = [1, 2, 3] as byte[]
         def binaryNode = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(binaryContent))
 
