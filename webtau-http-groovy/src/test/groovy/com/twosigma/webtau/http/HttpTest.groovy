@@ -324,14 +324,30 @@ class HttpTest implements HttpConfiguration {
             body.should == null
         }
 
-        http.doc.capture('empty')
+        def artifactName = 'empty'
+        http.doc.capture(artifactName)
 
-        Path docRoot = DocumentationArtifactsLocation.resolve('empty')
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
         Path requestFile = docRoot.resolve("request.json")
         assertFalse(Files.exists(requestFile))
 
         Path responseFile = docRoot.resolve("response.json")
         assertFalse(Files.exists(responseFile))
+    }
+
+    @Test
+    void "no files generated for binary request"() {
+        def content = [1, 2, 3] as byte[]
+        http.post("/empty", content) {
+            body.should == null
+        }
+
+        def artifactName = 'empty-binary'
+        http.doc.capture(artifactName)
+
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+        Path requestFile = docRoot.resolve("request.data")
+        assertFalse(Files.exists(requestFile))
     }
 
     @Test
