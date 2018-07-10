@@ -114,13 +114,17 @@ public class DataNodeAnsiPrinter {
 
     private void printList(DataNode dataNode, boolean skipIndent) {
         if (dataNode.elements().isEmpty()) {
-            printEmptyList();
+            printEmptyList(skipIndent);
         } else {
             printNonEmptyList(dataNode, skipIndent);
         }
     }
 
-    private void printEmptyList() {
+    private void printEmptyList(boolean skipIndent) {
+        if (!skipIndent) {
+            printIndentation();
+        }
+
         printDelimiter("[");
         printDelimiter("]");
     }
