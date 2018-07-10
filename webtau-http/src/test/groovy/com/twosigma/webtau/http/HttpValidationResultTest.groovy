@@ -17,8 +17,11 @@
 package com.twosigma.webtau.http
 
 import com.twosigma.webtau.data.traceable.CheckLevel
+import com.twosigma.webtau.data.traceable.TraceableValue
+import com.twosigma.webtau.http.binary.BinaryRequestBody
 import com.twosigma.webtau.http.datanode.DataNodeBuilder
 import com.twosigma.webtau.http.datanode.DataNodeId
+import com.twosigma.webtau.http.datanode.StructuredDataNode
 import com.twosigma.webtau.http.validation.HeaderDataNode
 import com.twosigma.webtau.http.validation.HttpValidationResult
 import com.twosigma.webtau.utils.JsonUtils
@@ -49,5 +52,31 @@ class HttpValidationResultTest {
                                                responseStatusCode: 200,
                                                elapsedTime: 100,
                                                responseBodyChecks: [failedPaths: ['root.childA'], passedPaths:['root.childB']]])
+    }
+
+    @Test
+    void "should handle binary request and response"() {
+        def binaryContent = [1, 2, 3] as byte[]
+        def binaryNode = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(binaryContent))
+
+        def validationResult = new HttpValidationResult('POST', 'http://site/test/url', null,
+                BinaryRequestBody.octetStream(binaryContent))
+
+        validationResult.setResponse(new HttpResponse(binaryContent: binaryContent, contentType: 'application/octet-stream', statusCode: 200))
+        validationResult.setElapsedTime(100)
+        validationResult.setResponseHeaderNode(new HeaderDataNode())
+        validationResult.setResponseBodyNode(binaryNode)
+
+        println validationResult.toMap()
+        validationResult.toMap().should equal([method: 'POST', url: 'http://site/test/url',
+                                               requestType: 'application/octet-stream',
+                                               requestBody: '[binary content]',
+                                               responseType: 'application/octet-stream',
+                                               responseBody: '[binary content]',
+                                               mismatches: [],
+                                               errorMessage: null,
+                                               responseStatusCode: 200,
+                                               elapsedTime: 100,
+                                               responseBodyChecks: [failedPaths: [], passedPaths: []]])
     }
 }
