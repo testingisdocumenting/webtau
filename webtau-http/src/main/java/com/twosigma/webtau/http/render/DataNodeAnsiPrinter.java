@@ -70,13 +70,17 @@ public class DataNodeAnsiPrinter {
 
     private void printObject(DataNode dataNode, boolean skipIndent) {
         if (dataNode.numberOfChildren() == 0) {
-            printEmptyObject();
+            printEmptyObject(skipIndent);
         } else {
             printNotEmptyObject(dataNode, skipIndent);
         }
     }
 
-    private void printEmptyObject() {
+    private void printEmptyObject(boolean skipIndent) {
+        if (!skipIndent) {
+            printIndentation();
+        }
+
         printDelimiter("{");
         printDelimiter("}");
     }
@@ -110,13 +114,17 @@ public class DataNodeAnsiPrinter {
 
     private void printList(DataNode dataNode, boolean skipIndent) {
         if (dataNode.elements().isEmpty()) {
-            printEmptyList();
+            printEmptyList(skipIndent);
         } else {
             printNonEmptyList(dataNode, skipIndent);
         }
     }
 
-    private void printEmptyList() {
+    private void printEmptyList(boolean skipIndent) {
+        if (!skipIndent) {
+            printIndentation();
+        }
+
         printDelimiter("[");
         printDelimiter("]");
     }
