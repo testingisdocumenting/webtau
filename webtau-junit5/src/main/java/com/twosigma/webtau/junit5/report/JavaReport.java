@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package com.twosigma.webtau.junit5.report;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.twosigma.webtau.report.Report;
+import com.twosigma.webtau.report.ReportTestEntry;
 
-public class ReportScope {
-    private String id;
-    private List<ReportToken> report;
+/**
+ * Global storage of java based report.
+ * Is used to generate report at the end of all tests run.
+ */
+public class JavaReport {
+    private static final Report report = new Report();
 
-    private List<ReportScope> children;
-
-    public ReportScope(String id) {
-        this.id = id;
-        this.report = new ArrayList<>();
-        this.children = new ArrayList<>();
+    public static void addTestEntry(ReportTestEntry testEntry) {
+        report.addTestEntry(testEntry);
     }
 
-    public void addToken(String type, String textRepresentation) {
-        report.add(new ReportToken(type, textRepresentation));
-    }
-
-    public void addScope(ReportScope scope) {
-        children.add(scope);
+    public static Report get() {
+        return report;
     }
 }

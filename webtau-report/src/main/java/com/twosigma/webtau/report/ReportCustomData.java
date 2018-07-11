@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package com.twosigma.webtau.report;
 
-public class ReportToken {
-    private String type;
-    private String textRepresentation;
+import java.util.Collections;
+import java.util.Map;
 
-    public ReportToken(String type, String textRepresentation) {
-        this.type = type;
-        this.textRepresentation = textRepresentation;
+public class ReportCustomData {
+    private final String id;
+    private final Object data;
+
+    public ReportCustomData(String id, Object data) {
+        this.id = id;
+        this.data = data;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public String getTextRepresentation() {
-        return textRepresentation;
+    public Map<String, ?> toMap() {
+        return Collections.singletonMap(id, data);
     }
 }

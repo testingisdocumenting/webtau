@@ -44,24 +44,24 @@ public class HtmlReportGenerator implements ReportGenerator {
         bundleJavaScript = ResourceUtils.textContent(manifest.get("main.js").toString());
     }
 
-    public void generate(ReportTestEntries testEntries) {
+    public void generate(Report report) {
         Path reportPath = getCfg().getReportPath().toAbsolutePath();
 
-        FileUtils.writeTextContent(reportPath, generateHtml(testEntries));
+        FileUtils.writeTextContent(reportPath, generateHtml(report));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
     }
 
-    private String generateHtml(ReportTestEntries testEntries) {
-        Map<String, Object> report = new LinkedHashMap<>();
-        report.put("config", configAsListOfMaps(getCfg().getCfgValuesStream()));
-        report.put("summary", testEntries.createSummary().toMap());
-        report.put("tests", testEntries.map(ReportTestEntry::toMap).collect(Collectors.toList()));
+    private String generateHtml(Report report) {
+        Map<String, Object> reportAsMap = new LinkedHashMap<>();
+        reportAsMap.put("config", configAsListOfMaps(getCfg().getCfgValuesStream()));
+        reportAsMap.put("summary", report.createSummary().toMap());
+        reportAsMap.put("tests", report.getTestEntries().map(ReportTestEntry::toMap).collect(Collectors.toList()));
 
-        ReportDataProviders.provide(testEntries)
-                .map(ReportData::toMap)
-                .forEach(report::putAll);
+        report.extractReportCustomData().stream()
+                .map(ReportCustomData::toMap)
+                .forEach(reportAsMap::putAll);
 
-        return generateHtml(report);
+        return generateHtml(reportAsMap);
     }
 
     String generateHtml(Map<String, Object> report) {
