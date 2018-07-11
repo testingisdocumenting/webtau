@@ -16,12 +16,12 @@
 
 package com.twosigma.webtau.openapi;
 
-public class OpenApi {
-    public static final OpenApiSpec spec = new OpenApiSpec(OpenApiSpecConfig.openApiSpecUrl.getAsString());
-    public static final OpenApiSpecValidator validator = new OpenApiSpecValidator(spec);
-    public static final OpenApiCoverage coverage = new OpenApiCoverage(spec);
+import com.twosigma.webtau.http.validation.HttpValidationHandler;
+import com.twosigma.webtau.http.validation.HttpValidationResult;
 
-    public static void withoutValidation(Runnable code) {
-        OpenApiResponseValidator.withDisabled(code);
+public class OpenApiCoverageRecorder implements HttpValidationHandler {
+    @Override
+    public void validate(HttpValidationResult validationResult) {
+        OpenApi.coverage.recordOperation(validationResult);
     }
 }
