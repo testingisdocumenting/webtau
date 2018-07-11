@@ -25,8 +25,8 @@ import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.driver.WebDriverCreator
+import com.twosigma.webtau.report.Report
 import com.twosigma.webtau.report.ReportGenerators
-import com.twosigma.webtau.report.ReportTestEntries
 import com.twosigma.webtau.reporter.ConsoleStepReporter
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
 import com.twosigma.webtau.reporter.ScreenshotStepReporter
@@ -51,8 +51,8 @@ class WebTauCliApp implements StandaloneTestListener {
     private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
 
     private StandaloneTestRunner runner
+    private Report report
 
-    private List<StandaloneTest> tests = []
     private int problemCount = 0
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
@@ -69,6 +69,8 @@ class WebTauCliApp implements StandaloneTestListener {
         runner = new StandaloneTestRunner(
                 GroovyRunner.createWithDelegatingEnabled(cfg.workingDir),
                 cfg.getWorkingDir())
+
+        report = new Report()
 
         StandaloneTestListeners.add(consoleTestReporter)
         StandaloneTestListeners.add(this)
@@ -109,6 +111,7 @@ class WebTauCliApp implements StandaloneTestListener {
 
     @Override
     void beforeFirstTest() {
+        report.startTimer()
     }
 
     @Override
@@ -127,12 +130,14 @@ class WebTauCliApp implements StandaloneTestListener {
             test.addResultPayload(p)
         }
 
-        tests.add(test)
+        report.addTestEntry(test.reportTestEntry)
     }
 
     @Override
     void afterAllTests() {
-        ReportGenerators.generate(new ReportTestEntries(tests.reportTestEntry))
+        report.stopTimer()
+
+        ReportGenerators.generate(report)
         problemCount = consoleTestReporter.failed + consoleTestReporter.errored + consoleTestReporter.skipped
     }
 }

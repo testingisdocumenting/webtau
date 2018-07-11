@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 public class ReportDataProviders {
     private static final Set<ReportDataProvider> providers = ServiceLoaderUtils.load(ReportDataProvider.class);
 
-    public static Stream<ReportData> provide(ReportTestEntries testEntries) {
+    public static Stream<ReportCustomData> provide(ReportTestEntries testEntries) {
         return providers.stream().flatMap(e -> e.provide(testEntries));
     }
 }

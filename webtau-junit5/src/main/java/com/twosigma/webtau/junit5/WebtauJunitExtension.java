@@ -17,7 +17,7 @@
 package com.twosigma.webtau.junit5;
 
 import com.twosigma.webtau.junit5.report.JavaBasedTest;
-import com.twosigma.webtau.junit5.report.ReportJavaTestEntries;
+import com.twosigma.webtau.junit5.report.JavaReport;
 import com.twosigma.webtau.report.ReportGenerators;
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporters;
@@ -53,7 +53,7 @@ public class WebtauJunitExtension implements
 
         ReportTestEntry reportTestEntry = test.getReportTestEntry();
         reportTestEntry.setRan(true);
-        ReportJavaTestEntries.add(reportTestEntry);
+        JavaReport.addTestEntry(reportTestEntry);
 
         TestResultPayloadExtractors.extract(reportTestEntry.getSteps().stream())
                 .forEach(reportTestEntry::addTestResultPayload);
@@ -85,7 +85,7 @@ public class WebtauJunitExtension implements
 
         private ShutdownHook() {
             Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                    ReportGenerators.generate(ReportJavaTestEntries.get())));
+                    ReportGenerators.generate(JavaReport.get())));
         }
 
         void noOp() {

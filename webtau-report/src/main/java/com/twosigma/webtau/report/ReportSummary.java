@@ -22,18 +22,26 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ReportSummary {
-    private long total;
-    private long passed;
-    private long failed;
-    private long skipped;
-    private long errored;
+    private final long total;
+    private final long passed;
+    private final long failed;
+    private final long skipped;
+    private final long errored;
 
-    public ReportSummary(ReportTestEntries testEntries) {
+    private final long startTime;
+    private final long stopTime;
+    private final long duration;
+
+    ReportSummary(ReportTestEntries testEntries, long startTime, long stopTime) {
         total = testEntries.size();
         passed = testEntries.countWithStatus(TestStatus.Passed);
         failed = testEntries.countWithStatus(TestStatus.Failed);
         skipped = testEntries.countWithStatus(TestStatus.Skipped);
         errored = testEntries.countWithStatus(TestStatus.Errored);
+
+        this.startTime = startTime;
+        this.stopTime = stopTime;
+        this.duration = stopTime - startTime;
     }
 
     public long getTotal() {
@@ -56,6 +64,18 @@ public class ReportSummary {
         return errored;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getStopTime() {
+        return stopTime;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("total", total);
@@ -63,6 +83,9 @@ public class ReportSummary {
         result.put("failed", failed);
         result.put("skipped", skipped);
         result.put("errored", errored);
+        result.put("startTime", startTime);
+        result.put("stopTime", stopTime);
+        result.put("duration", duration);
 
         return result;
     }
