@@ -54,24 +54,22 @@ public class OpenApiSpecValidator {
         SimpleRequest request = buildRequest(result);
         SimpleResponse response = buildResponse(result);
 
-        ValidationReport validationReport;
+        ValidationReport validationReport = validate(validationMode, request, response);
+        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
+    }
+
+    private ValidationReport validate(ValidationMode validationMode, SimpleRequest request, SimpleResponse response) {
         switch (validationMode) {
             case RESPONSE_ONLY:
-                validationReport = openApiValidator.validateResponse(request.getPath(), request.getMethod(), response);
-                break;
+                return openApiValidator.validateResponse(request.getPath(), request.getMethod(), response);
             case REQUEST_ONLY:
-                validationReport = openApiValidator.validateRequest(request);
-                break;
+                return openApiValidator.validateRequest(request);
             case NONE:
-                validationReport = ValidationReport.empty();
-                break;
+                return ValidationReport.empty();
             case ALL:
             default:
-                validationReport = openApiValidator.validate(request, response);
-                break;
+                return openApiValidator.validate(request, response);
         }
-
-        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
     }
 
     private SimpleResponse buildResponse(HttpValidationResult result) {
