@@ -25,8 +25,8 @@ import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 public class StringCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return (actual instanceof Character || actual instanceof String) &&
-                (expected instanceof Character || expected instanceof String);
+        return (actual instanceof Character || actual instanceof CharSequence) &&
+                (expected instanceof Character || expected instanceof CharSequence);
     }
 
     @Override

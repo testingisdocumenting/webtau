@@ -26,26 +26,36 @@ import static org.junit.Assert.assertEquals
 
 class StringCompareToHandlerTest {
     @Test
-    void "handles instances of String and Characters as actual or expected"() {
+    void "handles instances of CharSequence and Characters as actual or expected"() {
         def handler = new StringCompareToHandler()
+        def var = 100
 
-        assert handler.handleEquality("test", "test")
-        assert handler.handleEquality("t", Character.valueOf('t'.toCharArray()[0]))
-        assert handler.handleEquality(Character.valueOf('t'.toCharArray()[0]), "t")
+        assert handler.handleEquality('test', 'test')
+        assert handler.handleEquality('test', "test $var")
+        assert handler.handleEquality("test $var", 'test')
+        assert handler.handleEquality('t', Character.valueOf('t'.toCharArray()[0]))
+        assert handler.handleEquality(Character.valueOf('t'.toCharArray()[0]), 't')
 
-        assert ! handler.handleEquality("test", 100)
-        assert ! handler.handleEquality("test", ~/regexp/)
+        assert ! handler.handleEquality('test', 100)
+        assert ! handler.handleEquality('test', ~/regexp/)
     }
 
     @Test
     void "compares string and character"() {
-        actual("t").should(equal(Character.valueOf('t'.toCharArray()[0])))
+        actual('t').should(equal(Character.valueOf('t'.toCharArray()[0])))
+    }
+
+    @Test
+    void "compares string and gstring"() {
+        def var = 100
+        actual('test ' + var).should(equal("test $var"))
+        actual("test $var").should(equal('test ' + var))
     }
 
     @Test
     void "reports types before conversion to string in case of failure"() {
         def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath("text"), Character.valueOf('t'.toCharArray()[0]), "b")
+        comparator.compareIsEqual(createActualPath('text'), Character.valueOf('t'.toCharArray()[0]), 'b')
 
         assertEquals('mismatches:\n' +
                 '\n' +
