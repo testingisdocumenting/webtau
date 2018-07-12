@@ -20,23 +20,24 @@ import com.twosigma.webtau.http.validation.HttpValidationHandler;
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 
 public class OpenApiResponseValidator implements HttpValidationHandler {
-    private static final ThreadLocal<Boolean> isDisabled = ThreadLocal.withInitial(() -> false);
+    private static final ValidationMode DEFAULT_MODE = ValidationMode.ALL;
+    private static final ThreadLocal<ValidationMode> validationMode = ThreadLocal.withInitial(() -> DEFAULT_MODE);
 
-    static void withDisabled(Runnable code) {
-        isDisabled.set(true);
+    static void withMode(ValidationMode mode, Runnable code) {
+        validationMode.set(mode);
         try {
             code.run();
         } finally {
-            isDisabled.set(false);
+            validationMode.set(DEFAULT_MODE);
         }
     }
 
     @Override
     public void validate(HttpValidationResult validationResult) {
-        if (isDisabled.get()) {
+        if (validationMode.get().equals(ValidationMode.NONE)) {
             return;
         }
 
-        OpenApi.validator.validateApiSpec(validationResult);
+        OpenApi.validator.validateApiSpec(validationResult, validationMode.get());
     }
 }

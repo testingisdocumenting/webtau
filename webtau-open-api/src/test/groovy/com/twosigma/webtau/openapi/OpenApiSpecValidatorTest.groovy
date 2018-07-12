@@ -43,7 +43,7 @@ class OpenApiSpecValidatorTest {
         def testResponse = "{\"intField\": \"abc\"}"
         def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(result)
+        validator.validateApiSpec(result, ValidationMode.ALL)
 
         result.mismatches.size().should == 2
         result.mismatches.should contain(~/does not match any allowed primitive type/)
@@ -55,7 +55,7 @@ class OpenApiSpecValidatorTest {
         def testResponse = "{\"mandatoryField\": \"foo\"}"
         def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(result)
+        validator.validateApiSpec(result, ValidationMode.ALL)
 
         result.mismatches.size().should == 0
     }
