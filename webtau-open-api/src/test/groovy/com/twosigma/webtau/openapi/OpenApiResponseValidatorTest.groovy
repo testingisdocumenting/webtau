@@ -36,11 +36,11 @@ class OpenApiResponseValidatorTest {
         HttpValidationResult validationResult = createValidationResult()
 
         HttpValidationHandlers.validate(validationResult)
-        validationResult.mismatches.size().shouldBe > 0
+        validationResult.mismatches.size().shouldBe == 3
     }
 
     @Test
-    void "should allow to disable validation for a specifieid code"() {
+    void "should allow to disable validation for a code block"() {
         HttpValidationResult validationResult = createValidationResult()
 
         OpenApi.withoutValidation {
@@ -48,6 +48,28 @@ class OpenApiResponseValidatorTest {
         }
 
         validationResult.mismatches.size() == 0
+    }
+
+    @Test
+    void "should allow to validate only responses for a code block"() {
+        HttpValidationResult validationResult = createValidationResult()
+
+        OpenApi.responseOnlyValidation {
+            HttpValidationHandlers.validate(validationResult)
+        }
+
+        validationResult.mismatches.size() == 1
+    }
+
+    @Test
+    void "should allow to validate only requests for a code block"() {
+        HttpValidationResult validationResult = createValidationResult()
+
+        OpenApi.requestOnlyValidation() {
+            HttpValidationHandlers.validate(validationResult)
+        }
+
+        validationResult.mismatches.size() == 2
     }
 
     private static HttpValidationResult createValidationResult() {
