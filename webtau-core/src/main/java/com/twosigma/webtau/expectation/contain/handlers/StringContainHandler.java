@@ -21,32 +21,32 @@ import com.twosigma.webtau.expectation.contain.ContainAnalyzer;
 import com.twosigma.webtau.expectation.contain.ContainHandler;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class StringContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
-        return actual instanceof String && expected instanceof String;
+        return actual instanceof CharSequence && expected instanceof CharSequence;
     }
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
-        analyze(containAnalyzer, actualPath, actual, expected, String::contains);
+        analyze(containAnalyzer, actualPath, actual, expected,
+                (actualCharSeq, expectedCharSeq) -> actualCharSeq.toString().contains(expectedCharSeq));
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
         analyze(containAnalyzer, actualPath, actual, expected,
-                (actualString, expectedString) -> !actualString.contains(expectedString));
+                (actualString, expectedString) -> !actualString.toString().contains(expectedString));
     }
 
     private void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected,
-                         BiFunction<String, String, Boolean> predicate) {
-        String actualString = (String) actual;
-        String expectedString = (String) expected;
+                         BiFunction<CharSequence, CharSequence, Boolean> predicate) {
+        CharSequence actualText = (CharSequence) actual;
+        CharSequence expectedText = (CharSequence) expected;
 
-        if (!predicate.apply(actualString, expectedString)) {
-            containAnalyzer.reportMismatch(this, actualPath, actualString);
+        if (!predicate.apply(actualText, expectedText)) {
+            containAnalyzer.reportMismatch(this, actualPath, actualText.toString());
         }
     }
 }

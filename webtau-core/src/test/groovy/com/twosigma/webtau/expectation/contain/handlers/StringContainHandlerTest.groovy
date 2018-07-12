@@ -32,16 +32,26 @@ class StringContainHandlerTest {
     }
 
     @Test
-    void "handles only strings"() {
+    void "handles char sequences"() {
         def handler = new StringContainHandler()
-        assert handler.handle("text", "ext")
-        assert !handler.handle("text", 10)
+        def var = 100
+
+        assert handler.handle('text', 'ext')
+        assert handler.handle('text', "ext $var")
+        assert !handler.handle('text', 10)
         assert !handler.handle(10, 20)
     }
 
     @Test
     void "no mismatches when actual string contains expected"() {
-        assert analyzer.contains(createActualPath("text"), "hello world", "world")
+        assert analyzer.contains(createActualPath('text'), 'hello world', 'world')
+    }
+
+    @Test
+    void "converts gstring to string before comparison"() {
+        def var = 100
+        assert analyzer.contains(createActualPath('text'), "hello $var world", 'world')
+        assert analyzer.contains(createActualPath('text'), 'hello world ' + var, "world $var")
     }
 
     @Test
