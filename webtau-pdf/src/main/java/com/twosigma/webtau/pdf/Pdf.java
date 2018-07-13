@@ -22,8 +22,12 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Pdf {
+    private static final Set<Pdf> openedPdfs = Collections.synchronizedSet(new HashSet<>());
     private final PDDocument document;
 
     public static Pdf pdf(byte[] content) {
@@ -50,8 +54,14 @@ public class Pdf {
         }
     }
 
+    public static void closeAll() {
+        openedPdfs.forEach(Pdf::closeWithoutRemove);
+        openedPdfs.clear();
+    }
+
     private Pdf(byte[] content) throws IOException {
         document = PDDocument.load(content);
+        openedPdfs.add(this);
     }
 
     public PdfText pageText(int pageIdx) {
@@ -61,6 +71,19 @@ public class Pdf {
             reader.setEndPage(pageIdx + 1);
 
             return new PdfText("body.pdf.pageIdx(" + pageIdx + ").text", reader.getText(document));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void close() {
+        closeWithoutRemove();
+        openedPdfs.remove(this);
+    }
+
+    private void closeWithoutRemove() {
+        try {
+            document.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
