@@ -45,6 +45,7 @@
         <module>webtau-junit5</module>
         <module>webtau-testapp</module>
         <module>webtau-config</module>
+        <module>webtau-feature-testing</module>
         <module>webtau-docs</module>
         <module>webtau-dist</module>
         <module>webtau</module>

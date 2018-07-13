@@ -26,29 +26,12 @@
         <version>0.1</version>
     </parent>
 
-    <artifactId>webtau-groovy</artifactId>
+    <artifactId>webtau-feature-testing</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-open-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.ivy</groupId>
-            <artifactId>ivy</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-standalone-runner-groovy</artifactId>
+            <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -68,7 +51,11 @@
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-test-server</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
         </dependency>
 
         <dependency>
