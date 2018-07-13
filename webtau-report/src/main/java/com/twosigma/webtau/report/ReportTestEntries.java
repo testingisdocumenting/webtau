@@ -56,7 +56,11 @@ public class ReportTestEntries {
         return entries.isEmpty();
     }
 
+    public Stream<ReportTestEntry> withStatus(TestStatus status) {
+        return entries.stream().filter(e -> e.getTestStatus() == status);
+    }
+
     public long countWithStatus(TestStatus status) {
-        return entries.stream().filter(e -> e.getTestStatus() == status).count();
+        return withStatus(status).count();
     }
 }

@@ -26,6 +26,7 @@ import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.driver.WebDriverCreator
 import com.twosigma.webtau.report.Report
+import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
 import com.twosigma.webtau.reporter.ConsoleStepReporter
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
@@ -44,7 +45,7 @@ import java.nio.file.Paths
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauCliApp implements StandaloneTestListener {
+class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter)
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
@@ -83,6 +84,7 @@ class WebTauCliApp implements StandaloneTestListener {
             StepReporters.add(screenshotStepReporter)
 
             cfg.print()
+            ConsoleOutputs.out()
 
             testFiles().forEach {
                 runner.process(it, this)
@@ -138,6 +140,11 @@ class WebTauCliApp implements StandaloneTestListener {
         report.stopTimer()
 
         ReportGenerators.generate(report)
-        problemCount = consoleTestReporter.failed + consoleTestReporter.errored + consoleTestReporter.skipped
+    }
+
+    @Override
+    void generate(Report report) {
+        def summary = report.createSummary()
+        problemCount = (int) (summary.failed + summary.errored + summary.skipped)
     }
 }
