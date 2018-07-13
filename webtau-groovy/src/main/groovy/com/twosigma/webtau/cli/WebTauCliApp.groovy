@@ -25,6 +25,7 @@ import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.driver.WebDriverCreator
+import com.twosigma.webtau.pdf.Pdf
 import com.twosigma.webtau.report.Report
 import com.twosigma.webtau.report.ReportGenerators
 import com.twosigma.webtau.reporter.ConsoleStepReporter
@@ -92,6 +93,8 @@ class WebTauCliApp implements StandaloneTestListener {
         } finally {
             StandaloneTestListeners.remove(consoleTestReporter)
             StandaloneTestListeners.remove(this)
+
+            Pdf.closeAll()
 
             if (autoCloseWebDrivers) {
                 WebDriverCreator.closeAll()
