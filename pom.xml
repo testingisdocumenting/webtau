@@ -20,7 +20,7 @@
 
     <groupId>com.twosigma.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>0.16</version>
+    <version>0.16-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <url>https://github.com/twosigma/webtau</url>
@@ -35,8 +35,8 @@
 
     <scm>
         <url>https://github.com/twosigma/webtau</url>
-        <connection>https://github.com/twosigma/webtau.git</connection>
-        <developerConnection>https://github.com/twosigma/webtau.git</developerConnection>
+        <connection>scm:git:https://github.com/twosigma/webtau.git</connection>
+        <developerConnection>scm:git:https://github.com/twosigma/webtau.git</developerConnection>
   </scm>
 
     <distributionManagement>
