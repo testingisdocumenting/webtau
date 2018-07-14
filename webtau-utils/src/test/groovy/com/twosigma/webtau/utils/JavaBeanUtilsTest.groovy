@@ -20,7 +20,7 @@ import org.junit.Test
 
 class JavaBeanUtilsTest {
     @Test
-    void "converts classic get/set bean without fields to a map"() {
+    void "converts classic get set bean without fields to a map"() {
         def asMap = JavaBeanUtils.convertBeanToMap(new ClassicBean())
         assert asMap == [description: "d1", price: 100]
     }
