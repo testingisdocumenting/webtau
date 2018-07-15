@@ -41,7 +41,8 @@ class Report {
     constructor(report) {
         this.report = report
         this.version = report.version
-        this.tests = enrichTestsData(report.tests)
+        this.config = report.config
+        this.tests = failedTestsAtTheTop(enrichTestsData(report.tests))
         this.httpCalls = extractHttpCalls(this.tests)
         this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedOperations || []), ...this.httpCalls]
         this.testsSummary = buildTestsSummary(report.summary)
@@ -175,6 +176,17 @@ function enrichTestsData(tests) {
             details: additionalDetails(test),
             httpCalls: enrichHttpCallsData(test, test.httpCalls)
         }))
+}
+
+function failedTestsAtTheTop(tests) {
+    const failed = tests.filter(t => isFailedOrErrored(t))
+    const rest = tests.filter(t => !isFailedOrErrored(t))
+
+    return [...failed, ...rest]
+}
+
+function isFailedOrErrored(test) {
+    return test.status === StatusEnum.FAILED || test.status === StatusEnum.ERRORED
 }
 
 function enrichHttpCallsData(test, httpCalls) {

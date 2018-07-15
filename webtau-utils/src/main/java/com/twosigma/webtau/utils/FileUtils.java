@@ -29,13 +29,13 @@ public class FileUtils {
     }
 
     public static void writeTextContent(Path path, String text) {
-        try {
-            Path parent = path.toAbsolutePath().getParent();
-            if (parent != null) {
-                Files.createDirectories(parent);
-            }
+        writeBinaryContent(path, text.getBytes());
+    }
 
-            Files.write(path, text.getBytes());
+    public static void writeBinaryContent(Path path, byte[] content) {
+        try {
+            createDirs(path);
+            Files.write(path, content);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -71,5 +71,12 @@ public class FileUtils {
         return nonNull.stream().filter(p -> Files.exists(p)).findFirst().orElseThrow(() ->
                 new RuntimeException("can't find any of the following files:\n" +
                         nonNull.stream().map(Path::toString).collect(Collectors.joining("\n"))));
+    }
+
+    private static void createDirs(Path path) throws IOException {
+        Path parent = path.toAbsolutePath().getParent();
+        if (parent != null) {
+            Files.createDirectories(parent);
+        }
     }
 }

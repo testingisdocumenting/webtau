@@ -56,11 +56,11 @@ public class ReportTestEntries {
         return entries.isEmpty();
     }
 
-    public ReportSummary createSummary() {
-        return new ReportSummary(this);
+    public Stream<ReportTestEntry> withStatus(TestStatus status) {
+        return entries.stream().filter(e -> e.getTestStatus() == status);
     }
 
     public long countWithStatus(TestStatus status) {
-        return entries.stream().filter(e -> e.getTestStatus() == status).count();
+        return withStatus(status).count();
     }
 }

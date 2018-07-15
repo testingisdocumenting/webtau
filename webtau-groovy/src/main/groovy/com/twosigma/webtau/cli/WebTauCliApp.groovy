@@ -25,8 +25,10 @@ import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.driver.WebDriverCreator
+import com.twosigma.webtau.pdf.Pdf
+import com.twosigma.webtau.report.Report
+import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
-import com.twosigma.webtau.report.ReportTestEntries
 import com.twosigma.webtau.reporter.ConsoleStepReporter
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
 import com.twosigma.webtau.reporter.ScreenshotStepReporter
@@ -44,15 +46,15 @@ import java.nio.file.Paths
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauCliApp implements StandaloneTestListener {
+class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter)
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
     private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
 
     private StandaloneTestRunner runner
+    private Report report
 
-    private List<StandaloneTest> tests = []
     private int problemCount = 0
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
@@ -70,6 +72,8 @@ class WebTauCliApp implements StandaloneTestListener {
                 GroovyRunner.createWithDelegatingEnabled(cfg.workingDir),
                 cfg.getWorkingDir())
 
+        report = new Report()
+
         StandaloneTestListeners.add(consoleTestReporter)
         StandaloneTestListeners.add(this)
         WebTauGroovyDsl.initWithTestRunner(runner)
@@ -81,6 +85,7 @@ class WebTauCliApp implements StandaloneTestListener {
             StepReporters.add(screenshotStepReporter)
 
             cfg.print()
+            ConsoleOutputs.out()
 
             testFiles().forEach {
                 runner.process(it, this)
@@ -90,6 +95,8 @@ class WebTauCliApp implements StandaloneTestListener {
         } finally {
             StandaloneTestListeners.remove(consoleTestReporter)
             StandaloneTestListeners.remove(this)
+
+            Pdf.closeAll()
 
             if (autoCloseWebDrivers) {
                 WebDriverCreator.closeAll()
@@ -109,6 +116,7 @@ class WebTauCliApp implements StandaloneTestListener {
 
     @Override
     void beforeFirstTest() {
+        report.startTimer()
     }
 
     @Override
@@ -127,12 +135,19 @@ class WebTauCliApp implements StandaloneTestListener {
             test.addResultPayload(p)
         }
 
-        tests.add(test)
+        report.addTestEntry(test.reportTestEntry)
     }
 
     @Override
     void afterAllTests() {
-        ReportGenerators.generate(new ReportTestEntries(tests.reportTestEntry))
-        problemCount = consoleTestReporter.failed + consoleTestReporter.errored + consoleTestReporter.skipped
+        report.stopTimer()
+
+        ReportGenerators.generate(report)
+    }
+
+    @Override
+    void generate(Report report) {
+        def summary = report.createSummary()
+        problemCount = (int) (summary.failed + summary.errored + summary.skipped)
     }
 }

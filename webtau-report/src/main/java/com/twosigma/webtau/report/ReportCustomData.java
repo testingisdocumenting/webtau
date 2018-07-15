@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5.report;
+package com.twosigma.webtau.report;
 
-import com.twosigma.webtau.report.ReportTestEntries;
-import com.twosigma.webtau.report.ReportTestEntry;
+import java.util.Collections;
+import java.util.Map;
 
-/**
- * Global storage of all java based test entries.
- * Is used to generate report at the end of all tests run.
- */
-public class ReportJavaTestEntries {
-    private static final ReportTestEntries entries = new ReportTestEntries();
+public class ReportCustomData {
+    private final String id;
+    private final Object data;
 
-    public static void add(ReportTestEntry testEntry) {
-        entries.add(testEntry);
+    public ReportCustomData(String id, Object data) {
+        this.id = id;
+        this.data = data;
     }
 
-    public static ReportTestEntries get() {
-        return entries;
+    public Map<String, ?> toMap() {
+        return Collections.singletonMap(id, data);
     }
 }

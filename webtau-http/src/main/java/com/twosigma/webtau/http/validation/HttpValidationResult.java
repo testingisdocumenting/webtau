@@ -34,6 +34,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class HttpValidationResult implements TestStepPayload {
+    private static final String BINARY_CONTENT_PLACEHOLDER = "[binary content]";
+
     private final String fullUrl;
     private final String requestMethod;
     private HttpRequestHeader requestHeader;
@@ -106,19 +108,15 @@ public class HttpValidationResult implements TestStepPayload {
         return requestBody != null ? requestBody.asString() : null;
     }
 
-    public boolean notNullOrEmptyRequestContent() {
-        return StringUtils.notNullOrEmpty(getRequestContent());
+    public boolean nullOrEmptyRequestContent() {
+        return StringUtils.nullOrEmpty(getRequestContent());
     }
 
     public String getResponseTextContent() {
         return response.getTextContent();
     }
 
-    public boolean notNullOrEmptyResponseTextContent() {
-        return StringUtils.notNullOrEmpty(response.getTextContent());
-    }
-
-    public boolean hasContent() {
+    public boolean hasResponseContent() {
         return response.hasContent();
     }
 
@@ -180,15 +178,15 @@ public class HttpValidationResult implements TestStepPayload {
         result.put("errorMessage", errorMessage);
         result.put("mismatches", mismatches);
 
+        if (requestBody != null) {
+            result.put("requestType", requestBody.type());
+            result.put("requestBody", requestBody.isBinary() ? BINARY_CONTENT_PLACEHOLDER : requestBody.asString());
+        }
+
         if (response != null) {
             result.put("responseType", response.getContentType());
             result.put("responseStatusCode", response.getStatusCode());
-            result.put("responseBody", response.getTextContent());
-        }
-
-        if (requestBody != null) {
-            result.put("requestType", requestBody.type());
-            result.put("requestBody", requestBody.asString());
+            result.put("responseBody", response.isBinary() ? BINARY_CONTENT_PLACEHOLDER : response.getTextContent());
         }
 
         if (responseBodyNode != null) {

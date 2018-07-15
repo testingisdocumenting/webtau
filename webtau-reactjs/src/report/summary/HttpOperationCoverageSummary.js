@@ -16,37 +16,9 @@
 
 import React from 'react'
 
-import NumberOfHttpCalls from './dashboard/NumberOfHttpCalls'
-import CardLabelAndNumber from './widgets/CardLabelAndNumber'
+import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
 
-import './OverallSummary.css'
-
-function OverallSummary({report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls}) {
-    return (
-        <div className="overall-summary">
-            <CallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
-            <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
-        </div>
-    )
-}
-
-function CallsTiming({report, onSwitchToHttpCalls}) {
-    return (
-        <div className="overall-http-calls-time">
-            <div className="overall-number-of-http-calls" onClick={onSwitchToHttpCalls}>
-                <NumberOfHttpCalls number={report.numberOfHttpCalls()}/>
-            </div>
-
-            <CardLabelAndNumber label="Average Time (ms)"
-                                number={report.averageHttpCallTime().toFixed(2)}/>
-
-            <CardLabelAndNumber label="Overall Time (s)"
-                                number={(report.overallHttpCallTime() / 1000.0).toFixed(2)}/>
-        </div>
-    )
-}
-
-function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
+export default function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
     if (! report.hasHttpOperationCoverage()) {
         return null
     }
@@ -67,5 +39,3 @@ function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
         </div>
     )
 }
-
-export default OverallSummary

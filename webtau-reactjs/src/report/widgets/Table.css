@@ -14,28 +14,31 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+.table {
+    width: 100%;
+    background-color: #fff;
+    box-shadow:var(--webtau-card-shadow);
+    border: 1px solid var(--webtau-card-border-color);
+    border-collapse: collapse;
+}
 
-import java.util.ArrayList;
-import java.util.List;
+.table th {
+    color: #979da9;
 
-public class ReportScope {
-    private String id;
-    private List<ReportToken> report;
+    text-align: left;
 
-    private List<ReportScope> children;
+    font-weight: normal;
+    text-transform: uppercase;
+    border-bottom:  1px solid #dce0e4;
+}
 
-    public ReportScope(String id) {
-        this.id = id;
-        this.report = new ArrayList<>();
-        this.children = new ArrayList<>();
-    }
+.table td {
+    color: #555;
 
-    public void addToken(String type, String textRepresentation) {
-        report.add(new ReportToken(type, textRepresentation));
-    }
+    border-bottom:  1px solid #dce0e4;
+}
 
-    public void addScope(ReportScope scope) {
-        children.add(scope);
-    }
+.table td,
+.table th {
+    padding: 0.75rem;
 }

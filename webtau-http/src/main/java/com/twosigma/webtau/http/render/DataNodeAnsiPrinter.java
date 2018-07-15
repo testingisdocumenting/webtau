@@ -69,6 +69,23 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printObject(DataNode dataNode, boolean skipIndent) {
+        if (dataNode.numberOfChildren() == 0) {
+            printEmptyObject(skipIndent);
+        } else {
+            printNotEmptyObject(dataNode, skipIndent);
+        }
+    }
+
+    private void printEmptyObject(boolean skipIndent) {
+        if (!skipIndent) {
+            printIndentation();
+        }
+
+        printDelimiter("{");
+        printDelimiter("}");
+    }
+
+    private void printNotEmptyObject(DataNode dataNode, boolean skipIndent) {
         Map<String, DataNode> children = dataNode.asMap();
 
         openScope("{", skipIndent);
@@ -96,10 +113,27 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printList(DataNode dataNode, boolean skipIndent) {
+        if (dataNode.elements().isEmpty()) {
+            printEmptyList(skipIndent);
+        } else {
+            printNonEmptyList(dataNode, skipIndent);
+        }
+    }
+
+    private void printEmptyList(boolean skipIndent) {
+        if (!skipIndent) {
+            printIndentation();
+        }
+
+        printDelimiter("[");
+        printDelimiter("]");
+    }
+
+    private void printNonEmptyList(DataNode dataNode, boolean skipIndent) {
         openScope("[", skipIndent);
 
-        int idx = 0;
         int size = dataNode.elements().size();
+        int idx = 0;
         for (DataNode n : dataNode.elements()) {
             printNode(n, false);
 
@@ -216,6 +250,10 @@ public class DataNodeAnsiPrinter {
     }
 
     private static String indent(final int nestLevel) {
+        if (nestLevel == 0) {
+            return "";
+        }
+
         return StringUtils.leftPad(" ", nestLevel * 2);
     }
 

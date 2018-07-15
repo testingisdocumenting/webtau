@@ -16,19 +16,22 @@
 
 package com.twosigma.webtau.report;
 
+import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.meta.WebTauMeta;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
 
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static java.util.stream.Collectors.toList;
 
 public class HtmlReportGenerator implements ReportGenerator {
     private String css;
@@ -41,24 +44,24 @@ public class HtmlReportGenerator implements ReportGenerator {
         bundleJavaScript = ResourceUtils.textContent(manifest.get("main.js").toString());
     }
 
-    public void generate(ReportTestEntries testEntries) {
+    public void generate(Report report) {
         Path reportPath = getCfg().getReportPath().toAbsolutePath();
 
-        FileUtils.writeTextContent(reportPath, generateHtml(testEntries));
+        FileUtils.writeTextContent(reportPath, generateHtml(report));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
     }
 
-    private String generateHtml(ReportTestEntries testEntries) {
-        Map<String, Object> report = new LinkedHashMap<>();
-        report.put("summary", testEntries.createSummary().toMap());
-        report.put("tests", testEntries.map(ReportTestEntry::toMap).collect(Collectors.toList()));
-        report.put("version", WebTauMeta.getVersion());
+    private String generateHtml(Report report) {
+        Map<String, Object> reportAsMap = new LinkedHashMap<>();
+        reportAsMap.put("config", configAsListOfMaps(getCfg().getCfgValuesStream()));
+        reportAsMap.put("summary", report.createSummary().toMap());
+        reportAsMap.put("tests", report.getTestEntries().map(ReportTestEntry::toMap).collect(Collectors.toList()));
 
-        ReportDataProviders.provide(testEntries)
-                .map(ReportData::toMap)
-                .forEach(report::putAll);
+        report.extractReportCustomData().stream()
+                .map(ReportCustomData::toMap)
+                .forEach(reportAsMap::putAll);
 
-        return generateHtml(report);
+        return generateHtml(reportAsMap);
     }
 
     String generateHtml(Map<String, Object> report) {
@@ -83,6 +86,12 @@ public class HtmlReportGenerator implements ReportGenerator {
                 "\n</body>" +
                 "\n</html>\n";
 
+    }
+
+    private List<Map<String, Object>> configAsListOfMaps(Stream<ConfigValue> cfgValuesStream) {
+        return cfgValuesStream
+                .filter(v -> !v.isDefault() || v.getKey().equals("env"))
+                .map(ConfigValue::toMap).collect(toList());
     }
 
     @SuppressWarnings("unchecked")

@@ -20,11 +20,15 @@ const report = {
     "version": "0.13.0",
     "summary": {
         "total": 4,
-        "passed": 4,
-        "failed": 0,
+        "passed": 3,
+        "failed": 1,
         "skipped": 0,
         "errored": 0
     },
+    "config": [
+        {key: 'env', value: 'dev', source: 'command line'},
+        {key: 'url', value: 'https://blahlong-url-maybe-need-shortening.com/v1', source: 'config file'},
+    ],
     "tests": [{
         "id": "customerCrudSeparated.groovy-1",
         "scenario": "customer create",
@@ -197,7 +201,7 @@ const report = {
     }, {
         "id": "customerCrudSeparated.groovy-4",
         "scenario": "customer delete",
-        "status": "Passed",
+        "status": "Failed",
         "fileName": "rest/springboot/customerCrudSeparated.groovy",
         "httpCalls": [{
             "method": "DELETE",

@@ -14,5 +14,4 @@
 # limitations under the License.
 #
 
-com.twosigma.webtau.openapi.OpenApiCoverageRecorder
-com.twosigma.webtau.openapi.OpenApiResponseValidator
+com.twosigma.webtau.cli.CliReportGenerator

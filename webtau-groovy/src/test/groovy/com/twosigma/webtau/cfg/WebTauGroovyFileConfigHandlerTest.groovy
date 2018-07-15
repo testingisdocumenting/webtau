@@ -16,8 +16,8 @@
 
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.report.Report
 import com.twosigma.webtau.report.ReportGenerators
-import com.twosigma.webtau.report.ReportTestEntries
 import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.code
@@ -53,7 +53,7 @@ class WebTauGroovyFileConfigHandlerTest {
 
         // prod report throws exception on purpose
         code {
-            ReportGenerators.generate(new ReportTestEntries())
+            ReportGenerators.generate(new Report())
         } should throwException('report issue 0')
     }
 

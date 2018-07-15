@@ -25,47 +25,87 @@ import java.nio.file.Path;
 
 public class HttpDocumentation {
     public void capture(String artifactName) {
-        Path path = DocumentationArtifactsLocation.resolve(artifactName);
+        Capture capture = new Capture(artifactName);
+        capture.capture();
+    }
 
-        HttpValidationResult lastValidationResult = Http.http.getLastValidationResult();
-        if (lastValidationResult == null) {
-            throw new IllegalStateException("no http calls were made yet");
+    private static class Capture {
+        private final Path path;
+        private final HttpValidationResult lastValidationResult;
+
+        public Capture(String artifactName) {
+            this.path = DocumentationArtifactsLocation.resolve(artifactName);
+
+            this.lastValidationResult = Http.http.getLastValidationResult();
+            if (this.lastValidationResult == null) {
+                throw new IllegalStateException("no http calls were made yet");
+            }
         }
 
-        String requestHeader = lastValidationResult.getRequestHeader().toString();
-        if (! requestHeader.isEmpty()) {
-            FileUtils.writeTextContent(path.resolve("request.header.txt"),
-                    requestHeader);
+        public void capture() {
+            captureRequestHeader();
+            captureRequestBody();
+            captureResponseBody();
+            capturePaths();
         }
 
-        if (lastValidationResult.getRequestType() != null
-                && !lastValidationResult.isRequestBinary()
-                && lastValidationResult.notNullOrEmptyRequestContent()) {
+        private void captureRequestHeader() {
+            String requestHeader = lastValidationResult.getRequestHeader().toString();
+            if (! requestHeader.isEmpty()) {
+                FileUtils.writeTextContent(path.resolve("request.header.txt"),
+                        requestHeader);
+            }
+        }
+
+        private void captureRequestBody() {
+            if (lastValidationResult.getRequestType() == null
+                    || lastValidationResult.isRequestBinary()
+                    || lastValidationResult.nullOrEmptyRequestContent()) {
+                return;
+            }
+
             String fileName = "request." + fileExtensionForType(lastValidationResult.getRequestType());
             FileUtils.writeTextContent(path.resolve(fileName),
                     prettyPrintContent(lastValidationResult.getRequestType(),
                             lastValidationResult.getRequestContent()));
         }
 
-        if (lastValidationResult.getResponseType() != null
-                && lastValidationResult.notNullOrEmptyResponseTextContent()) {
+        private void captureResponseBody() {
+            if (lastValidationResult.getResponseType() == null || !lastValidationResult.hasResponseContent()) {
+                return;
+            }
+
             String fileName = "response." + fileExtensionForType(lastValidationResult.getResponseType());
-            FileUtils.writeTextContent(path.resolve(fileName),
-                    prettyPrintContent(lastValidationResult.getResponseType(),
-                            lastValidationResult.getResponseTextContent()));
+            Path fullPath = path.resolve(fileName);
+
+            if (lastValidationResult.getResponse().isBinary()) {
+                FileUtils.writeBinaryContent(fullPath, lastValidationResult.getResponse().getBinaryContent());
+            } else {
+                FileUtils.writeTextContent(fullPath,
+                        prettyPrintContent(lastValidationResult.getResponseType(),
+                                lastValidationResult.getResponseTextContent()));
+            }
         }
 
-        if (lastValidationResult.getPassedPaths() != null) {
+        private void capturePaths() {
+            if (lastValidationResult.getPassedPaths() == null) {
+                return;
+            }
+
             FileUtils.writeTextContent(path.resolve("paths.json"),
                     JsonUtils.serialize(lastValidationResult.getPassedPaths()));
         }
     }
 
-    private String fileExtensionForType(String type) {
+    private static String fileExtensionForType(String type) {
+        if (type.contains("/pdf")) {
+            return "pdf";
+        }
+
         return isJson(type) ? "json" : "data";
     }
 
-    private String prettyPrintContent(String type, String content) {
+    private static String prettyPrintContent(String type, String content) {
         if (isJson(type)) {
             return JsonUtils.serializePrettyPrint(JsonUtils.deserialize(content));
         }
@@ -73,7 +113,7 @@ public class HttpDocumentation {
         return content;
     }
 
-    private boolean isJson(String type) {
+    private static boolean isJson(String type) {
         return type.contains("json");
     }
 }

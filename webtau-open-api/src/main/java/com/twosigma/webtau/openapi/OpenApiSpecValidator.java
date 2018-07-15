@@ -24,8 +24,6 @@ import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static com.twosigma.webtau.http.HttpUrl.extractPath;
@@ -42,7 +40,7 @@ public class OpenApiSpecValidator {
                 null;
     }
 
-    public void validateApiSpec(HttpValidationResult result) {
+    public void validateApiSpec(HttpValidationResult result, ValidationMode validationMode) {
         if (! openAPISpec.isSpecDefined()) {
             return;
         }
@@ -56,8 +54,22 @@ public class OpenApiSpecValidator {
         SimpleRequest request = buildRequest(result);
         SimpleResponse response = buildResponse(result);
 
-        ValidationReport validationReport = openApiValidator.validate(request, response);
+        ValidationReport validationReport = validate(validationMode, request, response);
         validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
+    }
+
+    private ValidationReport validate(ValidationMode validationMode, SimpleRequest request, SimpleResponse response) {
+        switch (validationMode) {
+            case RESPONSE_ONLY:
+                return openApiValidator.validateResponse(request.getPath(), request.getMethod(), response);
+            case REQUEST_ONLY:
+                return openApiValidator.validateRequest(request);
+            case NONE:
+                return ValidationReport.empty();
+            case ALL:
+            default:
+                return openApiValidator.validate(request, response);
+        }
     }
 
     private SimpleResponse buildResponse(HttpValidationResult result) {

@@ -216,7 +216,7 @@ class WebTauFeaturesTesting implements StepReporter, StandaloneTestListener {
 
     @Override
     void afterTestRun(StandaloneTest test) {
-        testDescription = test.description
+        testDescription = test.scenario
     }
 
     @Override
