@@ -27,7 +27,7 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
 
-public class WebtauJunitExtension implements
+public class WebTauJunitExtension implements
         BeforeEachCallback,
         AfterEachCallback,
         TestExecutionExceptionHandler {

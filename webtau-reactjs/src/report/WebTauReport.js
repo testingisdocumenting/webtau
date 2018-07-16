@@ -56,13 +56,15 @@ class WebTauReport extends Component {
     }
 
     renderReport() {
+        const {report} = this.props
         const {entriesType, statusFilter, filterText} = this.state
 
         return (
             <div className="report">
                 <div className="report-name-area">
                     <EntriesTypeSelection selectedType={entriesType}
-                                          onSelect={this.onEntriesTypeSelection}/>
+                                          onSelect={this.onEntriesTypeSelection}
+                                          webtauVersion={report.version}/>
                 </div>
 
                 <div className="search-area">

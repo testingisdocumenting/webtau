@@ -1,6 +1,6 @@
 package com.example.tests.rest;
 
-import com.twosigma.webtau.junit5.Webtau;
+import com.twosigma.webtau.junit5.WebTau;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 import static com.twosigma.webtau.WebTauDsl.equal;
 import static com.twosigma.webtau.WebTauDsl.http;
 
-@Webtau
+@WebTau
 public class CustomerCrudSingleIT {
     private Map<String, Object> customerPayload = createCustomerPayload();
     private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();

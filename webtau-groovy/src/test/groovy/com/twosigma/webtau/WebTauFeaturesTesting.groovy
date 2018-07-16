@@ -40,7 +40,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class WebtauFeaturesTesting implements StepReporter, StandaloneTestListener {
+class WebTauFeaturesTesting implements StepReporter, StandaloneTestListener {
     private static final int testServerPort = 8180
     private static WebTauFeaturesTestServer testServer
 
