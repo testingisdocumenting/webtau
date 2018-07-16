@@ -28,6 +28,14 @@ public class TestResultPayload {
         this.payload = payload;
     }
 
+    public String getPayloadName() {
+        return payloadName;
+    }
+
+    public Object getPayload() {
+        return payload;
+    }
+
     public Map<String, ?> toMap() {
         return Collections.singletonMap(payloadName, payload);
     }

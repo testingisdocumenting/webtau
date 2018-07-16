@@ -31,4 +31,20 @@ public class ReportCustomData {
     public Map<String, ?> toMap() {
         return Collections.singletonMap(id, data);
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    @Override
+    public String toString() {
+        return "ReportCustomData{" +
+                "id='" + id + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

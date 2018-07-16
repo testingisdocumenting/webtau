@@ -55,7 +55,8 @@ public class HtmlReportGenerator implements ReportGenerator {
         Map<String, Object> reportAsMap = new LinkedHashMap<>();
         reportAsMap.put("config", configAsListOfMaps(getCfg().getCfgValuesStream()));
         reportAsMap.put("summary", report.createSummary().toMap());
-        reportAsMap.put("tests", report.getTestEntries().map(ReportTestEntry::toMap).collect(Collectors.toList()));
+        reportAsMap.put("tests", report.getTestEntries().stream()
+                .map(ReportTestEntry::toMap).collect(Collectors.toList()));
 
         report.extractReportCustomData().stream()
                 .map(ReportCustomData::toMap)
