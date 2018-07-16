@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.http.report;
 
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 import com.twosigma.webtau.reporter.TestResultPayload;
@@ -25,12 +25,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HttpCallsTestResultPayloadExtractor implements TestResultPayloadExtractor {
+    static final String HTTP_CALLS_PAYLOAD_NAME = "httpCalls";
+
     @Override
     public Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
         Stream<HttpValidationResult> payloads = testSteps
                 .flatMap(s -> s.getCombinedPayloadsOfType(HttpValidationResult.class));
 
-        return Stream.of(new TestResultPayload("httpCalls",
+        return Stream.of(new TestResultPayload(HTTP_CALLS_PAYLOAD_NAME,
                 payloads.map(HttpValidationResult::toMap).collect(Collectors.toList())));
     }
 }
