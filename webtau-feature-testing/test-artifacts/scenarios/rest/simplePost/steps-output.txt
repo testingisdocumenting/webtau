@@ -1,0 +1,24 @@
+> executing HTTP POST http://localhost:8180/employee
+.   header.statusCode equals 201
+matches:
+
+header.statusCode:   actual: 201 <java.lang.Integer>
+                   expected: 201 <java.lang.Integer>
+. executed HTTP POST http://localhost:8180/employee
+> executing HTTP GET http://localhost:8180/employee/id-generated-2
+.   body.firstName equals "FN"
+matches:
+
+body.firstName:   actual: "FN" <java.lang.String>
+                expected: "FN" <java.lang.String>
+.   body.lastName equals "LN"
+matches:
+
+body.lastName:   actual: "LN" <java.lang.String>
+               expected: "LN" <java.lang.String>
+.   header.statusCode equals 200
+matches:
+
+header.statusCode:   actual: 200 <java.lang.Integer>
+                   expected: 200 <java.lang.Integer>
+. executed HTTP GET http://localhost:8180/employee/id-generated-2

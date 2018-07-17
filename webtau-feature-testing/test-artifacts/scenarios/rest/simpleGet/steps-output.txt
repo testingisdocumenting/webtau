@@ -1,0 +1,12 @@
+> executing HTTP GET http://localhost:8180/weather
+.   body.temperature less than 100
+matches:
+
+body.temperature:   actual: 88 <java.lang.Integer>
+                  expected: 100 <java.lang.Integer>
+.   header.statusCode equals 200
+matches:
+
+header.statusCode:   actual: 200 <java.lang.Integer>
+                   expected: 200 <java.lang.Integer>
+. executed HTTP GET http://localhost:8180/weather

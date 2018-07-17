@@ -7,10 +7,10 @@ This way you don't have to assume an existing state of your backend under test.
 
 Given the response, we want to make sure there is an entry with a specified `firstName` and `lastName`.
  
-:include-file: examples/rest/springboot/listContain.groovy
+:include-file: examples/scenarios/rest/springboot/listContain.groovy
 
 # List Of Objects
 
 If you want to make sure that all the values in the list are what you need - use `TableData`.
 
-:include-file: examples/rest/springboot/listMatch.groovy
+:include-file: examples/scenarios/rest/springboot/listMatch.groovy
