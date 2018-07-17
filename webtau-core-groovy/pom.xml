@@ -70,6 +70,7 @@
                         <goals>
                             <goal>addSources</goal>
                             <goal>compile</goal>
+                            <goal>groovydoc</goal>
                             <goal>addTestSources</goal>
                             <goal>testCompile</goal>
                         </goals>
