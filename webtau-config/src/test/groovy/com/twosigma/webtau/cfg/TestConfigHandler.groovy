@@ -21,11 +21,11 @@ import java.util.stream.Stream
 import static com.twosigma.webtau.cfg.ConfigValue.declare
 
 class TestConfigHandler implements WebTauConfigHandler {
-    private final ConfigValue customConfig = declare('customConfig', 'custom config description',
+    private static final ConfigValue customConfig = declare('customConfig', 'custom config description',
         { -> 'default config value' });
 
     @Override
     Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(customConfig)
+        return [customConfig].stream()
     }
 }
