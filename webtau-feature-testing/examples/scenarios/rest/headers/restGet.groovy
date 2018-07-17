@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package rest.report
+package scenarios.rest.headers
 
+import static com.twosigma.webtau.WebTauDsl.http
 import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
-scenario("no op") {
-
+scenario("simple get") {
+    http.get("/weather") {
+        temperature.should == 88
+    }
 }

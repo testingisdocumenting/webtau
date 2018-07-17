@@ -1,4 +1,4 @@
-package rest
+package scenarios.rest
 
 import static com.twosigma.webtau.WebTauDsl.http
 import static com.twosigma.webtau.WebTauGroovyDsl.scenario

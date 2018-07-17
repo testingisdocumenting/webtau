@@ -1,4 +1,4 @@
-package rest.headers.auth
+package scenarios.rest.headers.auth
 
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.http.HttpRequestHeader

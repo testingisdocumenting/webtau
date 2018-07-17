@@ -37,6 +37,18 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-http</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-http-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -44,6 +56,12 @@
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-testapp</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -61,7 +79,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -77,6 +94,28 @@
                             <goal>compile</goal>
                             <goal>addTestSources</goal>
                             <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <goals>
+                            <goal>stop</goal>
                         </goals>
                     </execution>
                 </executions>

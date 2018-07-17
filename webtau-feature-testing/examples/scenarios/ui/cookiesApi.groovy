@@ -1,4 +1,4 @@
-package ui
+package scenarios.ui
 
 import static com.twosigma.webtau.WebTauDsl.$
 import static com.twosigma.webtau.WebTauDsl.cookies

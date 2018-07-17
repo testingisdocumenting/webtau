@@ -1,4 +1,4 @@
-package ui
+package scenarios.ui
 
 import static com.twosigma.webtau.WebTauDsl.beGreaterThan
 import static com.twosigma.webtau.WebTauGroovyDsl.scenario

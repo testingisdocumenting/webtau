@@ -60,27 +60,27 @@ class WebtauFeaturesTesting {
 
     @Test
     void "waitTo"() {
-        runCli("ui/waitTo.groovy")
+        runCli("scenarios.ui/waitTo.groovy")
     }
 
     @Test
     void "waitToNot"() {
-        runCli("ui/waitToNot.groovy")
+        runCli("scenarios.ui/waitToNot.groovy")
     }
 
     @Test
     void "should"() {
-        runCli("ui/should.groovy")
+        runCli("scenarios.ui/should.groovy")
     }
 
     @Test
     void "shouldNot"() {
-        runCli("ui/shouldNot.groovy")
+        runCli("scenarios.ui/shouldNot.groovy")
     }
 
     @Test
     void "regexp"() {
-        runCli("ui/regexp.groovy")
+        runCli("scenarios.ui/regexp.groovy")
     }
 
     @Test
@@ -90,17 +90,17 @@ class WebtauFeaturesTesting {
 
     @Test
     void "filter by text"() {
-        runCli("ui/byText.groovy")
+        runCli("scenarios.ui/byText.groovy")
     }
 
     @Test
     void "filter by regexp"() {
-        runCli("ui/byRegexp.groovy")
+        runCli("scenarios.ui/byRegexp.groovy")
     }
 
     @Test
     void "filter by number"() {
-        runCli("ui/byNumber.groovy")
+        runCli("scenarios.ui/byNumber.groovy")
     }
 
     @Test
@@ -110,7 +110,7 @@ class WebtauFeaturesTesting {
 
     @Test
     void "extract script for documentation"() {
-        def testPath = Paths.get("examples/ui/waitTo.groovy")
+        def testPath = Paths.get("examples/scenarios.ui/waitTo.groovy")
         def script = FileUtils.fileTextContent(testPath)
 
         String scope = extractScenarioBody(script)

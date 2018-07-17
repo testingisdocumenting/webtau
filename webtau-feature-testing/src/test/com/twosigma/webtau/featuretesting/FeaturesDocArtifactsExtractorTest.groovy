@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals
 class FeaturesDocArtifactsExtractorTest {
     @Test
     void "extract script for documentation"() {
-        def testPath = Paths.get('examples/ui/waitTo.groovy')
+        def testPath = Paths.get('examples/scenarios.ui/waitTo.groovy')
         def script = FileUtils.fileTextContent(testPath)
 
         String scope = extractScenarioBody(script)
