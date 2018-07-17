@@ -801,8 +801,7 @@ class HttpTest implements HttpConfiguration {
             }
         } should throwException(HttpException, ~/error during http\.get/)
 
-        http.lastValidationResult.errorMessage.should == 'java.lang.ClassCastException: ' +
-            'sun.net.www.protocol.mailto.MailToURLConnection cannot be cast to java.net.HttpURLConnection'
+        http.lastValidationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
     }
 
     @Override
