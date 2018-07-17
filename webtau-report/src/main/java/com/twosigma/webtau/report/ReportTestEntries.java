@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ReportTestEntries {
@@ -44,8 +43,8 @@ public class ReportTestEntries {
         entries.forEach(action);
     }
 
-    public <E> Stream<E> map(Function<ReportTestEntry, E> mapFunc) {
-        return entries.stream().map(mapFunc);
+    public Stream<ReportTestEntry> stream() {
+        return entries.stream();
     }
 
     public int size() {
@@ -56,7 +55,11 @@ public class ReportTestEntries {
         return entries.isEmpty();
     }
 
+    public Stream<ReportTestEntry> withStatus(TestStatus status) {
+        return entries.stream().filter(e -> e.getTestStatus() == status);
+    }
+
     public long countWithStatus(TestStatus status) {
-        return entries.stream().filter(e -> e.getTestStatus() == status).count();
+        return withStatus(status).count();
     }
 }

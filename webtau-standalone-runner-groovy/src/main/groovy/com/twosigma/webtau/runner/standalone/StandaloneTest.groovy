@@ -54,7 +54,7 @@ class StandaloneTest implements StepReporter {
         return reportTestEntry.filePath
     }
 
-    String getDescription() {
+    String getScenario() {
         return reportTestEntry.scenario
     }
 

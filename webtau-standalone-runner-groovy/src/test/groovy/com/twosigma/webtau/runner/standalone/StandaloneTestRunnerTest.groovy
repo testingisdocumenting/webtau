@@ -25,9 +25,9 @@ class StandaloneTestRunnerTest {
 
     @Test
     void "should register tests with scenario keyword"() {
-        runner.tests.description.should == ['# first header\noptionally split into multiple lines and has a header\n',
-                                            '# second header\noptionally split into multiple lines and has a header\n',
-                                            '# third header\noptionally split into multiple lines and has a header\n']
+        runner.tests.scenario.should == ['# first header\noptionally split into multiple lines and has a header\n',
+                                         '# second header\noptionally split into multiple lines and has a header\n',
+                                         '# third header\noptionally split into multiple lines and has a header\n']
     }
 
     @Test

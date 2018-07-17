@@ -19,11 +19,13 @@ import React from 'react'
 import './EntriesTypeSelection.css'
 import NavigationEntriesType from './NavigationEntriesType'
 
-function EntriesTypeSelection({selectedType, onSelect}) {
+function EntriesTypeSelection({webtauVersion, selectedType, onSelect}) {
     return (
         <div className="entries-type-selection">
             <div className="webtau-link">
-                <a href="https://github.com/twosigma/webtau" target="_blank" rel="noopener noreferrer">webtau</a>
+                <a href="https://github.com/twosigma/webtau" target="_blank" rel="noopener noreferrer">
+                    {'webtau ' + webtauVersion}
+                </a>
             </div>
             <div className="selection-area">
                 <EntryType selectedType={selectedType}

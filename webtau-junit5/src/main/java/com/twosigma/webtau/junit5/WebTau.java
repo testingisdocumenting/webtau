@@ -14,29 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package com.twosigma.webtau.junit5;
 
-import java.util.Collections;
-import java.util.Map;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-public class TestResultPayload {
-    private String payloadName;
-    private Object payload;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    public TestResultPayload(String payloadName, Object payload) {
-        this.payloadName = payloadName;
-        this.payload = payload;
-    }
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
 
-    public String getPayloadName() {
-        return payloadName;
-    }
-
-    public Object getPayload() {
-        return payload;
-    }
-
-    public Map<String, ?> toMap() {
-        return Collections.singletonMap(payloadName, payload);
-    }
+@Target({ TYPE, ANNOTATION_TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@ExtendWith(WebTauJunitExtension.class)
+public @interface WebTau {
 }
