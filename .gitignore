@@ -7,3 +7,4 @@ node_modules
 webtau.report.html
 .vertx
 webtau-http-groovy/doc-artifacts/*
+webtau-rest-groovy/doc-artifacts/*
