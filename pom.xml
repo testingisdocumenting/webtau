@@ -40,6 +40,17 @@
             </roles>
             <timezone>America/New_York</timezone>
         </developer>
+        <developer>
+            <id>tsiq-karold</id>
+            <name>Karol Dudzinski</name>
+            <email>karol.dudzinski@twosigmaiq.com</email>
+            <organization>Two Sigma Insurance Quantified</organization>
+            <organizationUrl>http://twosigmaiq.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/London</timezone>
+        </developer>
     </developers>
 
     <licenses>
