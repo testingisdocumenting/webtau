@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.twosigma.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>0.18-SNAPSHOT</version>
+        <version>0.24-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-groovy</artifactId>
@@ -92,6 +92,7 @@
                         <goals>
                             <goal>addSources</goal>
                             <goal>compile</goal>
+                            <goal>generateStubs</goal>
                             <goal>addTestSources</goal>
                             <goal>testCompile</goal>
                         </goals>
