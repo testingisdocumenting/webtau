@@ -24,7 +24,12 @@ import com.twosigma.webtau.utils.StringUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -72,6 +77,9 @@ public class WebTauConfig {
     }
 
     protected WebTauConfig() {
+        System.out.println("@@@ handlers");
+        handlers.forEach((h) -> System.out.println("handler: " + h.getClass().getCanonicalName()));
+
         handlers.forEach(h -> h.onBeforeCreate(this));
 
         acceptConfigValues("environment variable", envVarsAsMap());
