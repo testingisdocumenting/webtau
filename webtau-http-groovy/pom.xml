@@ -70,20 +70,12 @@
                 <artifactId>gmavenplus-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>compile</id>
                         <goals>
                             <goal>addSources</goal>
                             <goal>compile</goal>
-                            <goal>groovydoc</goal>
+                            <goal>generateStubs</goal>
                             <goal>addTestSources</goal>
                             <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>docs</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>groovydoc</goal>
                         </goals>
                     </execution>
                 </executions>
