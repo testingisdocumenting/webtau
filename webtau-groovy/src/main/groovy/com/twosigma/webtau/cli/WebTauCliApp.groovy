@@ -59,6 +59,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
+        println "@@@ 0"
         System.setProperty("java.awt.headless", "true")
         ConsoleOutputs.add(consoleOutput)
 
