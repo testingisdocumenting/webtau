@@ -1,11 +1,1 @@
 language: java
-deploy:
-  provider: releases
-  api_key:
-    secure: QhlcHaIEayivGgvy48wPndJgO4wyCdegUE4X9feO+x6Wf7fXAMsfbn6p/V1KmkY7MPLYRZGmLTXMr/TmcBcqnAFSgCg1OmWo1AQqJXPslejYHpafrGhfu1/0i3c8Vq9U99BNtYI1DzGg1P34g9AM5BDD07SvCuJiv3AVbPkNwB3xDhmrkFFYsDPj1PpzaQUqNffhEarHdDzr+537fQX6bRxK27H8r/kOJfQTrFCHFOP34e37obIFXaKM7ZGdg35XZ5SmGkZro3BKSYLQIgMPAry7ltkFToyrYun6Q6KcNcFNz2jM7Pu6YI5fVSmQrnrYFL+cgO0GA/T0LYpiTJ+AHhH4g3rsjpkUl6H1S8778AjwiJyOaTxTn0SrX7hPqP0Z0p36HK+ewQij74ea2ES/BEJ/cen5QGYckaWAbnAInO4MToPJcrtd/QZuP2TqJLxkSw1O1bnpZ6ranPQw8OXPnQG0Cdd/LpYJFjHUzsfblzpbX7NLTgvlhtkiOq2fS3PBni4ueVxvl0OQl13mXPcGsp07HGdRy6KNC6pAPZs1+Tk372W1aC5ifxHqHVQGKksJJ/eModuUKboc9yDhnlHLsbmHE8a/hzn7mGYc2yFXaDMGgKlJ1PhE2CHDPE7sshol36E+ZT/KFJvCXJhLb6nkg5ACeOTMTk0Ot34sq4xMuXs=
-  file: webtau-dist/target/dist-webtau.zip
-  skip_cleanup: true
-  on:
-    repo: twosigma/webtau
-    tags: true
-    branch: master
