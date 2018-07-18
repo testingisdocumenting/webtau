@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package com.twosigma.webtau.cli
 
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
+import org.junit.Test
 
-import java.util.Set;
+class WebTauCliAppTest {
+    @Test
+    void "should capture number of problems at the end of test runs"() {
+        def cli = new WebTauCliApp('examples/withException.groovy')
+        cli.start(true)
 
-public class ReportGenerators {
-    private static final Set<ReportGenerator> generators = ServiceLoaderUtils.load(ReportGenerator.class);
-
-    public static void generate(Report report) {
-        generators.forEach(g -> g.generate(report));
-    }
-
-    public static void add(ReportGenerator reportGenerator) {
-        generators.add(reportGenerator);
-    }
-
-    public static void remove(ReportGenerator reportGenerator) {
-        generators.remove(reportGenerator);
+        cli.problemCount.should == 1
     }
 }
