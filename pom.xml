@@ -23,7 +23,24 @@
     <version>0.22-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>WebTau</name>
+    <description>webtau - web test automation. REST and UI testing framework.</description>
     <url>https://github.com/twosigma/webtau</url>
+
+    <developers>
+        <developer>
+            <id>MykolaGolubyev</id>
+            <name>Nick Golubyev</name>
+            <email>golubev.nikolay@gmail.com</email>
+            <url>http://www.example.com/jdoe</url>
+            <organization>Two Sigma Investments</organization>
+            <organizationUrl>http://www.twosigma.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>America/New_York</timezone>
+        </developer>
+    </developers>
 
     <licenses>
         <license>
@@ -37,8 +54,8 @@
         <url>https://github.com/twosigma/webtau</url>
         <connection>scm:git:https://github.com/twosigma/webtau.git</connection>
         <developerConnection>scm:git:https://github.com/twosigma/webtau.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>
