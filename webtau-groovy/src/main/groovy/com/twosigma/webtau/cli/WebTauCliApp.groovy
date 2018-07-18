@@ -63,10 +63,13 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         ConsoleOutputs.add(consoleOutput)
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
+
+        println "@@@ 1"
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
+        println "@@@ 2"
 
         runner = new StandaloneTestRunner(
                 GroovyRunner.createWithDelegatingEnabled(cfg.workingDir),
@@ -83,6 +86,8 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             StepReporters.add(stepReporter)
             StepReporters.add(screenshotStepReporter)
             ReportGenerators.add(this)
+
+            println "@@@ 5"
 
             cfg.print()
             ConsoleOutputs.out()

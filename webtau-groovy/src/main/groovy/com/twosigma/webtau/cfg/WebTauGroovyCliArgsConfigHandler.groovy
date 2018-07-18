@@ -21,11 +21,14 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
     private WebTauCliArgsConfig argsConfig
 
     WebTauGroovyCliArgsConfigHandler(String[] args) {
+        println "@@@ 3 $args"
+
         this.args = args
     }
 
     @Override
     void onBeforeCreate(WebTauConfig cfg) {
+        println "@@@ 4"
     }
 
     @Override
