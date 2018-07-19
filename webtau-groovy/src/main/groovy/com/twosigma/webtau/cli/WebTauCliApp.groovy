@@ -66,6 +66,8 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
+        WebTauConfig.explicitInit()
+
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
         runner = new StandaloneTestRunner(
@@ -73,16 +75,16 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
                 cfg.getWorkingDir())
 
         report = new Report()
-
-        StandaloneTestListeners.add(consoleTestReporter)
-        StandaloneTestListeners.add(this)
         WebTauGroovyDsl.initWithTestRunner(runner)
     }
 
     void start(boolean autoCloseWebDrivers) {
         try {
+            StandaloneTestListeners.add(consoleTestReporter)
+            StandaloneTestListeners.add(this)
             StepReporters.add(stepReporter)
             StepReporters.add(screenshotStepReporter)
+            ReportGenerators.add(this)
 
             cfg.print()
             ConsoleOutputs.out()
@@ -95,6 +97,9 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         } finally {
             StandaloneTestListeners.remove(consoleTestReporter)
             StandaloneTestListeners.remove(this)
+            StepReporters.remove(stepReporter)
+            StepReporters.remove(screenshotStepReporter)
+            ReportGenerators.remove(this)
 
             Pdf.closeAll()
 
@@ -104,6 +109,10 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         }
     }
 
+    int getProblemCount() {
+        return problemCount
+    }
+
     private List<Path> testFiles() {
         return cliConfigHandler.testFiles.collect { Paths.get(it) }
     }
@@ -111,6 +120,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     static void main(String[] args) {
         def cliApp = new WebTauCliApp(args)
         cliApp.start(true)
+
         System.exit(cliApp.problemCount)
     }
 

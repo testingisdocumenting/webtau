@@ -20,8 +20,7 @@ import com.twosigma.webtau.report.Report
 import com.twosigma.webtau.report.ReportGenerators
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.throwException
+import java.nio.file.Files
 
 class WebTauGroovyFileConfigHandlerTest {
     @Test
@@ -51,10 +50,14 @@ class WebTauGroovyFileConfigHandlerTest {
 
         cfg.reportPath.toFile().deleteOnExit()
 
-        // prod report throws exception on purpose
-        code {
-            ReportGenerators.generate(new Report())
-        } should throwException('report issue 0')
+        def customReportPath = cfg.reportPath.toAbsolutePath().parent.resolve('custom-report.txt')
+        customReportPath.toFile().deleteOnExit()
+
+        def report = new Report()
+        ReportGenerators.generate(report)
+
+        Files.exists(customReportPath).should == true
+        customReportPath.text.should == 'test report 0'
     }
 
     private static void handle(WebTauConfig cfg) {
