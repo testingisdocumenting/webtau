@@ -21,7 +21,7 @@ import org.junit.Test
 class WebTauCliAppTest {
     @Test
     void "should capture number of problems at the end of test runs"() {
-        def cli = new WebTauCliApp('examples/withException.groovy')
+        def cli = new WebTauCliApp('--config=examples/webtau.cfg', 'examples/withException.groovy')
         cli.start(true)
 
         cli.problemCount.should == 1
