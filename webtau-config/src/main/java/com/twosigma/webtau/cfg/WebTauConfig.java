@@ -24,7 +24,12 @@ import com.twosigma.webtau.utils.StringUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -78,6 +83,15 @@ public class WebTauConfig {
         acceptConfigValues("system property", systemPropsAsMap());
 
         handlers.forEach(h -> h.onAfterCreate(this));
+    }
+
+    /**
+     * Explicitly initializes config.
+     * Explicit initialization is not required as instance will be created on the first use.
+     * This is used only to simplify testing that depends on global configuration
+     */
+    public static void explicitInit() {
+        CfgInstanceHolder.reset();
     }
 
     public Stream<ConfigValue> getCfgValuesStream() {
@@ -240,6 +254,10 @@ public class WebTauConfig {
     }
 
     private static class CfgInstanceHolder {
-        private static final WebTauConfig INSTANCE = new WebTauConfig();
+        private static WebTauConfig INSTANCE = new WebTauConfig();
+
+        private static void reset() {
+            INSTANCE = new WebTauConfig();
+        }
     }
 }
