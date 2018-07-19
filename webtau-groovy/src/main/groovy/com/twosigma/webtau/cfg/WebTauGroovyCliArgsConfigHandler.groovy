@@ -21,19 +21,15 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
     private WebTauCliArgsConfig argsConfig
 
     WebTauGroovyCliArgsConfigHandler(String[] args) {
-        println "@@@ 3 $args"
-
         this.args = args
     }
 
     @Override
     void onBeforeCreate(WebTauConfig cfg) {
-        println "@@@ 4"
     }
 
     @Override
     void onAfterCreate(WebTauConfig cfg) {
-        println "todo debug: $cfg"
         /*
          * this config handler is registered twice. before any other handler, and then after all handlers.
          * We need to parse args first to get config file essential params first.

@@ -21,8 +21,6 @@ import org.junit.Test
 class WebTauCliAppTest {
     @Test
     void "should capture number of problems at the end of test runs"() {
-        println "@@@ -1"
-
         def cli = new WebTauCliApp('examples/withException.groovy')
         cli.start(true)
 
