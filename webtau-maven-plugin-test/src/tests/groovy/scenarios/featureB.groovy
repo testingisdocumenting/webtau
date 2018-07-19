@@ -16,11 +16,8 @@
 
 package scenarios
 
-import static com.twosigma.webtau.WebTauDsl.http
 import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario('simple scenario B') {
-    http.get('/simple') {
-
-    }
+    3.should == 3
 }

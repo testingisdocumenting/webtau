@@ -51,6 +51,10 @@ class WebTauMavenRunner extends AbstractMojo {
 
         def cli = new WebTauCliApp(args as String[])
         cli.start(true)
+
+        if (cli.problemCount > 0) {
+            throw new MojoFailureException("check failed tests")
+        }
     }
 
     static List<String> buildArgs(Map params) {

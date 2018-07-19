@@ -66,8 +66,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
-        WebTauConfig.explicitInit()
-
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
         runner = new StandaloneTestRunner(
@@ -114,7 +112,10 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     }
 
     private List<Path> testFiles() {
-        return cliConfigHandler.testFiles.collect { Paths.get(it) }
+        return cliConfigHandler.testFiles.collect { fileName ->
+            def path = Paths.get(fileName)
+            return path.isAbsolute() ? path : cfg.workingDir.resolve(path)
+        }
     }
 
     static void main(String[] args) {

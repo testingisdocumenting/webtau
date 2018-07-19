@@ -85,15 +85,6 @@ public class WebTauConfig {
         handlers.forEach(h -> h.onAfterCreate(this));
     }
 
-    /**
-     * Explicitly initializes config.
-     * Explicit initialization is not required as instance will be created on the first use.
-     * This is used only to simplify testing that depends on global configuration
-     */
-    public static void explicitInit() {
-        CfgInstanceHolder.reset();
-    }
-
     public Stream<ConfigValue> getCfgValuesStream() {
         return enumeratedCfgValues.values().stream();
     }
@@ -255,9 +246,5 @@ public class WebTauConfig {
 
     private static class CfgInstanceHolder {
         private static WebTauConfig INSTANCE = new WebTauConfig();
-
-        private static void reset() {
-            INSTANCE = new WebTauConfig();
-        }
     }
 }
