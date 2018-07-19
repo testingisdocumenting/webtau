@@ -19,13 +19,25 @@ package com.twosigma.webtau.openapi;
 import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.cfg.WebTauConfigHandler;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import static com.twosigma.webtau.cfg.ConfigValue.declare;
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue openApiSpecUrl = declare("openApiSpecUrl",
             "url of OpenAPI 2 spec against which to validate responses", () -> "");
+
+    public static String specFullPath() {
+        String pathAsString = openApiSpecUrl.getAsString();
+        Path path = Paths.get(pathAsString);
+
+        return path.isAbsolute() ?
+                pathAsString:
+                getCfg().getWorkingDir().resolve(pathAsString).toString();
+    }
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
