@@ -101,6 +101,8 @@
         <module>webtau-testapp</module>
         <module>webtau-config</module>
         <module>webtau-docs</module>
+        <module>webtau-maven-plugin</module>
+        <module>webtau-maven-plugin-test</module>
         <module>webtau-dist</module>
         <module>webtau</module>
     </modules>
