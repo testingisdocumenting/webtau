@@ -113,8 +113,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     private List<Path> testFiles() {
         return cliConfigHandler.testFiles.collect { fileName ->
-            def path = Paths.get(fileName)
-            return path.isAbsolute() ? path : cfg.workingDir.resolve(path)
+            return cfg.workingDir.resolve(Paths.get(fileName))
         }
     }
 

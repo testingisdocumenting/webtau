@@ -137,9 +137,7 @@ public class WebTauConfig {
     }
 
     public Path getDocArtifactsPath() {
-        return docPath.getAsPath().isAbsolute() ?
-                docPath.getAsPath() :
-                getWorkingDir().resolve(docPath.getAsPath());
+        return getWorkingDir().resolve(docPath.getAsPath());
     }
 
     public int getWindowWidth() {
