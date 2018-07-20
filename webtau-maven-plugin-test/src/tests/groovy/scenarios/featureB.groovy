@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli
+package scenarios
 
-import org.junit.Test
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
-class WebTauCliAppTest {
-    @Test
-    void "should capture number of problems at the end of test runs"() {
-        def cli = new WebTauCliApp('--config=examples/webtau.cfg', 'examples/withException.groovy')
-        cli.start(true)
-
-        cli.problemCount.should == 1
-    }
+scenario('simple scenario B') {
+    3.should == 3
 }
