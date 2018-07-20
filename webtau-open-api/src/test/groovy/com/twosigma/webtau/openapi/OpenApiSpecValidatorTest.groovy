@@ -29,18 +29,18 @@ class OpenApiSpecValidatorTest {
     private final static String URL = "http://myhost.com:1234/"
 
     private OpenApiSpecValidator validator
+    private static def specUrl = ResourceUtils.resourceUrl("test-spec.json")
 
     @Before
     void setUp() {
-        def specUrl = ResourceUtils.resourceUrl("test-spec.json")
-        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()))
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()), new OpenApiValidationConfig())
     }
 
     @Test
     void "invalid responses should generate mismatches"() {
         //This should generate two errors: one for missing mandatoryField and one for invalid type of intField.
         //It should generate no errors for the missing optionalField
-        def testResponse = "{\"intField\": \"abc\"}"
+        def testResponse = '{"intField": "abc"}'
         def result = validationResult(GET, URL, ok(testResponse))
 
         validator.validateApiSpec(result, ValidationMode.ALL)
@@ -52,7 +52,21 @@ class OpenApiSpecValidatorTest {
 
     @Test
     void "valid response generates no mismatches"() {
-        def testResponse = "{\"mandatoryField\": \"foo\"}"
+        def testResponse = '{"mandatoryField": "foo"}'
+        def result = validationResult(GET, URL, ok(testResponse))
+
+        validator.validateApiSpec(result, ValidationMode.ALL)
+
+        result.mismatches.size().should == 0
+    }
+
+    @Test
+    void "should ignore additional properties when specified in a config"() {
+        def config = new OpenApiValidationConfig()
+        config.setIgnoreAdditionalProperties(true)
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()), config)
+
+        def testResponse = '{"mandatoryField": "foo", "extraField": "value"}'
         def result = validationResult(GET, URL, ok(testResponse))
 
         validator.validateApiSpec(result, ValidationMode.ALL)
