@@ -22,10 +22,17 @@ import com.twosigma.webtau.cfg.WebTauConfigHandler;
 import java.util.stream.Stream;
 
 import static com.twosigma.webtau.cfg.ConfigValue.declare;
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue openApiSpecUrl = declare("openApiSpecUrl",
             "url of OpenAPI 2 spec against which to validate responses", () -> "");
+
+    public static String specFullPath() {
+        return getCfg().getWorkingDir()
+                .resolve(openApiSpecUrl.getAsString())
+                .toString();
+    }
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
