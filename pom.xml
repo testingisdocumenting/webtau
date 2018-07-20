@@ -32,7 +32,6 @@
             <id>MykolaGolubyev</id>
             <name>Nick Golubyev</name>
             <email>golubev.nikolay@gmail.com</email>
-            <url>http://www.example.com/jdoe</url>
             <organization>Two Sigma Investments</organization>
             <organizationUrl>http://www.twosigma.com/</organizationUrl>
             <roles>
@@ -270,6 +269,51 @@
     </build>
 
     <profiles>
+        <profile>
+            <id>groovy-auto-activated</id>
+            <activation>
+                <file>
+                    <exists>src/main/groovy</exists>
+                </file>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.gmavenplus</groupId>
+                        <artifactId>gmavenplus-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>add-sources</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>addSources</goal>
+                                    <goal>addTestSources</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>compile</id>
+                                <goals>
+                                    <goal>compile</goal>
+                                    <goal>testCompile</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>groovy-docs</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>groovydoc</goal>
+                                </goals>
+                                <configuration>
+                                    <groovydocOutputDirectory>${project.build.directory}/apidocs</groovydocOutputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release</id>
             <build>
