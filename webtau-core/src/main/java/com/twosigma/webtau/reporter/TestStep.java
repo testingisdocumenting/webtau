@@ -108,6 +108,10 @@ public class TestStep<C, R> {
         return getCombinedPayloadsOfType(type).findAny().isPresent();
     }
 
+    public boolean hasFailedChildrenSteps() {
+        return children.stream().anyMatch(TestStep::isFailed);
+    }
+
     @SuppressWarnings("unchecked")
     public C getFirstAvailableContext() {
         if (context != null) {
