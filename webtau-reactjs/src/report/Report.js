@@ -38,11 +38,15 @@ class Report {
         return overallTime / test.httpCalls.length
     }
 
+    static groupTestsByFile(tests) {
+        return groupTestsByFile(tests)
+    }
+
     constructor(report) {
         this.report = report
         this.version = report.version
         this.config = report.config
-        this.tests = failedTestsAtTheTop(enrichTestsData(report.tests))
+        this.tests = enrichTestsData(report.tests)
         this.httpCalls = extractHttpCalls(this.tests)
         this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedOperations || []), ...this.httpCalls]
         this.testsSummary = buildTestsSummary(report.summary)
@@ -104,8 +108,9 @@ class Report {
     }
 
     testsWithStatusAndFilteredByText(status, text) {
-        return this.tests.filter(t => statusFilterPredicate(t.status, status) &&
-            textFilterPredicate(t.scenario, text))
+        return this.tests.filter(t => statusFilterPredicate(t.status, status) && (
+            textFilterPredicate(t.scenario, text) ||
+            textFilterPredicate(t.fileName, text)))
     }
 
     httpCallsWithStatusAndFilteredByText(status, text) {
@@ -173,16 +178,52 @@ function lowerCaseIndexOf(text, part) {
 function enrichTestsData(tests) {
     return tests.map(test => ({
             ...test,
+            shortFileName: shortenFileName(test.fileName),
             details: additionalDetails(test),
             httpCalls: enrichHttpCallsData(test, test.httpCalls)
         }))
 }
 
-function failedTestsAtTheTop(tests) {
-    const failed = tests.filter(t => isFailedOrErrored(t))
-    const rest = tests.filter(t => !isFailedOrErrored(t))
+function groupTestsByFile(tests) {
+    const groups = []
+    const groupById = {}
+
+    tests.forEach(t => {
+        const groupId = t.fileName
+
+        let group = groupById[groupId]
+        if (!group) {
+            group = {id: groupId, tests: []}
+            groupById[groupId] = group
+            groups.push(group)
+        }
+
+        group.tests.push(t)
+    })
+
+    return groupWithFailedTestsAtTheTop(groups)
+}
+
+function shortenFileName(fileName) {
+    fileName = fileName.replace(/\\/g, '/')
+    const lastSlashIdx = fileName.lastIndexOf('/')
+
+    if (lastSlashIdx === -1) {
+        return fileName
+    }
+
+    return fileName.substr(lastSlashIdx + 1)
+}
+
+function groupWithFailedTestsAtTheTop(groups) {
+    const failed = groups.filter(g => hasFailedOrErrored(g))
+    const rest = groups.filter(g => !hasFailedOrErrored(g))
 
     return [...failed, ...rest]
+}
+
+function hasFailedOrErrored(group) {
+    return group.tests.some(t => isFailedOrErrored(t))
 }
 
 function isFailedOrErrored(test) {

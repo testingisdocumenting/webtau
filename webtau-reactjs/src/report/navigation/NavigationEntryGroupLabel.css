@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-.navigation-entry-status {
-    font-size: 10px;
-}
+.navigation-entry-group-label {
+    color: var(--webtau-test-group-label-color);
 
-.navigation-entry-status.failed {
-    color: #f88c27;
-}
+    background-color: var(--webtau-test-group-label-background-color);
+    padding: 4px 10px;
 
-.navigation-entry-status.errored {
-    color: #f88c27;
-}
-
-.navigation-entry-status.passed {
-    color: #65bc0c;
-}
-
-.navigation-entry-status.skipped {
-    color: #ddd;
+    cursor: pointer;
 }

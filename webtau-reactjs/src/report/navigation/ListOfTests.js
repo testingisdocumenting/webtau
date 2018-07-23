@@ -17,13 +17,34 @@
 import React from 'react'
 
 import NavigationEntry from './NavigationEntry'
+import NavigationEntryGroupLabel from './NavigationEntryGroupLabel'
 
 import './ListOfTests.css'
 
-function ListOfTests({tests, onSelect, selectedId}) {
+function ListOfTests({testGroups, onTestSelect, onTestGroupSelect, selectedId}) {
     return (
         <div className="list-of-tests">
-            {tests.map((test) => <TestEntry key={test.id} test={test} onSelect={onSelect} isSelected={test.id === selectedId}/>)}
+            {testGroups.map((group) => <TestsGroup key={group.id}
+                                                   tests={group.tests}
+                                                   selectedId={selectedId}
+                                                   onTestSelect={onTestSelect}
+                                                   onTestGroupSelect={onTestGroupSelect}/>)}
+        </div>
+    )
+}
+
+function TestsGroup({tests, onTestSelect, onTestGroupSelect, selectedId}) {
+    const renderedTests = tests.map((test) => <TestEntry key={test.id}
+                                                         test={test}
+                                                         onSelect={onTestSelect}
+                                                         isSelected={test.id === selectedId}/>)
+    const groupLabel = tests[0].shortFileName
+
+    return (
+        <div className="group-of-tests">
+            <NavigationEntryGroupLabel label={groupLabel} onSelect={() => onTestGroupSelect(groupLabel)}/>
+
+            {renderedTests}
         </div>
     )
 }

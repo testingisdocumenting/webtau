@@ -29,50 +29,12 @@ const report = {
         {key: 'env', value: 'dev', source: 'command line'},
         {key: 'url', value: 'https://blahlong-url-maybe-need-shortening.com/v1', source: 'config file'},
     ],
-    "tests": [{
-        "id": "customerCrudSeparated.groovy-1",
-        "scenario": "customer create",
+    "tests": [
+        {
+        "id": "another.groovy-1",
+        "scenario": "customer super read",
         "status": "Passed",
-        "fileName": "rest/springboot/customerCrudSeparated.groovy",
-        "httpCalls": [{
-            "method": "POST",
-            "url": "http://localhost:8080/customers",
-            "elapsedTime": 283,
-            "errorMessage": null,
-            "mismatches": [],
-            "responseType": "application/json;charset=UTF-8",
-            "responseStatusCode": 201,
-            "responseBody": "{\n  \"id\" : 1,\n  \"FirstNameVeryLongNameFirstNameVeryLongNameFirstNameVeryLongNameFirstNameVeryLongNameFirstNameVeryLongName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
-            "requestType": "application/json",
-            "requestBody": JSON.stringify(deepNestedJson),
-            "responseBodyChecks": {
-                "failedPaths": [],
-                "passedPaths": []
-            }
-        }],
-        "steps": [{
-            "message": [{
-                "type": "action",
-                "value": "executed HTTP POST"
-            }, {
-                "type": "url",
-                "value": "http://localhost:8080/customers"
-            }],
-            "children": [{
-                "message": [{
-                    "type": "id",
-                    "value": "header.statusCode"
-                }, {
-                    "type": "matcher",
-                    "value": "equals 201\nmatches:\n\nheader.statusCode:   actual: 201 <java.lang.Integer>\n                   expected: 201 <java.lang.Integer>"
-                }]
-            }]
-        }]
-    }, {
-        "id": "customerCrudSeparated.groovy-2",
-        "scenario": "customer read",
-        "status": "Passed",
-        "fileName": "rest/springboot/customerCrudSeparated.groovy",
+        "fileName": "rest\\springboot\\anotherTest.groovy",
         "httpCalls": [{
             "method": "GET",
             "url": "http://localhost:8080/customers/1",
@@ -113,7 +75,94 @@ const report = {
                 }]
             }]
         }]
-    }, {
+    },
+        {
+            "id": "customerCrudSeparated.groovy-1",
+            "scenario": "customer create",
+            "status": "Passed",
+            "fileName": "rest/springboot/customerCrudSeparated.groovy",
+            "httpCalls": [{
+                "method": "POST",
+                "url": "http://localhost:8080/customers",
+                "elapsedTime": 283,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "application/json;charset=UTF-8",
+                "responseStatusCode": 201,
+                "responseBody": "{\n  \"id\" : 1,\n  \"FirstNameVeryLongNameFirstNameVeryLongNameFirstNameVeryLongNameFirstNameVeryLongNameFirstNameVeryLongName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
+                "requestType": "application/json",
+                "requestBody": JSON.stringify(deepNestedJson),
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": []
+                }
+            }],
+            "steps": [{
+                "message": [{
+                    "type": "action",
+                    "value": "executed HTTP POST"
+                }, {
+                    "type": "url",
+                    "value": "http://localhost:8080/customers"
+                }],
+                "children": [{
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 201\nmatches:\n\nheader.statusCode:   actual: 201 <java.lang.Integer>\n                   expected: 201 <java.lang.Integer>"
+                    }]
+                }]
+            }]
+        },
+        {
+        "id": "another.groovy-2",
+        "scenario": "customer read",
+        "status": "Passed",
+        "fileName": "rest\\springboot\\anotherTest.groovy",
+        "httpCalls": [{
+            "method": "GET",
+            "url": "http://localhost:8080/customers/3",
+            "elapsedTime": 22,
+            "errorMessage": null,
+            "mismatches": [],
+            "responseType": "application/json;charset=UTF-8",
+            "responseStatusCode": 200,
+            "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
+            "responseBodyChecks": {
+                "failedPaths": [],
+                "passedPaths": ["root.firstName", "root.lastName"]
+            }
+        }],
+        "steps": [{
+            "message": [{
+                "type": "action",
+                "value": "executed HTTP GET"
+            }, {
+                "type": "url",
+                "value": "http://localhost:8080/customers/1"
+            }],
+            "children": [{
+                "message": [{
+                    "type": "id",
+                    "value": "body"
+                }, {
+                    "type": "matcher",
+                    "value": "equals {firstName=FN, lastName=LN}\nmatches:\n\nbody.firstName:   actual: \"FN\" <java.lang.String>\n                expected: \"FN\" <java.lang.String>\nbody.lastName:   actual: \"LN\" <java.lang.String>\n               expected: \"LN\" <java.lang.String>"
+                }]
+            }, {
+                "message": [{
+                    "type": "id",
+                    "value": "header.statusCode"
+                }, {
+                    "type": "matcher",
+                    "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                }]
+            }]
+        }]
+    },
+        {
         "id": "customerCrudSeparated.groovy-3",
         "scenario": "customer update",
         "status": "Passed",
@@ -198,7 +247,8 @@ const report = {
                 }]
             }]
         }]
-    }, {
+    },
+        {
         "id": "customerCrudSeparated.groovy-4",
         "scenario": "customer delete",
         "status": "Failed",
