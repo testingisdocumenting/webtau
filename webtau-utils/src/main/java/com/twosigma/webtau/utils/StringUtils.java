@@ -58,15 +58,6 @@ public class StringUtils {
         return openIdx == -1 ? code : code.substring(0, openIdx);
     }
 
-    private static Integer lineIndentation(String line) {
-        int i = 0;
-        while (i < line.length() && line.charAt(i) == ' ') {
-            i++;
-        }
-
-        return i;
-    }
-
     public static String createIndentation(int numberOfSpaces) {
         return numberOfSpaces == 0 ? "" : String.format("%" + numberOfSpaces + "s", "");
     }
@@ -75,9 +66,16 @@ public class StringUtils {
         String indentation = StringUtils.createIndentation(prefix.length());
 
         String[] lines = multilineText.split("\n");
-        return (prefix + lines[0]) + (lines.length > 1 ?
-                "\n" + Arrays.stream(lines).skip(1).map(l -> indentation + l).collect(joining("\n")) :
-                "");
+        return (prefix + lines[0]) +
+                (lines.length > 1 ?
+                        "\n" + joinWithIndentAllButFirstLine(indentation, lines) : "");
+    }
+
+    public static String indentAllLinesButFirst(String indentation, String multilineText) {
+        String[] lines = multilineText.split("\n");
+        return (lines[0]) +
+                (lines.length > 1 ?
+                        "\n" + joinWithIndentAllButFirstLine(indentation, lines) : "");
     }
 
     public static boolean nullOrEmpty(String s) {
@@ -86,6 +84,19 @@ public class StringUtils {
 
     public static boolean notNullOrEmpty(String s) {
         return !nullOrEmpty(s);
+    }
+
+    private static String joinWithIndentAllButFirstLine(String indentation, String[] lines) {
+        return Arrays.stream(lines).skip(1).map(l -> indentation + l).collect(joining("\n"));
+    }
+
+    private static Integer lineIndentation(String line) {
+        int i = 0;
+        while (i < line.length() && line.charAt(i) == ' ') {
+            i++;
+        }
+
+        return i;
     }
 
     private static boolean notEmptyLine(String s) {
@@ -126,5 +137,4 @@ public class StringUtils {
 
         return -1;
     }
-
 }

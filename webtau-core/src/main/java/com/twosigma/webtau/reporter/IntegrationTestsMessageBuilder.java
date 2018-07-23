@@ -22,7 +22,7 @@ import com.twosigma.webtau.console.ansi.FontStyle;
 import java.util.Arrays;
 
 public class IntegrationTestsMessageBuilder {
-    private enum TokenTypes {
+    public enum TokenTypes {
         ERROR("error", Color.RED),
         NONE("none", FontStyle.NORMAL),
         ACTION("action", Color.BLUE),
@@ -48,6 +48,10 @@ public class IntegrationTestsMessageBuilder {
             this.type = type;
             this.delimiterAfter = delimiterAfter;
             this.styles = styles;
+        }
+
+        public String getType() {
+            return type;
         }
 
         public MessageToken token(Object value) {

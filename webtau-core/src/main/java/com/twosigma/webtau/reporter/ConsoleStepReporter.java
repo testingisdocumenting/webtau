@@ -29,20 +29,71 @@ public class ConsoleStepReporter implements StepReporter {
 
     @Override
     public void onStepStart(TestStep step) {
-        ConsoleOutputs.out(indentationStep(step), Color.YELLOW, "> ", toAnsiConverter.convert(step.getInProgressMessage()));
+        ConsoleOutputs.out(createIndentation(step.getNumberOfParents()), Color.YELLOW, "> ",
+                toAnsiConverter.convert(step.getInProgressMessage()));
     }
 
     @Override
     public void onStepSuccess(TestStep step) {
-        ConsoleOutputs.out(indentationStep(step), Color.GREEN, ". ", toAnsiConverter.convert(step.getCompletionMessage()));
+        TokenizedMessage completionMessage = step.getCompletionMessage();
+
+        int numberOfParents = step.getNumberOfParents();
+
+        TokenizedMessage completionMessageToUse = isLastTokenMatcher(completionMessage) ?
+                completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
+                        .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken())):
+                completionMessage;
+
+        ConsoleOutputs.out(createIndentation(numberOfParents), Color.GREEN, ". ",
+                toAnsiConverter.convert(completionMessageToUse));
     }
 
     @Override
     public void onStepFailure(TestStep step) {
-        ConsoleOutputs.out(indentationStep(step),Color.RED, "X ", toAnsiConverter.convert(step.getCompletionMessage()));
+        TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
+
+        ConsoleOutputs.out(createIndentation(step.getNumberOfParents()), Color.RED, "X ",
+                toAnsiConverter.convert(completionMessageToUse));
     }
 
-    private String indentationStep(TestStep step) {
-        return StringUtils.createIndentation(step.getNumberOfParents() * 2);
+    private TokenizedMessage messageTokensForFailedStep(TestStep step) {
+        TokenizedMessage completionMessage = step.getCompletionMessage();
+        int numberOfParents = step.getNumberOfParents();
+
+        boolean isLastTokenError = isLastTokenError(completionMessage);
+        if (!isLastTokenError) {
+            return completionMessage;
+        }
+
+        if (step.hasFailedChildrenSteps()) {
+            // we don't render children errors one more time in case this step has failed children steps
+            // last two tokens of a message are delimiter and error tokens
+            // so we remove them
+            return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 2);
+        }
+
+        return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
+                .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken()));
+    }
+
+    private MessageToken reAlignText(int indentLevel, MessageToken token) {
+        String text = token.getValue().toString();
+
+        return new MessageToken(token.getType(),
+                StringUtils.indentAllLinesButFirst(createIndentation(indentLevel), text));
+    }
+
+    private boolean isLastTokenMatcher(TokenizedMessage completionMessage) {
+        return completionMessage.getLastToken().getType().equals(
+                IntegrationTestsMessageBuilder.TokenTypes.MATCHER.getType());
+    }
+
+    private boolean isLastTokenError(TokenizedMessage completionMessage) {
+        return completionMessage.getLastToken().getType().equals(
+                IntegrationTestsMessageBuilder.TokenTypes.ERROR.getType());
+    }
+
+    private String createIndentation(int indentation) {
+        return StringUtils.createIndentation(indentation * 2);
     }
 }

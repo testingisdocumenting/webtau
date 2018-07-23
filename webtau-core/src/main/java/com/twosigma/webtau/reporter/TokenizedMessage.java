@@ -16,7 +16,11 @@
 
 package com.twosigma.webtau.reporter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -52,13 +56,29 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         return this;
     }
 
+    public TokenizedMessage add(List<MessageToken> tokens) {
+        this.tokens.addAll(tokens);
+        return this;
+    }
+
     public TokenizedMessage add(TokenizedMessage tokenizedMessage) {
         tokenizedMessage.tokensStream().forEach(this::add);
         return this;
     }
 
+    public TokenizedMessage subMessage(int from, int toExclusive) {
+        TokenizedMessage messageTokens = new TokenizedMessage();
+        messageTokens.add(tokens.subList(from, toExclusive));
+
+        return messageTokens;
+    }
+
     public int getNumberOfTokens() {
         return tokens.size();
+    }
+
+    public MessageToken getLastToken() {
+        return tokens.get(tokens.size() - 1);
     }
 
     public Stream<MessageToken> tokensStream() {
