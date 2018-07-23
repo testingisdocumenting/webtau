@@ -17,16 +17,19 @@
 .navigation-entry {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-bottom: 1px var(--webtau-list-item-separation-color) solid;
     user-select: none;
     cursor: pointer;
 }
 
+.navigation-entry:last-child {
+    border-bottom: none;
+}
+
 .navigation-entry.selected {
     border-left: 5px solid var(--webtau-selected-test-border-color);
     background-color: var(--webtau-selected-test-background);
-    padding-left: 22px;
 }
 
 .navigation-entry > .label {

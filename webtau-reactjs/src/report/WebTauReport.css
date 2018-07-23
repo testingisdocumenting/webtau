@@ -16,6 +16,8 @@
 
 :root {
     --webtau-test-selection-background-color: #5b666c;
+    --webtau-test-group-label-color: #bbb;
+    --webtau-test-group-label-background-color: #3b4348;
     --webtau-test-status-filter-background-color: #3e474b;
     --webtau-selected-test-background: rgba(234, 211, 150, 0.2);
     --webtau-selected-test-border-color: rgba(156, 186, 93, 0.78);
@@ -58,7 +60,6 @@ body {
 .report > .search-area {
     grid-area: search;
     background-color: var(--webtau-test-selection-background-color);
-    border-bottom: 1px solid var(--webtau-list-item-separation-color);
 }
 
 .search-area input {
@@ -69,8 +70,7 @@ body {
     width: 100%;
     height: 100%;
 
-
-    padding: 10px 4px 10px 20px;
+    padding: 10px 4px 10px 10px;
     margin: 0;
     border: none;
     outline: none;

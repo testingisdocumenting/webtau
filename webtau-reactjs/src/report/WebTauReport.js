@@ -17,6 +17,8 @@
 import React, {Component} from 'react'
 import {DebounceInput} from 'react-debounce-input';
 
+import Report from './Report'
+
 import ListOfTests from './navigation/ListOfTests'
 import StatusFilter from './navigation/StatusFilter'
 import TestDetails from './details/TestDetails'
@@ -109,9 +111,10 @@ class WebTauReport extends Component {
 
         if (this.isTestsView) {
             return (
-                <ListOfTests tests={this.filteredTests}
+                <ListOfTests testGroups={this.filteredTestGroups}
                              selectedId={testId}
-                             onSelect={this.onTestSelect}/>
+                             onTestGroupSelect={this.onTestGroupSelect}
+                             onTestSelect={this.onTestSelect}/>
             )
         } else {
             return (
@@ -179,6 +182,10 @@ class WebTauReport extends Component {
         return report.testsWithStatusAndFilteredByText(statusFilter, filterText)
     }
 
+    get filteredTestGroups() {
+        return Report.groupTestsByFile(this.filteredTests)
+    }
+
     get filteredHttpCalls() {
         const {report} = this.props
         const {statusFilter, filterText} = this.state
@@ -202,6 +209,10 @@ class WebTauReport extends Component {
             filterText: this.state.filterText,
             testId: id
         })
+    }
+
+    onTestGroupSelect = (groupId) => {
+        this.pushPartialUrlState({filterText: groupId})
     }
 
     onHttpCallSelect = (id) => {

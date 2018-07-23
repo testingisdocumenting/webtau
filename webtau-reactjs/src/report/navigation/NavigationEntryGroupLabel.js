@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-.navigation-entry-status {
-    font-size: 10px;
+import React from 'react'
+
+import './NavigationEntryGroupLabel.css'
+
+function NavigationEntryGroupLabel({label, onSelect}) {
+    return (
+        <div className="navigation-entry-group-label" onClick={onSelect}>
+            {label}
+        </div>
+    )
 }
 
-.navigation-entry-status.failed {
-    color: #f88c27;
-}
-
-.navigation-entry-status.errored {
-    color: #f88c27;
-}
-
-.navigation-entry-status.passed {
-    color: #65bc0c;
-}
-
-.navigation-entry-status.skipped {
-    color: #ddd;
-}
+export default NavigationEntryGroupLabel
