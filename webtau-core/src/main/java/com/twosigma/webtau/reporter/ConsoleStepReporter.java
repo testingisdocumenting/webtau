@@ -20,6 +20,8 @@ import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.utils.StringUtils;
 
+import java.util.stream.Stream;
+
 public class ConsoleStepReporter implements StepReporter {
     private TokenizedMessageToAnsiConverter toAnsiConverter;
 
@@ -29,8 +31,9 @@ public class ConsoleStepReporter implements StepReporter {
 
     @Override
     public void onStepStart(TestStep step) {
-        ConsoleOutputs.out(createIndentation(step.getNumberOfParents()), Color.YELLOW, "> ",
-                toAnsiConverter.convert(step.getInProgressMessage()));
+        ConsoleOutputs.out(Stream.concat(Stream.of(
+                createIndentation(step.getNumberOfParents()),
+                Color.YELLOW, "> "), toAnsiConverter.convert(step.getInProgressMessage()).stream()).toArray());
     }
 
     @Override
@@ -44,16 +47,20 @@ public class ConsoleStepReporter implements StepReporter {
                         .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken())):
                 completionMessage;
 
-        ConsoleOutputs.out(createIndentation(numberOfParents), Color.GREEN, ". ",
-                toAnsiConverter.convert(completionMessageToUse));
+        ConsoleOutputs.out(Stream.concat(Stream.of(
+                createIndentation(numberOfParents),
+                Color.GREEN, ". "),
+                toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
     }
 
     @Override
     public void onStepFailure(TestStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
 
-        ConsoleOutputs.out(createIndentation(step.getNumberOfParents()), Color.RED, "X ",
-                toAnsiConverter.convert(completionMessageToUse));
+        ConsoleOutputs.out(Stream.concat(Stream.of(
+                createIndentation(step.getNumberOfParents()),
+                Color.RED, "X "),
+                toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
     }
 
     private TokenizedMessage messageTokensForFailedStep(TestStep step) {
@@ -77,6 +84,10 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private MessageToken reAlignText(int indentLevel, MessageToken token) {
+        if (token.getValue() == null) {
+            return token;
+        }
+
         String text = token.getValue().toString();
 
         return new MessageToken(token.getType(),

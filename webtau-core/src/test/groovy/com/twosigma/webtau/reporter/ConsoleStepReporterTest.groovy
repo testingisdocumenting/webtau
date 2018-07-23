@@ -19,6 +19,7 @@ package com.twosigma.webtau.reporter
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
+import com.twosigma.webtau.console.ansi.IgnoreAnsiString
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -109,8 +110,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Override
     void out(Object... styleOrValues) {
-        lines.add(styleOrValues.collect { it.toString() }
-                .join('').replaceAll(~/\[\d+m/, '').replaceAll('\u001B', ''))
+        lines.add(new IgnoreAnsiString(styleOrValues).toString())
     }
 
     @Override

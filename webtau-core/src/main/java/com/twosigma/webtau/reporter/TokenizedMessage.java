@@ -96,6 +96,6 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     @Override
     public String toString() {
-        return tokens.stream().map(t -> t.getValue().toString()).collect(Collectors.joining(" "));
+        return tokens.stream().map(t -> String.valueOf(t.getValue().toString())).collect(Collectors.joining(" "));
     }
 }

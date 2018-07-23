@@ -24,6 +24,7 @@ import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
+import com.twosigma.webtau.console.ansi.NoAnsiConsoleOutput
 import com.twosigma.webtau.driver.WebDriverCreator
 import com.twosigma.webtau.pdf.Pdf
 import com.twosigma.webtau.report.Report
@@ -50,7 +51,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter)
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
-    private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
 
     private StandaloneTestRunner runner
     private Report report
@@ -60,12 +60,12 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     WebTauCliApp(String[] args) {
         System.setProperty("java.awt.headless", "true")
-        ConsoleOutputs.add(consoleOutput)
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
+        ConsoleOutputs.add(createConsoleOutput())
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
         runner = new StandaloneTestRunner(
@@ -160,4 +160,11 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         def summary = report.createSummary()
         problemCount = (int) (summary.failed + summary.errored + summary.skipped)
     }
+
+    private static ConsoleOutput createConsoleOutput() {
+        return getCfg().isAnsiEnabled() ?
+                new AnsiConsoleOutput():
+                new NoAnsiConsoleOutput()
+    }
+
 }

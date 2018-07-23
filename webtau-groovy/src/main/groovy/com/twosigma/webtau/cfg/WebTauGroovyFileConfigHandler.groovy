@@ -17,7 +17,6 @@
 package com.twosigma.webtau.cfg
 
 import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
 
@@ -35,7 +34,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         Path configPath = workingDir.resolve(cfg.configFileName.asString)
 
         if (!Files.exists(configPath)) {
-            ConsoleOutputs.out("skipping config file as it is not found: ", Color.CYAN, configPath)
+            ConsoleOutputs.out("skipping config file as it is not found: ", configPath)
             return
         }
 

@@ -48,6 +48,7 @@ public class WebTauConfig {
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
     private final ConfigValue docPath = declare("docPath", "path for screenshots and other generated " +
             "artifacts for documentation", workingDir::getAsPath);
+    private final ConfigValue ansiColor = declare("ansiColor", "enable/disable ANSI colors", () -> true);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
@@ -138,6 +139,10 @@ public class WebTauConfig {
 
     public Path getDocArtifactsPath() {
         return getWorkingDir().resolve(docPath.getAsPath());
+    }
+
+    public boolean isAnsiEnabled() {
+        return ansiColor.getAsBoolean();
     }
 
     public int getWindowWidth() {
@@ -231,6 +236,7 @@ public class WebTauConfig {
                 waitTimeout,
                 docPath,
                 reportPath,
+                ansiColor,
                 windowWidth,
                 windowHeight,
                 headless,
