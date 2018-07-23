@@ -28,7 +28,7 @@ import org.junit.Test
 class OpenApiResponseValidatorTest {
     @BeforeClass
     static void init() {
-        OpenApiSpecConfig.openApiSpecUrl.set('test-manual', ResourceUtils.resourceUrl("test-spec.json"))
+        OpenApiSpecConfig.specUrl.set('test-manual', ResourceUtils.resourceUrl("test-spec.json"))
     }
 
     @Test

@@ -50,3 +50,8 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
 They are also available in the HTML report:
 
 :include-image: img/rest-crud-openapi-spec-validation-error.png {fit: true}
+
+# Validation Configuration
+
+To ignore additional properties in responses set `openApiIgnoreAdditionalProperties` to `true`. 
+As any other config value it can be done via command line, config file or system properties.
