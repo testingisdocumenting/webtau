@@ -458,6 +458,8 @@ public class Http {
             return extracted;
         } catch (Throwable e) {
             ExpectationHandlers.withAdditionalHandler((valueMatcher, actualPath, actualValue, message) -> {
+                validationResult.addMismatch(message);
+
                 // another assertion happened before status code check
                 // we discard it and throw status code instead
                 if (e instanceof AssertionError) {
