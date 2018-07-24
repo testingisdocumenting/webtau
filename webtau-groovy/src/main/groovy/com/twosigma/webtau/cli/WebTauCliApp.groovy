@@ -50,7 +50,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter)
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
-    private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
 
     private StandaloneTestRunner runner
     private Report report
@@ -60,11 +59,11 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     WebTauCliApp(String[] args) {
         System.setProperty("java.awt.headless", "true")
-        ConsoleOutputs.add(consoleOutput)
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
+        ConsoleOutputs.add(createConsoleOutput())
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
@@ -159,5 +158,13 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     void generate(Report report) {
         def summary = report.createSummary()
         problemCount = (int) (summary.failed + summary.errored + summary.skipped)
+    }
+
+    private static ConsoleOutput createConsoleOutput() {
+        if (cfg.getVerboseLevel() == 0) {
+            return new SilentConsoleOutput()
+        }
+
+        return new AnsiConsoleOutput()
     }
 }
