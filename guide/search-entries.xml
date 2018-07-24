@@ -271,7 +271,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#special-values</url>
     <fullTitle>WebTau: Data Node, Special Values [REST]</fullTitle>
     <text>
-      <text>Values that you access inside validation block are special values of  DataNode  type. When you assert them using  should  statement they act as proxies that record every assertion you do.</text>
+      <text>Values that you access inside validation block are special values of  DataNode  type. When you assert them using  should  statement they act as proxies that record every assertion that you do.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -280,6 +280,14 @@ scenario("customer delete") {
     <fullTitle>WebTau: Data Node, Extracting Values [REST]</fullTitle>
     <text>
       <text>As you have seen in  REST/CRUD CRUD example  you can return values back from a validation block. When you return a value from a validation block, it automatically gets converted to its correspondent primitive. Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/data-node#properties-on-lists</url>
+    <fullTitle>WebTau: Data Node, Properties On Lists [REST]</fullTitle>
+    <text>
+      <text>If you have a list of objects like  complexList  above, you can access all its children property value with  complexList.k2 .</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -296,6 +304,14 @@ scenario("customer delete") {
     <fullTitle>WebTau: Data Node, Collect [REST]</fullTitle>
     <text>
       <text>Use  collect  to transform a collection of items</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/data-node#combine</url>
+    <fullTitle>WebTau: Data Node, Combine [REST]</fullTitle>
+    <text>
+      <text>Methods  find  and  collect  can be chained</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -350,6 +366,14 @@ class Auth {
     <fullTitle>WebTau: Files Upload, In-Memory Content [REST]</fullTitle>
     <text>
       <text>If your test already has content, you can explicitly pass it as is. Note: no file name is passed and this particular backend generated file name on your behalf. Use  http.formFile  to provide a file name</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/PDF#asserting-text</url>
+    <fullTitle>WebTau: PDF, Asserting Text [REST]</fullTitle>
+    <text>
+      <text>If response contains a pdf file you can assert its content using  pdf(body)  function. If more than one assertion needs to be made, assign  pdf  result to a local variable. Note: use pdf assertions for sanity checks like presence of correct client names or account numbers. Leave comprehensive pdf generation test to unit tests.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -485,6 +509,14 @@ API spec validation failure: ERROR - Response status 201 not defined for path ''
 
 Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
  They are also available in the HTML report:</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/openAPI-spec#validation-configuration</url>
+    <fullTitle>WebTau: OpenAPI Spec, Validation Configuration [REST]</fullTitle>
+    <text>
+      <text>To ignore additional properties in responses set  openApiIgnoreAdditionalProperties  to  true . As any other config value it can be done via command line, config file or system properties.</text>
       <score>STANDARD</score>
     </text>
   </entry>

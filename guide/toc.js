@@ -101,12 +101,20 @@ toc = [
             "id": "extracting-values"
           },
           {
+            "title": "Properties On Lists",
+            "id": "properties-on-lists"
+          },
+          {
             "title": "Find",
             "id": "find"
           },
           {
             "title": "Collect",
             "id": "collect"
+          },
+          {
+            "title": "Combine",
+            "id": "combine"
           }
         ]
       },
@@ -145,6 +153,19 @@ toc = [
           {
             "title": "In-Memory Content",
             "id": "in-memory-content"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "REST",
+        "pageTitle": "PDF",
+        "pageMeta": {},
+        "fileName": "PDF",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Asserting Text",
+            "id": "asserting-text"
           }
         ]
       },
@@ -204,6 +225,10 @@ toc = [
           {
             "title": "Validations report",
             "id": "validations-report"
+          },
+          {
+            "title": "Validation Configuration",
+            "id": "validation-configuration"
           }
         ]
       },
