@@ -69,6 +69,10 @@ public class TestStep<C, R> {
         return step;
     }
 
+    public static TestStep<?, ?> getCurrentStep() {
+        return currentStep.get();
+    }
+
     private TestStep(C context,
                      TokenizedMessage inProgressMessage,
                      Supplier<TokenizedMessage> completionMessageSupplier,

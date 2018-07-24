@@ -61,6 +61,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.twosigma.webtau.Ddjt.equal;
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -519,6 +520,10 @@ public class Http {
     }
 
     private void renderResponse(HttpValidationResult result) {
+        if (getCfg().getVerboseLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1) {
+            return;
+        }
+
         if (result.getResponse().isBinary()) {
             ConsoleOutputs.out(Color.YELLOW, "[binary content]");
         } else if (!result.hasResponseContent()) {
