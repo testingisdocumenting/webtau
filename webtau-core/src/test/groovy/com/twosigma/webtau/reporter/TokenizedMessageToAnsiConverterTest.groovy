@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.reporter
 
+import com.twosigma.webtau.console.ansi.AutoResetAnsiString
 import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.console.ansi.FontStyle
 import org.junit.Test
@@ -31,8 +32,8 @@ class TokenizedMessageToAnsiConverterTest {
         def message = new TokenizedMessage()
         message.add("keyword", "hello").add("id", "world").add("id2", "world")
 
-        def ansiString = converter.convert(message)
-        assert ansiString.toString() == "\u001B[1m\u001B[36mhello\u001B[34mworld\u001B[1m\u001B[34mworld\u001B[0m"
+        def valuesAndStyles = converter.convert(message)
+        assert new AutoResetAnsiString(valuesAndStyles.stream()).toString() == "\u001B[1m\u001B[36mhello\u001B[34mworld\u001B[1m\u001B[34mworld\u001B[0m"
     }
 
     @Test
@@ -45,7 +46,7 @@ class TokenizedMessageToAnsiConverterTest {
         def message = new TokenizedMessage()
         message.add("keyword", "hello").add("id", "world").add("id2", "world")
 
-        def ansiString = converter.convert(message)
-        assert ansiString.toString() == "\u001B[1m\u001B[36mhello\u001B[34mworld \u001B[1m\u001B[34mworld\u001B[0m"
+        def valuesAndStyles = converter.convert(message)
+        assert new AutoResetAnsiString(valuesAndStyles.stream()).toString() == "\u001B[1m\u001B[36mhello\u001B[34mworld \u001B[1m\u001B[34mworld\u001B[0m"
     }
 }
