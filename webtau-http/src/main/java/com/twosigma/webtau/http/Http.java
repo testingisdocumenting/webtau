@@ -520,7 +520,7 @@ public class Http {
     }
 
     private void renderResponse(HttpValidationResult result) {
-        if (getCfg().getVerboseLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1) {
+        if (getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1) {
             return;
         }
 

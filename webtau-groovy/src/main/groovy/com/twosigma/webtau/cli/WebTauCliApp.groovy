@@ -164,7 +164,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     }
 
     private static ConsoleOutput createConsoleOutput() {
-        if (cfg.getVerboseLevel() == 0) {
+        if (cfg.getVerbosityLevel() == 0) {
             return new SilentConsoleOutput()
         }
 
@@ -173,6 +173,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     private static StepReporter createStepReporter() {
         return new ScopeLimitingStepReporter(new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter),
-                cfg.getVerboseLevel() - 1)
+                cfg.getVerbosityLevel() - 1)
     }
 }
