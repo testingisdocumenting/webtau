@@ -18,14 +18,21 @@ package com.twosigma.webtau.reporter;
 
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class StepReporters {
     private static final StepReporter defaultStepReporter =
             new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter());
 
-    private static Set<StepReporter> reporters = ServiceLoaderUtils.load(StepReporter.class);
+    private static Set<StepReporter> reporters = Collections.synchronizedSet(
+            ServiceLoaderUtils.load(StepReporter.class));
+
+    private static ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);
 
     public static void add(StepReporter reporter) {
         reporters.add(reporter);
@@ -33,6 +40,15 @@ public class StepReporters {
 
     public static void remove(StepReporter reporter) {
         reporters.remove(reporter);
+    }
+
+    public static <R> R withAdditionalReporter(StepReporter reporter, Supplier<R> code) {
+        try {
+            addLocal(reporter);
+            return code.get();
+        } finally {
+            removeLocal(reporter);
+        }
     }
 
     public static void onStart(TestStep step) {
@@ -48,10 +64,18 @@ public class StepReporters {
     }
 
     private static Stream<StepReporter> getReportersStream() {
-        if (reporters.isEmpty()) {
+        if (reporters.isEmpty() && localReporters.get().isEmpty()) {
             return Stream.of(defaultStepReporter);
         }
 
-        return reporters.stream();
+        return Stream.concat(localReporters.get().stream(), reporters.stream());
+    }
+
+    private static void addLocal(StepReporter handler) {
+        localReporters.get().add(handler);
+    }
+
+    private static void removeLocal(StepReporter handler) {
+        localReporters.get().remove(handler);
     }
 }

@@ -18,14 +18,15 @@ package com.twosigma.webtau.reporter;
 
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TestResultPayloadExtractors {
-    private static final Set<TestResultPayloadExtractor> extractors =
-            ServiceLoaderUtils.load(TestResultPayloadExtractor.class);
+    private static final Set<TestResultPayloadExtractor> extractors = Collections.synchronizedSet(
+            ServiceLoaderUtils.load(TestResultPayloadExtractor.class));
 
     public static Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
         List<TestStep<?, ?>> steps = testSteps.collect(Collectors.toList());
