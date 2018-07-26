@@ -17,6 +17,9 @@
 package com.twosigma.webtau.runner.standalone
 
 import java.nio.file.Path
+import java.util.concurrent.ForkJoinPool
+import java.util.function.Function
+import java.util.stream.Stream
 
 class StandaloneTestRunner {
     private List<StandaloneTest> tests
@@ -72,6 +75,19 @@ class StandaloneTestRunner {
     }
 
     void runTests() {
+        runTestsFromStream { testsByFile -> testsByFile.entrySet().stream() }
+    }
+
+    void runTestsInParallel(int maxNumberOfThreads) {
+        ForkJoinPool forkJoinPool = new ForkJoinPool(maxNumberOfThreads)
+        forkJoinPool.submit {
+            runTestsFromStream { testsByFile ->
+                testsByFile.entrySet().stream().parallel()
+            }
+        }.get()
+    }
+
+    void runTestsFromStream(Function<Map, Stream> streamCreator) {
         StandaloneTestListeners.beforeFirstTest()
 
         def testsToRun = exclusiveTests.isEmpty() ? tests : exclusiveTests
@@ -82,10 +98,15 @@ class StandaloneTestRunner {
             StandaloneTestListeners.afterTestRun(test)
         }
 
-        testsToRun.each { test ->
-            StandaloneTestListeners.beforeTestRun(test)
-            test.run()
-            StandaloneTestListeners.afterTestRun(test)
+        def testsByFile = testsToRun.groupBy { it.filePath }
+
+        def stream = streamCreator.apply(testsByFile)
+        stream.forEach { entry ->
+            entry.value.forEach { test ->
+                StandaloneTestListeners.beforeTestRun(test)
+                test.run()
+                StandaloneTestListeners.afterTestRun(test)
+            }
         }
 
         StandaloneTestListeners.afterAllTests()

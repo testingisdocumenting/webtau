@@ -19,14 +19,15 @@ package com.twosigma.webtau.http.config;
 import com.twosigma.webtau.http.HttpRequestHeader;
 import com.twosigma.webtau.utils.ServiceUtils;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 public class HttpConfigurations {
-    private static final AtomicBoolean enabled = new AtomicBoolean(true);
+    private static final ThreadLocal<Boolean> enabled = ThreadLocal.withInitial(() -> true);
 
-    private static final List<HttpConfiguration> configurations = ServiceUtils.discover(HttpConfiguration.class);
+    private static final List<HttpConfiguration> configurations = Collections.synchronizedList(
+            ServiceUtils.discover(HttpConfiguration.class));
 
     public static void add(HttpConfiguration configuration) {
         configurations.add(configuration);

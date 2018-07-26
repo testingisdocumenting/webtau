@@ -87,14 +87,14 @@ class StandaloneTest implements StepReporter {
     }
 
     void run() {
-        try {
-            StepReporters.add(this)
-            code.run()
-        } catch (Throwable e) {
-            reportTestEntry.setException(e)
-        } finally {
-            reportTestEntry.setRan(true)
-            StepReporters.remove(this)
+        StepReporters.withAdditionalReporter(this) {
+            try {
+                code.run()
+            } catch (Throwable e) {
+                reportTestEntry.setException(e)
+            } finally {
+                reportTestEntry.setRan(true)
+            }
         }
     }
 

@@ -95,7 +95,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
                 runner.process(it, this)
             }
 
-            runner.runTests()
+            runTests()
         } finally {
             StandaloneTestListeners.remove(consoleTestReporter)
             StandaloneTestListeners.remove(this)
@@ -113,6 +113,14 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     int getProblemCount() {
         return problemCount
+    }
+
+    private void runTests() {
+        if (WebTauGroovyCliArgsConfigHandler.getNumberOfThreads() > 1) {
+            runner.runTestsInParallel(WebTauGroovyCliArgsConfigHandler.getNumberOfThreads())
+        } else {
+            runner.runTests()
+        }
     }
 
     private List<Path> testFiles() {
