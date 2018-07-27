@@ -23,14 +23,18 @@ import java.nio.file.Path
 
 class GroovyStandaloneEngine {
     static GroovyScriptEngine createWithDelegatingEnabled(Path workingDir, List<String> staticImports) {
-        return createImpl(workingDir, staticImports, true)
+        return createImpl(workingDir, staticImports, DelegatingScript.class)
     }
 
     static GroovyScriptEngine createWithoutDelegating(Path workingDir, List<String> staticImports) {
-        return createImpl(workingDir, staticImports, false)
+        return createImpl(workingDir, staticImports, null)
     }
 
-    private static GroovyScriptEngine createImpl(Path workingDir, List<String> staticImports, boolean isDelegatingEnabled) {
+    static GroovyScriptEngine createWithCustomScriptClass(Path workingDir, List<String> staticImports, Class scriptClass) {
+        return createImpl(workingDir, staticImports, scriptClass)
+    }
+
+    private static GroovyScriptEngine createImpl(Path workingDir, List<String> staticImports, Class scriptClass) {
         def imports = new ImportCustomizer()
         def fullListOfStatics = staticImports
         fullListOfStatics.forEach { imports.addStaticStars(it) }
@@ -38,8 +42,8 @@ class GroovyStandaloneEngine {
         def compilerCfg = new CompilerConfiguration()
         compilerCfg.addCompilationCustomizers(imports)
 
-        if (isDelegatingEnabled) {
-            compilerCfg.scriptBaseClass = DelegatingScript.class.name
+        if (scriptClass) {
+            compilerCfg.scriptBaseClass = scriptClass.name
         }
 
         def engine = new GroovyScriptEngine(workingDir.toString())
