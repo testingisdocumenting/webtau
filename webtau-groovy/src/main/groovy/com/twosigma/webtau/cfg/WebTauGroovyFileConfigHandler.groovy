@@ -39,6 +39,8 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             return
         }
 
+        validateEnv(cfg, workingDir, configPath)
+
         def groovy = GroovyRunner.createWithoutDelegating(cfg.workingDir)
 
         ConfigSlurper configSlurper = new ConfigSlurper(cfg.env)
@@ -65,6 +67,21 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         def reportGenerator = reportGenerator(parsedConfig)
         if (reportGenerator) {
             ReportGenerators.add(reportGenerator)
+        }
+    }
+
+    private static void validateEnv(WebTauConfig cfg, Path workingDir, Path configPath) {
+        def envConfigValue = cfg.getEnvConfigValue()
+        if (envConfigValue.isDefault()) {
+            return
+        }
+
+        def collector = new ConfigFileEnvironmentsCollector(workingDir, configPath)
+        def definedEnvs = collector.collectEnvironments()
+
+        def env = cfg.getEnv()
+        if (!definedEnvs.contains(env)) {
+            throw new IllegalArgumentException("environment <$env> is not defined in " + configPath)
         }
     }
 
