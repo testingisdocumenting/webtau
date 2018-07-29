@@ -24,6 +24,7 @@ import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
+import com.twosigma.webtau.console.ansi.NoAnsiConsoleOutput
 import com.twosigma.webtau.driver.WebDriverCreator
 import com.twosigma.webtau.pdf.Pdf
 import com.twosigma.webtau.report.Report
@@ -50,6 +51,7 @@ import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
+    private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
 
     private static StepReporter stepReporter
     private StandaloneTestRunner runner
@@ -168,7 +170,9 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             return new SilentConsoleOutput()
         }
 
-        return new AnsiConsoleOutput()
+        return getCfg().isAnsiEnabled() ?
+                new AnsiConsoleOutput():
+                new NoAnsiConsoleOutput()
     }
 
     private static StepReporter createStepReporter() {
