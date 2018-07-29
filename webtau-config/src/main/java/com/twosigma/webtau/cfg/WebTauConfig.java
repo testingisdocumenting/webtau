@@ -44,6 +44,8 @@ public class WebTauConfig {
     private final ConfigValue config = declare("config", "config path", () -> "webtau.cfg");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
+    private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
+            "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
     private final ConfigValue docPath = declare("docPath", "path for screenshots and other generated " +
@@ -96,6 +98,10 @@ public class WebTauConfig {
 
         Optional<ConfigValue> configValue = allValues.filter(v -> v.match(key)).findFirst();
         return configValue.map(ConfigValue::getAsString).orElse("");
+    }
+
+    public int getVerbosityLevel() {
+        return verbosityLevel.getAsInt();
     }
 
     public void acceptConfigValues(String source, Map<String, ?> values) {
@@ -232,6 +238,7 @@ public class WebTauConfig {
                 config,
                 env,
                 url,
+                verbosityLevel,
                 workingDir,
                 waitTimeout,
                 docPath,

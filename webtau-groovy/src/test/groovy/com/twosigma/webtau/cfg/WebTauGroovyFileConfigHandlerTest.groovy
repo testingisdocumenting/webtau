@@ -22,6 +22,9 @@ import org.junit.Test
 
 import java.nio.file.Files
 
+import static com.twosigma.webtau.Ddjt.code
+import static com.twosigma.webtau.Ddjt.throwException
+
 class WebTauGroovyFileConfigHandlerTest {
     @Test
     void "should use default environment values when env is not specified"() {
@@ -58,6 +61,16 @@ class WebTauGroovyFileConfigHandlerTest {
 
         Files.exists(customReportPath).should == true
         customReportPath.text.should == 'test report 0'
+    }
+
+    @Test
+    void "should validate passed environment presence"() {
+        def cfg = createConfig()
+        cfg.envConfigValue.set('test', 'unknown')
+
+        code {
+            handle(cfg)
+        } should throwException(IllegalArgumentException, ~/environment <unknown> is not defined in/)
     }
 
     private static void handle(WebTauConfig cfg) {

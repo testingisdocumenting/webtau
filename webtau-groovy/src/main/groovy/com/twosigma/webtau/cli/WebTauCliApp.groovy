@@ -32,6 +32,7 @@ import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
 import com.twosigma.webtau.reporter.ConsoleStepReporter
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
+import com.twosigma.webtau.reporter.ScopeLimitingStepReporter
 import com.twosigma.webtau.reporter.ScreenshotStepReporter
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
@@ -49,9 +50,10 @@ import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
-    private static StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter)
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
+    private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
 
+    private static StepReporter stepReporter
     private StandaloneTestRunner runner
     private Report report
 
@@ -66,6 +68,8 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
         ConsoleOutputs.add(createConsoleOutput())
+        stepReporter = createStepReporter()
+
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
         runner = new StandaloneTestRunner(
@@ -162,9 +166,17 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     }
 
     private static ConsoleOutput createConsoleOutput() {
+        if (cfg.getVerbosityLevel() == 0) {
+            return new SilentConsoleOutput()
+        }
+
         return getCfg().isAnsiEnabled() ?
                 new AnsiConsoleOutput():
                 new NoAnsiConsoleOutput()
     }
 
+    private static StepReporter createStepReporter() {
+        return new ScopeLimitingStepReporter(new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter),
+                cfg.getVerbosityLevel() - 1)
+    }
 }
