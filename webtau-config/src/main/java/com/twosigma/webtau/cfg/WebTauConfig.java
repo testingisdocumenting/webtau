@@ -24,7 +24,12 @@ import com.twosigma.webtau.utils.StringUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -39,10 +44,13 @@ public class WebTauConfig {
     private final ConfigValue config = declare("config", "config path", () -> "webtau.cfg");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
+    private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
+            "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
     private final ConfigValue docPath = declare("docPath", "path for screenshots and other generated " +
             "artifacts for documentation", workingDir::getAsPath);
+    private final ConfigValue ansiColor = declare("ansiColor", "enable/disable ANSI colors", () -> true);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
@@ -92,6 +100,10 @@ public class WebTauConfig {
         return configValue.map(ConfigValue::getAsString).orElse("");
     }
 
+    public int getVerbosityLevel() {
+        return verbosityLevel.getAsInt();
+    }
+
     public void acceptConfigValues(String source, Map<String, ?> values) {
         enumeratedCfgValues.values().forEach(v -> v.accept(source, values));
 
@@ -132,7 +144,11 @@ public class WebTauConfig {
     }
 
     public Path getDocArtifactsPath() {
-        return docPath.getAsPath();
+        return getWorkingDir().resolve(docPath.getAsPath());
+    }
+
+    public boolean isAnsiEnabled() {
+        return ansiColor.getAsBoolean();
     }
 
     public int getWindowWidth() {
@@ -222,10 +238,12 @@ public class WebTauConfig {
                 config,
                 env,
                 url,
+                verbosityLevel,
                 workingDir,
                 waitTimeout,
                 docPath,
                 reportPath,
+                ansiColor,
                 windowWidth,
                 windowHeight,
                 headless,
@@ -240,6 +258,6 @@ public class WebTauConfig {
     }
 
     private static class CfgInstanceHolder {
-        private static final WebTauConfig INSTANCE = new WebTauConfig();
+        private static WebTauConfig INSTANCE = new WebTauConfig();
     }
 }

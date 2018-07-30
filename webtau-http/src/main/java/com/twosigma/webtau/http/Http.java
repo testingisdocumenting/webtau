@@ -17,6 +17,7 @@
 package com.twosigma.webtau.http;
 
 import com.twosigma.webtau.console.ConsoleOutputs;
+import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ExpectationHandler;
@@ -60,6 +61,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import static com.twosigma.webtau.Ddjt.equal;
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -434,25 +436,69 @@ public class Http {
 
         HttpValidationHandlers.validate(validationResult);
 
-        ExpectationHandler expectationHandler = (valueMatcher, actualPath, actualValue, message) -> {
+        ExpectationHandler recordAndThrowHandler = (valueMatcher, actualPath, actualValue, message) -> {
             validationResult.addMismatch(message);
-            return ExpectationHandler.Flow.Terminate;
+            return ExpectationHandler.Flow.PassToNext;
         };
 
+        // 1. validate using user provided validation block
+        // 2. validate status code
+        // 3. if validation block throws exception,
+        //    we still validate status code to make sure user is aware of the status code problem
         try {
-            return ExpectationHandlers.withAdditionalHandler(expectationHandler, () -> {
+            R extracted = ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
                 Object returnedValue = validator.validate(header, body);
-                validateStatusCode(validationResult);
                 return (R) extractOriginalValue(returnedValue);
             });
+
+            ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
+                validateStatusCode(validationResult);
+                return null;
+            });
+
+            return extracted;
+        } catch (Throwable e) {
+            ExpectationHandlers.withAdditionalHandler((valueMatcher, actualPath, actualValue, message) -> {
+                validationResult.addMismatch(message);
+
+                // another assertion happened before status code check
+                // we discard it and throw status code instead
+                if (e instanceof AssertionError) {
+                    throw new AssertionError('\n' + message);
+                }
+
+                // originally an exception happened,
+                // so we combine it's message with status code failure
+                throw new AssertionError('\n' + message +
+                        "\n\nadditional exception message:\n" + e.getMessage(), e);
+            }, () -> {
+                validateErrorsOnlyStatusCode(validationResult);
+                return null;
+            });
+
+            throw e;
         } finally {
-            render(validationResult);
+            renderResponse(validationResult);
         }
     }
 
     private void validateStatusCode(HttpValidationResult validationResult) {
         DataNode statusCode = validationResult.getHeaderNode().statusCode();
         if (statusCode.get().getCheckLevel() != CheckLevel.None) {
+            return;
+        }
+
+        statusCode.should(equal(defaultExpectedStatusCodeByRequest(validationResult)));
+    }
+
+    private void validateErrorsOnlyStatusCode(HttpValidationResult validationResult) {
+        DataNode statusCode = validationResult.getHeaderNode().statusCode();
+        if (statusCode.get().getCheckLevel() != CheckLevel.None) {
+            return;
+        }
+
+        Integer statusCodeValue = (Integer) statusCode.get().getValue();
+        if (statusCodeValue >= 200 && statusCodeValue < 300) {
             return;
         }
 
@@ -473,9 +519,15 @@ public class Http {
         }
     }
 
-    private void render(HttpValidationResult result) {
+    private void renderResponse(HttpValidationResult result) {
+        if (getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1) {
+            return;
+        }
+
         if (result.getResponse().isBinary()) {
-            ConsoleOutputs.out("binary content, size: " + (result.getResponse().getBinaryContent()).length);
+            ConsoleOutputs.out(Color.YELLOW, "[binary content]");
+        } else if (!result.hasResponseContent()) {
+            ConsoleOutputs.out(Color.YELLOW, "[no content]");
         } else {
             new DataNodeAnsiPrinter().print(result.getBodyNode());
         }

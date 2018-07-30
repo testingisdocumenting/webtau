@@ -69,6 +69,10 @@ public class TestStep<C, R> {
         return step;
     }
 
+    public static TestStep<?, ?> getCurrentStep() {
+        return currentStep.get();
+    }
+
     private TestStep(C context,
                      TokenizedMessage inProgressMessage,
                      Supplier<TokenizedMessage> completionMessageSupplier,
@@ -106,6 +110,10 @@ public class TestStep<C, R> {
 
     public boolean hasPayload(Class<? extends TestStepPayload> type) {
         return getCombinedPayloadsOfType(type).findAny().isPresent();
+    }
+
+    public boolean hasFailedChildrenSteps() {
+        return children.stream().anyMatch(TestStep::isFailed);
     }
 
     @SuppressWarnings("unchecked")

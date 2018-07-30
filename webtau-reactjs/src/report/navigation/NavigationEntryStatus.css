@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+.navigation-entry-status {
+    font-size: 10px;
+}
+
 .navigation-entry-status.failed {
     color: #f88c27;
 }

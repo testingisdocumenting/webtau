@@ -21,7 +21,8 @@ import com.twosigma.webtau.utils.ServiceLoaderUtils
 import java.nio.file.Path
 
 class StandaloneTestListeners {
-    private static Set<StandaloneTestListener> listeners = ServiceLoaderUtils.load(StandaloneTestListener)
+    private static Set<StandaloneTestListener> listeners = Collections.synchronizedSet(
+            ServiceLoaderUtils.load(StandaloneTestListener))
 
     static void add(StandaloneTestListener listener) {
         listeners.add(listener)

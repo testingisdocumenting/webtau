@@ -756,9 +756,60 @@ class HttpTest implements HttpConfiguration {
             'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
             '                   expected: 200 <java.lang.Integer>')
 
+        assertStatusCodeMismatchRegistered()
+
         http.get("/no-resource") {
             statusCode.should == 404
         }
+    }
+
+    @Test
+    void "implicit status code should happen even if there is another assertion mismatch"() {
+        code {
+            http.get("/no-resource") {
+                id.should == 0
+                message.shouldBe == 10
+            }
+        } should throwException('\ndoesn\'t equal 200\n' +
+                    'mismatches:\n' +
+                    '\n' +
+                    'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
+                    '                   expected: 200 <java.lang.Integer>')
+
+        assertStatusCodeMismatchRegistered()
+    }
+
+    @Test
+    void "implicit status code should happen even if there is runtime exception"() {
+        code {
+            http.get("/no-resource") {
+                throw new RuntimeException('error')
+            }
+        } should throwException('\ndoesn\'t equal 200\n' +
+                'mismatches:\n' +
+                '\n' +
+                'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
+                '                   expected: 200 <java.lang.Integer>\n' +
+                '\n' +
+                'additional exception message:\n' +
+                'error')
+
+        assertStatusCodeMismatchRegistered()
+    }
+
+    @Test
+    void "implicit status code should not happen if explicit status code failed"() {
+        code {
+            http.get("/no-resource") {
+                statusCode.should == 401
+            }
+        } should throwException('\ndoesn\'t equal 401\n' +
+                'mismatches:\n' +
+                '\n' +
+                'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
+                '                   expected: 401 <java.lang.Integer>')
+
+        assertStatusCodeMismatchRegistered()
     }
 
     @Test
@@ -820,5 +871,9 @@ class HttpTest implements HttpConfiguration {
 
     private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode = 200) {
         return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode)
+    }
+
+    private static void assertStatusCodeMismatchRegistered() {
+        http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }
 }

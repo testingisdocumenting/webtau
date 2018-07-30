@@ -29,17 +29,21 @@ class StandardConsoleTestListener extends StandaloneTestListenerAdapter {
 
     @Override
     void afterTestRun(StandaloneTest test) {
-        def scenario = test.scenario.trim()
         if (test.isFailed()) {
-            ConsoleOutputs.out(Color.RED, "[x] ", Color.BLUE, scenario)
+            outAfter(Color.RED, '[x]', test)
         } else if (test.hasError()) {
-            ConsoleOutputs.out(Color.RED, "[~] ", Color.BLUE, scenario)
+            outAfter(Color.RED, '[~]', test)
         } else if (test.isSkipped()) {
-            ConsoleOutputs.out(Color.YELLOW, "[o] ", Color.BLUE, scenario)
+            outAfter(Color.YELLOW, '[o]', test)
         } else {
-            ConsoleOutputs.out(Color.GREEN, "[.] ", Color.BLUE, scenario)
+            outAfter(Color.GREEN, '[.]', test)
         }
 
         ConsoleOutputs.out()
+    }
+
+    private static void outAfter(Color color, String icon, StandaloneTest test) {
+        ConsoleOutputs.out(color, icon, ' ', Color.BLUE, test.scenario.trim(),
+                ' ', Color.PURPLE, '(' + test.filePath + ')')
     }
 }

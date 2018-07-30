@@ -17,8 +17,9 @@
 package com.twosigma.webtau.openapi;
 
 public class OpenApi {
-    public static final OpenApiSpec spec = new OpenApiSpec(OpenApiSpecConfig.openApiSpecUrl.getAsString());
-    public static final OpenApiSpecValidator validator = new OpenApiSpecValidator(spec);
+    public static final OpenApiSpec spec = new OpenApiSpec(OpenApiSpecConfig.specFullPath());
+    public static final OpenApiSpecValidator validator = new OpenApiSpecValidator(spec, validationConfig());
+
     public static final OpenApiCoverage coverage = new OpenApiCoverage(spec);
 
     public static void withoutValidation(Runnable code) {
@@ -31,5 +32,12 @@ public class OpenApi {
 
     public static void requestOnlyValidation(Runnable code) {
         OpenApiResponseValidator.withMode(ValidationMode.REQUEST_ONLY, code);
+    }
+
+    private static OpenApiValidationConfig validationConfig() {
+        OpenApiValidationConfig config = new OpenApiValidationConfig();
+        config.setIgnoreAdditionalProperties(OpenApiSpecConfig.ignoreAdditionalProperties.getAsBoolean());
+
+        return config;
     }
 }

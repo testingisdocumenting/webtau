@@ -20,6 +20,8 @@ import com.twosigma.webtau.report.Report
 import com.twosigma.webtau.report.ReportGenerators
 import org.junit.Test
 
+import java.nio.file.Files
+
 import static com.twosigma.webtau.Ddjt.code
 import static com.twosigma.webtau.Ddjt.throwException
 
@@ -51,10 +53,24 @@ class WebTauGroovyFileConfigHandlerTest {
 
         cfg.reportPath.toFile().deleteOnExit()
 
-        // prod report throws exception on purpose
+        def customReportPath = cfg.reportPath.toAbsolutePath().parent.resolve('custom-report.txt')
+        customReportPath.toFile().deleteOnExit()
+
+        def report = new Report()
+        ReportGenerators.generate(report)
+
+        Files.exists(customReportPath).should == true
+        customReportPath.text.should == 'test report 0'
+    }
+
+    @Test
+    void "should validate passed environment presence"() {
+        def cfg = createConfig()
+        cfg.envConfigValue.set('test', 'unknown')
+
         code {
-            ReportGenerators.generate(new Report())
-        } should throwException('report issue 0')
+            handle(cfg)
+        } should throwException(IllegalArgumentException, ~/environment <unknown> is not defined in/)
     }
 
     private static void handle(WebTauConfig cfg) {

@@ -16,9 +16,11 @@
 
 package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.console.ansi.AutoResetAnsiString;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class TokenizedMessageToAnsiConverter {
@@ -32,7 +34,7 @@ public class TokenizedMessageToAnsiConverter {
         tokenRenderDetails.put(tokenType, new TokenRenderDetails(Arrays.asList(ansiSequence), isSpaceAfterRequired));
     }
 
-    public AutoResetAnsiString convert(TokenizedMessage tokenizedMessage) {
+    public List<Object> convert(TokenizedMessage tokenizedMessage) {
         List<Object> valuesAndStyles = new ArrayList<>();
 
         int i = 0;
@@ -52,7 +54,7 @@ public class TokenizedMessageToAnsiConverter {
             i++;
         }
 
-        return new AutoResetAnsiString(valuesAndStyles.stream());
+        return valuesAndStyles;
     }
 
     private Stream<?> convertToAnsiSequence(TokenRenderDetails renderDetails, MessageToken messageToken, boolean addSpace) {

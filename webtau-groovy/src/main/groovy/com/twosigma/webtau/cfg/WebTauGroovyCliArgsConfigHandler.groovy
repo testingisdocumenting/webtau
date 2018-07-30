@@ -16,7 +16,15 @@
 
 package com.twosigma.webtau.cfg
 
+import java.util.stream.Stream
+
+import static com.twosigma.webtau.cfg.ConfigValue.declare
+
 class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
+    private static final ConfigValue numberOfThreads = declare("numberOfThreads",
+            "number of threads to parallel test files run (one file per thread). default is 1",
+            { -> 1 })
+
     private String[] args
     private WebTauCliArgsConfig argsConfig
 
@@ -48,5 +56,14 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
 
     List<String> getTestFiles() {
         return argsConfig.testFiles
+    }
+
+    @Override
+    Stream<ConfigValue> additionalConfigValues() {
+        return Stream.of(numberOfThreads)
+    }
+
+    static int getNumberOfThreads() {
+        return numberOfThreads.getAsInt()
     }
 }

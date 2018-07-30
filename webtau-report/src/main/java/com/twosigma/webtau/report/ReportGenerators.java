@@ -30,4 +30,8 @@ public class ReportGenerators {
     public static void add(ReportGenerator reportGenerator) {
         generators.add(reportGenerator);
     }
+
+    public static void remove(ReportGenerator reportGenerator) {
+        generators.remove(reportGenerator);
+    }
 }

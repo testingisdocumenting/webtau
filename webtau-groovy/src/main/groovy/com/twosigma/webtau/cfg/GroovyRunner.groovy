@@ -31,4 +31,8 @@ class GroovyRunner {
     static GroovyScriptEngine createWithoutDelegating(Path workingDir) {
         return GroovyStandaloneEngine.createWithoutDelegating(workingDir, staticImports)
     }
+
+    static GroovyScriptEngine createWithCustomScriptClass(Path workingDir, Class scriptClass) {
+        return GroovyStandaloneEngine.createWithCustomScriptClass(workingDir, staticImports, scriptClass)
+    }
 }

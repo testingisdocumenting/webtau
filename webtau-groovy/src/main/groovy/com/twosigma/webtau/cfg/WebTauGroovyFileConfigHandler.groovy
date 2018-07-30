@@ -17,7 +17,6 @@
 package com.twosigma.webtau.cfg
 
 import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
 
@@ -35,9 +34,11 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         Path configPath = workingDir.resolve(cfg.configFileName.asString)
 
         if (!Files.exists(configPath)) {
-            ConsoleOutputs.out("skipping config file as it is not found: ", Color.CYAN, configPath)
+            ConsoleOutputs.out("skipping config file as it is not found: ", configPath)
             return
         }
+
+        validateEnv(cfg, workingDir, configPath)
 
         def groovy = GroovyRunner.createWithoutDelegating(cfg.workingDir)
 
@@ -65,6 +66,21 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         def reportGenerator = reportGenerator(parsedConfig)
         if (reportGenerator) {
             ReportGenerators.add(reportGenerator)
+        }
+    }
+
+    private static void validateEnv(WebTauConfig cfg, Path workingDir, Path configPath) {
+        def envConfigValue = cfg.getEnvConfigValue()
+        if (envConfigValue.isDefault()) {
+            return
+        }
+
+        def collector = new ConfigFileEnvironmentsCollector(workingDir, configPath)
+        def definedEnvs = collector.collectEnvironments()
+
+        def env = cfg.getEnv()
+        if (!definedEnvs.contains(env)) {
+            throw new IllegalArgumentException("environment <$env> is not defined in " + configPath)
         }
     }
 

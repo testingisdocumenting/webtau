@@ -19,6 +19,7 @@ package com.twosigma.webtau.openapi;
 import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
 import com.atlassian.oai.validator.model.SimpleRequest;
 import com.atlassian.oai.validator.model.SimpleResponse;
+import com.atlassian.oai.validator.report.LevelResolver;
 import com.atlassian.oai.validator.report.ValidationReport;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
@@ -33,10 +34,13 @@ public class OpenApiSpecValidator {
     private final SwaggerRequestResponseValidator openApiValidator;
     private final OpenApiSpec openAPISpec;
 
-    public OpenApiSpecValidator(OpenApiSpec openApiSpec) {
+    public OpenApiSpecValidator(OpenApiSpec openApiSpec, OpenApiValidationConfig validationConfig) {
         this.openAPISpec = openApiSpec;
         this.openApiValidator = openApiSpec.isSpecDefined() ?
-                SwaggerRequestResponseValidator.createFor(openApiSpec.getSpecUrl()).build():
+                SwaggerRequestResponseValidator
+                        .createFor(openApiSpec.getSpecUrl())
+                        .withLevelResolver(createLevelResolver(validationConfig))
+                        .build():
                 null;
     }
 
@@ -91,6 +95,15 @@ public class OpenApiSpecValidator {
         }
 
         extractQueryParams(result.getFullUrl()).forEach(builder::withQueryParam);
+
+        return builder.build();
+    }
+
+    private LevelResolver createLevelResolver(OpenApiValidationConfig validationConfig) {
+        LevelResolver.Builder builder = LevelResolver.create();
+        if (validationConfig.isIgnoreAdditionalProperties()) {
+            builder.withLevel("validation.schema.additionalProperties", ValidationReport.Level.IGNORE);
+        }
 
         return builder.build();
     }
