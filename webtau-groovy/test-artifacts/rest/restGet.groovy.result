@@ -1,9 +1,0 @@
-{
-  "description": "simple get",
-  "example": "http.get(\"/weather\") {\n    temperature.should \u003d\u003d 88\n}",
-  "report": [
-    "\u003e executing HTTP GET http://localhost:8180/weather",
-    ".   body.temperature equals 88",
-    ". executed HTTP GET http://localhost:8180/weather"
-  ]
-}

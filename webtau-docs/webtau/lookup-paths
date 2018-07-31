@@ -1,4 +1,6 @@
 ../../webtau-groovy/
+../../webtau-feature-testing
+../../webtau-feature-testing/examples
 ../../webtau-http-groovy/
 ../../webtau-http-groovy/src/test/groovy
 ../../webtau-http-groovy/src/test/resources

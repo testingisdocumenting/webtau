@@ -10,7 +10,4 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @ApiOperation("find all customers ordered by last name")
     Iterable<Customer> findAllByOrderByLastName();
-
-    @Override
-    void deleteAll();
 }

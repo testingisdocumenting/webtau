@@ -51,7 +51,7 @@ import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
-    private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
+    private static ConsoleOutput consoleOutput
 
     private static StepReporter stepReporter
     private StandaloneTestRunner runner
@@ -64,11 +64,27 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
+        // during end to end testing we re-create the instance of CliApp
+        // following line prevents configs to accumulate over time
+        //
+        WebTauConfig.resetConfigHandlers()
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
-        ConsoleOutputs.add(createConsoleOutput())
+        // during end to end testing we re-create the instance of CliApp, but our config is singleton
+        // we cannot rely on constructor actions
+        //
+        getCfg().triggerConfigHandlers()
+
+        consoleOutput = createConsoleOutput()
         stepReporter = createStepReporter()
+
+        ConsoleOutputs.add(consoleOutput)
+        StandaloneTestListeners.add(consoleTestReporter)
+        StandaloneTestListeners.add(this)
+        StepReporters.add(stepReporter)
+        StepReporters.add(screenshotStepReporter)
+        ReportGenerators.add(this)
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
@@ -82,12 +98,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     void start(boolean autoCloseWebDrivers) {
         try {
-            StandaloneTestListeners.add(consoleTestReporter)
-            StandaloneTestListeners.add(this)
-            StepReporters.add(stepReporter)
-            StepReporters.add(screenshotStepReporter)
-            ReportGenerators.add(this)
-
             cfg.print()
             ConsoleOutputs.out()
 
@@ -101,6 +111,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             StandaloneTestListeners.remove(this)
             StepReporters.remove(stepReporter)
             StepReporters.remove(screenshotStepReporter)
+            ConsoleOutputs.remove(consoleOutput)
             ReportGenerators.remove(this)
 
             Pdf.closeAll()

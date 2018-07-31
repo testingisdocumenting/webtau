@@ -9,11 +9,11 @@ When no payload is present, it defaults to `application/json`.
 If each http request requires the same header you can specify that header using `httpHeaderProvider`. 
 Common example is specifying authentication header.
  
-:include-file: examples/rest/headers/webtau.cfg {title: "webtau.cfg"}
+:include-file: examples/scenarios/rest/headers/webtau.cfg {title: "webtau.cfg"}
 
 Where `Auth.&authHeader` is implemented as follows:
 
-:include-file: examples/rest/headers/auth/Auth.groovy {title: "rest/headers/auth/Auth.groovy"}
+:include-file: examples/scenarios/rest/headers/auth/Auth.groovy {title: "scenarios/rest/headers/auth/Auth.groovy"}
 
 This removes implementation details from your tests and makes them less brittle.  
 

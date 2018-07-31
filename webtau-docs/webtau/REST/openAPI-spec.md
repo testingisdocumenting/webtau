@@ -4,7 +4,7 @@ Webtau supports validation of responses against an [OpenAPI specification](https
 be enabled by specifying the `openApiSpecUrl` configuration option.  This should be the URL to the specification against 
 which to validate.
 
-:include-file: examples/webtau-with-spec.cfg {title: "Configuration"}
+:include-file: scenarios/rest/webtau-with-spec.cfg {title: "Configuration"}
 
 # Current limitations
 
@@ -39,8 +39,8 @@ API spec validation failure: ERROR - Response status 201 not defined for path ''
 [x] failed
 java.lang.AssertionError: 
 API spec validation failure: ERROR - Response status 201 not defined for path ''.: []
-	at rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8)
-	at rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy)
+	at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8)
+	at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy)
 
 
 

@@ -37,8 +37,8 @@ import java.util.stream.Stream;
 import static com.twosigma.webtau.cfg.ConfigValue.declare;
 
 public class WebTauConfig {
-    private static final List<WebTauConfigHandler> handlers =
-            new ArrayList<>(ServiceLoaderUtils.load(WebTauConfigHandler.class));
+    private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
+
     private static final Supplier<Object> NO_DEFAULT = () -> null;
 
     private final ConfigValue config = declare("config", "config path", () -> "webtau.cfg");
@@ -79,7 +79,16 @@ public class WebTauConfig {
         handlers.add(handler);
     }
 
+    public static void resetConfigHandlers() {
+        handlers.clear();
+        handlers.addAll(discoverConfigHandlers());
+    }
+
     protected WebTauConfig() {
+        triggerConfigHandlers();
+    }
+
+    public void triggerConfigHandlers() {
         handlers.forEach(h -> h.onBeforeCreate(this));
 
         acceptConfigValues("environment variable", envVarsAsMap());
@@ -259,5 +268,9 @@ public class WebTauConfig {
 
     private static class CfgInstanceHolder {
         private static WebTauConfig INSTANCE = new WebTauConfig();
+    }
+
+    private static ArrayList<WebTauConfigHandler> discoverConfigHandlers() {
+        return new ArrayList<>(ServiceLoaderUtils.load(WebTauConfigHandler.class));
     }
 }

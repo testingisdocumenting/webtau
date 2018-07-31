@@ -3,7 +3,7 @@
 One of the benefits of separating one CRUD `scenario` into multiple is to be able to run one test at a time. 
 In order to do it we will use `createLazyResource`.
 
-:include-file: examples/rest/springboot/customerCrudSeparated.groovy {commentsType: "inline"}
+:include-file: scenarios/rest/springboot/customerCrudSeparated.groovy {commentsType: "inline"}
 
 Note: to run one scenario at a time use `sscenario` (additional `s` in front)
 

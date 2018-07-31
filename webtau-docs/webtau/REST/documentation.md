@@ -9,7 +9,7 @@ To automate the process, let's capture executed scenarios and use them inside yo
 
 To capture artifacts use `http.doc.capture`:
 
-:include-file: examples/rest/restPost.groovy {title: "test.groovy", commentsType: "inline"}
+:include-file: scenarios/rest/simplePost.groovy {title: "test.groovy", commentsType: "inline"}
 
 An `employee-get` directory will be created with request and response data files. 
 
@@ -22,7 +22,7 @@ Directory will also contain a json file with an array containing paths of all th
 By default, the directory will be created in the current working directory.
 To change it add `docPath` to your `webtau.cfg` file.
 
-:include-file: examples/rest/docArtifacts.cfg {title: "webtau.cfg"}
+:include-file: examples/scenarios/rest/docArtifacts.cfg {title: "webtau.cfg"}
 
 # Document REST calls
 
