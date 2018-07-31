@@ -17,7 +17,6 @@
 package com.twosigma.webtau.featuretesting
 
 import com.twosigma.webtau.utils.FileUtils
-import org.junit.Assert
 import org.junit.Test
 
 import java.nio.file.Paths
@@ -29,7 +28,7 @@ import static org.junit.Assert.assertEquals
 class FeaturesDocArtifactsExtractorTest {
     @Test
     void "extract script for documentation"() {
-        def testPath = Paths.get('examples/scenarios.ui/waitTo.groovy')
+        def testPath = Paths.get('examples/scenarios/ui/waitTo.groovy')
         def script = FileUtils.fileTextContent(testPath)
 
         String scope = extractScenarioBody(script)

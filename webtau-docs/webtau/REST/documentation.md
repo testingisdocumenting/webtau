@@ -9,7 +9,7 @@ To automate the process, let's capture executed scenarios and use them inside yo
 
 To capture artifacts use `http.doc.capture`:
 
-:include-file: examples/scenarios/rest/restPost.groovy {title: "test.groovy", commentsType: "inline"}
+:include-file: scenarios/rest/simplePost.groovy {title: "test.groovy", commentsType: "inline"}
 
 An `employee-get` directory will be created with request and response data files. 
 

@@ -45,16 +45,23 @@ class WebtauRestFeaturesTest {
 
     @Test
     void "simple get"() {
-        runCli('simpleGet.groovy')
+        runCli('simpleGet.groovy', 'url.cfg')
     }
 
     @Test
     void "simple post"() {
-        runCli('simplePost.groovy')
+        runCli('simplePost.groovy', 'docArtifacts.cfg')
     }
 
-    private static void runCli(String restTestName) {
-        testRunner.runCli("scenarios/rest/$restTestName")
+//    @Test
+//    void "crud"() {
+//        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg')
+//        http.delete('http://localhost:8080/customers/1')
+//    }
+//
+    private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
+        testRunner.runCli("scenarios/rest/$restTestName",
+                "scenarios/rest/$configFileName", additionalArgs)
     }
 
     private static TestServerResponse json(Map response, statusCode = 200) {

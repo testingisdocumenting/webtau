@@ -51,7 +51,7 @@ import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
-    private static ConsoleOutput consoleOutput = new AnsiConsoleOutput()
+    private static ConsoleOutput consoleOutput
 
     private static StepReporter stepReporter
     private StandaloneTestRunner runner
@@ -67,8 +67,17 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
-        ConsoleOutputs.add(createConsoleOutput())
+        getCfg().triggerConfigHandlers()
+
+        consoleOutput = createConsoleOutput()
         stepReporter = createStepReporter()
+
+        ConsoleOutputs.add(consoleOutput)
+        StandaloneTestListeners.add(consoleTestReporter)
+        StandaloneTestListeners.add(this)
+        StepReporters.add(stepReporter)
+        StepReporters.add(screenshotStepReporter)
+        ReportGenerators.add(this)
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
@@ -82,12 +91,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     void start(boolean autoCloseWebDrivers) {
         try {
-            StandaloneTestListeners.add(consoleTestReporter)
-            StandaloneTestListeners.add(this)
-            StepReporters.add(stepReporter)
-            StepReporters.add(screenshotStepReporter)
-            ReportGenerators.add(this)
-
             cfg.print()
             ConsoleOutputs.out()
 
@@ -101,6 +104,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             StandaloneTestListeners.remove(this)
             StepReporters.remove(stepReporter)
             StepReporters.remove(screenshotStepReporter)
+            ConsoleOutputs.remove(consoleOutput)
             ReportGenerators.remove(this)
 
             Pdf.closeAll()

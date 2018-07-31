@@ -38,7 +38,7 @@ import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.e
 
 class WebTauTestRunner implements StepReporter, StandaloneTestListener {
     private static final int testServerPort = 8180
-    private static final String STEPS_OUTPUT_FILE_NAME = 'steps-output.txt'
+    private static final String STEPS_OUTPUT_FILE_NAME = 'steps-output'
 
     private String testScenario
     private List<String> capturedStepsOutput = new ArrayList<>()
@@ -57,8 +57,8 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
         testServer.stop()
     }
 
-    void runCli(String testFileName) {
-        def testPath = Paths.get("examples/" + testFileName)
+    void runCli(String testFileName, String configFileName, String... additionalArgs) {
+        def testPath = Paths.get('examples/' + testFileName)
         def script = FileUtils.fileTextContent(testPath)
         def example = extractScenarioBody(script)
 
@@ -67,7 +67,11 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
         capturedStepsOutput.clear()
 
         try {
-            def cliApp = new WebTauCliApp("--url=http://localhost:" + testServerPort, testPath.toString())
+            def args = ['--config=' + 'examples/' + configFileName]
+            args.addAll(Arrays.asList(additionalArgs))
+            args.add(testPath.toString())
+
+            def cliApp = new WebTauCliApp(args as String[])
             cliApp.start(false)
         } finally {
             def testArtifact = [scenario: testScenario, example: example, stepsOutput: capturedStepsOutput]
@@ -81,25 +85,27 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
 
     private static void validateAndSaveTestArtifact(String testFileName, Map artifact) {
         def fileNameWithoutExt = removeExtension(testFileName)
-        def expectedPath = Paths.get("test-artifacts").resolve(fileNameWithoutExt).resolve(STEPS_OUTPUT_FILE_NAME)
-        def actualPath = Paths.get("test-artifacts").resolve(fileNameWithoutExt).resolve(STEPS_OUTPUT_FILE_NAME + ".actual")
+        def expectedPath = Paths.get('test-artifacts')
+                .resolve(fileNameWithoutExt).resolve(STEPS_OUTPUT_FILE_NAME + '.txt')
+        def actualPath = Paths.get('test-artifacts')
+                .resolve(fileNameWithoutExt).resolve(STEPS_OUTPUT_FILE_NAME + '.actual.txt')
 
         String actualStepsOutput = artifact.stepsOutput.join('\n')
 
         if (! Files.exists(expectedPath)) {
             FileUtils.writeTextContent(expectedPath, actualStepsOutput)
 
-            throw new AssertionError("make sure " + expectedPath + " is correct. and commit it as a baseline. " +
-                    "test will not fail next time unless output of the test is changed")
+            throw new AssertionError('make sure ' + expectedPath + ' is correct. and commit it as a baseline. ' +
+                    'test will not fail next time unless output of the test is changed')
         }
 
         def expectedStepsOutput = FileUtils.fileTextContent(expectedPath)
 
         if (! expectedStepsOutput.equals(actualStepsOutput)) {
-            ConsoleOutputs.out("reports are different, you can use IDE to compare files: ", Color.PURPLE, actualPath,
-                    Color.BLUE, " and ", Color.PURPLE, expectedPath)
+            ConsoleOutputs.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,
+                    Color.BLUE, ' and ', Color.PURPLE, expectedPath)
             FileUtils.writeTextContent(actualPath, actualStepsOutput)
-            Assert.assertEquals(expectedStepsOutput.join("\n"), artifact.report.join("\n"))
+            Assert.assertEquals(expectedStepsOutput, actualStepsOutput)
         } else {
             Files.deleteIfExists(actualPath)
         }
@@ -142,7 +148,7 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
 
     @Override
     void afterTestRun(StandaloneTest test) {
-        testScenario = test.description
+        testScenario = test.scenario
     }
 
     @Override

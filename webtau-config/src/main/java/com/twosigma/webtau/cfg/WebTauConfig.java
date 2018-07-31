@@ -80,6 +80,10 @@ public class WebTauConfig {
     }
 
     protected WebTauConfig() {
+        triggerConfigHandlers();
+    }
+
+    public void triggerConfigHandlers() {
         handlers.forEach(h -> h.onBeforeCreate(this));
 
         acceptConfigValues("environment variable", envVarsAsMap());

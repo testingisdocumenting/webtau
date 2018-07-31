@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.twosigma.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>0.1</version>
+        <version>0.26-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-feature-testing</artifactId>
@@ -85,21 +85,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>addSources</goal>
-                            <goal>compile</goal>
-                            <goal>addTestSources</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -107,13 +92,15 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>pre-integration-test</id>
+                        <id>start-app</id>
+                        <phase>process-test-resources</phase>
                         <goals>
                             <goal>start</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>post-integration-test</id>
+                        <id>stop-app</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>stop</goal>
                         </goals>

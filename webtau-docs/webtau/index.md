@@ -1,15 +1,9 @@
 # WebTau 
 
-WebTau (**Web** **T**est **au**tomation) - Java API and Groovy Framework to test:
-* Web REST
-* Web UI
+WebTau (**Web** **T**est **au**tomation) - concise and expressive way to create REST API and Web UI tests.
 
-```columns
-left:
-:include-file: examples/simpleRest.groovy
+:include-file: scenarios/rest/simpleGet.groovy {title: "REST API test"}
 
-right:
-:include-file: examples/Search.groovy
-```
+:include-file: scenarios/ui/Search.groovy {title: "Web UI test"}
 
 

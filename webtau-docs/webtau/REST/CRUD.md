@@ -5,7 +5,7 @@ under `/customers`.
 
 Here is an example of a `CRUD` operations test.
 
-:include-file: examples/scenarios/rest/springboot/customerCrud.groovy {commentsType: "inline"}
+:include-file: scenarios/rest/springboot/customerCrud.groovy {commentsType: "inline"}
 
 # Implicit statusCode Check 
 
