@@ -15,10 +15,7 @@ scenario("simple get") {
 ## Robust UI tests
 
 ```groovy
-scenario("""# Search facts
-Enter a fact in a search box and 
-information will be displayed in a special box
-""") {
+scenario("search by specific query") {
     search.open()
     search.submit(query: "search this")
 
