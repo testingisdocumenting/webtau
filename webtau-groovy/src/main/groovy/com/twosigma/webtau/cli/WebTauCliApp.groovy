@@ -64,9 +64,16 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
+        // during end to end testing we re-create the instance of CliApp
+        // following line prevents configs to accumulate over time
+        //
+        WebTauConfig.resetConfigHandlers()
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
+        // during end to end testing we re-create the instance of CliApp, but our config is singleton
+        // we cannot rely on constructor actions
+        //
         getCfg().triggerConfigHandlers()
 
         consoleOutput = createConsoleOutput()

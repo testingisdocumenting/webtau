@@ -1,12 +1,11 @@
 package scenarios.ui
 
-import pages.Pages
-
 import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static pages.Pages.search
 
 scenario("search by specific query") {
-    Pages.search.open()
-    Pages.search.submit(query: "search this")
+    search.open()
+    search.submit(query: "search this")
 
-    Pages.search.numberOfResults.should == 2
+    search.numberOfResults.should == 2
 }

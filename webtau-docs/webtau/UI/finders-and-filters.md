@@ -1,6 +1,6 @@
 # Filters
 
-:include-file: test-artifacts/snippets/menu.html  {lang: "html"}
+:include-file: doc-artifacts/snippets/menu.html  {lang: "html"}
 
     $("#menu ul li a").get("orders") 
     $("#menu ul li a").get(~/orders/) 

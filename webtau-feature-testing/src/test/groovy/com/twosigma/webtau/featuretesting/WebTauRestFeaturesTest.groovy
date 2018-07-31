@@ -23,7 +23,9 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
-class WebtauRestFeaturesTest {
+import static com.twosigma.webtau.WebTauDsl.http
+
+class WebTauRestFeaturesTest {
     private static WebTauTestRunner testRunner
 
     @BeforeClass
@@ -45,7 +47,7 @@ class WebtauRestFeaturesTest {
 
     @Test
     void "simple get"() {
-        runCli('simpleGet.groovy', 'url.cfg')
+        runCli('simpleGet.groovy', 'urlOnly.cfg')
     }
 
     @Test
@@ -53,12 +55,28 @@ class WebtauRestFeaturesTest {
         runCli('simplePost.groovy', 'docArtifacts.cfg')
     }
 
-//    @Test
-//    void "crud"() {
-//        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg')
-//        http.delete('http://localhost:8080/customers/1')
-//    }
-//
+    @Test
+    void "crud"() {
+        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg')
+    }
+
+    @Test
+    void "crud separated"() {
+        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg')
+    }
+
+    @Test
+    void "list contain"() {
+        http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
+        runCli('springboot/listContain.groovy', 'springboot/webtau.cfg')
+    }
+
+    @Test
+    void "list match"() {
+        deleteCustomers()
+        runCli('springboot/listMatch.groovy', 'springboot/webtau.cfg')
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/rest/$restTestName",
                 "scenarios/rest/$configFileName", additionalArgs)
@@ -66,5 +84,23 @@ class WebtauRestFeaturesTest {
 
     private static TestServerResponse json(Map response, statusCode = 200) {
         return new TestServerJsonResponse(JsonUtils.serialize(response), statusCode)
+    }
+
+    private void deleteCustomers() {
+        def ids = http.get(customersUrl()) {
+            return _embedded.customers.id
+        }
+
+        ids.each {
+            http.delete(customerUrl("$it"))
+        }
+    }
+
+    private static customersUrl() {
+        return "http://localhost:8080/customers"
+    }
+
+    private static customerUrl(String id) {
+        return "http://localhost:8080/customers/$id"
     }
 }

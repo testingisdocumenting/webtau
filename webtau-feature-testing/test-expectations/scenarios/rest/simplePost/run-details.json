@@ -1,0 +1,9 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "extracting id after POST to use inside GET request",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
+  } ],
+  "exitCode" : 0
+}

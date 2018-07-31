@@ -19,6 +19,8 @@ package com.twosigma.webtau.featuretesting
 import com.twosigma.webtau.cli.WebTauCliApp
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
+import com.twosigma.webtau.expectation.ActualPath
+import com.twosigma.webtau.expectation.equality.CompareToComparator
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
@@ -27,21 +29,20 @@ import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestListener
 import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
 import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.StringUtils
-import org.junit.Assert
+import com.twosigma.webtau.utils.JsonUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractScenarioBody
-
 class WebTauTestRunner implements StepReporter, StandaloneTestListener {
     private static final int testServerPort = 8180
-    private static final String STEPS_OUTPUT_FILE_NAME = 'steps-output'
 
-    private String testScenario
-    private List<String> capturedStepsOutput = new ArrayList<>()
+    private static final String RUN_DETAILS_FILE_NAME = 'run-details'
+    private static final String EXPECTATIONS_DIR_NAME = 'test-expectations'
+
+    private Map capturedStepsSummary
+    private final List scenariosDetails = []
 
     TestServer testServer
 
@@ -59,12 +60,9 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
 
     void runCli(String testFileName, String configFileName, String... additionalArgs) {
         def testPath = Paths.get('examples/' + testFileName)
-        def script = FileUtils.fileTextContent(testPath)
-        def example = extractScenarioBody(script)
 
         StepReporters.add(this)
         StandaloneTestListeners.add(this)
-        capturedStepsOutput.clear()
 
         try {
             def args = ['--config=' + 'examples/' + configFileName]
@@ -73,39 +71,43 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
 
             def cliApp = new WebTauCliApp(args as String[])
             cliApp.start(false)
+
+            def testDetails = [scenarioDetails: scenariosDetails,
+                               exitCode: cliApp.problemCount]
+
+            validateAndSaveTestDetails(testFileName, testDetails)
         } finally {
-            def testArtifact = [scenario: testScenario, example: example, stepsOutput: capturedStepsOutput]
-
-            validateAndSaveTestArtifact(testFileName, testArtifact)
-
             StepReporters.remove(this)
             StandaloneTestListeners.remove(this)
         }
     }
 
-    private static void validateAndSaveTestArtifact(String testFileName, Map artifact) {
+    private static void validateAndSaveTestDetails(String testFileName, Map testDetails) {
         def fileNameWithoutExt = removeExtension(testFileName)
-        def expectedPath = Paths.get('test-artifacts')
-                .resolve(fileNameWithoutExt).resolve(STEPS_OUTPUT_FILE_NAME + '.txt')
-        def actualPath = Paths.get('test-artifacts')
-                .resolve(fileNameWithoutExt).resolve(STEPS_OUTPUT_FILE_NAME + '.actual.txt')
+        def expectedPath = Paths.get(EXPECTATIONS_DIR_NAME)
+                .resolve(fileNameWithoutExt).resolve(RUN_DETAILS_FILE_NAME + '.json')
+        def actualPath = Paths.get(EXPECTATIONS_DIR_NAME)
+                .resolve(fileNameWithoutExt).resolve(RUN_DETAILS_FILE_NAME + '.actual.json')
 
-        String actualStepsOutput = artifact.stepsOutput.join('\n')
+        def serializedTestDetails = JsonUtils.serializePrettyPrint(testDetails)
 
         if (! Files.exists(expectedPath)) {
-            FileUtils.writeTextContent(expectedPath, actualStepsOutput)
+            FileUtils.writeTextContent(expectedPath, serializedTestDetails)
 
             throw new AssertionError('make sure ' + expectedPath + ' is correct. and commit it as a baseline. ' +
                     'test will not fail next time unless output of the test is changed')
         }
 
-        def expectedStepsOutput = FileUtils.fileTextContent(expectedPath)
+        def expectedDetails = JsonUtils.deserializeAsMap(FileUtils.fileTextContent(expectedPath))
 
-        if (! expectedStepsOutput.equals(actualStepsOutput)) {
+        CompareToComparator comparator = CompareToComparator.comparator()
+        def isEqual = comparator.compareIsEqual(new ActualPath('testDetails'), testDetails, expectedDetails)
+
+        if (! isEqual) {
             ConsoleOutputs.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,
                     Color.BLUE, ' and ', Color.PURPLE, expectedPath)
-            FileUtils.writeTextContent(actualPath, actualStepsOutput)
-            Assert.assertEquals(expectedStepsOutput, actualStepsOutput)
+            FileUtils.writeTextContent(actualPath, serializedTestDetails)
+            throw new AssertionError(comparator.generateNotEqualMatchReport())
         } else {
             Files.deleteIfExists(actualPath)
         }
@@ -118,24 +120,21 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
 
     @Override
     void onStepStart(TestStep step) {
-        def stepAsText = "> " + StringUtils.createIndentation(step.numberOfParents * 2) + step.getInProgressMessage().toString()
-        capturedStepsOutput.add(stepAsText)
     }
 
     @Override
     void onStepSuccess(TestStep step) {
-        def stepAsText = ". " + StringUtils.createIndentation(step.numberOfParents * 2)
-        capturedStepsOutput.add(stepAsText + step.getCompletionMessage().toString())
+        capturedStepsSummary.numberOfSuccessful++
     }
 
     @Override
     void onStepFailure(TestStep step) {
-        def stepAsText = "X " + StringUtils.createIndentation(step.numberOfParents * 2) + step.getCompletionMessage().toString()
-        capturedStepsOutput.add(stepAsText)
+        capturedStepsSummary.numberOfFailed++
     }
 
     @Override
     void beforeFirstTest() {
+        scenariosDetails.clear()
     }
 
     @Override
@@ -144,11 +143,13 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
 
     @Override
     void beforeTestRun(StandaloneTest test) {
+        capturedStepsSummary = [:].withDefault { 0 }
     }
 
     @Override
     void afterTestRun(StandaloneTest test) {
-        testScenario = test.scenario
+        scenariosDetails.add([scenario    : test.scenario,
+                              stepsSummary: capturedStepsSummary])
     }
 
     @Override

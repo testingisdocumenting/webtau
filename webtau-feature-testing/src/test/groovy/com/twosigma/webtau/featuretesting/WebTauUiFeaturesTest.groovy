@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package scenarios.ui
+package com.twosigma.webtau.featuretesting
 
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
-import static pages.Pages.search
+import com.twosigma.webtau.utils.FileUtils
+import org.junit.Test
 
-scenario("use `shouldNot` to negate any matcher") {
-    search.open()
-    search.submit(query: "search this")
+import java.nio.file.Paths
 
-    search.numberOfResults.shouldNot == 1
+import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtml
+
+class WebTauUiFeaturesTest {
+    @Test
+    void "extract html snippets"() {
+        def html = extractHtml("finders-and-filters.html", "#menu")
+        FileUtils.writeTextContent(Paths.get("doc-artifacts/snippets/menu.html"), html)
+    }
 }

@@ -1,0 +1,9 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "list Customers and assert with a Table Data",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  } ],
+  "exitCode" : 0
+}
