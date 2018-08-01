@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-com.twosigma.webtau.reporter.ScreenshotTestResultPayloadExtractor
+com.twosigma.webtau.browser.reporter.ScreenshotTestResultPayloadExtractor

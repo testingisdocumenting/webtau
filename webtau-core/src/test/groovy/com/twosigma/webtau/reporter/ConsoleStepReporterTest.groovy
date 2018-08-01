@@ -49,10 +49,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should indent multiline assertion message at the end of a step message"() {
-        def topLevelStep = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def validationStep = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("validation")),
+            def validationStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
                     { -> TokenizedMessage.tokenizedMessage(action("validated"),
                             matcher(multilineMatcherMessage('matches'))) }) {
             }
@@ -74,10 +74,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should indent multiline error message at the end of a step message"() {
-        def topLevelStep = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def validationStep = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("validation")),
+            def validationStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
                     { -> TokenizedMessage.tokenizedMessage(action("validation"),
                             matcher(multilineMatcherMessage('matches'))) }) {
 

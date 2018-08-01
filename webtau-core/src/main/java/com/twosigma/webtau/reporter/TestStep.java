@@ -46,17 +46,25 @@ public class TestStep<C, R> {
 
     private static ThreadLocal<TestStep<?, ?>> currentStep = new ThreadLocal<>();
 
-    public static <C> TestStep<C, Void> create(C context,
-                                               TokenizedMessage inProgressMessage,
-                                               Supplier<TokenizedMessage> completionMessageSupplier,
-                                               Runnable action) {
-        return create(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
+    public static <C> TestStep<C, Void> createStep(C context,
+                                                   TokenizedMessage inProgressMessage,
+                                                   Supplier<TokenizedMessage> completionMessageSupplier,
+                                                   Runnable action) {
+        return createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
     }
 
-    public static <C, R> TestStep<C, R> create(C context,
-                                         TokenizedMessage inProgressMessage,
-                                         Supplier<TokenizedMessage> completionMessageSupplier,
-                                         Supplier<R> action) {
+    public static <C> void createAndExecuteStep(C context,
+                                                TokenizedMessage inProgressMessage,
+                                                Supplier<TokenizedMessage> completionMessageSupplier,
+                                                Runnable action) {
+        TestStep<C, Void> step = createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static <C, R> TestStep<C, R> createStep(C context,
+                                                   TokenizedMessage inProgressMessage,
+                                                   Supplier<TokenizedMessage> completionMessageSupplier,
+                                                   Supplier<R> action) {
         TestStep<C, R> step = new TestStep<>(context, inProgressMessage, completionMessageSupplier, action);
         TestStep<?, ?> localCurrentStep = TestStep.currentStep.get();
 

@@ -19,7 +19,7 @@ package com.twosigma.webtau.openapi;
 import com.atlassian.oai.validator.interaction.ApiOperationResolver;
 import com.atlassian.oai.validator.model.ApiOperationMatch;
 import com.atlassian.oai.validator.model.Request;
-import com.twosigma.webtau.http.HttpUrl;
+import com.twosigma.webtau.utils.UrlUtils;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
@@ -73,7 +73,7 @@ public class OpenApiSpec {
     }
 
     public Optional<OpenApiOperation> findApiOperation(String method, String path) {
-        String relativePath = HttpUrl.extractPath(path);
+        String relativePath = UrlUtils.extractPath(path);
 
         Request.Method requestMethod = Enum.valueOf(Request.Method.class, method);
 
@@ -111,7 +111,7 @@ public class OpenApiSpec {
 
     private String combineWithBasePath(String url) {
         return api.getBasePath() != null ?
-                HttpUrl.concat(api.getBasePath(), url):
+                UrlUtils.concat(api.getBasePath(), url):
                 url;
     }
 

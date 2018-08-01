@@ -18,6 +18,8 @@ package com.twosigma.webtau.cli
 
 import com.twosigma.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.WebTauGroovyDsl
+import com.twosigma.webtau.browser.driver.WebDriverCreator
+import com.twosigma.webtau.browser.reporter.ScreenshotStepReporter
 import com.twosigma.webtau.cfg.GroovyRunner
 import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
@@ -25,7 +27,6 @@ import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.console.ansi.NoAnsiConsoleOutput
-import com.twosigma.webtau.driver.WebDriverCreator
 import com.twosigma.webtau.pdf.Pdf
 import com.twosigma.webtau.report.Report
 import com.twosigma.webtau.report.ReportGenerator
@@ -33,7 +34,6 @@ import com.twosigma.webtau.report.ReportGenerators
 import com.twosigma.webtau.reporter.ConsoleStepReporter
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
 import com.twosigma.webtau.reporter.ScopeLimitingStepReporter
-import com.twosigma.webtau.reporter.ScreenshotStepReporter
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors

@@ -420,7 +420,7 @@ public class Http {
             }
         };
 
-        return TestStep.create(null, tokenizedMessage(action("executing HTTP " + requestMethod), urlValue(fullUrl)),
+        return TestStep.createStep(null, tokenizedMessage(action("executing HTTP " + requestMethod), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("executed HTTP " + requestMethod), urlValue(fullUrl)),
                 httpCallSupplier);
     }

@@ -16,9 +16,10 @@
 
 package com.twosigma.webtau.page.path
 
-import com.twosigma.webtau.page.path.filter.ByNumberElementsFilter
-import com.twosigma.webtau.page.path.filter.ByTextElementsFilter
-import com.twosigma.webtau.page.path.finder.ByCssFinder
+import com.twosigma.webtau.browser.page.path.ElementPath
+import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter
+import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter
+import com.twosigma.webtau.browser.page.path.finder.ByCssFinder
 import org.junit.Test
 
 class ElementPathTest {

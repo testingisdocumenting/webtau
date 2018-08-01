@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-com.twosigma.webtau.expectation.SystemTimerConfig
+com.twosigma.webtau.browser.expectation.SystemTimerConfig

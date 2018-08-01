@@ -23,6 +23,7 @@ import static com.twosigma.webtau.Ddjt.actual;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.matcher;
+import static com.twosigma.webtau.reporter.TestStep.createStep;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ValueMatcherExpectationSteps {
@@ -59,7 +60,7 @@ public class ValueMatcherExpectationSteps {
                                            ValueMatcher valueMatcher, boolean isNegative,
                                            TokenizedMessage messageStart, Runnable expectationValidation,
                                            StepReportOptions stepReportOptions) {
-        TestStep<C, Void> step = TestStep.create(context,
+        TestStep<C, Void> step = createStep(context,
                 messageStart.add(elementDescription)
                         .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
                 () -> tokenizedMessage(elementDescription)

@@ -27,8 +27,8 @@ import com.twosigma.webtau.http.validation.HttpValidationResult;
 
 import java.util.Optional;
 
-import static com.twosigma.webtau.http.HttpUrl.extractPath;
-import static com.twosigma.webtau.http.HttpUrl.extractQueryParams;
+import static com.twosigma.webtau.utils.UrlUtils.extractPath;
+import static com.twosigma.webtau.utils.UrlUtils.extractQueryParams;
 
 public class OpenApiSpecValidator {
     private final SwaggerRequestResponseValidator openApiValidator;

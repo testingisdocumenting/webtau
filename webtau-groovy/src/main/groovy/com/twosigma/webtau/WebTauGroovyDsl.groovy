@@ -27,6 +27,7 @@ import java.util.function.Supplier
 import java.util.regex.Pattern
 
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.none
+import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 class WebTauGroovyDsl extends WebTauDsl {
@@ -43,7 +44,7 @@ class WebTauGroovyDsl extends WebTauDsl {
         // and not through webtau command line
         // in this case we just run scenario code eagerly instead of registering it
         if (!testRunner) {
-            runAdHoc(description, code);
+            runAdHoc(description, code)
         } else {
             testRunner.scenario(description, code)
         }
@@ -51,7 +52,7 @@ class WebTauGroovyDsl extends WebTauDsl {
 
     static void sscenario(String description, Closure code) {
         if (!testRunner) {
-            runAdHoc(description, code);
+            runAdHoc(description, code)
         } else {
             testRunner.sscenario(description, code)
         }
@@ -85,7 +86,7 @@ class WebTauGroovyDsl extends WebTauDsl {
         return { args ->
             String withReplacedValues = replacePlaceholders(description, args)
 
-            executeStep(null, tokenizedMessage(none(withReplacedValues)),
+            createAndExecuteStep(null, tokenizedMessage(none(withReplacedValues)),
                     { -> tokenizedMessage(none("done " + withReplacedValues)) },
                     { -> code.curry(args).call() })
         }
