@@ -26,10 +26,6 @@
 
     <artifactId>webtau</artifactId>
 
-    <properties>
-        <selenium.version>3.3.1</selenium.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
@@ -51,6 +47,12 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-browser</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-report</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -65,18 +67,6 @@
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-reactjs</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>${selenium.version}</version>
         </dependency>
 
         <dependency>

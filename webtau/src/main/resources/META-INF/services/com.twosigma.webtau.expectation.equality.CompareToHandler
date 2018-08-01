@@ -14,5 +14,5 @@
 # limitations under the License.
 #
 
-com.twosigma.webtau.expectation.ElementValueCompareToHandler
-com.twosigma.webtau.expectation.PageElementCompareToHandler
+com.twosigma.webtau.browser.expectation.ElementValueCompareToHandler
+com.twosigma.webtau.browser.expectation.PageElementCompareToHandler

@@ -18,8 +18,9 @@ package com.twosigma.webtau.expectation
 
 import com.twosigma.webtau.FakeWebDriver
 import com.twosigma.webtau.FakeWebElement
-import com.twosigma.webtau.page.path.ElementPath
-import com.twosigma.webtau.page.path.GenericPageElement
+import com.twosigma.webtau.browser.expectation.PageElementCompareToHandler
+import com.twosigma.webtau.browser.page.path.ElementPath
+import com.twosigma.webtau.browser.page.path.GenericPageElement
 import org.junit.Before
 import org.junit.Test
 

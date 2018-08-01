@@ -55,17 +55,17 @@ class ScopeLimitingStepReporterTest implements StepReporter {
     }
 
     private static void executeSteps() {
-        def topLevelStep = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def secondLevelStepSuccess = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("second level action")),
+            def secondLevelStepSuccess = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action")),
                     { -> TokenizedMessage.tokenizedMessage(action("second level action completed")) }) {
             }
 
-            def secondLevelStepFailure = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("second level action with error")),
+            def secondLevelStepFailure = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action with error")),
                     { -> TokenizedMessage.tokenizedMessage(action("second level action with error completed")) }) {
 
-                def thirdLevelStep = TestStep.create(null, TokenizedMessage.tokenizedMessage(action("third level action")),
+                def thirdLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("third level action")),
                         { -> TokenizedMessage.tokenizedMessage(action("third level action completed")) }) {
                     throw new RuntimeException('out of memory')
                 }

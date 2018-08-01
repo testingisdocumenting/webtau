@@ -17,18 +17,18 @@
 package com.twosigma.webtau.http.config;
 
 import com.twosigma.webtau.http.HttpRequestHeader;
-import com.twosigma.webtau.http.HttpUrl;
+import com.twosigma.webtau.utils.UrlUtils;
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class WebTauHttpConfiguration implements HttpConfiguration {
     @Override
     public String fullUrl(String url) {
-        if (HttpUrl.isFull(url)) {
+        if (UrlUtils.isFull(url)) {
             return url;
         }
 
-        return HttpUrl.concat(getCfg().getBaseUrl(), url);
+        return UrlUtils.concat(getCfg().getBaseUrl(), url);
     }
 
     @Override

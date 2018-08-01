@@ -32,6 +32,7 @@ import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
 import com.twosigma.webtau.http.testserver.TestServerTextResponse
 import com.twosigma.webtau.utils.ResourceUtils
+import com.twosigma.webtau.utils.UrlUtils
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -857,11 +858,11 @@ class HttpTest implements HttpConfiguration {
 
     @Override
     String fullUrl(String url) {
-        if (HttpUrl.isFull(url)) {
+        if (UrlUtils.isFull(url)) {
             return url
         }
 
-        return HttpUrl.concat("http://localhost:${PORT}", url)
+        return UrlUtils.concat("http://localhost:${PORT}", url)
     }
 
     @Override

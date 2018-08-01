@@ -16,43 +16,18 @@
 
 package com.twosigma.webtau;
 
+import com.twosigma.webtau.browser.Browser;
+import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
+import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.cfg.WebTauConfig;
-import com.twosigma.webtau.documentation.DocumentationDsl;
-import com.twosigma.webtau.driver.CurrentWebDriver;
 import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.expectation.VisibleValueMatcher;
 import com.twosigma.webtau.http.Http;
-import com.twosigma.webtau.http.HttpUrl;
 import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.page.Cookies;
-import com.twosigma.webtau.page.PageElement;
-import com.twosigma.webtau.page.path.ElementPath;
-import com.twosigma.webtau.page.path.GenericPageElement;
 import com.twosigma.webtau.pdf.Pdf;
-import com.twosigma.webtau.reporter.StepReportOptions;
-import com.twosigma.webtau.reporter.TestStep;
-import com.twosigma.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.OutputType;
-
-import java.util.function.Supplier;
-
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class WebTauDsl extends Ddjt {
-    public static final CurrentWebDriver driver = new CurrentWebDriver();
     public static final Http http = Http.http;
-    public static final DocumentationDsl doc = new DocumentationDsl(driver);
-    public static final Cookies cookies = new Cookies(driver);
-
-    public static <C> void executeStep(C context,
-                                       TokenizedMessage inProgressMessage,
-                                       Supplier<TokenizedMessage> completionMessageSupplier,
-                                       Runnable action) {
-        TestStep<C, Void> step = TestStep.create(context, inProgressMessage, completionMessageSupplier, action);
-        step.execute(StepReportOptions.REPORT_ALL);
-    }
+    public static final Browser browser = Browser.browser;
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();
@@ -62,35 +37,8 @@ public class WebTauDsl extends Ddjt {
         return Pdf.pdf(node);
     }
 
-    public static void open(String url) {
-        String fullUrl = createFullUrl(url);
-
-        String currentUrl = driver.getCurrentUrl();
-        boolean sameUrl = fullUrl.equals(currentUrl);
-
-        executeStep(null, tokenizedMessage(action("opening"), urlValue(fullUrl)),
-                () -> tokenizedMessage(action(sameUrl ? "staying at" : "opened"), urlValue(fullUrl)),
-                () -> { if (! sameUrl) driver.get(fullUrl); });
-    }
-
-    public static void reopen(String url) {
-        String fullUrl = createFullUrl(url);
-
-        executeStep(null, tokenizedMessage(action("re-opening"), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("opened"), urlValue(fullUrl)),
-                () -> driver.get(fullUrl));
-    }
-
-    public static boolean wasBrowserUsed() {
-        return driver.wasUsed();
-    }
-
-    public static String takeScreenshotAsBase64() {
-        return WebTauDsl.driver.getScreenshotAs(OutputType.BASE64);
-    }
-
     public static PageElement $(String css) {
-        return new GenericPageElement(driver, ElementPath.css(css));
+        return browser.$(css);
     }
 
     public static ValueMatcher beVisible() {
@@ -99,13 +47,5 @@ public class WebTauDsl extends Ddjt {
 
     public static ValueMatcher getBeVisible() {
         return beVisible();
-    }
-
-    private static String createFullUrl(String url) {
-        if (HttpUrl.isFull(url)) {
-            return url;
-        }
-
-        return HttpUrl.concat(getCfg().getBaseUrl(), url);
     }
 }

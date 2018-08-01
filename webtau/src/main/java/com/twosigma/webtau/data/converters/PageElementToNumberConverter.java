@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.data.converters;
 
-import com.twosigma.webtau.page.PageElement;
+import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.utils.NumberUtils;
 
 public class PageElementToNumberConverter implements ToNumberConverter {
