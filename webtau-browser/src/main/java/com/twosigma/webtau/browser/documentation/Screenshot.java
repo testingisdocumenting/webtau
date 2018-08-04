@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.browser.documentation;
 
-import org.eclipse.jetty.io.RuntimeIOException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -44,7 +43,7 @@ public class Screenshot {
         try {
             return ImageIO.read(new ByteArrayInputStream(screenshotBytes));
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new RuntimeException(e);
         }
     }
 

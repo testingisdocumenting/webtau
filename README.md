@@ -16,9 +16,7 @@ scenario("simple get") {
 
 ```groovy
 scenario("search by specific query") {
-    search.open()
-    search.submit(query: "search this")
-
+    search.submit("search this")
     search.numberOfResults.should == 2
 }
 ```
