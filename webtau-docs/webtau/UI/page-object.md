@@ -12,20 +12,18 @@ And more importantly you will have only one place to change if UI changes.
 
 # Definition
 
-`PageObject` is just a simple class.
+To define `PageObject` create a class.
 
 :include-groovy: pages/SearchPage.groovy
 
-Usage of a special `action` method is optional. Used to add additional reporting information.
- 
 # Grouping
  
 To make it easier to refer `PageObjects` from different tests combine them in one file
 
 :include-groovy: pages/Pages.groovy
 
-later just static import all of them
+Use static import to have seamless access to all of them
 
-:include-groovy: scenarios/ui/Search.groovy
+:include-groovy: scenarios/ui/searchWithPages.groovy
 
 

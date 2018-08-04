@@ -30,7 +30,7 @@
     <version>0.26-SNAPSHOT</version>
 
     <properties>
-        <selenium.version>3.3.1</selenium.version>
+        <selenium.version>3.13.0</selenium.version>
     </properties>
 
     <dependencies>
@@ -44,6 +44,12 @@
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-report</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!--forcing correct version to avoid selenium clash-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
 
         <dependency>

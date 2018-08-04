@@ -1,6 +1,4 @@
-# Installation
-
-Download and unzip [webtau](https://github.com/twosigma/webtau/releases/). Add it to your `PATH`.
+:include-markdown: common/installation.md
 
 # Bare Minimum
 
@@ -10,8 +8,7 @@ To run test, navigate to `examples` dir and
 
 :include-cli-command: webtau scenarios/rest/simpleGet.groovy --url=https://my-server {paramsToHighlight: "url"}
 
-Note: using `package` and `import` is optional and is mainly for IDE auto completion. Imports will be added implicitly
-during command line run.  
+:include-markdown: common/note-package-import.md
 
 # Config File
 

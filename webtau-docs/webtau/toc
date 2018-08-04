@@ -12,10 +12,12 @@ REST
     report
     matchers
 UI
-    configuration
-    finders-and-filters
+    getting-started
+    basic-configuration
+    page-element-and-value
     page-object
-    page-element
+    advanced-configuration
+    finders-and-filters
     matchers
 configuration
     cli

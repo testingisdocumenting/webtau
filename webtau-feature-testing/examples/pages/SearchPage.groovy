@@ -1,20 +1,17 @@
 package pages
 
 import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.reopen
-import static com.twosigma.webtau.WebTauGroovyDsl.action
+import static com.twosigma.webtau.WebTauDsl.browser
 
 class SearchPage {
     def welcomeMessage = $('#welcome')
     def box = $('#search-box')
     def numberOfResults = $('#results .result').count
 
-    void open() {
-        reopen("/search")
-    }
+    def submit(query) {
+        browser.open("/search")
 
-    def submit = action("submitting search value '<query>'") {
-        box.setValue(it.query)
+        box.setValue(query)
         box.sendKeys("\n")
     }
 }
