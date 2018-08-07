@@ -73,7 +73,11 @@ class HttpTest implements HttpConfiguration {
 
         testServer.registerGet("/end-point", objectTestResponse)
         testServer.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse)
-        testServer.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201))
+
+        testServer.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201, [
+                "Content-Location": "/url/23",
+                "Location": "http://www.example.org/url/23"]))
+
         testServer.registerPut("/end-point", objectTestResponse)
         testServer.registerDelete("/end-point", objectTestResponse)
         testServer.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"))
@@ -248,16 +252,17 @@ class HttpTest implements HttpConfiguration {
                 'Custom-Header-One': 'custom-value-one',
                 'Custom-Header-Two': 'custom-value-two']
 
-        def header = http.header(headerPayload)
+        def requestHeader = http.header(headerPayload)
         def expectations = {
+            header.should == headerPayload
             body.should == headerPayload
         }
 
-        http.get("/echo-header", header, expectations)
-        http.get("/echo-header", [qp1: 'v1'], header, expectations)
-        http.post("/echo-header", header, [:], expectations)
-        http.put("/echo-header", header, [:], expectations)
-        http.delete("/echo-header", header, expectations)
+        http.get("/echo-header", requestHeader, expectations)
+        http.get("/echo-header", [qp1: 'v1'], requestHeader, expectations)
+        http.post("/echo-header", requestHeader, [:], expectations)
+        http.put("/echo-header", requestHeader, [:], expectations)
+        http.delete("/echo-header", requestHeader, expectations)
     }
 
     @Test
@@ -295,6 +300,20 @@ class HttpTest implements HttpConfiguration {
                 'My-Header2': 'Value2'])
 
         assert varArgHeader == mapBasedHeader
+    }
+
+    @Test
+    void "header assertion with shortcut"() {
+        http.post("/end-point") {
+            header.location.should == 'http://www.example.org/url/23'
+            header['Location'].should == 'http://www.example.org/url/23'
+
+            header.contentLocation.should == '/url/23'
+            header['Content-Location'].should == '/url/23'
+
+            header.contentLength.should == 303
+            header['Content-Length'].should == 303
+        }
     }
 
     @Test
@@ -870,8 +889,8 @@ class HttpTest implements HttpConfiguration {
         return given
     }
 
-    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode = 200) {
-        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode)
+    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode = 200, Map headerResponse = [:]) {
+        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, headerResponse)
     }
 
     private static void assertStatusCodeMismatchRegistered() {

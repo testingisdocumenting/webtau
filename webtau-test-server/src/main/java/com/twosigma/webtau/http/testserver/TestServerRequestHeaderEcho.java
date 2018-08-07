@@ -32,6 +32,16 @@ public class TestServerRequestHeaderEcho implements TestServerResponse {
 
     @Override
     public byte[] responseBody(HttpServletRequest request) {
+        Map<String, String> header = buildHeaderResponse(request);
+        return JsonUtils.serialize(header).getBytes();
+    }
+
+    @Override
+    public Map<String, String> responseHeader(HttpServletRequest request) {
+        return buildHeaderResponse(request);
+    }
+
+    private Map<String, String> buildHeaderResponse(HttpServletRequest request) {
         Map<String, String> header = new LinkedHashMap<>();
 
         Enumeration<String> headerNames = request.getHeaderNames();
@@ -39,8 +49,7 @@ public class TestServerRequestHeaderEcho implements TestServerResponse {
             String name = headerNames.nextElement();
             header.put(name, request.getHeader(name));
         }
-
-        return JsonUtils.serialize(header).getBytes();
+        return header;
     }
 
     @Override

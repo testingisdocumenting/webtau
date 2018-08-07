@@ -26,3 +26,12 @@ To explicitly set header pass `http.header(values)` as an additional parameter.
 Additionally `http.header` accepts values as a map.
 
 :include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "header creation", bodyOnly: true}
+
+# Response Header
+
+To validate values from response header use `header` object.
+
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "header assertion with shortcut", bodyOnly: true}
+
+At the moment only `location`, `contentLocation`, `contentLength` have camelCase shortcuts.
+All the other header values you need to use `['Header-Name']` syntax.

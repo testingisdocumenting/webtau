@@ -94,9 +94,12 @@ public class TestServer {
             if (testServerResponse == null) {
                 response.setStatus(404);
             } else {
+                testServerResponse.responseHeader(request).forEach(response::addHeader);
+
                 byte[] responseBody = testServerResponse.responseBody(request);
                 response.setStatus(testServerResponse.responseStatusCode());
                 response.setContentType(testServerResponse.responseType(request));
+
                 if (responseBody != null) {
                     response.getOutputStream().write(responseBody);
                 }

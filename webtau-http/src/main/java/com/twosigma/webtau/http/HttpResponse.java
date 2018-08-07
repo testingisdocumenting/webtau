@@ -18,12 +18,20 @@ package com.twosigma.webtau.http;
 
 import com.twosigma.webtau.utils.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HttpResponse {
     private String textContent;
     private byte[] binaryContent;
     private String contentType;
 
     private int statusCode;
+    private Map<String, String> header;
+
+    public HttpResponse() {
+        header = new HashMap<>();
+    }
 
     public String getTextContent() {
         return textContent;
@@ -83,5 +91,13 @@ public class HttpResponse {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public Map<String, String> getHeader() {
+        return header;
+    }
+
+    public void addHeader(String key, String value) {
+        header.put(key, value);
     }
 }

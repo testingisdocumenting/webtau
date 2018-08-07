@@ -17,18 +17,26 @@
 package com.twosigma.webtau.http.testserver;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
+import java.util.Map;
 
 public class TestServerJsonResponse implements TestServerResponse {
     private final String response;
     private final int statusCode;
+    private final Map<String, String> headerResponse;
 
     public TestServerJsonResponse(String response, int statusCode) {
-        this.response = response;
-        this.statusCode = statusCode;
+        this(response, statusCode, Collections.emptyMap());
     }
 
     public TestServerJsonResponse(String response) {
         this(response, 200);
+    }
+
+    public TestServerJsonResponse(String response, int statusCode, Map<String, String> headerResponse) {
+        this.response = response;
+        this.statusCode = statusCode;
+        this.headerResponse = headerResponse;
     }
 
     @Override
@@ -44,5 +52,10 @@ public class TestServerJsonResponse implements TestServerResponse {
     @Override
     public int responseStatusCode() {
         return statusCode;
+    }
+
+    @Override
+    public Map<String, String> responseHeader(HttpServletRequest request) {
+        return headerResponse;
     }
 }
