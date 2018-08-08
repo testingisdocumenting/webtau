@@ -57,6 +57,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
+    boolean has(String name) {
+        return node.has(name)
+    }
+
+    @Override
     DataNode get(int idx) {
         return new GroovyDataNode(node.get(idx))
     }

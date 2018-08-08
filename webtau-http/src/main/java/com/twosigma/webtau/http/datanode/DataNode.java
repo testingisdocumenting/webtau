@@ -30,6 +30,8 @@ public interface DataNode extends ActualValueExpectations, DataNodeExpectations 
 
     DataNode get(String name);
 
+    boolean has(String name);
+
     DataNode get(int idx);
 
     TraceableValue get();
