@@ -77,4 +77,18 @@ class StructuredDataNodeTest {
         node.get(0).get('score').get().checkLevel.should == CheckLevel.None
         node.get(1).get('score').get().checkLevel.should == CheckLevel.None
     }
+
+    @Test
+    void "shortcut using on non existing field should produce null data node"() {
+        def node = DataNodeBuilder.fromList(new DataNodeId("body"), [
+                [name: 'name1'],
+                [name: 'name2'],
+        ])
+
+        node.score.should == null
+
+        code {
+            node.score.shouldNot == null
+        } should throwException(AssertionError, ~/body\.score/)
+    }
 }

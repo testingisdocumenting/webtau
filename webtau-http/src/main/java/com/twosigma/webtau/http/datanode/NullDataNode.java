@@ -40,6 +40,11 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
+    public boolean has(String name) {
+        return false;
+    }
+
+    @Override
     public DataNode get(int idx) {
         return new NullDataNode(id.peer(idx));
     }
