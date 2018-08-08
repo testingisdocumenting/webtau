@@ -41,6 +41,11 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
+    public boolean has(String name) {
+        return dataNode.has(name);
+    }
+
+    @Override
     public DataNode get(int idx) {
         return dataNode.get(idx);
     }

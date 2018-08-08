@@ -67,6 +67,11 @@ public class StructuredDataNode implements DataNode {
     }
 
     @Override
+    public boolean has(String name) {
+        return children.containsKey(name);
+    }
+
+    @Override
     public DataNode get(int idx) {
         return (values == null || idx < 0 || idx >= values.size()) ?
             new NullDataNode(id.peer(idx)):
@@ -126,6 +131,10 @@ public class StructuredDataNode implements DataNode {
     }
 
     private DataNode getAsCollectFromList(String name) {
+        if (values.stream().noneMatch(v -> v.has(name))) {
+            return new NullDataNode(id.child(name));
+        }
+
         return new StructuredDataNode(id.child(name),
                 values.stream()
                         .map(n -> n.get(name))
