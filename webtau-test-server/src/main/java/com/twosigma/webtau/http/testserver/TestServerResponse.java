@@ -19,10 +19,16 @@ package com.twosigma.webtau.http.testserver;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
 public interface TestServerResponse {
     byte[] responseBody(HttpServletRequest request) throws IOException, ServletException;
     String responseType(HttpServletRequest request);
+
+    default Map<String, String> responseHeader(HttpServletRequest request) {
+        return Collections.emptyMap();
+    }
 
     default int responseStatusCode() {
         return 200;

@@ -26,15 +26,11 @@ import com.twosigma.webtau.http.binary.BinaryRequestBody;
 import com.twosigma.webtau.http.config.HttpConfigurations;
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.http.datanode.DataNodeBuilder;
-import com.twosigma.webtau.http.datanode.DataNodeId;
-import com.twosigma.webtau.http.datanode.StructuredDataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
 import com.twosigma.webtau.http.multipart.MultiPartFile;
 import com.twosigma.webtau.http.multipart.MultiPartFormData;
 import com.twosigma.webtau.http.multipart.MultiPartFormField;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
-import com.twosigma.webtau.http.validation.HeaderDataNode;
 import com.twosigma.webtau.http.validation.HttpResponseValidator;
 import com.twosigma.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
 import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn;
@@ -44,8 +40,6 @@ import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
 import com.twosigma.webtau.utils.CollectionUtils;
-import com.twosigma.webtau.utils.JsonParseException;
-import com.twosigma.webtau.utils.JsonUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -55,7 +49,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -428,11 +421,11 @@ public class Http {
     @SuppressWarnings("unchecked")
     private <R> R validateAndRecord(HttpValidationResult validationResult,
                                     HttpResponseValidatorWithReturn validator) {
-        HeaderDataNode header = createHeaderDataNode(validationResult.getResponse());
-        DataNode body = createBodyDataNode(validationResult.getResponse());
 
-        validationResult.setResponseHeaderNode(header);
-        validationResult.setResponseBodyNode(body);
+        HttpDataNodes dataNodes = new HttpDataNodes(validationResult.getResponse());
+
+        validationResult.setResponseHeaderNode(dataNodes.getHeader());
+        validationResult.setResponseBodyNode(dataNodes.getBody());
 
         HttpValidationHandlers.validate(validationResult);
 
@@ -447,7 +440,7 @@ public class Http {
         //    we still validate status code to make sure user is aware of the status code problem
         try {
             R extracted = ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
-                Object returnedValue = validator.validate(header, body);
+                Object returnedValue = validator.validate(dataNodes.getHeader(), dataNodes.getBody());
                 return (R) extractOriginalValue(returnedValue);
             });
 
@@ -561,6 +554,7 @@ public class Http {
 
     private HttpResponse extractHttpResponse(HttpURLConnection connection) throws IOException {
         HttpResponse httpResponse = new HttpResponse();
+        populateResponseHeader(httpResponse, connection);
 
         InputStream inputStream = connection.getResponseCode() < 400 ? connection.getInputStream() : connection.getErrorStream();
         httpResponse.setStatusCode(connection.getResponseCode());
@@ -575,39 +569,12 @@ public class Http {
         return httpResponse;
     }
 
-    private static HeaderDataNode createHeaderDataNode(HttpResponse response) {
-        Map<String, Object> headerData = new LinkedHashMap<>();
-        headerData.put("statusCode", response.getStatusCode());
-        headerData.put("contentType", response.getContentType());
-
-        return new HeaderDataNode(DataNodeBuilder.fromMap(new DataNodeId("header"), headerData));
-    }
-
-    @SuppressWarnings("unchecked")
-    private static DataNode createBodyDataNode(HttpResponse response) {
-        try {
-            DataNodeId id = new DataNodeId("body");
-
-            if (!response.isBinary() && response.nullOrEmptyTextContent()) {
-                return new StructuredDataNode(id, new TraceableValue(null));
+    private void populateResponseHeader(HttpResponse httpResponse, HttpURLConnection connection) {
+        connection.getHeaderFields().forEach((key, values) -> {
+            if (!values.isEmpty()) {
+                httpResponse.addHeader(key, values.get(0));
             }
-
-            if (response.isText()) {
-                return new StructuredDataNode(id, new TraceableValue(response.getTextContent()));
-            }
-
-            if (response.isJson()) {
-                Object mapOrList = JsonUtils.deserialize(response.getTextContent());
-
-                return mapOrList instanceof List ?
-                        DataNodeBuilder.fromList(id, (List<Object>) mapOrList) :
-                        DataNodeBuilder.fromMap(id, (Map<String, Object>) mapOrList);
-            }
-
-            return new StructuredDataNode(id, new TraceableValue(response.getBinaryContent()));
-        } catch (JsonParseException e) {
-            throw new RuntimeException("error parsing body: " + response.getTextContent(), e);
-        }
+        });
     }
 
     /**
