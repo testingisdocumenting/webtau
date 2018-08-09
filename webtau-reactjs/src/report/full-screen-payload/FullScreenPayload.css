@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-import React from 'react'
+.full-screen-payload-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
 
-import './DetailsTabSelection.css'
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
 
-const DetailsTabSelection = ({tabs, selectedTabName, onTabSelection}) => {
-    return (
-        <div className="details-tab-selection">
-            <div className="tab-names">
-                {tabs.map(t => {
-                    const className = "tab-name" + (selectedTabName === t ? " selected" : "")
-                    return <div key={t} className={className} onClick={() => onTabSelection(t)}>{t}</div>
-                })}
-            </div>
-        </div>
-    )
+    user-select: none;
 }
 
-export default DetailsTabSelection
+.full-screen-payload-content {
+    position: fixed;
+    top: 20px;
+    right: 50px;
+    bottom: 20px;
+    left: 50px;
+
+    background-color: #fff;
+    z-index: 1001;
+}

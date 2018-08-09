@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-.details-tab-selection > .tab-names {
-    display: flex;
-    width: 100%;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
+.full-screen-http-payload {
+    display: grid;
+    grid-template-rows: auto 1fr;
+
+    height: 100%;
 }
 
-.details-tab-selection > .tab-names > .tab-name {
-    font-size: 14px;
-    color: #888;
-
-    padding: 10px 15px;
-
-    cursor: pointer;
-    user-select: none;
+.full-screen-http-payload-content {
+    padding: 20px;
+    overflow: auto;
 }
 
-.details-tab-selection > .tab-names > .tab-name.selected {
-    color: #333;
-    border-bottom: 2px solid var(--webtau-test-status-filter-background-color);
-    margin-bottom: -1px;
+.full-screen-http-payload-url {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.full-screen-http-payload-url a,
+.full-screen-http-payload-url a:hover {
+    text-decoration: none;
+    color: #527d8f;
 }
