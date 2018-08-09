@@ -15,7 +15,7 @@
  */
 
 import React, {Component} from 'react'
-import {DebounceInput} from 'react-debounce-input';
+import {DebounceInput} from 'react-debounce-input'
 
 import Report from './Report'
 
@@ -33,7 +33,7 @@ import NavigationEntriesType from './navigation/NavigationEntriesType'
 import HttpCallDetails from './details/http/HttpCallDetails'
 import StatusEnum from './StatusEnum'
 
-import FullScreenPayload from './FullScreenPayload'
+import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload'
 
 import './WebTauReport.css'
 
@@ -44,20 +44,14 @@ class WebTauReport extends Component {
         this._stateCreator = new WebTauReportStateCreator(props.report)
 
         this.state = this.stateFromUrl()
+
+        this.reportNavigation = {
+            zoomInHttpPayload: this.onHttpPayloadZoomIn,
+            selectTest: this.onTestSelect
+        }
     }
 
     render() {
-        const {payloadType} = this.state
-
-        if (payloadType) {
-            return this.renderPayload()
-        } else {
-            return this.renderReport()
-        }
-
-    }
-
-    renderReport() {
         const {report} = this.props
         const {entriesType, statusFilter, filterText} = this.state
 
@@ -91,18 +85,25 @@ class WebTauReport extends Component {
                                   selectedStatusFilter={statusFilter}
                                   onStatusSelect={this.onEntriesStatusSelect}/>
                 </div>
+
+                {this.renderPayloadPopup()}
             </div>
         )
     }
 
-    renderPayload() {
+    renderPayloadPopup() {
         const {report} = this.props
-        const {payloadType, httpCallId} = this.state
+        const {payloadType, payloadHttpCallId} = this.state
+
+        if (!payloadType) {
+            return null
+        }
 
         return (
-            <FullScreenPayload report={report}
-                               payloadType={payloadType}
-                               httpCallId={httpCallId}/>
+            <FullScreenHttpPayload report={report}
+                                   payloadType={payloadType}
+                                   payloadHttpCallId={payloadHttpCallId}
+                                   onClose={this.onHttpPayloadZoomOut}/>
         )
     }
 
@@ -146,12 +147,14 @@ class WebTauReport extends Component {
                              onDetailsTabSelection={this.onDetailsTabSelection}
                              detailTabs={selectedEntity.details}
                              urlState={this.state}
-                             onInternalStateUpdate={this.onDetailsStateUpdate}/>
+                             onInternalStateUpdate={this.onDetailsStateUpdate}
+                             reportNavigation={this.reportNavigation}/>
             )
         }
 
         return (
-            <HttpCallDetails httpCall={selectedEntity} onTestSelect={this.onTestSelect}/>
+            <HttpCallDetails httpCall={selectedEntity}
+                             reportNavigation={this.reportNavigation}/>
         )
     }
 
@@ -257,6 +260,14 @@ class WebTauReport extends Component {
 
     onFilterTextChange = (e) => {
         this.pushPartialUrlState({filterText: e.target.value})
+    }
+
+    onHttpPayloadZoomIn = ({httpCallId, payloadType}) => {
+        this.pushPartialUrlState({payloadHttpCallId: httpCallId, payloadType})
+    }
+
+    onHttpPayloadZoomOut = () => {
+        this.pushPartialUrlState({payloadHttpCallId: undefined, payloadType: undefined})
     }
 
     componentDidMount() {

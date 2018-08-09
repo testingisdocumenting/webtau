@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-.full-screen-payload {
-    background-color: #fff;
-    padding: 20px;
+import React from 'react'
+
+import './TabSelection.css'
+
+const TabSelection = ({tabs, selectedTabName, onTabSelection}) => {
+    return (
+        <div className="tab-selection">
+            <div className="tab-names">
+                {tabs.map(t => {
+                    const className = "tab-name" + (selectedTabName === t ? " selected" : "")
+                    return <div key={t} className={className} onClick={() => onTabSelection(t)}>{t}</div>
+                })}
+            </div>
+        </div>
+    )
 }
 
-.full-screen-payload-url {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.full-screen-payload-url a,
-.full-screen-payload-url a:hover {
-    text-decoration: none;
-    color: #527d8f;
-}
+export default TabSelection

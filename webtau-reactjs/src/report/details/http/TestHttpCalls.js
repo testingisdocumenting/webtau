@@ -61,6 +61,8 @@ class TestHttpCalls extends Component {
     }
 
     renderRow(httpCall, idx) {
+        const {reportNavigation} = this.props
+
         const hasProblem = httpCall.mismatches.length > 0 || !!httpCall.errorMessage
         const className = 'test-http-call' + (hasProblem ? ' with-problem' : '')
         const isExpanded = this.isExpanded(idx)
@@ -75,7 +77,7 @@ class TestHttpCalls extends Component {
                     <td className="url">{httpCall.url}</td>
                 </tr>
 
-                {isExpanded && <HttpCallDetails httpCall={httpCall}/>}
+                {isExpanded && <HttpCallDetails httpCall={httpCall} reportNavigation={reportNavigation}/>}
             </React.Fragment>
         )
     }
@@ -101,7 +103,7 @@ class TestHttpCalls extends Component {
     }
 }
 
-function HttpCallDetails({httpCall}) {
+function HttpCallDetails({httpCall, reportNavigation}) {
     return (
         <tr className="test-http-call-details">
             <td/>
@@ -113,8 +115,8 @@ function HttpCallDetails({httpCall}) {
                 <ErrorMessage httpCall={httpCall}/>
 
                 <div className="request-response">
-                    <Request httpCall={httpCall}/>
-                    <Response httpCall={httpCall}/>
+                    <Request httpCall={httpCall} reportNavigation={reportNavigation}/>
+                    <Response httpCall={httpCall} reportNavigation={reportNavigation}/>
                 </div>
             </td>
         </tr>
@@ -139,7 +141,7 @@ function ErrorMessage({httpCall}) {
     )
 }
 
-function Request({httpCall}) {
+function Request({httpCall, reportNavigation}) {
     if (! httpCall.requestBody) {
         return null
     }
@@ -150,12 +152,13 @@ function Request({httpCall}) {
                          type={httpCall.requestType}
                          data={httpCall.requestBody}
                          httpCallId={httpCall.id}
-                         payloadType='request'/>
+                         payloadType='request'
+                         onZoom={reportNavigation.zoomInHttpPayload}/>
         </div>
     )
 }
 
-function Response({httpCall}) {
+function Response({httpCall, reportNavigation}) {
     if (! httpCall.responseBody) {
         return null
     }
@@ -167,7 +170,8 @@ function Response({httpCall}) {
                          data={httpCall.responseBody}
                          checks={httpCall.responseBodyChecks}
                          httpCallId={httpCall.id}
-                         payloadType='response'/>
+                         payloadType='response'
+                         onZoom={reportNavigation.zoomInHttpPayload}/>
         </div>
     )
 }

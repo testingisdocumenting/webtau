@@ -16,7 +16,7 @@
 
 import React from 'react'
 
-import DetailsTabSelection from './DetailsTabSelection'
+import TabSelection from '../widgets/TabSelection'
 import NoDetailsDefined from './NoDetailsDefined'
 
 import './TestDetails.css'
@@ -27,7 +27,8 @@ const TestDetails = ({
                          selectedDetailTabName,
                          onDetailsTabSelection,
                          urlState,
-                         onInternalStateUpdate
+                         onInternalStateUpdate,
+                         reportNavigation
                      }) => {
     const DetailTab = detailTab()
     const tabNames = detailTabs.map(r => r.tabName)
@@ -35,14 +36,15 @@ const TestDetails = ({
     return (
         <div className="test-details">
             <div className="tabs-details-area">
-                <DetailsTabSelection tabs={tabNames}
-                                     selectedTabName={selectedDetailTabName}
-                                     onTabSelection={onDetailsTabSelection}/>
+                <TabSelection tabs={tabNames}
+                              selectedTabName={selectedDetailTabName}
+                              onTabSelection={onDetailsTabSelection}/>
             </div>
 
             <div className="detail-area">
                 <DetailTab test={test}
                            detailTabName={selectedDetailTabName}
+                           reportNavigation={reportNavigation}
                            urlState={urlState}
                            onInternalStateUpdate={onInternalStateUpdate}/>
             </div>

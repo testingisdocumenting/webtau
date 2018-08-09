@@ -24,7 +24,7 @@ import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
 
 import './HttpCallDetails.css'
 
-function HttpCallDetails({httpCall, onTestSelect}) {
+function HttpCallDetails({httpCall, reportNavigation}) {
     if (! httpCall.test) {
         return <HttpCallSkippedDetails httpCall={httpCall}/>
     }
@@ -34,15 +34,15 @@ function HttpCallDetails({httpCall, onTestSelect}) {
             <div className="http-call-latency-and-name">
                 <CardLabelAndNumber label="Latency (ms)"
                                     number={httpCall.elapsedTime}/>
-                <UrlAndTestNameCard httpCall={httpCall} onTestSelect={onTestSelect}/>
+                <UrlAndTestNameCard httpCall={httpCall} onTestSelect={reportNavigation.selectTest}/>
             </div>
 
             <Mismatches httpCall={httpCall}/>
             <ErrorMessage httpCall={httpCall}/>
 
             <div className="request-response">
-                <Request httpCall={httpCall}/>
-                <Response httpCall={httpCall}/>
+                <Request httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload}/>
+                <Response httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload}/>
             </div>
         </div>
     )
@@ -86,7 +86,7 @@ function ErrorMessage({httpCall}) {
     )
 }
 
-function Request({httpCall}) {
+function Request({httpCall, onHttpPayloadZoomIn}) {
     if (! httpCall.requestBody) {
         return null
     }
@@ -97,12 +97,13 @@ function Request({httpCall}) {
                          type={httpCall.requestType}
                          data={httpCall.requestBody}
                          httpCallId={httpCall.id}
-                         payloadType='request'/>
+                         payloadType='request'
+                         onZoom={onHttpPayloadZoomIn}/>
         </Card>
     )
 }
 
-function Response({httpCall}) {
+function Response({httpCall, onHttpPayloadZoomIn}) {
     if (! httpCall.responseBody) {
         return null
     }
@@ -114,7 +115,8 @@ function Response({httpCall}) {
                          data={httpCall.responseBody}
                          checks={httpCall.responseBodyChecks}
                          httpCallId={httpCall.id}
-                         payloadType='response'/>
+                         payloadType='response'
+                         onZoom={onHttpPayloadZoomIn}/>
         </Card>
     )
 }

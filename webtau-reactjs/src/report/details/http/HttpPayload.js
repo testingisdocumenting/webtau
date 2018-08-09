@@ -27,18 +27,14 @@ function PayloadData({type, data, checks}) {
         <TextPayload text={data}/>
 }
 
-function HttpPayload({caption, type, data, checks, httpCallId, payloadType}) {
+function HttpPayload({caption, type, data, checks, httpCallId, payloadType, onZoom}) {
     if (!data) {
         return null
     }
 
-    const fullScreen = payloadType && (
-        <div className="fullscreen-icon">
-            <a href={"?httpCallId=" + httpCallId + "&payloadType=" + payloadType}
-               target="_blank"
-               rel="noopener noreferrer">
-                <FullScreenIcon/>
-            </a>
+    const fullScreenToggle = onZoom && (
+        <div className="fullscreen-icon" onClick={() => onZoom({httpCallId, payloadType})}>
+            <FullScreenIcon/>
         </div>
     )
 
@@ -46,7 +42,7 @@ function HttpPayload({caption, type, data, checks, httpCallId, payloadType}) {
         <div className="http-payload">
             <div className="caption-and-fullscreen">
                 <div className="caption">{caption}</div>
-                {fullScreen}
+                {fullScreenToggle}
             </div>
             <PayloadData type={type} data={data} checks={checks}/>
         </div>
