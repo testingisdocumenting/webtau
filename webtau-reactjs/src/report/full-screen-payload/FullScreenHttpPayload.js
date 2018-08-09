@@ -19,9 +19,10 @@ import React from 'react'
 import HttpPayloadByType from './HttpPayloadByType'
 import FullScreenPayload from './FullScreenPayload'
 
-import './FullScreenHttpPayload.css'
 import TabSelection from '../widgets/TabSelection'
 import RawHttpPayload from './RawHttpPayload'
+
+import './FullScreenHttpPayload.css'
 
 const tabNames = ['Tree', 'Raw']
 
@@ -56,6 +57,8 @@ export default class FullScreenHttpPayload extends React.Component {
                 return this.renderTreePayload()
             case 'Raw':
                 return this.renderRawPayload()
+            default:
+                return ''
         }
     }
 
