@@ -60,7 +60,7 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
 
     @Override
     Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(numberOfThreads)
+        return [numberOfThreads].stream()
     }
 
     static int getNumberOfThreads() {
