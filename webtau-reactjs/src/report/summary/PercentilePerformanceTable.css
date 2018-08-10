@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 
-import React from 'react'
-
-import './Card.css'
-
-function Card({className, onClick, width, children}) {
-    return (
-        <div className={"card" + (className ? (' ' + className) : '')} onClick={onClick} style={{width}}>
-            {children}
-        </div>
-    )
+.percentile-table {
+    width: 260px;
 }
-
-export default Card

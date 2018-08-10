@@ -128,7 +128,7 @@ class WebTauReport extends Component {
 
     renderDetailsArea() {
         const {report} = this.props
-        const {detailTabName} = this.state
+        const {summaryTabName, detailTabName} = this.state
 
         const selectedEntity = this.selectedEntity
 
@@ -136,7 +136,9 @@ class WebTauReport extends Component {
             return (
                 <OverallSummary report={report}
                                 onSwitchToHttpCalls={this.onHttpCallsEntriesTypeSelection}
-                                onSwitchToSkippedHttpCalls={this.onHttpSkippedCallsSelection}/>
+                                onSwitchToSkippedHttpCalls={this.onHttpSkippedCallsSelection}
+                                selectedTabName={summaryTabName}
+                                onTabSelection={this.onSummaryTabSelection}/>
             )
         }
 
@@ -268,6 +270,10 @@ class WebTauReport extends Component {
 
     onHttpPayloadZoomOut = () => {
         this.pushPartialUrlState({payloadHttpCallId: undefined, payloadType: undefined})
+    }
+
+    onSummaryTabSelection = (tabName) => {
+        this.pushPartialUrlState({summaryTabName: tabName})
     }
 
     componentDidMount() {

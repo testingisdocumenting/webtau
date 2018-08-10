@@ -21,6 +21,7 @@ import Screenshot from './details/Screenshot'
 import FullStackTrace from './details/FullStackTrace'
 import Summary from './details/Summary'
 import StatusEnum from './StatusEnum'
+import PerformanceReport from './PerformanceReport'
 
 class Report {
     static overallHttpCallTimeForTest(test) {
@@ -48,6 +49,7 @@ class Report {
         this.config = report.config
         this.tests = enrichTestsData(report.tests)
         this.httpCalls = extractHttpCalls(this.tests)
+        this.performance = new PerformanceReport(this.httpCalls)
         this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedOperations || []), ...this.httpCalls]
         this.testsSummary = buildTestsSummary(report.summary)
         this.httpCallsSummary = buildHttpCallsSummary(this.httpCallsCombinedWithSkipped)
