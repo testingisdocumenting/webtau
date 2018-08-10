@@ -15,10 +15,14 @@
  */
 
 .overall-summary {
+}
+
+.overall-summary-tab-content {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 25px;
-    padding: 40px;
+
+    padding: 25px;
 }
 
 .overall-http-calls-time,
@@ -31,4 +35,10 @@
 .overall-number-of-http-calls,
 .overall-number-of-skipped {
     cursor: pointer;
+}
+
+.overall-summary-performance-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 25px;
 }
