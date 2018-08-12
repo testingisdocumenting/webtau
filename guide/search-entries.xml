@@ -5,7 +5,8 @@
     <text>
       <text>WebTau ( Web   T est  au tomation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("simple get") {
     http.get("/weather") {
@@ -13,8 +14,9 @@ scenario("simple get") {
     }
 } package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-import static pages.Pages.*
+
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static pages.Pages.getSearch
 
 scenario("search by specific query") {
     search.submit("search this")
@@ -29,7 +31,8 @@ scenario("search by specific query") {
     <text>
       <text>package scenarios.rest
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("simple get") {
     http.get("/weather") {
@@ -51,26 +54,9 @@ scenario("simple get") {
     <url>/webtau/guide/REST/CRUD#example</url>
     <fullTitle>WebTau: CRUD, Example [REST]</fullTitle>
     <text>
-      <text>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+      <text>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. package scenarios.rest.springboot
 
-package scenarios.rest.springboot
-
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("CRUD operations for customer") {
     def customerPayload = [firstName: "FN", lastName: "LN"]
@@ -210,27 +196,9 @@ public class SpringBootDemoApp {
     <url>/webtau/guide/REST/CRUD-separated#lazy-resource</url>
     <fullTitle>WebTau: CRUD Separated, Lazy Resource [REST]</fullTitle>
     <text>
-      <text>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+      <text>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . package scenarios.rest.springboot
 
-package scenarios.rest.springboot
-
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.createLazyResource
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 class Customer {
     Number id
@@ -454,9 +422,7 @@ docPath = "doc-artifacts"</text>
     <text>
       <text>Use  contain  matcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test. Given the response, we want to make sure there is an entry with a specified  firstName  and  lastName . package scenarios.rest.springboot
 
-import static com.twosigma.webtau.Ddjt.contain
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("list Customers and assert that it contains a specified entry") {
     http.get("/customers/search/findAllByOrderByLastName") {
@@ -472,8 +438,7 @@ scenario("list Customers and assert that it contains a specified entry") {
     <text>
       <text>If you want to make sure that all the values in the list are what you need - use  TableData . package scenarios.rest.springboot
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("list Customers and assert with a Table Data") {
     http.post("/customers", [firstName: "FN1", lastName: "LN1"])
@@ -669,7 +634,9 @@ myValue.shouldBe > 10
     <text>
       <text>package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.$
+import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario('simple open') {
     browser.open("/search")
@@ -700,9 +667,7 @@ scenario('simple open') {
     <text>
       <text>When you use  $('.css')  you create instance of  PageElement . PageElement  represent an element that is present or  will be present  on a web page. It is safe to declare an element before you open a browser or navigate to the page you need to test. package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 def welcomeMessage = $('#welcome')
 
@@ -719,7 +684,9 @@ scenario('simple open') {
     <text>
       <text>Consider a simple search page. Enter value, hit enter, see results. Here is simple test. package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.$
+import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario('search by specific query') {
     browser.open('/search')
@@ -730,7 +697,9 @@ scenario('search by specific query') {
     $('#results .result').count.shouldBe > 1
 } In the example  $('#results .result').count  represents the number of elements matching the css selector. Let's extract it. package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.$
+import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 def searchBox = $('#search-box')
 def numberOfResults = searchBox.count

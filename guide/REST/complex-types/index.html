@@ -59,20 +59,17 @@
 </span><span class="code-line"><span class="token indentation">  </span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token indentation"></span><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Given the response, we want to make sure there is an entry with a specified </span><code>firstName</code><span class="simple-text"> and </span><code>lastName</code><span class="simple-text">.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>rest<span class="token operator">.</span>springboot
 
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>Ddjt<span class="token operator">.</span>contain
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span>http
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
-
-<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert that it contains a specified entry&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert that it contains a specified entry&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;/customers/search/findAllByOrderByLastName&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">        _embedded<span class="token operator">.</span>customers<span class="token operator">.</span>should <span class="token function">contain</span><span class="token punctuation">(</span><span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&#x27;FN1&#x27;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&#x27;LN1&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </span><span class="code-line">    <span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="list-of-objects">List Of Objects<a href="#list-of-objects"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">If you want to make sure that all the values in the list are what you need - use </span><code>TableData</code><span class="simple-text">.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>rest<span class="token operator">.</span>springboot
 
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span>http
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
-
-<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert with a Table Data&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert with a Table Data&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN1&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN1&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN2&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN2&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN3&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN3&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
@@ -259,72 +256,16 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              "Ddjt",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "contain\n",
-              {
-                "type": "keyword",
-                "content": "import"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "static"
-              },
-              " com",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "twosigma",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "webtau",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "WebTauDsl",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "http\n",
-              {
-                "type": "keyword",
-                "content": "import"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "static"
-              },
-              " com",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "twosigma",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "webtau",
-              {
-                "type": "operator",
-                "content": "."
-              },
               "WebTauGroovyDsl",
               {
                 "type": "operator",
                 "content": "."
               },
-              "scenario\n\n",
+              {
+                "type": "operator",
+                "content": "*"
+              },
+              "\n\n",
               {
                 "type": "function",
                 "content": "scenario"
@@ -507,42 +448,16 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              "WebTauDsl",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "http\n",
-              {
-                "type": "keyword",
-                "content": "import"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "static"
-              },
-              " com",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "twosigma",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "webtau",
-              {
-                "type": "operator",
-                "content": "."
-              },
               "WebTauGroovyDsl",
               {
                 "type": "operator",
                 "content": "."
               },
-              "scenario\n\n",
+              {
+                "type": "operator",
+                "content": "*"
+              },
+              "\n\n",
               {
                 "type": "function",
                 "content": "scenario"
