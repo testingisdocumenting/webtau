@@ -31,12 +31,7 @@ import com.twosigma.webtau.pdf.Pdf
 import com.twosigma.webtau.report.Report
 import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
-import com.twosigma.webtau.reporter.ConsoleStepReporter
-import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
-import com.twosigma.webtau.reporter.ScopeLimitingStepReporter
-import com.twosigma.webtau.reporter.StepReporter
-import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.reporter.TestResultPayloadExtractors
+import com.twosigma.webtau.reporter.*
 import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestListener
 import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
@@ -64,27 +59,38 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
-        // during end to end testing we re-create the instance of CliApp
-        // following line prevents configs to accumulate over time
-        //
-        WebTauConfig.resetConfigHandlers()
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
+    }
 
-        // during end to end testing we re-create the instance of CliApp, but our config is singleton
-        // we cannot rely on constructor actions
-        //
-        getCfg().triggerConfigHandlers()
+    void start(boolean autoCloseWebDrivers) {
+        init()
 
+        try {
+            cfg.print()
+            ConsoleOutputs.out()
+
+            testFiles().forEach {
+                runner.process(it, this)
+            }
+
+            runTests()
+        } finally {
+            removeListeners()
+
+            Pdf.closeAll()
+
+            if (autoCloseWebDrivers) {
+                WebDriverCreator.closeAll()
+            }
+        }
+    }
+
+    private void init() {
         consoleOutput = createConsoleOutput()
         stepReporter = createStepReporter()
 
-        ConsoleOutputs.add(consoleOutput)
-        StandaloneTestListeners.add(consoleTestReporter)
-        StandaloneTestListeners.add(this)
-        StepReporters.add(stepReporter)
-        StepReporters.add(screenshotStepReporter)
-        ReportGenerators.add(this)
+        registerListeners()
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
@@ -96,30 +102,22 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         WebTauGroovyDsl.initWithTestRunner(runner)
     }
 
-    void start(boolean autoCloseWebDrivers) {
-        try {
-            cfg.print()
-            ConsoleOutputs.out()
+    private void registerListeners() {
+        ConsoleOutputs.add(consoleOutput)
+        StandaloneTestListeners.add(consoleTestReporter)
+        StandaloneTestListeners.add(this)
+        StepReporters.add(stepReporter)
+        StepReporters.add(screenshotStepReporter)
+        ReportGenerators.add(this)
+    }
 
-            testFiles().forEach {
-                runner.process(it, this)
-            }
-
-            runTests()
-        } finally {
-            StandaloneTestListeners.remove(consoleTestReporter)
-            StandaloneTestListeners.remove(this)
-            StepReporters.remove(stepReporter)
-            StepReporters.remove(screenshotStepReporter)
-            ConsoleOutputs.remove(consoleOutput)
-            ReportGenerators.remove(this)
-
-            Pdf.closeAll()
-
-            if (autoCloseWebDrivers) {
-                WebDriverCreator.closeAll()
-            }
-        }
+    private void removeListeners() {
+        ConsoleOutputs.remove(consoleOutput)
+        StandaloneTestListeners.remove(consoleTestReporter)
+        StandaloneTestListeners.remove(this)
+        StepReporters.remove(stepReporter)
+        StepReporters.remove(screenshotStepReporter)
+        ReportGenerators.remove(this)
     }
 
     int getProblemCount() {
