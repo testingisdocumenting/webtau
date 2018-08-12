@@ -1,7 +1,6 @@
 package pages
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauDsl.*
 
 class SearchPage {
     def welcomeMessage = $('#welcome')
