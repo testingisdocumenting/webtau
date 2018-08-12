@@ -5,8 +5,7 @@
     <text>
       <text>WebTau ( Web   T est  au tomation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("simple get") {
     http.get("/weather") {
@@ -14,9 +13,8 @@ scenario("simple get") {
     }
 } package scenarios.ui
 
-
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
-import static pages.Pages.getSearch
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
 
 scenario("search by specific query") {
     search.submit("search this")
@@ -31,8 +29,7 @@ scenario("search by specific query") {
     <text>
       <text>package scenarios.rest
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("simple get") {
     http.get("/weather") {
@@ -672,9 +669,7 @@ myValue.shouldBe > 10
     <text>
       <text>package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario('simple open') {
     browser.open("/search")
@@ -724,9 +719,7 @@ scenario('simple open') {
     <text>
       <text>Consider a simple search page. Enter value, hit enter, see results. Here is simple test. package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario('search by specific query') {
     browser.open('/search')
@@ -737,9 +730,7 @@ scenario('search by specific query') {
     $('#results .result').count.shouldBe > 1
 } In the example  $('#results .result').count  represents the number of elements matching the css selector. Let's extract it. package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 def searchBox = $('#search-box')
 def numberOfResults = searchBox.count

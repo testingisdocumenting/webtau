@@ -30,11 +30,10 @@
 </span><span class="code-line">    <span class="token keyword">static</span> <span class="token keyword">final</span> search <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SearchPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 </span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Use static import to have seamless access to all of them</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>ui
 
-
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
-<span class="token keyword">import</span> <span class="token keyword">static</span> pages<span class="token operator">.</span>Pages<span class="token operator">.</span>getSearch
-
-<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;search by specific query&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
+</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> pages<span class="token operator">.</span>Pages<span class="token operator">.</span><span class="token operator">*</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;search by specific query&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    search<span class="token operator">.</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token string">&quot;search this&quot;</span><span class="token punctuation">)</span>
 </span><span class="code-line">    search<span class="token operator">.</span>numberOfResults<span class="token operator">.</span>should <span class="token operator">==</span> <span class="token number">2</span>
 </span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Page Element And Value<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Advanced Configuration<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
@@ -542,7 +541,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "maxLineLength": 58,
+            "maxLineLength": 51,
             "tokens": [
               {
                 "type": "keyword",
@@ -553,7 +552,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              "ui\n\n\n",
+              "ui\n\n",
               {
                 "type": "keyword",
                 "content": "import"
@@ -583,7 +582,11 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              "scenario\n",
+              {
+                "type": "operator",
+                "content": "*"
+              },
+              "\n",
               {
                 "type": "keyword",
                 "content": "import"
@@ -603,7 +606,11 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              "getSearch\n\n",
+              {
+                "type": "operator",
+                "content": "*"
+              },
+              "\n\n",
               {
                 "type": "function",
                 "content": "scenario"
