@@ -8,39 +8,36 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section selected"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/configuration">Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item selected"><a href="/webtau/guide/UI/page-object">Page Object</a><div class="page-sections"><div class="page-section selected"><a href="#test-encapsulation">Test Encapsulation</a></div><div class="page-section"><a href="#definition">Definition</a></div><div class="page-section"><a href="#grouping">Grouping</a></div></div></div><div class="toc-item"><a href="/webtau/guide/UI/page-element">Page Element</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Page Object</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Thu May 03 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/UI/page-object.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="test-encapsulation">Test Encapsulation<a href="#test-encapsulation"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Robust tests should not depend on implementation details.</span><span> </span><span class="simple-text">UI has plenty of those:</span></div><ul class="content-block tight"><li class="list-item"><div class="paragraph content-block"><span class="simple-text">UI Elements placement</span></div></li><li class="list-item"><div class="paragraph content-block"><span class="simple-text">Actions</span></div></li></ul><div class="paragraph content-block"><span class="simple-text">UI test should not depend on any of them.</span><span> </span><span class="simple-text">Move elements placement and available actions outside of UI test.</span><span> </span><span class="simple-text">Multiple tests can then reuse that information.</span><span> </span><span class="simple-text">And more importantly you will have only one place to change if UI changes.</span></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="definition">Definition<a href="#definition"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><code>PageObject</code><span class="simple-text"> is just a simple class.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> pages
+<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section selected"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item selected"><a href="/webtau/guide/UI/page-object">Page Object</a><div class="page-sections"><div class="page-section selected"><a href="#test-encapsulation">Test Encapsulation</a></div><div class="page-section"><a href="#definition">Definition</a></div><div class="page-section"><a href="#grouping">Grouping</a></div></div></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Page Object</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Mon Aug 06 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/UI/page-object.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="test-encapsulation">Test Encapsulation<a href="#test-encapsulation"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Robust tests should not depend on implementation details.</span><span> </span><span class="simple-text">UI has plenty of those:</span></div><ul class="content-block tight"><li class="list-item"><div class="paragraph content-block"><span class="simple-text">UI Elements placement</span></div></li><li class="list-item"><div class="paragraph content-block"><span class="simple-text">Actions</span></div></li></ul><div class="paragraph content-block"><span class="simple-text">UI test should not depend on any of them.</span><span> </span><span class="simple-text">Move elements placement and available actions outside of UI test.</span><span> </span><span class="simple-text">Multiple tests can then reuse that information.</span><span> </span><span class="simple-text">And more importantly you will have only one place to change if UI changes.</span></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="definition">Definition<a href="#definition"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">To define </span><code>PageObject</code><span class="simple-text"> create a class.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> pages
 
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">class</span> <span class="token class-name">SearchPage</span> <span class="token punctuation">{</span>
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span><span class="token punctuation">$</span>
+</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span>browser
+
+<span class="token keyword">class</span> <span class="token class-name">SearchPage</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    <span class="token keyword">def</span> welcomeMessage <span class="token operator">=</span> <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#welcome&#x27;</span><span class="token punctuation">)</span>
 </span><span class="code-line">    <span class="token keyword">def</span> box <span class="token operator">=</span> <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#search-box&#x27;</span><span class="token punctuation">)</span>
 </span><span class="code-line">    <span class="token keyword">def</span> numberOfResults <span class="token operator">=</span> <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#results .result&#x27;</span><span class="token punctuation">)</span><span class="token operator">.</span>count
 
-    <span class="token keyword">void</span> <span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        <span class="token function">reopen</span><span class="token punctuation">(</span><span class="token string">&quot;/search&quot;</span><span class="token punctuation">)</span>
-</span><span class="code-line">    <span class="token punctuation">}</span>
+    <span class="token keyword">def</span> <span class="token function">submit</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">        browser<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">&quot;/search&quot;</span><span class="token punctuation">)</span>
 </span><span class="code-line">
-</span><span class="code-line">    <span class="token keyword">def</span> submit <span class="token operator">=</span> <span class="token function">action</span><span class="token punctuation">(</span><span class="token string">&quot;submitting search value &#x27;&lt;query&gt;&#x27;&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        box<span class="token operator">.</span><span class="token function">setValue</span><span class="token punctuation">(</span>it<span class="token operator">.</span>query<span class="token punctuation">)</span>
+</span><span class="code-line">        box<span class="token operator">.</span><span class="token function">setValue</span><span class="token punctuation">(</span>query<span class="token punctuation">)</span>
 </span><span class="code-line">        box<span class="token operator">.</span><span class="token function">sendKeys</span><span class="token punctuation">(</span><span class="token string">&quot;\n&quot;</span><span class="token punctuation">)</span>
 </span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Usage of a special </span><code>action</code><span class="simple-text"> method is optional. Used to add additional reporting information.</span></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="grouping">Grouping<a href="#grouping"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">To make it easier to refer </span><code>PageObjects</code><span class="simple-text"> from different tests combine them in one file</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> pages
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="grouping">Grouping<a href="#grouping"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">To make it easier to refer </span><code>PageObjects</code><span class="simple-text"> from different tests combine them in one file</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> pages
 
 <span class="token keyword">class</span> <span class="token class-name">Pages</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    <span class="token keyword">static</span> <span class="token keyword">final</span> search <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">SearchPage</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">later just static import all of them</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> pages<span class="token operator">.</span>Pages<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;&quot;&quot;# Search facts
-Enter a fact in a search box and 
-information will be displayed in a special box
-&quot;&quot;&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    search<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-</span><span class="code-line">    search<span class="token operator">.</span><span class="token function">submit</span><span class="token punctuation">(</span>query<span class="token punctuation">:</span> <span class="token string">&quot;search this&quot;</span><span class="token punctuation">)</span>
-</span><span class="code-line">
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Use static import to have seamless access to all of them</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>ui
+
+
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
+<span class="token keyword">import</span> <span class="token keyword">static</span> pages<span class="token operator">.</span>Pages<span class="token operator">.</span>getSearch
+
+<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;search by specific query&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    search<span class="token operator">.</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token string">&quot;search this&quot;</span><span class="token punctuation">)</span>
 </span><span class="code-line">    search<span class="token operator">.</span>numberOfResults<span class="token operator">.</span>should <span class="token operator">==</span> <span class="token number">2</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Finders And Filters<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Page Element<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Page Element And Value<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Advanced Configuration<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
@@ -158,18 +155,22 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Paragraph",
             "content": [
               {
+                "text": "To define ",
+                "type": "SimpleText"
+              },
+              {
                 "code": "PageObject",
                 "type": "InlinedCode"
               },
               {
-                "text": " is just a simple class.",
+                "text": " create a class.",
                 "type": "SimpleText"
               }
             ]
           },
           {
             "lang": "groovy",
-            "maxLineLength": 62,
+            "maxLineLength": 53,
             "tokens": [
               {
                 "type": "keyword",
@@ -200,16 +201,46 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              "WebTauGroovyDsl",
+              "WebTauDsl",
               {
                 "type": "operator",
                 "content": "."
               },
               {
-                "type": "operator",
-                "content": "*"
+                "type": "punctuation",
+                "content": "$"
               },
-              "\n\n",
+              "\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "WebTauDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "browser\n\n",
               {
                 "type": "keyword",
                 "content": "class"
@@ -314,17 +345,18 @@ ReactDOM.render(React.createElement(Documentation, {
               "count\n\n    ",
               {
                 "type": "keyword",
-                "content": "void"
+                "content": "def"
               },
               " ",
               {
                 "type": "function",
-                "content": "open"
+                "content": "submit"
               },
               {
                 "type": "punctuation",
                 "content": "("
               },
+              "query",
               {
                 "type": "punctuation",
                 "content": ")"
@@ -334,10 +366,14 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "punctuation",
                 "content": "{"
               },
-              "\n        ",
+              "\n        browser",
+              {
+                "type": "operator",
+                "content": "."
+              },
               {
                 "type": "function",
-                "content": "reopen"
+                "content": "open"
               },
               {
                 "type": "punctuation",
@@ -351,44 +387,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "punctuation",
                 "content": ")"
               },
-              "\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n    ",
-              {
-                "type": "keyword",
-                "content": "def"
-              },
-              " submit ",
-              {
-                "type": "operator",
-                "content": "\u003d"
-              },
-              " ",
-              {
-                "type": "function",
-                "content": "action"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"submitting search value \u0027\u003cquery\u003e\u0027\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n        box",
+              "\n\n        box",
               {
                 "type": "operator",
                 "content": "."
@@ -400,11 +399,6 @@ ReactDOM.render(React.createElement(Documentation, {
               {
                 "type": "punctuation",
                 "content": "("
-              },
-              "it",
-              {
-                "type": "operator",
-                "content": "."
               },
               "query",
               {
@@ -444,23 +438,6 @@ ReactDOM.render(React.createElement(Documentation, {
               }
             ],
             "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Usage of a special ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "action",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " method is optional. Used to add additional reporting information.",
-                "type": "SimpleText"
-              }
-            ]
           }
         ]
       },
@@ -558,15 +535,25 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Paragraph",
             "content": [
               {
-                "text": "later just static import all of them",
+                "text": "Use static import to have seamless access to all of them",
                 "type": "SimpleText"
               }
             ]
           },
           {
             "lang": "groovy",
-            "maxLineLength": 51,
+            "maxLineLength": 58,
             "tokens": [
+              {
+                "type": "keyword",
+                "content": "package"
+              },
+              " scenarios",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "ui\n\n\n",
               {
                 "type": "keyword",
                 "content": "import"
@@ -596,11 +583,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n",
+              "scenario\n",
               {
                 "type": "keyword",
                 "content": "import"
@@ -620,11 +603,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n\n",
+              "getSearch\n\n",
               {
                 "type": "function",
                 "content": "scenario"
@@ -635,7 +614,7 @@ ReactDOM.render(React.createElement(Documentation, {
               },
               {
                 "type": "string",
-                "content": "\"\"\"# Search facts\nEnter a fact in a search box and \ninformation will be displayed in a special box\n\"\"\""
+                "content": "\"search by specific query\""
               },
               {
                 "type": "punctuation",
@@ -653,35 +632,12 @@ ReactDOM.render(React.createElement(Documentation, {
               },
               {
                 "type": "function",
-                "content": "open"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              "\n    search",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
                 "content": "submit"
               },
               {
                 "type": "punctuation",
                 "content": "("
               },
-              "query",
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              " ",
               {
                 "type": "string",
                 "content": "\"search this\""
@@ -690,7 +646,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "punctuation",
                 "content": ")"
               },
-              "\n\n    search",
+              "\n    search",
               {
                 "type": "operator",
                 "content": "."
@@ -721,7 +677,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1525401431000,
+    "lastModifiedTime": 1533554070000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Page Object",

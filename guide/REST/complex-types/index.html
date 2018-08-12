@@ -8,13 +8,26 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/complex-types">Complex Types</a><div class="page-sections"><div class="page-section selected"><a href="#contain">Contain</a></div><div class="page-section"><a href="#list-of-objects">List Of Objects</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/configuration">Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element">Page Element</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Complex Types</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Tue Jul 17 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/complex-types.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="contain">Contain<a href="#contain"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Use </span><code>contain</code><span class="simple-text"> matcher to test scenarios like search or list of recently created entries.</span><span> </span><span class="simple-text">This way you don&#x27;t have to assume an existing state of your backend under test.</span></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">Response</div></div><div class="snippet with-title"><pre><span class="code-line"><span class="token indentation"></span><span class="token punctuation">{</span>
+<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/complex-types">Complex Types</a><div class="page-sections"><div class="page-section selected"><a href="#contain">Contain</a></div><div class="page-section"><a href="#list-of-objects">List Of Objects</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Complex Types</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Wed Aug 01 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/complex-types.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="contain">Contain<a href="#contain"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Use </span><code>contain</code><span class="simple-text"> matcher to test scenarios like search or list of recently created entries.</span><span> </span><span class="simple-text">This way you don&#x27;t have to assume an existing state of your backend under test.</span></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">Response</div></div><div class="snippet with-title"><pre><span class="code-line"><span class="token indentation"></span><span class="token punctuation">{</span>
 </span><span class="code-line"><span class="token indentation">  </span><span class="token key">&quot;_embedded&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
 </span><span class="code-line"><span class="token indentation">    </span><span class="token key">&quot;customers&quot;</span><span class="token punctuation">: </span><span class="token punctuation">[</span>
 </span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">{</span>
-</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;id&quot;</span><span class="token punctuation">: </span><span class="token number">2</span><span class="token punctuation">,</span>
+</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;id&quot;</span><span class="token punctuation">: </span><span class="token number">1</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;firstName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;FN1&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;lastName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;LN1&quot;</span><span class="token punctuation">,</span>
+</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;_links&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token indentation">          </span><span class="token key">&quot;self&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/1&quot;</span>
+</span><span class="code-line"><span class="token indentation">          </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line"><span class="token indentation">          </span><span class="token key">&quot;customer&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/1&quot;</span>
+</span><span class="code-line"><span class="token indentation">          </span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token indentation">        </span><span class="token punctuation">}</span>
+</span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+</span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;id&quot;</span><span class="token punctuation">: </span><span class="token number">2</span><span class="token punctuation">,</span>
+</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;firstName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;FN2&quot;</span><span class="token punctuation">,</span>
+</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;lastName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;LN2&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;_links&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
 </span><span class="code-line"><span class="token indentation">          </span><span class="token key">&quot;self&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
 </span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/2&quot;</span>
@@ -26,27 +39,14 @@
 </span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">{</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;id&quot;</span><span class="token punctuation">: </span><span class="token number">3</span><span class="token punctuation">,</span>
-</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;firstName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;FN2&quot;</span><span class="token punctuation">,</span>
-</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;lastName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;LN2&quot;</span><span class="token punctuation">,</span>
-</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;_links&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
-</span><span class="code-line"><span class="token indentation">          </span><span class="token key">&quot;self&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
-</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/3&quot;</span>
-</span><span class="code-line"><span class="token indentation">          </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-</span><span class="code-line"><span class="token indentation">          </span><span class="token key">&quot;customer&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
-</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/3&quot;</span>
-</span><span class="code-line"><span class="token indentation">          </span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token indentation">        </span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-</span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">{</span>
-</span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;id&quot;</span><span class="token punctuation">: </span><span class="token number">4</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;firstName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;FN3&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;lastName&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;LN3&quot;</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token key">&quot;_links&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
 </span><span class="code-line"><span class="token indentation">          </span><span class="token key">&quot;self&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
-</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/4&quot;</span>
+</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/3&quot;</span>
 </span><span class="code-line"><span class="token indentation">          </span><span class="token punctuation">}</span><span class="token punctuation">,</span>
 </span><span class="code-line"><span class="token indentation">          </span><span class="token key">&quot;customer&quot;</span><span class="token punctuation">: </span><span class="token punctuation">{</span>
-</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/4&quot;</span>
+</span><span class="code-line"><span class="token indentation">            </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/3&quot;</span>
 </span><span class="code-line"><span class="token indentation">          </span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token indentation">        </span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token indentation">      </span><span class="token punctuation">}</span>
@@ -57,21 +57,22 @@
 </span><span class="code-line"><span class="token indentation">      </span><span class="token key">&quot;href&quot;</span><span class="token punctuation">: </span><span class="token string">&quot;http://localhost:8080/customers/search/findAllByOrderByLastName&quot;</span>
 </span><span class="code-line"><span class="token indentation">    </span><span class="token punctuation">}</span>
 </span><span class="code-line"><span class="token indentation">  </span><span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token indentation"></span><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Given the response, we want to make sure there is an entry with a specified </span><code>firstName</code><span class="simple-text"> and </span><code>lastName</code><span class="simple-text">.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> rest<span class="token operator">.</span>springboot
+</span><span class="code-line"><span class="token indentation"></span><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Given the response, we want to make sure there is an entry with a specified </span><code>firstName</code><span class="simple-text"> and </span><code>lastName</code><span class="simple-text">.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>rest<span class="token operator">.</span>springboot
 
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert that it contains a specified entry&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>Ddjt<span class="token operator">.</span>contain
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span>http
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
+
+<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert that it contains a specified entry&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;/customers/search/findAllByOrderByLastName&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">        _embedded<span class="token operator">.</span>customers<span class="token operator">.</span>should <span class="token function">contain</span><span class="token punctuation">(</span><span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&#x27;FN1&#x27;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&#x27;LN1&#x27;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="list-of-objects">List Of Objects<a href="#list-of-objects"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">If you want to make sure that all the values in the list are what you need - use </span><code>TableData</code><span class="simple-text">.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> rest<span class="token operator">.</span>springboot
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="list-of-objects">List Of Objects<a href="#list-of-objects"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">If you want to make sure that all the values in the list are what you need - use </span><code>TableData</code><span class="simple-text">.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>rest<span class="token operator">.</span>springboot
 
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert with a Table Data&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    http<span class="token operator">.</span><span class="token function">delete</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">)</span>
-</span><span class="code-line">
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span>http
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
+
+<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;list Customers and assert with a Table Data&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN1&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN1&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN2&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN2&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 </span><span class="code-line">    http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN3&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN3&quot;</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
@@ -141,9 +142,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "_embedded": {
                 "customers": [
                   {
-                    "id": 2,
+                    "id": 1,
                     "firstName": "FN1",
                     "lastName": "LN1",
+                    "_links": {
+                      "self": {
+                        "href": "http://localhost:8080/customers/1"
+                      },
+                      "customer": {
+                        "href": "http://localhost:8080/customers/1"
+                      }
+                    }
+                  },
+                  {
+                    "id": 2,
+                    "firstName": "FN2",
+                    "lastName": "LN2",
                     "_links": {
                       "self": {
                         "href": "http://localhost:8080/customers/2"
@@ -155,27 +169,14 @@ ReactDOM.render(React.createElement(Documentation, {
                   },
                   {
                     "id": 3,
-                    "firstName": "FN2",
-                    "lastName": "LN2",
-                    "_links": {
-                      "self": {
-                        "href": "http://localhost:8080/customers/3"
-                      },
-                      "customer": {
-                        "href": "http://localhost:8080/customers/3"
-                      }
-                    }
-                  },
-                  {
-                    "id": 4,
                     "firstName": "FN3",
                     "lastName": "LN3",
                     "_links": {
                       "self": {
-                        "href": "http://localhost:8080/customers/4"
+                        "href": "http://localhost:8080/customers/3"
                       },
                       "customer": {
-                        "href": "http://localhost:8080/customers/4"
+                        "href": "http://localhost:8080/customers/3"
                       }
                     }
                   }
@@ -223,7 +224,12 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "keyword",
                 "content": "package"
               },
-              " rest",
+              " scenarios",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "rest",
               {
                 "type": "operator",
                 "content": "."
@@ -253,16 +259,72 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
+              "Ddjt",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "contain\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "WebTauDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "http\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
               "WebTauGroovyDsl",
               {
                 "type": "operator",
                 "content": "."
               },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n\n",
+              "scenario\n\n",
               {
                 "type": "function",
                 "content": "scenario"
@@ -410,7 +472,12 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "keyword",
                 "content": "package"
               },
-              " rest",
+              " scenarios",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "rest",
               {
                 "type": "operator",
                 "content": "."
@@ -440,16 +507,42 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
+              "WebTauDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "http\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
               "WebTauGroovyDsl",
               {
                 "type": "operator",
                 "content": "."
               },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n\n",
+              "scenario\n\n",
               {
                 "type": "function",
                 "content": "scenario"
@@ -472,27 +565,6 @@ ReactDOM.render(React.createElement(Documentation, {
                 "content": "{"
               },
               "\n    http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "delete"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"/customers\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              "\n\n    http",
               {
                 "type": "operator",
                 "content": "."
@@ -832,7 +904,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1531855773000,
+    "lastModifiedTime": 1533120126000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Complex Types",

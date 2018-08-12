@@ -8,11 +8,28 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/CRUD">CRUD</a><div class="page-sections"><div class="page-section selected"><a href="#example">Example</a></div><div class="page-section"><a href="#implicit-statuscode-check">Implicit statusCode Check</a></div><div class="page-section"><a href="#report">Report</a></div><div class="page-section"><a href="#spring-boot">Spring Boot</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/configuration">Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element">Page Element</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">CRUD</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Tue Jul 17 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/CRUD.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="example">Example<a href="#example"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">We have an app that exposes create, read, update, and delete operations for customer records. Records are being served</span><span> </span><span class="simple-text">under </span><code>/customers</code><span class="simple-text">.</span></div><div class="paragraph content-block"><span class="simple-text">Here is an example of a </span><code>CRUD</code><span class="simple-text"> operations test.</span></div><div class="snippet-container content-block"><div class="snippet"><div class="code-with-inlined-comments"><pre><code><span class="code-line"><span class="token keyword">package</span> rest<span class="token operator">.</span>springboot
-
-<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
+<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/CRUD">CRUD</a><div class="page-sections"><div class="page-section selected"><a href="#example">Example</a></div><div class="page-section"><a href="#implicit-statuscode-check">Implicit statusCode Check</a></div><div class="page-section"><a href="#report">Report</a></div><div class="page-section"><a href="#spring-boot">Spring Boot</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">CRUD</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Wed Aug 01 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/CRUD.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="example">Example<a href="#example"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">We have an app that exposes create, read, update, and delete operations for customer records. Records are being served</span><span> </span><span class="simple-text">under </span><code>/customers</code><span class="simple-text">.</span></div><div class="paragraph content-block"><span class="simple-text">Here is an example of a </span><code>CRUD</code><span class="simple-text"> operations test.</span></div><div class="snippet-container content-block"><div class="snippet"><div class="code-with-inlined-comments"><pre><code><span class="code-line"><span class="token comment">/*
+ * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */</span>
 </span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;CRUD operations for customer&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>rest<span class="token operator">.</span>springboot
+
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span>http
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
+
+<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;CRUD operations for customer&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    <span class="token keyword">def</span> customerPayload <span class="token operator">=</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN&quot;</span><span class="token punctuation">]</span>
 </span><span class="code-line">
 </span><span class="code-line">    <span class="token keyword">int</span> id <span class="token operator">=</span> http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> customerPayload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
@@ -88,9 +105,6 @@
 </span><span class="code-line"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">CustomerRepository</span> <span class="token keyword">extends</span> <span class="token class-name">JpaRepository</span><span class="token operator">&lt;</span>Customer<span class="token punctuation">,</span> Long<span class="token operator">&gt;</span> <span class="token punctuation">{</span>
 </span><span class="code-line">    <span class="token annotation">@ApiOperation</span><span class="token punctuation">(</span><span class="token string">&quot;find all customers ordered by last name&quot;</span><span class="token punctuation">)</span>
 </span><span class="code-line">    Iterable<span class="token operator">&lt;</span>Customer<span class="token operator">&gt;</span> <span class="token function">findAllByOrderByLastName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-</span><span class="code-line">
-</span><span class="code-line">    <span class="token annotation">@Override</span>
-</span><span class="code-line">    <span class="token keyword">void</span> <span class="token function">deleteAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></li><li class="list-item"><div class="paragraph content-block"><span class="simple-text">Entry point</span></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">SpringBootDemoApp.java</div></div><div class="snippet with-title"><pre><span class="code-line"><span class="token keyword">package</span> com<span class="token punctuation">.</span>example<span class="token punctuation">.</span>demo<span class="token punctuation">.</span>springboot<span class="token punctuation">.</span>app<span class="token punctuation">;</span>
 </span><span class="code-line">
 </span><span class="code-line"><span class="token keyword">import</span> org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>boot<span class="token punctuation">.</span>SpringApplication<span class="token punctuation">;</span>
@@ -193,10 +207,20 @@ ReactDOM.render(React.createElement(Documentation, {
             "maxLineLength": 92,
             "tokens": [
               {
+                "type": "comment",
+                "content": "/*\n * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */"
+              },
+              "\n\n",
+              {
                 "type": "keyword",
                 "content": "package"
               },
-              " rest",
+              " scenarios",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "rest",
               {
                 "type": "operator",
                 "content": "."
@@ -226,16 +250,42 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "operator",
                 "content": "."
               },
+              "WebTauDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "http\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
               "WebTauGroovyDsl",
               {
                 "type": "operator",
                 "content": "."
               },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n\n",
+              "scenario\n\n",
               {
                 "type": "function",
                 "content": "scenario"
@@ -1659,33 +1709,6 @@ ReactDOM.render(React.createElement(Documentation, {
                         "type": "punctuation",
                         "content": ";"
                       },
-                      "\n\n    ",
-                      {
-                        "type": "annotation",
-                        "content": "@Override"
-                      },
-                      "\n    ",
-                      {
-                        "type": "keyword",
-                        "content": "void"
-                      },
-                      " ",
-                      {
-                        "type": "function",
-                        "content": "deleteAll"
-                      },
-                      {
-                        "type": "punctuation",
-                        "content": "("
-                      },
-                      {
-                        "type": "punctuation",
-                        "content": ")"
-                      },
-                      {
-                        "type": "punctuation",
-                        "content": ";"
-                      },
                       "\n",
                       {
                         "type": "punctuation",
@@ -2403,7 +2426,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1531855773000,
+    "lastModifiedTime": 1533120126000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "CRUD",

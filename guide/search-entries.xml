@@ -3,32 +3,25 @@
     <url>/webtau/guide</url>
     <fullTitle>WebTau WebTau</fullTitle>
     <text>
-      <text>WebTau ( Web   T est  au tomation) - Java API and Groovy Framework to test: Web REST Web UI import static com.twosigma.webtau.WebTauGroovyDsl.*
+      <text>WebTau ( Web   T est  au tomation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest
+
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("simple get") {
     http.get("/weather") {
-        temperature.should == 88
+        temperature.shouldBe &lt; 100
     }
-} import static com.twosigma.webtau.WebTauGroovyDsl.*
-import static pages.Pages.*
+} package scenarios.ui
 
-scenario("""# Search facts
-Enter a fact in a search box and 
-information will be displayed in a special box
-""") {
-    search.open()
-    search.submit(query: "search this")
 
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static pages.Pages.getSearch
+
+scenario("search by specific query") {
+    search.submit("search this")
     search.numberOfResults.should == 2
 }</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/guide/REST/getting-started#installation</url>
-    <fullTitle>WebTau: Getting Started, Installation [REST]</fullTitle>
-    <text>
-      <text>Download and unzip  https://github.com/twosigma/webtau/releases/ webtau . Add it to your  PATH .</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -36,15 +29,16 @@ information will be displayed in a special box
     <url>/webtau/guide/REST/getting-started#bare-minimum</url>
     <fullTitle>WebTau: Getting Started, Bare Minimum [REST]</fullTitle>
     <text>
-      <text>package rest
+      <text>package scenarios.rest
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("simple get") {
     http.get("/weather") {
-        temperature.should == 88
+        temperature.shouldBe &lt; 100
     }
-} To run test, navigate to  examples  dir and webtau rest/restGet.groovy --url=https://my-server Note: using  package  and  import  is optional and is mainly for IDE auto completion. Imports will be added implicitly during command line run.</text>
+} To run test, navigate to  examples  dir and webtau scenarios/rest/simpleGet.groovy --url=https://my-server</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -60,9 +54,26 @@ scenario("simple get") {
     <url>/webtau/guide/REST/CRUD#example</url>
     <fullTitle>WebTau: CRUD, Example [REST]</fullTitle>
     <text>
-      <text>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. package rest.springboot
+      <text>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. /*
+ * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+package scenarios.rest.springboot
+
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("CRUD operations for customer") {
     def customerPayload = [firstName: "FN", lastName: "LN"]
@@ -164,9 +175,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface CustomerRepository extends JpaRepository&lt;Customer, Long> {
     @ApiOperation("find all customers ordered by last name")
     Iterable&lt;Customer> findAllByOrderByLastName();
-
-    @Override
-    void deleteAll();
 } Entry point package com.example.demo.springboot.app;
 
 import org.springframework.boot.SpringApplication;
@@ -205,7 +213,23 @@ public class SpringBootDemoApp {
     <url>/webtau/guide/REST/CRUD-separated#lazy-resource</url>
     <fullTitle>WebTau: CRUD Separated, Lazy Resource [REST]</fullTitle>
     <text>
-      <text>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . package rest.springboot
+      <text>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . /*
+ * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package scenarios.rest.springboot
 
 import static com.twosigma.webtau.WebTauDsl.http
 import static com.twosigma.webtau.WebTauGroovyDsl.createLazyResource
@@ -327,11 +351,11 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/headers#common-header</url>
     <fullTitle>WebTau: Headers, Common Header [REST]</fullTitle>
     <text>
-      <text>If each http request requires the same header you can specify that header using  httpHeaderProvider . Common example is specifying authentication header. import rest.headers.auth.Auth
+      <text>If each http request requires the same header you can specify that header using  httpHeaderProvider . Common example is specifying authentication header. import scenarios.rest.headers.auth.Auth
 
 url = "http://localhost:8080"
 
-httpHeaderProvider = Auth.&amp;authHeader Where  Auth.&amp;authHeader  is implemented as follows: package rest.headers.auth
+httpHeaderProvider = Auth.&amp;authHeader Where  Auth.&amp;authHeader  is implemented as follows: package scenarios.rest.headers.auth
 
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.http.HttpRequestHeader
@@ -350,6 +374,14 @@ class Auth {
     <fullTitle>WebTau: Headers, Explicit Header [REST]</fullTitle>
     <text>
       <text>To explicitly set header pass  http.header(values)  as an additional parameter. Additionally  http.header  accepts values as a map.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/headers#response-header</url>
+    <fullTitle>WebTau: Headers, Response Header [REST]</fullTitle>
+    <text>
+      <text>To validate values from response header use  header  object. At the moment only  location ,  contentLocation ,  contentLength  have camelCase shortcuts. All the other header values you need to use  ['Header-Name']  syntax.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -389,9 +421,10 @@ class Auth {
     <url>/webtau/guide/REST/documentation#test-artifacts</url>
     <fullTitle>WebTau: Documentation, Test Artifacts [REST]</fullTitle>
     <text>
-      <text>To capture artifacts use  http.doc.capture : package rest
+      <text>To capture artifacts use  http.doc.capture : package scenarios.rest
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("extracting id after POST to use inside GET request") {
     def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) {
@@ -406,7 +439,7 @@ scenario("extracting id after POST to use inside GET request") {
     http.doc.capture('employee-get') // capture previous HTTP call into &lt;docDir>/employee-get
 } An  employee-get  directory will be created with request and response data files. Directory will also contain a json file with an array containing paths of all the asserted values. By default, the directory will be created in the current working directory. To change it add  docPath  to your  webtau.cfg  file. url = "http://localhost:8180"
 
-docPath = "../../doc-artifacts"</text>
+docPath = "doc-artifacts"</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -422,9 +455,11 @@ docPath = "../../doc-artifacts"</text>
     <url>/webtau/guide/REST/complex-types#contain</url>
     <fullTitle>WebTau: Complex Types, Contain [REST]</fullTitle>
     <text>
-      <text>Use  contain  matcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test. Given the response, we want to make sure there is an entry with a specified  firstName  and  lastName . package rest.springboot
+      <text>Use  contain  matcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test. Given the response, we want to make sure there is an entry with a specified  firstName  and  lastName . package scenarios.rest.springboot
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.Ddjt.contain
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("list Customers and assert that it contains a specified entry") {
     http.get("/customers/search/findAllByOrderByLastName") {
@@ -438,13 +473,12 @@ scenario("list Customers and assert that it contains a specified entry") {
     <url>/webtau/guide/REST/complex-types#list-of-objects</url>
     <fullTitle>WebTau: Complex Types, List Of Objects [REST]</fullTitle>
     <text>
-      <text>If you want to make sure that all the values in the list are what you need - use  TableData . package rest.springboot
+      <text>If you want to make sure that all the values in the list are what you need - use  TableData . package scenarios.rest.springboot
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
 scenario("list Customers and assert with a Table Data") {
-    http.delete("/customers")
-
     http.post("/customers", [firstName: "FN1", lastName: "LN1"])
     http.post("/customers", [firstName: "FN2", lastName: "LN2"])
     http.post("/customers", [firstName: "FN3", lastName: "LN3"])
@@ -502,8 +536,8 @@ API spec validation failure: ERROR - Response status 201 not defined for path ''
 [x] failed
 java.lang.AssertionError: 
 API spec validation failure: ERROR - Response status 201 not defined for path ''.: []
-	at rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8)
-	at rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy)
+	at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8)
+	at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy)
 
 
 
@@ -548,11 +582,11 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
     <url>/webtau/guide/REST/report#additional-reports</url>
     <fullTitle>WebTau: Report, Additional Reports [REST]</fullTitle>
     <text>
-      <text>To generate custom reports, or upload report data to your server, specify  reportGenerator  config property. import rest.report.Report
+      <text>To generate custom reports, or upload report data to your server, specify  reportGenerator  config property. import scenarios.rest.report.Report
 
 url = "http://localhost:8080"
 
-reportGenerator = Report.&amp;generateReport Where  Report.&amp;generateReport  is implemented as following package rest.report
+reportGenerator = Report.&amp;generateReport Where  Report.&amp;generateReport  is implemented as following package scenarios.rest.report
 
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
@@ -633,64 +667,91 @@ myValue.shouldBe > 10
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/UI/configuration#base-url</url>
-    <fullTitle>WebTau: Configuration, Base URL [UI]</fullTitle>
+    <url>/webtau/guide/UI/getting-started#bare-minimum</url>
+    <fullTitle>WebTau: Getting Started, Bare Minimum [UI]</fullTitle>
     <text>
-      <text>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like  open . Define base URL portion either inside a  webtau.cfg  file url = "http://localhost:8180"
-userName = 'testUser'
-environments {
-   dev {
-       url = "http://dev.host:8080"
-   }
-} or pass as a command line argument  --url=http://...</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/guide/UI/configuration#timeouts</url>
-    <fullTitle>WebTau: Configuration, Timeouts [UI]</fullTitle>
-    <text>
-      <text>Default timeout in milliseconds for  waitTo  and  waitToNot waitTimeout = 25000
- --waitTimeout=25000
-</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/guide/UI/configuration#window-size</url>
-    <fullTitle>WebTau: Configuration, Window Size [UI]</fullTitle>
-    <text>
-      <text>Browser window size can be set using  windowWidth  and  windowHeight url = "http://localhost:8180"
+      <text>package scenarios.ui
 
-windowWidth = 1280
-windowHeight = 800</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/guide/UI/configuration#documentation-artifacts</url>
-    <fullTitle>WebTau: Configuration, Documentation Artifacts [UI]</fullTitle>
-    <text>
-      <text>By default all generated documentation artifacts (e.g. screenshots) are created in the current directory. To override url = "http://localhost:8180"
+import static com.twosigma.webtau.WebTauDsl.$
+import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
 
-docPath = "screenshots"</text>
+scenario('simple open') {
+    browser.open("/search")
+    $('#welcome').should == 'welcome to super search'
+} To run test, navigate to  examples  dir and webtau scenarios/ui/basic.groovy --url=https://my-server</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/UI/finders-and-filters#filters</url>
-    <fullTitle>WebTau: Finders And Filters, Filters [UI]</fullTitle>
+    <url>/webtau/guide/UI/getting-started#config-file</url>
+    <fullTitle>WebTau: Getting Started, Config File [UI]</fullTitle>
     <text>
-      <text>&lt;div id="menu">
- &lt;ul> 
-  &lt;li> &lt;a href="/book">book&lt;/a> &lt;/li> 
-  &lt;li> &lt;a href="/orders">orders&lt;/a> &lt;/li> 
-  &lt;li> &lt;a href="/help">help&lt;/a> &lt;/li> 
- &lt;/ul> 
-&lt;/div> $("#menu ul li a").get("orders") 
-$("#menu ul li a").get(~/orders/) 
-$("#menu ul li a").get(2) 
-</text>
+      <text>Url parameter can be moved to a  webtau.cfg  file. url = "http://localhost:8180" configuration/environments Specify multiple environments  to streamline test execution.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/basic-configuration#base-url</url>
+    <fullTitle>WebTau: Basic Configuration, Base URL [UI]</fullTitle>
+    <text>
+      <text>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like  open . Define base URL portion either inside a  webtau.cfg  file url = "http://localhost:8180" or pass as a command line argument  --url=http://...</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/page-element-and-value#lazy-element</url>
+    <fullTitle>WebTau: Page Element And Value, Lazy Element [UI]</fullTitle>
+    <text>
+      <text>When you use  $('.css')  you create instance of  PageElement . PageElement  represent an element that is present or  will be present  on a web page. It is safe to declare an element before you open a browser or navigate to the page you need to test. package scenarios.ui
+
+import static com.twosigma.webtau.WebTauDsl.$
+import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+
+def welcomeMessage = $('#welcome')
+
+scenario('simple open') {
+    browser.open("/search")
+    welcomeMessage.should == 'welcome to super search'
+}</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/page-element-and-value#lazy-value</url>
+    <fullTitle>WebTau: Page Element And Value, Lazy Value [UI]</fullTitle>
+    <text>
+      <text>Consider a simple search page. Enter value, hit enter, see results. Here is simple test. package scenarios.ui
+
+import static com.twosigma.webtau.WebTauDsl.$
+import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+
+scenario('search by specific query') {
+    browser.open('/search')
+
+    $('#search-box').setValue('search this')
+    $('#search-box').sendKeys("\n")
+
+    $('#results .result').count.shouldBe > 1
+} In the example  $('#results .result').count  represents the number of elements matching the css selector. Let's extract it. package scenarios.ui
+
+import static com.twosigma.webtau.WebTauDsl.$
+import static com.twosigma.webtau.WebTauDsl.browser
+import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+
+def searchBox = $('#search-box')
+def numberOfResults = searchBox.count
+
+scenario('search by specific query') {
+    browser.open('/search')
+
+    searchBox.setValue('search this')
+    searchBox.sendKeys("\n")
+
+    numberOfResults.shouldBe > 1
+}</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -706,7 +767,7 @@ $("#menu ul li a").get(2)
     <url>/webtau/guide/UI/page-object#definition</url>
     <fullTitle>WebTau: Page Object, Definition [UI]</fullTitle>
     <text>
-      <text>PageObject  is just a simple class. Usage of a special  action  method is optional. Used to add additional reporting information.</text>
+      <text>To define  PageObject  create a class.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -714,28 +775,54 @@ $("#menu ul li a").get(2)
     <url>/webtau/guide/UI/page-object#grouping</url>
     <fullTitle>WebTau: Page Object, Grouping [UI]</fullTitle>
     <text>
-      <text>To make it easier to refer  PageObjects  from different tests combine them in one file later just static import all of them</text>
+      <text>To make it easier to refer  PageObjects  from different tests combine them in one file Use static import to have seamless access to all of them</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/UI/page-element#methods</url>
-    <fullTitle>WebTau: Page Element, Methods [UI]</fullTitle>
+    <url>/webtau/guide/UI/advanced-configuration#timeouts</url>
+    <fullTitle>WebTau: Advanced Configuration, Timeouts [UI]</fullTitle>
     <text>
-      <text>Below are the methods that are available on  PageElement  instance. Examples below refer following page object</text>
+      <text>Default timeout in milliseconds for  waitTo  and  waitToNot waitTimeout = 25000
+ --waitTimeout=25000
+</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/UI/page-element#assertions</url>
-    <fullTitle>WebTau: Page Element, Assertions [UI]</fullTitle>
+    <url>/webtau/guide/UI/advanced-configuration#window-size</url>
+    <fullTitle>WebTau: Advanced Configuration, Window Size [UI]</fullTitle>
     <text>
-      <text>waitTo Synchronization point with dynamic UI. Executes matcher multiple time until it matches or time runs out. search.open()
- waitToNot Synchronization point with dynamic UI. Executes negated matcher multiple time until it matches or time runs out. search.open()
- should Executes passed matcher against page element's underlying value search.open()
-search.welcomeMessage.should == 'welcome to super search'
- shouldNot Executes negated matcher against page element's underlying value search.open()
-search.welcomeMessage.shouldNot == 'welcome to boring search'
+      <text>Browser window size can be set using  windowWidth  and  windowHeight url = "http://localhost:8180"
+
+windowWidth = 1280
+windowHeight = 800</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/advanced-configuration#documentation-artifacts</url>
+    <fullTitle>WebTau: Advanced Configuration, Documentation Artifacts [UI]</fullTitle>
+    <text>
+      <text>By default all generated documentation artifacts (e.g. screenshots) are created in the current directory. To override url = "http://localhost:8180"
+
+docPath = "screenshots"</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/finders-and-filters#filters</url>
+    <fullTitle>WebTau: Finders And Filters, Filters [UI]</fullTitle>
+    <text>
+      <text>&lt;div id="menu"> 
+ &lt;ul> 
+  &lt;li> &lt;a href="/book">book&lt;/a> &lt;/li> 
+  &lt;li> &lt;a href="/orders">orders&lt;/a> &lt;/li> 
+  &lt;li> &lt;a href="/help">help&lt;/a> &lt;/li> 
+ &lt;/ul> 
+&lt;/div> $("#menu ul li a").get("orders") 
+$("#menu ul li a").get(~/orders/) 
+$("#menu ul li a").get(2) 
 </text>
       <score>STANDARD</score>
     </text>
@@ -744,12 +831,7 @@ search.welcomeMessage.shouldNot == 'welcome to boring search'
     <url>/webtau/guide/UI/matchers#values</url>
     <fullTitle>WebTau: Matchers, Values [UI]</fullTitle>
     <text>
-      <text>regexp checks if an element or its value matches provided matcher search.open()
-search.welcomeMessage.should == ~/welcome to \w+ search/
-search.welcomeMessage.shouldNot == ~/welcome to \w+ S.*/
-search.welcomeMessage.waitTo == ~/welcome to \w+ search/
-search.welcomeMessage.waitToNot == ~/welcome to \w+ S.*/
-</text>
+      <text>TBD</text>
       <score>STANDARD</score>
     </text>
   </entry>

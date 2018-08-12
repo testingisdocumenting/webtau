@@ -136,6 +136,10 @@ toc = [
           {
             "title": "Explicit Header",
             "id": "explicit-header"
+          },
+          {
+            "title": "Response Header",
+            "id": "response-header"
           }
         ]
       },
@@ -306,39 +310,52 @@ toc = [
     "items": [
       {
         "sectionTitle": "UI",
-        "pageTitle": "Configuration",
+        "pageTitle": "Getting Started",
         "pageMeta": {},
-        "fileName": "configuration",
+        "fileName": "getting-started",
         "dirName": "UI",
         "pageSectionIdTitles": [
           {
-            "title": "Base URL",
-            "id": "base-url"
+            "title": "Installation",
+            "id": "installation"
           },
           {
-            "title": "Timeouts",
-            "id": "timeouts"
+            "title": "Bare Minimum",
+            "id": "bare-minimum"
           },
           {
-            "title": "Window Size",
-            "id": "window-size"
-          },
-          {
-            "title": "Documentation Artifacts",
-            "id": "documentation-artifacts"
+            "title": "Config File",
+            "id": "config-file"
           }
         ]
       },
       {
         "sectionTitle": "UI",
-        "pageTitle": "Finders And Filters",
+        "pageTitle": "Basic Configuration",
         "pageMeta": {},
-        "fileName": "finders-and-filters",
+        "fileName": "basic-configuration",
         "dirName": "UI",
         "pageSectionIdTitles": [
           {
-            "title": "Filters",
-            "id": "filters"
+            "title": "Base URL",
+            "id": "base-url"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "UI",
+        "pageTitle": "Page Element And Value",
+        "pageMeta": {},
+        "fileName": "page-element-and-value",
+        "dirName": "UI",
+        "pageSectionIdTitles": [
+          {
+            "title": "Lazy Element",
+            "id": "lazy-element"
+          },
+          {
+            "title": "Lazy Value",
+            "id": "lazy-value"
           }
         ]
       },
@@ -365,18 +382,35 @@ toc = [
       },
       {
         "sectionTitle": "UI",
-        "pageTitle": "Page Element",
+        "pageTitle": "Advanced Configuration",
         "pageMeta": {},
-        "fileName": "page-element",
+        "fileName": "advanced-configuration",
         "dirName": "UI",
         "pageSectionIdTitles": [
           {
-            "title": "Methods",
-            "id": "methods"
+            "title": "Timeouts",
+            "id": "timeouts"
           },
           {
-            "title": "Assertions",
-            "id": "assertions"
+            "title": "Window Size",
+            "id": "window-size"
+          },
+          {
+            "title": "Documentation Artifacts",
+            "id": "documentation-artifacts"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "UI",
+        "pageTitle": "Finders And Filters",
+        "pageMeta": {},
+        "fileName": "finders-and-filters",
+        "dirName": "UI",
+        "pageSectionIdTitles": [
+          {
+            "title": "Filters",
+            "id": "filters"
           }
         ]
       },
