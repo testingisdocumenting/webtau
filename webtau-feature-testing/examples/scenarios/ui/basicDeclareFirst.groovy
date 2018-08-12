@@ -1,8 +1,6 @@
 package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 def welcomeMessage = $('#welcome')
 

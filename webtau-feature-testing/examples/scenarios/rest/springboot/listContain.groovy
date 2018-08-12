@@ -1,8 +1,6 @@
 package scenarios.rest.springboot
 
-import static com.twosigma.webtau.Ddjt.contain
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("list Customers and assert that it contains a specified entry") {
     http.get("/customers/search/findAllByOrderByLastName") {
