@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.featuretesting
 
+import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cli.WebTauCliApp
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
@@ -34,6 +35,8 @@ import com.twosigma.webtau.utils.JsonUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauTestRunner implements StepReporter, StandaloneTestListener {
     private static final int testServerPort = 8180
@@ -69,7 +72,11 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
             args.addAll(Arrays.asList(additionalArgs))
             args.add(testPath.toString())
 
+            WebTauConfig.resetConfigHandlers()
+
             def cliApp = new WebTauCliApp(args as String[])
+
+            getCfg().triggerConfigHandlers()
             cliApp.start(false)
 
             def testDetails = [scenarioDetails: scenariosDetails,
