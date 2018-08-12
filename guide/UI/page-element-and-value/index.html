@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Page Element And Value</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section selected"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item selected"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a><div class="page-sections"><div class="page-section selected"><a href="#lazy-element">Lazy Element</a></div><div class="page-section"><a href="#lazy-value">Lazy Value</a></div></div></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Page Element And Value</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Mon Aug 06 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/UI/page-element-and-value.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="lazy-element">Lazy Element<a href="#lazy-element"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">When you use </span><code>$(&#x27;.css&#x27;)</code><span class="simple-text"> you create instance of </span><code>PageElement</code><span class="simple-text">.</span></div><div class="paragraph content-block"><code>PageElement</code><span class="simple-text"> represent an element that is present or </span><span class="emphasis"><span class="simple-text">will be present</span></span><span class="simple-text"> on a web page. It is safe to declare an element</span><span> </span><span class="simple-text">before you open a browser or navigate to the page you need to test.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>ui
+
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span><span class="token punctuation">$</span>
+</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauDsl<span class="token operator">.</span>browser
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span>scenario
+
+<span class="token keyword">def</span> welcomeMessage <span class="token operator">=</span> <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#welcome&#x27;</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&#x27;simple open&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    browser<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">&quot;/search&quot;</span><span class="token punctuation">)</span>
+</span><span class="code-line">    welcomeMessage<span class="token operator">.</span>should <span class="token operator">==</span> <span class="token string">&#x27;welcome to super search&#x27;</span>
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="lazy-value">Lazy Value<a href="#lazy-value"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Consider a simple search page. Enter value, hit enter, see results.</span></div><div class="paragraph content-block"><span class="simple-text">Here is simple test.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>ui
+
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&#x27;search by specific query&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    browser<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">&#x27;/search&#x27;</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line">    <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#search-box&#x27;</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token function">setValue</span><span class="token punctuation">(</span><span class="token string">&#x27;search this&#x27;</span><span class="token punctuation">)</span>
+</span><span class="code-line">    <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#search-box&#x27;</span><span class="token punctuation">)</span><span class="token operator">.</span><span class="token function">sendKeys</span><span class="token punctuation">(</span><span class="token string">&quot;\n&quot;</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line">    <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#results .result&#x27;</span><span class="token punctuation">)</span><span class="token operator">.</span>count<span class="token operator">.</span>shouldBe <span class="token operator">&gt;</span> <span class="token number">1</span>
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">In the example </span><code>$(&#x27;#results .result&#x27;).count</code><span class="simple-text"> represents the number of elements matching the css selector.</span><span> </span><span class="simple-text">Let&#x27;s extract it.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>ui
+
+<span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
+</span><span class="code-line">
+</span><span class="code-line"><span class="token keyword">def</span> searchBox <span class="token operator">=</span> <span class="token punctuation">$</span><span class="token punctuation">(</span><span class="token string">&#x27;#search-box&#x27;</span><span class="token punctuation">)</span>
+</span><span class="code-line"><span class="token keyword">def</span> numberOfResults <span class="token operator">=</span> searchBox<span class="token operator">.</span>count
+
+<span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&#x27;search by specific query&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+</span><span class="code-line">    browser<span class="token operator">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">&#x27;/search&#x27;</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line">    searchBox<span class="token operator">.</span><span class="token function">setValue</span><span class="token punctuation">(</span><span class="token string">&#x27;search this&#x27;</span><span class="token punctuation">)</span>
+</span><span class="code-line">    searchBox<span class="token operator">.</span><span class="token function">sendKeys</span><span class="token punctuation">(</span><span class="token string">&quot;\n&quot;</span><span class="token punctuation">)</span>
+</span><span class="code-line">
+</span><span class="code-line">    numberOfResults<span class="token operator">.</span>shouldBe <span class="token operator">&gt;</span> <span class="token number">1</span>
+</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Basic Configuration<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Page Object<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "Lazy Element",
+        "id": "lazy-element",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "When you use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "$(\u0027.css\u0027)",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " you create instance of ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "PageElement",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "code": "PageElement",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " represent an element that is present or ",
+                "type": "SimpleText"
+              },
+              {
+                "type": "Emphasis",
+                "content": [
+                  {
+                    "text": "will be present",
+                    "type": "SimpleText"
+                  }
+                ]
+              },
+              {
+                "text": " on a web page. It is safe to declare an element",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "before you open a browser or navigate to the page you need to test.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "maxLineLength": 58,
+            "tokens": [
+              {
+                "type": "keyword",
+                "content": "package"
+              },
+              " scenarios",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "ui\n\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "WebTauDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "punctuation",
+                "content": "$"
+              },
+              "\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "WebTauDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "browser\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "WebTauGroovyDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "scenario\n\n",
+              {
+                "type": "keyword",
+                "content": "def"
+              },
+              " welcomeMessage ",
+              {
+                "type": "operator",
+                "content": "\u003d"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "$"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027#welcome\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n\n",
+              {
+                "type": "function",
+                "content": "scenario"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027simple open\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    browser",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "open"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"/search\""
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n    welcomeMessage",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "should ",
+              {
+                "type": "operator",
+                "content": "\u003d\u003d"
+              },
+              " ",
+              {
+                "type": "string",
+                "content": "\u0027welcome to super search\u0027"
+              },
+              "\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              }
+            ],
+            "type": "Snippet"
+          }
+        ]
+      },
+      {
+        "title": "Lazy Value",
+        "id": "lazy-value",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Consider a simple search page. Enter value, hit enter, see results.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Here is simple test.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "maxLineLength": 51,
+            "tokens": [
+              {
+                "type": "keyword",
+                "content": "package"
+              },
+              " scenarios",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "ui\n\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "WebTauGroovyDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "operator",
+                "content": "*"
+              },
+              "\n\n",
+              {
+                "type": "function",
+                "content": "scenario"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027search by specific query\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    browser",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "open"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027/search\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n\n    ",
+              {
+                "type": "punctuation",
+                "content": "$"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027#search-box\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "setValue"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027search this\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n    ",
+              {
+                "type": "punctuation",
+                "content": "$"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027#search-box\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "sendKeys"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"\\n\""
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n\n    ",
+              {
+                "type": "punctuation",
+                "content": "$"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027#results .result\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "count",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "shouldBe ",
+              {
+                "type": "operator",
+                "content": "\u003e"
+              },
+              " ",
+              {
+                "type": "number",
+                "content": "1"
+              },
+              "\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              }
+            ],
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "In the example ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "$(\u0027#results .result\u0027).count",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " represents the number of elements matching the css selector.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Let\u0027s extract it.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "maxLineLength": 51,
+            "tokens": [
+              {
+                "type": "keyword",
+                "content": "package"
+              },
+              " scenarios",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "ui\n\n",
+              {
+                "type": "keyword",
+                "content": "import"
+              },
+              " ",
+              {
+                "type": "keyword",
+                "content": "static"
+              },
+              " com",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "twosigma",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "webtau",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "WebTauGroovyDsl",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "operator",
+                "content": "*"
+              },
+              "\n\n",
+              {
+                "type": "keyword",
+                "content": "def"
+              },
+              " searchBox ",
+              {
+                "type": "operator",
+                "content": "\u003d"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "$"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027#search-box\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n",
+              {
+                "type": "keyword",
+                "content": "def"
+              },
+              " numberOfResults ",
+              {
+                "type": "operator",
+                "content": "\u003d"
+              },
+              " searchBox",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "count\n\n",
+              {
+                "type": "function",
+                "content": "scenario"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027search by specific query\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              " ",
+              {
+                "type": "punctuation",
+                "content": "{"
+              },
+              "\n    browser",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "open"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027/search\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n\n    searchBox",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "setValue"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\u0027search this\u0027"
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n    searchBox",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              {
+                "type": "function",
+                "content": "sendKeys"
+              },
+              {
+                "type": "punctuation",
+                "content": "("
+              },
+              {
+                "type": "string",
+                "content": "\"\\n\""
+              },
+              {
+                "type": "punctuation",
+                "content": ")"
+              },
+              "\n\n    numberOfResults",
+              {
+                "type": "operator",
+                "content": "."
+              },
+              "shouldBe ",
+              {
+                "type": "operator",
+                "content": "\u003e"
+              },
+              " ",
+              {
+                "type": "number",
+                "content": "1"
+              },
+              "\n",
+              {
+                "type": "punctuation",
+                "content": "}"
+              }
+            ],
+            "type": "Snippet"
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1533554070000,
+    "tocItem": {
+      "sectionTitle": "UI",
+      "pageTitle": "Page Element And Value",
+      "pageMeta": {},
+      "fileName": "page-element-and-value",
+      "dirName": "UI",
+      "pageSectionIdTitles": [
+        {
+          "title": "Lazy Element",
+          "id": "lazy-element"
+        },
+        {
+          "title": "Lazy Value",
+          "id": "lazy-value"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>
