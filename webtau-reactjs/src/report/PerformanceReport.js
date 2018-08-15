@@ -22,13 +22,17 @@ export default class PerformanceReport {
         this.notFailedHttpCalls = withoutFailedCalls(httpCalls)
         this.sortedNotFailedHttpCalls = sortedByLatency(this.notFailedHttpCalls)
 
-        this.maxLatency = this.sortedNotFailedHttpCalls[this.sortedNotFailedHttpCalls.length - 1].elapsedTime
+        const hasNonFailedTests = this.sortedNotFailedHttpCalls.length > 0
+
+        this.maxLatency = hasNonFailedTests ?
+            this.sortedNotFailedHttpCalls[this.sortedNotFailedHttpCalls.length - 1].elapsedTime :
+            0
 
         this.percentile = {}
 
         const steps = [10, 25, 50, 75, 90, 95, 99]
         steps.forEach(percentile => {
-            this.percentile[percentile] = this._calcPercentile(percentile)
+            this.percentile[percentile] = hasNonFailedTests ? this._calcPercentile(percentile) : 0
         })
     }
 

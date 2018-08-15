@@ -30,6 +30,10 @@ export default class PercentilePerformanceDiagram extends React.Component {
         const performance = report.performance
         const httpCalls = performance.sortedNotFailedHttpCalls
 
+        if (httpCalls.length === 0) {
+            return null
+        }
+
         const percentile = performance.percentile[75]
         const latencyAxis = scaleLinear().domain([httpCalls[0].elapsedTime, percentile.value]).range([httpCalls[0].elapsedTime, height])
         const callIdxAxis = scaleLinear().domain([0, percentile.idx]).range([0, width])
