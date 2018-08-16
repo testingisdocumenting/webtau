@@ -51,6 +51,9 @@ public class ReportTestEntry {
     private boolean isRan;
     private Path workingDir;
 
+    private long startTime;
+    private long elapsedTime;
+
     public ReportTestEntry(Path workingDir) {
         this.workingDir = workingDir;
         payloads = new ArrayList<>();
@@ -95,6 +98,30 @@ public class ReportTestEntry {
 
     public void setRan(boolean ran) {
         isRan = ran;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
+    public void startClock() {
+        startTime = System.currentTimeMillis();
+    }
+
+    public void stopClock() {
+        elapsedTime = System.currentTimeMillis() - startTime;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
     }
 
     public String getAssertionMessage() {
@@ -159,6 +186,8 @@ public class ReportTestEntry {
         result.put("id", id);
         result.put("scenario", scenario);
         result.put("status", getTestStatus().toString());
+        result.put("startTime", startTime);
+        result.put("elapsedTime", elapsedTime);
 
         if (filePath !=null) {
             result.put("fileName", filePath.toString());

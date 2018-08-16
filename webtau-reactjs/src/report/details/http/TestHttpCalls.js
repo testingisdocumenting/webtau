@@ -19,6 +19,8 @@ import React, {Component} from 'react'
 import ElapsedTime from './ElapsedTime'
 import HttpPayload from './HttpPayload'
 
+import moment from 'moment'
+
 import './TestHttpCalls.css'
 import '../../widgets/Table.css'
 
@@ -48,7 +50,8 @@ class TestHttpCalls extends Component {
                         <th width="35px"/>
                         <th width="60px">Method</th>
                         <th width="40px">Code</th>
-                        <th width="60px">Time</th>
+                        <th width="60px">Start</th>
+                        <th width="60px">Took</th>
                         <th>Url</th>
                     </tr>
                     </thead>
@@ -67,12 +70,15 @@ class TestHttpCalls extends Component {
         const className = 'test-http-call' + (hasProblem ? ' with-problem' : '')
         const isExpanded = this.isExpanded(idx)
 
+        const startDateTime = new Date(httpCall.startTime)
+
         return (
             <React.Fragment key={idx}>
                 <tr className={className} onClick={() => this.onCollapseToggleClick(idx)}>
                     <td className="collapse-toggle">{isExpanded ? '-' : '+'}</td>
                     <td className="method">{httpCall.method}</td>
                     <td className="status-code">{httpCall.responseStatusCode}</td>
+                    <td>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
                     <ElapsedTime millis={httpCall.elapsedTime}/>
                     <td className="url">{httpCall.url}</td>
                 </tr>
@@ -108,9 +114,7 @@ function HttpCallDetails({httpCall, reportNavigation}) {
         <tr className="test-http-call-details">
             <td/>
             <td/>
-            <td/>
-            <td/>
-            <td>
+            <td colSpan="4">
                 <Mismatches httpCall={httpCall}/>
                 <ErrorMessage httpCall={httpCall}/>
 

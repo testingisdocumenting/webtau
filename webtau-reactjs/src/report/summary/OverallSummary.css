@@ -20,16 +20,16 @@
 .overall-summary-tab-content {
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 25px;
+    grid-gap: 10px;
 
-    padding: 25px;
+    padding: 20px;
 }
 
 .overall-http-calls-time,
 .overall-http-operations-coverage {
     display: grid;
     grid-template-columns: repeat(auto-fill, 172px);
-    grid-gap: 25px;
+    grid-gap: 10px;
 }
 
 .overall-number-of-http-calls,
@@ -40,5 +40,5 @@
 .overall-summary-performance-grid {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-gap: 25px;
+    grid-gap: 10px;
 }

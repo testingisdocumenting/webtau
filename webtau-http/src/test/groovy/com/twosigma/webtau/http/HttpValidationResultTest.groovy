@@ -41,6 +41,7 @@ class HttpValidationResultTest {
 
         def validationResult = new HttpValidationResult('POST', 'http://site/test/url', null, null)
         validationResult.setResponse(new HttpResponse(textContent: responseAsJson, contentType: 'application/json', statusCode: 200))
+        validationResult.setStartTime(12345678)
         validationResult.setElapsedTime(100)
         validationResult.setResponseHeaderNode(new HeaderDataNode())
         validationResult.setResponseBodyNode(n)
@@ -50,6 +51,7 @@ class HttpValidationResultTest {
                                                mismatches: [],
                                                errorMessage: null,
                                                responseStatusCode: 200,
+                                               startTime: 12345678,
                                                elapsedTime: 100,
                                                responseBodyChecks: [failedPaths: ['root.childA'], passedPaths:['root.childB']]])
     }
@@ -63,6 +65,7 @@ class HttpValidationResultTest {
                 BinaryRequestBody.octetStream(binaryContent))
 
         validationResult.setResponse(new HttpResponse(binaryContent: binaryContent, contentType: 'application/octet-stream', statusCode: 200))
+        validationResult.setStartTime(12345678)
         validationResult.setElapsedTime(100)
         validationResult.setResponseHeaderNode(new HeaderDataNode())
         validationResult.setResponseBodyNode(binaryNode)
@@ -76,6 +79,7 @@ class HttpValidationResultTest {
                                                mismatches: [],
                                                errorMessage: null,
                                                responseStatusCode: 200,
+                                               startTime: 12345678,
                                                elapsedTime: 100,
                                                responseBodyChecks: [failedPaths: [], passedPaths: []]])
     }

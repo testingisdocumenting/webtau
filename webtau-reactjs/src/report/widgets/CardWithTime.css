@@ -14,21 +14,28 @@
  * limitations under the License.
  */
 
-import React from 'react'
-
-import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
-
-function NumberOfHttpCalls({number}) {
-    if (typeof number === 'undefined') {
-        return null
-    }
-
-    const label = number === 1 ? 'HTTP call' : 'HTTP calls'
-
-    return (
-        <CardLabelAndNumber label={label} number={number}/>
-    )
+.card-with-time {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    height: 120px;
 }
 
-export default NumberOfHttpCalls
+.card-with-time > .card-label {
+    color: #969ba7;
+}
 
+.card-with-time .card-date {
+    color: #5c636c;
+    font-size: 12px;
+    margin-top: -10px;
+}
+
+.card-with-time > .card-time {
+    color: #4a5158;
+    font-size: 20px;
+    font-weight: 500;
+    padding-bottom: 10px;
+}

@@ -15,20 +15,23 @@
  */
 
 import React from 'react'
+import moment from 'moment'
 
-import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
+import Card from './Card'
+import './CardWithTime.css'
 
-function NumberOfHttpCalls({number}) {
-    if (typeof number === 'undefined') {
-        return null
-    }
-
-    const label = number === 1 ? 'HTTP call' : 'HTTP calls'
+function CardWithTime({label, time, utc}) {
+    const local = utc ?
+        moment(time).utc():
+        moment(time).local()
 
     return (
-        <CardLabelAndNumber label={label} number={number}/>
+        <Card className="card-with-time">
+            <div className="card-date">{local.format('MMM DD ddd')}</div>
+            <div className="card-time">{local.format('HH:mm:ss.SSS')}</div>
+            <div className="card-label">{label}</div>
+        </Card>
     )
 }
 
-export default NumberOfHttpCalls
-
+export default CardWithTime

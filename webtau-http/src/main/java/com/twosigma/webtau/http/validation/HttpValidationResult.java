@@ -46,6 +46,7 @@ public class HttpValidationResult implements TestStepPayload {
     private HttpResponse response;
     private HeaderDataNode responseHeaderNode;
     private DataNode responseBodyNode;
+    private long startTime;
     private long elapsedTime;
     private String errorMessage;
 
@@ -86,6 +87,10 @@ public class HttpValidationResult implements TestStepPayload {
 
     public List<String> getPassedPaths() {
         return extractPaths(responseBodyNode, CheckLevel::isPassed);
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
     public void setElapsedTime(long elapsedTime) {
@@ -174,6 +179,7 @@ public class HttpValidationResult implements TestStepPayload {
         result.put("method", requestMethod);
         result.put("url", fullUrl);
 
+        result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
         result.put("errorMessage", errorMessage);
         result.put("mismatches", mismatches);

@@ -395,6 +395,7 @@ public class Http {
                 HttpResponse response = httpCall.execute(fullUrl, fullRequestHeader);
                 long endTime = System.currentTimeMillis();
 
+                validationResult.setStartTime(startTime);
                 validationResult.setElapsedTime(endTime - startTime);
                 validationResult.setResponse(response);
 
