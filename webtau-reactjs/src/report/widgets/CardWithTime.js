@@ -14,31 +14,24 @@
  * limitations under the License.
  */
 
-.overall-summary {
+import React from 'react'
+import moment from 'moment'
+
+import Card from './Card'
+import './CardWithTime.css'
+
+function CardWithTime({label, time, utc}) {
+    const local = utc ?
+        moment(time).utc():
+        moment(time).local()
+
+    return (
+        <Card className="card-with-time">
+            <div className="card-date">{local.format('MMM DD ddd')}</div>
+            <div className="card-time">{local.format('HH:MM.ms')}</div>
+            <div className="card-label">{label}</div>
+        </Card>
+    )
 }
 
-.overall-summary-tab-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 10px;
-
-    padding: 20px;
-}
-
-.overall-http-calls-time,
-.overall-http-operations-coverage {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 172px);
-    grid-gap: 10px;
-}
-
-.overall-number-of-http-calls,
-.overall-number-of-skipped {
-    cursor: pointer;
-}
-
-.overall-summary-performance-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: 10px;
-}
+export default CardWithTime

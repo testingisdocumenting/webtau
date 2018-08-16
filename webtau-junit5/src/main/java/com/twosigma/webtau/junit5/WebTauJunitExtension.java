@@ -42,6 +42,8 @@ public class WebTauJunitExtension implements
                 fullTestName(extensionContext));
 
         StepReporters.add(test);
+        test.getReportTestEntry().startClock();
+
         extensionContext.getStore(NAMESPACE).put(TEST_KEY, test);
     }
 
@@ -53,6 +55,7 @@ public class WebTauJunitExtension implements
 
         ReportTestEntry reportTestEntry = test.getReportTestEntry();
         reportTestEntry.setRan(true);
+        reportTestEntry.stopClock();
         JavaReport.addTestEntry(reportTestEntry);
 
         TestResultPayloadExtractors.extract(reportTestEntry.getSteps().stream())
@@ -67,6 +70,7 @@ public class WebTauJunitExtension implements
 
         ReportTestEntry reportTestEntry = test.getReportTestEntry();
         reportTestEntry.setException(throwable);
+        reportTestEntry.stopClock();
 
         throw throwable;
     }

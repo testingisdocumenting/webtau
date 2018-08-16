@@ -22,6 +22,8 @@ import TestName from '../TestName'
 
 import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
 
+import CardWithTime from '../../widgets/CardWithTime'
+
 import './HttpCallDetails.css'
 
 function HttpCallDetails({httpCall, reportNavigation}) {
@@ -31,9 +33,17 @@ function HttpCallDetails({httpCall, reportNavigation}) {
 
     return (
         <div className="http-call-details">
-            <div className="http-call-latency-and-name">
+            <div className="http-call-time-and-name">
+                <CardWithTime label="Start Time (Local)"
+                              time={httpCall.startTime}/>
+
+                <CardWithTime label="Start Time (UTC)"
+                              utc={true}
+                              time={httpCall.startTime}/>
+
                 <CardLabelAndNumber label="Latency (ms)"
                                     number={httpCall.elapsedTime}/>
+
                 <UrlAndTestNameCard httpCall={httpCall} onTestSelect={reportNavigation.selectTest}/>
             </div>
 

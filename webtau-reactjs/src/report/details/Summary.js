@@ -25,6 +25,7 @@ import Report from '../Report'
 import TestNameCard from './TestNameCard'
 import './Summary.css'
 import Card from '../widgets/Card'
+import CardWithTime from '../widgets/CardWithTime'
 
 const OptionalPreBlock = ({className, message}) => {
     if (!message) {
@@ -47,7 +48,19 @@ const Summary = ({test}) => {
         <div className="single-summary">
             <TestNameCard test={test}/>
 
-            <div className="single-summary-dashboard">
+            <div className="single-summary-timing">
+                <CardWithTime label="Start Time (Local)"
+                              time={test.startTime}/>
+
+                <CardWithTime label="Start Time (UTC)"
+                              utc={true}
+                              time={test.startTime}/>
+
+                <CardLabelAndNumber label="Execution time (ms)"
+                                    number={test.elapsedTime}/>
+            </div>
+
+            <div className="single-summary-http-dashboard">
                 <NumberOfHttpCalls number={numberOfHttpCalls}/>
                 <AverageHttpCallsTime test={test}/>
                 <OverallHttpCallsTime test={test}/>

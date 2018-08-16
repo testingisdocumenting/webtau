@@ -89,10 +89,12 @@ class StandaloneTest implements StepReporter {
     void run() {
         StepReporters.withAdditionalReporter(this) {
             try {
+                reportTestEntry.startClock()
                 code.run()
             } catch (Throwable e) {
                 reportTestEntry.setException(e)
             } finally {
+                reportTestEntry.stopClock()
                 reportTestEntry.setRan(true)
             }
         }

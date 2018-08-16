@@ -31,59 +31,65 @@ const report = {
     ],
     "tests": [
         {
-        "id": "another.groovy-1",
-        "scenario": "customer super read",
-        "status": "Passed",
-        "fileName": "rest\\springboot\\anotherTest.groovy",
-        "httpCalls": [{
-            "method": "GET",
-            "url": "http://localhost:8080/customers/1",
-            "elapsedTime": 22,
-            "errorMessage": null,
-            "mismatches": [],
-            "responseType": "application/json;charset=UTF-8",
-            "responseStatusCode": 200,
-            "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
-            "responseBodyChecks": {
-                "failedPaths": [],
-                "passedPaths": ["root.firstName", "root.lastName"]
-            }
-        }],
-        "steps": [{
-            "message": [{
-                "type": "action",
-                "value": "executed HTTP GET"
-            }, {
-                "type": "url",
-                "value": "http://localhost:8080/customers/1"
+            "id": "another.groovy-1",
+            "scenario": "customer super read",
+            "status": "Passed",
+            "fileName": "rest\\springboot\\anotherTest.groovy",
+            "startTime": 1534456916484,
+            "elapsedTime": 32,
+            "httpCalls": [{
+                "method": "GET",
+                "url": "http://localhost:8080/customers/1",
+                "startTime": 1534456916484,
+                "elapsedTime": 22,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "application/json;charset=UTF-8",
+                "responseStatusCode": 200,
+                "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": ["root.firstName", "root.lastName"]
+                }
             }],
-            "children": [{
+            "steps": [{
                 "message": [{
-                    "type": "id",
-                    "value": "body"
+                    "type": "action",
+                    "value": "executed HTTP GET"
                 }, {
-                    "type": "matcher",
-                    "value": "equals {firstName=FN, lastName=LN}\nmatches:\n\nbody.firstName:   actual: \"FN\" <java.lang.String>\n                expected: \"FN\" <java.lang.String>\nbody.lastName:   actual: \"LN\" <java.lang.String>\n               expected: \"LN\" <java.lang.String>"
-                }]
-            }, {
-                "message": [{
-                    "type": "id",
-                    "value": "header.statusCode"
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "message": [{
+                        "type": "id",
+                        "value": "body"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals {firstName=FN, lastName=LN}\nmatches:\n\nbody.firstName:   actual: \"FN\" <java.lang.String>\n                expected: \"FN\" <java.lang.String>\nbody.lastName:   actual: \"LN\" <java.lang.String>\n               expected: \"LN\" <java.lang.String>"
+                    }]
                 }, {
-                    "type": "matcher",
-                    "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                    }]
                 }]
             }]
-        }]
-    },
+        },
         {
             "id": "customerCrudSeparated.groovy-1",
             "scenario": "customer create",
             "status": "Passed",
+            "startTime": 1534456916484,
+            "elapsedTime": 283,
             "fileName": "rest/springboot/customerCrudSeparated.groovy",
             "httpCalls": [{
                 "method": "POST",
                 "url": "http://localhost:8080/customers",
+                "startTime": 1534456916484,
                 "elapsedTime": 283,
                 "errorMessage": null,
                 "mismatches": [],
@@ -117,205 +123,216 @@ const report = {
             }]
         },
         {
-        "id": "another.groovy-2",
-        "scenario": "customer read",
-        "status": "Passed",
-        "fileName": "rest\\springboot\\anotherTest.groovy",
-        "httpCalls": [{
-            "method": "GET",
-            "url": "http://localhost:8080/customers/3",
+            "id": "another.groovy-2",
+            "scenario": "customer read",
+            "status": "Passed",
+            "fileName": "rest\\springboot\\anotherTest.groovy",
+            "startTime": 1534456916484,
             "elapsedTime": 22,
-            "errorMessage": null,
-            "mismatches": [],
-            "responseType": "application/json;charset=UTF-8",
-            "responseStatusCode": 200,
-            "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
-            "responseBodyChecks": {
-                "failedPaths": [],
-                "passedPaths": ["root.firstName", "root.lastName"]
-            }
-        }],
-        "steps": [{
-            "message": [{
-                "type": "action",
-                "value": "executed HTTP GET"
-            }, {
-                "type": "url",
-                "value": "http://localhost:8080/customers/1"
+            "httpCalls": [{
+                "method": "GET",
+                "url": "http://localhost:8080/customers/3",
+                "startTime": 1534456916484,
+                "elapsedTime": 22,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "application/json;charset=UTF-8",
+                "responseStatusCode": 200,
+                "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": ["root.firstName", "root.lastName"]
+                }
             }],
-            "children": [{
+            "steps": [{
                 "message": [{
-                    "type": "id",
-                    "value": "body"
+                    "type": "action",
+                    "value": "executed HTTP GET"
                 }, {
-                    "type": "matcher",
-                    "value": "equals {firstName=FN, lastName=LN}\nmatches:\n\nbody.firstName:   actual: \"FN\" <java.lang.String>\n                expected: \"FN\" <java.lang.String>\nbody.lastName:   actual: \"LN\" <java.lang.String>\n               expected: \"LN\" <java.lang.String>"
-                }]
-            }, {
-                "message": [{
-                    "type": "id",
-                    "value": "header.statusCode"
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "message": [{
+                        "type": "id",
+                        "value": "body"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals {firstName=FN, lastName=LN}\nmatches:\n\nbody.firstName:   actual: \"FN\" <java.lang.String>\n                expected: \"FN\" <java.lang.String>\nbody.lastName:   actual: \"LN\" <java.lang.String>\n               expected: \"LN\" <java.lang.String>"
+                    }]
                 }, {
-                    "type": "matcher",
-                    "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                    }]
                 }]
             }]
-        }]
-    },
+        },
         {
-        "id": "customerCrudSeparated.groovy-3",
-        "scenario": "customer update",
-        "status": "Passed",
-        "fileName": "rest/springboot/customerCrudSeparated.groovy",
-        "httpCalls": [{
-            "method": "PUT",
-            "url": "http://localhost:8080/customers/1",
-            "elapsedTime": 29,
-            "errorMessage": null,
-            "mismatches": [],
-            "responseType": "application/json;charset=UTF-8",
-            "responseStatusCode": 200,
-            "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"NLN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
-            "requestType": "application/json",
-            "requestBody": "{\"firstName\":\"FN\",\"lastName\":\"NLN\"}",
-            "responseBodyChecks": {
-                "failedPaths": [],
-                "passedPaths": ["root.lastName"]
-            }
-        }, {
-            "method": "GET",
-            "url": "http://localhost:8080/customers/1",
-            "elapsedTime": 6,
-            "errorMessage": null,
-            "mismatches": [],
-            "responseType": "application/json;charset=UTF-8",
-            "responseStatusCode": 200,
-            "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"NLN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
-            "responseBodyChecks": {
-                "failedPaths": [],
-                "passedPaths": ["root.lastName"]
-            }
-        }],
-        "steps": [{
-            "message": [{
-                "type": "action",
-                "value": "executed HTTP PUT"
+            "id": "customerCrudSeparated.groovy-3",
+            "scenario": "customer update",
+            "status": "Passed",
+            "startTime": 1534456916384,
+            "elapsedTime": 32,
+            "fileName": "rest/springboot/customerCrudSeparated.groovy",
+            "httpCalls": [{
+                "method": "PUT",
+                "url": "http://localhost:8080/customers/1",
+                "startTime": 1534456927154,
+                "elapsedTime": 29,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "application/json;charset=UTF-8",
+                "responseStatusCode": 200,
+                "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"NLN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
+                "requestType": "application/json",
+                "requestBody": "{\"firstName\":\"FN\",\"lastName\":\"NLN\"}",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": ["root.lastName"]
+                }
             }, {
-                "type": "url",
-                "value": "http://localhost:8080/customers/1"
+                "method": "GET",
+                "url": "http://localhost:8080/customers/1",
+                "startTime": 1534456916394,
+                "elapsedTime": 6,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "application/json;charset=UTF-8",
+                "responseStatusCode": 200,
+                "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"NLN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": ["root.lastName"]
+                }
             }],
-            "children": [{
+            "steps": [{
                 "message": [{
-                    "type": "id",
-                    "value": "body.lastName"
+                    "type": "action",
+                    "value": "executed HTTP PUT"
                 }, {
-                    "type": "matcher",
-                    "value": "equals \"NLN\"\nmatches:\n\nbody.lastName:   actual: \"NLN\" <java.lang.String>\n               expected: \"NLN\" <java.lang.String>"
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "message": [{
+                        "type": "id",
+                        "value": "body.lastName"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals \"NLN\"\nmatches:\n\nbody.lastName:   actual: \"NLN\" <java.lang.String>\n               expected: \"NLN\" <java.lang.String>"
+                    }]
+                }, {
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                    }]
                 }]
             }, {
                 "message": [{
-                    "type": "id",
-                    "value": "header.statusCode"
+                    "type": "action",
+                    "value": "executed HTTP GET"
                 }, {
-                    "type": "matcher",
-                    "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "message": [{
+                        "type": "id",
+                        "value": "body.lastName"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals \"NLN\"\nmatches:\n\nbody.lastName:   actual: \"NLN\" <java.lang.String>\n               expected: \"NLN\" <java.lang.String>"
+                    }]
+                }, {
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
+                    }]
                 }]
             }]
-        }, {
-            "message": [{
-                "type": "action",
-                "value": "executed HTTP GET"
-            }, {
-                "type": "url",
-                "value": "http://localhost:8080/customers/1"
-            }],
-            "children": [{
-                "message": [{
-                    "type": "id",
-                    "value": "body.lastName"
-                }, {
-                    "type": "matcher",
-                    "value": "equals \"NLN\"\nmatches:\n\nbody.lastName:   actual: \"NLN\" <java.lang.String>\n               expected: \"NLN\" <java.lang.String>"
-                }]
-            }, {
-                "message": [{
-                    "type": "id",
-                    "value": "header.statusCode"
-                }, {
-                    "type": "matcher",
-                    "value": "equals 200\nmatches:\n\nheader.statusCode:   actual: 200 <java.lang.Integer>\n                   expected: 200 <java.lang.Integer>"
-                }]
-            }]
-        }]
-    },
+        },
         {
-        "id": "customerCrudSeparated.groovy-4",
-        "scenario": "customer delete",
-        "status": "Failed",
-        "fileName": "rest/springboot/customerCrudSeparated.groovy",
-        "httpCalls": [{
-            "method": "DELETE",
-            "url": "http://localhost:8080/customers/1",
-            "elapsedTime": 12,
-            "errorMessage": null,
-            "mismatches": [],
-            "responseType": "",
-            "responseStatusCode": 204,
-            "responseBody": "",
-            "responseBodyChecks": {
-                "failedPaths": [],
-                "passedPaths": []
-            }
-        }, {
-            "method": "GET",
-            "url": "http://localhost:8080/customers/1",
-            "elapsedTime": 9,
-            "errorMessage": null,
-            "mismatches": [],
-            "responseType": "",
-            "responseStatusCode": 404,
-            "responseBody": "",
-            "responseBodyChecks": {
-                "failedPaths": [],
-                "passedPaths": []
-            }
+            "id": "customerCrudSeparated.groovy-4",
+            "scenario": "customer delete",
+            "status": "Failed",
+            "fileName": "rest/springboot/customerCrudSeparated.groovy",
+            "startTime": 1534456916784,
+            "elapsedTime": 32,
+            "httpCalls": [{
+                "method": "DELETE",
+                "url": "http://localhost:8080/customers/1",
+                "startTime": 1534456916784,
+                "elapsedTime": 12,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "",
+                "responseStatusCode": 204,
+                "responseBody": "",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": []
+                }
+            }, {
+                "method": "GET",
+                "url": "http://localhost:8080/customers/1",
+                "startTime": 1534456916684,
+                "elapsedTime": 9,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "",
+                "responseStatusCode": 404,
+                "responseBody": "",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": []
+                }
+            }],
+            "steps": [{
+                "message": [{
+                    "type": "action",
+                    "value": "executed HTTP DELETE"
+                }, {
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 204\nmatches:\n\nheader.statusCode:   actual: 204 <java.lang.Integer>\n                   expected: 204 <java.lang.Integer>"
+                    }]
+                }]
+            }, {
+                "message": [{
+                    "type": "action",
+                    "value": "executed HTTP GET"
+                }, {
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 404\nmatches:\n\nheader.statusCode:   actual: 404 <java.lang.Integer>\n                   expected: 404 <java.lang.Integer>"
+                    }]
+                }]
+            }]
         }],
-        "steps": [{
-            "message": [{
-                "type": "action",
-                "value": "executed HTTP DELETE"
-            }, {
-                "type": "url",
-                "value": "http://localhost:8080/customers/1"
-            }],
-            "children": [{
-                "message": [{
-                    "type": "id",
-                    "value": "header.statusCode"
-                }, {
-                    "type": "matcher",
-                    "value": "equals 204\nmatches:\n\nheader.statusCode:   actual: 204 <java.lang.Integer>\n                   expected: 204 <java.lang.Integer>"
-                }]
-            }]
-        }, {
-            "message": [{
-                "type": "action",
-                "value": "executed HTTP GET"
-            }, {
-                "type": "url",
-                "value": "http://localhost:8080/customers/1"
-            }],
-            "children": [{
-                "message": [{
-                    "type": "id",
-                    "value": "header.statusCode"
-                }, {
-                    "type": "matcher",
-                    "value": "equals 404\nmatches:\n\nheader.statusCode:   actual: 404 <java.lang.Integer>\n                   expected: 404 <java.lang.Integer>"
-                }]
-            }]
-        }]
-    }],
     "openApiSkippedOperations": [],
     "openApiCoveredOperations": [{
         "method": "POST",

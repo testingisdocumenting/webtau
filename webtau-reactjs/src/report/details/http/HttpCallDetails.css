@@ -27,9 +27,9 @@
     grid-column-gap: 10px;
 }
 
-.http-call-latency-and-name {
+.http-call-time-and-name {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto auto auto 1fr;
     grid-gap: 10px;
 }
 
