@@ -19,7 +19,7 @@ import React from 'react'
 import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
 
 function NumberOfHttpCalls({number}) {
-    if (!number) {
+    if (typeof number === 'undefined') {
         return null
     }
 

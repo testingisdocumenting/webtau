@@ -28,7 +28,7 @@ function CardWithTime({label, time, utc}) {
     return (
         <Card className="card-with-time">
             <div className="card-date">{local.format('MMM DD ddd')}</div>
-            <div className="card-time">{local.format('HH:MM.ms')}</div>
+            <div className="card-time">{local.format('HH:mm:ss.SSS')}</div>
             <div className="card-label">{label}</div>
         </Card>
     )

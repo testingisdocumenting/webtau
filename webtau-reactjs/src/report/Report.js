@@ -31,7 +31,7 @@ class Report {
     }
 
     static averageHttpCallTimeForTest(test) {
-        if (!test.httpCalls) {
+        if (!test.httpCalls || test.httpCalls.length === 0) {
             return 0
         }
 

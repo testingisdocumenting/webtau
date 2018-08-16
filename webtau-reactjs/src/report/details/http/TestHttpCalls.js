@@ -78,7 +78,7 @@ class TestHttpCalls extends Component {
                     <td className="collapse-toggle">{isExpanded ? '-' : '+'}</td>
                     <td className="method">{httpCall.method}</td>
                     <td className="status-code">{httpCall.responseStatusCode}</td>
-                    <td>{moment(startDateTime).local().format('HH:MM.ms')}</td>
+                    <td>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
                     <ElapsedTime millis={httpCall.elapsedTime}/>
                     <td className="url">{httpCall.url}</td>
                 </tr>
