@@ -6,3 +6,4 @@
 ../../webtau-http-groovy/src/test/resources
 ../../webtau-pdf/src/test/groovy
 ../../webtau-testapp/src/main/java
+../target/classes
