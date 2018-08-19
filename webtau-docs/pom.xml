@@ -25,4 +25,13 @@
     </parent>
 
     <artifactId>webtau-docs</artifactId>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/pre-filter</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
 </project>

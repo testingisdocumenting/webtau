@@ -1,4 +1,4 @@
-:include-markdown: common/installation.md
+:include-markdown: installation.md
 
 # Bare Minimum
 
