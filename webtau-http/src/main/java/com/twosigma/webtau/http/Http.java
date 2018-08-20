@@ -539,6 +539,7 @@ public class Http {
             if (requestHeader == null) {
                 throw new IllegalArgumentException("Request header is null, check your header provider is not returning null");
             }
+
             requestHeader.forEachProperty(connection::setRequestProperty);
 
             if (! (requestBody instanceof EmptyRequestBody)) {
