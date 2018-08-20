@@ -535,6 +535,10 @@ public class Http {
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
+
+            if (requestHeader == null) {
+                throw new IllegalArgumentException("Request header is null, check your header provider is not returning null");
+            }
             requestHeader.forEachProperty(connection::setRequestProperty);
 
             if (! (requestBody instanceof EmptyRequestBody)) {
