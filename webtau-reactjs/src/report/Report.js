@@ -49,7 +49,9 @@ class Report {
         this.config = report.config
         this.tests = enrichTestsData(report.tests)
         this.httpCalls = extractHttpCalls(this.tests)
-        this.performance = new PerformanceReport(this.httpCalls)
+        this.httpCallsById = mapHttpCallsById(this.httpCalls)
+        this.openApiHttpCallIdsPerOperation = report.openApiHttpCallIdsPerOperation || []
+        this.performance = new PerformanceReport(this)
         this.httpCallsCombinedWithSkipped = [...convertSkippedToHttpCalls(report.openApiSkippedOperations || []), ...this.httpCalls]
         this.testsSummary = buildTestsSummary(report.summary)
         this.httpCallsSummary = buildHttpCallsSummary(this.httpCallsCombinedWithSkipped)
@@ -147,6 +149,15 @@ function extractHttpCalls(tests) {
     return tests
         .filter(t => t.httpCalls)
         .map(t => enrichHttpCallsData(t, t.httpCalls)).reduce((acc, r) => acc.concat(r), [])
+}
+
+function mapHttpCallsById(httpCalls) {
+    const result = {}
+    httpCalls.forEach(httpCall => {
+        result[httpCall.id] = httpCall
+    })
+
+    return result
 }
 
 function convertSkippedToHttpCalls(skippedCalls) {
@@ -276,7 +287,6 @@ function enrichHttpCallData(test, httpCall) {
     const shortUrl = removeHostFromUrl(httpCall.url)
 
     return {
-        id: generateHttpCallId(),
         ...httpCall,
         shortUrl,
         test,
@@ -309,7 +319,7 @@ function removeHostFromUrl(url) {
 
 let lastId = 1
 function generateHttpCallId() {
-    return 'httpcall' + lastId++
+    return 'httpcall-skipped-' + lastId++
 }
 
 function additionalDetails(test) {

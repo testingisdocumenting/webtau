@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
  *
@@ -17,31 +18,39 @@
 import React from 'react'
 
 import '../widgets/Table.css'
-import './ConfigTable.css'
+import './OperationsPerformanceTable.css'
 
-export default function ConfigTable({report}) {
+export default function OperationsPerformanceTable({report}) {
     return (
-        <table className="config-table table">
+        <table className="operations-performance table">
             <thead>
             <tr>
-                <th>Key</th>
-                <th>Value</th>
-                <th>Source</th>
+                <th>Method</th>
+                <th>Url</th>
+                <th>Count</th>
+                <th>Fastest</th>
+                <th>Slowest</th>
+                <th>50 %</th>
+                <th>75 %</th>
             </tr>
             </thead>
             <tbody>
-            {report.config.map(e => <ConfigEntry key={e.key} entry={e}/>)}
+            {report.performance.performancePerOperation.map(e => <PerformanceEntry key={e.key} entry={e}/>)}
             </tbody>
         </table>
     )
 }
 
-function ConfigEntry({entry}) {
+function PerformanceEntry({entry}) {
     return (
         <tr>
-            <td>{entry.key}</td>
-            <td>{entry.value}</td>
-            <td>{entry.source}</td>
+            <td>{entry.method}</td>
+            <td>{entry.url}</td>
+            <td>{entry.count}</td>
+            <td>{entry.fastest}</td>
+            <td>{entry.slowest}</td>
+            <td>{entry.percentile[50].value}</td>
+            <td>{entry.percentile[75].value}</td>
         </tr>
     )
 }

@@ -38,6 +38,8 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
 
         return Stream.of(
                 new ReportCustomData("openApiSkippedOperations", nonCovered),
-                new ReportCustomData("openApiCoveredOperations", covered));
+                new ReportCustomData("openApiCoveredOperations", covered),
+                new ReportCustomData("openApiHttpCallIdsPerOperation",
+                        OpenApi.coverage.httpCallIdsByOperationAsMap()));
     }
 }

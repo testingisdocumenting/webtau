@@ -30,12 +30,15 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class HttpValidationResult implements TestStepPayload {
+    private static final AtomicInteger idCounter = new AtomicInteger();
     private static final String BINARY_CONTENT_PLACEHOLDER = "[binary content]";
 
+    private final String id;
     private final String fullUrl;
     private final String requestMethod;
     private HttpRequestHeader requestHeader;
@@ -54,11 +57,16 @@ public class HttpValidationResult implements TestStepPayload {
                                 String fullUrl,
                                 HttpRequestHeader requestHeader,
                                 HttpRequestBody requestBody) {
+        this.id = generateId();
         this.requestMethod = requestMethod;
         this.fullUrl = fullUrl;
         this.requestHeader = requestHeader;
         this.requestBody = requestBody;
         this.mismatches = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public HttpRequestHeader getRequestHeader() {
@@ -176,6 +184,8 @@ public class HttpValidationResult implements TestStepPayload {
     @Override
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
+
+        result.put("id", id);
         result.put("method", requestMethod);
         result.put("url", fullUrl);
 
@@ -232,5 +242,9 @@ public class HttpValidationResult implements TestStepPayload {
         }
 
         throw new RuntimeException("path should start with either header or body");
+    }
+
+    private String generateId() {
+        return "httpCall-" + idCounter.incrementAndGet();
     }
 }

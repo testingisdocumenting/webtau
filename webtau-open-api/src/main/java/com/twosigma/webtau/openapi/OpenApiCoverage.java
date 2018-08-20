@@ -18,15 +18,13 @@ package com.twosigma.webtau.openapi;
 
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class OpenApiCoverage {
     private OpenApiSpec spec;
 
-    private Set<OpenApiOperation> coveredOperations = new HashSet<>();
+    private OpenApiCoveredOperations coveredOperations = new OpenApiCoveredOperations();
 
     public OpenApiCoverage(OpenApiSpec spec) {
         this.spec = spec;
@@ -40,14 +38,19 @@ public class OpenApiCoverage {
         Optional<OpenApiOperation> apiOperation = spec.findApiOperation(
                 validationResult.getRequestMethod(),
                 validationResult.getFullUrl());
-        apiOperation.map(coveredOperations::add);
+
+        apiOperation.ifPresent(openApiOperation -> coveredOperations.add(openApiOperation, validationResult.getId()));
     }
 
-    public Stream<OpenApiOperation> coveredOperations() {
-        return coveredOperations.stream();
+    List<Map<String, ?>> httpCallIdsByOperationAsMap() {
+        return coveredOperations.httpCallIdsByOperationAsMap();
     }
 
-    public Stream<OpenApiOperation> nonCoveredOperations() {
+    Stream<OpenApiOperation> coveredOperations() {
+        return coveredOperations.coveredOperations();
+    }
+
+    Stream<OpenApiOperation> nonCoveredOperations() {
         return spec.availableOperationsStream().filter(o -> !coveredOperations.contains(o));
     }
 }
