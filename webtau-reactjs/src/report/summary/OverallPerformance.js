@@ -16,32 +16,14 @@
 
 import React from 'react'
 
-import '../widgets/Table.css'
-import './ConfigTable.css'
+import PercentilePerformanceTable from './PercentilePerformanceTable'
+import PercentilePerformanceDiagram from './PercentilePerformanceDiagram'
 
-export default function ConfigTable({report}) {
+export default function OverallPerformance({report}) {
     return (
-        <table className="config-table table">
-            <thead>
-            <tr>
-                <th>Key</th>
-                <th>Value</th>
-                <th>Source</th>
-            </tr>
-            </thead>
-            <tbody>
-            {report.config.map(e => <ConfigEntry key={e.key} entry={e}/>)}
-            </tbody>
-        </table>
-    )
-}
-
-function ConfigEntry({entry}) {
-    return (
-        <tr>
-            <td>{entry.key}</td>
-            <td>{entry.value}</td>
-            <td>{entry.source}</td>
-        </tr>
+        <div className="overall-summary-performance-grid">
+            <PercentilePerformanceTable report={report}/>
+            <PercentilePerformanceDiagram report={report}/>
+        </div>
     )
 }

@@ -16,21 +16,21 @@
 
 import React from 'react'
 
-import CallsTiming from './CallsTiming'
-import HttpOperationCoverageSummary from './HttpOperationCoverageSummary'
-import ConfigTable from './ConfigTable'
-
 import TabSelection from '../widgets/TabSelection'
 
-import PercentilePerformanceTable from './PercentilePerformanceTable'
-import PercentilePerformanceDiagram from './PercentilePerformanceDiagram'
+import ConfigTable from './ConfigTable'
+import OverallInfo from './OverallInfo'
+import OverallPerformance from './OverallPerformance'
+
+import OperationsPerformanceTable from './OperationsPerformanceTable'
 
 import './OverallSummary.css'
 
 const summaryTabName = 'Summary'
 const configurationTabName = 'Configuration'
-const performanceTabName = 'Performance'
-const tabNames = [summaryTabName, configurationTabName, performanceTabName]
+const overallPerformanceTabName = 'Overall Performance'
+const operationsPerformanceTabName = 'Operations Performance'
+const tabNames = [summaryTabName, configurationTabName, overallPerformanceTabName, operationsPerformanceTabName]
 
 export default class OverallSummary extends React.Component {
     render() {
@@ -56,23 +56,15 @@ export default class OverallSummary extends React.Component {
         } = this.props
 
         switch (selectedTabName) {
-            case summaryTabName: return (
-                <React.Fragment>
-                    <CallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
-                    <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
-                </React.Fragment>
-            )
+            case summaryTabName: return <OverallInfo report={report}
+                                                     onSwitchToHttpCalls={onSwitchToHttpCalls}
+                                                     onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
 
-            case configurationTabName: return (
-                <ConfigTable report={report}/>
-            )
+            case configurationTabName: return <ConfigTable report={report}/>
 
-            case performanceTabName: return (
-                <div className="overall-summary-performance-grid">
-                    <PercentilePerformanceTable report={report}/>
-                    <PercentilePerformanceDiagram report={report}/>
-                </div>
-            )
+            case overallPerformanceTabName: return <OverallPerformance report={report}/>
+
+            case operationsPerformanceTabName: return <OperationsPerformanceTable report={report}/>
 
             default:
                 return null
