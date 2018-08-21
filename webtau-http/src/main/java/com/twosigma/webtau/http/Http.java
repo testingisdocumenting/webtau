@@ -530,16 +530,15 @@ public class Http {
     private HttpResponse request(String method, String fullUrl,
                                  HttpRequestHeader requestHeader,
                                  HttpRequestBody requestBody) {
+        if (requestHeader == null) {
+            throw new IllegalArgumentException("Request header is null, check your header provider is not returning null");
+        }
+
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
-
-            if (requestHeader == null) {
-                throw new IllegalArgumentException("Request header is null, check your header provider is not returning null");
-            }
-
             requestHeader.forEachProperty(connection::setRequestProperty);
 
             if (! (requestBody instanceof EmptyRequestBody)) {
