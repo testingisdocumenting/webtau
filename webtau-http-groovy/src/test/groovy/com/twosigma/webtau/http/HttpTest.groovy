@@ -31,6 +31,7 @@ import com.twosigma.webtau.http.testserver.TestServerRequestHeaderEcho
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.testserver.TestServerResponseEcho
 import com.twosigma.webtau.http.testserver.TestServerTextResponse
+import com.twosigma.webtau.http.validation.HttpResponseValidator
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
 import org.junit.After
@@ -873,6 +874,15 @@ class HttpTest implements HttpConfiguration {
         } should throwException(HttpException, ~/error during http\.get/)
 
         http.lastValidationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+    }
+
+    @Test
+    void "provides appropriate error when headers are null"() {
+        code {
+            http.get("/end-point", (HttpRequestHeader) null, (HttpResponseValidator) {})
+        } should throwException(HttpException, ~/error during http\.get/)
+
+        http.lastValidationResult.errorMessage.should == ~/java.lang.IllegalArgumentException: Request header is null/
     }
 
     @Override
