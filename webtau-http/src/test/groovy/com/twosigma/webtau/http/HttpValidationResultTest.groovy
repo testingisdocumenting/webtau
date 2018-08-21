@@ -30,6 +30,16 @@ import org.junit.Test
 import static com.twosigma.webtau.Ddjt.equal
 
 class HttpValidationResultTest {
+    private static commonExpectation = [
+            id: ~/httpCall-\d+/,
+            method: 'POST',
+            url: 'http://site/test/url',
+            errorMessage: null,
+            responseStatusCode: 200,
+            mismatches: [],
+            startTime: 12345678,
+            elapsedTime: 100]
+
     @Test
     void "should capture validation results"() {
         def responseAsMap = [childA: 'valueA', childB: 'valueB', childC: 'valueC']
@@ -39,21 +49,15 @@ class HttpValidationResultTest {
         n.get('childA').get().updateCheckLevel(CheckLevel.FuzzyFailed)
         n.get('childB').get().updateCheckLevel(CheckLevel.ExplicitPassed)
 
-        def validationResult = new HttpValidationResult('POST', 'http://site/test/url', null, null)
+        def validationResult = createValidationResult(null)
         validationResult.setResponse(new HttpResponse(textContent: responseAsJson, contentType: 'application/json', statusCode: 200))
-        validationResult.setStartTime(12345678)
-        validationResult.setElapsedTime(100)
-        validationResult.setResponseHeaderNode(new HeaderDataNode())
         validationResult.setResponseBodyNode(n)
 
-        validationResult.toMap().should equal([method: 'POST', url: 'http://site/test/url', responseType: 'application/json',
-                                               responseBody: responseAsJson,
-                                               mismatches: [],
-                                               errorMessage: null,
-                                               responseStatusCode: 200,
-                                               startTime: 12345678,
-                                               elapsedTime: 100,
-                                               responseBodyChecks: [failedPaths: ['root.childA'], passedPaths:['root.childB']]])
+        validationResult.toMap().should == [
+                *: commonExpectation,
+                responseType: 'application/json',
+                responseBody: responseAsJson,
+                responseBodyChecks: [failedPaths: ['root.childA'], passedPaths:['root.childB']]]
     }
 
     @Test
@@ -61,28 +65,28 @@ class HttpValidationResultTest {
         def binaryContent = [1, 2, 3] as byte[]
         def binaryNode = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(binaryContent))
 
-        def validationResult = new HttpValidationResult('POST', 'http://site/test/url', null,
-                BinaryRequestBody.octetStream(binaryContent))
+        def validationResult = createValidationResult(BinaryRequestBody.octetStream(binaryContent))
 
         validationResult.setResponse(new HttpResponse(binaryContent: binaryContent, contentType: 'application/octet-stream', statusCode: 200))
-        validationResult.setStartTime(12345678)
-        validationResult.setElapsedTime(100)
-        validationResult.setResponseHeaderNode(new HeaderDataNode())
         validationResult.setResponseBodyNode(binaryNode)
 
         validationResult.toMap().should == [
-                id: ~/httpCall-\d+/,
-                method: 'POST',
-                url: 'http://site/test/url',
+                *: commonExpectation,
                 requestType: 'application/octet-stream',
                 requestBody: '[binary content]',
                 responseType: 'application/octet-stream',
                 responseBody: '[binary content]',
-                mismatches: [],
-                errorMessage: null,
-                responseStatusCode: 200,
-                startTime: 12345678,
-                elapsedTime: 100,
                 responseBodyChecks: [failedPaths: [], passedPaths: []]]
+    }
+
+    private static HttpValidationResult createValidationResult(requestBody) {
+        def validationResult = new HttpValidationResult('POST', 'http://site/test/url',
+                null, requestBody)
+
+        validationResult.setStartTime(12345678)
+        validationResult.setElapsedTime(100)
+        validationResult.setResponseHeaderNode(new HeaderDataNode())
+
+        return validationResult
     }
 }
