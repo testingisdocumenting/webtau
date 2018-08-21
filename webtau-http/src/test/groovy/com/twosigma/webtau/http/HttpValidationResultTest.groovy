@@ -70,17 +70,19 @@ class HttpValidationResultTest {
         validationResult.setResponseHeaderNode(new HeaderDataNode())
         validationResult.setResponseBodyNode(binaryNode)
 
-        println validationResult.toMap()
-        validationResult.toMap().should equal([method: 'POST', url: 'http://site/test/url',
-                                               requestType: 'application/octet-stream',
-                                               requestBody: '[binary content]',
-                                               responseType: 'application/octet-stream',
-                                               responseBody: '[binary content]',
-                                               mismatches: [],
-                                               errorMessage: null,
-                                               responseStatusCode: 200,
-                                               startTime: 12345678,
-                                               elapsedTime: 100,
-                                               responseBodyChecks: [failedPaths: [], passedPaths: []]])
+        validationResult.toMap().should == [
+                id: ~/httpCall-\d+/,
+                method: 'POST',
+                url: 'http://site/test/url',
+                requestType: 'application/octet-stream',
+                requestBody: '[binary content]',
+                responseType: 'application/octet-stream',
+                responseBody: '[binary content]',
+                mismatches: [],
+                errorMessage: null,
+                responseStatusCode: 200,
+                startTime: 12345678,
+                elapsedTime: 100,
+                responseBodyChecks: [failedPaths: [], passedPaths: []]]
     }
 }
