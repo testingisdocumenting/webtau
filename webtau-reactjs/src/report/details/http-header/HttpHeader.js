@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config;
+import React from 'react'
 
-import com.twosigma.webtau.http.HttpHeader;
+import './HttpHeader.css'
 
-public interface HttpConfiguration {
-    String fullUrl(String url);
-    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given);
+export default function HttpHeader({header}) {
+    return (
+        <div className="http-header">
+            {header.map((entry, idx) => (
+                <React.Fragment key={idx}>
+                    <div className="http-header-key">{entry.key}</div>
+                    <div className="http-header-value">{entry.value}</div>
+                </React.Fragment>
+            ))}
+        </div>
+    )
 }

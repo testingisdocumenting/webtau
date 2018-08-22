@@ -34,6 +34,8 @@ class HttpValidationResultTest {
             id: ~/httpCall-\d+/,
             method: 'POST',
             url: 'http://site/test/url',
+            requestHeader: [],
+            responseHeader: [],
             errorMessage: null,
             responseStatusCode: 200,
             mismatches: [],
@@ -81,7 +83,7 @@ class HttpValidationResultTest {
 
     private static HttpValidationResult createValidationResult(requestBody) {
         def validationResult = new HttpValidationResult('POST', 'http://site/test/url',
-                null, requestBody)
+                new HttpHeader([:]), requestBody)
 
         validationResult.setStartTime(12345678)
         validationResult.setElapsedTime(100)

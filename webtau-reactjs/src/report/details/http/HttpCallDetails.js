@@ -17,12 +17,13 @@
 import React from 'react'
 
 import HttpPayload from './HttpPayload'
-import Card from '../../widgets/Card'
 import TestName from '../TestName'
 
+import Card from '../../widgets/Card'
 import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
-
 import CardWithTime from '../../widgets/CardWithTime'
+
+import HttpCallHeaders from './HttpCallHeaders'
 
 import './HttpCallDetails.css'
 
@@ -50,7 +51,11 @@ function HttpCallDetails({httpCall, reportNavigation}) {
             <Mismatches httpCall={httpCall}/>
             <ErrorMessage httpCall={httpCall}/>
 
-            <div className="request-response">
+            <HttpCallHeaders useCards="true"
+                             request={httpCall.requestHeader}
+                             response={httpCall.responseHeader}/>
+
+            <div className="body-request-response">
                 <Request httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload}/>
                 <Response httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload}/>
             </div>
@@ -98,7 +103,7 @@ function ErrorMessage({httpCall}) {
 
 function Request({httpCall, onHttpPayloadZoomIn}) {
     if (! httpCall.requestBody) {
-        return null
+        return <div/>
     }
 
     return (
@@ -115,7 +120,7 @@ function Request({httpCall, onHttpPayloadZoomIn}) {
 
 function Response({httpCall, onHttpPayloadZoomIn}) {
     if (! httpCall.responseBody) {
-        return null
+        return <div/>
     }
 
     return (

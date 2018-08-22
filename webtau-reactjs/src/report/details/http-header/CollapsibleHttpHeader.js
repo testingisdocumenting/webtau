@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http
+import React from 'react'
+import HttpHeader from './HttpHeader'
 
-import org.junit.Test
-
-class HttpRequestHeaderTest {
-    @Test
-    void "renders header as key = value"() {
-        def header = new HttpRequestHeader(['Content-Type': 'application/json', 'Authorization': 'Bearer'])
-        header.toString().should == 'Content-Type: application/json\n' +
-            'Authorization: Bearer'
+export default function CollapsibleHttpHeader({label, header, isCollapsed, onToggle}) {
+    if (isCollapsed) {
+        return (
+            <div className="collapsed-http-header" onClick={onToggle}>
+                {label} (click to expand)
+            </div>
+        )
     }
+
+    return (
+        <div className="uncollapsed-http-header">
+            <div className="http-header-label" onClick={onToggle}>{label}</div>
+            <HttpHeader header={header}/>
+        </div>
+    )
 }

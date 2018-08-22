@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.http.config;
 
-import com.twosigma.webtau.http.HttpRequestHeader;
+import com.twosigma.webtau.http.HttpHeader;
 import com.twosigma.webtau.utils.ServiceUtils;
 
 import java.util.Collections;
@@ -59,12 +59,12 @@ public class HttpConfigurations {
         return finalUrl;
     }
 
-    public static HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
+    public static HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
         if (! enabled.get()) {
             return given;
         }
 
-        HttpRequestHeader finalHeaders = given;
+        HttpHeader finalHeaders = given;
         for (HttpConfiguration configuration : configurations) {
             finalHeaders = configuration.fullHeader(fullUrl, passedUrl, finalHeaders);
         }

@@ -27,11 +27,11 @@ class HttpExtensions {
         return http.get(url, closureToHttpResponseValidator(validation))
     }
 
-    static def get(Http http, String url, HttpRequestHeader header, Closure validation) {
+    static def get(Http http, String url, HttpHeader header, Closure validation) {
         return http.get(url, header, closureToHttpResponseValidator(validation))
     }
 
-    static def get(Http http, String url, Map<String, ?> queryParams, HttpRequestHeader header, Closure validation) {
+    static def get(Http http, String url, Map<String, ?> queryParams, HttpHeader header, Closure validation) {
         return http.get(url, new HttpQueryParams(queryParams), header, closureToHttpResponseValidator(validation))
     }
 
@@ -39,7 +39,7 @@ class HttpExtensions {
         return http.get(url, new HttpQueryParams(queryParams), closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
+    static def post(Http http, String url, HttpHeader header, Map<String, Object> requestBody, Closure validation) {
         return http.post(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
@@ -47,7 +47,7 @@ class HttpExtensions {
         return http.post(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, HttpRequestHeader header, byte[] requestBody, Closure validation) {
+    static def post(Http http, String url, HttpHeader header, byte[] requestBody, Closure validation) {
         return http.post(url, header, requestBody, closureToHttpResponseValidator(validation))
     }
 
@@ -59,11 +59,11 @@ class HttpExtensions {
         return http.post(url, closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, HttpRequestHeader header, Closure validation) {
+    static def post(Http http, String url, HttpHeader header, Closure validation) {
         return http.post(url, header, closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, HttpRequestHeader header, HttpRequestBody requestBody, Closure validation) {
+    static def post(Http http, String url, HttpHeader header, HttpRequestBody requestBody, Closure validation) {
         return http.post(url, header, requestBody, closureToHttpResponseValidator(validation))
     }
 
@@ -75,7 +75,7 @@ class HttpExtensions {
         http.post(url, new JsonRequestBody(requestBody))
     }
 
-    static def put(Http http, String url, HttpRequestHeader header, Map<String, Object> requestBody, Closure validation) {
+    static def put(Http http, String url, HttpHeader header, Map<String, Object> requestBody, Closure validation) {
         return http.put(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
@@ -83,7 +83,7 @@ class HttpExtensions {
         return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
-    static def put(Http http, String url, HttpRequestHeader header, byte[] requestBody, Closure validation) {
+    static def put(Http http, String url, HttpHeader header, byte[] requestBody, Closure validation) {
         return http.put(url, header, requestBody, closureToHttpResponseValidator(validation))
     }
 
@@ -95,7 +95,7 @@ class HttpExtensions {
         return http.put(url, closureToHttpResponseValidator(validation))
     }
 
-    static def put(Http http, String url, HttpRequestHeader header, Closure validation) {
+    static def put(Http http, String url, HttpHeader header, Closure validation) {
         return http.put(url, header, closureToHttpResponseValidator(validation))
     }
 
@@ -103,7 +103,7 @@ class HttpExtensions {
         return http.delete(url, closureToHttpResponseValidator(validation))
     }
 
-    static def delete(Http http, String url, HttpRequestHeader header, Closure validation) {
+    static def delete(Http http, String url, HttpHeader header, Closure validation) {
         return http.delete(url, header, closureToHttpResponseValidator(validation))
     }
 

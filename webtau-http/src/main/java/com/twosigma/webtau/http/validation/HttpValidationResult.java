@@ -17,8 +17,8 @@
 package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.data.traceable.CheckLevel;
+import com.twosigma.webtau.http.HttpHeader;
 import com.twosigma.webtau.http.HttpRequestBody;
-import com.twosigma.webtau.http.HttpRequestHeader;
 import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datacoverage.TraceableValueConverter;
@@ -41,7 +41,7 @@ public class HttpValidationResult implements TestStepPayload {
     private final String id;
     private final String fullUrl;
     private final String requestMethod;
-    private HttpRequestHeader requestHeader;
+    private HttpHeader requestHeader;
     private final HttpRequestBody requestBody;
 
     private final List<String> mismatches;
@@ -55,7 +55,7 @@ public class HttpValidationResult implements TestStepPayload {
 
     public HttpValidationResult(String requestMethod,
                                 String fullUrl,
-                                HttpRequestHeader requestHeader,
+                                HttpHeader requestHeader,
                                 HttpRequestBody requestBody) {
         this.id = generateId();
         this.requestMethod = requestMethod;
@@ -69,7 +69,7 @@ public class HttpValidationResult implements TestStepPayload {
         return id;
     }
 
-    public HttpRequestHeader getRequestHeader() {
+    public HttpHeader getRequestHeader() {
         return requestHeader;
     }
 
@@ -194,6 +194,8 @@ public class HttpValidationResult implements TestStepPayload {
         result.put("errorMessage", errorMessage);
         result.put("mismatches", mismatches);
 
+        result.put("requestHeader", requestHeader.redactSecrets().toMap());
+
         if (requestBody != null) {
             result.put("requestType", requestBody.type());
             result.put("requestBody", requestBody.isBinary() ? BINARY_CONTENT_PLACEHOLDER : requestBody.asString());
@@ -202,6 +204,7 @@ public class HttpValidationResult implements TestStepPayload {
         if (response != null) {
             result.put("responseType", response.getContentType());
             result.put("responseStatusCode", response.getStatusCode());
+            result.put("responseHeader", response.getHeader().redactSecrets().toMap());
             result.put("responseBody", response.isBinary() ? BINARY_CONTENT_PLACEHOLDER : response.getTextContent());
         }
 

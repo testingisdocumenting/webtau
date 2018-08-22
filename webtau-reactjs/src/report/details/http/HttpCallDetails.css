@@ -21,7 +21,7 @@
     padding: 5px 10px 10px 10px;
 }
 
-.http-call-details > .request-response {
+.http-call-details > .body-request-response {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 10px;
@@ -33,6 +33,7 @@
     grid-gap: 10px;
 }
 
+.http-call-header,
 .http-call-details-url-test-name,
 .http-call-details-mismatches,
 .http-call-details-request-details,

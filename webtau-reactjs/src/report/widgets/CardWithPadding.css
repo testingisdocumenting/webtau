@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config;
-
-import com.twosigma.webtau.http.HttpHeader;
-
-public interface HttpConfiguration {
-    String fullUrl(String url);
-    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given);
+.card-with-padding {
+    padding: 15px;
 }

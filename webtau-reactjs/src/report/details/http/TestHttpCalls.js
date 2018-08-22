@@ -21,6 +21,8 @@ import HttpPayload from './HttpPayload'
 
 import moment from 'moment'
 
+import HttpCallHeaders from './HttpCallHeaders'
+
 import './TestHttpCalls.css'
 import '../../widgets/Table.css'
 
@@ -118,9 +120,14 @@ function HttpCallDetails({httpCall, reportNavigation}) {
                 <Mismatches httpCall={httpCall}/>
                 <ErrorMessage httpCall={httpCall}/>
 
-                <div className="request-response">
-                    <Request httpCall={httpCall} reportNavigation={reportNavigation}/>
-                    <Response httpCall={httpCall} reportNavigation={reportNavigation}/>
+                <div className="http-call-header-body">
+                    <HttpCallHeaders request={httpCall.requestHeader}
+                                     response={httpCall.responseHeader}/>
+
+                    <div className="body-request-response">
+                        <Request httpCall={httpCall} reportNavigation={reportNavigation}/>
+                        <Response httpCall={httpCall} reportNavigation={reportNavigation}/>
+                    </div>
                 </div>
             </td>
         </tr>
@@ -147,7 +154,7 @@ function ErrorMessage({httpCall}) {
 
 function Request({httpCall, reportNavigation}) {
     if (! httpCall.requestBody) {
-        return null
+        return <div/>
     }
 
     return (
