@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.cfg
 
-import com.twosigma.webtau.http.HttpRequestHeader
+import com.twosigma.webtau.http.HttpHeader
 import com.twosigma.webtau.http.config.HttpConfiguration
 import com.twosigma.webtau.http.config.HttpConfigurations
 
@@ -38,13 +38,13 @@ class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
     }
 
     @Override
-    HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
+    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
         if (!headerProvider.get()) {
             return given
         }
 
         return HttpConfigurations.withDisabledConfigurations {
-            return headerProvider.get().call(fullUrl, passedUrl, given) as HttpRequestHeader
+            return headerProvider.get().call(fullUrl, passedUrl, given) as HttpHeader
         }
     }
 }

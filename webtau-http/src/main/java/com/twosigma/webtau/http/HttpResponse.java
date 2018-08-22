@@ -27,10 +27,10 @@ public class HttpResponse {
     private String contentType;
 
     private int statusCode;
-    private Map<String, String> header;
+    private HttpHeader header;
 
     public HttpResponse() {
-        header = new HashMap<>();
+        header = new HttpHeader();
     }
 
     public String getTextContent() {
@@ -93,11 +93,11 @@ public class HttpResponse {
         this.contentType = contentType;
     }
 
-    public Map<String, String> getHeader() {
+    public HttpHeader getHeader() {
         return header;
     }
 
     public void addHeader(String key, String value) {
-        header.put(key, value);
+        header.add(key, value);
     }
 }

@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config;
+import React from 'react'
 
-import com.twosigma.webtau.http.HttpHeader;
+import Card from './Card'
 
-public interface HttpConfiguration {
-    String fullUrl(String url);
-    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given);
+import './CardWithPadding.css'
+
+function CardWithPadding({onClick, width, children}) {
+    return (
+        <Card className="card-with-padding" onClick={onClick} width={width}>
+            {children}
+        </Card>
+    )
 }
+
+export default CardWithPadding

@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.openapi
 
-import com.twosigma.webtau.http.HttpRequestHeader
+import com.twosigma.webtau.http.HttpHeader
 import com.twosigma.webtau.http.HttpResponse
 import com.twosigma.webtau.http.json.JsonRequestBody
 import com.twosigma.webtau.http.validation.HttpValidationHandlers
@@ -74,7 +74,7 @@ class OpenApiResponseValidatorTest {
 
     private static HttpValidationResult createValidationResult() {
         def validationResult = new HttpValidationResult('GET', '/customer/2',
-                new HttpRequestHeader([:]), new JsonRequestBody([:]))
+                new HttpHeader([:]), new JsonRequestBody([:]))
         validationResult.setResponse(response())
         validationResult
     }

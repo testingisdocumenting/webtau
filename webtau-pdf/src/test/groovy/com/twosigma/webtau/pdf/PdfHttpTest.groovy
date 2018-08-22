@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.pdf
 
-import com.twosigma.webtau.http.HttpRequestHeader
+import com.twosigma.webtau.http.HttpHeader
 import com.twosigma.webtau.http.config.HttpConfiguration
 import com.twosigma.webtau.http.config.HttpConfigurations
 import com.twosigma.webtau.http.testserver.TestServer
@@ -82,7 +82,7 @@ class PdfHttpTest implements HttpConfiguration {
     }
 
     @Override
-    HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
+    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
         return given
     }
 }

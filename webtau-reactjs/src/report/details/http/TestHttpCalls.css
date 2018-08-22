@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-.test-http-call-details .request-response {
+.http-call-header-body {
+    display: grid;
+    grid-gap: 20px;
+}
+
+.test-http-call-details .body-request-response {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 20px;
 }
 
-.test-http-call-details .request-response > .request,
-.test-http-call-details .request-response > .response {
+.test-http-call-details .body-request-response > .request,
+.test-http-call-details .body-request-response > .response {
     overflow-x: auto;
 }
 

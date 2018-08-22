@@ -34,7 +34,7 @@ class HttpDataNodes {
     private static final Function<String, Object> asIs = (v) -> v;
 
     private final HttpResponse response;
-    private final Map<String, String> responseHeader;
+    private final HttpHeader responseHeader;
 
     private Map<String, Object> headerData;
 
@@ -65,8 +65,7 @@ class HttpDataNodes {
         headerData.put("statusCode", response.getStatusCode());
         headerData.put("contentType", response.getContentType());
 
-        Map<String, String> responseHeader = response.getHeader();
-        responseHeader.forEach(headerData::put);
+        responseHeader.forEachProperty(headerData::put);
 
         addCamelCaseVersion("Location", "location", asIs);
         addCamelCaseVersion("Content-Location", "contentLocation", asIs);

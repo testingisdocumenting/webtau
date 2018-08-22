@@ -879,7 +879,7 @@ class HttpTest implements HttpConfiguration {
     @Test
     void "provides appropriate error when headers are null"() {
         code {
-            http.get("/end-point", (HttpRequestHeader) null, (HttpResponseValidator) {})
+            http.get("/end-point", (HttpHeader) null, (HttpResponseValidator) {})
         } should throwException(HttpException, ~/error during http\.get/)
 
         http.lastValidationResult.errorMessage.should == ~/java.lang.IllegalArgumentException: Request header is null/
@@ -895,7 +895,7 @@ class HttpTest implements HttpConfiguration {
     }
 
     @Override
-    HttpRequestHeader fullHeader(String fullUrl, String passedUrl, HttpRequestHeader given) {
+    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
         return given
     }
 

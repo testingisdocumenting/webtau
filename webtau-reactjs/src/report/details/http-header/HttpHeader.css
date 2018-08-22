@@ -14,11 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config;
+.http-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 5px 20px;
 
-import com.twosigma.webtau.http.HttpHeader;
+    margin-top: 10px;
+}
 
-public interface HttpConfiguration {
-    String fullUrl(String url);
-    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given);
+.http-header-key {
+}
+
+.collapsed-http-header,
+.http-header-label {
+    color: #4f8fb8;
+    cursor: pointer;
+    user-select: none;
 }
