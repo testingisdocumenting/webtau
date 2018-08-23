@@ -23,6 +23,7 @@ import com.twosigma.webtau.http.datanode.NullDataNode;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class HeaderDataNode implements DataNode {
     private final DataNode dataNode;
@@ -38,17 +39,17 @@ public class HeaderDataNode implements DataNode {
 
     @Override
     public DataNode get(String name) {
-        String matchingKey = findMatchingCaseInsensitiveKey(name);
+        Optional<String> matchingKey = findMatchingCaseInsensitiveKey(name);
 
-        return matchingKey.isEmpty() ?
-                new NullDataNode(id().child(name)) :
-                dataNode.get(matchingKey);
+        return matchingKey
+                .map(dataNode::get)
+                .orElse(new NullDataNode(id().child(name)));
     }
 
     @Override
     public boolean has(String name) {
-        String matchingKey = findMatchingCaseInsensitiveKey(name);
-        return !matchingKey.isEmpty();
+        Optional<String> matchingKey = findMatchingCaseInsensitiveKey(name);
+        return matchingKey.isPresent();
     }
 
     @Override
@@ -100,11 +101,10 @@ public class HeaderDataNode implements DataNode {
         return dataNode.get("statusCode");
     }
 
-    private String findMatchingCaseInsensitiveKey(String name) {
+    private Optional<String> findMatchingCaseInsensitiveKey(String name) {
         String lowerCaseName = name.toLowerCase();
         return dataNode.asMap().keySet().stream()
                 .filter(k -> k.toLowerCase().equals(lowerCaseName))
-                .findFirst()
-                .orElse("");
+                .findFirst();
     }
 }
