@@ -19,9 +19,11 @@ package com.twosigma.webtau.http.validation;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeId;
+import com.twosigma.webtau.http.datanode.NullDataNode;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class HeaderDataNode implements DataNode {
     private final DataNode dataNode;
@@ -37,12 +39,17 @@ public class HeaderDataNode implements DataNode {
 
     @Override
     public DataNode get(String name) {
-        return dataNode.get(name);
+        Optional<String> matchingKey = findMatchingCaseInsensitiveKey(name);
+
+        return matchingKey
+                .map(dataNode::get)
+                .orElse(new NullDataNode(id().child(name)));
     }
 
     @Override
     public boolean has(String name) {
-        return dataNode.has(name);
+        Optional<String> matchingKey = findMatchingCaseInsensitiveKey(name);
+        return matchingKey.isPresent();
     }
 
     @Override
@@ -92,5 +99,12 @@ public class HeaderDataNode implements DataNode {
 
     public DataNode statusCode() {
         return dataNode.get("statusCode");
+    }
+
+    private Optional<String> findMatchingCaseInsensitiveKey(String name) {
+        String lowerCaseName = name.toLowerCase();
+        return dataNode.asMap().keySet().stream()
+                .filter(k -> k != null && k.toLowerCase().equals(lowerCaseName))
+                .findFirst();
     }
 }
