@@ -104,7 +104,7 @@ public class HeaderDataNode implements DataNode {
     private Optional<String> findMatchingCaseInsensitiveKey(String name) {
         String lowerCaseName = name.toLowerCase();
         return dataNode.asMap().keySet().stream()
-                .filter(k -> k.toLowerCase().equals(lowerCaseName))
+                .filter(k -> k != null && k.toLowerCase().equals(lowerCaseName))
                 .findFirst();
     }
 }
