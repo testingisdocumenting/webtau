@@ -31,7 +31,20 @@
             <resource>
                 <directory>${project.basedir}/pre-filter</directory>
                 <filtering>true</filtering>
+                <excludes>
+                    <exclude>project.basedir</exclude>
+                </excludes>
             </resource>
         </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <escapeString>\</escapeString>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

@@ -10,6 +10,7 @@ REST
     complex-types
     openAPI-spec
     report
+    maven
     matchers
 UI
     getting-started
