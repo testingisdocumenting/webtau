@@ -31,9 +31,6 @@
             <resource>
                 <directory>${project.basedir}/pre-filter</directory>
                 <filtering>true</filtering>
-                <excludes>
-                    <exclude>project.basedir</exclude>
-                </excludes>
             </resource>
         </resources>
 
