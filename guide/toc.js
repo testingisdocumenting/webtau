@@ -263,6 +263,23 @@ toc = [
       },
       {
         "sectionTitle": "REST",
+        "pageTitle": "Maven",
+        "pageMeta": {},
+        "fileName": "maven",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Dependency",
+            "id": "dependency"
+          },
+          {
+            "title": "Plugin",
+            "id": "plugin"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "REST",
         "pageTitle": "Matchers",
         "pageMeta": {
           "type": [

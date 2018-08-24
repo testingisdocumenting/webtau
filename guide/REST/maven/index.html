@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Maven</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/maven">Maven</a><div class="page-sections"><div class="page-section selected"><a href="#dependency">Dependency</a></div><div class="page-section"><a href="#plugin">Plugin</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Maven</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Fri Aug 24 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/maven.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="dependency">Dependency<a href="#dependency"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners).</span></div><div class="tabs-area"><div class="tabs"><div class="tabs-names-area"><div class="tabs-names content-block"><span class="tab-name active">Groovy</span><span class="tab-name">Java</span></div></div></div><div class="tabs-content"><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.twosigma.webtau<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>webtau-groovy<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>0.29<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="plugin">Plugin<a href="#plugin"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Use maven plugin to run pure groovy tests as part of your build.</span></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>plugin</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>com.twosigma.webtau<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>webtau-maven-plugin<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>0.29<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>executions</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>execution</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>phase</span><span class="token punctuation">&gt;</span></span>test<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>phase</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>goals</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>goal</span><span class="token punctuation">&gt;</span></span>run<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>goal</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>goals</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>execution</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>executions</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>workingDir</span><span class="token punctuation">&gt;</span></span>${project.basedir}/src/main/groovy<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>workingDir</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>env</span><span class="token punctuation">&gt;</span></span>integration<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>env</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>url</span><span class="token punctuation">&gt;</span></span>http://optional-base-url<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>url</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tests</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>directory</span><span class="token punctuation">&gt;</span></span>${project.basedir}/src/main/groovy<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>directory</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>includes</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>include</span><span class="token punctuation">&gt;</span></span>scenarios/*.groovy<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>include</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>includes</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tests</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line">    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">&gt;</span></span>
+</span><span class="code-line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>plugin</span><span class="token punctuation">&gt;</span></span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Use </span><code>env</code><span class="simple-text"> to specify </span><a href="/webtau/guide/configuration/environments" target="_blank"><span class="simple-text">environment to use</span></a><span class="simple-text">.</span><span> </span><span class="simple-text">Alternatively you can use </span><code>url</code><span class="simple-text"> to override base url.</span></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Report<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Matchers<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "Dependency",
+        "id": "dependency",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners).",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "tabsContent": [
+              {
+                "name": "Groovy",
+                "content": [
+                  {
+                    "lang": "xml",
+                    "maxLineLength": 42,
+                    "tokens": [
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "dependency"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n    ",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "groupId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "com.twosigma.webtau",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "groupId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n    ",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "artifactId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "webtau-groovy",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "artifactId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n    ",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "version"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "0.29",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "version"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "dependency"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      }
+                    ],
+                    "type": "Snippet"
+                  }
+                ]
+              },
+              {
+                "name": "Java",
+                "content": [
+                  {
+                    "lang": "xml",
+                    "maxLineLength": 42,
+                    "tokens": [
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "dependency"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n    ",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "groupId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "com.twosigma.webtau",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "groupId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n    ",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "artifactId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "webtau",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "artifactId"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n    ",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c"
+                              },
+                              "version"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "0.29",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "version"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      },
+                      "\n",
+                      {
+                        "type": "tag",
+                        "content": [
+                          {
+                            "type": "tag",
+                            "content": [
+                              {
+                                "type": "punctuation",
+                                "content": "\u003c/"
+                              },
+                              "dependency"
+                            ]
+                          },
+                          {
+                            "type": "punctuation",
+                            "content": "\u003e"
+                          }
+                        ]
+                      }
+                    ],
+                    "type": "Snippet"
+                  }
+                ]
+              }
+            ],
+            "type": "Tabs"
+          }
+        ]
+      },
+      {
+        "title": "Plugin",
+        "id": "plugin",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Use maven plugin to run pure groovy tests as part of your build.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "xml",
+            "maxLineLength": 69,
+            "tokens": [
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "plugin"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n    ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "groupId"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "com.twosigma.webtau",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "groupId"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n    ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "artifactId"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "webtau-maven-plugin",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "artifactId"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n    ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "version"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "0.29",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "version"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n    ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "executions"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n        ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "execution"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n            ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "phase"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "test",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "phase"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n            ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "goals"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n                ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "goal"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "run",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "goal"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n            ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "goals"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n        ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "execution"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n    ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "executions"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n    ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "configuration"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n        ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "workingDir"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "${project.basedir}/src/main/groovy",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "workingDir"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n        ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "env"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "integration",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "env"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n        ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "url"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "http://optional-base-url",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "url"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n        ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "tests"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n            ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "directory"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "${project.basedir}/src/main/groovy",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "directory"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n            ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "includes"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n                ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c"
+                      },
+                      "include"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "scenarios/*.groovy",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "include"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n            ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "includes"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n        ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "tests"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n    ",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "configuration"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              },
+              "\n",
+              {
+                "type": "tag",
+                "content": [
+                  {
+                    "type": "tag",
+                    "content": [
+                      {
+                        "type": "punctuation",
+                        "content": "\u003c/"
+                      },
+                      "plugin"
+                    ]
+                  },
+                  {
+                    "type": "punctuation",
+                    "content": "\u003e"
+                  }
+                ]
+              }
+            ],
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "env",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to specify ",
+                "type": "SimpleText"
+              },
+              {
+                "url": "/webtau/guide/configuration/environments",
+                "isFile": false,
+                "type": "Link",
+                "content": [
+                  {
+                    "text": "environment to use",
+                    "type": "SimpleText"
+                  }
+                ]
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Alternatively you can use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "url",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to override base url.",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1535114675000,
+    "tocItem": {
+      "sectionTitle": "REST",
+      "pageTitle": "Maven",
+      "pageMeta": {},
+      "fileName": "maven",
+      "dirName": "REST",
+      "pageSectionIdTitles": [
+        {
+          "title": "Dependency",
+          "id": "dependency"
+        },
+        {
+          "title": "Plugin",
+          "id": "plugin"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>

@@ -5,8 +5,7 @@
     <text>
       <text>WebTau ( Web   T est  au tomation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("simple get") {
     http.get("/weather") {
@@ -14,9 +13,8 @@ scenario("simple get") {
     }
 } package scenarios.ui
 
-
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
-import static pages.Pages.getSearch
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
 
 scenario("search by specific query") {
     search.submit("search this")
@@ -31,8 +29,7 @@ scenario("search by specific query") {
     <text>
       <text>package scenarios.rest
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario("simple get") {
     http.get("/weather") {
@@ -323,10 +320,10 @@ url = "http://localhost:8080"
 httpHeaderProvider = Auth.&amp;authHeader Where  Auth.&amp;authHeader  is implemented as follows: package scenarios.rest.headers.auth
 
 import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.http.HttpRequestHeader
+import com.twosigma.webtau.http.HttpHeader
 
 class Auth {
-    static HttpRequestHeader authHeader(String fullUrl, String url, HttpRequestHeader original) {
+    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {
         ConsoleOutputs.out('auth header injection point')
         return original.merge([Authorization: 'Bearer &lt;token>'])
     }
@@ -568,6 +565,53 @@ class Report {
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/maven#dependency</url>
+    <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
+    <text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency>
+    &lt;groupId>com.twosigma.webtau&lt;/groupId>
+    &lt;artifactId>webtau-groovy&lt;/artifactId>
+    &lt;version>0.29&lt;/version>
+&lt;/dependency> Java &lt;dependency>
+    &lt;groupId>com.twosigma.webtau&lt;/groupId>
+    &lt;artifactId>webtau&lt;/artifactId>
+    &lt;version>0.29&lt;/version>
+&lt;/dependency></text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/maven#plugin</url>
+    <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
+    <text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin>
+    &lt;groupId>com.twosigma.webtau&lt;/groupId>
+    &lt;artifactId>webtau-maven-plugin&lt;/artifactId>
+    &lt;version>0.29&lt;/version>
+    &lt;executions>
+        &lt;execution>
+            &lt;phase>test&lt;/phase>
+            &lt;goals>
+                &lt;goal>run&lt;/goal>
+            &lt;/goals>
+        &lt;/execution>
+    &lt;/executions>
+    &lt;configuration>
+        &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir>
+        &lt;env>integration&lt;/env>
+        &lt;url>http://optional-base-url&lt;/url>
+        &lt;tests>
+            &lt;directory>${project.basedir}/src/main/groovy&lt;/directory>
+            &lt;includes>
+                &lt;include>scenarios/*.groovy&lt;/include>
+            &lt;/includes>
+        &lt;/tests>
+    &lt;/configuration>
+&lt;/plugin> Use  env  to specify  configuration/environments environment to use . Alternatively you can use  url  to override base url.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/matchers#response-mapping</url>
     <fullTitle>WebTau: Matchers, Response Mapping [REST]</fullTitle>
     <text>
@@ -634,9 +678,7 @@ myValue.shouldBe > 10
     <text>
       <text>package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario('simple open') {
     browser.open("/search")
@@ -684,9 +726,7 @@ scenario('simple open') {
     <text>
       <text>Consider a simple search page. Enter value, hit enter, see results. Here is simple test. package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 scenario('search by specific query') {
     browser.open('/search')
@@ -697,9 +737,7 @@ scenario('search by specific query') {
     $('#results .result').count.shouldBe > 1
 } In the example  $('#results .result').count  represents the number of elements matching the css selector. Let's extract it. package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.browser
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 def searchBox = $('#search-box')
 def numberOfResults = searchBox.count
