@@ -1,0 +1,5 @@
+<dependency>
+    <groupId>com.twosigma.webtau</groupId>
+    <artifactId>webtau</artifactId>
+    <version>${project.version}</version>
+</dependency>

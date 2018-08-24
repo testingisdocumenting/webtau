@@ -1,0 +1,24 @@
+<plugin>
+    <groupId>com.twosigma.webtau</groupId>
+    <artifactId>webtau-maven-plugin</artifactId>
+    <version>${project.version}</version>
+    <executions>
+        <execution>
+            <phase>test</phase>
+            <goals>
+                <goal>run</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <workingDir>\${project.basedir}/src/main/groovy</workingDir>
+        <env>integration</env>
+        <url>http://optional-base-url</url>
+        <tests>
+            <directory>\${project.basedir}/src/main/groovy</directory>
+            <includes>
+                <include>scenarios/*.groovy</include>
+            </includes>
+        </tests>
+    </configuration>
+</plugin>
