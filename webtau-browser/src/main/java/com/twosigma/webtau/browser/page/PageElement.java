@@ -24,13 +24,18 @@ import com.twosigma.webtau.reporter.TokenizedMessage;
 import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public interface PageElement extends ActualValueExpectations {
-    PageElement all();
     ElementValue<Integer> getCount();
+
     WebElement findElement();
-    ElementValue elementValue();
+    List<WebElement> findElements();
+
+    ElementValue<String> elementValue();
+    ElementValue<List<String>> elementValues();
+
     void setValue(Object value);
     void sendKeys(String keys);
     void click();
@@ -43,26 +48,26 @@ public interface PageElement extends ActualValueExpectations {
 
     @Override
     default void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(this, this.elementValue(),  StepReportOptions.REPORT_ALL,
+        ValueMatcherExpectationSteps.shouldStep(this, this,  StepReportOptions.REPORT_ALL,
                 this.describe(), valueMatcher);
     }
 
     @Override
     default void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(this, this.elementValue(),  StepReportOptions.REPORT_ALL,
+        ValueMatcherExpectationSteps.shouldNotStep(this, this,  StepReportOptions.REPORT_ALL,
                 this.describe(), valueMatcher);
     }
 
     @Override
     default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitStep(this, this.elementValue(), StepReportOptions.REPORT_ALL,
+        ValueMatcherExpectationSteps.waitStep(this, this, StepReportOptions.REPORT_ALL,
                 this.describe(), valueMatcher,
                 expectationTimer, tickMillis, timeOutMillis);
     }
 
     @Override
     default void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitNotStep(this, this.elementValue(), StepReportOptions.REPORT_ALL,
+        ValueMatcherExpectationSteps.waitNotStep(this, this, StepReportOptions.REPORT_ALL,
                 this.describe(), valueMatcher,
                 expectationTimer, tickMillis, timeOutMillis);
     }

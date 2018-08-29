@@ -16,18 +16,35 @@
 
 <html>
 <body>
-<div id="menu">
-    <ul>
-        <li>
-            <a href="/book">book</a>
-        </li>
-        <li>
-            <a href="/orders">orders</a>
-        </li>
-        <li>
-            <a href="/help">help</a>
-        </li>
-    </ul>
+<div id="simple-case">
+    <div>
+        <div id="welcome">hello</div>
+        <div id="menu">
+            <ul>
+                <li>
+                    <a href="/book">book</a>
+                </li>
+                <li>
+                    <a href="/orders">orders</a>
+                </li>
+                <li>
+                    <a href="/help">help</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="deep-nested-case">
+    <div>
+        <div id="nested-menu">
+            <div class="section">one</div>
+            <div class="section">
+                <div class="section">two-a</div>
+                <div class="section">two-b</div>
+            </div>
+            <div class="section">three</div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

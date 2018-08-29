@@ -26,9 +26,11 @@ import com.twosigma.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
@@ -52,13 +54,6 @@ public class GenericPageElement implements PageElement {
         this.countValue = new ElementValue<>(this, "count", this::getNumberOfElements);
     }
 
-    public PageElement all() {
-        GenericPageElement element = new GenericPageElement(driver, path);
-        element.isMultipleElements = true;
-
-        return element;
-    }
-
     @Override
     public ElementValue<Integer> getCount() {
         return countValue;
@@ -76,15 +71,26 @@ public class GenericPageElement implements PageElement {
     }
 
     public WebElement findElement() {
+        List<WebElement> webElements = findElements();
+        return webElements.get(0);
+    }
+
+    @Override
+    public List<WebElement> findElements() {
         List<WebElement> webElements = path.find(driver);
         return webElements.isEmpty() ?
-                new NullWebElement(path.toString()) :
-                webElements.get(0);
+                Collections.singletonList(createNullElement()):
+                webElements;
     }
 
     @Override
     public ElementValue<String> elementValue() {
         return elementValue;
+    }
+
+    @Override
+    public ElementValue<List<String>> elementValues() {
+        return new ElementValue<>(this, "all values", this::getUnderlyingValues);
     }
 
     @Override
@@ -144,7 +150,17 @@ public class GenericPageElement implements PageElement {
     }
 
     private String getUnderlyingValue() {
-        WebElement webElement = findElement();
+        return extractValue(findElement());
+    }
+
+    private List<String> getUnderlyingValues() {
+        List<WebElement> webElements = findElements();
+        return webElements.stream()
+                .map(this::extractValue)
+                .collect(Collectors.toList());
+    }
+
+    private String extractValue(WebElement webElement) {
         String tagName = webElement.getTagName().toUpperCase();
         return (tagName.equals("INPUT") || tagName.equals("TEXTAREA")) ?
                 webElement.getAttribute("value") : webElement.getText();
@@ -171,5 +187,9 @@ public class GenericPageElement implements PageElement {
         newPath.addFilter(filter);
 
         return new GenericPageElement(driver, newPath);
+    }
+
+    private NullWebElement createNullElement() {
+        return new NullWebElement(path.toString());
     }
 }

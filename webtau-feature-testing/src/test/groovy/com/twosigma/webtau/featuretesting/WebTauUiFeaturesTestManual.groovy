@@ -36,6 +36,7 @@ class WebTauUiFeaturesTestManual {
 
         def testServer = testRunner.testServer
         testServer.registerGet("/search", htmlResponse('search.html'))
+        testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
 
         testRunner.startTestServer()
     }
@@ -59,6 +60,39 @@ class WebTauUiFeaturesTestManual {
     @Test
     void "lazy declaration"() {
         runCli('basicDeclareFirst.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "finders and filters"() {
+        runCli('findersFilters.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "finders and filters extract snippets"() {
+        extractSnippets(
+                'doc-artifacts/snippets/finders-filters',
+                'examples/scenarios/ui/findersFilters.groovy', [
+                'byCss.groovy': 'by css id',
+                'byCssFirstMatched.groovy': 'by css first matched',
+                'byCssAndFilterByNumber.groovy': 'by css and filter by number',
+                'byCssAndFilterByText.groovy': 'by css and filter by text',
+                'byCssAndFilterByRegexp.groovy': 'by css and filter by regexp',
+        ])
+
+        FeaturesDocArtifactsExtractor.extractAndSaveHtml('finders-and-filters.html', '#simple-case',
+                'finders-and-filters-flat-menu')
+    }
+
+    private static void extractSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
+        def artifactsRoot = Paths.get(extractedPath)
+
+        def script = FileUtils.fileTextContent(Paths.get(inputName))
+
+        scenarioToOutputFile.each { outputFileName, scenario ->
+            def extracted = FeaturesDocArtifactsExtractor.extractScenarioBody(script, scenario)
+            FileUtils.writeTextContent(artifactsRoot.resolve(outputFileName), extracted)
+        }
+
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

@@ -1,0 +1,39 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open browser",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css id",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css first matched",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css all matched",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css and filter by number",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css and filter by text",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css and filter by regexp",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  } ],
+  "exitCode" : 0
+}

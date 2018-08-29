@@ -22,6 +22,8 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
+import java.util.List;
+
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
 public class PageElementCompareToHandler implements CompareToHandler {
@@ -33,7 +35,10 @@ public class PageElementCompareToHandler implements CompareToHandler {
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         PageElement actualPageElement = (PageElement) actual;
-        ElementValue elementValue = actualPageElement.elementValue();
+
+        ElementValue<?> elementValue = expected instanceof List ?
+                actualPageElement.elementValues():
+                actualPageElement.elementValue();
         Object actualValue = elementValue.get();
 
         comparator.compareUsingEqualOnly(createActualPath(elementValue.getName()), actualValue, expected);
