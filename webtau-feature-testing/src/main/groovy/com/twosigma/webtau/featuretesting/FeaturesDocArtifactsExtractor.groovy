@@ -40,22 +40,32 @@ import org.jsoup.Jsoup
 import java.nio.file.Paths
 
 class FeaturesDocArtifactsExtractor {
-    static String extractScenarioBody(String script) {
-        def scopeStartIdx = script.indexOf("{")
-        def scopeEndIdx = script.lastIndexOf("}")
+    static String extractScenarioBody(String script, String scenario) {
+        def scenarioIdx = script.indexOf(scenario)
+        if (scenarioIdx == -1) {
+            throw new RuntimeException("can't find scenario >${scenario}>")
+        }
 
+        def scopeStartIdx = script.indexOf("{", scenarioIdx)
+
+        def nextScenarioIdx = script.indexOf('scenario', scopeStartIdx)
+        if (nextScenarioIdx == -1) {
+            nextScenarioIdx = script.length()
+        }
+
+        def scopeEndIdx = script.lastIndexOf("}", nextScenarioIdx)
         return StringUtils.stripIndentation(script.substring(scopeStartIdx + 1, scopeEndIdx))
     }
 
     static String extractHtml(String resourceName, String css) {
         def html = ResourceUtils.textContent(resourceName)
-        return Jsoup.parse(html).select(css).toString()
+        return Jsoup.parse(html).select(css).html().toString()
     }
 
     static void extractAndSaveHtml(String resourceName, String css, String snippetOutName) {
         def html = extractHtml(resourceName, css)
 
-        def snippetPath = Paths.get("test-artifacts/snippets").resolve(snippetOutName + ".html")
+        def snippetPath = Paths.get("doc-artifacts/snippets").resolve(snippetOutName + ".html")
         FileUtils.writeTextContent(snippetPath, html)
     }
 }

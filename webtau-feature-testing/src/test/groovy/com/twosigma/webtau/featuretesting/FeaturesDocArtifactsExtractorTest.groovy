@@ -28,24 +28,21 @@ import static org.junit.Assert.assertEquals
 class FeaturesDocArtifactsExtractorTest {
     @Test
     void "extract script for documentation"() {
-        def testPath = Paths.get('examples/scenarios/ui/waitTo.groovy')
+        def testPath = Paths.get('examples/scenarios/ui/findersFilters.groovy')
         def script = FileUtils.fileTextContent(testPath)
 
-        String scope = extractScenarioBody(script)
-        assertEquals('search.open()\n\n' +
-                'search.submit(query: "search this")\n' +
-                'search.numberOfResults.waitTo == 2', scope)
+        String scope = extractScenarioBody(script, 'by css id')
+        assertEquals('def welcomeMessage = $(\'#welcome\')\n' +
+                'welcomeMessage.should == \'hello\'', scope)
     }
 
     @Test
     void "extract html snippet by css"() {
-        def html = extractHtml("finders-and-filters.html", "#menu")
-        assertEquals('<div id="menu"> \n' +
-                ' <ul> \n' +
-                '  <li> <a href="/book">book</a> </li> \n' +
-                '  <li> <a href="/orders">orders</a> </li> \n' +
-                '  <li> <a href="/help">help</a> </li> \n' +
-                ' </ul> \n' +
-                '</div>', html)
+        def html = extractHtml('finders-and-filters.html', '#menu')
+        assertEquals('<ul> \n' +
+                ' <li> <a href="/book">book</a> </li> \n' +
+                ' <li> <a href="/orders">orders</a> </li> \n' +
+                ' <li> <a href="/help">help</a> </li> \n' +
+                '</ul>', html)
     }
 }
