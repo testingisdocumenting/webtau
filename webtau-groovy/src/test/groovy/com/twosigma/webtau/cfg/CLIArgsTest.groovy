@@ -1,7 +1,7 @@
 package com.twosigma.webtau.cfg
 
 import com.twosigma.webtau.utils.FileUtils
-import groovy.json.JsonOutput
+import com.twosigma.webtau.utils.JsonUtils
 import org.junit.Test
 
 import java.nio.file.Paths
@@ -19,7 +19,7 @@ class CLIArgsTest {
 
             def cfgValues = cfg.getCfgValuesStream()
             def cfgList = cfgValues.map { cfgValue ->
-                def defaultValue = cfgValue.key == 'workingDir' ? "" : (cfgValue.getAsString() ?: "")
+                def defaultValue = getDefaultValue(cfgValue)
                 return [
                         name                  : cfgValue.key,
                         'environment variable': cfgValue.prefixedUpperCaseKey,
@@ -45,9 +45,13 @@ class CLIArgsTest {
             }
 
             def artifactPath = Paths.get('doc-artifacts/cfg/cli-args.json')
-            FileUtils.writeTextContent(artifactPath, JsonOutput.toJson(cfgList))
+            FileUtils.writeTextContent(artifactPath, JsonUtils.serializePrettyPrint(cfgList))
         } finally {
             WebTauConfig.resetConfigHandlers()
         }
+    }
+
+    private static String getDefaultValue(ConfigValue cfgValue) {
+        return cfgValue.key == 'workingDir' ? "" : (cfgValue.getAsString() ?: "")
     }
 }
