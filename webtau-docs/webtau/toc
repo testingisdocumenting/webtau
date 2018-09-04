@@ -12,6 +12,7 @@ REST
     report
     maven
     matchers
+    test-execution
 UI
     getting-started
     basic-configuration
@@ -23,3 +24,4 @@ UI
 configuration
     cli
     environments
+    options

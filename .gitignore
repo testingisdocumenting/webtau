@@ -8,3 +8,4 @@ webtau.report.html
 .vertx
 webtau-http-groovy/doc-artifacts/*
 webtau-feature-testing/doc-artifacts/*
+webtau-groovy/doc-artifacts/*
