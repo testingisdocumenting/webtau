@@ -37,6 +37,7 @@ class WebTauUiFeaturesTestManual {
         def testServer = testRunner.testServer
         testServer.registerGet("/search", htmlResponse('search.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
+        testServer.registerGet("/matchers", htmlResponse('matchers.html'))
 
         testRunner.startTestServer()
     }
@@ -68,12 +69,18 @@ class WebTauUiFeaturesTestManual {
     }
 
     @Test
+    void matchers() {
+        runCli('matchers.groovy', 'webtau.cfg')
+    }
+
+    @Test
     void "finders and filters extract snippets"() {
         extractSnippets(
                 'doc-artifacts/snippets/finders-filters',
                 'examples/scenarios/ui/findersFilters.groovy', [
                 'byCss.groovy': 'by css id',
                 'byCssFirstMatched.groovy': 'by css first matched',
+                'byCssAllMatched.groovy': 'by css all matched',
                 'byCssAndFilterByNumber.groovy': 'by css and filter by number',
                 'byCssAndFilterByText.groovy': 'by css and filter by text',
                 'byCssAndFilterByRegexp.groovy': 'by css and filter by regexp',

@@ -39,7 +39,6 @@ import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
-    private boolean isMultipleElements;
     private WebDriver driver;
     private ElementPath path;
     private final TokenizedMessage pathDescription;

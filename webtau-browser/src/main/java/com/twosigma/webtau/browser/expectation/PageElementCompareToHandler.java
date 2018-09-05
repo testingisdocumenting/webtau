@@ -39,8 +39,7 @@ public class PageElementCompareToHandler implements CompareToHandler {
         ElementValue<?> elementValue = expected instanceof List ?
                 actualPageElement.elementValues():
                 actualPageElement.elementValue();
-        Object actualValue = elementValue.get();
 
-        comparator.compareUsingEqualOnly(createActualPath(elementValue.getName()), actualValue, expected);
+        comparator.compareUsingEqualOnly(createActualPath(elementValue.getName()), elementValue, expected);
     }
 }

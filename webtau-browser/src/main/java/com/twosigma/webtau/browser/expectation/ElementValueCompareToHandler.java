@@ -21,6 +21,10 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.ParseException;
+
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
 public class ElementValueCompareToHandler implements CompareToHandler {
@@ -32,8 +36,24 @@ public class ElementValueCompareToHandler implements CompareToHandler {
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         ElementValue actualElementValue = (ElementValue) actual;
-        Object actualValue = actualElementValue.get();
+        Object actualValue = extractActualValue(actualElementValue, expected);
 
         comparator.compareUsingEqualOnly(createActualPath(actualElementValue.getName()), actualValue, expected);
+    }
+
+    private Object extractActualValue(ElementValue actualElementValue, Object expected) {
+        if (expected instanceof Number) {
+            return convertToNumber(actualElementValue.get().toString());
+        }
+
+        return actualElementValue.get();
+    }
+
+    private Object convertToNumber(String text) {
+        try {
+            return NumberFormat.getInstance().parse(text);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
