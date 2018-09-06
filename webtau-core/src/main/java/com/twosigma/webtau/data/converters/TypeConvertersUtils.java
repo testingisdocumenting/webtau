@@ -31,7 +31,16 @@ class TypeConvertersUtils {
                 .map(h -> h.convert(v))
                 .filter(Objects::nonNull)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("can't find a " + typeName +
-                        " converter for: " + TraceUtils.renderValueAndType(v)));
+                .orElse(null);
+    }
+
+    static <E> E convertAndThrow(Stream<? extends ToTypeConverter<E>> converters, String typeName, Object v) {
+        E result = convert(converters, typeName, v);
+        if (result == null) {
+            throw new IllegalArgumentException("can't find a " + typeName +
+                    " converter for: " + TraceUtils.renderValueAndType(v));
+        }
+
+        return result;
     }
 }
