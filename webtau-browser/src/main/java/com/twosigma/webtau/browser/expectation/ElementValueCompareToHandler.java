@@ -21,39 +21,40 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
-
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
 public class ElementValueCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof ElementValue;
+        return handles(actual);
+    }
+
+    @Override
+    public boolean handleGreaterLessEqual(Object actual, Object expected) {
+        return handles(actual);
     }
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         ElementValue actualElementValue = (ElementValue) actual;
-        Object actualValue = extractActualValue(actualElementValue, expected);
-
-        comparator.compareUsingEqualOnly(createActualPath(actualElementValue.getName()), actualValue, expected);
+        comparator.compareUsingEqualOnly(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
     }
 
-    private Object extractActualValue(ElementValue actualElementValue, Object expected) {
-        if (expected instanceof Number) {
-            return convertToNumber(actualElementValue.get().toString());
-        }
+    @Override
+    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        ElementValue actualElementValue = (ElementValue) actual;
+        comparator.compareUsingCompareTo(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
+    }
 
+    private Object extractActualValue(ElementValue actualElementValue) {
         return actualElementValue.get();
     }
 
-    private Object convertToNumber(String text) {
-        try {
-            return NumberFormat.getInstance().parse(text);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+    private ActualPath creataPath(ElementValue elementValue) {
+        return createActualPath(elementValue.getName());
+    }
+
+    private boolean handles(Object actual) {
+        return actual instanceof ElementValue;
     }
 }

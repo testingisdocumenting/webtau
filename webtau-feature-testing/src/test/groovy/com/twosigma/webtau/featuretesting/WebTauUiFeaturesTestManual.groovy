@@ -69,7 +69,7 @@ class WebTauUiFeaturesTestManual {
     }
 
     @Test
-    void matchers() {
+    void "matchers"() {
         runCli('matchers.groovy', 'webtau.cfg')
     }
 
@@ -88,6 +88,28 @@ class WebTauUiFeaturesTestManual {
 
         FeaturesDocArtifactsExtractor.extractAndSaveHtml('finders-and-filters.html', '#simple-case',
                 'finders-and-filters-flat-menu')
+    }
+
+    @Test
+    void "matchers extract snippets"() {
+        extractSnippets(
+                'doc-artifacts/snippets/matchers',
+                'examples/scenarios/ui/matchers.groovy', [
+                'equalText.groovy': 'equal text',
+                'equalTextRegexp.groovy': 'equal text regexp',
+                'equalListOfText.groovy': 'equal list of text',
+                'equalListOfTextAndRegexp.groovy': 'equal list of text and regexp',
+                'equalNumber.groovy': 'equal number',
+                'equalListOfNumbers.groovy': 'equal list of numbers',
+                'greaterNumber.groovy': 'greater number',
+                'greaterEqualNumber.groovy': 'greater equal number',
+                'lessEqualListMixOfNumbers.groovy': 'less equal list mix of numbers',
+        ])
+
+        FeaturesDocArtifactsExtractor.extractAndSaveHtml('matchers.html', '#numbers',
+                'matchers-numbers')
+        FeaturesDocArtifactsExtractor.extractAndSaveHtml('matchers.html', '#texts',
+                'matchers-texts')
     }
 
     private static void extractSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {

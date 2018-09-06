@@ -1,0 +1,54 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open browser",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "equal text",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "equal text regexp",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "equal list of text",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "equal list of text and regexp",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "equal number",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "equal list of numbers",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "greater number",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "greater equal number",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "less equal list mix of numbers",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  } ],
+  "exitCode" : 0
+}
