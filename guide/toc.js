@@ -463,21 +463,13 @@ toc = [
       {
         "sectionTitle": "UI",
         "pageTitle": "Matchers",
-        "pageMeta": {
-          "type": [
-            "two-sides"
-          ]
-        },
+        "pageMeta": {},
         "fileName": "matchers",
         "dirName": "UI",
         "pageSectionIdTitles": [
           {
-            "title": "Text",
-            "id": "text"
-          },
-          {
-            "title": "Numbers",
-            "id": "numbers"
+            "title": "Values",
+            "id": "values"
           }
         ]
       }

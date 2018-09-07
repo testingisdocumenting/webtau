@@ -855,27 +855,10 @@ ordersMenu.should == 'orders'</text>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/UI/matchers#text</url>
-    <fullTitle>WebTau: Matchers, Text [UI]</fullTitle>
+    <url>/webtau/guide/UI/matchers#values</url>
+    <fullTitle>WebTau: Matchers, Values [UI]</fullTitle>
     <text>
-      <text>def message = $('#message')
-message.should == 'Select option' def message = $('#message')
-message.should == ~/option/ def menu = $('#menu ul li')
-menu.should == ['Hello', 'Text', 'World'] def menu = $('#menu ul li')
-menu.should == ['Hello', ~/T..t/, 'World']</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/guide/UI/matchers#numbers</url>
-    <fullTitle>WebTau: Matchers, Numbers [UI]</fullTitle>
-    <text>
-      <text>def total = $('#total')
-total.should == 300.6 def total = $('#total')
-total.shouldBe > 200 def total = $('#total')
-total.shouldBe >= 300 def split = $('#split ul li')
-split.should == [100, 28, 172.6] def split = $('#split ul li')
-split.should == [100, lessThan(100), greaterThanOrEqual(150)]</text>
+      <text>TBD</text>
       <score>STANDARD</score>
     </text>
   </entry>

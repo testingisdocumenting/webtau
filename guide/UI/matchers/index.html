@@ -10,22 +10,8 @@
 <body>
 <div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Text</h1></header>
-<p>def message = $('#message')
-message.should == 'Select option' def message = $('#message')
-message.should == ~/option/ def menu = $('#menu ul li')
-menu.should == ['Hello', 'Text', 'World'] def menu = $('#menu ul li')
-menu.should == ['Hello', ~/T..t/, 'World']</p>
-</article>
-
-<article>
-<header><h1>Numbers</h1></header>
-<p>def total = $('#total')
-total.should == 300.6 def total = $('#total')
-total.shouldBe > 200 def total = $('#total')
-total.shouldBe >= 300 def split = $('#split ul li')
-split.should == [100, 28, 172.6] def split = $('#split ul li')
-split.should == [100, lessThan(100), greaterThanOrEqual(150)]</p>
+<header><h1>Values</h1></header>
+<p>TBD</p>
 </article>
 </section>
 </div>
@@ -51,245 +37,33 @@ ReactDOM.render(React.createElement(Documentation, {
     "type": "Page",
     "content": [
       {
-        "title": "Text",
-        "id": "text",
+        "title": "Values",
+        "id": "values",
         "type": "Section",
         "content": [
           {
-            "lang": "groovy",
-            "snippet": "def message \u003d $(\u0027#message\u0027)\nmessage.should \u003d\u003d \u0027Select option\u0027",
-            "title": "exact text",
-            "type": "Snippet"
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def message \u003d $(\u0027#message\u0027)\nmessage.should \u003d\u003d ~/option/",
-            "title": "regexp text",
-            "type": "Snippet"
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def menu \u003d $(\u0027#menu ul li\u0027)\nmenu.should \u003d\u003d [\u0027Hello\u0027, \u0027Text\u0027, \u0027World\u0027]",
-            "title": "list of text",
-            "type": "Snippet"
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def menu \u003d $(\u0027#menu ul li\u0027)\nmenu.should \u003d\u003d [\u0027Hello\u0027, ~/T..t/, \u0027World\u0027]",
-            "title": "list of text and regexp",
-            "type": "Snippet"
-          },
-          {
-            "rightSide": true,
-            "type": "Meta"
-          },
-          {
-            "xmlAsJson": {
-              "tagName": "div",
-              "attributes": [],
-              "children": [
-                {
-                  "tagName": "div",
-                  "attributes": [
-                    {
-                      "name": "id",
-                      "value": "\"message\""
-                    }
-                  ],
-                  "children": [
-                    {
-                      "tagName": "",
-                      "text": "Select option"
-                    }
-                  ]
-                },
-                {
-                  "tagName": "div",
-                  "attributes": [
-                    {
-                      "name": "id",
-                      "value": "\"menu\""
-                    }
-                  ],
-                  "children": [
-                    {
-                      "tagName": "ul",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "tagName": "li",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "tagName": "",
-                              "text": "Hello"
-                            }
-                          ]
-                        },
-                        {
-                          "tagName": "li",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "tagName": "",
-                              "text": "Text"
-                            }
-                          ]
-                        },
-                        {
-                          "tagName": "li",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "tagName": "",
-                              "text": "World"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "paths": [],
-            "type": "Xml"
-          }
-        ]
-      },
-      {
-        "title": "Numbers",
-        "id": "numbers",
-        "type": "Section",
-        "content": [
-          {
-            "lang": "groovy",
-            "snippet": "def total \u003d $(\u0027#total\u0027)\ntotal.should \u003d\u003d 300.6",
-            "title": "exact number",
-            "type": "Snippet"
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def total \u003d $(\u0027#total\u0027)\ntotal.shouldBe \u003e 200",
-            "title": "greater than",
-            "type": "Snippet"
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def total \u003d $(\u0027#total\u0027)\ntotal.shouldBe \u003e\u003d 300",
-            "title": "greater than or equal",
-            "type": "Snippet"
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def split \u003d $(\u0027#split ul li\u0027)\nsplit.should \u003d\u003d [100, 28, 172.6]",
-            "title": "list of numbers",
-            "type": "Snippet"
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def split \u003d $(\u0027#split ul li\u0027)\nsplit.should \u003d\u003d [100, lessThan(100), greaterThanOrEqual(150)]",
-            "title": "list of exact and greater/less",
-            "type": "Snippet"
-          },
-          {
-            "rightSide": true,
-            "type": "Meta"
-          },
-          {
-            "xmlAsJson": {
-              "tagName": "div",
-              "attributes": [],
-              "children": [
-                {
-                  "tagName": "div",
-                  "attributes": [
-                    {
-                      "name": "id",
-                      "value": "\"total\""
-                    }
-                  ],
-                  "children": [
-                    {
-                      "tagName": "",
-                      "text": "300.6"
-                    }
-                  ]
-                },
-                {
-                  "tagName": "div",
-                  "attributes": [
-                    {
-                      "name": "id",
-                      "value": "\"split\""
-                    }
-                  ],
-                  "children": [
-                    {
-                      "tagName": "ul",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "tagName": "li",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "tagName": "",
-                              "text": "100"
-                            }
-                          ]
-                        },
-                        {
-                          "tagName": "li",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "tagName": "",
-                              "text": "28"
-                            }
-                          ]
-                        },
-                        {
-                          "tagName": "li",
-                          "attributes": [],
-                          "children": [
-                            {
-                              "tagName": "",
-                              "text": "172.6"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "paths": [],
-            "type": "Xml"
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "TBD",
+                "type": "SimpleText"
+              }
+            ]
           }
         ]
       }
     ],
-    "lastModifiedTime": 1536260808000,
+    "lastModifiedTime": 1536340485000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Matchers",
-      "pageMeta": {
-        "type": [
-          "two-sides"
-        ]
-      },
+      "pageMeta": {},
       "fileName": "matchers",
       "dirName": "UI",
       "pageSectionIdTitles": [
         {
-          "title": "Text",
-          "id": "text"
-        },
-        {
-          "title": "Numbers",
-          "id": "numbers"
+          "title": "Values",
+          "id": "values"
         }
       ]
     }
