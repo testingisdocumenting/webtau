@@ -37,6 +37,7 @@ class WebTauUiFeaturesTestManual {
         def testServer = testRunner.testServer
         testServer.registerGet("/search", htmlResponse('search.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
+        testServer.registerGet("/matchers", htmlResponse('matchers.html'))
 
         testRunner.startTestServer()
     }
@@ -68,12 +69,18 @@ class WebTauUiFeaturesTestManual {
     }
 
     @Test
+    void "matchers"() {
+        runCli('matchers.groovy', 'webtau.cfg')
+    }
+
+    @Test
     void "finders and filters extract snippets"() {
         extractSnippets(
                 'doc-artifacts/snippets/finders-filters',
                 'examples/scenarios/ui/findersFilters.groovy', [
                 'byCss.groovy': 'by css id',
                 'byCssFirstMatched.groovy': 'by css first matched',
+                'byCssAllMatched.groovy': 'by css all matched',
                 'byCssAndFilterByNumber.groovy': 'by css and filter by number',
                 'byCssAndFilterByText.groovy': 'by css and filter by text',
                 'byCssAndFilterByRegexp.groovy': 'by css and filter by regexp',
@@ -81,6 +88,28 @@ class WebTauUiFeaturesTestManual {
 
         FeaturesDocArtifactsExtractor.extractAndSaveHtml('finders-and-filters.html', '#simple-case',
                 'finders-and-filters-flat-menu')
+    }
+
+    @Test
+    void "matchers extract snippets"() {
+        extractSnippets(
+                'doc-artifacts/snippets/matchers',
+                'examples/scenarios/ui/matchers.groovy', [
+                'equalText.groovy': 'equal text',
+                'equalTextRegexp.groovy': 'equal text regexp',
+                'equalListOfText.groovy': 'equal list of text',
+                'equalListOfTextAndRegexp.groovy': 'equal list of text and regexp',
+                'equalNumber.groovy': 'equal number',
+                'equalListOfNumbers.groovy': 'equal list of numbers',
+                'greaterNumber.groovy': 'greater number',
+                'greaterEqualNumber.groovy': 'greater equal number',
+                'lessEqualListMixOfNumbers.groovy': 'less equal list mix of numbers',
+        ])
+
+        FeaturesDocArtifactsExtractor.extractAndSaveHtml('matchers.html', '#numbers',
+                'matchers-numbers')
+        FeaturesDocArtifactsExtractor.extractAndSaveHtml('matchers.html', '#texts',
+                'matchers-texts')
     }
 
     private static void extractSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {

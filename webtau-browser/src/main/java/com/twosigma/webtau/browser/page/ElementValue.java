@@ -38,7 +38,8 @@ public class ElementValue<E> implements ActualValueExpectations {
         this.parent = parent;
         this.name = name;
         this.valueFetcher = valueFetcher;
-        this.description = tokenizedMessage(IntegrationTestsMessageBuilder.classifier(name)).add(OF).add(parent.describe());
+        this.description = tokenizedMessage(
+                IntegrationTestsMessageBuilder.classifier(name)).add(OF).add(parent.describe());
     }
 
     public PageElement getParent() {

@@ -26,14 +26,35 @@ import static com.twosigma.webtau.Ddjt.createActualPath;
 public class ElementValueCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof ElementValue;
+        return handles(actual);
+    }
+
+    @Override
+    public boolean handleGreaterLessEqual(Object actual, Object expected) {
+        return handles(actual);
     }
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         ElementValue actualElementValue = (ElementValue) actual;
-        Object actualValue = actualElementValue.get();
+        comparator.compareUsingEqualOnly(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
+    }
 
-        comparator.compareUsingEqualOnly(createActualPath(actualElementValue.getName()), actualValue, expected);
+    @Override
+    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        ElementValue actualElementValue = (ElementValue) actual;
+        comparator.compareUsingCompareTo(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
+    }
+
+    private Object extractActualValue(ElementValue actualElementValue) {
+        return actualElementValue.get();
+    }
+
+    private ActualPath creataPath(ElementValue elementValue) {
+        return createActualPath(elementValue.getName());
+    }
+
+    private boolean handles(Object actual) {
+        return actual instanceof ElementValue;
     }
 }
