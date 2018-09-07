@@ -8,13 +8,20 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/maven">Maven</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section selected"><div class="title">Configuration</div><div class="toc-item selected"><a href="/webtau/guide/configuration/cli">Cli</a><div class="page-sections"><div class="page-section selected"><a href="#overrides">Overrides</a></div></div></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Cli</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Thu May 17 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/configuration/cli.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="overrides">Overrides<a href="#overrides"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">Any config file parameter can be overridden with a command line parameter.</span></div><div class="paragraph content-block"><span class="simple-text">For example, given this config file:</span></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">webtau.cfg</div></div><div class="snippet with-title"><pre><span class="code-line">waitTimeout <span class="token operator">=</span> <span class="token number">2500</span>
-</span><span class="code-line">url <span class="token operator">=</span> http<span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>my<span class="token operator">-</span>server
-</span><span class="code-line"></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph content-block"><span class="simple-text">Values can be overridden as follows:</span></div><div class="cli-command content-block"><pre><span class="prompt">$ </span><span><div class="tokens-line"><span><span class="token command">webtau </span></span><span><span class="token param">--waitTimeout=25000 </span></span><span><span class="token param">--url=http://another-server </span></span></div></span></pre></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Matchers<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Environments<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Overrides</h1></header>
+<p>Any config file parameter can be overridden with a command line parameter. For example, given this config file: waitTimeout = 2500
+url = http://my-server
+ Values can be overridden as follows: webtau --waitTimeout=25000 --url=http://another-server</p>
+</article>
+</section>
+</div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -56,43 +63,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "cfg",
-            "maxLineLength": 22,
-            "tokens": [
-              "waitTimeout ",
-              {
-                "type": "operator",
-                "content": "\u003d"
-              },
-              " ",
-              {
-                "type": "number",
-                "content": "2500"
-              },
-              "\nurl ",
-              {
-                "type": "operator",
-                "content": "\u003d"
-              },
-              " http",
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              {
-                "type": "operator",
-                "content": "/"
-              },
-              {
-                "type": "operator",
-                "content": "/"
-              },
-              "my",
-              {
-                "type": "operator",
-                "content": "-"
-              },
-              "server\n"
-            ],
+            "snippet": "waitTimeout \u003d 2500\nurl \u003d http://my-server\n",
             "lineNumber": "",
             "title": "webtau.cfg",
             "type": "Snippet"

@@ -318,6 +318,23 @@ toc = [
             "id": "mixing-matchers"
           }
         ]
+      },
+      {
+        "sectionTitle": "REST",
+        "pageTitle": "Test Execution",
+        "pageMeta": {},
+        "fileName": "test-execution",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Serial execution",
+            "id": "serial-execution"
+          },
+          {
+            "title": "Parallel execution",
+            "id": "parallel-execution"
+          }
+        ]
       }
     ]
   },
@@ -421,10 +438,22 @@ toc = [
       {
         "sectionTitle": "UI",
         "pageTitle": "Finders And Filters",
-        "pageMeta": {},
+        "pageMeta": {
+          "type": [
+            "two-sides"
+          ]
+        },
         "fileName": "finders-and-filters",
         "dirName": "UI",
         "pageSectionIdTitles": [
+          {
+            "title": "Finders",
+            "id": "finders"
+          },
+          {
+            "title": "By CSS",
+            "id": "by-css"
+          },
           {
             "title": "Filters",
             "id": "filters"
@@ -434,13 +463,21 @@ toc = [
       {
         "sectionTitle": "UI",
         "pageTitle": "Matchers",
-        "pageMeta": {},
+        "pageMeta": {
+          "type": [
+            "two-sides"
+          ]
+        },
         "fileName": "matchers",
         "dirName": "UI",
         "pageSectionIdTitles": [
           {
-            "title": "Values",
-            "id": "values"
+            "title": "Text",
+            "id": "text"
+          },
+          {
+            "title": "Numbers",
+            "id": "numbers"
           }
         ]
       }
@@ -473,6 +510,23 @@ toc = [
           {
             "title": "Select",
             "id": "select"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Configuration",
+        "pageTitle": "Options",
+        "pageMeta": {},
+        "fileName": "options",
+        "dirName": "configuration",
+        "pageSectionIdTitles": [
+          {
+            "title": "CLI and configuration file options",
+            "id": "cli-and-configuration-file-options"
+          },
+          {
+            "title": "Environment variable options",
+            "id": "environment-variable-options"
           }
         ]
       }

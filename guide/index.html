@@ -8,27 +8,203 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/maven">Maven</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"></div><div class="page-meta-block"><div class="page-last-update-time">Mon Aug 06 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau//index.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="webtau">WebTau<a href="#webtau"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">WebTau (</span><span class="strong-emphasis"><span class="simple-text">Web</span></span><span class="simple-text"> </span><span class="strong-emphasis"><span class="simple-text">T</span></span><span class="simple-text">est </span><span class="strong-emphasis"><span class="simple-text">au</span></span><span class="simple-text">tomation) - concise and expressive way to create REST API and Web UI tests.</span></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">REST API test</div></div><div class="snippet with-title"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>rest
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;simple get&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;/weather&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        temperature<span class="token operator">.</span>shouldBe <span class="token operator">&lt;</span> <span class="token number">100</span>
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="snippet-container content-block"><div class="title-container content-block"><div class="title">Web UI test</div></div><div class="snippet with-title"><pre><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>ui
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> pages<span class="token operator">.</span>Pages<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;search by specific query&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    search<span class="token operator">.</span><span class="token function">submit</span><span class="token punctuation">(</span><span class="token string">&quot;search this&quot;</span><span class="token punctuation">)</span>
-</span><span class="code-line">    search<span class="token operator">.</span>numberOfResults<span class="token operator">.</span>should <span class="token operator">==</span> <span class="token number">2</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Getting Started<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>WebTau</h1></header>
+<p>WebTau ( Web   T est  au tomation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+scenario("simple get") {
+    http.get("/weather") {
+        temperature.shouldBe < 100
+    }
+} package scenarios.ui
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
+
+scenario("search by specific query") {
+    search.submit("search this")
+    search.numberOfResults.should == 2
+}</p>
+</article>
+</section>
+<section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<a href="/index/">Index</a>
+<a href="/index/#webtau">Index WebTau</a>
+</article>
+
+<article>
+<a href="REST/getting-started/">Getting Started</a>
+<a href="REST/getting-started/#installation">Getting Started Installation</a>
+<a href="REST/getting-started/#bare-minimum">Getting Started Bare Minimum</a>
+<a href="REST/getting-started/#config-file">Getting Started Config File</a>
+</article>
+
+<article>
+<a href="REST/CRUD/">CRUD</a>
+<a href="REST/CRUD/#example">CRUD Example</a>
+<a href="REST/CRUD/#implicit-statuscode-check">CRUD Implicit statusCode Check</a>
+<a href="REST/CRUD/#report">CRUD Report</a>
+<a href="REST/CRUD/#spring-boot">CRUD Spring Boot</a>
+</article>
+
+<article>
+<a href="REST/CRUD-separated/">CRUD Separated</a>
+<a href="REST/CRUD-separated/#lazy-resource">CRUD Separated Lazy Resource</a>
+<a href="REST/CRUD-separated/#report">CRUD Separated Report</a>
+</article>
+
+<article>
+<a href="REST/data-node/">Data Node</a>
+<a href="REST/data-node/#special-values">Data Node Special Values</a>
+<a href="REST/data-node/#extracting-values">Data Node Extracting Values</a>
+<a href="REST/data-node/#properties-on-lists">Data Node Properties On Lists</a>
+<a href="REST/data-node/#find">Data Node Find</a>
+<a href="REST/data-node/#collect">Data Node Collect</a>
+<a href="REST/data-node/#combine">Data Node Combine</a>
+</article>
+
+<article>
+<a href="REST/headers/">Headers</a>
+<a href="REST/headers/#standard-header">Headers Standard Header</a>
+<a href="REST/headers/#common-header">Headers Common Header</a>
+<a href="REST/headers/#explicit-header">Headers Explicit Header</a>
+<a href="REST/headers/#response-header">Headers Response Header</a>
+</article>
+
+<article>
+<a href="REST/files-upload/">Files Upload</a>
+<a href="REST/files-upload/#file-system-content">Files Upload File System Content</a>
+<a href="REST/files-upload/#in-memory-content">Files Upload In-Memory Content</a>
+</article>
+
+<article>
+<a href="REST/PDF/">PDF</a>
+<a href="REST/PDF/#asserting-text">PDF Asserting Text</a>
+</article>
+
+<article>
+<a href="REST/documentation/">Documentation</a>
+<a href="REST/documentation/#scenarios">Documentation Scenarios</a>
+<a href="REST/documentation/#test-artifacts">Documentation Test Artifacts</a>
+<a href="REST/documentation/#document-rest-calls">Documentation Document REST calls</a>
+</article>
+
+<article>
+<a href="REST/complex-types/">Complex Types</a>
+<a href="REST/complex-types/#contain">Complex Types Contain</a>
+<a href="REST/complex-types/#list-of-objects">Complex Types List Of Objects</a>
+</article>
+
+<article>
+<a href="REST/openAPI-spec/">OpenAPI Spec</a>
+<a href="REST/openAPI-spec/#validation">OpenAPI Spec Validation</a>
+<a href="REST/openAPI-spec/#current-limitations">OpenAPI Spec Current limitations</a>
+<a href="REST/openAPI-spec/#validations-report">OpenAPI Spec Validations report</a>
+<a href="REST/openAPI-spec/#validation-configuration">OpenAPI Spec Validation Configuration</a>
+</article>
+
+<article>
+<a href="REST/report/">Report</a>
+<a href="REST/report/#location">Report Location</a>
+<a href="REST/report/#summary">Report Summary</a>
+<a href="REST/report/#navigation">Report Navigation</a>
+<a href="REST/report/#additional-reports">Report Additional Reports</a>
+</article>
+
+<article>
+<a href="REST/maven/">Maven</a>
+<a href="REST/maven/#dependency">Maven Dependency</a>
+<a href="REST/maven/#plugin">Maven Plugin</a>
+</article>
+
+<article>
+<a href="REST/matchers/">Matchers</a>
+<a href="REST/matchers/#response-mapping">Matchers Response Mapping</a>
+<a href="REST/matchers/#should-and-should-not">Matchers Should and Should Not</a>
+<a href="REST/matchers/#equality">Matchers Equality</a>
+<a href="REST/matchers/#greaterlessequal">Matchers Greater/Less/Equal</a>
+<a href="REST/matchers/#contain">Matchers Contain</a>
+<a href="REST/matchers/#date-and-time">Matchers Date and Time</a>
+<a href="REST/matchers/#mixing-matchers">Matchers Mixing Matchers</a>
+</article>
+
+<article>
+<a href="REST/test-execution/">Test Execution</a>
+<a href="REST/test-execution/#serial-execution">Test Execution Serial execution</a>
+<a href="REST/test-execution/#parallel-execution">Test Execution Parallel execution</a>
+</article>
+
+<article>
+<a href="UI/getting-started/">Getting Started</a>
+<a href="UI/getting-started/#installation">Getting Started Installation</a>
+<a href="UI/getting-started/#bare-minimum">Getting Started Bare Minimum</a>
+<a href="UI/getting-started/#config-file">Getting Started Config File</a>
+</article>
+
+<article>
+<a href="UI/basic-configuration/">Basic Configuration</a>
+<a href="UI/basic-configuration/#base-url">Basic Configuration Base URL</a>
+</article>
+
+<article>
+<a href="UI/page-element-and-value/">Page Element And Value</a>
+<a href="UI/page-element-and-value/#lazy-element">Page Element And Value Lazy Element</a>
+<a href="UI/page-element-and-value/#lazy-value">Page Element And Value Lazy Value</a>
+</article>
+
+<article>
+<a href="UI/page-object/">Page Object</a>
+<a href="UI/page-object/#test-encapsulation">Page Object Test Encapsulation</a>
+<a href="UI/page-object/#definition">Page Object Definition</a>
+<a href="UI/page-object/#grouping">Page Object Grouping</a>
+</article>
+
+<article>
+<a href="UI/advanced-configuration/">Advanced Configuration</a>
+<a href="UI/advanced-configuration/#timeouts">Advanced Configuration Timeouts</a>
+<a href="UI/advanced-configuration/#window-size">Advanced Configuration Window Size</a>
+<a href="UI/advanced-configuration/#documentation-artifacts">Advanced Configuration Documentation Artifacts</a>
+</article>
+
+<article>
+<a href="UI/finders-and-filters/">Finders And Filters</a>
+<a href="UI/finders-and-filters/#finders">Finders And Filters Finders</a>
+<a href="UI/finders-and-filters/#by-css">Finders And Filters By CSS</a>
+<a href="UI/finders-and-filters/#filters">Finders And Filters Filters</a>
+</article>
+
+<article>
+<a href="UI/matchers/">Matchers</a>
+<a href="UI/matchers/#text">Matchers Text</a>
+<a href="UI/matchers/#numbers">Matchers Numbers</a>
+</article>
+
+<article>
+<a href="configuration/cli/">Cli</a>
+<a href="configuration/cli/#overrides">Cli Overrides</a>
+</article>
+
+<article>
+<a href="configuration/environments/">Environments</a>
+<a href="configuration/environments/#select">Environments Select</a>
+</article>
+
+<article>
+<a href="configuration/options/">Options</a>
+<a href="configuration/options/#cli-and-configuration-file-options">Options CLI and configuration file options</a>
+<a href="configuration/options/#environment-variable-options">Options Environment variable options</a>
+</article>
+</section>
+</div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -100,268 +276,13 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "maxLineLength": 51,
-            "tokens": [
-              {
-                "type": "keyword",
-                "content": "package"
-              },
-              " scenarios",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "rest\n\n",
-              {
-                "type": "keyword",
-                "content": "import"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "static"
-              },
-              " com",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "twosigma",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "webtau",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "WebTauGroovyDsl",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n\n",
-              {
-                "type": "function",
-                "content": "scenario"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"simple get\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n    http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "get"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"/weather\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n        temperature",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "shouldBe ",
-              {
-                "type": "operator",
-                "content": "\u003c"
-              },
-              " ",
-              {
-                "type": "number",
-                "content": "100"
-              },
-              "\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              }
-            ],
+            "snippet": "package scenarios.rest\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\"simple get\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe \u003c 100\n    }\n}",
             "title": "REST API test",
             "type": "Snippet"
           },
           {
             "lang": "groovy",
-            "maxLineLength": 51,
-            "tokens": [
-              {
-                "type": "keyword",
-                "content": "package"
-              },
-              " scenarios",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "ui\n\n",
-              {
-                "type": "keyword",
-                "content": "import"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "static"
-              },
-              " com",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "twosigma",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "webtau",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "WebTauGroovyDsl",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n",
-              {
-                "type": "keyword",
-                "content": "import"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "static"
-              },
-              " pages",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "Pages",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n\n",
-              {
-                "type": "function",
-                "content": "scenario"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"search by specific query\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n    search",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "submit"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"search this\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              "\n    search",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "numberOfResults",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "should ",
-              {
-                "type": "operator",
-                "content": "\u003d\u003d"
-              },
-              " ",
-              {
-                "type": "number",
-                "content": "2"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              }
-            ],
+            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.should \u003d\u003d 2\n}",
             "title": "Web UI test",
             "type": "Snippet"
           }

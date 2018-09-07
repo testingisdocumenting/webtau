@@ -8,11 +8,32 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/maven">Maven</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section selected"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item selected"><a href="/webtau/guide/UI/matchers">Matchers</a><div class="page-sections"><div class="page-section selected"><a href="#values">Values</a></div></div></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Matchers</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Wed Aug 01 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/UI/matchers.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="values">Values<a href="#values"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">TBD</span></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Finders And Filters<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Cli<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Text</h1></header>
+<p>def message = $('#message')
+message.should == 'Select option' def message = $('#message')
+message.should == ~/option/ def menu = $('#menu ul li')
+menu.should == ['Hello', 'Text', 'World'] def menu = $('#menu ul li')
+menu.should == ['Hello', ~/T..t/, 'World']</p>
+</article>
+
+<article>
+<header><h1>Numbers</h1></header>
+<p>def total = $('#total')
+total.should == 300.6 def total = $('#total')
+total.shouldBe > 200 def total = $('#total')
+total.shouldBe >= 300 def split = $('#split ul li')
+split.should == [100, 28, 172.6] def split = $('#split ul li')
+split.should == [100, lessThan(100), greaterThanOrEqual(150)]</p>
+</article>
+</section>
+</div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -30,33 +51,245 @@ ReactDOM.render(React.createElement(Documentation, {
     "type": "Page",
     "content": [
       {
-        "title": "Values",
-        "id": "values",
+        "title": "Text",
+        "id": "text",
         "type": "Section",
         "content": [
           {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "TBD",
-                "type": "SimpleText"
-              }
-            ]
+            "lang": "groovy",
+            "snippet": "def message \u003d $(\u0027#message\u0027)\nmessage.should \u003d\u003d \u0027Select option\u0027",
+            "title": "exact text",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def message \u003d $(\u0027#message\u0027)\nmessage.should \u003d\u003d ~/option/",
+            "title": "regexp text",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def menu \u003d $(\u0027#menu ul li\u0027)\nmenu.should \u003d\u003d [\u0027Hello\u0027, \u0027Text\u0027, \u0027World\u0027]",
+            "title": "list of text",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def menu \u003d $(\u0027#menu ul li\u0027)\nmenu.should \u003d\u003d [\u0027Hello\u0027, ~/T..t/, \u0027World\u0027]",
+            "title": "list of text and regexp",
+            "type": "Snippet"
+          },
+          {
+            "rightSide": true,
+            "type": "Meta"
+          },
+          {
+            "xmlAsJson": {
+              "tagName": "div",
+              "attributes": [],
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"message\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "",
+                      "text": "Select option"
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"menu\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "ul",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "",
+                              "text": "Hello"
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "",
+                              "text": "Text"
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "",
+                              "text": "World"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "paths": [],
+            "type": "Xml"
+          }
+        ]
+      },
+      {
+        "title": "Numbers",
+        "id": "numbers",
+        "type": "Section",
+        "content": [
+          {
+            "lang": "groovy",
+            "snippet": "def total \u003d $(\u0027#total\u0027)\ntotal.should \u003d\u003d 300.6",
+            "title": "exact number",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def total \u003d $(\u0027#total\u0027)\ntotal.shouldBe \u003e 200",
+            "title": "greater than",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def total \u003d $(\u0027#total\u0027)\ntotal.shouldBe \u003e\u003d 300",
+            "title": "greater than or equal",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def split \u003d $(\u0027#split ul li\u0027)\nsplit.should \u003d\u003d [100, 28, 172.6]",
+            "title": "list of numbers",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def split \u003d $(\u0027#split ul li\u0027)\nsplit.should \u003d\u003d [100, lessThan(100), greaterThanOrEqual(150)]",
+            "title": "list of exact and greater/less",
+            "type": "Snippet"
+          },
+          {
+            "rightSide": true,
+            "type": "Meta"
+          },
+          {
+            "xmlAsJson": {
+              "tagName": "div",
+              "attributes": [],
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"total\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "",
+                      "text": "300.6"
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"split\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "ul",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "",
+                              "text": "100"
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "",
+                              "text": "28"
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "",
+                              "text": "172.6"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "paths": [],
+            "type": "Xml"
           }
         ]
       }
     ],
-    "lastModifiedTime": 1533120126000,
+    "lastModifiedTime": 1536260808000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Matchers",
-      "pageMeta": {},
+      "pageMeta": {
+        "type": [
+          "two-sides"
+        ]
+      },
       "fileName": "matchers",
       "dirName": "UI",
       "pageSectionIdTitles": [
         {
-          "title": "Values",
-          "id": "values"
+          "title": "Text",
+          "id": "text"
+        },
+        {
+          "title": "Numbers",
+          "id": "numbers"
         }
       ]
     }

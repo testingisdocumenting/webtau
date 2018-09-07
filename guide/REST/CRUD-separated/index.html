@@ -8,59 +8,71 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section selected"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item selected"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a><div class="page-sections"><div class="page-section selected"><a href="#lazy-resource">Lazy Resource</a></div><div class="page-section"><a href="#report">Report</a></div></div></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/maven">Maven</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">CRUD Separated</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Wed Aug 01 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/REST/CRUD-separated.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="lazy-resource">Lazy Resource<a href="#lazy-resource"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">One of the benefits of separating one CRUD </span><code>scenario</code><span class="simple-text"> into multiple is to be able to run one test at a time.</span><span> </span><span class="simple-text">In order to do it we will use </span><code>createLazyResource</code><span class="simple-text">.</span></div><div class="snippet-container content-block"><div class="snippet"><div class="code-with-inlined-comments"><pre><code><span class="code-line"><span class="token keyword">package</span> scenarios<span class="token operator">.</span>rest<span class="token operator">.</span>springboot
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">import</span> <span class="token keyword">static</span> com<span class="token operator">.</span>twosigma<span class="token operator">.</span>webtau<span class="token operator">.</span>WebTauGroovyDsl<span class="token operator">.</span><span class="token operator">*</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">class</span> <span class="token class-name">Customer</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    Number id
-    String url <span class="ui blue circular label circle-badge">1</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">def</span> customerPayload <span class="token operator">=</span> <span class="token punctuation">[</span>firstName<span class="token punctuation">:</span> <span class="token string">&quot;FN&quot;</span><span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> <span class="token string">&quot;LN&quot;</span><span class="token punctuation">]</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token keyword">def</span> customer <span class="token operator">=</span> <span class="token function">createLazyResource</span><span class="token punctuation">(</span><span class="token string">&quot;customer&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="ui blue circular label circle-badge">2</span>
-</span><span class="code-line">    <span class="token keyword">int</span> id <span class="token operator">=</span> http<span class="token operator">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/customers&quot;</span><span class="token punctuation">,</span> customerPayload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        <span class="token keyword">return</span> id
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Customer</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> id<span class="token punctuation">,</span> url<span class="token punctuation">:</span> <span class="token string">&quot;/customers/${id}&quot;</span><span class="token punctuation">)</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;customer create&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    customer<span class="token operator">.</span>id<span class="token operator">.</span>should <span class="token operator">!=</span> null <span class="ui blue circular label circle-badge">3</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;customer read&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span>customer<span class="token operator">.</span>url<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="ui blue circular label circle-badge">4</span>
-</span><span class="code-line">        body<span class="token operator">.</span>should <span class="token operator">==</span> customerPayload
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;customer update&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    <span class="token keyword">def</span> changedLastName <span class="token operator">=</span> <span class="token string">&quot;NLN&quot;</span>
-</span><span class="code-line">    http<span class="token operator">.</span><span class="token function">put</span><span class="token punctuation">(</span>customer<span class="token operator">.</span>url<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">*</span><span class="token punctuation">:</span>customerPayload<span class="token punctuation">,</span> lastName<span class="token punctuation">:</span> changedLastName<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        lastName<span class="token operator">.</span>should <span class="token operator">==</span> changedLastName
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">    http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span>customer<span class="token operator">.</span>url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        lastName<span class="token operator">.</span>should <span class="token operator">==</span> changedLastName
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line"><span class="token function">scenario</span><span class="token punctuation">(</span><span class="token string">&quot;customer delete&quot;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">    http<span class="token operator">.</span><span class="token function">delete</span><span class="token punctuation">(</span>customer<span class="token operator">.</span>url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        statusCode<span class="token operator">.</span>should <span class="token operator">==</span> <span class="token number">204</span>
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line">
-</span><span class="code-line">    http<span class="token operator">.</span><span class="token function">get</span><span class="token punctuation">(</span>customer<span class="token operator">.</span>url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-</span><span class="code-line">        statusCode<span class="token operator">.</span>should <span class="token operator">==</span> <span class="token number">404</span>
-</span><span class="code-line">    <span class="token punctuation">}</span>
-</span><span class="code-line"><span class="token punctuation">}</span></span></code></pre><div class="code-bullets"><div><span class="ui blue circular label circle-badge">1</span><span class="code-bullet-comment">store url of the created entity</span></div><div><span class="ui blue circular label circle-badge">2</span><span class="code-bullet-comment">lazy resource to be created on the first access</span></div><div><span class="ui blue circular label circle-badge">3</span><span class="code-bullet-comment">accessing resource for the first time will trigger POST (in this example)</span></div><div><span class="ui blue circular label circle-badge">4</span><span class="code-bullet-comment">convenient re-use of url defined above</span></div></div></div><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="paragraph attention note content-block"><span class="icon-part"><span class="icon"><span class="icon glyphicon glyphicon-info-sign"></span></span><span class="label-message">Note:</span></span><span class="message-part"><span class="simple-text">to run one scenario at a time use </span><code>sscenario</code><span class="simple-text"> (additional </span><code>s</code><span class="simple-text"> in front)</span></span></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="report">Report<a href="#report"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="paragraph content-block"><span class="simple-text">As you can see in the report below, each </span><code>CRUD</code><span class="simple-text"> operation has its own entry. If you follow this pattern, then you</span><span> </span><span class="simple-text">can filter tests by </span><code>create</code><span class="simple-text">, </span><code>update</code><span class="simple-text">, </span><code>read</code><span class="simple-text">, </span><code>delete</code><span class="simple-text"> to streamline investigation.</span></div><div class="embedded-annotated-image"><div style="position:relative;width:900px;height:572.8467153284671px" class="annotated-image"><div style="position:absolute;top:0"><img alt="annotated" src="/webtau/guide/img/rest-crud-separated-report.png" width="900px" height="572.8467153284671px"/></div><div style="position:absolute;top:0"><svg width="900px" height="572.8467153284671px"><filter id="highlight"><feColorMatrix values="1 0 1 0 0 1 0 1 0 0 1 0 1 0 0 0 0 0 1 0"></feColorMatrix></filter></svg></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">CRUD<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Data Node<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Lazy Resource</h1></header>
+<p>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . package scenarios.rest.springboot
+
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+class Customer {
+    Number id
+    String url // store url of the created entity
+}
+
+def customerPayload = [firstName: "FN", lastName: "LN"]
+
+def customer = createLazyResource("customer") { // lazy resource to be created on the first access
+    int id = http.post("/customers", customerPayload) {
+        return id
+    }
+
+    return new Customer(id: id, url: "/customers/${id}")
+}
+
+scenario("customer create") {
+    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)
+}
+
+scenario("customer read") {
+    http.get(customer.url) { // convenient re-use of url defined above
+        body.should == customerPayload
+    }
+}
+
+scenario("customer update") {
+    def changedLastName = "NLN"
+    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {
+        lastName.should == changedLastName
+    }
+
+    http.get(customer.url) {
+        lastName.should == changedLastName
+    }
+}
+
+scenario("customer delete") {
+    http.delete(customer.url) {
+        statusCode.should == 204
+    }
+
+    http.get(customer.url) {
+        statusCode.should == 404
+    }
+} Note: to run one scenario at a time use  sscenario  (additional  s  in front)</p>
+</article>
+
+<article>
+<header><h1>Report</h1></header>
+<p>As you can see in the report below, each  CRUD  operation has its own entry. If you follow this pattern, then you can filter tests by  create ,  update ,  read ,  delete  to streamline investigation.</p>
+</article>
+</section>
+</div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -116,670 +128,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "maxLineLength": 107,
-            "tokens": [
-              {
-                "type": "keyword",
-                "content": "package"
-              },
-              " scenarios",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "rest",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "springboot\n\n",
-              {
-                "type": "keyword",
-                "content": "import"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "static"
-              },
-              " com",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "twosigma",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "webtau",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "WebTauGroovyDsl",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              "\n\n",
-              {
-                "type": "keyword",
-                "content": "class"
-              },
-              " ",
-              {
-                "type": "class-name",
-                "content": [
-                  "Customer"
-                ]
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n    Number id\n    String url ",
-              {
-                "type": "comment",
-                "content": "// store url of the created entity"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n",
-              {
-                "type": "keyword",
-                "content": "def"
-              },
-              " customerPayload ",
-              {
-                "type": "operator",
-                "content": "\u003d"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "["
-              },
-              "firstName",
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              " ",
-              {
-                "type": "string",
-                "content": "\"FN\""
-              },
-              {
-                "type": "punctuation",
-                "content": ","
-              },
-              " lastName",
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              " ",
-              {
-                "type": "string",
-                "content": "\"LN\""
-              },
-              {
-                "type": "punctuation",
-                "content": "]"
-              },
-              "\n\n",
-              {
-                "type": "keyword",
-                "content": "def"
-              },
-              " customer ",
-              {
-                "type": "operator",
-                "content": "\u003d"
-              },
-              " ",
-              {
-                "type": "function",
-                "content": "createLazyResource"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"customer\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              " ",
-              {
-                "type": "comment",
-                "content": "// lazy resource to be created on the first access"
-              },
-              "\n    ",
-              {
-                "type": "keyword",
-                "content": "int"
-              },
-              " id ",
-              {
-                "type": "operator",
-                "content": "\u003d"
-              },
-              " http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "post"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"/customers\""
-              },
-              {
-                "type": "punctuation",
-                "content": ","
-              },
-              " customerPayload",
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n        ",
-              {
-                "type": "keyword",
-                "content": "return"
-              },
-              " id\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n    ",
-              {
-                "type": "keyword",
-                "content": "return"
-              },
-              " ",
-              {
-                "type": "keyword",
-                "content": "new"
-              },
-              " ",
-              {
-                "type": "class-name",
-                "content": [
-                  "Customer"
-                ]
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              "id",
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              " id",
-              {
-                "type": "punctuation",
-                "content": ","
-              },
-              " url",
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              " ",
-              {
-                "type": "string",
-                "content": "\"/customers/${id}\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n",
-              {
-                "type": "function",
-                "content": "scenario"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"customer create\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n    customer",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "id",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "should ",
-              {
-                "type": "operator",
-                "content": "!\u003d"
-              },
-              " null ",
-              {
-                "type": "comment",
-                "content": "// accessing resource for the first time will trigger POST (in this example)"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n",
-              {
-                "type": "function",
-                "content": "scenario"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"customer read\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n    http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "get"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              "customer",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "url",
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              " ",
-              {
-                "type": "comment",
-                "content": "// convenient re-use of url defined above"
-              },
-              "\n        body",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "should ",
-              {
-                "type": "operator",
-                "content": "\u003d\u003d"
-              },
-              " customerPayload\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n",
-              {
-                "type": "function",
-                "content": "scenario"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"customer update\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n    ",
-              {
-                "type": "keyword",
-                "content": "def"
-              },
-              " changedLastName ",
-              {
-                "type": "operator",
-                "content": "\u003d"
-              },
-              " ",
-              {
-                "type": "string",
-                "content": "\"NLN\""
-              },
-              "\n    http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "put"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              "customer",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "url",
-              {
-                "type": "punctuation",
-                "content": ","
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "["
-              },
-              {
-                "type": "operator",
-                "content": "*"
-              },
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              "customerPayload",
-              {
-                "type": "punctuation",
-                "content": ","
-              },
-              " lastName",
-              {
-                "type": "punctuation",
-                "content": ":"
-              },
-              " changedLastName",
-              {
-                "type": "punctuation",
-                "content": "]"
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n        lastName",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "should ",
-              {
-                "type": "operator",
-                "content": "\u003d\u003d"
-              },
-              " changedLastName\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n    http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "get"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              "customer",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "url",
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n        lastName",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "should ",
-              {
-                "type": "operator",
-                "content": "\u003d\u003d"
-              },
-              " changedLastName\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n",
-              {
-                "type": "function",
-                "content": "scenario"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              {
-                "type": "string",
-                "content": "\"customer delete\""
-              },
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n    http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "delete"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              "customer",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "url",
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n        statusCode",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "should ",
-              {
-                "type": "operator",
-                "content": "\u003d\u003d"
-              },
-              " ",
-              {
-                "type": "number",
-                "content": "204"
-              },
-              "\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n\n    http",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              {
-                "type": "function",
-                "content": "get"
-              },
-              {
-                "type": "punctuation",
-                "content": "("
-              },
-              "customer",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "url",
-              {
-                "type": "punctuation",
-                "content": ")"
-              },
-              " ",
-              {
-                "type": "punctuation",
-                "content": "{"
-              },
-              "\n        statusCode",
-              {
-                "type": "operator",
-                "content": "."
-              },
-              "should ",
-              {
-                "type": "operator",
-                "content": "\u003d\u003d"
-              },
-              " ",
-              {
-                "type": "number",
-                "content": "404"
-              },
-              "\n    ",
-              {
-                "type": "punctuation",
-                "content": "}"
-              },
-              "\n",
-              {
-                "type": "punctuation",
-                "content": "}"
-              }
-            ],
+            "snippet": "package scenarios.rest.springboot\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nclass Customer {\n    Number id\n    String url // store url of the created entity\n}\n\ndef customerPayload \u003d [firstName: \"FN\", lastName: \"LN\"]\n\ndef customer \u003d createLazyResource(\"customer\") { // lazy resource to be created on the first access\n    int id \u003d http.post(\"/customers\", customerPayload) {\n        return id\n    }\n\n    return new Customer(id: id, url: \"/customers/${id}\")\n}\n\nscenario(\"customer create\") {\n    customer.id.should !\u003d null // accessing resource for the first time will trigger POST (in this example)\n}\n\nscenario(\"customer read\") {\n    http.get(customer.url) { // convenient re-use of url defined above\n        body.should \u003d\u003d customerPayload\n    }\n}\n\nscenario(\"customer update\") {\n    def changedLastName \u003d \"NLN\"\n    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {\n        lastName.should \u003d\u003d changedLastName\n    }\n\n    http.get(customer.url) {\n        lastName.should \u003d\u003d changedLastName\n    }\n}\n\nscenario(\"customer delete\") {\n    http.delete(customer.url) {\n        statusCode.should \u003d\u003d 204\n    }\n\n    http.get(customer.url) {\n        statusCode.should \u003d\u003d 404\n    }\n}",
             "commentsType": "inline",
             "type": "Snippet"
           },

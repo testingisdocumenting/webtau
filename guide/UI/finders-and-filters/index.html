@@ -8,20 +8,34 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div class="with-theme theme-default" data-reactroot=""><div class="documentation"><div class="side-panel"><div class="toc-panel"><div class="toc-panel-header"><div class="toc-panel-header-logo-and-title"><div class="mdoc-documentation-logo"></div><div class="toc-panel-header-title">WebTau Guide</div></div><div class="toc-panel-collapse-button"><svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14"><path fill-rule="evenodd" d="M6.93 13.23L0 6.61 6.93 0l1.48 1.532L3.305 6.65l5.107 4.977z"></path></svg></div></div><div class="toc-menu"><div class="toc-section"><div class="title">REST</div><div class="toc-item"><a href="/webtau/guide/REST/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD">CRUD</a></div><div class="toc-item"><a href="/webtau/guide/REST/CRUD-separated">CRUD Separated</a></div><div class="toc-item"><a href="/webtau/guide/REST/data-node">Data Node</a></div><div class="toc-item"><a href="/webtau/guide/REST/headers">Headers</a></div><div class="toc-item"><a href="/webtau/guide/REST/files-upload">Files Upload</a></div><div class="toc-item"><a href="/webtau/guide/REST/PDF">PDF</a></div><div class="toc-item"><a href="/webtau/guide/REST/documentation">Documentation</a></div><div class="toc-item"><a href="/webtau/guide/REST/complex-types">Complex Types</a></div><div class="toc-item"><a href="/webtau/guide/REST/openAPI-spec">OpenAPI Spec</a></div><div class="toc-item"><a href="/webtau/guide/REST/report">Report</a></div><div class="toc-item"><a href="/webtau/guide/REST/maven">Maven</a></div><div class="toc-item"><a href="/webtau/guide/REST/matchers">Matchers</a></div></div><div class="toc-section selected"><div class="title">UI</div><div class="toc-item"><a href="/webtau/guide/UI/getting-started">Getting Started</a></div><div class="toc-item"><a href="/webtau/guide/UI/basic-configuration">Basic Configuration</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-element-and-value">Page Element And Value</a></div><div class="toc-item"><a href="/webtau/guide/UI/page-object">Page Object</a></div><div class="toc-item"><a href="/webtau/guide/UI/advanced-configuration">Advanced Configuration</a></div><div class="toc-item selected"><a href="/webtau/guide/UI/finders-and-filters">Finders And Filters</a><div class="page-sections"><div class="page-section selected"><a href="#filters">Filters</a></div></div></div><div class="toc-item"><a href="/webtau/guide/UI/matchers">Matchers</a></div></div><div class="toc-section"><div class="title">Configuration</div><div class="toc-item"><a href="/webtau/guide/configuration/cli">Cli</a></div><div class="toc-item"><a href="/webtau/guide/configuration/environments">Environments</a></div></div></div></div></div><div class="search-button glyphicon glyphicon-search"></div><div class="main-panel"><div class="page-content"><div class="content-block"><div class="page-title-block"><span class="page-title">Finders And Filters</span><span class="presentation-button glyphicon glyphicon-resize-full"></span></div><div class="page-meta-block"><div class="page-last-update-time">Wed Aug 01 2018</div><div class="page-view-on"><a href="https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau/UI/finders-and-filters.md" target="_bank">View On GitHub</a></div></div></div><div class="section"><div class="content-block"><h1 class="section-title" id="filters">Filters<a href="#filters"><span class="icon glyphicon glyphicon-link"></span></a></h1></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>menu<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span> 
-</span><span class="code-line"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span> 
-</span><span class="code-line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>/book<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>book<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span> 
-</span><span class="code-line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>/orders<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>orders<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span> 
-</span><span class="code-line">  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">&quot;</span>/help<span class="token punctuation">&quot;</span></span><span class="token punctuation">&gt;</span></span>help<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span> 
-</span><span class="code-line"> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span> 
-</span><span class="code-line"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div><div class="snippet-container content-block"><div class="snippet"><pre><span class="code-line"><span class="">$(&quot;#menu ul li a&quot;).get(&quot;orders&quot;) 
-$(&quot;#menu ul li a&quot;).get(~/orders/) 
-$(&quot;#menu ul li a&quot;).get(2) 
-</span></span></pre><div class="snippet-copy-to-clipboard copy"><div class="snippet-copy-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></div></div></div></div></div></div><div class="page-default-bottom-padding"></div><div class="page-bottom"><div class="page-default-next-prev-navigation"><div class="default-next-prev-navigation-button"><span class="glyphicon glyphicon-chevron-left"></span><span class="next-prev-page-title">Advanced Configuration<!-- --> </span></div><div class="default-next-prev-navigation-button"><span class="next-prev-page-title">Matchers<!-- --> </span><span class="glyphicon glyphicon-chevron-right"></span></div></div></div></div></div></div></div>
+<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Finders</h1></header>
+<p>Finders in webtau is the initial web element selection that could select one or more elements.</p>
+</article>
+
+<article>
+<header><h1>By CSS</h1></header>
+<p>Use  $  to select an element by a given  css  selector def welcomeMessage = $('#welcome')
+welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a')
+menu.should == 'book' While  click  and  sendKeys  will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a')
+menu.should == ['book', 'orders', 'help']</p>
+</article>
+
+<article>
+<header><h1>Filters</h1></header>
+<p>You can use filters to narrow down elements selected by finders like  css . Filter comes in a way of  get  method. Parameter is one of the following Element number Element text Element regexp def ordersMenu = $('ul li a').get(2)
+ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get('orders')
+ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get(~/ord/)
+ordersMenu.should == 'orders'</p>
+</article>
+</section>
+</div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
 <script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -39,459 +53,454 @@ ReactDOM.render(React.createElement(Documentation, {
     "type": "Page",
     "content": [
       {
+        "title": "Finders",
+        "id": "finders",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Finders in webtau is the initial web element selection that could select one or more elements.",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "By CSS",
+        "id": "by-css",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "$",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to select an element by a given ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "css",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " selector",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def welcomeMessage \u003d $(\u0027#welcome\u0027)\nwelcomeMessage.should \u003d\u003d \u0027hello\u0027",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "If more than one element is matched, the first one will be used for actions and assertions.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def menu \u003d $(\u0027ul li a\u0027)\nmenu.should \u003d\u003d \u0027book\u0027",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "While ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "click",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " and ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "sendKeys",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " will always work on a first element only, the matchers can work with a list of things.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def menu \u003d $(\u0027ul li a\u0027)\nmenu.should \u003d\u003d [\u0027book\u0027, \u0027orders\u0027, \u0027help\u0027]",
+            "type": "Snippet"
+          },
+          {
+            "rightSide": true,
+            "type": "Meta"
+          },
+          {
+            "paths": [
+              "div.div[0]",
+              "div.div[1].ul.li[0].a"
+            ],
+            "xmlAsJson": {
+              "tagName": "div",
+              "attributes": [],
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"welcome\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "",
+                      "text": "hello"
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"menu\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "ul",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/book\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "book"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/orders\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "orders"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/help\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "help"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Xml"
+          }
+        ]
+      },
+      {
         "title": "Filters",
         "id": "filters",
         "type": "Section",
         "content": [
           {
-            "lang": "html",
-            "maxLineLength": 42,
-            "tokens": [
+            "type": "Paragraph",
+            "content": [
               {
-                "type": "tag",
+                "text": "You can use filters to narrow down elements selected by finders like ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "css",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Filter comes in a way of ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "get",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " method. Parameter is one of the following",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "bulletMarker": "*",
+            "tight": true,
+            "type": "BulletList",
+            "content": [
+              {
+                "type": "ListItem",
                 "content": [
                   {
-                    "type": "tag",
+                    "type": "Paragraph",
                     "content": [
                       {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "div"
-                    ]
-                  },
-                  " ",
-                  {
-                    "type": "attr-name",
-                    "content": [
-                      "id"
-                    ]
-                  },
-                  {
-                    "type": "attr-value",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003d"
-                      },
-                      {
-                        "type": "punctuation",
-                        "content": "\""
-                      },
-                      "menu",
-                      {
-                        "type": "punctuation",
-                        "content": "\""
+                        "text": "Element number",
+                        "type": "SimpleText"
                       }
                     ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
                   }
                 ]
               },
-              " \n ",
               {
-                "type": "tag",
+                "type": "ListItem",
                 "content": [
                   {
-                    "type": "tag",
+                    "type": "Paragraph",
                     "content": [
                       {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "ul"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " \n  ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "li"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "a"
-                    ]
-                  },
-                  " ",
-                  {
-                    "type": "attr-name",
-                    "content": [
-                      "href"
-                    ]
-                  },
-                  {
-                    "type": "attr-value",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003d"
-                      },
-                      {
-                        "type": "punctuation",
-                        "content": "\""
-                      },
-                      "/book",
-                      {
-                        "type": "punctuation",
-                        "content": "\""
+                        "text": "Element text",
+                        "type": "SimpleText"
                       }
                     ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
                   }
                 ]
               },
-              "book",
               {
-                "type": "tag",
+                "type": "ListItem",
                 "content": [
                   {
-                    "type": "tag",
+                    "type": "Paragraph",
                     "content": [
                       {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "a"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "li"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " \n  ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "li"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "a"
-                    ]
-                  },
-                  " ",
-                  {
-                    "type": "attr-name",
-                    "content": [
-                      "href"
-                    ]
-                  },
-                  {
-                    "type": "attr-value",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003d"
-                      },
-                      {
-                        "type": "punctuation",
-                        "content": "\""
-                      },
-                      "/orders",
-                      {
-                        "type": "punctuation",
-                        "content": "\""
+                        "text": "Element regexp",
+                        "type": "SimpleText"
                       }
                     ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              "orders",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "a"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "li"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " \n  ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "li"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c"
-                      },
-                      "a"
-                    ]
-                  },
-                  " ",
-                  {
-                    "type": "attr-name",
-                    "content": [
-                      "href"
-                    ]
-                  },
-                  {
-                    "type": "attr-value",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003d"
-                      },
-                      {
-                        "type": "punctuation",
-                        "content": "\""
-                      },
-                      "/help",
-                      {
-                        "type": "punctuation",
-                        "content": "\""
-                      }
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              "help",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "a"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "li"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " \n ",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "ul"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
-                  }
-                ]
-              },
-              " \n",
-              {
-                "type": "tag",
-                "content": [
-                  {
-                    "type": "tag",
-                    "content": [
-                      {
-                        "type": "punctuation",
-                        "content": "\u003c/"
-                      },
-                      "div"
-                    ]
-                  },
-                  {
-                    "type": "punctuation",
-                    "content": "\u003e"
                   }
                 ]
               }
-            ],
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def ordersMenu \u003d $(\u0027ul li a\u0027).get(2)\nordersMenu.should \u003d\u003d \u0027orders\u0027",
+            "title": "Number",
             "type": "Snippet"
           },
           {
-            "lang": "",
-            "maxLineLength": 34,
-            "tokens": [
-              {
-                "type": "text",
-                "content": "$(\"#menu ul li a\").get(\"orders\") \n$(\"#menu ul li a\").get(~/orders/) \n$(\"#menu ul li a\").get(2) \n"
-              }
-            ],
-            "lineNumber": "",
+            "lang": "groovy",
+            "snippet": "def ordersMenu \u003d $(\u0027ul li a\u0027).get(\u0027orders\u0027)\nordersMenu.should \u003d\u003d \u0027orders\u0027",
+            "title": "Text",
             "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def ordersMenu \u003d $(\u0027ul li a\u0027).get(~/ord/)\nordersMenu.should \u003d\u003d \u0027orders\u0027",
+            "title": "Regexp",
+            "type": "Snippet"
+          },
+          {
+            "rightSide": true,
+            "type": "Meta"
+          },
+          {
+            "paths": [
+              "div.div[1].ul.li[1].a"
+            ],
+            "xmlAsJson": {
+              "tagName": "div",
+              "attributes": [],
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"welcome\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "",
+                      "text": "hello"
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"menu\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "ul",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/book\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "book"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/orders\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "orders"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/help\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "help"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Xml"
           }
         ]
       }
     ],
-    "lastModifiedTime": 1533120126000,
+    "lastModifiedTime": 1536175669000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Finders And Filters",
-      "pageMeta": {},
+      "pageMeta": {
+        "type": [
+          "two-sides"
+        ]
+      },
       "fileName": "finders-and-filters",
       "dirName": "UI",
       "pageSectionIdTitles": [
+        {
+          "title": "Finders",
+          "id": "finders"
+        },
+        {
+          "title": "By CSS",
+          "id": "by-css"
+        },
         {
           "title": "Filters",
           "id": "filters"
