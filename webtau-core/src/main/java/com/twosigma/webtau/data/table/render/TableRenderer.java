@@ -76,7 +76,7 @@ public class TableRenderer {
 
     private void calculateWidths() {
         widthPerColumnName = new LinkedHashMap<>();
-        renderedCells.getHeader().getNames().forEach((name) ->
+        renderedCells.getHeader().getNamesStream().forEach((name) ->
             widthPerColumnName.put(name, renderedCells.mapColumn(name, CellToRender::getWidth).max(Integer::compareTo).orElse(0))
         );
     }

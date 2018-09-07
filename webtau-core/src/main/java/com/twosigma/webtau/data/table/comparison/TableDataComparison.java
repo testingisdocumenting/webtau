@@ -16,11 +16,16 @@
 
 package com.twosigma.webtau.data.table.comparison;
 
+import com.twosigma.webtau.data.table.CompositeKey;
 import com.twosigma.webtau.data.table.Record;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static com.twosigma.webtau.Ddjt.createActualPath;
 import static java.util.stream.Collectors.toSet;
@@ -28,6 +33,10 @@ import static java.util.stream.Collectors.toSet;
 public class TableDataComparison {
     private TableData actual;
     private TableData expected;
+
+    private final Map<CompositeKey, Record> actualRowsByKey;
+    private final Map<CompositeKey, Integer> actualRowIdxByKey;
+
     private TableDataComparisonResult comparisonResult;
     private Set<String> columnsToCompare;
 
@@ -41,6 +50,11 @@ public class TableDataComparison {
     private TableDataComparison(TableData actual, TableData expected) {
         this.actual = actual;
         this.expected = expected;
+
+        this.actualRowIdxByKey = new HashMap<>();
+        this.actualRowsByKey = new HashMap<>();
+        mapActualRowsByKeyDefinedInExpected();
+
         this.comparisonResult = new TableDataComparisonResult(actual, expected);
     }
 
@@ -50,14 +64,12 @@ public class TableDataComparison {
     }
 
     private void compareColumns() {
-        Set<String> actualColumns = actual.getHeader().getNames().collect(toSet());
-        Set<String> expectedColumns = expected.getHeader().getNames().collect(toSet());
+        Set<String> actualColumns = actual.getHeader().getNamesStream().collect(toSet());
+        Set<String> expectedColumns = expected.getHeader().getNamesStream().collect(toSet());
 
         columnsToCompare = expectedColumns.stream().filter(actualColumns::contains).collect(toSet());
         expectedColumns.stream().filter(c -> ! actualColumns.contains(c)).forEach(comparisonResult::addMissingColumn);
     }
-
-    // TODO handle key columns
 
     private void compareRows() {
         reportExtraRows();
@@ -66,30 +78,41 @@ public class TableDataComparison {
     }
 
     private void reportExtraRows() {
-        for (int rowIdx = expected.numberOfRows(); rowIdx < actual.numberOfRows(); rowIdx++) {
-            comparisonResult.addExtraRow(actual.row(rowIdx));
+        HashSet<CompositeKey> actualKeys = new HashSet<>(actualRowIdxByKey.keySet());
+        actualKeys.removeAll(expected.keySet());
+
+        for (CompositeKey actualKey : actualKeys) {
+            comparisonResult.addExtraRow(actual.find(actualKey));
         }
     }
 
     private void reportMissingRows() {
-        for (int rowIdx = actual.numberOfRows(); rowIdx < expected.numberOfRows(); rowIdx++) {
-            comparisonResult.addMissingRow(expected.row(rowIdx));
+        HashSet<CompositeKey> expectedKeys = new HashSet<>(expected.keySet());
+        expectedKeys.removeAll(actualRowIdxByKey.keySet());
+
+        for (CompositeKey expectedKey : expectedKeys) {
+            comparisonResult.addMissingRow(expected.find(expectedKey));
         }
     }
 
     private void compareCommonRows() {
-        int commonRowsSize = Math.min(actual.numberOfRows(), expected.numberOfRows());
+        HashSet<CompositeKey> actualKeys = new HashSet<>(actualRowsByKey.keySet());
+        actualKeys.retainAll(expected.keySet());
 
-        for (int rowIdx = 0; rowIdx < commonRowsSize; rowIdx++) {
-            compare(rowIdx, actual.row(rowIdx), expected.row(rowIdx));
+        for (CompositeKey actualKey : actualKeys) {
+            Integer actualRowIdx = actualRowIdxByKey.get(actualKey);
+            Integer expectedRowIdx = expected.findRowIdxByKey(actualKey);
+            compare(actualRowIdx, expectedRowIdx,
+                    actual.row(actualRowIdx), expected.row(expectedRowIdx));
         }
     }
 
-    private void compare(int rowIdx, Record actual, Record expected) {
-        columnsToCompare.forEach(columnName -> compare(rowIdx, columnName, actual.get(columnName), expected.get(columnName)));
+    private void compare(Integer actualRowIdx, Integer expectedRowIdx, Record actual, Record expected) {
+        columnsToCompare.forEach(columnName -> compare(actualRowIdx, expectedRowIdx, columnName,
+                actual.get(columnName), expected.get(columnName)));
     }
 
-    private void compare(int rowIdx, String columnName, Object actual, Object expected) {
+    private void compare(Integer actualRowIdx, Integer expectedRowIdx, String columnName, Object actual, Object expected) {
         CompareToComparator comparator = CompareToComparator.comparator();
         boolean isEqual = comparator.compareIsEqual(createActualPath(columnName), actual, expected);
 
@@ -97,6 +120,25 @@ public class TableDataComparison {
             return;
         }
 
-        comparisonResult.addMismatch(rowIdx, rowIdx, columnName, comparator.generateEqualMismatchReport());
+        comparisonResult.addMismatch(actualRowIdx, expectedRowIdx, columnName, comparator.generateEqualMismatchReport());
+    }
+
+    private void mapActualRowsByKeyDefinedInExpected() {
+        for (int rowIdx = 0; rowIdx < actual.numberOfRows(); rowIdx++) {
+            Record row = actual.row(rowIdx);
+
+            CompositeKey key = expected.getHeader().hasKeyColumns() ?
+                    expected.getHeader().createKey(row) :
+                    new CompositeKey(Stream.of(rowIdx));
+
+            Record previous = actualRowsByKey.put(key, row);
+            if (previous != null) {
+                throw new IllegalArgumentException("duplicate entry found in actual table with key: " + key +
+                        "\n" + previous +
+                        "\n" + row);
+            }
+
+            actualRowIdxByKey.put(key, rowIdx);
+        }
     }
 }

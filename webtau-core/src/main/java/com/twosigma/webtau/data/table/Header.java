@@ -43,11 +43,15 @@ public class Header {
         return new Record(this, values);
     }
 
+    public CompositeKey createKey(Record record) {
+        return new CompositeKey(getKeyNamesStream().map(record::get));
+    }
+
     public boolean has(String name) {
         return indexByName.containsKey(name);
     }
 
-    public Stream<String> getNames() {
+    public Stream<String> getNamesStream() {
         return namesByIndex.stream();
     }
 
@@ -55,11 +59,11 @@ public class Header {
         return ! keyNames.isEmpty();
     }
 
-    public Stream<String> getKeyNames() {
+    public Stream<String> getKeyNamesStream() {
         return keyNames.stream();
     }
 
-    public Stream<Integer> getKeyIdx() {
+    public Stream<Integer> getKeyIdxStream() {
         return keyIdx.stream();
     }
 

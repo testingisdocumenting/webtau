@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.data.table;
 
+import com.sun.istack.internal.NotNull;
 import com.twosigma.webtau.utils.JsonUtils;
 
 import java.util.*;
@@ -30,6 +31,8 @@ import static java.util.stream.Collectors.toList;
  */
 public class TableData implements Iterable<Record> {
     private final List<Record> rows;
+    private final Map<CompositeKey, Record> rowsByKey;
+    private final Map<CompositeKey, Integer> rowIdxByKey;
     private final Header header;
 
     public TableData(List<String> columnNames) {
@@ -43,6 +46,8 @@ public class TableData implements Iterable<Record> {
     public TableData(Header header) {
         this.header = header;
         this.rows = new ArrayList<>();
+        this.rowsByKey = new HashMap<>();
+        this.rowIdxByKey = new HashMap<>();
     }
 
     public Header getHeader() {
@@ -51,6 +56,14 @@ public class TableData implements Iterable<Record> {
 
     public boolean isEmpty() {
         return rows.isEmpty();
+    }
+
+    public Set<CompositeKey> keySet() {
+        return rowsByKey.keySet();
+    }
+
+    public Integer findRowIdxByKey(CompositeKey key) {
+        return rowIdxByKey.get(key);
     }
 
     /**
@@ -82,6 +95,10 @@ public class TableData implements Iterable<Record> {
         return rows.get(rowIdx);
     }
 
+    public Record find(CompositeKey key) {
+        return rowsByKey.get(key);
+    }
+
     public void addRow(List<Object> values) {
         addRow(values.stream());
     }
@@ -95,6 +112,18 @@ public class TableData implements Iterable<Record> {
 
     public void addRow(Stream<Object> values) {
         Record record = new Record(header, values);
+
+        int rowIdx = rows.size();
+        CompositeKey key = getOrBuildKey(rowIdx, record);
+
+        Record previous = rowsByKey.put(key, record);
+        if (previous != null) {
+            throw new IllegalArgumentException("duplicate entry found with key: " + key +
+                    "\n" + previous +
+                    "\n" + record);
+        }
+
+        rowIdxByKey.put(key, rowIdx);
         rows.add(record);
     }
 
@@ -118,7 +147,8 @@ public class TableData implements Iterable<Record> {
 
     @SuppressWarnings("unchecked")
     private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellFunction mapper) {
-        return header.getColumnIdxStream().mapToObj(idx -> mapper.apply(rowIdx, idx, header.columnNameByIdx(idx), originalRow.get(idx)));
+        return header.getColumnIdxStream()
+                .mapToObj(idx -> mapper.apply(rowIdx, idx, header.columnNameByIdx(idx), originalRow.get(idx)));
     }
 
     public Stream<Record> rowsStream() {
@@ -145,5 +175,13 @@ public class TableData implements Iterable<Record> {
     private void validateRowIdx(int rowIdx) {
         if (rowIdx < 0 || rowIdx >= numberOfRows())
             throw new IllegalArgumentException("rowIdx is out of range: [0, " + (numberOfRows() - 1) + "]");
+    }
+
+    private CompositeKey getOrBuildKey(int rowIdx, Record row) {
+        if (header.hasKeyColumns()) {
+            return row.getKey();
+        }
+
+        return new CompositeKey(Stream.of(rowIdx));
     }
 }

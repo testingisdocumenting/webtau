@@ -20,6 +20,77 @@ import org.junit.Test
 
 class TableDataComparisonTest {
     @Test
+    void "should have no mismatches when values in rows match"() {
+        def actual = ["a" | "b" | "c"] {
+                      ______________
+                       10 | 20  | 30
+                       20 | 40  | 60 }
+
+        def expected = ["a" | "b" | "c"] {
+                        ______________
+                         10 | 20  | 30
+                         20 | 40  | 60 }
+
+
+        def result = TableDataComparison.compare(actual, expected)
+        assertNoMismatches(result)
+    }
+
+    @Test
+    void "should have no mismatches when values match by key"() {
+        def actual = ["*id" | "b" | "c"] {
+                      _________________
+                         10 | 20  | 30
+                         20 | 40  | 60 }
+
+        def expected = ["*id" | "b" | "c"] {
+                        __________________
+                           20 | 40  | 60
+                           10 | 20  | 30 }
+
+        def result = TableDataComparison.compare(actual, expected)
+        assertNoMismatches(result)
+    }
+
+    @Test
+    void "should have no mismatches when values match by key and keys defined only on expected data set"() {
+        def actual = ["id" | "b" | "c"] {
+                      _________________
+                        10 | 20  | 30
+                        20 | 40  | 60 }
+
+        def expected = ["*id" | "b" | "c"] {
+                        __________________
+                           20 | 40  | 60
+                           10 | 20  | 30 }
+
+        def result = TableDataComparison.compare(actual, expected)
+        assertNoMismatches(result)
+    }
+
+    @Test
+    void "should record mismatches associated with row and column"() {
+        def actual = ["a" | "b" | "c"] {
+                      ______________
+                       10 | 20  | 30
+                       20 | 40  | 60 }
+
+        def expected = ["a" | "b" | "c"] {
+                        ______________
+                         10 | 22  | 30
+                         20 | 40  | 61 }
+
+
+        def result = TableDataComparison.compare(actual, expected)
+        result.messageByActualRowIdxAndColumn.should == [
+                0: [b: ~/expected: 22/],
+                1: [c: ~/expected: 61/]]
+        result.messageByExpectedRowIdxAndColumn.should == [
+                0: [b: ~/expected: 22/],
+                1: [c: ~/expected: 61/]]
+    }
+
+    @Test
     void "should report missing columns"() {
         def actual = ["a" | "b" | "c"] {
                       ______________
@@ -54,6 +125,26 @@ class TableDataComparisonTest {
     }
 
     @Test
+    void "should report missing rows (with key columns)"() {
+        def actual = ["*id" | "b" | "c"] {
+                      _________________
+                         10 | 20  | 30 }
+
+        def expected = ["*id" | "b" | "c"] {
+                         _______________
+                          20 | 60 | 130
+                          10 | 20 | 30
+                          40 | 80 | 230 }
+
+        def result = TableDataComparison.compare(actual, expected)
+        def missingRows = result.getMissingRows()
+
+        missingRows.size().should == 2
+        missingRows.row(0).should == [id: 20, b: 60, c: 130]
+        missingRows.row(1).should == [id: 40, b: 80, c: 230]
+    }
+
+    @Test
     void "should report extra rows when (no key columns)"() {
         def actual = ["a" | "b" | "c"] {
                        ______________
@@ -71,5 +162,32 @@ class TableDataComparisonTest {
         extraRows.numberOfRows().should == 2
         extraRows.row(0).should == [a: 22, b: 62, c: 132]
         extraRows.row(1).should == [a: 42, b: 82, c: 232]
+    }
+
+    @Test
+    void "should report extra rows when (with key columns)"() {
+        def actual = ["*id" | "b" | "c"] {
+                      ________________
+                         22 | 62  | 132
+                         10 | 20  | 30
+                         42 | 82  | 232 }
+
+        def expected = ["*id" | "b" | "c"] {
+                        _________________
+                           10 | 20 | 30 }
+
+        def result = TableDataComparison.compare(actual, expected)
+        def extraRows = result.getExtraRows()
+
+        extraRows.numberOfRows().should == 2
+        extraRows.row(0).should == [id: 22, b: 62, c: 132]
+        extraRows.row(1).should == [id: 42, b: 82, c: 232]
+    }
+
+    private static void assertNoMismatches(TableDataComparisonResult result) {
+        result.missingColumns.should == []
+        result.extraRows.should == []
+        result.missingRows.should == []
+        result.messageByActualRowIdxAndColumn.should == [:]
     }
 }
