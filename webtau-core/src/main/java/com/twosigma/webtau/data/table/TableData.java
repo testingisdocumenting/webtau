@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.data.table;
 
-import com.sun.istack.internal.NotNull;
 import com.twosigma.webtau.utils.JsonUtils;
 
 import java.util.*;
