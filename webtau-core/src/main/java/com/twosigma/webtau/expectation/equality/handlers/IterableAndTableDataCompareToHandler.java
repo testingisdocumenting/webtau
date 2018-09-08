@@ -48,7 +48,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
     }
 
     private static TableData createTableFromList(Header expectedHeader, List actualList) {
-        TableData actualTable = new TableData(expectedHeader.getNames());
+        TableData actualTable = new TableData(expectedHeader.getNamesStream());
         for (Object actualRecord : actualList) {
             Map<String, ?> actualMap = ToMapConverters.convert(actualRecord);
             actualTable.addRow(mapToList(expectedHeader, actualMap));
@@ -59,7 +59,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
 
     private static List<Object> mapToList(Header header, Map<String, ?> map) {
         List<Object> result = new ArrayList<>();
-        header.getNames().forEach(n -> result.add(map.get(n)));
+        header.getNamesStream().forEach(n -> result.add(map.get(n)));
 
         return result;
     }

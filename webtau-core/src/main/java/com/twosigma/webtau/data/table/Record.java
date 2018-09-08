@@ -32,7 +32,8 @@ public class Record {
     public Record(Header header, Stream<Object> values) {
         this.header = header;
         this.values = values.collect(toList());
-        this.key = header.hasKeyColumns() ? new CompositeKey(header.getKeyIdx().map(this::get)): null;
+        this.key = header.hasKeyColumns() ?
+                new CompositeKey(header.getKeyIdxStream().map(this::get)): null;
     }
 
     public Header getHeader() {

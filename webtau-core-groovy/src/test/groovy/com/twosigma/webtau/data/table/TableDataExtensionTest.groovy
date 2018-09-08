@@ -26,7 +26,7 @@ class TableDataExtensionTest {
                          54  | null  }
 
         table.size().should == 2
-        table.header.getNames().should == ["hello", "world"]
+        table.header.getNamesStream().should == ["hello", "world"]
         table.row(0).should == [hello: 12, world: 46]
         table.row(1).should == [hello: 54, world: null]
     }

@@ -48,7 +48,7 @@ public class RecordAndMapCompareToHandler implements CompareToHandler {
                 Object expectedValue = expectedMap.get(name);
                 comparator.compareUsingEqualOnly(propertyPath, actualValue, expectedValue);
             } else {
-                comparator.reportMissing(this, actualPath, expectedMap.get(name));
+                comparator.reportMissing(this, propertyPath, expectedMap.get(name));
             }
         }
     }

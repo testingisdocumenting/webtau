@@ -38,8 +38,8 @@ class HeaderTest {
 
     @Test
     void "defines key columns using asterisk in front of column name"() {
-        assert header.getKeyNames().collect(toList()) == ["ColumnB", "ColumnC"]
-        assert header.getKeyIdx().collect(toList()) == [1, 2]
+        assert header.getKeyNamesStream().collect(toList()) == ["ColumnB", "ColumnC"]
+        assert header.getKeyIdxStream().collect(toList()) == [1, 2]
     }
 
     @Test

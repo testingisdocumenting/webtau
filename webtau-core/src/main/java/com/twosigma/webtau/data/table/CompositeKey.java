@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
 /**
- * Composite key to be used in structures like {@link TableData}. Keys comparison rules are dictated by {@link CompareToComparator}.
+ * Composite key to be used in structures like {@link TableData}.
  */
 public class CompositeKey {
     private List<Object> values;
@@ -48,8 +48,7 @@ public class CompositeKey {
             return false;
 
         List<Object> otherValues = ((CompositeKey) other).values;
-        CompareToComparator comparator = CompareToComparator.comparator();
-        return comparator.compareIsEqual(createActualPath(""), values, otherValues);
+        return values.equals(otherValues);
     }
 
     public int hashCode() {
@@ -58,6 +57,6 @@ public class CompositeKey {
 
     @Override
     public String toString() {
-        return "CompositeKey: " + values;
+        return values.toString();
     }
 }

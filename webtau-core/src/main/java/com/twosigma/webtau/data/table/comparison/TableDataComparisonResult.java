@@ -54,6 +54,14 @@ public class TableDataComparisonResult {
             extraRows.isEmpty();
     }
 
+    public Map<Integer, Map<String, String>> getMessageByActualRowIdxAndColumn() {
+        return messageByActualRowIdxAndColumn;
+    }
+
+    public Map<Integer, Map<String, String>> getMessageByExpectedRowIdxAndColumn() {
+        return messageByExpectedRowIdxAndColumn;
+    }
+
     public TableData getActual() {
         return actual;
     }
@@ -78,10 +86,6 @@ public class TableDataComparisonResult {
         return missingColumns;
     }
 
-    public void setMissingColumns(Set<String> missingColumns) {
-        this.missingColumns = missingColumns;
-    }
-
     public TableData getMissingRows() {
         return missingRows;
     }
@@ -90,17 +94,16 @@ public class TableDataComparisonResult {
         return extraRows;
     }
 
-    // TODO keys support
-    public void addMismatch(int actualRowIdx, int expectedRowIdx, String columnName, String message) {
+    public void addMismatch(Integer actualRowIdx, Integer expectedRowIdx, String columnName, String message) {
         addMismatch(messageByActualRowIdxAndColumn, actualRowIdx, columnName, message);
         addMismatch(messageByExpectedRowIdxAndColumn, expectedRowIdx, columnName, message);
     }
 
-    public String getActualMismatch(int rowIdx, String columnName) {
+    public String getActualMismatch(Integer rowIdx, String columnName) {
         return getMismatch(messageByActualRowIdxAndColumn, rowIdx, columnName);
     }
 
-    public String getExpectedMismatch(int rowIdx, String columnName) {
+    public String getExpectedMismatch(Integer rowIdx, String columnName) {
         return getMismatch(messageByExpectedRowIdxAndColumn, rowIdx, columnName);
     }
 
@@ -115,8 +118,6 @@ public class TableDataComparisonResult {
 
     private void addMismatch(Map<Integer, Map<String, String>> messagesByRowIdx, int rowIdx, String columnName, String message) {
         Map<String, String> byRow = messagesByRowIdx.computeIfAbsent(rowIdx, k -> new HashMap<>());
-
         byRow.put(columnName, message);
     }
-
 }
