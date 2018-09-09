@@ -277,6 +277,18 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>8.5.20</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hibernate.javax.persistence</groupId>
+                        <artifactId>hibernate-jpa-2.1-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
                 <groupId>org.apache.maven</groupId>
                 <artifactId>maven-plugin-api</artifactId>
                 <version>${maven.api.version}</version>
@@ -489,6 +501,10 @@
                 <configuration>
                     <rules>
                         <dependencyConvergence/>
+                        <banDuplicateClasses>
+                            <findAllDuplicates>true</findAllDuplicates>
+                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
+                        </banDuplicateClasses>
                     </rules>
                 </configuration>
                 <executions>
@@ -499,6 +515,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>extra-enforcer-rules</artifactId>
+                        <version>1.0-beta-9</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
