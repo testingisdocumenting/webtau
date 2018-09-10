@@ -104,6 +104,7 @@
         <module>webtau-docs</module>
         <module>webtau-maven-plugin</module>
         <module>webtau-maven-plugin-test</module>
+        <module>webtau-maven-plugin-test-skip</module>
         <module>webtau-dist</module>
         <module>webtau</module>
     </modules>

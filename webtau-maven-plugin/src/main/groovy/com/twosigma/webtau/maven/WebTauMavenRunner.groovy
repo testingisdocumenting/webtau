@@ -39,21 +39,31 @@ class WebTauMavenRunner extends AbstractMojo {
     @Parameter
     private String workingDir
 
+    @Parameter( property = "skipTests", defaultValue = "false" )
+    protected boolean skipTests
+
+    @Parameter( property = "maven.test.skip", defaultValue = "false" )
+    protected boolean skip
+
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        def fileSetManager = new FileSetManager()
-        def files = fileSetManager.getIncludedFiles(tests) as List
+        if (skipTests()) {
+            getLog().info("Skipping webtau tests")
+        } else {
+            def fileSetManager = new FileSetManager()
+            def files = fileSetManager.getIncludedFiles(tests) as List
 
-        getLog().info("test files:\n    " + files.join("\n    "))
+            getLog().info("test files:\n    " + files.join("\n    "))
 
-        def args = buildArgs([env: env, url: url, workingDir: workingDir])
-        args.addAll(files)
+            def args = buildArgs([env: env, url: url, workingDir: workingDir])
+            args.addAll(files)
 
-        def cli = new WebTauCliApp(args as String[])
-        cli.start(true)
+            def cli = new WebTauCliApp(args as String[])
+            cli.start(true)
 
-        if (cli.problemCount > 0) {
-            throw new MojoFailureException("check failed tests")
+            if (cli.problemCount > 0) {
+                throw new MojoFailureException("check failed tests")
+            }
         }
     }
 
@@ -61,5 +71,9 @@ class WebTauMavenRunner extends AbstractMojo {
         return params.entrySet()
                 .findAll { e -> e.value != null}
                 .collect { e -> "--${e.key}=${e.value}"}
+    }
+
+    boolean skipTests() {
+        return skipTests || skip
     }
 }

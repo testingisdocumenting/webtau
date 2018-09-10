@@ -26,12 +26,16 @@ import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue specUrl = declare("openApiSpecUrl",
-            "url of OpenAPI 2 spec against which to validate http calls", () -> "");
+            "url of OpenAPI 2 spec against which to validate http calls", () -> null);
 
     static final ConfigValue ignoreAdditionalProperties = declare("openApiIgnoreAdditionalProperties",
             "ignore additional OpenAPI properties ", () -> false);
 
     public static String specFullPath() {
+        if (specUrl.getAsString().isEmpty()) {
+            return "";
+        }
+
         return getCfg().getWorkingDir()
                 .resolve(specUrl.getAsString())
                 .toString();
