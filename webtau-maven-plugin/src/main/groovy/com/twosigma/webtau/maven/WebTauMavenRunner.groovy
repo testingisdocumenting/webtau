@@ -50,20 +50,24 @@ class WebTauMavenRunner extends AbstractMojo {
         if (skipTests()) {
             getLog().info("Skipping webtau tests")
         } else {
-            def fileSetManager = new FileSetManager()
-            def files = fileSetManager.getIncludedFiles(tests) as List
+            runTests()
+        }
+    }
 
-            getLog().info("test files:\n    " + files.join("\n    "))
+    private void runTests() {
+        def fileSetManager = new FileSetManager()
+        def files = fileSetManager.getIncludedFiles(tests) as List
 
-            def args = buildArgs([env: env, url: url, workingDir: workingDir])
-            args.addAll(files)
+        getLog().info("test files:\n    " + files.join("\n    "))
 
-            def cli = new WebTauCliApp(args as String[])
-            cli.start(true)
+        def args = buildArgs([env: env, url: url, workingDir: workingDir])
+        args.addAll(files)
 
-            if (cli.problemCount > 0) {
-                throw new MojoFailureException("check failed tests")
-            }
+        def cli = new WebTauCliApp(args as String[])
+        cli.start(true)
+
+        if (cli.problemCount > 0) {
+            throw new MojoFailureException("check failed tests")
         }
     }
 
@@ -73,7 +77,7 @@ class WebTauMavenRunner extends AbstractMojo {
                 .collect { e -> "--${e.key}=${e.value}"}
     }
 
-    boolean skipTests() {
+    private boolean skipTests() {
         return skipTests || skip
     }
 }
