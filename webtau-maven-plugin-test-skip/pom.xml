@@ -24,7 +24,7 @@
         <version>0.30-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webtau-maven-plugin-test</artifactId>
+    <artifactId>webtau-maven-plugin-test-skip</artifactId>
 
     <dependencies>
         <dependency>
@@ -49,6 +49,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <skipTests>true</skipTests>
                     <workingDir>${project.basedir}/src/tests/groovy</workingDir>
                     <tests>
                         <directory>${project.basedir}/src/tests/groovy</directory>

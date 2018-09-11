@@ -32,6 +32,10 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
             "ignore additional OpenAPI properties ", () -> false);
 
     public static String specFullPath() {
+        if (specUrl.getAsString().isEmpty()) {
+            return "";
+        }
+
         return getCfg().getWorkingDir()
                 .resolve(specUrl.getAsString())
                 .toString();
