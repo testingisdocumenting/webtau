@@ -3,43 +3,90 @@
 <head>
 <meta charset="utf-8" /> 
 <title>WebTau: Documentation</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; background: #999; color: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <style scoped>
+        .mdoc-initial-page-build,
+        .mdoc-initial-page-build:before,
+        .mdoc-initial-page-build:after {
+            background: #ffffff;
+            -webkit-animation: load1 1s infinite ease-in-out;
+            animation: load1 1s infinite ease-in-out;
+            width: 1em;
+            height: 4em;
+        }
+        .mdoc-initial-page-build {
+            color: #ffffff;
+            text-indent: -9999em;
+            margin: 88px auto;
+            position: relative;
+            font-size: 11px;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+        .mdoc-initial-page-build:before,
+        .mdoc-initial-page-build:after {
+            position: absolute;
+            top: 0;
+            content: '';
+        }
+        .mdoc-initial-page-build:before {
+            left: -1.5em;
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+        .mdoc-initial-page-build:after {
+            left: 1.5em;
+        }
+        @-webkit-keyframes load1 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 0;
+                height: 4em;
+            }
+            40% {
+                box-shadow: 0 -2em;
+                height: 5em;
+            }
+        }
+        @keyframes load1 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 0;
+                height: 4em;
+            }
+            40% {
+                box-shadow: 0 -2em;
+                height: 5em;
+            }
+        }
+    </style>
+
+    <div class="mdoc-initial-page-build">Preparing ...</div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Scenarios</h1></header>
-<p>You provide  REST endpoints  so users can execute various scenarios. You need to test those scenarios and then document them. To automate the process, let's capture executed scenarios and use them inside your documentation.</p>
+<p>You provide REST endpoints so users can execute various scenarios. You need to test those scenarios and then document them.To automate the process, let's capture executed scenarios and use them inside your documentation.</p>
 </article>
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>To capture artifacts use  http.doc.capture : package scenarios.rest
-
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
-
-scenario("extracting id after POST to use inside GET request") {
-    def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) {
-        return id
-    }
-    http.doc.capture('employee-post')
-
-    http.get("/employee/$id") {
-        firstName.should == 'FN'
-        lastName.should == 'LN'
-    }
-    http.doc.capture('employee-get') // capture previous HTTP call into <docDir>/employee-get
-} An  employee-get  directory will be created with request and response data files. Directory will also contain a json file with an array containing paths of all the asserted values. By default, the directory will be created in the current working directory. To change it add  docPath  to your  webtau.cfg  file. url = "http://localhost:8180"
-
-docPath = "doc-artifacts"</p>
+<p>To capture artifacts use http.doc.capture : package scenarios.rest import static com.twosigma.webtau.WebTauDsl.http import static com.twosigma.webtau.WebTauGroovyDsl.scenario scenario("extracting id after POST to use inside GET request") { def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) { return id } http.doc.capture('employee-post') http.get("/employee/$id") { firstName.should == 'FN' lastName.should == 'LN' } http.doc.capture('employee-get') // capture previous HTTP call into <docDir>/employee-get } An employee-get directory will be created with request and response data files.Directory will also contain a json file with an array containing paths of all the asserted values.By default, the directory will be created in the current working directory. To change it add docPath to your webtau.cfg file. url = "http://localhost:8180" docPath = "doc-artifacts"</p>
 </article>
 
 <article>
 <header><h1>Document REST calls</h1></header>
-<p>If you have user facing scenario tests, capture them and refer to them inside your documentation. Set your documentation build pipeline like below. Combine REST requests and responses with Open API generated specs for complete documentation.</p>
+<p>If you have user facing scenario tests, capture them and refer to them inside your documentation. Set your documentation build pipeline like below.Combine REST requests and responses with Open API generated specs for complete documentation.</p>
 </article>
 </section>
 </div>

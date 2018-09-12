@@ -3,40 +3,105 @@
 <head>
 <meta charset="utf-8" /> 
 <title>WebTau: Data Node</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; background: #999; color: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <style scoped>
+        .mdoc-initial-page-build,
+        .mdoc-initial-page-build:before,
+        .mdoc-initial-page-build:after {
+            background: #ffffff;
+            -webkit-animation: load1 1s infinite ease-in-out;
+            animation: load1 1s infinite ease-in-out;
+            width: 1em;
+            height: 4em;
+        }
+        .mdoc-initial-page-build {
+            color: #ffffff;
+            text-indent: -9999em;
+            margin: 88px auto;
+            position: relative;
+            font-size: 11px;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+        .mdoc-initial-page-build:before,
+        .mdoc-initial-page-build:after {
+            position: absolute;
+            top: 0;
+            content: '';
+        }
+        .mdoc-initial-page-build:before {
+            left: -1.5em;
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+        .mdoc-initial-page-build:after {
+            left: 1.5em;
+        }
+        @-webkit-keyframes load1 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 0;
+                height: 4em;
+            }
+            40% {
+                box-shadow: 0 -2em;
+                height: 5em;
+            }
+        }
+        @keyframes load1 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 0;
+                height: 4em;
+            }
+            40% {
+                box-shadow: 0 -2em;
+                height: 5em;
+            }
+        }
+    </style>
+
+    <div class="mdoc-initial-page-build">Preparing ...</div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Special Values</h1></header>
-<p>Values that you access inside validation block are special values of  DataNode  type. When you assert them using  should  statement they act as proxies that record every assertion that you do.</p>
+<p>Values that you access inside validation block are special values of DataNode type. When you assert them using should statement they act as proxies that record every assertion that you do.</p>
 </article>
 
 <article>
 <header><h1>Extracting Values</h1></header>
-<p>As you have seen in  REST/CRUD CRUD example  you can return values back from a validation block. When you return a value from a validation block, it automatically gets converted to its correspondent primitive. Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</p>
+<p>As you have seen in REST/CRUD CRUD example you can return values back from a validation block.When you return a value from a validation block, it automatically gets converted to its correspondent primitive.Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</p>
 </article>
 
 <article>
 <header><h1>Properties On Lists</h1></header>
-<p>If you have a list of objects like  complexList  above, you can access all its children property value with  complexList.k2 .</p>
+<p>If you have a list of objects like complexList above, you can access all its children property value with complexList.k2 .</p>
 </article>
 
 <article>
 <header><h1>Find</h1></header>
-<p>Special values inside assertion block have convenient methods find  to find a single value and  findAll  to find all the values matching predicate Note: While values inside a predicate are normal values, the result of  find  and  findAll  is still  DataNode</p>
+<p>Special values inside assertion block have convenient methods find to find a single valueand findAll to find all the values matching predicateNote: While values inside a predicate are normal values, the result of find and findAll is still DataNode</p>
 </article>
 
 <article>
 <header><h1>Collect</h1></header>
-<p>Use  collect  to transform a collection of items</p>
+<p>Use collect to transform a collection of items</p>
 </article>
 
 <article>
 <header><h1>Combine</h1></header>
-<p>Methods  find  and  collect  can be chained</p>
+<p>Methods find and collect can be chained</p>
 </article>
 </section>
 </div>

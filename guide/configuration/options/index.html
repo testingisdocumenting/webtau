@@ -3,20 +3,85 @@
 <head>
 <meta charset="utf-8" /> 
 <title>WebTau: Options</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; background: #999; color: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <style scoped>
+        .mdoc-initial-page-build,
+        .mdoc-initial-page-build:before,
+        .mdoc-initial-page-build:after {
+            background: #ffffff;
+            -webkit-animation: load1 1s infinite ease-in-out;
+            animation: load1 1s infinite ease-in-out;
+            width: 1em;
+            height: 4em;
+        }
+        .mdoc-initial-page-build {
+            color: #ffffff;
+            text-indent: -9999em;
+            margin: 88px auto;
+            position: relative;
+            font-size: 11px;
+            -webkit-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-animation-delay: -0.16s;
+            animation-delay: -0.16s;
+        }
+        .mdoc-initial-page-build:before,
+        .mdoc-initial-page-build:after {
+            position: absolute;
+            top: 0;
+            content: '';
+        }
+        .mdoc-initial-page-build:before {
+            left: -1.5em;
+            -webkit-animation-delay: -0.32s;
+            animation-delay: -0.32s;
+        }
+        .mdoc-initial-page-build:after {
+            left: 1.5em;
+        }
+        @-webkit-keyframes load1 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 0;
+                height: 4em;
+            }
+            40% {
+                box-shadow: 0 -2em;
+                height: 5em;
+            }
+        }
+        @keyframes load1 {
+            0%,
+            80%,
+            100% {
+                box-shadow: 0 0;
+                height: 4em;
+            }
+            40% {
+                box-shadow: 0 -2em;
+                height: 5em;
+            }
+        }
+    </style>
+
+    <div class="mdoc-initial-page-build">Preparing ...</div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>CLI and configuration file options</h1></header>
-<p>name description default value ansiColor enable/disable ANSI colors true chromeBinPath path to chrome binary  chromeDriverPath path to chrome driver binary  config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties  false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls  reportPath report file path ${workingDir}/webtau.report.html url base url for application under test  verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir </p>
+<p>name description default value ansiColor enable/disable ANSI colors true chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</p>
 </article>
 
 <article>
 <header><h1>Environment variable options</h1></header>
-<p>environment variable description default value WEBTAU_ANSICOLOR enable/disable ANSI colors true WEBTAU_CHROMEBINPATH path to chrome binary  WEBTAU_CHROMEDRIVERPATH path to chrome driver binary  WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOCPATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_NUMBEROFTHREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPENAPIIGNOREADDITIONALPROPERTIES ignore additional OpenAPI properties  false WEBTAU_OPENAPISPECURL url of OpenAPI 2 spec against which to validate http calls  WEBTAU_REPORTPATH report file path ${workingDir}/webtau.report.html WEBTAU_URL base url for application under test  WEBTAU_VERBOSITYLEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAITTIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOWHEIGHT browser window height 800 WEBTAU_WINDOWWIDTH browser window width 1000 WEBTAU_WORKINGDIR logical working dir </p>
+<p>environment variable description default value WEBTAU_ANSICOLOR enable/disable ANSI colors true WEBTAU_CHROMEBINPATH path to chrome binary WEBTAU_CHROMEDRIVERPATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOCPATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_NUMBEROFTHREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPENAPIIGNOREADDITIONALPROPERTIES ignore additional OpenAPI properties false WEBTAU_OPENAPISPECURL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORTPATH report file path ${workingDir}/webtau.report.html WEBTAU_URL base url for application under test WEBTAU_VERBOSITYLEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAITTIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOWHEIGHT browser window height 800 WEBTAU_WINDOWWIDTH browser window width 1000 WEBTAU_WORKINGDIR logical working dir</p>
 </article>
 </section>
 </div>

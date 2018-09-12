@@ -3,23 +3,7 @@
     <url>/webtau/guide</url>
     <fullTitle>WebTau WebTau</fullTitle>
     <text>
-      <text>WebTau ( Web   T est  au tomation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-scenario("simple get") {
-    http.get("/weather") {
-        temperature.shouldBe &lt; 100
-    }
-} package scenarios.ui
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-import static pages.Pages.*
-
-scenario("search by specific query") {
-    search.submit("search this")
-    search.numberOfResults.should == 2
-}</text>
+      <text>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("simple get") { http.get("/weather") { temperature.shouldBe &lt; 100 } } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario("search by specific query") { search.submit("search this") search.numberOfResults.should == 2 }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -27,15 +11,7 @@ scenario("search by specific query") {
     <url>/webtau/guide/REST/getting-started#bare-minimum</url>
     <fullTitle>WebTau: Getting Started, Bare Minimum [REST]</fullTitle>
     <text>
-      <text>package scenarios.rest
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-scenario("simple get") {
-    http.get("/weather") {
-        temperature.shouldBe &lt; 100
-    }
-} To run test, navigate to  examples  dir and webtau scenarios/rest/simpleGet.groovy --url=https://my-server</text>
+      <text>package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("simple get") { http.get("/weather") { temperature.shouldBe &lt; 100 } } To run test, navigate to examples dir and webtau scenarios/rest/simpleGet.groovy --url=https://my-server</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -43,7 +19,7 @@ scenario("simple get") {
     <url>/webtau/guide/REST/getting-started#config-file</url>
     <fullTitle>WebTau: Getting Started, Config File [REST]</fullTitle>
     <text>
-      <text>Url parameter can be moved to a  webtau.cfg  file. url = "http://localhost:8180" configuration/environments Specify multiple environments  to streamline test execution.</text>
+      <text>Url parameter can be moved to a webtau.cfg file. url = "http://localhost:8180" configuration/environments Specify multiple environments to streamline test execution.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -51,38 +27,7 @@ scenario("simple get") {
     <url>/webtau/guide/REST/CRUD#example</url>
     <fullTitle>WebTau: CRUD, Example [REST]</fullTitle>
     <text>
-      <text>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under  /customers . Here is an example of a  CRUD  operations test. package scenarios.rest.springboot
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-scenario("CRUD operations for customer") {
-    def customerPayload = [firstName: "FN", lastName: "LN"]
-
-    int id = http.post("/customers", customerPayload) {
-        return id // return id value from response body
-    }
-
-    http.get("/customers/${id}") {
-        body.should == customerPayload // only specified properties will be asserted against
-    }
-
-    def changedLastName = "NLN"
-    http.put("/customers/${id}", [*:customerPayload, lastName: changedLastName]) {
-        lastName.should == changedLastName // specifying body is optional
-    }
-
-    http.get("/customers/${id}") {
-        lastName.should == changedLastName
-    }
-
-    http.delete("/customers/${id}") {
-        statusCode.should == 204
-    }
-
-    http.get("/customers/${id}") {
-        statusCode.should == 404
-    }
-}</text>
+      <text>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under /customers .Here is an example of a CRUD operations test. package scenarios.rest.springboot import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("CRUD operations for customer") { def customerPayload = [firstName: "FN", lastName: "LN"] int id = http.post("/customers", customerPayload) { return id // return id value from response body } http.get("/customers/${id}") { body.should == customerPayload // only specified properties will be asserted against } def changedLastName = "NLN" http.put("/customers/${id}", [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName // specifying body is optional } http.get("/customers/${id}") { lastName.should == changedLastName } http.delete("/customers/${id}") { statusCode.should == 204 } http.get("/customers/${id}") { statusCode.should == 404 } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -90,7 +35,7 @@ scenario("CRUD operations for customer") {
     <url>/webtau/guide/REST/CRUD#implicit-statuscode-check</url>
     <fullTitle>WebTau: CRUD, Implicit statusCode Check [REST]</fullTitle>
     <text>
-      <text>If you don't have an explicit  statusCode  validation it will be automatically validated based on the rules below Method Expected Code [{text=GET, type=SimpleText}] [{text=200, type=SimpleText}] [{text=POST, type=SimpleText}] [{text=201, type=SimpleText}] [{text=PUT, type=SimpleText}] [{text=200, type=SimpleText}] [{text=PUT (no content), type=SimpleText}] [{text=204, type=SimpleText}] [{text=DELETE, type=SimpleText}] [{text=200, type=SimpleText}] [{text=DELETE (no content), type=SimpleText}] [{text=204, type=SimpleText}]</text>
+      <text>If you don't have an explicit statusCode validation it will be automatically validated based on the rules below Method Expected Code [{text=GET, type=SimpleText}] [{text=200, type=SimpleText}] [{text=POST, type=SimpleText}] [{text=201, type=SimpleText}] [{text=PUT, type=SimpleText}] [{text=200, type=SimpleText}] [{text=PUT (no content), type=SimpleText}] [{text=204, type=SimpleText}] [{text=DELETE, type=SimpleText}] [{text=200, type=SimpleText}] [{text=DELETE (no content), type=SimpleText}] [{text=204, type=SimpleText}]</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -98,7 +43,7 @@ scenario("CRUD operations for customer") {
     <url>/webtau/guide/REST/CRUD#report</url>
     <fullTitle>WebTau: CRUD, Report [REST]</fullTitle>
     <text>
-      <text>After your test executions a report will be produced. Note: asserted values are being tracked and highlighted inside the report</text>
+      <text>After your test executions a report will be produced.Note: asserted values are being tracked and highlighted inside the report</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -106,86 +51,7 @@ scenario("CRUD operations for customer") {
     <url>/webtau/guide/REST/CRUD#spring-boot</url>
     <fullTitle>WebTau: CRUD, Spring Boot [REST]</fullTitle>
     <text>
-      <text>WebTau is framework agnostic. However, to make a concrete example, the  /customer   CRUD  endpoint is created by using  https://projects.spring.io/spring-boot/ Spring Boot . Three files are required to have a working REST endpoint with  CRUD  operations. Domain object package com.example.demo.springboot.app.data;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
-public class Customer {
-    private Long id;
-    private String firstName;
-    private String lastName;
-
-    @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-} Repository package com.example.demo.springboot.app.data;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-
-@Api(tags = "customer")
-@RepositoryRestResource(collectionResourceRel = "customers", path = "customers")
-public interface CustomerRepository extends JpaRepository&lt;Customer, Long> {
-    @ApiOperation("find all customers ordered by last name")
-    Iterable&lt;Customer> findAllByOrderByLastName();
-} Entry point package com.example.demo.springboot.app;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-@SpringBootApplication
-@EnableJpaRepositories
-@EnableSwagger2
-@Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
-public class SpringBootDemoApp {
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBootDemoApp.class, args);
-    }
-
-    @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
-    }
-}</text>
+      <text>WebTau is framework agnostic. However, to make a concrete example, the /customer CRUD endpoint is created by using https://projects.spring.io/spring-boot/ Spring Boot.Three files are required to have a working REST endpoint with CRUD operations.Domain object package com.example.demo.springboot.app.data; import javax.persistence.Entity; import javax.persistence.GeneratedValue; import javax.persistence.Id; @Entity public class Customer { private Long id; private String firstName; private String lastName; @Id @GeneratedValue public Long getId() { return id; } public void setId(Long id) { this.id = id; } public String getFirstName() { return firstName; } public void setFirstName(String firstName) { this.firstName = firstName; } public String getLastName() { return lastName; } public void setLastName(String lastName) { this.lastName = lastName; } } Repository package com.example.demo.springboot.app.data; import io.swagger.annotations.Api; import io.swagger.annotations.ApiOperation; import org.springframework.data.jpa.repository.JpaRepository; import org.springframework.data.rest.core.annotation.RepositoryRestResource; @Api(tags = "customer") @RepositoryRestResource(collectionResourceRel = "customers", path = "customers") public interface CustomerRepository extends JpaRepository&lt;Customer, Long> { @ApiOperation("find all customers ordered by last name") Iterable&lt;Customer> findAllByOrderByLastName(); } Entry point package com.example.demo.springboot.app; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; import org.springframework.context.annotation.Bean; import org.springframework.context.annotation.Import; import org.springframework.data.jpa.repository.config.EnableJpaRepositories; import springfox.documentation.builders.PathSelectors; import springfox.documentation.builders.RequestHandlerSelectors; import springfox.documentation.spi.DocumentationType; import springfox.documentation.spring.web.plugins.Docket; import springfox.documentation.swagger2.annotations.EnableSwagger2; @SpringBootApplication @EnableJpaRepositories @EnableSwagger2 @Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class}) public class SpringBootDemoApp { public static void main(String[] args) { SpringApplication.run(SpringBootDemoApp.class, args); } @Bean public Docket api() { return new Docket(DocumentationType.SWAGGER_2) .select() .apis(RequestHandlerSelectors.any()) .paths(PathSelectors.any()) .build(); } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -193,55 +59,7 @@ public class SpringBootDemoApp {
     <url>/webtau/guide/REST/CRUD-separated#lazy-resource</url>
     <fullTitle>WebTau: CRUD Separated, Lazy Resource [REST]</fullTitle>
     <text>
-      <text>One of the benefits of separating one CRUD  scenario  into multiple is to be able to run one test at a time. In order to do it we will use  createLazyResource . package scenarios.rest.springboot
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-class Customer {
-    Number id
-    String url // store url of the created entity
-}
-
-def customerPayload = [firstName: "FN", lastName: "LN"]
-
-def customer = createLazyResource("customer") { // lazy resource to be created on the first access
-    int id = http.post("/customers", customerPayload) {
-        return id
-    }
-
-    return new Customer(id: id, url: "/customers/${id}")
-}
-
-scenario("customer create") {
-    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)
-}
-
-scenario("customer read") {
-    http.get(customer.url) { // convenient re-use of url defined above
-        body.should == customerPayload
-    }
-}
-
-scenario("customer update") {
-    def changedLastName = "NLN"
-    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {
-        lastName.should == changedLastName
-    }
-
-    http.get(customer.url) {
-        lastName.should == changedLastName
-    }
-}
-
-scenario("customer delete") {
-    http.delete(customer.url) {
-        statusCode.should == 204
-    }
-
-    http.get(customer.url) {
-        statusCode.should == 404
-    }
-} Note: to run one scenario at a time use  sscenario  (additional  s  in front)</text>
+      <text>One of the benefits of separating one CRUD scenario into multiple is to be able to run one test at a time. In order to do it we will use createLazyResource . package scenarios.rest.springboot import static com.twosigma.webtau.WebTauGroovyDsl.* class Customer { Number id String url // store url of the created entity } def customerPayload = [firstName: "FN", lastName: "LN"] def customer = createLazyResource("customer") { // lazy resource to be created on the first access int id = http.post("/customers", customerPayload) { return id } return new Customer(id: id, url: "/customers/${id}") } scenario("customer create") { customer.id.should != null // accessing resource for the first time will trigger POST (in this example) } scenario("customer read") { http.get(customer.url) { // convenient re-use of url defined above body.should == customerPayload } } scenario("customer update") { def changedLastName = "NLN" http.put(customer.url, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName } http.get(customer.url) { lastName.should == changedLastName } } scenario("customer delete") { http.delete(customer.url) { statusCode.should == 204 } http.get(customer.url) { statusCode.should == 404 } } Note: to run one scenario at a time use sscenario (additional s in front)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -249,7 +67,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/CRUD-separated#report</url>
     <fullTitle>WebTau: CRUD Separated, Report [REST]</fullTitle>
     <text>
-      <text>As you can see in the report below, each  CRUD  operation has its own entry. If you follow this pattern, then you can filter tests by  create ,  update ,  read ,  delete  to streamline investigation.</text>
+      <text>As you can see in the report below, each CRUD operation has its own entry. If you follow this pattern, then you can filter tests by create , update , read , delete to streamline investigation.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -257,7 +75,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#special-values</url>
     <fullTitle>WebTau: Data Node, Special Values [REST]</fullTitle>
     <text>
-      <text>Values that you access inside validation block are special values of  DataNode  type. When you assert them using  should  statement they act as proxies that record every assertion that you do.</text>
+      <text>Values that you access inside validation block are special values of DataNode type. When you assert them using should statement they act as proxies that record every assertion that you do.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -265,7 +83,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#extracting-values</url>
     <fullTitle>WebTau: Data Node, Extracting Values [REST]</fullTitle>
     <text>
-      <text>As you have seen in  REST/CRUD CRUD example  you can return values back from a validation block. When you return a value from a validation block, it automatically gets converted to its correspondent primitive. Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</text>
+      <text>As you have seen in REST/CRUD CRUD example you can return values back from a validation block.When you return a value from a validation block, it automatically gets converted to its correspondent primitive.Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -273,7 +91,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#properties-on-lists</url>
     <fullTitle>WebTau: Data Node, Properties On Lists [REST]</fullTitle>
     <text>
-      <text>If you have a list of objects like  complexList  above, you can access all its children property value with  complexList.k2 .</text>
+      <text>If you have a list of objects like complexList above, you can access all its children property value with complexList.k2 .</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -281,7 +99,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#find</url>
     <fullTitle>WebTau: Data Node, Find [REST]</fullTitle>
     <text>
-      <text>Special values inside assertion block have convenient methods find  to find a single value and  findAll  to find all the values matching predicate Note: While values inside a predicate are normal values, the result of  find  and  findAll  is still  DataNode</text>
+      <text>Special values inside assertion block have convenient methods find to find a single valueand findAll to find all the values matching predicateNote: While values inside a predicate are normal values, the result of find and findAll is still DataNode</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -289,7 +107,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#collect</url>
     <fullTitle>WebTau: Data Node, Collect [REST]</fullTitle>
     <text>
-      <text>Use  collect  to transform a collection of items</text>
+      <text>Use collect to transform a collection of items</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -297,7 +115,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/data-node#combine</url>
     <fullTitle>WebTau: Data Node, Combine [REST]</fullTitle>
     <text>
-      <text>Methods  find  and  collect  can be chained</text>
+      <text>Methods find and collect can be chained</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -305,7 +123,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/headers#standard-header</url>
     <fullTitle>WebTau: Headers, Standard Header [REST]</fullTitle>
     <text>
-      <text>Standard headers like  Content-Type  and  Accept  are set on your behalf. When payload content is present then values are based on the content type you are sending. When no payload is present, it defaults to  application/json .</text>
+      <text>Standard headers like Content-Type and Accept are set on your behalf. When payload content is present then values are based on the content type you are sending. When no payload is present, it defaults to application/json .</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -313,21 +131,7 @@ scenario("customer delete") {
     <url>/webtau/guide/REST/headers#common-header</url>
     <fullTitle>WebTau: Headers, Common Header [REST]</fullTitle>
     <text>
-      <text>If each http request requires the same header you can specify that header using  httpHeaderProvider . Common example is specifying authentication header. import scenarios.rest.headers.auth.Auth
-
-url = "http://localhost:8080"
-
-httpHeaderProvider = Auth.&amp;authHeader Where  Auth.&amp;authHeader  is implemented as follows: package scenarios.rest.headers.auth
-
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.http.HttpHeader
-
-class Auth {
-    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {
-        ConsoleOutputs.out('auth header injection point')
-        return original.merge([Authorization: 'Bearer &lt;token>'])
-    }
-} This removes implementation details from your tests and makes them less brittle.</text>
+      <text>If each http request requires the same header you can specify that header using httpHeaderProvider . Common example is specifying authentication header. import scenarios.rest.headers.auth.Auth url = "http://localhost:8080" httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import com.twosigma.webtau.console.ConsoleOutputs import com.twosigma.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { ConsoleOutputs.out('auth header injection point') return original.merge([Authorization: 'Bearer &lt;token>']) } } This removes implementation details from your tests and makes them less brittle.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -335,7 +139,7 @@ class Auth {
     <url>/webtau/guide/REST/headers#explicit-header</url>
     <fullTitle>WebTau: Headers, Explicit Header [REST]</fullTitle>
     <text>
-      <text>To explicitly set header pass  http.header(values)  as an additional parameter. Additionally  http.header  accepts values as a map.</text>
+      <text>To explicitly set header pass http.header(values) as an additional parameter.Additionally http.header accepts values as a map.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -343,7 +147,7 @@ class Auth {
     <url>/webtau/guide/REST/headers#response-header</url>
     <fullTitle>WebTau: Headers, Response Header [REST]</fullTitle>
     <text>
-      <text>To validate values from response header use  header  object. At the moment only  location ,  contentLocation ,  contentLength  have camelCase shortcuts. All the other header values you need to use  ['Header-Name']  syntax.</text>
+      <text>To validate values from response header use header object.At the moment only location , contentLocation , contentLength have camelCase shortcuts. All the other header values you need to use ['Header-Name'] syntax.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -351,7 +155,7 @@ class Auth {
     <url>/webtau/guide/REST/files-upload#file-system-content</url>
     <fullTitle>WebTau: Files Upload, File System Content [REST]</fullTitle>
     <text>
-      <text>In following examples backend expects a file passed as  multipart/form-data . File content is expected to be stored in  file  field. Backend responds with received file name and file description. To  POST  form data, you need to use the same  http.post  statement as you saw in previous examples. Second parameter should be  http.formData  instead of a map payload we used for  JSON . Use  http.formFile  to override file name that is being sent to the backend. Multiple form fields can be specified like in the example below.</text>
+      <text>In following examples backend expects a file passed as multipart/form-data . File content is expected to be stored in file field. Backend responds with received file name and file description.To POST form data, you need to use the same http.post statement as you saw in previous examples. Second parameter should be http.formData instead of a map payload we used for JSON .Use http.formFile to override file name that is being sent to the backend.Multiple form fields can be specified like in the example below.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -359,7 +163,7 @@ class Auth {
     <url>/webtau/guide/REST/files-upload#in-memory-content</url>
     <fullTitle>WebTau: Files Upload, In-Memory Content [REST]</fullTitle>
     <text>
-      <text>If your test already has content, you can explicitly pass it as is. Note: no file name is passed and this particular backend generated file name on your behalf. Use  http.formFile  to provide a file name</text>
+      <text>If your test already has content, you can explicitly pass it as is.Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -367,7 +171,7 @@ class Auth {
     <url>/webtau/guide/REST/PDF#asserting-text</url>
     <fullTitle>WebTau: PDF, Asserting Text [REST]</fullTitle>
     <text>
-      <text>If response contains a pdf file you can assert its content using  pdf(body)  function. If more than one assertion needs to be made, assign  pdf  result to a local variable. Note: use pdf assertions for sanity checks like presence of correct client names or account numbers. Leave comprehensive pdf generation test to unit tests.</text>
+      <text>If response contains a pdf file you can assert its content using pdf(body) function.If more than one assertion needs to be made, assign pdf result to a local variable.Note: use pdf assertions for sanity checks like presence of correct client names or account numbers. Leave comprehensive pdf generation test to unit tests.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -375,7 +179,7 @@ class Auth {
     <url>/webtau/guide/REST/documentation#scenarios</url>
     <fullTitle>WebTau: Documentation, Scenarios [REST]</fullTitle>
     <text>
-      <text>You provide  REST endpoints  so users can execute various scenarios. You need to test those scenarios and then document them. To automate the process, let's capture executed scenarios and use them inside your documentation.</text>
+      <text>You provide REST endpoints so users can execute various scenarios. You need to test those scenarios and then document them.To automate the process, let's capture executed scenarios and use them inside your documentation.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -383,25 +187,7 @@ class Auth {
     <url>/webtau/guide/REST/documentation#test-artifacts</url>
     <fullTitle>WebTau: Documentation, Test Artifacts [REST]</fullTitle>
     <text>
-      <text>To capture artifacts use  http.doc.capture : package scenarios.rest
-
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
-
-scenario("extracting id after POST to use inside GET request") {
-    def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) {
-        return id
-    }
-    http.doc.capture('employee-post')
-
-    http.get("/employee/$id") {
-        firstName.should == 'FN'
-        lastName.should == 'LN'
-    }
-    http.doc.capture('employee-get') // capture previous HTTP call into &lt;docDir>/employee-get
-} An  employee-get  directory will be created with request and response data files. Directory will also contain a json file with an array containing paths of all the asserted values. By default, the directory will be created in the current working directory. To change it add  docPath  to your  webtau.cfg  file. url = "http://localhost:8180"
-
-docPath = "doc-artifacts"</text>
+      <text>To capture artifacts use http.doc.capture : package scenarios.rest import static com.twosigma.webtau.WebTauDsl.http import static com.twosigma.webtau.WebTauGroovyDsl.scenario scenario("extracting id after POST to use inside GET request") { def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) { return id } http.doc.capture('employee-post') http.get("/employee/$id") { firstName.should == 'FN' lastName.should == 'LN' } http.doc.capture('employee-get') // capture previous HTTP call into &lt;docDir>/employee-get } An employee-get directory will be created with request and response data files.Directory will also contain a json file with an array containing paths of all the asserted values.By default, the directory will be created in the current working directory. To change it add docPath to your webtau.cfg file. url = "http://localhost:8180" docPath = "doc-artifacts"</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -409,7 +195,7 @@ docPath = "doc-artifacts"</text>
     <url>/webtau/guide/REST/documentation#document-rest-calls</url>
     <fullTitle>WebTau: Documentation, Document REST calls [REST]</fullTitle>
     <text>
-      <text>If you have user facing scenario tests, capture them and refer to them inside your documentation. Set your documentation build pipeline like below. Combine REST requests and responses with Open API generated specs for complete documentation.</text>
+      <text>If you have user facing scenario tests, capture them and refer to them inside your documentation. Set your documentation build pipeline like below.Combine REST requests and responses with Open API generated specs for complete documentation.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -417,15 +203,7 @@ docPath = "doc-artifacts"</text>
     <url>/webtau/guide/REST/complex-types#contain</url>
     <fullTitle>WebTau: Complex Types, Contain [REST]</fullTitle>
     <text>
-      <text>Use  contain  matcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test. Given the response, we want to make sure there is an entry with a specified  firstName  and  lastName . package scenarios.rest.springboot
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-scenario("list Customers and assert that it contains a specified entry") {
-    http.get("/customers/search/findAllByOrderByLastName") {
-        _embedded.customers.should contain([firstName: 'FN1', lastName: 'LN1'])
-    }
-}</text>
+      <text>Use contain matcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test.Given the response, we want to make sure there is an entry with a specified firstName and lastName . package scenarios.rest.springboot import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("list Customers and assert that it contains a specified entry") { http.get("/customers/search/findAllByOrderByLastName") { _embedded.customers.should contain([firstName: 'FN1', lastName: 'LN1']) } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -433,25 +211,7 @@ scenario("list Customers and assert that it contains a specified entry") {
     <url>/webtau/guide/REST/complex-types#list-of-objects</url>
     <fullTitle>WebTau: Complex Types, List Of Objects [REST]</fullTitle>
     <text>
-      <text>If you want to make sure that all the values in the list are what you need - use  TableData . package scenarios.rest.springboot
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-scenario("list Customers and assert with a Table Data") {
-    http.post("/customers", [firstName: "FN1", lastName: "LN1"])
-    http.post("/customers", [firstName: "FN2", lastName: "LN2"])
-    http.post("/customers", [firstName: "FN3", lastName: "LN3"])
-
-    http.get("/customers/search/findAllByOrderByLastName") {
-        _embedded.customers.should == ['firstName' | 'lastName'] {
-                                       __________________________
-                                             'FN1' |      'LN1'
-                                             'FN2' |      'LN2'
-                                             'FN3' |      'LN3' }
-    }
-
-    http.doc.capture('list-match')
-}</text>
+      <text>If you want to make sure that all the values in the list are what you need - use TableData . package scenarios.rest.springboot import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("list Customers and assert with a Table Data") { http.post("/customers", [firstName: "FN1", lastName: "LN1"]) http.post("/customers", [firstName: "FN2", lastName: "LN2"]) http.post("/customers", [firstName: "FN3", lastName: "LN3"]) http.get("/customers/search/findAllByOrderByLastName") { _embedded.customers.should == ['firstName' | 'lastName'] { __________________________ 'FN1' | 'LN1' 'FN2' | 'LN2' 'FN3' | 'LN3' } } http.doc.capture('list-match') }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -459,8 +219,7 @@ scenario("list Customers and assert with a Table Data") {
     <url>/webtau/guide/REST/openAPI-spec#validation</url>
     <fullTitle>WebTau: OpenAPI Spec, Validation [REST]</fullTitle>
     <text>
-      <text>Webtau supports validation of responses against an  https://www.openapis.org/ OpenAPI specification .  This feature can be enabled by specifying the  openApiSpecUrl  configuration option.  This should be the URL to the specification against which to validate. url = "http://localhost:8080"
-openApiSpecUrl = 'api-spec.json'</text>
+      <text>Webtau supports validation of responses against an https://www.openapis.org/ OpenAPI specification. This feature can be enabled by specifying the openApiSpecUrl configuration option. This should be the URL to the specification against which to validate. url = "http://localhost:8080" openApiSpecUrl = 'api-spec.json'</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -468,7 +227,7 @@ openApiSpecUrl = 'api-spec.json'</text>
     <url>/webtau/guide/REST/openAPI-spec#current-limitations</url>
     <fullTitle>WebTau: OpenAPI Spec, Current limitations [REST]</fullTitle>
     <text>
-      <text>OpenAPI specification support is still in its early stage.  It is fully functional but there are a few limitations to be aware of: webtau currently only supports OpenAPI specification v2 specification matching is currently done purely based on the path any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning on the console</text>
+      <text>OpenAPI specification support is still in its early stage. It is fully functional but there are a few limitations to be aware of:webtau currently only supports OpenAPI specification v2specification matching is currently done purely based on the pathany HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning on the console</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -476,32 +235,7 @@ openApiSpecUrl = 'api-spec.json'</text>
     <url>/webtau/guide/REST/openAPI-spec#validations-report</url>
     <fullTitle>WebTau: OpenAPI Spec, Validations report [REST]</fullTitle>
     <text>
-      <text>The validation errors are reported in the same manner as assertion errors.  They are available in the output from the command line webtau runner: > executing HTTP POST http://localhost:8080/customers
- {
-  "id": 1,
-  "firstName": "FN",
-  "lastName": "LN",
-  "_links": {
-    "self": {
-      "href": "http://localhost:8080/customers/1"
-    },
-    "customer": {
-      "href": "http://localhost:8080/customers/1"
-    }
-  }
- }
-X failed executing HTTP POST http://localhost:8080/customers : 
-API spec validation failure: ERROR - Response status 201 not defined for path ''.: []
-[x] failed
-java.lang.AssertionError: 
-API spec validation failure: ERROR - Response status 201 not defined for path ''.: []
-	at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8)
-	at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy)
-
-
-
-Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
- They are also available in the HTML report:</text>
+      <text>The validation errors are reported in the same manner as assertion errors. They are available in the output from the command line webtau runner: bash > executing HTTP POST http://localhost:8080/customers { "id": 1, "firstName": "FN", "lastName": "LN", "_links": { "self": { "href": "http://localhost:8080/customers/1" }, "customer": { "href": "http://localhost:8080/customers/1" } } } X failed executing HTTP POST http://localhost:8080/customers : API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] [x] failed java.lang.AssertionError: API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8) at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy) Total: 1, Passed: 0, Skipped: 0, Failed: 1, Errored: 0 They are also available in the HTML report:</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -509,7 +243,7 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
     <url>/webtau/guide/REST/openAPI-spec#validation-configuration</url>
     <fullTitle>WebTau: OpenAPI Spec, Validation Configuration [REST]</fullTitle>
     <text>
-      <text>To ignore additional properties in responses set  openApiIgnoreAdditionalProperties  to  true . As any other config value it can be done via command line, config file or system properties.</text>
+      <text>To ignore additional properties in responses set openApiIgnoreAdditionalProperties to true . As any other config value it can be done via command line, config file or system properties.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -517,7 +251,7 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
     <url>/webtau/guide/REST/report#location</url>
     <fullTitle>WebTau: Report, Location [REST]</fullTitle>
     <text>
-      <text>By default report is generated at  &lt;workingdir>/webtau.report.html . To change the location use  --reportPath  option.</text>
+      <text>By default report is generated at &lt;workingdir>/webtau.report.html . To change the location use --reportPath option.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -541,26 +275,7 @@ Total: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0
     <url>/webtau/guide/REST/report#additional-reports</url>
     <fullTitle>WebTau: Report, Additional Reports [REST]</fullTitle>
     <text>
-      <text>To generate custom reports, or upload report data to your server, specify  reportGenerator  config property. import scenarios.rest.report.Report
-
-url = "http://localhost:8080"
-
-reportGenerator = Report.&amp;generateReport Where  Report.&amp;generateReport  is implemented as following package scenarios.rest.report
-
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.report.ReportTestEntries
-
-import static com.twosigma.webtau.WebTauDsl.cfg
-
-class Report {
-    static void generateReport(ReportTestEntries entries) {
-        def reportPath = cfg.workingDir.resolve('report.txt')
-
-        ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath)
-        reportPath.toFile().text = entries.size()
-    }
-}</text>
+      <text>To generate custom reports, or upload report data to your server, specify reportGenerator config property. import scenarios.rest.report.Report url = "http://localhost:8080" reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as following package scenarios.rest.report import com.twosigma.webtau.console.ConsoleOutputs import com.twosigma.webtau.console.ansi.Color import com.twosigma.webtau.report.ReportTestEntries import static com.twosigma.webtau.WebTauDsl.cfg class Report { static void generateReport(ReportTestEntries entries) { def reportPath = cfg.workingDir.resolve('report.txt') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = entries.size() } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -568,15 +283,7 @@ class Report {
     <url>/webtau/guide/REST/maven#dependency</url>
     <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
     <text>
-      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency>
-    &lt;groupId>com.twosigma.webtau&lt;/groupId>
-    &lt;artifactId>webtau-groovy&lt;/artifactId>
-    &lt;version>0.30-SNAPSHOT&lt;/version>
-&lt;/dependency> Java &lt;dependency>
-    &lt;groupId>com.twosigma.webtau&lt;/groupId>
-    &lt;artifactId>webtau&lt;/artifactId>
-    &lt;version>0.30-SNAPSHOT&lt;/version>
-&lt;/dependency></text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>0.30-SNAPSHOT&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>0.30-SNAPSHOT&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -584,30 +291,7 @@ class Report {
     <url>/webtau/guide/REST/maven#plugin</url>
     <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
     <text>
-      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin>
-    &lt;groupId>com.twosigma.webtau&lt;/groupId>
-    &lt;artifactId>webtau-maven-plugin&lt;/artifactId>
-    &lt;version>0.30-SNAPSHOT&lt;/version>
-    &lt;executions>
-        &lt;execution>
-            &lt;phase>test&lt;/phase>
-            &lt;goals>
-                &lt;goal>run&lt;/goal>
-            &lt;/goals>
-        &lt;/execution>
-    &lt;/executions>
-    &lt;configuration>
-        &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir>
-        &lt;env>integration&lt;/env>
-        &lt;url>http://optional-base-url&lt;/url>
-        &lt;tests>
-            &lt;directory>${project.basedir}/src/main/groovy&lt;/directory>
-            &lt;includes>
-                &lt;include>scenarios/*.groovy&lt;/include>
-            &lt;/includes>
-        &lt;/tests>
-    &lt;/configuration>
-&lt;/plugin> Use  env  to specify  configuration/environments environment to use . Alternatively you can use  url  to override base url.</text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>0.30-SNAPSHOT&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -615,7 +299,7 @@ class Report {
     <url>/webtau/guide/REST/matchers#response-mapping</url>
     <fullTitle>WebTau: Matchers, Response Mapping [REST]</fullTitle>
     <text>
-      <text>Identifiers inside validation closure are automatically mapped to a response body. In case of an array response you need to access values using  body .</text>
+      <text>Identifiers inside validation closure are automatically mapped to a response body.In case of an array response you need to access values using body .</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -623,12 +307,7 @@ class Report {
     <url>/webtau/guide/REST/matchers#should-and-should-not</url>
     <fullTitle>WebTau: Matchers, Should and Should Not [REST]</fullTitle>
     <text>
-      <text>Matchers in webtau are triggered with  should  and  shouldNot  keywords. myValue.should contain(10)
-myValue.shouldNot equal("hello")
- Some matchers have alternative shortcuts. myValue.should != 10
- Additionally  shouldBe  and  shouldNotBe  alias keywords are available to make certain matcher combinations easier to read myValue.shouldBe greaterThan(10)
-myValue.shouldBe > 10
-</text>
+      <text>Matchers in webtau are triggered with should and shouldNot keywords. groovy myValue.should contain(10) myValue.shouldNot equal("hello") Some matchers have alternative shortcuts. groovy myValue.should != 10 Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read groovy myValue.shouldBe greaterThan(10) myValue.shouldBe > 10</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -644,7 +323,7 @@ myValue.shouldBe > 10
     <url>/webtau/guide/REST/matchers#greaterlessequal</url>
     <fullTitle>WebTau: Matchers, Greater/Less/Equal [REST]</fullTitle>
     <text>
-      <text>Standard operations  > ,  >= ,  &lt; ,  &lt;=  are supported as shortcuts for  greaterThan ,  greaterThanOrEqual ,  lessThan , and  lessThanOrEqual .</text>
+      <text>Standard operations > , >= , &lt; , &lt;= are supported as shortcuts for greaterThan , greaterThanOrEqual , lessThan , and lessThanOrEqual .</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -652,7 +331,7 @@ myValue.shouldBe > 10
     <url>/webtau/guide/REST/matchers#contain</url>
     <fullTitle>WebTau: Matchers, Contain [REST]</fullTitle>
     <text>
-      <text>Use  contain  when you cannot rely on order.</text>
+      <text>Use contain when you cannot rely on order.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -660,7 +339,7 @@ myValue.shouldBe > 10
     <url>/webtau/guide/REST/matchers#date-and-time</url>
     <fullTitle>WebTau: Matchers, Date and Time [REST]</fullTitle>
     <text>
-      <text>You can assert  actual  string against  LocalDate  and  ZonedDateTime . String will be automatically converted using ISO formatter.</text>
+      <text>You can assert actual string against LocalDate and ZonedDateTime . String will be automatically converted using ISO formatter.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -684,7 +363,7 @@ myValue.shouldBe > 10
     <url>/webtau/guide/REST/test-execution#parallel-execution</url>
     <fullTitle>WebTau: Test Execution, Parallel execution [REST]</fullTitle>
     <text>
-      <text>Webtau supports executing tests in parallel.  In this mode,  scenario files  are executed in parallel.   Individual scenarios  are still executed sequentially. For large test suites, it is therefore advisable to create many small focused scenario files instead of few large files. To enable parallel execution, specify the  numberOfThreads  configuration property either through the configuration file or as a CLI parameter.  This property dictates the maximum number of threads on which to run tests. Note: scenario file execution order is not guaranteed.</text>
+      <text>Webtau supports executing tests in parallel. In this mode, scenario files are executed in parallel. Individual scenarios are still executed sequentially.For large test suites, it is therefore advisable to create many small focused scenario files instead of few large files.To enable parallel execution, specify the numberOfThreads configuration property either through the configuration file or as a CLI parameter. This property dictates the maximum number of threads on which to run tests.Note: scenario file execution order is not guaranteed.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -692,14 +371,7 @@ myValue.shouldBe > 10
     <url>/webtau/guide/UI/getting-started#bare-minimum</url>
     <fullTitle>WebTau: Getting Started, Bare Minimum [UI]</fullTitle>
     <text>
-      <text>package scenarios.ui
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-scenario('simple open') {
-    browser.open("/search")
-    $('#welcome').should == 'welcome to super search'
-} To run test, navigate to  examples  dir and webtau scenarios/ui/basic.groovy --url=https://my-server</text>
+      <text>package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open("/search") $('#welcome').should == 'welcome to super search' } To run test, navigate to examples dir and webtau scenarios/ui/basic.groovy --url=https://my-server</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -707,7 +379,7 @@ scenario('simple open') {
     <url>/webtau/guide/UI/getting-started#config-file</url>
     <fullTitle>WebTau: Getting Started, Config File [UI]</fullTitle>
     <text>
-      <text>Url parameter can be moved to a  webtau.cfg  file. url = "http://localhost:8180" configuration/environments Specify multiple environments  to streamline test execution.</text>
+      <text>Url parameter can be moved to a webtau.cfg file. url = "http://localhost:8180" configuration/environments Specify multiple environments to streamline test execution.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -715,7 +387,7 @@ scenario('simple open') {
     <url>/webtau/guide/UI/basic-configuration#base-url</url>
     <fullTitle>WebTau: Basic Configuration, Base URL [UI]</fullTitle>
     <text>
-      <text>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like  open . Define base URL portion either inside a  webtau.cfg  file url = "http://localhost:8180" or pass as a command line argument  --url=http://...</text>
+      <text>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like open .Define base URL portion either inside a webtau.cfg file url = "http://localhost:8180" or pass as a command line argument --url=http://...</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -723,16 +395,7 @@ scenario('simple open') {
     <url>/webtau/guide/UI/page-element-and-value#lazy-element</url>
     <fullTitle>WebTau: Page Element And Value, Lazy Element [UI]</fullTitle>
     <text>
-      <text>When you use  $('.css')  you create instance of  PageElement . PageElement  represent an element that is present or  will be present  on a web page. It is safe to declare an element before you open a browser or navigate to the page you need to test. package scenarios.ui
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-def welcomeMessage = $('#welcome')
-
-scenario('simple open') {
-    browser.open("/search")
-    welcomeMessage.should == 'welcome to super search'
-}</text>
+      <text>When you use $('.css') you create instance of PageElement . PageElement represent an element that is present or will be present on a web page. It is safe to declare an element before you open a browser or navigate to the page you need to test. package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* def welcomeMessage = $('#welcome') scenario('simple open') { browser.open("/search") welcomeMessage.should == 'welcome to super search' }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -740,32 +403,7 @@ scenario('simple open') {
     <url>/webtau/guide/UI/page-element-and-value#lazy-value</url>
     <fullTitle>WebTau: Page Element And Value, Lazy Value [UI]</fullTitle>
     <text>
-      <text>Consider a simple search page. Enter value, hit enter, see results. Here is simple test. package scenarios.ui
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-scenario('search by specific query') {
-    browser.open('/search')
-
-    $('#search-box').setValue('search this')
-    $('#search-box').sendKeys("\n")
-
-    $('#results .result').count.shouldBe > 1
-} In the example  $('#results .result').count  represents the number of elements matching the css selector. Let's extract it. package scenarios.ui
-
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-
-def searchBox = $('#search-box')
-def numberOfResults = searchBox.count
-
-scenario('search by specific query') {
-    browser.open('/search')
-
-    searchBox.setValue('search this')
-    searchBox.sendKeys("\n")
-
-    numberOfResults.shouldBe > 1
-}</text>
+      <text>Consider a simple search page. Enter value, hit enter, see results.Here is simple test. package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* scenario('search by specific query') { browser.open('/search') $('#search-box').setValue('search this') $('#search-box').sendKeys("\n") $('#results .result').count.shouldBe > 1 } In the example $('#results .result').count represents the number of elements matching the css selector. Let's extract it. package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* def searchBox = $('#search-box') def numberOfResults = searchBox.count scenario('search by specific query') { browser.open('/search') searchBox.setValue('search this') searchBox.sendKeys("\n") numberOfResults.shouldBe > 1 }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -773,7 +411,7 @@ scenario('search by specific query') {
     <url>/webtau/guide/UI/page-object#test-encapsulation</url>
     <fullTitle>WebTau: Page Object, Test Encapsulation [UI]</fullTitle>
     <text>
-      <text>Robust tests should not depend on implementation details. UI has plenty of those: UI Elements placement Actions UI test should not depend on any of them. Move elements placement and available actions outside of UI test. Multiple tests can then reuse that information. And more importantly you will have only one place to change if UI changes.</text>
+      <text>Robust tests should not depend on implementation details. UI has plenty of those:UI Elements placementActionsUI test should not depend on any of them. Move elements placement and available actions outside of UI test. Multiple tests can then reuse that information. And more importantly you will have only one place to change if UI changes.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -781,7 +419,7 @@ scenario('search by specific query') {
     <url>/webtau/guide/UI/page-object#definition</url>
     <fullTitle>WebTau: Page Object, Definition [UI]</fullTitle>
     <text>
-      <text>To define  PageObject  create a class.</text>
+      <text>To define PageObject create a class.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -789,7 +427,7 @@ scenario('search by specific query') {
     <url>/webtau/guide/UI/page-object#grouping</url>
     <fullTitle>WebTau: Page Object, Grouping [UI]</fullTitle>
     <text>
-      <text>To make it easier to refer  PageObjects  from different tests combine them in one file Use static import to have seamless access to all of them</text>
+      <text>To make it easier to refer PageObjects from different tests combine them in one fileUse static import to have seamless access to all of them</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -797,9 +435,7 @@ scenario('search by specific query') {
     <url>/webtau/guide/UI/advanced-configuration#timeouts</url>
     <fullTitle>WebTau: Advanced Configuration, Timeouts [UI]</fullTitle>
     <text>
-      <text>Default timeout in milliseconds for  waitTo  and  waitToNot waitTimeout = 25000
- --waitTimeout=25000
-</text>
+      <text>Default timeout in milliseconds for waitTo and waitToNot waitTimeout = 25000 --waitTimeout=25000</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -807,10 +443,7 @@ scenario('search by specific query') {
     <url>/webtau/guide/UI/advanced-configuration#window-size</url>
     <fullTitle>WebTau: Advanced Configuration, Window Size [UI]</fullTitle>
     <text>
-      <text>Browser window size can be set using  windowWidth  and  windowHeight url = "http://localhost:8180"
-
-windowWidth = 1280
-windowHeight = 800</text>
+      <text>Browser window size can be set using windowWidth and windowHeight url = "http://localhost:8180" windowWidth = 1280 windowHeight = 800</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -818,9 +451,7 @@ windowHeight = 800</text>
     <url>/webtau/guide/UI/advanced-configuration#documentation-artifacts</url>
     <fullTitle>WebTau: Advanced Configuration, Documentation Artifacts [UI]</fullTitle>
     <text>
-      <text>By default all generated documentation artifacts (e.g. screenshots) are created in the current directory. To override url = "http://localhost:8180"
-
-docPath = "screenshots"</text>
+      <text>By default all generated documentation artifacts (e.g. screenshots) are created in the current directory. To override url = "http://localhost:8180" docPath = "screenshots"</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -836,10 +467,7 @@ docPath = "screenshots"</text>
     <url>/webtau/guide/UI/finders-and-filters#by-css</url>
     <fullTitle>WebTau: Finders And Filters, By CSS [UI]</fullTitle>
     <text>
-      <text>Use  $  to select an element by a given  css  selector def welcomeMessage = $('#welcome')
-welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a')
-menu.should == 'book' While  click  and  sendKeys  will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a')
-menu.should == ['book', 'orders', 'help']</text>
+      <text>Use $ to select an element by a given css selector def welcomeMessage = $('#welcome') welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a') menu.should == 'book' While click and sendKeys will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a') menu.should == ['book', 'orders', 'help']</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -847,18 +475,23 @@ menu.should == ['book', 'orders', 'help']</text>
     <url>/webtau/guide/UI/finders-and-filters#filters</url>
     <fullTitle>WebTau: Finders And Filters, Filters [UI]</fullTitle>
     <text>
-      <text>You can use filters to narrow down elements selected by finders like  css . Filter comes in a way of  get  method. Parameter is one of the following Element number Element text Element regexp def ordersMenu = $('ul li a').get(2)
-ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get('orders')
-ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get(~/ord/)
-ordersMenu.should == 'orders'</text>
+      <text>You can use filters to narrow down elements selected by finders like css .Filter comes in a way of get method. Parameter is one of the followingElement numberElement textElement regexp def ordersMenu = $('ul li a').get(2) ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get('orders') ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get(~/ord/) ordersMenu.should == 'orders'</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/UI/matchers#values</url>
-    <fullTitle>WebTau: Matchers, Values [UI]</fullTitle>
+    <url>/webtau/guide/UI/matchers#text</url>
+    <fullTitle>WebTau: Matchers, Text [UI]</fullTitle>
     <text>
-      <text>TBD</text>
+      <text>def message = $('#message') message.should == 'Select option' def message = $('#message') message.should == ~/option/ def menu = $('#menu ul li') menu.should == ['Hello', 'Text', 'World'] def menu = $('#menu ul li') menu.should == ['Hello', ~/T..t/, 'World']</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/matchers#numbers</url>
+    <fullTitle>WebTau: Matchers, Numbers [UI]</fullTitle>
+    <text>
+      <text>def total = $('#total') total.should == 300.6 def total = $('#total') total.shouldBe > 200 def total = $('#total') total.shouldBe >= 300 def split = $('#split ul li') split.should == [100, 28, 172.6] def split = $('#split ul li') split.should == [100, lessThan(100), greaterThanOrEqual(150)]</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -866,9 +499,7 @@ ordersMenu.should == 'orders'</text>
     <url>/webtau/guide/configuration/cli#overrides</url>
     <fullTitle>WebTau: Cli, Overrides [Configuration]</fullTitle>
     <text>
-      <text>Any config file parameter can be overridden with a command line parameter. For example, given this config file: waitTimeout = 2500
-url = http://my-server
- Values can be overridden as follows: webtau --waitTimeout=25000 --url=http://another-server</text>
+      <text>Any config file parameter can be overridden with a command line parameter.For example, given this config file: cfg waitTimeout = 2500 url = http://my-server Values can be overridden as follows: webtau --waitTimeout=25000 --url=http://another-server</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -876,15 +507,7 @@ url = http://my-server
     <url>/webtau/guide/configuration/environments#select</url>
     <fullTitle>WebTau: Environments, Select [Configuration]</fullTitle>
     <text>
-      <text>waitTimeout = 2500
-url = http://my-server
-
-environments {
-   dev {
-       url = "http://localhost:8080"
-   }
-}
- webtau --env=dev</text>
+      <text>cfg waitTimeout = 2500 url = http://my-server environments { dev { url = "http://localhost:8080" } } webtau --env=dev</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -892,7 +515,7 @@ environments {
     <url>/webtau/guide/configuration/options#cli-and-configuration-file-options</url>
     <fullTitle>WebTau: Options, CLI and configuration file options [Configuration]</fullTitle>
     <text>
-      <text>name description default value ansiColor enable/disable ANSI colors true chromeBinPath path to chrome binary  chromeDriverPath path to chrome driver binary  config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties  false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls  reportPath report file path ${workingDir}/webtau.report.html url base url for application under test  verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir </text>
+      <text>name description default value ansiColor enable/disable ANSI colors true chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -900,7 +523,7 @@ environments {
     <url>/webtau/guide/configuration/options#environment-variable-options</url>
     <fullTitle>WebTau: Options, Environment variable options [Configuration]</fullTitle>
     <text>
-      <text>environment variable description default value WEBTAU_ANSICOLOR enable/disable ANSI colors true WEBTAU_CHROMEBINPATH path to chrome binary  WEBTAU_CHROMEDRIVERPATH path to chrome driver binary  WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOCPATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_NUMBEROFTHREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPENAPIIGNOREADDITIONALPROPERTIES ignore additional OpenAPI properties  false WEBTAU_OPENAPISPECURL url of OpenAPI 2 spec against which to validate http calls  WEBTAU_REPORTPATH report file path ${workingDir}/webtau.report.html WEBTAU_URL base url for application under test  WEBTAU_VERBOSITYLEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAITTIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOWHEIGHT browser window height 800 WEBTAU_WINDOWWIDTH browser window width 1000 WEBTAU_WORKINGDIR logical working dir </text>
+      <text>environment variable description default value WEBTAU_ANSICOLOR enable/disable ANSI colors true WEBTAU_CHROMEBINPATH path to chrome binary WEBTAU_CHROMEDRIVERPATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOCPATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_NUMBEROFTHREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPENAPIIGNOREADDITIONALPROPERTIES ignore additional OpenAPI properties false WEBTAU_OPENAPISPECURL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORTPATH report file path ${workingDir}/webtau.report.html WEBTAU_URL base url for application under test WEBTAU_VERBOSITYLEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAITTIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOWHEIGHT browser window height 800 WEBTAU_WINDOWWIDTH browser window width 1000 WEBTAU_WORKINGDIR logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>
