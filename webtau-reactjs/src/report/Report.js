@@ -39,8 +39,8 @@ class Report {
         return overallTime / test.httpCalls.length
     }
 
-    static groupTestsByFile(tests) {
-        return groupTestsByFile(tests)
+    static groupTestsByContainer(tests) {
+        return groupTestsByContainer(tests)
     }
 
     constructor(report) {
@@ -191,18 +191,18 @@ function lowerCaseIndexOf(text, part) {
 function enrichTestsData(tests) {
     return tests.map(test => ({
             ...test,
-            shortFileName: shortenFileName(test.fileName),
+            shortContainerName: shortContainerName(test),
             details: additionalDetails(test),
             httpCalls: enrichHttpCallsData(test, test.httpCalls)
         }))
 }
 
-function groupTestsByFile(tests) {
+function groupTestsByContainer(tests) {
     const groups = []
     const groupById = {}
 
     tests.forEach(t => {
-        const groupId = t.fileName
+        const groupId = containerId(t)
 
         let group = groupById[groupId]
         if (!group) {
@@ -217,8 +217,12 @@ function groupTestsByFile(tests) {
     return groupWithFailedTestsAtTheTop(groups)
 }
 
-function shortenFileName(fileName) {
-    fileName = fileName.replace(/\\/g, '/')
+function containerId(test) {
+    return test.fileName
+}
+
+function shortContainerName(test) {
+    const fileName = test.fileName.replace(/\\/g, '/')
     const lastSlashIdx = fileName.lastIndexOf('/')
 
     if (lastSlashIdx === -1) {

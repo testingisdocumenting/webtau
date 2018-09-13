@@ -188,7 +188,7 @@ class WebTauReport extends Component {
     }
 
     get filteredTestGroups() {
-        return Report.groupTestsByFile(this.filteredTests)
+        return Report.groupTestsByContainer(this.filteredTests)
     }
 
     get filteredHttpCalls() {

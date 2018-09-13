@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5.report;
+package com.twosigma.webtau.javarunner.report;
 
-import com.twosigma.webtau.report.Report;
-import com.twosigma.webtau.report.ReportTestEntry;
+import com.twosigma.webtau.report.ReportGenerators;
 
-/**
- * Global storage of java based report.
- * Is used to generate report at the end of all tests run.
- */
-public class JavaReport {
-    private static final Report report = new Report();
+public class JavaReportShutdownHook {
+    public final static JavaReportShutdownHook INSTANCE = new JavaReportShutdownHook();
 
-    public static void addTestEntry(ReportTestEntry testEntry) {
-        report.addTestEntry(testEntry);
+    private JavaReportShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+                ReportGenerators.generate(JavaReport.get())));
     }
 
-    public static Report get() {
-        return report;
+    public void noOp() {
     }
 }

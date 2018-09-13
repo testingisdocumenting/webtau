@@ -38,7 +38,7 @@ function TestsGroup({tests, onTestSelect, onTestGroupSelect, selectedId}) {
                                                          test={test}
                                                          onSelect={onTestSelect}
                                                          isSelected={test.id === selectedId}/>)
-    const groupLabel = tests[0].shortFileName
+    const groupLabel = tests[0].shortContainerName
 
     return (
         <div className="group-of-tests">

@@ -15,7 +15,9 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -24,25 +26,19 @@
         <version>0.30-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webtau-junit5</artifactId>
+    <artifactId>webtau-java-runner</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-core</artifactId>
+            <artifactId>webtau-config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-java-runner</artifactId>
+            <artifactId>webtau-report</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.2.0</version>
         </dependency>
     </dependencies>
 </project>
