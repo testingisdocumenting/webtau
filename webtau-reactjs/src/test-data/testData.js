@@ -32,6 +32,7 @@ const report = {
     "tests": [
         {
             "id": "another.groovy-1",
+            "className": "com.example.tests.rest.AnotherIT",
             "scenario": "customer super read",
             "status": "Passed",
             "fileName": "rest\\springboot\\anotherTest.groovy",
@@ -85,6 +86,7 @@ const report = {
             "status": "Passed",
             "startTime": 1534456916484,
             "elapsedTime": 283,
+            "className": "com.example.tests.rest.CustomerCrudSeparatedIT",
             "fileName": "rest/springboot/customerCrudSeparated.groovy",
             "httpCalls": [{
                 "method": "POST",
@@ -127,6 +129,7 @@ const report = {
             "scenario": "customer read",
             "status": "Passed",
             "fileName": "rest\\springboot\\anotherTest.groovy",
+            "className": "com.example.tests.rest.AnotherIT",
             "startTime": 1534456916484,
             "elapsedTime": 22,
             "httpCalls": [{
@@ -173,6 +176,7 @@ const report = {
         },
         {
             "id": "customerCrudSeparated.groovy-3",
+            "className": "com.example.tests.rest.CustomerCrudSeparatedIT",
             "scenario": "customer update",
             "status": "Passed",
             "startTime": 1534456916384,
@@ -263,6 +267,7 @@ const report = {
         },
         {
             "id": "customerCrudSeparated.groovy-4",
+            "className": "com.example.tests.rest.CustomerCrudSeparatedIT",
             "scenario": "customer delete",
             "status": "Failed",
             "fileName": "rest/springboot/customerCrudSeparated.groovy",

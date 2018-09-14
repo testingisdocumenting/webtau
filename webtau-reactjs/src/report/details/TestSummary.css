@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-.single-summary {
+.test-summary {
     display: grid;
     grid-template-columns: 1fr;
     grid-row-gap: 10px;
 }
 
-.single-summary-timing,
-.single-summary-http-dashboard {
+.test-summary-timing,
+.test-summary-http-dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fill, 172px);
     grid-gap: 10px;

@@ -56,6 +56,9 @@ public class WebTauJunitExtension implements
         ReportTestEntry reportTestEntry = test.getReportTestEntry();
         reportTestEntry.setRan(true);
         reportTestEntry.stopClock();
+        reportTestEntry.setClassName(extensionContext.getTestClass()
+                .map(Class::getCanonicalName)
+                .orElse(null));
         JavaReport.addTestEntry(reportTestEntry);
 
         TestResultPayloadExtractors.extract(reportTestEntry.getSteps().stream())

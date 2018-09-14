@@ -24,8 +24,8 @@ const TestName = ({test, onTestClick}) => {
 
     return (
         <div className={className} onClick={onClick}>
-            <div className="file-name">
-                {test.fileName}
+            <div className="container-id">
+                {test.containerId}
             </div>
 
             <div className="scenario">

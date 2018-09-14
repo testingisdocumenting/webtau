@@ -19,7 +19,7 @@ import TestHttpCalls from './details/http/TestHttpCalls'
 import ShortStackTrace from './details/ShortStackTrace'
 import Screenshot from './details/Screenshot'
 import FullStackTrace from './details/FullStackTrace'
-import Summary from './details/Summary'
+import TestSummary from './details/TestSummary'
 import StatusEnum from './StatusEnum'
 import PerformanceReport from './PerformanceReport'
 
@@ -114,7 +114,8 @@ class Report {
     testsWithStatusAndFilteredByText(status, text) {
         return this.tests.filter(t => statusFilterPredicate(t.status, status) && (
             textFilterPredicate(t.scenario, text) ||
-            textFilterPredicate(t.fileName, text)))
+            textFilterPredicate(t.fileName, text) ||
+            textFilterPredicate(t.className, text)))
     }
 
     httpCallsWithStatusAndFilteredByText(status, text) {
@@ -190,11 +191,12 @@ function lowerCaseIndexOf(text, part) {
 
 function enrichTestsData(tests) {
     return tests.map(test => ({
-            ...test,
-            shortContainerName: shortContainerName(test),
-            details: additionalDetails(test),
-            httpCalls: enrichHttpCallsData(test, test.httpCalls)
-        }))
+        ...test,
+        containerId: fullContainerId(test),
+        shortContainerId: shortContainerId(test),
+        details: additionalDetails(test),
+        httpCalls: enrichHttpCallsData(test, test.httpCalls)
+    }))
 }
 
 function groupTestsByContainer(tests) {
@@ -202,7 +204,7 @@ function groupTestsByContainer(tests) {
     const groupById = {}
 
     tests.forEach(t => {
-        const groupId = containerId(t)
+        const groupId = fullContainerId(t)
 
         let group = groupById[groupId]
         if (!group) {
@@ -217,19 +219,31 @@ function groupTestsByContainer(tests) {
     return groupWithFailedTestsAtTheTop(groups)
 }
 
-function containerId(test) {
-    return test.fileName
+function fullContainerId(test) {
+    return test.className ?
+        test.className:
+        test.fileName
 }
 
-function shortContainerName(test) {
-    const fileName = test.fileName.replace(/\\/g, '/')
+function shortContainerId(test) {
+    return test.className ?
+        shortenClassName(test.className):
+        shortenFileName(test.fileName)
+}
+
+function shortenClassName(className) {
+    const lastDotIdx = className.lastIndexOf('.')
+    return lastDotIdx === -1 ?
+        className:
+        className.substr(lastDotIdx + 1)
+}
+
+function shortenFileName(fileName) {
     const lastSlashIdx = fileName.lastIndexOf('/')
 
-    if (lastSlashIdx === -1) {
-        return fileName
-    }
-
-    return fileName.substr(lastSlashIdx + 1)
+    return lastSlashIdx === -1 ?
+        fileName:
+        fileName.substr(lastSlashIdx + 1)
 }
 
 function groupWithFailedTestsAtTheTop(groups) {
@@ -328,7 +342,7 @@ function generateHttpCallId() {
 
 function additionalDetails(test) {
     const details = []
-    details.push({tabName: 'Summary', component: Summary})
+    details.push({tabName: 'Summary', component: TestSummary})
 
     if (test.hasOwnProperty('screenshot')) {
         details.push({tabName: 'Screenshot', component: Screenshot})

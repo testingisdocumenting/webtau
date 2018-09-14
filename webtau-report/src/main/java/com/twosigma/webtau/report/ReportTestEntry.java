@@ -42,6 +42,7 @@ public class ReportTestEntry {
     private String scenario;
 
     private Path filePath;
+    private String className;
 
     private Throwable exception;
 
@@ -82,6 +83,14 @@ public class ReportTestEntry {
 
     public void setFilePath(Path filePath) {
         this.filePath = filePath;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public Throwable getException() {
@@ -191,6 +200,10 @@ public class ReportTestEntry {
 
         if (filePath !=null) {
             result.put("fileName", filePath.toString());
+        }
+
+        if (className != null) {
+            result.put("className", className);
         }
 
         if (exception != null) {

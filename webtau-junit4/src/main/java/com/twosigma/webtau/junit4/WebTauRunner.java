@@ -36,34 +36,44 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
         super(klass);
     }
 
-
     @Override
     protected Statement methodInvoker(FrameworkMethod method, Object test) {
-        System.out.println("invoking: " + method.getName());
-
         JavaBasedTest javaBasedTest = new JavaBasedTest(
                 method.getName() + idGenerator.incrementAndGet(),
                 method.getName());
 
-        //method.getDeclaringClass().getSimpleName()
         ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
-        beforeTestRun(reportTestEntry);
+        reportTestEntry.setClassName(method.getDeclaringClass().getCanonicalName());
 
-        Statement statement = StepReporters.withAdditionalReporter(javaBasedTest,
-                () -> super.methodInvoker(method, test));
-
-        afterTestRun(reportTestEntry);
-
-        return statement;
+        Statement runStatement = super.methodInvoker(method, test);
+        return new Statement() {
+            @Override
+            public void evaluate() throws Throwable {
+                beforeTestRun(javaBasedTest);
+                try {
+                    runStatement.evaluate();
+                } catch (Throwable e) {
+                    reportTestEntry.setException(e);
+                    throw e;
+                } finally {
+                    afterTestRun(javaBasedTest);
+                }
+            }
+        };
     }
 
-    private void beforeTestRun(ReportTestEntry reportTestEntry) {
-        reportTestEntry.startClock();
+    private void beforeTestRun(JavaBasedTest javaBasedTest) {
+        javaBasedTest.getReportTestEntry().startClock();
+        StepReporters.add(javaBasedTest);
     }
 
-    private void afterTestRun(ReportTestEntry reportTestEntry) {
+    private void afterTestRun(JavaBasedTest javaBasedTest) {
+        ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
+        reportTestEntry.setRan(true);
         reportTestEntry.stopClock();
         JavaReport.addTestEntry(reportTestEntry);
+
+        StepReporters.remove(javaBasedTest);
 
         TestResultPayloadExtractors.extract(reportTestEntry.getSteps().stream())
                 .forEach(reportTestEntry::addTestResultPayload);
