@@ -22,7 +22,7 @@ import org.openqa.selenium.WebDriver;
 public class Cookies {
     private final WebDriver driver;
 
-    public Cookies(WebDriver driver) {
+    Cookies(WebDriver driver) {
         this.driver = driver;
     }
 

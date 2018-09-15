@@ -35,6 +35,7 @@ public class Browser {
     public static final Browser browser = new Browser();
     public final CurrentWebDriver driver = new CurrentWebDriver();
     public final Cookies cookies = new Cookies(driver);
+    public final LocalStorage localStorage = new LocalStorage(driver);
     public final DocumentationDsl doc = new DocumentationDsl(driver);
 
     public void open(String url) {

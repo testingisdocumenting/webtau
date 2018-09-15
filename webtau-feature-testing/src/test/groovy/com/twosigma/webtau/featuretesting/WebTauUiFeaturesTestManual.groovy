@@ -38,6 +38,7 @@ class WebTauUiFeaturesTestManual {
         testServer.registerGet("/search", htmlResponse('search.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
+        testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
 
         testRunner.startTestServer()
     }
@@ -69,11 +70,6 @@ class WebTauUiFeaturesTestManual {
     }
 
     @Test
-    void "matchers"() {
-        runCli('matchers.groovy', 'webtau.cfg')
-    }
-
-    @Test
     void "finders and filters extract snippets"() {
         extractSnippets(
                 'doc-artifacts/snippets/finders-filters',
@@ -88,6 +84,11 @@ class WebTauUiFeaturesTestManual {
 
         FeaturesDocArtifactsExtractor.extractAndSaveHtml('finders-and-filters.html', '#simple-case',
                 'finders-and-filters-flat-menu')
+    }
+
+    @Test
+    void "matchers"() {
+        runCli('matchers.groovy', 'webtau.cfg')
     }
 
     @Test
@@ -110,6 +111,22 @@ class WebTauUiFeaturesTestManual {
                 'matchers-numbers')
         FeaturesDocArtifactsExtractor.extractAndSaveHtml('matchers.html', '#texts',
                 'matchers-texts')
+    }
+    @Test
+    void "local storage"() {
+        runCli('localStorage.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "local storage extract snippets"() {
+        extractSnippets(
+                'doc-artifacts/snippets/local-storage',
+                'examples/scenarios/ui/localStorage.groovy', [
+                'localStorageApi.groovy': 'local storage api',
+        ])
+
+        FeaturesDocArtifactsExtractor.extractAndSaveHtml('local-storage.html', 'body',
+                'local-storage-body')
     }
 
     @Test
