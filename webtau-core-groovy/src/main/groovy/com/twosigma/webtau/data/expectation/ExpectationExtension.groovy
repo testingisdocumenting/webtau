@@ -38,19 +38,35 @@ class ExpectationExtension {
         shouldNot(actual, valueMatcher)
     }
 
-    static Should getShould(actual) {
+    static ShouldWaitStub getShould(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
-    static Should getShouldBe(actual) {
+    static ShouldWaitStub getWaitTo(actual) {
+        throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
+    }
+
+    static ShouldWaitStub getShouldBe(actual) {
         getShould(actual)
     }
 
-    static ShouldNot getShouldNot(actual) {
+    static ShouldWaitStub getWaitToBe(actual) {
+        getWaitTo(actual)
+    }
+
+    static ShouldWaitStub getShouldNot(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
-    static ShouldNot getShouldNotBe(actual) {
+    static ShouldWaitStub getWaitToNot(actual) {
+        throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
+    }
+
+    static ShouldWaitStub getShouldNotBe(actual) {
         getShouldNot(actual)
+    }
+
+    static ShouldWaitStub getWaitToNotBe(actual) {
+        getWaitToNot(actual)
     }
 }

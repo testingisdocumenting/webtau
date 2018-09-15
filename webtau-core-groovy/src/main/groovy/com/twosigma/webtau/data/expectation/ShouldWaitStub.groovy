@@ -18,10 +18,10 @@ package com.twosigma.webtau.data.expectation
 
 import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
 
-class ShouldNot {
+class ShouldWaitStub {
     private Object actual
 
-    ShouldNot(Object actual) {
+    ShouldWaitStub(Object actual) {
         this.actual = actual
     }
 

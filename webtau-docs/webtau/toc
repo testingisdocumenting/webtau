@@ -19,6 +19,7 @@ UI
     page-element-and-value
     page-object
     advanced-configuration
+    local-storage
     finders-and-filters
     matchers
 configuration

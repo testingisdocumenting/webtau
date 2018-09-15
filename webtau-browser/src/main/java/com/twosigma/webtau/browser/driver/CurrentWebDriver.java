@@ -23,12 +23,15 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.html5.LocalStorage;
+import org.openqa.selenium.html5.SessionStorage;
+import org.openqa.selenium.html5.WebStorage;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptExecutor {
+public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptExecutor, WebStorage {
     private AtomicBoolean wasUsed = new AtomicBoolean(false);
     private ThreadLocal<WebDriver> local = ThreadLocal.withInitial(WebDriverCreator::create);
 
@@ -119,5 +122,15 @@ public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptE
     private WebDriver getDriver() {
         wasUsed.set(true);
         return local.get();
+    }
+
+    @Override
+    public LocalStorage getLocalStorage() {
+        return ((WebStorage)getDriver()).getLocalStorage();
+    }
+
+    @Override
+    public SessionStorage getSessionStorage() {
+        return ((WebStorage)getDriver()).getSessionStorage();
     }
 }
