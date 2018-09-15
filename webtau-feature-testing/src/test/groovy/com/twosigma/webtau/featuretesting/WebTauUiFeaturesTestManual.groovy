@@ -112,6 +112,11 @@ class WebTauUiFeaturesTestManual {
                 'matchers-texts')
     }
 
+    @Test
+    void "open handlers"() {
+        runCli('openHandler.groovy', 'openHandler.cfg')
+    }
+
     private static void extractSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
         def artifactsRoot = Paths.get(extractedPath)
 

@@ -63,6 +63,11 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             GroovyConfigBasedHttpConfiguration.setHeaderProvider(headerProvider)
         }
 
+        def browserPageNavigationHandler = browserPageNavigationHandlerProvider(parsedConfig)
+        if (browserPageNavigationHandler) {
+            GroovyConfigBasedBrowserPageNavigationHandler.setHandler(browserPageNavigationHandler)
+        }
+
         def reportGenerator = reportGenerator(parsedConfig)
         if (reportGenerator) {
             ReportGenerators.add(reportGenerator)
@@ -86,6 +91,11 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
 
     private static Closure httpHeaderProvider(parsedConfig) {
         def provider = parsedConfig.get("httpHeaderProvider")
+        return provider ? provider as Closure : null
+    }
+
+    private static Closure browserPageNavigationHandlerProvider(parsedConfig) {
+        def provider = parsedConfig.get("browserPageNavigationHandlerProvider")
         return provider ? provider as Closure : null
     }
 
