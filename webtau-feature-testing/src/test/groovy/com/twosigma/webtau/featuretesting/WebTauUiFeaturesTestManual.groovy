@@ -39,6 +39,7 @@ class WebTauUiFeaturesTestManual {
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
+        testServer.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
 
         testRunner.startTestServer()
     }

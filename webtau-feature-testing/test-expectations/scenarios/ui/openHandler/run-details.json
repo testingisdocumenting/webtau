@@ -1,0 +1,9 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "page open handlers",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 0
+}

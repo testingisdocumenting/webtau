@@ -20,6 +20,7 @@ UI
     page-object
     advanced-configuration
     local-storage
+    page-open-handlers
     finders-and-filters
     matchers
 configuration
