@@ -22,34 +22,38 @@ import org.openqa.selenium.html5.WebStorage;
 import java.util.Set;
 
 public class LocalStorage {
-    private final org.openqa.selenium.html5.LocalStorage localStorage;
+    private final WebDriver driver;
 
     LocalStorage(WebDriver driver) {
-        WebStorage webStorage = (WebStorage) driver;
-        this.localStorage = webStorage.getLocalStorage();
+        this.driver = driver;
     }
 
     public String getItem(String key) {
-        return localStorage.getItem(key);
+        return getLocalStorage().getItem(key);
     }
 
     public Set<String> keySet() {
-        return localStorage.keySet();
+        return getLocalStorage().keySet();
     }
 
     public void setItem(String key, String value) {
-        localStorage.setItem(key, value);
+        getLocalStorage().setItem(key, value);
     }
 
     public String removeItem(String key) {
-        return localStorage.removeItem(key);
+        return getLocalStorage().removeItem(key);
     }
 
     public void clear() {
-        localStorage.clear();
+        getLocalStorage().clear();
     }
 
     public int size() {
-        return localStorage.size();
+        return getLocalStorage().size();
+    }
+
+    private org.openqa.selenium.html5.LocalStorage getLocalStorage() {
+        WebStorage webStorage = (WebStorage) driver;
+        return webStorage.getLocalStorage();
     }
 }
