@@ -1,0 +1,63 @@
+/*
+ * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.twosigma.webtau.browser.navigation;
+
+import com.twosigma.webtau.utils.ServiceUtils;
+import org.openqa.selenium.WebDriver;
+
+import java.util.List;
+
+public class BrowserPageNavigation {
+    private static final ThreadLocal<Boolean> handlersEnabled = ThreadLocal.withInitial(() -> true);
+    private static final List<BrowserPageNavigationHandler> handlers =
+            ServiceUtils.discover(BrowserPageNavigationHandler.class);
+
+    public static void addHandler(BrowserPageNavigationHandler handler) {
+        handlers.add(handler);
+    }
+
+    public static void open(WebDriver driver, String passedUrl, String fullUrl) {
+        driver.get(fullUrl);
+        onOpenedPage(passedUrl, fullUrl, driver.getCurrentUrl());
+    }
+
+    private static void onOpenedPage(String passedUrl, String fullUrl, String currentUrl) {
+        if (! handlersEnabled.get()) {
+            return;
+        }
+
+        withDisabledHandlers(() ->
+                handlers.forEach(h -> h.onOpenedPage(passedUrl, fullUrl, currentUrl)));
+    }
+
+    private static void withDisabledHandlers(Runnable code) {
+        try {
+            disableHandlers();
+            code.run();
+        } finally {
+            enableHandlers();
+        }
+    }
+
+    private static void disableHandlers() {
+        handlersEnabled.set(false);
+    }
+
+    private static void enableHandlers() {
+        handlersEnabled.set(true);
+    }
+}

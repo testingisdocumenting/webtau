@@ -18,6 +18,7 @@ package com.twosigma.webtau.browser;
 
 import com.twosigma.webtau.browser.documentation.DocumentationDsl;
 import com.twosigma.webtau.browser.driver.CurrentWebDriver;
+import com.twosigma.webtau.browser.navigation.BrowserPageNavigation;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.path.ElementPath;
 import com.twosigma.webtau.browser.page.path.GenericPageElement;
@@ -47,7 +48,7 @@ public class Browser {
                 () -> tokenizedMessage(action(sameUrl ? "staying at" : "opened"), urlValue(fullUrl)),
                 () -> {
                     if (!sameUrl) {
-                        driver.get(fullUrl);
+                        BrowserPageNavigation.open(driver, url, fullUrl);
                     }
                 });
     }
