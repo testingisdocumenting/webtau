@@ -18,9 +18,7 @@ package com.twosigma.webtau.expectation.equality.handlers
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.beGreaterThan
-import static com.twosigma.webtau.Ddjt.equal
+import static com.twosigma.webtau.Ddjt.*
 
 class NumberAndStringCompareToHandlerTest {
     @Test
@@ -41,5 +39,31 @@ class NumberAndStringCompareToHandlerTest {
     @Test
     void "automatically convert string to a number for greater-less comparison"() {
         actual("100.54").should(beGreaterThan(30))
+    }
+
+    @Test
+    void "non parsable string should not equal a give number"() {
+        code {
+            actual("abc").should(equal(100))
+        } should throwException(AssertionError)
+    }
+
+    @Test
+    void "non parsable string should not be greater or less a give number"() {
+        code {
+            actual("abc").should(beGreaterThan(100))
+        } should throwException(AssertionError)
+
+        code {
+            actual("abc").should(beLessThan(100))
+        } should throwException(AssertionError)
+
+        code {
+            actual("abc").should(beGreaterThanOrEqual(100))
+        } should throwException(AssertionError)
+
+        code {
+            actual("abc").should(beLessThanOrEqual(100))
+        } should throwException(AssertionError)
     }
 }
