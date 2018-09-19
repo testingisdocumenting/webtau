@@ -21,6 +21,10 @@ import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 import com.twosigma.webtau.utils.NumberUtils;
 
+import java.text.ParseException;
+
+import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.renderActualExpected;
+
 public class NumberAndStringCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
@@ -34,16 +38,50 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        comparator.compareUsingEqualOnly(actualPath, convertToNumber(actual), expected);
+        Number actualNumber = convertToNumber(actual);
+
+        if (actualNumber == null) {
+            comparator.reportEqualOrNotEqual(this, false, actualPath, renderActualExpected(Double.NaN, expected));
+        } else {
+            comparator.compareUsingEqualOnly(actualPath, actualNumber, expected);
+        }
     }
 
     @Override
     public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        comparator.compareUsingCompareTo(actualPath, convertToNumber(actual), expected);
+        Number actualNumber = convertToNumber(actual);
+
+        if (actualNumber == null) {
+            comparator.reportCompareToValue(this, compareToValueToFail(comparator), actualPath,
+                    renderActualExpected(Double.NaN, expected));
+        } else {
+            comparator.compareUsingCompareTo(actualPath, actualNumber, expected);
+        }
+    }
+
+    private int compareToValueToFail(CompareToComparator comparator) {
+        switch (comparator.getAssertionMode()) {
+            case GREATER_THAN:
+            case GREATER_THAN_OR_EQUAL:
+                return -1;
+            case LESS_THAN:
+            case LESS_THAN_OR_EQUAL:
+                return 1;
+            case EQUAL:
+                return 1;
+            case NOT_EQUAL:
+                return 0;
+        }
+
+        return 0;
     }
 
     private Number convertToNumber(Object actual) {
-        return NumberUtils.convertStringToNumber((String) actual);
+        try {
+            return NumberUtils.convertStringToNumber((String) actual);
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
     private boolean handles(Object actual, Object expected) {

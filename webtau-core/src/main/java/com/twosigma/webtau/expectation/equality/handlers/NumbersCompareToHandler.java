@@ -78,8 +78,7 @@ public class NumbersCompareToHandler implements CompareToHandler {
         }
 
         String renderActualExpected() {
-            return "  actual: " + renderValueAndType(convertedActual) + "(before conversion: " + renderValueAndType(actual) + ")\n" +
-                    "expected: " + renderValueAndType(convertedExpected) + "(before conversion: " + renderValueAndType(expected) + ")";
+            return HandlerMessages.renderActualExpected(convertedActual, convertedExpected, actual, expected);
         }
 
         private static Class largest(Object actual, Object expected) {
