@@ -36,6 +36,7 @@ class WebTauUiFeaturesTestManual {
 
         def testServer = testRunner.testServer
         testServer.registerGet("/search", htmlResponse('search.html'))
+        testServer.registerGet("/calculation", htmlResponse('calculation.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
@@ -133,6 +134,21 @@ class WebTauUiFeaturesTestManual {
     @Test
     void "open handlers"() {
         runCli('openHandler.groovy', 'openHandler.cfg')
+    }
+
+    @Test
+    void "wait sync"() {
+        runCli('waitSync.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "wait sync extract snippets"() {
+        extractSnippets(
+                'doc-artifacts/snippets/wait-sync',
+                'examples/scenarios/ui/waitSync.groovy', [
+                'waitForAppear.groovy': 'wait for element to appear',
+                'waitForMatch.groovy': 'wait for match',
+        ])
     }
 
     private static void extractSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {

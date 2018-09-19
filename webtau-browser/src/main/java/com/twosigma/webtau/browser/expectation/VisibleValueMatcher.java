@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.browser.expectation;
 
-import com.twosigma.webtau.browser.page.ElementValue;
+import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
@@ -38,8 +38,8 @@ public class VisibleValueMatcher implements ValueMatcher {
 
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
-        ElementValue elementValue = (ElementValue) actual;
-        return elementValue.getParent().isVisible();
+        PageElement pageElement = (PageElement) actual;
+        return pageElement.isVisible();
     }
 
     @Override
