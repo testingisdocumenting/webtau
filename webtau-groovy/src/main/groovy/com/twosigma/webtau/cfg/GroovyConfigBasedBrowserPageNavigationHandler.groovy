@@ -32,6 +32,10 @@ class GroovyConfigBasedBrowserPageNavigationHandler implements BrowserPageNaviga
 
     @Override
     void onOpenedPage(String passedUrl, String fullUrl, String currentUrl) {
+        if (!handler.get()) {
+            return
+        }
+
         handler.get().call(passedUrl, fullUrl, currentUrl)
     }
 }
