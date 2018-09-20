@@ -4,7 +4,7 @@ To access local storage use `browser.localStorage`.
 
 Lets consider a simple web page that displays a value from a local storage.
 
-:include-file: doc-artifacts/snippets/local-storage-body.html {title: "Sample web page"}
+:include-file: doc-artifacts/snippets/local-storage/body-only.html {title: "Sample web page"}
 
 :include-file: examples/scenarios/ui/localStorage.groovy {title: "Setting storage after opening page"}
 

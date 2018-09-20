@@ -1,0 +1,24 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open forms",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "input",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "select options",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "values validation",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  } ],
+  "exitCode" : 0
+}

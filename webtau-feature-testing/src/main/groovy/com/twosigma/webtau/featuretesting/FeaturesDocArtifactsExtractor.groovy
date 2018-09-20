@@ -37,7 +37,7 @@ import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.StringUtils
 import org.jsoup.Jsoup
 
-import java.nio.file.Paths
+import java.nio.file.Path
 
 class FeaturesDocArtifactsExtractor {
     static String extractScenarioBody(String script, String scenario) {
@@ -62,10 +62,8 @@ class FeaturesDocArtifactsExtractor {
         return Jsoup.parse(html).select(css).html().toString()
     }
 
-    static void extractAndSaveHtml(String resourceName, String css, String snippetOutName) {
+    static void extractAndSaveHtml(String resourceName, String css, Path outputPath) {
         def html = extractHtml(resourceName, css)
-
-        def snippetPath = Paths.get("doc-artifacts/snippets").resolve(snippetOutName + ".html")
-        FileUtils.writeTextContent(snippetPath, html)
+        FileUtils.writeTextContent(outputPath, html)
     }
 }

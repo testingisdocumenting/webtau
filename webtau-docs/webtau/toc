@@ -18,6 +18,7 @@ UI
     basic-configuration
     page-element-and-value
     page-object
+    forms
     asynchronous-page
     advanced-configuration
     local-storage

@@ -14,7 +14,7 @@ type: two-sides
 
 
 :include-meta: {rightSide: true}
-:include-xml: doc-artifacts/snippets/matchers-texts.html
+:include-xml: doc-artifacts/snippets/matchers/texts.html
 
 # Numbers
 
@@ -30,4 +30,4 @@ type: two-sides
 
 
 :include-meta: {rightSide: true}
-:include-xml: doc-artifacts/snippets/matchers-numbers.html
+:include-xml: doc-artifacts/snippets/matchers/numbers.html

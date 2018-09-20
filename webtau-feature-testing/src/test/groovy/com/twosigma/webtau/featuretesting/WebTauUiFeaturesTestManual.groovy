@@ -36,6 +36,7 @@ class WebTauUiFeaturesTestManual {
 
         def testServer = testRunner.testServer
         testServer.registerGet("/search", htmlResponse('search.html'))
+        testServer.registerGet("/forms", htmlResponse('forms.html'))
         testServer.registerGet("/calculation", htmlResponse('calculation.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
@@ -73,9 +74,10 @@ class WebTauUiFeaturesTestManual {
 
     @Test
     void "finders and filters extract snippets"() {
-        extractSnippets(
-                'doc-artifacts/snippets/finders-filters',
-                'examples/scenarios/ui/findersFilters.groovy', [
+        def root = 'doc-artifacts/snippets/finders-filters'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/findersFilters.groovy', [
                 'byCss.groovy': 'by css id',
                 'byCssFirstMatched.groovy': 'by css first matched',
                 'byCssAllMatched.groovy': 'by css all matched',
@@ -84,8 +86,9 @@ class WebTauUiFeaturesTestManual {
                 'byCssAndFilterByRegexp.groovy': 'by css and filter by regexp',
         ])
 
-        FeaturesDocArtifactsExtractor.extractAndSaveHtml('finders-and-filters.html', '#simple-case',
-                'finders-and-filters-flat-menu')
+        extractHtmlSnippets(root, 'finders-and-filters.html', [
+             'flat-menu.html': '#simple-case'
+        ])
     }
 
     @Test
@@ -95,9 +98,10 @@ class WebTauUiFeaturesTestManual {
 
     @Test
     void "matchers extract snippets"() {
-        extractSnippets(
-                'doc-artifacts/snippets/matchers',
-                'examples/scenarios/ui/matchers.groovy', [
+        def root = 'doc-artifacts/snippets/matchers'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/matchers.groovy', [
                 'equalText.groovy': 'equal text',
                 'equalTextRegexp.groovy': 'equal text regexp',
                 'equalListOfText.groovy': 'equal list of text',
@@ -109,11 +113,32 @@ class WebTauUiFeaturesTestManual {
                 'lessEqualListMixOfNumbers.groovy': 'less equal list mix of numbers',
         ])
 
-        FeaturesDocArtifactsExtractor.extractAndSaveHtml('matchers.html', '#numbers',
-                'matchers-numbers')
-        FeaturesDocArtifactsExtractor.extractAndSaveHtml('matchers.html', '#texts',
-                'matchers-texts')
+        extractHtmlSnippets(root, 'matchers.html', [
+                'numbers.html': '#numbers',
+                'texts.html': '#texts'])
     }
+
+    @Test
+    void "forms"() {
+        runCli('forms.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "forms extract snippets"() {
+        def root = 'doc-artifacts/snippets/forms'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/forms.groovy', [
+                'input.groovy': 'input',
+                'selectOptions.groovy': 'select options',
+                'validation.groovy': 'values validation',
+        ])
+
+        extractHtmlSnippets(root, 'forms.html', [
+                'form-element.html': '#form'
+        ])
+    }
+
     @Test
     void "local storage"() {
         runCli('localStorage.groovy', 'webtau.cfg')
@@ -121,14 +146,15 @@ class WebTauUiFeaturesTestManual {
 
     @Test
     void "local storage extract snippets"() {
-        extractSnippets(
-                'doc-artifacts/snippets/local-storage',
-                'examples/scenarios/ui/localStorage.groovy', [
+        def root = 'doc-artifacts/snippets/local-storage'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/localStorage.groovy', [
                 'localStorageApi.groovy': 'local storage api',
         ])
 
-        FeaturesDocArtifactsExtractor.extractAndSaveHtml('local-storage.html', 'body',
-                'local-storage-body')
+        extractHtmlSnippets(root, 'local-storage.html', [
+                'body-only.html': 'body'])
     }
 
     @Test
@@ -143,7 +169,7 @@ class WebTauUiFeaturesTestManual {
 
     @Test
     void "wait sync extract snippets"() {
-        extractSnippets(
+        extractCodeSnippets(
                 'doc-artifacts/snippets/wait-sync',
                 'examples/scenarios/ui/waitSync.groovy', [
                 'waitForAppear.groovy': 'wait for element to appear',
@@ -151,7 +177,7 @@ class WebTauUiFeaturesTestManual {
         ])
     }
 
-    private static void extractSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
+    private static void extractCodeSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
         def artifactsRoot = Paths.get(extractedPath)
 
         def script = FileUtils.fileTextContent(Paths.get(inputName))
@@ -160,7 +186,15 @@ class WebTauUiFeaturesTestManual {
             def extracted = FeaturesDocArtifactsExtractor.extractScenarioBody(script, scenario)
             FileUtils.writeTextContent(artifactsRoot.resolve(outputFileName), extracted)
         }
+    }
 
+    private static void extractHtmlSnippets(String extractedPath, String resourceName, Map<String, String> cssToOutputFile) {
+        def artifactsRoot = Paths.get(extractedPath)
+
+        cssToOutputFile.each { outputFileName, css ->
+            FeaturesDocArtifactsExtractor.extractAndSaveHtml(resourceName, css,
+                    artifactsRoot.resolve(outputFileName))
+        }
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

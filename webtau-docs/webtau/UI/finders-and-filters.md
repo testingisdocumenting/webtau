@@ -21,7 +21,7 @@ While `click` and `sendKeys` will always work on a first element only, the match
 :include-file: doc-artifacts/snippets/finders-filters/byCssAllMatched.groovy
 
 :include-meta: {rightSide: true}
-:include-xml: doc-artifacts/snippets/finders-and-filters-flat-menu.html {paths: ["div.div[0]", "div.div[1].ul.li[0].a"]}
+:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {paths: ["div.div[0]", "div.div[1].ul.li[0].a"]}
 
 # Filters
 
@@ -37,4 +37,4 @@ Filter comes in a way of `get` method. Parameter is one of the following
 :include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByRegexp.groovy { title: "Regexp" }
 
 :include-meta: {rightSide: true}
-:include-xml: doc-artifacts/snippets/finders-and-filters-flat-menu.html {paths: ["div.div[1].ul.li[1].a"]}
+:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {paths: ["div.div[1].ul.li[1].a"]}
