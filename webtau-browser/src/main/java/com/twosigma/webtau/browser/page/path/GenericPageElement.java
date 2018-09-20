@@ -25,6 +25,7 @@ import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.Collections;
 import java.util.List;
@@ -96,24 +97,17 @@ public class GenericPageElement implements PageElement {
     public void setValue(Object value) {
         execute(tokenizedMessage(action("setting value"), stringValue(value), TO).add(pathDescription),
                 () -> tokenizedMessage(action("set value"), stringValue(value), TO).add(pathDescription),
-                () -> {
-                    clear();
-                    sendKeys(value.toString());
-                });
+                () -> setValueBasedOnType(value));
     }
 
     @Override
     public void sendKeys(String keys) {
-        execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent value"), stringValue(keys), TO).add(pathDescription),
-                () -> findElement().sendKeys(keys));
+        sendKeys(findElement(), keys);
     }
 
     @Override
     public void clear() {
-        execute(tokenizedMessage(action("clearing")).add(pathDescription),
-                () -> tokenizedMessage(action("cleared")).add(pathDescription),
-                () -> findElement().clear());
+        clear(findElement());
     }
 
     @Override
@@ -134,6 +128,11 @@ public class GenericPageElement implements PageElement {
     @Override
     public boolean isVisible() {
         return findElement().isDisplayed();
+    }
+
+    @Override
+    public String toString() {
+        return path.toString();
     }
 
     private String getText() {
@@ -160,9 +159,22 @@ public class GenericPageElement implements PageElement {
     }
 
     private String extractValue(WebElement webElement) {
-        String tagName = webElement.getTagName().toUpperCase();
-        return (tagName.equals("INPUT") || tagName.equals("TEXTAREA")) ?
-                webElement.getAttribute("value") : webElement.getText();
+        GenericElementType type = elementType(webElement);
+
+        switch (type) {
+            case INPUT:
+            case TEXT_AREA:
+                return webElement.getAttribute("value");
+            case SELECT:
+                return extractSelectOptionValue(webElement);
+            default:
+                return webElement.getText();
+        }
+    }
+
+    private String extractSelectOptionValue(WebElement webElement) {
+        Select select = new Select(webElement);
+        return select.getFirstSelectedOption().getText();
     }
 
     private Integer getNumberOfElements() {
@@ -170,9 +182,40 @@ public class GenericPageElement implements PageElement {
         return webElements.size();
     }
 
-    @Override
-    public String toString() {
-        return path.toString();
+    private void setValueBasedOnType(Object value) {
+        WebElement element = findElement();
+
+        GenericElementType type = elementType(element);
+        switch (type) {
+            case SELECT:
+                setSelectValue(element, value);
+                break;
+            default:
+                setRegularValue(element, value);
+                break;
+        }
+    }
+
+    private void setSelectValue(WebElement webElement, Object value) {
+        Select select = new Select(webElement);
+        select.selectByValue(value.toString());
+    }
+
+    private void setRegularValue(WebElement webElement, Object value) {
+        clear(webElement);
+        sendKeys(webElement, value.toString());
+    }
+
+    private void clear(WebElement webElement) {
+        execute(tokenizedMessage(action("clearing")).add(pathDescription),
+                () -> tokenizedMessage(action("cleared")).add(pathDescription),
+                webElement::clear);
+    }
+
+    private void sendKeys(WebElement webElement, String keys) {
+        execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
+                () -> tokenizedMessage(action("sent value"), stringValue(keys), TO).add(pathDescription),
+                () -> webElement.sendKeys(keys));
     }
 
     private void execute(TokenizedMessage inProgressMessage,
@@ -190,5 +233,20 @@ public class GenericPageElement implements PageElement {
 
     private NullWebElement createNullElement() {
         return new NullWebElement(path.toString());
+    }
+
+    static private GenericElementType elementType(WebElement element) {
+        String tag = element.getTagName().toUpperCase();
+
+        switch (tag) {
+            case "SELECT":
+                return GenericElementType.SELECT;
+            case "INPUT":
+                return GenericElementType.INPUT;
+            case "TEXTAREA":
+                return GenericElementType.TEXT_AREA;
+            default:
+                return GenericElementType.OTHER;
+        }
     }
 }
