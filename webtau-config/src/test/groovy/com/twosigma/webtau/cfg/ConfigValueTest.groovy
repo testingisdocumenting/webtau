@@ -42,11 +42,11 @@ class ConfigValueTest {
 
     @Test
     void "initialize its value by looking through provided map of values using original and prefixed uppercase key"() {
-        def configValue = ConfigValue.declare("path", "path", null)
-        configValue.accept("env vars", [dummy: 1, WEBTAU_PATH: "path1"])
+        def configValue = ConfigValue.declare("pathToThat", "path", null)
+        configValue.accept("env vars", [dummy: 1, WEBTAU_PATH_TO_THAT: "path1"])
         configValue.getAsString().should == "path1"
 
-        configValue.accept("command line", [dummy: 1, path: "path2"])
+        configValue.accept("command line", [dummy: 1, pathToThat: "path2"])
         configValue.getAsString().should == "path2"
     }
 }

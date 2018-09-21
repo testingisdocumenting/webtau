@@ -32,7 +32,7 @@ class WebTauConfigTest {
 
         WebTauConfig cfg = new WebTauConfig()
         cfg.setBaseUrl('new-url')
-        
+
         cfg.getBaseUrl().should == "new-url"
         cfg.baseUrlConfigValue.getSources().should == ["manual", "system property"]
     }
@@ -49,5 +49,11 @@ class WebTauConfigTest {
     void "let register additional config values via service loaders"() {
         WebTauConfig cfg = new WebTauConfig()
         cfg.get('customConfig').should == 'default config value'
+    }
+
+    @Test
+    void "convert uppercase underscore to property name"() {
+        WebTauConfig.convertToCamelCase('WEBTAU_NAME').should == 'name'
+        WebTauConfig.convertToCamelCase('WEBTAU_PROP_NAME').should == 'propName'
     }
 }

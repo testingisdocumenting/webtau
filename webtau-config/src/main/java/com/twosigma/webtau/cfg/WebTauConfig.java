@@ -24,12 +24,7 @@ import com.twosigma.webtau.utils.StringUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -91,7 +86,10 @@ public class WebTauConfig {
     public void triggerConfigHandlers() {
         handlers.forEach(h -> h.onBeforeCreate(this));
 
-        acceptConfigValues("environment variable", envVarsAsMap());
+        Map<String, ?> envVarValues = envVarsAsMap();
+        acceptConfigValues("environment variable", envVarValues);
+        acceptConfigValues("environment variable", convertWebTauEnvVarsToPropNames(envVarValues));
+
         acceptConfigValues("system property", systemPropsAsMap());
 
         handlers.forEach(h -> h.onAfterCreate(this));
@@ -240,6 +238,27 @@ public class WebTauConfig {
 
     private static Map<String, ?> envVarsAsMap() {
         return System.getenv();
+    }
+
+    private Map<String, ?> convertWebTauEnvVarsToPropNames(Map<String, ?> envVarValues) {
+        Map<String, String> result = new LinkedHashMap<>();
+        envVarValues.forEach((k, v) -> {
+            if (k.startsWith(ConfigValue.ENV_VAR_PREFIX)) {
+                result.put(convertToCamelCase(k), v.toString());
+            }
+        });
+
+        return result;
+    }
+
+    static String convertToCamelCase(String key) {
+        String[] parts = key.split("_");
+        String joined = Arrays.stream(parts)
+                .skip(1)
+                .map(p -> p.charAt(0) + p.substring(1).toLowerCase())
+                .collect(Collectors.joining(""));
+
+        return Character.toLowerCase(joined.charAt(0)) + joined.substring(1);
     }
 
     private Map<String, ConfigValue> enumerateRegisteredConfigValues() {
