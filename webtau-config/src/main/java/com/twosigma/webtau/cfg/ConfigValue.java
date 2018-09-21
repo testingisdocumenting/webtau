@@ -28,6 +28,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ConfigValue {
+    static final String ENV_VAR_PREFIX = "WEBTAU_";
+    private static final String CAMEL_CASE_PATTERN = "([a-z])([A-Z]+)";
+
     private String key;
     private String prefixedUpperCaseKey;
     private Supplier<Object> defaultValueSupplier;
@@ -41,7 +44,7 @@ public class ConfigValue {
 
     private ConfigValue(String key, String description, String sourceId, Object value, Supplier<Object> defaultValueSupplier) {
         this.key = key;
-        this.prefixedUpperCaseKey = "WEBTAU_" + key.toUpperCase();
+        this.prefixedUpperCaseKey = ENV_VAR_PREFIX + convertToSnakeCase(key);
         this.description = description;
         this.values = new ArrayDeque<>();
         this.defaultValueSupplier = defaultValueSupplier;
@@ -142,6 +145,11 @@ public class ConfigValue {
 
     private String convertToString(Object value) {
         return value == null ? "" : value.toString();
+    }
+
+    private String convertToSnakeCase(String key) {
+        return key.replaceAll(CAMEL_CASE_PATTERN, "$1_$2")
+                .toUpperCase();
     }
 
     private static class Value {
