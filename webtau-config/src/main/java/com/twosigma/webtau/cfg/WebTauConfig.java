@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.twosigma.webtau.cfg.ConfigValue.declare;
+import static com.twosigma.webtau.cfg.ConfigValue.declareBoolean;
 
 public class WebTauConfig {
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
@@ -45,11 +46,11 @@ public class WebTauConfig {
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
     private final ConfigValue docPath = declare("docPath", "path for screenshots and other generated " +
             "artifacts for documentation", workingDir::getAsPath);
-    private final ConfigValue ansiColor = declare("ansiColor", "enable/disable ANSI colors", () -> true);
+    private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
-    private final ConfigValue headless = declare("headless", "run headless mode", () -> false);
+    private final ConfigValue headless = declareBoolean("headless", "run headless mode");
     private final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
     private final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
 
@@ -97,6 +98,10 @@ public class WebTauConfig {
 
     public Stream<ConfigValue> getCfgValuesStream() {
         return enumeratedCfgValues.values().stream();
+    }
+
+    public ConfigValue findConfigValue(String key) {
+        return enumeratedCfgValues.get(key);
     }
 
     public String get(String key) {
@@ -155,7 +160,7 @@ public class WebTauConfig {
     }
 
     public boolean isAnsiEnabled() {
-        return ansiColor.getAsBoolean();
+        return noColor.getAsBoolean();
     }
 
     public int getWindowWidth() {
@@ -271,7 +276,7 @@ public class WebTauConfig {
                 waitTimeout,
                 docPath,
                 reportPath,
-                ansiColor,
+                noColor,
                 windowWidth,
                 windowHeight,
                 headless,
