@@ -94,12 +94,18 @@ class WebTauCliArgsConfig {
         def options = new Options()
         options.addOption(null, "help", false, "print help")
 
-        cfg.getCfgValuesStream().each {options.addOption(null, it.key, true, it.description)}
+        cfg.getCfgValuesStream().each {
+            options.addOption(null, it.key, !it.isBoolean(), it.description)
+        }
+
         return options
     }
 
     private Map commandLineArgsAsMap() {
-        commandLine.options.collectEntries { [it.longOpt, it.value] }
+        commandLine.options.collectEntries { [
+                it.longOpt,
+                cfg.findConfigValue(it.longOpt).boolean ? true : it.value
+        ] }
     }
 
     interface ExitHandler {

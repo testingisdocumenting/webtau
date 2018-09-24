@@ -38,15 +38,22 @@ public class ConfigValue {
 
     private Deque<Value> values;
 
+    private boolean isBoolean;
+
     public static ConfigValue declare(String key, String description, Supplier<Object> defaultValueSupplier) {
-        return new ConfigValue(key,  description,null, null, defaultValueSupplier);
+        return new ConfigValue(key,  description,null, null, false, defaultValueSupplier);
     }
 
-    private ConfigValue(String key, String description, String sourceId, Object value, Supplier<Object> defaultValueSupplier) {
+    public static ConfigValue declareBoolean(String key, String description) {
+        return new ConfigValue(key,  description,null, null, true, () -> false);
+    }
+
+    private ConfigValue(String key, String description, String sourceId, Object value, boolean isBoolean, Supplier<Object> defaultValueSupplier) {
         this.key = key;
         this.prefixedUpperCaseKey = ENV_VAR_PREFIX + convertToSnakeCase(key);
         this.description = description;
         this.values = new ArrayDeque<>();
+        this.isBoolean = isBoolean;
         this.defaultValueSupplier = defaultValueSupplier;
     }
 
@@ -86,6 +93,10 @@ public class ConfigValue {
         return (isDefault() ?
                 Collections.singletonList("default") :
                 values.stream().map(Value::getSourceId).collect(Collectors.toList()));
+    }
+
+    public boolean isBoolean() {
+        return isBoolean;
     }
 
     public Object getAsObject() {
