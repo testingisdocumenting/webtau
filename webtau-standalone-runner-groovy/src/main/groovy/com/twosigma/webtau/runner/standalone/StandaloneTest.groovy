@@ -42,6 +42,7 @@ class StandaloneTest implements StepReporter {
         this.reportTestEntry.setId(idGenerator.generate(filePath))
         this.reportTestEntry.setScenario(description)
         this.reportTestEntry.setFilePath(workingDir.relativize(filePath))
+
         this.workingDir = workingDir
         this.code = code
     }
@@ -87,6 +88,8 @@ class StandaloneTest implements StepReporter {
     }
 
     void run() {
+        reportTestEntry.clear()
+
         StepReporters.withAdditionalReporter(this) {
             try {
                 reportTestEntry.startClock()

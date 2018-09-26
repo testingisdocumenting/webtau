@@ -23,6 +23,7 @@ import com.twosigma.webtau.browser.reporter.ScreenshotStepReporter
 import com.twosigma.webtau.cfg.GroovyRunner
 import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
+import com.twosigma.webtau.cli.interactive.WebTauCliInteractive
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
@@ -63,7 +64,35 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
     }
 
+    static void main(String[] args) {
+        def cliApp = new WebTauCliApp(args)
+
+        if (getCfg().isInteractive()) {
+            cliApp.startInteractive()
+        } else {
+            cliApp.start(true)
+            System.exit(cliApp.problemCount)
+        }
+    }
+
     void start(boolean autoCloseWebDrivers) {
+        prepareTestsAndRun(autoCloseWebDrivers) {
+            runTests()
+        }
+    }
+
+    void startInteractive() {
+        prepareTestsAndRun(true) {
+            def interactive = new WebTauCliInteractive(runner)
+            interactive.start()
+        }
+    }
+
+    int getProblemCount() {
+        return problemCount
+    }
+
+    private void prepareTestsAndRun(boolean autoCloseWebDrivers, Closure code) {
         init()
 
         try {
@@ -74,7 +103,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
                 runner.process(it, this)
             }
 
-            runTests()
+            code()
         } finally {
             removeListeners()
 
@@ -120,10 +149,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         ReportGenerators.remove(this)
     }
 
-    int getProblemCount() {
-        return problemCount
-    }
-
     private void runTests() {
         if (WebTauGroovyCliArgsConfigHandler.getNumberOfThreads() > 1) {
             runner.runTestsInParallel(WebTauGroovyCliArgsConfigHandler.getNumberOfThreads())
@@ -136,13 +161,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         return cliConfigHandler.testFiles.collect { fileName ->
             return cfg.workingDir.resolve(Paths.get(fileName))
         }
-    }
-
-    static void main(String[] args) {
-        def cliApp = new WebTauCliApp(args)
-        cliApp.start(true)
-
-        System.exit(cliApp.problemCount)
     }
 
     @Override

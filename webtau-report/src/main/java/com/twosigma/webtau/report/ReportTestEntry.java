@@ -45,8 +45,8 @@ public class ReportTestEntry {
 
     private Throwable exception;
 
-    private List<TestResultPayload> payloads;
-    private List<TestStep<?, ?>> steps;
+    private final List<TestResultPayload> payloads;
+    private final List<TestStep<?, ?>> steps;
 
     private boolean isRan;
     private Path workingDir;
@@ -58,6 +58,17 @@ public class ReportTestEntry {
         this.workingDir = workingDir;
         payloads = new ArrayList<>();
         steps = new ArrayList<>();
+    }
+
+    public void clear() {
+        isRan = false;
+        startTime = 0;
+        elapsedTime = 0;
+
+        exception = null;
+
+        steps.clear();
+        payloads.clear();
     }
 
     public String getId() {
@@ -90,10 +101,6 @@ public class ReportTestEntry {
 
     public void setException(Throwable exception) {
         this.exception = exception;
-    }
-
-    public void setPayloads(List<TestResultPayload> payloads) {
-        this.payloads = payloads;
     }
 
     public void setRan(boolean ran) {
@@ -174,10 +181,6 @@ public class ReportTestEntry {
 
     public void addTestResultPayload(TestResultPayload testResultPayload) {
         payloads.add(testResultPayload);
-    }
-
-    public void setSteps(List<TestStep<?, ?>> steps) {
-        this.steps = steps;
     }
 
     public Map<String, ?> toMap() {
