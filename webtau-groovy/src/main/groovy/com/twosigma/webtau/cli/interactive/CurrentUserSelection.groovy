@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package scenarios.ui
+package com.twosigma.webtau.cli.interactive
 
-import pages.Pages
+import groovy.transform.PackageScope
 
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
-
-scenario("""# Alternative Search
-to do different description
-""") {
-    Pages.search.open()
-    Pages.search.box.should == "search this1"
-}
-
-scenario("""# Alternative Mega Search""") {
-    Pages.search.open()
+@PackageScope
+class CurrentUserSelection {
+    String testFilePath
+    String scenario
 }

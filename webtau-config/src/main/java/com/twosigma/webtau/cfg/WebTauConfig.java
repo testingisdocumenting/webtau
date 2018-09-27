@@ -38,6 +38,7 @@ public class WebTauConfig {
     private static final Supplier<Object> NO_DEFAULT = () -> null;
 
     private final ConfigValue config = declare("config", "config file path", () -> "webtau.cfg");
+    private final ConfigValue interactive = declareBoolean("interactive", "use CLI interactive mode");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
@@ -123,6 +124,10 @@ public class WebTauConfig {
         freeFormCfgValues.forEach(v -> v.accept(source, values));
     }
 
+    public boolean isInteractive() {
+        return interactive.getAsBoolean();
+    }
+
     public void setBaseUrl(String url) {
         this.url.set("manual", url);
     }
@@ -160,7 +165,7 @@ public class WebTauConfig {
     }
 
     public boolean isAnsiEnabled() {
-        return noColor.getAsBoolean();
+        return !noColor.getAsBoolean();
     }
 
     public int getWindowWidth() {
@@ -269,6 +274,7 @@ public class WebTauConfig {
     private Map<String, ConfigValue> enumerateRegisteredConfigValues() {
         Stream<ConfigValue> standardConfigValues = Stream.of(
                 config,
+                interactive,
                 env,
                 url,
                 verbosityLevel,
