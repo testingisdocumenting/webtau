@@ -18,8 +18,6 @@ package com.twosigma.webtau.cli.interactive
 
 import com.twosigma.webtau.WebTauGroovyDsl
 import com.twosigma.webtau.cfg.GroovyRunner
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.AutoResetAnsiString
 import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.reporter.ConsoleStepReporter
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
@@ -35,149 +33,108 @@ import java.nio.file.Paths
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauCliInteractive {
-    enum State {
-        TestSelection,
-        ScenarioSelection,
-        ScenarioActionSelection,
-        AfterRun,
-        Done
-    }
+    private InteractiveState state
 
-    private StandaloneTestRunner runner
-    private LinkedHashSet<String> testFilePaths
-    private Map<String, List<StandaloneTest>> testByPath = [:]
-    private BufferedReader inReader
+    private CurrentUserSelection currentUserSelection
 
-    private State state
-
-    private int selectedPathIdx = -1
-    private int selectedScenarioIdx = -1
+    private InteractiveConsole console
+    private InteractiveTests interactiveTests
 
     WebTauCliInteractive(StandaloneTestRunner runner) {
-        this.runner = runner
-        this.testFilePaths = new LinkedHashSet<>(runner.tests.reportTestEntry.filePath*.toString())
+        console = new InteractiveConsole(new BufferedReader(new InputStreamReader(System.in)))
+        interactiveTests = new InteractiveTests(runner)
+        currentUserSelection = new CurrentUserSelection()
 
-        testByPath = runner.tests.groupBy { it.filePath.toString() }
-        inReader = new BufferedReader(new InputStreamReader(System.in))
-
-        state = State.TestSelection
+        state = InteractiveState.TestSelection
     }
 
     void start() {
         while (true) {
             switch (state) {
-                case State.TestSelection:
+                case InteractiveState.TestSelection:
                     selectTestFile()
                     break
-                case State.ScenarioSelection:
+                case InteractiveState.ScenarioSelection:
                     selectScenario()
                     break
-                case State.ScenarioActionSelection:
+                case InteractiveState.RunSelectedScenario:
+                    runSelectedScenario()
+                    break
+                case InteractiveState.AfterScenarioRun:
                     selectScenarioAction()
                     break
-                case State.Done:
+                case InteractiveState.Done:
                     return
             }
         }
     }
 
-    void selectTestFile() {
+    private void selectTestFile() {
         displayTestFiles()
 
-        readAndHandleIdxOrCommand { idx ->
-            if (idx < 0 || idx >= testFilePaths.size()) {
-                ConsoleOutputs.out(Color.RED, 'enter test index')
+        console.readAndHandleIdxOrCommand(commandsForCurrentState(), { handleCommand(it) }, { idx ->
+            if (idx < 0 || idx >= interactiveTests.testFilePaths.size()) {
+                console.println(Color.RED, 'enter test index')
                 return false
             } else {
-                selectedPathIdx = idx
-                state = State.ScenarioSelection
+                currentUserSelection.testFilePath = interactiveTests.testFilePathByIdx(idx)
+                state = InteractiveState.ScenarioSelection
                 return true
             }
-        }
+        })
     }
 
-    void selectScenario() {
-        def scenarios = displayScenarios(selectedPathIdx)
+    private void selectScenario() {
+        def tests = displayScenarios(currentUserSelection.testFilePath)
 
-        readAndHandleIdxOrCommand { idx ->
-            if (idx < 0 || idx >= scenarios.size()) {
-                ConsoleOutputs.out(Color.RED, 'enter scenario index')
+        console.readAndHandleIdxOrCommand(commandsForCurrentState(), { handleCommand(it) }, { idx ->
+            if (idx < 0 || idx >= tests.size()) {
+                console.println(Color.RED, 'enter scenario index')
                 return false
             } else {
-                selectedScenarioIdx = idx
-                state = State.ScenarioActionSelection
+                currentUserSelection.scenario = tests[idx].scenario
+                state = InteractiveState.RunSelectedScenario
                 return true
             }
+        })
+    }
+
+    private void runSelectedScenario() {
+        interactiveTests.refreshScenarios(currentUserSelection.testFilePath)
+
+        def test = interactiveTests.findSelectedTest(currentUserSelection)
+        if (!test) {
+            console.println(Color.RED, 'No scenario found "' + currentUserSelection.scenario + '"')
+            state = InteractiveState.ScenarioSelection
+            return
         }
-    }
 
-    void selectScenarioAction() {
-        def scenarioCommands = commandsForCurrentState()
-        displaySelectedScenario()
-        displayCommands(scenarioCommands)
-
-        readAndHandleIdxOrCommand { idx -> return false }
-    }
-
-    void displaySelectedScenario() {
-        def filePath = testFilePaths[selectedPathIdx]
-        def tests = testByPath[filePath]
-        def test = tests[selectedScenarioIdx]
-
-        ConsoleOutputs.out(Color.PURPLE, filePath, ': ', Color.YELLOW, test.scenario)
-    }
-
-    void runSelectedScenario() {
-        def filePath = testFilePaths[selectedPathIdx]
-        def tests = testByPath[filePath]
-
-        def test = tests[selectedScenarioIdx]
+        displaySelectedScenario('running')
         test.run()
 
         if (test.exception) {
-            ConsoleOutputs.out(Color.RED, StackTraceUtils.renderStackTraceWithoutLibCalls(test.exception))
+            console.println(Color.RED, StackTraceUtils.renderStackTraceWithoutLibCalls(test.exception))
         }
 
-        state = State.ScenarioActionSelection
+        state = InteractiveState.AfterScenarioRun
     }
 
-    IdxOrCommand readIdxOrCommand() {
-        def allowedCommands = commandsForCurrentState()
+    private void selectScenarioAction() {
+        displaySelectedScenario('select actions for')
+        console.displayCommands(commandsForCurrentState())
 
-        while (true) {
-            def line = readLine()
-            def idxOrCommand = new IdxOrCommand(line)
-
-            def command = idxOrCommand.command
-
-            if ((!command || allowedCommands.find { it.matches() == command }) && idxOrCommand.idx == null) {
-                ConsoleOutputs.out(Color.RED, 'enter a number or a command')
-                displayCommands(allowedCommands)
-            } else {
-                return idxOrCommand
-            }
-        }
+        console.readAndHandleIdxOrCommand(commandsForCurrentState(),
+                { handleCommand(it)}, { idx -> return false })
     }
 
-    String readLine() {
-        print new AutoResetAnsiString(Color.GREEN, 'webtau', Color.YELLOW, ' > ')
-        return inReader.readLine()
+    private void displaySelectedScenario(String prefix) {
+        console.println(Color.BLUE, prefix + ': ',
+                Color.PURPLE, currentUserSelection.testFilePath, ' ',
+                Color.YELLOW, currentUserSelection.scenario)
     }
 
-    void readAndHandleIdxOrCommand(Closure idxHandler) {
-        while (true) {
-            def idxOrCommand = readIdxOrCommand()
-
-            if (idxOrCommand.command) {
-                handleCommand(idxOrCommand.command)
-                return
-            }
-
-            def done = idxHandler(idxOrCommand.idx)
-            if (done) {
-                return
-            }
-        }
+    private List<InteractiveCommand> commandsForCurrentState() {
+        return state.availableCommands
     }
 
     private handleCommand(InteractiveCommand command) {
@@ -186,68 +143,43 @@ class WebTauCliInteractive {
                 handleBackCommand()
                 break
             case InteractiveCommand.Quit:
-                state = State.Done
+                state = InteractiveState.Done
                 break
             case InteractiveCommand.Run:
-                runSelectedScenario()
+                state = InteractiveState.RunSelectedScenario
                 break
         }
     }
 
-    void handleBackCommand() {
+    private void handleBackCommand() {
         switch (state) {
-            case State.ScenarioSelection:
-                state = State.TestSelection
+            case InteractiveState.ScenarioSelection:
+                state = InteractiveState.TestSelection
                 break
-            case State.ScenarioActionSelection:
-                state = State.ScenarioSelection
-                break
-            case State.AfterRun:
-                state = State.ScenarioSelection
+            case InteractiveState.AfterScenarioRun:
+                state = InteractiveState.ScenarioSelection
                 break
         }
     }
 
-    void displayTestFiles() {
-        ConsoleOutputs.out(Color.BLUE, 'Test files:')
+    private void displayTestFiles() {
+        console.println(Color.BLUE, 'Test files:')
 
-        testFilePaths.eachWithIndex { path, idx ->
-            ConsoleOutputs.out(Color.YELLOW, idx, Color.PURPLE, ' ', path)
+        interactiveTests.testFilePaths.eachWithIndex { path, idx ->
+            console.println(Color.YELLOW, idx, Color.PURPLE, ' ', path)
         }
     }
 
-    List<StandaloneTest> displayScenarios(int pathIdx) {
-        def filePath = testFilePaths[pathIdx]
-        ConsoleOutputs.out(Color.BLUE, 'Test scenarios of ', Color.PURPLE, filePath, Color.BLUE, ':')
+    private List<StandaloneTest> displayScenarios(String filePath) {
+        console.println(Color.BLUE, 'Test scenarios of ', Color.PURPLE, filePath, Color.BLUE, ':')
 
-        def tests = testByPath[filePath]
+        def tests =  interactiveTests.refreshScenarios(filePath)
+
         tests.eachWithIndex { test, idx ->
-            ConsoleOutputs.out(Color.YELLOW, idx, Color.PURPLE, ' ', test.scenario)
+            console.println(Color.YELLOW, idx, Color.PURPLE, ' ', test.scenario)
         }
 
         return tests
-    }
-
-    List<InteractiveCommand> commandsForCurrentState() {
-        switch (state) {
-            case State.TestSelection:
-            case State.ScenarioSelection:
-                return [InteractiveCommand.Back, InteractiveCommand.Quit]
-            case State.AfterRun:
-            case State.ScenarioActionSelection:
-                return [InteractiveCommand.Run, InteractiveCommand.Watch,
-                        InteractiveCommand.Back, InteractiveCommand.Quit]
-        }
-
-        return [InteractiveCommand.Quit]
-    }
-
-    static void displayCommands(List<InteractiveCommand> commands) {
-        commands.each this.&displayCommand
-    }
-
-    static void displayCommand(InteractiveCommand command) {
-        ConsoleOutputs.out(Color.BLUE, command.prefixes.join(', '), Color.YELLOW, ' - ', command.description)
     }
 
     /*

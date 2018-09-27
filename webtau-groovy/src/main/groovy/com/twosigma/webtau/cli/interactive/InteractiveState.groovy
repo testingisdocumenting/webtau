@@ -16,31 +16,24 @@
 
 package com.twosigma.webtau.cli.interactive
 
-import com.twosigma.webtau.utils.NumberUtils
 import groovy.transform.PackageScope
 
 @PackageScope
-class IdxOrCommand {
-    Integer idx
-    InteractiveCommand command
+enum InteractiveState {
+    TestSelection([InteractiveCommand.Quit]),
+    ScenarioSelection([InteractiveCommand.Back, InteractiveCommand.Quit]),
+    RunSelectedScenario([InteractiveCommand.Quit]),
+    AfterScenarioRun([InteractiveCommand.Run, InteractiveCommand.Watch,
+                      InteractiveCommand.Back, InteractiveCommand.Quit]),
+    Done([])
 
-    IdxOrCommand(String text) {
-        command = findCommand(text)
+    private List<InteractiveCommand> availableCommands
 
-        if (! command) {
-            idx = convertToNumber(text)
-        }
+    InteractiveState(List<InteractiveCommand> availableCommands) {
+        this.availableCommands = availableCommands
     }
 
-    private static InteractiveCommand findCommand(String text) {
-        return InteractiveCommand.values().find { it.matches(text) }
-    }
-
-    private static Integer convertToNumber(String text) {
-        try {
-            return NumberUtils.convertStringToNumber(text)
-        } catch (ParseException) {
-            return null
-        }
+    List<InteractiveCommand> getAvailableCommands() {
+        return availableCommands
     }
 }

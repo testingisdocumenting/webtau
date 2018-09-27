@@ -16,31 +16,10 @@
 
 package com.twosigma.webtau.cli.interactive
 
-import com.twosigma.webtau.utils.NumberUtils
 import groovy.transform.PackageScope
 
 @PackageScope
-class IdxOrCommand {
-    Integer idx
-    InteractiveCommand command
-
-    IdxOrCommand(String text) {
-        command = findCommand(text)
-
-        if (! command) {
-            idx = convertToNumber(text)
-        }
-    }
-
-    private static InteractiveCommand findCommand(String text) {
-        return InteractiveCommand.values().find { it.matches(text) }
-    }
-
-    private static Integer convertToNumber(String text) {
-        try {
-            return NumberUtils.convertStringToNumber(text)
-        } catch (ParseException) {
-            return null
-        }
-    }
+class CurrentUserSelection {
+    String testFilePath
+    String scenario
 }

@@ -48,6 +48,11 @@ class StandaloneTestRunner {
         script.run()
     }
 
+    void clearRegisteredTests() {
+        tests = []
+        exclusiveTests = []
+    }
+
     List<StandaloneTest> getTests() {
         return tests
     }
