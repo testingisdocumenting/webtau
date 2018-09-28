@@ -16,10 +16,8 @@
 
 package com.twosigma.webtau.cli.interactive
 
-import groovy.transform.PackageScope
+import java.nio.file.Path
 
-@PackageScope
-class CurrentUserSelection {
-    String testFilePath
-    String scenario
+interface OnFileChangeHandler {
+    void onChange(Path path)
 }

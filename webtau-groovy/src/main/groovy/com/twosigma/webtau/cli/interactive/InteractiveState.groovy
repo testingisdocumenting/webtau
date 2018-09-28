@@ -23,6 +23,8 @@ enum InteractiveState {
     TestSelection([InteractiveCommand.Quit]),
     ScenarioSelection([InteractiveCommand.Back, InteractiveCommand.Quit]),
     RunSelectedScenario([InteractiveCommand.Quit]),
+    WatchingSelectedScenario([InteractiveCommand.Run, InteractiveCommand.StopWatch,
+                              InteractiveCommand.Back, InteractiveCommand.Quit]),
     AfterScenarioRun([InteractiveCommand.Run, InteractiveCommand.Watch,
                       InteractiveCommand.Back, InteractiveCommand.Quit]),
     Done([])

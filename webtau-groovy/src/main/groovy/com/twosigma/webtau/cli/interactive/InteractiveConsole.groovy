@@ -61,6 +61,10 @@ class InteractiveConsole {
         }
     }
 
+    static void showPrompt() {
+        print new AutoResetAnsiString(Color.GREEN, 'webtau', Color.YELLOW, ' > ')
+    }
+
     static void println(Object... styleOrValues) {
         ConsoleOutputs.out(styleOrValues)
     }
@@ -75,7 +79,7 @@ class InteractiveConsole {
     }
 
     private String readLine() {
-        print new AutoResetAnsiString(Color.GREEN, 'webtau', Color.YELLOW, ' > ')
+        showPrompt()
         return inReader.readLine()
     }
 }

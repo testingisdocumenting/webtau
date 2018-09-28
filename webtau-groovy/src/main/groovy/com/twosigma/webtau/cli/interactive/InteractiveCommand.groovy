@@ -23,6 +23,7 @@ enum InteractiveCommand {
     Back(['back', 'b'], 'go back'),
     Run(['run', 'r'], 'run selected scenario(s)'),
     Watch(['watch', 'w'], 'run selected scenario(s)'),
+    StopWatch(['stop', 's'], 'stop watching selected scenario(s)'),
     Quit(['quit', 'q'], 'stop interactive mode')
 
     private List<String> prefixes
