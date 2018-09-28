@@ -132,12 +132,4 @@ class FileWatcher {
     private static WatchService createWatchService() {
         return FileSystems.getDefault().newWatchService()
     }
-
-    static void main(String[] args) {
-        def watcher = new FileWatcher(Paths.get('/Users/mykolagolubyev/work/webtau/webtau-groovy/src/main/groovy/com/twosigma/webtau'), { path ->
-            println "modified $path"
-        })
-
-        watcher.start()
-    }
 }
