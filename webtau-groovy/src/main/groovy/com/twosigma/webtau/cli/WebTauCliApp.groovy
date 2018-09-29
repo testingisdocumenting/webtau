@@ -69,6 +69,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
         if (getCfg().isInteractive()) {
             cliApp.startInteractive()
+            System.exit(0)
         } else {
             cliApp.start(true)
             System.exit(cliApp.problemCount)

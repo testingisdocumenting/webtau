@@ -21,11 +21,13 @@ import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import groovy.transform.PackageScope
 
 import java.nio.file.Paths
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 @PackageScope
 class InteractiveTests {
-    private StandaloneTestRunner runner
-    private LinkedHashSet<String> testFilePaths
+    private final StandaloneTestRunner runner
+    private final LinkedHashSet<String> testFilePaths
 
     InteractiveTests(StandaloneTestRunner runner) {
         this.runner = runner
@@ -47,10 +49,10 @@ class InteractiveTests {
         return testFilePaths[idx]
     }
 
-    StandaloneTest findSelectedTest(CurrentUserSelection currentUserSelection) {
+    StandaloneTest findSelectedTest(TestSelection testSelection) {
         return runner.tests.find {
-            it.filePath.toString() == currentUserSelection.testFilePath &&
-                    it.scenario == currentUserSelection.scenario
+            it.filePath.toString() == testSelection.testFilePath &&
+                    it.scenario == testSelection.scenario
         }
     }
 }
