@@ -46,6 +46,8 @@ public interface PageElement extends ActualValueExpectations {
     boolean isVisible();
     TokenizedMessage describe();
 
+    void highlight();
+
     @Override
     default void should(ValueMatcher valueMatcher) {
         ValueMatcherExpectationSteps.shouldStep(this, this,  StepReportOptions.REPORT_ALL,

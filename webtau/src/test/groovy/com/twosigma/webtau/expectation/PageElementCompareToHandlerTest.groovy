@@ -35,7 +35,7 @@ class PageElementCompareToHandlerTest {
 
     @Test
     void "handles page element and any other value"() {
-        def pageElement = new GenericPageElement(driver, new ElementPath())
+        def pageElement = new GenericPageElement(driver, null, new ElementPath())
 
         handler.handleEquality(pageElement, "hello").should == true
         handler.handleEquality(pageElement, 100).should == true
@@ -46,7 +46,7 @@ class PageElementCompareToHandlerTest {
     @Test
     void "extracts underlying value from element for comparison"() {
         driver.registerFakeElement("fakecss1", FakeWebElement.tagAndText("div", "hello"))
-        def pageElement = new GenericPageElement(driver, ElementPath.css("fakecss1"))
+        def pageElement = new GenericPageElement(driver, null, ElementPath.css("fakecss1"))
 
         pageElement.should == "hello"
     }

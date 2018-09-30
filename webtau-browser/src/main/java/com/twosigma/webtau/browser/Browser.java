@@ -38,6 +38,8 @@ public class Browser {
     public final LocalStorage localStorage = new LocalStorage(driver);
     public final DocumentationDsl doc = new DocumentationDsl(driver);
 
+    private final InjectedJavaScript injectedJavaScript = new InjectedJavaScript(driver);
+
     public void open(String url) {
         String fullUrl = createFullUrl(url);
 
@@ -62,7 +64,7 @@ public class Browser {
     }
 
     public PageElement $(String css) {
-        return new GenericPageElement(driver, ElementPath.css(css));
+        return new GenericPageElement(driver, injectedJavaScript, ElementPath.css(css));
     }
 
     public boolean wasUsed() {

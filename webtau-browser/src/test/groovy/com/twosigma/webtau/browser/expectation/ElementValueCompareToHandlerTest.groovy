@@ -22,7 +22,7 @@ import com.twosigma.webtau.browser.page.path.GenericPageElement
 import org.junit.Test
 
 class ElementValueCompareToHandlerTest {
-    def pageElement = new GenericPageElement(null, ElementPath.css("#id"))
+    def pageElement = new GenericPageElement(null, null, ElementPath.css("#id"))
 
     @Test
     void "automatically converts text to a number if the expected value is a number"() {
