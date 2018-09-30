@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.browser.page.path;
 
+import com.twosigma.webtau.browser.InjectedJavaScript;
 import com.twosigma.webtau.browser.page.ElementValue;
 import com.twosigma.webtau.browser.page.NullWebElement;
 import com.twosigma.webtau.browser.page.PageElement;
@@ -41,13 +42,15 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
     private WebDriver driver;
+    private final InjectedJavaScript injectedJavaScript;
     private ElementPath path;
     private final TokenizedMessage pathDescription;
     private ElementValue<String> elementValue;
     private ElementValue<Integer> countValue;
 
-    public GenericPageElement(WebDriver driver, ElementPath path) {
+    public GenericPageElement(WebDriver driver, InjectedJavaScript injectedJavaScript, ElementPath path) {
         this.driver = driver;
+        this.injectedJavaScript = injectedJavaScript;
         this.path = path;
         this.pathDescription = path.describe();
         this.elementValue = new ElementValue<>(this, "value", this::getUnderlyingValue);
@@ -62,6 +65,11 @@ public class GenericPageElement implements PageElement {
     @Override
     public TokenizedMessage describe() {
         return pathDescription;
+    }
+
+    @Override
+    public void highlight() {
+        injectedJavaScript.flashWebElements(findElements());
     }
 
     public void click() {
@@ -228,7 +236,7 @@ public class GenericPageElement implements PageElement {
         ElementPath newPath = path.copy();
         newPath.addFilter(filter);
 
-        return new GenericPageElement(driver, newPath);
+        return new GenericPageElement(driver, injectedJavaScript, newPath);
     }
 
     private NullWebElement createNullElement() {

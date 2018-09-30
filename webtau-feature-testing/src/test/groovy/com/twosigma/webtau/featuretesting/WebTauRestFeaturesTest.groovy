@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.featuretesting
 
+import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.utils.JsonUtils
@@ -28,14 +29,18 @@ import static com.twosigma.webtau.WebTauDsl.http
 class WebTauRestFeaturesTest {
     private static WebTauTestRunner testRunner
 
+    static void registerEndPoints(TestServer testServer) {
+        testServer.registerGet("/weather", new TestServerJsonResponse("{\"temperature\": 88}"))
+        testServer.registerPost("/employee", json([id: 'id-generated-2'], 201))
+        testServer.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
+    }
+
     @BeforeClass
     static void init() {
         testRunner = new WebTauTestRunner()
 
         def testServer = testRunner.testServer
-        testServer.registerGet("/weather", new TestServerJsonResponse("{\"temperature\": 88}"))
-        testServer.registerPost("/employee", json([id: 'id-generated-2'], 201))
-        testServer.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
+        registerEndPoints(testServer)
 
         testRunner.startTestServer()
     }
