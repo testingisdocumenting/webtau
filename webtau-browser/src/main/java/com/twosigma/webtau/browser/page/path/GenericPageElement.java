@@ -171,6 +171,7 @@ public class GenericPageElement implements PageElement {
 
         switch (type) {
             case INPUT:
+            case INPUT_DATE:
             case TEXT_AREA:
                 return webElement.getAttribute("value");
             case SELECT:
@@ -198,6 +199,9 @@ public class GenericPageElement implements PageElement {
             case SELECT:
                 setSelectValue(element, value);
                 break;
+            case INPUT_DATE:
+                setInputDateValue(element, value);
+                break;
             default:
                 setRegularValue(element, value);
                 break;
@@ -214,6 +218,10 @@ public class GenericPageElement implements PageElement {
         sendKeys(webElement, value.toString());
     }
 
+    private void setInputDateValue(WebElement webElement, Object value) {
+        sendKeys(webElement, value.toString());
+    }
+
     private void clear(WebElement webElement) {
         execute(tokenizedMessage(action("clearing")).add(pathDescription),
                 () -> tokenizedMessage(action("cleared")).add(pathDescription),
@@ -222,7 +230,7 @@ public class GenericPageElement implements PageElement {
 
     private void sendKeys(WebElement webElement, String keys) {
         execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent value"), stringValue(keys), TO).add(pathDescription),
+                () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
                 () -> webElement.sendKeys(keys));
     }
 
@@ -245,12 +253,16 @@ public class GenericPageElement implements PageElement {
 
     static private GenericElementType elementType(WebElement element) {
         String tag = element.getTagName().toUpperCase();
+        String typeOrNull = element.getAttribute("type");
+        String type = typeOrNull != null ? typeOrNull.toUpperCase() : "";
 
         switch (tag) {
             case "SELECT":
                 return GenericElementType.SELECT;
             case "INPUT":
-                return GenericElementType.INPUT;
+                return type.equals("DATE") ?
+                        GenericElementType.INPUT_DATE:
+                        GenericElementType.INPUT;
             case "TEXTAREA":
                 return GenericElementType.TEXT_AREA;
             default:

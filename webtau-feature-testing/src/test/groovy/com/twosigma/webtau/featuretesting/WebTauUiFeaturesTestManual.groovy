@@ -134,7 +134,8 @@ class WebTauUiFeaturesTestManual {
 
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/forms.groovy', [
-                'input.groovy': 'input',
+                'inputDefault.groovy': 'input type default',
+                'inputDate.groovy': 'input type date',
                 'selectOptions.groovy': 'select options',
                 'validation.groovy': 'values validation',
         ])
