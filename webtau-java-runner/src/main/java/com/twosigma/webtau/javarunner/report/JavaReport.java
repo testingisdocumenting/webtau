@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-import React from 'react'
+package com.twosigma.webtau.javarunner.report;
 
-import './TestName.css'
+import com.twosigma.webtau.report.Report;
+import com.twosigma.webtau.report.ReportTestEntry;
 
-const TestName = ({test, onTestClick}) => {
-    const onClick = onTestClick ? () => onTestClick(test.id) : null
-    const className = 'test-name' + (onClick ? ' clickable' : '')
+/**
+ * Global storage of java based report.
+ * Is used to generate report at the end of all tests run.
+ */
+public class JavaReport {
+    private static final Report report = new Report();
 
-    return (
-        <div className={className} onClick={onClick}>
-            <div className="container-id">
-                {test.containerId}
-            </div>
+    public static void addTestEntry(ReportTestEntry testEntry) {
+        report.addTestEntry(testEntry);
+    }
 
-            <div className="scenario">
-                {test.scenario}
-            </div>
-        </div>
-    )
+    public static Report get() {
+        return report;
+    }
 }
-
-export default TestName

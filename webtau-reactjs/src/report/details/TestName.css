@@ -23,7 +23,7 @@
     cursor: pointer;
 }
 
-.test-name > .file-name {
+.test-name > .container-id {
     font-size: 14px;
     font-weight: bold;
     margin-right: 10px;

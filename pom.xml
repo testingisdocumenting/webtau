@@ -96,8 +96,11 @@
         <module>webtau-groovy</module>
         <module>webtau-reactjs</module>
         <module>webtau-report</module>
-        <module>webtau-junit5-examples</module>
+        <module>webtau-java-runner</module>
         <module>webtau-junit5</module>
+        <module>webtau-junit5-examples</module>
+        <module>webtau-junit4</module>
+        <module>webtau-junit4-examples</module>
         <module>webtau-testapp</module>
         <module>webtau-config</module>
         <module>webtau-feature-testing</module>

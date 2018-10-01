@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-import React from 'react'
+package com.example.tests.rest;
 
-import './TestName.css'
+import com.twosigma.webtau.junit4.WebTauRunner;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-const TestName = ({test, onTestClick}) => {
-    const onClick = onTestClick ? () => onTestClick(test.id) : null
-    const className = 'test-name' + (onClick ? ' clickable' : '')
+import static com.twosigma.webtau.WebTauDsl.*;
 
-    return (
-        <div className={className} onClick={onClick}>
-            <div className="container-id">
-                {test.containerId}
-            </div>
+@RunWith(WebTauRunner.class)
+public class CustomerCrudSingleIT {
 
-            <div className="scenario">
-                {test.scenario}
-            </div>
-        </div>
-    )
+    @Test
+    public void crud() {
+        http.get("/test", (header, body) -> {
+            header.statusCode().should(equal(200));
+        });
+    }
 }
-
-export default TestName

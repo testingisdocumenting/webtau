@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5.cfg;
+package com.twosigma.webtau.javarunner.cfg;
 
-import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.cfg.WebTauConfigHandler;
 import com.twosigma.webtau.utils.ResourceUtils;
@@ -25,7 +24,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 public class JavaResourceConfigHandler implements WebTauConfigHandler {
     private static final String CFG_RESOURCE_PATH = "webtau.properties";

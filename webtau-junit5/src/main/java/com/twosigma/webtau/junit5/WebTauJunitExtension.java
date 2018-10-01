@@ -16,9 +16,9 @@
 
 package com.twosigma.webtau.junit5;
 
-import com.twosigma.webtau.junit5.report.JavaBasedTest;
-import com.twosigma.webtau.junit5.report.JavaReport;
-import com.twosigma.webtau.report.ReportGenerators;
+import com.twosigma.webtau.javarunner.report.JavaBasedTest;
+import com.twosigma.webtau.javarunner.report.JavaReport;
+import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
@@ -56,12 +56,15 @@ public class WebTauJunitExtension implements
         ReportTestEntry reportTestEntry = test.getReportTestEntry();
         reportTestEntry.setRan(true);
         reportTestEntry.stopClock();
+        reportTestEntry.setClassName(extensionContext.getTestClass()
+                .map(Class::getCanonicalName)
+                .orElse(null));
         JavaReport.addTestEntry(reportTestEntry);
 
         TestResultPayloadExtractors.extract(reportTestEntry.getSteps().stream())
                 .forEach(reportTestEntry::addTestResultPayload);
 
-        ShutdownHook.INSTANCE.noOp();
+        JavaReportShutdownHook.INSTANCE.noOp();
     }
 
     @Override
@@ -82,17 +85,5 @@ public class WebTauJunitExtension implements
     private String fullTestName(ExtensionContext extensionContext) {
         return extensionContext.getParent()
                 .map(ExtensionContext::getDisplayName).orElse("") + " " + extensionContext.getDisplayName();
-    }
-
-    private static class ShutdownHook {
-        private final static ShutdownHook INSTANCE = new ShutdownHook();
-
-        private ShutdownHook() {
-            Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                    ReportGenerators.generate(JavaReport.get())));
-        }
-
-        void noOp() {
-        }
     }
 }

@@ -23,9 +23,10 @@ import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls'
 import Report from '../Report'
 
 import TestNameCard from './TestNameCard'
-import './Summary.css'
 import Card from '../widgets/Card'
 import CardWithTime from '../widgets/CardWithTime'
+
+import './TestSummary.css'
 
 const OptionalPreBlock = ({className, message}) => {
     if (!message) {
@@ -41,14 +42,14 @@ const OptionalPreBlock = ({className, message}) => {
     )
 }
 
-const Summary = ({test}) => {
+const TestSummary = ({test}) => {
     const numberOfHttpCalls = test.httpCalls ? test.httpCalls.length : 0
 
     return (
-        <div className="single-summary">
+        <div className="test-summary">
             <TestNameCard test={test}/>
 
-            <div className="single-summary-timing">
+            <div className="test-summary-timing">
                 <CardWithTime label="Start Time (Local)"
                               time={test.startTime}/>
 
@@ -60,7 +61,7 @@ const Summary = ({test}) => {
                                     number={test.elapsedTime}/>
             </div>
 
-            <div className="single-summary-http-dashboard">
+            <div className="test-summary-http-dashboard">
                 <NumberOfHttpCalls number={numberOfHttpCalls}/>
                 <AverageHttpCallsTime test={test}/>
                 <OverallHttpCallsTime test={test}/>
@@ -110,4 +111,4 @@ function CardPreMessage({message}) {
     )
 }
 
-export default Summary
+export default TestSummary
