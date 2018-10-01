@@ -13,10 +13,14 @@ Page object can be defined as
 
 :include-file: examples/pages/FormPage.groovy {title: "Form page object"}
 
+# Default Input
 
-# Text Input
+:include-file: doc-artifacts/snippets/forms/inputDefault.groovy {title: "set value to input"}
 
-:include-file: doc-artifacts/snippets/forms/input.groovy {title: "set value to input"}
+
+# Date Input
+
+:include-file: doc-artifacts/snippets/forms/inputDate.groovy {title: "set value to date input"}
 
 
 # Select
