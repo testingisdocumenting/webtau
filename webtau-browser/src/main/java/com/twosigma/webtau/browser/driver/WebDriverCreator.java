@@ -16,6 +16,9 @@
 
 package com.twosigma.webtau.browser.driver;
 
+import com.twosigma.webtau.console.ConsoleOutputs;
+import com.twosigma.webtau.console.ansi.Color;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -28,6 +31,8 @@ import java.util.List;
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class WebDriverCreator {
+    private static final String CHROME_DRIVER_PATH_KEY = "webdriver.chrome.driver";
+
     private static List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
 
     static {
@@ -51,7 +56,7 @@ public class WebDriverCreator {
         }
 
         if (getCfg().getChromeDriverPath() != null) {
-            System.setProperty("webdriver.chrome.driver", getCfg().getChromeDriverPath().toString());
+            System.setProperty(CHROME_DRIVER_PATH_KEY, getCfg().getChromeDriverPath().toString());
         }
 
         if (getCfg().isHeadless()) {
@@ -59,7 +64,21 @@ public class WebDriverCreator {
             options.addArguments("--disable-gpu");
         }
 
+        if (System.getProperty(CHROME_DRIVER_PATH_KEY) == null) {
+            setupDriverManagerConfig();
+            downloadDriverMessage("chrome");
+            WebDriverManager.chromedriver().setup();
+        }
+
         return new ChromeDriver(options);
+    }
+
+    private static void downloadDriverMessage(String browser) {
+        ConsoleOutputs.out(Color.BLUE, "preparing ", Color.YELLOW, browser, Color.BLUE, " WebDriver");
+    }
+
+    private static void setupDriverManagerConfig() {
+        System.setProperty("wdm.forceCache", "true");
     }
 
     public static void closeAll() {
