@@ -5,9 +5,14 @@
       "numberOfSuccessful" : 1
     }
   }, {
-    "scenario" : "input",
+    "scenario" : "input type default",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "input type date",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "select options",
@@ -17,7 +22,7 @@
   }, {
     "scenario" : "values validation",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   } ],
   "exitCode" : 0

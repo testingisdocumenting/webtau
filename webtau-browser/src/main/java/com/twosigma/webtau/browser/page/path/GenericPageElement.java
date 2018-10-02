@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.browser.page.path;
 
+import com.twosigma.webtau.browser.InjectedJavaScript;
 import com.twosigma.webtau.browser.page.ElementValue;
 import com.twosigma.webtau.browser.page.NullWebElement;
 import com.twosigma.webtau.browser.page.PageElement;
@@ -41,13 +42,15 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
     private WebDriver driver;
+    private final InjectedJavaScript injectedJavaScript;
     private ElementPath path;
     private final TokenizedMessage pathDescription;
     private ElementValue<String> elementValue;
     private ElementValue<Integer> countValue;
 
-    public GenericPageElement(WebDriver driver, ElementPath path) {
+    public GenericPageElement(WebDriver driver, InjectedJavaScript injectedJavaScript, ElementPath path) {
         this.driver = driver;
+        this.injectedJavaScript = injectedJavaScript;
         this.path = path;
         this.pathDescription = path.describe();
         this.elementValue = new ElementValue<>(this, "value", this::getUnderlyingValue);
@@ -62,6 +65,11 @@ public class GenericPageElement implements PageElement {
     @Override
     public TokenizedMessage describe() {
         return pathDescription;
+    }
+
+    @Override
+    public void highlight() {
+        injectedJavaScript.flashWebElements(findElements());
     }
 
     public void click() {
@@ -163,6 +171,7 @@ public class GenericPageElement implements PageElement {
 
         switch (type) {
             case INPUT:
+            case INPUT_DATE:
             case TEXT_AREA:
                 return webElement.getAttribute("value");
             case SELECT:
@@ -190,6 +199,9 @@ public class GenericPageElement implements PageElement {
             case SELECT:
                 setSelectValue(element, value);
                 break;
+            case INPUT_DATE:
+                setInputDateValue(element, value);
+                break;
             default:
                 setRegularValue(element, value);
                 break;
@@ -206,6 +218,10 @@ public class GenericPageElement implements PageElement {
         sendKeys(webElement, value.toString());
     }
 
+    private void setInputDateValue(WebElement webElement, Object value) {
+        sendKeys(webElement, value.toString());
+    }
+
     private void clear(WebElement webElement) {
         execute(tokenizedMessage(action("clearing")).add(pathDescription),
                 () -> tokenizedMessage(action("cleared")).add(pathDescription),
@@ -214,7 +230,7 @@ public class GenericPageElement implements PageElement {
 
     private void sendKeys(WebElement webElement, String keys) {
         execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent value"), stringValue(keys), TO).add(pathDescription),
+                () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
                 () -> webElement.sendKeys(keys));
     }
 
@@ -228,7 +244,7 @@ public class GenericPageElement implements PageElement {
         ElementPath newPath = path.copy();
         newPath.addFilter(filter);
 
-        return new GenericPageElement(driver, newPath);
+        return new GenericPageElement(driver, injectedJavaScript, newPath);
     }
 
     private NullWebElement createNullElement() {
@@ -237,12 +253,16 @@ public class GenericPageElement implements PageElement {
 
     static private GenericElementType elementType(WebElement element) {
         String tag = element.getTagName().toUpperCase();
+        String typeOrNull = element.getAttribute("type");
+        String type = typeOrNull != null ? typeOrNull.toUpperCase() : "";
 
         switch (tag) {
             case "SELECT":
                 return GenericElementType.SELECT;
             case "INPUT":
-                return GenericElementType.INPUT;
+                return type.equals("DATE") ?
+                        GenericElementType.INPUT_DATE:
+                        GenericElementType.INPUT;
             case "TEXTAREA":
                 return GenericElementType.TEXT_AREA;
             default:

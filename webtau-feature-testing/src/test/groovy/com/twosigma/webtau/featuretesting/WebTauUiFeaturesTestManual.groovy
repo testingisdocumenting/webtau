@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.featuretesting
 
+import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.AfterClass
@@ -30,11 +31,7 @@ import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.e
 class WebTauUiFeaturesTestManual {
     private static WebTauTestRunner testRunner
 
-    @BeforeClass
-    static void init() {
-        testRunner = new WebTauTestRunner()
-
-        def testServer = testRunner.testServer
+    static void registerEndPoints(TestServer testServer) {
         testServer.registerGet("/search", htmlResponse('search.html'))
         testServer.registerGet("/forms", htmlResponse('forms.html'))
         testServer.registerGet("/calculation", htmlResponse('calculation.html'))
@@ -42,6 +39,14 @@ class WebTauUiFeaturesTestManual {
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
         testServer.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
+    }
+
+    @BeforeClass
+    static void init() {
+        testRunner = new WebTauTestRunner()
+
+        def testServer = testRunner.testServer
+        registerEndPoints(testServer)
 
         testRunner.startTestServer()
     }
@@ -129,7 +134,8 @@ class WebTauUiFeaturesTestManual {
 
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/forms.groovy', [
-                'input.groovy': 'input',
+                'inputDefault.groovy': 'input type default',
+                'inputDate.groovy': 'input type date',
                 'selectOptions.groovy': 'select options',
                 'validation.groovy': 'values validation',
         ])

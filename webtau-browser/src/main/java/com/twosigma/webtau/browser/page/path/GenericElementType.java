@@ -19,6 +19,7 @@ package com.twosigma.webtau.browser.page.path;
 public enum GenericElementType {
     INPUT,
     TEXT_AREA,
+    INPUT_DATE,
     SELECT,
     OTHER
 }

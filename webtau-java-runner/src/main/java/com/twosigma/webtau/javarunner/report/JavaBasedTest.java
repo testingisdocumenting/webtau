@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5.report;
+package com.twosigma.webtau.javarunner.report;
 
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporter;
@@ -44,11 +44,9 @@ public class JavaBasedTest implements StepReporter {
 
     @Override
     public void onStepSuccess(TestStep step) {
-
     }
 
     @Override
     public void onStepFailure(TestStep step) {
-
     }
 }
