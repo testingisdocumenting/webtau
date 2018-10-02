@@ -16,17 +16,15 @@
 
 package com.twosigma.webtau.maven
 
-import com.twosigma.webtau.cli.WebTauCliApp
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.shared.model.fileset.FileSet
-import org.apache.maven.shared.model.fileset.util.FileSetManager
 
 @Mojo(name = "run")
-class WebTauMavenRunner extends AbstractMojo {
+class WebTauMavenRun extends AbstractMojo {
     @Parameter
     private FileSet tests
 
@@ -39,10 +37,10 @@ class WebTauMavenRunner extends AbstractMojo {
     @Parameter
     private String workingDir
 
-    @Parameter( property = "skipTests", defaultValue = "false" )
+    @Parameter(property = "skipTests", defaultValue = "false")
     protected boolean skipTests
 
-    @Parameter( property = "maven.test.skip", defaultValue = "false" )
+    @Parameter(property = "maven.test.skip", defaultValue = "false")
     protected boolean skip
 
     @Override
@@ -50,31 +48,8 @@ class WebTauMavenRunner extends AbstractMojo {
         if (skipTests()) {
             getLog().info("Skipping webtau tests")
         } else {
-            runTests()
+            WebTauMaven.runTests(getLog(), tests, [env: env, url: url, workingDir: workingDir])
         }
-    }
-
-    private void runTests() {
-        def fileSetManager = new FileSetManager()
-        def files = fileSetManager.getIncludedFiles(tests) as List
-
-        getLog().info("test files:\n    " + files.join("\n    "))
-
-        def args = buildArgs([env: env, url: url, workingDir: workingDir])
-        args.addAll(files)
-
-        def cli = new WebTauCliApp(args as String[])
-        cli.start(true)
-
-        if (cli.problemCount > 0) {
-            throw new MojoFailureException("check failed tests")
-        }
-    }
-
-    static List<String> buildArgs(Map params) {
-        return params.entrySet()
-                .findAll { e -> e.value != null}
-                .collect { e -> "--${e.key}=${e.value}"}
     }
 
     private boolean skipTests() {
