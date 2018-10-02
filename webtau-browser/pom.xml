@@ -44,6 +44,11 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+        </dependency>
+
         <!--forcing correct version to avoid selenium clash-->
         <dependency>
             <groupId>com.google.guava</groupId>
