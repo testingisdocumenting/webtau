@@ -99,7 +99,7 @@ class ParsedCommand {
                     break
                 case ParserState.RangeSecondNumber:
                     handleSecondNumberChar(c)
-
+                    break
             }
         }
 
@@ -157,7 +157,7 @@ class ParsedCommand {
             current.append(c)
 
             if (current.length() > 3) {
-                markError('index is too big')
+                markError('number is too big')
             }
         }
 
