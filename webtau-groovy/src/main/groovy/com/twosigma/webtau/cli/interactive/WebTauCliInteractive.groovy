@@ -43,7 +43,7 @@ class WebTauCliInteractive {
 
     private AtomicReference<InteractiveState> atomicState = new AtomicReference<>()
 
-    private TestSelection currentUserSelection
+    private TestsSelection currentUserSelection
 
     private InteractiveConsole console
     private InteractiveTests interactiveTests
@@ -54,7 +54,7 @@ class WebTauCliInteractive {
     WebTauCliInteractive(StandaloneTestRunner runner) {
         console = new InteractiveConsole(new BufferedReader(new InputStreamReader(System.in)))
         interactiveTests = new InteractiveTests(runner)
-        currentUserSelection = new TestSelection()
+        currentUserSelection = new TestsSelection()
 
         isRunningWatchedTest = new AtomicBoolean(false)
         watcher = new BackgroundFileWatcher(cfg.workingDir, this.&onFileChangeDuringWatch)
@@ -77,7 +77,7 @@ class WebTauCliInteractive {
                     selectTestFile()
                     break
                 case InteractiveState.ScenarioSelection:
-                    selectScenario()
+                    selectScenarios()
                     break
                 case InteractiveState.RunSelectedScenario:
                     runSelectedScenario()
@@ -98,27 +98,27 @@ class WebTauCliInteractive {
     private void selectTestFile() {
         displayTestFiles()
 
-        console.readAndHandleIdxOrCommand(commandsForCurrentState(), { handleCommand(it) }, { idx ->
-            if (idx < 0 || idx >= interactiveTests.testFilePaths.size()) {
-                console.println(Color.RED, 'enter test index')
+        console.readAndHandleParsedCommand(commandsForCurrentState(), { handleCommand(it) }, { indexes ->
+            if (indexes.size() > 1 || indexes.find { idx -> idx < 0 || idx >= interactiveTests.testFilePaths.size() }) {
+                console.println(Color.RED, 'enter a single test index')
                 return false
             } else {
-                currentUserSelection.testFilePath = interactiveTests.testFilePathByIdx(idx)
+                currentUserSelection.testFilePath = interactiveTests.testFilePathByIdx(indexes.first())
                 state = InteractiveState.ScenarioSelection
                 return true
             }
         })
     }
 
-    private void selectScenario() {
+    private void selectScenarios() {
         def tests = displayScenarios(currentUserSelection.testFilePath)
 
-        console.readAndHandleIdxOrCommand(commandsForCurrentState(), { handleCommand(it) }, { idx ->
-            if (idx < 0 || idx >= tests.size()) {
-                console.println(Color.RED, 'enter scenario index')
+        console.readAndHandleParsedCommand(commandsForCurrentState(), { handleCommand(it) }, { List<Integer> indexes ->
+            if (indexes.find { idx -> idx < 0 || idx >= tests.size() }) {
+                console.println(Color.RED, 'enter scenario index(es)')
                 return false
             } else {
-                currentUserSelection.scenario = tests[idx].scenario
+                currentUserSelection.scenarios = indexes.collect { idx -> tests[idx].scenario }
                 state = InteractiveState.RunSelectedScenario
                 return true
             }
@@ -126,30 +126,36 @@ class WebTauCliInteractive {
     }
 
     private void runSelectedScenario() {
-        runSelectedScenarioUsingExecutor()
+        runSelectedScenariosUsingExecutor()
         state = InteractiveState.AfterScenarioRun
     }
 
-    private void runScenario(TestSelection testSelection) {
+    private void runScenarios(TestsSelection testSelection) {
         interactiveTests.refreshScenarios(testSelection.testFilePath)
 
-        def test = interactiveTests.findSelectedTest(testSelection)
-        if (!test) {
-            console.println(Color.RED, 'No scenario found "' + testSelection.scenario + '"')
+        def tests = interactiveTests.findSelectedTests(testSelection)
+        if (tests.size() != testSelection.scenarios.size()) {
+            console.println(Color.RED, 'Not all scenarios found "' + testSelection.scenarios + '"')
             state = InteractiveState.ScenarioSelection
             return
         }
 
-        displaySelectedScenario('running')
-        test.run()
+        tests.each { test ->
+            displaySelectedScenarios('running', test.scenario)
+            test.run()
 
-        if (test.exception) {
-            console.println(Color.RED, StackTraceUtils.renderStackTraceWithoutLibCalls(test.exception))
+            def exception = test.exception
+            if (exception) {
+                console.println(Color.RED, 'failed test: ',
+                        Color.PURPLE, currentUserSelection.testFilePath, ' ',
+                        Color.YELLOW, test.scenario)
+                console.println(Color.RED, StackTraceUtils.renderStackTraceWithoutLibCalls(exception))
+            }
         }
     }
 
-    void runSelectedScenarioUsingExecutor() {
-        def futureResult = executorService.submit { runScenario(currentUserSelection) }
+    void runSelectedScenariosUsingExecutor() {
+        def futureResult = executorService.submit { runScenarios(currentUserSelection) }
         futureResult.get()
     }
 
@@ -160,26 +166,31 @@ class WebTauCliInteractive {
 
     private void selectScenarioAction() {
         displaySelectedScenarioPrompt()
-        console.readAndHandleIdxOrCommand(commandsForCurrentState(),
+        console.readAndHandleParsedCommand(commandsForCurrentState(),
                 { handleCommand(it)}, { idx -> return false })
     }
 
     private void displaySelectedScenarioPrompt() {
-        displaySelectedScenario('select actions for')
+        displaySelectedScenarios('select actions for')
         console.displayCommands(commandsForCurrentState())
     }
 
-    private void displaySelectedScenario(String prefix) {
+    private void displaySelectedScenarios(String prefix) {
+        displaySelectedScenarios(prefix, currentUserSelection.scenarios.join(', '))
+    }
+
+    private void displaySelectedScenarios(String prefix, String scenario) {
         console.println(Color.BLUE, prefix + ': ',
                 Color.PURPLE, currentUserSelection.testFilePath, ' ',
-                Color.YELLOW, currentUserSelection.scenario)
+                Color.YELLOW, scenario)
     }
 
     private List<InteractiveCommand> commandsForCurrentState() {
         return state.availableCommands
     }
 
-    private handleCommand(InteractiveCommand command) {
+    private handleCommand(ParsedCommand idxAndCommand) {
+        def command = idxAndCommand.commands[0]
         switch (command) {
             case InteractiveCommand.Back:
                 displayWatchOffIfRequired()
@@ -190,6 +201,8 @@ class WebTauCliInteractive {
                 break
             case InteractiveCommand.Run:
                 displayWatchOffIfRequired()
+                updateSelectedScenariosIfRequired(idxAndCommand.indexes)
+
                 state = InteractiveState.RunSelectedScenario
                 break
             case InteractiveCommand.Watch:
@@ -240,13 +253,22 @@ class WebTauCliInteractive {
     private List<StandaloneTest> displayScenarios(String filePath) {
         console.println(Color.BLUE, 'Test scenarios of ', Color.PURPLE, filePath, Color.BLUE, ':')
 
-        def tests =  interactiveTests.refreshScenarios(filePath)
+        def tests = interactiveTests.refreshScenarios(filePath)
 
         tests.eachWithIndex { test, idx ->
             console.println(Color.YELLOW, idx, Color.PURPLE, ' ', test.scenario)
         }
 
         return tests
+    }
+
+    private void updateSelectedScenariosIfRequired(List<Integer> indexes) {
+        if (indexes.isEmpty()) {
+            return
+        }
+
+        def tests = interactiveTests.refreshScenarios(currentUserSelection.testFilePath)
+        currentUserSelection.scenarios = indexes.collect { idx -> tests[idx].scenario }
     }
 
     private void onFileChangeDuringWatch(Path filePath) {
@@ -257,12 +279,12 @@ class WebTauCliInteractive {
         console.println(Color.YELLOW, '\nchange detected: ', Color.PURPLE, filePath)
         isRunningWatchedTest.set(true)
         try {
-            runSelectedScenarioUsingExecutor()
+            runSelectedScenariosUsingExecutor()
         } finally {
             isRunningWatchedTest.set(false)
 
             displaySelectedScenarioPrompt()
-            console.showPrompt()
+            console.displayPrompt()
         }
     }
 

@@ -21,8 +21,6 @@ import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import groovy.transform.PackageScope
 
 import java.nio.file.Paths
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 @PackageScope
 class InteractiveTests {
@@ -49,10 +47,10 @@ class InteractiveTests {
         return testFilePaths[idx]
     }
 
-    StandaloneTest findSelectedTest(TestSelection testSelection) {
-        return runner.tests.find {
+    List<StandaloneTest> findSelectedTests(TestsSelection testSelection) {
+        return runner.tests.findAll {
             it.filePath.toString() == testSelection.testFilePath &&
-                    it.scenario == testSelection.scenario
+                    it.scenario in testSelection.scenarios
         }
     }
 }
