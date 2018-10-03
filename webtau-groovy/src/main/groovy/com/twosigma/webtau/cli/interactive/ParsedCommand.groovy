@@ -110,11 +110,11 @@ class ParsedCommand {
                     def command = findCommand(commandAsText)
                     if (command) {
                         commands.add(command)
+                        state = ParserState.Seeking
                     } else {
                         unrecognized.add(commandAsText)
                         markError('unrecognized command: ' + commandAsText)
                     }
-                    state = ParserState.Seeking
                     break
 
                 case ParserState.Number:

@@ -84,7 +84,11 @@ class InteractiveConsole {
     static void displayError(ParsedCommand parsedCommand, String line) {
         ConsoleOutputs.out(Color.RED, parsedCommand.error)
         ConsoleOutputs.out(Color.BLUE, line)
-        ConsoleOutputs.out(Color.RED, String.format("%" + parsedCommand.errorTextIdx + "s", "^"))
+
+        def indicator = "^"
+        ConsoleOutputs.out(Color.RED, parsedCommand.errorTextIdx > 0 ?
+                String.format("%" + parsedCommand.errorTextIdx + "s", indicator):
+                indicator)
     }
 
     private String readLine() {

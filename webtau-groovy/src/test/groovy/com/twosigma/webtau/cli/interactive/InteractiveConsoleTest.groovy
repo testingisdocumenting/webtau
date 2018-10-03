@@ -41,9 +41,15 @@ class InteractiveConsoleTest {
         def console = createConsole('wrong input\nwrong input2\n  3 \n')
         def command = console.readCommand([InteractiveCommand.Quit, InteractiveCommand.Back])
 
-        capturedConsole.toString().should == 'enter a number or a command\n' +
+        capturedConsole.toString().should == 'unrecognized command: wrong\n' +
+                'wrong input\n' +
+                '    ^\n' +
+                'enter a number or a command\n' +
                 'quit, q - stop interactive mode\n' +
                 'back, b - go back\n' +
+                'unrecognized command: wrong\n' +
+                'wrong input2\n' +
+                '    ^\n' +
                 'enter a number or a command\n' +
                 'quit, q - stop interactive mode\n' +
                 'back, b - go back'
