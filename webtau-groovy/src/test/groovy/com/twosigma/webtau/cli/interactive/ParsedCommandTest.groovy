@@ -57,7 +57,7 @@ class ParsedCommandTest {
     @Test
     void "number max length should be three"() {
         def parsedCommand = new ParsedCommand('8341')
-        parsedCommand.error.should == 'index is too big'
+        parsedCommand.error.should == 'number is too big'
         parsedCommand.errorTextIdx.should == 3
         parsedCommand.indexes.should == []
         parsedCommand.commands.should == []
