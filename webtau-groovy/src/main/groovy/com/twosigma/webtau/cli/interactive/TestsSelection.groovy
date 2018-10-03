@@ -19,7 +19,7 @@ package com.twosigma.webtau.cli.interactive
 import groovy.transform.PackageScope
 
 @PackageScope
-class TestSelection {
+class TestsSelection {
     String testFilePath
-    String scenario
+    List<String> scenarios
 }

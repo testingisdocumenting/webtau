@@ -39,24 +39,30 @@ class InteractiveConsoleTest {
     @Test
     void "should repeatedly ask for an index or a command if input is not valid"() {
         def console = createConsole('wrong input\nwrong input2\n  3 \n')
-        def command = console.readIdxOrCommand([InteractiveCommand.Quit, InteractiveCommand.Back])
+        def command = console.readCommand([InteractiveCommand.Quit, InteractiveCommand.Back])
 
-        capturedConsole.toString().should == 'enter a number or a command\n' +
+        capturedConsole.toString().should == 'unrecognized command: wrong\n' +
+                'wrong input\n' +
+                '    ^\n' +
+                'enter a number or a command\n' +
                 'quit, q - stop interactive mode\n' +
                 'back, b - go back\n' +
+                'unrecognized command: wrong\n' +
+                'wrong input2\n' +
+                '    ^\n' +
                 'enter a number or a command\n' +
                 'quit, q - stop interactive mode\n' +
                 'back, b - go back'
 
-        command.idx.should == 3
+        command.indexes.should == [3]
     }
 
     @Test
     void "should parse command and make sure it is part of allowed commands"() {
-        def console = createConsole('  run \n back  \n')
-        def command = console.readIdxOrCommand([InteractiveCommand.Quit, InteractiveCommand.Back])
+        def console = createConsole('  run \n quit stop \nback  \n')
+        def command = console.readCommand([InteractiveCommand.Quit, InteractiveCommand.Back, InteractiveCommand.StopWatch])
 
-        command.command.name().should == 'Back'
+        command.commands*.name().should == ['Back']
     }
 
     private static InteractiveConsole createConsole(String userInput) {

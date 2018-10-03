@@ -29,39 +29,42 @@ class InteractiveConsole {
         this.inReader = inReader
     }
 
-    void readAndHandleIdxOrCommand(List<InteractiveCommand> allowedCommands, Closure commandHandler, Closure idxHandler) {
+    void readAndHandleParsedCommand(List<InteractiveCommand> allowedCommands, Closure commandHandler, Closure idxHandler) {
         while (true) {
-            def idxOrCommand = readIdxOrCommand(allowedCommands)
+            def parsedCommand = readCommand(allowedCommands)
 
-            if (idxOrCommand.command) {
-                commandHandler(idxOrCommand.command)
+            if (!parsedCommand.commands.isEmpty()) {
+                commandHandler(parsedCommand)
                 return
             }
 
-            def done = idxHandler(idxOrCommand.idx)
+            def done = idxHandler(parsedCommand.indexes)
             if (done) {
                 return
             }
         }
     }
 
-    IdxOrCommand readIdxOrCommand(List<InteractiveCommand> allowedCommands) {
+    ParsedCommand readCommand(List<InteractiveCommand> allowedCommands) {
         while (true) {
             def line = readLine().toLowerCase().trim()
-            def idxOrCommand = new IdxOrCommand(line)
+            def parsedCommand = new ParsedCommand(line)
 
-            def command = idxOrCommand.command
+            def commands = parsedCommand.commands
 
-            if ((!command || !allowedCommands.find { it.matches(line) }) && idxOrCommand.idx == null) {
+            if ((commands.isEmpty() || commands.size() > 1 || !parsedCommand.unrecognized.isEmpty() || !allowedCommands.find { it == commands[0] })
+                    && parsedCommand.indexes.isEmpty()) {
+                displayError(parsedCommand, line)
                 ConsoleOutputs.out(Color.RED, 'enter a number or a command')
+
                 displayCommands(allowedCommands)
             } else {
-                return idxOrCommand
+                return parsedCommand
             }
         }
     }
 
-    static void showPrompt() {
+    static void displayPrompt() {
         print new AutoResetAnsiString(Color.GREEN, 'webtau', Color.YELLOW, ' > ')
     }
 
@@ -78,8 +81,18 @@ class InteractiveConsole {
                 Color.YELLOW, ' - ', command.description)
     }
 
+    static void displayError(ParsedCommand parsedCommand, String line) {
+        ConsoleOutputs.out(Color.RED, parsedCommand.error)
+        ConsoleOutputs.out(Color.BLUE, line)
+
+        def indicator = "^"
+        ConsoleOutputs.out(Color.RED, parsedCommand.errorTextIdx > 0 ?
+                String.format("%" + parsedCommand.errorTextIdx + "s", indicator):
+                indicator)
+    }
+
     private String readLine() {
-        showPrompt()
+        displayPrompt()
         return inReader.readLine()
     }
 }
