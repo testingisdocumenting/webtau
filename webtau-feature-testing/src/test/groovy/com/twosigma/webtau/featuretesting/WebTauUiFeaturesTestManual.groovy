@@ -203,8 +203,8 @@ class WebTauUiFeaturesTestManual {
         }
     }
 
-    private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
-        testRunner.runCli("scenarios/ui/$restTestName",
+    private static void runCli(String uiTestName, String configFileName, String... additionalArgs) {
+        testRunner.runCli("scenarios/ui/$uiTestName",
                 "scenarios/ui/$configFileName", additionalArgs)
     }
 

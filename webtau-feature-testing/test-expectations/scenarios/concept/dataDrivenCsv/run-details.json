@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "use case hello",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "use case world",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}
