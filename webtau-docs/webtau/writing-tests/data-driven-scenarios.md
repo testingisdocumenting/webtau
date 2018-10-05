@@ -1,7 +1,7 @@
 # Dynamic Scenarios
 
 Every time you call `scenario` method a new scenario is being registered. 
-Define scenarios in a loop to have dynamic scenarios based on a provided data.   
+Define scenarios in a loop to have dynamic scenarios based on provided data.   
 
 :include-file: scenarios/concept/simpleDynamicScenario.groovy {title: "dynamic scenarios"}
 
