@@ -1,0 +1,13 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "number 1",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "number 2",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "number 3",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}

@@ -25,6 +25,8 @@ UI
     page-open-handlers
     finders-and-filters
     matchers
+writing-tests
+    data-driven-scenarios
 configuration
     cli
     environments

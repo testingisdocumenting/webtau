@@ -20,12 +20,14 @@ import com.twosigma.webtau.browser.Browser;
 import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.cfg.WebTauConfig;
+import com.twosigma.webtau.data.Data;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.http.Http;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.pdf.Pdf;
 
 public class WebTauDsl extends Ddjt {
+    public static final Data data = Data.data;
     public static final Http http = Http.http;
     public static final Browser browser = Browser.browser;
 

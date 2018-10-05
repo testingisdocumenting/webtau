@@ -91,6 +91,7 @@
         <module>webtau-http-groovy</module>
         <module>webtau-open-api</module>
         <module>webtau-pdf</module>
+        <module>webtau-data</module>
         <module>webtau-test-server</module>
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
@@ -386,6 +387,12 @@
                 <groupId>com.squareup.okio</groupId>
                 <artifactId>okio</artifactId>
                 <version>1.14.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-csv</artifactId>
+                <version>1.4</version>
             </dependency>
 
             <dependency>
