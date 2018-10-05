@@ -21,11 +21,11 @@
     <parent>
         <groupId>com.twosigma.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>0.30-SNAPSHOT</version>
+        <version>0.30</version>
     </parent>
 
     <artifactId>webtau-browser</artifactId>
-    <version>0.30-SNAPSHOT</version>
+    <version>0.30</version>
 
     <properties>
         <selenium.version>3.13.0</selenium.version>
