@@ -9,74 +9,12 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; background: #999; color: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
-    <style scoped>
-        .mdoc-initial-page-build,
-        .mdoc-initial-page-build:before,
-        .mdoc-initial-page-build:after {
-            background: #ffffff;
-            -webkit-animation: load1 1s infinite ease-in-out;
-            animation: load1 1s infinite ease-in-out;
-            width: 1em;
-            height: 4em;
-        }
-        .mdoc-initial-page-build {
-            color: #ffffff;
-            text-indent: -9999em;
-            margin: 88px auto;
-            position: relative;
-            font-size: 11px;
-            -webkit-transform: translateZ(0);
-            -ms-transform: translateZ(0);
-            transform: translateZ(0);
-            -webkit-animation-delay: -0.16s;
-            animation-delay: -0.16s;
-        }
-        .mdoc-initial-page-build:before,
-        .mdoc-initial-page-build:after {
-            position: absolute;
-            top: 0;
-            content: '';
-        }
-        .mdoc-initial-page-build:before {
-            left: -1.5em;
-            -webkit-animation-delay: -0.32s;
-            animation-delay: -0.32s;
-        }
-        .mdoc-initial-page-build:after {
-            left: 1.5em;
-        }
-        @-webkit-keyframes load1 {
-            0%,
-            80%,
-            100% {
-                box-shadow: 0 0;
-                height: 4em;
-            }
-            40% {
-                box-shadow: 0 -2em;
-                height: 5em;
-            }
-        }
-        @keyframes load1 {
-            0%,
-            80%,
-            100% {
-                box-shadow: 0 0;
-                height: 4em;
-            }
-            40% {
-                box-shadow: 0 -2em;
-                height: 5em;
-            }
-        }
-    </style>
-
-    <div class="mdoc-initial-page-build">Preparing ...</div>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Example</h1></header>
-<p>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under /customers .Here is an example of a CRUD operations test. package scenarios.rest.springboot import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("CRUD operations for customer") { def customerPayload = [firstName: "FN", lastName: "LN"] int id = http.post("/customers", customerPayload) { return id // return id value from response body } http.get("/customers/${id}") { body.should == customerPayload // only specified properties will be asserted against } def changedLastName = "NLN" http.put("/customers/${id}", [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName // specifying body is optional } http.get("/customers/${id}") { lastName.should == changedLastName } http.delete("/customers/${id}") { statusCode.should == 204 } http.get("/customers/${id}") { statusCode.should == 404 } }</p>
+<p>We have an app that exposes create, read, update, and delete operations for customer records. Records are being served under /customers .Here is an example of a CRUD operations test. package scenarios.rest.springboot import static com.twosigma.webtau.WebTauGroovyDsl.* scenario(&quot;CRUD operations for customer&quot;) { def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] int id = http.post(&quot;/customers&quot;, customerPayload) { return id // return id value from response body } http.get(&quot;/customers/${id}&quot;) { body.should == customerPayload // only specified properties will be asserted against } def changedLastName = &quot;NLN&quot; http.put(&quot;/customers/${id}&quot;, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName // specifying body is optional } http.get(&quot;/customers/${id}&quot;) { lastName.should == changedLastName } http.delete(&quot;/customers/${id}&quot;) { statusCode.should == 204 } http.get(&quot;/customers/${id}&quot;) { statusCode.should == 404 } }</p>
 </article>
 
 <article>
@@ -91,7 +29,7 @@
 
 <article>
 <header><h1>Spring Boot</h1></header>
-<p>WebTau is framework agnostic. However, to make a concrete example, the /customer CRUD endpoint is created by using https://projects.spring.io/spring-boot/ Spring Boot.Three files are required to have a working REST endpoint with CRUD operations.Domain object package com.example.demo.springboot.app.data; import javax.persistence.Entity; import javax.persistence.GeneratedValue; import javax.persistence.Id; @Entity public class Customer { private Long id; private String firstName; private String lastName; @Id @GeneratedValue public Long getId() { return id; } public void setId(Long id) { this.id = id; } public String getFirstName() { return firstName; } public void setFirstName(String firstName) { this.firstName = firstName; } public String getLastName() { return lastName; } public void setLastName(String lastName) { this.lastName = lastName; } } Repository package com.example.demo.springboot.app.data; import io.swagger.annotations.Api; import io.swagger.annotations.ApiOperation; import org.springframework.data.jpa.repository.JpaRepository; import org.springframework.data.rest.core.annotation.RepositoryRestResource; @Api(tags = "customer") @RepositoryRestResource(collectionResourceRel = "customers", path = "customers") public interface CustomerRepository extends JpaRepository<Customer, Long> { @ApiOperation("find all customers ordered by last name") Iterable<Customer> findAllByOrderByLastName(); } Entry point package com.example.demo.springboot.app; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; import org.springframework.context.annotation.Bean; import org.springframework.context.annotation.Import; import org.springframework.data.jpa.repository.config.EnableJpaRepositories; import springfox.documentation.builders.PathSelectors; import springfox.documentation.builders.RequestHandlerSelectors; import springfox.documentation.spi.DocumentationType; import springfox.documentation.spring.web.plugins.Docket; import springfox.documentation.swagger2.annotations.EnableSwagger2; @SpringBootApplication @EnableJpaRepositories @EnableSwagger2 @Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class}) public class SpringBootDemoApp { public static void main(String[] args) { SpringApplication.run(SpringBootDemoApp.class, args); } @Bean public Docket api() { return new Docket(DocumentationType.SWAGGER_2) .select() .apis(RequestHandlerSelectors.any()) .paths(PathSelectors.any()) .build(); } }</p>
+<p>WebTau is framework agnostic. However, to make a concrete example, the /customer CRUD endpoint is created by using https://projects.spring.io/spring-boot/ Spring Boot.Three files are required to have a working REST endpoint with CRUD operations.Domain object package com.example.demo.springboot.app.data; import javax.persistence.Entity; import javax.persistence.GeneratedValue; import javax.persistence.Id; @Entity public class Customer { private Long id; private String firstName; private String lastName; @Id @GeneratedValue public Long getId() { return id; } public void setId(Long id) { this.id = id; } public String getFirstName() { return firstName; } public void setFirstName(String firstName) { this.firstName = firstName; } public String getLastName() { return lastName; } public void setLastName(String lastName) { this.lastName = lastName; } } Repository package com.example.demo.springboot.app.data; import io.swagger.annotations.Api; import io.swagger.annotations.ApiOperation; import org.springframework.data.jpa.repository.JpaRepository; import org.springframework.data.rest.core.annotation.RepositoryRestResource; @Api(tags = &quot;customer&quot;) @RepositoryRestResource(collectionResourceRel = &quot;customers&quot;, path = &quot;customers&quot;) public interface CustomerRepository extends JpaRepository&lt;Customer, Long&gt; { @ApiOperation(&quot;find all customers ordered by last name&quot;) Iterable&lt;Customer&gt; findAllByOrderByLastName(); } Entry point package com.example.demo.springboot.app; import org.springframework.boot.SpringApplication; import org.springframework.boot.autoconfigure.SpringBootApplication; import org.springframework.context.annotation.Bean; import org.springframework.context.annotation.Import; import org.springframework.data.jpa.repository.config.EnableJpaRepositories; import springfox.documentation.builders.PathSelectors; import springfox.documentation.builders.RequestHandlerSelectors; import springfox.documentation.spi.DocumentationType; import springfox.documentation.spring.web.plugins.Docket; import springfox.documentation.swagger2.annotations.EnableSwagger2; @SpringBootApplication @EnableJpaRepositories @EnableSwagger2 @Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class}) public class SpringBootDemoApp { public static void main(String[] args) { SpringApplication.run(SpringBootDemoApp.class, args); } @Bean public Docket api() { return new Docket(DocumentationType.SWAGGER_2) .select() .apis(RequestHandlerSelectors.any()) .paths(PathSelectors.any()) .build(); } }</p>
 </article>
 </section>
 </div>
@@ -312,7 +250,7 @@ ReactDOM.render(React.createElement(Documentation, {
           {
             "fit": true,
             "imageSrc": "/webtau/guide/img/rest-report-http-calls.png",
-            "timestamp": 1536762781957,
+            "timestamp": 1538749849250,
             "shapes": [],
             "width": 2738.0,
             "height": 1740.0,

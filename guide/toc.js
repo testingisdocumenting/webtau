@@ -416,6 +416,56 @@ toc = [
       },
       {
         "sectionTitle": "UI",
+        "pageTitle": "Forms",
+        "pageMeta": {},
+        "fileName": "forms",
+        "dirName": "UI",
+        "pageSectionIdTitles": [
+          {
+            "title": "Universal Set Value",
+            "id": "universal-set-value"
+          },
+          {
+            "title": "Default Input",
+            "id": "default-input"
+          },
+          {
+            "title": "Date Input",
+            "id": "date-input"
+          },
+          {
+            "title": "Select",
+            "id": "select"
+          },
+          {
+            "title": "Universal Assert",
+            "id": "universal-assert"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "UI",
+        "pageTitle": "Asynchronous Page",
+        "pageMeta": {},
+        "fileName": "asynchronous-page",
+        "dirName": "UI",
+        "pageSectionIdTitles": [
+          {
+            "title": "Synchronization",
+            "id": "synchronization"
+          },
+          {
+            "title": "Visible/Hidden Element",
+            "id": "visiblehidden-element"
+          },
+          {
+            "title": "Wait to match",
+            "id": "wait-to-match"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "UI",
         "pageTitle": "Advanced Configuration",
         "pageMeta": {},
         "fileName": "advanced-configuration",
@@ -432,6 +482,36 @@ toc = [
           {
             "title": "Documentation Artifacts",
             "id": "documentation-artifacts"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "UI",
+        "pageTitle": "Local Storage",
+        "pageMeta": {},
+        "fileName": "local-storage",
+        "dirName": "UI",
+        "pageSectionIdTitles": [
+          {
+            "title": "Access Local Storage",
+            "id": "access-local-storage"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "UI",
+        "pageTitle": "Page Open Handlers",
+        "pageMeta": {},
+        "fileName": "page-open-handlers",
+        "dirName": "UI",
+        "pageSectionIdTitles": [
+          {
+            "title": "Implicit Page Open Logic",
+            "id": "implicit-page-open-logic"
+          },
+          {
+            "title": "Auto Login",
+            "id": "auto-login"
           }
         ]
       },
@@ -478,6 +558,33 @@ toc = [
           {
             "title": "Numbers",
             "id": "numbers"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Writing Tests",
+    "dirName": "writing-tests",
+    "items": [
+      {
+        "sectionTitle": "Writing Tests",
+        "pageTitle": "Data Driven Scenarios",
+        "pageMeta": {},
+        "fileName": "data-driven-scenarios",
+        "dirName": "writing-tests",
+        "pageSectionIdTitles": [
+          {
+            "title": "Dynamic Scenarios",
+            "id": "dynamic-scenarios"
+          },
+          {
+            "title": "CSV",
+            "id": "csv"
+          },
+          {
+            "title": "Table Data",
+            "id": "table-data"
           }
         ]
       }

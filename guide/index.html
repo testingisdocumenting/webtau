@@ -9,140 +9,16 @@
 </head>
 <link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; background: #999; color: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
-    <style scoped>
-        .mdoc-initial-page-build,
-        .mdoc-initial-page-build:before,
-        .mdoc-initial-page-build:after {
-            background: #ffffff;
-            -webkit-animation: load1 1s infinite ease-in-out;
-            animation: load1 1s infinite ease-in-out;
-            width: 1em;
-            height: 4em;
-        }
-        .mdoc-initial-page-build {
-            color: #ffffff;
-            text-indent: -9999em;
-            margin: 88px auto;
-            position: relative;
-            font-size: 11px;
-            -webkit-transform: translateZ(0);
-            -ms-transform: translateZ(0);
-            transform: translateZ(0);
-            -webkit-animation-delay: -0.16s;
-            animation-delay: -0.16s;
-        }
-        .mdoc-initial-page-build:before,
-        .mdoc-initial-page-build:after {
-            position: absolute;
-            top: 0;
-            content: '';
-        }
-        .mdoc-initial-page-build:before {
-            left: -1.5em;
-            -webkit-animation-delay: -0.32s;
-            animation-delay: -0.32s;
-        }
-        .mdoc-initial-page-build:after {
-            left: 1.5em;
-        }
-        @-webkit-keyframes load1 {
-            0%,
-            80%,
-            100% {
-                box-shadow: 0 0;
-                height: 4em;
-            }
-            40% {
-                box-shadow: 0 -2em;
-                height: 5em;
-            }
-        }
-        @keyframes load1 {
-            0%,
-            80%,
-            100% {
-                box-shadow: 0 0;
-                height: 4em;
-            }
-            40% {
-                box-shadow: 0 -2em;
-                height: 5em;
-            }
-        }
-    </style>
-
-    <div class="mdoc-initial-page-build">Preparing ...</div>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>WebTau</h1></header>
-<p>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("simple get") { http.get("/weather") { temperature.shouldBe < 100 } } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario("search by specific query") { search.submit("search this") search.numberOfResults.should == 2 }</p>
+<p>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario(&quot;simple get&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.should == 2 }</p>
 </article>
 </section>
-<div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; background: #999; color: #fff; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
-    <style scoped>
-        .mdoc-initial-page-build,
-        .mdoc-initial-page-build:before,
-        .mdoc-initial-page-build:after {
-            background: #ffffff;
-            -webkit-animation: load1 1s infinite ease-in-out;
-            animation: load1 1s infinite ease-in-out;
-            width: 1em;
-            height: 4em;
-        }
-        .mdoc-initial-page-build {
-            color: #ffffff;
-            text-indent: -9999em;
-            margin: 88px auto;
-            position: relative;
-            font-size: 11px;
-            -webkit-transform: translateZ(0);
-            -ms-transform: translateZ(0);
-            transform: translateZ(0);
-            -webkit-animation-delay: -0.16s;
-            animation-delay: -0.16s;
-        }
-        .mdoc-initial-page-build:before,
-        .mdoc-initial-page-build:after {
-            position: absolute;
-            top: 0;
-            content: '';
-        }
-        .mdoc-initial-page-build:before {
-            left: -1.5em;
-            -webkit-animation-delay: -0.32s;
-            animation-delay: -0.32s;
-        }
-        .mdoc-initial-page-build:after {
-            left: 1.5em;
-        }
-        @-webkit-keyframes load1 {
-            0%,
-            80%,
-            100% {
-                box-shadow: 0 0;
-                height: 4em;
-            }
-            40% {
-                box-shadow: 0 -2em;
-                height: 5em;
-            }
-        }
-        @keyframes load1 {
-            0%,
-            80%,
-            100% {
-                box-shadow: 0 0;
-                height: 4em;
-            }
-            40% {
-                box-shadow: 0 -2em;
-                height: 5em;
-            }
-        }
-    </style>
-
-    <div class="mdoc-initial-page-build">Preparing ...</div>
+<div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <a href="/index/">Index</a>
@@ -277,10 +153,37 @@
 </article>
 
 <article>
+<a href="UI/forms/">Forms</a>
+<a href="UI/forms/#universal-set-value">Forms Universal Set Value</a>
+<a href="UI/forms/#default-input">Forms Default Input</a>
+<a href="UI/forms/#date-input">Forms Date Input</a>
+<a href="UI/forms/#select">Forms Select</a>
+<a href="UI/forms/#universal-assert">Forms Universal Assert</a>
+</article>
+
+<article>
+<a href="UI/asynchronous-page/">Asynchronous Page</a>
+<a href="UI/asynchronous-page/#synchronization">Asynchronous Page Synchronization</a>
+<a href="UI/asynchronous-page/#visiblehidden-element">Asynchronous Page Visible/Hidden Element</a>
+<a href="UI/asynchronous-page/#wait-to-match">Asynchronous Page Wait to match</a>
+</article>
+
+<article>
 <a href="UI/advanced-configuration/">Advanced Configuration</a>
 <a href="UI/advanced-configuration/#timeouts">Advanced Configuration Timeouts</a>
 <a href="UI/advanced-configuration/#window-size">Advanced Configuration Window Size</a>
 <a href="UI/advanced-configuration/#documentation-artifacts">Advanced Configuration Documentation Artifacts</a>
+</article>
+
+<article>
+<a href="UI/local-storage/">Local Storage</a>
+<a href="UI/local-storage/#access-local-storage">Local Storage Access Local Storage</a>
+</article>
+
+<article>
+<a href="UI/page-open-handlers/">Page Open Handlers</a>
+<a href="UI/page-open-handlers/#implicit-page-open-logic">Page Open Handlers Implicit Page Open Logic</a>
+<a href="UI/page-open-handlers/#auto-login">Page Open Handlers Auto Login</a>
 </article>
 
 <article>
@@ -294,6 +197,13 @@
 <a href="UI/matchers/">Matchers</a>
 <a href="UI/matchers/#text">Matchers Text</a>
 <a href="UI/matchers/#numbers">Matchers Numbers</a>
+</article>
+
+<article>
+<a href="writing-tests/data-driven-scenarios/">Data Driven Scenarios</a>
+<a href="writing-tests/data-driven-scenarios/#dynamic-scenarios">Data Driven Scenarios Dynamic Scenarios</a>
+<a href="writing-tests/data-driven-scenarios/#csv">Data Driven Scenarios CSV</a>
+<a href="writing-tests/data-driven-scenarios/#table-data">Data Driven Scenarios Table Data</a>
 </article>
 
 <article>
