@@ -19,6 +19,8 @@ package com.twosigma.webtau.http
 import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.json.JsonRequestBody
+import com.twosigma.webtau.http.request.HttpQueryParams
+import com.twosigma.webtau.http.request.HttpRequestBody
 import com.twosigma.webtau.http.validation.HeaderDataNode
 import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn
 
@@ -47,14 +49,6 @@ class HttpExtensions {
         return http.post(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
-    static def post(Http http, String url, HttpHeader header, byte[] requestBody, Closure validation) {
-        return http.post(url, header, requestBody, closureToHttpResponseValidator(validation))
-    }
-
-    static def post(Http http, String url, byte[] requestBody, Closure validation) {
-        return http.post(url, requestBody, closureToHttpResponseValidator(validation))
-    }
-
     static def post(Http http, String url, Closure validation) {
         return http.post(url, closureToHttpResponseValidator(validation))
     }
@@ -81,14 +75,6 @@ class HttpExtensions {
 
     static def put(Http http, String url, Map<String, Object> requestBody, Closure validation) {
         return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
-    }
-
-    static def put(Http http, String url, HttpHeader header, byte[] requestBody, Closure validation) {
-        return http.put(url, header, requestBody, closureToHttpResponseValidator(validation))
-    }
-
-    static def put(Http http, String url, byte[] requestBody, Closure validation) {
-        return http.put(url, requestBody, closureToHttpResponseValidator(validation))
     }
 
     static def put(Http http, String url, Closure validation) {

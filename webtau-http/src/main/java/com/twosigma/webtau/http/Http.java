@@ -31,11 +31,9 @@ import com.twosigma.webtau.http.multipart.MultiPartFile;
 import com.twosigma.webtau.http.multipart.MultiPartFormData;
 import com.twosigma.webtau.http.multipart.MultiPartFormField;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
-import com.twosigma.webtau.http.validation.HttpResponseValidator;
-import com.twosigma.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
-import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn;
-import com.twosigma.webtau.http.validation.HttpValidationHandlers;
-import com.twosigma.webtau.http.validation.HttpValidationResult;
+import com.twosigma.webtau.http.request.*;
+import com.twosigma.webtau.http.text.TextRequestBody;
+import com.twosigma.webtau.http.validation.*;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
@@ -69,6 +67,9 @@ public class Http {
     public final HttpDocumentation doc = new HttpDocumentation();
 
     private final ThreadLocal<HttpValidationResult> lastValidationResult = new ThreadLocal<>();
+
+    public HttpApplicationMime application = new HttpApplicationMime();
+    public HttpTextMime text = new HttpTextMime();
 
     public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
         return executeAndValidateHttpCall("GET", queryParams.attachToUrl(url),
@@ -140,28 +141,12 @@ public class Http {
         post(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public <E> E post(String url, HttpHeader header, byte[] requestBody, HttpResponseValidatorWithReturn validator) {
-        return post(url, header, BinaryRequestBody.octetStream(requestBody), validator);
-    }
-
-    public void post(String url, HttpHeader header, byte[] requestBody, HttpResponseValidator validator) {
-        post(url, header, BinaryRequestBody.octetStream(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
-    }
-
     public <E> E post(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
     public void post(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
-    }
-
-    public <E> E post(String url, byte[] requestBody, HttpResponseValidatorWithReturn validator) {
-        return post(url, HttpHeader.EMPTY, BinaryRequestBody.octetStream(requestBody), validator);
-    }
-
-    public void post(String url, byte[] requestBody, HttpResponseValidator validator) {
-        post(url, HttpHeader.EMPTY, BinaryRequestBody.octetStream(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E post(String url, HttpResponseValidatorWithReturn validator) {
@@ -220,28 +205,12 @@ public class Http {
         put(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public <E> E put(String url, HttpHeader header, byte[] requestBody, HttpResponseValidatorWithReturn validator) {
-        return put(url, header, BinaryRequestBody.octetStream(requestBody), validator);
-    }
-
-    public void put(String url, HttpHeader header, byte[] requestBody, HttpResponseValidator validator) {
-        put(url, header, BinaryRequestBody.octetStream(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
-    }
-
     public <E> E put(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
     public void put(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
-    }
-
-    public <E> E put(String url, byte[] requestBody, HttpResponseValidatorWithReturn validator) {
-        return put(url, HttpHeader.EMPTY, BinaryRequestBody.octetStream(requestBody), validator);
-    }
-
-    public void put(String url, byte[] requestBody, HttpResponseValidator validator) {
-        put(url, HttpHeader.EMPTY, BinaryRequestBody.octetStream(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E put(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
@@ -294,6 +263,14 @@ public class Http {
 
     public HttpHeader header(Map<String, String> properties) {
         return new HttpHeader(properties);
+    }
+
+    public HttpRequestBody body(String mimeType, String content) {
+        return TextRequestBody.withType(mimeType, content);
+    }
+
+    public HttpRequestBody body(String mimeType, byte[] content) {
+        return BinaryRequestBody.withType(mimeType, content);
     }
 
     public MultiPartFormData formData(MultiPartFormField... fields) {

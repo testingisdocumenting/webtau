@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.http.multipart;
 
-import com.twosigma.webtau.http.HttpRequestBody;
+import com.twosigma.webtau.http.request.HttpRequestBody;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
