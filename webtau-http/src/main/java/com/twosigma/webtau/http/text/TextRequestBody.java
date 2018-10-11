@@ -14,10 +14,22 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.http.text;
 
-public class EmptyRequestBody implements HttpRequestBody {
-    public static final HttpRequestBody INSTANCE = new EmptyRequestBody();
+import com.twosigma.webtau.http.request.HttpRequestBody;
+
+public class TextRequestBody implements HttpRequestBody {
+    private final String type;
+    private final String content;
+
+    public static TextRequestBody withType(String type, String content) {
+        return new TextRequestBody(type, content);
+    }
+
+    private TextRequestBody(String type, String content) {
+        this.type = type;
+        this.content = content;
+    }
 
     @Override
     public boolean isBinary() {
@@ -26,11 +38,11 @@ public class EmptyRequestBody implements HttpRequestBody {
 
     @Override
     public String type() {
-        return "application/json";
+        return type;
     }
 
     @Override
     public String asString() {
-        return null;
+        return content;
     }
 }

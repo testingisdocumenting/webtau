@@ -27,8 +27,6 @@ import com.twosigma.webtau.http.validation.HttpValidationResult
 import com.twosigma.webtau.utils.JsonUtils
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.equal
-
 class HttpValidationResultTest {
     private static commonExpectation = [
             id: ~/httpCall-\d+/,
@@ -67,7 +65,7 @@ class HttpValidationResultTest {
         def binaryContent = [1, 2, 3] as byte[]
         def binaryNode = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(binaryContent))
 
-        def validationResult = createValidationResult(BinaryRequestBody.octetStream(binaryContent))
+        def validationResult = createValidationResult(BinaryRequestBody.withType('application/octet-stream', binaryContent))
 
         validationResult.setResponse(new HttpResponse(binaryContent: binaryContent, contentType: 'application/octet-stream', statusCode: 200))
         validationResult.setResponseBodyNode(binaryNode)

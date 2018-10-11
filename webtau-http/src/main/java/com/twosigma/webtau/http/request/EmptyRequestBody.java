@@ -14,35 +14,23 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.binary;
+package com.twosigma.webtau.http.request;
 
-import com.twosigma.webtau.http.request.HttpRequestBody;
-
-public class BinaryRequestBody implements HttpRequestBody {
-    private final String type;
-    private final byte[] content;
-
-    public static BinaryRequestBody withType(String type, byte[] content) {
-        return new BinaryRequestBody(type, content);
-    }
-
-    private BinaryRequestBody(String type, byte[] content) {
-        this.type = type;
-        this.content = content;
-    }
+public class EmptyRequestBody implements HttpRequestBody {
+    public static final HttpRequestBody INSTANCE = new EmptyRequestBody();
 
     @Override
     public boolean isBinary() {
-        return true;
+        return false;
     }
 
     @Override
     public String type() {
-        return type;
+        return "application/json";
     }
 
     @Override
-    public byte[] asBytes() {
-        return content;
+    public String asString() {
+        return null;
     }
 }

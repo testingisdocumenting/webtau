@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package com.twosigma.webtau.http.request;
 
-public interface HttpRequestBody {
-    boolean isBinary();
-    String type();
+import com.twosigma.webtau.http.binary.BinaryRequestBody;
 
-    default String asString() {
-        throw new UnsupportedOperationException();
+public class HttpApplicationMime {
+    public HttpRequestBody octetStream(byte[] content) {
+        return BinaryRequestBody.withType("application/octet-stream", content);
     }
 
-    default byte[] asBytes() {
-        throw new UnsupportedOperationException();
+    public HttpRequestBody pdf(byte[] content) {
+        return BinaryRequestBody.withType("application/pdf", content);
     }
 }

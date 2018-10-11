@@ -27,6 +27,18 @@ Additionally `http.header` accepts values as a map.
 
 :include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "header creation", bodyOnly: true}
 
+# Mime Type Combined With Payload
+
+Use `http.body` to combine `Content-Type` and payload.
+
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {title: "Combined type and payload", entry: "explicit binary mime types combined with request body", bodyOnly: true}
+
+If you need a standard type consider using  
+
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {title: "Binary content shortuct", entry: "implicit binary mime types combined with request body", bodyOnly: true}
+
+:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {title: "Text content shortcut", entry: "implicit text mime types combined with request body", bodyOnly: true}
+  
 # Response Header
 
 To validate values from response header use `header` object.

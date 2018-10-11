@@ -14,32 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.json;
+package com.twosigma.webtau.http.request;
 
-import com.twosigma.webtau.http.request.HttpRequestBody;
-import com.twosigma.webtau.utils.JsonUtils;
+public interface HttpRequestBody {
+    boolean isBinary();
+    String type();
 
-import java.util.Map;
-
-public class JsonRequestBody implements HttpRequestBody {
-    private final String asString;
-
-    public JsonRequestBody(Map<String, Object> data) {
-        this.asString = JsonUtils.serialize(data);
+    default String asString() {
+        throw new UnsupportedOperationException();
     }
 
-    @Override
-    public boolean isBinary() {
-        return false;
-    }
-
-    @Override
-    public String type() {
-        return "application/json";
-    }
-
-    @Override
-    public String asString() {
-        return asString;
+    default byte[] asBytes() {
+        throw new UnsupportedOperationException();
     }
 }

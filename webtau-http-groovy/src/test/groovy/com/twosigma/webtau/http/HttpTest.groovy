@@ -291,6 +291,38 @@ class HttpTest implements HttpConfiguration {
     }
 
     @Test
+    void "explicit binary mime types combined with request body"() {
+        def content = binaryFile('path')
+        http.post("/end-point", http.body("application/octet-stream", content)) {
+            // assertions go here
+        }
+    }
+
+    @Test
+    void "explicit text mime types combined with request body"() {
+        def content = binaryFile('path')
+        http.post("/end-point", http.body("application/octet-stream", content)) {
+            // assertions go here
+        }
+    }
+
+    @Test
+    void "implicit binary mime types combined with request body"() {
+        def content = binaryFile('path')
+        http.post("/end-point", http.application.octetStream(content)) {
+            // assertions go here
+        }
+    }
+
+    @Test
+    void "implicit text mime types combined with request body"() {
+        def content = 'text content'
+        http.post("/end-point", http.text.plain(content)) {
+            // assertions go here
+        }
+    }
+
+    @Test
     void "header creation"() {
         def varArgHeader = http.header(
                 'My-Header1', 'Value1',
@@ -359,7 +391,7 @@ class HttpTest implements HttpConfiguration {
     @Test
     void "no files generated for binary request"() {
         def content = [1, 2, 3] as byte[]
-        http.post("/empty", content) {
+        http.post("/empty", http.application.octetStream(content)) {
             body.should == null
         }
 
@@ -666,22 +698,12 @@ class HttpTest implements HttpConfiguration {
     void "send binary content"() {
         byte[] expectedImage = ResourceUtils.binaryContent("image.png")
 
-        http.post("/echo", expectedImage) {
+        http.post("/echo", http.application.octetStream(expectedImage)) {
             header.contentType.should == 'application/octet-stream'
             body.should == expectedImage
         }
 
-        http.put("/echo", expectedImage) {
-            header.contentType.should == 'application/octet-stream'
-            body.should == expectedImage
-        }
-
-        http.post("/echo", http.header('Content-Type', 'application/pdf'), expectedImage) {
-            header.contentType.should == 'application/pdf'
-            body.should == expectedImage
-        }
-
-        http.put("/echo", http.header('Content-Type', 'application/pdf'), expectedImage) {
+        http.post("/echo", http.application.pdf(expectedImage)) {
             header.contentType.should == 'application/pdf'
             body.should == expectedImage
         }
@@ -905,5 +927,9 @@ class HttpTest implements HttpConfiguration {
 
     private static void assertStatusCodeMismatchRegistered() {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
+    }
+
+    private static byte[] binaryFile(String path) {
+        return [1, 2, 3] as byte[]
     }
 }
