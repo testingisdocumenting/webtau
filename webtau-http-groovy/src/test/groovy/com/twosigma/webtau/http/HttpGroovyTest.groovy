@@ -21,24 +21,11 @@ import com.twosigma.webtau.http.config.HttpConfiguration
 import com.twosigma.webtau.http.config.HttpConfigurations
 import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
-import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.http.testserver.TestServerBinaryResponse
-import com.twosigma.webtau.http.testserver.TestServerFakeFileUpload
-import com.twosigma.webtau.http.testserver.TestServerJsonResponse
-import com.twosigma.webtau.http.testserver.TestServerMultiPartContentEcho
-import com.twosigma.webtau.http.testserver.TestServerMultiPartMetaEcho
-import com.twosigma.webtau.http.testserver.TestServerRequestHeaderEcho
 import com.twosigma.webtau.http.testserver.TestServerResponse
-import com.twosigma.webtau.http.testserver.TestServerResponseEcho
-import com.twosigma.webtau.http.testserver.TestServerTextResponse
 import com.twosigma.webtau.http.validation.HttpResponseValidator
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
-import org.junit.After
-import org.junit.AfterClass
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
+import org.junit.*
 
 import javax.servlet.http.HttpServletRequest
 import java.nio.file.Files
@@ -49,19 +36,12 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.contain
-import static com.twosigma.webtau.Ddjt.greaterThan
-import static com.twosigma.webtau.Ddjt.greaterThanOrEqual
-import static com.twosigma.webtau.Ddjt.lessThan
-import static com.twosigma.webtau.Ddjt.lessThanOrEqual
-import static com.twosigma.webtau.Ddjt.notEqual
-import static com.twosigma.webtau.Ddjt.throwException
-import static com.twosigma.webtau.http.Http.http
-import static org.junit.Assert.assertFalse
+import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.http.Http.*
+import static org.junit.Assert.*
 
-class HttpTest implements HttpConfiguration {
-    static TestServer testServer = new TestServer()
+class HttpGroovyTest implements HttpConfiguration {
+    static HttpTestDataServer testServer = new HttpTestDataServer()
 
     private final static byte[] sampleFile = [1, 2, 3]
     private static final int PORT = 7824
@@ -69,39 +49,6 @@ class HttpTest implements HttpConfiguration {
     @BeforeClass
     static void startServer() {
         testServer.start(PORT)
-
-        def objectTestResponse = jsonResponse("objectTestResponse.json")
-
-        testServer.registerGet("/end-point", objectTestResponse)
-        testServer.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse)
-
-        testServer.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201, [
-                "Content-Location": "/url/23",
-                "Location": "http://www.example.org/url/23"]))
-
-        testServer.registerPut("/end-point", objectTestResponse)
-        testServer.registerDelete("/end-point", objectTestResponse)
-        testServer.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"))
-        testServer.registerGet("/end-point-simple-list", jsonResponse("simpleListTestResponse.json"))
-        testServer.registerGet("/end-point-mixed", jsonResponse("mixedTestResponse.json"))
-        testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"))
-        testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"))
-        testServer.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"))
-        testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("image.png")))
-        testServer.registerPost("/echo", new TestServerResponseEcho(201))
-        testServer.registerPut("/echo", new TestServerResponseEcho(200))
-        testServer.registerGet("/echo-header", new TestServerRequestHeaderEcho(200))
-        testServer.registerGet("/echo-header?qp1=v1", new TestServerRequestHeaderEcho(200))
-        testServer.registerPost("/echo-header", new TestServerRequestHeaderEcho(201))
-        testServer.registerPut("/echo-header", new TestServerRequestHeaderEcho(200))
-        testServer.registerDelete("/echo-header", new TestServerRequestHeaderEcho(200))
-        testServer.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0))
-        testServer.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1))
-        testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201))
-        testServer.registerPost("/empty", new TestServerJsonResponse(null, 201))
-        testServer.registerPost("/file-upload", new TestServerFakeFileUpload())
-        testServer.registerDelete("/resource", new TestServerTextResponse('abc'))
-        testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse(/{"a": 1, "b": "text"}/))
     }
 
     @AfterClass
@@ -575,7 +522,7 @@ class HttpTest implements HttpConfiguration {
 
     @Test
     void "send form file data from specified path"() {
-        def imagePath = Paths.get("src/test/resources/image.png")
+        def imagePath = testResourcePath("src/test/resources/image.png")
 
         http.post("/echo-multipart-content-part-one", http.formData(http.formField('file', imagePath))) {
             body.should == imagePath.readBytes()
@@ -625,7 +572,7 @@ class HttpTest implements HttpConfiguration {
 
     @Test
     void "file upload example simple"() {
-        def imagePath = Paths.get("src/test/resources/image.png")
+        def imagePath = testResourcePath("src/test/resources/image.png")
 
         http.post("/file-upload", http.formData(file: imagePath)) {
             fileName.should == 'image.png'
@@ -634,7 +581,7 @@ class HttpTest implements HttpConfiguration {
 
     @Test
     void "file upload example with file name override"() {
-        def imagePath = Paths.get("src/test/resources/image.png")
+        def imagePath = testResourcePath("src/test/resources/image.png")
 
         http.post("/file-upload", http.formData(file: http.formFile('myFileName.png', imagePath))) {
             fileName.should == 'myFileName.png'
@@ -643,7 +590,7 @@ class HttpTest implements HttpConfiguration {
 
     @Test
     void "file upload example multiple fields"() {
-        def imagePath = Paths.get("src/test/resources/image.png")
+        def imagePath = testResourcePath("src/test/resources/image.png")
 
         http.post("/file-upload", http.formData(file: imagePath, fileDescription: 'new report')) {
             fileName.should == 'image.png'
@@ -672,7 +619,7 @@ class HttpTest implements HttpConfiguration {
 
     @Test
     void "file upload example with file path and name override"() {
-        def imagePath = Paths.get("src/test/resources/image.png")
+        def imagePath = testResourcePath("src/test/resources/image.png")
 
         http.post("/file-upload", http.formData(
                 file: http.formFile('myFileName.dat', imagePath),
@@ -921,15 +868,15 @@ class HttpTest implements HttpConfiguration {
         return given
     }
 
-    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode = 200, Map headerResponse = [:]) {
-        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, headerResponse)
-    }
-
     private static void assertStatusCodeMismatchRegistered() {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }
 
     private static byte[] binaryFile(String path) {
         return [1, 2, 3] as byte[]
+    }
+
+    private static Path testResourcePath(String relativePath) {
+        return Paths.get("../webtau-http/src/test/resources/image.png")
     }
 }
