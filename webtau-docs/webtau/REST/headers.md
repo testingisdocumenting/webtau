@@ -21,29 +21,29 @@ This removes implementation details from your tests and makes them less brittle.
 
 To explicitly set header pass `http.header(values)` as an additional parameter.
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "explicit header passing example", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "explicit header passing example", bodyOnly: true}
 
 Additionally `http.header` accepts values as a map.
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "header creation", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "header creation", bodyOnly: true}
 
 # Mime Type Combined With Payload
 
 Use `http.body` to combine `Content-Type` and payload.
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {title: "Combined type and payload", entry: "explicit binary mime types combined with request body", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {title: "Combined type and payload", entry: "explicit binary mime types combined with request body", bodyOnly: true}
 
 If you need a standard type consider using  
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {title: "Binary content shortuct", entry: "implicit binary mime types combined with request body", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {title: "Binary content shortuct", entry: "implicit binary mime types combined with request body", bodyOnly: true}
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {title: "Text content shortcut", entry: "implicit text mime types combined with request body", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {title: "Text content shortcut", entry: "implicit text mime types combined with request body", bodyOnly: true}
   
 # Response Header
 
 To validate values from response header use `header` object.
 
-:include-groovy: com/twosigma/webtau/http/HttpTest.groovy {entry: "header assertion with shortcut", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "header assertion with shortcut", bodyOnly: true}
 
 At the moment only `location`, `contentLocation`, `contentLength` have camelCase shortcuts.
 All the other header values you need to use `['Header-Name']` syntax.
