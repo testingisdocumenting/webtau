@@ -41,7 +41,7 @@ import static com.twosigma.webtau.http.Http.*
 import static org.junit.Assert.*
 
 class HttpGroovyTest implements HttpConfiguration {
-    static HttpTestDataServer testServer = new HttpTestDataServer()
+    private static final HttpTestDataServer testServer = new HttpTestDataServer()
 
     private final static byte[] sampleFile = [1, 2, 3]
     private static final int PORT = 7824

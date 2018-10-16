@@ -16,51 +16,153 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.Ddjt;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
+import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
 
-import static com.twosigma.webtau.Ddjt.equal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.regex.Pattern;
+
+import static com.twosigma.webtau.Ddjt.*;
 import static com.twosigma.webtau.http.Http.http;
+import static com.twosigma.webtau.utils.CollectionUtils.createMap;
 
 public class HttpJavaTest implements HttpConfiguration  {
-    static HttpTestDataServer testServer = new HttpTestDataServer();
+    private static final HttpTestDataServer testServer = new HttpTestDataServer();
 
     private static final int PORT = 7824;
 
     @BeforeClass
-    static void startServer() {
+    public static void startServer() {
         testServer.start(PORT);
     }
 
     @AfterClass
-    static void stopServer() {
+    public static void stopServer() {
         testServer.stop();
     }
 
     @Before
-    void initCfg() {
+    public void initCfg() {
         HttpConfigurations.add(this);
     }
 
     @After
-    void cleanCfg() {
+    public void cleanCfg() {
         HttpConfigurations.remove(this);
     }
 
     @Test
-    void simpleObjectMappingExample() {
+    public void simpleObjectMappingExample() {
         http.get("/end-point-simple-object", (header, body) -> {
             body.get("k1").should(equal("v1"));
         });
     }
 
     @Test
-    void simpleListMappingExample() {
+    public void simpleListMappingExample() {
         http.get("/end-point-simple-list", (header, body) -> {
             body.get(0).get("k1").should(equal("v1"));
         });
+    }
+
+    @Test
+    public void equalityMatcher() {
+        http.get("/end-point", (header, body) -> {
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+
+            body.get("list").should(equal(Arrays.asList(1, 2, 3)));
+
+            body.get("object").get("k1").should(equal(
+                    Pattern.compile("v\\d"))); // regular expression matching
+
+            body.get("object").should(equal(createMap("k1", "v1", "k3", "v3"))); // matching only specified fields and can be nested multiple times
+
+            body.get("complexList").should(equal(header("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
+                                                        "v1" ,  30,
+                                                        "v11",  40)));
+        });
+
+        http.doc.capture("end-point-object-equality-matchers");
+    }
+
+    @Test
+    public void compareNumbersWithGreaterLessMatchers() {
+        http.get("/end-point-numbers", (header, body) -> {
+            body.get("id").shouldBe(greaterThan(0));
+            body.get("price").shouldBe(greaterThanOrEqual(100));
+            body.get("amount").shouldBe(lessThan(150));
+            body.get("list").get(1).shouldBe(lessThanOrEqual(2));
+
+            body.get("id").shouldNotBe(lessThanOrEqual(0));
+            body.get("price").shouldNotBe(lessThan(100));
+            body.get("amount").shouldNotBe(greaterThanOrEqual(150));
+            body.get("list").get(1).shouldNotBe(greaterThan(2));
+        });
+
+        http.doc.capture("end-point-numbers-matchers");
+    }
+
+    @Test
+    public void containMatcher() {
+        http.get("/end-point-list", (header, body) -> {
+            body.should(contain(createMap("k1", "v1", "k2", "v2")));
+            body.get(1).get("k2").shouldNot(contain(22));
+        });
+
+        http.doc.capture("end-point-list-contain-matchers");
+    }
+
+    @Test
+    public void workingWithDates() {
+        http.get("/end-point-dates", (header, body) -> {
+            LocalDate expectedDate = LocalDate.of(2018, 6, 12);
+            ZonedDateTime expectedTime = ZonedDateTime.of(expectedDate,
+                    LocalTime.of(9, 0, 0),
+                    ZoneId.of("UTC"));
+
+            body.get("tradeDate").should(equal(expectedDate));
+            body.get("transactionTime").should(equal(expectedTime));
+            body.get("transactionTime").shouldBe(greaterThanOrEqual(expectedDate));
+
+            body.get("paymentSchedule").should(contain(expectedDate));
+        });
+
+        http.doc.capture("end-point-dates-matchers");
+    }
+
+    @Test
+    public void matchersCombo() {
+        http.get("/end-point-mixed", (header, body) -> {
+            body.get("list").should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value
+
+            body.get("object").should(equal(createMap(
+                    "k1", "v1",
+                    "k3",  Pattern.compile("v\\d")))); // regular expression match against k3
+
+            body.get("complexList").get(0).should(equal(createMap(
+                    "k1", "v1",
+                    "k2", lessThan(120)))); // lessThen match against k2
+
+            body.get("complexList").get(1).should(equal(createMap(
+                    "k1", notEqual("v1"), // any value but v1
+                    "k2", greaterThanOrEqual(120))));
+
+            body.get("complexList").should(equal(
+                    header(                    "k1", "k2").values( // matching only specified fields, but number of entries must be exact
+                            Pattern.compile("v\\d"),  lessThan(120),
+                                              "v11",  greaterThan(150))));
+        });
+
+        http.doc.capture("end-point-mixing-matchers");
     }
 
     @Override
@@ -69,7 +171,7 @@ public class HttpJavaTest implements HttpConfiguration  {
             return url;
         }
 
-        return UrlUtils.concat("http://localhost:${PORT}", url);
+        return UrlUtils.concat("http://localhost:" + PORT, url);
     }
 
     @Override
