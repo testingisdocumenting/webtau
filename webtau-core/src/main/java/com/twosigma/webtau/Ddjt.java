@@ -31,8 +31,10 @@ import com.twosigma.webtau.expectation.equality.GreaterThanOrEqualMatcher;
 import com.twosigma.webtau.expectation.equality.LessThanMatcher;
 import com.twosigma.webtau.expectation.equality.LessThanOrEqualMatcher;
 import com.twosigma.webtau.expectation.equality.NotEqualMatcher;
+import com.twosigma.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -67,6 +69,10 @@ public class Ddjt {
 
     public static ContainMatcher containing(Object expected) {
         return new ContainMatcher(expected);
+    }
+
+    public static <K, V> Map<K, V> aMapOf(Object... kvs) {
+        return CollectionUtils.aMapOf(kvs);
     }
 
     public static GreaterThanMatcher beGreaterThan(Object expected) {

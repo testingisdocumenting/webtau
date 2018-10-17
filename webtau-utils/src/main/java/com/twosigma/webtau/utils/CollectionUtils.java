@@ -31,7 +31,7 @@ public class CollectionUtils {
      * @return map with preserved order
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> Map<K, V> createMap(Object... kvs) {
+    public static <K, V> Map<K, V> aMapOf(Object... kvs) {
         Map<K, V> result = new LinkedHashMap<>();
 
         if (kvs.length % 2 != 0) {
