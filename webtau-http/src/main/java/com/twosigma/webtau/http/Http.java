@@ -258,7 +258,7 @@ public class Http {
     }
 
     public HttpHeader header(String... properties) {
-        return new HttpHeader(CollectionUtils.createMap((Object[]) properties));
+        return new HttpHeader(CollectionUtils.aMapOf((Object[]) properties));
     }
 
     public HttpHeader header(Map<String, String> properties) {

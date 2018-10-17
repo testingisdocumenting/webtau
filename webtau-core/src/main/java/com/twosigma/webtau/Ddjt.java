@@ -71,8 +71,8 @@ public class Ddjt {
         return new ContainMatcher(expected);
     }
 
-    public static <K, V> Map<K, V> createMap(Object... kvs) {
-        return CollectionUtils.createMap(kvs);
+    public static <K, V> Map<K, V> aMapOf(Object... kvs) {
+        return CollectionUtils.aMapOf(kvs);
     }
 
     public static GreaterThanMatcher beGreaterThan(Object expected) {

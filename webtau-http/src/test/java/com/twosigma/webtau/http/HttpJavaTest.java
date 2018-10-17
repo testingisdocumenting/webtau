@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
 import com.twosigma.webtau.utils.UrlUtils;
@@ -30,7 +31,6 @@ import java.util.regex.Pattern;
 
 import static com.twosigma.webtau.Ddjt.*;
 import static com.twosigma.webtau.http.Http.http;
-import static com.twosigma.webtau.utils.CollectionUtils.createMap;
 
 public class HttpJavaTest implements HttpConfiguration  {
     private static final HttpTestDataServer testServer = new HttpTestDataServer();
@@ -91,7 +91,9 @@ public class HttpJavaTest implements HttpConfiguration  {
             body.get("object").get("k1").should(equal(
                     Pattern.compile("v\\d"))); // regular expression matching
 
-            body.get("object").should(equal(createMap("k1", "v1", "k3", "v3"))); // matching only specified fields and can be nested multiple times
+            body.get("object").should(equal(aMapOf(
+                    "k1", "v1",
+                    "k3", "v3"))); // matching only specified fields and can be nested multiple times
 
             body.get("complexList").should(equal(header("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
                                                         "v1" ,  30,
@@ -121,7 +123,9 @@ public class HttpJavaTest implements HttpConfiguration  {
     @Test
     public void containMatcher() {
         http.get("/end-point-list", (header, body) -> {
-            body.should(contain(createMap("k1", "v1", "k2", "v2")));
+            body.should(contain(aMapOf(
+                    "k1", "v1",
+                    "k2", "v2")));
             body.get(1).get("k2").shouldNot(contain(22));
         });
 
@@ -148,25 +152,28 @@ public class HttpJavaTest implements HttpConfiguration  {
 
     @Test
     public void matchersCombo() {
+        Pattern withNumber = Pattern.compile("v\\d");
+
         http.get("/end-point-mixed", (header, body) -> {
             body.get("list").should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value
 
-            body.get("object").should(equal(createMap(
+            body.get("object").should(equal(aMapOf(
                     "k1", "v1",
-                    "k3",  Pattern.compile("v\\d")))); // regular expression match against k3
+                    "k3", withNumber))); // regular expression match against k3
 
-            body.get("complexList").get(0).should(equal(createMap(
+            body.get("complexList").get(0).should(equal(aMapOf(
                     "k1", "v1",
                     "k2", lessThan(120)))); // lessThen match against k2
 
-            body.get("complexList").get(1).should(equal(createMap(
+            body.get("complexList").get(1).should(equal(aMapOf(
                     "k1", notEqual("v1"), // any value but v1
                     "k2", greaterThanOrEqual(120))));
 
-            body.get("complexList").should(equal(
-                    header(                    "k1", "k2").values( // matching only specified fields, but number of entries must be exact
-                            Pattern.compile("v\\d"),  lessThan(120),
-                                              "v11",  greaterThan(150))));
+            TableData expected = header("k1",       "k2").values( // matching only specified fields, but number of entries must be exact
+                                        withNumber, lessThan(120),
+                                        "v11",      greaterThan(150));
+
+            body.get("complexList").should(equal(expected));
         });
 
         http.doc.capture("end-point-mixing-matchers");

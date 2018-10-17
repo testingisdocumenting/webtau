@@ -38,7 +38,7 @@ public class MessageToken {
     }
 
     public Map<String, ?> toMap() {
-        return CollectionUtils.createMap("type", type, "value", value);
+        return CollectionUtils.aMapOf("type", type, "value", value);
     }
 
     @Override

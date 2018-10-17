@@ -35,7 +35,7 @@ public class HttpTestDataServer {
         testServer.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse);
 
         testServer.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201,
-                CollectionUtils.createMap(
+                CollectionUtils.aMapOf(
                         "Content-Location", "/url/23",
                         "Location", "http://www.example.org/url/23")));
 

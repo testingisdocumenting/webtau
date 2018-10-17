@@ -2,6 +2,21 @@
 type: two-sides
 ---
 
+# Imports to use
+
+For tests outside standard JVM runners like `JUnit` a single optional static import is all you need
+
+```groovy
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+```
+
+For `JUnit` like pure HTTP tests 
+
+```groovy
+import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.http.Http.http
+```
+ 
 # Response Mapping
 
 Identifiers inside validation closure are automatically mapped to a response body.  
