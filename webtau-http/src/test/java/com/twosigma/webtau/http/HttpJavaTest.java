@@ -16,10 +16,8 @@
 
 package com.twosigma.webtau.http;
 
-import com.twosigma.webtau.Ddjt;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
-import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
 
@@ -71,6 +69,15 @@ public class HttpJavaTest implements HttpConfiguration  {
         http.get("/end-point-simple-list", (header, body) -> {
             body.get(0).get("k1").should(equal("v1"));
         });
+    }
+
+    @Test
+    public void matchersBasicExample() {
+        http.get("/example", ((header, body) -> {
+            body.get("year").shouldNot(equal(2000));
+            body.get("genres").should(contain("RPG"));
+            body.get("rating").shouldBe(greaterThan(7));
+        }));
     }
 
     @Test

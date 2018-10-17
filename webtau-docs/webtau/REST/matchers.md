@@ -14,22 +14,12 @@ Groovy: :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: 
 Java: :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "simpleObjectMappingExample", bodyOnly: true}
 ```
 
-:include-meta: {rightSide: false}
-
 List responses are handled by using index chain
-
-:include-meta: {rightSide: true}
-
 :include-empty-block: {rightSide: true}
-
-:include-meta: {rightSide: false}
-
 
 :include-json: simpleListTestResponse.json {title: "list response"}
 
-:include-meta: {rightSide: true}
-
-```tabs
+```tabs {rightSide: true}
 Groovy: 
 
 :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "simple list mapping example", bodyOnly: true}
@@ -44,22 +34,10 @@ Java: :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "simpleL
 Matchers in webtau are triggered with `should` and `shouldNot` keywords.
 Additionally `shouldBe` and `shouldNotBe` alias keywords are available to make certain matcher combinations easier to read.
 
-`````tabs {rightSide: true}
-Groovy: 
-```groovy
-myValue.should contain(10)
-myValue.shouldNot == "hello"
-myValue.should != "hello" // alternative shortcut
-myValue.shouldBe > 10
+```tabs {rightSide: true}
+Groovy: :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "matchers basic example", bodyOnly: true}
+Java: :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "matchersBasicExample", bodyOnly: true}
 ```
-
-Java:
-```java
-myValue.should(contain(10))
-myValue.shouldNot(equal("hello"))
-myValue.shouldBe greaterThan(10)
-```
-`````
 
 # Equality
 

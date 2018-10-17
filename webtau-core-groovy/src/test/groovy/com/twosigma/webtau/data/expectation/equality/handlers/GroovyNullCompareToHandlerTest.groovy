@@ -39,23 +39,4 @@ class GroovyNullCompareToHandlerTest {
             actual(NullObject.getNullObject()).shouldNot(equal(null))
         } should throwException(AssertionError)
     }
-
-    @Test
-    void todo() {
-        def data = new Data(1, 2, 3)
-        actual(data.values.d).should(equal(null))
-
-        println data.values.d.getClass()
-    }
-
-    private static class Data {
-        private Map values
-
-        Data(a, b, c) {
-            values = new LinkedHashMap()
-            values.a = a
-            values.b = b
-            values.c = c
-        }
-    }
 }

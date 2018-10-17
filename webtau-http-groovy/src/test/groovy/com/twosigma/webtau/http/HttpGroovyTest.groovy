@@ -195,6 +195,16 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "matchers basic example"() {
+        http.get("/example") {
+            year.shouldNot == 2000
+            year.should != 2000  // alternative shortcut
+            genres.should contain('RPG')
+            rating.shouldBe > 7
+        }
+    }
+
+    @Test
     void "explicit header passing"() {
         def headerPayload = [
                 'Custom-Header-One': 'custom-value-one',
@@ -877,6 +887,6 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     private static Path testResourcePath(String relativePath) {
-        return Paths.get("../webtau-http/src/test/resources/image.png")
+        return Paths.get("../webtau-http/${relativePath}")
     }
 }

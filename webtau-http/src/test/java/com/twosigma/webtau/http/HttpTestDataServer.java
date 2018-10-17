@@ -39,6 +39,8 @@ public class HttpTestDataServer {
                         "Content-Location", "/url/23",
                         "Location", "http://www.example.org/url/23")));
 
+        testServer.registerGet("/example", jsonResponse("matcherExampleResponse.json"));
+
         testServer.registerPut("/end-point", objectTestResponse);
         testServer.registerDelete("/end-point", objectTestResponse);
         testServer.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"));
