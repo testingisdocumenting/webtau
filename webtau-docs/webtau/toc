@@ -27,6 +27,7 @@ UI
     matchers
 writing-tests
     data-driven-scenarios
+    JUnit-4
 configuration
     cli
     environments
