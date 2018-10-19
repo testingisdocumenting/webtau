@@ -10,4 +10,7 @@
 ../../webtau-http-groovy/src/test/resources
 ../../webtau-pdf/src/test/groovy
 ../../webtau-testapp/src/main/java
+../../webtau-http/src/test/java
+../../webtau-junit4-examples/src/test/groovy
+../../webtau-junit4-examples/src/test/java
 ../target/classes

@@ -99,7 +99,7 @@ class HttpExtensions {
             def validate(final HeaderDataNode header, final DataNode body) {
                 def cloned = validation.clone() as Closure
                 cloned.delegate = new ValidatorDelegate(header, body)
-                cloned.resolveStrategy = Closure.DELEGATE_FIRST
+                cloned.resolveStrategy = Closure.OWNER_FIRST
                 return cloned.maximumNumberOfParameters == 2 ?
                         cloned.call(header, new GroovyDataNode(body)):
                         cloned.call()
