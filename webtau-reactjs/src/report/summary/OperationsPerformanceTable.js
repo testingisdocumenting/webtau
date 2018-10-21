@@ -17,40 +17,35 @@
 
 import React from 'react'
 
-import '../widgets/Table.css'
+import SortableTable from '../widgets/SortableTable'
+
 import './OperationsPerformanceTable.css'
 
 export default function OperationsPerformanceTable({report}) {
     return (
-        <table className="operations-performance table">
-            <thead>
-            <tr>
-                <th>Method</th>
-                <th>Url</th>
-                <th>Count</th>
-                <th>Fastest</th>
-                <th>Slowest</th>
-                <th>50 %</th>
-                <th>75 %</th>
-            </tr>
-            </thead>
-            <tbody>
-            {report.performance.performancePerOperation.map(e => <PerformanceEntry key={e.key} entry={e}/>)}
-            </tbody>
-        </table>
+        <SortableTable className="operations-performance" header={header()} data={prepareData(report)}/>
     )
 }
 
-function PerformanceEntry({entry}) {
-    return (
-        <tr>
-            <td>{entry.method}</td>
-            <td>{entry.url}</td>
-            <td>{entry.count}</td>
-            <td>{entry.fastest}</td>
-            <td>{entry.slowest}</td>
-            <td>{entry.percentile[50].value}</td>
-            <td>{entry.percentile[75].value}</td>
-        </tr>
-    )
+function header() {
+    return [
+        'Method',
+        'Url',
+        'Count',
+        'Fastest',
+        'Slowest',
+        '50 %',
+        '75 %'
+    ]
+}
+
+function prepareData(report) {
+    return report.performance.performancePerOperation.map(e => [
+        e.method,
+        e.url,
+        e.count,
+        e.fastest,
+        e.slowest,
+        e.percentile[50].value,
+        e.percentile[75].value])
 }
