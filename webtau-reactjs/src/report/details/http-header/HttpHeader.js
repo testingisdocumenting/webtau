@@ -23,8 +23,8 @@ export default function HttpHeader({header}) {
         <div className="http-header">
             {header.map((entry, idx) => (
                 <React.Fragment key={idx}>
-                    <div className="http-header-key">{entry.key}</div>
-                    <div className="http-header-value">{entry.value}</div>
+                    <div className="http-header-key http-header-entry">{entry.key}</div>
+                    <div className="http-header-value http-header-entry">{entry.value}</div>
                 </React.Fragment>
             ))}
         </div>
