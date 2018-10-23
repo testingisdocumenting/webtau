@@ -16,13 +16,15 @@
 
 .http-header {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: minmax(auto, 3fr) 5fr;
     grid-gap: 5px 20px;
 
     margin-top: 10px;
 }
 
 .http-header-key {
+    font-family: var(--webtau-monospace-font);
+    word-break: break-word;
 }
 
 .collapsed-http-header,

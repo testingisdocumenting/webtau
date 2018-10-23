@@ -47,6 +47,23 @@ const report = {
                 "mismatches": [],
                 "responseType": "application/json;charset=UTF-8",
                 "responseStatusCode": 200,
+                "requestHeader" : [ ],
+                "responseHeader" : [ {
+                    "key" : "Transfer-Encoding-LongerKeyLongishSufixLongerKeyLongishSufixLongerKeyLongishSufix",
+                    "value" : "chunked"
+                }, {
+                    "key" : null,
+                    "value" : "HTTP/1.1 201"
+                }, {
+                    "key" : "Date",
+                    "value" : "Tue, 23 Oct 2018 11:01:26 GMT"
+                }, {
+                    "key" : "Content-Type",
+                    "value" : "application/json;charset=UTF-8"
+                }, {
+                    "key" : "Location",
+                    "value" : "http://localhost:8080/customers/1"
+                } ],
                 "responseBody": "{\n  \"id\" : 1,\n  \"firstName\" : \"FN\",\n  \"lastName\" : \"LN\",\n  \"_links\" : {\n    \"self\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    },\n    \"customer\" : {\n      \"href\" : \"http://localhost:8080/customers/1\"\n    }\n  }\n}",
                 "responseBodyChecks": {
                     "failedPaths": [],
