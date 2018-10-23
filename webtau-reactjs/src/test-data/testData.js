@@ -17,7 +17,7 @@
 import deepNestedJson from './deepNestedJson'
 
 const report = {
-    "version": "0.13.0",
+    "version": "0.31",
     "summary": {
         "total": 4,
         "passed": 3,
@@ -90,7 +90,7 @@ const report = {
             "fileName": "rest/springboot/customerCrudSeparated.groovy",
             "httpCalls": [{
                 "method": "POST",
-                "url": "http://localhost:8080/customers",
+                "url": "http://localhost:8080/customers/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again",
                 "startTime": 1534456916484,
                 "elapsedTime": 283,
                 "errorMessage": null,
