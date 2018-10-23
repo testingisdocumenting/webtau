@@ -18,12 +18,12 @@ package com.twosigma.webtau.data.table
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.header
+import static com.twosigma.webtau.Ddjt.table
 
 class TableDataTest {
     @Test
     void "should create table using header and values convenient methods"() {
-        def tableData = header("Col A", "Col B", "Col C").values(
+        def tableData = table("Col A", "Col B", "Col C").values(
                                  "v1a",   "v1b", "v1c",
                                  "v2a",   "v2b", "v2c")
 
@@ -34,7 +34,7 @@ class TableDataTest {
 
     @Test(expected = IllegalArgumentException)
     void "should report columns number mismatch during table creation using header and values vararg methods"() {
-        header("Col A", "Col B", "Col C").values(
+        table("Col A", "Col B", "Col C").values(
                  "v1a",   "v1b", "v1c",
                  "v2a",   "v2b")
     }

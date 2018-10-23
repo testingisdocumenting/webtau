@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  * Convenient class for a single static * imports
  */
 public class Ddjt {
-    public static TableData header(String... columnNames) {
+    public static TableData table(String... columnNames) {
         return new TableData(Arrays.stream(columnNames));
     }
 

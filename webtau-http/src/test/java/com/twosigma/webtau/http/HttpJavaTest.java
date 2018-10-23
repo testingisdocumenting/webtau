@@ -95,7 +95,7 @@ public class HttpJavaTest implements HttpConfiguration  {
                     "k1", "v1",
                     "k3", "v3"))); // matching only specified fields and can be nested multiple times
 
-            body.get("complexList").should(equal(header("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
+            body.get("complexList").should(equal(table("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
                                                         "v1" ,  30,
                                                         "v11",  40)));
         });
@@ -169,7 +169,7 @@ public class HttpJavaTest implements HttpConfiguration  {
                     "k1", notEqual("v1"), // any value but v1
                     "k2", greaterThanOrEqual(120))));
 
-            TableData expected = header("k1",       "k2").values( // matching only specified fields, but number of entries must be exact
+            TableData expected = table("k1",       "k2").values( // matching only specified fields, but number of entries must be exact
                                         withNumber, lessThan(120),
                                         "v11",      greaterThan(150));
 

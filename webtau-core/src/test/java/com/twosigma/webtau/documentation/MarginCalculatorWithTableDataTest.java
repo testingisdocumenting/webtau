@@ -30,7 +30,7 @@ public class MarginCalculatorWithTableDataTest {
 
     @Test
     public void marginShouldBeZeroIfNoLotsSet() {
-        TableData transactionsData = header("symbol", "lot", "price").values(
+        TableData transactionsData = table("symbol", "lot", "price").values(
                                              "SYM.B",  0.0,    8.0,
                                              "SYM.C",  0.0,    19.0);
 
