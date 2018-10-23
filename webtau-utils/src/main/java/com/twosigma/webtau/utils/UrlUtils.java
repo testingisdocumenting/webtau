@@ -17,6 +17,7 @@
 package com.twosigma.webtau.utils;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,6 +63,14 @@ public class UrlUtils {
                 extractQueryParamsFromRelativeUrl(url);
 
         return queryParams == null ? Collections.emptyMap() : UrlUtils.parseQueryParams(queryParams);
+    }
+
+    public static String concat(URI uri, String right) {
+        if (uri == null) {
+            throw new IllegalArgumentException("passed uri is NULL");
+        }
+
+        return concat(uri.toString(), right);
     }
 
     public static String concat(String left, String right) {

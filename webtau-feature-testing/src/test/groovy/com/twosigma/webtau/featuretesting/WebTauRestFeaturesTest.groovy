@@ -20,6 +20,7 @@ import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.utils.JsonUtils
+import com.twosigma.webtau.utils.UrlUtils
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -52,12 +53,12 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "simple get"() {
-        runCli('simpleGet.groovy', 'urlOnly.cfg')
+        runCli('simpleGet.groovy', 'urlOnly.cfg', '--url=' + testRunner.testServer.uri)
     }
 
     @Test
     void "simple post"() {
-        runCli('simplePost.groovy', 'docArtifacts.cfg')
+        runCli('simplePost.groovy', 'docArtifacts.cfg', '--url=' + testRunner.testServer.uri)
     }
 
     @Test

@@ -35,11 +35,9 @@ import static com.twosigma.webtau.http.Http.http;
 public class HttpJavaTest implements HttpConfiguration  {
     private static final HttpTestDataServer testServer = new HttpTestDataServer();
 
-    private static final int PORT = 7824;
-
     @BeforeClass
     public static void startServer() {
-        testServer.start(PORT);
+        testServer.start();
     }
 
     @AfterClass
@@ -185,7 +183,7 @@ public class HttpJavaTest implements HttpConfiguration  {
             return url;
         }
 
-        return UrlUtils.concat("http://localhost:" + PORT, url);
+        return UrlUtils.concat(testServer.getUri(), url);
     }
 
     @Override

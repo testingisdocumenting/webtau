@@ -22,6 +22,7 @@ import com.twosigma.webtau.http.config.HttpConfigurations
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerBinaryResponse
 import com.twosigma.webtau.utils.ResourceUtils
+import com.twosigma.webtau.utils.UrlUtils
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
@@ -35,11 +36,9 @@ import static com.twosigma.webtau.pdf.Pdf.pdf
 class PdfHttpTest implements HttpConfiguration {
     static TestServer testServer = new TestServer()
 
-    private static final int PORT = 7823
-
     @BeforeClass
     static void startServer() {
-        testServer.start(PORT)
+        testServer.start()
 
         testServer.registerGet("/report",
                 new TestServerBinaryResponse(ResourceUtils.binaryContent("report.pdf")))
@@ -78,7 +77,7 @@ class PdfHttpTest implements HttpConfiguration {
 
     @Override
     String fullUrl(String url) {
-        return "http://localhost:${PORT}${url}"
+        return UrlUtils.concat(testServer.uri, url)
     }
 
     @Override

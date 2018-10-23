@@ -36,11 +36,19 @@ class UrlUtilsTest {
     }
 
     @Test
-    void "url concatenation validates passed url on the left to be non null"() {
+    void "url concatenation validates passed url string to be non null"() {
         exception.expect(IllegalArgumentException)
         exception.expectMessage('passed url on the left is NULL')
 
-        UrlUtils.concat(null, '/relative')
+        UrlUtils.concat((String) null, '/relative')
+    }
+
+    @Test
+    void "url concatenation validates passed uri to be non null"() {
+        exception.expect(IllegalArgumentException)
+        exception.expectMessage('passed uri is NULL')
+
+        UrlUtils.concat((URI) null, '/relative')
     }
 
     @Test
@@ -59,6 +67,16 @@ class UrlUtilsTest {
         assert UrlUtils.concat('https://base', '/relative') == expected
         assert UrlUtils.concat('https://base/', 'relative') == expected
         assert UrlUtils.concat('https://base', 'relative') == expected
+    }
+
+    @Test
+    void "url concatenation handles uri objects"() {
+        def expected = 'https://base/relative'
+
+        assert UrlUtils.concat(new URI('https://base/'), '/relative') == expected
+        assert UrlUtils.concat(new URI('https://base'), '/relative') == expected
+        assert UrlUtils.concat(new URI('https://base/'), 'relative') == expected
+        assert UrlUtils.concat(new URI('https://base'), 'relative') == expected
     }
 
     @Test
