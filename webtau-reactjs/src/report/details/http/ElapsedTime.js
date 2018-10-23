@@ -23,10 +23,10 @@ function ElapsedTime({millis}) {
     const remainingMs = millis % 1000
 
     return (
-        <td className="http-call-elapsed-time">
+        <React.Fragment>
             <Seconds seconds={seconds}/>
             <Millis millis={remainingMs}/>
-        </td>
+        </React.Fragment>
     )
 }
 

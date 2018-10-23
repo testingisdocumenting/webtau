@@ -69,19 +69,24 @@ class TestHttpCalls extends Component {
         const {reportNavigation} = this.props
 
         const hasProblem = httpCall.mismatches.length > 0 || !!httpCall.errorMessage
-        const className = 'test-http-call' + (hasProblem ? ' with-problem' : '')
         const isExpanded = this.isExpanded(idx)
+
+        const className = 'test-http-call'
+            + (hasProblem ? ' with-problem' : '')
+            + (isExpanded ? ' expanded' : '')
 
         const startDateTime = new Date(httpCall.startTime)
 
+        const onClick = () => this.onCollapseToggleClick(idx)
+
         return (
             <React.Fragment key={idx}>
-                <tr className={className} onClick={() => this.onCollapseToggleClick(idx)}>
-                    <td className="collapse-toggle">{isExpanded ? '-' : '+'}</td>
-                    <td className="method">{httpCall.method}</td>
-                    <td className="status-code">{httpCall.responseStatusCode}</td>
-                    <td>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
-                    <ElapsedTime millis={httpCall.elapsedTime}/>
+                <tr className={className}>
+                    <td className="collapse-toggle" onClick={onClick}>{isExpanded ? '-' : '+'}</td>
+                    <td className="method" onClick={onClick}>{httpCall.method}</td>
+                    <td className="status-code" onClick={onClick}>{httpCall.responseStatusCode}</td>
+                    <td onClick={onClick}>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
+                    <td className="http-call-elapsed-time" onClick={onClick}><ElapsedTime millis={httpCall.elapsedTime}/></td>
                     <td className="url">{httpCall.url}</td>
                 </tr>
 

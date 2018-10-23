@@ -66,6 +66,12 @@
     white-space: nowrap;
     overflow: hidden;
     margin-right: 15px;
+    cursor: auto;
+}
+
+.test-http-call.expanded  > .url {
+    white-space: normal;
+    overflow: visible;
 }
 
 .test-http-call .http-payload {
