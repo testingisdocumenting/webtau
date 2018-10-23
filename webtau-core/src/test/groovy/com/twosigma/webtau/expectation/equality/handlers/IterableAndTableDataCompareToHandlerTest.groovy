@@ -22,7 +22,7 @@ import org.junit.Test
 import static com.twosigma.webtau.Ddjt.actual
 import static com.twosigma.webtau.Ddjt.createActualPath
 import static com.twosigma.webtau.Ddjt.equal
-import static com.twosigma.webtau.Ddjt.header
+import static com.twosigma.webtau.Ddjt.table
 
 class IterableAndTableDataCompareToHandlerTest {
     @Test
@@ -30,7 +30,7 @@ class IterableAndTableDataCompareToHandlerTest {
         def beans = [new SimpleBean(price: 2, lot: 2, symbol: "SA"),
                      new SimpleBean(price: 2, lot: 2, symbol: "SB")]
 
-        actual(beans).should(equal(header("symbol", "price", "lot").values(
+        actual(beans).should(equal(table("symbol", "price", "lot").values(
                                               "SA",      2,     2,
                                               "SB",      2,     2)))
     }
@@ -40,7 +40,7 @@ class IterableAndTableDataCompareToHandlerTest {
         def beans = [new SimpleBean(price: 2, lot: 1, symbol: "SA"),
                      new SimpleBean(price: 1, lot: 2, symbol: "SB")]
 
-        def expected = header("symbol", "price", "lot").values(
+        def expected = table("symbol", "price", "lot").values(
                 "SA", 2, 2,
                 "SB", 2, 2)
 

@@ -18,13 +18,13 @@ package com.twosigma.webtau.data.render
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.header
+import static com.twosigma.webtau.Ddjt.table
 import static org.junit.Assert.assertEquals
 
 class TableDataRenderTest {
     @Test
     void "should determine width for each column"() {
-        def t = header('Column A', 'CB', 'Column C')
+        def t = table('Column A', 'CB', 'Column C')
         t.addRow(['long line of text\nspread across multiple\nlines', 'A', 'test'])
         t.addRow(['little bit', 'CC', 'some more\nin two lines'])
 
