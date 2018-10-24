@@ -2,7 +2,6 @@ package com.example.demo.springboot.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -18,9 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import({springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration.class})
 public class SpringBootDemoApp {
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(SpringBootDemoApp.class, args);
-        String port = context.getEnvironment().getProperty("local.server.port");
-        System.out.println("Springboot test server running on port " + port);
+        SpringApplication.run(SpringBootDemoApp.class, args);
     }
 
     @Bean
