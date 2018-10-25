@@ -21,26 +21,41 @@ import org.junit.Test
 class CsvParserTest {
     @Test
     void "csv with a header inside content"() {
-        def csvData = CsvParser.parse("""Account, Price, "Description"
-#12BGD3, 100, "custom, table"
-#12BGD3, 150, chair
-#91AGB1, 10, lunch
+        def csvData = CsvParser.parse("""Account, "Description"
+#12BGD3, "custom, table"
+#12BGD3, chair
+#91AGB1, lunch
 """)
 
         csvData.should == [
-                [Account: "#12BGD3", Price: 100, Description: "custom, table"],
-                [Account: "#12BGD3", Price: 150, Description: "chair"],
-                [Account: "#91AGB1", Price: 10, Description: "lunch"]]
+                [Account: "#12BGD3", Description: "custom, table"],
+                [Account: "#12BGD3", Description: "chair"],
+                [Account: "#91AGB1", Description: "lunch"]]
     }
 
     @Test
     void "passed header from outside"() {
+        def csvData = CsvParser.parse(['Account', 'Description'], """#12BGD3, "custom, table"
+#12BGD3, chair
+""")
+
+        csvData.should == [
+                [Account: "#12BGD3", Description: "custom, table"],
+                [Account: "#12BGD3", Description: "chair"]]
+    }
+
+    @Test
+    void "converts text to numbers where applicable"() {
         def csvData = CsvParser.parse(['Account', 'Price', 'Description'], """#12BGD3, 100, "custom, table"
-#12BGD3, 150, chair
+#12BGD3, 150.5, chair
+#12BGD3, 150 %, chair
+#12BGD3, "150,000", chair
 """)
 
         csvData.should == [
                 [Account: "#12BGD3", Price: 100, Description: "custom, table"],
-                [Account: "#12BGD3", Price: 150, Description: "chair"]]
+                [Account: "#12BGD3", Price: 150.5, Description: "chair"],
+                [Account: "#12BGD3", Price: '150 %', Description: "chair"],
+                [Account: "#12BGD3", Price: 150000, Description: "chair"]]
     }
 }

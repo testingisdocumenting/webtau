@@ -59,4 +59,22 @@ line #_3\r""")
                 "         line2\n" +
                 "         line #3", concatenated)
     }
+
+    @Test
+    void "check if text is a number"() {
+        assert StringUtils.isNumeric("123")
+        assert StringUtils.isNumeric("123.0")
+        assert StringUtils.isNumeric(".0")
+        assert StringUtils.isNumeric("123,000")
+
+        assert ! StringUtils.isNumeric("")
+        assert ! StringUtils.isNumeric("d.0")
+        assert ! StringUtils.isNumeric("123 L")
+    }
+
+    @Test
+    void "converts text to a number"() {
+        def number = StringUtils.convertToNumber("123,000")
+        assert number == 123000
+    }
 }
