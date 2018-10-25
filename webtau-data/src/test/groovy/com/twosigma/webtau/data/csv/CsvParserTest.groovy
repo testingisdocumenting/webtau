@@ -45,8 +45,8 @@ class CsvParserTest {
     }
 
     @Test
-    void "converts text to numbers where applicable"() {
-        def csvData = CsvParser.parse(['Account', 'Price', 'Description'], """#12BGD3, 100, "custom, table"
+    void "converts text to numbers when using auto conversion method"() {
+        def csvData = CsvParser.parseWithAutoConversion(['Account', 'Price', 'Description'], """#12BGD3, 100, "custom, table"
 #12BGD3, 150.5, chair
 #12BGD3, 150 %, chair
 #12BGD3, "150,000", chair
