@@ -16,6 +16,9 @@
 
 package com.twosigma.webtau.utils;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -86,6 +89,21 @@ public class StringUtils {
         return !nullOrEmpty(s);
     }
 
+    public static boolean isNumeric(String text) {
+        ParsePosition pos = new ParsePosition(0);
+        getNumberFormat().parse(text, pos);
+
+        return text.length() == pos.getIndex();
+    }
+
+    public static Number convertToNumber(String text) {
+        try {
+            return getNumberFormat().parse(text);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private static String joinWithIndentAllButFirstLine(String indentation, String[] lines) {
         return Arrays.stream(lines).skip(1).map(l -> indentation + l).collect(joining("\n"));
     }
@@ -136,5 +154,9 @@ public class StringUtils {
         }
 
         return -1;
+    }
+
+    private static NumberFormat getNumberFormat() {
+        return NumberFormat.getInstance();
     }
 }

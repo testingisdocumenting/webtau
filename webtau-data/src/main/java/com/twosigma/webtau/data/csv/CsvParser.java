@@ -16,13 +16,13 @@
 
 package com.twosigma.webtau.data.csv;
 
+import com.twosigma.webtau.utils.StringUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.math.BigDecimal;
 import java.util.*;
 
 public class CsvParser {
@@ -82,7 +82,6 @@ public class CsvParser {
 
     private static Object convertValue(Object v) {
         String s = v.toString();
-        Scanner scanner = new Scanner(s);
-        return scanner.hasNextBigDecimal() ? new BigDecimal(s) : s;
+        return StringUtils.isNumeric(s) ? StringUtils.convertToNumber(s) : s;
     }
 }
