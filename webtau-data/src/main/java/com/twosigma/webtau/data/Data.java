@@ -29,12 +29,20 @@ import java.util.Map;
 public class Data {
     public static final Data data = new Data();
 
-    public List<Map<String, Object>> csv(String fileOrResourcePath) {
+    public List<Map<String, String>> csv(String fileOrResourcePath) {
         return CsvParser.parse(textContent(fileOrResourcePath));
     }
 
-    public List<Map<String, Object>> csv(List<String> header, String fileOrResourcePath) {
+    public List<Map<String, Object>> csvAutoConverted(String fileOrResourcePath) {
+        return CsvParser.parseWithAutoConversion(textContent(fileOrResourcePath));
+    }
+
+    public List<Map<String, String>> csv(List<String> header, String fileOrResourcePath) {
         return CsvParser.parse(header, textContent(fileOrResourcePath));
+    }
+
+    public List<Map<String, Object>> csvAutoConverted(List<String> header, String fileOrResourcePath) {
+        return CsvParser.parseWithAutoConversion(header, textContent(fileOrResourcePath));
     }
 
     private String textContent(String fileOrResourcePath) {

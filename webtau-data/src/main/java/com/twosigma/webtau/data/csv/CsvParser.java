@@ -25,16 +25,22 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
+import static java.util.stream.Collectors.toList;
+
 public class CsvParser {
     private CsvParser() {
     }
 
-    public static List<Map<String, Object>> parse(String content) {
+    public static List<Map<String, String>> parse(String content) {
         return parse(Collections.emptyList(), content);
     }
 
-    public static List<Map<String, Object>> parse(List<String> header, String content) {
-        List<Map<String, Object>> tableData = new ArrayList<>();
+    public static List<Map<String, Object>> parseWithAutoConversion(String content) {
+        return convertValues(parse(content));
+    }
+
+    public static List<Map<String, String>> parse(List<String> header, String content) {
+        List<Map<String, String>> tableData = new ArrayList<>();
 
         CSVParser csvRecords = readCsvRecords(header, content);
 
@@ -43,11 +49,14 @@ public class CsvParser {
                 header;
 
         for (CSVRecord record : csvRecords) {
-            Map<String, Object> row = convertCsvRecord(headerToUse, record);
-            tableData.add(row);
+            tableData.add(createRow(headerToUse, record));
         }
 
         return tableData;
+    }
+
+    public static List<Map<String, Object>> parseWithAutoConversion(List<String> header, String content) {
+        return convertValues(parse(header, content));
     }
 
     private static CSVParser readCsvRecords(List<String> header, String content) {
@@ -68,16 +77,28 @@ public class CsvParser {
         }
     }
 
-    private static Map<String, Object> convertCsvRecord(Collection<String> header, CSVRecord record) {
-        Map<String, Object> row = new LinkedHashMap<>();
+    private static Map<String, String> createRow(Collection<String> header, CSVRecord record) {
+        Map<String, String> row = new LinkedHashMap<>();
 
         int idx = 0;
         for (String columnName : header) {
-            row.put(columnName, convertValue(record.get(idx)));
+            String value = record.get(idx);
+            row.put(columnName, value);
             idx++;
         }
 
         return row;
+    }
+
+    private static List<Map<String, Object>> convertValues(List<Map<String, String>> data) {
+        return data.stream().map(CsvParser::convertRecord).collect(toList());
+    }
+
+    private static Map<String, Object> convertRecord(Map<String, String> row) {
+        Map<String, Object> entry = new LinkedHashMap<>();
+        row.forEach((k, v) -> entry.put(k, convertValue(v)));
+
+        return entry;
     }
 
     private static Object convertValue(Object v) {
