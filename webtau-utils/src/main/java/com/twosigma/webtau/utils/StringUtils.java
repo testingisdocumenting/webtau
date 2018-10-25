@@ -90,6 +90,12 @@ public class StringUtils {
     }
 
     public static boolean isNumeric(String text) {
+        text = text.trim();
+
+        if (text.isEmpty()) {
+            return false;
+        }
+
         ParsePosition pos = new ParsePosition(0);
         getNumberFormat().parse(text, pos);
 

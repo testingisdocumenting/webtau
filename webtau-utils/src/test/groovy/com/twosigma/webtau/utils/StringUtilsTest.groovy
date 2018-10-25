@@ -67,6 +67,7 @@ line #_3\r""")
         assert StringUtils.isNumeric(".0")
         assert StringUtils.isNumeric("123,000")
 
+        assert ! StringUtils.isNumeric("")
         assert ! StringUtils.isNumeric("d.0")
         assert ! StringUtils.isNumeric("123 L")
     }
