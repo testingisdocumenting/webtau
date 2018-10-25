@@ -39,8 +39,6 @@ import java.nio.file.Paths
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauTestRunner implements StepReporter, StandaloneTestListener {
-    private static final int testServerPort = 8180
-
     private static final String RUN_DETAILS_FILE_NAME = 'run-details'
     private static final String EXPECTATIONS_DIR_NAME = 'test-expectations'
 
@@ -54,7 +52,7 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
     }
 
     void startTestServer() {
-        testServer.start(testServerPort)
+        testServer.start()
     }
 
     void stopTestServer() {

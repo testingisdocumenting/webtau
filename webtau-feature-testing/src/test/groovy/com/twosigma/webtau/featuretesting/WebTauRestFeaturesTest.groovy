@@ -52,34 +52,34 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "simple get"() {
-        runCli('simpleGet.groovy', 'urlOnly.cfg')
+        runCli('simpleGet.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "simple post"() {
-        runCli('simplePost.groovy', 'docArtifacts.cfg')
+        runCli('simplePost.groovy', 'docArtifacts.cfg', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "crud"() {
-        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg')
+        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
     @Test
     void "crud separated"() {
-        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg')
+        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
     @Test
     void "list contain"() {
         http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
-        runCli('springboot/listContain.groovy', 'springboot/webtau.cfg')
+        runCli('springboot/listContain.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
     @Test
     void "list match"() {
         deleteCustomers()
-        runCli('springboot/listMatch.groovy', 'springboot/webtau.cfg')
+        runCli('springboot/listMatch.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
@@ -101,11 +101,16 @@ class WebTauRestFeaturesTest {
         }
     }
 
+    private static String getCustomersBaseUrl() {
+        String port = System.getProperty("springboot.http.port", "8080")
+        return "http://localhost:$port"
+    }
+
     private static customersUrl() {
-        return "http://localhost:8080/customers"
+        return "$customersBaseUrl/customers"
     }
 
     private static customerUrl(String id) {
-        return "http://localhost:8080/customers/$id"
+        return "$customersBaseUrl/customers/$id"
     }
 }

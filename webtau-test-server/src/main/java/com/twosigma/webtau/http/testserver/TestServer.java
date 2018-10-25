@@ -25,12 +25,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TestServer {
-    private int port;
     private Map<String, TestServerResponse> getResponses;
     private Map<String, TestServerResponse> postResponses;
     private Map<String, TestServerResponse> putResponses;
@@ -44,9 +44,8 @@ public class TestServer {
         deleteResponses = new HashMap<>();
     }
 
-    public void start(int port) {
-        this.port = port;
-        server = new Server(port);
+    public void start() {
+        server = new Server(0);
         server.setHandler(new RequestHandler());
         try {
             server.start();
@@ -58,10 +57,13 @@ public class TestServer {
     public void stop() {
         try {
             server.stop();
-            port = 0;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public URI getUri() {
+        return server.getURI();
     }
 
     public void registerGet(String relativeUrl, TestServerResponse response) {

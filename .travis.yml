@@ -4,3 +4,5 @@ cache:
   - $HOME/.m2
   - $HOME/.npm
   - node_modules
+
+script: mvn -B package

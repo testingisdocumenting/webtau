@@ -20,6 +20,7 @@ import com.twosigma.webtau.http.testserver.*;
 import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 
@@ -66,12 +67,16 @@ public class HttpTestDataServer {
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
     }
 
-    public void start(int port) {
-        testServer.start(port);
+    public void start() {
+        testServer.start();
     }
 
     public void stop() {
         testServer.stop();
+    }
+
+    public URI getUri() {
+        return testServer.getUri();
     }
 
     public void registerGet(String relativeUrl, TestServerResponse response) {

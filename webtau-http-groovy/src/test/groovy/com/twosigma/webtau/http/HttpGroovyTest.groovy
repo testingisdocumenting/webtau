@@ -43,12 +43,11 @@ import static org.junit.Assert.*
 class HttpGroovyTest implements HttpConfiguration {
     private static final HttpTestDataServer testServer = new HttpTestDataServer()
 
-    private final static byte[] sampleFile = [1, 2, 3]
-    private static final int PORT = 7824
+    private static final byte[] sampleFile = [1, 2, 3]
 
     @BeforeClass
     static void startServer() {
-        testServer.start(PORT)
+        testServer.start()
     }
 
     @AfterClass
@@ -870,7 +869,7 @@ class HttpGroovyTest implements HttpConfiguration {
             return url
         }
 
-        return UrlUtils.concat("http://localhost:${PORT}", url)
+        return UrlUtils.concat(testServer.uri, url)
     }
 
     @Override

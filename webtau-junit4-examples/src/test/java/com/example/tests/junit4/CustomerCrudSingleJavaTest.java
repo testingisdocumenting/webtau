@@ -1,6 +1,7 @@
 package com.example.tests.junit4;
 
 import com.twosigma.webtau.junit4.WebTauRunner;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,6 +14,12 @@ import static com.twosigma.webtau.WebTauDsl.*;
 public class CustomerCrudSingleJavaTest {
     private Map<String, Object> customerPayload = createCustomerPayload();
     private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
+
+    @BeforeClass
+    public static void setUpClass() {
+        String port = System.getProperty("springboot.http.port", "8080");
+        getCfg().setBaseUrl("http://localhost:" + port);
+    }
 
     @Test
     public void crud() {
