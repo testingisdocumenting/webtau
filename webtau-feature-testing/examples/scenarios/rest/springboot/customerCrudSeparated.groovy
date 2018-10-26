@@ -27,16 +27,16 @@ scenario("customer read") {
     }
 }
 
-scenario("customer update") {
-    def changedLastName = "NLN"
-    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {
-        lastName.should == changedLastName
-    }
-
-    http.get(customer.url) {
-        lastName.should == changedLastName
-    }
-}
+//scenario("customer update") {
+//    def changedLastName = "NLN"
+//    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {
+//        lastName.should == changedLastName
+//    }
+//
+//    http.get(customer.url) {
+//        lastName.should == changedLastName
+//    }
+//}
 
 scenario("customer delete") {
     http.delete(customer.url) {

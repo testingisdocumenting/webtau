@@ -44,8 +44,12 @@ public class TestServer {
         deleteResponses = new HashMap<>();
     }
 
-    public void start() {
-        server = new Server(0);
+    public void startRandomPort() {
+        start(0);
+    }
+
+    public void start(int port) {
+        server = new Server(port);
         server.setHandler(new RequestHandler());
         try {
             server.start();
