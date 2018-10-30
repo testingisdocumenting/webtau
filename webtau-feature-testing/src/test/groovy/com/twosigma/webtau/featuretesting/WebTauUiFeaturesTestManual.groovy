@@ -39,6 +39,7 @@ class WebTauUiFeaturesTestManual {
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
         testServer.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
+        testServer.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
     }
 
     @BeforeClass
@@ -181,6 +182,11 @@ class WebTauUiFeaturesTestManual {
                 'waitForAppear.groovy': 'wait for element to appear',
                 'waitForMatch.groovy': 'wait for match',
         ])
+    }
+
+    @Test
+    void "flicking element"() {
+        runCli('flickingElement.groovy', 'webtau.cfg')
     }
 
     private static void extractCodeSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {

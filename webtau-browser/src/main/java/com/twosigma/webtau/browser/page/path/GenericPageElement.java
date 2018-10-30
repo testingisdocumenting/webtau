@@ -24,6 +24,7 @@ import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter;
 import com.twosigma.webtau.browser.page.path.filter.ByRegexpElementsFilter;
 import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter;
 import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -87,7 +88,7 @@ public class GenericPageElement implements PageElement {
     public List<WebElement> findElements() {
         List<WebElement> webElements = path.find(driver);
         return webElements.isEmpty() ?
-                Collections.singletonList(createNullElement()):
+                Collections.singletonList(createNullElement()) :
                 webElements;
     }
 
@@ -105,7 +106,7 @@ public class GenericPageElement implements PageElement {
     public void setValue(Object value) {
         execute(tokenizedMessage(action("setting value"), stringValue(value), TO).add(pathDescription),
                 () -> tokenizedMessage(action("set value"), stringValue(value), TO).add(pathDescription),
-                () -> setValueBasedOnType(value));
+                () -> staleFreeSetValueBasedOnType(value));
     }
 
     @Override
@@ -135,7 +136,7 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public boolean isVisible() {
-        return findElement().isDisplayed();
+        return handleStaleElement(() -> findElement().isDisplayed(), false);
     }
 
     @Override
@@ -156,18 +157,22 @@ public class GenericPageElement implements PageElement {
     }
 
     private String getUnderlyingValue() {
-        return extractValue(findElement());
+        return staleFreeExtractValue(findElement());
     }
 
     private List<String> getUnderlyingValues() {
         List<WebElement> webElements = findElements();
         return webElements.stream()
-                .map(this::extractValue)
+                .map(this::staleFreeExtractValue)
                 .collect(Collectors.toList());
     }
 
+    private String staleFreeExtractValue(WebElement webElement) {
+        return handleStaleElement(() -> extractValue(webElement), null);
+    }
+
     private String extractValue(WebElement webElement) {
-        GenericElementType type = elementType(webElement);
+        GenericElementType type = staleFreeElementType(webElement);
 
         switch (type) {
             case INPUT:
@@ -189,6 +194,10 @@ public class GenericPageElement implements PageElement {
     private Integer getNumberOfElements() {
         List<WebElement> webElements = path.find(driver);
         return webElements.size();
+    }
+
+    private void staleFreeSetValueBasedOnType(Object value) {
+        handleStaleElement(() -> setValueBasedOnType(value));
     }
 
     private void setValueBasedOnType(Object value) {
@@ -251,7 +260,11 @@ public class GenericPageElement implements PageElement {
         return new NullWebElement(path.toString());
     }
 
-    static private GenericElementType elementType(WebElement element) {
+    private static GenericElementType staleFreeElementType(WebElement element) {
+        return handleStaleElement(() -> elementType(element), GenericElementType.STALE);
+    }
+
+    private static GenericElementType elementType(WebElement element) {
         String tag = element.getTagName().toUpperCase();
         String typeOrNull = element.getAttribute("type");
         String type = typeOrNull != null ? typeOrNull.toUpperCase() : "";
@@ -267,6 +280,22 @@ public class GenericPageElement implements PageElement {
                 return GenericElementType.TEXT_AREA;
             default:
                 return GenericElementType.OTHER;
+        }
+    }
+
+    static private <R> R handleStaleElement(Supplier<R> code, R valueInCaseOfStale) {
+        try {
+            return code.get();
+        } catch (StaleElementReferenceException e) {
+            return valueInCaseOfStale;
+        }
+    }
+
+    static private void handleStaleElement(Runnable code) {
+        try {
+            code.run();
+        } catch (StaleElementReferenceException e) {
+            throw new RuntimeException("element is stale, consider using waitTo beVisible matcher to make sure component fully appeared");
         }
     }
 }

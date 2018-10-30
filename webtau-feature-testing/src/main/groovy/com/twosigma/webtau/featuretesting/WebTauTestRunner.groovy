@@ -52,7 +52,7 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
     }
 
     void startTestServer() {
-        testServer.start()
+        testServer.startRandomPort()
     }
 
     void stopTestServer() {

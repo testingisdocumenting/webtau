@@ -38,7 +38,7 @@ class PdfHttpTest implements HttpConfiguration {
 
     @BeforeClass
     static void startServer() {
-        testServer.start()
+        testServer.startRandomPort()
 
         testServer.registerGet("/report",
                 new TestServerBinaryResponse(ResourceUtils.binaryContent("report.pdf")))

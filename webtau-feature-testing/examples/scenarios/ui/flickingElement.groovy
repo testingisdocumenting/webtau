@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.path;
+package scenarios.ui
 
-public enum GenericElementType {
-    INPUT,
-    TEXT_AREA,
-    INPUT_DATE,
-    SELECT,
-    OTHER,
-    STALE
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+
+def el = $('#flicking-text')
+
+scenario('flicking element text handling') {
+    browser.open('/flicking-element')
+    el.waitTo == 'done'
+}
+
+scenario('flicking element visible handling') {
+    browser.open('/flicking-element')
+
+    10.times {
+        el.waitTo beVisible()
+    }
 }

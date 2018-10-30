@@ -68,7 +68,7 @@ public class HttpTestDataServer {
     }
 
     public void start() {
-        testServer.start();
+        testServer.startRandomPort();
     }
 
     public void stop() {

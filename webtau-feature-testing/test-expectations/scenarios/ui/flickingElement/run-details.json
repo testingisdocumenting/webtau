@@ -1,0 +1,14 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "flicking element text handling",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "flicking element visible handling",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 11
+    }
+  } ],
+  "exitCode" : 0
+}
