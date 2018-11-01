@@ -18,6 +18,7 @@ package com.twosigma.webtau.runner.standalone
 
 import java.nio.file.Path
 import java.util.concurrent.ForkJoinPool
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Function
 import java.util.stream.Stream
 
@@ -29,11 +30,14 @@ class StandaloneTestRunner {
     private Path currentTestPath
     private GroovyScriptEngine groovy
 
+    private AtomicBoolean isTerminated
+
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
         this.workingDir = workingDir.toAbsolutePath()
         this.tests = []
         this.exclusiveTests = []
         this.groovy = groovy
+        this.isTerminated = new AtomicBoolean(false)
     }
 
     void process(Path scriptPath, delegate) {
@@ -92,7 +96,7 @@ class StandaloneTestRunner {
         }.get()
     }
 
-    void runTestsFromStream(Function<Map, Stream> streamCreator) {
+    private void runTestsFromStream(Function<Map, Stream> streamCreator) {
         StandaloneTestListeners.beforeFirstTest()
 
         def testsToRun = exclusiveTests.isEmpty() ? tests : exclusiveTests
@@ -107,13 +111,24 @@ class StandaloneTestRunner {
 
         def stream = streamCreator.apply(testsByFile)
         stream.forEach { entry ->
-            entry.value.forEach { test ->
+            Collection<StandaloneTest> tests = entry.value
+            tests.forEach { test ->
                 StandaloneTestListeners.beforeTestRun(test)
-                test.run()
+                runTestIfNotTerminated(test)
                 StandaloneTestListeners.afterTestRun(test)
             }
         }
 
         StandaloneTestListeners.afterAllTests()
+    }
+
+    private void runTestIfNotTerminated(StandaloneTest test) {
+        if (! isTerminated.get()) {
+            test.run()
+        }
+
+        if (test.reportTestEntry.exception instanceof TestsRunTerminateException) {
+            isTerminated.set(true)
+        }
     }
 }
