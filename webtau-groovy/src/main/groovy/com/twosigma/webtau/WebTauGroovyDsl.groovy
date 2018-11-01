@@ -21,6 +21,7 @@ import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.console.ansi.FontStyle
 import com.twosigma.webtau.data.LazyTestResource
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
+import com.twosigma.webtau.runner.standalone.TestsRunTerminateException
 import com.twosigma.webtau.utils.RegexpUtils
 
 import java.util.function.Supplier
@@ -56,6 +57,10 @@ class WebTauGroovyDsl extends WebTauDsl {
         } else {
             testRunner.sscenario(description, code)
         }
+    }
+
+    static void terminateAll(String reason) {
+        throw new TestsRunTerminateException(reason)
     }
 
     /**

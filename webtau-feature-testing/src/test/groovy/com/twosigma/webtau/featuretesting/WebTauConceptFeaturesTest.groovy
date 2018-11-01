@@ -42,6 +42,11 @@ class WebTauConceptFeaturesTest {
         runCli('dataDrivenTableData.groovy', 'webtau.cfg')
     }
 
+    @Test
+    void "hard tests termination"() {
+        runCli('testsTermination.groovy', 'webtau.cfg')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/concept/$testName",
                 "scenarios/concept/$configFileName", additionalArgs)

@@ -21,10 +21,9 @@ import org.junit.Test
 import java.nio.file.Paths
 
 class StandaloneTestRunnerTest {
-    private static StandaloneTestRunner runner = createRunner()
-
     @Test
     void "should register tests with scenario keyword"() {
+        def runner = createRunner("StandaloneTest.groovy")
         runner.tests.scenario.should == ['# first header\noptionally split into multiple lines and has a header\n',
                                          '# second header\noptionally split into multiple lines and has a header\n',
                                          '# third header\noptionally split into multiple lines and has a header\n']
@@ -32,6 +31,7 @@ class StandaloneTestRunnerTest {
 
     @Test
     void "should mark test as failed, passed or errored"() {
+        def runner = createRunner("StandaloneTest.groovy")
         runner.runTests()
 
         runner.tests[0].hasError().should == true
@@ -51,6 +51,7 @@ class StandaloneTestRunnerTest {
 
     @Test
     void "should extract failed code snippets"() {
+        def runner = createRunner("StandaloneTest.groovy")
         runner.runTests()
         def failedSnippets = runner.tests[0].reportTestEntry.toMap().failedCodeSnippets
         def firstSnippet = failedSnippets[0]
@@ -60,10 +61,21 @@ class StandaloneTestRunnerTest {
         firstSnippet.snippet.contains('throw new RuntimeException("error on purpose")').should == true // TODO contain matcher
     }
 
-    private static StandaloneTestRunner createRunner() {
+    @Test
+    void "should skip the rest of scenarios if terminate scenario is thrown"() {
+        def runner = createRunner("withTermination.groovy")
+        runner.runTests()
+
+        runner.tests[0].hasError().should == true
+        runner.tests[0].isFailed().should == false
+
+        runner.tests.skipped.should == [false, true, true]
+    }
+
+    private static StandaloneTestRunner createRunner(String scenarioFile) {
         def workingDir = Paths.get("test-scripts")
         def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, []), workingDir)
-        runner.process(Paths.get("StandaloneTest.groovy"), this)
+        runner.process(Paths.get(scenarioFile), this)
 
         return runner
     }
