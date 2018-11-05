@@ -23,7 +23,7 @@ in `settings.xml`
 # set GPG_TTY to $(tty) prior
 # have GPG keyphrase handy 
 mvn release:clean release:prepare -DskipTests
-mvn release:perfrom
+mvn release:perform
 ```
 
 # Quick Notes
