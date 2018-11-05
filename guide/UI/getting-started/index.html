@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Getting Started</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Bare Minimum</h1></header>
+<p>package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open(&quot;/search&quot;) $('#welcome').should == 'welcome to super search' } To run test, navigate to examples dir and webtau scenarios/ui/basic.groovy --url=https://my-server</p>
+</article>
+
+<article>
+<header><h1>Config File</h1></header>
+<p>Url parameter can be moved to a webtau.cfg file. url = &quot;http://localhost:8180&quot; configuration/environments Specify multiple environments to streamline test execution.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "Installation",
+        "id": "installation",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Download and unzip ",
+                "type": "SimpleText"
+              },
+              {
+                "url": "https://repo.maven.apache.org/maven2/com/twosigma/webtau/webtau-dist/0.31/webtau-dist-0.31-webtau.zip",
+                "isFile": false,
+                "type": "Link",
+                "content": [
+                  {
+                    "text": "webtau",
+                    "type": "SimpleText"
+                  }
+                ]
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Add it to your ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "PATH",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Bare Minimum",
+        "id": "bare-minimum",
+        "type": "Section",
+        "content": [
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\u0027simple open\u0027) {\n    browser.open(\"/search\")\n    $(\u0027#welcome\u0027).should \u003d\u003d \u0027welcome to super search\u0027\n}",
+            "title": "examples/scenarios/ui/basic.groovy",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "To run test, navigate to ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "examples",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " dir and",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "command": "webtau scenarios/ui/basic.groovy --url\u003dhttps://my-server",
+            "paramsToHighlight": [
+              "url"
+            ],
+            "type": "CliCommand"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Note: using ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "package",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " and ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "import",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " is optional and is mainly for IDE auto completion. Imports will be added implicitly",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "during command line run.",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Config File",
+        "id": "config-file",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Url parameter can be moved to a ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "webtau.cfg",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " file.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "cfg",
+            "snippet": "url \u003d \"http://localhost:8180\"",
+            "title": "examples/scenarios/ui/webtau.cfg",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "url": "/webtau/guide/configuration/environments",
+                "isFile": false,
+                "type": "Link",
+                "content": [
+                  {
+                    "text": "Specify multiple environments",
+                    "type": "SimpleText"
+                  }
+                ]
+              },
+              {
+                "text": " to streamline test execution.",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1534849042000,
+    "tocItem": {
+      "sectionTitle": "UI",
+      "pageTitle": "Getting Started",
+      "pageMeta": {},
+      "fileName": "getting-started",
+      "dirName": "UI",
+      "pageSectionIdTitles": [
+        {
+          "title": "Installation",
+          "id": "installation"
+        },
+        {
+          "title": "Bare Minimum",
+          "id": "bare-minimum"
+        },
+        {
+          "title": "Config File",
+          "id": "config-file"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>

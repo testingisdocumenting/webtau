@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: CRUD Separated</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Lazy Resource</h1></header>
+<p>One of the benefits of separating one CRUD scenario into multiple is to be able to run one test at a time. In order to do it we will use createLazyResource . package scenarios.rest.springboot import static com.twosigma.webtau.WebTauGroovyDsl.* class Customer { Number id String url // store url of the created entity } def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] def customer = createLazyResource(&quot;customer&quot;) { // lazy resource to be created on the first access int id = http.post(&quot;/customers&quot;, customerPayload) { return id } return new Customer(id: id, url: &quot;/customers/${id}&quot;) } scenario(&quot;customer create&quot;) { customer.id.should != null // accessing resource for the first time will trigger POST (in this example) } scenario(&quot;customer read&quot;) { http.get(customer.url) { // convenient re-use of url defined above body.should == customerPayload } } scenario(&quot;customer update&quot;) { def changedLastName = &quot;NLN&quot; http.put(customer.url, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName } http.get(customer.url) { lastName.should == changedLastName } } scenario(&quot;customer delete&quot;) { http.delete(customer.url) { statusCode.should == 204 } http.get(customer.url) { statusCode.should == 404 } } Note: to run one scenario at a time use sscenario (additional s in front)</p>
+</article>
+
+<article>
+<header><h1>Report</h1></header>
+<p>As you can see in the report below, each CRUD operation has its own entry. If you follow this pattern, then you can filter tests by create , update , read , delete to streamline investigation.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "Lazy Resource",
+        "id": "lazy-resource",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "One of the benefits of separating one CRUD ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "scenario",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " into multiple is to be able to run one test at a time.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "In order to do it we will use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "createLazyResource",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.rest.springboot\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nclass Customer {\n    Number id\n    String url // store url of the created entity\n}\n\ndef customerPayload \u003d [firstName: \"FN\", lastName: \"LN\"]\n\ndef customer \u003d createLazyResource(\"customer\") { // lazy resource to be created on the first access\n    int id \u003d http.post(\"/customers\", customerPayload) {\n        return id\n    }\n\n    return new Customer(id: id, url: \"/customers/${id}\")\n}\n\nscenario(\"customer create\") {\n    customer.id.should !\u003d null // accessing resource for the first time will trigger POST (in this example)\n}\n\nscenario(\"customer read\") {\n    http.get(customer.url) { // convenient re-use of url defined above\n        body.should \u003d\u003d customerPayload\n    }\n}\n\nscenario(\"customer update\") {\n    def changedLastName \u003d \"NLN\"\n    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {\n        lastName.should \u003d\u003d changedLastName\n    }\n\n    http.get(customer.url) {\n        lastName.should \u003d\u003d changedLastName\n    }\n}\n\nscenario(\"customer delete\") {\n    http.delete(customer.url) {\n        statusCode.should \u003d\u003d 204\n    }\n\n    http.get(customer.url) {\n        statusCode.should \u003d\u003d 404\n    }\n}",
+            "commentsType": "inline",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Note: to run one scenario at a time use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "sscenario",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " (additional ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "s",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " in front)",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Report",
+        "id": "report",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "As you can see in the report below, each ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "CRUD",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " operation has its own entry. If you follow this pattern, then you",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "can filter tests by ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "create",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ", ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "update",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ", ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "read",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ", ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "delete",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to streamline investigation.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "fit": true,
+            "imageSrc": "/webtau/guide/img/rest-crud-separated-report.png",
+            "timestamp": 1541455005609,
+            "shapes": [],
+            "width": 2740.0,
+            "height": 1744.0,
+            "type": "AnnotatedImage"
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1533120126000,
+    "tocItem": {
+      "sectionTitle": "REST",
+      "pageTitle": "CRUD Separated",
+      "pageMeta": {},
+      "fileName": "CRUD-separated",
+      "dirName": "REST",
+      "pageSectionIdTitles": [
+        {
+          "title": "Lazy Resource",
+          "id": "lazy-resource"
+        },
+        {
+          "title": "Report",
+          "id": "report"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Documentation</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Scenarios</h1></header>
+<p>You provide REST endpoints so users can execute various scenarios. You need to test those scenarios and then document them.To automate the process, let's capture executed scenarios and use them inside your documentation.</p>
+</article>
+
+<article>
+<header><h1>Test Artifacts</h1></header>
+<p>To capture artifacts use http.doc.capture : package scenarios.rest import static com.twosigma.webtau.WebTauDsl.http import static com.twosigma.webtau.WebTauGroovyDsl.scenario scenario(&quot;extracting id after POST to use inside GET request&quot;) { def id = http.post(&quot;/employee&quot;, [firstName: 'FN', lastName: 'LN']) { return id } http.doc.capture('employee-post') http.get(&quot;/employee/$id&quot;) { firstName.should == 'FN' lastName.should == 'LN' } http.doc.capture('employee-get') // capture previous HTTP call into &lt;docDir&gt;/employee-get } An employee-get directory will be created with request and response data files.Directory will also contain a json file with an array containing paths of all the asserted values.By default, the directory will be created in the current working directory. To change it add docPath to your webtau.cfg file. url = &quot;http://localhost:8180&quot; docPath = &quot;doc-artifacts&quot;</p>
+</article>
+
+<article>
+<header><h1>Document REST calls</h1></header>
+<p>If you have user facing scenario tests, capture them and refer to them inside your documentation. Set your documentation build pipeline like below.Combine REST requests and responses with Open API generated specs for complete documentation.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "Scenarios",
+        "id": "scenarios",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "You provide ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "REST endpoints",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " so users can execute various scenarios.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "You need to test those scenarios and then document them.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "To automate the process, let\u0027s capture executed scenarios and use them inside your documentation.",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Test Artifacts",
+        "id": "test-artifacts",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "To capture artifacts use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "http.doc.capture",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ":",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.rest\n\nimport static com.twosigma.webtau.WebTauDsl.http\nimport static com.twosigma.webtau.WebTauGroovyDsl.scenario\n\nscenario(\"extracting id after POST to use inside GET request\") {\n    def id \u003d http.post(\"/employee\", [firstName: \u0027FN\u0027, lastName: \u0027LN\u0027]) {\n        return id\n    }\n    http.doc.capture(\u0027employee-post\u0027)\n\n    http.get(\"/employee/$id\") {\n        firstName.should \u003d\u003d \u0027FN\u0027\n        lastName.should \u003d\u003d \u0027LN\u0027\n    }\n    http.doc.capture(\u0027employee-get\u0027) // capture previous HTTP call into \u003cdocDir\u003e/employee-get\n}",
+            "title": "test.groovy",
+            "commentsType": "inline",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "An ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "employee-get",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " directory will be created with request and response data files.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "title": "employee-get/response.json",
+            "data": {
+              "firstName": "FN",
+              "lastName": "LN"
+            },
+            "paths": [],
+            "type": "Json"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Directory will also contain a json file with an array containing paths of all the asserted values.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "title": "employee-get/paths.json",
+            "data": [
+              "root.firstName",
+              "root.lastName"
+            ],
+            "paths": [],
+            "type": "Json"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "By default, the directory will be created in the current working directory.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "To change it add ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "docPath",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to your ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "webtau.cfg",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " file.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "cfg",
+            "snippet": "url \u003d \"http://localhost:8180\"\n\ndocPath \u003d \"doc-artifacts\"",
+            "title": "webtau.cfg",
+            "type": "Snippet"
+          }
+        ]
+      },
+      {
+        "title": "Document REST calls",
+        "id": "document-rest-calls",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "If you have user facing scenario tests, capture them and refer to them inside your documentation.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Set your documentation build pipeline like below.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "diagram": {
+              "shapeSvgByStyleId": {},
+              "isInvertedTextColorByStyleId": {},
+              "svg": "\u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\" standalone\u003d\"no\"?\u003e\n\u003c!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"\u003e\n\u003c!-- Generated by graphviz version 2.40.1 (20161225.0304)\n --\u003e\n\u003c!-- Title: Generated Pages: 1 --\u003e\n\u003csvg width\u003d\"392pt\" height\u003d\"47pt\"\n viewBox\u003d\"0.00 0.00 391.85 47.00\" xmlns\u003d\"http://www.w3.org/2000/svg\" xmlns:xlink\u003d\"http://www.w3.org/1999/xlink\"\u003e\n\u003cg id\u003d\"graph0\" class\u003d\"graph\" transform\u003d\"scale(1 1) rotate(0) translate(4 43)\"\u003e\n\u003ctitle\u003eGenerated\u003c/title\u003e\n\u003cpolygon fill\u003d\"transparent\" stroke\u003d\"transparent\" points\u003d\"-4,4 -4,-43 387.8516,-43 387.8516,4 -4,4\"/\u003e\n\u003c!-- build --\u003e\n\u003cg id\u003d\"node1\" class\u003d\"node\"\u003e\n\u003ctitle\u003ebuild\u003c/title\u003e\n\u003cpolygon fill\u003d\"none\" stroke\u003d\"#000000\" points\u003d\"0,-.5 0,-38.5 54,-38.5 54,-.5 0,-.5\"/\u003e\n\u003ctext text-anchor\u003d\"middle\" x\u003d\"27\" y\u003d\"-16.5\" font-family\u003d\"Helvetica,sans-Serif\" font-size\u003d\"10.00\" fill\u003d\"#000000\"\u003eBuild\u003c/text\u003e\n\u003c/g\u003e\n\u003c!-- deploy --\u003e\n\u003cg id\u003d\"node2\" class\u003d\"node\"\u003e\n\u003ctitle\u003edeploy\u003c/title\u003e\n\u003cpolygon fill\u003d\"none\" stroke\u003d\"#000000\" points\u003d\"90,-.5 90,-38.5 149.1279,-38.5 149.1279,-.5 90,-.5\"/\u003e\n\u003ctext text-anchor\u003d\"middle\" x\u003d\"119.564\" y\u003d\"-16.5\" font-family\u003d\"Helvetica,sans-Serif\" font-size\u003d\"10.00\" fill\u003d\"#000000\"\u003eDeploy\u003c/text\u003e\n\u003c/g\u003e\n\u003c!-- build\u0026#45;\u0026gt;deploy --\u003e\n\u003cg id\u003d\"edge1\" class\u003d\"edge\"\u003e\n\u003ctitle\u003ebuild\u0026#45;\u0026gt;deploy\u003c/title\u003e\n\u003cpath fill\u003d\"none\" stroke\u003d\"#000000\" d\u003d\"M54.2716,-19.5C62.2333,-19.5 71.1035,-19.5 79.6754,-19.5\"/\u003e\n\u003cpolygon fill\u003d\"#000000\" stroke\u003d\"#000000\" points\u003d\"79.9022,-23.0001 89.9022,-19.5 79.9021,-16.0001 79.9022,-23.0001\"/\u003e\n\u003c/g\u003e\n\u003c!-- testrun --\u003e\n\u003cg id\u003d\"node3\" class\u003d\"node\"\u003e\n\u003ctitle\u003etestrun\u003c/title\u003e\n\u003cpolygon fill\u003d\"none\" stroke\u003d\"#000000\" points\u003d\"185.1279,-.5 185.1279,-38.5 252.5908,-38.5 252.5908,-.5 185.1279,-.5\"/\u003e\n\u003ctext text-anchor\u003d\"middle\" x\u003d\"218.8594\" y\u003d\"-16.5\" font-family\u003d\"Helvetica,sans-Serif\" font-size\u003d\"10.00\" fill\u003d\"#000000\"\u003eTest Run\u003c/text\u003e\n\u003c/g\u003e\n\u003c!-- deploy\u0026#45;\u0026gt;testrun --\u003e\n\u003cg id\u003d\"edge2\" class\u003d\"edge\"\u003e\n\u003ctitle\u003edeploy\u0026#45;\u0026gt;testrun\u003c/title\u003e\n\u003cpath fill\u003d\"none\" stroke\u003d\"#000000\" d\u003d\"M149.3559,-19.5C157.3159,-19.5 166.0912,-19.5 174.6485,-19.5\"/\u003e\n\u003cpolygon fill\u003d\"#000000\" stroke\u003d\"#000000\" points\u003d\"174.9089,-23.0001 184.9089,-19.5 174.9088,-16.0001 174.9089,-23.0001\"/\u003e\n\u003c/g\u003e\n\u003c!-- documentation --\u003e\n\u003cg id\u003d\"node4\" class\u003d\"node\"\u003e\n\u003ctitle\u003edocumentation\u003c/title\u003e\n\u003cpolygon fill\u003d\"none\" stroke\u003d\"#000000\" points\u003d\"288.5908,-.5 288.5908,-38.5 383.8516,-38.5 383.8516,-.5 288.5908,-.5\"/\u003e\n\u003ctext text-anchor\u003d\"middle\" x\u003d\"336.2212\" y\u003d\"-16.5\" font-family\u003d\"Helvetica,sans-Serif\" font-size\u003d\"10.00\" fill\u003d\"#000000\"\u003eDocumentation\u003c/text\u003e\n\u003c/g\u003e\n\u003c!-- testrun\u0026#45;\u0026gt;documentation --\u003e\n\u003cg id\u003d\"edge3\" class\u003d\"edge\"\u003e\n\u003ctitle\u003etestrun\u0026#45;\u0026gt;documentation\u003c/title\u003e\n\u003cpath fill\u003d\"none\" stroke\u003d\"#000000\" d\u003d\"M252.8053,-19.5C260.7852,-19.5 269.5121,-19.5 278.219,-19.5\"/\u003e\n\u003cpolygon fill\u003d\"#000000\" stroke\u003d\"#000000\" points\u003d\"278.3852,-23.0001 288.3852,-19.5 278.3851,-16.0001 278.3852,-23.0001\"/\u003e\n\u003c/g\u003e\n\u003c/g\u003e\n\u003c/svg\u003e\n",
+              "stylesByNodeId": {
+                "testrun": [
+                  "h"
+                ]
+              },
+              "id": "dag1"
+            },
+            "colors": {
+              "a": {
+                "line": "#123752",
+                "fill": "#708EA4",
+                "text": "#eeeeee",
+                "textInverse": "#123752"
+              },
+              "b": {
+                "line": "#AA8E39",
+                "fill": "#FFEAAA",
+                "text": "#806515",
+                "textInverse": "#AA8E39"
+              },
+              "c": {
+                "line": "#306E12",
+                "fill": "#519331",
+                "text": "#ABDD93",
+                "textInverse": "#306E12"
+              },
+              "h": {
+                "line": "#888",
+                "fill": "#fff",
+                "text": "#888",
+                "textInverse": "#888"
+              }
+            },
+            "idsToHighlight": [],
+            "wide": false,
+            "urls": {},
+            "type": "GraphVizDiagram"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Combine REST requests and responses with Open API generated specs for complete documentation.",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1533120126000,
+    "tocItem": {
+      "sectionTitle": "REST",
+      "pageTitle": "Documentation",
+      "pageMeta": {},
+      "fileName": "documentation",
+      "dirName": "REST",
+      "pageSectionIdTitles": [
+        {
+          "title": "Scenarios",
+          "id": "scenarios"
+        },
+        {
+          "title": "Test Artifacts",
+          "id": "test-artifacts"
+        },
+        {
+          "title": "Document REST calls",
+          "id": "document-rest-calls"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>WebTau</h1></header>
+<p>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario(&quot;simple get&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.should == 2 }</p>
+</article>
+</section>
+<div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<a href="/index/">Index</a>
+<a href="/index/#webtau">Index WebTau</a>
+</article>
+
+<article>
+<a href="REST/getting-started/">Getting Started</a>
+<a href="REST/getting-started/#installation">Getting Started Installation</a>
+<a href="REST/getting-started/#bare-minimum">Getting Started Bare Minimum</a>
+<a href="REST/getting-started/#config-file">Getting Started Config File</a>
+</article>
+
+<article>
+<a href="REST/CRUD/">CRUD</a>
+<a href="REST/CRUD/#example">CRUD Example</a>
+<a href="REST/CRUD/#implicit-statuscode-check">CRUD Implicit statusCode Check</a>
+<a href="REST/CRUD/#report">CRUD Report</a>
+<a href="REST/CRUD/#spring-boot">CRUD Spring Boot</a>
+</article>
+
+<article>
+<a href="REST/CRUD-separated/">CRUD Separated</a>
+<a href="REST/CRUD-separated/#lazy-resource">CRUD Separated Lazy Resource</a>
+<a href="REST/CRUD-separated/#report">CRUD Separated Report</a>
+</article>
+
+<article>
+<a href="REST/data-node/">Data Node</a>
+<a href="REST/data-node/#special-values">Data Node Special Values</a>
+<a href="REST/data-node/#extracting-values">Data Node Extracting Values</a>
+<a href="REST/data-node/#properties-on-lists">Data Node Properties On Lists</a>
+<a href="REST/data-node/#find">Data Node Find</a>
+<a href="REST/data-node/#collect">Data Node Collect</a>
+<a href="REST/data-node/#combine">Data Node Combine</a>
+</article>
+
+<article>
+<a href="REST/headers/">Headers</a>
+<a href="REST/headers/#standard-header">Headers Standard Header</a>
+<a href="REST/headers/#common-header">Headers Common Header</a>
+<a href="REST/headers/#explicit-header">Headers Explicit Header</a>
+<a href="REST/headers/#mime-type-combined-with-payload">Headers Mime Type Combined With Payload</a>
+<a href="REST/headers/#response-header">Headers Response Header</a>
+</article>
+
+<article>
+<a href="REST/files-upload/">Files Upload</a>
+<a href="REST/files-upload/#file-system-content">Files Upload File System Content</a>
+<a href="REST/files-upload/#in-memory-content">Files Upload In-Memory Content</a>
+</article>
+
+<article>
+<a href="REST/PDF/">PDF</a>
+<a href="REST/PDF/#asserting-text">PDF Asserting Text</a>
+</article>
+
+<article>
+<a href="REST/documentation/">Documentation</a>
+<a href="REST/documentation/#scenarios">Documentation Scenarios</a>
+<a href="REST/documentation/#test-artifacts">Documentation Test Artifacts</a>
+<a href="REST/documentation/#document-rest-calls">Documentation Document REST calls</a>
+</article>
+
+<article>
+<a href="REST/complex-types/">Complex Types</a>
+<a href="REST/complex-types/#contain">Complex Types Contain</a>
+<a href="REST/complex-types/#list-of-objects">Complex Types List Of Objects</a>
+</article>
+
+<article>
+<a href="REST/openAPI-spec/">OpenAPI Spec</a>
+<a href="REST/openAPI-spec/#validation">OpenAPI Spec Validation</a>
+<a href="REST/openAPI-spec/#current-limitations">OpenAPI Spec Current limitations</a>
+<a href="REST/openAPI-spec/#validations-report">OpenAPI Spec Validations report</a>
+<a href="REST/openAPI-spec/#validation-configuration">OpenAPI Spec Validation Configuration</a>
+</article>
+
+<article>
+<a href="REST/report/">Report</a>
+<a href="REST/report/#location">Report Location</a>
+<a href="REST/report/#summary">Report Summary</a>
+<a href="REST/report/#navigation">Report Navigation</a>
+<a href="REST/report/#additional-reports">Report Additional Reports</a>
+</article>
+
+<article>
+<a href="REST/maven/">Maven</a>
+<a href="REST/maven/#dependency">Maven Dependency</a>
+<a href="REST/maven/#plugin">Maven Plugin</a>
+</article>
+
+<article>
+<a href="REST/matchers/">Matchers</a>
+<a href="REST/matchers/#imports-to-use">Matchers Imports to use</a>
+<a href="REST/matchers/#response-mapping">Matchers Response Mapping</a>
+<a href="REST/matchers/#should-and-should-not">Matchers Should and Should Not</a>
+<a href="REST/matchers/#equality">Matchers Equality</a>
+<a href="REST/matchers/#greaterlessequal">Matchers Greater/Less/Equal</a>
+<a href="REST/matchers/#contain">Matchers Contain</a>
+<a href="REST/matchers/#date-and-time">Matchers Date and Time</a>
+<a href="REST/matchers/#mixing-matchers">Matchers Mixing Matchers</a>
+</article>
+
+<article>
+<a href="REST/test-execution/">Test Execution</a>
+<a href="REST/test-execution/#serial-execution">Test Execution Serial execution</a>
+<a href="REST/test-execution/#parallel-execution">Test Execution Parallel execution</a>
+</article>
+
+<article>
+<a href="UI/getting-started/">Getting Started</a>
+<a href="UI/getting-started/#installation">Getting Started Installation</a>
+<a href="UI/getting-started/#bare-minimum">Getting Started Bare Minimum</a>
+<a href="UI/getting-started/#config-file">Getting Started Config File</a>
+</article>
+
+<article>
+<a href="UI/basic-configuration/">Basic Configuration</a>
+<a href="UI/basic-configuration/#base-url">Basic Configuration Base URL</a>
+</article>
+
+<article>
+<a href="UI/page-element-and-value/">Page Element And Value</a>
+<a href="UI/page-element-and-value/#lazy-element">Page Element And Value Lazy Element</a>
+<a href="UI/page-element-and-value/#lazy-value">Page Element And Value Lazy Value</a>
+</article>
+
+<article>
+<a href="UI/page-object/">Page Object</a>
+<a href="UI/page-object/#test-encapsulation">Page Object Test Encapsulation</a>
+<a href="UI/page-object/#definition">Page Object Definition</a>
+<a href="UI/page-object/#grouping">Page Object Grouping</a>
+</article>
+
+<article>
+<a href="UI/forms/">Forms</a>
+<a href="UI/forms/#universal-set-value">Forms Universal Set Value</a>
+<a href="UI/forms/#default-input">Forms Default Input</a>
+<a href="UI/forms/#date-input">Forms Date Input</a>
+<a href="UI/forms/#select">Forms Select</a>
+<a href="UI/forms/#universal-assert">Forms Universal Assert</a>
+</article>
+
+<article>
+<a href="UI/asynchronous-page/">Asynchronous Page</a>
+<a href="UI/asynchronous-page/#synchronization">Asynchronous Page Synchronization</a>
+<a href="UI/asynchronous-page/#visiblehidden-element">Asynchronous Page Visible/Hidden Element</a>
+<a href="UI/asynchronous-page/#wait-to-match">Asynchronous Page Wait to match</a>
+</article>
+
+<article>
+<a href="UI/advanced-configuration/">Advanced Configuration</a>
+<a href="UI/advanced-configuration/#timeouts">Advanced Configuration Timeouts</a>
+<a href="UI/advanced-configuration/#window-size">Advanced Configuration Window Size</a>
+<a href="UI/advanced-configuration/#documentation-artifacts">Advanced Configuration Documentation Artifacts</a>
+</article>
+
+<article>
+<a href="UI/local-storage/">Local Storage</a>
+<a href="UI/local-storage/#access-local-storage">Local Storage Access Local Storage</a>
+</article>
+
+<article>
+<a href="UI/page-open-handlers/">Page Open Handlers</a>
+<a href="UI/page-open-handlers/#implicit-page-open-logic">Page Open Handlers Implicit Page Open Logic</a>
+<a href="UI/page-open-handlers/#auto-login">Page Open Handlers Auto Login</a>
+</article>
+
+<article>
+<a href="UI/finders-and-filters/">Finders And Filters</a>
+<a href="UI/finders-and-filters/#finders">Finders And Filters Finders</a>
+<a href="UI/finders-and-filters/#by-css">Finders And Filters By CSS</a>
+<a href="UI/finders-and-filters/#filters">Finders And Filters Filters</a>
+</article>
+
+<article>
+<a href="UI/matchers/">Matchers</a>
+<a href="UI/matchers/#text">Matchers Text</a>
+<a href="UI/matchers/#numbers">Matchers Numbers</a>
+</article>
+
+<article>
+<a href="groovy-specific-runner/data-driven-scenarios/">Data Driven Scenarios</a>
+<a href="groovy-specific-runner/data-driven-scenarios/#dynamic-scenarios">Data Driven Scenarios Dynamic Scenarios</a>
+<a href="groovy-specific-runner/data-driven-scenarios/#csv">Data Driven Scenarios CSV</a>
+<a href="groovy-specific-runner/data-driven-scenarios/#table-data">Data Driven Scenarios Table Data</a>
+</article>
+
+<article>
+<a href="groovy-specific-runner/tests-hard-stops/">Tests Hard Stops</a>
+<a href="groovy-specific-runner/tests-hard-stops/#terminate-all">Tests Hard Stops Terminate All</a>
+</article>
+
+<article>
+<a href="generic-runners/JUnit-4/">JUnit 4</a>
+<a href="generic-runners/JUnit-4/#webtau-runner">JUnit 4 WebTau Runner</a>
+<a href="generic-runners/JUnit-4/#maven-import">JUnit 4 Maven Import</a>
+</article>
+
+<article>
+<a href="configuration/cli/">Cli</a>
+<a href="configuration/cli/#overrides">Cli Overrides</a>
+</article>
+
+<article>
+<a href="configuration/environments/">Environments</a>
+<a href="configuration/environments/#select">Environments Select</a>
+</article>
+
+<article>
+<a href="configuration/options/">Options</a>
+<a href="configuration/options/#cli-and-configuration-file-options">Options CLI and configuration file options</a>
+<a href="configuration/options/#environment-variable-options">Options Environment variable options</a>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "WebTau",
+        "id": "webtau",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "WebTau (",
+                "type": "SimpleText"
+              },
+              {
+                "type": "StrongEmphasis",
+                "content": [
+                  {
+                    "text": "Web",
+                    "type": "SimpleText"
+                  }
+                ]
+              },
+              {
+                "text": " ",
+                "type": "SimpleText"
+              },
+              {
+                "type": "StrongEmphasis",
+                "content": [
+                  {
+                    "text": "T",
+                    "type": "SimpleText"
+                  }
+                ]
+              },
+              {
+                "text": "est ",
+                "type": "SimpleText"
+              },
+              {
+                "type": "StrongEmphasis",
+                "content": [
+                  {
+                    "text": "au",
+                    "type": "SimpleText"
+                  }
+                ]
+              },
+              {
+                "text": "tomation) - concise and expressive way to create REST API and Web UI tests.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.rest\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\"simple get\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe \u003c 100\n    }\n}",
+            "title": "REST API test",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.should \u003d\u003d 2\n}",
+            "title": "Web UI test",
+            "type": "Snippet"
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1533554070000,
+    "tocItem": {
+      "sectionTitle": "",
+      "pageTitle": "Index",
+      "pageMeta": {},
+      "fileName": "index",
+      "dirName": "",
+      "pageSectionIdTitles": [
+        {
+          "title": "WebTau",
+          "id": "webtau"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>
