@@ -20,7 +20,10 @@ in `settings.xml`
 # Release Steps
 
 ```
-mvn release:clean release:prepare
+# set GPG_TTY to $(tty) prior
+# have GPG keyphrase handy 
+mvn release:clean release:prepare -DskipTests
+mvn release:perfrom
 ```
 
 # Quick Notes
