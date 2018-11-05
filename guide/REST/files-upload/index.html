@@ -131,7 +131,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "def imagePath \u003d Paths.get(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath)) {\n    fileName.should \u003d\u003d \u0027image.png\u0027\n}",
+            "snippet": "def imagePath \u003d testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath)) {\n    fileName.should \u003d\u003d \u0027image.png\u0027\n}",
             "entry": "file upload example simple",
             "bodyOnly": true,
             "type": "Snippet"
@@ -155,7 +155,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "def imagePath \u003d Paths.get(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: http.formFile(\u0027myFileName.png\u0027, imagePath))) {\n    fileName.should \u003d\u003d \u0027myFileName.png\u0027\n}",
+            "snippet": "def imagePath \u003d testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: http.formFile(\u0027myFileName.png\u0027, imagePath))) {\n    fileName.should \u003d\u003d \u0027myFileName.png\u0027\n}",
             "entry": "file upload example with file name override",
             "bodyOnly": true,
             "type": "Snippet"
@@ -171,7 +171,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "def imagePath \u003d Paths.get(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath, fileDescription: \u0027new report\u0027)) {\n    fileName.should \u003d\u003d \u0027image.png\u0027\n    description.should \u003d\u003d \u0027new report\u0027\n}",
+            "snippet": "def imagePath \u003d testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath, fileDescription: \u0027new report\u0027)) {\n    fileName.should \u003d\u003d \u0027image.png\u0027\n    description.should \u003d\u003d \u0027new report\u0027\n}",
             "entry": "file upload example multiple fields",
             "bodyOnly": true,
             "type": "Snippet"
@@ -235,7 +235,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1529582974000,
+    "lastModifiedTime": 1539782115000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Files Upload",

@@ -28,6 +28,11 @@
 </article>
 
 <article>
+<header><h1>Mime Type Combined With Payload</h1></header>
+<p>Use http.body to combine Content-Type and payload.If you need a standard type consider using</p>
+</article>
+
+<article>
 <header><h1>Response Header</h1></header>
 <p>To validate values from response header use header object.At the moment only location , contentLocation , contentLength have camelCase shortcuts. All the other header values you need to use ['Header-Name'] syntax.</p>
 </article>
@@ -233,6 +238,71 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       },
       {
+        "title": "Mime Type Combined With Payload",
+        "id": "mime-type-combined-with-payload",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "http.body",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to combine ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "Content-Type",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " and payload.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def content \u003d binaryFile(\u0027path\u0027)\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content)) {\n    // assertions go here\n}",
+            "title": "Combined type and payload",
+            "entry": "explicit binary mime types combined with request body",
+            "bodyOnly": true,
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "If you need a standard type consider using",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def content \u003d binaryFile(\u0027path\u0027)\nhttp.post(\"/end-point\", http.application.octetStream(content)) {\n    // assertions go here\n}",
+            "title": "Binary content shortuct",
+            "entry": "implicit binary mime types combined with request body",
+            "bodyOnly": true,
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def content \u003d \u0027text content\u0027\nhttp.post(\"/end-point\", http.text.plain(content)) {\n    // assertions go here\n}",
+            "title": "Text content shortcut",
+            "entry": "implicit text mime types combined with request body",
+            "bodyOnly": true,
+            "type": "Snippet"
+          }
+        ]
+      },
+      {
         "title": "Response Header",
         "id": "response-header",
         "type": "Section",
@@ -312,7 +382,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1533822471000,
+    "lastModifiedTime": 1539782115000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Headers",
@@ -331,6 +401,10 @@ ReactDOM.render(React.createElement(Documentation, {
         {
           "title": "Explicit Header",
           "id": "explicit-header"
+        },
+        {
+          "title": "Mime Type Combined With Payload",
+          "id": "mime-type-combined-with-payload"
         },
         {
           "title": "Response Header",

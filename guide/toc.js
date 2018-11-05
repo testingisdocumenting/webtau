@@ -138,6 +138,10 @@ toc = [
             "id": "explicit-header"
           },
           {
+            "title": "Mime Type Combined With Payload",
+            "id": "mime-type-combined-with-payload"
+          },
+          {
             "title": "Response Header",
             "id": "response-header"
           }
@@ -289,6 +293,10 @@ toc = [
         "fileName": "matchers",
         "dirName": "REST",
         "pageSectionIdTitles": [
+          {
+            "title": "Imports to use",
+            "id": "imports-to-use"
+          },
           {
             "title": "Response Mapping",
             "id": "response-mapping"
@@ -564,15 +572,15 @@ toc = [
     ]
   },
   {
-    "sectionTitle": "Writing Tests",
-    "dirName": "writing-tests",
+    "sectionTitle": "Groovy Specific Runner",
+    "dirName": "groovy-specific-runner",
     "items": [
       {
-        "sectionTitle": "Writing Tests",
+        "sectionTitle": "Groovy Specific Runner",
         "pageTitle": "Data Driven Scenarios",
         "pageMeta": {},
         "fileName": "data-driven-scenarios",
-        "dirName": "writing-tests",
+        "dirName": "groovy-specific-runner",
         "pageSectionIdTitles": [
           {
             "title": "Dynamic Scenarios",
@@ -585,6 +593,42 @@ toc = [
           {
             "title": "Table Data",
             "id": "table-data"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Groovy Specific Runner",
+        "pageTitle": "Tests Hard Stops",
+        "pageMeta": {},
+        "fileName": "tests-hard-stops",
+        "dirName": "groovy-specific-runner",
+        "pageSectionIdTitles": [
+          {
+            "title": "Terminate All",
+            "id": "terminate-all"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "sectionTitle": "Generic Runners",
+    "dirName": "generic-runners",
+    "items": [
+      {
+        "sectionTitle": "Generic Runners",
+        "pageTitle": "JUnit 4",
+        "pageMeta": {},
+        "fileName": "JUnit-4",
+        "dirName": "generic-runners",
+        "pageSectionIdTitles": [
+          {
+            "title": "WebTau Runner",
+            "id": "webtau-runner"
+          },
+          {
+            "title": "Maven Import",
+            "id": "maven-import"
           }
         ]
       }

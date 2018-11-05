@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: JUnit 4</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>WebTau Runner</h1></header>
+<p>You can use webtau http. and browser. methods as in a junit test, but to enable reporting you need to use @RunWith(WebTauRunner.class) Groovy package com.example.tests.junit4 import com.twosigma.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static com.twosigma.webtau.WebTauDsl.* @RunWith(WebTauRunner.class) class CustomerCrudSingleGroovyTest { private def customerPayload = [firstName: 'FN', lastName: 'LN'] private def changedCustomerPayload = [*:customerPayload, lastName: 'NLN'] @Test void crud() { def id = http.post(&quot;/customers&quot;, customerPayload) { return id } http.get(&quot;/customers/$id&quot;) { body.should == customerPayload } http.put(&quot;/customers/$id&quot;, changedCustomerPayload) { body.should == changedCustomerPayload } http.get(&quot;/customers/$id&quot;) { body.should == changedCustomerPayload } http.delete(&quot;/customers/$id&quot;) { statusCode.should == 204 } http.get(&quot;/customers/$id&quot;) { statusCode.should == 404 } } } Java package com.example.tests.junit4; import com.twosigma.webtau.junit4.WebTauRunner; import org.junit.BeforeClass; import org.junit.Test; import org.junit.runner.RunWith; import java.util.Map; import static com.twosigma.webtau.Ddjt.aMapOf; import static com.twosigma.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class CustomerCrudSingleJavaTest { private Map&lt;String, Object&gt; customerPayload = createCustomerPayload(); private Map&lt;String, Object&gt; changedCustomerPayload = createChangedCustomerPayload(); @BeforeClass public static void setUpClass() { String port = System.getProperty(&quot;springboot.http.port&quot;, &quot;8080&quot;); getCfg().setBaseUrl(&quot;http://localhost:&quot; + port); } @Test public void crud() { int id = http.post(&quot;/customers&quot;, customerPayload, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(customerPayload)); })); http.put(&quot;/customers/&quot; + id, changedCustomerPayload, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.delete(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(204)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(404)); })); } private Map&lt;String, Object&gt; createCustomerPayload() { return aMapOf( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;LN&quot;); } private Map&lt;String, Object&gt; createChangedCustomerPayload() { Map&lt;String, Object&gt; payload = createCustomerPayload(); payload.put(&quot;lastName&quot;, &quot;NLN&quot;); return payload; } }</p>
+</article>
+
+<article>
+<header><h1>Maven Import</h1></header>
+<p>&lt;dependency&gt; &lt;groupId&gt;com.twosigma.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit4&lt;/artifactId&gt; &lt;version&gt;0.31&lt;/version&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "WebTau Runner",
+        "id": "webtau-runner",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "You can use webtau ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "http.",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " and ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "browser.",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " methods as in a junit test, but to enable reporting you need to use",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "code": "@RunWith(WebTauRunner.class)",
+                "type": "InlinedCode"
+              }
+            ]
+          },
+          {
+            "tabsContent": [
+              {
+                "name": "Groovy",
+                "content": [
+                  {
+                    "lang": "groovy",
+                    "snippet": "package com.example.tests.junit4\n\nimport com.twosigma.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static com.twosigma.webtau.WebTauDsl.*\n\n@RunWith(WebTauRunner.class)\nclass CustomerCrudSingleGroovyTest {\n    private def customerPayload \u003d [firstName: \u0027FN\u0027,\n                                   lastName: \u0027LN\u0027]\n    private def changedCustomerPayload \u003d [*:customerPayload, lastName: \u0027NLN\u0027]\n\n    @Test\n    void crud() {\n        def id \u003d http.post(\"/customers\", customerPayload) {\n            return id\n        }\n\n        http.get(\"/customers/$id\") {\n            body.should \u003d\u003d customerPayload\n        }\n\n        http.put(\"/customers/$id\", changedCustomerPayload) {\n            body.should \u003d\u003d changedCustomerPayload\n        }\n\n        http.get(\"/customers/$id\") {\n            body.should \u003d\u003d changedCustomerPayload\n        }\n\n        http.delete(\"/customers/$id\") {\n            statusCode.should \u003d\u003d 204\n        }\n\n        http.get(\"/customers/$id\") {\n            statusCode.should \u003d\u003d 404\n        }\n    }\n}",
+                    "type": "Snippet"
+                  }
+                ]
+              },
+              {
+                "name": "Java",
+                "content": [
+                  {
+                    "lang": "java",
+                    "snippet": "package com.example.tests.junit4;\n\nimport com.twosigma.webtau.junit4.WebTauRunner;\nimport org.junit.BeforeClass;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport java.util.Map;\n\nimport static com.twosigma.webtau.Ddjt.aMapOf;\nimport static com.twosigma.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class CustomerCrudSingleJavaTest {\n    private Map\u003cString, Object\u003e customerPayload \u003d createCustomerPayload();\n    private Map\u003cString, Object\u003e changedCustomerPayload \u003d createChangedCustomerPayload();\n\n    @BeforeClass\n    public static void setUpClass() {\n        String port \u003d System.getProperty(\"springboot.http.port\", \"8080\");\n        getCfg().setBaseUrl(\"http://localhost:\" + port);\n    }\n\n    @Test\n    public void crud() {\n        int id \u003d http.post(\"/customers\", customerPayload, ((header, body) -\u003e {\n            return body.get(\"id\");\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -\u003e {\n            body.should(equal(customerPayload));\n        }));\n\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -\u003e {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -\u003e {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.delete(\"/customers/\" + id, ((header, body) -\u003e {\n            header.statusCode().should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -\u003e {\n            header.statusCode().should(equal(404));\n        }));\n    }\n\n    private Map\u003cString, Object\u003e createCustomerPayload() {\n        return aMapOf(\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\");\n    }\n\n    private Map\u003cString, Object\u003e createChangedCustomerPayload() {\n        Map\u003cString, Object\u003e payload \u003d createCustomerPayload();\n        payload.put(\"lastName\", \"NLN\");\n\n        return payload;\n    }\n}",
+                    "type": "Snippet"
+                  }
+                ]
+              }
+            ],
+            "type": "Tabs"
+          }
+        ]
+      },
+      {
+        "title": "Maven Import",
+        "id": "maven-import",
+        "type": "Section",
+        "content": [
+          {
+            "lang": "xml",
+            "snippet": "\u003cdependency\u003e\n    \u003cgroupId\u003ecom.twosigma.webtau\u003c/groupId\u003e\n    \u003cartifactId\u003ewebtau-junit4\u003c/artifactId\u003e\n    \u003cversion\u003e0.31\u003c/version\u003e\n\u003c/dependency\u003e",
+            "type": "Snippet"
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1541166954000,
+    "tocItem": {
+      "sectionTitle": "Generic Runners",
+      "pageTitle": "JUnit 4",
+      "pageMeta": {},
+      "fileName": "JUnit-4",
+      "dirName": "generic-runners",
+      "pageSectionIdTitles": [
+        {
+          "title": "WebTau Runner",
+          "id": "webtau-runner"
+        },
+        {
+          "title": "Maven Import",
+          "id": "maven-import"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>

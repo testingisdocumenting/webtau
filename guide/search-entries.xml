@@ -144,6 +144,14 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/headers#mime-type-combined-with-payload</url>
+    <fullTitle>WebTau: Headers, Mime Type Combined With Payload [REST]</fullTitle>
+    <text>
+      <text>Use http.body to combine Content-Type and payload.If you need a standard type consider using</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/headers#response-header</url>
     <fullTitle>WebTau: Headers, Response Header [REST]</fullTitle>
     <text>
@@ -283,7 +291,7 @@
     <url>/webtau/guide/REST/maven#dependency</url>
     <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
     <text>
-      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>0.30&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>0.30&lt;/version> &lt;/dependency></text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>0.31&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>0.31&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -291,7 +299,15 @@
     <url>/webtau/guide/REST/maven#plugin</url>
     <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
     <text>
-      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>0.30&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>0.31&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/matchers#imports-to-use</url>
+    <fullTitle>WebTau: Matchers, Imports to use [REST]</fullTitle>
+    <text>
+      <text>For tests outside standard JVM runners like JUnit a single optional static import is all you need groovy import static com.twosigma.webtau.WebTauGroovyDsl.* For JUnit like pure HTTP tests groovy import static com.twosigma.webtau.Ddjt.* import static com.twosigma.webtau.http.Http.http</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -299,7 +315,7 @@
     <url>/webtau/guide/REST/matchers#response-mapping</url>
     <fullTitle>WebTau: Matchers, Response Mapping [REST]</fullTitle>
     <text>
-      <text>Identifiers inside validation closure are automatically mapped to a response body.In case of an array response you need to access values using body .</text>
+      <text>Identifiers inside validation closure are automatically mapped to a response body. Groovy Java http.get("/end-point-simple-object", (header, body) -> { body.get("k1").should(equal("v1")); }); List responses are handled by using index chain Groovy Note: Groovy API implicitly assumes body , but if you need to deal with array response you need to access values using body explicitly. Java http.get("/end-point-simple-list", (header, body) -> { body.get(0).get("k1").should(equal("v1")); });</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -307,7 +323,7 @@
     <url>/webtau/guide/REST/matchers#should-and-should-not</url>
     <fullTitle>WebTau: Matchers, Should and Should Not [REST]</fullTitle>
     <text>
-      <text>Matchers in webtau are triggered with should and shouldNot keywords. groovy myValue.should contain(10) myValue.shouldNot equal("hello") Some matchers have alternative shortcuts. groovy myValue.should != 10 Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read groovy myValue.shouldBe greaterThan(10) myValue.shouldBe > 10</text>
+      <text>Matchers in webtau are triggered with should and shouldNot keywords. Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read. Groovy Java http.get("/example", ((header, body) -> { body.get("year").shouldNot(equal(2000)); body.get("genres").should(contain("RPG")); body.get("rating").shouldBe(greaterThan(7)); }));</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -315,7 +331,7 @@
     <url>/webtau/guide/REST/matchers#equality</url>
     <fullTitle>WebTau: Matchers, Equality [REST]</fullTitle>
     <text>
-      <text>Webtau defines its own set of equality rules to simplify testing.</text>
+      <text>Webtau defines its own set of equality rules to simplify testing. Groovy Java http.get("/end-point", (header, body) -> { body.get("id").shouldNot(equal(0)); body.get("amount").should(equal(30)); body.get("list").should(equal(Arrays.asList(1, 2, 3))); body.get("object").get("k1").should(equal( Pattern.compile("v\\d"))); // regular expression matching body.get("object").should(equal(aMapOf( "k1", "v1", "k3", "v3"))); // matching only specified fields and can be nested multiple times body.get("complexList").should(equal(table("k1" , "k2").values( // matching only specified fields, but number of entries must be exact "v1" , 30, "v11", 40))); }); http.doc.capture("end-point-object-equality-matchers");</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -323,7 +339,7 @@
     <url>/webtau/guide/REST/matchers#greaterlessequal</url>
     <fullTitle>WebTau: Matchers, Greater/Less/Equal [REST]</fullTitle>
     <text>
-      <text>Standard operations > , >= , &lt; , &lt;= are supported as shortcuts for greaterThan , greaterThanOrEqual , lessThan , and lessThanOrEqual .</text>
+      <text>Use greaterThan , greaterThanOrEqual , lessThan , and lessThanOrEqual to assert numeric values. Groovy Note: Groovy can use shortcuts > , >= , &lt; , &lt;= . Java http.get("/end-point-numbers", (header, body) -> { body.get("id").shouldBe(greaterThan(0)); body.get("price").shouldBe(greaterThanOrEqual(100)); body.get("amount").shouldBe(lessThan(150)); body.get("list").get(1).shouldBe(lessThanOrEqual(2)); body.get("id").shouldNotBe(lessThanOrEqual(0)); body.get("price").shouldNotBe(lessThan(100)); body.get("amount").shouldNotBe(greaterThanOrEqual(150)); body.get("list").get(1).shouldNotBe(greaterThan(2)); }); http.doc.capture("end-point-numbers-matchers");</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -331,7 +347,7 @@
     <url>/webtau/guide/REST/matchers#contain</url>
     <fullTitle>WebTau: Matchers, Contain [REST]</fullTitle>
     <text>
-      <text>Use contain when you cannot rely on order.</text>
+      <text>Use contain when you cannot rely on order of values in a response. Groovy Java http.get("/end-point-list", (header, body) -> { body.should(contain(aMapOf( "k1", "v1", "k2", "v2"))); body.get(1).get("k2").shouldNot(contain(22)); }); http.doc.capture("end-point-list-contain-matchers");</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -339,7 +355,7 @@
     <url>/webtau/guide/REST/matchers#date-and-time</url>
     <fullTitle>WebTau: Matchers, Date and Time [REST]</fullTitle>
     <text>
-      <text>You can assert actual string against LocalDate and ZonedDateTime . String will be automatically converted using ISO formatter.</text>
+      <text>You can assert actual string against LocalDate and ZonedDateTime . String will be automatically converted using ISO formatter. Groovy Java http.get("/end-point-dates", (header, body) -> { LocalDate expectedDate = LocalDate.of(2018, 6, 12); ZonedDateTime expectedTime = ZonedDateTime.of(expectedDate, LocalTime.of(9, 0, 0), ZoneId.of("UTC")); body.get("tradeDate").should(equal(expectedDate)); body.get("transactionTime").should(equal(expectedTime)); body.get("transactionTime").shouldBe(greaterThanOrEqual(expectedDate)); body.get("paymentSchedule").should(contain(expectedDate)); }); http.doc.capture("end-point-dates-matchers");</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -347,7 +363,7 @@
     <url>/webtau/guide/REST/matchers#mixing-matchers</url>
     <fullTitle>WebTau: Matchers, Mixing Matchers [REST]</fullTitle>
     <text>
-      <text>You can use matchers in place of expected values to build a more complex expectation.</text>
+      <text>You can use matchers in place of expected values to build a more complex expectation. Groovy Java Pattern withNumber = Pattern.compile("v\\d"); http.get("/end-point-mixed", (header, body) -> { body.get("list").should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value body.get("object").should(equal(aMapOf( "k1", "v1", "k3", withNumber))); // regular expression match against k3 body.get("complexList").get(0).should(equal(aMapOf( "k1", "v1", "k2", lessThan(120)))); // lessThen match against k2 body.get("complexList").get(1).should(equal(aMapOf( "k1", notEqual("v1"), // any value but v1 "k2", greaterThanOrEqual(120)))); TableData expected = table("k1", "k2").values( // matching only specified fields, but number of entries must be exact withNumber, lessThan(120), "v11", greaterThan(150)); body.get("complexList").should(equal(expected)); }); http.doc.capture("end-point-mixing-matchers");</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -584,26 +600,50 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/writing-tests/data-driven-scenarios#dynamic-scenarios</url>
-    <fullTitle>WebTau: Data Driven Scenarios, Dynamic Scenarios [Writing Tests]</fullTitle>
+    <url>/webtau/guide/groovy-specific-runner/data-driven-scenarios#dynamic-scenarios</url>
+    <fullTitle>WebTau: Data Driven Scenarios, Dynamic Scenarios [Groovy Specific Runner]</fullTitle>
     <text>
       <text>Every time you call scenario method a new scenario is being registered. Define scenarios in a loop to have dynamic scenarios based on provided data. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* [1, 2, 3].each { number -> scenario("number $number") { println number } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/writing-tests/data-driven-scenarios#csv</url>
-    <fullTitle>WebTau: Data Driven Scenarios, CSV [Writing Tests]</fullTitle>
+    <url>/webtau/guide/groovy-specific-runner/data-driven-scenarios#csv</url>
+    <fullTitle>WebTau: Data Driven Scenarios, CSV [Groovy Specific Runner]</fullTitle>
     <text>
       <text>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* data.csv('examples/use-cases.csv').each { row -> scenario("use case ${row.title}") { println row.input println row.output } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/writing-tests/data-driven-scenarios#table-data</url>
-    <fullTitle>WebTau: Data Driven Scenarios, Table Data [Writing Tests]</fullTitle>
+    <url>/webtau/guide/groovy-specific-runner/data-driven-scenarios#table-data</url>
+    <fullTitle>WebTau: Data Driven Scenarios, Table Data [Groovy Specific Runner]</fullTitle>
     <text>
       <text>Use TableData If you want to derive data and/or have a convenience of collocating data and tests package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* def lever = 10 def useCases = ['title' | 'input' | 'output'] { ____________________________________ 'hello' | lever | lever + 10 'world' | lever + 30 | lever + 40 } useCases.each { row -> scenario("use case ${row.title}") { println row.input println row.output } }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/groovy-specific-runner/tests-hard-stops#terminate-all</url>
+    <fullTitle>WebTau: Tests Hard Stops, Terminate All [Groovy Specific Runner]</fullTitle>
+    <text>
+      <text>Use terminateAll if you need to stop a current scenario and all the scenarios after that. Consequent scenarios will be marked as skipped in the produced report. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("first test") { terminateAll('hard stop of the rest of the tests') } scenario("second test") { browser.open("/app") } scenario("third test") { http.get("/weather") { temperature.shouldBe &lt; 100 } } Test two and three in the example above will not be executed. Browser will not be opened and REST API will not be called.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/generic-runners/JUnit-4#webtau-runner</url>
+    <fullTitle>WebTau: JUnit 4, WebTau Runner [Generic Runners]</fullTitle>
+    <text>
+      <text>You can use webtau http. and browser. methods as in a junit test, but to enable reporting you need to use @RunWith(WebTauRunner.class) Groovy package com.example.tests.junit4 import com.twosigma.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static com.twosigma.webtau.WebTauDsl.* @RunWith(WebTauRunner.class) class CustomerCrudSingleGroovyTest { private def customerPayload = [firstName: 'FN', lastName: 'LN'] private def changedCustomerPayload = [*:customerPayload, lastName: 'NLN'] @Test void crud() { def id = http.post("/customers", customerPayload) { return id } http.get("/customers/$id") { body.should == customerPayload } http.put("/customers/$id", changedCustomerPayload) { body.should == changedCustomerPayload } http.get("/customers/$id") { body.should == changedCustomerPayload } http.delete("/customers/$id") { statusCode.should == 204 } http.get("/customers/$id") { statusCode.should == 404 } } } Java package com.example.tests.junit4; import com.twosigma.webtau.junit4.WebTauRunner; import org.junit.BeforeClass; import org.junit.Test; import org.junit.runner.RunWith; import java.util.Map; import static com.twosigma.webtau.Ddjt.aMapOf; import static com.twosigma.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class CustomerCrudSingleJavaTest { private Map&lt;String, Object> customerPayload = createCustomerPayload(); private Map&lt;String, Object> changedCustomerPayload = createChangedCustomerPayload(); @BeforeClass public static void setUpClass() { String port = System.getProperty("springboot.http.port", "8080"); getCfg().setBaseUrl("http://localhost:" + port); } @Test public void crud() { int id = http.post("/customers", customerPayload, ((header, body) -> { return body.get("id"); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(customerPayload)); })); http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.delete("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(204)); })); http.get("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(404)); })); } private Map&lt;String, Object> createCustomerPayload() { return aMapOf( "firstName", "FN", "lastName", "LN"); } private Map&lt;String, Object> createChangedCustomerPayload() { Map&lt;String, Object> payload = createCustomerPayload(); payload.put("lastName", "NLN"); return payload; } }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/generic-runners/JUnit-4#maven-import</url>
+    <fullTitle>WebTau: JUnit 4, Maven Import [Generic Runners]</fullTitle>
+    <text>
+      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>0.31&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
