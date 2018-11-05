@@ -1,2 +1,3 @@
+#!/bin/bash
 CWD=`dirname "$0"`
 java -cp "$CWD/lib/*:$WEBTAU_CP" com.twosigma.webtau.cli.WebTauCliApp $*
