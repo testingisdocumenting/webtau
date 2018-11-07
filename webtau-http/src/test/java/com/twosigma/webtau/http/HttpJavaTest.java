@@ -71,11 +71,11 @@ public class HttpJavaTest implements HttpConfiguration  {
 
     @Test
     public void matchersBasicExample() {
-        http.get("/example", ((header, body) -> {
+        http.get("/example", (header, body) -> {
             body.get("year").shouldNot(equal(2000));
             body.get("genres").should(contain("RPG"));
             body.get("rating").shouldBe(greaterThan(7));
-        }));
+        });
     }
 
     @Test
