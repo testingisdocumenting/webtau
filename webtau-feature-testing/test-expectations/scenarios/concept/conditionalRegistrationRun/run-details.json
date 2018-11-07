@@ -1,0 +1,9 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "this scenario will only be registered for \"experimental\" env",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

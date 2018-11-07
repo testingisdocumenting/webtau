@@ -72,7 +72,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             System.exit(0)
         } else {
             cliApp.start(true)
-            System.exit(cliApp.problemCount)
+            System.exit(cliApp.problemCount > 0 ? 1 : 0)
         }
     }
 
@@ -198,7 +198,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     @Override
     void generate(Report report) {
         def summary = report.createSummary()
-        problemCount = (int) (summary.failed + summary.errored + summary.skipped)
+        problemCount = (int) (summary.failed + summary.errored)
     }
 
     private static ConsoleOutput createConsoleOutput() {

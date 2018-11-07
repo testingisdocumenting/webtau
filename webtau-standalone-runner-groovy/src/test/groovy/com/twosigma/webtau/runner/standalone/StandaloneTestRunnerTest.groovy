@@ -72,6 +72,26 @@ class StandaloneTestRunnerTest {
         runner.tests.skipped.should == [false, true, true]
     }
 
+    @Test
+    void "should skip disabled tests with dscenario"() {
+        def runner = createRunner("withDisabled.groovy")
+        runner.tests.scenario.should == ['disabled test one', 'enabled test', 'disabled test two']
+        runner.runTests()
+
+        runner.tests.skipped.should == [true, false, true]
+        runner.tests.disableReason.should == ['disabled with dscenario', null, 'disabled with dscenario']
+    }
+
+    @Test
+    void "should skip disabled tests with onlyWhen"() {
+        def runner = createRunner("withDisabledOnCondition.groovy")
+        runner.tests.scenario.should == ['conditioned scenario one', 'conditioned scenario two', 'scenario three']
+        runner.runTests()
+
+        runner.tests.skipped.should == [true, true, false]
+        runner.tests.disableReason.should == ['will never happen', 'will never happen', null]
+    }
+
     private static StandaloneTestRunner createRunner(String scenarioFile) {
         def workingDir = Paths.get("test-scripts")
         def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, []), workingDir)

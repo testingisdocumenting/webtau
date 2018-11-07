@@ -47,6 +47,16 @@ class WebTauConceptFeaturesTest {
         runCli('testsTermination.groovy', 'webtau.cfg')
     }
 
+    @Test
+    void "conditional tests registration skip"() {
+        runCli('conditionalRegistrationSkip.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "conditional tests registration run"() {
+        runCli('conditionalRegistrationRun.groovy', 'experimental.cfg')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/concept/$testName",
                 "scenarios/concept/$configFileName", additionalArgs)
