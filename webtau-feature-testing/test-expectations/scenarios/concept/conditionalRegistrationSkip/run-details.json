@@ -1,7 +1,0 @@
-{
-  "scenarioDetails" : [ {
-    "scenario" : "this scenario will only be registered for \"experimental\" env",
-    "stepsSummary" : { }
-  } ],
-  "exitCode" : 0
-}

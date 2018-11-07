@@ -16,8 +16,11 @@
 
 package com.twosigma.webtau.featuretesting
 
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
+
+import static com.twosigma.webtau.cfg.WebTauConfig.cfg
 
 class WebTauConceptFeaturesTest {
     private static WebTauTestRunner testRunner
@@ -25,6 +28,11 @@ class WebTauConceptFeaturesTest {
     @BeforeClass
     static void init() {
         testRunner = new WebTauTestRunner()
+    }
+
+    @Before
+    void before() {
+        cfg.envConfigValue.set('test', 'local')
     }
 
     @Test
@@ -48,13 +56,18 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
-    void "conditional tests registration skip"() {
-        runCli('conditionalRegistrationSkip.groovy', 'webtau.cfg')
+    void "conditional tests custom condition skip"() {
+        runCli('conditionalCustomRegistrationSkip.groovy', 'webtau.cfg')
     }
 
     @Test
-    void "conditional tests registration run"() {
-        runCli('conditionalRegistrationRun.groovy', 'experimental.cfg')
+    void "conditional tests based on env registration skip"() {
+        runCli('conditionalEnvRegistrationSkip.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "conditional tests based on env registration run"() {
+        runCli('conditionalEnvRegistrationRun.groovy', 'experimental.cfg')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

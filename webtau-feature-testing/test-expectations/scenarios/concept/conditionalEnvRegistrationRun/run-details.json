@@ -1,6 +1,6 @@
 {
   "scenarioDetails" : [ {
-    "scenario" : "this scenario will only be registered for \"experimental\" env",
+    "scenario" : "this scenario will only be executed in \"experimental\" env",
     "stepsSummary" : {
       "numberOfFailed" : 1
     }
