@@ -35,7 +35,7 @@ Use `http.body` to combine `Content-Type` and payload.
 
 If you need a standard type consider using  
 
-:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {title: "Binary content shortuct", entry: "implicit binary mime types combined with request body", bodyOnly: true}
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {title: "Binary content shortuct", entry: "post implicit binary mime types combined with request body", bodyOnly: true}
 
 :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {title: "Text content shortcut", entry: "implicit text mime types combined with request body", bodyOnly: true}
   

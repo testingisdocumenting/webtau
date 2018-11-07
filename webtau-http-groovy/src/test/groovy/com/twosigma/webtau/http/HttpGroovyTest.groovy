@@ -263,9 +263,17 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "implicit binary mime types combined with request body"() {
+    void "post implicit binary mime types combined with request body"() {
         def content = binaryFile('path')
         http.post("/end-point", http.application.octetStream(content)) {
+            // assertions go here
+        }
+    }
+
+    @Test
+    void "put implicit binary mime types combined with request body"() {
+        def content = binaryFile('path')
+        http.put("/end-point", http.application.octetStream(content)) {
             // assertions go here
         }
     }
