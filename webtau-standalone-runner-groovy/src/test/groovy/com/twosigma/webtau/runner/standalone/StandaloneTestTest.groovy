@@ -38,6 +38,7 @@ class StandaloneTestTest {
                                                         startTime: 12345678,
                                                         elapsedTime: 100,
                                                         status: 'Skipped',
+                                                        disabled: false,
                                                         screenshot: 'base64', steps: ['step1', 'step2']])
     }
 }
