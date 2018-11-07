@@ -73,6 +73,10 @@ class HttpExtensions {
         return http.put(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
+    static def put(Http http, String url, HttpRequestBody requestBody, Closure validation) {
+        return http.put(url, requestBody, closureToHttpResponseValidator(validation))
+    }
+
     static def put(Http http, String url, Map<String, Object> requestBody, Closure validation) {
         return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
