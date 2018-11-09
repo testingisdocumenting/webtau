@@ -32,7 +32,8 @@ class StandaloneTestRunner {
 
     private AtomicBoolean isTerminated
 
-    private ThreadLocal<TestRunCondition> runCondition = new ThreadLocal<>()
+    private ThreadLocal<TestRunCondition> runCondition = ThreadLocal.<TestRunCondition>withInitial { ->
+        new TestRunCondition(isConditionMet: true) }
 
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
         this.workingDir = workingDir.toAbsolutePath()
@@ -40,7 +41,6 @@ class StandaloneTestRunner {
         this.exclusiveTests = []
         this.groovy = groovy
         this.isTerminated = new AtomicBoolean(false)
-        this.runCondition.set(new TestRunCondition(isConditionMet: true))
     }
 
     void process(Path scriptPath, delegate) {
