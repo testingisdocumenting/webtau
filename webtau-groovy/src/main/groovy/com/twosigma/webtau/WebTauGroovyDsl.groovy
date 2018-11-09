@@ -59,6 +59,29 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
+    static void dscenario(String description, Closure code) {
+        if (!testRunner) {
+            ConsoleOutputs.out(Color.YELLOW, "disabled test ", Color.GREEN, FontStyle.BOLD, description)
+        } else {
+            testRunner.scenario(description, code)
+        }
+    }
+
+    static void onlyForEnv(String env, Closure registrationCode) {
+        onlyWhen("only for <$env> environment",
+                { -> getCfg().getEnv() == env },
+                registrationCode)
+    }
+
+    static void onlyWhen(String skipReason, Closure condition, Closure registrationCode) {
+        if (!testRunner) {
+            ConsoleOutputs.out(Color.PURPLE, "onlyWhen", Color.YELLOW, " is not supported in ad-hoc run", Color.GREEN, FontStyle.BOLD, skipReason)
+            registrationCode()
+        } else {
+            testRunner.onlyWhen(skipReason, condition, registrationCode)
+        }
+    }
+
     static void terminateAll(String reason) {
         throw new TestsRunTerminateException(reason)
     }

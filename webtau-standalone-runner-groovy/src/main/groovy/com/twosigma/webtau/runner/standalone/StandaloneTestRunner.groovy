@@ -32,12 +32,15 @@ class StandaloneTestRunner {
 
     private AtomicBoolean isTerminated
 
+    private ThreadLocal<TestRunCondition> runCondition = new ThreadLocal<>()
+
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
         this.workingDir = workingDir.toAbsolutePath()
         this.tests = []
         this.exclusiveTests = []
         this.groovy = groovy
         this.isTerminated = new AtomicBoolean(false)
+        this.runCondition.set(new TestRunCondition(isConditionMet: true))
     }
 
     void process(Path scriptPath, delegate) {
@@ -47,6 +50,9 @@ class StandaloneTestRunner {
 
         script.setDelegate(delegate)
         script.setProperty("scenario", this.&scenario)
+        script.setProperty("dscenario", this.&dscenario)
+        script.setProperty("sscenario", this.&sscenario)
+        script.setProperty("onlyWhen", this.&onlyWhen)
 
         StandaloneTestListeners.beforeScriptParse(scriptPath)
         script.run()
@@ -74,13 +80,42 @@ class StandaloneTestRunner {
     }
 
     void scenario(String description, Closure code) {
-        def test = new StandaloneTest(workingDir, currentTestPath, description, code)
-        tests.add(test)
+        handleDisabledByCondition(description, code) { test ->
+            tests.add(test)
+        }
     }
 
     void sscenario(String description, Closure code) {
+        handleDisabledByCondition(description, code) { test ->
+            exclusiveTests.add(test)
+        }
+    }
+
+    void dscenario(String description, Closure code) {
+        dscenario(description, "disabled with dscenario", code)
+    }
+
+    void dscenario(String description, String reason, Closure code) {
         def test = new StandaloneTest(workingDir, currentTestPath, description, code)
-        exclusiveTests.add(test)
+        test.disable(reason)
+        tests.add(test)
+    }
+
+    void onlyWhen(String skipReason, Closure condition, Closure registrationCode) {
+        def registerTests = registrationCode.clone() as Closure
+
+        def isConditionMet = condition()
+
+        def previousRunCondition = runCondition.get()
+        if (!isConditionMet) {
+            runCondition.set(new TestRunCondition(skipReason: skipReason, isConditionMet: false))
+        }
+
+        try {
+            registerTests()
+        } finally {
+            runCondition.set(previousRunCondition)
+        }
     }
 
     void runTests() {
@@ -129,6 +164,37 @@ class StandaloneTestRunner {
 
         if (test.reportTestEntry.exception instanceof TestsRunTerminateException) {
             isTerminated.set(true)
+        }
+    }
+
+    private void handleDisabledByCondition(String scenarioDescription, Closure scenarioCode, Closure registrationCode) {
+        def runCondition = runCondition.get()
+        if (runCondition.isConditionMet) {
+            def test = new StandaloneTest(workingDir, currentTestPath, scenarioDescription, scenarioCode)
+            registrationCode(test)
+        } else {
+            dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)
+        }
+    }
+
+    private static class TestRunCondition {
+        String skipReason
+        boolean isConditionMet
+    }
+
+    private class SkipTestsDelegate {
+        private String skipReason
+
+        SkipTestsDelegate(String skipReason) {
+            this.skipReason = skipReason
+        }
+
+        void scenario(String description, Closure code) {
+            StandaloneTestRunner.this.dscenario(description, skipReason, code)
+        }
+
+        void sscenario(String description, Closure code) {
+            StandaloneTestRunner.this.dscenario(description, skipReason, code)
         }
     }
 }

@@ -59,6 +59,10 @@ class StandaloneTest implements StepReporter {
         return reportTestEntry.scenario
     }
 
+    String getDisableReason() {
+        return reportTestEntry.disableReason
+    }
+
     boolean hasError() {
         return reportTestEntry.hasError()
     }
@@ -83,17 +87,18 @@ class StandaloneTest implements StepReporter {
         return reportTestEntry.assertionMessage
     }
 
-    void addResultPayload(TestResultPayload payload) {
-        reportTestEntry.addTestResultPayload(payload)
-    }
-
     void run() {
         reportTestEntry.clear()
+        if (reportTestEntry.isDisabled()) {
+            return
+        }
 
         StepReporters.withAdditionalReporter(this) {
             try {
                 reportTestEntry.startClock()
-                code.run()
+                if (!reportTestEntry.isDisabled()) {
+                    code.run()
+                }
             } catch (Throwable e) {
                 reportTestEntry.setException(e)
             } finally {
@@ -101,6 +106,14 @@ class StandaloneTest implements StepReporter {
                 reportTestEntry.setRan(true)
             }
         }
+    }
+
+    void disable(String reason) {
+        reportTestEntry.disable(reason)
+    }
+
+    void addResultPayload(TestResultPayload payload) {
+        reportTestEntry.addTestResultPayload(payload)
     }
 
     @Override

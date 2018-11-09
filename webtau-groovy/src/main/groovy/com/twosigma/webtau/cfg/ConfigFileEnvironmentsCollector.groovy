@@ -31,7 +31,7 @@ class ConfigFileEnvironmentsCollector {
         this.workingDir = workingDir
         this.configPath = configPath
         this.groovy = GroovyRunner.createWithCustomScriptClass(workingDir, IgnoreAllConfigScriptClass.class)
-        this.environments = []
+        this.environments = ['local']
     }
 
     List<String> collectEnvironments() {

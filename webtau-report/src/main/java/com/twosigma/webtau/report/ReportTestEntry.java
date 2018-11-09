@@ -49,6 +49,9 @@ public class ReportTestEntry {
     private final List<TestResultPayload> payloads;
     private final List<TestStep<?, ?>> steps;
 
+    private boolean isDisabled;
+    private String disableReason;
+
     private boolean isRan;
     private Path workingDir;
 
@@ -102,6 +105,19 @@ public class ReportTestEntry {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public void disable(String reason) {
+        disableReason = reason;
+        isDisabled = true;
+    }
+
+    public boolean isDisabled() {
+        return isDisabled;
+    }
+
+    public String getDisableReason() {
+        return disableReason;
     }
 
     public Throwable getException() {
@@ -207,6 +223,12 @@ public class ReportTestEntry {
 
         if (className != null) {
             result.put("className", className);
+        }
+
+        result.put("disabled", isDisabled);
+
+        if (isDisabled) {
+            result.put("disableReason", disableReason);
         }
 
         if (exception != null) {
