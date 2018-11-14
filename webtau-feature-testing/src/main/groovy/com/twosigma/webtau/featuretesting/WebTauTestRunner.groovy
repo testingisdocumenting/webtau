@@ -75,10 +75,13 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
             def cliApp = new WebTauCliApp(args as String[])
 
             getCfg().triggerConfigHandlers()
-            cliApp.start(false)
 
             def testDetails = [scenarioDetails: scenariosDetails,
-                               exitCode: cliApp.problemCount]
+                               exitCode: 0]
+
+            cliApp.start(WebTauCliApp.WebDriverBehavior.KeepWebDriversOpen) { exitCode ->
+                testDetails.exitCode = exitCode
+            }
 
             validateAndSaveTestDetails(testFileName, testDetails)
         } finally {

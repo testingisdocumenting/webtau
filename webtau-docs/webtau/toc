@@ -28,6 +28,7 @@ UI
 groovy-specific-runner
     data-driven-scenarios
     tests-hard-stops
+    selective-run
     conditional-run
 generic-runners
     JUnit-4

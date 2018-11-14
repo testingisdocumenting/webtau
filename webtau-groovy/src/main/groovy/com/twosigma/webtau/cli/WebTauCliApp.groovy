@@ -27,6 +27,7 @@ import com.twosigma.webtau.cli.interactive.WebTauCliInteractive
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
+import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.console.ansi.NoAnsiConsoleOutput
 import com.twosigma.webtau.pdf.Pdf
 import com.twosigma.webtau.report.Report
@@ -41,10 +42,16 @@ import com.twosigma.webtau.runner.standalone.report.StandardConsoleTestListener
 
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.function.Consumer
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
+    enum WebDriverBehavior {
+        AutoCloseWebDrivers,
+        KeepWebDriversOpen
+    }
+
     private static StandardConsoleTestListener consoleTestReporter = new StandardConsoleTestListener()
     private static ScreenshotStepReporter screenshotStepReporter = new ScreenshotStepReporter()
     private static ConsoleOutput consoleOutput
@@ -71,29 +78,33 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             cliApp.startInteractive()
             System.exit(0)
         } else {
-            cliApp.start(true)
-            System.exit(cliApp.problemCount > 0 ? 1 : 0)
+            cliApp.start(WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
+                System.exit(exitCode)
+            }
         }
     }
 
-    void start(boolean autoCloseWebDrivers) {
-        prepareTestsAndRun(autoCloseWebDrivers) {
+    void start(WebDriverBehavior webDriverBehavior, Consumer<Integer> exitHandler) {
+        prepareTestsAndRun(webDriverBehavior) {
             runTests()
+        }
+
+        if (!runner.exclusiveTests.isEmpty()) {
+            ConsoleOutputs.out(Color.YELLOW, 'sscenario is found, only use it during local development')
+            exitHandler.accept(1)
+        } else {
+            exitHandler.accept(problemCount > 0 ? 1 : 0)
         }
     }
 
     void startInteractive() {
-        prepareTestsAndRun(true) {
+        prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
             def interactive = new WebTauCliInteractive(runner)
             interactive.start()
         }
     }
 
-    int getProblemCount() {
-        return problemCount
-    }
-
-    private void prepareTestsAndRun(boolean autoCloseWebDrivers, Closure code) {
+    private void prepareTestsAndRun(WebDriverBehavior webDriverBehavior, Closure code) {
         init()
 
         try {
@@ -110,7 +121,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
             Pdf.closeAll()
 
-            if (autoCloseWebDrivers) {
+            if (webDriverBehavior == WebDriverBehavior.AutoCloseWebDrivers) {
                 WebDriverCreator.closeAll()
             }
         }
