@@ -36,11 +36,11 @@ class WebTauMaven {
         if (options.interactive) {
             cli.startInteractive()
         } else {
-            cli.start(true)
-        }
-
-        if (cli.problemCount > 0) {
-            throw new MojoFailureException("check failed tests")
+            cli.start(WebTauCliApp.WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
+                if (exitCode > 0) {
+                    throw new MojoFailureException("tests failure: check tests output")
+                }
+            }
         }
     }
 

@@ -63,6 +63,10 @@ class StandaloneTestRunner {
         exclusiveTests = []
     }
 
+    List<StandaloneTest> getExclusiveTests() {
+        return exclusiveTests
+    }
+
     List<StandaloneTest> getTests() {
         return tests
     }

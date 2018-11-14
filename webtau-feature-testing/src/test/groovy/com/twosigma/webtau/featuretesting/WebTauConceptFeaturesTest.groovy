@@ -56,6 +56,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "run selected tests only"() {
+        runCli('runOnlySelected.groovy', 'webtau.cfg')
+    }
+
+    @Test
     void "conditional tests custom condition skip"() {
         runCli('conditionalCustomRegistrationSkip.groovy', 'webtau.cfg')
     }
