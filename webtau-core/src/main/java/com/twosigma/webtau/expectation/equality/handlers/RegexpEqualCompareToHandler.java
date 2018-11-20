@@ -22,6 +22,8 @@ import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
 import java.util.regex.Pattern;
 
+import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.expected;
+
 public class RegexpEqualCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
@@ -34,11 +36,11 @@ public class RegexpEqualCompareToHandler implements CompareToHandler {
 
         boolean isEqual = expectedPattern.matcher(actual.toString()).find();
         comparator.reportEqualOrNotEqual(this, isEqual,
-                actualPath, renderActualExpected(actual, expected));
+                actualPath, renderActualExpected(comparator.getAssertionMode(), actual, expected));
     }
 
-    private String renderActualExpected(Object actual, Object expected) {
+    private String renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
         return "   actual string: " + actual.toString() + "\n" +
-               "expected pattern: " + expected.toString();
+               expected("expected pattern: ", assertionMode, expected.toString());
     }
 }

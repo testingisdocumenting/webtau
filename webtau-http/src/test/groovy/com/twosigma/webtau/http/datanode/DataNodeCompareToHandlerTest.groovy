@@ -82,6 +82,6 @@ class DataNodeCompareToHandlerTest {
         assertEquals('matches:\n' +
             '\n' +
             'node:   actual: {node={k1: v1, k2: v2}} <java.util.Collections.UnmodifiableMap>\n' +
-            '      expected: null', comparator.generateNotEqualMatchReport())
+            '      expected: not null', comparator.generateNotEqualMatchReport())
     }
 }

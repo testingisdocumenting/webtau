@@ -20,6 +20,7 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
+import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.expected;
 import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
 public class StringCompareToHandler implements CompareToHandler {
@@ -36,16 +37,18 @@ public class StringCompareToHandler implements CompareToHandler {
 
         boolean isEqual = actualString.equals(expectedString);
         comparator.reportEqualOrNotEqual(this, isEqual,
-                actualPath, renderActualExpected(actual, actualString, expected, expectedString));
+                actualPath, renderActualExpected(comparator.getAssertionMode(), actual, actualString, expected, expectedString));
     }
 
     private String convertToString(Object expected) {
         return expected.toString();
     }
 
-    private String renderActualExpected(Object actual, Object convertedActual, Object expected, Object convertedExpected) {
+    private String renderActualExpected(CompareToComparator.AssertionMode assertionMode,
+                                        Object actual, Object convertedActual,
+                                        Object expected, Object convertedExpected) {
         return "  actual: " + renderValueAndType(convertedActual) + additionalTypeInfo(actual, convertedActual) + "\n" +
-                "expected: " + renderValueAndType(convertedExpected) + additionalTypeInfo(expected, convertedExpected);
+                expected(assertionMode, renderValueAndType(convertedExpected) + additionalTypeInfo(expected, convertedExpected));
     }
 
     private String additionalTypeInfo(Object original, Object converted) {

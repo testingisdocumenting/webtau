@@ -30,6 +30,6 @@ public class LiveValueCompareToHandler implements CompareToHandler {
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         LiveValue actualLiveValue = (LiveValue) actual;
-        comparator.compareIsEqual(actualPath, actualLiveValue.get(), expected);
+        comparator.compareUsingEqualOnly(actualPath, actualLiveValue.get(), expected);
     }
 }

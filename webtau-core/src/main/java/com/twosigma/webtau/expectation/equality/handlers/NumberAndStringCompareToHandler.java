@@ -41,7 +41,7 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
         Number actualNumber = convertToNumber(actual);
 
         if (actualNumber == null) {
-            comparator.reportEqualOrNotEqual(this, false, actualPath, renderActualExpected(Double.NaN, expected));
+            comparator.reportEqualOrNotEqual(this, false, actualPath, renderActualExpected(comparator.getAssertionMode(), Double.NaN, expected));
         } else {
             comparator.compareUsingEqualOnly(actualPath, actualNumber, expected);
         }
@@ -53,7 +53,7 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
 
         if (actualNumber == null) {
             comparator.reportCompareToValue(this, compareToValueToFail(comparator), actualPath,
-                    renderActualExpected(Double.NaN, expected));
+                    renderActualExpected(comparator.getAssertionMode(), Double.NaN, expected));
         } else {
             comparator.compareUsingCompareTo(actualPath, actualNumber, expected);
         }

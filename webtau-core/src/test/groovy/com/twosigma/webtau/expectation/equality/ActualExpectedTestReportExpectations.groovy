@@ -18,7 +18,12 @@ package com.twosigma.webtau.expectation.equality
 
 class ActualExpectedTestReportExpectations {
     static String simpleActualExpectedWithIntegers(int actual, int expected) {
+        return simpleActualExpectedWithIntegers(actual, null, expected)
+    }
+
+    static String simpleActualExpectedWithIntegers(int actual, String expectedPrefix, int expected) {
+        def prefix = expectedPrefix != null && !expectedPrefix.isEmpty() && !expectedPrefix.endsWith(" ") ? expectedPrefix + " " : ""
         return "value:   actual: $actual <java.lang.Integer>\n" +
-               "       expected: $expected <java.lang.Integer>"
+               "       expected: $prefix$expected <java.lang.Integer>"
     }
 }

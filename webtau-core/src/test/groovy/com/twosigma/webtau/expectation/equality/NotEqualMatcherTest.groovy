@@ -32,7 +32,7 @@ class NotEqualMatcherTest {
 
         assert matcher.matches(actualPath, actual)
         assert matcher.matchedMessage(actualPath, actual) == "doesn't equal $expected\n" +
-            'matches:\n\n' + simpleActualExpectedWithIntegers(actual, expected)
+            'matches:\n\n' + simpleActualExpectedWithIntegers(actual, "not", expected)
     }
 
     @Test
@@ -43,7 +43,7 @@ class NotEqualMatcherTest {
         assert matcher.mismatchedMessage(actualPath, actual) ==  "equals $expected, but shouldn't\n" +
             "mismatches:\n" +
             "\n" +
-            simpleActualExpectedWithIntegers(actual, expected)
+            simpleActualExpectedWithIntegers(actual, "not", expected)
     }
 
     @Test

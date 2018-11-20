@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
+import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.expected;
 import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
 public class DateAndStringCompareToHandler implements CompareToHandler {
@@ -140,13 +141,13 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
 
         private String renderActualExpected(Object actual, Object expected) {
             return "  actual: " + renderValueAndType(actual) + "\n" +
-                    "expected: " + renderValueAndType(expected);
+                    expected(compareToComparator.getAssertionMode(), renderValueAndType(expected));
         }
 
         private String renderActualExpectedWithNormalized(ZonedDateTime actual, ZonedDateTime expected,
                                                           ZonedDateTime normalizedActual, ZonedDateTime normalizedExpected) {
             return "  actual: " + renderValueAndType(actual) + "(UTC normalized: " + normalizedActual + ")\n" +
-                    "expected: " + renderValueAndType(expected) + "(UTC normalized: " + normalizedExpected + ")";
+                    expected(compareToComparator.getAssertionMode(), renderValueAndType(expected) + "(UTC normalized: " + normalizedExpected + ")");
         }
     }
 

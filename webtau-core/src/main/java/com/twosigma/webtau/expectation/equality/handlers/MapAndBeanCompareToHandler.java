@@ -39,11 +39,7 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
     }
 
     private boolean isBean(Object o) {
-        if (o instanceof Iterable || o instanceof Map) {
-            return false;
-        }
-
-        return true;
+        return !(o instanceof Iterable || o instanceof Map);
     }
 
     @Override
@@ -55,10 +51,10 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
         expectedMap.keySet().forEach(p -> {
             ActualPath propertyPath = actualPath.property(p);
 
-            if (! actualAsMap.containsKey(p)) {
-                comparator.reportMissing(this, propertyPath, expectedMap.get(p));
-            } else {
+            if (actualAsMap.containsKey(p)) {
                 comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedMap.get(p));
+            } else {
+                comparator.reportMissing(this, propertyPath, expectedMap.get(p));
             }
         });
     }

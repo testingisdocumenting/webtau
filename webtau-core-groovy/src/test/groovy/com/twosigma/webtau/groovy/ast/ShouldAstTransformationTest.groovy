@@ -38,7 +38,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
             'mismatches:\n' +
             '\n' +
             '[value]:   actual: 2 <java.lang.Integer>\n' +
-            '         expected: 2 <java.lang.Integer>')
+            '         expected: not 2 <java.lang.Integer>')
     }
 
     void testShouldTransformationOnNull() {
@@ -77,7 +77,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
             'mismatches:\n' +
             '\n' +
             '[value]:   actual: 2 <java.lang.Integer>\n' +
-            '         expected: 2 <java.lang.Integer>')
+            '         expected: not 2 <java.lang.Integer>')
 
     }
 

@@ -16,22 +16,55 @@
 
 package com.twosigma.webtau.expectation.equality.handlers;
 
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+
 import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
 class HandlerMessages {
     private static final String ACTUAL_PREFIX = "  actual: ";
     private static final String EXPECTED_PREFIX = "expected: ";
 
-    static String renderActualExpected(Object actual, Object expected) {
+    static String renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
         return ACTUAL_PREFIX + renderValueAndType(actual) + "\n" +
-                EXPECTED_PREFIX + renderValueAndType(expected);
+                expected(assertionMode, renderValueAndType(expected));
     }
 
-    static String renderActualExpected(Object convertedActual, Object convertedExpected,
+    static String renderActualExpected(CompareToComparator.AssertionMode assertionMode,
+                                       Object convertedActual, Object convertedExpected,
                                        Object actual, Object expected) {
         return ACTUAL_PREFIX + renderValueAndType(convertedActual) +
                 "(before conversion: " + renderValueAndType(actual) + ")\n" +
-                EXPECTED_PREFIX + renderValueAndType(convertedExpected) +
-                "(before conversion: " + renderValueAndType(expected) + ")";
+                expected(assertionMode, renderValueAndType(convertedExpected) +
+                "(before conversion: " + renderValueAndType(expected) + ")");
+    }
+
+    static String expected(CompareToComparator.AssertionMode assertionMode, Object expected) {
+        return expected(EXPECTED_PREFIX, assertionMode, expected);
+    }
+
+    static String expected(String prefix, CompareToComparator.AssertionMode assertionMode, Object expected) {
+        String expectedMsg = prefix;
+
+        switch (assertionMode) {
+            case NOT_EQUAL:
+                expectedMsg += "not ";
+                break;
+            case GREATER_THAN:
+                expectedMsg += "> ";
+                break;
+            case GREATER_THAN_OR_EQUAL:
+                expectedMsg += ">= ";
+                break;
+            case LESS_THAN:
+                expectedMsg += "< ";
+                break;
+            case LESS_THAN_OR_EQUAL:
+                expectedMsg += "<= ";
+                break;
+        }
+
+        expectedMsg += expected;
+        expectedMsg += "\n";
+        return expectedMsg;
     }
 }
