@@ -172,7 +172,7 @@ greater then or equal to 1
 mismatches:
 
 [value]:   actual: 1 <java.lang.Integer>
-         expected: < 1 <java.lang.Integer>
+         expected: less than 1 <java.lang.Integer>
 ```
 
 # Not less than failures
@@ -208,6 +208,6 @@ java.lang.AssertionError:
 mismatches:
 
 [value]:   actual: 1 <java.lang.Integer>
-         expected: >= 2 <java.lang.Integer>
+         expected: greater than or equal to 2 <java.lang.Integer>
 
 ```
