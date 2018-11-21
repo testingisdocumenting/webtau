@@ -32,14 +32,14 @@ class HandlerMessagesTest {
     void "not less than integers"() {
         code {
             actual(10).shouldNot(lessThan(20))
-        } should throwException(AssertionError, ~/expected: >= 20/)
+        } should throwException(AssertionError, ~/expected: greater than or equal to 20/)
     }
 
     @Test
     void "less than integers"() {
         code {
             actual(10).should(lessThan(9))
-        } should throwException(AssertionError, ~/expected: < 9/)
+        } should throwException(AssertionError, ~/expected: less than 9/)
     }
 
     // DateAndStringCompareTo messages
@@ -61,7 +61,7 @@ class HandlerMessagesTest {
     void "less than date and string"() {
         code {
             actual("2018-10-31").should(lessThan(LocalDate.of(2018, 10, 31)))
-        } should throwException(AssertionError, ~/expected: < 2018-10-31/)
+        } should throwException(AssertionError, ~/expected: less than 2018-10-31/)
     }
 
     // IterableCompareTo messages
@@ -177,7 +177,7 @@ class HandlerMessagesTest {
     void "less than number and string"() {
         code {
             actual("1").should(lessThan(0))
-        } should throwException(AssertionError, ~/expected: < 0/)
+        } should throwException(AssertionError, ~/expected: less than 0/)
     }
 
     // NumbersCompareTo messages
@@ -199,7 +199,7 @@ class HandlerMessagesTest {
     void "less than numbers"() {
         code {
             actual(1).should(lessThan(0.0))
-        } should throwException(AssertionError, ~/expected: < 0/)
+        } should throwException(AssertionError, ~/expected: less than 0/)
     }
 
     // RegexpEqualCompareTo messages

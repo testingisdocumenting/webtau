@@ -69,7 +69,7 @@ class DateAndStringCompareToHandlerTest {
             actual("2018-01-01T00:00:00Z").should(beGreaterThan(LocalDate.of(2018, 1, 1)))
         } should throwException("\nless then or equal to 2018-01-01\nmismatches:\n\n" +
             "[value]:   actual: 2018-01-01T00:00Z <java.time.ZonedDateTime>\n" +
-            "         expected: > 2018-01-01 <java.time.LocalDate>")
+            "         expected: greater than 2018-01-01 <java.time.LocalDate>")
     }
 
     @Test
@@ -93,7 +93,7 @@ class DateAndStringCompareToHandlerTest {
             "mismatches:\n" +
             "\n" +
             "[value]:   actual: 2018-01-02T10:00+01:00 <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T09:00Z[UTC])\n" +
-            "         expected: > 2018-01-02T10:00Z[UTC] <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T10:00Z[UTC])")
+            "         expected: greater than 2018-01-02T10:00Z[UTC] <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T10:00Z[UTC])")
     }
 
     @Test

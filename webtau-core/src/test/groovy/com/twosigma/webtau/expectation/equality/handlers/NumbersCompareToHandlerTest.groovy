@@ -61,7 +61,7 @@ class NumbersCompareToHandlerTest {
         assertEquals(
             "mismatches:\n\n" +
             "value:   actual: 10.0 <java.math.BigDecimal>(before conversion: 10.0 <java.lang.Double>)\n" +
-            "       expected: < 9 <java.math.BigDecimal>(before conversion: 9 <java.lang.Long>)",
+            "       expected: less than 9 <java.math.BigDecimal>(before conversion: 9 <java.lang.Long>)",
             comparator.generateLessThanMismatchReport())
     }
 
@@ -94,7 +94,7 @@ class NumbersCompareToHandlerTest {
 
         code {
             actual(10.0).should(beGreaterThanOrEqual(11))
-        } should throwException(AssertionError, ~/expected: >= 11/)
+        } should throwException(AssertionError, ~/expected: greater than or equal to 11/)
     }
 
     private static void assertHandlesTypes(handleMethodName) {

@@ -50,16 +50,16 @@ class HandlerMessages {
                 expectedMsg += "not ";
                 break;
             case GREATER_THAN:
-                expectedMsg += "> ";
+                expectedMsg += "greater than ";
                 break;
             case GREATER_THAN_OR_EQUAL:
-                expectedMsg += ">= ";
+                expectedMsg += "greater than or equal to ";
                 break;
             case LESS_THAN:
-                expectedMsg += "< ";
+                expectedMsg += "less than ";
                 break;
             case LESS_THAN_OR_EQUAL:
-                expectedMsg += "<= ";
+                expectedMsg += "less than or equal to ";
                 break;
         }
 
