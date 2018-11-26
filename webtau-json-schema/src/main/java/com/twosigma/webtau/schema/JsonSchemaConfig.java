@@ -14,7 +14,12 @@ public class JsonSchemaConfig implements WebTauConfigHandler {
             "url of directory containing JSON schemas", () -> getCfg().getWorkingDir());
 
     public static Path getSchemasDir() {
-        return schemasDir.getAsPath();
+        Path schemasDirPath = schemasDir.getAsPath();
+        if (schemasDirPath.isAbsolute()) {
+            return schemasDirPath;
+        }
+
+        return getCfg().getWorkingDir().resolve(schemasDirPath);
     }
 
     @Override
