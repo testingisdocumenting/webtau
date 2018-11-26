@@ -19,7 +19,7 @@ class SchemaMatcherTest {
     void "should throw exception when object does not match schema"() {
         code {
             actual([name: "test"]).should(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expect to match schema test-schema.json\n' +
+        } should throwException('\n[value] expected to comply with schema test-schema.json\n' +
             '[#: required key [val] not found]')
     }
 
@@ -27,7 +27,7 @@ class SchemaMatcherTest {
     void "should throw exception when object has incorrect types"() {
         code {
             actual([name: "test", val: "foo"]).should(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expect to match schema test-schema.json\n' +
+        } should throwException('\n[value] expected to comply with schema test-schema.json\n' +
             '[#/val: expected type: Number, found: String]')
     }
 
@@ -40,7 +40,7 @@ class SchemaMatcherTest {
     void "should throw exception when object matches schema but should not"() {
         code {
             actual([name: "test", val: 123]).shouldNot(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expect to not match schema test-schema.json\n' +
+        } should throwException('\n[value] expected to not comply with schema test-schema.json\n' +
             '[]')
     }
 

@@ -29,17 +29,17 @@ public class SchemaMatcher implements ValueMatcher {
 
     @Override
     public String matchingMessage() {
-        return "to match schema " + schemaFileName;
+        return "to comply with schema " + schemaFileName;
     }
 
     @Override
     public String matchedMessage(ActualPath actualPath, Object actual) {
-        return "matches schema " + schemaFileName;
+        return "complies with schema " + schemaFileName;
     }
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " expect to match schema " + schemaFileName + "\n" +
+        return actualPath + " expected to comply with schema " + schemaFileName + "\n" +
                 validationsErrors(actual);
     }
 
@@ -60,17 +60,17 @@ public class SchemaMatcher implements ValueMatcher {
 
     @Override
     public String negativeMatchingMessage() {
-        return "to not match schema " + schemaFileName;
+        return "to not comply with schema " + schemaFileName;
     }
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-        return "does not match schema " + schemaFileName;
+        return "does not comply with schema " + schemaFileName;
     }
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " expect to not match schema " + schemaFileName + "\n" +
+        return actualPath + " expected to not comply with schema " + schemaFileName + "\n" +
                 validationsErrors(actual);
     }
 
@@ -81,6 +81,6 @@ public class SchemaMatcher implements ValueMatcher {
 
     @Override
     public String toString() {
-        return "<match " + schemaFileName + ">";
+        return "<comply with " + schemaFileName + ">";
     }
 }
