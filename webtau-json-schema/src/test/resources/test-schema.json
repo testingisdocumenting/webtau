@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "val"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "val": {
+      "type": "integer"
+    }
+  }
+}

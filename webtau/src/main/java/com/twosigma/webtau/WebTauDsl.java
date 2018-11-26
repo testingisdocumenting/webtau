@@ -22,6 +22,7 @@ import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.data.Data;
 import com.twosigma.webtau.expectation.ValueMatcher;
+import com.twosigma.webtau.expectation.schema.SchemaMatcher;
 import com.twosigma.webtau.http.Http;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.pdf.Pdf;
@@ -49,5 +50,13 @@ public class WebTauDsl extends Ddjt {
 
     public static ValueMatcher getBeVisible() {
         return beVisible();
+    }
+
+    public static SchemaMatcher complyWithSchema(String schemaFileName) {
+        return new SchemaMatcher(schemaFileName);
+    }
+
+    public static SchemaMatcher beCompliantWithSchema(String schemaFileName) {
+        return complyWithSchema(schemaFileName);
     }
 }
