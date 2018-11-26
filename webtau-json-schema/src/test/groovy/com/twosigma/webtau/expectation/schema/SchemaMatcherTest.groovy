@@ -1,5 +1,6 @@
 package com.twosigma.webtau.expectation.schema
 
+import com.twosigma.webtau.schema.expectation.SchemaMatcher
 import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.actual

@@ -22,10 +22,10 @@ import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.data.Data;
 import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.expectation.schema.SchemaMatcher;
 import com.twosigma.webtau.http.Http;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.pdf.Pdf;
+import com.twosigma.webtau.schema.expectation.SchemaMatcher;
 
 public class WebTauDsl extends Ddjt {
     public static final Data data = Data.data;

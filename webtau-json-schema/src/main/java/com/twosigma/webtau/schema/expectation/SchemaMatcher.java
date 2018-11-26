@@ -1,7 +1,9 @@
-package com.twosigma.webtau.expectation.schema;
+package com.twosigma.webtau.schema.expectation;
 
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
+import com.twosigma.webtau.schema.JsonSchemaConfig;
+import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
@@ -9,8 +11,7 @@ import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,13 +21,10 @@ public class SchemaMatcher implements ValueMatcher {
 
     public SchemaMatcher(String schemaFileName) {
         this.schemaFileName = schemaFileName;
-        // TODO how the F do we get the cfg in here without causing a cyclic dependency
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(schemaFileName)) {
-            JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
-            this.schema = SchemaLoader.load(rawSchema);
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to load schema " + schemaFileName, e);
-        }
+
+        Path schemaFilePath = JsonSchemaConfig.getSchemasDir().resolve(schemaFileName);
+        JSONObject rawSchema = new JSONObject(new JSONTokener(FileUtils.fileTextContent(schemaFilePath)));
+        this.schema = SchemaLoader.load(rawSchema);
     }
 
     @Override
