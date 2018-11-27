@@ -25,12 +25,15 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauRestFeaturesTest {
     private static WebTauTestRunner testRunner
 
     static void registerEndPoints(TestServer testServer) {
-        testServer.registerGet("/weather", new TestServerJsonResponse("{\"temperature\": 88}"))
+        def temperature = [temperature: 88]
+        testServer.registerGet("/weather", json(temperature))
+        testServer.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
         testServer.registerPost("/employee", json([id: 'id-generated-2'], 201))
         testServer.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
     }
@@ -61,6 +64,22 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "schema validation"() {
+        runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
+    void "schema validation extract snippets"() {
+        def root = 'doc-artifacts/snippets/json-schema'
+
+        extractCodeSnippets(
+            root, 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
+            'validateBody.groovy': 'valid schema',
+            'validateField.groovy': 'validate specific field',
+        ])
+    }
+
+    @Test
     void "crud"() {
         runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
@@ -84,7 +103,7 @@ class WebTauRestFeaturesTest {
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/rest/$restTestName",
-                "scenarios/rest/$configFileName", additionalArgs)
+            "scenarios/rest/$configFileName", additionalArgs)
     }
 
     private static TestServerResponse json(Map response, statusCode = 200) {

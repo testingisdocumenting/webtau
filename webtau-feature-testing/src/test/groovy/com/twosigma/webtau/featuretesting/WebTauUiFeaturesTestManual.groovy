@@ -25,6 +25,7 @@ import org.junit.Test
 
 import java.nio.file.Paths
 
+import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtml
 
 // TODO: manual runs for now while figuring selenium driver auto download
@@ -187,17 +188,6 @@ class WebTauUiFeaturesTestManual {
     @Test
     void "flicking element"() {
         runCli('flickingElement.groovy', 'webtau.cfg')
-    }
-
-    private static void extractCodeSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
-        def artifactsRoot = Paths.get(extractedPath)
-
-        def script = FileUtils.fileTextContent(Paths.get(inputName))
-
-        scenarioToOutputFile.each { outputFileName, scenario ->
-            def extracted = FeaturesDocArtifactsExtractor.extractScenarioBody(script, scenario)
-            FileUtils.writeTextContent(artifactsRoot.resolve(outputFileName), extracted)
-        }
     }
 
     private static void extractHtmlSnippets(String extractedPath, String resourceName, Map<String, String> cssToOutputFile) {

@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "required": [
+    "temperature",
+    "anotherField"
+  ],
+  "properties": {
+    "temperature": {
+      "type": "boolean"
+    },
+    "anotherField": {
+      "type": "string"
+    }
+  }
+}

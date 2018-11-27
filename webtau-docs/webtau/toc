@@ -9,6 +9,7 @@ REST
     documentation
     complex-types
     openAPI-spec
+    JSON-schema
     report
     maven
     matchers
