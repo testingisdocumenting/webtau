@@ -38,6 +38,7 @@ import com.twosigma.webtau.utils.StringUtils
 import org.jsoup.Jsoup
 
 import java.nio.file.Path
+import java.nio.file.Paths
 
 class FeaturesDocArtifactsExtractor {
     static String extractScenarioBody(String script, String scenario) {
@@ -55,6 +56,17 @@ class FeaturesDocArtifactsExtractor {
 
         def scopeEndIdx = script.lastIndexOf("}", nextScenarioIdx)
         return StringUtils.stripIndentation(script.substring(scopeStartIdx + 1, scopeEndIdx))
+    }
+
+    static void extractCodeSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
+        def artifactsRoot = Paths.get(extractedPath)
+
+        def script = FileUtils.fileTextContent(Paths.get(inputName))
+
+        scenarioToOutputFile.each { outputFileName, scenario ->
+            def extracted = extractScenarioBody(script, scenario)
+            FileUtils.writeTextContent(artifactsRoot.resolve(outputFileName), extracted)
+        }
     }
 
     static String extractHtml(String resourceName, String css) {

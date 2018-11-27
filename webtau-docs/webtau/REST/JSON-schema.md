@@ -1,21 +1,18 @@
 # Validation
 
-Webtau supports validation of objects against [JSON Schema](https://json-schema.org/).  For example, to validate the
-entire response body use the `complyWithSchema` matcher as follows:
+Webtau supports validation of objects against [JSON Schema](https://json-schema.org/).  It is possible to validate either
+the entire body or just a specific field with the `complyWithSchema` matcher as shown in the two examples below:
 
-:include-groovy: scenarios/rest/jsonSchema/validateSchema.groovy {bodyOnly: true, title: "Example schema validation"}
+:include-groovy: doc-artifacts/snippets/json-schema/validateBody.groovy {title: "Validate entire body against JSON schema"}
+:include-groovy: doc-artifacts/snippets/json-schema/validateField.groovy {title: "Validate specific field against JSON schema"}
 
-The example schemas are:
+Both examples above validate against the following schema:
 
 :include-json: examples/schemas/valid-schema.json {title: "Correct schema for the example above"}
-:include-json: examples/schemas/invalid-schema.json {title: "Incorrect schema for the example above"}
 
-The first scenario, `valid schema`, shows how to validate the entire response body against a schema.  The second
-scenario, `validate specific field`, shows how to validate a specific field against a schema rather than the entire
-body.
+# Error messages
 
-The last scenario, `invalid schema`, will fail with the following error message:
-
+Using the first example above, an invalid schema will generate an error similar to:
 ```
 invalid schema (examples/scenarios/rest/jsonSchema/validateSchema.groovy)
 > executing HTTP GET http://localhost:8080/weather
@@ -26,6 +23,10 @@ invalid schema (examples/scenarios/rest/jsonSchema/validateSchema.groovy)
   "temperature": 88
 }
 ```
+
+The schema used in validation to generate this error is as follows:
+
+:include-json: examples/schemas/invalid-schema.json {title: "Incorrect schema for the example above"}
 
 # Configuration
 

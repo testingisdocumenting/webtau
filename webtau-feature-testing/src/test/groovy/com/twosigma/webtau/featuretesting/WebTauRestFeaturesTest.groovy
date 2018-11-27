@@ -25,6 +25,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import static com.twosigma.webtau.WebTauDsl.http
+import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauRestFeaturesTest {
     private static WebTauTestRunner testRunner
@@ -65,6 +66,17 @@ class WebTauRestFeaturesTest {
     @Test
     void "schema validation"() {
         runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
+    void "schema validation extract snippets"() {
+        def root = 'doc-artifacts/snippets/json-schema'
+
+        extractCodeSnippets(
+            root, 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
+            'validateBody.groovy': 'valid schema',
+            'validateField.groovy': 'validate specific field',
+        ])
     }
 
     @Test
