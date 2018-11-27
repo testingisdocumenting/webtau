@@ -61,6 +61,9 @@
             </exclusions>
         </dependency>
 
+        <!-- We don't use joda directly but it is a transitive dependency of a couple of libraries
+         we do use and they use a slightly different version.  This joda dependency is purely
+         to force them onto a specific version and satisfy the enforcer -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
