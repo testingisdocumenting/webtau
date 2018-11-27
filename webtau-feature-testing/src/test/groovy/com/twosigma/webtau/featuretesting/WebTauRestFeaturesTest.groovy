@@ -61,6 +61,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "schema validation"() {
+        runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "crud"() {
         runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }

@@ -2,6 +2,8 @@ package com.twosigma.webtau.schema.expectation;
 
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
+import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
+import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.schema.JsonSchemaConfig;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
@@ -49,7 +51,15 @@ public class SchemaMatcher implements ValueMatcher {
     }
 
     private List<String> validationsErrors(Object actual) {
-        JSONObject actualJsonObject = new JSONObject(JsonUtils.serialize(actual));
+        Object actualObj = actual;
+        if (actual instanceof DataNode) {
+            DataNodeToMapOfValuesConverter converter = new DataNodeToMapOfValuesConverter((id, traceableValue) ->
+                    traceableValue.getValue());
+
+            actualObj = converter.convert((DataNode) actual);
+        }
+
+        JSONObject actualJsonObject = new JSONObject(JsonUtils.serialize(actualObj));
         try {
             schema.validate(actualJsonObject);
             return Collections.emptyList();

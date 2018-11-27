@@ -1,0 +1,14 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "valid schema",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "invalid schema",
+    "stepsSummary" : {
+      "numberOfFailed" : 2
+    }
+  } ],
+  "exitCode" : 1
+}

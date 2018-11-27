@@ -44,6 +44,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-http</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.everit-org.json-schema</groupId>
             <artifactId>org.everit.json.schema</artifactId>
             <version>1.9.2</version>

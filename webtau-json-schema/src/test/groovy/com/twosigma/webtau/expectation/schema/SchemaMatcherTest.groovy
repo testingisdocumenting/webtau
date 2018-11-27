@@ -1,5 +1,7 @@
 package com.twosigma.webtau.expectation.schema
 
+import com.twosigma.webtau.http.datanode.DataNodeBuilder
+import com.twosigma.webtau.http.datanode.DataNodeId
 import com.twosigma.webtau.schema.expectation.SchemaMatcher
 import org.junit.Test
 
@@ -13,6 +15,12 @@ class SchemaMatcherTest {
     @Test
     void "should pass when object matches schema"() {
         actual([name: "test", val: 123]).should(complyWithSchema(TEST_SCHEMA))
+    }
+
+    @Test
+    void "should pass when data node matches schema"() {
+        def dataNode = DataNodeBuilder.fromMap(new DataNodeId("test"), [name: "test", val: 123])
+        actual(dataNode).should(complyWithSchema(TEST_SCHEMA))
     }
 
     @Test
