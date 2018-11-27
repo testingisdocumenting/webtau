@@ -38,7 +38,7 @@ public class CompareToComparator {
         GREATER_THAN("greater than"),
         GREATER_THAN_OR_EQUAL("greater than or equal to"),
         LESS_THAN("less than"),
-        LESS_THAN_OR_EQUAL("less than or equal");
+        LESS_THAN_OR_EQUAL("less than or equal to");
 
         private final String message;
 
