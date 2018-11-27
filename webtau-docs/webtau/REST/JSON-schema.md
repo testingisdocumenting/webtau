@@ -10,7 +10,11 @@ The example schemas are:
 :include-json: examples/schemas/valid-schema.json {title: "Correct schema for the example above"}
 :include-json: examples/schemas/invalid-schema.json {title: "Incorrect schema for the example above"}
 
-The second example above will fail with the following error message:
+The first scenario, `valid schema`, shows how to validate the entire response body against a schema.  The second
+scenario, `validate specific field`, shows how to validate a specific field against a schema rather than the entire
+body.
+
+The last scenario, `invalid schema`, will fail with the following error message:
 
 ```
 invalid schema (examples/scenarios/rest/jsonSchema/validateSchema.groovy)

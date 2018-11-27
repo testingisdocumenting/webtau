@@ -5,6 +5,11 @@
       "numberOfSuccessful" : 3
     }
   }, {
+    "scenario" : "validate specific field",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
     "scenario" : "invalid schema",
     "stepsSummary" : {
       "numberOfFailed" : 2

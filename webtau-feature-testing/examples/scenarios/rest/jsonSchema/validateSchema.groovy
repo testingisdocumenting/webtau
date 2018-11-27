@@ -8,6 +8,12 @@ scenario("valid schema") {
     }
 }
 
+scenario("validate specific field") {
+    http.get("/city/London") {
+        weather.should complyWithSchema('valid-schema.json')
+    }
+}
+
 scenario("invalid schema") {
     http.get("/weather") {
         body.should complyWithSchema('invalid-schema.json')
