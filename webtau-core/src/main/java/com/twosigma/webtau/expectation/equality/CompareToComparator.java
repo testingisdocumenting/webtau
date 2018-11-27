@@ -33,12 +33,22 @@ import static java.util.stream.Collectors.joining;
 
 public class CompareToComparator {
     public enum AssertionMode {
-        EQUAL,
-        NOT_EQUAL,
-        GREATER_THAN,
-        GREATER_THAN_OR_EQUAL,
-        LESS_THAN,
-        LESS_THAN_OR_EQUAL
+        EQUAL(""),
+        NOT_EQUAL("not"),
+        GREATER_THAN("greater than"),
+        GREATER_THAN_OR_EQUAL("greater than or equal to"),
+        LESS_THAN("less than"),
+        LESS_THAN_OR_EQUAL("less than or equal");
+
+        private final String message;
+
+        AssertionMode(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
     }
 
     private static final String MISMATCHES_LABEL = "mismatches";

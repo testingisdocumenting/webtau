@@ -18,6 +18,10 @@ package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
 class HandlerMessages {
@@ -43,28 +47,11 @@ class HandlerMessages {
     }
 
     static String expected(String prefix, CompareToComparator.AssertionMode assertionMode, Object expected) {
-        String expectedMsg = prefix;
-
-        switch (assertionMode) {
-            case NOT_EQUAL:
-                expectedMsg += "not ";
-                break;
-            case GREATER_THAN:
-                expectedMsg += "greater than ";
-                break;
-            case GREATER_THAN_OR_EQUAL:
-                expectedMsg += "greater than or equal to ";
-                break;
-            case LESS_THAN:
-                expectedMsg += "less than ";
-                break;
-            case LESS_THAN_OR_EQUAL:
-                expectedMsg += "less than or equal to ";
-                break;
-        }
-
-        expectedMsg += expected;
-        expectedMsg += "\n";
-        return expectedMsg;
+        return Stream.of(prefix, assertionMode.getMessage(), expected)
+                .map(Objects::toString)
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.joining(" "))
+                + '\n';
     }
 }
