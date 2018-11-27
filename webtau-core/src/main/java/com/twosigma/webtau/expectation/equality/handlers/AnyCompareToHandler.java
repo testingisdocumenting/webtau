@@ -21,7 +21,6 @@ import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
 import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.renderActualExpected;
-import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
 public class AnyCompareToHandler implements CompareToHandler {
     @Override
@@ -37,7 +36,8 @@ public class AnyCompareToHandler implements CompareToHandler {
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         boolean isEqual = actual.equals(expected);
-        comparator.reportEqualOrNotEqual(this, isEqual, actualPath, renderActualExpected(actual, expected));
+        String message = renderActualExpected(comparator.getAssertionMode(), actual, expected);
+        comparator.reportEqualOrNotEqual(this, isEqual, actualPath, message);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class AnyCompareToHandler implements CompareToHandler {
         Comparable<Object> actualComparable = (Comparable<Object>) actual;
         int compareTo = actualComparable.compareTo(expected);
 
-        String message = renderActualExpected(actual, expected);
+        String message = renderActualExpected(comparator.getAssertionMode(), actual, expected);
         comparator.reportCompareToValue(this, compareTo, actualPath, message);
     }
 }

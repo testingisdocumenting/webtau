@@ -20,6 +20,7 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
+import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.expected;
 import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
 public class NullCompareToHandler implements CompareToHandler {
@@ -37,16 +38,13 @@ public class NullCompareToHandler implements CompareToHandler {
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         if (actual == null && expected == null) {
             comparator.reportEqual(this, actualPath,
-                    "  actual: null\n" +
-                            "expected: null");
+                    "  actual: null\n" + expected(comparator.getAssertionMode(), null));
         } else if (actual == null) {
             comparator.reportNotEqual(this, actualPath,
-                    "  actual: null\n" +
-                            "expected: " + renderValueAndType(expected));
+                    "  actual: null\n" + expected(comparator.getAssertionMode(), renderValueAndType(expected)));
         } else {
             comparator.reportNotEqual(this, actualPath,
-                    "  actual: " + renderValueAndType(actual) + "\n" +
-                            "expected: null\n");
+                    "  actual: " + renderValueAndType(actual) + "\n" + expected(comparator.getAssertionMode(), null));
         }
     }
 }

@@ -33,7 +33,7 @@ class LessThanMatcherTest {
         assert matcher.matches(actualPath, actual)
         assert matcher.matchedMessage(actualPath, actual) == "less than $expected\n" +
             'matches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, expected)
+            simpleActualExpectedWithIntegers(actual, "less than", expected)
 
     }
 
@@ -43,7 +43,7 @@ class LessThanMatcherTest {
         assert !matcher.matches(actualPath, actual)
         assert matcher.mismatchedMessage(actualPath, actual) ==  "greater then or equal to $expected\n" +
             'mismatches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, expected)
+            simpleActualExpectedWithIntegers(actual, "less than", expected)
     }
 
     @Test
@@ -52,7 +52,7 @@ class LessThanMatcherTest {
         assert matcher.negativeMatches(actualPath, actual)
         assert matcher.negativeMatchedMessage(actualPath, actual) == "greater than or equal to $expected\n" +
             'matches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, expected)
+            simpleActualExpectedWithIntegers(actual, "greater than or equal to", expected)
     }
 
     @Test
@@ -61,7 +61,7 @@ class LessThanMatcherTest {
         assert !matcher.negativeMatches(actualPath, actual)
         assert matcher.negativeMismatchedMessage(actualPath, actual) ==  "value is less than $expected, but should be greater or equal to\n" +
             'mismatches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, expected)
+            simpleActualExpectedWithIntegers(actual, "greater than or equal to", expected)
     }
 
     @Test

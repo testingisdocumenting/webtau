@@ -83,7 +83,7 @@ class HttpGroovyTest implements HttpConfiguration {
             'mismatches:\n' +
             '\n' +
             'body.a:   actual: null\n' +
-            '        expected: null')
+            '        expected: not null')
     }
 
     @Test

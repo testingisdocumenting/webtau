@@ -38,7 +38,7 @@ public class NumbersCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        ConvertedAndOriginal convertedAndOriginal = new ConvertedAndOriginal(actual, expected);
+        ConvertedAndOriginal convertedAndOriginal = new ConvertedAndOriginal(comparator.getAssertionMode(), actual, expected);
 
         boolean isEqual = convertedAndOriginal.compareTo() == 0;
         comparator.reportEqualOrNotEqual(this, isEqual,
@@ -47,7 +47,7 @@ public class NumbersCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        ConvertedAndOriginal convertedAndOriginal = new ConvertedAndOriginal(actual, expected);
+        ConvertedAndOriginal convertedAndOriginal = new ConvertedAndOriginal(comparator.getAssertionMode(), actual, expected);
 
         comparator.reportCompareToValue(this, convertedAndOriginal.compareTo(),
                 actualPath, convertedAndOriginal.renderActualExpected());
@@ -58,12 +58,14 @@ public class NumbersCompareToHandler implements CompareToHandler {
     }
 
     private static class ConvertedAndOriginal {
+        CompareToComparator.AssertionMode assertionMode;
         Object actual;
         Object expected;
         Comparable convertedActual;
         Comparable convertedExpected;
 
-        ConvertedAndOriginal(Object actual, Object expected) {
+        ConvertedAndOriginal(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
+            this.assertionMode = assertionMode;
             this.actual = actual;
             this.expected = expected;
 
@@ -78,7 +80,7 @@ public class NumbersCompareToHandler implements CompareToHandler {
         }
 
         String renderActualExpected() {
-            return HandlerMessages.renderActualExpected(convertedActual, convertedExpected, actual, expected);
+            return HandlerMessages.renderActualExpected(assertionMode, convertedActual, convertedExpected, actual, expected);
         }
 
         private static Class largest(Object actual, Object expected) {
