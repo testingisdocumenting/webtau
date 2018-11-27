@@ -14,7 +14,7 @@ The second example above will fail with the following error message:
 
 ```
 invalid schema (examples/scenarios/rest/jsonSchema/validateSchema.groovy)
-> executing HTTP GET http://192.168.1.5:53830/weather
+> executing HTTP GET http://localhost:8080/weather
   X failed expecting body to comply with schema invalid-schema.json : 
       body expected to comply with schema invalid-schema.json
       [#: required key [anotherField] not found, #/temperature: expected type: Boolean, found: Integer]
