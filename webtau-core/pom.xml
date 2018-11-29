@@ -21,11 +21,11 @@
     <parent>
         <groupId>com.twosigma.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.1</version>
     </parent>
 
     <artifactId>webtau-core</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
 
     <dependencies>
         <dependency>
