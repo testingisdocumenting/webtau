@@ -24,7 +24,7 @@
 
 <article>
 <header><h1>Should and Should Not</h1></header>
-<p>Matchers in webtau are triggered with should and shouldNot keywords. Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read. Groovy Java http.get(&quot;/example&quot;, ((header, body) -&gt; { body.get(&quot;year&quot;).shouldNot(equal(2000)); body.get(&quot;genres&quot;).should(contain(&quot;RPG&quot;)); body.get(&quot;rating&quot;).shouldBe(greaterThan(7)); }));</p>
+<p>Matchers in webtau are triggered with should and shouldNot keywords. Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read. Groovy Java http.get(&quot;/example&quot;, (header, body) -&gt; { body.get(&quot;year&quot;).shouldNot(equal(2000)); body.get(&quot;genres&quot;).should(contain(&quot;RPG&quot;)); body.get(&quot;rating&quot;).shouldBe(greaterThan(7)); });</p>
 </article>
 
 <article>
@@ -353,7 +353,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "content": [
                   {
                     "lang": "java",
-                    "snippet": "http.get(\"/example\", ((header, body) -\u003e {\n    body.get(\"year\").shouldNot(equal(2000));\n    body.get(\"genres\").should(contain(\"RPG\"));\n    body.get(\"rating\").shouldBe(greaterThan(7));\n}));",
+                    "snippet": "http.get(\"/example\", (header, body) -\u003e {\n    body.get(\"year\").shouldNot(equal(2000));\n    body.get(\"genres\").should(contain(\"RPG\"));\n    body.get(\"rating\").shouldBe(greaterThan(7));\n});",
                     "entry": "matchersBasicExample",
                     "bodyOnly": true,
                     "type": "Snippet"

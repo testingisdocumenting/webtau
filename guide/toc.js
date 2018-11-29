@@ -242,6 +242,27 @@ toc = [
       },
       {
         "sectionTitle": "REST",
+        "pageTitle": "JSON Schema",
+        "pageMeta": {},
+        "fileName": "JSON-schema",
+        "dirName": "REST",
+        "pageSectionIdTitles": [
+          {
+            "title": "Validation",
+            "id": "validation"
+          },
+          {
+            "title": "Error messages",
+            "id": "error-messages"
+          },
+          {
+            "title": "Configuration",
+            "id": "configuration"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "REST",
         "pageTitle": "Report",
         "pageMeta": {},
         "fileName": "report",
@@ -606,6 +627,40 @@ toc = [
           {
             "title": "Terminate All",
             "id": "terminate-all"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Groovy Specific Runner",
+        "pageTitle": "Selective Run",
+        "pageMeta": {},
+        "fileName": "selective-run",
+        "dirName": "groovy-specific-runner",
+        "pageSectionIdTitles": [
+          {
+            "title": "sscenario",
+            "id": "sscenario"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "Groovy Specific Runner",
+        "pageTitle": "Conditional Run",
+        "pageMeta": {},
+        "fileName": "conditional-run",
+        "dirName": "groovy-specific-runner",
+        "pageSectionIdTitles": [
+          {
+            "title": "Skipping Tests on Condition",
+            "id": "skipping-tests-on-condition"
+          },
+          {
+            "title": "Skipping Tests Based on Env",
+            "id": "skipping-tests-based-on-env"
+          },
+          {
+            "title": "Custom Shortcuts",
+            "id": "custom-shortcuts"
           }
         ]
       }
