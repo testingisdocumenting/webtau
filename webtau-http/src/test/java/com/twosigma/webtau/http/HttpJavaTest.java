@@ -82,28 +82,24 @@ public class HttpJavaTest implements HttpConfiguration  {
     @Test
     public void equalityMatcher() {
         http.get("/end-point", (header, body) -> {
-            endPointExpectations(body);
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+
+            body.get("list").should(equal(Arrays.asList(1, 2, 3)));
+
+            body.get("object").get("k1").should(equal(
+                    Pattern.compile("v\\d"))); // regular expression matching
+
+            body.get("object").should(equal(aMapOf(
+                    "k1", "v1",
+                    "k3", "v3"))); // matching only specified fields and can be nested multiple times
+
+            body.get("complexList").should(equal(table("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
+                    "v1" ,  30,
+                    "v11",  40)));
         });
 
         http.doc.capture("end-point-object-equality-matchers");
-    }
-
-    private void endPointExpectations(DataNode body) {
-        body.get("id").shouldNot(equal(0));
-        body.get("amount").should(equal(30));
-
-        body.get("list").should(equal(Arrays.asList(1, 2, 3)));
-
-        body.get("object").get("k1").should(equal(
-                Pattern.compile("v\\d"))); // regular expression matching
-
-        body.get("object").should(equal(aMapOf(
-                "k1", "v1",
-                "k3", "v3"))); // matching only specified fields and can be nested multiple times
-
-        body.get("complexList").should(equal(table("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
-                                                    "v1" ,  30,
-                                                    "v11",  40)));
     }
 
     @Test
@@ -185,12 +181,16 @@ public class HttpJavaTest implements HttpConfiguration  {
     @Test
     public void compression() {
         http.get("/end-point", (header, body) -> {
-            endPointExpectations(body);
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+
             header.get("content-encoding").shouldNot(equal("gzip"));
         });
 
         http.get("/end-point", http.header("Accept-Encoding", "gzip"), (header, body) -> {
-            endPointExpectations(body);
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+
             header.get("content-encoding").should(equal("gzip"));
             header.get("ContentEncoding").should(equal("gzip"));
         });
