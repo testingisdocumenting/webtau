@@ -47,6 +47,18 @@ class HeaderDataNodeTest {
     }
 
     @Test
+    void "special shortcuts are generated in a case insensitive manner"() {
+        def response = new HttpResponse()
+        response.addHeader('content-location', 'foo')
+        response.addHeader('content-length', '10')
+        def node = new HeaderDataNode(response)
+
+        node.contentLocation.should == 'foo'
+        node.contentLength.should == 10
+        node.contentLength.get().getValue().getClass().should == Integer
+    }
+
+    @Test
     void "non existing header node should return null data node"() {
         def nonExisting = headerNode.get('NonExisting')
         nonExisting.getClass().should == NullDataNode

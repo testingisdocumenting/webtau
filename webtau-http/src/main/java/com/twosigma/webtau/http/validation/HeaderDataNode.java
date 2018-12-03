@@ -17,7 +17,6 @@
 package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.data.traceable.TraceableValue;
-import com.twosigma.webtau.http.HttpHeader;
 import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeBuilder;
@@ -29,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class HeaderDataNode implements DataNode {
     private static final Function<String, Object> asIs = (v) -> v;
@@ -43,16 +43,17 @@ public class HeaderDataNode implements DataNode {
 
         response.getHeader().forEachProperty(headerData::put);
 
-        addCamelCaseVersion(response.getHeader(), headerData, "Content-Location", "contentLocation", asIs);
-        addCamelCaseVersion(response.getHeader(), headerData, "Content-Length", "contentLength", Integer::valueOf);
-        addCamelCaseVersion(response.getHeader(), headerData, "Content-Encoding", "contentEncoding", asIs);
+        addCamelCaseVersion(headerData, "Content-Location", "contentLocation", asIs);
+        addCamelCaseVersion(headerData, "Content-Length", "contentLength", Integer::valueOf);
+        addCamelCaseVersion(headerData, "Content-Encoding", "contentEncoding", asIs);
 
         this.dataNode = DataNodeBuilder.fromMap(new DataNodeId("header"), headerData);
     }
 
-    private static void addCamelCaseVersion(HttpHeader responseHeader, Map<String, Object> headerData, String original, String camelCase, Function<String, Object> conversion) {
-        if (responseHeader.containsKey(original)) {
-            Object converted = conversion.apply(responseHeader.get(original));
+    private static void addCamelCaseVersion(Map<String, Object> headerData, String original, String camelCase, Function<String, Object> conversion) {
+        Optional<String> existingHeaderName = findMatchingCaseInsensitiveKey(original, headerData.keySet().stream());
+        if (existingHeaderName.isPresent()) {
+            Object converted = conversion.apply((String) headerData.get(existingHeaderName.get()));
 
             headerData.put(camelCase, converted);
             headerData.put(original, converted);
@@ -129,8 +130,12 @@ public class HeaderDataNode implements DataNode {
     }
 
     private Optional<String> findMatchingCaseInsensitiveKey(String name) {
+        return findMatchingCaseInsensitiveKey(name, dataNode.asMap().keySet().stream());
+    }
+
+    private static Optional<String> findMatchingCaseInsensitiveKey(String name, Stream<String> keys) {
         String lowerCaseName = name.toLowerCase();
-        return dataNode.asMap().keySet().stream()
+        return keys
                 .filter(k -> k != null && k.toLowerCase().equals(lowerCaseName))
                 .findFirst();
     }
