@@ -70,6 +70,7 @@ class HttpDataNodes {
         addCamelCaseVersion("Location", "location", asIs);
         addCamelCaseVersion("Content-Location", "contentLocation", asIs);
         addCamelCaseVersion("Content-Length", "contentLength", Integer::valueOf);
+        addCamelCaseVersion("Content-Encoding", "contentEncoding", asIs);
     }
 
     private void addCamelCaseVersion(String original, String camelCase, Function<String, Object> conversion) {

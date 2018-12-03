@@ -50,6 +50,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.zip.GZIPInputStream;
 
 import static com.twosigma.webtau.Ddjt.equal;
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
@@ -534,7 +535,7 @@ public class Http {
         HttpResponse httpResponse = new HttpResponse();
         populateResponseHeader(httpResponse, connection);
 
-        InputStream inputStream = connection.getResponseCode() < 400 ? connection.getInputStream() : connection.getErrorStream();
+        InputStream inputStream = getInputStream(connection);
         httpResponse.setStatusCode(connection.getResponseCode());
         httpResponse.setContentType(connection.getContentType() != null ? connection.getContentType() : "");
 
@@ -545,6 +546,16 @@ public class Http {
         }
 
         return httpResponse;
+    }
+
+    private InputStream getInputStream(HttpURLConnection connection) throws IOException {
+        InputStream inputStream = connection.getResponseCode() < 400 ? connection.getInputStream() : connection.getErrorStream();
+
+        if ("gzip".equals(connection.getContentEncoding())) {
+            inputStream = new GZIPInputStream(inputStream);
+        }
+
+        return inputStream;
     }
 
     private void populateResponseHeader(HttpResponse httpResponse, HttpURLConnection connection) {
