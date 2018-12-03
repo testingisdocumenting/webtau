@@ -23,15 +23,22 @@ import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.NullDataNode;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HeaderDataNode implements DataNode {
-    private static final Function<String, Object> asIs = (v) -> v;
+    private static final Set<CamelCaseTranslation> translations = setOf(
+            new CamelCaseTranslation("Content-Location", "contentLocation"),
+            new CamelCaseTranslation("Content-Length", "contentLength", Integer::valueOf),
+            new CamelCaseTranslation("Content-Encoding", "contentEncoding")
+    );
 
     private final DataNode dataNode;
 
@@ -43,20 +50,18 @@ public class HeaderDataNode implements DataNode {
 
         response.getHeader().forEachProperty(headerData::put);
 
-        addCamelCaseVersion(headerData, "Content-Location", "contentLocation", asIs);
-        addCamelCaseVersion(headerData, "Content-Length", "contentLength", Integer::valueOf);
-        addCamelCaseVersion(headerData, "Content-Encoding", "contentEncoding", asIs);
+        translations.forEach(translation -> addCamelCaseVersion(headerData, translation));
 
         this.dataNode = DataNodeBuilder.fromMap(new DataNodeId("header"), headerData);
     }
 
-    private static void addCamelCaseVersion(Map<String, Object> headerData, String original, String camelCase, Function<String, Object> conversion) {
-        Optional<String> existingHeaderName = findMatchingCaseInsensitiveKey(original, headerData.keySet().stream());
+    private static void addCamelCaseVersion(Map<String, Object> headerData, CamelCaseTranslation translation) {
+        Optional<String> existingHeaderName = findMatchingCaseInsensitiveKey(translation.originalName, headerData.keySet().stream());
         if (existingHeaderName.isPresent()) {
-            Object converted = conversion.apply((String) headerData.get(existingHeaderName.get()));
+            Object converted = translation.conversion.apply((String) headerData.get(existingHeaderName.get()));
 
-            headerData.put(camelCase, converted);
-            headerData.put(original, converted);
+            headerData.put(translation.camelCaseName, converted);
+            headerData.put(translation.originalName, converted);
         }
     }
 
@@ -138,5 +143,27 @@ public class HeaderDataNode implements DataNode {
         return keys
                 .filter(k -> k != null && k.toLowerCase().equals(lowerCaseName))
                 .findFirst();
+    }
+
+    private static <T> Set<T> setOf(T... things) {
+        return Arrays.stream(things).collect(Collectors.toSet());
+    }
+
+    private static class CamelCaseTranslation {
+        private final String originalName;
+        private final String camelCaseName;
+        private final Function<String, Object> conversion;
+
+        private CamelCaseTranslation(String originalName, String camelCaseName) {
+            this.originalName = originalName;
+            this.camelCaseName = camelCaseName;
+            this.conversion = (v) -> v;
+        }
+
+        private CamelCaseTranslation(String originalName, String camelCaseName, Function<String, Object> conversion) {
+            this.originalName = originalName;
+            this.camelCaseName = camelCaseName;
+            this.conversion = conversion;
+        }
     }
 }
