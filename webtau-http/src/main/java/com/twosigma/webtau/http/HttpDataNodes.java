@@ -21,69 +21,23 @@ import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.StructuredDataNode;
-import com.twosigma.webtau.http.validation.HeaderDataNode;
 import com.twosigma.webtau.utils.JsonParseException;
 import com.twosigma.webtau.utils.JsonUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 class HttpDataNodes {
-    private static final Function<String, Object> asIs = (v) -> v;
-
     private final HttpResponse response;
-    private final HttpHeader responseHeader;
-
-    private Map<String, Object> headerData;
-
-    private final HeaderDataNode header;
     private final DataNode body;
 
     HttpDataNodes(HttpResponse response) {
         this.response = response;
-
-        responseHeader = response.getHeader();
-
-        this.headerData = new HashMap<>();
-        populateHeaderData();
-
-        this.header = createHeaderDataNode();
         this.body = createBodyDataNode();
-    }
-
-    public HeaderDataNode getHeader() {
-        return header;
     }
 
     public DataNode getBody() {
         return body;
-    }
-
-    private void populateHeaderData() {
-        headerData.put("statusCode", response.getStatusCode());
-        headerData.put("contentType", response.getContentType());
-
-        responseHeader.forEachProperty(headerData::put);
-
-        addCamelCaseVersion("Location", "location", asIs);
-        addCamelCaseVersion("Content-Location", "contentLocation", asIs);
-        addCamelCaseVersion("Content-Length", "contentLength", Integer::valueOf);
-        addCamelCaseVersion("Content-Encoding", "contentEncoding", asIs);
-    }
-
-    private void addCamelCaseVersion(String original, String camelCase, Function<String, Object> conversion) {
-        if (responseHeader.containsKey(original)) {
-            Object converted = conversion.apply(responseHeader.get(original));
-
-            headerData.put(camelCase, converted);
-            headerData.put(original, converted);
-        }
-    }
-
-    private HeaderDataNode createHeaderDataNode() {
-        return new HeaderDataNode(DataNodeBuilder.fromMap(new DataNodeId("header"), headerData));
     }
 
     @SuppressWarnings("unchecked")

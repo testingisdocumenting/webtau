@@ -17,19 +17,46 @@
 package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.data.traceable.TraceableValue;
+import com.twosigma.webtau.http.HttpHeader;
+import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.datanode.DataNode;
+import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.NullDataNode;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class HeaderDataNode implements DataNode {
+    private static final Function<String, Object> asIs = (v) -> v;
+
     private final DataNode dataNode;
 
-    public HeaderDataNode(DataNode dataNode) {
-        this.dataNode = dataNode;
+    public HeaderDataNode(HttpResponse response) {
+        Map<String, Object> headerData = new HashMap<>();
+
+        headerData.put("statusCode", response.getStatusCode());
+        headerData.put("contentType", response.getContentType());
+
+        response.getHeader().forEachProperty(headerData::put);
+
+        addCamelCaseVersion(response.getHeader(), headerData, "Content-Location", "contentLocation", asIs);
+        addCamelCaseVersion(response.getHeader(), headerData, "Content-Length", "contentLength", Integer::valueOf);
+        addCamelCaseVersion(response.getHeader(), headerData, "Content-Encoding", "contentEncoding", asIs);
+
+        this.dataNode = DataNodeBuilder.fromMap(new DataNodeId("header"), headerData);
+    }
+
+    private static void addCamelCaseVersion(HttpHeader responseHeader, Map<String, Object> headerData, String original, String camelCase, Function<String, Object> conversion) {
+        if (responseHeader.containsKey(original)) {
+            Object converted = conversion.apply(responseHeader.get(original));
+
+            headerData.put(camelCase, converted);
+            headerData.put(original, converted);
+        }
     }
 
     @Override

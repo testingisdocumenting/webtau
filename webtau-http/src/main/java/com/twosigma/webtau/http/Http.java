@@ -398,8 +398,9 @@ public class Http {
                                     HttpResponseValidatorWithReturn validator) {
 
         HttpDataNodes dataNodes = new HttpDataNodes(validationResult.getResponse());
+        HeaderDataNode header = new HeaderDataNode(validationResult.getResponse());
 
-        validationResult.setResponseHeaderNode(dataNodes.getHeader());
+        validationResult.setResponseHeaderNode(header);
         validationResult.setResponseBodyNode(dataNodes.getBody());
 
         HttpValidationHandlers.validate(validationResult);
@@ -415,7 +416,7 @@ public class Http {
         //    we still validate status code to make sure user is aware of the status code problem
         try {
             R extracted = ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
-                Object returnedValue = validator.validate(dataNodes.getHeader(), dataNodes.getBody());
+                Object returnedValue = validator.validate(header, dataNodes.getBody());
                 return (R) extractOriginalValue(returnedValue);
             });
 

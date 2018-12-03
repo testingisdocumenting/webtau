@@ -16,21 +16,25 @@
 
 package com.twosigma.webtau.http.validation
 
-import com.twosigma.webtau.http.datanode.DataNodeBuilder
-import com.twosigma.webtau.http.datanode.DataNodeId
+import com.twosigma.webtau.http.HttpResponse
 import com.twosigma.webtau.http.datanode.NullDataNode
+import org.junit.Before
 import org.junit.Test
 
 class HeaderDataNodeTest {
-    def node = DataNodeBuilder.fromMap(new DataNodeId('header'), [
-            customValue: 'value',
-            Link: 'url'
-    ])
+    def headerNode
+
+    @Before
+    void setUp() {
+        def response = new HttpResponse()
+        response.addHeader('customValue', 'value')
+        response.addHeader('Link', 'url')
+
+        headerNode = new HeaderDataNode(response)
+    }
 
     @Test
     void "access to children value should be case insensitive"() {
-        def headerNode = new HeaderDataNode(node)
-
         headerNode.get('link').should == 'url'
         headerNode.get('Link').should == 'url'
         headerNode.has('link').should == true
@@ -44,7 +48,7 @@ class HeaderDataNodeTest {
 
     @Test
     void "non existing header node should return null data node"() {
-        def nonExisting = node.get('NonExisting')
+        def nonExisting = headerNode.get('NonExisting')
         nonExisting.getClass().should == NullDataNode
         nonExisting.id().path.should == 'header.NonExisting'
         nonExisting.id().name.should == 'NonExisting'
