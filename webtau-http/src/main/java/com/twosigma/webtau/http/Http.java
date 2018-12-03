@@ -26,6 +26,9 @@ import com.twosigma.webtau.http.binary.BinaryRequestBody;
 import com.twosigma.webtau.http.config.HttpConfigurations;
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datanode.DataNode;
+import com.twosigma.webtau.http.datanode.DataNodeBuilder;
+import com.twosigma.webtau.http.datanode.DataNodeId;
+import com.twosigma.webtau.http.datanode.StructuredDataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
 import com.twosigma.webtau.http.multipart.MultiPartFile;
 import com.twosigma.webtau.http.multipart.MultiPartFormData;
@@ -38,6 +41,8 @@ import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
 import com.twosigma.webtau.utils.CollectionUtils;
+import com.twosigma.webtau.utils.JsonParseException;
+import com.twosigma.webtau.utils.JsonUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -397,10 +402,11 @@ public class Http {
     private <R> R validateAndRecord(HttpValidationResult validationResult,
                                     HttpResponseValidatorWithReturn validator) {
 
-        HttpDataNodes dataNodes = new HttpDataNodes(validationResult.getResponse());
+        HeaderDataNode header = new HeaderDataNode(validationResult.getResponse());
+        DataNode body = createBodyDataNode(validationResult.getResponse());
 
-        validationResult.setResponseHeaderNode(dataNodes.getHeader());
-        validationResult.setResponseBodyNode(dataNodes.getBody());
+        validationResult.setResponseHeaderNode(header);
+        validationResult.setResponseBodyNode(body);
 
         HttpValidationHandlers.validate(validationResult);
 
@@ -415,7 +421,7 @@ public class Http {
         //    we still validate status code to make sure user is aware of the status code problem
         try {
             R extracted = ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
-                Object returnedValue = validator.validate(dataNodes.getHeader(), dataNodes.getBody());
+                Object returnedValue = validator.validate(header, body);
                 return (R) extractOriginalValue(returnedValue);
             });
 
@@ -447,6 +453,33 @@ public class Http {
             throw e;
         } finally {
             renderResponse(validationResult);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private DataNode createBodyDataNode(HttpResponse response) {
+        try {
+            DataNodeId id = new DataNodeId("body");
+
+            if (!response.isBinary() && response.nullOrEmptyTextContent()) {
+                return new StructuredDataNode(id, new TraceableValue(null));
+            }
+
+            if (response.isText()) {
+                return new StructuredDataNode(id, new TraceableValue(response.getTextContent()));
+            }
+
+            if (response.isJson()) {
+                Object mapOrList = JsonUtils.deserialize(response.getTextContent());
+
+                return mapOrList instanceof List ?
+                        DataNodeBuilder.fromList(id, (List<Object>) mapOrList) :
+                        DataNodeBuilder.fromMap(id, (Map<String, Object>) mapOrList);
+            }
+
+            return new StructuredDataNode(id, new TraceableValue(response.getBinaryContent()));
+        } catch (JsonParseException e) {
+            throw new RuntimeException("error parsing body: " + response.getTextContent(), e);
         }
     }
 

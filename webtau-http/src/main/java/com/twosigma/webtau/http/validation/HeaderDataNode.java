@@ -17,19 +17,52 @@
 package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.data.traceable.TraceableValue;
+import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.datanode.DataNode;
+import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.NullDataNode;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class HeaderDataNode implements DataNode {
+    private static final Set<CamelCaseTranslation> translations = setOf(
+            new CamelCaseTranslation("Content-Location", "contentLocation"),
+            new CamelCaseTranslation("Content-Length", "contentLength", Integer::valueOf),
+            new CamelCaseTranslation("Content-Encoding", "contentEncoding")
+    );
+
     private final DataNode dataNode;
 
-    public HeaderDataNode(DataNode dataNode) {
-        this.dataNode = dataNode;
+    public HeaderDataNode(HttpResponse response) {
+        Map<String, Object> headerData = new HashMap<>();
+
+        headerData.put("statusCode", response.getStatusCode());
+        headerData.put("contentType", response.getContentType());
+
+        response.getHeader().forEachProperty(headerData::put);
+
+        translations.forEach(translation -> addCamelCaseVersion(headerData, translation));
+
+        this.dataNode = DataNodeBuilder.fromMap(new DataNodeId("header"), headerData);
+    }
+
+    private static void addCamelCaseVersion(Map<String, Object> headerData, CamelCaseTranslation translation) {
+        Optional<String> existingHeaderName = findMatchingCaseInsensitiveKey(translation.originalName, headerData.keySet().stream());
+        if (existingHeaderName.isPresent()) {
+            Object converted = translation.conversion.apply((String) headerData.get(existingHeaderName.get()));
+
+            headerData.put(translation.camelCaseName, converted);
+            headerData.put(translation.originalName, converted);
+        }
     }
 
     @Override
@@ -102,9 +135,35 @@ public class HeaderDataNode implements DataNode {
     }
 
     private Optional<String> findMatchingCaseInsensitiveKey(String name) {
+        return findMatchingCaseInsensitiveKey(name, dataNode.asMap().keySet().stream());
+    }
+
+    private static Optional<String> findMatchingCaseInsensitiveKey(String name, Stream<String> keys) {
         String lowerCaseName = name.toLowerCase();
-        return dataNode.asMap().keySet().stream()
+        return keys
                 .filter(k -> k != null && k.toLowerCase().equals(lowerCaseName))
                 .findFirst();
+    }
+
+    private static <T> Set<T> setOf(T... things) {
+        return Arrays.stream(things).collect(Collectors.toSet());
+    }
+
+    private static class CamelCaseTranslation {
+        private final String originalName;
+        private final String camelCaseName;
+        private final Function<String, Object> conversion;
+
+        private CamelCaseTranslation(String originalName, String camelCaseName) {
+            this.originalName = originalName;
+            this.camelCaseName = camelCaseName;
+            this.conversion = (v) -> v;
+        }
+
+        private CamelCaseTranslation(String originalName, String camelCaseName, Function<String, Object> conversion) {
+            this.originalName = originalName;
+            this.camelCaseName = camelCaseName;
+            this.conversion = conversion;
+        }
     }
 }

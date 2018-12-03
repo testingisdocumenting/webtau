@@ -85,7 +85,7 @@ class HttpValidationResultTest {
 
         validationResult.setStartTime(12345678)
         validationResult.setElapsedTime(100)
-        validationResult.setResponseHeaderNode(new HeaderDataNode())
+        validationResult.setResponseHeaderNode(new HeaderDataNode(new HttpResponse()))
 
         return validationResult
     }
