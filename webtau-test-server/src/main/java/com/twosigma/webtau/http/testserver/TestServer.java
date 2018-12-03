@@ -19,6 +19,7 @@ package com.twosigma.webtau.http.testserver;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletException;
@@ -50,7 +51,11 @@ public class TestServer {
 
     public void start(int port) {
         server = new Server(port);
-        server.setHandler(new RequestHandler());
+
+        GzipHandler gzipHandler = new GzipHandler();
+        gzipHandler.setHandler(new RequestHandler());
+
+        server.setHandler(gzipHandler);
         try {
             server.start();
         } catch (Exception e) {

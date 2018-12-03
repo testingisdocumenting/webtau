@@ -19,6 +19,7 @@ package com.twosigma.webtau.http;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
+import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
 
@@ -94,8 +95,8 @@ public class HttpJavaTest implements HttpConfiguration  {
                     "k3", "v3"))); // matching only specified fields and can be nested multiple times
 
             body.get("complexList").should(equal(table("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
-                                                        "v1" ,  30,
-                                                        "v11",  40)));
+                    "v1" ,  30,
+                    "v11",  40)));
         });
 
         http.doc.capture("end-point-object-equality-matchers");
@@ -175,6 +176,24 @@ public class HttpJavaTest implements HttpConfiguration  {
         });
 
         http.doc.capture("end-point-mixing-matchers");
+    }
+
+    @Test
+    public void compression() {
+        http.get("/end-point", (header, body) -> {
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+
+            header.get("content-encoding").shouldNot(equal("gzip"));
+        });
+
+        http.get("/end-point", http.header("Accept-Encoding", "gzip"), (header, body) -> {
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+
+            header.get("content-encoding").should(equal("gzip"));
+            header.get("ContentEncoding").should(equal("gzip"));
+        });
     }
 
     @Override
