@@ -22,18 +22,24 @@ import com.twosigma.webtau.reporter.TokenizedMessage;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import org.openqa.selenium.WebElement;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class PageElementGetSetValueHandlers {
-    private static final Set<PageElementGetSetValueHandler> handlers = discoverHandlers();
+    private static final Set<PageElementGetSetValueHandler> discovered =
+            ServiceLoaderUtils.load(PageElementGetSetValueHandler.class);
+    private static final List<PageElementGetSetValueHandler> added = new ArrayList<>();
+
+    private static final PageElementGetSetValueHandler defaultHandler = new DefaultGetSetValueHandler();
 
     public static void add(PageElementGetSetValueHandler handler) {
-        handlers.add(handler);
+        added.add(handler);
     }
 
     public static void remove(PageElementGetSetValueHandler handler) {
-        handlers.remove(handler);
+        added.remove(handler);
     }
 
     public static void setValue(PageElementStepExecutor stepExecutor,
@@ -51,7 +57,7 @@ public class PageElementGetSetValueHandlers {
     }
 
     private static PageElementGetSetValueHandler findHandler(HtmlNode htmlNode, WebElement webElement) {
-        return handlers.stream().
+        return discoverHandlers().
                 filter(h -> h.handles(htmlNode, webElement)).findFirst().
                 orElseThrow(() -> noHandlerFound(htmlNode));
     }
@@ -60,11 +66,9 @@ public class PageElementGetSetValueHandlers {
         return new RuntimeException("no PageElementGetSetValueHandler handler found for " + htmlNode);
     }
 
-    private static Set<PageElementGetSetValueHandler> discoverHandlers() {
-        LinkedHashSet<PageElementGetSetValueHandler> result =
-                new LinkedHashSet<>(ServiceLoaderUtils.load(PageElementGetSetValueHandler.class));
-        result.add(new DefaultGetSetValueHandler());
-
-        return result;
+    private static Stream<PageElementGetSetValueHandler> discoverHandlers() {
+        return Stream.concat(
+                Stream.concat(added.stream(), discovered.stream()),
+                Stream.of(defaultHandler));
     }
 }
