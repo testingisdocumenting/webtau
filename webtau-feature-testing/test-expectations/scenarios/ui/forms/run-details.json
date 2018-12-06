@@ -17,7 +17,7 @@
   }, {
     "scenario" : "select options",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "values validation",

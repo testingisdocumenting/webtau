@@ -15,8 +15,42 @@
  */
 
 window._webtau = window._webtau || {
-    flashElements: function(webElements) {
+    elementsMeta: function(webElements) {
+        var idx = 0;
+        var len = webElements.length;
+        var result = [];
 
+        for (; idx < len; idx++) {
+            result.push(extractMeta(webElements[idx]));
+        }
+
+        return result;
+
+        function extractMeta(webElement) {
+            return {
+                tagName: webElement.tagName.toLowerCase(),
+                innerHtml: webElement.innerHTML,
+                value: webElement.value,
+                attributes: extractAttributes(webElement)
+            }
+        }
+
+        function extractAttributes(webElement) {
+            var result = {};
+
+            var attrs = webElement.attributes;
+            var idx = 0;
+            var len = attrs.length;
+
+            for(; idx < len; idx++) {
+                result[attrs[idx].name] = attrs[idx].value;
+            }
+
+            return result;
+        }
+    },
+
+    flashElements: function(webElements) {
         var overlays = createOverlays();
 
         attachOverlays();

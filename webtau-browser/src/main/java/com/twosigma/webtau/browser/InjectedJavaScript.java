@@ -21,6 +21,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.Map;
 
 public class InjectedJavaScript {
     private final String injectionScript = ResourceUtils.textContent("browser/injection.js");
@@ -34,6 +35,15 @@ public class InjectedJavaScript {
     public void flashWebElements(List<WebElement> webElements) {
         injectScript();
         javascriptExecutor.executeScript("window._webtau.flashElements(arguments[0])", webElements);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Map<String, String>> extractElementsMeta(List<WebElement> webElements) {
+        injectScript();
+        Object result = javascriptExecutor.executeScript(
+                "return window._webtau.elementsMeta(arguments[0])",
+                webElements);
+        return (List<Map<String, String>>) result;
     }
 
     private void injectScript() {

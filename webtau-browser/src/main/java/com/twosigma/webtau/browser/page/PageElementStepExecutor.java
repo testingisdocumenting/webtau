@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.expectation
+package com.twosigma.webtau.browser.page;
 
-import com.twosigma.webtau.browser.page.value.ElementValue
-import com.twosigma.webtau.browser.page.path.ElementPath
-import com.twosigma.webtau.browser.page.path.GenericPageElement
-import org.junit.Test
+import com.twosigma.webtau.reporter.TokenizedMessage;
 
-class ElementValueCompareToHandlerTest {
-    def pageElement = new GenericPageElement(null, null, ElementPath.css("#id"))
+import java.util.function.Supplier;
 
-    @Test
-    void "automatically converts text to a number if the expected value is a number"() {
-        def elementValue = new ElementValue(pageElement, "element", { -> "100.6543"})
-        elementValue.should == 100.6543
-    }
+public interface PageElementStepExecutor {
+    void execute(TokenizedMessage inProgressMessage,
+                 Supplier<TokenizedMessage> completionMessageSupplier,
+                 Runnable action);
 }

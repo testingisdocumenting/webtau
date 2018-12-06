@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.browser.page;
 
+import com.twosigma.webtau.browser.page.value.ElementValue;
 import com.twosigma.webtau.expectation.ActualValueExpectations;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.expectation.timer.ExpectationTimer;
