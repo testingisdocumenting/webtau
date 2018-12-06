@@ -28,6 +28,14 @@ import java.util.Set;
 public class PageElementGetSetValueHandlers {
     private static final Set<PageElementGetSetValueHandler> handlers = discoverHandlers();
 
+    public static void add(PageElementGetSetValueHandler handler) {
+        handlers.add(handler);
+    }
+
+    public static void remove(PageElementGetSetValueHandler handler) {
+        handlers.remove(handler);
+    }
+
     public static void setValue(PageElementStepExecutor stepExecutor,
                                 TokenizedMessage pathDescription,
                                 HtmlNode htmlNode,
