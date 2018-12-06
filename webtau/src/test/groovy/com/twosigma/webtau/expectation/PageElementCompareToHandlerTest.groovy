@@ -17,7 +17,6 @@
 package com.twosigma.webtau.expectation
 
 import com.twosigma.webtau.FakeWebDriver
-import com.twosigma.webtau.FakeWebElement
 import com.twosigma.webtau.browser.expectation.PageElementCompareToHandler
 import com.twosigma.webtau.browser.page.path.ElementPath
 import com.twosigma.webtau.browser.page.path.GenericPageElement
@@ -41,13 +40,5 @@ class PageElementCompareToHandlerTest {
         handler.handleEquality(pageElement, 100).should == true
 
         handler.handleEquality(100, 100).should == false
-    }
-
-    @Test
-    void "extracts underlying value from element for comparison"() {
-        driver.registerFakeElement("fakecss1", FakeWebElement.tagAndText("div", "hello"))
-        def pageElement = new GenericPageElement(driver, null, ElementPath.css("fakecss1"))
-
-        pageElement.should == "hello"
     }
 }
