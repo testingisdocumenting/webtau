@@ -17,10 +17,10 @@
 package com.twosigma.webtau.browser.page.value.handlers;
 
 import com.twosigma.webtau.browser.page.HtmlNode;
+import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.PageElementStepExecutor;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,20 +45,20 @@ public class PageElementGetSetValueHandlers {
     public static void setValue(PageElementStepExecutor stepExecutor,
                                 TokenizedMessage pathDescription,
                                 HtmlNode htmlNode,
-                                WebElement webElement,
+                                PageElement pageElement,
                                 Object value) {
-        PageElementGetSetValueHandler handler = findHandler(htmlNode, webElement);
-        handler.setValue(stepExecutor, pathDescription, htmlNode, webElement, value);
+        PageElementGetSetValueHandler handler = findHandler(htmlNode, pageElement);
+        handler.setValue(stepExecutor, pathDescription, htmlNode, pageElement, value);
     }
 
-    public static String getValue(HtmlNode htmlNode, WebElement webElement) {
-        PageElementGetSetValueHandler handler = findHandler(htmlNode, webElement);
-        return handler.getValue(htmlNode, webElement);
+    public static String getValue(HtmlNode htmlNode, PageElement pageElement) {
+        PageElementGetSetValueHandler handler = findHandler(htmlNode, pageElement);
+        return handler.getValue(htmlNode, pageElement);
     }
 
-    private static PageElementGetSetValueHandler findHandler(HtmlNode htmlNode, WebElement webElement) {
+    private static PageElementGetSetValueHandler findHandler(HtmlNode htmlNode, PageElement pageElement) {
         return discoverHandlers().
-                filter(h -> h.handles(htmlNode, webElement)).findFirst().
+                filter(h -> h.handles(htmlNode, pageElement)).findFirst().
                 orElseThrow(() -> noHandlerFound(htmlNode));
     }
 

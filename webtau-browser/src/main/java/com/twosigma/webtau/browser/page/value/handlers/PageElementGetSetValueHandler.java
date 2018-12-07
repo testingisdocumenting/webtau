@@ -17,16 +17,16 @@
 package com.twosigma.webtau.browser.page.value.handlers;
 
 import com.twosigma.webtau.browser.page.HtmlNode;
+import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.PageElementStepExecutor;
 import com.twosigma.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.WebElement;
 
 public interface PageElementGetSetValueHandler {
-    boolean handles(HtmlNode htmlNode, WebElement webElement);
+    boolean handles(HtmlNode htmlNode, PageElement pageElement);
     void setValue(PageElementStepExecutor stepExecutor,
                   TokenizedMessage pathDescription,
                   HtmlNode htmlNode,
-                  WebElement webElement,
+                  PageElement pageElement,
                   Object value);
-    String getValue(HtmlNode htmlNode, WebElement webElement);
+    String getValue(HtmlNode htmlNode, PageElement pageElement);
 }

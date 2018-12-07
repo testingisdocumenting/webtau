@@ -165,7 +165,8 @@ public class GenericPageElement implements PageElement {
         return path.toString();
     }
 
-    private String getText() {
+    @Override
+    public String getText() {
         return findElement().getText();
     }
 
@@ -195,12 +196,12 @@ public class GenericPageElement implements PageElement {
 
         for (int idx = 0; idx < elements.size(); idx++) {
             HtmlNode htmlNode = new HtmlNode(elementsMeta.get(idx));
-            WebElement webElement = elements.get(idx);
+            PageElement pageElementByIdx = get(idx);
 
             result.add(handleStaleElement(() ->
                     PageElementGetSetValueHandlers.getValue(
                             htmlNode,
-                            webElement), null));
+                            pageElementByIdx), null));
         }
 
         return result;
@@ -216,10 +217,10 @@ public class GenericPageElement implements PageElement {
     }
 
     private void setValueBasedOnType(Object value) {
-        HtmlNodeAndWebElement htmlNodeAndWebElement = findHtmlNodeAndWebElement();
+        HtmlNode htmlNode = findHtmlNode();
         PageElementGetSetValueHandlers.setValue(this::execute, pathDescription,
-                htmlNodeAndWebElement.htmlNode,
-                htmlNodeAndWebElement.webElement,
+                htmlNode,
+                this,
                 value);
     }
 
@@ -255,13 +256,11 @@ public class GenericPageElement implements PageElement {
         return new GenericPageElement(driver, injectedJavaScript, newPath);
     }
 
-    private HtmlNodeAndWebElement findHtmlNodeAndWebElement() {
+    private HtmlNode findHtmlNode() {
         List<WebElement> elements = findElements();
         List<Map<String, String>> elementsMeta = injectedJavaScript.extractElementsMeta(elements);
 
-        HtmlNode htmlNode = elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
-        WebElement webElement = elements.isEmpty() ? createNullElement() : elements.get(0);
-        return new HtmlNodeAndWebElement(htmlNode, webElement);
+        return elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
     }
 
     private NullWebElement createNullElement() {
@@ -304,16 +303,6 @@ public class GenericPageElement implements PageElement {
             code.run();
         } catch (StaleElementReferenceException e) {
             throw new RuntimeException("element is stale, consider using waitTo beVisible matcher to make sure component fully appeared");
-        }
-    }
-
-    class HtmlNodeAndWebElement {
-        private HtmlNode htmlNode;
-        private WebElement webElement;
-
-        HtmlNodeAndWebElement(HtmlNode htmlNode, WebElement webElement) {
-            this.htmlNode = htmlNode;
-            this.webElement = webElement;
         }
     }
 }

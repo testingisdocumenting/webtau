@@ -55,6 +55,8 @@ public interface PageElement extends ActualValueExpectations {
 
     TokenizedMessage describe();
 
+    String getText();
+
     void highlight();
 
     @Override
