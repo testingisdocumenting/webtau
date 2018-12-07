@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package com.twosigma.webtau.browser.page.value;
 
 public interface ElementValueFetcher<E> {
     E fetch();

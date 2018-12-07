@@ -17,23 +17,23 @@
 package com.twosigma.webtau.browser.page.path;
 
 import com.twosigma.webtau.browser.InjectedJavaScript;
-import com.twosigma.webtau.browser.page.ElementValue;
-import com.twosigma.webtau.browser.page.NullWebElement;
-import com.twosigma.webtau.browser.page.PageElement;
+import com.twosigma.webtau.browser.page.*;
 import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter;
 import com.twosigma.webtau.browser.page.path.filter.ByRegexpElementsFilter;
 import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter;
+import com.twosigma.webtau.browser.page.value.ElementValue;
+import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
@@ -99,7 +99,7 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public ElementValue<List<String>> elementValues() {
-        return new ElementValue<>(this, "all values", this::getUnderlyingValues);
+        return new ElementValue<>(this, "all values", this::extractValues);
     }
 
     @Override
@@ -157,38 +157,32 @@ public class GenericPageElement implements PageElement {
     }
 
     private String getUnderlyingValue() {
-        return staleFreeExtractValue(findElement());
+        List<String> values = extractValues();
+        return values.isEmpty() ? null : values.get(0);
     }
 
-    private List<String> getUnderlyingValues() {
-        List<WebElement> webElements = findElements();
-        return webElements.stream()
-                .map(this::staleFreeExtractValue)
-                .collect(Collectors.toList());
-    }
+    private List<String> extractValues() {
+        List<WebElement> elements = path.find(driver);
+        List<Map<String, String>> elementsMeta = handleStaleElement(() -> injectedJavaScript.extractElementsMeta(elements),
+                Collections.emptyList());
 
-    private String staleFreeExtractValue(WebElement webElement) {
-        return handleStaleElement(() -> extractValue(webElement), null);
-    }
-
-    private String extractValue(WebElement webElement) {
-        GenericElementType type = staleFreeElementType(webElement);
-
-        switch (type) {
-            case INPUT:
-            case INPUT_DATE:
-            case TEXT_AREA:
-                return webElement.getAttribute("value");
-            case SELECT:
-                return extractSelectOptionValue(webElement);
-            default:
-                return webElement.getText();
+        if (elementsMeta.isEmpty()) {
+            return Collections.emptyList();
         }
-    }
 
-    private String extractSelectOptionValue(WebElement webElement) {
-        Select select = new Select(webElement);
-        return select.getFirstSelectedOption().getText();
+        List<String> result = new ArrayList<>();
+
+        for (int idx = 0; idx < elements.size(); idx++) {
+            HtmlNode htmlNode = new HtmlNode(elementsMeta.get(idx));
+            WebElement webElement = elements.get(idx);
+
+            result.add(handleStaleElement(() ->
+                    PageElementGetSetValueHandlers.getValue(
+                            htmlNode,
+                            webElement), null));
+        }
+
+        return result;
     }
 
     private Integer getNumberOfElements() {
@@ -201,34 +195,11 @@ public class GenericPageElement implements PageElement {
     }
 
     private void setValueBasedOnType(Object value) {
-        WebElement element = findElement();
-
-        GenericElementType type = elementType(element);
-        switch (type) {
-            case SELECT:
-                setSelectValue(element, value);
-                break;
-            case INPUT_DATE:
-                setInputDateValue(element, value);
-                break;
-            default:
-                setRegularValue(element, value);
-                break;
-        }
-    }
-
-    private void setSelectValue(WebElement webElement, Object value) {
-        Select select = new Select(webElement);
-        select.selectByValue(value.toString());
-    }
-
-    private void setRegularValue(WebElement webElement, Object value) {
-        clear(webElement);
-        sendKeys(webElement, value.toString());
-    }
-
-    private void setInputDateValue(WebElement webElement, Object value) {
-        sendKeys(webElement, value.toString());
+        HtmlNodeAndWebElement htmlNodeAndWebElement = findHtmlNodeAndWebElement();
+        PageElementGetSetValueHandlers.setValue(this::execute, pathDescription,
+                htmlNodeAndWebElement.htmlNode,
+                htmlNodeAndWebElement.webElement,
+                value);
     }
 
     private void clear(WebElement webElement) {
@@ -254,6 +225,15 @@ public class GenericPageElement implements PageElement {
         newPath.addFilter(filter);
 
         return new GenericPageElement(driver, injectedJavaScript, newPath);
+    }
+
+    private HtmlNodeAndWebElement findHtmlNodeAndWebElement() {
+        List<WebElement> elements = findElements();
+        List<Map<String, String>> elementsMeta = injectedJavaScript.extractElementsMeta(elements);
+
+        HtmlNode htmlNode = elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
+        WebElement webElement = elements.isEmpty() ? createNullElement() : elements.get(0);
+        return new HtmlNodeAndWebElement(htmlNode, webElement);
     }
 
     private NullWebElement createNullElement() {
@@ -296,6 +276,16 @@ public class GenericPageElement implements PageElement {
             code.run();
         } catch (StaleElementReferenceException e) {
             throw new RuntimeException("element is stale, consider using waitTo beVisible matcher to make sure component fully appeared");
+        }
+    }
+
+    class HtmlNodeAndWebElement {
+        private HtmlNode htmlNode;
+        private WebElement webElement;
+
+        HtmlNodeAndWebElement(HtmlNode htmlNode, WebElement webElement) {
+            this.htmlNode = htmlNode;
+            this.webElement = webElement;
         }
     }
 }
