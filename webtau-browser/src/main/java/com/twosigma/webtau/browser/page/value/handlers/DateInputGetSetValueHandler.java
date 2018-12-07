@@ -17,9 +17,9 @@
 package com.twosigma.webtau.browser.page.value.handlers;
 
 import com.twosigma.webtau.browser.page.HtmlNode;
+import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.PageElementStepExecutor;
 import com.twosigma.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.WebElement;
 
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
@@ -28,7 +28,7 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class DateInputGetSetValueHandler implements PageElementGetSetValueHandler {
     @Override
-    public boolean handles(HtmlNode htmlNode, WebElement webElement) {
+    public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
         return htmlNode.getTagName().equals("input") &&
                 htmlNode.getAttributes().getOrDefault("type", "").toLowerCase().equals("date");
     }
@@ -37,16 +37,16 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
     public void setValue(PageElementStepExecutor stepExecutor,
                          TokenizedMessage pathDescription,
                          HtmlNode htmlNode,
-                         WebElement webElement,
+                         PageElement pageElement,
                          Object value) {
         String keys = value.toString();
         stepExecutor.execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
                 () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
-                () -> webElement.sendKeys(keys));
+                () -> pageElement.sendKeys(keys));
     }
 
     @Override
-    public String getValue(HtmlNode htmlNode, WebElement webElement) {
+    public String getValue(HtmlNode htmlNode, PageElement pageElement) {
         return htmlNode.getValue();
     }
 }

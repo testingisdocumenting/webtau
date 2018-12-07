@@ -17,18 +17,13 @@
 package com.twosigma.webtau.browser.page.value.handlers;
 
 import com.twosigma.webtau.browser.page.HtmlNode;
+import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.PageElementStepExecutor;
 import com.twosigma.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.WebElement;
-
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler {
     @Override
-    public boolean handles(HtmlNode htmlNode, WebElement webElement) {
+    public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
         return true;
     }
 
@@ -36,23 +31,17 @@ public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler 
     public void setValue(PageElementStepExecutor stepExecutor,
                          TokenizedMessage pathDescription,
                          HtmlNode htmlNode,
-                         WebElement webElement,
+                         PageElement pageElement,
                          Object value) {
 
-        stepExecutor.execute(tokenizedMessage(action("clearing")).add(pathDescription),
-                () -> tokenizedMessage(action("cleared")).add(pathDescription),
-                webElement::clear);
-
-        String keys = value.toString();
-        stepExecutor.execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
-                () -> webElement.sendKeys(keys));
+        pageElement.clear();
+        pageElement.sendKeys(value.toString());
     }
 
     @Override
-    public String getValue(HtmlNode htmlNode, WebElement webElement) {
+    public String getValue(HtmlNode htmlNode, PageElement pageElement) {
         return htmlNode.getTagName().equals("input") || htmlNode.getTagName().equals("textarea") ?
                 htmlNode.getValue():
-                webElement.getText();
+                pageElement.getText();
     }
 }
