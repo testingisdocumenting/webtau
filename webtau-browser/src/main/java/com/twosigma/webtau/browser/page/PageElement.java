@@ -51,6 +51,8 @@ public interface PageElement extends ActualValueExpectations {
 
     boolean isVisible();
     boolean isEnabled();
+    boolean isSelected();
+
     TokenizedMessage describe();
 
     String getText();

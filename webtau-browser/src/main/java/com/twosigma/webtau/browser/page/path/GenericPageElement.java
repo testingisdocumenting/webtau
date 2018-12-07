@@ -156,6 +156,11 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
+    public boolean isSelected() {
+        return findElement().isSelected();
+    }
+
+    @Override
     public String toString() {
         return path.toString();
     }
