@@ -45,6 +45,7 @@ public interface PageElement extends ActualValueExpectations {
     PageElement get(int number);
     PageElement get(Pattern regexp);
     boolean isVisible();
+    boolean isEnabled();
     TokenizedMessage describe();
 
     void highlight();

@@ -140,6 +140,11 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
+    public boolean isEnabled() {
+        return handleStaleElement(() -> findElement().isEnabled(), false);
+    }
+
+    @Override
     public String toString() {
         return path.toString();
     }

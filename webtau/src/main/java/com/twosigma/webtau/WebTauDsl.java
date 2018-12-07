@@ -17,6 +17,7 @@
 package com.twosigma.webtau;
 
 import com.twosigma.webtau.browser.Browser;
+import com.twosigma.webtau.browser.expectation.EnabledValueMatcher;
 import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.cfg.WebTauConfig;
@@ -46,6 +47,10 @@ public class WebTauDsl extends Ddjt {
 
     public static ValueMatcher beVisible() {
         return new VisibleValueMatcher();
+    }
+
+    public static ValueMatcher beEnabled() {
+        return new EnabledValueMatcher();
     }
 
     public static ValueMatcher getBeVisible() {
