@@ -53,6 +53,7 @@ public interface PageElement extends ActualValueExpectations {
     boolean isEnabled();
     TokenizedMessage describe();
 
+    String getText();
 
     void highlight();
 
