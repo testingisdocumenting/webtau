@@ -18,6 +18,7 @@ package com.twosigma.webtau.browser.page.path;
 
 import com.twosigma.webtau.browser.page.path.finder.ByCssFinder;
 import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -63,11 +64,11 @@ public class ElementPath {
     }
 
     public List<WebElement> find(WebDriver driver) {
-        WebElement root = null;
+        SearchContext root = driver;
 
         List<WebElement> webElements = Collections.emptyList();
         for (ElementPathEntry entry : entries) {
-            webElements = entry.find(driver, root);
+            webElements = entry.find(root);
             if (webElements.isEmpty()) {
                 return webElements;
             }

@@ -21,6 +21,7 @@ import com.twosigma.webtau.browser.page.*;
 import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter;
 import com.twosigma.webtau.browser.page.path.filter.ByRegexpElementsFilter;
 import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter;
+import com.twosigma.webtau.browser.page.path.finder.ByCssFinder;
 import com.twosigma.webtau.browser.page.value.ElementValue;
 import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
 import com.twosigma.webtau.reporter.TokenizedMessage;
@@ -117,6 +118,16 @@ public class GenericPageElement implements PageElement {
     @Override
     public void clear() {
         clear(findElement());
+    }
+
+    @Override
+    public PageElement find(String css) {
+        return find(new ByCssFinder(css));
+    }
+
+    @Override
+    public PageElement find(ElementsFinder finder) {
+        return withFinder(finder);
     }
 
     @Override
@@ -228,6 +239,13 @@ public class GenericPageElement implements PageElement {
     private PageElement withFilter(ElementsFilter filter) {
         ElementPath newPath = path.copy();
         newPath.addFilter(filter);
+
+        return new GenericPageElement(driver, injectedJavaScript, newPath);
+    }
+
+    private PageElement withFinder(ElementsFinder finder) {
+        ElementPath newPath = path.copy();
+        newPath.addFinder(finder);
 
         return new GenericPageElement(driver, injectedJavaScript, newPath);
     }

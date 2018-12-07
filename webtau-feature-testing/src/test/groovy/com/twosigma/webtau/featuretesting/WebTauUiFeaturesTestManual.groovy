@@ -91,6 +91,7 @@ class WebTauUiFeaturesTestManual {
                 'byCssAndFilterByNumber.groovy': 'by css and filter by number',
                 'byCssAndFilterByText.groovy': 'by css and filter by text',
                 'byCssAndFilterByRegexp.groovy': 'by css and filter by regexp',
+                'byCssAndFilterByNumberNestedFind.groovy': 'by css and filter by number and nested css',
         ])
 
         extractHtmlSnippets(root, 'finders-and-filters.html', [
