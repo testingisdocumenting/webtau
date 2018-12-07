@@ -51,3 +51,8 @@ scenario('by css and filter by regexp') {
     def ordersMenu = $('ul li a').get(~/ord/)
     ordersMenu.should == 'orders'
 }
+
+scenario('by css and filter by number and nested css') {
+    def ordersMenu = $('ul li').get(2).find('a')
+    ordersMenu.should == 'orders'
+}

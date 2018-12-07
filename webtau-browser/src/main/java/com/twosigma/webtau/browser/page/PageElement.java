@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.browser.page;
 
+import com.twosigma.webtau.browser.page.path.ElementsFinder;
 import com.twosigma.webtau.browser.page.value.ElementValue;
 import com.twosigma.webtau.expectation.ActualValueExpectations;
 import com.twosigma.webtau.expectation.ValueMatcher;
@@ -41,12 +42,17 @@ public interface PageElement extends ActualValueExpectations {
     void sendKeys(String keys);
     void click();
     void clear();
+
+    PageElement find(String css);
+    PageElement find(ElementsFinder finder);
     PageElement get(String text);
     PageElement get(int number);
     PageElement get(Pattern regexp);
+
     boolean isVisible();
     boolean isEnabled();
     TokenizedMessage describe();
+
 
     void highlight();
 

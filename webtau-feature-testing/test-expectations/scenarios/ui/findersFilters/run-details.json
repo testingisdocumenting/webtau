@@ -34,6 +34,11 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
+  }, {
+    "scenario" : "by css and filter by number and nested css",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   } ],
   "exitCode" : 0
 }

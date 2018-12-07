@@ -19,7 +19,7 @@ package com.twosigma.webtau.browser.page.path.finder;
 import com.twosigma.webtau.browser.page.path.ElementsFinder;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -36,8 +36,8 @@ public class ByCssFinder implements ElementsFinder {
     }
 
     @Override
-    public List<WebElement> find(WebDriver driver) {
-        return driver.findElements(By.cssSelector(css));
+    public List<WebElement> find(SearchContext parent) {
+        return parent.findElements(By.cssSelector(css));
     }
 
     @Override

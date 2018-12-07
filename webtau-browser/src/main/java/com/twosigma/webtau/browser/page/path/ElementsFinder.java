@@ -17,13 +17,13 @@
 package com.twosigma.webtau.browser.page.path;
 
 import com.twosigma.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 public interface ElementsFinder {
-    List<WebElement> find(WebDriver driver);
+    List<WebElement> find(SearchContext parent);
 
     /**
      * @param isFirst isFirst is this the first entry in the path
