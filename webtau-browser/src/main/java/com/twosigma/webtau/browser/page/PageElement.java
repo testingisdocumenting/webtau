@@ -51,8 +51,9 @@ public interface PageElement extends ActualValueExpectations {
 
     boolean isVisible();
     boolean isEnabled();
-    TokenizedMessage describe();
+    boolean isSelected();
 
+    TokenizedMessage describe();
 
     void highlight();
 
