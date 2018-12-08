@@ -25,6 +25,7 @@ import com.twosigma.webtau.browser.page.path.finder.ByCssFinder;
 import com.twosigma.webtau.browser.page.value.ElementValue;
 import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
 import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -168,6 +169,16 @@ public class GenericPageElement implements PageElement {
     @Override
     public String getText() {
         return findElement().getText();
+    }
+
+    @Override
+    public void scrollIntoView() {
+        execute(tokenizedMessage(action("scrolling into view ")).add(pathDescription),
+                () -> tokenizedMessage(action("scrolled into view")).add(pathDescription),
+                () -> handleStaleElement(
+                        () -> ((JavascriptExecutor)driver).executeScript(
+                                "arguments[0].scrollIntoView(true);", findElement())
+                ));
     }
 
     private String getTagName() {
