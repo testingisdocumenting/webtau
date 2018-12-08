@@ -57,6 +57,7 @@ public interface PageElement extends ActualValueExpectations {
 
     String getText();
 
+    void scrollIntoView();
     void highlight();
 
     @Override
