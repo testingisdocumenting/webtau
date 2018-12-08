@@ -19,12 +19,17 @@
 
 <article>
 <header><h1>By CSS</h1></header>
-<p>Use $ to select an element by a given css selector def welcomeMessage = $('#welcome') welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a') menu.should == 'book' While click and sendKeys will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a') menu.should == ['book', 'orders', 'help']</p>
+<p>Use $ to select an element by a given css selector. def welcomeMessage = $('#welcome') welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a') menu.should == 'book' While click and sendKeys will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a') menu.should == ['book', 'orders', 'help'] Note: declaring element this way will not trigger element search right away.</p>
 </article>
 
 <article>
 <header><h1>Filters</h1></header>
 <p>You can use filters to narrow down elements selected by finders like css .Filter comes in a way of get method. Parameter is one of the followingElement numberElement textElement regexp def ordersMenu = $('ul li a').get(2) ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get('orders') ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get(~/ord/) ordersMenu.should == 'orders'</p>
+</article>
+
+<article>
+<header><h1>Chaining</h1></header>
+<p>After you filtered, you can use finders again to find nested elements. def ordersMenu = $('ul li').get(2).find('a') ordersMenu.should == 'orders'</p>
 </article>
 </section>
 </div>
@@ -90,7 +95,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "InlinedCode"
               },
               {
-                "text": " selector",
+                "text": " selector.",
                 "type": "SimpleText"
               }
             ]
@@ -145,14 +150,22 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Snippet"
           },
           {
-            "rightSide": true,
-            "type": "Meta"
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Note: declaring element this way will not trigger element search right away.",
+                "type": "SimpleText"
+              }
+            ]
           },
           {
             "paths": [
               "div.div[0]",
               "div.div[1].ul.li[0].a"
             ],
+            "meta": {
+              "rightSide": true
+            },
             "xmlAsJson": {
               "tagName": "div",
               "attributes": [],
@@ -365,13 +378,144 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Snippet"
           },
           {
-            "rightSide": true,
-            "type": "Meta"
+            "paths": [
+              "div.div[1].ul.li[1].a"
+            ],
+            "meta": {
+              "rightSide": true
+            },
+            "xmlAsJson": {
+              "tagName": "div",
+              "attributes": [],
+              "children": [
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"welcome\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "",
+                      "text": "hello"
+                    }
+                  ]
+                },
+                {
+                  "tagName": "div",
+                  "attributes": [
+                    {
+                      "name": "id",
+                      "value": "\"menu\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "tagName": "ul",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/book\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "book"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/orders\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "orders"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "tagName": "li",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "tagName": "a",
+                              "attributes": [
+                                {
+                                  "name": "href",
+                                  "value": "\"/help\""
+                                }
+                              ],
+                              "children": [
+                                {
+                                  "tagName": "",
+                                  "text": "help"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "type": "Xml"
+          }
+        ]
+      },
+      {
+        "title": "Chaining",
+        "id": "chaining",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "After you filtered, you can use finders again to find nested elements.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def ordersMenu \u003d $(\u0027ul li\u0027).get(2).find(\u0027a\u0027)\nordersMenu.should \u003d\u003d \u0027orders\u0027",
+            "title": "Nested css selector",
+            "type": "Snippet"
           },
           {
             "paths": [
               "div.div[1].ul.li[1].a"
             ],
+            "meta": {
+              "rightSide": true
+            },
             "xmlAsJson": {
               "tagName": "div",
               "attributes": [],
@@ -478,7 +622,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1537478562000,
+    "lastModifiedTime": 1544199631000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Finders And Filters",
@@ -501,6 +645,10 @@ ReactDOM.render(React.createElement(Documentation, {
         {
           "title": "Filters",
           "id": "filters"
+        },
+        {
+          "title": "Chaining",
+          "id": "chaining"
         }
       ]
     }

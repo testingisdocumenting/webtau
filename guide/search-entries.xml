@@ -315,7 +315,7 @@
     <url>/webtau/guide/REST/maven#dependency</url>
     <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
     <text>
-      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.2&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.2&lt;/version> &lt;/dependency></text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -323,7 +323,7 @@
     <url>/webtau/guide/REST/maven#plugin</url>
     <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
     <text>
-      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.2&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -595,7 +595,7 @@
     <url>/webtau/guide/UI/finders-and-filters#by-css</url>
     <fullTitle>WebTau: Finders And Filters, By CSS [UI]</fullTitle>
     <text>
-      <text>Use $ to select an element by a given css selector def welcomeMessage = $('#welcome') welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a') menu.should == 'book' While click and sendKeys will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a') menu.should == ['book', 'orders', 'help']</text>
+      <text>Use $ to select an element by a given css selector. def welcomeMessage = $('#welcome') welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a') menu.should == 'book' While click and sendKeys will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a') menu.should == ['book', 'orders', 'help'] Note: declaring element this way will not trigger element search right away.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -604,6 +604,14 @@
     <fullTitle>WebTau: Finders And Filters, Filters [UI]</fullTitle>
     <text>
       <text>You can use filters to narrow down elements selected by finders like css .Filter comes in a way of get method. Parameter is one of the followingElement numberElement textElement regexp def ordersMenu = $('ul li a').get(2) ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get('orders') ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get(~/ord/) ordersMenu.should == 'orders'</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/finders-and-filters#chaining</url>
+    <fullTitle>WebTau: Finders And Filters, Chaining [UI]</fullTitle>
+    <text>
+      <text>After you filtered, you can use finders again to find nested elements. def ordersMenu = $('ul li').get(2).find('a') ordersMenu.should == 'orders'</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -699,7 +707,7 @@
     <url>/webtau/guide/generic-runners/JUnit-4#maven-import</url>
     <fullTitle>WebTau: JUnit 4, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.2&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>

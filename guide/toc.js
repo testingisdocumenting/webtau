@@ -566,6 +566,10 @@ toc = [
           {
             "title": "Filters",
             "id": "filters"
+          },
+          {
+            "title": "Chaining",
+            "id": "chaining"
           }
         ]
       },
