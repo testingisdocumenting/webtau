@@ -81,10 +81,14 @@ public class CsvParser {
         Map<String, String> row = new LinkedHashMap<>();
 
         int idx = 0;
-        for (String columnName : header) {
-            String value = record.get(idx);
-            row.put(columnName, value);
-            idx++;
+        try {
+            for (String columnName : header) {
+                String value = record.get(idx);
+                row.put(columnName, value);
+                idx++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Can't parse " + record, e);
         }
 
         return row;
