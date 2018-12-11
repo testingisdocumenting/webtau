@@ -105,12 +105,13 @@ public class WebTauConfig {
         return enumeratedCfgValues.get(key);
     }
 
-    public String get(String key) {
+    @SuppressWarnings("unchecked")
+    public <E> E get(String key) {
         Stream<ConfigValue> allValues =
                 Stream.concat(enumeratedCfgValues.values().stream(), freeFormCfgValues.stream());
 
         Optional<ConfigValue> configValue = allValues.filter(v -> v.match(key)).findFirst();
-        return configValue.map(ConfigValue::getAsString).orElse("");
+        return (E) configValue.map(ConfigValue::getAsObject).orElse("");
     }
 
     public int getVerbosityLevel() {
