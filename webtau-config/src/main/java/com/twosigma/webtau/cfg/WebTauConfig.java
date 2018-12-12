@@ -111,7 +111,7 @@ public class WebTauConfig {
                 Stream.concat(enumeratedCfgValues.values().stream(), freeFormCfgValues.stream());
 
         Optional<ConfigValue> configValue = allValues.filter(v -> v.match(key)).findFirst();
-        return (E) configValue.map(ConfigValue::getAsObject).orElse("");
+        return (E) configValue.map(ConfigValue::getAsObject).orElse(null);
     }
 
     public int getVerbosityLevel() {
