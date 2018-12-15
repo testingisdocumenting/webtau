@@ -34,7 +34,9 @@ public interface DataNode extends ActualValueExpectations, DataNodeExpectations 
 
     DataNode get(int idx);
 
-    TraceableValue get();
+    TraceableValue getTraceableValue();
+
+    <E> E get();
 
     boolean isList();
 
@@ -49,9 +51,9 @@ public interface DataNode extends ActualValueExpectations, DataNodeExpectations 
     Map<String, DataNode> asMap();
 
     default boolean isBinary() {
-        return get() != null &&
-                get().getValue() != null &&
-                get().getValue().getClass().equals(byte[].class);
+        return getTraceableValue() != null &&
+                getTraceableValue().getValue() != null &&
+                getTraceableValue().getValue().getClass().equals(byte[].class);
     }
 
     @Override

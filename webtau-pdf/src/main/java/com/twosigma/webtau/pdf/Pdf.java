@@ -44,12 +44,12 @@ public class Pdf {
         }
 
         try {
-            Pdf pdf = Pdf.pdf((byte[]) node.get().getValue());
-            node.get().updateCheckLevel(CheckLevel.FuzzyPassed);
+            Pdf pdf = Pdf.pdf((byte[]) node.get());
+            node.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed);
 
             return pdf;
         } catch (Exception e) {
-            node.get().updateCheckLevel(CheckLevel.ExplicitFailed);
+            node.getTraceableValue().updateCheckLevel(CheckLevel.ExplicitFailed);
             throw new AssertionError("Failed to parse pdf: " + e.getMessage());
         }
     }

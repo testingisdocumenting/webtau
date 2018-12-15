@@ -55,7 +55,7 @@ class HeaderDataNodeTest {
 
         node.contentLocation.should == 'foo'
         node.contentLength.should == 10
-        node.contentLength.get().getValue().getClass().should == Integer
+        node.contentLength.get().getClass().should == Integer
     }
 
     @Test

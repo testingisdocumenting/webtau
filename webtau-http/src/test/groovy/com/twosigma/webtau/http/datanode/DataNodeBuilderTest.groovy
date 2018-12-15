@@ -22,7 +22,7 @@ class DataNodeBuilderTest {
     @Test
     void "should convert a map to data node"() {
         def n = DataNodeBuilder.fromMap(new DataNodeId("body"), [childA: "valueA", childB: "valueB"])
-        
+
         assert n.numberOfChildren() == 2
         assert n.numberOfElements() == 0
 
@@ -57,6 +57,6 @@ class DataNodeBuilderTest {
     private static void assertSingleValue(DataNode actual, expected) {
         assert actual.numberOfChildren() == 0
         assert actual.numberOfElements() == 0
-        assert actual.get().value == expected
+        assert actual.getTraceableValue().value == expected
     }
 }

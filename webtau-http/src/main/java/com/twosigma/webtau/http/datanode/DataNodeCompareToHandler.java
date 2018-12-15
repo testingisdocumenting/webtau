@@ -52,7 +52,7 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     @Override
     public void compareGreaterLessEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
         DataNode actualDataNode = (DataNode) actual;
-        compareToComparator.compareUsingCompareTo(actualPath, actualDataNode.get(), expected);
+        compareToComparator.compareUsingCompareTo(actualPath, actualDataNode.getTraceableValue(), expected);
     }
 
     private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map expected) {
@@ -78,11 +78,11 @@ public class DataNodeCompareToHandler implements CompareToHandler {
 
     private Object extractActual(DataNode actual) {
         if (actual.isBinary()) {
-            return actual.get();
+            return actual.getTraceableValue();
         }
 
         if (actual.isSingleValue()) {
-            return actual.get();
+            return actual.getTraceableValue();
         }
 
         if (actual.isList()) {

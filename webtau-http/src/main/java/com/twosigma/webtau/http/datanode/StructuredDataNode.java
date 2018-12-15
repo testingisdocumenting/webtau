@@ -17,6 +17,7 @@
 package com.twosigma.webtau.http.datanode;
 
 import com.twosigma.webtau.data.traceable.TraceableValue;
+import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 public class StructuredDataNode implements DataNode {
     private final DataNodeId id;
@@ -79,8 +81,22 @@ public class StructuredDataNode implements DataNode {
     }
 
     @Override
-    public TraceableValue get() {
+    public TraceableValue getTraceableValue() {
         return value;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public <E> E get() {
+        if (!isSingleValue) {
+            return (E) extractComplexValue();
+        }
+
+        if (value == null) {
+            return null;
+        }
+
+        return (E) value.getValue();
     }
 
     @Override
@@ -139,5 +155,14 @@ public class StructuredDataNode implements DataNode {
                 values.stream()
                         .map(n -> n.get(name))
                         .collect(Collectors.toList()));
+    }
+
+    private Object extractComplexValue() {
+        if (values != null) {
+            return values.stream().map(DataNode::get).collect(toList());
+        }
+
+        return new DataNodeToMapOfValuesConverter((id, traceableValue) -> traceableValue.getValue())
+                .convert(this);
     }
 }

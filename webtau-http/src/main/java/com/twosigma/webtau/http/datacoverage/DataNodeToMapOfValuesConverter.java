@@ -37,7 +37,7 @@ public class DataNodeToMapOfValuesConverter {
         if (n.isList()) {
             return convertToList(n);
         } else if (n.isSingleValue()) {
-            return convertSingleValue(n.id(), n.get());
+            return convertSingleValue(n.id(), n.getTraceableValue());
         } else {
             return convertToMap(n);
         }

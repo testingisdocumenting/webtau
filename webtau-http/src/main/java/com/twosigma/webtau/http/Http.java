@@ -485,7 +485,7 @@ public class Http {
 
     private void validateStatusCode(HttpValidationResult validationResult) {
         DataNode statusCode = validationResult.getHeaderNode().statusCode();
-        if (statusCode.get().getCheckLevel() != CheckLevel.None) {
+        if (statusCode.getTraceableValue().getCheckLevel() != CheckLevel.None) {
             return;
         }
 
@@ -494,11 +494,11 @@ public class Http {
 
     private void validateErrorsOnlyStatusCode(HttpValidationResult validationResult) {
         DataNode statusCode = validationResult.getHeaderNode().statusCode();
-        if (statusCode.get().getCheckLevel() != CheckLevel.None) {
+        if (statusCode.getTraceableValue().getCheckLevel() != CheckLevel.None) {
             return;
         }
 
-        Integer statusCodeValue = (Integer) statusCode.get().getValue();
+        Integer statusCodeValue = (Integer) statusCode.getTraceableValue().getValue();
         if (statusCodeValue >= 200 && statusCodeValue < 300) {
             return;
         }
@@ -609,8 +609,7 @@ public class Http {
     @SuppressWarnings("unchecked")
     private Object extractOriginalValue(Object v) {
         if (v instanceof DataNode) {
-            return new DataNodeToMapOfValuesConverter((id, traceableValue) -> traceableValue.getValue())
-                    .convert((DataNode) v);
+            return ((DataNode) v).get();
         }
 
         if (v instanceof TraceableValue) {

@@ -39,7 +39,7 @@ public class CustomerCrudSeparatedIT {
     @BeforeEach // junit5 doesn't have yet order of tests feature, so we create a customer for every test
     void resourcePreparation() {
         id = http.post("/customers", customerPayload, ((header, body) -> {
-            return body.get("id").get();
+            return body.get("id").getTraceableValue();
         }));
     }
 

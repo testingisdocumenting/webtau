@@ -67,7 +67,12 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
-    TraceableValue get() {
+    TraceableValue getTraceableValue() {
+        return node.getTraceableValue()
+    }
+
+    @Override
+    <E> E get() {
         return node.get()
     }
 

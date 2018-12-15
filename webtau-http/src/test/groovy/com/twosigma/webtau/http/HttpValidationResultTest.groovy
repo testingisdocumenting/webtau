@@ -46,8 +46,8 @@ class HttpValidationResultTest {
         def responseAsJson = JsonUtils.serialize(responseAsMap)
 
         def n = DataNodeBuilder.fromMap(new DataNodeId('body'), responseAsMap)
-        n.get('childA').get().updateCheckLevel(CheckLevel.FuzzyFailed)
-        n.get('childB').get().updateCheckLevel(CheckLevel.ExplicitPassed)
+        n.get('childA').getTraceableValue().updateCheckLevel(CheckLevel.FuzzyFailed)
+        n.get('childB').getTraceableValue().updateCheckLevel(CheckLevel.ExplicitPassed)
 
         def validationResult = createValidationResult(null)
         validationResult.setResponse(new HttpResponse(textContent: responseAsJson, contentType: 'application/json', statusCode: 200))

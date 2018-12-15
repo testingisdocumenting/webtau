@@ -65,7 +65,7 @@ public class DataNodeListContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
 
         if (indexedValues.isEmpty()) {
-            dataNodes.forEach(n -> n.get().updateCheckLevel(CheckLevel.FuzzyPassed));
+            dataNodes.forEach(n -> n.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed));
         } else {
             CompareToComparator comparator = comparator(AssertionMode.NOT_EQUAL);
 
