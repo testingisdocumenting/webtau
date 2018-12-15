@@ -30,11 +30,11 @@ class DataNodeCompareToHandlerTest {
             a: [a1: 'va1', a2: [a21: 'va21', a22: 'v22']], b: 2, c: 3])
         node.should == [a: [a1: 'va1', a2: [a21: 'va21']], c:3]
 
-        node.get('a').get('a1').get().checkLevel.should == ExplicitPassed
-        node.get('a').get('a2').get('a21').get().checkLevel.should == ExplicitPassed
-        node.get('a').get('a2').get('a22').get().checkLevel.should == None
-        node.get('b').get().checkLevel.should == None
-        node.get('c').get().checkLevel.should == ExplicitPassed
+        node.get('a').get('a1').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get('a').get('a2').get('a21').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get('a').get('a2').get('a22').getTraceableValue().checkLevel.should == None
+        node.get('b').getTraceableValue().checkLevel.should == None
+        node.get('c').getTraceableValue().checkLevel.should == ExplicitPassed
     }
 
     @Test
@@ -42,9 +42,9 @@ class DataNodeCompareToHandlerTest {
         def node = DataNodeBuilder.fromList(new DataNodeId('node'), [1, 2, 3])
         node.should == [1, 2, 3]
 
-        node.get(0).get().checkLevel.should == ExplicitPassed
-        node.get(1).get().checkLevel.should == ExplicitPassed
-        node.get(2).get().checkLevel.should == ExplicitPassed
+        node.get(0).getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(1).getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(2).getTraceableValue().checkLevel.should == ExplicitPassed
     }
 
     @Test
@@ -60,17 +60,17 @@ class DataNodeCompareToHandlerTest {
                          4  | 5
                          7  | 8 }
 
-        node.get(0).get('a').get().checkLevel.should == ExplicitPassed
-        node.get(0).get('b').get().checkLevel.should == ExplicitPassed
-        node.get(0).get('c').get().checkLevel.should == None
+        node.get(0).get('a').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(0).get('b').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(0).get('c').getTraceableValue().checkLevel.should == None
 
-        node.get(1).get('a').get().checkLevel.should == ExplicitPassed
-        node.get(1).get('b').get().checkLevel.should == ExplicitPassed
-        node.get(1).get('c').get().checkLevel.should == None
+        node.get(1).get('a').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(1).get('b').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(1).get('c').getTraceableValue().checkLevel.should == None
 
-        node.get(2).get('a').get().checkLevel.should == ExplicitPassed
-        node.get(2).get('b').get().checkLevel.should == ExplicitPassed
-        node.get(2).get('c').get().checkLevel.should == None
+        node.get(2).get('a').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(2).get('b').getTraceableValue().checkLevel.should == ExplicitPassed
+        node.get(2).get('c').getTraceableValue().checkLevel.should == None
     }
 
     @Test

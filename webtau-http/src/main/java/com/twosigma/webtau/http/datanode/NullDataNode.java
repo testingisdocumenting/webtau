@@ -50,8 +50,13 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
-    public TraceableValue get() {
+    public TraceableValue getTraceableValue() {
         return new TraceableValue(null);
+    }
+
+    @Override
+    public <E> E get() {
+        return null;
     }
 
     @Override

@@ -91,7 +91,12 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
-    public TraceableValue get() {
+    public TraceableValue getTraceableValue() {
+        return dataNode.getTraceableValue();
+    }
+
+    @Override
+    public <E> E get() {
         return dataNode.get();
     }
 

@@ -33,7 +33,7 @@ class StructuredDataNodeTest {
             node.should(equal(8))
         } should throwException(~/mismatches/)
 
-        node.get().checkLevel.should == CheckLevel.ExplicitFailed
+        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
     }
 
     @Test
@@ -41,7 +41,7 @@ class StructuredDataNodeTest {
         def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
 
         node.shouldNot(equal(8))
-        node.get().checkLevel.should == CheckLevel.FuzzyPassed
+        node.getTraceableValue().checkLevel.should == CheckLevel.FuzzyPassed
     }
 
     @Test
@@ -49,7 +49,7 @@ class StructuredDataNodeTest {
         def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
 
         node.should(equal(10))
-        node.get().checkLevel.should == CheckLevel.ExplicitPassed
+        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitPassed
     }
 
     @Test
@@ -60,7 +60,7 @@ class StructuredDataNodeTest {
             node.shouldNot(equal(10))
         } should throwException(~/equals 10/)
 
-        node.get().checkLevel.should == CheckLevel.ExplicitFailed
+        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
     }
 
     @Test
@@ -72,10 +72,10 @@ class StructuredDataNodeTest {
 
         node.name.should(equal(['name1', 'name2']))
 
-        node.get(0).get('name').get().checkLevel.should == CheckLevel.ExplicitPassed
-        node.get(1).get('name').get().checkLevel.should == CheckLevel.ExplicitPassed
-        node.get(0).get('score').get().checkLevel.should == CheckLevel.None
-        node.get(1).get('score').get().checkLevel.should == CheckLevel.None
+        node.get(0).get('name').getTraceableValue().checkLevel.should == CheckLevel.ExplicitPassed
+        node.get(1).get('name').getTraceableValue().checkLevel.should == CheckLevel.ExplicitPassed
+        node.get(0).get('score').getTraceableValue().checkLevel.should == CheckLevel.None
+        node.get(1).get('score').getTraceableValue().checkLevel.should == CheckLevel.None
     }
 
     @Test
@@ -90,5 +90,37 @@ class StructuredDataNodeTest {
         code {
             node.score.shouldNot == null
         } should throwException(AssertionError, ~/body\.score/)
+    }
+
+    @Test
+    void "should access underlying value in case of simple"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+                key1: [name: 'name1'],
+                key2: [name: 'name2'],
+        ])
+
+        String name = node.get('key1').get('name').get()
+        name.should == 'name1'
+    }
+
+    @Test
+    void "should extract map value in case of object"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+                key1: [name: 'name1'],
+                key2: [name: 'name2'],
+        ])
+
+        Map<String, Object> map = node.get('key1').get()
+        map.should == [name: 'name1']
+    }
+
+    @Test
+    void "should extract map value in case of array"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+                key1: [[name: 'name1'], [name: 'name2']]
+        ])
+
+        List<Map<String, Object>> list = node.get('key1').get()
+        list.should == [[name: 'name1'], [name: 'name2']]
     }
 }

@@ -42,7 +42,7 @@ class PdfTest {
         def node = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(pdfContent))
 
         pdf(node)
-        node.get().checkLevel.should == CheckLevel.FuzzyPassed
+        node.getTraceableValue().checkLevel.should == CheckLevel.FuzzyPassed
     }
 
     @Test
@@ -53,6 +53,6 @@ class PdfTest {
             pdf(node)
         } should throwException(AssertionError, ~/Failed to parse pdf: java.io.IOException:/)
 
-        node.get().checkLevel.should == CheckLevel.ExplicitFailed
+        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
     }
 }

@@ -150,7 +150,7 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printSingle(DataNode dataNode) {
-        TraceableValue traceableValue = dataNode.get();
+        TraceableValue traceableValue = dataNode.getTraceableValue();
 
         Object value = traceableValue.getValue();
         if (value instanceof String) {

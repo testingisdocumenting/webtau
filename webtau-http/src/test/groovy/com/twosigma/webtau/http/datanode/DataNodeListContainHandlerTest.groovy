@@ -37,18 +37,18 @@ class DataNodeListContainHandlerTest {
     void "should mark containing items with passed status and not change other item statuses"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), listOfNames)
 
-        dataNode.get(0).get('firstName').get().updateCheckLevel(FuzzyPassed)
+        dataNode.get(0).get('firstName').getTraceableValue().updateCheckLevel(FuzzyPassed)
 
         dataNode.should contain([firstName: 'FN3', lastName: 'LN3'])
 
-        dataNode.get(0).get('firstName').get().checkLevel.should == FuzzyPassed
-        dataNode.get(0).get('lastName').get().checkLevel.should == None
-        dataNode.get(1).get('firstName').get().checkLevel.should == None
-        dataNode.get(1).get('lastName').get().checkLevel.should == None
-        dataNode.get(2).get('firstName').get().checkLevel.should == None
-        dataNode.get(2).get('lastName').get().checkLevel.should == None
-        dataNode.get(3).get('firstName').get().checkLevel.should == ExplicitPassed
-        dataNode.get(3).get('lastName').get().checkLevel.should == ExplicitPassed
+        dataNode.get(0).get('firstName').getTraceableValue().checkLevel.should == FuzzyPassed
+        dataNode.get(0).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(1).get('firstName').getTraceableValue().checkLevel.should == None
+        dataNode.get(1).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(2).get('firstName').getTraceableValue().checkLevel.should == None
+        dataNode.get(2).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(3).get('firstName').getTraceableValue().checkLevel.should == ExplicitPassed
+        dataNode.get(3).get('lastName').getTraceableValue().checkLevel.should == ExplicitPassed
     }
 
     @Test
@@ -59,8 +59,8 @@ class DataNodeListContainHandlerTest {
             dataNode.should contain([firstName: 'FN8', lastName: 'LN8'])
         } should throwException(~/body expect to contain \{firstName=FN8, lastName=LN8}/)
 
-        dataNode.elements().collect { it.get('firstName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
-        dataNode.elements().collect { it.get('lastName').get().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
+        dataNode.elements().collect { it.get('firstName').getTraceableValue().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
+        dataNode.elements().collect { it.get('lastName').getTraceableValue().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
     }
 
     @Test
@@ -68,7 +68,7 @@ class DataNodeListContainHandlerTest {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), [1, 2, 3])
         dataNode.shouldNot contain(8)
 
-        dataNode.elements().collect { it.get().checkLevel }.should == [FuzzyPassed, FuzzyPassed, FuzzyPassed]
+        dataNode.elements().collect { it.getTraceableValue().checkLevel }.should == [FuzzyPassed, FuzzyPassed, FuzzyPassed]
     }
 
     @Test
@@ -79,13 +79,13 @@ class DataNodeListContainHandlerTest {
             dataNode.shouldNot contain([firstName: 'FN2', lastName: 'LN2'])
         } should throwException(~/body expect to not contain \{firstName=FN2, lastName=LN2}/)
 
-        dataNode.get(0).get('firstName').get().checkLevel.should == None
-        dataNode.get(0).get('lastName').get().checkLevel.should == None
-        dataNode.get(1).get('firstName').get().checkLevel.should == None
-        dataNode.get(1).get('lastName').get().checkLevel.should == None
-        dataNode.get(2).get('firstName').get().checkLevel.should == ExplicitFailed
-        dataNode.get(2).get('lastName').get().checkLevel.should == ExplicitFailed
-        dataNode.get(3).get('firstName').get().checkLevel.should == None
-        dataNode.get(3).get('lastName').get().checkLevel.should == None
+        dataNode.get(0).get('firstName').getTraceableValue().checkLevel.should == None
+        dataNode.get(0).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(1).get('firstName').getTraceableValue().checkLevel.should == None
+        dataNode.get(1).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(2).get('firstName').getTraceableValue().checkLevel.should == ExplicitFailed
+        dataNode.get(2).get('lastName').getTraceableValue().checkLevel.should == ExplicitFailed
+        dataNode.get(3).get('firstName').getTraceableValue().checkLevel.should == None
+        dataNode.get(3).get('lastName').getTraceableValue().checkLevel.should == None
     }
 }
