@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.browser.page;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class HtmlNode {
@@ -28,6 +29,11 @@ public class HtmlNode {
     private String innerHtml;
 
     private HtmlNode() {
+        present = false;
+        tagName = "";
+        value = "";
+        attributes = Collections.emptyMap();
+        innerHtml = "";
     }
 
     @SuppressWarnings("unchecked")

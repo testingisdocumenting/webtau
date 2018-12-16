@@ -35,6 +35,7 @@ class WebTauUiFeaturesTestManual {
     static void registerEndPoints(TestServer testServer) {
         testServer.registerGet("/search", htmlResponse('search.html'))
         testServer.registerGet("/forms", htmlResponse('forms.html'))
+        testServer.registerGet("/special-forms", htmlResponse('special-forms.html'))
         testServer.registerGet("/calculation", htmlResponse('calculation.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
@@ -132,6 +133,11 @@ class WebTauUiFeaturesTestManual {
     }
 
     @Test
+    void "special forms"() {
+        runCli('specialForms.groovy', 'specialForms.cfg')
+    }
+
+    @Test
     void "forms extract snippets"() {
         def root = 'doc-artifacts/snippets/forms'
 
@@ -145,6 +151,20 @@ class WebTauUiFeaturesTestManual {
 
         extractHtmlSnippets(root, 'forms.html', [
                 'form-element.html': '#form'
+        ])
+    }
+
+    @Test
+    void "special forms extract snippets"() {
+        def root = 'doc-artifacts/snippets/special-forms'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/specialForms.groovy', [
+                'customGetSet.groovy': 'get set custom based on registered handler',
+        ])
+
+        extractHtmlSnippets(root, 'special-forms.html', [
+                'form-custom-element.html': '#special-form'
         ])
     }
 

@@ -17,9 +17,11 @@
 package com.twosigma.webtau.browser.page.value.handlers;
 
 import com.twosigma.webtau.browser.page.HtmlNode;
+import com.twosigma.webtau.browser.page.NullWebElement;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.PageElementStepExecutor;
 import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
@@ -49,7 +51,12 @@ public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
 
     @Override
     public String getValue(HtmlNode htmlNode, PageElement pageElement) {
-        Select select = new Select(pageElement.findElement());
+        WebElement webElement = pageElement.findElement();
+        if (webElement instanceof NullWebElement) {
+            return null;
+        }
+
+        Select select = new Select(webElement);
         return select.getFirstSelectedOption().getText();
     }
 }

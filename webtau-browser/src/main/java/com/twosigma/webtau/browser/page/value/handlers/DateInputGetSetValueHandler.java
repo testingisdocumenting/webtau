@@ -21,11 +21,6 @@ import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.PageElementStepExecutor;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
-
 public class DateInputGetSetValueHandler implements PageElementGetSetValueHandler {
     @Override
     public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
@@ -40,9 +35,7 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
                          PageElement pageElement,
                          Object value) {
         String keys = value.toString();
-        stepExecutor.execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
-                () -> pageElement.sendKeys(keys));
+        pageElement.sendKeys(keys);
     }
 
     @Override

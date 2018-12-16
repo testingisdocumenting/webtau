@@ -1,0 +1,14 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open forms",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "get set custom based on registered handler",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  } ],
+  "exitCode" : 0
+}

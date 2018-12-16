@@ -56,6 +56,7 @@ public interface PageElement extends ActualValueExpectations {
     TokenizedMessage describe();
 
     String getText();
+    String getUnderlyingValue();
 
     void scrollIntoView();
     void highlight();
