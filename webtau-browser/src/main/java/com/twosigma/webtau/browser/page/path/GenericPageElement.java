@@ -171,6 +171,7 @@ public class GenericPageElement implements PageElement {
         return findElement().getText();
     }
 
+    @Override
     public String getUnderlyingValue() {
         List<String> values = extractValues();
         return values.isEmpty() ? null : values.get(0);

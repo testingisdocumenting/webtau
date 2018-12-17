@@ -42,7 +42,7 @@ But what if you decided to use a custom component to enter the data?
 To hide implementation details from your test you should define a custom input handler for your UI component.
 
 Let's consider a form component that you can start interacting with only after you clicked it. And after the value
-is entered, input box disappears again.
+is entered, the input box disappears again.
 
 :include-file: doc-artifacts/snippets/special-forms/form-custom-element.html {title: "Custom input"}
 
