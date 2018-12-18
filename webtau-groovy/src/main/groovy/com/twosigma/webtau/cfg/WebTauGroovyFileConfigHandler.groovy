@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
+import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
@@ -34,7 +36,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         Path configPath = workingDir.resolve(cfg.configFileName.asString)
 
         if (!Files.exists(configPath)) {
-            ConsoleOutputs.out("skipping config file as it is not found: ", configPath)
+            ConsoleOutputs.out('skipping config file as it is not found: ', configPath)
             return
         }
 
@@ -52,7 +54,14 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             return
         }
 
-        def headerProvider = httpHeaderProvider(parsedConfig)
+        setupHttpHeaderProvider(parsedConfig)
+        setupBrowserPageNavigationHandler(parsedConfig)
+        setupReportGenerator(parsedConfig)
+        setupPageElementGetSetValueHandlers(parsedConfig)
+    }
+
+    private static void setupHttpHeaderProvider(ConfigObject config) {
+        def headerProvider = getClosure(config, 'httpHeaderProvider')
         if (headerProvider) {
             // we cannot add configuration here using HttpConfigurations.add since most likely config setup will be triggered
             // as part of the first cfg value access (e.g. baseUrl lookup).
@@ -62,16 +71,43 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             // and adding actual header provider now
             GroovyConfigBasedHttpConfiguration.setHeaderProvider(headerProvider)
         }
+    }
 
-        def browserPageNavigationHandler = browserPageNavigationHandler(parsedConfig)
+    private static void setupBrowserPageNavigationHandler(ConfigObject config) {
+        def browserPageNavigationHandler = getClosure(config, 'browserPageNavigationHandler')
         if (browserPageNavigationHandler) {
             GroovyConfigBasedBrowserPageNavigationHandler.setHandler(browserPageNavigationHandler)
         }
+    }
 
-        def reportGenerator = reportGenerator(parsedConfig)
+    private static void setupReportGenerator(ConfigObject config) {
+        def generator = config.get('reportGenerator')
+        def reportGenerator = generator ? generator as ReportGenerator : null
         if (reportGenerator) {
             ReportGenerators.add(reportGenerator)
         }
+    }
+
+    private static void setupPageElementGetSetValueHandlers(ConfigObject config) {
+        def handlerClasses = (List<Class>) config.get('pageElementGetSetValueHandlers')
+        if (!handlerClasses) {
+            return
+        }
+
+        def handlerInstances = handlerClasses.collect { handlerClass -> constructFromClass(handlerClass) }
+        handlerInstances.each { PageElementGetSetValueHandlers.add((PageElementGetSetValueHandler)it) }
+    }
+
+    private static Object constructFromClass(Class handlerClass) {
+        def defaultConstructor = handlerClass.constructors.find { constructor -> constructor.parameterCount == 0 }
+        if (!defaultConstructor) {
+            throw new IllegalArgumentException("${handlerClass} must have default constructor")
+        }
+        return defaultConstructor.newInstance()
+    }
+
+    private static Closure getClosure(ConfigObject config, String key) {
+        return (Closure) config.get(key)
     }
 
     private static void validateEnv(WebTauConfig cfg, Path workingDir, Path configPath) {
@@ -87,20 +123,5 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         if (!definedEnvs.contains(env)) {
             throw new IllegalArgumentException("environment <$env> is not defined in " + configPath)
         }
-    }
-
-    private static Closure httpHeaderProvider(parsedConfig) {
-        def provider = parsedConfig.get("httpHeaderProvider")
-        return provider ? provider as Closure : null
-    }
-
-    private static Closure browserPageNavigationHandler(parsedConfig) {
-        def provider = parsedConfig.get("browserPageNavigationHandler")
-        return provider ? provider as Closure : null
-    }
-
-    private static ReportGenerator reportGenerator(parsedConfig) {
-        def generator = parsedConfig.get("reportGenerator")
-        return generator ? generator as ReportGenerator : null
     }
 }

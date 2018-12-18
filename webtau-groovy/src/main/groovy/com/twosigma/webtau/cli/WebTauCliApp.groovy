@@ -40,6 +40,7 @@ import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import com.twosigma.webtau.runner.standalone.report.StandardConsoleTestListener
 
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.function.Consumer
@@ -111,7 +112,13 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             cfg.print()
             ConsoleOutputs.out()
 
-            testFiles().forEach {
+            def fullPaths = testFilesWithFullPath()
+            def missing = fullPaths.findAll { path -> !Files.exists(path)}
+            if (!missing.isEmpty()) {
+                throw new RuntimeException('Missing test files:\n  ' + missing.join('  \n'))
+            }
+
+            fullPaths.forEach {
                 runner.process(it, this)
             }
 
@@ -169,9 +176,9 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
         }
     }
 
-    private List<Path> testFiles() {
+    private List<Path> testFilesWithFullPath() {
         return cliConfigHandler.testFiles.collect { fileName ->
-            return cfg.workingDir.resolve(Paths.get(fileName))
+            cfg.workingDir.resolve(Paths.get(fileName)).toAbsolutePath()
         }
     }
 

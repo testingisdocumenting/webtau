@@ -172,6 +172,12 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
+    public String getUnderlyingValue() {
+        List<String> values = extractValues();
+        return values.isEmpty() ? null : values.get(0);
+    }
+
+    @Override
     public void scrollIntoView() {
         execute(tokenizedMessage(action("scrolling into view ")).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled into view")).add(pathDescription),
@@ -189,11 +195,6 @@ public class GenericPageElement implements PageElement {
         return findElement().getAttribute(name);
     }
 
-    private String getUnderlyingValue() {
-        List<String> values = extractValues();
-        return values.isEmpty() ? null : values.get(0);
-    }
-
     private List<String> extractValues() {
         List<WebElement> elements = path.find(driver);
         List<Map<String, String>> elementsMeta = handleStaleElement(() -> injectedJavaScript.extractElementsMeta(elements),
@@ -207,7 +208,7 @@ public class GenericPageElement implements PageElement {
 
         for (int idx = 0; idx < elements.size(); idx++) {
             HtmlNode htmlNode = new HtmlNode(elementsMeta.get(idx));
-            PageElement pageElementByIdx = get(idx);
+            PageElement pageElementByIdx = get(idx + 1);
 
             result.add(handleStaleElement(() ->
                     PageElementGetSetValueHandlers.getValue(
@@ -268,8 +269,10 @@ public class GenericPageElement implements PageElement {
     }
 
     private HtmlNode findHtmlNode() {
-        List<WebElement> elements = findElements();
-        List<Map<String, String>> elementsMeta = injectedJavaScript.extractElementsMeta(elements);
+        List<WebElement> elements = path.find(driver);
+        List<Map<String, String>> elementsMeta = elements.isEmpty() ?
+                Collections.emptyList():
+                injectedJavaScript.extractElementsMeta(elements);
 
         return elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
     }

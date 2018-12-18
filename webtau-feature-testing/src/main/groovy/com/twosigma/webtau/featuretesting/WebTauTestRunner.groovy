@@ -60,13 +60,13 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
     }
 
     void runCli(String testFileName, String configFileName, String... additionalArgs) {
-        def testPath = Paths.get('examples/' + testFileName)
+        def testPath = Paths.get(testFileName)
 
         StepReporters.add(this)
         StandaloneTestListeners.add(this)
 
         try {
-            def args = ['--config=' + 'examples/' + configFileName]
+            def args = ['--workingDir=examples', '--config=' + configFileName]
             args.addAll(Arrays.asList(additionalArgs))
             args.add(testPath.toString())
 
