@@ -4,6 +4,11 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
+  }, {
+    "scenario" : "page open handlers during re-open",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
   } ],
   "exitCode" : 0
 }
