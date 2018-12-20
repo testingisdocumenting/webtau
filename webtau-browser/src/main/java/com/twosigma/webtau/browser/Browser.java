@@ -60,7 +60,7 @@ public class Browser {
 
         createAndExecuteStep(null, tokenizedMessage(action("re-opening"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("opened"), urlValue(fullUrl)),
-                () -> driver.get(fullUrl));
+                () -> BrowserPageNavigation.open(driver, url, fullUrl));
     }
 
     public PageElement $(String css) {

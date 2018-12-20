@@ -16,17 +16,18 @@
 
 package com.twosigma.webtau.featuretesting
 
+import com.twosigma.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.AfterClass
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
-import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtml
+import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
 
 // TODO: manual runs for now while figuring selenium driver auto download
 class WebTauUiFeaturesTestManual {
@@ -57,6 +58,11 @@ class WebTauUiFeaturesTestManual {
     @AfterClass
     static void cleanup() {
         testRunner.stopTestServer()
+    }
+
+    @Before
+    void cleanBeforeTest() {
+        GroovyConfigBasedBrowserPageNavigationHandler.handler = null
     }
 
     @Test
