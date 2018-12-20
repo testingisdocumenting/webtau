@@ -133,7 +133,7 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public PageElement get(String text) {
-        return withFilter(new ByTextElementsFilter(text));
+        return withFilter(new ByTextElementsFilter(injectedJavaScript, text));
     }
 
     @Override
@@ -143,7 +143,7 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public PageElement get(Pattern regexp) {
-        return withFilter(new ByRegexpElementsFilter(regexp));
+        return withFilter(new ByRegexpElementsFilter(injectedJavaScript, regexp));
     }
 
     @Override

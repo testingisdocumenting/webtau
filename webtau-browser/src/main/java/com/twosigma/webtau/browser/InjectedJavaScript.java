@@ -34,16 +34,48 @@ public class InjectedJavaScript {
 
     public void flashWebElements(List<WebElement> webElements) {
         injectScript();
-        javascriptExecutor.executeScript("window._webtau.flashElements(arguments[0])", webElements);
+        javascriptExecutor.executeScript(oneArgFunc("flashElements"), webElements);
     }
 
     @SuppressWarnings("unchecked")
     public List<Map<String, String>> extractElementsMeta(List<WebElement> webElements) {
         injectScript();
-        Object result = javascriptExecutor.executeScript(
-                "return window._webtau.elementsMeta(arguments[0])",
-                webElements);
+        Object result = javascriptExecutor.executeScript(returnOneArgFunc("elementsMeta"), webElements);
         return (List<Map<String, String>>) result;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<WebElement> filterByText(List<WebElement> webElements, String text) {
+        injectScript();
+        return (List<WebElement>) javascriptExecutor.executeScript(returnTwoArgFunc("filterByText"),
+                webElements, text);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<WebElement> filterByRegexp(List<WebElement> webElements, String regexp) {
+        injectScript();
+        return (List<WebElement>) javascriptExecutor.executeScript(returnTwoArgFunc("filterByRegexp"),
+                webElements, regexp);
+    }
+
+    private static String oneArgFunc(String name) {
+        return func(name) + "(arguments[0])";
+    }
+
+    private static String returnOneArgFunc(String name) {
+        return "return " + oneArgFunc(name);
+    }
+
+    private static String twoArgFunc(String name) {
+        return func(name) + "(arguments[0], arguments[1])";
+    }
+
+    private static String returnTwoArgFunc(String name) {
+        return "return " + twoArgFunc(name);
+    }
+
+    private static String func(String name) {
+        return "window._webtau." + name;
     }
 
     private void injectScript() {

@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.browser.page.path.filter;
 
+import com.twosigma.webtau.browser.InjectedJavaScript;
 import com.twosigma.webtau.browser.page.path.ElementsFilter;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
@@ -28,15 +29,17 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static java.util.stream.Collectors.toList;
 
 public class ByTextElementsFilter implements ElementsFilter {
+    private final InjectedJavaScript injectedJavaScript;
     private String text;
 
-    public ByTextElementsFilter(String text) {
+    public ByTextElementsFilter(InjectedJavaScript injectedJavaScript, String text) {
+        this.injectedJavaScript = injectedJavaScript;
         this.text = text;
     }
 
     @Override
     public List<WebElement> filter(List<WebElement> original) {
-        return original.stream().filter(el -> el.getText().equals(text)).collect(toList());
+        return injectedJavaScript.filterByText(original, text);
     }
 
     @Override
