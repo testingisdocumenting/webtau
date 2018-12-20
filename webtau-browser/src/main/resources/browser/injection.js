@@ -82,12 +82,15 @@ window._webtau = window._webtau || function () {
     }
 
     function textValueToUse(meta) {
-        console.log(meta);
-        if (typeof meta.value !== 'undefined') {
+        if (meta.tagName === 'input' || meta.tagName === 'textarea') {
             return meta.value
         }
 
-        return meta.innerText;
+        return trimmedInnerText();
+
+        function trimmedInnerText() {
+            return meta.innerText ? meta.innerText.trim() : meta.innerText;
+        }
     }
 
     function flashElements(webElements) {

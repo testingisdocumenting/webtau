@@ -39,6 +39,11 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
+  }, {
+    "scenario" : "by buttons css and filter by text",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   } ],
   "exitCode" : 0
 }
