@@ -27,7 +27,7 @@ class ElementPathTest {
     void "should render full path description"() {
         def path = new ElementPath()
         path.addFinder(new ByCssFinder("#cssid"))
-        path.addFilter(new ByTextElementsFilter("about"))
+        path.addFilter(new ByTextElementsFilter(null, "about"))
         path.addFilter(new ByNumberElementsFilter(2))
         path.addFinder(new ByCssFinder(".child"))
 
