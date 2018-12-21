@@ -56,3 +56,8 @@ scenario('by css and filter by number and nested css') {
     def ordersMenu = $('ul li').get(2).find('a')
     ordersMenu.should == 'orders'
 }
+
+scenario('by buttons css and filter by text') {
+    def cssButton = $('button').get('of CSS')
+    cssButton.should == 'of CSS'
+}
