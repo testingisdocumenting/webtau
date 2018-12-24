@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
@@ -108,17 +109,21 @@ public class GenericPageElement implements PageElement {
     public void setValue(Object value) {
         execute(tokenizedMessage(action("setting value"), stringValue(value), TO).add(pathDescription),
                 () -> tokenizedMessage(action("set value"), stringValue(value), TO).add(pathDescription),
-                () -> staleFreeSetValueBasedOnType(value));
+                () -> setValueBasedOnType(value));
     }
 
     @Override
     public void sendKeys(String keys) {
-        sendKeys(findElement(), keys);
+        execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
+                () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
+                () -> findElement().sendKeys(keys));
     }
 
     @Override
     public void clear() {
-        clear(findElement());
+        execute(tokenizedMessage(action("clearing")).add(pathDescription),
+                () -> tokenizedMessage(action("cleared")).add(pathDescription),
+                () -> findElement().clear());
     }
 
     @Override
@@ -181,10 +186,9 @@ public class GenericPageElement implements PageElement {
     public void scrollIntoView() {
         execute(tokenizedMessage(action("scrolling into view ")).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled into view")).add(pathDescription),
-                () -> handleStaleElement(
-                        () -> ((JavascriptExecutor)driver).executeScript(
-                                "arguments[0].scrollIntoView(true);", findElement())
-                ));
+                () -> ((JavascriptExecutor)driver).executeScript(
+                        "arguments[0].scrollIntoView(true);", findElement())
+        );
     }
 
     private String getTagName() {
@@ -224,10 +228,6 @@ public class GenericPageElement implements PageElement {
         return webElements.size();
     }
 
-    private void staleFreeSetValueBasedOnType(Object value) {
-        handleStaleElement(() -> setValueBasedOnType(value));
-    }
-
     private void setValueBasedOnType(Object value) {
         HtmlNode htmlNode = findHtmlNode();
         PageElementGetSetValueHandlers.setValue(this::execute, pathDescription,
@@ -236,22 +236,11 @@ public class GenericPageElement implements PageElement {
                 value);
     }
 
-    private void clear(WebElement webElement) {
-        execute(tokenizedMessage(action("clearing")).add(pathDescription),
-                () -> tokenizedMessage(action("cleared")).add(pathDescription),
-                webElement::clear);
-    }
-
-    private void sendKeys(WebElement webElement, String keys) {
-        execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
-                () -> webElement.sendKeys(keys));
-    }
-
     private void execute(TokenizedMessage inProgressMessage,
                          Supplier<TokenizedMessage> completionMessageSupplier,
                          Runnable action) {
-        createAndExecuteStep(this, inProgressMessage, completionMessageSupplier, action);
+        createAndExecuteStep(this, inProgressMessage, completionMessageSupplier,
+                () -> repeatForStaleElement(action));
     }
 
     private PageElement withFilter(ElementsFilter filter) {
@@ -281,29 +270,6 @@ public class GenericPageElement implements PageElement {
         return new NullWebElement(path.toString());
     }
 
-    private static GenericElementType staleFreeElementType(WebElement element) {
-        return handleStaleElement(() -> elementType(element), GenericElementType.STALE);
-    }
-
-    private static GenericElementType elementType(WebElement element) {
-        String tag = element.getTagName().toUpperCase();
-        String typeOrNull = element.getAttribute("type");
-        String type = typeOrNull != null ? typeOrNull.toUpperCase() : "";
-
-        switch (tag) {
-            case "SELECT":
-                return GenericElementType.SELECT;
-            case "INPUT":
-                return type.equals("DATE") ?
-                        GenericElementType.INPUT_DATE:
-                        GenericElementType.INPUT;
-            case "TEXTAREA":
-                return GenericElementType.TEXT_AREA;
-            default:
-                return GenericElementType.OTHER;
-        }
-    }
-
     static private <R> R handleStaleElement(Supplier<R> code, R valueInCaseOfStale) {
         try {
             return code.get();
@@ -312,11 +278,29 @@ public class GenericPageElement implements PageElement {
         }
     }
 
-    static private void handleStaleElement(Runnable code) {
+    static private void repeatForStaleElement(Runnable code) {
+        int numberOfAttemptsLeft = getCfg().getStaleElementRetry();
+
+        for (; numberOfAttemptsLeft >= 1; numberOfAttemptsLeft--) {
+            try {
+                code.run();
+                break;
+            } catch (StaleElementReferenceException e) {
+                if (numberOfAttemptsLeft == 1) {
+                    throw new RuntimeException("element is stale, " +
+                            "consider using waitTo beVisible matcher to make sure component fully appeared");
+                }
+
+                sleep(getCfg().getStaleElementRetryWait());
+            }
+        }
+    }
+
+    static private void sleep(int millis) {
         try {
-            code.run();
-        } catch (StaleElementReferenceException e) {
-            throw new RuntimeException("element is stale, consider using waitTo beVisible matcher to make sure component fully appeared");
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }

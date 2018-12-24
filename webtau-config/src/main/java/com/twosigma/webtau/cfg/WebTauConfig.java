@@ -51,6 +51,8 @@ public class WebTauConfig {
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
+    private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
+    private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
     private final ConfigValue headless = declareBoolean("headless", "run headless mode");
     private final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
     private final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
@@ -177,6 +179,14 @@ public class WebTauConfig {
         return windowHeight.getAsInt();
     }
 
+    public int getStaleElementRetry() {
+        return staleElementRetry.getAsInt();
+    }
+
+    public int getStaleElementRetryWait() {
+        return staleElementRetryWait.getAsInt();
+    }
+
     public Path getWorkingDir() {
         return workingDir.getAsPath();
     }
@@ -286,6 +296,7 @@ public class WebTauConfig {
                 noColor,
                 windowWidth,
                 windowHeight,
+                staleElementRetry,
                 headless,
                 chromeDriverPath,
                 chromeBinPath);
