@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.expectation;
+package com.twosigma.webtau.reporter
 
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
-import com.twosigma.webtau.time.Time;
+import com.twosigma.webtau.time.TimeProvider
 
-public class SystemTimeExpectationTimer implements ExpectationTimer {
-    private long startTime;
+class DummyTimeProvider implements TimeProvider {
+    private List<Integer> timeSnapshots = []
+    private int currentSnapshotIdx = 0
 
-    @Override
-    public void start() {
-        startTime = Time.currentTimeMillis();
+    DummyTimeProvider(List<Integer> timeSnapshots) {
+        this.timeSnapshots.addAll(timeSnapshots)
     }
 
     @Override
-    public void tick(long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+    long currentTimeMillis() {
+        if (currentSnapshotIdx >= timeSnapshots.size()) {
+            throw new RuntimeException("$currentSnapshotIdx idx is out of the provided time snapshots $timeSnapshots")
         }
-    }
 
-    @Override
-    public boolean hasTimedOut(long millis) {
-        return (Time.currentTimeMillis() - startTime) > millis;
+        return timeSnapshots[currentSnapshotIdx++]
     }
 }

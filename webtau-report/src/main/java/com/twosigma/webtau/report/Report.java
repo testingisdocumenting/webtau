@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.report;
 
+import com.twosigma.webtau.time.Time;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,11 +37,11 @@ public class Report {
     }
 
     public void startTimer() {
-        startTime = System.currentTimeMillis();
+        startTime = Time.currentTimeMillis();
     }
 
     public void stopTimer() {
-        stopTime = System.currentTimeMillis();
+        stopTime = Time.currentTimeMillis();
     }
 
     public void addTestEntry(ReportTestEntry entry) {

@@ -24,7 +24,6 @@ import com.twosigma.webtau.expectation.ExpectationHandler;
 import com.twosigma.webtau.expectation.ExpectationHandlers;
 import com.twosigma.webtau.http.binary.BinaryRequestBody;
 import com.twosigma.webtau.http.config.HttpConfigurations;
-import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
@@ -40,6 +39,7 @@ import com.twosigma.webtau.http.validation.*;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
+import com.twosigma.webtau.time.Time;
 import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.JsonParseException;
 import com.twosigma.webtau.utils.JsonUtils;
@@ -370,9 +370,9 @@ public class Http {
                                                  HttpResponseValidatorWithReturn validator) {
         Supplier<R> httpCallSupplier = () -> {
             try {
-                long startTime = System.currentTimeMillis();
+                long startTime = Time.currentTimeMillis();
                 HttpResponse response = httpCall.execute(fullUrl, fullRequestHeader);
-                long endTime = System.currentTimeMillis();
+                long endTime = Time.currentTimeMillis();
 
                 validationResult.setStartTime(startTime);
                 validationResult.setElapsedTime(endTime - startTime);

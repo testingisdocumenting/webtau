@@ -44,13 +44,22 @@ public class ConsoleStepReporter implements StepReporter {
 
         TokenizedMessage completionMessageToUse = isLastTokenMatcher(completionMessage) ?
                 completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
-                        .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken())):
+                        .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken())) :
                 completionMessage;
 
-        ConsoleOutputs.out(Stream.concat(Stream.of(
-                createIndentation(numberOfParents),
-                Color.GREEN, ". "),
-                toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
+        ConsoleOutputs.out(
+                Stream.concat(
+                        Stream.concat(Stream.of(createIndentation(numberOfParents), Color.GREEN, ". "),
+                                toAnsiConverter.convert(completionMessageToUse).stream()),
+                        Stream.of(Color.YELLOW, " (", Color.GREEN, renderTimeTaken(step), Color.YELLOW, ')')).toArray());
+    }
+
+    private String renderTimeTaken(TestStep step) {
+        long seconds = step.getElapsedTime() / 1000;
+        long millisLeft = step.getElapsedTime() % 1000;
+
+        return (seconds > 0 ? String.valueOf(seconds) + "s ": "") +
+                String.valueOf(millisLeft) + "ms";
     }
 
     @Override
