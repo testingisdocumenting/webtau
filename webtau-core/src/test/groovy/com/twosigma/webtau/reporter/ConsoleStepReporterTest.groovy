@@ -20,6 +20,7 @@ import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.console.ansi.IgnoreAnsiString
+import com.twosigma.webtau.time.Time
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -39,12 +40,15 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         lines = new ArrayList<>()
         ConsoleOutputs.add(this)
         ConsoleOutputs.add(ansiConsoleOutput)
+
+        Time.setTimeProvider(new DummyTimeProvider([0, 0, 0, 0, 0, 0]))
     }
 
     @After
     void cleanUp() {
         ConsoleOutputs.remove(this)
         ConsoleOutputs.remove(ansiConsoleOutput)
+        Time.setTimeProvider(null)
     }
 
     @Test
@@ -67,9 +71,8 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                 '      matches:\n' +
                 '      \n' +
                 '      body.price:   actual: 100 <java.lang.Integer>\n' +
-                '                  expected: 100 <java.lang.Integer>\n' +
-                '. top level action completed', lines.join('\n'))
-
+                '                  expected: 100 <java.lang.Integer> (0ms)\n' +
+                '. top level action completed (0ms)', lines.join('\n'))
     }
 
     @Test
@@ -98,6 +101,32 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                 '      body.price:   actual: 100 <java.lang.Integer>\n' +
                 '                  expected: 100 <java.lang.Integer>\n' +
                 'X failed top level action', lines.join('\n'))
+    }
+
+    @Test
+    void "should render time step took in milliseconds"() {
+        Time.setTimeProvider(new DummyTimeProvider([100, 350]))
+        def action = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+                { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
+        }
+
+        action.execute(StepReportOptions.REPORT_ALL)
+
+        assertEquals('> action\n' +
+                '. action completed (250ms)', lines.join('\n'))
+    }
+
+    @Test
+    void "should render long running step time in seconds"() {
+        Time.setTimeProvider(new DummyTimeProvider([100, 5350]))
+        def action = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+                { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
+        }
+
+        action.execute(StepReportOptions.REPORT_ALL)
+
+        assertEquals('> action\n' +
+                '. action completed (5s 250ms)', lines.join('\n'))
     }
 
     private static String multilineMatcherMessage(String label) {

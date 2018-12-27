@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.reporter;
 
+import com.twosigma.webtau.time.Time;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,6 +45,9 @@ public class TestStep<C, R> {
     private String stackTrace;
 
     private List<TestStepPayload> payloads;
+
+    private long startTime;
+    private long elapsedTime;
 
     private static ThreadLocal<TestStep<?, ?>> currentStep = new ThreadLocal<>();
 
@@ -155,19 +160,31 @@ public class TestStep<C, R> {
         return !isSuccessful;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
     public R execute(StepReportOptions stepReportOptions) {
         try {
             if (stepReportOptions != StepReportOptions.SKIP_START) {
                 StepReporters.onStart(this);
             }
 
+            startClock();
             R r = action.get();
-
             complete(completionMessageSupplier.get());
+            stopClock();
+
             StepReporters.onSuccess(this);
 
             return r;
         } catch (Throwable e) {
+            stopClock();
+
             fail(e);
             StepReporters.onFailure(this);
             throw e;
@@ -177,6 +194,14 @@ public class TestStep<C, R> {
                 currentStep.set(localCurrentStep.parent);
             }
         }
+    }
+
+    private void startClock() {
+        startTime = Time.currentTimeMillis();
+    }
+
+    private void stopClock() {
+        elapsedTime = Time.currentTimeMillis() - startTime;
     }
 
     public TokenizedMessage getInProgressMessage() {
@@ -190,6 +215,8 @@ public class TestStep<C, R> {
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("message", completionMessage.toListOfMaps());
+        result.put("startTime", startTime);
+        result.put("elapsedTime", elapsedTime);
 
         if (!children.isEmpty()) {
             result.put("children", children.stream().map(TestStep::toMap).collect(toList()));

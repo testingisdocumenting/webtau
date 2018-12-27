@@ -21,6 +21,7 @@ import com.twosigma.webtau.reporter.TestStatus;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceCodeEntry;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
+import com.twosigma.webtau.time.Time;
 import com.twosigma.webtau.utils.FileUtils;
 
 import java.nio.file.Files;
@@ -141,11 +142,11 @@ public class ReportTestEntry {
     }
 
     public void startClock() {
-        startTime = System.currentTimeMillis();
+        startTime = Time.currentTimeMillis();
     }
 
     public void stopClock() {
-        elapsedTime = System.currentTimeMillis() - startTime;
+        elapsedTime = Time.currentTimeMillis() - startTime;
     }
 
     public long getStartTime() {
