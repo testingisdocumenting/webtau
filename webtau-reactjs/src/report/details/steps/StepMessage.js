@@ -15,9 +15,16 @@
  */
 
 import React from 'react'
-import Steps from './steps/Steps'
 
-const TestSteps = ({test}) => <Steps steps={test.steps}/>
+import {StepToken} from './StepToken'
 
-export default TestSteps
+import './StepMessage.css'
+
+export function StepMessage({message}) {
+    return (
+        <div className="message">
+            {message.map((t, idx) => <StepToken key={idx} {...t}/>)}
+        </div>
+    )
+}
 

@@ -15,9 +15,15 @@
  */
 
 import React from 'react'
-import Steps from './steps/Steps'
 
-const TestSteps = ({test}) => <Steps steps={test.steps}/>
+import ElapsedTime from '../../widgets/ElapsedTime'
 
-export default TestSteps
+import './StepTime.css'
 
+export function StepTime({millis}) {
+    return (
+        <div className="step-time">
+            <ElapsedTime millis={millis}/>
+        </div>
+    )
+}

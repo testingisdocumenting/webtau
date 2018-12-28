@@ -15,9 +15,23 @@
  */
 
 import React from 'react'
-import Steps from './steps/Steps'
 
-const TestSteps = ({test}) => <Steps steps={test.steps}/>
+import './StepToken.css'
 
-export default TestSteps
+export function StepToken({type, value}) {
+    const className = 'step-token ' + type
+    const valueToUse = value + ' '
 
+    switch (type) {
+        case 'url':
+            return (
+                <a className="step-token url"
+                   href={value}
+                   target="_blank"
+                   rel="noopener noreferrer">{value}</a>
+            )
+        default:
+            return <span className={className}>{valueToUse}</span>
+
+    }
+}

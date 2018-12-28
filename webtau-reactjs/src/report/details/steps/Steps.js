@@ -15,9 +15,17 @@
  */
 
 import React from 'react'
-import Steps from './steps/Steps'
 
-const TestSteps = ({test}) => <Steps steps={test.steps}/>
+import {Step} from './Step'
 
-export default TestSteps
+import './Steps.css'
 
+function Steps({steps}) {
+    return (
+        <div className="steps">
+            {steps.map((step, idx) => <Step key={idx} step={step} isTopLevel={true}/>)}
+        </div>
+    )
+}
+
+export default Steps

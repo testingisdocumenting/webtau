@@ -16,8 +16,8 @@
 
 import React, {Component} from 'react'
 
-import ElapsedTime from './ElapsedTime'
 import HttpPayload from './HttpPayload'
+import ElapsedTime from '../../widgets/ElapsedTime'
 
 import moment from 'moment'
 
@@ -86,7 +86,9 @@ class TestHttpCalls extends Component {
                     <td className="method" onClick={onClick}>{httpCall.method}</td>
                     <td className="status-code" onClick={onClick}>{httpCall.responseStatusCode}</td>
                     <td onClick={onClick}>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
-                    <td className="http-call-elapsed-time" onClick={onClick}><ElapsedTime millis={httpCall.elapsedTime}/></td>
+                    <td className="http-call-elapsed-time" onClick={onClick}>
+                        <ElapsedTime millis={httpCall.elapsedTime}/>
+                    </td>
                     <td className="url">{httpCall.url}</td>
                 </tr>
 

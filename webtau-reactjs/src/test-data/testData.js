@@ -71,6 +71,7 @@ const report = {
                 }
             }],
             "steps": [{
+                "elapsedTime": 200,
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP GET"
@@ -79,6 +80,7 @@ const report = {
                     "value": "http://localhost:8080/customers/1"
                 }],
                 "children": [{
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "body"
@@ -87,6 +89,7 @@ const report = {
                         "value": "equals {firstName=FN, lastName=LN}\nmatches:\n\nbody.firstName:   actual: \"FN\" <java.lang.String>\n                expected: \"FN\" <java.lang.String>\nbody.lastName:   actual: \"LN\" <java.lang.String>\n               expected: \"LN\" <java.lang.String>"
                     }]
                 }, {
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "header.statusCode"
@@ -123,6 +126,7 @@ const report = {
                 }
             }],
             "steps": [{
+                "elapsedTime": 300,
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP POST"
@@ -131,6 +135,7 @@ const report = {
                     "value": "http://localhost:8080/customers"
                 }],
                 "children": [{
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "header.statusCode"
@@ -165,6 +170,7 @@ const report = {
                 }
             }],
             "steps": [{
+                "elapsedTime": 350,
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP GET"
@@ -173,6 +179,7 @@ const report = {
                     "value": "http://localhost:8080/customers/1"
                 }],
                 "children": [{
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "body"
@@ -181,6 +188,7 @@ const report = {
                         "value": "equals {firstName=FN, lastName=LN}\nmatches:\n\nbody.firstName:   actual: \"FN\" <java.lang.String>\n                expected: \"FN\" <java.lang.String>\nbody.lastName:   actual: \"LN\" <java.lang.String>\n               expected: \"LN\" <java.lang.String>"
                     }]
                 }, {
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "header.statusCode"
@@ -231,6 +239,7 @@ const report = {
                 }
             }],
             "steps": [{
+                "elapsedTime": 450,
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP PUT"
@@ -239,6 +248,7 @@ const report = {
                     "value": "http://localhost:8080/customers/1"
                 }],
                 "children": [{
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "body.lastName"
@@ -247,6 +257,7 @@ const report = {
                         "value": "equals \"NLN\"\nmatches:\n\nbody.lastName:   actual: \"NLN\" <java.lang.String>\n               expected: \"NLN\" <java.lang.String>"
                     }]
                 }, {
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "header.statusCode"
@@ -256,6 +267,7 @@ const report = {
                     }]
                 }]
             }, {
+                "elapsedTime": 150,
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP GET"
@@ -264,6 +276,7 @@ const report = {
                     "value": "http://localhost:8080/customers/1"
                 }],
                 "children": [{
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "body.lastName"
@@ -272,6 +285,7 @@ const report = {
                         "value": "equals \"NLN\"\nmatches:\n\nbody.lastName:   actual: \"NLN\" <java.lang.String>\n               expected: \"NLN\" <java.lang.String>"
                     }]
                 }, {
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "header.statusCode"
@@ -320,6 +334,7 @@ const report = {
                 }
             }],
             "steps": [{
+                "elapsedTime": 200,
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP DELETE"
@@ -328,6 +343,7 @@ const report = {
                     "value": "http://localhost:8080/customers/1"
                 }],
                 "children": [{
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "header.statusCode"
@@ -337,6 +353,7 @@ const report = {
                     }]
                 }]
             }, {
+                "elapsedTime": 150,
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP GET"
@@ -345,6 +362,7 @@ const report = {
                     "value": "http://localhost:8080/customers/1"
                 }],
                 "children": [{
+                    "elapsedTime": 50,
                     "message": [{
                         "type": "id",
                         "value": "header.statusCode"
