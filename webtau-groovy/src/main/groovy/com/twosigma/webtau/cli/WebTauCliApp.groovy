@@ -146,7 +146,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
                 GroovyRunner.createWithDelegatingEnabled(cfg.workingDir),
                 cfg.getWorkingDir())
 
-        report = new Report()
         WebTauGroovyDsl.initWithTestRunner(runner)
     }
 
@@ -184,6 +183,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
 
     @Override
     void beforeFirstTest() {
+        report = new Report()
         report.startTimer()
     }
 

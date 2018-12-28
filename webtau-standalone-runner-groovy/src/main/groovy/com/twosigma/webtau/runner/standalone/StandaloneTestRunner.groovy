@@ -136,30 +136,42 @@ class StandaloneTestRunner {
         }.get()
     }
 
-    private void runTestsFromStream(Function<Map, Stream> streamCreator) {
-        StandaloneTestListeners.beforeFirstTest()
+    void runTestAndNotifyListeners(StandaloneTest test) {
+        StandaloneTestListeners.beforeTestRun(test)
+        runTestIfNotTerminated(test)
+        StandaloneTestListeners.afterTestRun(test)
+    }
 
-        def testsToRun = exclusiveTests.isEmpty() ? tests : exclusiveTests
-        def testsToSkip = exclusiveTests.isEmpty() ? [] : tests
-
-        testsToSkip.each { test ->
-            StandaloneTestListeners.beforeTestRun(test)
-            StandaloneTestListeners.afterTestRun(test)
+    void resetAndWithListeners(Closure codeToRunTests) {
+        isTerminated.set(false)
+        try {
+            StandaloneTestListeners.beforeFirstTest()
+            codeToRunTests()
+        } finally {
+            StandaloneTestListeners.afterAllTests()
         }
+    }
 
-        def testsByFile = testsToRun.groupBy { it.filePath }
+    private void runTestsFromStream(Function<Map, Stream> streamCreator) {
+        resetAndWithListeners {
+            def testsToRun = exclusiveTests.isEmpty() ? tests : exclusiveTests
+            def testsToSkip = exclusiveTests.isEmpty() ? [] : tests
 
-        def stream = streamCreator.apply(testsByFile)
-        stream.forEach { entry ->
-            Collection<StandaloneTest> tests = entry.value
-            tests.forEach { test ->
+            testsToSkip.each { test ->
                 StandaloneTestListeners.beforeTestRun(test)
-                runTestIfNotTerminated(test)
                 StandaloneTestListeners.afterTestRun(test)
             }
-        }
 
-        StandaloneTestListeners.afterAllTests()
+            def testsByFile = testsToRun.groupBy { it.filePath }
+
+            def stream = streamCreator.apply(testsByFile)
+            stream.forEach { entry ->
+                Collection<StandaloneTest> tests = entry.value
+                tests.forEach { test ->
+                    runTestAndNotifyListeners(test)
+                }
+            }
+        }
     }
 
     private void runTestIfNotTerminated(StandaloneTest test) {

@@ -195,6 +195,10 @@ public class WebTauConfig {
         return reportPath.getAsPath();
     }
 
+    public ConfigValue getReportPathConfigValue() {
+        return reportPath;
+    }
+
     public String getWorkingDirConfigName() {
         return workingDir.getKey();
     }
