@@ -50,8 +50,13 @@ class WebTauCliInteractive {
     private BackgroundFileWatcher watcher
 
     private AtomicBoolean isRunningWatchedTest
+    private final StandaloneTestRunner runner
 
     WebTauCliInteractive(StandaloneTestRunner runner) {
+        this.runner = runner
+
+        setDefaultReportPath()
+
         console = new InteractiveConsole(new BufferedReader(new InputStreamReader(System.in)))
         interactiveTests = new InteractiveTests(runner)
         currentUserSelection = new TestsSelection()
@@ -93,6 +98,15 @@ class WebTauCliInteractive {
                     return
             }
         }
+    }
+
+    private static void setDefaultReportPath() {
+        if (!cfg.reportPathConfigValue.isDefault()) {
+            return
+        }
+
+        cfg.reportPathConfigValue.set('interative-cli',
+                cfg.reportPath.toAbsolutePath().parent.resolve('webtau.interactive.report.html'))
     }
 
     private void selectTestFile() {
@@ -140,16 +154,18 @@ class WebTauCliInteractive {
             return
         }
 
-        tests.each { test ->
-            displaySelectedScenarios('running', test.scenario)
-            test.run()
+        runner.resetAndWithListeners {
+            tests.each { test ->
+                displaySelectedScenarios('running', test.scenario)
+                runner.runTestAndNotifyListeners(test)
 
-            def exception = test.exception
-            if (exception) {
-                console.println(Color.RED, 'failed test: ',
-                        Color.PURPLE, currentUserSelection.testFilePath, ' ',
-                        Color.YELLOW, test.scenario)
-                console.println(Color.RED, StackTraceUtils.renderStackTraceWithoutLibCalls(exception))
+                def exception = test.exception
+                if (exception) {
+                    console.println(Color.RED, 'failed test: ',
+                            Color.PURPLE, currentUserSelection.testFilePath, ' ',
+                            Color.YELLOW, test.scenario)
+                    console.println(Color.RED, StackTraceUtils.renderStackTraceWithoutLibCalls(exception))
+                }
             }
         }
     }
