@@ -23,6 +23,7 @@ UI
     asynchronous-page
     advanced-configuration
     local-storage
+    navigation
     page-open-handlers
     finders-and-filters
     matchers

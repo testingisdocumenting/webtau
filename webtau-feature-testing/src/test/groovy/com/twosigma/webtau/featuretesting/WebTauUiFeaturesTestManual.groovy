@@ -107,6 +107,23 @@ class WebTauUiFeaturesTestManual {
     }
 
     @Test
+    void "navigation"() {
+        runCli('navigation.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "navigation extract snippets"() {
+        def root = 'doc-artifacts/snippets/navigation'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/navigation.groovy', [
+                'open.groovy': 'open',
+                'reopen.groovy': 're-open',
+                'refresh.groovy': 're-fresh',
+        ])
+    }
+
+    @Test
     void "matchers"() {
         runCli('matchers.groovy', 'webtau.cfg')
     }
@@ -221,7 +238,7 @@ class WebTauUiFeaturesTestManual {
         def artifactsRoot = Paths.get(extractedPath)
 
         cssToOutputFile.each { outputFileName, css ->
-            FeaturesDocArtifactsExtractor.extractAndSaveHtml(resourceName, css,
+            extractAndSaveHtml(resourceName, css,
                     artifactsRoot.resolve(outputFileName))
         }
     }

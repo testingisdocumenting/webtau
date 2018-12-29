@@ -1,0 +1,19 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "re-open",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "re-fresh",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  } ],
+  "exitCode" : 0
+}
