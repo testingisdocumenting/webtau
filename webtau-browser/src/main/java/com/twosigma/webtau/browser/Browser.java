@@ -63,6 +63,12 @@ public class Browser {
                 () -> BrowserPageNavigation.open(driver, url, fullUrl));
     }
 
+    public void refresh() {
+        createAndExecuteStep(null, tokenizedMessage(action("refreshing current page")),
+                () -> tokenizedMessage(action("refreshed current page")),
+                () -> BrowserPageNavigation.refresh(driver));
+    }
+
     public PageElement $(String css) {
         return new GenericPageElement(driver, injectedJavaScript, ElementPath.css(css));
     }
