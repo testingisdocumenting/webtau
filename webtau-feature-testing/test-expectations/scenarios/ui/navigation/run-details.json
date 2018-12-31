@@ -14,6 +14,11 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 7
     }
+  }, {
+    "scenario" : "re-start",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
   } ],
   "exitCode" : 0
 }

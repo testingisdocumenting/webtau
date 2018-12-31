@@ -118,8 +118,9 @@ class WebTauUiFeaturesTestManual {
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/navigation.groovy', [
                 'open.groovy': 'open',
-                'reopen.groovy': 're-open',
-                'refresh.groovy': 're-fresh',
+                'reopen.groovy': 'reopen',
+                'refresh.groovy': 'refresh',
+                'restart.groovy': 'restart',
         ])
     }
 

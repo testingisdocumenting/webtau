@@ -69,6 +69,23 @@ public class Browser {
                 () -> BrowserPageNavigation.refresh(driver));
     }
 
+    public void close() {
+        createAndExecuteStep(null, tokenizedMessage(action("closing browser")),
+                () -> tokenizedMessage(action("browser is closed")),
+                driver::quit);
+    }
+
+    public void restart() {
+        String currentUrl = driver.getCurrentUrl();
+
+        createAndExecuteStep(null, tokenizedMessage(action("restarting browser")),
+                () -> tokenizedMessage(action("browser is restarted")),
+                () -> {
+                    close();
+                    browser.open(currentUrl);
+                });
+    }
+
     public PageElement $(String css) {
         return new GenericPageElement(driver, injectedJavaScript, ElementPath.css(css));
     }

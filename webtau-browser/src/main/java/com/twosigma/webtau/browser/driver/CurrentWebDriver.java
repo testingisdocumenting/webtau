@@ -72,7 +72,8 @@ public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptE
 
     @Override
     public void quit() {
-        getDriver().quit();
+        WebDriverCreator.close(getDriver());
+        local.set(null);
     }
 
     @Override
@@ -121,7 +122,16 @@ public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptE
 
     private WebDriver getDriver() {
         wasUsed.set(true);
-        return local.get();
+
+        WebDriver webDriver = local.get();
+        if (webDriver != null) {
+            return webDriver;
+        }
+
+        WebDriver newDriver = WebDriverCreator.create();
+        local.set(newDriver);
+
+        return newDriver;
     }
 
     @Override
