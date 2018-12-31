@@ -22,20 +22,31 @@ import static pages.Pages.*
 scenario('open') {
     search.submit('query')
 
-    browser.open("/search") // page is not being refreshed
+    browser.open("/search") // page is not be ing refreshed
     search.searchMessage.should == 'searching for query'
 }
 
-scenario('re-open') {
+scenario('reopen') {
     search.submit('name')
 
     browser.reopen("/search") // page is going to be refreshed
     search.searchMessage.should == ''
 }
 
-scenario('re-fresh') {
+scenario('refresh') {
     search.submit('name')
     browser.refresh() // page is going to be refreshed
 
     search.searchMessage.should == ''
+}
+
+scenario('restart') {
+    browser.open('/local-storage')
+    browser.localStorage.setItem('favoriteColor', 'pretty')
+
+    browser.refresh()
+    $('#favorite-color').should == 'pretty'
+
+    browser.restart()
+    $('#favorite-color').should == ''
 }

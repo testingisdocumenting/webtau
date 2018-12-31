@@ -48,6 +48,11 @@ public class WebDriverCreator {
         return register(driver);
     }
 
+    public static void close(WebDriver driver) {
+        drivers.remove(driver);
+        driver.quit();
+    }
+
     private static ChromeDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions();
 
