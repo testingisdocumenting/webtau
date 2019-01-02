@@ -55,7 +55,7 @@ class FeaturesDocArtifactsExtractor {
         }
 
         def scopeEndIdx = script.lastIndexOf("}", nextScenarioIdx)
-        return StringUtils.stripIndentation(script.substring(scopeStartIdx + 1, scopeEndIdx))
+        return StringUtils.stripIndentation(removeMarkedLines(script.substring(scopeStartIdx + 1, scopeEndIdx)))
     }
 
     static void extractCodeSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
@@ -77,5 +77,10 @@ class FeaturesDocArtifactsExtractor {
     static void extractAndSaveHtml(String resourceName, String css, Path outputPath) {
         def html = extractHtml(resourceName, css)
         FileUtils.writeTextContent(outputPath, html)
+    }
+
+    private static String removeMarkedLines(String text) {
+        def lines = text.split('\n')
+        return lines.findAll { !it.contains(':remove from docs:')}.join('\n')
     }
 }

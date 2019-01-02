@@ -29,6 +29,9 @@ import java.util.Map;
 public class Data {
     public static final Data data = new Data();
 
+    private Data() {
+    }
+
     public List<Map<String, String>> csv(String fileOrResourcePath) {
         return CsvParser.parse(textContent(fileOrResourcePath));
     }

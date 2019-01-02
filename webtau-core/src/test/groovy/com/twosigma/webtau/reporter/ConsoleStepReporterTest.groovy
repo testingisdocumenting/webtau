@@ -20,6 +20,7 @@ import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
 import com.twosigma.webtau.console.ansi.IgnoreAnsiString
+import com.twosigma.webtau.time.DummyTimeProvider
 import com.twosigma.webtau.time.Time
 import org.junit.After
 import org.junit.Before

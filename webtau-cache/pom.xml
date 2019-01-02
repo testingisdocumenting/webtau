@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+  ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,7 +15,9 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -24,57 +26,9 @@
         <version>1.4-SNAPSHOT</version>
     </parent>
 
-    <artifactId>webtau</artifactId>
+    <artifactId>webtau-cache</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-pdf</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-json-schema</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-data</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-cache</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-http</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-browser</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-report</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
@@ -83,15 +37,14 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-reactjs</artifactId>
+            <artifactId>webtau-config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-core-groovy</artifactId>
+            <artifactId>webtau-core</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

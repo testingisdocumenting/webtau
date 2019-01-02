@@ -45,6 +45,9 @@ public class WebTauConfig {
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
+    private final ConfigValue cachePath = declare("cachePath", "user driven cache file path",
+            () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
+
     private final ConfigValue docPath = declare("docPath", "path for screenshots and other generated " +
             "artifacts for documentation", workingDir::getAsPath);
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
@@ -189,6 +192,10 @@ public class WebTauConfig {
 
     public Path getWorkingDir() {
         return workingDir.getAsPath();
+    }
+
+    public Path getCachePath() {
+        return cachePath.getAsPath();
     }
 
     public Path getReportPath() {

@@ -25,3 +25,19 @@ Use `browser.restart` to restart a browser and open last opened url.
 :include-file: doc-artifacts/snippets/navigation/restart.groovy
 
 Note: restarting creates a clean instance of a browser. Local storage is going to be reset. 
+
+# Persist URL
+
+Use `browser.saveCurrentUrl` to save url in a local cache and `browser.openSavedUrl` to open a page later.
+
+It can be handy in multipart tests where first part creates an entity and the second part 
+updates the created entity. 
+
+:include-file: doc-artifacts/snippets/navigation/saveUrl.groovy
+
+In order to simplify tests development of a second part you can run first part once, save URL,
+and iterate on a second part by opening a page using saved URL.   
+
+:include-file: doc-artifacts/snippets/navigation/loadUrl.groovy
+
+Note: url is stored in a local cache file and will survive tests restart.

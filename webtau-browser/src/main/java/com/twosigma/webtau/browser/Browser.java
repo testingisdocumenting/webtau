@@ -22,16 +22,21 @@ import com.twosigma.webtau.browser.navigation.BrowserPageNavigation;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.path.ElementPath;
 import com.twosigma.webtau.browser.page.path.GenericPageElement;
+import com.twosigma.webtau.browser.page.value.ElementValue;
+import com.twosigma.webtau.cache.Cache;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.openqa.selenium.OutputType;
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
+import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
 import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Browser {
+    private static final String DEFAULT_URL_CACHE_KEY = "current";
+
     public static final Browser browser = new Browser();
     public final CurrentWebDriver driver = new CurrentWebDriver();
     public final Cookies cookies = new Cookies(driver);
@@ -86,6 +91,35 @@ public class Browser {
                 });
     }
 
+    public void saveCurrentUrl() {
+        saveCurrentUrl(DEFAULT_URL_CACHE_KEY);
+    }
+
+    public void saveCurrentUrl(String key) {
+        createAndExecuteStep(null, tokenizedMessage(action("saving current url as"), stringValue(key)),
+                () -> tokenizedMessage(action("saved current url as"), stringValue(key)),
+                () -> {
+                    Cache.cache.put(makeCacheKey(key), driver.getCurrentUrl());
+                });
+    }
+
+    public void openSavedUrl() {
+        openSavedUrl(DEFAULT_URL_CACHE_KEY);
+    }
+
+    public void openSavedUrl(String key) {
+        createAndExecuteStep(null, tokenizedMessage(action("opening url saved as"), stringValue(key)),
+                () -> tokenizedMessage(action("opened url saved as"), stringValue(key)),
+                () -> {
+                    Object url = Cache.cache.get(makeCacheKey(key));
+                    if (url == null) {
+                        throw new IllegalStateException("no previously saved url found");
+                    }
+
+                    reopen(url.toString());
+                });
+    }
+
     public PageElement $(String css) {
         return new GenericPageElement(driver, injectedJavaScript, ElementPath.css(css));
     }
@@ -104,5 +138,9 @@ public class Browser {
         }
 
         return UrlUtils.concat(getCfg().getBaseUrl(), url);
+    }
+
+    private static String makeCacheKey(String givenKey) {
+        return "url_" + givenKey;
     }
 }

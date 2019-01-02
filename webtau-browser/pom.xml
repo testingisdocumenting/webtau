@@ -45,6 +45,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-cache</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
         </dependency>
