@@ -18,14 +18,25 @@ package com.twosigma.webtau.data.render
 
 import org.junit.Test
 
-class NullRendererTest {
+class DataRenderersTest {
     @Test
     void "null values should be rendered as a String"() {
         assert new NullRenderer().render(null) == "[null]"
+        assert DataRenderers.render(null) == "[null]"
     }
 
     @Test
-    void "should not handle non-null values"() {
+    void "null renderer should not handle non-null values"() {
         assert new NullRenderer().render("some object") == null
+    }
+
+    @Test
+    void "strings are rendered with quotes"() {
+        assert DataRenderers.render("some object") == "\"some object\""
+    }
+
+    @Test
+    void "regex are rendered as patterns"() {
+        assert DataRenderers.render(~/some stuff/) == "pattern /some stuff/"
     }
 }

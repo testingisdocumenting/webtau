@@ -41,6 +41,7 @@ public class DataRenderers {
         renders.add(new ByteArrayRenderer());
         renders.add(new TableDataRenderer());
         renders.add(new StringRenderer());
+        renders.add(new PatternRenderer());
         renders.add(Objects::toString);
 
         return renders;
