@@ -93,7 +93,7 @@ class WebTauGroovyDsl extends WebTauDsl {
      *
      * <pre>
      * def lazySharedData = createLazyResource("resource name") {
-     *      def result = callToInitializeTheResouce()
+     *      def result = callToInitializeTheResource()
      *      return new MySharedData(firstName: result.firstName, score: result.score)
      * }
      * ...
