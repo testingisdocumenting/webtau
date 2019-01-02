@@ -43,6 +43,7 @@ class WebTauUiFeaturesTestManual {
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
         testServer.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
         testServer.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
+        testServer.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
     }
 
     @BeforeClass
@@ -121,6 +122,8 @@ class WebTauUiFeaturesTestManual {
                 'reopen.groovy': 'reopen',
                 'refresh.groovy': 'refresh',
                 'restart.groovy': 'restart',
+                'saveUrl.groovy': 'save url',
+                'loadUrl.groovy': 'load url',
         ])
     }
 

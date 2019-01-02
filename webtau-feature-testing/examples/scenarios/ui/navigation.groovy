@@ -50,3 +50,21 @@ scenario('restart') {
     browser.restart()
     $('#favorite-color').should == ''
 }
+
+scenario('save url') {
+    browser.open('/resource-creation')
+
+    $('#resource-id').should == '' // :remove from docs:
+    $('#new').click()
+    browser.saveCurrentUrl()
+}
+
+scenario('change url in between save and load') {
+    search.submit('query')
+}
+
+scenario('load url') {
+    browser.openSavedUrl()
+    $('#resource-id').should != '' // :remove from docs:
+    // continue resource related manipulations
+}
