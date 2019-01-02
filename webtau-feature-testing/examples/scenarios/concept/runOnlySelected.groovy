@@ -12,7 +12,11 @@ sscenario('step two') {
     // test that you want to focus on
 }
 
-scenario('step three') {
+singleScenario('step three') {
+    // test that you want to focus on
+}
+
+scenario('step four') {
     http.put('/extra') {
         // ...
     }

@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "do not execute this scenario",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "do not execute this scenario either",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}

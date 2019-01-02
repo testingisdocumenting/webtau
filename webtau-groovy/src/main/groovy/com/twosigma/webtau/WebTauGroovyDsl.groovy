@@ -51,6 +51,10 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
+    static void singleScenario(String description, Closure code) {
+        sscenario(description, code)
+    }
+
     static void sscenario(String description, Closure code) {
         if (!testRunner) {
             runAdHoc(description, code)
@@ -59,11 +63,15 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
+    static void disabledScenario(String description, Closure code) {
+        dscenario(description, code)
+    }
+
     static void dscenario(String description, Closure code) {
         if (!testRunner) {
             ConsoleOutputs.out(Color.YELLOW, "disabled test ", Color.GREEN, FontStyle.BOLD, description)
         } else {
-            testRunner.scenario(description, code)
+            testRunner.dscenario(description, code)
         }
     }
 
