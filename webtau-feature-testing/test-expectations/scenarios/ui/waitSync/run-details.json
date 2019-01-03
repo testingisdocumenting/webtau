@@ -9,6 +9,21 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
+  }, {
+    "scenario" : "wait for element to be enabled",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "wait for element to be hidden",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  }, {
+    "scenario" : "wait for element to be hidden reversed",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
   } ],
   "exitCode" : 0
 }

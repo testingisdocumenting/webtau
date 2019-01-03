@@ -147,11 +147,14 @@ class WebTauUiFeaturesTestManual {
                 'greaterNumber.groovy': 'greater number',
                 'greaterEqualNumber.groovy': 'greater equal number',
                 'lessEqualListMixOfNumbers.groovy': 'less equal list mix of numbers',
+                'enabledDisabled.groovy': 'enable state',
+                'visibleHidden.groovy': 'visible state',
         ])
 
         extractHtmlSnippets(root, 'matchers.html', [
                 'numbers.html': '#numbers',
-                'texts.html': '#texts'])
+                'texts.html': '#texts',
+                'state.html': '#state'])
     }
 
     @Test
@@ -230,6 +233,8 @@ class WebTauUiFeaturesTestManual {
                 'examples/scenarios/ui/waitSync.groovy', [
                 'waitForAppear.groovy': 'wait for element to appear',
                 'waitForMatch.groovy': 'wait for match',
+                'waitForEnabled.groovy': 'wait for element to be enabled',
+                'waitForEnabledAndVisible.groovy': 'wait for element to be hidden',
         ])
     }
 

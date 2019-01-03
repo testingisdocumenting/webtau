@@ -14,6 +14,12 @@ One way to deal with asynchronous pages is to wait for a feedback to appear or d
 
 :include-file: doc-artifacts/snippets/wait-sync/waitForAppear.groovy {title: "beVisible matcher"}
 
+# Enabled/Disabled Element
+
+Disabled input box and buttons can be used as a user feedback as well.
+
+:include-file: doc-artifacts/snippets/wait-sync/waitForEnabled.groovy {title: "beEnabled matcher"}
+
 # Wait to match
 
 If presence/absence of an element is not important, you can directly to wait for a matcher to match.
