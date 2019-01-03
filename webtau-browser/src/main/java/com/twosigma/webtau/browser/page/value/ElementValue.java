@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.browser.page.value;
 
-import com.twosigma.webtau.browser.page.PageElement;
+import com.twosigma.webtau.browser.page.WithTokenizedDescription;
 import com.twosigma.webtau.expectation.ActualValueExpectations;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.expectation.timer.ExpectationTimer;
@@ -28,14 +28,14 @@ import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.OF;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class ElementValue<E> implements ActualValueExpectations {
-    private PageElement parent;
+public class ElementValue<E, C extends WithTokenizedDescription> implements ActualValueExpectations {
+    private C parent;
     private String name;
     private ElementValueFetcher<E> valueFetcher;
 
     private TokenizedMessage description;
 
-    public ElementValue(PageElement parent, String name, ElementValueFetcher<E> valueFetcher) {
+    public ElementValue(C parent, String name, ElementValueFetcher<E> valueFetcher) {
         this.parent = parent;
         this.name = name;
         this.valueFetcher = valueFetcher;
@@ -43,7 +43,7 @@ public class ElementValue<E> implements ActualValueExpectations {
                 IntegrationTestsMessageBuilder.classifier(name)).add(OF).add(parent.describe());
     }
 
-    public PageElement getParent() {
+    public C getParent() {
         return parent;
     }
 

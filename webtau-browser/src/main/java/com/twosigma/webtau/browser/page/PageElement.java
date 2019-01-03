@@ -29,14 +29,14 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public interface PageElement extends ActualValueExpectations {
-    ElementValue<Integer> getCount();
+public interface PageElement extends ActualValueExpectations, WithTokenizedDescription {
+    ElementValue<Integer, PageElement> getCount();
 
     WebElement findElement();
     List<WebElement> findElements();
 
-    ElementValue<String> elementValue();
-    ElementValue<List<String>> elementValues();
+    ElementValue<String, PageElement> elementValue();
+    ElementValue<List<String>, PageElement> elementValues();
 
     void setValue(Object value);
     void sendKeys(String keys);
@@ -52,8 +52,6 @@ public interface PageElement extends ActualValueExpectations {
     boolean isVisible();
     boolean isEnabled();
     boolean isSelected();
-
-    TokenizedMessage describe();
 
     String getText();
     String getUnderlyingValue();

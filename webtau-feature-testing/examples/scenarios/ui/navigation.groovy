@@ -68,3 +68,10 @@ scenario('load url') {
     $('#resource-id').should != '' // :remove from docs:
     // continue resource related manipulations
 }
+
+scenario('wait on url') {
+    browser.open('/resource-creation')
+
+    $('#new').click()
+    browser.url.waitTo == 'abc'
+}
