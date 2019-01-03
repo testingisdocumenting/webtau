@@ -3,10 +3,13 @@
     "scenario" : "step one",
     "stepsSummary" : { }
   }, {
-    "scenario" : "step three",
+    "scenario" : "step four",
     "stepsSummary" : { }
   }, {
     "scenario" : "step two",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "step three",
     "stepsSummary" : { }
   } ],
   "exitCode" : 1

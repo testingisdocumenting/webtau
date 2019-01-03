@@ -18,3 +18,10 @@ Consider creating your project specific shortcuts to avoid boilerplate.
 Here is an example of `onlyForEnv` shortcut definition.
 
 :include-groovy: com/twosigma/webtau/WebTauGroovyDsl.groovy {entry: "onlyForEnv", title: "Custom shortcut"}
+
+# Unconditionally Skipping Tests
+
+Instead of `scenario`, use `dscenario` or `disabledScenario` to always skip a test.  This is analogous to 
+Junit's `@Ignore` or `@Disabled`.
+
+:include-file: scenarios/concept/skipTests.groovy {title: "Disable tests"}
