@@ -12,9 +12,7 @@ type: two-sides
 
 :include-file: doc-artifacts/snippets/matchers/equalListOfTextAndRegexp.groovy {title: "list of text and regexp"}
 
-
-:include-meta: {rightSide: true}
-:include-xml: doc-artifacts/snippets/matchers/texts.html
+:include-xml: doc-artifacts/snippets/matchers/texts.html {rightSide: true}
 
 # Numbers
 
@@ -28,6 +26,13 @@ type: two-sides
 
 :include-file: doc-artifacts/snippets/matchers/lessEqualListMixOfNumbers.groovy {title: "list of exact and greater/less"}
 
+:include-xml: doc-artifacts/snippets/matchers/numbers.html {rightSide: true}
 
-:include-meta: {rightSide: true}
-:include-xml: doc-artifacts/snippets/matchers/numbers.html
+# State
+
+:include-file: doc-artifacts/snippets/matchers/enabledDisabled.groovy {title: "enabled/disabled"}
+
+:include-file: doc-artifacts/snippets/matchers/visibleHidden.groovy {title: "visible/hidden"}
+
+:include-file: doc-artifacts/snippets/matchers/state.html {rightSide: true}
+
