@@ -20,30 +20,35 @@ import com.twosigma.webtau.browser.documentation.DocumentationDsl;
 import com.twosigma.webtau.browser.driver.CurrentWebDriver;
 import com.twosigma.webtau.browser.navigation.BrowserPageNavigation;
 import com.twosigma.webtau.browser.page.PageElement;
+import com.twosigma.webtau.browser.page.PageUrl;
 import com.twosigma.webtau.browser.page.path.ElementPath;
 import com.twosigma.webtau.browser.page.path.GenericPageElement;
-import com.twosigma.webtau.browser.page.value.ElementValue;
 import com.twosigma.webtau.cache.Cache;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.openqa.selenium.OutputType;
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
+import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Browser {
     private static final String DEFAULT_URL_CACHE_KEY = "current";
 
+    private final InjectedJavaScript injectedJavaScript;
+
     public static final Browser browser = new Browser();
     public final CurrentWebDriver driver = new CurrentWebDriver();
+
     public final Cookies cookies = new Cookies(driver);
     public final LocalStorage localStorage = new LocalStorage(driver);
     public final DocumentationDsl doc = new DocumentationDsl(driver);
 
-    private final InjectedJavaScript injectedJavaScript = new InjectedJavaScript(driver);
+    public final PageUrl url = new PageUrl(driver);
+
+    private Browser() {
+        injectedJavaScript = new InjectedJavaScript(driver);
+    }
 
     public void open(String url) {
         String fullUrl = createFullUrl(url);

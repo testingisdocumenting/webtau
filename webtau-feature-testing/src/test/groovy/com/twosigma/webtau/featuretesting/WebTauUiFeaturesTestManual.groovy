@@ -124,6 +124,7 @@ class WebTauUiFeaturesTestManual {
                 'restart.groovy': 'restart',
                 'saveUrl.groovy': 'save url',
                 'loadUrl.groovy': 'load url',
+                'waitOnUrl.groovy': 'wait on url',
         ])
     }
 
