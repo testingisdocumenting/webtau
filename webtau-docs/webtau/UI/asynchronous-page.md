@@ -27,3 +27,12 @@ If presence/absence of an element is not important, you can directly to wait for
 :include-file: doc-artifacts/snippets/wait-sync/waitForMatch.groovy {title: "waitTo any matcher"}
 
 Note: any matcher that you can use with `should` and `shouldNot` can be used with `waitTo` and `waitToNot`
+
+# Wait on url
+
+Another cue to use could be a url change after an action.
+
+:include-file: doc-artifacts/snippets/navigation/waitOnUrl.groovy
+
+Note: url exposes other parts that you can [read more about here](UI/navigation#assert-url) 
+

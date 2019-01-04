@@ -73,5 +73,5 @@ scenario('wait on url') {
     browser.open('/resource-creation')
 
     $('#new').click()
-    browser.url.waitTo == 'abc'
+    browser.url.ref.waitTo == 'created-id'
 }
