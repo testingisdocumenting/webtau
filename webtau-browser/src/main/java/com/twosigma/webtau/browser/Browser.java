@@ -44,7 +44,7 @@ public class Browser {
     public final LocalStorage localStorage = new LocalStorage(driver);
     public final DocumentationDsl doc = new DocumentationDsl(driver);
 
-    public final PageUrl url = new PageUrl(driver);
+    public final PageUrl url = new PageUrl(driver::getCurrentUrl);
 
     private Browser() {
         injectedJavaScript = new InjectedJavaScript(driver);

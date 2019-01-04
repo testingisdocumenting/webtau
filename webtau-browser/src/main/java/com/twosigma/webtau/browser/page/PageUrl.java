@@ -16,20 +16,56 @@
 
 package com.twosigma.webtau.browser.page;
 
-import com.twosigma.webtau.browser.driver.CurrentWebDriver;
 import com.twosigma.webtau.browser.page.value.ElementValue;
 
-public class PageUrl {
-    private final CurrentWebDriver driver;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.function.Supplier;
 
-    public PageUrl(CurrentWebDriver driver) {
-        this.driver = driver;
+public class PageUrl {
+    private final Supplier<String> currentUrlSupplier;
+
+    public PageUrl(Supplier<String> currentUrlSupplier) {
+        this.currentUrlSupplier = currentUrlSupplier;
     }
 
-    public final ElementValue<String, BrowserContext> full = new ElementValue<>(new BrowserContext(), "fullUrl",
-            this::fetchUrl);
+    public final ElementValue<String, BrowserContext> full =
+            new ElementValue<>(new BrowserContext(), "full page url", this::fetchUrl);
+
+    public final ElementValue<String, BrowserContext> path =
+            new ElementValue<>(new BrowserContext(), "page url path", this::fetchPath);
+
+    public final ElementValue<String, BrowserContext> query =
+            new ElementValue<>(new BrowserContext(), "page url query", this::fetchQuery);
+
+    public final ElementValue<String, BrowserContext> ref =
+            new ElementValue<>(new BrowserContext(), "page url ref", this::fetchRef);
+
+    public String get() {
+        return fetchUrl();
+    }
 
     private String fetchUrl() {
-        return driver.getCurrentUrl();
+        return currentUrlSupplier.get();
+    }
+
+    private String fetchPath() {
+        return fetchAsUrl().getPath();
+    }
+
+    private String fetchQuery() {
+        return fetchAsUrl().getQuery();
+    }
+
+    private String fetchRef() {
+        return fetchAsUrl().getRef();
+    }
+
+    private URL fetchAsUrl() {
+        try {
+            return new URL(fetchUrl());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

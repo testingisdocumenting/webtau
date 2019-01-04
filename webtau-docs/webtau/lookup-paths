@@ -5,6 +5,8 @@
 ../../webtau-http/
 ../../webtau-http-groovy/
 ../../webtau-browser/src/main/java
+../../webtau-browser/src/test/groovy
+../../webtau-browser/src/test/resources
 ../../webtau-http/src/test/java
 ../../webtau-http/src/test/resources
 ../../webtau-http-groovy/src/test/groovy

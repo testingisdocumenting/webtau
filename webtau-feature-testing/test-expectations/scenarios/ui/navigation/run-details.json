@@ -22,10 +22,20 @@
   }, {
     "scenario" : "save url",
     "stepsSummary" : {
-      "numberOfSuccessful" : 9
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "change url in between save and load",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "load url",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "wait on url",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
