@@ -87,7 +87,7 @@ public class Browser {
                 () -> tokenizedMessage(action("browser is restarted")),
                 () -> {
                     close();
-                    browser.open(currentUrl);
+                    open(currentUrl);
                 });
     }
 
