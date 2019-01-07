@@ -469,6 +469,10 @@ toc = [
           {
             "title": "Universal Assert",
             "id": "universal-assert"
+          },
+          {
+            "title": "Custom Form Elements",
+            "id": "custom-form-elements"
           }
         ]
       },
@@ -488,8 +492,16 @@ toc = [
             "id": "visiblehidden-element"
           },
           {
+            "title": "Enabled/Disabled Element",
+            "id": "enableddisabled-element"
+          },
+          {
             "title": "Wait to match",
             "id": "wait-to-match"
+          },
+          {
+            "title": "Wait on url",
+            "id": "wait-on-url"
           }
         ]
       },
@@ -524,6 +536,39 @@ toc = [
           {
             "title": "Access Local Storage",
             "id": "access-local-storage"
+          }
+        ]
+      },
+      {
+        "sectionTitle": "UI",
+        "pageTitle": "Navigation",
+        "pageMeta": {},
+        "fileName": "navigation",
+        "dirName": "UI",
+        "pageSectionIdTitles": [
+          {
+            "title": "Open",
+            "id": "open"
+          },
+          {
+            "title": "Reopen",
+            "id": "reopen"
+          },
+          {
+            "title": "Refresh",
+            "id": "refresh"
+          },
+          {
+            "title": "Restart",
+            "id": "restart"
+          },
+          {
+            "title": "Assert URL",
+            "id": "assert-url"
+          },
+          {
+            "title": "Persist URL",
+            "id": "persist-url"
           }
         ]
       },
@@ -591,6 +636,10 @@ toc = [
           {
             "title": "Numbers",
             "id": "numbers"
+          },
+          {
+            "title": "State",
+            "id": "state"
           }
         ]
       }
@@ -649,9 +698,9 @@ toc = [
       },
       {
         "sectionTitle": "Groovy Specific Runner",
-        "pageTitle": "Conditional Run",
+        "pageTitle": "Skipping Tests",
         "pageMeta": {},
-        "fileName": "conditional-run",
+        "fileName": "skipping-tests",
         "dirName": "groovy-specific-runner",
         "pageSectionIdTitles": [
           {
@@ -665,6 +714,10 @@ toc = [
           {
             "title": "Custom Shortcuts",
             "id": "custom-shortcuts"
+          },
+          {
+            "title": "Unconditionally Skipping Tests",
+            "id": "unconditionally-skipping-tests"
           }
         ]
       }

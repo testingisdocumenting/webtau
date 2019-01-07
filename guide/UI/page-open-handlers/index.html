@@ -19,7 +19,7 @@
 
 <article>
 <header><h1>Auto Login</h1></header>
-<p>To register an open handler you need to define browserPageNavigationHandlerProvider config value. url = &quot;http://localhost:8180&quot; def userNameKey = 'userName' browserPageNavigationHandler = { passedUrl, fullUrl, currentUrl -&gt; if (browser.localStorage.getItem(userNameKey)) { return } browser.localStorage.setItem(userNameKey, 'LoggedIn User') browser.reopen(fullUrl) } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* scenario(&quot;page open handlers&quot;) { browser.open('/logged-in-user') $('#welcome').should == 'Welcome LoggedIn User' } Note: usage of localStorage is just an example. You can use cookies , call external services using http. or load credentials from a file system.</p>
+<p>To register an open handler you need to define browserPageNavigationHandlerProvider config value. url = &quot;http://localhost:8180&quot; def userNameKey = 'userName' browserPageNavigationHandler = { passedUrl, fullUrl, currentUrl -&gt; if (browser.localStorage.getItem(userNameKey)) { return } browser.localStorage.setItem(userNameKey, 'LoggedIn User') browser.reopen(fullUrl) } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* scenario(&quot;page open handlers&quot;) { browser.open('/logged-in-user') $('#welcome').should == 'Welcome LoggedIn User' } scenario(&quot;page open handlers during re-open&quot;) { browser.localStorage.clear() browser.reopen('/logged-in-user') $('#welcome').should == 'Welcome LoggedIn User' } Note: usage of localStorage is just an example. You can use cookies , call external services using http. or load credentials from a file system.</p>
 </article>
 </section>
 </div>
@@ -97,7 +97,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\"page open handlers\") {\n    browser.open(\u0027/logged-in-user\u0027)\n    $(\u0027#welcome\u0027).should \u003d\u003d \u0027Welcome LoggedIn User\u0027\n}",
+            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\"page open handlers\") {\n    browser.open(\u0027/logged-in-user\u0027)\n    $(\u0027#welcome\u0027).should \u003d\u003d \u0027Welcome LoggedIn User\u0027\n}\n\nscenario(\"page open handlers during re-open\") {\n    browser.localStorage.clear()\n\n    browser.reopen(\u0027/logged-in-user\u0027)\n    $(\u0027#welcome\u0027).should \u003d\u003d \u0027Welcome LoggedIn User\u0027\n}",
             "title": "Handler will be called before first assertion",
             "type": "Snippet"
           },

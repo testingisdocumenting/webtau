@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Skipping Tests</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Skipping Tests on Condition</h1></header>
+<p>Use onlyWhen if you need to skip tests based on a condition. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* String emailHost = cfg.emailHost onlyWhen('email server is internal', { -&gt; emailHost.contains('internal.server')}) { scenario('confirmation emails should be sent') { // ... http.get(emailHost) { subjects.should contain('my message') } } } Tests will still appear as part of your report but will be marked as skipped.</p>
+</article>
+
+<article>
+<header><h1>Skipping Tests Based on Env</h1></header>
+<p>Use onlyForEnv shortcut if you need to skip tests for certain environment. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* onlyForEnv('experimental') { scenario('this scenario will only be executed in &quot;experimental&quot; env') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } } }</p>
+</article>
+
+<article>
+<header><h1>Custom Shortcuts</h1></header>
+<p>Consider creating your project specific shortcuts to avoid boilerplate. Here is an example of onlyForEnv shortcut definition.</p>
+</article>
+
+<article>
+<header><h1>Unconditionally Skipping Tests</h1></header>
+<p>Instead of scenario , use dscenario or disabledScenario to always skip a test. This is analogous to Junit's @Ignore or @Disabled . package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* dscenario('do not execute this scenario') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } } disabledScenario('do not execute this scenario either') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "title": "Skipping Tests on Condition",
+        "id": "skipping-tests-on-condition",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "onlyWhen",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " if you need to skip tests based on a condition.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nString emailHost \u003d cfg.emailHost\n\nonlyWhen(\u0027email server is internal\u0027, { -\u003e emailHost.contains(\u0027internal.server\u0027)}) {\n    scenario(\u0027confirmation emails should be sent\u0027) {\n        // ...\n        http.get(emailHost) {\n            subjects.should contain(\u0027my message\u0027)\n        }\n    }\n}",
+            "title": "Conditional tests skip",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Tests will still appear as part of your report but will be marked as skipped.",
+                "type": "SimpleText"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Skipping Tests Based on Env",
+        "id": "skipping-tests-based-on-env",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "onlyForEnv",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " shortcut if you need to skip tests for certain environment.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nonlyForEnv(\u0027experimental\u0027) {\n    scenario(\u0027this scenario will only be executed in \"experimental\" env\u0027) {\n        http.get(\u0027/new-endpoint\u0027) {\n            price.shouldBe \u003e 0\n        }\n    }\n}",
+            "title": "Environment specific tests",
+            "type": "Snippet"
+          }
+        ]
+      },
+      {
+        "title": "Custom Shortcuts",
+        "id": "custom-shortcuts",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Consider creating your project specific shortcuts to avoid boilerplate.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Here is an example of ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "onlyForEnv",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " shortcut definition.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "static void onlyForEnv(String env, Closure registrationCode) {\n    onlyWhen(\"only for \u003c$env\u003e environment\",\n            { -\u003e getCfg().getEnv() \u003d\u003d env },\n            registrationCode)\n}",
+            "entry": "onlyForEnv",
+            "title": "Custom shortcut",
+            "type": "Snippet"
+          }
+        ]
+      },
+      {
+        "title": "Unconditionally Skipping Tests",
+        "id": "unconditionally-skipping-tests",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Instead of ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "scenario",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ", use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "dscenario",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " or ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "disabledScenario",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to always skip a test.  This is analogous to",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Junit\u0027s ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "@Ignore",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " or ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "@Disabled",
+                "type": "InlinedCode"
+              },
+              {
+                "text": ".",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndscenario(\u0027do not execute this scenario\u0027) {\n    http.get(\u0027/new-endpoint\u0027) {\n        price.shouldBe \u003e 0\n    }\n}\n\ndisabledScenario(\u0027do not execute this scenario either\u0027) {\n    http.get(\u0027/new-endpoint\u0027) {\n        price.shouldBe \u003e 0\n    }\n}",
+            "title": "Disable tests",
+            "type": "Snippet"
+          }
+        ]
+      }
+    ],
+    "lastModifiedTime": 1546526264000,
+    "tocItem": {
+      "sectionTitle": "Groovy Specific Runner",
+      "pageTitle": "Skipping Tests",
+      "pageMeta": {},
+      "fileName": "skipping-tests",
+      "dirName": "groovy-specific-runner",
+      "pageSectionIdTitles": [
+        {
+          "title": "Skipping Tests on Condition",
+          "id": "skipping-tests-on-condition"
+        },
+        {
+          "title": "Skipping Tests Based on Env",
+          "id": "skipping-tests-based-on-env"
+        },
+        {
+          "title": "Custom Shortcuts",
+          "id": "custom-shortcuts"
+        },
+        {
+          "title": "Unconditionally Skipping Tests",
+          "id": "unconditionally-skipping-tests"
+        }
+      ]
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>

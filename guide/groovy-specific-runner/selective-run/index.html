@@ -14,7 +14,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>sscenario</h1></header>
-<p>Define tests with sscenario to only run those tests and skip all the other tests defined in all the test files. Useful during tests creation or debugging. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* scenario('step one') { http.post('/reset') { // ... } } sscenario('step two') { // test that you want to focus on } scenario('step three') { http.put('/extra') { // ... } } Note: webtau command line will exit with non zero code if there are sscenario tests present</p>
+<p>Define tests with sscenario or singleScenario to only run those tests and skip all the other tests defined in all the test files. Useful during tests creation or debugging. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* scenario('step one') { http.post('/reset') { // ... } } sscenario('step two') { // test that you want to focus on } singleScenario('step three') { // test that you want to focus on } scenario('step four') { http.put('/extra') { // ... } } Note: webtau command line will exit with non zero code if there are sscenario tests present</p>
 </article>
 </section>
 </div>
@@ -56,6 +56,14 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "InlinedCode"
               },
               {
+                "text": " or ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "singleScenario",
+                "type": "InlinedCode"
+              },
+              {
                 "text": " to only run those tests and skip all the other tests defined in all the test files.",
                 "type": "SimpleText"
               },
@@ -70,9 +78,12 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\u0027step one\u0027) {\n    http.post(\u0027/reset\u0027) {\n        // ...\n    }\n}\n\nsscenario(\u0027step two\u0027) {\n    // test that you want to focus on\n}\n\nscenario(\u0027step three\u0027) {\n    http.put(\u0027/extra\u0027) {\n        // ...\n    }\n}",
+            "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\u0027step one\u0027) {\n    http.post(\u0027/reset\u0027) {\n        // ...\n    }\n}\n\nsscenario(\u0027step two\u0027) {\n    // test that you want to focus on\n}\n\nsingleScenario(\u0027step three\u0027) {\n    // test that you want to focus on\n}\n\nscenario(\u0027step four\u0027) {\n    http.put(\u0027/extra\u0027) {\n        // ...\n    }\n}",
             "title": "Selective tests run",
-            "highlight": "sscenario",
+            "highlight": [
+              "sscenario",
+              "singleScenario"
+            ],
             "type": "Snippet"
           },
           {
@@ -103,7 +114,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1543342014000,
+    "lastModifiedTime": 1546526264000,
     "tocItem": {
       "sectionTitle": "Groovy Specific Runner",
       "pageTitle": "Selective Run",

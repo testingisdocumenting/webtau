@@ -23,8 +23,18 @@
 </article>
 
 <article>
+<header><h1>Enabled/Disabled Element</h1></header>
+<p>Disabled input box and buttons can be used as a user feedback as well. calculation.open() calculation.input.waitTo beEnabled() calculation.input.setValue(100)</p>
+</article>
+
+<article>
 <header><h1>Wait to match</h1></header>
 <p>If presence/absence of an element is not important, you can directly to wait for a matcher to match. calculation.start() calculation.results.waitTo == [100, 230] Note: any matcher that you can use with should and shouldNot can be used with waitTo and waitToNot</p>
+</article>
+
+<article>
+<header><h1>Wait on url</h1></header>
+<p>Another cue to use could be a url change after an action. browser.open('/resource-creation') $('#new').click() browser.url.ref.waitTo == 'created-id' Note: url exposes other parts that you can UI/navigation#assert-url read more about here</p>
 </article>
 </section>
 </div>
@@ -120,6 +130,28 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       },
       {
+        "title": "Enabled/Disabled Element",
+        "id": "enableddisabled-element",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Disabled input box and buttons can be used as a user feedback as well.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "calculation.open()\n\ncalculation.input.waitTo beEnabled()\ncalculation.input.setValue(100)",
+            "title": "beEnabled matcher",
+            "type": "Snippet"
+          }
+        ]
+      },
+      {
         "title": "Wait to match",
         "id": "wait-to-match",
         "type": "Section",
@@ -177,9 +209,50 @@ ReactDOM.render(React.createElement(Documentation, {
             ]
           }
         ]
+      },
+      {
+        "title": "Wait on url",
+        "id": "wait-on-url",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Another cue to use could be a url change after an action.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "browser.open(\u0027/resource-creation\u0027)\n\n$(\u0027#new\u0027).click()\nbrowser.url.ref.waitTo \u003d\u003d \u0027created-id\u0027",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Note: url exposes other parts that you can ",
+                "type": "SimpleText"
+              },
+              {
+                "url": "/webtau/guide/UI/navigation#assert-url",
+                "isFile": false,
+                "type": "Link",
+                "content": [
+                  {
+                    "text": "read more about here",
+                    "type": "SimpleText"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     ],
-    "lastModifiedTime": 1537439893000,
+    "lastModifiedTime": 1546614417000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Asynchronous Page",
@@ -196,8 +269,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "id": "visiblehidden-element"
         },
         {
+          "title": "Enabled/Disabled Element",
+          "id": "enableddisabled-element"
+        },
+        {
           "title": "Wait to match",
           "id": "wait-to-match"
+        },
+        {
+          "title": "Wait on url",
+          "id": "wait-on-url"
         }
       ]
     }

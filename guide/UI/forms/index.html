@@ -36,6 +36,11 @@
 <header><h1>Universal Assert</h1></header>
 <p>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'B' form.startDate.should == '2016-06-21'</p>
 </article>
+
+<article>
+<header><h1>Custom Form Elements</h1></header>
+<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. import formHandlers.CustomInput url = &quot;http://localhost:8180&quot; pageElementGetSetValueHandlers = [CustomInput] package formHandlers import com.twosigma.webtau.browser.page.HtmlNode import com.twosigma.webtau.browser.page.PageElement import com.twosigma.webtau.browser.page.PageElementStepExecutor import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandler import com.twosigma.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}\t&quot;) } @Override String getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
+</article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
@@ -204,9 +209,115 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Snippet"
           }
         ]
+      },
+      {
+        "title": "Custom Form Elements",
+        "id": "custom-form-elements",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "One of the benefits of universal ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "set",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " and ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "assert",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " is that your test is focused on the data and not implementation details.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "But what if you decided to use a custom component to enter the data?",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "To hide implementation details from your test you should define a custom input handler for your UI component.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Let\u0027s consider a form component that you can start interacting with only after you clicked it. And after the value",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "is entered, the input box disappears again.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "html",
+            "snippet": "\u003cdiv id\u003d\"answer\" class\u003d\"special-selector\" onclick\u003d\"activate(\u0027answer\u0027)\"\u003e \n \u003cdiv class\u003d\"current-value\"\u003e\n   current value \n \u003c/div\u003e \n \u003cinput class\u003d\"value-input\" value\u003d\"\" onblur\u003d\"valueEntered(\u0027answer\u0027)\"\u003e \n\u003c/div\u003e",
+            "title": "Custom input",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Our test should still be written in terms of data entering and validation.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def customFormElement \u003d $(\u0027#answer\u0027)\n\ncustomFormElement.setValue(\u0027hello\u0027)\ncustomFormElement.should \u003d\u003d \u0027hello\u0027",
+            "title": "set value to custom component",
+            "type": "Snippet"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "In order to achieve this we need to register a custom handler.",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "import formHandlers.CustomInput\n\nurl \u003d \"http://localhost:8180\"\n\npageElementGetSetValueHandlers \u003d [CustomInput]",
+            "title": "webtau.cfg",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "package formHandlers\n\nimport com.twosigma.webtau.browser.page.HtmlNode\nimport com.twosigma.webtau.browser.page.PageElement\nimport com.twosigma.webtau.browser.page.PageElementStepExecutor\nimport com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandler\nimport com.twosigma.webtau.reporter.TokenizedMessage\n\nclass CustomInput implements PageElementGetSetValueHandler {\n    @Override\n    boolean handles(HtmlNode htmlNode, PageElement pageElement) {\n        return htmlNode.attributes.class \u003d~ /special-selector/\n    }\n\n    @Override\n    void setValue(PageElementStepExecutor stepExecutor,\n                  TokenizedMessage pathDescription,\n                  HtmlNode htmlNode,\n                  PageElement pageElement,\n                  Object value) {\n        pageElement.click()\n        pageElement.find(\u0027input\u0027).sendKeys(\"${value}\\t\")\n    }\n\n    @Override\n    String getValue(HtmlNode htmlNode, PageElement pageElement) {\n        return pageElement.find(\u0027.current-value\u0027).getUnderlyingValue()\n    }\n}",
+            "title": "Custom input handler",
+            "type": "Snippet"
+          }
+        ]
       }
     ],
-    "lastModifiedTime": 1538442303000,
+    "lastModifiedTime": 1545331750000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Forms",
@@ -233,6 +344,10 @@ ReactDOM.render(React.createElement(Documentation, {
         {
           "title": "Universal Assert",
           "id": "universal-assert"
+        },
+        {
+          "title": "Custom Form Elements",
+          "id": "custom-form-elements"
         }
       ]
     }

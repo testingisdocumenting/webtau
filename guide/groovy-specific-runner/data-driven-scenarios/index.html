@@ -19,7 +19,7 @@
 
 <article>
 <header><h1>CSV</h1></header>
-<p>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* data.csv('examples/use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+<p>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* data.csv('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
 </article>
 
 <article>
@@ -124,7 +124,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndata.csv(\u0027examples/use-cases.csv\u0027).each { row -\u003e\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
+            "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndata.csv(\u0027use-cases.csv\u0027).each { row -\u003e\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
             "title": "CSV driven",
             "type": "Snippet"
           }

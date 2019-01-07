@@ -275,7 +275,7 @@
     <url>/webtau/guide/REST/JSON-schema#configuration</url>
     <fullTitle>WebTau: JSON Schema, Configuration [REST]</fullTitle>
     <text>
-      <text>The path to the schema file specified in complyWithSchema can be relative or absolute. If it's relative, it'll be relative to the jsonSchemasDir specified in configuration and if not specified then relative to working directory. For example: url = "http://localhost:8180" jsonSchemasDir = 'examples/schemas'</text>
+      <text>The path to the schema file specified in complyWithSchema can be relative or absolute. If it's relative, it'll be relative to the jsonSchemasDir specified in configuration and if not specified then relative to working directory. For example: url = "http://localhost:8180" jsonSchemasDir = 'schemas'</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -315,7 +315,7 @@
     <url>/webtau/guide/REST/maven#dependency</url>
     <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
     <text>
-      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;/dependency></text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -323,7 +323,7 @@
     <url>/webtau/guide/REST/maven#plugin</url>
     <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
     <text>
-      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -512,6 +512,14 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/UI/forms#custom-form-elements</url>
+    <fullTitle>WebTau: Forms, Custom Form Elements [UI]</fullTitle>
+    <text>
+      <text>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id="answer" class="special-selector" onclick="activate('answer')"> &lt;div class="current-value"> current value &lt;/div> &lt;input class="value-input" value="" onblur="valueEntered('answer')"> &lt;/div> Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. import formHandlers.CustomInput url = "http://localhost:8180" pageElementGetSetValueHandlers = [CustomInput] package formHandlers import com.twosigma.webtau.browser.page.HtmlNode import com.twosigma.webtau.browser.page.PageElement import com.twosigma.webtau.browser.page.PageElementStepExecutor import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandler import com.twosigma.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys("${value}\t") } @Override String getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/UI/asynchronous-page#synchronization</url>
     <fullTitle>WebTau: Asynchronous Page, Synchronization [UI]</fullTitle>
     <text>
@@ -528,10 +536,26 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/UI/asynchronous-page#enableddisabled-element</url>
+    <fullTitle>WebTau: Asynchronous Page, Enabled/Disabled Element [UI]</fullTitle>
+    <text>
+      <text>Disabled input box and buttons can be used as a user feedback as well. calculation.open() calculation.input.waitTo beEnabled() calculation.input.setValue(100)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/UI/asynchronous-page#wait-to-match</url>
     <fullTitle>WebTau: Asynchronous Page, Wait to match [UI]</fullTitle>
     <text>
       <text>If presence/absence of an element is not important, you can directly to wait for a matcher to match. calculation.start() calculation.results.waitTo == [100, 230] Note: any matcher that you can use with should and shouldNot can be used with waitTo and waitToNot</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/asynchronous-page#wait-on-url</url>
+    <fullTitle>WebTau: Asynchronous Page, Wait on url [UI]</fullTitle>
+    <text>
+      <text>Another cue to use could be a url change after an action. browser.open('/resource-creation') $('#new').click() browser.url.ref.waitTo == 'created-id' Note: url exposes other parts that you can UI/navigation#assert-url read more about here</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -568,6 +592,54 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/UI/navigation#open</url>
+    <fullTitle>WebTau: Navigation, Open [UI]</fullTitle>
+    <text>
+      <text>To open a page use browser.open . Browser will load a page only if the current url doesn't match the passed one. search.submit('query') browser.open("/search") // page is not be ing refreshed search.searchMessage.should == 'searching for query' Note: relative url will be automatically expanded to the full url based on the UI/basic-configuration configuration</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/navigation#reopen</url>
+    <fullTitle>WebTau: Navigation, Reopen [UI]</fullTitle>
+    <text>
+      <text>Use brower.reopen to force open the page even if the page url already matches the passed one. search.submit('name') browser.reopen("/search") // page is going to be refreshed search.searchMessage.should == ''</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/navigation#refresh</url>
+    <fullTitle>WebTau: Navigation, Refresh [UI]</fullTitle>
+    <text>
+      <text>Use browser.refresh to refresh current page. search.submit('name') browser.reopen("/search") // page is going to be refreshed search.searchMessage.should == ''</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/navigation#restart</url>
+    <fullTitle>WebTau: Navigation, Restart [UI]</fullTitle>
+    <text>
+      <text>Use browser.restart to restart a browser and open last opened url. browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'pretty') browser.refresh() $('#favorite-color').should == 'pretty' browser.restart() $('#favorite-color').should == '' Note: restarting creates a clean instance of a browser. Local storage is going to be reset.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/navigation#assert-url</url>
+    <fullTitle>WebTau: Navigation, Assert URL [UI]</fullTitle>
+    <text>
+      <text>Use browser.url to assert on or wait for url changes. http://example.com/resource/id?type=full&amp;debug=true#subId</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/UI/navigation#persist-url</url>
+    <fullTitle>WebTau: Navigation, Persist URL [UI]</fullTitle>
+    <text>
+      <text>Use browser.saveCurrentUrl to save url in a local cache and browser.openSavedUrl to open a page later.It can be handy in multipart tests where first part creates an entity and the second part updates the created entity. browser.open('/resource-creation') $('#new').click() browser.saveCurrentUrl() In order to simplify tests development of a second part you can run first part once, save URL, and iterate on a second part by opening a page using saved URL. browser.openSavedUrl() // continue resource related manipulations Note: url is stored in a local cache file and will survive tests restart.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/UI/page-open-handlers#implicit-page-open-logic</url>
     <fullTitle>WebTau: Page Open Handlers, Implicit Page Open Logic [UI]</fullTitle>
     <text>
@@ -579,7 +651,7 @@
     <url>/webtau/guide/UI/page-open-handlers#auto-login</url>
     <fullTitle>WebTau: Page Open Handlers, Auto Login [UI]</fullTitle>
     <text>
-      <text>To register an open handler you need to define browserPageNavigationHandlerProvider config value. url = "http://localhost:8180" def userNameKey = 'userName' browserPageNavigationHandler = { passedUrl, fullUrl, currentUrl -> if (browser.localStorage.getItem(userNameKey)) { return } browser.localStorage.setItem(userNameKey, 'LoggedIn User') browser.reopen(fullUrl) } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("page open handlers") { browser.open('/logged-in-user') $('#welcome').should == 'Welcome LoggedIn User' } Note: usage of localStorage is just an example. You can use cookies , call external services using http. or load credentials from a file system.</text>
+      <text>To register an open handler you need to define browserPageNavigationHandlerProvider config value. url = "http://localhost:8180" def userNameKey = 'userName' browserPageNavigationHandler = { passedUrl, fullUrl, currentUrl -> if (browser.localStorage.getItem(userNameKey)) { return } browser.localStorage.setItem(userNameKey, 'LoggedIn User') browser.reopen(fullUrl) } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("page open handlers") { browser.open('/logged-in-user') $('#welcome').should == 'Welcome LoggedIn User' } scenario("page open handlers during re-open") { browser.localStorage.clear() browser.reopen('/logged-in-user') $('#welcome').should == 'Welcome LoggedIn User' } Note: usage of localStorage is just an example. You can use cookies , call external services using http. or load credentials from a file system.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -632,6 +704,14 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/UI/matchers#state</url>
+    <fullTitle>WebTau: Matchers, State [UI]</fullTitle>
+    <text>
+      <text>def button = $("#action") button.should beDisabled() button.shouldNot beEnabled() def feedback = $("#feedback") feedback.should beHidden() feedback.shouldNot beVisible() &lt;div> &lt;button id="action" disabled>Click me&lt;/button> &lt;div id="feedback" style="display: none;">&lt;/div> &lt;/div></text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/groovy-specific-runner/data-driven-scenarios#dynamic-scenarios</url>
     <fullTitle>WebTau: Data Driven Scenarios, Dynamic Scenarios [Groovy Specific Runner]</fullTitle>
     <text>
@@ -643,7 +723,7 @@
     <url>/webtau/guide/groovy-specific-runner/data-driven-scenarios#csv</url>
     <fullTitle>WebTau: Data Driven Scenarios, CSV [Groovy Specific Runner]</fullTitle>
     <text>
-      <text>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* data.csv('examples/use-cases.csv').each { row -> scenario("use case ${row.title}") { println row.input println row.output } }</text>
+      <text>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* data.csv('use-cases.csv').each { row -> scenario("use case ${row.title}") { println row.input println row.output } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -667,31 +747,39 @@
     <url>/webtau/guide/groovy-specific-runner/selective-run#sscenario</url>
     <fullTitle>WebTau: Selective Run, sscenario [Groovy Specific Runner]</fullTitle>
     <text>
-      <text>Define tests with sscenario to only run those tests and skip all the other tests defined in all the test files. Useful during tests creation or debugging. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* scenario('step one') { http.post('/reset') { // ... } } sscenario('step two') { // test that you want to focus on } scenario('step three') { http.put('/extra') { // ... } } Note: webtau command line will exit with non zero code if there are sscenario tests present</text>
+      <text>Define tests with sscenario or singleScenario to only run those tests and skip all the other tests defined in all the test files. Useful during tests creation or debugging. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* scenario('step one') { http.post('/reset') { // ... } } sscenario('step two') { // test that you want to focus on } singleScenario('step three') { // test that you want to focus on } scenario('step four') { http.put('/extra') { // ... } } Note: webtau command line will exit with non zero code if there are sscenario tests present</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/groovy-specific-runner/conditional-run#skipping-tests-on-condition</url>
-    <fullTitle>WebTau: Conditional Run, Skipping Tests on Condition [Groovy Specific Runner]</fullTitle>
+    <url>/webtau/guide/groovy-specific-runner/skipping-tests#skipping-tests-on-condition</url>
+    <fullTitle>WebTau: Skipping Tests, Skipping Tests on Condition [Groovy Specific Runner]</fullTitle>
     <text>
       <text>Use onlyWhen if you need to skip tests based on a condition. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* String emailHost = cfg.emailHost onlyWhen('email server is internal', { -> emailHost.contains('internal.server')}) { scenario('confirmation emails should be sent') { // ... http.get(emailHost) { subjects.should contain('my message') } } } Tests will still appear as part of your report but will be marked as skipped.</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/groovy-specific-runner/conditional-run#skipping-tests-based-on-env</url>
-    <fullTitle>WebTau: Conditional Run, Skipping Tests Based on Env [Groovy Specific Runner]</fullTitle>
+    <url>/webtau/guide/groovy-specific-runner/skipping-tests#skipping-tests-based-on-env</url>
+    <fullTitle>WebTau: Skipping Tests, Skipping Tests Based on Env [Groovy Specific Runner]</fullTitle>
     <text>
       <text>Use onlyForEnv shortcut if you need to skip tests for certain environment. package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* onlyForEnv('experimental') { scenario('this scenario will only be executed in "experimental" env') { http.get('/new-endpoint') { price.shouldBe > 0 } } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/guide/groovy-specific-runner/conditional-run#custom-shortcuts</url>
-    <fullTitle>WebTau: Conditional Run, Custom Shortcuts [Groovy Specific Runner]</fullTitle>
+    <url>/webtau/guide/groovy-specific-runner/skipping-tests#custom-shortcuts</url>
+    <fullTitle>WebTau: Skipping Tests, Custom Shortcuts [Groovy Specific Runner]</fullTitle>
     <text>
       <text>Consider creating your project specific shortcuts to avoid boilerplate. Here is an example of onlyForEnv shortcut definition.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/groovy-specific-runner/skipping-tests#unconditionally-skipping-tests</url>
+    <fullTitle>WebTau: Skipping Tests, Unconditionally Skipping Tests [Groovy Specific Runner]</fullTitle>
+    <text>
+      <text>Instead of scenario , use dscenario or disabledScenario to always skip a test. This is analogous to Junit's @Ignore or @Disabled . package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* dscenario('do not execute this scenario') { http.get('/new-endpoint') { price.shouldBe > 0 } } disabledScenario('do not execute this scenario either') { http.get('/new-endpoint') { price.shouldBe > 0 } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -707,7 +795,7 @@
     <url>/webtau/guide/generic-runners/JUnit-4#maven-import</url>
     <fullTitle>WebTau: JUnit 4, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.3&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -731,7 +819,7 @@
     <url>/webtau/guide/configuration/options#cli-and-configuration-file-options</url>
     <fullTitle>WebTau: Options, CLI and configuration file options [Configuration]</fullTitle>
     <text>
-      <text>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false interactive use CLI interactive mode false jsonSchemasDir url of directory containing JSON schemas noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</text>
+      <text>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false interactive use CLI interactive mode false jsonSchemasDir url of directory containing JSON schemas noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -739,7 +827,7 @@
     <url>/webtau/guide/configuration/options#environment-variable-options</url>
     <fullTitle>WebTau: Options, Environment variable options [Configuration]</fullTitle>
     <text>
-      <text>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOC_PATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_INTERACTIVE use CLI interactive mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_URL base url for application under test WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</text>
+      <text>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOC_PATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_INTERACTIVE use CLI interactive mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>

@@ -21,6 +21,11 @@
 <header><h1>Numbers</h1></header>
 <p>def total = $('#total') total.should == 300.6 def total = $('#total') total.shouldBe &gt; 200 def total = $('#total') total.shouldBe &gt;= 300 def split = $('#split ul li') split.should == [100, 28, 172.6] def split = $('#split ul li') split.should == [100, lessThan(100), greaterThanOrEqual(150)]</p>
 </article>
+
+<article>
+<header><h1>State</h1></header>
+<p>def button = $(&quot;#action&quot;) button.should beDisabled() button.shouldNot beEnabled() def feedback = $(&quot;#feedback&quot;) feedback.should beHidden() feedback.shouldNot beVisible() &lt;div&gt; &lt;button id=&quot;action&quot; disabled&gt;Click me&lt;/button&gt; &lt;div id=&quot;feedback&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt; &lt;/div&gt;</p>
+</article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/guide/toc.js"></script>
@@ -74,10 +79,9 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Snippet"
           },
           {
-            "rightSide": true,
-            "type": "Meta"
-          },
-          {
+            "meta": {
+              "rightSide": true
+            },
             "xmlAsJson": {
               "tagName": "div",
               "attributes": [],
@@ -187,10 +191,9 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Snippet"
           },
           {
-            "rightSide": true,
-            "type": "Meta"
-          },
-          {
+            "meta": {
+              "rightSide": true
+            },
             "xmlAsJson": {
               "tagName": "div",
               "attributes": [],
@@ -263,9 +266,36 @@ ReactDOM.render(React.createElement(Documentation, {
             "type": "Xml"
           }
         ]
+      },
+      {
+        "title": "State",
+        "id": "state",
+        "type": "Section",
+        "content": [
+          {
+            "lang": "groovy",
+            "snippet": "def button \u003d $(\"#action\")\nbutton.should beDisabled()\nbutton.shouldNot beEnabled()",
+            "title": "enabled/disabled",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "def feedback \u003d $(\"#feedback\")\nfeedback.should beHidden()\nfeedback.shouldNot beVisible()",
+            "title": "visible/hidden",
+            "type": "Snippet"
+          },
+          {
+            "lang": "html",
+            "snippet": "\u003cdiv\u003e \n \u003cbutton id\u003d\"action\" disabled\u003eClick me\u003c/button\u003e \n \u003cdiv id\u003d\"feedback\" style\u003d\"display: none;\"\u003e\u003c/div\u003e \n\u003c/div\u003e",
+            "meta": {
+              "rightSide": true
+            },
+            "type": "Snippet"
+          }
+        ]
       }
     ],
-    "lastModifiedTime": 1537478562000,
+    "lastModifiedTime": 1546538351000,
     "tocItem": {
       "sectionTitle": "UI",
       "pageTitle": "Matchers",
@@ -284,6 +314,10 @@ ReactDOM.render(React.createElement(Documentation, {
         {
           "title": "Numbers",
           "id": "numbers"
+        },
+        {
+          "title": "State",
+          "id": "state"
         }
       ]
     }

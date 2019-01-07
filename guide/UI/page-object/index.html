@@ -161,7 +161,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "package pages\n\nimport static com.twosigma.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def welcomeMessage \u003d $(\u0027#welcome\u0027)\n    def box \u003d $(\u0027#search-box\u0027)\n    def numberOfResults \u003d $(\u0027#results .result\u0027).count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(\"\\n\")\n    }\n}",
+            "snippet": "package pages\n\nimport static com.twosigma.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def welcomeMessage \u003d $(\u0027#welcome\u0027)\n    def searchMessage \u003d $(\u0027#message\u0027)\n    def box \u003d $(\u0027#search-box\u0027)\n    def numberOfResults \u003d $(\u0027#results .result\u0027).count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(\"\\n\")\n    }\n}",
             "type": "Snippet"
           }
         ]
