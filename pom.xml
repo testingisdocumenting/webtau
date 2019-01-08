@@ -20,7 +20,7 @@
 
     <groupId>com.twosigma.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -93,6 +93,7 @@
         <module>webtau-pdf</module>
         <module>webtau-json-schema</module>
         <module>webtau-data</module>
+        <module>webtau-cache</module>
         <module>webtau-test-server</module>
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
@@ -117,7 +118,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <jackson.version>2.9.5</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.version>4.3.18.RELEASE</spring.version>
         <swagger.version>1.5.18</swagger.version>

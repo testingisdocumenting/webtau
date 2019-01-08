@@ -17,9 +17,12 @@
 package com.twosigma.webtau;
 
 import com.twosigma.webtau.browser.Browser;
+import com.twosigma.webtau.browser.expectation.DisabledValueMatcher;
 import com.twosigma.webtau.browser.expectation.EnabledValueMatcher;
+import com.twosigma.webtau.browser.expectation.HiddenValueMatcher;
 import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
 import com.twosigma.webtau.browser.page.PageElement;
+import com.twosigma.webtau.cache.Cache;
 import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.data.Data;
 import com.twosigma.webtau.expectation.ValueMatcher;
@@ -30,6 +33,8 @@ import com.twosigma.webtau.schema.expectation.SchemaMatcher;
 
 public class WebTauDsl extends Ddjt {
     public static final Data data = Data.data;
+    public static final Cache cache = Cache.cache;
+
     public static final Http http = Http.http;
     public static final Browser browser = Browser.browser;
 
@@ -49,8 +54,16 @@ public class WebTauDsl extends Ddjt {
         return new VisibleValueMatcher();
     }
 
+    public static ValueMatcher beHidden() {
+        return new HiddenValueMatcher();
+    }
+
     public static ValueMatcher beEnabled() {
         return new EnabledValueMatcher();
+    }
+
+    public static ValueMatcher beDisabled() {
+        return new DisabledValueMatcher();
     }
 
     public static ValueMatcher getBeVisible() {

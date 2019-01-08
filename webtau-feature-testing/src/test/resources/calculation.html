@@ -15,25 +15,44 @@
   -->
 
 <html>
-<body>
+<body onload="prepareInput()">
 <div id="message">welcome to calculation</div>
 
 <div id="calc-button" onclick="startCalc()">start calculations</div>
+<div id="error-dismiss" onclick="dismissError()">dismiss error</div>
+<input id="value-a"/>
 <div id="results">
 </div>
+
 <script>
+    function prepareInput() {
+        disableInput();
+        setTimeout(function() {enableInput()}, 500);
+    }
+
     function startCalc() {
+        disableInput();
         setTimeout(function() {
-            var feedback = document.createElement('div')
-            feedback.className = 'feedback'
-            feedback.innerText = 'calculations complete'
+            enableInput();
 
-            document.body.appendChild(feedback)
-
-            var results = document.getElementById('results');
-            addTo(results, 'result', '100');
-            addTo(results, 'result', '230');
+            if (document.getElementById('value-a').value === 'abc') {
+                erroredCalc()
+            } else {
+                successfulCalc()
+            }
         }, 500)
+    }
+
+    function successfulCalc() {
+        var feedback = document.createElement('div')
+        feedback.className = 'feedback'
+        feedback.innerText = 'calculations complete'
+
+        document.body.appendChild(feedback)
+
+        var results = document.getElementById('results')
+        addTo(results, 'result', '100')
+        addTo(results, 'result', '230')
     }
 
     function addTo(node, className, text) {
@@ -44,6 +63,28 @@
         node.append(el);
     }
 
+    function erroredCalc() {
+        var error = document.createElement('div')
+        error.id = 'error'
+        error.innerText = 'calculations error'
+
+        document.body.appendChild(error)
+    }
+
+    function dismissError() {
+        setTimeout(function() {
+            var error = document.getElementById('error')
+            document.body.removeChild(error)
+        }, 500)
+    }
+
+    function enableInput() {
+        document.getElementById('value-a').disabled = false;
+    }
+
+    function disableInput() {
+        document.getElementById('value-a').disabled = true;
+    }
 </script>
 </body>
 </html>

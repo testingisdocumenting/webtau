@@ -43,6 +43,7 @@ class WebTauUiFeaturesTestManual {
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
         testServer.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
         testServer.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
+        testServer.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
     }
 
     @BeforeClass
@@ -107,6 +108,27 @@ class WebTauUiFeaturesTestManual {
     }
 
     @Test
+    void "navigation"() {
+        runCli('navigation.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "navigation extract snippets"() {
+        def root = 'doc-artifacts/snippets/navigation'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/navigation.groovy', [
+                'open.groovy': 'open',
+                'reopen.groovy': 'reopen',
+                'refresh.groovy': 'refresh',
+                'restart.groovy': 'restart',
+                'saveUrl.groovy': 'save url',
+                'loadUrl.groovy': 'load url',
+                'waitOnUrl.groovy': 'wait on url',
+        ])
+    }
+
+    @Test
     void "matchers"() {
         runCli('matchers.groovy', 'webtau.cfg')
     }
@@ -126,11 +148,14 @@ class WebTauUiFeaturesTestManual {
                 'greaterNumber.groovy': 'greater number',
                 'greaterEqualNumber.groovy': 'greater equal number',
                 'lessEqualListMixOfNumbers.groovy': 'less equal list mix of numbers',
+                'enabledDisabled.groovy': 'enable state',
+                'visibleHidden.groovy': 'visible state',
         ])
 
         extractHtmlSnippets(root, 'matchers.html', [
                 'numbers.html': '#numbers',
-                'texts.html': '#texts'])
+                'texts.html': '#texts',
+                'state.html': '#state'])
     }
 
     @Test
@@ -209,6 +234,8 @@ class WebTauUiFeaturesTestManual {
                 'examples/scenarios/ui/waitSync.groovy', [
                 'waitForAppear.groovy': 'wait for element to appear',
                 'waitForMatch.groovy': 'wait for match',
+                'waitForEnabled.groovy': 'wait for element to be enabled',
+                'waitForEnabledAndVisible.groovy': 'wait for element to be hidden',
         ])
     }
 
@@ -221,7 +248,7 @@ class WebTauUiFeaturesTestManual {
         def artifactsRoot = Paths.get(extractedPath)
 
         cssToOutputFile.each { outputFileName, css ->
-            FeaturesDocArtifactsExtractor.extractAndSaveHtml(resourceName, css,
+            extractAndSaveHtml(resourceName, css,
                     artifactsRoot.resolve(outputFileName))
         }
     }

@@ -14,6 +14,12 @@ One way to deal with asynchronous pages is to wait for a feedback to appear or d
 
 :include-file: doc-artifacts/snippets/wait-sync/waitForAppear.groovy {title: "beVisible matcher"}
 
+# Enabled/Disabled Element
+
+Disabled input box and buttons can be used as a user feedback as well.
+
+:include-file: doc-artifacts/snippets/wait-sync/waitForEnabled.groovy {title: "beEnabled matcher"}
+
 # Wait to match
 
 If presence/absence of an element is not important, you can directly to wait for a matcher to match.
@@ -21,3 +27,12 @@ If presence/absence of an element is not important, you can directly to wait for
 :include-file: doc-artifacts/snippets/wait-sync/waitForMatch.groovy {title: "waitTo any matcher"}
 
 Note: any matcher that you can use with `should` and `shouldNot` can be used with `waitTo` and `waitToNot`
+
+# Wait on url
+
+Another cue to use could be a url change after an action.
+
+:include-file: doc-artifacts/snippets/navigation/waitOnUrl.groovy
+
+Note: url exposes other parts that you can [read more about here](UI/navigation#assert-url) 
+

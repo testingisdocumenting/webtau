@@ -35,6 +35,12 @@ public class BrowserPageNavigation {
         onOpenedPage(passedUrl, fullUrl, driver.getCurrentUrl());
     }
 
+    public static void refresh(WebDriver driver) {
+        driver.navigate().refresh();
+        String fullUrl = driver.getCurrentUrl();
+        onOpenedPage(fullUrl, fullUrl, fullUrl);
+    }
+
     private static void onOpenedPage(String passedUrl, String fullUrl, String currentUrl) {
         if (! handlersEnabled.get()) {
             return;

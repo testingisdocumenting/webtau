@@ -16,3 +16,4 @@
 
 com.twosigma.webtau.browser.expectation.ElementValueCompareToHandler
 com.twosigma.webtau.browser.expectation.PageElementCompareToHandler
+com.twosigma.webtau.browser.expectation.PageUrlCompareToHandler

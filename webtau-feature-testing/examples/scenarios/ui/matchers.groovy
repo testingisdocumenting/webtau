@@ -66,3 +66,15 @@ scenario('less equal list mix of numbers') {
     def split = $('#split ul li')
     split.should == [100, lessThan(100), greaterThanOrEqual(150)]
 }
+
+scenario('enable state') {
+    def button = $("#action")
+    button.should beDisabled()
+    button.shouldNot beEnabled()
+}
+
+scenario('visible state') {
+    def feedback = $("#feedback")
+    feedback.should beHidden()
+    feedback.shouldNot beVisible()
+}

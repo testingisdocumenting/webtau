@@ -49,8 +49,8 @@ public class GenericPageElement implements PageElement {
     private final InjectedJavaScript injectedJavaScript;
     private ElementPath path;
     private final TokenizedMessage pathDescription;
-    private ElementValue<String> elementValue;
-    private ElementValue<Integer> countValue;
+    private ElementValue<String, PageElement> elementValue;
+    private ElementValue<Integer, PageElement> countValue;
 
     public GenericPageElement(WebDriver driver, InjectedJavaScript injectedJavaScript, ElementPath path) {
         this.driver = driver;
@@ -62,7 +62,7 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ElementValue<Integer> getCount() {
+    public ElementValue<Integer, PageElement> getCount() {
         return countValue;
     }
 
@@ -96,12 +96,12 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ElementValue<String> elementValue() {
+    public ElementValue<String, PageElement> elementValue() {
         return elementValue;
     }
 
     @Override
-    public ElementValue<List<String>> elementValues() {
+    public ElementValue<List<String>, PageElement> elementValues() {
         return new ElementValue<>(this, "all values", this::extractValues);
     }
 

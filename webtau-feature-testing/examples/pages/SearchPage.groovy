@@ -4,6 +4,7 @@ import static com.twosigma.webtau.WebTauDsl.*
 
 class SearchPage {
     def welcomeMessage = $('#welcome')
+    def searchMessage = $('#message')
     def box = $('#search-box')
     def numberOfResults = $('#results .result').count
 
