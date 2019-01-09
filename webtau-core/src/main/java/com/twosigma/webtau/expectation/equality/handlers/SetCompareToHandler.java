@@ -57,17 +57,18 @@ public class SetCompareToHandler implements CompareToHandler {
         }
 
         void compare() {
-            expectedLeft.removeIf(this::checkActualAndRemoveIfMatch);
+            expectedLeft.removeIf(this::checkAndRemoveFromActualIfMatch);
 
             actualLeft.forEach(e -> comparator.reportExtra(SetCompareToHandler.this, actualPath, e));
             expectedLeft.forEach(e -> comparator.reportMissing(SetCompareToHandler.this, actualPath, e));
         }
 
-        private boolean checkActualAndRemoveIfMatch(Object expected) {
+        private boolean checkAndRemoveFromActualIfMatch(Object expected) {
             Iterator<?> it = actualLeft.iterator();
             int idx = 0;
             while (it.hasNext()) {
                 Object actual = it.next();
+
                 CompareToResult result = localComparator.compareUsingEqualOnly(actualPath, actual, expected);
                 if (result.isEqual()) {
                     comparator.reportEqual(SetCompareToHandler.this, actualPath.index(idx),
