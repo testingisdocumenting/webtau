@@ -23,6 +23,7 @@ com.twosigma.webtau.expectation.equality.handlers.ByteArrayCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.TableDataCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.IterableAndTableDataCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.StreamAndIterableCompareToHandler
+com.twosigma.webtau.expectation.equality.handlers.SetCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.IterableCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.RecordAndMapCompareToHandler
 com.twosigma.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler
