@@ -16,15 +16,25 @@
 
 import React from 'react'
 
-import './Card.css'
+import Card from '../../widgets/Card'
 
-function Card({className, onClick, width, children}) {
-    const fullClassName = "card" + (className ? (' ' + className) : '')
+import {StepMessage} from './StepMessage'
+import {StepTime} from './StepTime'
+
+import './Step.css'
+
+export function Step({step, isTopLevel}) {
+    const children = step.children ? step.children.map((c, idx) => <Step key={idx} step={c}/>) : null
+
+    const ParentContainer = isTopLevel ? Card : 'div'
     return (
-        <div className={fullClassName} onClick={onClick} style={{width}}>
-            {children}
-        </div>
+        <ParentContainer className="step">
+            <div className="message-and-time">
+                <StepMessage message={step.message}/>
+                <StepTime millis={step.elapsedTime}/>
+            </div>
+
+            <div className="steps-children">{children}</div>
+        </ParentContainer>
     )
 }
-
-export default Card

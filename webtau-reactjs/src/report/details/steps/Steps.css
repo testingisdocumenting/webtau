@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import Steps from './steps/Steps'
+.steps {
+    display: grid;
+    grid-template-columns: 1fr;
+}
 
-const TestSteps = ({test}) => <Steps steps={test.steps}/>
-
-export default TestSteps
-
+.steps-children {
+    margin-left: 15px;
+}

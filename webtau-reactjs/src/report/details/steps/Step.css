@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import Steps from './steps/Steps'
+.card.step {
+    padding: 15px;
+}
 
-const TestSteps = ({test}) => <Steps steps={test.steps}/>
-
-export default TestSteps
-
+.step > .message-and-time {
+    display: flex;
+    justify-content: space-between;
+}

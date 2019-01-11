@@ -14,19 +14,6 @@
  * limitations under the License.
  */
 
-.steps {
-    display: grid;
-    grid-template-columns: 1fr;
-}
-
-.card.step-card {
-    padding: 15px;
-}
-
-.steps-children {
-    margin-left: 15px;
-}
-
 .step-token  {
     font-size: 14px;
 }
