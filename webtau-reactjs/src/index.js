@@ -22,14 +22,16 @@ import Report from './report/Report'
 
 import './index.css'
 
-if (process.env.NODE_ENV !== "production") {
-    global.testReport = require('./test-data/testData').report
+if (process.env.NODE_ENV === "production") {
+    global.WebTauReport = WebTauReport
+
+    global.renderReport = () => {
+        ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, document.getElementById('root'));
+    }
+
+    global.renderReport()
+} else {
+    const {ReportComponentsViewer} = require('./report/ReportComponentsViewer')
+    ReactDOM.render(<ReportComponentsViewer/>, document.getElementById('root'));
 }
 
-global.WebTauReport = WebTauReport
-
-global.renderReport = () => {
-    ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, document.getElementById('root'));
-}
-
-global.renderReport()

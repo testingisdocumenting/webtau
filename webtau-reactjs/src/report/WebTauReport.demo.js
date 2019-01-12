@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-import { configure } from '@storybook/react';
+import React from 'react'
+import WebTauReport from './WebTauReport'
+import Report from './Report'
+import {report} from '../test-data/testData'
 
-function loadStories() {
-  require('../src/report');
+export function webTauReportDemo(registry) {
+    registry.add('report', <WebTauReport  report={new Report(report)}/>)
 }
 
-configure(loadStories, module);
