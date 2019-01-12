@@ -16,7 +16,7 @@
 
 import deepNestedJson from './deepNestedJson'
 
-const report = {
+export const report = {
     "version": "0.31",
     "summary": {
         "total": 4,
@@ -370,5 +370,3 @@ const report = {
         "url": "/customers/{customerId}"
     }]
 }
-
-export {report}
