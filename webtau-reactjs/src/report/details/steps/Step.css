@@ -18,7 +18,20 @@
     padding: 15px;
 }
 
-.step > .message-and-time {
-    display: flex;
-    justify-content: space-between;
+.step > .message-parts {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+}
+
+.step > .message-parts > .show-children {
+    background-color: #eee;
+    margin-left: 16px;
+    padding: 1px 4px;
+
+    cursor: pointer;
+}
+
+.step > .message-parts > .step-time {
+    justify-self: end;
 }
