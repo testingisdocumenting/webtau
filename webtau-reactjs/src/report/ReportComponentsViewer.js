@@ -19,17 +19,21 @@ import React from 'react'
 import {ComponentsViewer, Registry} from 'react-components-viewer'
 import {sortableTableDemo} from './widgets/SortableTable.demo'
 import {webTauReportDemo} from './WebTauReport.demo'
+import {stepsDemo} from './details/steps/Steps.demo'
 
 const widgets = new Registry('widgets')
+const core = new Registry('core')
 const http = new Registry('http')
 const fullReport = new Registry('full reports')
 
 widgets.registerAsRows('table', sortableTableDemo)
 
+core.registerAsGrid('steps', 0, stepsDemo)
+
 fullReport.registerSingle('demo report', webTauReportDemo)
 
 export function ReportComponentsViewer() {
     return (
-        <ComponentsViewer registries={[widgets, http, fullReport]}/>
+        <ComponentsViewer registries={[widgets, core, http, fullReport]}/>
     )
 }
