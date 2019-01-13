@@ -19,15 +19,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 170px;
-    height: 120px;
+    width: var(--webtau-card-width);
+    height: var(--webtau-card-height);
 }
 
 .card-with-time > .card-label {
-    color: #969ba7;
+    color: var(--webtau-card-label-color);
 }
 
-.card-with-time .card-date {
+.card-with-time > .card-date {
     color: #5c636c;
     font-size: 12px;
     margin-top: -10px;

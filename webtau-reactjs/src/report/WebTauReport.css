@@ -24,8 +24,14 @@
     --webtau-list-item-separation-color: #6d7a81;
     --webtau-list-items-color: #ddd;
     --webtau-source-code-background-color: #fff;
+
     --webtau-card-border-color: rgba(91, 91, 91, 0.12);
     --webtau-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --webtau-card-label-color: #969ba7;
+    --webtau-card-width: 170px;
+    --webtau-card-padding: 16px;
+    --webtau-card-height: 120px;
+
     --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
 }
 

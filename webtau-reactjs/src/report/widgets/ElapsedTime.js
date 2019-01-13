@@ -16,6 +16,8 @@
 
 import React from 'react'
 
+import ElapsedTimeFragment from './ElapsedTimeFragment'
+
 import './ElapsedTime.css'
 
 function ElapsedTime({millis}) {
@@ -24,34 +26,8 @@ function ElapsedTime({millis}) {
 
     return (
         <React.Fragment>
-            <Seconds seconds={seconds}/>
-            <Millis millis={remainingMs}/>
-        </React.Fragment>
-    )
-}
-
-function Seconds({seconds}) {
-    if (seconds === 0) {
-        return null
-    }
-
-    return (
-        <React.Fragment>
-            <span className="elapsed-seconds">{seconds}</span>
-            <span className="time-unit">s</span>
-        </React.Fragment>
-    )
-}
-
-function Millis({millis}) {
-    if (millis === 0) {
-        return null
-    }
-
-    return (
-        <React.Fragment>
-            <span className="elapsed-millis">{millis}</span>
-            <span className="time-unit">ms</span>
+            <ElapsedTimeFragment value={seconds} label="s"/>
+            <ElapsedTimeFragment value={remainingMs} label="ms"/>
         </React.Fragment>
     )
 }

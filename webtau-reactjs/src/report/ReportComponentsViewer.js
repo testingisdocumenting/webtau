@@ -16,10 +16,13 @@
 
 import React from 'react'
 
+import './WebTauReport.css'
+
 import {ComponentsViewer, Registry} from 'react-components-viewer'
 import {sortableTableDemo} from './widgets/SortableTable.demo'
 import {webTauReportDemo} from './WebTauReport.demo'
 import {stepsDemo} from './details/steps/Steps.demo'
+import {cardWithElapsedTimeDemo} from './widgets/CardWithElapsedTime.demo'
 
 const widgets = new Registry('widgets')
 const core = new Registry('core')
@@ -27,6 +30,7 @@ const http = new Registry('http')
 const fullReport = new Registry('full reports')
 
 widgets.registerAsRows('table', sortableTableDemo)
+widgets.registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
 
 core.registerAsGrid('steps', 0, stepsDemo)
 

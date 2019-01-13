@@ -15,5 +15,5 @@
  */
 
 .card-with-padding {
-    padding: 15px;
+    padding: var(--webtau-card-padding);
 }

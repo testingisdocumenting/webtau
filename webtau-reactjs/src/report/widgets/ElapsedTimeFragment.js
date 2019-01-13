@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,19 @@
  * limitations under the License.
  */
 
-.overall-summary {
-}
+import React from 'react'
 
-.overall-summary-tab-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 10px;
+import './ElapsedTimeFragment.css'
 
-    padding: 20px;
-}
+export default function ElapsedTimeFragment({value, label}) {
+    if (value === 0) {
+        return null
+    }
 
-.overall-time,
-.overall-http-calls-time,
-.overall-http-operations-coverage {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 172px);
-    grid-gap: 10px;
-}
-
-.overall-number-of-http-calls,
-.overall-number-of-skipped {
-    cursor: pointer;
-}
-
-.overall-summary-performance-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: 10px;
+    return (
+        <React.Fragment>
+            <span className="elapsed-time-value">{value}</span>
+            <span className="elapsed-time-unit">{label}</span>
+        </React.Fragment>
+    )
 }

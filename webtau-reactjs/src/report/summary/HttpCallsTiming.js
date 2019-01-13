@@ -19,7 +19,7 @@ import React from 'react'
 import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls'
 import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
 
-export default function CallsTiming({report, onSwitchToHttpCalls}) {
+export default function HttpCallsTiming({report, onSwitchToHttpCalls}) {
     return (
         <div className="overall-http-calls-time">
             <div className="overall-number-of-http-calls" onClick={onSwitchToHttpCalls}>
