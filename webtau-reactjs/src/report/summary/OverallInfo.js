@@ -16,16 +16,19 @@
 
 import React from 'react'
 
-import HttpCallsTiming from './HttpCallsTiming'
-import HttpOperationCoverageSummary from './HttpOperationCoverageSummary'
-import HttpOverallTiming from './HttpOverallTiming'
+import HttpCallsTiming from './overal-info/HttpCallsTiming'
+import HttpOperationCoverageSummary from './overal-info/HttpOperationCoverageSummary'
+import TestsOverallTiming from './overal-info/TestsOverallTiming'
+
+import TestsSuccessRatio from './overal-info/TestsSuccessRatio'
 
 import './OverallInfo.css'
 
 export default function OverallInfo({report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls}) {
     return (
         <div className="overall-info">
-            <HttpOverallTiming report={report}/>
+            <TestsOverallTiming report={report}/>
+            <TestsSuccessRatio report={report}/>
             <HttpCallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
             <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
         </div>

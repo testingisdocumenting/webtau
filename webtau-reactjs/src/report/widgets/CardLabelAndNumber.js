@@ -19,10 +19,10 @@ import React from 'react'
 import Card from './Card'
 import './CardLabelAndNumber.css'
 
-function CardLabelAndNumber({label, secondaryLabel, number}) {
+function CardLabelAndNumber({label, secondaryLabel, number, unit}) {
     return (
         <Card className="card-label-and-number">
-            <div className="card-number">{number}</div>
+            <div className="card-number">{number} {unit}</div>
             <div className="card-label">{label}</div>
             <div className="card-secondary-label">{secondaryLabel}</div>
         </Card>
