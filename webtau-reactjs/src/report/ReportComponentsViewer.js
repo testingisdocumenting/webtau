@@ -23,6 +23,7 @@ import {sortableTableDemo} from './widgets/SortableTable.demo'
 import {webTauReportDemo} from './WebTauReport.demo'
 import {stepsDemo} from './details/steps/Steps.demo'
 import {cardWithElapsedTimeDemo} from './widgets/CardWithElapsedTime.demo'
+import {cardListDemo} from './widgets/CardList.demo'
 
 const widgets = new Registry('widgets')
 const core = new Registry('core')
@@ -31,6 +32,7 @@ const fullReport = new Registry('full reports')
 
 widgets.registerAsRows('table', sortableTableDemo)
 widgets.registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
+widgets.registerAsRows('card list', cardListDemo)
 
 core.registerAsGrid('steps', 0, stepsDemo)
 

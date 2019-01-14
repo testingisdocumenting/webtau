@@ -17,6 +17,7 @@
 import React from 'react'
 
 import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
+import CardList from '../widgets/CardList'
 
 export default function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
     if (! report.hasHttpOperationCoverage()) {
@@ -25,7 +26,7 @@ export default function HttpOperationCoverageSummary({report, onSwitchToSkippedH
 
     const operationCoveragePercentage = (report.openApiOperationsCoverage() * 100).toFixed(2) + ' %'
     return (
-        <div className="overall-http-operations-coverage">
+        <CardList label="HTTP Coverage">
             <CardLabelAndNumber label="Operations coverage"
                                 number={operationCoveragePercentage}/>
             <CardLabelAndNumber label="Covered operations"
@@ -36,6 +37,6 @@ export default function HttpOperationCoverageSummary({report, onSwitchToSkippedH
                                     number={report.numberOfOpenApiSkippedOperations()}
                                     onClick={onSwitchToSkippedHttpCalls}/>
             </div>
-        </div>
+        </CardList>
     )
 }

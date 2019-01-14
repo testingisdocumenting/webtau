@@ -17,13 +17,15 @@
 import React from 'react'
 
 import CardWithTime from '../widgets/CardWithTime'
+import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
+
+import CardList from '../widgets/CardList'
 
 import './HttpOverallTiming.css'
-import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
 
 export default function HttpOverallTiming({report}) {
     return (
-        <div className="overall-time">
+        <CardList label="Tests run time">
             <CardWithTime label="Start Time (Local)"
                           time={report.summary.startTime}/>
 
@@ -32,6 +34,6 @@ export default function HttpOverallTiming({report}) {
                           time={report.summary.startTime}/>
             <CardWithElapsedTime label="Overal Time"
                                  millis={report.summary.duration}/>
-        </div>
+        </CardList>
     )
 }
