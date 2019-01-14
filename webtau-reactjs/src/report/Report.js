@@ -47,7 +47,7 @@ class Report {
         this.report = report
         this.version = report.version
         this.config = report.config
-        this.summary = report.summary
+        this.summary = expandSummary(report.summary)
         this.tests = enrichTestsData(report.tests)
         this.httpCalls = extractHttpCalls(this.tests)
         this.httpCallsById = mapHttpCallsById(this.httpCalls)
@@ -144,6 +144,22 @@ class Report {
         }
 
         return test.details[0].tabName
+    }
+}
+
+function expandSummary(summary) {
+    return {
+        ...summary,
+        totalWithProblems: calculateTotalWithProblems(),
+        percentagePassed: calculatePercentagePassed()
+    }
+
+    function calculateTotalWithProblems() {
+        return summary.failed + summary.errored + summary.skipped
+    }
+
+    function calculatePercentagePassed() {
+        return 100 - ((calculateTotalWithProblems() / summary.total) * 100) | 0
     }
 }
 

@@ -25,14 +25,6 @@
     padding: 20px;
 }
 
-.overall-time,
-.overall-http-calls-time,
-.overall-http-operations-coverage {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 172px);
-    grid-gap: 10px;
-}
-
 .overall-number-of-http-calls,
 .overall-number-of-skipped {
     cursor: pointer;

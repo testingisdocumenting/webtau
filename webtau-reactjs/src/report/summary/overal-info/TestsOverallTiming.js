@@ -16,14 +16,12 @@
 
 import React from 'react'
 
-import CardWithTime from '../widgets/CardWithTime'
-import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
+import CardWithTime from '../../widgets/CardWithTime'
+import CardWithElapsedTime from '../../widgets/CardWithElapsedTime'
 
-import CardList from '../widgets/CardList'
+import CardList from '../../widgets/CardList'
 
-import './HttpOverallTiming.css'
-
-export default function HttpOverallTiming({report}) {
+export default function TestsOverallTiming({report}) {
     return (
         <CardList label="Tests run time">
             <CardWithTime label="Start Time (Local)"

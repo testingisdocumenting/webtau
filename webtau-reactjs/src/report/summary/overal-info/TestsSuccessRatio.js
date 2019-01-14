@@ -14,6 +14,17 @@
  * limitations under the License.
  */
 
-.overall-time {
+import React from 'react'
 
+import CardList from '../../widgets/CardList'
+import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
+
+export default function TestsSuccessRatio({report}) {
+    return (
+        <CardList label="Tests success ratio">
+            <CardLabelAndNumber label="Passed" number={report.summary.percentagePassed} unit="%"/>
+            <CardLabelAndNumber label="Passed total" number={report.summary.total}/>
+            <CardLabelAndNumber label="Total with Problems" number={report.summary.totalWithProblems}/>
+        </CardList>
+    )
 }

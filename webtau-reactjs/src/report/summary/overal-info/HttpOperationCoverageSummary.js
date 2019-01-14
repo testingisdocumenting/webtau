@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 import React from 'react'
 
-import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
-import CardList from '../widgets/CardList'
+import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
+import CardList from '../../widgets/CardList'
 
 export default function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
     if (! report.hasHttpOperationCoverage()) {
