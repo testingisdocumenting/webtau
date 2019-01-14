@@ -17,20 +17,21 @@
 import React from 'react'
 
 import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls'
-import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
+import CardList from '../widgets/CardList'
+import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
 
 export default function HttpCallsTiming({report, onSwitchToHttpCalls}) {
     return (
-        <div className="overall-http-calls-time">
+        <CardList label="HTTP calls time">
             <div className="overall-number-of-http-calls" onClick={onSwitchToHttpCalls}>
                 <NumberOfHttpCalls number={report.numberOfHttpCalls()}/>
             </div>
 
-            <CardLabelAndNumber label="Average Time (ms)"
-                                number={report.averageHttpCallTime().toFixed(2)}/>
+            <CardWithElapsedTime label="Average Time"
+                                 millis={report.averageHttpCallTime().toFixed(2)}/>
 
-            <CardLabelAndNumber label="Overall Time (s)"
-                                number={(report.overallHttpCallTime() / 1000.0).toFixed(2)}/>
-        </div>
+            <CardWithElapsedTime label="Overall Time"
+                                 millis={report.overallHttpCallTime()}/>
+        </CardList>
     )
 }

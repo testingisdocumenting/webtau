@@ -20,12 +20,14 @@ import HttpCallsTiming from './HttpCallsTiming'
 import HttpOperationCoverageSummary from './HttpOperationCoverageSummary'
 import HttpOverallTiming from './HttpOverallTiming'
 
+import './OverallInfo.css'
+
 export default function OverallInfo({report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls}) {
     return (
-        <React.Fragment>
+        <div className="overall-info">
             <HttpOverallTiming report={report}/>
             <HttpCallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
             <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
-        </React.Fragment>
+        </div>
     )
 }
