@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,28 @@
 
 import React from 'react'
 
+import Card from './Card'
+
 import ElapsedTimeFragment from './ElapsedTimeFragment'
 
-import './ElapsedTime.css'
+import './CardWithElapsedTime.css'
 
-function ElapsedTime({millis}) {
-    const seconds = (millis / 1000) | 0
+function CardWithElapsedTime({millis, label}) {
+    const totalSeconds = (millis / 1000) | 0
+    const minutes = totalSeconds / 60 | 0
+    const seconds = totalSeconds % 60
     const remainingMs = millis % 1000
 
     return (
-        <React.Fragment>
-            <ElapsedTimeFragment value={seconds} label="s"/>
-            <ElapsedTimeFragment value={remainingMs} label="ms"/>
-        </React.Fragment>
+        <Card className="card-with-elapsed-time">
+            <div className="card-time-part">
+                <ElapsedTimeFragment value={minutes} label="min"/>
+                <ElapsedTimeFragment value={seconds} label="s"/>
+                <ElapsedTimeFragment value={remainingMs} label="ms"/>
+            </div>
+            <div className="card-label">{label}</div>
+        </Card>
     )
 }
 
-export default ElapsedTime
+export default CardWithElapsedTime

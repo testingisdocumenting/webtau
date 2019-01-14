@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,16 @@
  * limitations under the License.
  */
 
-.overall-summary {
+
+.elapsed-time-value {
+    margin-right: 2px;
 }
 
-.overall-summary-tab-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 10px;
-
-    padding: 20px;
+.elapsed-time-unit {
+    color: #888;
+    margin-right: 8px;
 }
 
-.overall-time,
-.overall-http-calls-time,
-.overall-http-operations-coverage {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 172px);
-    grid-gap: 10px;
-}
-
-.overall-number-of-http-calls,
-.overall-number-of-skipped {
-    cursor: pointer;
-}
-
-.overall-summary-performance-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: 10px;
+.elapsed-time-unit:last-child {
+    margin-right: 0;
 }

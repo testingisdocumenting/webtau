@@ -26,6 +26,8 @@ import TestNameCard from './TestNameCard'
 import Card from '../widgets/Card'
 import CardWithTime from '../widgets/CardWithTime'
 
+import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
+
 import './TestSummary.css'
 
 const OptionalPreBlock = ({className, message}) => {
@@ -57,8 +59,8 @@ const TestSummary = ({test}) => {
                               utc={true}
                               time={test.startTime}/>
 
-                <CardLabelAndNumber label="Execution time (ms)"
-                                    number={test.elapsedTime}/>
+                <CardWithElapsedTime label="Execution time"
+                                     millis={test.elapsedTime}/>
             </div>
 
             <div className="test-summary-http-dashboard">

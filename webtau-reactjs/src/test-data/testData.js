@@ -23,7 +23,10 @@ export const report = {
         "passed": 3,
         "failed": 1,
         "skipped": 0,
-        "errored": 0
+        "errored": 0,
+        "startTime" : 1547139662469,
+        "stopTime" : 1547139827670,
+        "duration" : 165201
     },
     "config": [
         {key: 'env', value: 'dev', source: 'command line'},

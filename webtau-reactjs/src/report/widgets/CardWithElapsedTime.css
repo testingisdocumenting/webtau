@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-.card-label-and-number {
+.card-with-elapsed-time {
     display: flex;
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
+
     width: var(--webtau-card-width);
     height: var(--webtau-card-height);
 }
 
-.card-label-and-number > .card-label,
-.card-label-and-number > .card-secondary-label {
+.card-with-elapsed-time > .card-label {
     color: var(--webtau-card-label-color);
+    margin-top: 13px;
 }
 
-.card-label-and-number > .card-secondary-label {
-    font-size: 12px;
+.card-with-elapsed-time > .card-time-part {
+    margin-top: 4px;
 }
 
-.card-label-and-number > .card-number {
-    color: #4a5158;
-    font-size: 30px;
-    font-weight: 400;
-    padding-bottom: 7px;
+.card-with-elapsed-time > .card-time-part > .elapsed-time-value {
+    font-size: 18px;
+    margin-right: 1px;
 }
