@@ -27,6 +27,10 @@
     word-break: break-word;
 }
 
+.http-header-entry {
+    word-break: break-all;
+}
+
 .collapsed-http-header,
 .http-header-label {
     color: #4f8fb8;
