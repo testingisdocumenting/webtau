@@ -28,17 +28,21 @@ import './OverallSummary.css'
 
 const summaryTabName = 'Summary'
 const configurationTabName = 'Configuration'
-const overallPerformanceTabName = 'Overall Performance'
-const operationsPerformanceTabName = 'Operations Performance'
-const tabNames = [summaryTabName, configurationTabName, overallPerformanceTabName, operationsPerformanceTabName]
+const overallHttpPerformanceTabName = 'Overall HTTP Performance'
+const httpOperationsPerformanceTabName = 'HTTP Operations Performance'
 
 export default class OverallSummary extends React.Component {
+    constructor(props) {
+        super(props)
+        this.tabNames = availableTabNames(props.report)
+    }
+
     render() {
-        const {onTabSelection, selectedTabName = tabNames[0]} = this.props
+        const {onTabSelection, selectedTabName = this.tabNames[0]} = this.props
 
         return (
             <div className="overall-summary">
-                <TabSelection tabs={tabNames} selectedTabName={selectedTabName} onTabSelection={onTabSelection}/>
+                <TabSelection tabs={this.tabNames} selectedTabName={selectedTabName} onTabSelection={onTabSelection}/>
 
                 <div className="overall-summary-tab-content">
                     {this.renderTabContent()}
@@ -49,7 +53,7 @@ export default class OverallSummary extends React.Component {
 
     renderTabContent() {
         const {
-            selectedTabName = tabNames[0],
+            selectedTabName = this.tabNames[0],
             report,
             onSwitchToHttpCalls,
             onSwitchToSkippedHttpCalls,
@@ -62,13 +66,23 @@ export default class OverallSummary extends React.Component {
 
             case configurationTabName: return <ConfigTable report={report}/>
 
-            case overallPerformanceTabName: return <OverallPerformance report={report}/>
+            case overallHttpPerformanceTabName: return <OverallPerformance report={report}/>
 
-            case operationsPerformanceTabName: return <OperationsPerformanceTable report={report}/>
+            case httpOperationsPerformanceTabName: return <OperationsPerformanceTable report={report}/>
 
             default:
                 return null
         }
     }
+}
+
+function availableTabNames(report) {
+    const tabNames = [summaryTabName, configurationTabName]
+    if (report.hasHttpCalls()) {
+        tabNames.push(overallHttpPerformanceTabName)
+        tabNames.push(httpOperationsPerformanceTabName)
+    }
+
+    return tabNames
 }
 

@@ -21,6 +21,10 @@ import CardList from '../../widgets/CardList'
 import CardWithElapsedTime from '../../widgets/CardWithElapsedTime'
 
 export default function HttpCallsTiming({report, onSwitchToHttpCalls}) {
+    if (!report.hasHttpCalls()) {
+        return null
+    }
+
     return (
         <CardList label="HTTP calls time">
             <div className="overall-number-of-http-calls" onClick={onSwitchToHttpCalls}>
