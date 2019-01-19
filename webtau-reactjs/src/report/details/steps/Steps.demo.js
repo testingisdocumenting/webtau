@@ -18,8 +18,8 @@ import React from 'react'
 import {Step} from './Step'
 
 export function stepsDemo(registry) {
-    registry.add('no children', <Step step={noChildren()} isTopLevel={true}/>)
-    registry.add('with children', <Step step={withChildren()} isTopLevel={true}/>)
+    registry.add('no children', () => <Step step={noChildren()} isTopLevel={true}/>)
+    registry.add('with children',() => <Step step={withChildren()} isTopLevel={true}/>)
 }
 
 function noChildren() {

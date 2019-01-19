@@ -18,12 +18,12 @@ import React from 'react'
 import HttpHeader from './HttpHeader'
 
 export function httpHeaderDemo(registry) {
-    registry.add('with long key', (
+    registry.add('with long key', () => (
         <div style={{width: 400}}>
             <HttpHeader header={httpHeaderLongKey()}/>
         </div>
     ))
-    registry.add('with long value', (
+    registry.add('with long value', () => (
         <div style={{width: 400}}>
             <HttpHeader header={httpHeaderLongValue()}/>
         </div>

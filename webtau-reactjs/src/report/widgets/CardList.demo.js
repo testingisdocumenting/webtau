@@ -21,14 +21,14 @@ import CardWithTime from './CardWithTime'
 import CardList from './CardList'
 
 export function cardListDemo(registry) {
-    registry.add('with label', (
+    registry.add('with label', () => (
         <CardList label="Overal Performance">
             <CardWithTime millis={1547139662469} label="Start time"/>
             <CardWithElapsedTime millis={8321} label="Total time"/>
         </CardList>
     ))
 
-    registry.add('without label', (
+    registry.add('without label', () => (
         <CardList>
             <CardWithTime millis={1547139662469} label="Start time"/>
             <CardWithElapsedTime millis={8321} label="Total time"/>
