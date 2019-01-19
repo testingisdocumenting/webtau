@@ -22,7 +22,7 @@ import CardList from './CardList'
 
 export function cardListDemo(registry) {
     registry.add('with label', () => (
-        <CardList label="Overal Performance">
+        <CardList label="Overall Performance">
             <CardWithTime millis={1547139662469} label="Start time"/>
             <CardWithElapsedTime millis={8321} label="Total time"/>
         </CardList>

@@ -97,6 +97,10 @@ class Report {
         return this.httpCalls.length
     }
 
+    hasHttpCalls() {
+        return this.numberOfHttpCalls() > 0
+    }
+
     overallHttpCallTime() {
         return this.httpCalls
             .map(c => c.elapsedTime)
@@ -278,7 +282,7 @@ function isFailedOrErrored(test) {
     return test.status === StatusEnum.FAILED || test.status === StatusEnum.ERRORED
 }
 
-function enrichHttpCallsData(test, httpCalls) {
+function enrichHttpCallsData(test, httpCalls = []) {
     return httpCalls.map(httpCall => enrichHttpCallData(test, httpCall))
 }
 

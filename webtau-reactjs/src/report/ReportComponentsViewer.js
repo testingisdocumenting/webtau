@@ -20,7 +20,7 @@ import './WebTauReport.css'
 
 import {ComponentsViewer, Registry} from 'react-components-viewer'
 import {sortableTableDemo} from './widgets/SortableTable.demo'
-import {webTauReportDemo} from './WebTauReport.demo'
+import {webTauReportsDemo} from './WebTauReportsDemo'
 import {stepsDemo} from './details/steps/Steps.demo'
 import {cardWithElapsedTimeDemo} from './widgets/CardWithElapsedTime.demo'
 import {cardListDemo} from './widgets/CardList.demo'
@@ -39,7 +39,7 @@ core.registerAsGrid('steps', 0, stepsDemo)
 
 http.registerAsRows('http header', httpHeaderDemo)
 
-fullReport.registerSingle('demo report', webTauReportDemo)
+fullReport.registerAsTabs('demo reports', webTauReportsDemo)
 
 export function ReportComponentsViewer() {
     return (
