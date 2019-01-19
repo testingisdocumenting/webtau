@@ -18,7 +18,7 @@ import React from 'react'
 import SortableTable from './SortableTable'
 
 export function sortableTableDemo(registry) {
-    registry.add('no title', <SortableTable header={header()} data={data()}/>)
+    registry.add('no title', () => <SortableTable header={header()} data={data()}/>)
 }
 
 function header() {

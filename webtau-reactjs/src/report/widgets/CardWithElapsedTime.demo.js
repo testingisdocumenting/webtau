@@ -20,10 +20,10 @@ import CardWithElapsedTime from './CardWithElapsedTime'
 import CardWithTime from './CardWithTime'
 
 export function cardWithElapsedTimeDemo(registry) {
-    registry.add('with minutes', <CardWithElapsedTime millis={66321} label="Total time"/>)
-    registry.add('with seconds', <CardWithElapsedTime millis={8321} label="Total time"/>)
-    registry.add('with milliseconds', <CardWithElapsedTime millis={321} label="Total time"/>)
-    registry.add('with next card next to it', (
+    registry.add('with minutes', () => <CardWithElapsedTime millis={66321} label="Total time"/>)
+    registry.add('with seconds', () => <CardWithElapsedTime millis={8321} label="Total time"/>)
+    registry.add('with milliseconds', () => <CardWithElapsedTime millis={321} label="Total time"/>)
+    registry.add('with next card next to it', () => (
         <div style={{display: 'flex'}}>
             <CardWithTime millis={1547139662469} label="Start time"/>
             <CardWithElapsedTime millis={321} label="Total time"/>

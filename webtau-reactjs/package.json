@@ -13,8 +13,9 @@
     "react-json-tree": "^0.11.0"
   },
   "devDependencies": {
-    "react-components-viewer": "^0.8.1",
-    "react-scripts": "^1.1.4"
+    "react-components-viewer": "0.10.1",
+    "react-scripts": "^1.1.4",
+    "webpack": "^4.28.4"
   },
   "scripts": {
     "start": "react-scripts start",

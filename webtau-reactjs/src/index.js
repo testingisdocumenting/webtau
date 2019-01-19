@@ -26,12 +26,12 @@ if (process.env.NODE_ENV === "production") {
     global.WebTauReport = WebTauReport
 
     global.renderReport = () => {
-        ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, document.getElementById('root'));
+        ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, document.getElementById('root'))
     }
 
     global.renderReport()
 } else {
     const {ReportComponentsViewer} = require('./report/ReportComponentsViewer')
-    ReactDOM.render(<ReportComponentsViewer/>, document.getElementById('root'));
+    ReactDOM.render(<ReportComponentsViewer/>, document.getElementById('root'))
 }
 

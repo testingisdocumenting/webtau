@@ -20,6 +20,6 @@ import Report from './Report'
 import {report} from '../test-data/testData'
 
 export function webTauReportDemo(registry) {
-    registry.add('report', <WebTauReport  report={new Report(report)}/>)
+    registry.add('report', () => <WebTauReport  report={new Report(report)}/>)
 }
 
