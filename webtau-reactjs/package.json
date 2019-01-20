@@ -13,10 +13,8 @@
     "react-json-tree": "^0.11.0"
   },
   "devDependencies": {
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "react-components-viewer": "0.10.1",
-    "react-scripts": "^1.1.4",
-    "webpack": "^4.28.4"
+    "react-scripts": "^1.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
