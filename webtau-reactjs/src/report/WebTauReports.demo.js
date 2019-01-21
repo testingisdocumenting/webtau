@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report
+import React from 'react'
+import WebTauReport from './WebTauReport'
+import Report from './Report'
 
-import org.junit.Test
+import {basicReport, withRestDataReport} from '../test-data/testData'
 
-class ReportDataCompressorTest {
-    @Test
-    void "should zip and base64 encode"() {
-        def report = '{test: [{id: "id1"}, {id: "id2"}, {id: "id3"}], test: [{id: "id4"}, {id: "id5"}, {id: "id6"}]}'
-        ReportDataCompressor.compressAndBase64(report).should ==
-                'H4sIAAAAAAAAAKsuSS0usVKIrs5MsVJQykwxVKrVUYBxjJA5xkq1sToKaMpNkFWYInPMgMprAbrVf79eAAAA'
-    }
+export function webTauReportsDemo(registry) {
+    registry.add('basic', () => <WebTauReport  report={new Report(basicReport)}/>)
+    registry.add('with REST', () => <WebTauReport  report={new Report(withRestDataReport)}/>)
 }

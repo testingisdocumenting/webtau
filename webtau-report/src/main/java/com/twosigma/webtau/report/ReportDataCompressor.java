@@ -16,35 +16,27 @@
 
 package com.twosigma.webtau.report;
 
-import net.jpountz.lz4.LZ4Compressor;
-import net.jpountz.lz4.LZ4Factory;
-
-import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Base64;
+import java.util.zip.GZIPOutputStream;
 
 public class ReportDataCompressor {
     public static String compressAndBase64(String reportData) {
         try {
             return compressAndBase64Impl(reportData);
-        } catch (UnsupportedEncodingException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static String compressAndBase64Impl(String jsonData) throws UnsupportedEncodingException {
-        LZ4Factory factory = LZ4Factory.nativeInstance();
+    private static String compressAndBase64Impl(String jsonData) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        GZIPOutputStream gzipOut = new GZIPOutputStream(outputStream);
+        gzipOut.write(jsonData.getBytes());
+        gzipOut.close();
 
-        byte[] data = jsonData.getBytes("UTF-8");
-        final int decompressedLength = data.length;
-
-        LZ4Compressor compressor = factory.highCompressor();
-        int maxCompressedLength = compressor.maxCompressedLength(decompressedLength);
-        byte[] compressed = new byte[maxCompressedLength];
-        int compressedLength = compressor.compress(data, 0, decompressedLength, compressed, 0, maxCompressedLength);
-
-        byte[] compressedSliced = Arrays.copyOfRange(compressed, 0, compressedLength);
-        return encodeBase64(compressedSliced);
+        return encodeBase64(outputStream.toByteArray());
     }
 
     private static String encodeBase64(byte[] content) {

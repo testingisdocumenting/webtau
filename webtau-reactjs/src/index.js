@@ -18,6 +18,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import WebTauReport from './report/WebTauReport'
+import Loading from './report/loading/Loading'
 import Report from './report/Report'
 
 import {decompressAndDecodeReportData} from './report/compression/reportDataCompression'
@@ -25,14 +26,13 @@ import {decompressAndDecodeReportData} from './report/compression/reportDataComp
 import './index.css'
 
 if (process.env.NODE_ENV === "production") {
-    global.WebTauReport = WebTauReport
+    const root = document.getElementById('root')
+    ReactDOM.render(<Loading/>, root)
 
-    global.renderReport = () => {
-        global.testReport = decompressAndDecodeReportData(global.compressedTestReport, global.testReportOriginalSize)
-        ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, document.getElementById('root'))
-    }
-
-    global.renderReport()
+    setTimeout(() => {
+        global.testReport = JSON.parse(decompressAndDecodeReportData(global.compressedTestReport))
+        ReactDOM.render(<WebTauReport report={new Report(global.testReport)}/>, root)
+    }, 50)
 } else {
     const {ReportComponentsViewer} = require('./report/ReportComponentsViewer')
     ReactDOM.render(<ReportComponentsViewer/>, document.getElementById('root'))
