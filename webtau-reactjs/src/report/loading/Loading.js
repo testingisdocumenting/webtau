@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report
+import React from 'react'
 
-import org.junit.Test
+import './Loading.css'
 
-class ReportDataCompressorTest {
-    @Test
-    void "should zip and base64 encode"() {
-        def report = '{test: [{id: "id1"}, {id: "id2"}, {id: "id3"}], test: [{id: "id4"}, {id: "id5"}, {id: "id6"}]}'
-        ReportDataCompressor.compressAndBase64(report).should ==
-                'H4sIAAAAAAAAAKsuSS0usVKIrs5MsVJQykwxVKrVUYBxjJA5xkq1sToKaMpNkFWYInPMgMprAbrVf79eAAAA'
-    }
+export default function Loading() {
+    return (
+        <div className="webtau-loading">
+            <div className="webtau-loading-title">WebTau</div>
+            <div className="webtau-loading-action">Loading report data</div>
+        </div>
+    )
 }

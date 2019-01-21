@@ -72,8 +72,7 @@ public class HtmlReportGenerator implements ReportGenerator {
         String compressed = ReportDataCompressor.compressAndBase64(serializedJson);
 
         return generateHtml(
-                "compressedTestReport = '" + compressed + "';" +
-                "testReportOriginalSize = " + serializedJson.length() + "';");
+                "compressedTestReport = '" + compressed + "';");
     }
 
     private String generateHtml(String reportAssignmentJavaScript) {

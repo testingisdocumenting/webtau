@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-const lz4 = require('lz4')
-const Buffer = require('buffer').Buffer
+const gzip = require('gzip-js')
 
-export function decompressAndDecodeReportData(base64input, uncompressedSize) {
+export function decompressAndDecodeReportData(base64input) {
     const input = Buffer.from(base64input, 'base64')
 
-    const uncompressed = new Buffer(uncompressedSize)
-    lz4.decodeBlock(input, uncompressed)
-
-    return uncompressed.toString()
+    const uncompressed = gzip.unzip(input)
+    return Buffer.from(uncompressed).toString()
 }

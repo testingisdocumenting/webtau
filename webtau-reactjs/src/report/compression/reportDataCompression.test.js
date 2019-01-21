@@ -17,9 +17,9 @@
 import {decompressAndDecodeReportData} from './reportDataCompression'
 
 describe('reportDataCompression.js', () => {
-    it('should uncompress base64 lz4 compressed content', () => {
+    it('should uncompress gzip compressed base64 encoded content', () => {
         const result =
-            decompressAndDecodeReportData('9AZ7dGVzdDogW3tpZDogImlkMSJ9LCANABgyDQBrMyJ9XSwgLwAYNCIAGDUNAFA2In1dfQ==', 94)
+            decompressAndDecodeReportData('H4sIAAAAAAAAAKsuSS0usVKIrs5MsVJQykwxVKrVUYBxjJA5xkq1sToKaMpNkFWYInPMgMprAbrVf79eAAAA')
 
         expect(result).toEqual('{test: [{id: "id1"}, {id: "id2"}, {id: "id3"}], test: [{id: "id4"}, {id: "id5"}, {id: "id6"}]}')
     })
