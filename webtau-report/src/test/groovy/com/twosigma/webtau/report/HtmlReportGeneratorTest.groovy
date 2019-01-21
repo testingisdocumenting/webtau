@@ -25,7 +25,7 @@ class HtmlReportGeneratorTest {
         def html = generator.generateHtml([summary: 'summary'])
 
         assert html.contains('--webtau-selected-test-background')
-        assert html.contains('testReport = {\n  "summary" : "summary"\n}')
+        assert html.contains('compressedTestReport = \'H4sIAAAAAAAAAKtWKi7NzU0sqlSygrNqAeKeWDwVAAAA\'')
         assert html.contains('Minified React error')
     }
 }
