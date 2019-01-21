@@ -20,12 +20,15 @@ import ReactDOM from 'react-dom'
 import WebTauReport from './report/WebTauReport'
 import Report from './report/Report'
 
+import {decompressAndDecodeReportData} from './report/compression/reportDataCompression'
+
 import './index.css'
 
 if (process.env.NODE_ENV === "production") {
     global.WebTauReport = WebTauReport
 
     global.renderReport = () => {
+        global.testReport = decompressAndDecodeReportData(global.compressedTestReport, global.testReportOriginalSize)
         ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, document.getElementById('root'))
     }
 
