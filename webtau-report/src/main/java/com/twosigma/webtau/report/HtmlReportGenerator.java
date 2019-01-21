@@ -68,7 +68,12 @@ public class HtmlReportGenerator implements ReportGenerator {
     }
 
     String generateHtml(Map<String, Object> report) {
-        return generateHtml("testReport = " + JsonUtils.serializePrettyPrint(report) + ";");
+        String serializedJson = JsonUtils.serialize(report);
+        String compressed = ReportDataCompressor.compressAndBase64(serializedJson);
+
+        return generateHtml(
+                "compressedTestReport = '" + compressed + "';" +
+                "testReportOriginalSize = " + serializedJson.length() + "';");
     }
 
     private String generateHtml(String reportAssignmentJavaScript) {
