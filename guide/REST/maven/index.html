@@ -14,12 +14,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Dependency</h1></header>
-<p>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency&gt; &lt;groupId&gt;com.twosigma.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.4&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;com.twosigma.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.4&lt;/version&gt; &lt;/dependency&gt;</p>
+<p>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency&gt; &lt;groupId&gt;com.twosigma.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.5&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;com.twosigma.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.5&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 
 <article>
 <header><h1>Plugin</h1></header>
-<p>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin&gt; &lt;groupId&gt;com.twosigma.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.4&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</p>
+<p>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin&gt; &lt;groupId&gt;com.twosigma.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.5&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</p>
 </article>
 </section>
 </div>
@@ -65,7 +65,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "content": [
                   {
                     "lang": "xml",
-                    "snippet": "\u003cdependency\u003e\n    \u003cgroupId\u003ecom.twosigma.webtau\u003c/groupId\u003e\n    \u003cartifactId\u003ewebtau-groovy\u003c/artifactId\u003e\n    \u003cversion\u003e1.4\u003c/version\u003e\n\u003c/dependency\u003e",
+                    "snippet": "\u003cdependency\u003e\n    \u003cgroupId\u003ecom.twosigma.webtau\u003c/groupId\u003e\n    \u003cartifactId\u003ewebtau-groovy\u003c/artifactId\u003e\n    \u003cversion\u003e1.5\u003c/version\u003e\n\u003c/dependency\u003e",
                     "type": "Snippet"
                   }
                 ]
@@ -75,7 +75,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "content": [
                   {
                     "lang": "xml",
-                    "snippet": "\u003cdependency\u003e\n    \u003cgroupId\u003ecom.twosigma.webtau\u003c/groupId\u003e\n    \u003cartifactId\u003ewebtau\u003c/artifactId\u003e\n    \u003cversion\u003e1.4\u003c/version\u003e\n\u003c/dependency\u003e",
+                    "snippet": "\u003cdependency\u003e\n    \u003cgroupId\u003ecom.twosigma.webtau\u003c/groupId\u003e\n    \u003cartifactId\u003ewebtau\u003c/artifactId\u003e\n    \u003cversion\u003e1.5\u003c/version\u003e\n\u003c/dependency\u003e",
                     "type": "Snippet"
                   }
                 ]
@@ -101,7 +101,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "xml",
-            "snippet": "\u003cplugin\u003e\n    \u003cgroupId\u003ecom.twosigma.webtau\u003c/groupId\u003e\n    \u003cartifactId\u003ewebtau-maven-plugin\u003c/artifactId\u003e\n    \u003cversion\u003e1.4\u003c/version\u003e\n    \u003cexecutions\u003e\n        \u003cexecution\u003e\n            \u003cphase\u003etest\u003c/phase\u003e\n            \u003cgoals\u003e\n                \u003cgoal\u003erun\u003c/goal\u003e\n            \u003c/goals\u003e\n        \u003c/execution\u003e\n    \u003c/executions\u003e\n    \u003cconfiguration\u003e\n        \u003cworkingDir\u003e${project.basedir}/src/main/groovy\u003c/workingDir\u003e\n        \u003cenv\u003eintegration\u003c/env\u003e\n        \u003curl\u003ehttp://optional-base-url\u003c/url\u003e\n        \u003ctests\u003e\n            \u003cdirectory\u003e${project.basedir}/src/main/groovy\u003c/directory\u003e\n            \u003cincludes\u003e\n                \u003cinclude\u003escenarios/*.groovy\u003c/include\u003e\n            \u003c/includes\u003e\n        \u003c/tests\u003e\n    \u003c/configuration\u003e\n\u003c/plugin\u003e",
+            "snippet": "\u003cplugin\u003e\n    \u003cgroupId\u003ecom.twosigma.webtau\u003c/groupId\u003e\n    \u003cartifactId\u003ewebtau-maven-plugin\u003c/artifactId\u003e\n    \u003cversion\u003e1.5\u003c/version\u003e\n    \u003cexecutions\u003e\n        \u003cexecution\u003e\n            \u003cphase\u003etest\u003c/phase\u003e\n            \u003cgoals\u003e\n                \u003cgoal\u003erun\u003c/goal\u003e\n            \u003c/goals\u003e\n        \u003c/execution\u003e\n    \u003c/executions\u003e\n    \u003cconfiguration\u003e\n        \u003cworkingDir\u003e${project.basedir}/src/main/groovy\u003c/workingDir\u003e\n        \u003cenv\u003eintegration\u003c/env\u003e\n        \u003curl\u003ehttp://optional-base-url\u003c/url\u003e\n        \u003ctests\u003e\n            \u003cdirectory\u003e${project.basedir}/src/main/groovy\u003c/directory\u003e\n            \u003cincludes\u003e\n                \u003cinclude\u003escenarios/*.groovy\u003c/include\u003e\n            \u003c/includes\u003e\n        \u003c/tests\u003e\n    \u003c/configuration\u003e\n\u003c/plugin\u003e",
             "type": "Snippet"
           },
           {

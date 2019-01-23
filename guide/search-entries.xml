@@ -315,7 +315,7 @@
     <url>/webtau/guide/REST/maven#dependency</url>
     <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
     <text>
-      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;/dependency></text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -323,7 +323,7 @@
     <url>/webtau/guide/REST/maven#plugin</url>
     <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
     <text>
-      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -795,7 +795,7 @@
     <url>/webtau/guide/generic-runners/JUnit-4#maven-import</url>
     <fullTitle>WebTau: JUnit 4, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.4&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
