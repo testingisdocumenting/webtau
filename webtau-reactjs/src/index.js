@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "production") {
         ReactDOM.render(<WebTauReport report={new Report(global.testReport)}/>, root)
     }, 50)
 } else {
-    const {ReportComponentsViewer} = require('./report/ReportComponentsViewer')
-    ReactDOM.render(<ReportComponentsViewer/>, document.getElementById('root'))
+    const {ReportComponentViewer} = require('./report/ReportComponentViewer')
+    ReactDOM.render(<ReportComponentViewer/>, document.getElementById('root'))
 }
 
