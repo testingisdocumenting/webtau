@@ -18,7 +18,7 @@ import React from 'react'
 
 import './WebTauReport.css'
 
-import {ComponentsViewer, Registry} from 'react-components-viewer'
+import {ComponentViewer, Registry} from 'react-component-viewer'
 import {sortableTableDemo} from './widgets/SortableTable.demo'
 import {webTauReportsDemo} from './WebTauReports.demo'
 import {stepsDemo} from './details/steps/Steps.demo'
@@ -43,8 +43,8 @@ http.registerAsRows('http header', httpHeaderDemo)
 fullReport.registerAsTabs('demo reports', webTauReportsDemo)
 fullReport.registerSingle('loading', loadingDemo)
 
-export function ReportComponentsViewer() {
+export function ReportComponentViewer() {
     return (
-        <ComponentsViewer registries={[widgets, core, http, fullReport]}/>
+        <ComponentViewer registries={[widgets, core, http, fullReport]}/>
     )
 }
