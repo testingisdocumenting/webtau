@@ -116,19 +116,19 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     DataNode find(Closure predicate) {
-        def result = node.elements().find(removedDataNodeFromClosureAndDelegatedToNode(predicate))
+        def result = node.elements().find(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
         return (result instanceof DataNode) ?
                 new GroovyDataNode(result) :
                 result
     }
 
     DataNode findAll(Closure predicate) {
-        def list = node.elements().findAll(removedDataNodeFromClosureAndDelegatedToNode(predicate))
+        def list = node.elements().findAll(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
         return wrapIntoDataNode('findAll', list)
     }
 
     List collect(Closure transformation) {
-        return node.elements().collect(removedDataNodeFromClosureAndDelegatedToNode(transformation))
+        return node.elements().collect(delegateToNodeAndRemovedDataNodeFromClosure(transformation))
     }
 
     @Override
@@ -145,7 +145,7 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
         return new GroovyDataNode(new StructuredDataNode(node.id().child(operationId), list))
     }
 
-    private static Closure removedDataNodeFromClosureAndDelegatedToNode(Closure original) {
+    private static Closure delegateToNodeAndRemovedDataNodeFromClosure(Closure original) {
         def newClosure = { dataNode ->
             def converter = new DataNodeToMapOfValuesConverter({ id, traceableValue ->
                 traceableValue.getValue()
