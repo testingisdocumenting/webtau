@@ -20,6 +20,7 @@ import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -114,6 +115,11 @@ public class StructuredDataNode implements DataNode {
         return values == null ?
                 Collections.emptyList() :
                 Collections.unmodifiableList(values);
+    }
+
+    @Override
+    public Iterator<DataNode> iterator() {
+        return elements().iterator();
     }
 
     @Override

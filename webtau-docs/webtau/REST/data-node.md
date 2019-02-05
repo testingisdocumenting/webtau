@@ -25,10 +25,18 @@ If you have a list of objects like `complexList` above, you can access all its c
 
 :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "groovy children key shortcut", bodyOnly: true}
 
-# Find
-
+# Each
 
 Special values inside assertion block have convenient methods
+
+`each` to iterate over a list
+
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "groovy each on simple list", bodyOnly: true, title: "List of simple values"}
+
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "groovy each on complex list", bodyOnly: true, title: "List of complex values"}
+
+
+# Find
 
 `find` to find a single value
 

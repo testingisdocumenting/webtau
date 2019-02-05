@@ -92,6 +92,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
+    Iterator<DataNode> iterator() {
+        return elements().iterator()
+    }
+
+    @Override
     int numberOfChildren() {
         return node.numberOfChildren()
     }
@@ -106,20 +111,24 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
         return node.asMap().entrySet().collectEntries { [it.key, new GroovyDataNode(it.value)] }
     }
 
+    void each(Closure consumer) {
+        node.elements().each(delegateToDataNodeClosure(consumer))
+    }
+
     DataNode find(Closure predicate) {
-        def result = node.elements().find(removedDataNodeFromClosure(predicate))
+        def result = node.elements().find(removedDataNodeFromClosureAndDelegatedToNode(predicate))
         return (result instanceof DataNode) ?
-            new GroovyDataNode(result):
-            result
+                new GroovyDataNode(result) :
+                result
     }
 
     DataNode findAll(Closure predicate) {
-        def list = node.elements().findAll(removedDataNodeFromClosure(predicate))
+        def list = node.elements().findAll(removedDataNodeFromClosureAndDelegatedToNode(predicate))
         return wrapIntoDataNode('findAll', list)
     }
 
     List collect(Closure transformation) {
-        return node.elements().collect(removedDataNodeFromClosure(transformation))
+        return node.elements().collect(removedDataNodeFromClosureAndDelegatedToNode(transformation))
     }
 
     @Override
@@ -136,21 +145,35 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
         return new GroovyDataNode(new StructuredDataNode(node.id().child(operationId), list))
     }
 
-    private static Closure removedDataNodeFromClosure(Closure closure) {
+    private static Closure removedDataNodeFromClosureAndDelegatedToNode(Closure original) {
         def newClosure = { dataNode ->
             def converter = new DataNodeToMapOfValuesConverter({ id, traceableValue ->
                 traceableValue.getValue()
             })
 
             def convertedToSimple = converter.convert(dataNode)
-
-            Closure cloned = closure.clone() as Closure
-            cloned.resolveStrategy = Closure.DELEGATE_FIRST
-            cloned.delegate = convertedToSimple
+            Closure cloned = cloneAndAssignDelegate(original, convertedToSimple)
 
             return cloned.call(convertedToSimple)
         }
 
         return newClosure
+    }
+
+    private static Closure delegateToDataNodeClosure(Closure original) {
+        def newClosure = { dataNode ->
+            Closure cloned = cloneAndAssignDelegate(original, dataNode)
+            return cloned.call(dataNode)
+        }
+
+        return newClosure
+    }
+
+    private static Closure cloneAndAssignDelegate(Closure original, Object delegate) {
+        Closure cloned = original.clone() as Closure
+        cloned.resolveStrategy = Closure.DELEGATE_FIRST
+        cloned.delegate = delegate
+
+        return cloned
     }
 }

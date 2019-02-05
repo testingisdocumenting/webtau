@@ -19,6 +19,7 @@ package com.twosigma.webtau.http.datanode;
 import com.twosigma.webtau.data.traceable.TraceableValue;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -72,6 +73,11 @@ public class NullDataNode implements DataNode {
     @Override
     public List<DataNode> elements() {
         return Collections.singletonList(new NullDataNode(id.peer(0)));
+    }
+
+    @Override
+    public Iterator<DataNode> iterator() {
+        return elements().iterator();
     }
 
     @Override
