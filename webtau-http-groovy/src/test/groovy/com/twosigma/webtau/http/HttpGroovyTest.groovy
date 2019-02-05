@@ -401,6 +401,20 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "groovy each on simple list"() {
+        http.get("/end-point") {
+            list.each { it.shouldBe > 0 }
+        }
+    }
+
+    @Test
+    void "groovy each on complex list"() {
+        http.get("/end-point") {
+            complexList.each { k2.shouldBe > 0 }
+        }
+    }
+
+    @Test
     void "groovy find on list"() {
         def found = http.get("/end-point") {
             return list.find { it > 1 }

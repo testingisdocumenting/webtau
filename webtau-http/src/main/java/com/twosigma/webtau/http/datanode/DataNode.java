@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
-public interface DataNode extends ActualValueExpectations, DataNodeExpectations {
+public interface DataNode extends ActualValueExpectations, DataNodeExpectations, Iterable<DataNode> {
     DataNodeId id();
 
     DataNode get(String name);

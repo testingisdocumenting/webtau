@@ -23,12 +23,7 @@ import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.NullDataNode;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -113,6 +108,11 @@ public class HeaderDataNode implements DataNode {
     @Override
     public List<DataNode> elements() {
         return dataNode.elements();
+    }
+
+    @Override
+    public Iterator<DataNode> iterator() {
+        return dataNode.iterator();
     }
 
     @Override
