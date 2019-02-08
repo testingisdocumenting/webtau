@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-.test-summary {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-row-gap: 10px;
+import React from 'react'
+
+import './TestErrorMessage.css'
+
+function TestErrorMessage({message}) {
+    return (
+        <div className="error-message">
+            <pre>{message}</pre>
+        </div>
+    )
 }
 
-.test-summary-timing,
-.test-summary-http-dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 172px);
-    grid-gap: 10px;
-}
-
-.card-pre-message {
-    padding: 10px;
-}
+export default TestErrorMessage

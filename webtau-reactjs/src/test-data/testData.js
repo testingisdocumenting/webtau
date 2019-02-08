@@ -336,6 +336,7 @@ export const withRestDataReport = {
             "fileName": "rest/springboot/customerCrudSeparated.groovy",
             "startTime": 1534456916784,
             "elapsedTime": 32,
+            "exceptionMessage": "error calling something",
             "httpCalls": [{
                 "method": "DELETE",
                 "url": "http://localhost:8080/customers/1",
@@ -355,7 +356,6 @@ export const withRestDataReport = {
                 "url": "http://localhost:8080/customers/1",
                 "startTime": 1534456916684,
                 "elapsedTime": 9,
-                "errorMessage": null,
                 "mismatches": [],
                 "responseType": "",
                 "responseStatusCode": 404,
@@ -363,7 +363,8 @@ export const withRestDataReport = {
                 "responseBodyChecks": {
                     "failedPaths": [],
                     "passedPaths": []
-                }
+                },
+                "errorMessage": "long long long line line line long long long line line line long long long line line line long long long line line line long long long line line line long long long line line line long long long line line line"
             }],
             "steps": [{
                 "elapsedTime": 200,

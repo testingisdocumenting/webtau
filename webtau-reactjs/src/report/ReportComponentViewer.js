@@ -26,6 +26,7 @@ import {cardWithElapsedTimeDemo} from './widgets/CardWithElapsedTime.demo'
 import {cardListDemo} from './widgets/CardList.demo'
 import {httpHeaderDemo} from './details/http-header/HttpHeader.demo'
 import {loadingDemo} from './loading/Loading.demo'
+import {testErrorMessageDemo} from './widgets/TestErrorMessage.demo'
 
 const widgets = new Registry('widgets')
 const core = new Registry('core')
@@ -35,6 +36,7 @@ const fullReport = new Registry('full reports')
 widgets.registerAsRows('table', sortableTableDemo)
 widgets.registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
 widgets.registerAsRows('card list', cardListDemo)
+widgets.registerAsRows('test error message', testErrorMessageDemo)
 
 core.registerAsGrid('steps', 0, stepsDemo)
 
