@@ -1,7 +1,7 @@
 import com.twosigma.webtau.runner.standalone.TestsRunTerminateException
 
 /*
- * Copyright 2018 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
