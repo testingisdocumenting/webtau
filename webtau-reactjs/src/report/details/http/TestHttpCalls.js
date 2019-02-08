@@ -16,6 +16,8 @@
 
 import React, {Component} from 'react'
 
+import TestErrorMessage from '../../widgets/TestErrorMessage'
+
 import HttpPayload from './HttpPayload'
 import ElapsedTime from '../../widgets/ElapsedTime'
 
@@ -42,7 +44,7 @@ class TestHttpCalls extends Component {
     }
 
     render() {
-        const {test} = this.props;
+        const {test} = this.props
 
         return (
             <div className="http">
@@ -102,7 +104,7 @@ class TestHttpCalls extends Component {
     }
 
     onCollapseToggleClick = (idx) => {
-        const {onInternalStateUpdate} = this.props;
+        const {onInternalStateUpdate} = this.props
 
         const newExpandedByIdx = {...this.state.expandedByIdx}
 
@@ -148,19 +150,19 @@ function Mismatches({httpCall}) {
 }
 
 function ErrorMessage({httpCall}) {
-    if (! httpCall.errorMessage) {
+    if (!httpCall.errorMessage) {
         return null
     }
 
     return (
-        <div className="error-message">
-            <pre>{httpCall.errorMessage}</pre>
+        <div className="test-http-calls-call-error-message">
+            <TestErrorMessage message={httpCall.errorMessage}/>
         </div>
     )
 }
 
 function Request({httpCall, reportNavigation}) {
-    if (! httpCall.requestBody) {
+    if (!httpCall.requestBody) {
         return <div/>
     }
 
@@ -177,7 +179,7 @@ function Request({httpCall, reportNavigation}) {
 }
 
 function Response({httpCall, reportNavigation}) {
-    if (! httpCall.responseBody) {
+    if (!httpCall.responseBody) {
         return null
     }
 

@@ -28,6 +28,8 @@ import CardWithTime from '../widgets/CardWithTime'
 
 import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
 
+import TestErrorMessage from '../widgets/TestErrorMessage'
+
 import './TestSummary.css'
 
 const OptionalPreBlock = ({className, message}) => {
@@ -106,9 +108,7 @@ function CardPreMessage({message}) {
 
     return (
         <Card className="card-pre-message">
-            <pre>
-                {message.trim()}
-            </pre>
+            <TestErrorMessage message={message.trim()}/>
         </Card>
     )
 }
