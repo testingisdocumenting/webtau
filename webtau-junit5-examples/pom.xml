@@ -102,25 +102,7 @@
                         <configuration>
                             <portNames>
                                 <portName>springboot.http.port</portName>
-                            </portNames>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>reserve-springboot-port</id>
-                        <goals>
-                            <goal>reserve-network-port</goal>
-                        </goals>
-                        <phase>process-resources</phase>
-                        <configuration>
-                            <portNames>
-                                <portName>springboot.http.port</portName>
+                                <portName>springboot.jmx.port</portName>
                             </portNames>
                         </configuration>
                     </execution>
@@ -131,8 +113,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <fork>true</fork>
                     <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                    <fork>true</fork>
+                    <jmxPort>${springboot.jmx.port}</jmxPort>
                 </configuration>
                 <executions>
                     <execution>
