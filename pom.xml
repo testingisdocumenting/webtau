@@ -15,7 +15,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.twosigma.webtau</groupId>
@@ -434,6 +435,12 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M3</version>
+                </plugin>
+
+                <plugin>
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
                     <version>1.5</version>
@@ -550,7 +557,7 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <configuration>
                     <rules>
-                        <dependencyConvergence />
+                        <dependencyConvergence/>
                         <banDuplicateClasses>
                             <findAllDuplicates>true</findAllDuplicates>
                             <ignoreWhenIdentical>true</ignoreWhenIdentical>
@@ -613,7 +620,8 @@
                                     <goal>groovydoc</goal>
                                 </goals>
                                 <configuration>
-                                    <groovydocOutputDirectory>${project.build.directory}/apidocs</groovydocOutputDirectory>
+                                    <groovydocOutputDirectory>${project.build.directory}/apidocs
+                                    </groovydocOutputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
