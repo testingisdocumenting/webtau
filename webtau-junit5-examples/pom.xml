@@ -29,7 +29,7 @@
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau</artifactId>
+            <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -40,4 +40,86 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <rules>
+                        <dependencyConvergence />
+                        <banDuplicateClasses>
+                            <findAllDuplicates>true</findAllDuplicates>
+                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
+                            <ignoreClasses>
+                                <!--tomcat embedded ships javax annotations internally-->
+                                <ignoreClass>javax.persistence.*</ignoreClass>
+                                <ignoreClass>javax.servlet.*</ignoreClass>
+                                <ignoreClass>org.apache.commons.*</ignoreClass>
+                            </ignoreClasses>
+                        </banDuplicateClasses>
+                    </rules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>reserve-springboot-port</id>
+                        <goals>
+                            <goal>reserve-network-port</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                        <configuration>
+                            <portNames>
+                                <portName>springboot.http.port</portName>
+                            </portNames>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-app</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>
+                                <argument>--server.port=${springboot.http.port}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-app</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <springboot.http.port>${springboot.http.port}</springboot.http.port>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

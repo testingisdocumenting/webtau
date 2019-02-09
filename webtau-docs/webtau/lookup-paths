@@ -16,4 +16,6 @@
 ../../webtau-http/src/test/java
 ../../webtau-junit4-examples/src/test/groovy
 ../../webtau-junit4-examples/src/test/java
+../../webtau-junit5-examples/src/test/groovy
+../../webtau-junit5-examples/src/test/java
 ../target/classes

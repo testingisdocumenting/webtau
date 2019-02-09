@@ -1,54 +1,33 @@
-/*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.example.tests.rest;
+package com.example.tests.junit5;
 
 import com.twosigma.webtau.junit5.WebTau;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.twosigma.webtau.WebTauDsl.equal;
-import static com.twosigma.webtau.WebTauDsl.http;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static com.twosigma.webtau.WebTauDsl.*;
 
 @WebTau
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order
 @DisplayName("customer")
-public class CustomerCrudSeparatedIT {
-    private static final Map<String, Object> customerPayload = createCustomerPayload(); // creating payload as a map
+public class CustomerCrudSeparatedJavaTest {
+    private static final Map<String, Object> customerPayload = createCustomerPayload();
     private static final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
 
-    private int id;
+    private static int id;
 
-    @BeforeEach // junit5 doesn't have yet order of tests feature, so we create a customer for every test
-    void resourcePreparation() {
+    @BeforeAll
+    static void createCustomer() {
         id = http.post("/customers", customerPayload, ((header, body) -> {
-            return body.get("id").getTraceableValue();
+            return body.get("id");
         }));
+
+        actual(id).shouldNot(equal(0));
     }
 
     @Test
-    void create() {
-        assertNotEquals(0, id);
-    }
-
-    @Test
+    @Order(1)
     void read() {
         http.get("/customers/" + id, ((header, body) -> {
             body.should(equal(customerPayload));
@@ -56,6 +35,7 @@ public class CustomerCrudSeparatedIT {
     }
 
     @Test
+    @Order(2) // order dependence saves from creating customer on every test
     void update() {
         http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> {
             body.should(equal(changedCustomerPayload));
@@ -67,6 +47,7 @@ public class CustomerCrudSeparatedIT {
     }
 
     @Test
+    @Order(3) // but you can still run each method independently
     void delete() {
         http.delete("/customers/" + id, ((header, body) -> {
             header.statusCode().should(equal(204));
