@@ -106,6 +106,7 @@
                         <configuration>
                             <portNames>
                                 <portName>springboot.http.port</portName>
+                                <portName>springboot.jmx.port</portName>
                             </portNames>
                         </configuration>
                     </execution>
@@ -117,6 +118,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                    <fork>true</fork>
+                    <jmxPort>${springboot.jmx.port}</jmxPort>
                 </configuration>
                 <executions>
                     <execution>
@@ -136,6 +139,19 @@
                         <phase>package</phase>
                         <goals>
                             <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addTestSources</goal>
+                            <goal>testCompile</goal>
                         </goals>
                     </execution>
                 </executions>

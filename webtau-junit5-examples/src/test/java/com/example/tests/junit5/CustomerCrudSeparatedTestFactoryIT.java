@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.tests.rest;
+package com.example.tests.junit5;
 
 import com.twosigma.webtau.junit5.WebTau;
 import org.junit.jupiter.api.DynamicTest;

@@ -1,25 +1,19 @@
 package com.example.tests.junit4;
 
 import com.twosigma.webtau.junit4.WebTauRunner;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Map;
 
 import static com.twosigma.webtau.Ddjt.aMapOf;
-import static com.twosigma.webtau.WebTauDsl.*;
+import static com.twosigma.webtau.WebTauDsl.equal;
+import static com.twosigma.webtau.WebTauDsl.http;
 
 @RunWith(WebTauRunner.class)
 public class CustomerCrudSingleJavaTest {
     private Map<String, Object> customerPayload = createCustomerPayload();
     private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
-
-    @BeforeClass
-    public static void setUpClass() {
-        String port = System.getProperty("springboot.http.port", "8080");
-        getCfg().setBaseUrl("http://localhost:" + port);
-    }
 
     @Test
     public void crud() {

@@ -22,34 +22,69 @@ import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestExecutionExceptionHandler;
+import org.junit.jupiter.api.extension.*;
 
 public class WebTauJunitExtension implements
+        BeforeAllCallback,
+        AfterAllCallback,
         BeforeEachCallback,
         AfterEachCallback,
         TestExecutionExceptionHandler {
 
     private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create("webtau");
     private static final String TEST_KEY = "test";
+    private static final String BEFORE_ALL_ID = "beforeAll";
+
+    @Override
+    public void beforeAll(ExtensionContext extensionContext) throws Exception {
+        JavaBasedTest test = new JavaBasedTest(
+                BEFORE_ALL_ID,
+                "init");
+
+        startTest(extensionContext, test);
+    }
+
+    @Override
+    public void afterAll(ExtensionContext extensionContext) throws Exception {
+    }
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) throws Exception {
+        stopBeforeAllIfRequired(extensionContext);
+
         JavaBasedTest test = new JavaBasedTest(
                 extensionContext.getUniqueId(),
                 fullTestName(extensionContext));
 
-        StepReporters.add(test);
-        test.getReportTestEntry().startClock();
-
-        extensionContext.getStore(NAMESPACE).put(TEST_KEY, test);
+        startTest(extensionContext, test);
     }
 
     @Override
     public void afterEach(ExtensionContext extensionContext) throws Exception {
         JavaBasedTest test = retrieveTest(extensionContext);
+        stopTest(extensionContext, test);
+    }
+
+    @Override
+    public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
+        JavaBasedTest test = retrieveTest(context);
+
+        ReportTestEntry reportTestEntry = test.getReportTestEntry();
+        reportTestEntry.setException(throwable);
+        reportTestEntry.stopClock();
+
+        throw throwable;
+    }
+
+    private void startTest(ExtensionContext extensionContext, JavaBasedTest test) {
+        StepReporters.add(test);
+        test.getReportTestEntry().startClock();
+
+        storeTestInContext(extensionContext, test);
+    }
+
+    private void stopTest(ExtensionContext extensionContext, JavaBasedTest test) {
+        removeTestFromContext(extensionContext);
 
         StepReporters.remove(test);
 
@@ -67,15 +102,31 @@ public class WebTauJunitExtension implements
         JavaReportShutdownHook.INSTANCE.noOp();
     }
 
-    @Override
-    public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-        JavaBasedTest test = retrieveTest(context);
+    private void stopBeforeAllIfRequired(ExtensionContext extensionContext) {
+        if (! extensionContext.getParent().isPresent()) {
+            return;
+        }
 
-        ReportTestEntry reportTestEntry = test.getReportTestEntry();
-        reportTestEntry.setException(throwable);
-        reportTestEntry.stopClock();
+        ExtensionContext parentContext = extensionContext.getParent().get();
+        JavaBasedTest test = retrieveTest(parentContext);
+        if (test == null) {
+            return;
+        }
 
-        throw throwable;
+        if (test.getReportTestEntry().getSteps().isEmpty()) {
+            StepReporters.remove(test);
+            return;
+        }
+
+        stopTest(parentContext, test);
+    }
+
+    private void storeTestInContext(ExtensionContext extensionContext, JavaBasedTest test) {
+        extensionContext.getStore(NAMESPACE).put(TEST_KEY, test);
+    }
+
+    private void removeTestFromContext(ExtensionContext extensionContext) {
+        extensionContext.getStore(NAMESPACE).remove(TEST_KEY, JavaBasedTest.class);
     }
 
     private JavaBasedTest retrieveTest(ExtensionContext extensionContext) {
