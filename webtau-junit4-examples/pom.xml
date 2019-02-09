@@ -158,6 +158,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <fork>true</fork>
                     <systemPropertyVariables>
                         <springboot.http.port>${springboot.http.port}</springboot.http.port>
                     </systemPropertyVariables>
