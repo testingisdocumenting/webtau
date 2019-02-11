@@ -221,14 +221,14 @@ class HandlerMessagesTest {
     @Test
     void "equal stream and iterable"() {
         code {
-            actual(Arrays.asList(1).stream()).should(equal(Arrays.asList(2)))
+            actual(Stream.of(1)).should(equal(Arrays.asList(2)))
         } should throwException(AssertionError, ~/expected: 2/)
     }
 
     @Test
     void "not equal stream and iterable"() {
         code {
-            actual(Arrays.asList(1).stream()).shouldNot(equal(Arrays.asList(1)))
+            actual(Stream.of(1)).shouldNot(equal(Arrays.asList(1)))
         } should throwException(AssertionError, ~/expected: not 1/)
     }
 
