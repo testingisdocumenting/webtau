@@ -18,12 +18,33 @@ import React from 'react'
 
 import './TestErrorMessage.css'
 
-function TestErrorMessage({message}) {
-    return (
-        <div className="error-message">
-            <pre>{message}</pre>
-        </div>
-    )
+const linesIncrement = 20
+
+class TestErrorMessage extends React.Component {
+    state = {
+        numberOfVisibleLines: linesIncrement
+    }
+
+    render() {
+        const {message} = this.props
+        const {numberOfVisibleLines} = this.state
+
+        const allLines = message.split('\n')
+        const visibleLines = allLines.slice(0, numberOfVisibleLines)
+
+        const hasMoreLines = numberOfVisibleLines < allLines.length
+        return (
+            <div className="error-message">
+                <pre>{visibleLines.join('\n')}</pre>
+
+                {hasMoreLines && <div className="show-more" onClick={this.showMore}>more ...</div>}
+            </div>
+        )
+    }
+
+    showMore = () => {
+        this.setState(prev => ({numberOfVisibleLines: prev.numberOfVisibleLines + linesIncrement}))
+    }
 }
 
 export default TestErrorMessage
