@@ -19,3 +19,9 @@
     padding: 0;
     white-space: pre-wrap;
 }
+
+.error-message > .show-more {
+    color: cornflowerblue;
+    padding: 8px;
+    cursor: pointer;
+}

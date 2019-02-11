@@ -18,16 +18,17 @@ import React from 'react'
 import TestErrorMessage from './TestErrorMessage'
 
 export function testErrorMessageDemo(registry) {
-    registry.add('short', () => <TestErrorMessage message={shortMessage()}/>)
-    registry.add('long', () => <TestErrorMessage message={longMessage()}/>)
+    registry.add('short line', () => <TestErrorMessage message={shortLineMessage()}/>)
+    registry.add('long line', () => <TestErrorMessage message={longLineMessage(8)}/>)
+    registry.add('many lines', () => <TestErrorMessage message={longLineMessage(100)}/>)
 }
 
-function shortMessage() {
+function shortLineMessage() {
     return 'exception at\nhello world'
 }
 
-function longMessage() {
+function longLineMessage(numberOfLines) {
     const part = 'exception at hello world long line long line and a bit longer yet'
     const longLine = Array(8).fill().map(_ => part).join(' ')
-    return Array(8).fill().map(_ => longLine).join('\n')
+    return Array(numberOfLines).fill().map(_ => longLine).join('\n')
 }

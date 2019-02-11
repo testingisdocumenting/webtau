@@ -24,8 +24,9 @@ import 'prismjs/plugins/line-highlight/prism-line-highlight'
 import 'prismjs/themes/prism.css'
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
 
-import './SourceCode.css'
 import Card from '../widgets/Card'
+
+import './SourceCode.css'
 
 class SourceCode extends React.Component {
     render() {
