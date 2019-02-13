@@ -29,6 +29,8 @@
 
 .step-token.matcher {
     color: #62a84b;
+    font-family: var(--webtau-monospace-font);
+    white-space: pre;
 }
 
 .step-token.error {
