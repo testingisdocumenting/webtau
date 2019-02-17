@@ -22,7 +22,7 @@ import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.contain
+import static com.twosigma.webtau.Ddjt.*
 
 class OpenApiSpecValidatorTest {
     private final static String GET = "GET"
@@ -43,7 +43,9 @@ class OpenApiSpecValidatorTest {
         def testResponse = '{"intField": "abc"}'
         def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(result, ValidationMode.ALL)
+        code {
+            validator.validateApiSpec(result, ValidationMode.ALL)
+        } should throwException(~/Object has missing required properties/)
 
         result.mismatches.size().should == 2
         result.mismatches.should contain(~/does not match any allowed primitive type/)
