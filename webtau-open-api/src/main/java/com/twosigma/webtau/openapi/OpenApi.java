@@ -23,15 +23,15 @@ public class OpenApi {
     public static final OpenApiCoverage coverage = new OpenApiCoverage(spec);
 
     public static void withoutValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.NONE, code);
+        OpenApiRequestResponseValidator.withMode(ValidationMode.NONE, code);
     }
 
     public static void responseOnlyValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.RESPONSE_ONLY, code);
+        OpenApiRequestResponseValidator.withMode(ValidationMode.RESPONSE_ONLY, code);
     }
 
     public static void requestOnlyValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.REQUEST_ONLY, code);
+        OpenApiRequestResponseValidator.withMode(ValidationMode.REQUEST_ONLY, code);
     }
 
     private static OpenApiValidationConfig validationConfig() {

@@ -15,4 +15,4 @@
 #
 
 com.twosigma.webtau.openapi.OpenApiCoverageRecorder
-com.twosigma.webtau.openapi.OpenApiResponseValidator
+com.twosigma.webtau.openapi.OpenApiRequestResponseValidator
