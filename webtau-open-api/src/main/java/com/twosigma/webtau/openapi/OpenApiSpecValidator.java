@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import static com.twosigma.webtau.utils.UrlUtils.extractPath;
 import static com.twosigma.webtau.utils.UrlUtils.extractQueryParams;
+import static java.util.stream.Collectors.joining;
 
 public class OpenApiSpecValidator {
     private final SwaggerRequestResponseValidator openApiValidator;
@@ -44,11 +45,11 @@ public class OpenApiSpecValidator {
                 null;
     }
 
-    public void validateApiSpec(HttpValidationResult result, ValidationMode validationMode) {
-        if (! openAPISpec.isSpecDefined()) {
-            return;
-        }
+    public boolean isSpecDefined() {
+        return openAPISpec.isSpecDefined();
+    }
 
+    public void validateApiSpec(HttpValidationResult result, ValidationMode validationMode) {
         Optional<OpenApiOperation> apiOperation = openAPISpec.findApiOperation(result.getRequestMethod(), result.getFullUrl());
         if (! apiOperation.isPresent()) {
             ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " not found in OpenAPI spec");
@@ -60,6 +61,13 @@ public class OpenApiSpecValidator {
 
         ValidationReport validationReport = validate(validationMode, request, response);
         validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
+
+        if (!validationReport.getMessages().isEmpty()) {
+            throw new AssertionError("schema is not valid:\n" + validationReport
+                    .getMessages().stream()
+                    .map(Object::toString)
+                    .collect(joining("\n")));
+        }
     }
 
     private ValidationReport validate(ValidationMode validationMode, SimpleRequest request, SimpleResponse response) {
@@ -78,9 +86,9 @@ public class OpenApiSpecValidator {
 
     private SimpleResponse buildResponse(HttpValidationResult result) {
         return SimpleResponse.Builder
-                    .status(result.getResponseStatusCode())
-                    .withBody(result.getResponseTextContent())
-                    .build();
+                .status(result.getResponseStatusCode())
+                .withBody(result.getResponseTextContent())
+                .build();
     }
 
     private SimpleRequest buildRequest(HttpValidationResult result) {

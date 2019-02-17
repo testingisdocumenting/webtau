@@ -18,6 +18,11 @@ package com.twosigma.webtau.openapi;
 
 import com.twosigma.webtau.http.validation.HttpValidationHandler;
 import com.twosigma.webtau.http.validation.HttpValidationResult;
+import com.twosigma.webtau.reporter.TestStep;
+
+import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
+import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.classifier;
+import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class OpenApiResponseValidator implements HttpValidationHandler {
     private static final ValidationMode DEFAULT_MODE = ValidationMode.ALL;
@@ -34,10 +39,33 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
 
     @Override
     public void validate(HttpValidationResult validationResult) {
-        if (validationMode.get().equals(ValidationMode.NONE)) {
+        ValidationMode mode = OpenApiResponseValidator.validationMode.get();
+        if (mode.equals(ValidationMode.NONE)) {
             return;
         }
 
-        OpenApi.validator.validateApiSpec(validationResult, validationMode.get());
+        if (!OpenApi.validator.isSpecDefined()) {
+            return;
+        }
+
+        String modeLabel = validationModeLabel(mode);
+        TestStep.createAndExecuteStep(null,
+                tokenizedMessage(action("validating"), classifier(modeLabel)),
+                () -> tokenizedMessage(action("validated"), classifier(modeLabel)),
+                () -> OpenApi.validator.validateApiSpec(validationResult, mode));
+    }
+
+    private static String validationModeLabel(ValidationMode mode) {
+        switch (mode) {
+            case ALL:
+                return "request and response";
+            case REQUEST_ONLY:
+                return "request";
+            case RESPONSE_ONLY:
+                return "response";
+            case NONE:
+            default:
+                return "NA";
+        }
     }
 }
