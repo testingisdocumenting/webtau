@@ -110,6 +110,22 @@ public class StringUtils {
         }
     }
 
+    public static String ensureStartsWith(String str, String start) {
+        if (str.startsWith(start)) {
+            return str;
+        }
+
+        return start + str;
+    }
+
+    public static String stripTrailing(String str, char trailingChar) {
+        if (str.endsWith("" + trailingChar)) {
+            return str.substring(0, str.length() - 1);
+        }
+
+        return str;
+    }
+
     private static String joinWithIndentAllButFirstLine(String indentation, String[] lines) {
         return Arrays.stream(lines).skip(1).map(l -> indentation + l).collect(joining("\n"));
     }
