@@ -61,6 +61,10 @@ public class ConfigValue {
         values.addFirst(new Value(source, value));
     }
 
+    public void reset() {
+        values.clear();
+    }
+
     public void accept(String source, Map configValues) {
         if (configValues.containsKey(key)) {
             set(source, configValues.get(key));

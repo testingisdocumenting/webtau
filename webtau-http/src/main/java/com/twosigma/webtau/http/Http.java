@@ -543,6 +543,7 @@ public class Http {
 
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
+            connection.setInstanceFollowRedirects(getCfg().shouldFollowRedirects());
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());

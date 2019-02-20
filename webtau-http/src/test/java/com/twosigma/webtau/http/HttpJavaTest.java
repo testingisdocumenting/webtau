@@ -19,7 +19,6 @@ package com.twosigma.webtau.http;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
-import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
 
@@ -193,6 +192,14 @@ public class HttpJavaTest implements HttpConfiguration  {
 
             header.get("content-encoding").should(equal("gzip"));
             header.get("ContentEncoding").should(equal("gzip"));
+        });
+    }
+
+    @Test
+    public void redirects() {
+        http.get("/redirect", (header, body) -> {
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
         });
     }
 
