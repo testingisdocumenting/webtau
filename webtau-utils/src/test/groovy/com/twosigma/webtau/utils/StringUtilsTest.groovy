@@ -80,13 +80,13 @@ line #_3\r""")
 
     @Test
     void "should start with"() {
-        Assert.assertEquals("/foo", StringUtils.ensureStartsWith("/foo", "/"))
-        Assert.assertEquals("/foo", StringUtils.ensureStartsWith("foo", "/"))
+        assert StringUtils.ensureStartsWith("/foo", "/") == "/foo"
+        assert StringUtils.ensureStartsWith("foo", "/") == "/foo"
     }
 
     @Test
     void "strip trailing"() {
-        Assert.assertEquals("foo", StringUtils.stripTrailing("foo/", '/' as char))
-        Assert.assertEquals("foo", StringUtils.stripTrailing("foo", '/' as char))
+        assert StringUtils.stripTrailing("foo/", '/' as char) == "foo"
+        assert StringUtils.stripTrailing("foo", '/' as char) == "foo"
     }
 }
