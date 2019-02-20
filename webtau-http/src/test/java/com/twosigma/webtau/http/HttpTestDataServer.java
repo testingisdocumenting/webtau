@@ -20,6 +20,7 @@ import com.twosigma.webtau.http.testserver.*;
 import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
 
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
@@ -65,6 +66,8 @@ public class HttpTestDataServer {
         testServer.registerPost("/file-upload", new TestServerFakeFileUpload());
         testServer.registerDelete("/resource", new TestServerTextResponse("abc"));
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
+
+        testServer.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/end-point"));
     }
 
     public void start() {

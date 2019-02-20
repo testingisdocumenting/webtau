@@ -71,6 +71,7 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
             args.add(testPath.toString())
 
             WebTauConfig.resetConfigHandlers()
+            getCfg().reset()
 
             def cliApp = new WebTauCliApp(args as String[])
 

@@ -18,6 +18,7 @@ package com.twosigma.webtau.featuretesting
 
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.http.testserver.TestServerJsonResponse
+import com.twosigma.webtau.http.testserver.TestServerRedirectResponse
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.utils.JsonUtils
 import org.junit.AfterClass
@@ -33,6 +34,7 @@ class WebTauRestFeaturesTest {
     static void registerEndPoints(TestServer testServer) {
         def temperature = [temperature: 88]
         testServer.registerGet("/weather", json(temperature))
+        testServer.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/weather"))
         testServer.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
         testServer.registerPost("/employee", json([id: 'id-generated-2'], 201))
         testServer.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
@@ -66,6 +68,16 @@ class WebTauRestFeaturesTest {
     @Test
     void "schema validation"() {
         runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
+    void "redirect"() {
+        runCli('redirect/redirectOn.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
+    void "redirect disabled"() {
+        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}", "--disableRedirects")
     }
 
     @Test

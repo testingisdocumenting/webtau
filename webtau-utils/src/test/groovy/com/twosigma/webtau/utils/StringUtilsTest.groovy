@@ -77,4 +77,16 @@ line #_3\r""")
         def number = StringUtils.convertToNumber("123,000")
         assert number == 123000
     }
+
+    @Test
+    void "should start with"() {
+        Assert.assertEquals("/foo", StringUtils.ensureStartsWith("/foo", "/"))
+        Assert.assertEquals("/foo", StringUtils.ensureStartsWith("foo", "/"))
+    }
+
+    @Test
+    void "strip trailing"() {
+        Assert.assertEquals("foo", StringUtils.stripTrailing("foo/", '/' as char))
+        Assert.assertEquals("foo", StringUtils.stripTrailing("foo", '/' as char))
+    }
 }
