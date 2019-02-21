@@ -64,7 +64,7 @@ public class HttpHeader {
 
     public String caseInsensitiveGet(String key) {
         return header.entrySet().stream()
-                .filter(entry -> entry.getKey().equalsIgnoreCase(key))
+                .filter(entry -> key.equalsIgnoreCase(entry.getKey()))
                 .findFirst()
                 .map(Map.Entry::getValue)
                 .orElse(null);
