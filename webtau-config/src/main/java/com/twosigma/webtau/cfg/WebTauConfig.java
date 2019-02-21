@@ -45,6 +45,7 @@ public class WebTauConfig {
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls");
+    private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
     private final ConfigValue cachePath = declare("cachePath", "user driven cache file path",
             () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
@@ -173,6 +174,10 @@ public class WebTauConfig {
 
     public boolean shouldFollowRedirects() {
         return !disableFollowingRedirects.getAsBoolean();
+    }
+
+    public int maxRedirects() {
+        return maxRedirects.getAsInt();
     }
 
     public Path getDocArtifactsPath() {
@@ -312,6 +317,7 @@ public class WebTauConfig {
                 workingDir,
                 waitTimeout,
                 disableFollowingRedirects,
+                maxRedirects,
                 docPath,
                 reportPath,
                 noColor,

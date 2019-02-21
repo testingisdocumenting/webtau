@@ -62,6 +62,14 @@ public class HttpHeader {
         return header.get(key);
     }
 
+    public String caseInsensitiveGet(String key) {
+        return header.entrySet().stream()
+                .filter(entry -> entry.getKey().equalsIgnoreCase(key))
+                .findFirst()
+                .map(Map.Entry::getValue)
+                .orElse(null);
+    }
+
     public void add(String key, String value) {
         header.put(key, value);
     }

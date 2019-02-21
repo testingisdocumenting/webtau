@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
@@ -27,9 +28,12 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.twosigma.webtau.Ddjt.*;
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.http.Http.http;
 
 public class HttpJavaTest implements HttpConfiguration  {
@@ -200,6 +204,37 @@ public class HttpJavaTest implements HttpConfiguration  {
         http.get("/redirect", (header, body) -> {
             body.get("id").shouldNot(equal(0));
             body.get("amount").should(equal(30));
+        });
+    }
+
+    @Test
+    public void redirectLoop() {
+        ConfigValue maxRedirects = getCfg().findConfigValue("maxRedirects");
+        maxRedirects.set("test", 3);
+        try {
+            http.get("/recursive", (header, body) -> {
+                header.statusCode().should(equal(302));
+            });
+        } finally {
+            maxRedirects.reset();
+        }
+    }
+
+    @Test
+    public void redirectPost() {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("hello", "world");
+        http.post("/redirect", requestBody, (header, body) -> {
+            body.should(equal(requestBody));
+        });
+    }
+
+    @Test
+    public void redirectPut() {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("hello", "world");
+        http.put("/redirect", requestBody, (header, body) -> {
+            body.should(equal(requestBody));
         });
     }
 
