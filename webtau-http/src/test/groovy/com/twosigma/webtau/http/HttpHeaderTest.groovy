@@ -35,13 +35,13 @@ class HttpHeaderTest {
                 'Cookie': 'sweet',
                 'Set-Cookie': 'will be sweet'])
 
-        header.redactSecrets().toMap().should == [  'key'         | 'value'           ] {
-                                                 ______________________________________
-                                                   'Content-Type' | 'application/json'
-                                                  'Authorization' | '................'
-                                                         'Custom' | 'Value'
-                                                         'Cookie' | '................'
-                                                     'Set-Cookie' | '................' }
+        header.redactSecrets().toListOfMaps().should == ['key'         | 'value'           ] {
+                                                      ______________________________________
+                                                        'Content-Type' | 'application/json'
+                                                       'Authorization' | '................'
+                                                              'Custom' | 'Value'
+                                                              'Cookie' | '................'
+                                                          'Set-Cookie' | '................' }
     }
 
     @Test

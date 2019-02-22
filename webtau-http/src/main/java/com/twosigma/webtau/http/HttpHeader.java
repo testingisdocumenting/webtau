@@ -83,7 +83,7 @@ public class HttpHeader {
         return new HttpHeader(redacted);
     }
 
-    public List<Map<String, String>> toMap() {
+    public List<Map<String, String>> toListOfMaps() {
         return mapProperties((k, v) -> {
             Map<String, String> entry = new LinkedHashMap<>();
             entry.put("key", k);
