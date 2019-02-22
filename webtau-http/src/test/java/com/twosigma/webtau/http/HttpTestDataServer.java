@@ -67,22 +67,28 @@ public class HttpTestDataServer {
         testServer.registerDelete("/resource", new TestServerTextResponse("abc"));
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
 
-        testServer.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/redirect2"));
-        testServer.registerGet("/redirect2", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_PERM, testServer, "/redirect3"));
-        testServer.registerGet("/redirect3", new TestServerRedirectResponse(307, testServer, "/redirect4"));
+        registerRedirects();
+    }
+
+    private void registerRedirects() {
+        registerRedirectOnAllMethods(HttpURLConnection.HTTP_MOVED_TEMP, "/redirect", "/redirect2");
+        registerRedirectOnAllMethods(HttpURLConnection.HTTP_MOVED_PERM, "/redirect2", "/redirect3");
+        registerRedirectOnAllMethods(307, "/redirect3", "/redirect4");
+
         testServer.registerGet("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/end-point"));
+        testServer.registerPost("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
+        testServer.registerPut("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
+        testServer.registerDelete("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/end-point"));
 
         testServer.registerGet("/recursive", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/recursive"));
+    }
 
-        testServer.registerPost("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/redirect2"));
-        testServer.registerPost("/redirect2", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_PERM, testServer, "/redirect3"));
-        testServer.registerPost("/redirect3", new TestServerRedirectResponse(307, testServer, "/redirect4"));
-        testServer.registerPost("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
-
-        testServer.registerPut("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/redirect2"));
-        testServer.registerPut("/redirect2", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_PERM, testServer, "/redirect3"));
-        testServer.registerPut("/redirect3", new TestServerRedirectResponse(307, testServer, "/redirect4"));
-        testServer.registerPut("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
+    private void registerRedirectOnAllMethods(int statusCode, String fromPath, String toPath) {
+        TestServerRedirectResponse response = new TestServerRedirectResponse(statusCode, testServer, toPath);
+        testServer.registerGet(fromPath, response);
+        testServer.registerPost(fromPath, response);
+        testServer.registerPut(fromPath, response);
+        testServer.registerDelete(fromPath, response);
     }
 
     public void start() {
