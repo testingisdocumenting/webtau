@@ -194,7 +194,7 @@ public class HttpValidationResult implements TestStepPayload {
         result.put("errorMessage", errorMessage);
         result.put("mismatches", mismatches);
 
-        result.put("requestHeader", requestHeader.redactSecrets().toMap());
+        result.put("requestHeader", requestHeader.redactSecrets().toListOfMaps());
 
         if (requestBody != null) {
             result.put("requestType", requestBody.type());
@@ -204,7 +204,7 @@ public class HttpValidationResult implements TestStepPayload {
         if (response != null) {
             result.put("responseType", response.getContentType());
             result.put("responseStatusCode", response.getStatusCode());
-            result.put("responseHeader", response.getHeader().redactSecrets().toMap());
+            result.put("responseHeader", response.getHeader().redactSecrets().toListOfMaps());
             result.put("responseBody", response.isBinary() ? BINARY_CONTENT_PLACEHOLDER : response.getTextContent());
         }
 
