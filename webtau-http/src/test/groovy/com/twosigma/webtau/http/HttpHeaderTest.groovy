@@ -43,4 +43,15 @@ class HttpHeaderTest {
                                                          'Cookie' | '................'
                                                      'Set-Cookie' | '................' }
     }
+
+    @Test
+    void "case insensitive get ignores case"() {
+        def header = new HttpHeader([
+            'Location': 'http://foo'
+        ])
+        header.caseInsensitiveGet('Location').should == 'http://foo'
+        header.caseInsensitiveGet('location').should == 'http://foo'
+        header.caseInsensitiveGet('lOcAtIoN').should == 'http://foo'
+        header.caseInsensitiveGet('LOCATION').should == 'http://foo'
+    }
 }
