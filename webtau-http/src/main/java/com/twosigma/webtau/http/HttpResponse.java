@@ -100,4 +100,12 @@ public class HttpResponse {
     public void addHeader(String key, String value) {
         header.add(key, value);
     }
+
+    public boolean isRedirect() {
+        return statusCode >=300 && statusCode < 400 && locationHeader() != null;
+    }
+
+    public String locationHeader() {
+        return header.caseInsensitiveGet("Location");
+    }
 }

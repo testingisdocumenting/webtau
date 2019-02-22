@@ -2,7 +2,7 @@
   "scenarioDetails" : [ {
     "scenario" : "redirect to weather",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

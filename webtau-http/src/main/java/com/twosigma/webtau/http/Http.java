@@ -372,6 +372,8 @@ public class Http {
             try {
                 long startTime = Time.currentTimeMillis();
                 HttpResponse response = httpCall.execute(fullUrl, fullRequestHeader);
+                response = followRedirects(requestMethod, httpCall, fullRequestHeader, response);
+
                 long endTime = Time.currentTimeMillis();
 
                 validationResult.setStartTime(startTime);
@@ -395,6 +397,24 @@ public class Http {
 
         return TestStep.createStep(null, tokenizedMessage(action("executing HTTP " + requestMethod), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("executed HTTP " + requestMethod), urlValue(fullUrl)),
+                httpCallSupplier);
+    }
+
+    private HttpResponse followRedirects(String requestMethod, HttpCall httpCall, HttpHeader fullRequestHeader, HttpResponse response) {
+        int retryCount = 0;
+        while (response.isRedirect() && getCfg().shouldFollowRedirects() && retryCount++ < getCfg().maxRedirects()) {
+            TestStep<Void, HttpResponse> httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
+            response = httpStep.execute(StepReportOptions.REPORT_ALL);
+        }
+        return response;
+    }
+
+    private TestStep<Void, HttpResponse> createRedirectStep(String requestMethod, String fullUrl, HttpCall httpCall,
+                                                            HttpHeader fullRequestHeader) {
+        Supplier<HttpResponse> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
+
+        return TestStep.createStep(null, tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
+                () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 httpCallSupplier);
     }
 
@@ -543,7 +563,7 @@ public class Http {
 
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
-            connection.setInstanceFollowRedirects(getCfg().shouldFollowRedirects());
+            connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
