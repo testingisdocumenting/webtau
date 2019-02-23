@@ -41,8 +41,7 @@ public class GreaterThanOrEqualMatcher implements ValueMatcher {
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return "less then " + DataRenderers.render(expected) + "\n" +
-                compareToComparator.generateGreaterThanOrEqualMismatchReport();
+        return compareToComparator.generateGreaterThanOrEqualMismatchReport();
     }
 
     @Override
@@ -64,9 +63,7 @@ public class GreaterThanOrEqualMatcher implements ValueMatcher {
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " is greater than or equal to " + DataRenderers.render(expected) +
-                ", but should be less\n" +
-                compareToComparator.generateLessThanMismatchReport();
+        return compareToComparator.generateLessThanMismatchReport();
     }
 
     @Override

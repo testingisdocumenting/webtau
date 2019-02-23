@@ -41,8 +41,7 @@ public class EqualMatcher implements ValueMatcher {
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
-                comparator.generateEqualMismatchReport();
+        return comparator.generateEqualMismatchReport();
     }
 
     @Override
@@ -64,8 +63,7 @@ public class EqualMatcher implements ValueMatcher {
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return "equals " + DataRenderers.render(expected) + ", but shouldn't\n" +
-                comparator.generateNotEqualMismatchReport();
+        return comparator.generateNotEqualMismatchReport();
     }
 
     @Override

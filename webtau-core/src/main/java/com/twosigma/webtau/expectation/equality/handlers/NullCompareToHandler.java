@@ -18,6 +18,7 @@ package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
 import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.expected;
@@ -26,7 +27,12 @@ import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 public class NullCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual == null || expected == null;
+        return eitherIsNull(actual, expected);
+    }
+
+    @Override
+    public boolean handleGreaterLessEqual(Object actual, Object expected) {
+        return eitherIsNull(actual, expected);
     }
 
     @Override
@@ -46,5 +52,44 @@ public class NullCompareToHandler implements CompareToHandler {
             comparator.reportNotEqual(this, actualPath,
                     "  actual: " + renderValueAndType(actual) + "\n" + expected(comparator.getAssertionMode(), null));
         }
+    }
+
+    @Override
+    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        if (actual == null && expected == null && checksEquality(comparator)) {
+            comparator.reportEqual(this, actualPath,
+                    "  actual: null\n" + expected(comparator.getAssertionMode(), null));
+        } else if (actual == null) {
+            String message = "  actual: null\n" + expected(comparator.getAssertionMode(), renderValueAndType(expected));
+            generateOppositeReport(comparator, actualPath, message);
+        } else {
+            String message = "  actual: " + renderValueAndType(actual) + "\n" + expected(comparator.getAssertionMode(),
+                    null);
+            generateOppositeReport(comparator, actualPath, message);
+        }
+    }
+
+    private void generateOppositeReport(CompareToComparator comparator, ActualPath actualPath, String message) {
+        switch (comparator.getAssertionMode()) {
+            case GREATER_THAN:
+            case GREATER_THAN_OR_EQUAL:
+                comparator.reportLess(this, actualPath, message);
+                break;
+            case LESS_THAN:
+            case LESS_THAN_OR_EQUAL:
+                comparator.reportGreater(this, actualPath, message);
+                break;
+        }
+    }
+
+    private boolean checksEquality(CompareToComparator comparator) {
+        return comparator.getAssertionMode() == AssertionMode.EQUAL ||
+                comparator.getAssertionMode() == AssertionMode.NOT_EQUAL ||
+                comparator.getAssertionMode() == AssertionMode.LESS_THAN_OR_EQUAL ||
+                comparator.getAssertionMode() == AssertionMode.GREATER_THAN_OR_EQUAL;
+    }
+
+    private boolean eitherIsNull(Object actual, Object expected) {
+        return actual == null || expected == null;
     }
 }

@@ -34,8 +34,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
     void testShouldNotTransformationOnNull() {
         code {
             assertScript('2.shouldNot == 2')
-        } should throwException('\nequals 2, but shouldn\'t\n' +
-            'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
             '\n' +
             '[value]:   actual: 2 <java.lang.Integer>\n' +
             '         expected: not 2 <java.lang.Integer>')
@@ -44,8 +43,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
     void testShouldTransformationOnNull() {
         code {
             assertScript('3.should == null')
-        } should throwException('\ndoesn\'t equal [null]\n' +
-            'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
             '\n' +
             '[value]:   actual: 3 <java.lang.Integer>\n' +
             '         expected: null')
@@ -54,8 +52,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
     void testShouldTransformationOnMap() {
         code {
             assertScript('[a:1, b:2].should == [a: 3]')
-        } should throwException('\ndoesn\'t equal {a=3}\n' +
-            'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
             '\n' +
             '[value].a:   actual: 1 <java.lang.Integer>\n' +
             '           expected: 3 <java.lang.Integer>\n' +
@@ -73,8 +70,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
             }
             
             code() """)
-        } should throwException('\nequals 2, but shouldn\'t\n' +
-            'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
             '\n' +
             '[value]:   actual: 2 <java.lang.Integer>\n' +
             '         expected: not 2 <java.lang.Integer>')
