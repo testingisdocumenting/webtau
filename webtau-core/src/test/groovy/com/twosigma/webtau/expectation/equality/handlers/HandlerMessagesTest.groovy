@@ -232,6 +232,133 @@ class HandlerMessagesTest {
         } should throwException(AssertionError, ~/expected: not 1/)
     }
 
+    // ArrayAndIterableCompareToHandler messages
+    @Test
+    void "equal string array and iterable"() {
+        code {
+            actual(['a'] as String[]).should(equal(['b']))
+        } should throwException(AssertionError, ~/expected: "b"/)
+    }
+
+    @Test
+    void "not equal string array and iterable"() {
+        code {
+            actual(['a'] as String[]).shouldNot(equal(['a']))
+        } should throwException(AssertionError, ~/expected: not "a"/)
+    }
+
+    @Test
+    void "equal boolean array and iterable"() {
+        code {
+            actual([true] as boolean[]).should(equal([false]))
+        } should throwException(AssertionError, ~/expected: false/)
+    }
+
+    @Test
+    void "not equal boolean array and iterable"() {
+        code {
+            actual([true] as boolean[]).shouldNot(equal([true]))
+        } should throwException(AssertionError, ~/expected: not true/)
+    }
+
+    @Test
+    void "equal byte array and iterable"() {
+        code {
+            actual([1] as byte[]).should(equal([2 as byte]))
+        } should throwException(AssertionError, ~/expected: 2/)
+    }
+
+    @Test
+    void "not equal byte array and iterable"() {
+        code {
+            actual([1] as byte[]).shouldNot(equal([1 as byte]))
+        } should throwException(AssertionError, ~/expected: not 1/)
+    }
+
+    @Test
+    void "equal char array and iterable"() {
+        code {
+            actual(['a'] as char[]).should(equal(['b' as char]))
+        } should throwException(AssertionError, ~/expected: "b"/)
+    }
+
+    @Test
+    void "not equal char array and iterable"() {
+        code {
+            actual(['a'] as char[]).shouldNot(equal(['a' as char]))
+        } should throwException(AssertionError, ~/expected: not "a"/)
+    }
+
+    @Test
+    void "equal short array and iterable"() {
+        code {
+            actual([1] as short[]).should(equal([2 as short]))
+        } should throwException(AssertionError, ~/expected: 2/)
+    }
+
+    @Test
+    void "not equal short array and iterable"() {
+        code {
+            actual([1] as short[]).shouldNot(equal([1 as short]))
+        } should throwException(AssertionError, ~/expected: not 1/)
+    }
+
+    @Test
+    void "equal int array and iterable"() {
+        code {
+            actual([1] as int[]).should(equal([2]))
+        } should throwException(AssertionError, ~/expected: 2/)
+    }
+
+    @Test
+    void "not equal int array and iterable"() {
+        code {
+            actual([1] as int[]).shouldNot(equal([1 as int]))
+        } should throwException(AssertionError, ~/expected: not 1/)
+    }
+
+    @Test
+    void "equal long array and iterable"() {
+        code {
+            actual([1] as long[]).should(equal([2 as long]))
+        } should throwException(AssertionError, ~/expected: 2/)
+    }
+
+    @Test
+    void "not equal long array and iterable"() {
+        code {
+            actual([1] as long[]).shouldNot(equal([1 as long]))
+        } should throwException(AssertionError, ~/expected: not 1/)
+    }
+
+    @Test
+    void "equal float array and iterable"() {
+        code {
+            actual([1F] as float[]).should(equal([2F]))
+        } should throwException(AssertionError, ~/expected: 2/)
+    }
+
+    @Test
+    void "not equal float array and iterable"() {
+        code {
+            actual([1F] as float[]).shouldNot(equal([1F]))
+        } should throwException(AssertionError, ~/expected: not 1/)
+    }
+
+    @Test
+    void "equal double array and iterable"() {
+        code {
+            actual([1D] as double[]).should(equal([2D]))
+        } should throwException(AssertionError, ~/expected: 2/)
+    }
+
+    @Test
+    void "not equal double array and iterable"() {
+        code {
+            actual([1D] as double[]).shouldNot(equal([1D]))
+        } should throwException(AssertionError, ~/expected: not 1/)
+    }
+
     // StringCompareTo messages
     @Test
     void "equal strings"() {
