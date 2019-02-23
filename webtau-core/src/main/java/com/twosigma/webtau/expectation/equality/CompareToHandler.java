@@ -33,6 +33,6 @@ public interface CompareToHandler {
     void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected);
 
     default void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        throw new UnsupportedOperationException("doesn't handle greater-less comparison");
+        throw new UnsupportedOperationException("greater-less comparison is not implemented");
     }
 }

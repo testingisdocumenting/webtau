@@ -51,8 +51,7 @@ class DateAndStringCompareToHandlerTest {
     void "actual local date string doesn't equal expected local date instance"() {
         code {
             actual("2018-06-10").should(equal(LocalDate.of(2018, 6, 9)))
-        } should throwException("\ndoesn't equal 2018-06-09\n" +
-            "mismatches:\n" +
+        } should throwException("\nmismatches:\n" +
             "\n" +
             "[value]:   actual: 2018-06-10 <java.time.LocalDate>\n" +
             "         expected: 2018-06-09 <java.time.LocalDate>")
@@ -67,7 +66,7 @@ class DateAndStringCompareToHandlerTest {
     void "actual zoned date time string equals expected local date instance, when should be greater"() {
         code {
             actual("2018-01-01T00:00:00Z").should(beGreaterThan(LocalDate.of(2018, 1, 1)))
-        } should throwException("\nless then or equal to 2018-01-01\nmismatches:\n\n" +
+        } should throwException("\nmismatches:\n\n" +
             "[value]:   actual: 2018-01-01T00:00Z <java.time.ZonedDateTime>\n" +
             "         expected: greater than 2018-01-01 <java.time.LocalDate>")
     }
@@ -89,8 +88,7 @@ class DateAndStringCompareToHandlerTest {
         code {
             actual("2018-01-02T10:00:00+01:00:00").should(beGreaterThan(
                 ZonedDateTime.of(2018, 1, 2, 10, 0, 0, 0, ZoneId.of("UTC"))))
-        } should throwException("\nless then or equal to 2018-01-02T10:00Z[UTC]\n" +
-            "mismatches:\n" +
+        } should throwException("\nmismatches:\n" +
             "\n" +
             "[value]:   actual: 2018-01-02T10:00+01:00 <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T09:00Z[UTC])\n" +
             "         expected: greater than 2018-01-02T10:00Z[UTC] <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T10:00Z[UTC])")

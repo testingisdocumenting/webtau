@@ -79,8 +79,7 @@ class HttpGroovyTest implements HttpConfiguration {
             http.post("/echo", [a: null]) {
                 a.shouldNot == null
             }
-        } should throwException('\nequals [null], but shouldn\'t\n' +
-            'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
             '\n' +
             'body.a:   actual: null\n' +
             '        expected: not null')
@@ -771,8 +770,7 @@ class HttpGroovyTest implements HttpConfiguration {
     void "implicit status code check when no explicit check present"() {
         code {
             def id = http.get("/no-resource") { id }
-        } should throwException('\ndoesn\'t equal 200\n' +
-            'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
             '\n' +
             'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
             '                   expected: 200 <java.lang.Integer>')
@@ -791,8 +789,7 @@ class HttpGroovyTest implements HttpConfiguration {
                 id.should == 0
                 message.shouldBe == 10
             }
-        } should throwException('\ndoesn\'t equal 200\n' +
-                    'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
                     '\n' +
                     'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
                     '                   expected: 200 <java.lang.Integer>')
@@ -806,8 +803,7 @@ class HttpGroovyTest implements HttpConfiguration {
             http.get("/no-resource") {
                 throw new RuntimeException('error')
             }
-        } should throwException('\ndoesn\'t equal 200\n' +
-                'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
                 '\n' +
                 'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
                 '                   expected: 200 <java.lang.Integer>\n' +
@@ -824,8 +820,7 @@ class HttpGroovyTest implements HttpConfiguration {
             http.get("/no-resource") {
                 statusCode.should == 401
             }
-        } should throwException('\ndoesn\'t equal 401\n' +
-                'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
                 '\n' +
                 'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
                 '                   expected: 401 <java.lang.Integer>')

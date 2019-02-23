@@ -41,8 +41,7 @@ class GreaterThanMatcherTest {
     void "positive mismatch"() {
         def actual = expected
         assert !matcher.matches(actualPath, actual)
-        assert matcher.mismatchedMessage(actualPath, actual) ==  "less then or equal to $expected\n" +
-            'mismatches:\n\n' +
+        assert matcher.mismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
             simpleActualExpectedWithIntegers(actual, "greater than", expected)
     }
 
@@ -59,8 +58,7 @@ class GreaterThanMatcherTest {
     void "negative mismatch"() {
         def actual = expected + 1
         assert !matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMismatchedMessage(actualPath, actual) ==  "value is greater than $expected, but should be less or equal to\n" +
-            'mismatches:\n\n' +
+        assert matcher.negativeMismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
             simpleActualExpectedWithIntegers(actual, "less than or equal to", expected)
     }
 

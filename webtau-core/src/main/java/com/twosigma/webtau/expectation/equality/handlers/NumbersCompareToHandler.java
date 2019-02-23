@@ -23,8 +23,6 @@ import com.twosigma.webtau.expectation.equality.CompareToHandler;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
-
 public class NumbersCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {

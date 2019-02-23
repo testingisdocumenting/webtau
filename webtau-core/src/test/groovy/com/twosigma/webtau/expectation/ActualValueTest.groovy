@@ -70,7 +70,7 @@ class ActualValueTest {
     @Test
     void "custom handler for waitToNot"() {
         def expectationTimer = new DummyExpectationTimer(2)
-        testCustomHandler('equals 1') {
+        testCustomHandler('actual: 1') {
             actual(ones).waitToNot(equal(1), expectationTimer, 1000, 10)
         }
     }
@@ -84,7 +84,7 @@ class ActualValueTest {
 
     @Test
     void "custom handler for shouldNot"() {
-        testCustomHandler('equals 1') {
+        testCustomHandler('actual: 1') {
             actual(ones).shouldNot(equal(1))
         }
     }
