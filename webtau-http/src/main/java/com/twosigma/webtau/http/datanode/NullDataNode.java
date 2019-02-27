@@ -36,12 +36,12 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
-    public DataNode get(String name) {
-        return new NullDataNode(id.child(name));
+    public DataNode get(String pathOrName) {
+        return new NullDataNode(id.child(pathOrName));
     }
 
     @Override
-    public boolean has(String name) {
+    public boolean has(String pathOrName) {
         return false;
     }
 

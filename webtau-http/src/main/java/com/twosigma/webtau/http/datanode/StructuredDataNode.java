@@ -59,18 +59,60 @@ public class StructuredDataNode implements DataNode {
     }
 
     @Override
-    public DataNode get(String name) {
+    public DataNode get(String nameOrPath) {
         if (isList()) {
-            return getAsCollectFromList(name);
+            return getAsCollectFromList(nameOrPath);
         }
 
-        return (children != null && children.containsKey(name)) ?
-                children.get(name):
-                new NullDataNode(id.child(name));
+        int dotIdx = nameOrPath.indexOf('.');
+        int idxIdx = nameOrPath.indexOf('[');
+
+        if (dotIdx == -1 && idxIdx == -1) {
+            // simple name
+            return (children != null && children.containsKey(nameOrPath)) ?
+                    children.get(nameOrPath):
+                    new NullDataNode(id.child(nameOrPath));
+        } else if (idxIdx == -1 || (dotIdx != -1 &&dotIdx < idxIdx)) {
+            // first part of path is a field name
+            String name = nameOrPath.substring(0, dotIdx);
+            DataNode rootNode = get(name);
+
+            String pathUnderRoot = nameOrPath.substring(dotIdx + 1);
+            return rootNode.get(pathUnderRoot);
+        } else {
+            //TODO validate [] match
+
+            int nameAndIdxEnd = dotIdx != -1 ? dotIdx : nameOrPath.length();
+            String nameAndIdx = nameOrPath.substring(0, nameAndIdxEnd);
+            String name = nameAndIdx.substring(0, idxIdx);
+            String idxStr = nameAndIdx.substring(idxIdx + 1, nameAndIdxEnd - 1);
+            int idx = Integer.valueOf(idxStr);
+
+            DataNode node = get(name);
+
+            if (idx < 0) {
+                idx = node.numberOfElements() + idx;
+            }
+
+            DataNode indexedNode = node.get(idx);
+
+            if (dotIdx == -1) {
+                return indexedNode;
+            } else {
+                return indexedNode.get(nameOrPath.substring(dotIdx + 1));
+            }
+        }
     }
 
     @Override
-    public boolean has(String name) {
+    public boolean has(String pathOrName) {
+        // TODO should this check subpaths for their has?  Not sure this was every "correct" for the list projection case btw.
+        int dotIdx = pathOrName.indexOf('.');
+        String firstPart = dotIdx == -1 ? pathOrName : pathOrName.substring(0, dotIdx);
+
+        int idxIdx = firstPart.indexOf('[');
+        String name = idxIdx == -1 ? firstPart : firstPart.substring(0, idxIdx);
+
         return children.containsKey(name);
     }
 

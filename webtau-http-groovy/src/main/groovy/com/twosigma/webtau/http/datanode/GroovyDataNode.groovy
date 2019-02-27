@@ -52,13 +52,13 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
-    DataNode get(String name) {
-        return new GroovyDataNode(node.get(name))
+    DataNode get(String pathOrName) {
+        return new GroovyDataNode(node.get(pathOrName))
     }
 
     @Override
-    boolean has(String name) {
-        return node.has(name)
+    boolean has(String pathOrName) {
+        return node.has(pathOrName)
     }
 
     @Override

@@ -28,9 +28,9 @@ import static com.twosigma.webtau.Ddjt.createActualPath;
 public interface DataNode extends ActualValueExpectations, DataNodeExpectations, Iterable<DataNode> {
     DataNodeId id();
 
-    DataNode get(String name);
+    DataNode get(String pathOrName);
 
-    boolean has(String name);
+    boolean has(String pathOrName);
 
     DataNode get(int idx);
 
