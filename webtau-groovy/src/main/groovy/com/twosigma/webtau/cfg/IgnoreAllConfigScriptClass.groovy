@@ -20,5 +20,8 @@ class IgnoreAllConfigScriptClass extends Script {
     def propertyMissing(String name) { null }
     def propertyMissing(String name, def arg) {}
     def methodMissing(String name, def args) {}
+    void setProperty(String name, def value) {}
+    def getProperty(String name) { return [:] }
+
     @Override Object run() { null }
 }

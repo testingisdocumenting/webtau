@@ -73,14 +73,34 @@ class WebTauGroovyFileConfigHandlerTest {
         } should throwException(IllegalArgumentException, ~/environment <unknown> is not defined in/)
     }
 
+    @Test
+    void "should capture nested config values"() {
+        def cfg = createNestedConfig()
+        cfg.envConfigValue.set('test', 'prod')
+        handle(cfg)
+
+        cfg.get('parent').should == [child: 'pc-1', another: 'pc-2']
+        cfg.parent.child.should == 'pc-1'
+
+        cfg.get('additionalUrls').should == [appOne: 'http://app-one-prod', appTwo: 'http://app-two-prod']
+    }
+
     private static void handle(WebTauConfig cfg) {
         def handler = new WebTauGroovyFileConfigHandler()
         handler.onAfterCreate(cfg)
     }
 
     private static WebTauConfig createConfig() {
+        return createConfigFromFile('src/test/resources/webtau.cfg')
+    }
+
+    private static WebTauConfig createNestedConfig() {
+        return createConfigFromFile('src/test/resources/webtau-nested.cfg')
+    }
+
+    private static WebTauConfig createConfigFromFile(String filePath) {
         def cfg = new WebTauConfig()
-        cfg.configFileName.set('test', 'src/test/resources/webtau.cfg')
+        cfg.configFileName.set('test', filePath)
 
         return cfg
     }
