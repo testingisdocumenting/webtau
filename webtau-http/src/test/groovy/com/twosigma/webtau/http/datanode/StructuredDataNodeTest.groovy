@@ -171,4 +171,27 @@ class StructuredDataNodeTest {
         List<String> names = node.get("key.name").get()
         names.should == ['name1', 'name2']
     }
+
+    @Test
+    void "should check full path in has"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+            key1: 'name1',
+            key2: [name: 'name2']
+        ])
+
+        boolean has = node.has('key1')
+        has.should == true
+
+        has = node.has('key2')
+        has.should == true
+
+        has = node.has('key2.name')
+        has.should == true
+
+        has = node.has('key2.foo')
+        has.should == false
+
+        has = node.has('key2.name.foo')
+        has.should == false
+    }
 }
