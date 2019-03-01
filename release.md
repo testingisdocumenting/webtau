@@ -27,8 +27,7 @@ as shown below:
 
 ## GPG
 
-You will need to also obtain GPG files to be copied into your `~/.gnupg` and the corresponding passphrase which you should
-store in your own 1Password vault.
+You will need to also obtain GPG files to be copied into your `~/.gnupg` and the corresponding passphrase.
 
 
 # Prepare release
@@ -51,16 +50,12 @@ This will do a number of things (let's assume you're trying to release version x
 # Perform the release
 
 ```
-# set GPG_TTY to $(tty) prior
-# have GPG keyphrase handy 
+export GPG_TTY=$(tty) prior
 mvn release:perform
 ```
 
-# Quick Notes
+This will prompt you for the GPG passphrase.  It will then build and test webtau and publish all artifacts to Maven Central.
 
-Github release will be automatically created on tagging performed by previous step.
-Use output of a next command as a basis for notes. Update versions accordingly. 
-
-```
-git log --oneline --pretty=format:"%s" 0.14.0...0.17.0
-```
+At this stage, **be patient**.  There is some delay completion of the `release:perform` step and the artifacts being
+available in Maven Central.  This is of the order of an hour.  You can keep refreshing https://search.maven.org/search?q=g:com.twosigma.webtau%20AND%20a:webtau&core=gav
+until you see your version.
