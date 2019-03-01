@@ -50,7 +50,7 @@ This will do a number of things (let's assume you're trying to release version x
 # Perform the release
 
 ```
-export GPG_TTY=$(tty) prior
+export GPG_TTY=$(tty)
 mvn release:perform
 ```
 
