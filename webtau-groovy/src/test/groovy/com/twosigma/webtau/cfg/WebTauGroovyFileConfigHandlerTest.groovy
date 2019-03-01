@@ -85,6 +85,15 @@ class WebTauGroovyFileConfigHandlerTest {
         cfg.get('additionalUrls').should == [appOne: 'http://app-one-prod', appTwo: 'http://app-two-prod']
     }
 
+    @Test
+    void "should allow to override a single value within a nested object for an env"() {
+        def cfg = createNestedConfig()
+        cfg.envConfigValue.set('test', 'dev')
+        handle(cfg)
+
+        cfg.get('additionalUrls').should == [appOne: 'http://app-one-dev', appTwo: 'http://app-two']
+    }
+
     private static void handle(WebTauConfig cfg) {
         def handler = new WebTauGroovyFileConfigHandler()
         handler.onAfterCreate(cfg)
