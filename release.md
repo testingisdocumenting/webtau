@@ -56,6 +56,8 @@ mvn release:perform
 
 This will prompt you for the GPG passphrase.  It will then build and test webtau and publish all artifacts to Maven Central.
 
+# Sit back, relax and enjoy the wait
+
 At this stage, **be patient**.  There is some delay completion of the `release:perform` step and the artifacts being
 available in Maven Central.  This is of the order of an hour.  You can keep refreshing https://search.maven.org/search?q=g:com.twosigma.webtau%20AND%20a:webtau&core=gav
 until you see your version.
