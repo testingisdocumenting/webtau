@@ -6,7 +6,7 @@ import org.junit.jupiter.api.TestFactory
 @WebTau
 class DynamicTestsGroovyTest {
     @TestFactory
-    def read() {
+    def priceCalculator() {
         ["price", "quantity", "outcome"] {
         _________________________________
           10     |  30      |  300
