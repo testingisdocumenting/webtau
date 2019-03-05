@@ -1,9 +1,7 @@
 package com.example.tests.junit5
 
-import com.twosigma.webtau.junit5.WebTau
 import org.junit.jupiter.api.TestFactory
 
-@WebTau
 class DynamicTestsGroovyTest {
     @TestFactory
     def priceCalculator() {
