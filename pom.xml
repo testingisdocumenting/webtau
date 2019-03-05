@@ -101,6 +101,7 @@
         <module>webtau-report</module>
         <module>webtau-java-runner</module>
         <module>webtau-junit5</module>
+        <module>webtau-junit5-groovy</module>
         <module>webtau-junit5-examples</module>
         <module>webtau-junit4</module>
         <module>webtau-junit4-examples</module>
