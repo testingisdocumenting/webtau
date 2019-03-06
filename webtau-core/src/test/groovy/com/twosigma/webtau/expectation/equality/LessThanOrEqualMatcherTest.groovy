@@ -23,7 +23,7 @@ import static com.twosigma.webtau.expectation.equality.ActualExpectedTestReportE
 
 class LessThanOrEqualMatcherTest {
     private final int expected = 8
-    private final ActualPath actualPath = new ActualPath("value")
+    private final ActualPath actualPath = new ActualPath('value')
     private final LessThanOrEqualMatcher matcher = new LessThanOrEqualMatcher(expected)
 
     @Test
@@ -36,19 +36,12 @@ class LessThanOrEqualMatcherTest {
         assertPositiveMatch(expected)
     }
 
-    private void assertPositiveMatch(int actual) {
-        assert matcher.matches(actualPath, actual)
-        assert matcher.matchedMessage(actualPath, actual) == "less than or equal $expected\n" +
-            'matches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, "less than or equal to", expected)
-    }
-
     @Test
     void "positive mismatch"() {
         def actual = expected + 1
         assert !matcher.matches(actualPath, actual)
         assert matcher.mismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, "less than or equal to", expected)
+            simpleActualExpectedWithIntegers(actual, 'less than or equal to', expected)
     }
 
     @Test
@@ -57,7 +50,7 @@ class LessThanOrEqualMatcherTest {
         assert matcher.negativeMatches(actualPath, actual)
         assert matcher.negativeMatchedMessage(actualPath, actual) == "greater than $expected\n" +
             'matches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, "greater than", expected)
+            simpleActualExpectedWithIntegers(actual, 'greater than', expected)
     }
 
     @Test
@@ -70,12 +63,6 @@ class LessThanOrEqualMatcherTest {
         assertNegativeMismatch(expected - 1)
     }
 
-    private void assertNegativeMismatch(int actual) {
-        assert !matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, "greater than", expected)
-    }
-
     @Test
     void "matching message"() {
         assert matcher.matchingMessage() == "to be less than or equal to $expected"
@@ -84,5 +71,23 @@ class LessThanOrEqualMatcherTest {
     @Test
     void "negative matching message"() {
         assert matcher.negativeMatchingMessage() == "to be greater than $expected"
+    }
+    
+    @Test
+    void "rendering as string should render matching logic and expected value"() {
+        assert matcher.toString() == '<less than or equal 8>'
+    }
+
+    private void assertPositiveMatch(int actual) {
+        assert matcher.matches(actualPath, actual)
+        assert matcher.matchedMessage(actualPath, actual) == "less than or equal $expected\n" +
+                'matches:\n\n' +
+                simpleActualExpectedWithIntegers(actual, 'less than or equal to', expected)
+    }
+
+    private void assertNegativeMismatch(int actual) {
+        assert !matcher.negativeMatches(actualPath, actual)
+        assert matcher.negativeMismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
+                simpleActualExpectedWithIntegers(actual, 'greater than', expected)
     }
 }

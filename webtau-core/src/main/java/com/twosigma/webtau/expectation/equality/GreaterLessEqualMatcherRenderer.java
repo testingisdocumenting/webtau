@@ -20,14 +20,10 @@ import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
 class GreaterLessEqualMatcherRenderer {
-    static String render(ValueMatcher valueMatcher, CompareToComparator comparator, Object expected) {
+    static String render(ValueMatcher valueMatcher, CompareToComparator.AssertionMode assertionMode, Object expected) {
         String renderedExpected = DataRenderers.render(expected);
 
-        if (comparator == null) {
-            return valueMatcher.getClass().getCanonicalName() + "; expected: " + renderedExpected;
-        }
-
-        switch (comparator.getAssertionMode()) {
+        switch (assertionMode) {
             case GREATER_THAN:
                 return "<greater than " + renderedExpected + ">";
             case GREATER_THAN_OR_EQUAL:
@@ -38,6 +34,6 @@ class GreaterLessEqualMatcherRenderer {
                 return "<less than or equal " + renderedExpected + ">";
         }
 
-        throw new IllegalStateException("unexpected assertion mode: " + comparator.getAssertionMode());
+        throw new IllegalStateException("unexpected assertion mode: " + assertionMode);
     }
 }
