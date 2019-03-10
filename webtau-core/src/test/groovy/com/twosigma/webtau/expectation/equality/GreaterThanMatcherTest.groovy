@@ -19,7 +19,7 @@ package com.twosigma.webtau.expectation.equality
 import com.twosigma.webtau.expectation.ActualPath
 import org.junit.Test
 
-import static com.twosigma.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
+import static com.twosigma.webtau.expectation.equality.ActualExpectedTestReportExpectations.*
 
 class GreaterThanMatcherTest {
     private final int expected = 8
@@ -73,7 +73,9 @@ class GreaterThanMatcherTest {
     }
 
     @Test
-    void "rendering as string should render matching logic and expected value"() {
-        assert matcher.toString() == '<greater than 8>'
+    void "equal comparison with matcher renders matching logic in case of comparison with null"() {
+        CompareToComparator comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(actualPath, null, matcher)
+        assert comparator.generateEqualMismatchReport().contains('expected: <greater than 8>')
     }
 }

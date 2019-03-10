@@ -72,10 +72,12 @@ class LessThanOrEqualMatcherTest {
     void "negative matching message"() {
         assert matcher.negativeMatchingMessage() == "to be greater than $expected"
     }
-    
+
     @Test
-    void "rendering as string should render matching logic and expected value"() {
-        assert matcher.toString() == '<less than or equal 8>'
+    void "equal comparison with matcher renders matching logic in case of comparison with null"() {
+        CompareToComparator comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(actualPath, null, matcher)
+        assert comparator.generateEqualMismatchReport().contains('expected: <less than or equal 8>')
     }
 
     private void assertPositiveMatch(int actual) {

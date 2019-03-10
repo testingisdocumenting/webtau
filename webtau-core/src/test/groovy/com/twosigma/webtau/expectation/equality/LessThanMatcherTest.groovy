@@ -73,7 +73,9 @@ class LessThanMatcherTest {
     }
 
     @Test
-    void "rendering as string should render matching logic and expected value"() {
-        assert matcher.toString() == '<less than 8>'
+    void "equal comparison with matcher renders matching logic in case of comparison with null"() {
+        CompareToComparator comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(actualPath, null, matcher)
+        assert comparator.generateEqualMismatchReport().contains('expected: <less than 8>')
     }
 }

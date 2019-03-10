@@ -74,8 +74,10 @@ class GreaterThanOrEqualMatcherTest {
     }
 
     @Test
-    void "rendering as string should render matching logic and expected value"() {
-        assert matcher.toString() == '<greater than or equal 8>'
+    void "equal comparison with matcher renders matching logic in case of comparison with null"() {
+        CompareToComparator comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(actualPath, null, matcher)
+        assert comparator.generateEqualMismatchReport().contains('expected: <greater than or equal 8>')
     }
 
     private void assertPositiveMatch(int actual) {
