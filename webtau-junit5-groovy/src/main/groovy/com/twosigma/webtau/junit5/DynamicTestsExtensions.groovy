@@ -24,12 +24,12 @@ import java.util.function.Consumer
 import java.util.stream.Stream
 
 class DynamicTestsExtensions {
-    static Stream<DynamicTest> useCases(TableData tableData, Closure test) {
-        return useCases(tableData, '', test)
+    static Stream<DynamicTest> test(TableData tableData, Closure testCode) {
+        return test(tableData, '', testCode)
     }
 
-    static Stream<DynamicTest> useCases(TableData tableData, String useCasesPrefix, Closure test) {
-        Closure withDelegate = test.clone() as Closure
+    static Stream<DynamicTest> test(TableData tableData, String useCasesPrefix, Closure testCode) {
+        Closure withDelegate = testCode.clone() as Closure
         withDelegate.resolveStrategy = Closure.DELEGATE_FIRST
 
         def consumer = new Consumer<Record>() {

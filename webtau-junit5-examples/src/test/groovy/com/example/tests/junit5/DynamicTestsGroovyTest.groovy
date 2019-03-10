@@ -9,7 +9,7 @@ class DynamicTestsGroovyTest {
         _________________________________
           10     |  30      |  300
           -10    |  30      | -300
-        }.useCases {
+        }.test {
             PriceCalculator.calculate(price, quantity).should == outcome
         }
     }
