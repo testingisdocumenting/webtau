@@ -18,18 +18,19 @@ package com.twosigma.webtau.data.table
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.table
+import static com.twosigma.webtau.Ddjt.*
 
 class TableDataTest {
     @Test
-    void "should create table using header and values convenient methods"() {
-        def tableData = table("Col A", "Col B", "Col C").values(
-                                 "v1a",   "v1b", "v1c",
-                                 "v2a",   "v2b", "v2c")
+    void "should create table using table and values convenient methods"() {
+        def tableData = createTableDataSeparateValues()
+        validateTableData(tableData)
+    }
 
-        assert tableData.numberOfRows() == 2
-        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": "v1c"]
-        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": "v2c"]
+    @Test
+    void "should create table using single table method"() {
+        def tableData = createTableDataInOneGo()
+        validateTableData(tableData)
     }
 
     @Test(expected = IllegalArgumentException)
@@ -37,5 +38,24 @@ class TableDataTest {
         table("Col A", "Col B", "Col C").values(
                  "v1a",   "v1b", "v1c",
                  "v2a",   "v2b")
+    }
+
+    static TableData createTableDataSeparateValues() {
+        table("Col A", "Col B", "Col C").values(
+                "v1a",   "v1b", "v1c",
+                "v2a",   "v2b", "v2c")
+    }
+
+    static TableData createTableDataInOneGo() {
+        table("Col A", "Col B", "Col C",
+              ________________________________,
+                "v1a",   "v1b", "v1c",
+                "v2a",   "v2b", "v2c")
+    }
+
+    private static void validateTableData(TableData tableData) {
+        assert tableData.numberOfRows() == 2
+        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": "v1c"]
+        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": "v2c"]
     }
 }
