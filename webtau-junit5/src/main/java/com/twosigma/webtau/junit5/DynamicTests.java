@@ -24,13 +24,22 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class DynamicTests {
+    private static final String LABEL_COLUMN = "label";
+
     private DynamicTests() {
     }
 
     public static Stream<DynamicTest> fromTable(String useCasesPrefix, TableData useCases, Consumer<Record> test) {
         String displayNamePrefix = useCasesPrefix.isEmpty() ? "" : useCasesPrefix + ": ";
         return useCases.rowsStream().map(row -> DynamicTest.dynamicTest(
-                displayNamePrefix + row.toString(),
+                getDisplayName(displayNamePrefix, row),
                 () -> test.accept(row)));
     }
+
+    private static String getDisplayName(String prefix, Record row) {
+        String rowLabel = row.getHeader().hasColumn(LABEL_COLUMN)
+            ? row.get(LABEL_COLUMN).toString()
+            : row.toString();
+        return prefix + rowLabel;
+  }
 }
