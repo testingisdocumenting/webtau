@@ -1,5 +1,6 @@
 package com.example.tests.junit5
 
+
 import org.junit.jupiter.api.TestFactory
 
 class DynamicTestsGroovyTest {
@@ -20,6 +21,15 @@ class DynamicTestsGroovyTest {
         ___________________________________________________
           "positive price" | 10     |  30      |  300
           "negative price" | -10    |  30      | -300
+        }.test {
+            PriceCalculator.calculate(price, quantity).should == outcome
+        }
+    }
+
+    @TestFactory
+    def "a null display label is treated as the String 'null'"() {
+        ["label",           "price", "quantity", "outcome"] {
+        ___________________________________________________
           null             | 0      |  30      | 0
         }.test {
             PriceCalculator.calculate(price, quantity).should == outcome
