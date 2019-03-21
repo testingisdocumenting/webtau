@@ -24,8 +24,9 @@ Use `TableData` if you want to derive data and/or have a convenience of collocat
 With the additional annotation `@TestFactory` you can use `TableData` as an easy-to-read source of 
 similar but independent tests where each row is treated as its own test (comparable to JUnit's 
 parameterized tests), optionally with a descriptive label. 
- 
-:include-file: com/example/tests/junit5/DynamicTestsGroovyTest.groovy {title: "Parameterized TableData-driven tests"}
+Here are examples of parameterized tests with and without labels, and how an IDE uses the label for display purposes:
+:include-groovy: com/example/tests/junit5/DynamicTestsGroovyTest.groovy {title: "Parameterized tests without explicit label", entry: "individual tests use generated display labels"}
 
-IDEs can make good use of labels:
+:include-groovy: com/example/tests/junit5/DynamicTestsGroovyTest.groovy {title: "Parameterized tests with explicit label", entry: "individual tests can use an optional display label to clarify the use case"}
+
 :include-image: img/intellij-parameterized-tests.png
