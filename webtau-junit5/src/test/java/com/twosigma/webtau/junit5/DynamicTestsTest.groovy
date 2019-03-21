@@ -35,4 +35,19 @@ class DynamicTestsTest {
         asList.displayName.should == ['display name prefix: {columnA=10, columnB=20}',
                                       'display name prefix: {columnA=30, columnB=40}']
     }
+
+    @Test
+    void "should use label as display text if present"() {
+        def dynamicTests = DynamicTests.fromTable('prefix',
+                table('label', 'columnA', 'columnB').values(
+                        'test 1', 10, 20,
+                        'test 2', 30, 40)
+        ) {
+            println it
+        }
+
+        def asList = dynamicTests.collect { it }
+        asList.displayName.should == ['prefix: test 1', 'prefix: test 2']
+    }
+
 }

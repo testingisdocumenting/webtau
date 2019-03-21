@@ -50,6 +50,17 @@
             </roles>
             <timezone>Europe/London</timezone>
         </developer>
+        <developer>
+            <id>tsiq-clemens</id>
+            <name>Clemens Bertram</name>
+            <email>clemens.bertram@twosigmaiq.com</email>
+            <organization>Two Sigma Insurance Quantified</organization>
+            <organizationUrl>http://twosigmaiq.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>America/New_York</timezone>
+        </developer>
     </developers>
 
     <licenses>

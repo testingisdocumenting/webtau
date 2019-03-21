@@ -1,14 +1,36 @@
 package com.example.tests.junit5
 
+
 import org.junit.jupiter.api.TestFactory
 
 class DynamicTestsGroovyTest {
     @TestFactory
-    def priceCalculator() {
+    def "individual tests use generated display labels"() {
         ["price", "quantity", "outcome"] {
         _________________________________
           10     |  30      |  300
           -10    |  30      | -300
+        }.test {
+            PriceCalculator.calculate(price, quantity).should == outcome
+        }
+    }
+
+    @TestFactory
+    def "individual tests can use an optional display label to clarify the use case"() {
+        ["label",           "price", "quantity", "outcome"] {
+        ___________________________________________________
+          "positive price" | 10     |  30      |  300
+          "negative price" | -10    |  30      | -300
+        }.test {
+            PriceCalculator.calculate(price, quantity).should == outcome
+        }
+    }
+
+    @TestFactory
+    def "a null display label is treated as the String 'null'"() {
+        ["label",           "price", "quantity", "outcome"] {
+        ___________________________________________________
+          null             | 0      |  30      | 0
         }.test {
             PriceCalculator.calculate(price, quantity).should == outcome
         }
