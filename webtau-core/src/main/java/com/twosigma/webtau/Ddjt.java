@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau;
 
+import com.twosigma.webtau.data.MultiValue;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.expectation.ActualCode;
 import com.twosigma.webtau.expectation.ActualCodeExpectations;
@@ -45,6 +46,10 @@ import java.util.regex.Pattern;
 public class Ddjt {
     public static TableData table(String... columnNames) {
         return new TableData(Arrays.stream(columnNames));
+    }
+
+    public static MultiValue permute(Object... values) {
+        return new MultiValue(values);
     }
 
     public static ActualValueExpectations actual(Object actual) {
