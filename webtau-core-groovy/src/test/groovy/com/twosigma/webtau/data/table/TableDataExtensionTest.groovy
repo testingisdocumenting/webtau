@@ -21,6 +21,18 @@ import org.junit.Test
 class TableDataExtensionTest {
     @Test
     void "should register header and values using pipes"() {
+        def tableData = createTableWithUnderscore()
+        validateTableData(tableData)
+    }
+
+    @Test
+    void "table header underscore should be optional"() {
+        def tableData = createTableWithoutUnderscore()
+        validateTableData(tableData)
+    }
+
+    @Test
+    void "should support null values"() {
         def table = ["hello" | "world"] {
                          12  | 46
                          54  | null  }
@@ -38,5 +50,24 @@ class TableDataExtensionTest {
                          12  | 46
                          54  | null  }
         table.size().should == 2
+    }
+
+    static TableData createTableWithUnderscore() {
+        ["Col A" | "Col B" | "Col C"] {
+        ________________________________
+           "v1a" |   "v1b" | "v1c"
+           "v2a" |   "v2b" | "v2c" }
+    }
+
+    static TableData createTableWithoutUnderscore() {
+        ["Col A" | "Col B" | "Col C"] {
+           "v1a" |   "v1b" | "v1c"
+           "v2a" |   "v2b" | "v2c" }
+    }
+
+    private static void validateTableData(TableData tableData) {
+        tableData.numberOfRows().should == 2
+        tableData.row(0).toMap().should == ["Col A": "v1a", "Col B": "v1b", "Col C": "v1c"]
+        tableData.row(1).toMap().should == ["Col A": "v2a", "Col B": "v2b", "Col C": "v2c"]
     }
 }
