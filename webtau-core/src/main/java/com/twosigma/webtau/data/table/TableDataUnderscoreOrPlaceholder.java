@@ -18,4 +18,7 @@ package com.twosigma.webtau.data.table;
 
 public class TableDataUnderscoreOrPlaceholder {
     public static final TableDataUnderscoreOrPlaceholder INSTANCE = new TableDataUnderscoreOrPlaceholder();
+
+    private TableDataUnderscoreOrPlaceholder() {
+    }
 }
