@@ -9,10 +9,11 @@ Groovy:
 Java:
 :include-groovy: com/twosigma/webtau/data/table/TableDataTest.groovy {entry: "createTableDataInOneGo", bodyOnly: true}
 
- Note: example above assumes `import static com.twosigma.webtau.Ddjt.*`. Additionally `Ddjt` has `___` defined of various lengths. 
+ Note: the example above assumes `import static com.twosigma.webtau.Ddjt.*`. Additionally `Ddjt` has header-separating 
+lines defined using underscores `___` of various lengths, which you can optionally use for aesthetics. 
 ```
 
-Using `____` underscore is optional and is there for esthetics only
+Using `____` underscore is optional and is there for aesthetics only
 
 ```tabs
 Groovy:

@@ -22,7 +22,7 @@ import static com.twosigma.webtau.Ddjt.*
 
 class TableDataTest {
     @Test
-    void "should create table using table and values convenient methods"() {
+    void "should create table using convenience methods for table and values"() {
         def tableData = createTableDataSeparateValues()
         validateTableData(tableData)
     }
