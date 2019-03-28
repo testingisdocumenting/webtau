@@ -157,6 +157,10 @@
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-test-junit5</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <artifactId>testng</artifactId>
+                        <groupId>org.testng</groupId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
