@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.documentation;
+package com.twosigma.webtau.documentation;
+
+import com.twosigma.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.concurrent.atomic.AtomicReference;
 
-public class DocumentationArtifactsLocation {
-    private static AtomicReference<Path> root = new AtomicReference<>(getInitialRoot());
-
-    public static void setRoot(Path newRoot) {
-        root.set(newRoot);
-    }
-
-    public static Path resolve(String relativePath) {
-        return root.get().resolve(relativePath);
-    }
-
-    private static Path getInitialRoot() {
-        String property = System.getProperty("documentation.artifacts.root");
-        return property == null ? Paths.get("doc-artifacts") : Paths.get(property);
+public class DocumentationArtifacts {
+    public static void create(Class testClass, String artifactName, String textContent) {
+        Path path = Paths.get(testClass.getProtectionDomain().getCodeSource().getLocation().getPath())
+                .resolve(artifactName);
+        FileUtils.writeTextContent(path, textContent);
     }
 }
