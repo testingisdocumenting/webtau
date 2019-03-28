@@ -28,7 +28,7 @@
     <version>1.7-SNAPSHOT</version>
 
     <properties>
-        <selenium.version>3.13.0</selenium.version>
+        <selenium.version>3.141.59</selenium.version>
     </properties>
 
     <dependencies>
