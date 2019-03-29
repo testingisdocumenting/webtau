@@ -126,7 +126,7 @@ public class TableData implements Iterable<Record> {
         rows.add(record);
     }
 
-    public TableData map(TableDataCellFunction mapper) {
+    public TableData map(TableDataCellMapFunction mapper) {
         TableData mapped = new TableData(header);
 
         int rowIdx = 0;
@@ -145,7 +145,7 @@ public class TableData implements Iterable<Record> {
     }
 
     @SuppressWarnings("unchecked")
-    private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellFunction mapper) {
+    private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellMapFunction mapper) {
         return header.getColumnIdxStream()
                 .mapToObj(idx -> mapper.apply(rowIdx, idx, header.columnNameByIdx(idx), originalRow.get(idx)));
     }
