@@ -22,3 +22,17 @@ Groovy:
 Java:
 :include-groovy: com/twosigma/webtau/data/table/TableDataTest.groovy {entry: "createTableDataSeparateValues", bodyOnly: true}
 ```
+
+# Permutations
+
+Use `permute(v1, v2)` to automatically generate multiple rows.
+
+```tabs
+Groovy:
+:include-groovy: com/twosigma/webtau/data/table/TableDataExtensionTest.groovy {entry: "createTableDataWithPermute", bodyOnly: true}
+
+Java:
+:include-groovy: com/twosigma/webtau/data/table/TableDataTest.groovy {entry: "createTableDataWithPermute", bodyOnly: true}
+```
+
+:include-table: table-with-permute.json

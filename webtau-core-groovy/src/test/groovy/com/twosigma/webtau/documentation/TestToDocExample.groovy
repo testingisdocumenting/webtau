@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.documentation
 
-import com.twosigma.documentation.DocumentationArtifacts
 import com.twosigma.webtau.data.table.TableData
 import org.junit.Test
 

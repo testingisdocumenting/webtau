@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau;
 
+import com.twosigma.webtau.data.MultiValue;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFullFunction;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFunctions;
@@ -66,6 +67,10 @@ public class Ddjt {
 
     public static TableData table(Object... columnNames) {
         return new TableData(Arrays.stream(columnNames));
+    }
+
+    public static MultiValue permute(Object atLeastOneValue, Object... values) {
+        return new MultiValue(atLeastOneValue, values);
     }
 
     public static <R> TableDataCellValueGenerator<R> cellValue(TableDataCellValueGenFullFunction<R> genFunction) {

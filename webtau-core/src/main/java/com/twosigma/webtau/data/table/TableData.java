@@ -102,15 +102,20 @@ public class TableData implements Iterable<Record> {
         addRow(values.stream());
     }
 
+    public void addRow(Stream<Object> values) {
+        Record record = new Record(header, values);
+
+        if (record.hasMultiValues()) {
+            record.unwrapMultiValues().forEach(this::addRow);
+        } else {
+            addRow(record);
+        }
+    }
+
     public void addRow(Record record) {
         if (header != record.getHeader()) {
             throw new RuntimeException("incompatible headers. current getHeader: " + header + ", new record one: " + record.getHeader());
         }
-        addRow(record.values());
-    }
-
-    public void addRow(Stream<Object> values) {
-        Record record = new Record(header, values);
 
         int rowIdx = rows.size();
         CompositeKey key = getOrBuildKey(rowIdx, record);
