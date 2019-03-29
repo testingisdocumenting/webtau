@@ -64,8 +64,7 @@ class PageUrlTest {
     void "should provide context of the failure in case of full should statement"() {
         code {
             browser.url.query.should == 'wrong-value'
-        } should throwException('\ndoesn\'t equal "wrong-value"\n' +
-                'mismatches:\n' +
+        } should throwException('\nmismatches:\n' +
                 '\n' +
                 'page url query:   actual: "type=full&debug=true" <java.lang.String>\n' +
                 '                expected: "wrong-value" <java.lang.String>')
