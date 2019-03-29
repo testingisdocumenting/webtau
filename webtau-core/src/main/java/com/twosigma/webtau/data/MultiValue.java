@@ -16,14 +16,17 @@
 
 package com.twosigma.webtau.data;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MultiValue {
-    private List<?> values;
+    private List<Object> values;
 
-    public MultiValue(Object... values) {
-        this.values = Arrays.asList(values);
+    public MultiValue(Object atLeastOneValue, Object... values) {
+        this.values = new ArrayList<>();
+        this.values.add(atLeastOneValue);
+        this.values.addAll(Arrays.asList(values));
     }
 
     public List<?> getValues() {

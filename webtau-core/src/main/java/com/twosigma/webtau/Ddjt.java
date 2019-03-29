@@ -63,8 +63,8 @@ public class Ddjt {
         return new TableData(Arrays.stream(columnNames));
     }
 
-    public static MultiValue permute(Object... values) {
-        return new MultiValue(values);
+    public static MultiValue permute(Object atLeastOneValue, Object... values) {
+        return new MultiValue(atLeastOneValue, values);
     }
 
     public static ActualValueExpectations actual(Object actual) {
