@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.data.table
 
+import com.twosigma.webtau.documentation.DocumentationArtifacts
 import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.*
@@ -40,6 +41,21 @@ class TableDataTest {
                  "v2a",   "v2b")
     }
 
+    @Test
+    void "should generate multiple rows from multi-values"() {
+        def tableData = createTableDataWithPermute()
+
+        assert tableData.numberOfRows() == 6
+        assert tableData.row(0).toMap() == ['Col A': true, 'Col B': 'v1b', 'Col C': 'a']
+        assert tableData.row(1).toMap() == ['Col A': false, 'Col B': 'v1b', 'Col C': 'a']
+        assert tableData.row(2).toMap() == ['Col A': true, 'Col B': 'v1b', 'Col C': 'b']
+        assert tableData.row(3).toMap() == ['Col A': false, 'Col B': 'v1b', 'Col C': 'b']
+        assert tableData.row(4).toMap() == ['Col A': 'v2a', 'Col B': 10, 'Col C': 'v2c']
+        assert tableData.row(5).toMap() == ['Col A': 'v2a', 'Col B': 20, 'Col C': 'v2c']
+
+        DocumentationArtifacts.create(TableDataTest, 'table-with-permute.json', tableData.toJson())
+    }
+
     static TableData createTableDataSeparateValues() {
         table("Col A", "Col B", "Col C").values(
                 "v1a",   "v1b", "v1c",
@@ -51,6 +67,13 @@ class TableDataTest {
               ________________________________,
                 "v1a",   "v1b", "v1c",
                 "v2a",   "v2b", "v2c")
+    }
+
+    static TableData createTableDataWithPermute() {
+        table("Col A"              , "Col B"         , "Col C",
+              ________________________________________________________________,
+               permute(true, false), "v1b"           , permute('a', 'b'),
+               "v2a"               , permute(10, 20) , "v2c")
     }
 
     private static void validateTableData(TableData tableData) {

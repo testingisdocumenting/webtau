@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package com.twosigma.documentation;
+package com.twosigma.webtau.data;
 
-import com.twosigma.webtau.utils.FileUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+public class MultiValue {
+    private List<Object> values;
 
-public class DocumentationArtifacts {
-    public static void create(Class testClass, String artifactName, String textContent) {
-        Path path = Paths.get(testClass.getProtectionDomain().getCodeSource().getLocation().getPath())
-                .resolve(artifactName);
-        FileUtils.writeTextContent(path, textContent);
+    public MultiValue(Object atLeastOneValue, Object... values) {
+        this.values = new ArrayList<>();
+        this.values.add(atLeastOneValue);
+        this.values.addAll(Arrays.asList(values));
+    }
+
+    public List<?> getValues() {
+        return values;
     }
 }

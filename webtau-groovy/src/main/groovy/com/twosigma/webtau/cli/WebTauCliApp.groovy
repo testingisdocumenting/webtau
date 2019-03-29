@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.cli
 
-import com.twosigma.documentation.DocumentationArtifactsLocation
+import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.WebTauGroovyDsl
 import com.twosigma.webtau.browser.driver.WebDriverCreator
 import com.twosigma.webtau.browser.reporter.ScreenshotStepReporter
