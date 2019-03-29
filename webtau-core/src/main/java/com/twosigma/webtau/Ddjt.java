@@ -18,6 +18,7 @@ package com.twosigma.webtau;
 
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFullFunction;
+import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFunctions;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenOnlyRecordFunction;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
 import com.twosigma.webtau.data.table.TableDataUnderscoreOrPlaceholder;
@@ -56,6 +57,8 @@ public class Ddjt {
     public static final TableDataUnderscoreOrPlaceholder ________________________________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
     public static final TableDataUnderscoreOrPlaceholder ________________________________________________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
     public static final TableDataUnderscoreOrPlaceholder ________________________________________________________________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
+
+    public static final TableDataCellValueGenFunctions cell = new TableDataCellValueGenFunctions();
 
     public static TableData table(String... columnNames) {
         return new TableData(Arrays.stream(columnNames));

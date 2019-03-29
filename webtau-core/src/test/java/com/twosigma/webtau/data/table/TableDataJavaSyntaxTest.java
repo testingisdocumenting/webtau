@@ -16,13 +16,20 @@
 
 package com.twosigma.webtau.data.table;
 
-import static com.twosigma.webtau.Ddjt.cellValue;
-import static com.twosigma.webtau.Ddjt.table;
+import org.junit.Test;
 
-public class TableDataJavaTest {
-    static TableData createTableDataWithAccessToPrevious() {
-        return table("Col A", "Col B", "Col C").values(
-                       "v1a",   "v1b", cellValue((record) -> record.get("Col A")),
-                       "v2a",   "v2b", 50);
+import static com.twosigma.webtau.Ddjt.*;
+
+public class TableDataJavaSyntaxTest {
+    @Test
+    public void makingSureJavaCodeCompiles() {
+        actual(createTableDataWithAccessToPrevious().numberOfRows()).should(equal(2));
+    }
+
+    private static TableData createTableDataWithAccessToPrevious() {
+        return table("Col A", "Col B", "Col C",
+                    ________________________________,
+                       "v1a",   "v1b", 10,
+                       "v2a",   "v2b", cell.previous);
     }
 }

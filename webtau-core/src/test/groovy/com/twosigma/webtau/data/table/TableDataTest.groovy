@@ -33,6 +33,14 @@ class TableDataTest {
         validateTableData(tableData)
     }
 
+    @Test
+    void "cell previous should be substituted with value from a previous row"() {
+        def tableData = createTableDataWithPreviousRef()
+        assert tableData.numberOfRows() == 2
+        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": "v1c"]
+        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": "v1c"]
+    }
+
     @Test(expected = IllegalArgumentException)
     void "should report columns number mismatch during table creation using header and values vararg methods"() {
         table("Col A", "Col B", "Col C").values(
@@ -51,6 +59,13 @@ class TableDataTest {
               ________________________________,
                 "v1a",   "v1b", "v1c",
                 "v2a",   "v2b", "v2c")
+    }
+
+    static TableData createTableDataWithPreviousRef() {
+        table("Col A", "Col B", "Col C",
+              ________________________________,
+                "v1a",   "v1b", "v1c",
+                "v2a",   "v2b", cell.previous)
     }
 
     private static void validateTableData(TableData tableData) {
