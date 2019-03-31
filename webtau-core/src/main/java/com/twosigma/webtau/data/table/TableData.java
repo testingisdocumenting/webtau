@@ -120,15 +120,18 @@ public class TableData implements Iterable<Record> {
         int rowIdx = rows.size();
         CompositeKey key = getOrBuildKey(rowIdx, record);
 
-        Record previous = rowsByKey.put(key, record);
-        if (previous != null) {
+        Record existing = rowsByKey.put(key, record);
+        if (existing != null) {
             throw new IllegalArgumentException("duplicate entry found with key: " + key +
-                    "\n" + previous +
+                    "\n" + existing +
                     "\n" + record);
         }
 
+        Record previous = rows.isEmpty() ? null : rows.get(rows.size() - 1);
+        Record withEvaluatedGenerators = record.evaluateValueGenerators(previous, rows.size());
+
         rowIdxByKey.put(key, rowIdx);
-        rows.add(record);
+        rows.add(withEvaluatedGenerators);
     }
 
     public TableData map(TableDataCellMapFunction mapper) {

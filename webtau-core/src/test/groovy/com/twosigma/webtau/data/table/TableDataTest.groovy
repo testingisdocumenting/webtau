@@ -37,9 +37,12 @@ class TableDataTest {
     @Test
     void "cell previous should be substituted with value from a previous row"() {
         def tableData = createTableDataWithPreviousRef()
-        assert tableData.numberOfRows() == 2
-        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": "v1c"]
-        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": "v1c"]
+        assert tableData.numberOfRows() == 3
+        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": 10]
+        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 10]
+        assert tableData.row(2).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 20]
+
+        DocumentationArtifacts.create(TableDataTest, 'table-with-cell-previous.json', tableData.toJson())
     }
 
     @Test(expected = IllegalArgumentException)
@@ -86,9 +89,10 @@ class TableDataTest {
 
     static TableData createTableDataWithPreviousRef() {
         table("Col A", "Col B", "Col C",
-              ________________________________,
-                "v1a",   "v1b", "v1c",
-                "v2a",   "v2b", cell.previous)
+              ________________________________________________,
+                "v1a",   "v1b", 10,
+                "v2a",   "v2b", cell.previous,
+                "v2a",   "v2b", cell.previous.plus(10))
     }
 
     private static void validateTableData(TableData tableData) {

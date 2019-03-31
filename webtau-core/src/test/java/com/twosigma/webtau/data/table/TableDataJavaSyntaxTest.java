@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.data.table;
 
+import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
 import org.junit.Test;
 
 import static com.twosigma.webtau.Ddjt.*;
@@ -23,13 +24,19 @@ import static com.twosigma.webtau.Ddjt.*;
 public class TableDataJavaSyntaxTest {
     @Test
     public void makingSureJavaCodeCompiles() {
-        actual(createTableDataWithAccessToPrevious().numberOfRows()).should(equal(2));
+        TableData tableData = createTableDataWithAccessToPrevious();
+        actual(tableData.numberOfRows()).should(equal(3));
     }
 
+    // TODO move table data java tests to this test file
+    // mdoc needs to support removal of "return" and semicolon from function body first
     private static TableData createTableDataWithAccessToPrevious() {
+        TableDataCellValueGenerator<?> increment = cell.previous.plus(10);
+
         return table("Col A", "Col B", "Col C",
-                    ________________________________,
+                    ________________________________________________,
                        "v1a",   "v1b", 10,
-                       "v2a",   "v2b", cell.previous);
+                       "v2a",   "v2b", increment,
+                       "v2a",   "v2b", increment);
     }
 }

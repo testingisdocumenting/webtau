@@ -18,10 +18,7 @@ package com.twosigma.webtau;
 
 import com.twosigma.webtau.data.MultiValue;
 import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFullFunction;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFunctions;
-import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenOnlyRecordFunction;
-import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
 import com.twosigma.webtau.data.table.TableDataUnderscoreOrPlaceholder;
 import com.twosigma.webtau.expectation.ActualCode;
 import com.twosigma.webtau.expectation.ActualCodeExpectations;
@@ -71,14 +68,6 @@ public class Ddjt {
 
     public static MultiValue permute(Object atLeastOneValue, Object... values) {
         return new MultiValue(atLeastOneValue, values);
-    }
-
-    public static <R> TableDataCellValueGenerator<R> cellValue(TableDataCellValueGenFullFunction<R> genFunction) {
-        return new TableDataCellValueGenerator<>(genFunction);
-    }
-
-    public static <R> TableDataCellValueGenerator<R> cellValue(TableDataCellValueGenOnlyRecordFunction<R> genFunction) {
-        return new TableDataCellValueGenerator<>(genFunction);
     }
 
     public static ActualValueExpectations actual(Object actual) {

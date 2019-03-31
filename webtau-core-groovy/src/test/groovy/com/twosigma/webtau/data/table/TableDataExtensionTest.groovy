@@ -59,6 +59,15 @@ class TableDataExtensionTest {
     }
 
     @Test
+    void "cell previous should be substituted with value from a previous row"() {
+        def tableData = createTableDataWithPreviousRef()
+        assert tableData.numberOfRows() == 3
+        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": 10]
+        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 10]
+        assert tableData.row(2).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 20]
+    }
+
+    @Test
     void "should ignore underscore under header"() {
         def table = ["hello" | "world"] {
                     ___________________
@@ -85,6 +94,14 @@ class TableDataExtensionTest {
         ___________________________________________________________
          permute(true, false) | "v1b"           | permute('a', 'b')
          "v2a"                | permute(10, 20) | "v2c" }
+    }
+
+    static TableData createTableDataWithPreviousRef() {
+        ["Col A" | "Col B" | "Col C"] {
+        __________________________________________
+            "v1a" |   "v1b" | 10
+            "v2a" |   "v2b" | cell.previous
+            "v2a" |   "v2b" | cell.previous + 10 }
     }
 
     private static void validateTableData(TableData tableData) {

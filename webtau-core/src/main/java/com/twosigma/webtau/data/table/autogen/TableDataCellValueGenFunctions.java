@@ -24,6 +24,14 @@ import com.twosigma.webtau.data.table.Record;
 public class TableDataCellValueGenFunctions {
     public final TableDataCellValueGenerator<?> previous = new TableDataCellValueGenerator<>(this::previousColumnValue);
 
+    public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenFullFunction<R> genFunction) {
+        return new TableDataCellValueGenerator<>(genFunction);
+    }
+
+    public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenOnlyRecordFunction<R> genFunction) {
+        return new TableDataCellValueGenerator<>(genFunction);
+    }
+
     private <R> R previousColumnValue(Record row, Record prev, int rowIdx, int colIdx, String columnName) {
         if (prev == null) {
             return null;
