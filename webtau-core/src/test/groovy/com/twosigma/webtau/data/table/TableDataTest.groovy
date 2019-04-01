@@ -82,9 +82,9 @@ class TableDataTest {
 
     static TableData createTableDataWithPermute() {
         table("Col A"              , "Col B"         , "Col C",
-                ________________________________________________________________,
-                permute(true, false), "v1b"           , permute('a', 'b'),
-                "v2a"               , permute(10, 20) , "v2c")
+               ________________________________________________________________,
+               permute(true, false), "v1b"           , permute('a', 'b'),
+               "v2a"               , permute(10, 20) , "v2c")
     }
 
     static TableData createTableDataWithPreviousRef() {
