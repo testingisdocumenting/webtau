@@ -155,9 +155,8 @@ public class Record {
 
         public RecordFromStream(Stream<Object> valuesStream) {
             values = new ArrayList<>();
-            Iterator<Object> it = valuesStream.iterator();
-            while (it.hasNext()) {
-                Object v = it.next();
+
+            valuesStream.forEach(v -> {
                 if (v instanceof MultiValue) {
                     hasMultiValues = true;
                 }
@@ -167,7 +166,7 @@ public class Record {
                 }
 
                 values.add(v);
-            }
+            });
         }
     }
 }
