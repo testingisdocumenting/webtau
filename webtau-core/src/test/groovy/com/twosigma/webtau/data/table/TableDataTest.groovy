@@ -42,7 +42,7 @@ class TableDataTest {
         assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 10]
         assert tableData.row(2).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 20]
 
-        DocumentationArtifacts.create(TableDataTest, 'table-with-cell-previous.json', tableData.toJson())
+        DocumentationArtifacts.create(TableDataTest, 'table-with-cell-above.json', tableData.toJson())
     }
 
     @Test(expected = IllegalArgumentException)
@@ -91,8 +91,8 @@ class TableDataTest {
         table("Col A", "Col B", "Col C",
               ________________________________________________,
                 "v1a",   "v1b", 10,
-                "v2a",   "v2b", cell.previous,
-                "v2a",   "v2b", cell.previous.plus(10))
+                "v2a",   "v2b", cell.above,
+                "v2a",   "v2b", cell.above.plus(10))
     }
 
     private static void validateTableData(TableData tableData) {

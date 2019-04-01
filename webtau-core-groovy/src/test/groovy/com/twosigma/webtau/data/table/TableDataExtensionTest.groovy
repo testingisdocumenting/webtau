@@ -100,8 +100,8 @@ class TableDataExtensionTest {
         ["Col A" | "Col B" | "Col C"] {
         __________________________________________
            "v1a" |   "v1b" | 10
-           "v2a" |   "v2b" | cell.previous
-           "v2a" |   "v2b" | cell.previous + 10 }
+           "v2a" |   "v2b" | cell.above
+           "v2a" |   "v2b" | cell.above + 10 }
     }
 
     private static void validateTableData(TableData tableData) {

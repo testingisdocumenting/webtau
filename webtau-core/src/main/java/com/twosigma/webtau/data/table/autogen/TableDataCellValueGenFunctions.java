@@ -22,7 +22,7 @@ import com.twosigma.webtau.data.table.Record;
  * @see com.twosigma.webtau.Ddjt#cell
  */
 public class TableDataCellValueGenFunctions {
-    public final TableDataCellValueGenerator<?> previous = new TableDataCellValueGenerator<>(this::previousColumnValue);
+    public final TableDataCellValueGenerator<?> above = new TableDataCellValueGenerator<>(this::previousColumnValue);
 
     public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenFullFunction<R> genFunction) {
         return new TableDataCellValueGenerator<>(genFunction);

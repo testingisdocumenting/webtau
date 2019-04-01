@@ -31,7 +31,7 @@ public class TableDataJavaSyntaxTest {
     // TODO move table data java tests to this test file
     // mdoc needs to support removal of "return" and semicolon from function body first
     private static TableData createTableDataWithAccessToPrevious() {
-        TableDataCellValueGenerator<?> increment = cell.previous.plus(10);
+        TableDataCellValueGenerator<?> increment = cell.above.plus(10);
 
         return table("Col A", "Col B", "Col C",
                     ________________________________________________,

@@ -49,4 +49,4 @@ Java:
 :include-groovy: com/twosigma/webtau/data/table/TableDataTest.groovy {entry: "createTableDataWithPreviousRef", bodyOnly: true}
 ```
 
-:include-table: table-with-cell-previous.json
+:include-table: table-with-cell-above.json
