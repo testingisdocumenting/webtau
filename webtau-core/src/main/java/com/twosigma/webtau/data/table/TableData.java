@@ -34,12 +34,13 @@ public class TableData implements Iterable<Record> {
     private final Map<CompositeKey, Integer> rowIdxByKey;
     private final Header header;
 
-    public TableData(List<String> columnNames) {
-        this(new Header(columnNames.stream()));
+    public TableData(List<?> columnNamesAndOptionalValues) {
+        this(new Header(extractColumnNames(columnNamesAndOptionalValues.stream()).stream()));
+        populateValues(columnNamesAndOptionalValues.stream());
     }
 
-    public TableData(Stream<String> columnNames) {
-        this(new Header(columnNames));
+    public TableData(Stream<?> columnNamesAndOptionalValues) {
+        this(columnNamesAndOptionalValues.collect(toList()));
     }
 
     public TableData(Header header) {
@@ -66,9 +67,8 @@ public class TableData implements Iterable<Record> {
     }
 
     /**
-     * combine with header to define TableData in pure Java
      * @param values row values combined in one vararg
-     * @return instance of table data
+     * @return populate table data instance
      */
     public TableData values(Object... values) {
         int numberOfRows = values.length / header.size();
@@ -102,15 +102,20 @@ public class TableData implements Iterable<Record> {
         addRow(values.stream());
     }
 
+    public void addRow(Stream<Object> values) {
+        Record record = new Record(header, values);
+
+        if (record.hasMultiValues()) {
+            record.unwrapMultiValues().forEach(this::addRow);
+        } else {
+            addRow(record);
+        }
+    }
+
     public void addRow(Record record) {
         if (header != record.getHeader()) {
             throw new RuntimeException("incompatible headers. current getHeader: " + header + ", new record one: " + record.getHeader());
         }
-        addRow(record.values());
-    }
-
-    public void addRow(Stream<Object> values) {
-        Record record = new Record(header, values);
 
         int rowIdx = rows.size();
         CompositeKey key = getOrBuildKey(rowIdx, record);
@@ -182,5 +187,25 @@ public class TableData implements Iterable<Record> {
         }
 
         return new CompositeKey(Stream.of(rowIdx));
+    }
+
+    private void populateValues(Stream<?> columnNameAndValues) {
+        values(columnNameAndValues.skip(header.size() + 1).toArray());
+    }
+
+    private static List<String> extractColumnNames(Stream<?> columnNameAndValues) {
+        List<String> result = new ArrayList<>();
+
+        Iterator<?> iterator = columnNameAndValues.iterator();
+        while (iterator.hasNext()) {
+            Object nameOrValue = iterator.next();
+            if (nameOrValue instanceof TableDataUnderscoreOrPlaceholder) {
+                break;
+            }
+
+            result.add(nameOrValue.toString());
+        }
+
+        return result;
     }
 }

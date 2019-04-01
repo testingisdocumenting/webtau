@@ -16,14 +16,10 @@
 
 package com.twosigma.webtau.data.table;
 
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.twosigma.webtau.Ddjt.createActualPath;
 
 /**
  * Composite key to be used in structures like {@link TableData}.

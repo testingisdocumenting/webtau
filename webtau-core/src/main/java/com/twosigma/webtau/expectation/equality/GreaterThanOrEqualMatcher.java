@@ -20,6 +20,8 @@ import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
+import static com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode.GREATER_THAN_OR_EQUAL;
+
 public class GreaterThanOrEqualMatcher implements ValueMatcher {
     private CompareToComparator compareToComparator;
     private final Object expected;
@@ -74,6 +76,6 @@ public class GreaterThanOrEqualMatcher implements ValueMatcher {
 
     @Override
     public String toString() {
-        return GreaterLessEqualMatcherRenderer.render(this, compareToComparator, expected);
+        return GreaterLessEqualMatcherRenderer.render(this, GREATER_THAN_OR_EQUAL, expected);
     }
 }

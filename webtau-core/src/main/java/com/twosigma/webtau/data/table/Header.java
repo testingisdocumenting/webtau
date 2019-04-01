@@ -71,6 +71,10 @@ public class Header {
         return IntStream.range(0, namesByIndex.size());
     }
 
+    public boolean hasColumn(String columnName) {
+        return namesByIndex.contains(columnName);
+    }
+
     private void add(String nameWithMeta) {
         boolean startsWithAsterisk = nameWithMeta.startsWith("*");
 

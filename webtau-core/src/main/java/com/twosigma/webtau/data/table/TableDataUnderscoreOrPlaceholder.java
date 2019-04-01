@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.documentation;
+package com.twosigma.webtau.data.table;
 
-import com.twosigma.webtau.utils.FileUtils;
+public class TableDataUnderscoreOrPlaceholder {
+    public static final TableDataUnderscoreOrPlaceholder INSTANCE = new TableDataUnderscoreOrPlaceholder();
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-public class DocumentationArtifacts {
-    public static void create(Class testClass, String artifactName, String textContent) {
-        Path path = Paths.get(testClass.getProtectionDomain().getCodeSource().getLocation().getPath())
-                .resolve(artifactName);
-        FileUtils.writeTextContent(path, textContent);
+    private TableDataUnderscoreOrPlaceholder() {
     }
 }

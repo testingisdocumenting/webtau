@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.http
 
-import com.twosigma.documentation.DocumentationArtifactsLocation
+import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.http.config.HttpConfiguration
 import com.twosigma.webtau.http.config.HttpConfigurations
 import com.twosigma.webtau.http.datanode.DataNode

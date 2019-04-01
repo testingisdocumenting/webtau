@@ -1,4 +1,7 @@
 ../../webtau-groovy/
+../../webtau-core/src/test/groovy
+../../webtau-core-groovy/src/test/groovy
+../../webtau-core/target/test-classes
 ../../webtau-groovy/src/main/groovy
 ../../webtau-feature-testing
 ../../webtau-feature-testing/examples

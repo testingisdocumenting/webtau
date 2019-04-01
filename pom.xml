@@ -50,6 +50,17 @@
             </roles>
             <timezone>Europe/London</timezone>
         </developer>
+        <developer>
+            <id>tsiq-clemens</id>
+            <name>Clemens Bertram</name>
+            <email>clemens.bertram@twosigmaiq.com</email>
+            <organization>Two Sigma Insurance Quantified</organization>
+            <organizationUrl>http://twosigmaiq.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>America/New_York</timezone>
+        </developer>
     </developers>
 
     <licenses>
@@ -101,6 +112,7 @@
         <module>webtau-report</module>
         <module>webtau-java-runner</module>
         <module>webtau-junit5</module>
+        <module>webtau-junit5-groovy</module>
         <module>webtau-junit5-examples</module>
         <module>webtau-junit4</module>
         <module>webtau-junit4-examples</module>
@@ -129,6 +141,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-all</artifactId>
                 <version>2.5.5</version>
@@ -139,6 +156,10 @@
                     <exclusion>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-test-junit5</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>testng</artifactId>
+                        <groupId>org.testng</groupId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -182,7 +203,7 @@
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
-                <version>3.0.0</version>
+                <version>3.4.0</version>
             </dependency>
 
             <dependency>

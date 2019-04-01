@@ -48,7 +48,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         def configScript = groovy.createScript(configPath.toString(), new ConfigBinding())
 
         def parsedConfig = configSlurper.parse(configScript)
-        cfg.acceptConfigValues("config file", parsedConfig.flatten())
+        cfg.acceptConfigValues("config file", convertConfigToMap(parsedConfig))
 
         if (!parsedConfig) {
             return
@@ -58,6 +58,17 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupBrowserPageNavigationHandler(parsedConfig)
         setupReportGenerator(parsedConfig)
         setupPageElementGetSetValueHandlers(parsedConfig)
+    }
+
+    private static Map<String, ?> convertConfigToMap(ConfigObject configObject) {
+        Map result = new LinkedHashMap()
+        configObject.each { k, v ->
+            result[k] = v instanceof ConfigObject ?
+                    convertConfigToMap(v) :
+                    v
+        }
+
+        return result
     }
 
     private static void setupHttpHeaderProvider(ConfigObject config) {
@@ -95,7 +106,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         }
 
         def handlerInstances = handlerClasses.collect { handlerClass -> constructFromClass(handlerClass) }
-        handlerInstances.each { PageElementGetSetValueHandlers.add((PageElementGetSetValueHandler)it) }
+        handlerInstances.each { PageElementGetSetValueHandlers.add((PageElementGetSetValueHandler) it) }
     }
 
     private static Object constructFromClass(Class handlerClass) {
