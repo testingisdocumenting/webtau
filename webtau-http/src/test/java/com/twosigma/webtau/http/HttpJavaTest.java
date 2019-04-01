@@ -20,6 +20,7 @@ import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
+import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
 
@@ -235,6 +236,25 @@ public class HttpJavaTest implements HttpConfiguration  {
         requestBody.put("hello", "world");
         http.put("/redirect", requestBody, (header, body) -> {
             body.should(equal(requestBody));
+        });
+    }
+
+    @Test
+    public void queryParams() {
+        http.get("/end-point?queryParam1=queryParamValue1", (header, body) -> {
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+        });
+
+        Map<String, String> queryParams = CollectionUtils.aMapOf("queryParam1", "queryParamValue1");
+        http.get("/end-point", http.query(queryParams), (header, body) -> {
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
+        });
+
+        http.get("/end-point", http.query("queryParam1", "queryParamValue1"), (header, body) -> {
+            body.get("id").shouldNot(equal(0));
+            body.get("amount").should(equal(30));
         });
     }
 

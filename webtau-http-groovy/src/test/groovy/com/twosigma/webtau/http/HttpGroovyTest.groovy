@@ -175,12 +175,50 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "query params in url"() {
+        http.get("params?a=1&b=text") {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
     void "build query params from the map and return a single value from closure"() {
         def a = http.get("params", [a: 1, b: 'text']) {
             return a
         }
 
         assert a == 1
+    }
+
+    @Test
+    void "build query params using map helper"() {
+        http.get("params", http.query([a: 1, b: 'text'])) {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
+    void "build query params using var arg helper"() {
+        http.get("params", http.query('a', '1', 'b', 'text')) {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
+    void "query param creation"() {
+        def varArgQuery = http.query(
+            'param1', 'value1',
+            'param2', 'value2'
+        )
+
+        def mapBasedQuery = http.query([
+            'param1': 'value1',
+            'param2': 'value2'])
+
+        assert varArgQuery == mapBasedQuery
     }
 
     @Test
