@@ -241,20 +241,20 @@ public class HttpJavaTest implements HttpConfiguration  {
 
     @Test
     public void queryParams() {
-        http.get("/end-point?queryParam1=queryParamValue1", (header, body) -> {
-            body.get("id").shouldNot(equal(0));
-            body.get("amount").should(equal(30));
+        http.get("/params?a=1&b=text", (header, body) -> {
+            body.get("a").should(equal(1));
+            body.get("b").should(equal("text"));
         });
 
-        Map<String, String> queryParams = CollectionUtils.aMapOf("queryParam1", "queryParamValue1");
-        http.get("/end-point", http.query(queryParams), (header, body) -> {
-            body.get("id").shouldNot(equal(0));
-            body.get("amount").should(equal(30));
+        Map<String, String> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
+        http.get("/params", http.query(queryParams), (header, body) -> {
+            body.get("a").should(equal(1));
+            body.get("b").should(equal("text"));
         });
 
-        http.get("/end-point", http.query("queryParam1", "queryParamValue1"), (header, body) -> {
-            body.get("id").shouldNot(equal(0));
-            body.get("amount").should(equal(30));
+        http.get("/params", http.query("a", "1", "b", "text"), (header, body) -> {
+            body.get("a").should(equal(1));
+            body.get("b").should(equal("text"));
         });
     }
 
