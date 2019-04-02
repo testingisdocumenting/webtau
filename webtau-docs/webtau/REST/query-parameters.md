@@ -10,7 +10,7 @@ This version of the `http.query` helper is generally more suitable for Groovy.
 
 :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "build query params using map helper", bodyOnly: true}
 
-# Vararg based `query` helper
+# Varargs based `query` helper
 
 This version of the `http.query` helper is generally more suitable for Java.
 
