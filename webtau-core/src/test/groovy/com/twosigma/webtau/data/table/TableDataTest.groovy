@@ -34,6 +34,17 @@ class TableDataTest {
         validateTableData(tableData)
     }
 
+    @Test
+    void "cell previous should be substituted with value from a previous row"() {
+        def tableData = createTableDataWithPreviousRef()
+        assert tableData.numberOfRows() == 3
+        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": 10]
+        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 10]
+        assert tableData.row(2).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 20]
+
+        DocumentationArtifacts.create(TableDataTest, 'table-with-cell-above.json', tableData.toJson())
+    }
+
     @Test(expected = IllegalArgumentException)
     void "should report columns number mismatch during table creation using header and values vararg methods"() {
         table("Col A", "Col B", "Col C").values(
@@ -71,9 +82,17 @@ class TableDataTest {
 
     static TableData createTableDataWithPermute() {
         table("Col A"              , "Col B"         , "Col C",
-              ________________________________________________________________,
+               ________________________________________________________________,
                permute(true, false), "v1b"           , permute('a', 'b'),
                "v2a"               , permute(10, 20) , "v2c")
+    }
+
+    static TableData createTableDataWithPreviousRef() {
+        table("Col A", "Col B", "Col C",
+              ________________________________________________,
+                "v1a",   "v1b", 10,
+                "v2a",   "v2b", cell.above,
+                "v2a",   "v2b", cell.above.plus(10))
     }
 
     private static void validateTableData(TableData tableData) {

@@ -17,24 +17,28 @@
 package com.twosigma.webtau.data.table;
 
 import com.twosigma.webtau.data.MultiValue;
+import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 public class Record {
     private final Header header;
     private final List<Object> values;
     private final CompositeKey key;
 
+    private final boolean hasMultiValues;
+    private final boolean hasValueGenerators;
+
     public Record(Header header, Stream<Object> values) {
         this.header = header;
-        this.values = values.collect(toList());
+        RecordFromStream recordFromStream = new RecordFromStream(values);
+
+        hasMultiValues = recordFromStream.hasMultiValues;
+        hasValueGenerators = recordFromStream.hasValueGenerators;
+        this.values = recordFromStream.values;
+
         this.key = header.hasKeyColumns() ?
                 new CompositeKey(header.getKeyIdxStream().map(this::get)) : null;
     }
@@ -63,7 +67,11 @@ public class Record {
     }
 
     public boolean hasMultiValues() {
-        return this.values.stream().anyMatch(v -> v instanceof MultiValue);
+        return this.hasMultiValues;
+    }
+
+    public boolean hasValueGenerators() {
+        return this.hasValueGenerators;
     }
 
     @SuppressWarnings("unchecked")
@@ -76,6 +84,27 @@ public class Record {
         multiValuesUnwrapper.add(this);
 
         return multiValuesUnwrapper.result;
+    }
+
+    public Record evaluateValueGenerators(Record previous, int rowIdx) {
+        if (!hasValueGenerators()) {
+            return this;
+        }
+
+        List<Object> newValues = new ArrayList<>(this.values.size());
+        int colIdx = 0;
+        for (Object value : this.values) {
+            if (value instanceof TableDataCellValueGenerator) {
+                newValues.add(((TableDataCellValueGenerator) value).generate(
+                        this, previous, rowIdx, colIdx, header.columnNameByIdx(colIdx)));
+            } else {
+                newValues.add(value);
+            }
+
+            colIdx++;
+        }
+
+        return new Record(header, newValues.stream());
     }
 
     public Map<String, Object> toMap() {
@@ -116,6 +145,28 @@ public class Record {
             }
 
             result.add(record);
+        }
+    }
+
+    private static class RecordFromStream {
+        private boolean hasMultiValues;
+        private boolean hasValueGenerators;
+        private List<Object> values;
+
+        public RecordFromStream(Stream<Object> valuesStream) {
+            values = new ArrayList<>();
+
+            valuesStream.forEach(v -> {
+                if (v instanceof MultiValue) {
+                    hasMultiValues = true;
+                }
+
+                if (v instanceof TableDataCellValueGenerator) {
+                    hasValueGenerators = true;
+                }
+
+                values.add(v);
+            });
         }
     }
 }
