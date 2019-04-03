@@ -16,13 +16,11 @@
 
 package com.twosigma.webtau.data.table.autogen;
 
-import com.twosigma.webtau.data.table.Record;
-
 /**
  * @see com.twosigma.webtau.Ddjt#cell
  */
 public class TableDataCellValueGenFunctions {
-    public final TableDataCellValueGenerator<?> above = new TableDataCellValueGenerator<>(this::previousColumnValue);
+    public final TableDataCellValueGenerator<?> above = TableDataCellAbove.generator;
 
     public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenFullFunction<R> genFunction) {
         return new TableDataCellValueGenerator<>(genFunction);
@@ -30,13 +28,5 @@ public class TableDataCellValueGenFunctions {
 
     public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenOnlyRecordFunction<R> genFunction) {
         return new TableDataCellValueGenerator<>(genFunction);
-    }
-
-    private <R> R previousColumnValue(Record row, Record prev, int rowIdx, int colIdx, String columnName) {
-        if (prev == null) {
-            return null;
-        }
-
-        return prev.get(columnName);
     }
 }

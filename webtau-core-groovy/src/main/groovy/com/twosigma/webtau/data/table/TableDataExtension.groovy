@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.data.table
 
+import com.twosigma.webtau.data.table.autogen.TableDataCellAbove
+
 class TableDataExtension {
     private static ThreadLocal<List<RowValues>> rows = new ThreadLocal<>()
 
@@ -65,7 +67,7 @@ class TableDataExtension {
     static class TableBuildDelegate {
         def getProperty(String name) {
             if (name =~ /^__+$/)
-                return name
+                return TableDataCellAbove.generator
 
             return super.getProperty(name)
         }
