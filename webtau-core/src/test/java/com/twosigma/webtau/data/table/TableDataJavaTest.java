@@ -66,8 +66,8 @@ public class TableDataJavaTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldReportColumnsNumberMismatchDuringTableCreationUsingHeaderAndValuesVarargMethod() {
         table("Col A", "Col B", "Col C").values(
-                 "v1a",   "v1b", "v1c",
-                 "v2a",   "v2b");
+                "v1a",   "v1b", "v1c",
+                "v2a",   "v2b");
     }
 
     @Test
