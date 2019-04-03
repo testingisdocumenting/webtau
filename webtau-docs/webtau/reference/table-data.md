@@ -57,8 +57,7 @@ You can use underscores of various length as a shortcut for `cell.above`
 Groovy:
 :include-groovy: com/twosigma/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableDataWithAboveRefShortcut", bodyOnly: true}
 
- Note: Unlike Java, Groovy can use underscores of any length as long as it is longer than 1 character.
-   
+ Note: In Groovy, unlike Java, you can use underscores of any length for the shortcut as long as it is longer than 1 character.
 Java:
 :include-java: com/twosigma/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithAboveRefShortcut", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
