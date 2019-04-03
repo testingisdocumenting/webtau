@@ -30,6 +30,6 @@ public class TableDataCellAbove {
             return null;
         }
 
-        return prev.get(columnName);
+        return prev.get(colIdx);
     }
 }
