@@ -94,14 +94,14 @@ public class TableDataJavaTest {
 
     private static TableData createTableDataWithPermute() {
         return table("Col A"              , "Col B"         , "Col C",
-               ________________________________________________________________,
+                     ________________________________________________________________,
                       permute(true, false), "v1b"           , permute('a', 'b'),
                       "v2a"               , permute(10, 20) , "v2c");
     }
 
     private static TableData createTableDataWithAboveRef() {
         return table("Name", "Start Date"             , "Games To Play",
-                ________________________________________________,
+                     ________________________________________________,
                      "John", LocalDate.of(2016, 6, 20), 10,
                      "Bob" , cell.above               ,  8,
                      "Mike", cell.above               , 14,
