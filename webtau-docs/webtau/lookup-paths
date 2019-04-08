@@ -1,5 +1,6 @@
 ../../webtau-groovy/
 ../../webtau-core/src/test/groovy
+../../webtau-core/src/test/java
 ../../webtau-core-groovy/src/test/groovy
 ../../webtau-core/target/test-classes
 ../../webtau-groovy/src/main/groovy

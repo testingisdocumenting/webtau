@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.autogen;
+package com.twosigma.webtau.data.table;
 
-/**
- * @see com.twosigma.webtau.Ddjt#cell
- */
-public class TableDataCellValueGenFunctions {
-    public final TableDataCellValueGenerator<?> above = TableDataCellAbove.generator;
+public class TableDataUnderscore {
+    public static final TableDataUnderscore INSTANCE = new TableDataUnderscore();
 
-    public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenFullFunction<R> genFunction) {
-        return new TableDataCellValueGenerator<>(genFunction);
-    }
-
-    public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenOnlyRecordFunction<R> genFunction) {
-        return new TableDataCellValueGenerator<>(genFunction);
+    private TableDataUnderscore() {
     }
 }

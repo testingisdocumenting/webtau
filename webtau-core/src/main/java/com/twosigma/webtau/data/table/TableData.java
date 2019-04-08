@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.data.table;
 
+import com.twosigma.webtau.data.table.autogen.TableDataCellAbove;
 import com.twosigma.webtau.utils.JsonUtils;
 
 import java.util.*;
@@ -202,7 +203,7 @@ public class TableData implements Iterable<Record> {
         Iterator<?> iterator = columnNameAndValues.iterator();
         while (iterator.hasNext()) {
             Object nameOrValue = iterator.next();
-            if (nameOrValue instanceof TableDataUnderscoreOrPlaceholder) {
+            if (nameOrValue instanceof TableDataUnderscore) {
                 break;
             }
 

@@ -18,19 +18,24 @@ package com.twosigma.webtau.data.table
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import java.time.LocalDate
 
-class TableDataExtensionTest {
+import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
+import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validatePermute
+import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
+
+class TableDataGroovyTest {
     @Test
     void "should register header and values using pipes"() {
         def tableData = createTableWithUnderscore()
-        validateTableData(tableData)
+        validateSimpleTableData(tableData)
     }
 
     @Test
     void "table header underscore should be optional"() {
         def tableData = createTableWithoutUnderscore()
-        validateTableData(tableData)
+        validateSimpleTableData(tableData)
     }
 
     @Test
@@ -48,23 +53,13 @@ class TableDataExtensionTest {
     @Test
     void "should generate multiple rows from multi-values"() {
         def tableData = createTableDataWithPermute()
-
-        assert tableData.numberOfRows() == 6
-        assert tableData.row(0).toMap() == ['Col A': true, 'Col B': 'v1b', 'Col C': 'a']
-        assert tableData.row(1).toMap() == ['Col A': false, 'Col B': 'v1b', 'Col C': 'a']
-        assert tableData.row(2).toMap() == ['Col A': true, 'Col B': 'v1b', 'Col C': 'b']
-        assert tableData.row(3).toMap() == ['Col A': false, 'Col B': 'v1b', 'Col C': 'b']
-        assert tableData.row(4).toMap() == ['Col A': 'v2a', 'Col B': 10, 'Col C': 'v2c']
-        assert tableData.row(5).toMap() == ['Col A': 'v2a', 'Col B': 20, 'Col C': 'v2c']
+        validatePermute(tableData)
     }
 
     @Test
-    void "cell previous should be substituted with value from a previous row"() {
-        def tableData = createTableDataWithPreviousRef()
-        assert tableData.numberOfRows() == 3
-        assert tableData.row(0).toMap() == ["Col A": "v1a", "Col B": "v1b", "Col C": 10]
-        assert tableData.row(1).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 10]
-        assert tableData.row(2).toMap() == ["Col A": "v2a", "Col B": "v2b", "Col C": 20]
+    void "cell above should be substituted with value from a previous row"() {
+        def tableData = createTableDataWithAboveRef()
+        validateAboveValue(tableData)
     }
 
     @Test
@@ -96,17 +91,15 @@ class TableDataExtensionTest {
          "v2a"                | permute(10, 20) | "v2c" }
     }
 
-    static TableData createTableDataWithPreviousRef() {
-        ["Col A" | "Col B" | "Col C"] {
-        __________________________________________
-           "v1a" |   "v1b" | 10
-           "v2a" |   "v2b" | cell.above
-           "v2a" |   "v2b" | cell.above + 10 }
-    }
+    static TableData createTableDataWithAboveRef() {
+        ["Name" | "Start Date"              | "Games To Play" ] {
+         ______________________________________________________
+         "John" | LocalDate.of(2016, 6, 20) | 10
+         "Bob"  | cell.above                |  8
+         "Mike" | cell.above                | 14
 
-    private static void validateTableData(TableData tableData) {
-        tableData.numberOfRows().should == 2
-        tableData.row(0).toMap().should == ["Col A": "v1a", "Col B": "v1b", "Col C": "v1c"]
-        tableData.row(1).toMap().should == ["Col A": "v2a", "Col B": "v2b", "Col C": "v2c"]
+         "Drew" | LocalDate.of(2016, 6, 22) | 10
+         "Pete" | cell.above                | 11
+         "Max"  | cell.above                |  3 }
     }
 }

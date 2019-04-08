@@ -14,11 +14,22 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table;
+package com.twosigma.webtau.data.table.autogen;
 
-public class TableDataUnderscoreOrPlaceholder {
-    public static final TableDataUnderscoreOrPlaceholder INSTANCE = new TableDataUnderscoreOrPlaceholder();
+import com.twosigma.webtau.data.table.Record;
 
-    private TableDataUnderscoreOrPlaceholder() {
+public class TableDataCellAbove {
+    public static final TableDataCellValueGenerator<?> generator =
+            new TableDataCellValueGenerator<>(TableDataCellAbove::aboveCellValue);
+
+    private TableDataCellAbove() {
+    }
+
+    private static <R> R aboveCellValue(Record row, Record prev, int rowIdx, int colIdx, String columnName) {
+        if (prev == null) {
+            return null;
+        }
+
+        return prev.get(colIdx);
     }
 }

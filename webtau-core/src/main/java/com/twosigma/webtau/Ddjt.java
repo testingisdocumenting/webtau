@@ -18,8 +18,10 @@ package com.twosigma.webtau;
 
 import com.twosigma.webtau.data.MultiValue;
 import com.twosigma.webtau.data.table.TableData;
+import com.twosigma.webtau.data.table.TableDataUnderscore;
+import com.twosigma.webtau.data.table.autogen.TableDataCellAbove;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFunctions;
-import com.twosigma.webtau.data.table.TableDataUnderscoreOrPlaceholder;
+import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
 import com.twosigma.webtau.expectation.ActualCode;
 import com.twosigma.webtau.expectation.ActualCodeExpectations;
 import com.twosigma.webtau.expectation.ActualPath;
@@ -46,17 +48,17 @@ import java.util.regex.Pattern;
  * Convenient class for a single static * imports
  */
 public class Ddjt {
-    public static final TableDataUnderscoreOrPlaceholder __ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________________________________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________________________________________________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-    public static final TableDataUnderscoreOrPlaceholder ________________________________________________________________________________________________ = TableDataUnderscoreOrPlaceholder.INSTANCE;
-
     public static final TableDataCellValueGenFunctions cell = new TableDataCellValueGenFunctions();
+
+    public static final TableDataUnderscore __ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
 
     public static TableData table(String... columnNames) {
         return new TableData(Arrays.stream(columnNames));
