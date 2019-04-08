@@ -18,6 +18,7 @@ package com.twosigma.webtau;
 
 import com.twosigma.webtau.data.MultiValue;
 import com.twosigma.webtau.data.table.TableData;
+import com.twosigma.webtau.data.table.TableDataUnderscore;
 import com.twosigma.webtau.data.table.autogen.TableDataCellAbove;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFunctions;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
@@ -49,15 +50,15 @@ import java.util.regex.Pattern;
 public class Ddjt {
     public static final TableDataCellValueGenFunctions cell = new TableDataCellValueGenFunctions();
 
-    public static final TableDataCellValueGenerator<?> __ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________________ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________________________________ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________________________________________ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________________________________________________ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________________________________________________________________ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________________________________________________________________________________ = TableDataCellAbove.generator;
-    public static final TableDataCellValueGenerator<?> ________________________________________________________________________________________________ = TableDataCellAbove.generator;
+    public static final TableDataUnderscore __ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
 
     public static TableData table(String... columnNames) {
         return new TableData(Arrays.stream(columnNames));

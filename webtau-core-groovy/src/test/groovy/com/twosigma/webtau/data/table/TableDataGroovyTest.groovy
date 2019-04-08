@@ -63,12 +63,6 @@ class TableDataGroovyTest {
     }
 
     @Test
-    void "underscores should be treated as a shortcut cell above"() {
-        def tableData = createTableDataWithAboveRefShortcut()
-        validateAboveValue(tableData)
-    }
-
-    @Test
     void "should ignore underscore under header"() {
         def table = ["hello" | "world"] {
                     ___________________
@@ -107,17 +101,5 @@ class TableDataGroovyTest {
          "Drew" | LocalDate.of(2016, 6, 22) | 10
          "Pete" | cell.above                | 11
          "Max"  | cell.above                |  3 }
-    }
-
-    private static TableData createTableDataWithAboveRefShortcut() {
-        ["Name" | "Start Date"              | "Games To Play" ] {
-         ______________________________________________________
-         "John" | LocalDate.of(2016, 6, 20) | 10
-         "Bob"  | _________________         |  8
-         "Mike" | _________________         | 14
-
-         "Drew" | LocalDate.of(2016, 6, 22) | 10
-         "Pete" | _________________         | 11
-         "Max"  | _________________         |  3 }
     }
 }

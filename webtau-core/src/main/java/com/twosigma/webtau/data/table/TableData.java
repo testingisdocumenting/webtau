@@ -203,9 +203,7 @@ public class TableData implements Iterable<Record> {
         Iterator<?> iterator = columnNameAndValues.iterator();
         while (iterator.hasNext()) {
             Object nameOrValue = iterator.next();
-            // ______ family is represented as above value generator
-            // so we treat it in this case as a columns definition and values separator
-            if (nameOrValue == TableDataCellAbove.generator) {
+            if (nameOrValue instanceof TableDataUnderscore) {
                 break;
             }
 

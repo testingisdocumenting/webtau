@@ -51,18 +51,6 @@ public class TableDataJavaTest {
                         .toJson());
     }
 
-    @Test
-    public void cellAboveShouldBeSubstitutedWithValueFromPreviousRowUsingShortcut() {
-        TableData tableData = createTableDataWithAboveRefShortcut();
-        validateAboveValue(tableData);
-    }
-
-    @Test
-    public void cellAboveShouldBeSubstitutedWithValueFromPreviousRowUsingShortcutInTableUsingValues() {
-        TableData tableData = createTableDataWithAboveRefShortcutUsingValues();
-        validateAboveValue(tableData);
-    }
-
     @Test(expected = IllegalArgumentException.class)
     public void shouldReportColumnsNumberMismatchDuringTableCreationUsingHeaderAndValuesVarargMethod() {
         table("Col A", "Col B", "Col C").values(
@@ -109,29 +97,5 @@ public class TableDataJavaTest {
                      "Drew", LocalDate.of(2016, 6, 22), 10,
                      "Pete", cell.above               , 11,
                      "Max" , cell.above               ,  3);
-    }
-
-    private static TableData createTableDataWithAboveRefShortcut() {
-        return table("Name", "Start Date"             , "Games To Play",
-                     ________________________________________________,
-                     "John", LocalDate.of(2016, 6, 20), 10,
-                     "Bob" , ________________         ,  8,
-                     "Mike", ________________         , 14,
-
-                     "Drew", LocalDate.of(2016, 6, 22), 10,
-                     "Pete", ________________         , 11,
-                     "Max" , ________________         ,  3);
-    }
-
-    private static TableData createTableDataWithAboveRefShortcutUsingValues() {
-        return table("Name", "Start Date"             , "Games To Play").values(
-
-                     "John", LocalDate.of(2016, 6, 20), 10,
-                     "Bob" , ________________         ,  8,
-                     "Mike", ________________         , 14,
-
-                     "Drew", LocalDate.of(2016, 6, 22), 10,
-                     "Pete", ________________         , 11,
-                     "Max" , ________________         ,  3);
     }
 }
