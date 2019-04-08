@@ -37,8 +37,16 @@ class HttpExtensions {
         return http.get(url, new HttpQueryParams(queryParams), header, closureToHttpResponseValidator(validation))
     }
 
+    static def get(Http http, String url, HttpQueryParams queryParams, HttpHeader header, Closure validation) {
+        return http.get(url, queryParams, header, closureToHttpResponseValidator(validation))
+    }
+
     static def get(Http http, String url, Map<String, ?> queryParams, Closure validation) {
         return http.get(url, new HttpQueryParams(queryParams), closureToHttpResponseValidator(validation))
+    }
+
+    static def get(Http http, String url, HttpQueryParams queryParams, Closure validation) {
+        return http.get(url, queryParams, closureToHttpResponseValidator(validation))
     }
 
     static def post(Http http, String url, HttpHeader header, Map<String, Object> requestBody, Closure validation) {

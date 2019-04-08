@@ -4,6 +4,7 @@ REST
     CRUD-separated
     data-node
     headers
+    query-parameters
     files-upload
     PDF
     documentation

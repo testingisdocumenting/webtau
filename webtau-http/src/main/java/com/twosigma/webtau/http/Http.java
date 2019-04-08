@@ -271,6 +271,14 @@ public class Http {
         return new HttpHeader(properties);
     }
 
+    public HttpQueryParams query(String... params) {
+        return new HttpQueryParams(CollectionUtils.aMapOf((Object[]) params));
+    }
+
+    public HttpQueryParams query(Map<String, ?> params) {
+        return new HttpQueryParams(params);
+    }
+
     public HttpRequestBody body(String mimeType, String content) {
         return TextRequestBody.withType(mimeType, content);
     }
