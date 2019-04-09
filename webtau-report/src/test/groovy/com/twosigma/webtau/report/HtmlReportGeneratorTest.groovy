@@ -26,6 +26,7 @@ class HtmlReportGeneratorTest {
 
         assert html.contains('--webtau-selected-test-background')
         assert html.contains('compressedTestReport = \'H4sIAAAAAAAAAKtWKi7NzU0sqlSygrNqAeKeWDwVAAAA\'')
+        assert html.contains('shortcut icon')
         assert html.contains('Minified React error')
     }
 }

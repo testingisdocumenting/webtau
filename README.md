@@ -2,6 +2,8 @@
 
 Web Test Automation [User Guide](https://opensource.twosigma.com/webtau/guide/)
 
+![logo](webtau-docs/webtau/webtau-logo.png)
+
 ## Simple REST tests
 
 ```groovy
@@ -9,6 +11,11 @@ scenario("simple get") {
     http.get("/weather") {
         temperature.shouldBe < 100
     }
+}
+```
+```json
+{
+  "temperature": 88
 }
 ```
 
