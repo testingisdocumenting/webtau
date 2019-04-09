@@ -24,7 +24,7 @@
 
 <article>
 <header><h1>Table Data</h1></header>
-<p>Use TableData If you want to derive data and/or have a convenience of collocating data and tests package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* def lever = 10 def useCases = ['title' | 'input' | 'output'] { ____________________________________ 'hello' | lever | lever + 10 'world' | lever + 30 | lever + 40 } useCases.each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+<p>Use TableData if you want to derive data and/or have a convenience of collocating data and tests package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* def lever = 10 def useCases = ['title' | 'input' | 'output'] { ____________________________________ 'hello' | lever | lever + 10 'world' | lever + 30 | lever + 40 } useCases.each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } } With the additional annotation @TestFactory you can use TableData as an easy-to-read source of similar but independent tests where each row is treated as its own test (comparable to JUnit's parameterized tests), optionally with a descriptive label. Here are examples of parameterized tests with and without labels, and how an IDE uses the label for display purposes:</p>
 </article>
 </section>
 </div>
@@ -125,7 +125,7 @@ ReactDOM.render(React.createElement(Documentation, {
           {
             "lang": "groovy",
             "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndata.csv(\u0027use-cases.csv\u0027).each { row -\u003e\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
-            "title": "CSV driven",
+            "title": "CSV-driven tests",
             "type": "Snippet"
           }
         ]
@@ -147,7 +147,7 @@ ReactDOM.render(React.createElement(Documentation, {
                 "type": "InlinedCode"
               },
               {
-                "text": " If you want to derive data and/or have a convenience of collocating data and tests",
+                "text": " if you want to derive data and/or have a convenience of collocating data and tests",
                 "type": "SimpleText"
               }
             ]
@@ -155,13 +155,87 @@ ReactDOM.render(React.createElement(Documentation, {
           {
             "lang": "groovy",
             "snippet": "package scenarios.concept\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndef lever \u003d 10\n\ndef useCases \u003d [\u0027title\u0027  | \u0027input\u0027    | \u0027output\u0027] {\n               ____________________________________\n                \u0027hello\u0027  | lever      | lever + 10\n                \u0027world\u0027  | lever + 30 | lever + 40 }\n\nuseCases.each { row -\u003e\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
-            "title": "Table Data driven",
+            "title": "TableData-driven tests",
             "type": "Snippet"
+          },
+          {
+            "level": 2,
+            "title": "TestFactory",
+            "id": "testfactory",
+            "type": "SubHeading"
+          },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "With the additional annotation ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "@TestFactory",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " you can use ",
+                "type": "SimpleText"
+              },
+              {
+                "code": "TableData",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " as an easy-to-read source of",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "similar but independent tests where each row is treated as its own test (comparable to JUnit\u0027s",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "parameterized tests), optionally with a descriptive label.",
+                "type": "SimpleText"
+              },
+              {
+                "type": "SoftLineBreak"
+              },
+              {
+                "text": "Here are examples of parameterized tests with and without labels, and how an IDE uses the label for display purposes:",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "@TestFactory\ndef \"individual tests use generated display labels\"() {\n    [\"price\", \"quantity\", \"outcome\"] {\n    _________________________________\n      10     |  30      |  300\n      -10    |  30      | -300\n    }.test {\n        PriceCalculator.calculate(price, quantity).should \u003d\u003d outcome\n    }\n}",
+            "title": "Parameterized tests without explicit label",
+            "entry": "individual tests use generated display labels",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "@TestFactory\ndef \"individual tests can use an optional display label to clarify the use case\"() {\n    [\"label\",           \"price\", \"quantity\", \"outcome\"] {\n    ___________________________________________________\n      \"positive price\" | 10     |  30      |  300\n      \"negative price\" | -10    |  30      | -300\n    }.test {\n        PriceCalculator.calculate(price, quantity).should \u003d\u003d outcome\n    }\n}",
+            "title": "Parameterized tests with explicit label",
+            "entry": "individual tests can use an optional display label to clarify the use case",
+            "type": "Snippet"
+          },
+          {
+            "imageSrc": "/webtau/guide/img/intellij-parameterized-tests.png",
+            "timestamp": 1554774480662,
+            "shapes": [],
+            "width": 402.0,
+            "height": 156.0,
+            "type": "AnnotatedImage"
           }
         ]
       }
     ],
-    "lastModifiedTime": 1541166954000,
+    "lastModifiedTime": 1553710054000,
     "tocItem": {
       "sectionTitle": "Groovy Specific Runner",
       "pageTitle": "Data Driven Scenarios",

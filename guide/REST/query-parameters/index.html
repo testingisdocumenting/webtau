@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Query Parameters</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+</head>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<body>
+<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Webtau offers a number of ways of specifying query parameters:</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script>
+document.getElementById('mdoc').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta": {
+    "viewOn": {
+      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title": "View On GitHub"
+    },
+    "id": "webtau/guide",
+    "title": "WebTau",
+    "type": "Guide",
+    "previewEnabled": false
+  },
+  "page": {
+    "type": "Page",
+    "content": [
+      {
+        "type": "Paragraph",
+        "content": [
+          {
+            "text": "Webtau offers a number of ways of specifying query parameters:",
+            "type": "SimpleText"
+          }
+        ]
+      },
+      {
+        "lang": "groovy",
+        "snippet": "// Query params in the URL\nhttp.get(\"params?a\u003d1\u0026b\u003dtext\") {\n    // assertions go here\n}\n\n// Query params with map based helper - best suited for Groovy\nhttp.get(\"params\", http.query([a: 1, b: \u0027text\u0027])) {\n    // assertions go here\n}\n\n// Query params with varargs based helper - best suited for Java\nhttp.get(\"params\", http.query(\u0027a\u0027, \u00271\u0027, \u0027b\u0027, \u0027text\u0027)) {\n    // assertions go here\n}",
+        "entry": "query params example",
+        "bodyOnly": true,
+        "type": "Snippet"
+      }
+    ],
+    "lastModifiedTime": 1554683155000,
+    "tocItem": {
+      "sectionTitle": "REST",
+      "pageTitle": "Query Parameters",
+      "pageMeta": {},
+      "fileName": "query-parameters",
+      "dirName": "REST",
+      "pageSectionIdTitles": []
+    }
+  },
+  "footer": {}
+}), document.getElementById("mdoc"));
+</script>
+
+</body>
+</html>

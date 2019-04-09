@@ -28,8 +28,13 @@
 </article>
 
 <article>
+<header><h1>Each</h1></header>
+<p>Special values inside assertion block have convenient methods each to iterate over a list</p>
+</article>
+
+<article>
 <header><h1>Find</h1></header>
-<p>Special values inside assertion block have convenient methods find to find a single valueand findAll to find all the values matching predicateNote: While values inside a predicate are normal values, the result of find and findAll is still DataNode</p>
+<p>find to find a single valueand findAll to find all the values matching predicateNote: While values inside a predicate are normal values, the result of find and findAll is still DataNode</p>
 </article>
 
 <article>
@@ -244,8 +249,8 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       },
       {
-        "title": "Find",
-        "id": "find",
+        "title": "Each",
+        "id": "each",
         "type": "Section",
         "content": [
           {
@@ -257,6 +262,42 @@ ReactDOM.render(React.createElement(Documentation, {
               }
             ]
           },
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "code": "each",
+                "type": "InlinedCode"
+              },
+              {
+                "text": " to iterate over a list",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "lang": "groovy",
+            "snippet": "http.get(\"/end-point\") {\n    list.each { it.shouldBe \u003e 0 }\n}",
+            "entry": "groovy each on simple list",
+            "bodyOnly": true,
+            "title": "List of simple values",
+            "type": "Snippet"
+          },
+          {
+            "lang": "groovy",
+            "snippet": "http.get(\"/end-point\") {\n    complexList.each { k2.shouldBe \u003e 0 }\n}",
+            "entry": "groovy each on complex list",
+            "bodyOnly": true,
+            "title": "List of complex values",
+            "type": "Snippet"
+          }
+        ]
+      },
+      {
+        "title": "Find",
+        "id": "find",
+        "type": "Section",
+        "content": [
           {
             "type": "Paragraph",
             "content": [
@@ -410,7 +451,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1539782115000,
+    "lastModifiedTime": 1549584703000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Data Node",
@@ -429,6 +470,10 @@ ReactDOM.render(React.createElement(Documentation, {
         {
           "title": "Properties On Lists",
           "id": "properties-on-lists"
+        },
+        {
+          "title": "Each",
+          "id": "each"
         },
         {
           "title": "Find",

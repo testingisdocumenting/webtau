@@ -14,12 +14,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>CLI and configuration file options</h1></header>
-<p>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false interactive use CLI interactive mode false jsonSchemasDir url of directory containing JSON schemas noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</p>
+<p>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg disableRedirects disable following of redirects from HTTP calls false docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false interactive use CLI interactive mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</p>
 </article>
 
 <article>
 <header><h1>Environment variable options</h1></header>
-<p>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOC_PATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_INTERACTIVE use CLI interactive mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</p>
+<p>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_INTERACTIVE use CLI interactive mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</p>
 </article>
 </section>
 </div>
@@ -142,6 +142,41 @@ ReactDOM.render(React.createElement(Documentation, {
                       "content": [
                         {
                           "text": "webtau.cfg",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ]
+                ],
+                [
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "disableRedirects",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "disable following of redirects from HTTP calls",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "false",
                           "type": "SimpleText"
                         }
                       ]
@@ -312,6 +347,41 @@ ReactDOM.render(React.createElement(Documentation, {
                     }
                   ],
                   null
+                ],
+                [
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "maxRedirects",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "Maximum number of redirects to follow for an HTTP call",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "20",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ]
                 ],
                 [
                   [
@@ -819,6 +889,41 @@ ReactDOM.render(React.createElement(Documentation, {
                       "type": "Paragraph",
                       "content": [
                         {
+                          "text": "WEBTAU_DISABLE_REDIRECTS",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "disable following of redirects from HTTP calls",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "false",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ]
+                ],
+                [
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
                           "text": "WEBTAU_DOC_PATH",
                           "type": "SimpleText"
                         }
@@ -977,6 +1082,41 @@ ReactDOM.render(React.createElement(Documentation, {
                     }
                   ],
                   null
+                ],
+                [
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "WEBTAU_MAX_REDIRECTS",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "Maximum number of redirects to follow for an HTTP call",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type": "Paragraph",
+                      "content": [
+                        {
+                          "text": "20",
+                          "type": "SimpleText"
+                        }
+                      ]
+                    }
+                  ]
                 ],
                 [
                   [

@@ -3,7 +3,7 @@
     <url>/webtau/guide</url>
     <fullTitle>WebTau WebTau</fullTitle>
     <text>
-      <text>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("simple get") { http.get("/weather") { temperature.shouldBe &lt; 100 } } package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario("search by specific query") { search.submit("search this") search.numberOfResults.should == 2 }</text>
+      <text>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario("simple get") { http.get("/weather") { temperature.shouldBe &lt; 100 } } json { "temperature": 88 } Tests can be written in any JVM language with language specific syntactic sugar where applicable. package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario("search by specific query") { search.submit("search this") search.numberOfResults.should == 2 }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -96,10 +96,18 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/guide/REST/data-node#each</url>
+    <fullTitle>WebTau: Data Node, Each [REST]</fullTitle>
+    <text>
+      <text>Special values inside assertion block have convenient methods each to iterate over a list</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/guide/REST/data-node#find</url>
     <fullTitle>WebTau: Data Node, Find [REST]</fullTitle>
     <text>
-      <text>Special values inside assertion block have convenient methods find to find a single valueand findAll to find all the values matching predicateNote: While values inside a predicate are normal values, the result of find and findAll is still DataNode</text>
+      <text>find to find a single valueand findAll to find all the values matching predicateNote: While values inside a predicate are normal values, the result of find and findAll is still DataNode</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -156,6 +164,14 @@
     <fullTitle>WebTau: Headers, Response Header [REST]</fullTitle>
     <text>
       <text>To validate values from response header use header object.At the moment only location , contentLocation , contentLength have camelCase shortcuts. All the other header values you need to use ['Header-Name'] syntax.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/REST/query-parameters</url>
+    <fullTitle>WebTau: Query Parameters,  [REST]</fullTitle>
+    <text>
+      <text>Webtau offers a number of ways of specifying query parameters:</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -315,7 +331,7 @@
     <url>/webtau/guide/REST/maven#dependency</url>
     <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
     <text>
-      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;/dependency></text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.7&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.7&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -323,7 +339,7 @@
     <url>/webtau/guide/REST/maven#plugin</url>
     <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
     <text>
-      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.7&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -731,7 +747,7 @@
     <url>/webtau/guide/groovy-specific-runner/data-driven-scenarios#table-data</url>
     <fullTitle>WebTau: Data Driven Scenarios, Table Data [Groovy Specific Runner]</fullTitle>
     <text>
-      <text>Use TableData If you want to derive data and/or have a convenience of collocating data and tests package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* def lever = 10 def useCases = ['title' | 'input' | 'output'] { ____________________________________ 'hello' | lever | lever + 10 'world' | lever + 30 | lever + 40 } useCases.each { row -> scenario("use case ${row.title}") { println row.input println row.output } }</text>
+      <text>Use TableData if you want to derive data and/or have a convenience of collocating data and tests package scenarios.concept import static com.twosigma.webtau.WebTauGroovyDsl.* def lever = 10 def useCases = ['title' | 'input' | 'output'] { ____________________________________ 'hello' | lever | lever + 10 'world' | lever + 30 | lever + 40 } useCases.each { row -> scenario("use case ${row.title}") { println row.input println row.output } } With the additional annotation @TestFactory you can use TableData as an easy-to-read source of similar but independent tests where each row is treated as its own test (comparable to JUnit's parameterized tests), optionally with a descriptive label. Here are examples of parameterized tests with and without labels, and how an IDE uses the label for display purposes:</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -787,7 +803,7 @@
     <url>/webtau/guide/generic-runners/JUnit-4#webtau-runner</url>
     <fullTitle>WebTau: JUnit 4, WebTau Runner [Generic Runners]</fullTitle>
     <text>
-      <text>You can use webtau http. and browser. methods as in a junit test, but to enable reporting you need to use @RunWith(WebTauRunner.class) Groovy package com.example.tests.junit4 import com.twosigma.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static com.twosigma.webtau.WebTauDsl.* @RunWith(WebTauRunner.class) class CustomerCrudSingleGroovyTest { private def customerPayload = [firstName: 'FN', lastName: 'LN'] private def changedCustomerPayload = [*:customerPayload, lastName: 'NLN'] @Test void crud() { def id = http.post("/customers", customerPayload) { return id } http.get("/customers/$id") { body.should == customerPayload } http.put("/customers/$id", changedCustomerPayload) { body.should == changedCustomerPayload } http.get("/customers/$id") { body.should == changedCustomerPayload } http.delete("/customers/$id") { statusCode.should == 204 } http.get("/customers/$id") { statusCode.should == 404 } } } Java package com.example.tests.junit4; import com.twosigma.webtau.junit4.WebTauRunner; import org.junit.BeforeClass; import org.junit.Test; import org.junit.runner.RunWith; import java.util.Map; import static com.twosigma.webtau.Ddjt.aMapOf; import static com.twosigma.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class CustomerCrudSingleJavaTest { private Map&lt;String, Object> customerPayload = createCustomerPayload(); private Map&lt;String, Object> changedCustomerPayload = createChangedCustomerPayload(); @BeforeClass public static void setUpClass() { String port = System.getProperty("springboot.http.port", "8080"); getCfg().setBaseUrl("http://localhost:" + port); } @Test public void crud() { int id = http.post("/customers", customerPayload, ((header, body) -> { return body.get("id"); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(customerPayload)); })); http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.delete("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(204)); })); http.get("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(404)); })); } private Map&lt;String, Object> createCustomerPayload() { return aMapOf( "firstName", "FN", "lastName", "LN"); } private Map&lt;String, Object> createChangedCustomerPayload() { Map&lt;String, Object> payload = createCustomerPayload(); payload.put("lastName", "NLN"); return payload; } }</text>
+      <text>You can use webtau http. and browser. methods as in a junit 4 tests, but to enable reporting you need to use @RunWith(WebTauRunner.class) Groovy package com.example.tests.junit4 import com.twosigma.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static com.twosigma.webtau.WebTauDsl.* @RunWith(WebTauRunner.class) class CustomerCrudSingleGroovyTest { private def customerPayload = [firstName: 'FN', lastName: 'LN'] private def changedCustomerPayload = [*:customerPayload, lastName: 'NLN'] @Test void crud() { def id = http.post("/customers", customerPayload) { return id } http.get("/customers/$id") { body.should == customerPayload } http.put("/customers/$id", changedCustomerPayload) { body.should == changedCustomerPayload } http.get("/customers/$id") { body.should == changedCustomerPayload } http.delete("/customers/$id") { statusCode.should == 204 } http.get("/customers/$id") { statusCode.should == 404 } } } Java package com.example.tests.junit4; import com.twosigma.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import java.util.Map; import static com.twosigma.webtau.Ddjt.aMapOf; import static com.twosigma.webtau.WebTauDsl.equal; import static com.twosigma.webtau.WebTauDsl.http; @RunWith(WebTauRunner.class) public class CustomerCrudSingleJavaTest { private Map&lt;String, Object> customerPayload = createCustomerPayload(); private Map&lt;String, Object> changedCustomerPayload = createChangedCustomerPayload(); @Test public void crud() { int id = http.post("/customers", customerPayload, ((header, body) -> { return body.get("id"); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(customerPayload)); })); http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.delete("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(204)); })); http.get("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(404)); })); } private Map&lt;String, Object> createCustomerPayload() { return aMapOf( "firstName", "FN", "lastName", "LN"); } private Map&lt;String, Object> createChangedCustomerPayload() { Map&lt;String, Object> payload = createCustomerPayload(); payload.put("lastName", "NLN"); return payload; } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -795,7 +811,47 @@
     <url>/webtau/guide/generic-runners/JUnit-4#maven-import</url>
     <fullTitle>WebTau: JUnit 4, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.5&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.7&lt;/version> &lt;/dependency></text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/generic-runners/JUnit-5#webtau-runner</url>
+    <fullTitle>WebTau: JUnit 5, WebTau Runner [Generic Runners]</fullTitle>
+    <text>
+      <text>You can use webtau http. and browser. methods as in a junit 5 tests, but to enable reporting you need to use @Webtau annotation Groovy package com.example.tests.junit5 import com.twosigma.webtau.junit5.WebTau import org.junit.jupiter.api.* import static com.twosigma.webtau.WebTauGroovyDsl.* @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order @DisplayName("customer") class CustomerCrudSeparatedGroovyTest { private static def customerPayload = [firstName: 'FN', lastName : 'LN'] private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN'] private static def id; @BeforeAll static void createCustomer() { id = http.post("/customers", customerPayload) { body.id // using body prefix is required in this case as id conflicts with class field name } id.shouldNot == 0 } @Test @Order(1) void read() { http.get("/customers/$id") { body.should == customerPayload } } @Test @Order(2) // order dependence saves from creating customer on every test void update() { http.put("/customers/$id", changedCustomerPayload) { body.should == changedCustomerPayload } http.get("/customers/$id") { body.should == changedCustomerPayload } } @Test @Order(3) // but you can still run each method independently void delete() { http.delete("/customers/$id") { header.statusCode.should == 204 } http.get("/customers/$id") { header.statusCode.should == 404 } } } Java package com.example.tests.junit5; import com.twosigma.webtau.junit5.WebTau; import org.junit.jupiter.api.*; import java.util.LinkedHashMap; import java.util.Map; import static com.twosigma.webtau.WebTauDsl.*; @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order @DisplayName("customer") public class CustomerCrudSeparatedJavaTest { private static final Map&lt;String, Object> customerPayload = createCustomerPayload(); private static final Map&lt;String, Object> changedCustomerPayload = createChangedCustomerPayload(); private static int id; @BeforeAll static void createCustomer() { id = http.post("/customers", customerPayload, ((header, body) -> { return body.get("id"); })); actual(id).shouldNot(equal(0)); } @Test @Order(1) void read() { http.get("/customers/" + id, ((header, body) -> { body.should(equal(customerPayload)); })); } @Test @Order(2) // order dependence saves from creating customer on every test void update() { http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); } @Test @Order(3) // but you can still run each method independently void delete() { http.delete("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(204)); })); http.get("/customers/" + id, ((header, body) -> { header.statusCode().should(equal(404)); })); } private static Map&lt;String, Object> createCustomerPayload() { Map&lt;String, Object> payload = new LinkedHashMap&lt;&gt;(); payload.put("firstName", "FN"); payload.put("lastName", "LN"); return payload; } private static Map&lt;String, Object> createChangedCustomerPayload() { Map&lt;String, Object> payload = createCustomerPayload(); payload.put("lastName", "NLN"); return payload; } }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/generic-runners/JUnit-5#maven-import</url>
+    <fullTitle>WebTau: JUnit 5, Maven Import [Generic Runners]</fullTitle>
+    <text>
+      <text>&lt;dependency> &lt;groupId>com.twosigma.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.7&lt;/version> &lt;/dependency></text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/reference/table-data#create</url>
+    <fullTitle>WebTau: Table Data, Create [Reference]</fullTitle>
+    <text>
+      <text>Use language specific DSL to create TableData instance: Groovy Java table("Col A", "Col B", "Col C", ________________________________, "v1a", "v1b", "v1c", "v2a", "v2b", "v2c") Note: The example above assumes import static com.twosigma.webtau.Ddjt.* . Additionally Ddjt has header-separating lines defined using underscores ___ of various lengths, which you can optionally use for aesthetics. Using ____ underscore is optional and is there for aesthetics only Groovy Java table("Col A", "Col B", "Col C").values( "v1a", "v1b", "v1c", "v2a", "v2b", "v2c")</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/reference/table-data#permutations</url>
+    <fullTitle>WebTau: Table Data, Permutations [Reference]</fullTitle>
+    <text>
+      <text>Use permute(v1, v2) to automatically generate multiple rows. Groovy Java table("Col A" , "Col B" , "Col C", ________________________________________________________________, permute(true, false), "v1b" , permute('a', 'b'), "v2a" , permute(10, 20) , "v2c") Col A Col B Col C true v1b a false v1b a true v1b b false v1b b v2a 10.0 v2c v2a 20.0 v2c</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/guide/reference/table-data#cell-above-value-reference</url>
+    <fullTitle>WebTau: Table Data, Cell Above Value Reference [Reference]</fullTitle>
+    <text>
+      <text>Use cell.above to refer to the previous row value Groovy Java table("Name", "Start Date" , "Games To Play", ________________________________________________, "John", LocalDate.of(2016, 6, 20), 10, "Bob" , cell.above , 8, "Mike", cell.above , 14, "Drew", LocalDate.of(2016, 6, 22), 10, "Pete", cell.above , 11, "Max" , cell.above , 3) Name Start Date Games To Play John 2016-06-20 10.0 Bob 2016-06-20 8.0 Mike 2016-06-20 14.0 Drew 2016-06-22 10.0 Pete 2016-06-22 11.0 Max 2016-06-22 3.0</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -819,7 +875,7 @@
     <url>/webtau/guide/configuration/options#cli-and-configuration-file-options</url>
     <fullTitle>WebTau: Options, CLI and configuration file options [Configuration]</fullTitle>
     <text>
-      <text>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false interactive use CLI interactive mode false jsonSchemasDir url of directory containing JSON schemas noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</text>
+      <text>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg disableRedirects disable following of redirects from HTTP calls false docPath path for screenshots and other generated artifacts for documentation ${workingDir} env environment id local headless run headless mode false interactive use CLI interactive mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread) 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -827,7 +883,7 @@
     <url>/webtau/guide/configuration/options#environment-variable-options</url>
     <fullTitle>WebTau: Options, Environment variable options [Configuration]</fullTitle>
     <text>
-      <text>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DOC_PATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_INTERACTIVE use CLI interactive mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</text>
+      <text>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_HEADLESS run headless mode false WEBTAU_INTERACTIVE use CLI interactive mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread) 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>
