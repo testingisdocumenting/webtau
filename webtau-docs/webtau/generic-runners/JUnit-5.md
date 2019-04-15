@@ -12,8 +12,7 @@ Java: :include-file: com/example/tests/junit5/CustomerCrudSeparatedJavaTest.java
 
 :include-file: maven/junit5-dep.xml
 
-# Specific Features
-## TestFactory
+# TestFactory
 
 With the additional annotation `@TestFactory` you can use `TableData` as an easy-to-read source of 
 similar but independent tests where each row is treated as its own test (comparable to JUnit 4's 
