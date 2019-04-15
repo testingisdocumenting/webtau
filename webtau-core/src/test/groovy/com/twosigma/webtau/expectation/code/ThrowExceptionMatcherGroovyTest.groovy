@@ -20,6 +20,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 
+import java.lang.reflect.UndeclaredThrowableException
+
 import static com.twosigma.webtau.Ddjt.code
 import static com.twosigma.webtau.Ddjt.throwException
 
@@ -119,9 +121,20 @@ class ThrowExceptionMatcherGroovyTest {
         } should throwException(IllegalArgumentException)
     }
 
+    @Test
+    void "handle undeclared throwable exceptions"() {
+        code { checkedExceptionThrowingProxy('catch me if you can') }
+                .should(throwException(IOException, 'catch me if you can'))
+    }
+
+
     private static businessLogic(num) {
         if (num < 0) {
             throw new IllegalArgumentException('negative not allowed')
         }
+    }
+
+    private static checkedExceptionThrowingProxy(def message) {
+        throw new UndeclaredThrowableException(new IOException(message))
     }
 }

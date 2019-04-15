@@ -16,13 +16,13 @@
 
 package com.twosigma.webtau.expectation.code;
 
+import static com.twosigma.webtau.Ddjt.createActualPath;
+
 import com.twosigma.webtau.expectation.CodeBlock;
 import com.twosigma.webtau.expectation.CodeMatcher;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
-
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.regex.Pattern;
-
-import static com.twosigma.webtau.Ddjt.createActualPath;
 
 public class ThrowExceptionMatcher implements CodeMatcher {
     private String expectedMessage;
@@ -74,8 +74,7 @@ public class ThrowExceptionMatcher implements CodeMatcher {
         try {
             codeBlock.execute();
         } catch (Throwable t) {
-            thrownMessage = t.getMessage();
-            thrownClass = t.getClass();
+            extractExceptionDetails(t);
         }
 
         comparator = CompareToComparator.comparator();
@@ -97,5 +96,16 @@ public class ThrowExceptionMatcher implements CodeMatcher {
         }
 
         return isEqual;
+    }
+
+    private void extractExceptionDetails(Throwable t) {
+        if (t instanceof UndeclaredThrowableException) {
+            Throwable undeclaredCheckedException = t.getCause();
+            thrownMessage = undeclaredCheckedException.getMessage();
+            thrownClass = undeclaredCheckedException.getClass();
+        } else {
+            thrownMessage = t.getMessage();
+            thrownClass = t.getClass();
+        }
     }
 }
