@@ -109,6 +109,13 @@ class StandaloneTestRunnerTest {
         assertInitFailed(runner, 'No such property: helloWorld for class: withParsingError')
     }
 
+    @Test
+    void "should forbid test steps outside of scenario"() {
+        def runner = createRunner("withTestStepOutsideScenario.groovy")
+        runner.runTests()
+        assertInitFailed(runner, 'executing <running errand> outside of scenario is not supported')
+    }
+
     private static void assertInitFailed(StandaloneTestRunner runner, String message) {
         runner.tests.size().should == 1
 

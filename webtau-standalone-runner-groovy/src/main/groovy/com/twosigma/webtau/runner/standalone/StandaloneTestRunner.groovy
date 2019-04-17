@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.runner.standalone
 
+import com.twosigma.webtau.reporter.StepReporters
+
 import java.nio.file.Path
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.atomic.AtomicBoolean
@@ -59,7 +61,9 @@ class StandaloneTestRunner {
             script.setProperty("sscenario", this.&sscenario)
             script.setProperty("onlyWhen", this.&onlyWhen)
 
-            script.run()
+            StepReporters.withAdditionalReporter(new ForbidStepsOutsideScenarioStepListener()) {
+                script.run()
+            }
         })
 
         scriptParse.run()
