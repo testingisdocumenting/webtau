@@ -20,6 +20,8 @@ import org.junit.Test
 
 import java.nio.file.Paths
 
+import static com.twosigma.webtau.Ddjt.contain
+
 class StandaloneTestRunnerTest {
     @Test
     void "should register tests with scenario keyword"() {
@@ -58,7 +60,7 @@ class StandaloneTestRunnerTest {
 
         firstSnippet.filePath.should == 'StandaloneTest.groovy'
         firstSnippet.lineNumbers.should == [20]
-        firstSnippet.snippet.contains('throw new RuntimeException("error on purpose")').should == true // TODO contain matcher
+        firstSnippet.snippet.should contain('throw new RuntimeException("error on purpose")')
     }
 
     @Test
@@ -90,6 +92,30 @@ class StandaloneTestRunnerTest {
 
         runner.tests.skipped.should == [true, true, false]
         runner.tests.disableReason.should == ['will never happen', 'will never happen', null]
+    }
+
+
+    @Test
+    void "should report test file run failure due to exceptions"() {
+        def runner = createRunner("withExceptionOutside.groovy")
+        runner.runTests()
+        assertInitFailed(runner, 'init and in general code should not be called outside')
+    }
+
+    @Test
+    void "should report test file run failure due to parsing error"() {
+        def runner = createRunner("withParsingError.groovy")
+        runner.runTests()
+        assertInitFailed(runner, 'No such property: helloWorld for class: withParsingError')
+    }
+
+    private static void assertInitFailed(StandaloneTestRunner runner, String message) {
+        runner.tests.size().should == 1
+
+        def test = runner.tests[0]
+        test.scenario.should == 'parse/init'
+        test.reportTestEntry.hasError().should == true
+        test.reportTestEntry.exception.message.should == message
     }
 
     private static StandaloneTestRunner createRunner(String scenarioFile) {
