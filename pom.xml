@@ -135,7 +135,7 @@
         <spring.version>4.3.18.RELEASE</spring.version>
         <swagger.version>1.5.18</swagger.version>
         <maven.api.version>3.5.4</maven.api.version>
-        <tomcat.version>8.5.34</tomcat.version>
+        <tomcat.version>8.5.40</tomcat.version>
     </properties>
 
     <dependencyManagement>
