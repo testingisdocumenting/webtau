@@ -29,8 +29,7 @@ import java.nio.file.Paths
 
 import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
 
-// TODO: manual runs for now while figuring selenium driver auto download
-class WebTauUiFeaturesTestManual {
+class WebTauUiFeaturesTest {
     private static WebTauTestRunner testRunner
 
     static void registerEndPoints(TestServer testServer) {
@@ -253,9 +252,9 @@ class WebTauUiFeaturesTestManual {
         }
     }
 
-    private static void runCli(String uiTestName, String configFileName, String... additionalArgs) {
+    private static void runCli(String uiTestName, String configFileName) {
         testRunner.runCli("scenarios/ui/$uiTestName",
-                "scenarios/ui/$configFileName", additionalArgs)
+                "scenarios/ui/$configFileName", "--url=${testRunner.testServer.uri}")
     }
 
     private static TestServerHtmlResponse htmlResponse(String resourceName) {
