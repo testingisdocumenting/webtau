@@ -77,7 +77,7 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "redirect disabled"() {
-        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}", "--disableRedirects")
+        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}", '--disableRedirects')
     }
 
     @Test
@@ -98,7 +98,8 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "crud separated"() {
-        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg',
+                "--url=$customersBaseUrl", '--reportPath=webtau-report-crud-separated.html')
     }
 
     @Test
@@ -133,7 +134,11 @@ class WebTauRestFeaturesTest {
     }
 
     private static String getCustomersBaseUrl() {
-        String port = System.getProperty("springboot.http.port", "8080")
+        String port = System.getProperty('springboot.http.port')
+        if (!port || port.isEmpty()) {
+            port = '8080'
+        }
+
         return "http://localhost:$port"
     }
 

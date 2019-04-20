@@ -5,6 +5,7 @@ build
 target
 node_modules
 webtau.report.html
+webtau-report-*
 .vertx
 webtau-http-groovy/doc-artifacts/*
 webtau-feature-testing/doc-artifacts/*

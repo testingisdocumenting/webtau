@@ -8,6 +8,11 @@ Out of the box report provides high level information like number of failed test
 
 :include-image: img/rest-report-summary.png {fit: true}
 
+# Test Summary
+
+Selected test to see a summary information about test run
+:include-image: report-test-summary.png {fit: true}
+
 # Navigation
 
 Report is a self contained single page application. 

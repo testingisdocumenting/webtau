@@ -119,6 +119,7 @@
         <module>webtau-testapp</module>
         <module>webtau-config</module>
         <module>webtau-feature-testing</module>
+        <module>webtau-report-testing</module>
         <module>webtau-docs</module>
         <module>webtau-maven-plugin</module>
         <module>webtau-maven-plugin-test</module>
