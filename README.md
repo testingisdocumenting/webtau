@@ -31,3 +31,5 @@ scenario("search by specific query") {
 ## Precise Reporting
 
 ![report-image](webtau-docs/webtau/img/rest-crud-separated-report.png)
+
+[Full Documentation](https://opensource.twosigma.com/webtau/guide/)
