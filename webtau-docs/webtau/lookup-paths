@@ -22,5 +22,5 @@
 ../../webtau-junit4-examples/src/test/java
 ../../webtau-junit5-examples/src/test/groovy
 ../../webtau-junit5-examples/src/test/java
-../../webtau-report-testing/src/main/groovy/doc-artifacts
+../../webtau-report-testing/src/test/groovy/doc-artifacts
 ../target/classes

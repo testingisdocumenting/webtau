@@ -10,6 +10,7 @@
         <version>1.8-SNAPSHOT</version>
     </parent>
 
+    <packaging>pom</packaging>
     <artifactId>webtau-report-testing</artifactId>
 
     <dependencies>
@@ -35,9 +36,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <workingDir>${project.basedir}/src/main/groovy</workingDir>
+                    <workingDir>${project.basedir}/src/test/groovy</workingDir>
                     <tests>
-                        <directory>${project.basedir}/src/main/groovy</directory>
+                        <directory>${project.basedir}/src/test/groovy</directory>
                         <includes>
                             <include>scenarios/*.groovy</include>
                         </includes>
