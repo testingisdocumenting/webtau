@@ -1,6 +1,3 @@
-os:
-  - linux
-  - windows
 language: java
 cache:
   directories:
