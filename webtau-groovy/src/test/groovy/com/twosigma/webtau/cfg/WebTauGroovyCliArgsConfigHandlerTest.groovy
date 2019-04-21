@@ -29,7 +29,7 @@ class WebTauGroovyCliArgsConfigHandlerTest {
         handler.onAfterCreate(cfg)
 
         cfg.env.should == 'dev'
-        cfg.workingDir.toString().should == '/root/a'
+        cfg.workingDir.asList()*.toString().should == ['root', 'a']
         cfg.configFileName.asString.should == 'abc.cfg'
         cfg.baseUrl.should == ""
 

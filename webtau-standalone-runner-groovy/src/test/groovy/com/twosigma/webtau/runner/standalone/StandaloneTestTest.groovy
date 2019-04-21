@@ -26,7 +26,8 @@ import static com.twosigma.webtau.Ddjt.equal
 class StandaloneTestTest {
     @Test
     void "registered payloads should be merged into toMap test representation"() {
-        def test = new StandaloneTest(Paths.get(""), Paths.get("test.groovy"), "my test description", {})
+        def test = new StandaloneTest(Paths.get("").toAbsolutePath(),
+                Paths.get("test.groovy").toAbsolutePath(), "my test description", {})
         test.reportTestEntry.startTime = 12345678
         test.reportTestEntry.elapsedTime = 100
         test.addResultPayload(new TestResultPayload("screenshot",  "base64"))

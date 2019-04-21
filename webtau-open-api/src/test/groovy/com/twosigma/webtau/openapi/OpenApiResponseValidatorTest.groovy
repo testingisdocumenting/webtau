@@ -30,6 +30,8 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
+import java.nio.file.Paths
+
 import static com.twosigma.webtau.Ddjt.*
 
 class OpenApiResponseValidatorTest implements StepReporter {
@@ -37,7 +39,8 @@ class OpenApiResponseValidatorTest implements StepReporter {
 
     @BeforeClass
     static void init() {
-        OpenApiSpecConfig.specUrl.set('test-manual', ResourceUtils.resourceUrl("test-spec.json"))
+        OpenApiSpecConfig.specUrl.set('test-manual', Paths.get(
+                ResourceUtils.resourceUrl("test-spec.json").toURI()))
     }
 
     @Before

@@ -56,12 +56,12 @@ class FileBasedCacheTest {
         def fileBasedCache = new FileBasedCache({ -> cacheFile })
         fileBasedCache.put('accessToken', 'abc', 400)
 
-        Assert.assertEquals('{\n' +
-                '  "accessToken" : {\n' +
-                '    "value" : "abc",\n' +
-                '    "expirationTime" : 400\n' +
-                '  }\n' +
-                '}', cacheFile.text)
+        Assert.assertEquals(String.format('{%n' +
+                '  "accessToken" : {%n' +
+                '    "value" : "abc",%n' +
+                '    "expirationTime" : 400%n' +
+                '  }%n' +
+                '}'), cacheFile.text)
     }
 
     @Test
@@ -70,12 +70,12 @@ class FileBasedCacheTest {
         def fileBasedCache = new FileBasedCache({ -> cacheFile })
         fileBasedCache.put('accessToken', 'abc')
 
-        Assert.assertEquals('{\n' +
-                '  "accessToken" : {\n' +
-                '    "value" : "abc",\n' +
-                '    "expirationTime" : 9223372036854775807\n' +
-                '  }\n' +
-                '}', cacheFile.text)
+        Assert.assertEquals(String.format('{%n' +
+                '  "accessToken" : {%n' +
+                '    "value" : "abc",%n' +
+                '    "expirationTime" : 9223372036854775807%n' +
+                '  }%n' +
+                '}'), cacheFile.text)
     }
 
     @Test
