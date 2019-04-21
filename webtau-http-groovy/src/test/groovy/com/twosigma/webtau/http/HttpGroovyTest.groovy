@@ -363,8 +363,8 @@ class HttpGroovyTest implements HttpConfiguration {
             header.contentLocation.should == '/url/23'
             header['Content-Location'].should == '/url/23'
 
-            header.contentLength.should == 303
-            header['Content-Length'].should == 303
+            header.contentLength.shouldBe > 300
+            header['Content-Length'].shouldBe > 300
         }
     }
 
