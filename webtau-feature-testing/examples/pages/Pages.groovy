@@ -1,7 +1,7 @@
 package pages
 
 class Pages {
-    static final search = new SearchPage()
-    static final calculation = new CalculationPage()
-    static final form = new FormPage()
+    static final def search = new SearchPage()
+    static final def calculation = new CalculationPage()
+    static final def form = new FormPage()
 }

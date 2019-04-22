@@ -123,6 +123,7 @@
         <module>webtau-maven-plugin</module>
         <module>webtau-maven-plugin-test</module>
         <module>webtau-maven-plugin-test-skip</module>
+        <module>webtau-report-testing</module>
         <module>webtau-dist</module>
         <module>webtau</module>
     </modules>

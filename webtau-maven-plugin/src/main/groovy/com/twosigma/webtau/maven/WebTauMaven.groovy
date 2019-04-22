@@ -16,13 +16,19 @@
 
 package com.twosigma.webtau.maven
 
+import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cli.WebTauCliApp
 import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugin.logging.Log
 import org.apache.maven.shared.model.fileset.FileSet
 import org.apache.maven.shared.model.fileset.util.FileSetManager
 
+import java.util.concurrent.atomic.AtomicInteger
+
 class WebTauMaven {
+    private static AtomicInteger numberOfRuns = new AtomicInteger(0)
+
+
     static void runTests(Log log, FileSet tests, Map options) {
         def fileSetManager = new FileSetManager()
         def files = fileSetManager.getIncludedFiles(tests) as List
@@ -33,6 +39,14 @@ class WebTauMaven {
         args.addAll(files)
 
         def cli = new WebTauCliApp(args as String[])
+        // multiple maven plugins can be executed within the same JVM
+        // we need to explicitly trigger config handlers
+        if (numberOfRuns.get() > 0) {
+            WebTauConfig.getCfg().triggerConfigHandlers()
+        }
+
+        numberOfRuns.updateAndGet({ n -> n + 1 })
+
         if (options.interactive) {
             cli.startInteractive()
         } else {
@@ -55,6 +69,6 @@ class WebTauMaven {
             return value ? "--$key" : ""
         }
 
-        return  "--${key}=${value}"
+        return "--${key}=${value}"
     }
 }
