@@ -50,3 +50,27 @@ Java:
 ```
 
 :include-table: table-with-cell-above.json
+
+# Cell Above Math
+
+Use `cell.above.plus|minus` to generate a derived value based on the previous row value 
+
+```tabs
+Groovy:
+:include-groovy: com/twosigma/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableDataWithAboveRefAndMath", bodyOnly: true}
+
+Java:
+:include-java: com/twosigma/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithAboveRefAndMath", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+:include-table: table-with-cell-above-math.json
+
+Extract `cell.above.operation` to make your intentions clearer
+
+```tabs
+Groovy:
+:include-groovy: com/twosigma/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableDataWithAboveRefAndMathExtracted", bodyOnly: true}
+
+Java:
+:include-java: com/twosigma/webtau/data/table/TableDataJavaTest.java {entries: ["createIncrementExample", "createTableDataWithAboveRefAndMathExtracted"], bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
