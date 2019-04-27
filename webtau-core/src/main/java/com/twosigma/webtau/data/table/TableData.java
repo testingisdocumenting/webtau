@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.data.table;
 
-import com.twosigma.webtau.data.table.autogen.TableDataCellAbove;
 import com.twosigma.webtau.utils.JsonUtils;
 
 import java.util.*;
@@ -147,7 +146,6 @@ public class TableData implements Iterable<Record> {
         return mapped;
     }
 
-    @SuppressWarnings("unchecked")
     public <T, R> Stream<R> mapColumn(String columnName, Function<T, R> mapper) {
         int idx = header.columnIdxByName(columnName);
         return rows.stream().map(r -> mapper.apply(r.get(idx)));

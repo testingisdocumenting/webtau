@@ -22,6 +22,7 @@ import java.time.LocalDate
 
 import static com.twosigma.webtau.Ddjt.*
 import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
+import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
 import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validatePermute
 import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
 
@@ -63,6 +64,18 @@ class TableDataGroovyTest {
     }
 
     @Test
+    void "cell above should should support plus operation"() {
+        def tableData = createTableDataWithAboveRefAndMath()
+        validateAboveValueWithMath(tableData)
+    }
+
+    @Test
+    void "cell above should should support plus operation extracted"() {
+        def tableData = createTableDataWithAboveRefAndMathExtracted()
+        validateAboveValueWithMath(tableData)
+    }
+
+    @Test
     void "should ignore underscore under header"() {
         def table = ["hello" | "world"] {
                     ___________________
@@ -101,5 +114,23 @@ class TableDataGroovyTest {
          "Drew" | LocalDate.of(2016, 6, 22) | 10
          "Pete" | cell.above                | 11
          "Max"  | cell.above                |  3 }
+    }
+
+    static TableData createTableDataWithAboveRefAndMath() {
+        ["Name" | "Start Date"              | "Games To Play" ] {
+         ______________________________________________________
+         "John" | LocalDate.of(2016, 6, 20) | 10
+         "Bob"  | cell.above                | cell.above + 1
+         "Mike" | cell.above                | cell.above + 1 }
+    }
+
+    static TableData createTableDataWithAboveRefAndMathExtracted() {
+        def increment = cell.above + 1
+
+        ["Name" | "Start Date"              | "Games To Play" ] {
+         ______________________________________________________
+         "John" | LocalDate.of(2016, 6, 20) | 10
+         "Bob"  | cell.above                | increment
+         "Mike" | cell.above                | increment }
     }
 }

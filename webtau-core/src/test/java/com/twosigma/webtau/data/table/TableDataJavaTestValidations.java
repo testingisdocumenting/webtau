@@ -66,4 +66,16 @@ public class TableDataJavaTestValidations {
         actual(tableData.row(5).toMap()).should(equal(
                 aMapOf("Name", "Max", "Start Date", secondDate, "Games To Play", 3)));
     }
+
+    public static void validateAboveValueWithMath(TableData tableData) {
+        actual(tableData.numberOfRows()).should(equal(3));
+
+        LocalDate firstDate = LocalDate.of(2016, 6, 20);
+        actual(tableData.row(0).toMap()).should(equal(
+                aMapOf("Name", "John", "Start Date", firstDate, "Games To Play", 10)));
+        actual(tableData.row(1).toMap()).should(equal(
+                aMapOf("Name", "Bob", "Start Date", firstDate, "Games To Play", 11)));
+        actual(tableData.row(2).toMap()).should(equal(
+                aMapOf("Name", "Mike", "Start Date", firstDate, "Games To Play", 12)));
+    }
 }

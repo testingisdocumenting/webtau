@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.data.table.autogen;
 
+import com.twosigma.webtau.data.math.DynamicMath;
 import com.twosigma.webtau.data.table.Record;
 
 public class TableDataCellValueGenerator<R> {
@@ -39,26 +40,17 @@ public class TableDataCellValueGenerator<R> {
     }
 
     @SuppressWarnings("unchecked")
-    public <N extends Number> TableDataCellValueGenerator<N> plus(Number v) {
-        return new TableDataCellValueGenerator<N>(((row, prev, rowIdx, colIdx, columnName) -> {
+    public <N> TableDataCellValueGenerator<N> plus(Object right) {
+        return new TableDataCellValueGenerator<>(((row, prev, rowIdx, colIdx, columnName) -> {
             R calculated = genFunction.apply(row, prev, rowIdx, colIdx, columnName);
-            return (N) addTwoNumbers((Number) calculated, v);
+            return (N) DynamicMath.add(calculated, right);
         }));
     }
 
-    private static Number addTwoNumbers(Number a, Number b) {
-        if (b instanceof Double) {
-            return a.doubleValue() + b.doubleValue();
-        }
-
-        if (a instanceof Long || b instanceof Long) {
-            return a.longValue() + b.longValue();
-        }
-
-        if (b instanceof Integer) {
-            return a.intValue()  + b.intValue();
-        }
-
-        throw new UnsupportedOperationException(a.getClass() + " + " + b.getClass() + " is not supported");
+    public <N> TableDataCellValueGenerator<N> minus(Object right) {
+        return new TableDataCellValueGenerator<>(((row, prev, rowIdx, colIdx, columnName) -> {
+            R calculated = genFunction.apply(row, prev, rowIdx, colIdx, columnName);
+            return (N) DynamicMath.subtract(calculated, right);
+        }));
     }
 }
