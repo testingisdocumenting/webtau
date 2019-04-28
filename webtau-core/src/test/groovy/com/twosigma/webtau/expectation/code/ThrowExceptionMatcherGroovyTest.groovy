@@ -85,6 +85,7 @@ class ThrowExceptionMatcherGroovyTest {
                 '\n' +
                 'expected exception message:   actual: "error message" <java.lang.String>\n' +
                 '                            expected: "error message1" <java.lang.String>\n' +
+                '                                                    ^\n' +
                 'expected exception class:   actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
                 '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
 
