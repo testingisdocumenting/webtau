@@ -60,7 +60,92 @@ class StringCompareToHandlerTest {
         assertEquals('mismatches:\n' +
                 '\n' +
                 'text:   actual: "t" <java.lang.String>(before conversion: t <java.lang.Character>)\n' +
-                '      expected: "b" <java.lang.String>',
+                '      expected: "b" <java.lang.String>\n' +
+                '                 ^',
+                comparator.generateEqualMismatchReport())
+    }
+
+    @Test
+    void "shows caret indicator for first mismatch of a one line strings"() {
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(createActualPath('text'), 'hello world', 'herlo world')
+
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text:   actual: "hello world" <java.lang.String>\n' +
+                '      expected: "herlo world" <java.lang.String>\n' +
+                '                   ^',
+                comparator.generateEqualMismatchReport())
+    }
+
+    @Test
+    void "renders multiline strings in blocks"() {
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(createActualPath('text'),
+                'hello world world\nhello again',
+                'hello world world\nhi again')
+
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text:   actual: <java.lang.String>\n' +
+                '      _________________\n' +
+                '      hello world world\n' +
+                '      hello again\n' +
+                '      _________________\n' +
+                '      \n' +
+                '      expected: <java.lang.String>\n' +
+                '      _________________\n' +
+                '      hello world world\n' +
+                '      hi again\n' +
+                '      _________________\n' +
+                '      \n' +
+                '      first mismatch at line idx 1:\n' +
+                '      hello again\n' +
+                '      hi again\n' +
+                '       ^',
+                comparator.generateEqualMismatchReport())
+    }
+
+    @Test
+    void "reports different number of lines"() {
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(createActualPath('text'),
+                '\nhello world world\nhello again',
+                'hello world world\nhi again')
+
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text: different number of lines, expected: 2, actual: 3\n' +
+                '        actual: <java.lang.String>\n' +
+                '      _________________\n' +
+                '      \n' +
+                '      hello world world\n' +
+                '      hello again\n' +
+                '      _________________\n' +
+                '      \n' +
+                '      expected: <java.lang.String>\n' +
+                '      _________________\n' +
+                '      hello world world\n' +
+                '      hi again\n' +
+                '      _________________\n' +
+                '      \n' +
+                '      first mismatch at line idx 0:\n' +
+                '      \n' +
+                '      hello world world\n' +
+                '      ^',
+                comparator.generateEqualMismatchReport())
+    }
+
+    @Test
+    void "reports different line ending"() {
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(createActualPath('text'),
+                'hello world world\n\rhello again',
+                'hello world world\nhello again')
+
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text: different line endings, expected doesn\'t contain \\r, but actual does',
                 comparator.generateEqualMismatchReport())
     }
 }
