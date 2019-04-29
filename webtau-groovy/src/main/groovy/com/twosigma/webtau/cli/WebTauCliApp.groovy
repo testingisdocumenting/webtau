@@ -129,7 +129,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             Pdf.closeAll()
 
             if (webDriverBehavior == WebDriverBehavior.AutoCloseWebDrivers) {
-                WebDriverCreator.closeAll()
+                WebDriverCreator.quitAll()
             }
         }
     }

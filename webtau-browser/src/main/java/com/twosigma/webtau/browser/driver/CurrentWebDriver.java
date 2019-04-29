@@ -31,9 +31,20 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptExecutor, WebStorage {
-    private AtomicBoolean wasUsed = new AtomicBoolean(false);
-    private ThreadLocal<WebDriver> local = ThreadLocal.withInitial(WebDriverCreator::create);
+public class CurrentWebDriver implements
+        WebDriver,
+        TakesScreenshot,
+        JavascriptExecutor,
+        WebStorage,
+        WebDriverCreatorListener {
+    private final AtomicBoolean wasUsed;
+    private ThreadLocal<WebDriver> local;
+
+    public CurrentWebDriver() {
+        wasUsed = new AtomicBoolean(false);
+        local = new ThreadLocal<>();
+        WebDriverCreatorListeners.add(this);
+    }
 
     @Override
     public void get(String url) {
@@ -72,7 +83,7 @@ public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptE
 
     @Override
     public void quit() {
-        WebDriverCreator.close(getDriver());
+        WebDriverCreator.quit(getDriver());
         local.set(null);
     }
 
@@ -142,5 +153,24 @@ public class CurrentWebDriver implements WebDriver, TakesScreenshot, JavascriptE
     @Override
     public SessionStorage getSessionStorage() {
         return ((WebStorage)getDriver()).getSessionStorage();
+    }
+
+    @Override
+    public void beforeDriverCreation() {
+    }
+
+    @Override
+    public void afterDriverCreation(WebDriver webDriver) {
+    }
+
+    @Override
+    public void beforeDriverQuit(WebDriver webDriver) {
+    }
+
+    @Override
+    public void afterDriverQuit(WebDriver webDriver) {
+        if (local.get() == webDriver) {
+            local.set(null);
+        }
     }
 }

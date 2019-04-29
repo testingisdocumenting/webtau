@@ -48,9 +48,15 @@ public class WebDriverCreator {
         return register(driver);
     }
 
-    public static void close(WebDriver driver) {
+    static void quit(WebDriver driver) {
+        quitWithoutRemove(driver);
         drivers.remove(driver);
+    }
+
+    private static void quitWithoutRemove(WebDriver driver) {
+        WebDriverCreatorListeners.beforeDriverQuit(driver);
         driver.quit();
+        WebDriverCreatorListeners.afterDriverQuit(driver);
     }
 
     private static ChromeDriver createChromeDriver() {
@@ -86,8 +92,8 @@ public class WebDriverCreator {
         System.setProperty("wdm.forceCache", "true");
     }
 
-    public static void closeAll() {
-        drivers.forEach(WebDriver::quit);
+    public static void quitAll() {
+        drivers.forEach(WebDriverCreator::quitWithoutRemove);
         drivers.clear();
     }
 
@@ -106,6 +112,6 @@ public class WebDriverCreator {
     }
 
     private static void registerCleanup() {
-        Runtime.getRuntime().addShutdownHook(new Thread(WebDriverCreator::closeAll));
+        Runtime.getRuntime().addShutdownHook(new Thread(WebDriverCreator::quitAll));
     }
 }
