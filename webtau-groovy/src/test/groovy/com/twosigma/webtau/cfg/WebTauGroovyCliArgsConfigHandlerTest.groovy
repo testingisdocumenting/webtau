@@ -51,10 +51,10 @@ class WebTauGroovyCliArgsConfigHandlerTest {
 
         def cwd = Paths.get("").toAbsolutePath()
         def expectedFiles = [
-            Paths.get("testScenarios", "root-scenarios.groovy"),
-            Paths.get("testScenarios", "firstNestedDir", "nested-scenarios.groovy"),
-            Paths.get("testScenarios", "firstNestedDir", "secondNestedDir", "nested-nested-scenarios.groovy"),
-            Paths.get("testScenarios", "siblingNestedDir", "sibling-scenarios.groovy")
+            Paths.get("testScenarios", "rootScenarios.groovy"),
+            Paths.get("testScenarios", "firstNestedDir", "nestedScenarios.groovy"),
+            Paths.get("testScenarios", "firstNestedDir", "secondNestedDir", "nestedNestedScenarios.groovy"),
+            Paths.get("testScenarios", "siblingNestedDir", "siblingScenarios.groovy")
         ].collect {
             cwd.resolve(it).toString()
         }.sort()
