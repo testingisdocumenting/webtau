@@ -18,6 +18,8 @@ package com.twosigma.webtau.cfg
 
 import org.junit.Test
 
+import java.nio.file.Paths
+
 class WebTauGroovyCliArgsConfigHandlerTest {
     @Test
     void "sets file config related values during first run and overrides other cfg values during second"() {
@@ -36,6 +38,28 @@ class WebTauGroovyCliArgsConfigHandlerTest {
         handler.onAfterCreate(cfg)
 
         cfg.baseUrl.should == 'http://localhost:3434'
+    }
+
+    @Test
+    void "should recurse test files"() {
+        def handler = new WebTauGroovyCliArgsConfigHandler("testScenarios")
+
+        def cfg = createConfig()
+
+        handler.onAfterCreate(cfg)
+        def files = handler.testFilesWithFullPath().collect { it.toString() }.sort()
+
+        def cwd = Paths.get("").toAbsolutePath()
+        def expectedFiles = [
+            Paths.get("testScenarios", "root-scenarios.groovy"),
+            Paths.get("testScenarios", "firstNestedDir", "nested-scenarios.groovy"),
+            Paths.get("testScenarios", "firstNestedDir", "secondNestedDir", "nested-nested-scenarios.groovy"),
+            Paths.get("testScenarios", "siblingNestedDir", "sibling-scenarios.groovy")
+        ].collect {
+            cwd.resolve(it).toString()
+        }.sort()
+
+        files.should == expectedFiles
     }
 
     private static WebTauConfig createConfig() {

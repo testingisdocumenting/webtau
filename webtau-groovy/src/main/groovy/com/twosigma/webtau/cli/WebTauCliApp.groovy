@@ -42,7 +42,6 @@ import com.twosigma.webtau.runner.standalone.report.StandardConsoleTestListener
 
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.util.function.Consumer
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
@@ -112,7 +111,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             cfg.print()
             ConsoleOutputs.out()
 
-            def fullPaths = testFilesWithFullPath()
+            def fullPaths = cliConfigHandler.testFilesWithFullPath()
             def missing = fullPaths.findAll { path -> !Files.exists(path)}
             if (!missing.isEmpty()) {
                 throw new RuntimeException('Missing test files:\n  ' + missing.join('  \n'))
@@ -172,12 +171,6 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             runner.runTestsInParallel(WebTauGroovyCliArgsConfigHandler.getNumberOfThreads())
         } else {
             runner.runTests()
-        }
-    }
-
-    private List<Path> testFilesWithFullPath() {
-        return cliConfigHandler.testFiles.collect { fileName ->
-            cfg.workingDir.resolve(Paths.get(fileName)).toAbsolutePath()
         }
     }
 
