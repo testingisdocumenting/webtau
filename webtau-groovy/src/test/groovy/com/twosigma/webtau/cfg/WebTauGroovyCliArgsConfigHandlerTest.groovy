@@ -50,13 +50,14 @@ class WebTauGroovyCliArgsConfigHandlerTest {
         def files = handler.testFilesWithFullPath().collect { it.toString() }.sort()
 
         def cwd = Paths.get("").toAbsolutePath()
+        def scenariosRoot = cwd.resolve("testScenarios")
         def expectedFiles = [
-            Paths.get("testScenarios", "rootScenarios.groovy"),
-            Paths.get("testScenarios", "firstNestedDir", "nestedScenarios.groovy"),
-            Paths.get("testScenarios", "firstNestedDir", "secondNestedDir", "nestedNestedScenarios.groovy"),
-            Paths.get("testScenarios", "siblingNestedDir", "siblingScenarios.groovy")
+            Paths.get("rootScenarios.groovy"),
+            Paths.get("first-nested-dir", "nestedScenarios.groovy"),
+            Paths.get("first-nested-dir", "second-nested-dir", "nestedNestedScenarios.groovy"),
+            Paths.get("sibling-nested-dir", "siblingScenarios.groovy")
         ].collect {
-            cwd.resolve(it).toString()
+            scenariosRoot.resolve(it).toString()
         }.sort()
 
         files.should == expectedFiles
