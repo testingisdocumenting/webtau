@@ -37,10 +37,12 @@ public class CurrentWebDriver implements
         JavascriptExecutor,
         WebStorage,
         WebDriverCreatorListener {
+    public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
+
     private final AtomicBoolean wasUsed;
     private ThreadLocal<WebDriver> local;
 
-    public CurrentWebDriver() {
+    private CurrentWebDriver() {
         wasUsed = new AtomicBoolean(false);
         local = new ThreadLocal<>();
         WebDriverCreatorListeners.add(this);

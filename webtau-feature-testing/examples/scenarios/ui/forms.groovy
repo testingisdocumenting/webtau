@@ -12,7 +12,7 @@ scenario('input type default') {
 }
 
 scenario('input type date') {
-    form.startDate.setValue('06/21/2016')
+    form.startDate.setValue('2016-06-21')
 }
 
 scenario('select options') {

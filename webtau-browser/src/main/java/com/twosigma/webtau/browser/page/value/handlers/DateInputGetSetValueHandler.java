@@ -16,12 +16,17 @@
 
 package com.twosigma.webtau.browser.page.value.handlers;
 
+import com.twosigma.webtau.browser.driver.CurrentWebDriver;
 import com.twosigma.webtau.browser.page.HtmlNode;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.browser.page.PageElementStepExecutor;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 
+import java.time.LocalDate;
+
 public class DateInputGetSetValueHandler implements PageElementGetSetValueHandler {
+    private final CurrentWebDriver driver = CurrentWebDriver.INSTANCE;
+
     @Override
     public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
         return htmlNode.getTagName().equals("input") &&
@@ -34,8 +39,11 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
                          HtmlNode htmlNode,
                          PageElement pageElement,
                          Object value) {
-        String keys = value.toString();
-        pageElement.sendKeys(keys);
+        LocalDate localDate = LocalDate.parse(value.toString());
+        Object javaScriptRenderedDate = driver.executeScript(
+                "return new Date(arguments[0], arguments[1], arguments[2]).toLocaleDateString()",
+                localDate.getYear(), localDate.getMonth().getValue() - 1, localDate.getDayOfMonth());
+        pageElement.sendKeys(javaScriptRenderedDate.toString());
     }
 
     @Override
