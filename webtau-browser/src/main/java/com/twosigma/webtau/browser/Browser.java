@@ -38,7 +38,7 @@ public class Browser {
     private final InjectedJavaScript injectedJavaScript;
 
     public static final Browser browser = new Browser();
-    public final CurrentWebDriver driver = new CurrentWebDriver();
+    public final CurrentWebDriver driver = CurrentWebDriver.INSTANCE;
 
     public final Cookies cookies = new Cookies(driver);
     public final LocalStorage localStorage = new LocalStorage(driver);
