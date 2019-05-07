@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 public class PageElementGetSetValueHandlers {
-    private static final Set<PageElementGetSetValueHandler> discovered =
+    private static final List<PageElementGetSetValueHandler> discovered =
             ServiceLoaderUtils.load(PageElementGetSetValueHandler.class);
     private static final List<PageElementGetSetValueHandler> added = new ArrayList<>();
 

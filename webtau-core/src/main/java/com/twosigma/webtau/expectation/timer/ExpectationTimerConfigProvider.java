@@ -16,12 +16,12 @@
 
 package com.twosigma.webtau.expectation.timer;
 
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
 
 public class ExpectationTimerConfigProvider {
-    private static List<ExpectationTimerConfig> configs = ServiceUtils.discover(ExpectationTimerConfig.class);
+    private static List<ExpectationTimerConfig> configs = ServiceLoaderUtils.load(ExpectationTimerConfig.class);
 
     public static ExpectationTimer createExpectationTimer() {
         validate();

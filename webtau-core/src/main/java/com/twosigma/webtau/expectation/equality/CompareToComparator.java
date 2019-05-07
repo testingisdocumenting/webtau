@@ -20,7 +20,7 @@ import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.handlers.AnyCompareToHandler;
 import com.twosigma.webtau.expectation.equality.handlers.NullCompareToHandler;
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import com.twosigma.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
@@ -304,7 +304,7 @@ public class CompareToComparator {
     private static List<CompareToHandler> discoverHandlers() {
         List<CompareToHandler> result = new ArrayList<>();
 
-        List<CompareToHandler> discovered = ServiceUtils.discover(CompareToHandler.class);
+        List<CompareToHandler> discovered = ServiceLoaderUtils.load(CompareToHandler.class);
 
         discovered.stream().filter(CompareToHandler::handleNulls).forEach(result::add);
         result.add(new NullCompareToHandler());
