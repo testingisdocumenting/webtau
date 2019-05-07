@@ -17,10 +17,11 @@
 package com.twosigma.webtau.data.time.listener
 
 import com.twosigma.webtau.data.time.TestTime
-import com.twosigma.webtau.utils.ServiceUtils
+import com.twosigma.webtau.utils.ServiceLoaderUtils
+
 class TimeRangeContextListeners {
     // TODO multithread support
-    private static List<TimeRangeContextListener> listeners = ServiceUtils.discover(TimeRangeContextListener)
+    private static List<TimeRangeContextListener> listeners = ServiceLoaderUtils.load(TimeRangeContextListener)
 
     static void clear() {
         listeners.clear()

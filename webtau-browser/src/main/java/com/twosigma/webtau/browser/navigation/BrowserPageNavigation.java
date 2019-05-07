@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.browser.navigation;
 
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 public class BrowserPageNavigation {
     private static final ThreadLocal<Boolean> handlersEnabled = ThreadLocal.withInitial(() -> true);
     private static final List<BrowserPageNavigationHandler> handlers =
-            ServiceUtils.discover(BrowserPageNavigationHandler.class);
+            ServiceLoaderUtils.load(BrowserPageNavigationHandler.class);
 
     public static void addHandler(BrowserPageNavigationHandler handler) {
         handlers.add(handler);

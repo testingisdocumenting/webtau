@@ -16,10 +16,10 @@
 
 package com.twosigma.webtau.data.converters;
 
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
+
 import java.util.List;
 import java.util.Map;
-
-import com.twosigma.webtau.utils.ServiceUtils;
 
 public class ToMapConverters {
     private static List<ToMapConverter> converters = discover();
@@ -29,7 +29,7 @@ public class ToMapConverters {
     }
 
     private static List<ToMapConverter> discover() {
-        List<ToMapConverter> discovered = ServiceUtils.discover(ToMapConverter.class);
+        List<ToMapConverter> discovered = ServiceLoaderUtils.load(ToMapConverter.class);
         discovered.add(new MapToMapConverter());
         discovered.add(new BeanToMapConverter());
 

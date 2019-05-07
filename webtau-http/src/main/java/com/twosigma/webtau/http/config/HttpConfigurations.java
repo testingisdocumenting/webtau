@@ -17,7 +17,7 @@
 package com.twosigma.webtau.http.config;
 
 import com.twosigma.webtau.http.HttpHeader;
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +27,7 @@ public class HttpConfigurations {
     private static final ThreadLocal<Boolean> enabled = ThreadLocal.withInitial(() -> true);
 
     private static final List<HttpConfiguration> configurations = Collections.synchronizedList(
-            ServiceUtils.discover(HttpConfiguration.class));
+            ServiceLoaderUtils.load(HttpConfiguration.class));
 
     public static void add(HttpConfiguration configuration) {
         configurations.add(configuration);

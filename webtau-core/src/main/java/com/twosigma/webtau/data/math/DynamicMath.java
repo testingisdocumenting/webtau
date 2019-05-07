@@ -1,7 +1,7 @@
 package com.twosigma.webtau.data.math;
 
 import com.twosigma.webtau.data.render.DataRenderers;
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import com.twosigma.webtau.utils.TraceUtils;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class DynamicMath {
     }
 
     private static List<SimpleMathHandler> discoverSimpleMathHandlers() {
-        return ServiceUtils.discover(SimpleMathHandler.class);
+        return ServiceLoaderUtils.load(SimpleMathHandler.class);
     }
 
     private static RuntimeException noAddSubtractHandlerFound(Object left, Object right) {
