@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Headers</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+<title>WebTau: Headers</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
 <body>
 <div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
@@ -38,11 +38,11 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/webtau/guide/toc.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
-<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script type="text/javascript" src="/guide/toc.js"></script>
+<script type="text/javascript" src="/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/guide/static/main.js"></script>
+<script type="text/javascript" src="/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -51,7 +51,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
       "title": "View On GitHub"
     },
-    "id": "webtau/guide",
+    "id": "guide",
     "title": "WebTau",
     "type": "Guide",
     "previewEnabled": false
@@ -326,7 +326,7 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "lang": "groovy",
-            "snippet": "http.post(\"/end-point\") {\n    header.location.should \u003d\u003d \u0027http://www.example.org/url/23\u0027\n    header[\u0027Location\u0027].should \u003d\u003d \u0027http://www.example.org/url/23\u0027\n\n    header.contentLocation.should \u003d\u003d \u0027/url/23\u0027\n    header[\u0027Content-Location\u0027].should \u003d\u003d \u0027/url/23\u0027\n\n    header.contentLength.should \u003d\u003d 303\n    header[\u0027Content-Length\u0027].should \u003d\u003d 303\n}",
+            "snippet": "http.post(\"/end-point\") {\n    header.location.should \u003d\u003d \u0027http://www.example.org/url/23\u0027\n    header[\u0027Location\u0027].should \u003d\u003d \u0027http://www.example.org/url/23\u0027\n\n    header.contentLocation.should \u003d\u003d \u0027/url/23\u0027\n    header[\u0027Content-Location\u0027].should \u003d\u003d \u0027/url/23\u0027\n\n    header.contentLength.shouldBe \u003e 300\n    header[\u0027Content-Length\u0027].shouldBe \u003e 300\n}",
             "entry": "header assertion with shortcut",
             "bodyOnly": true,
             "type": "Snippet"
@@ -382,7 +382,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1541730676000,
+    "lastModifiedTime": 1555462050000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Headers",

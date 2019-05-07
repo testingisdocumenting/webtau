@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Report</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+<title>WebTau: Report</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
 <body>
 <div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
@@ -23,6 +23,11 @@
 </article>
 
 <article>
+<header><h1>Test Summary</h1></header>
+<p>Selected test to see a summary information about test run</p>
+</article>
+
+<article>
 <header><h1>Navigation</h1></header>
 <p>Report is a self contained single page application. Url tracks your navigation through screens, so you can share url with your teammates to narrow down a problem.</p>
 </article>
@@ -33,11 +38,11 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/webtau/guide/toc.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
-<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script type="text/javascript" src="/guide/toc.js"></script>
+<script type="text/javascript" src="/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/guide/static/main.js"></script>
+<script type="text/javascript" src="/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -46,7 +51,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
       "title": "View On GitHub"
     },
-    "id": "webtau/guide",
+    "id": "guide",
     "title": "WebTau",
     "type": "Guide",
     "previewEnabled": false
@@ -102,11 +107,36 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           {
             "fit": true,
-            "imageSrc": "/webtau/guide/img/rest-report-summary.png",
-            "timestamp": 1554774479663,
+            "imageSrc": "/guide/img/rest-report-summary.png",
+            "timestamp": 1557229330100,
             "shapes": [],
             "width": 2134.0,
             "height": 1192.0,
+            "type": "AnnotatedImage"
+          }
+        ]
+      },
+      {
+        "title": "Test Summary",
+        "id": "test-summary",
+        "type": "Section",
+        "content": [
+          {
+            "type": "Paragraph",
+            "content": [
+              {
+                "text": "Selected test to see a summary information about test run",
+                "type": "SimpleText"
+              }
+            ]
+          },
+          {
+            "fit": true,
+            "imageSrc": "/guide/report-test-summary.png",
+            "timestamp": 1557229330140,
+            "shapes": [],
+            "width": 2400.0,
+            "height": 1194.0,
             "type": "AnnotatedImage"
           }
         ]
@@ -188,7 +218,7 @@ ReactDOM.render(React.createElement(Documentation, {
         ]
       }
     ],
-    "lastModifiedTime": 1533120126000,
+    "lastModifiedTime": 1556201988000,
     "tocItem": {
       "sectionTitle": "REST",
       "pageTitle": "Report",
@@ -203,6 +233,10 @@ ReactDOM.render(React.createElement(Documentation, {
         {
           "title": "Summary",
           "id": "summary"
+        },
+        {
+          "title": "Test Summary",
+          "id": "test-summary"
         },
         {
           "title": "Navigation",

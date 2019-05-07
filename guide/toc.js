@@ -289,6 +289,10 @@ toc = [
             "id": "summary"
           },
           {
+            "title": "Test Summary",
+            "id": "test-summary"
+          },
+          {
             "title": "Navigation",
             "id": "navigation"
           },
@@ -770,6 +774,10 @@ toc = [
           {
             "title": "Maven Import",
             "id": "maven-import"
+          },
+          {
+            "title": "TestFactory",
+            "id": "testfactory"
           }
         ]
       }
@@ -797,6 +805,10 @@ toc = [
           {
             "title": "Cell Above Value Reference",
             "id": "cell-above-value-reference"
+          },
+          {
+            "title": "Cell Above Math",
+            "id": "cell-above-math"
           }
         ]
       }
