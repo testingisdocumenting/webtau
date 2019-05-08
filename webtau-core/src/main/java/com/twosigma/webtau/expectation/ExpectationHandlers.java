@@ -17,7 +17,7 @@
 package com.twosigma.webtau.expectation;
 
 import com.twosigma.webtau.expectation.ExpectationHandler.Flow;
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class ExpectationHandlers {
-    private static List<ExpectationHandler> globalHandlers = ServiceUtils.discover(ExpectationHandler.class);
+    private static List<ExpectationHandler> globalHandlers = ServiceLoaderUtils.load(ExpectationHandler.class);
     private static ThreadLocal<List<ExpectationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
 
     public static void add(ExpectationHandler handler) {

@@ -19,10 +19,11 @@ package com.twosigma.webtau.browser.driver;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
 import java.util.Set;
 
 public class WebDriverCreatorListeners {
-    private static final Set<WebDriverCreatorListener> listeners =
+    private static final List<WebDriverCreatorListener> listeners =
             ServiceLoaderUtils.load(WebDriverCreatorListener.class);
 
     private WebDriverCreatorListeners() {

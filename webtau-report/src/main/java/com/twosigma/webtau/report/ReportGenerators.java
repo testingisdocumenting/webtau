@@ -18,10 +18,11 @@ package com.twosigma.webtau.report;
 
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
+import java.util.List;
 import java.util.Set;
 
 public class ReportGenerators {
-    private static final Set<ReportGenerator> generators = ServiceLoaderUtils.load(ReportGenerator.class);
+    private static final List<ReportGenerator> generators = ServiceLoaderUtils.load(ReportGenerator.class);
 
     public static void generate(Report report) {
         generators.forEach(g -> g.generate(report));

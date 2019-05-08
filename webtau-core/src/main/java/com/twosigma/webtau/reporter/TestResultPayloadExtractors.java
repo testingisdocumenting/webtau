@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TestResultPayloadExtractors {
-    private static final Set<TestResultPayloadExtractor> extractors = Collections.synchronizedSet(
+    private static final List<TestResultPayloadExtractor> extractors = Collections.synchronizedList(
             ServiceLoaderUtils.load(TestResultPayloadExtractor.class));
 
     public static Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {

@@ -20,7 +20,7 @@ import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.contain.handlers.NullContainHandler;
 import com.twosigma.webtau.expectation.equality.ActualPathMessage;
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import com.twosigma.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class ContainAnalyzer {
     private static List<ContainHandler> discoverHandlers() {
         List<ContainHandler> result = new ArrayList<>();
         result.add(new NullContainHandler());
-        result.addAll(ServiceUtils.discover(ContainHandler.class));
+        result.addAll(ServiceLoaderUtils.load(ContainHandler.class));
 
         return result;
     }

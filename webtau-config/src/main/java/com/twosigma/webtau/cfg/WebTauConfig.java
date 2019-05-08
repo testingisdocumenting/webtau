@@ -339,7 +339,7 @@ public class WebTauConfig {
         private static WebTauConfig INSTANCE = new WebTauConfig();
     }
 
-    private static ArrayList<WebTauConfigHandler> discoverConfigHandlers() {
-        return new ArrayList<>(ServiceLoaderUtils.load(WebTauConfigHandler.class));
+    private static List<WebTauConfigHandler> discoverConfigHandlers() {
+        return ServiceLoaderUtils.load(WebTauConfigHandler.class);
     }
 }
