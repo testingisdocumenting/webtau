@@ -778,6 +778,16 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "equality matcher table keys"() {
+        http.get("/end-point") {
+            complexList.should == [ "*id" | "k1"  | "k2"] { // order agnostic key based match
+                                   ________________________
+                                    "id2" | "v11" | 40
+                                    "id1" | "v1"  | 30 }
+        }
+    }
+
+    @Test
     void "compare numbers with greater less matchers"() {
         http.get("/end-point-numbers") {
             id.shouldBe > 0

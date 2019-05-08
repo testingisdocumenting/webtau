@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.data.table;
 
+import com.twosigma.webtau.data.table.header.CompositeKey;
+import com.twosigma.webtau.data.table.header.Header;
 import com.twosigma.webtau.utils.JsonUtils;
 
 import java.util.*;

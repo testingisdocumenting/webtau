@@ -66,6 +66,12 @@ Groovy: :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: 
 Java: :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "equalityMatcher", bodyOnly: true, commentsType: "inline"}
 ```
 
+```tabs {rightSide: true}
+Groovy: :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "equality matcher table keys", bodyOnly: true, commentsType: "inline"}
+Java: :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "equalityMatcherTableKey", bodyOnly: true, commentsType: "inline"}
+```
+
+
 # Greater/Less/Equal
 
 Use `greaterThan`, `greaterThanOrEqual`, `lessThan`, and `lessThanOrEqual` to assert numeric values. 

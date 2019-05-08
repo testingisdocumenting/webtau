@@ -14,3 +14,10 @@ Given the response, we want to make sure there is an entry with a specified `fir
 If you want to make sure that all the values in the list are what you need - use `TableData`.
 
 :include-file: examples/scenarios/rest/springboot/listMatch.groovy
+
+# Order Agnostic Match
+
+Use `*key` column(s) if list order is not guaranteed
+
+:include-file: examples/scenarios/rest/springboot/listMatchByKey.groovy
+ 
