@@ -14,8 +14,6 @@ scenario("list Customers and assert with a Table Data using key column") {
                                          id1 |       'FN1' |      'LN1'
                                          id3 |       'FN3' |      'LN3'}
     }
-
-    http.doc.capture('list-match')
 }
 
 def createCustomer(Map payload) {
