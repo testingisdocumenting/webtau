@@ -7,7 +7,7 @@ scenario("list Customers and assert with a Table Data using key column") {
     def id2 = createCustomer firstName: "FN2", lastName: "LN2"
     def id3 = createCustomer firstName: "FN3", lastName: "LN3"
 
-    http.get("/customers/search/findAllByOrderByLastName") {
+    http.get("/customers") {
         _embedded.customers.should == ['*id' | 'firstName' | 'lastName'] {
                                        _________________________________
                                          id2 |       'FN2' |      'LN2'
