@@ -30,7 +30,7 @@ import java.nio.file.Paths
 import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
 
 class WebTauUiFeaturesTest {
-    private static WebTauTestRunner testRunner
+    private static WebTauEndToEndTestRunner testRunner
 
     static void registerEndPoints(TestServer testServer) {
         testServer.registerGet("/search", htmlResponse('search.html'))
@@ -47,7 +47,7 @@ class WebTauUiFeaturesTest {
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauTestRunner()
+        testRunner = new WebTauEndToEndTestRunner()
 
         def testServer = testRunner.testServer
         registerEndPoints(testServer)

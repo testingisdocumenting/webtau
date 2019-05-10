@@ -44,7 +44,7 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
             return;
         }
 
-        if (!OpenApi.validator.isSpecDefined()) {
+        if (!OpenApi.getValidator().isSpecDefined()) {
             return;
         }
 
@@ -52,7 +52,7 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
         TestStep.createAndExecuteStep(null,
                 tokenizedMessage(action("validating"), classifier(modeLabel)),
                 () -> tokenizedMessage(action("validated"), classifier(modeLabel)),
-                () -> OpenApi.validator.validateApiSpec(validationResult, mode));
+                () -> OpenApi.getValidator().validateApiSpec(validationResult, mode));
     }
 
     private static String validationModeLabel(ValidationMode mode) {

@@ -38,7 +38,7 @@ import java.nio.file.Paths
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauTestRunner implements StepReporter, StandaloneTestListener {
+class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
     private static final String RUN_DETAILS_FILE_NAME = 'run-details'
     private static final String EXPECTATIONS_DIR_NAME = 'test-expectations'
 
@@ -47,7 +47,7 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
 
     TestServer testServer
 
-    WebTauTestRunner() {
+    WebTauEndToEndTestRunner() {
         testServer = new TestServer()
     }
 
@@ -116,7 +116,7 @@ class WebTauTestRunner implements StepReporter, StandaloneTestListener {
             ConsoleOutputs.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,
                     Color.BLUE, ' and ', Color.PURPLE, expectedPath)
             FileUtils.writeTextContent(actualPath, serializedTestDetails)
-            throw new AssertionError(comparator.generateNotEqualMatchReport())
+            throw new AssertionError(comparator.generateEqualMismatchReport())
         } else {
             Files.deleteIfExists(actualPath)
         }
