@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.openapi
 
+import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.http.HttpHeader
 import com.twosigma.webtau.http.HttpResponse
 import com.twosigma.webtau.http.json.JsonRequestBody
@@ -41,6 +42,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
     static void init() {
         OpenApiSpecConfig.specUrl.set('test-manual', Paths.get(
                 ResourceUtils.resourceUrl("test-spec.json").toURI()))
+        WebTauConfig.cfg.get('openApiSpecUrl').toString().should contain('test-spec.json')
     }
 
     @Before

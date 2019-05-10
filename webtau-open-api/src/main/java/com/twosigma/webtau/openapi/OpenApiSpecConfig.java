@@ -17,6 +17,7 @@
 package com.twosigma.webtau.openapi;
 
 import com.twosigma.webtau.cfg.ConfigValue;
+import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.cfg.WebTauConfigHandler;
 
 import java.util.stream.Stream;
@@ -31,14 +32,17 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue ignoreAdditionalProperties = declare("openApiIgnoreAdditionalProperties",
             "ignore additional OpenAPI properties ", () -> false);
 
-    public static String specFullPath() {
-        if (specUrl.getAsString().isEmpty()) {
-            return "";
-        }
+    private static String fullPath;
 
-        return getCfg().getWorkingDir()
-                .resolve(specUrl.getAsString())
-                .toString();
+    static String specFullPath() {
+        return fullPath;
+    }
+
+    @Override
+    public void onAfterCreate(WebTauConfig cfg) {
+        fullPath = specUrl.getAsString().isEmpty() ? "" :
+                cfg.getWorkingDir().resolve(specUrl.getAsString()).toString();
+        OpenApi.reset();
     }
 
     @Override

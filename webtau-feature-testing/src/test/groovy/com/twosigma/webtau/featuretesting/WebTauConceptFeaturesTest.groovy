@@ -23,11 +23,11 @@ import org.junit.Test
 import static com.twosigma.webtau.cfg.WebTauConfig.cfg
 
 class WebTauConceptFeaturesTest {
-    private static WebTauTestRunner testRunner
+    private static WebTauEndToEndTestRunner testRunner
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauTestRunner()
+        testRunner = new WebTauEndToEndTestRunner()
     }
 
     @Before

@@ -29,7 +29,7 @@ import static com.twosigma.webtau.WebTauDsl.http
 import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauRestFeaturesTest {
-    private static WebTauTestRunner testRunner
+    private static WebTauEndToEndTestRunner testRunner
 
     static void registerEndPoints(TestServer testServer) {
         def temperature = [temperature: 88]
@@ -42,7 +42,7 @@ class WebTauRestFeaturesTest {
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauTestRunner()
+        testRunner = new WebTauEndToEndTestRunner()
 
         def testServer = testRunner.testServer
         registerEndPoints(testServer)

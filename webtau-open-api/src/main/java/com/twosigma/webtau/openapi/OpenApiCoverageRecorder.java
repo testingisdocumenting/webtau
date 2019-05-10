@@ -22,6 +22,6 @@ import com.twosigma.webtau.http.validation.HttpValidationResult;
 public class OpenApiCoverageRecorder implements HttpValidationHandler {
     @Override
     public void validate(HttpValidationResult validationResult) {
-        OpenApi.coverage.recordOperation(validationResult);
+        OpenApi.getCoverage().recordOperation(validationResult);
     }
 }
