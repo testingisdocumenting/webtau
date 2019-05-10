@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table;
+package com.twosigma.webtau.data.table.header;
+
+import com.twosigma.webtau.data.table.Record;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +126,7 @@ public class Header {
         return idx;
     }
 
-    void validateIdx(int idx) {
+    public void validateIdx(int idx) {
         if (idx < 0 || idx >= namesByIndex.size()) {
             throw new IllegalArgumentException("column idx " + idx + " is out of boundaries. header size is " +
                 namesByIndex.size() + ", header is " + namesByIndex);

@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table;
+package com.twosigma.webtau.data.table.header;
+
+import com.twosigma.webtau.data.table.TableData;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +30,9 @@ public class CompositeKey {
     private List<Object> values;
 
     public CompositeKey(Stream<Object> values) {
-        this.values = values.collect(Collectors.toList());
+        this.values = values
+                .map(CompositeKeyUnderlyingValueExtractors::extract)
+                .collect(Collectors.toList());
     }
 
     public List<?> getValues() {

@@ -17,7 +17,7 @@
 package com.twosigma.webtau.expectation.equality.handlers;
 
 import com.twosigma.webtau.data.converters.ToMapConverters;
-import com.twosigma.webtau.data.table.Header;
+import com.twosigma.webtau.data.table.header.Header;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.data.table.comparison.TableDataComparison;
 import com.twosigma.webtau.data.table.comparison.TableDataComparisonReport;

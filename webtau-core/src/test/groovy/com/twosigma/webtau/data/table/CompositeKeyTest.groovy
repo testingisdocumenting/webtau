@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.data.table
 
+import com.twosigma.webtau.data.table.header.CompositeKey
 import org.junit.Test
 
 class CompositeKeyTest {

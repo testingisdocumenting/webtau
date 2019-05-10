@@ -114,6 +114,12 @@ class WebTauRestFeaturesTest {
         runCli('springboot/listMatch.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
+    @Test
+    void "list match by key"() {
+        deleteCustomers()
+        runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/rest/$restTestName",
             "scenarios/rest/$configFileName", additionalArgs)

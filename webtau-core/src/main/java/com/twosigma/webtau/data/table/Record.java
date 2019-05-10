@@ -18,6 +18,8 @@ package com.twosigma.webtau.data.table;
 
 import com.twosigma.webtau.data.MultiValue;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
+import com.twosigma.webtau.data.table.header.CompositeKey;
+import com.twosigma.webtau.data.table.header.Header;
 
 import java.util.*;
 import java.util.function.Function;

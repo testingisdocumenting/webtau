@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.data.table.comparison;
 
-import com.twosigma.webtau.data.table.CompositeKey;
+import com.twosigma.webtau.data.table.header.CompositeKey;
 import com.twosigma.webtau.data.table.Record;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
