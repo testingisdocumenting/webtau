@@ -6,12 +6,12 @@ By default report is generated at `<workingdir>/webtau.report.html`. To change t
 
 Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.
 
-:include-image: img/rest-report-summary.png {fit: true}
+:include-image: doc-artifacts/reports/report-summary.png {fit: true}
 
 # Test Summary
 
 Selected test to see a summary information about test run
-:include-image: report-test-summary.png {fit: true}
+:include-image: doc-artifacts/reports/report-test-summary.png {fit: true}
 
 # Navigation
 
