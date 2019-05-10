@@ -1,0 +1,19 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "customer create",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "customer read",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "customer update",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
+  } ],
+  "exitCode" : 0
+}

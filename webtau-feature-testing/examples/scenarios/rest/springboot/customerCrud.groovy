@@ -5,7 +5,7 @@ import static com.twosigma.webtau.WebTauGroovyDsl.*
 scenario("CRUD operations for customer") {
     def customerPayload = [firstName: "FN", lastName: "LN"]
 
-    int id = http.post("/customers", customerPayload) {
+    def id = http.post("/customers", customerPayload) {
         return id // return id value from response body
     }
 
