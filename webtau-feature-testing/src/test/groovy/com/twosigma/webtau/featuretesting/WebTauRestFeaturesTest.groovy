@@ -71,6 +71,17 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "schema validation extract snippets"() {
+        def root = 'doc-artifacts/snippets/json-schema'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
+                'validateBody.groovy': 'valid schema',
+                'validateField.groovy': 'validate specific field',
+        ])
+    }
+
+    @Test
     void "redirect"() {
         runCli('redirect/redirectOn.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}")
     }
@@ -81,13 +92,19 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
-    void "schema validation extract snippets"() {
-        def root = 'doc-artifacts/snippets/json-schema'
+    void "open api disable"() {
+        runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.cfg', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
+    void "open api extract snippets"() {
+        def root = 'doc-artifacts/snippets/openapi'
 
         extractCodeSnippets(
-            root, 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
-            'validateBody.groovy': 'valid schema',
-            'validateField.groovy': 'validate specific field',
+                root, 'examples/scenarios/rest/openapi/disableOpenApiValidation.groovy', [
+                'disableAll.groovy': 'disable all validation',
+                'disableRequest.groovy': 'disable request validation',
+                'disableResponse.groovy': 'disable response validation',
         ])
     }
 
