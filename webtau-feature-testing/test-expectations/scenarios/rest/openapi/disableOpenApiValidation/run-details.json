@@ -1,0 +1,19 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "disable all validation",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "disable request validation",
+    "stepsSummary" : {
+      "numberOfFailed" : 2
+    }
+  }, {
+    "scenario" : "disable response validation",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 1
+}

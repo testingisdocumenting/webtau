@@ -4,14 +4,14 @@ Webtau supports validation of responses against an [OpenAPI specification](https
 be enabled by specifying the `openApiSpecUrl` configuration option.  This should be the URL to the specification against 
 which to validate.
 
-:include-file: scenarios/rest/webtau-with-spec.cfg {title: "Configuration"}
+:include-file: scenarios/rest/springboot/webtau-with-spec.cfg {title: "Configuration"}
 
 # Current limitations
 
 OpenAPI specification support is still in its early stage.  It is fully functional but there are a few limitations to be
 aware of:
 * webtau currently only supports OpenAPI specification v2
-* specification matching is currently done purely based on the path
+* specification matching is currently done based on the path and method
 * any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning
 on the console
 
@@ -55,3 +55,11 @@ They are also available in the HTML report:
 
 To ignore additional properties in responses set `openApiIgnoreAdditionalProperties` to `true`. 
 As any other config value it can be done via command line, config file or system properties.
+
+# Disable Validation
+
+Use `com.twosigma.webtau.openapi.OpenApi` to locally disable OpenAPI validation.
+
+:include-groovy: doc-artifacts/snippets/openapi/disableAll.groovy {title: "Disable request and response validation"}
+:include-groovy: doc-artifacts/snippets/openapi/disableRequest.groovy {title: "Disable request validation"}
+:include-groovy: doc-artifacts/snippets/openapi/disableResponse.groovy {title: "Disable response validation"}
