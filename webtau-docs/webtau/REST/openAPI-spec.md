@@ -58,7 +58,7 @@ As any other config value it can be done via command line, config file or system
 
 # Disable Validation
 
-Use `com.twosigma.webtau.openapi.OpenApi` to locally disable OpenAPI validation.
+:include-file: scenarios/rest/openapi/disableOpenApiValidation.groovy {includeRegexp: "import.*Open", title: "Additional import"}
 
 :include-groovy: doc-artifacts/snippets/openapi/disableAll.groovy {title: "Disable request and response validation"}
 :include-groovy: doc-artifacts/snippets/openapi/disableRequest.groovy {title: "Disable request validation"}
