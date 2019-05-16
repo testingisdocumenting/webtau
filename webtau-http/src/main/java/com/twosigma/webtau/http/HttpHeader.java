@@ -54,6 +54,10 @@ public class HttpHeader {
         return new HttpHeader(copy);
     }
 
+    public HttpHeader merge(HttpHeader otherHeaders) {
+        return merge(otherHeaders.header);
+    }
+
     public boolean containsKey(String key) {
         return header.containsKey(key);
     }
