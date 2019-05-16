@@ -54,4 +54,31 @@ class HttpHeaderTest {
         header.caseInsensitiveGet('lOcAtIoN').should == 'http://foo'
         header.caseInsensitiveGet('LOCATION').should == 'http://foo'
     }
+
+    @Test
+    void "merge with map"() {
+        def header = new HttpHeader([
+            'foo': 'bar'
+        ])
+        def mergedHeader = header.merge(['other': 'value'])
+        mergedHeader.should == new HttpHeader([
+            'foo': 'bar',
+            'other': 'value'
+        ])
+    }
+
+    @Test
+    void "merge with header"() {
+        def header = new HttpHeader([
+            'foo': 'bar'
+        ])
+        def otherHeader = new HttpHeader([
+            'other': 'value'
+        ])
+        def mergedHeader = header.merge(otherHeader)
+        mergedHeader.should == new HttpHeader([
+            'foo': 'bar',
+            'other': 'value'
+        ])
+    }
 }
