@@ -240,6 +240,14 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "post with query params"() {
+        http.post("params", http.query('a', '1', 'b', 'text')) {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
     void "explicitly access header and body "() {
         def a = http.get("params", [a: 1, b: 'text']) { header, body ->
             return body.a
