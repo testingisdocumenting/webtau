@@ -37,6 +37,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.cfg.WebTauConfig.cfg
 import static com.twosigma.webtau.http.Http.*
 import static org.junit.Assert.*
 
@@ -237,6 +238,41 @@ class HttpGroovyTest implements HttpConfiguration {
             'param2': 'value2'])
 
         assert varArgQuery == mapBasedQuery
+    }
+
+    @Test
+    void "default user agent"() {
+        http.get('/echo-header') {
+            body['User-Agent'].should == ~/^webtau\//
+        }
+    }
+
+    @Test
+    void "custom user agent"() {
+        try {
+            cfg.userAgentConfigValue.set("test", "custom")
+
+            http.get('/echo-header') {
+                body['User-Agent'].should == ~/^custom \(webtau\/.*\)$/
+            }
+        } finally {
+            cfg.userAgentConfigValue.reset()
+        }
+    }
+
+    @Test
+    void "custom user agent without webtau and its version"() {
+        try {
+            cfg.userAgentConfigValue.set("test", "custom")
+            cfg.removeWebtauFromUserAgent.set("true", true)
+
+            http.get('/echo-header') {
+                body['User-Agent'].should == ~/^custom$/
+            }
+        } finally {
+            cfg.userAgentConfigValue.reset()
+            cfg.removeWebtauFromUserAgent.reset()
+        }
     }
 
     @Test
