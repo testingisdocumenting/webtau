@@ -98,7 +98,7 @@ public class HttpResponse {
     }
 
     public void addHeader(String key, String value) {
-        header.add(key, value);
+        header = header.with(key, value);
     }
 
     public boolean isRedirect() {
