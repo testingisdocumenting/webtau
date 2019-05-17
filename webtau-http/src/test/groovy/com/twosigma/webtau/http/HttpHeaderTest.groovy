@@ -81,4 +81,11 @@ class HttpHeaderTest {
             'other': 'value'
         ])
     }
+
+    @Test
+    void "build from empty header"() {
+        def header = HttpHeader.EMPTY
+        def newHeader = header.with('foo', 'bar')
+        newHeader.should == new HttpHeader(['foo': 'bar'])
+    }
 }
