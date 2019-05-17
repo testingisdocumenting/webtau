@@ -46,6 +46,8 @@ public class WebTauConfig {
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls");
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
+    private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
+            () -> "webtau/"+getClass().getPackage().getImplementationVersion());
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
     private final ConfigValue cachePath = declare("cachePath", "user driven cache file path",
             () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
@@ -178,6 +180,19 @@ public class WebTauConfig {
 
     public int maxRedirects() {
         return maxRedirects.getAsInt();
+    }
+
+    public String getUserAgent() {
+        if (userAgent.isDefault()) {
+            return userAgent.getAsString();
+        }
+
+        String defaultValue = userAgent.getDefaultValue().toString();
+        return userAgent.getAsString() + "/" + defaultValue;
+    }
+
+    public ConfigValue getUserAgentConfigValue() {
+        return userAgent;
     }
 
     public Path getDocArtifactsPath() {
@@ -318,6 +333,7 @@ public class WebTauConfig {
                 waitTimeout,
                 disableFollowingRedirects,
                 maxRedirects,
+                userAgent,
                 docPath,
                 reportPath,
                 noColor,

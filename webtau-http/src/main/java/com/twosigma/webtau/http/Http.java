@@ -575,6 +575,7 @@ public class Http {
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
+            connection.setRequestProperty("User-Agent", getCfg().getUserAgent());
             requestHeader.forEachProperty(connection::setRequestProperty);
 
             if (! (requestBody instanceof EmptyRequestBody)) {
