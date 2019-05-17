@@ -78,6 +78,13 @@ public class HttpHeader {
         header.put(key, value);
     }
 
+    public HttpHeader with(String key, String value) {
+        Map<String, String> copy = new LinkedHashMap<>(this.header);
+        copy.put(key, value);
+
+        return new HttpHeader(copy);
+    }
+
     public HttpHeader redactSecrets() {
         Map<String, String> redacted = new LinkedHashMap<>();
         for (Map.Entry<String, String> entry : header.entrySet()) {
