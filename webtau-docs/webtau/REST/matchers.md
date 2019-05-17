@@ -4,18 +4,7 @@ type: two-sides
 
 # Imports to use
 
-For tests outside standard JVM runners like `JUnit` a single optional static import is all you need
-
-```groovy
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-```
-
-For `JUnit` like pure HTTP tests 
-
-```groovy
-import static com.twosigma.webtau.Ddjt.*
-import static com.twosigma.webtau.http.Http.http
-```
+:include-file: scenarios/rest/simpleGet.groovy {includeRegexp: "import.*Dsl", title: "Single import to use"}
  
 # Response Mapping
 
