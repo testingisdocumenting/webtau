@@ -253,10 +253,25 @@ class HttpGroovyTest implements HttpConfiguration {
             cfg.userAgentConfigValue.set("test", "custom")
 
             http.get('/echo-header') {
-                body['User-Agent'].should == ~/^custom\/webtau\//
+                body['User-Agent'].should == ~/^custom \(webtau\/.*\)$/
             }
         } finally {
             cfg.userAgentConfigValue.reset()
+        }
+    }
+
+    @Test
+    void "custom user agent without webtau and its version"() {
+        try {
+            cfg.userAgentConfigValue.set("test", "custom")
+            cfg.removeWebtauFromUserAgent.set("true", true)
+
+            http.get('/echo-header') {
+                body['User-Agent'].should == ~/^custom$/
+            }
+        } finally {
+            cfg.userAgentConfigValue.reset()
+            cfg.removeWebtauFromUserAgent.reset()
         }
     }
 
