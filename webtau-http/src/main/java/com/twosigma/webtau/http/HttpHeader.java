@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.http;
 
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -74,8 +76,29 @@ public class HttpHeader {
                 .orElse(null);
     }
 
+    /**
+     * Adds an addition header to this HttpHeader object.  This function
+     * may throw UnsupportedOperationException depending on how HttpHeader
+     * was constructed.
+     *
+     * For that reason, this method is deprecated and you should use either
+     * <code>with(String key, String value)</code> or one of the <code>merge</code>
+     * methods which are non-mutating.
+     *
+     * @deprecated use <code>with(String key, String value)</code>
+     *             or <code>merge(HttpHeader otherHeader)</code>
+     *             or <code>merge(Map&lt;String, String&gt; properties)</code>
+     */
+    @Deprecated
     public void add(String key, String value) {
         header.put(key, value);
+    }
+
+    public HttpHeader with(String key, String value) {
+        Map<String, String> copy = new LinkedHashMap<>(this.header);
+        copy.put(key, value);
+
+        return new HttpHeader(copy);
     }
 
     public HttpHeader redactSecrets() {
