@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.cfg
 
-import com.twosigma.webtau.meta.WebTauMeta
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
