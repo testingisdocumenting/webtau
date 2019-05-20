@@ -1023,6 +1023,35 @@ class HttpGroovyTest implements HttpConfiguration {
         }
     }
 
+    @Test
+    void "assertion and additional validation errors"() {
+        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
+        try {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 404
+                    id.should == 'foo'
+                }
+            } should throwException(AssertionError, ~/expected: "foo"/)
+        } finally {
+            HttpValidationHandlers.reset()
+        }
+    }
+
+    @Test
+    void "additional validator errors reported if status code is correct"() {
+        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
+        try {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 404
+                }
+            } should throwException(AssertionError, ~/schema validation error/)
+        } finally {
+            HttpValidationHandlers.reset()
+        }
+    }
+
     @Override
     String fullUrl(String url) {
         if (UrlUtils.isFull(url)) {
