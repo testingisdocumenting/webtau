@@ -984,11 +984,39 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "status code mismatch reported before additional validators"() {
+    void "implicit status code mismatch reported before additional validators"() {
         HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
         try {
             code {
                 http.get("/notfound") {}
+            } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
+        } finally {
+            HttpValidationHandlers.reset()
+        }
+    }
+
+    @Test
+    void "explicit status code mismatch reported before additional validators"() {
+        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
+        try {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 200
+                }
+            } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
+        } finally {
+            HttpValidationHandlers.reset()
+        }
+    }
+
+    @Test
+    void "status code mismatch reported before additional validators and failing body assertions"() {
+        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
+        try {
+            code {
+                http.get("/notfound") {
+                    id.should == 'foo'
+                }
             } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
         } finally {
             HttpValidationHandlers.reset()
