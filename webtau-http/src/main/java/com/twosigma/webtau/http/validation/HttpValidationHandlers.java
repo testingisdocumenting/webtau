@@ -23,6 +23,15 @@ import java.util.List;
 public class HttpValidationHandlers {
     private static final List<HttpValidationHandler> configurations = ServiceLoaderUtils.load(HttpValidationHandler.class);
 
+    public static void register(HttpValidationHandler handler) {
+        configurations.add(handler);
+    }
+
+    public static void reset() {
+        configurations.clear();
+        configurations.addAll(ServiceLoaderUtils.load(HttpValidationHandler.class));
+    }
+
     public static void validate(HttpValidationResult validationResult) {
         configurations.forEach(c -> c.validate(validationResult));
     }

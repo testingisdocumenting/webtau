@@ -436,8 +436,6 @@ public class Http {
         validationResult.setResponseHeaderNode(header);
         validationResult.setResponseBodyNode(body);
 
-        HttpValidationHandlers.validate(validationResult);
-
         ExpectationHandler recordAndThrowHandler = (valueMatcher, actualPath, actualValue, message) -> {
             validationResult.addMismatch(message);
             return ExpectationHandler.Flow.PassToNext;
@@ -457,6 +455,8 @@ public class Http {
                 validateStatusCode(validationResult);
                 return null;
             });
+
+            HttpValidationHandlers.validate(validationResult);
 
             return extracted;
         } catch (Throwable e) {

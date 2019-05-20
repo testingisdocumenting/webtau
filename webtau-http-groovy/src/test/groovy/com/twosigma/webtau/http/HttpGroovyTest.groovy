@@ -23,6 +23,7 @@ import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.validation.HttpResponseValidator
+import com.twosigma.webtau.http.validation.HttpValidationHandlers
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
 import org.junit.*
@@ -980,6 +981,18 @@ class HttpGroovyTest implements HttpConfiguration {
         } should throwException(HttpException, ~/error during http\.get/)
 
         http.lastValidationResult.errorMessage.should == ~/java.lang.IllegalArgumentException: Request header is null/
+    }
+
+    @Test
+    void "status code mismatch reported before additional validators"() {
+        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
+        try {
+            code {
+                http.get("/notfound") {}
+            } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
+        } finally {
+            HttpValidationHandlers.reset()
+        }
     }
 
     @Override
