@@ -18,21 +18,34 @@ package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class HttpValidationHandlers {
-    private static final List<HttpValidationHandler> configurations = ServiceLoaderUtils.load(HttpValidationHandler.class);
+    private static final List<HttpValidationHandler> globalHandlers = ServiceLoaderUtils.load(HttpValidationHandler.class);
+    private static final ThreadLocal<List<HttpValidationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
 
-    public static void register(HttpValidationHandler handler) {
-        configurations.add(handler);
-    }
-
-    public static void reset() {
-        configurations.clear();
-        configurations.addAll(ServiceLoaderUtils.load(HttpValidationHandler.class));
+    public static <R> R withAdditionalHandler(HttpValidationHandler handler, Supplier<R> code) {
+        try {
+            addLocal(handler);
+            return code.get();
+        } finally {
+            removeLocal(handler);
+        }
     }
 
     public static void validate(HttpValidationResult validationResult) {
-        configurations.forEach(c -> c.validate(validationResult));
+        Stream.concat(localHandlers.get().stream(), globalHandlers.stream())
+                .forEach(c -> c.validate(validationResult));
+    }
+
+    private static void addLocal(HttpValidationHandler handler) {
+        localHandlers.get().add(handler);
+    }
+
+    private static void removeLocal(HttpValidationHandler handler) {
+        localHandlers.get().remove(handler);
     }
 }

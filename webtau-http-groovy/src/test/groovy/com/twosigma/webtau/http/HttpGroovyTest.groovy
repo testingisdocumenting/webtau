@@ -23,6 +23,7 @@ import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.validation.HttpResponseValidator
+import com.twosigma.webtau.http.validation.HttpValidationHandler
 import com.twosigma.webtau.http.validation.HttpValidationHandlers
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
@@ -983,72 +984,62 @@ class HttpGroovyTest implements HttpConfiguration {
         http.lastValidationResult.errorMessage.should == ~/java.lang.IllegalArgumentException: Request header is null/
     }
 
+    private static void withFailingHandler(Closure closure) {
+        HttpValidationHandler handler = { result -> throw new AssertionError((Object)"schema validation error") }
+        HttpValidationHandlers.withAdditionalHandler(handler, closure)
+    }
+
     @Test
     void "implicit status code mismatch reported before additional validators"() {
-        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
-        try {
+        withFailingHandler {
             code {
                 http.get("/notfound") {}
             } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
-        } finally {
-            HttpValidationHandlers.reset()
         }
     }
 
     @Test
     void "explicit status code mismatch reported before additional validators"() {
-        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
-        try {
+        withFailingHandler {
             code {
                 http.get("/notfound") {
                     statusCode.should == 200
                 }
             } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
-        } finally {
-            HttpValidationHandlers.reset()
         }
     }
 
     @Test
     void "status code mismatch reported before additional validators and failing body assertions"() {
-        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
-        try {
+        withFailingHandler {
             code {
                 http.get("/notfound") {
                     id.should == 'foo'
                 }
             } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
-        } finally {
-            HttpValidationHandlers.reset()
         }
     }
 
     @Test
     void "assertion and additional validation errors"() {
-        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
-        try {
+        withFailingHandler() {
             code {
                 http.get("/notfound") {
                     statusCode.should == 404
                     id.should == 'foo'
                 }
             } should throwException(AssertionError, ~/expected: "foo"/)
-        } finally {
-            HttpValidationHandlers.reset()
         }
     }
 
     @Test
     void "additional validator errors reported if status code is correct"() {
-        HttpValidationHandlers.register { result -> throw new AssertionError((Object)"schema validation error") }
-        try {
+        withFailingHandler {
             code {
                 http.get("/notfound") {
                     statusCode.should == 404
                 }
             } should throwException(AssertionError, ~/schema validation error/)
-        } finally {
-            HttpValidationHandlers.reset()
         }
     }
 
