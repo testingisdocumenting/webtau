@@ -7,7 +7,7 @@
   }, {
     "scenario" : "disable request validation",
     "stepsSummary" : {
-      "numberOfFailed" : 2
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "disable response validation",
@@ -15,5 +15,5 @@
       "numberOfSuccessful" : 3
     }
   } ],
-  "exitCode" : 1
+  "exitCode" : 0
 }
