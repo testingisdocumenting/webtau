@@ -17,9 +17,9 @@
 package com.twosigma.webtau.report;
 
 import com.twosigma.webtau.cfg.ConfigValue;
+import com.twosigma.webtau.cfg.WebTauMeta;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.meta.WebTauMeta;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import com.twosigma.webtau.utils.ResourceUtils;

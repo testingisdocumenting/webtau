@@ -23,6 +23,8 @@ import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.validation.HttpResponseValidator
+import com.twosigma.webtau.http.validation.HttpValidationHandler
+import com.twosigma.webtau.http.validation.HttpValidationHandlers
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
 import org.junit.*
@@ -988,6 +990,75 @@ class HttpGroovyTest implements HttpConfiguration {
         } should throwException(HttpException, ~/error during http\.get/)
 
         http.lastValidationResult.errorMessage.should == ~/java.lang.IllegalArgumentException: Request header is null/
+    }
+
+    private static void withFailingHandler(Closure closure) {
+        HttpValidationHandler handler = { result -> throw new AssertionError((Object)"schema validation error") }
+        HttpValidationHandlers.withAdditionalHandler(handler, closure)
+    }
+
+    static String expected404 = '\n' +
+        'mismatches:\n' +
+        '\n' +
+        'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
+        '                   expected: 200 <java.lang.Integer>'
+
+    @Test
+    void "reports implicit status code mismatch instead of additional validator errors"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {}
+            } should throwException(AssertionError, expected404)
+        }
+    }
+
+    @Test
+    void "reports explicit status code mismatch instead of additional validator errors"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 200
+                }
+            } should throwException(AssertionError, expected404)
+        }
+    }
+
+    @Test
+    void "reports status code mismatch instead of additional validator errors or failing body assertions"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {
+                    id.should == 'foo'
+                }
+            } should throwException(AssertionError, expected404)
+        }
+    }
+
+    @Test
+    void "reports body assertions instead of additional validation errors"() {
+        withFailingHandler() {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 404
+                    id.should == 'foo'
+                }
+            } should throwException(AssertionError, '\n' +
+                'mismatches:\n' +
+                '\n' +
+                'body.id:   actual: null\n' +
+                '         expected: "foo" <java.lang.String>')
+        }
+    }
+
+    @Test
+    void "reports additional validator errors if status code is correct"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 404
+                }
+            } should throwException(AssertionError, 'schema validation error')
+        }
     }
 
     @Override

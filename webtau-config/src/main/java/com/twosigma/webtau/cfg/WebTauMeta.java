@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.meta;
-
-import com.twosigma.webtau.utils.ResourceUtils;
+package com.twosigma.webtau.cfg;
 
 public class WebTauMeta {
     private static final WebTauMeta INSTANCE = new WebTauMeta();
@@ -27,6 +25,6 @@ public class WebTauMeta {
     }
 
     private WebTauMeta() {
-        version = ResourceUtils.textContent("webtau.version").trim();
+        version = getClass().getPackage().getImplementationVersion();
     }
 }

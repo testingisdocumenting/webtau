@@ -47,7 +47,7 @@ public class WebTauConfig {
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls");
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
-            () -> "webtau/" + getClass().getPackage().getImplementationVersion());
+            () -> "webtau/" + WebTauMeta.getVersion());
     private final ConfigValue removeWebtauFromUserAgent = declare("removeWebtauFromUserAgent",
             "By default webtau appends webtau and its version to the user-agent, this disables that part",
             () -> false);
