@@ -990,7 +990,7 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "implicit status code mismatch reported before additional validators"() {
+    void "reports implicit status code mismatch instead of additional validator errors"() {
         withFailingHandler {
             code {
                 http.get("/notfound") {}
@@ -999,7 +999,7 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "explicit status code mismatch reported before additional validators"() {
+    void "reports explicit status code mismatch instead of additional validator errors"() {
         withFailingHandler {
             code {
                 http.get("/notfound") {
@@ -1010,7 +1010,7 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "status code mismatch reported before additional validators and failing body assertions"() {
+    void "reports status code mismatch instead of additional validator errors or failing body assertions"() {
         withFailingHandler {
             code {
                 http.get("/notfound") {
@@ -1021,7 +1021,7 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "assertion and additional validation errors"() {
+    void "reports body assertions instead of additional validation errors"() {
         withFailingHandler() {
             code {
                 http.get("/notfound") {
@@ -1033,7 +1033,7 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "additional validator errors reported if status code is correct"() {
+    void "reports additional validator errors if status code is correct"() {
         withFailingHandler {
             code {
                 http.get("/notfound") {
