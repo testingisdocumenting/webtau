@@ -989,12 +989,18 @@ class HttpGroovyTest implements HttpConfiguration {
         HttpValidationHandlers.withAdditionalHandler(handler, closure)
     }
 
+    static String expected404 = '\n' +
+        'mismatches:\n' +
+        '\n' +
+        'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
+        '                   expected: 200 <java.lang.Integer>'
+
     @Test
     void "reports implicit status code mismatch instead of additional validator errors"() {
         withFailingHandler {
             code {
                 http.get("/notfound") {}
-            } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
+            } should throwException(AssertionError, expected404)
         }
     }
 
@@ -1005,7 +1011,7 @@ class HttpGroovyTest implements HttpConfiguration {
                 http.get("/notfound") {
                     statusCode.should == 200
                 }
-            } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
+            } should throwException(AssertionError, expected404)
         }
     }
 
@@ -1016,7 +1022,7 @@ class HttpGroovyTest implements HttpConfiguration {
                 http.get("/notfound") {
                     id.should == 'foo'
                 }
-            } should throwException(AssertionError, ~/(?s)header.statusCode.*404.*200/)
+            } should throwException(AssertionError, expected404)
         }
     }
 
@@ -1028,7 +1034,11 @@ class HttpGroovyTest implements HttpConfiguration {
                     statusCode.should == 404
                     id.should == 'foo'
                 }
-            } should throwException(AssertionError, ~/expected: "foo"/)
+            } should throwException(AssertionError, '\n' +
+                'mismatches:\n' +
+                '\n' +
+                'body.id:   actual: null\n' +
+                '         expected: "foo" <java.lang.String>')
         }
     }
 
@@ -1039,7 +1049,7 @@ class HttpGroovyTest implements HttpConfiguration {
                 http.get("/notfound") {
                     statusCode.should == 404
                 }
-            } should throwException(AssertionError, ~/schema validation error/)
+            } should throwException(AssertionError, 'schema validation error')
         }
     }
 
