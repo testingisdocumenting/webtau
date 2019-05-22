@@ -106,6 +106,8 @@
         <module>webtau-data</module>
         <module>webtau-cache</module>
         <module>webtau-test-server</module>
+        <module>webtau-cli</module>
+        <module>webtau-cli-groovy</module>
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
         <module>webtau-reactjs</module>
