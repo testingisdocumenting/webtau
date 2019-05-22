@@ -62,7 +62,6 @@
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-junit5-groovy</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

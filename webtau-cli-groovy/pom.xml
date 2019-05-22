@@ -12,5 +12,17 @@
 
     <artifactId>webtau-cli-groovy</artifactId>
 
-    
+    <dependencies>
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-cli</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
 </project>
