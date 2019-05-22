@@ -17,7 +17,6 @@
 package com.twosigma.webtau.cli;
 
 class CliTestUtils {
-    static final String USER = System.getProperty("user.name");
     private static final String OS = System.getProperty("os.name");
 
     static void nixOnly(Runnable code) {

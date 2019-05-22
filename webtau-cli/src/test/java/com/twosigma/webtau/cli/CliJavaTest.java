@@ -20,9 +20,9 @@ import org.junit.Test;
 
 import java.util.regex.Pattern;
 
-import static com.twosigma.webtau.Ddjt.*;
+import static com.twosigma.webtau.Ddjt.contain;
+import static com.twosigma.webtau.Ddjt.equal;
 import static com.twosigma.webtau.cli.Cli.cli;
-import static com.twosigma.webtau.cli.CliTestUtils.USER;
 import static com.twosigma.webtau.cli.CliTestUtils.nixOnly;
 
 public class CliJavaTest {
@@ -36,11 +36,11 @@ public class CliJavaTest {
     @Test
     public void outputAndExitCodeValidation() {
         nixOnly(() -> {
-            cli.run("ls -l", (exitCode, output, error) -> {
+            cli.run("scripts/hello", (exitCode, output, error) -> {
                 exitCode.should(equal(0));
 
-                output.should(equal(Pattern.compile(USER)));
-                output.should(contain(USER));
+                output.should(equal(Pattern.compile("hello")));
+                output.should(contain("world"));
             });
         });
     }
