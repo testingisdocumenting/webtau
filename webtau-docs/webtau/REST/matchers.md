@@ -4,18 +4,7 @@ type: two-sides
 
 # Imports to use
 
-For tests outside standard JVM runners like `JUnit` a single optional static import is all you need
-
-```groovy
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-```
-
-For `JUnit` like pure HTTP tests 
-
-```groovy
-import static com.twosigma.webtau.Ddjt.*
-import static com.twosigma.webtau.http.Http.http
-```
+:include-file: scenarios/rest/simpleGet.groovy {includeRegexp: "import.*Dsl", title: "Single import to use"}
  
 # Response Mapping
 
@@ -65,6 +54,12 @@ Webtau defines its own set of equality rules to simplify testing.
 Groovy: :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "equality matcher", bodyOnly: true, commentsType: "inline"}
 Java: :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "equalityMatcher", bodyOnly: true, commentsType: "inline"}
 ```
+
+```tabs {rightSide: true}
+Groovy: :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "equality matcher table keys", bodyOnly: true, commentsType: "inline"}
+Java: :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "equalityMatcherTableKey", bodyOnly: true, commentsType: "inline"}
+```
+
 
 # Greater/Less/Equal
 

@@ -29,7 +29,7 @@ public class StepReporters {
     private static final StepReporter defaultStepReporter =
             new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter());
 
-    private static Set<StepReporter> reporters = Collections.synchronizedSet(
+    private static List<StepReporter> reporters = Collections.synchronizedList(
             ServiceLoaderUtils.load(StepReporter.class));
 
     private static ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);

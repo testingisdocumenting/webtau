@@ -23,12 +23,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
@@ -39,13 +36,13 @@ public class DocumentationDsl {
     private WebDriver driver;
 
     public DocumentationDsl(WebDriver driver) {
-        this.driver = driver;
-        this.screenshotTaker = (TakesScreenshot) driver;
+        this(driver, Collections.emptyList());
     }
 
     private DocumentationDsl(WebDriver driver, List<ImageAnnotation> annotations) {
-        this(driver);
+        this.driver = driver;
         this.annotations = annotations;
+        this.screenshotTaker = (TakesScreenshot) driver;
     }
 
     public DocumentationDsl withAnnotations(ImageAnnotation... annotations) {
@@ -71,7 +68,10 @@ public class DocumentationDsl {
 
     private void createScreenshot(String screenshotName) {
         Screenshot screenshot = new Screenshot(screenshotTaker);
-        screenshot.save(getCfg().getDocArtifactsPath().resolve(screenshotName + ".png"));
+
+        Path screenShotPath = getCfg().getDocArtifactsPath().resolve(screenshotName + ".png");
+        FileUtils.createDirs(screenShotPath);
+        screenshot.save(screenShotPath);
     }
 
     private void createAnnotations(String screenshotName) {

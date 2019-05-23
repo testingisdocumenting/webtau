@@ -53,6 +53,7 @@ class MapsCompareToHandlerTest {
                 '\n' +
                 'map.k3:   actual: "v3" <java.lang.String>\n' +
                 '        expected: "v3-" <java.lang.String>\n' +
+                '                     ^\n' +
                 '\n' +
                 'missing, but expected values:\n' +
                 '\n' +

@@ -158,6 +158,10 @@ public class ConfigValue {
         return ! isDefault();
     }
 
+    public Object getDefaultValue() {
+        return defaultValueSupplier.get();
+    }
+
     private String convertToString(Object value) {
         return value == null ? "" : value.toString();
     }

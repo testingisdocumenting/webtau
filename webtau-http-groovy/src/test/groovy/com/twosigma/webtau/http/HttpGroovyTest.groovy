@@ -23,6 +23,8 @@ import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.validation.HttpResponseValidator
+import com.twosigma.webtau.http.validation.HttpValidationHandler
+import com.twosigma.webtau.http.validation.HttpValidationHandlers
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
 import org.junit.*
@@ -37,6 +39,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.cfg.WebTauConfig.cfg
 import static com.twosigma.webtau.http.Http.*
 import static org.junit.Assert.*
 
@@ -167,8 +170,34 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "query params example"() {
+        // Query params in the URL
+        http.get("params?a=1&b=text") {
+            // assertions go here
+        }
+
+        // Query params with map based helper - best suited for Groovy
+        http.get("params", http.query([a: 1, b: 'text'])) {
+            // assertions go here
+        }
+
+        // Query params with varargs based helper - best suited for Java
+        http.get("params", http.query('a', '1', 'b', 'text')) {
+            // assertions go here
+        }
+    }
+
+    @Test
     void "build query params from the map"() {
         http.get("params", [a: 1, b: 'text']) {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
+    void "query params in url"() {
+        http.get("params?a=1&b=text") {
             a.should == 1
             b.should == 'text'
         }
@@ -181,6 +210,79 @@ class HttpGroovyTest implements HttpConfiguration {
         }
 
         assert a == 1
+    }
+
+    @Test
+    void "build query params using map helper"() {
+        http.get("params", http.query([a: 1, b: 'text'])) {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
+    void "build query params using var arg helper"() {
+        http.get("params", http.query('a', '1', 'b', 'text')) {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
+    void "query param creation"() {
+        def varArgQuery = http.query(
+            'param1', 'value1',
+            'param2', 'value2'
+        )
+
+        def mapBasedQuery = http.query([
+            'param1': 'value1',
+            'param2': 'value2'])
+
+        assert varArgQuery == mapBasedQuery
+    }
+
+    @Test
+    void "post with query params"() {
+        http.post("params", http.query('a', '1', 'b', 'text')) {
+            a.should == 1
+            b.should == 'text'
+        }
+    }
+
+    @Test
+    void "default user agent"() {
+        http.get('/echo-header') {
+            body['User-Agent'].should == ~/^webtau\//
+        }
+    }
+
+    @Test
+    void "custom user agent"() {
+        try {
+            cfg.userAgentConfigValue.set("test", "custom")
+
+            http.get('/echo-header') {
+                body['User-Agent'].should == ~/^custom \(webtau\/.*\)$/
+            }
+        } finally {
+            cfg.userAgentConfigValue.reset()
+        }
+    }
+
+    @Test
+    void "custom user agent without webtau and its version"() {
+        try {
+            cfg.userAgentConfigValue.set("test", "custom")
+            cfg.removeWebtauFromUserAgent.set("true", true)
+
+            http.get('/echo-header') {
+                body['User-Agent'].should == ~/^custom$/
+            }
+        } finally {
+            cfg.userAgentConfigValue.reset()
+            cfg.removeWebtauFromUserAgent.reset()
+        }
     }
 
     @Test
@@ -307,8 +409,8 @@ class HttpGroovyTest implements HttpConfiguration {
             header.contentLocation.should == '/url/23'
             header['Content-Location'].should == '/url/23'
 
-            header.contentLength.should == 303
-            header['Content-Length'].should == 303
+            header.contentLength.shouldBe > 300
+            header['Content-Length'].shouldBe > 300
         }
     }
 
@@ -722,6 +824,16 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "equality matcher table keys"() {
+        http.get("/end-point") {
+            complexList.should == [ "*id" | "k1"  | "k2"] { // order agnostic key based match
+                                   ________________________
+                                    "id2" | "v11" | 40
+                                    "id1" | "v1"  | 30 }
+        }
+    }
+
+    @Test
     void "compare numbers with greater less matchers"() {
         http.get("/end-point-numbers") {
             id.shouldBe > 0
@@ -878,6 +990,75 @@ class HttpGroovyTest implements HttpConfiguration {
         } should throwException(HttpException, ~/error during http\.get/)
 
         http.lastValidationResult.errorMessage.should == ~/java.lang.IllegalArgumentException: Request header is null/
+    }
+
+    private static void withFailingHandler(Closure closure) {
+        HttpValidationHandler handler = { result -> throw new AssertionError((Object)"schema validation error") }
+        HttpValidationHandlers.withAdditionalHandler(handler, closure)
+    }
+
+    static String expected404 = '\n' +
+        'mismatches:\n' +
+        '\n' +
+        'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
+        '                   expected: 200 <java.lang.Integer>'
+
+    @Test
+    void "reports implicit status code mismatch instead of additional validator errors"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {}
+            } should throwException(AssertionError, expected404)
+        }
+    }
+
+    @Test
+    void "reports explicit status code mismatch instead of additional validator errors"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 200
+                }
+            } should throwException(AssertionError, expected404)
+        }
+    }
+
+    @Test
+    void "reports status code mismatch instead of additional validator errors or failing body assertions"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {
+                    id.should == 'foo'
+                }
+            } should throwException(AssertionError, expected404)
+        }
+    }
+
+    @Test
+    void "reports body assertions instead of additional validation errors"() {
+        withFailingHandler() {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 404
+                    id.should == 'foo'
+                }
+            } should throwException(AssertionError, '\n' +
+                'mismatches:\n' +
+                '\n' +
+                'body.id:   actual: null\n' +
+                '         expected: "foo" <java.lang.String>')
+        }
+    }
+
+    @Test
+    void "reports additional validator errors if status code is correct"() {
+        withFailingHandler {
+            code {
+                http.get("/notfound") {
+                    statusCode.should == 404
+                }
+            } should throwException(AssertionError, 'schema validation error')
+        }
     }
 
     @Override

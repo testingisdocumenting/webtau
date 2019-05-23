@@ -29,7 +29,7 @@ import static com.twosigma.webtau.WebTauDsl.http
 import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauRestFeaturesTest {
-    private static WebTauTestRunner testRunner
+    private static WebTauEndToEndTestRunner testRunner
 
     static void registerEndPoints(TestServer testServer) {
         def temperature = [temperature: 88]
@@ -42,7 +42,7 @@ class WebTauRestFeaturesTest {
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauTestRunner()
+        testRunner = new WebTauEndToEndTestRunner()
 
         def testServer = testRunner.testServer
         registerEndPoints(testServer)
@@ -71,34 +71,62 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "schema validation extract snippets"() {
+        def root = 'doc-artifacts/snippets/json-schema'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
+                'validateBody.groovy': 'valid schema',
+                'validateField.groovy': 'validate specific field',
+        ])
+    }
+
+    @Test
     void "redirect"() {
         runCli('redirect/redirectOn.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "redirect disabled"() {
-        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}", "--disableRedirects")
+        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}", '--disableRedirects')
     }
 
     @Test
-    void "schema validation extract snippets"() {
-        def root = 'doc-artifacts/snippets/json-schema'
+    void "open api disable"() {
+        runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.cfg', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
+    void "open api extract snippets"() {
+        def root = 'doc-artifacts/snippets/openapi'
 
         extractCodeSnippets(
-            root, 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
-            'validateBody.groovy': 'valid schema',
-            'validateField.groovy': 'validate specific field',
+                root, 'examples/scenarios/rest/openapi/disableOpenApiValidation.groovy', [
+                'disableAll.groovy': 'disable all validation',
+                'disableRequest.groovy': 'disable request validation',
+                'disableResponse.groovy': 'disable response validation',
         ])
     }
 
     @Test
     void "crud"() {
-        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg',
+                "--url=$customersBaseUrl",
+                '--reportPath=doc-artifacts/reports/webtau-report-crud.html')
     }
 
     @Test
     void "crud separated"() {
-        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg',
+                "--url=$customersBaseUrl",
+                '--reportPath=doc-artifacts/reports/webtau-report-crud-separated.html')
+    }
+
+    @Test
+    void "crud separated missing method"() {
+        runCli('springboot/customerCrudSeparatedMissingMethod.groovy', 'springboot/withSpec.cfg',
+                "--url=$customersBaseUrl",
+                '--reportPath=doc-artifacts/reports/webtau-report-crud-separated-missing-method.html')
     }
 
     @Test
@@ -111,6 +139,12 @@ class WebTauRestFeaturesTest {
     void "list match"() {
         deleteCustomers()
         runCli('springboot/listMatch.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+    }
+
+    @Test
+    void "list match by key"() {
+        deleteCustomers()
+        runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
@@ -133,7 +167,11 @@ class WebTauRestFeaturesTest {
     }
 
     private static String getCustomersBaseUrl() {
-        String port = System.getProperty("springboot.http.port", "8080")
+        String port = System.getProperty('springboot.http.port')
+        if (!port || port.isEmpty()) {
+            port = '8080'
+        }
+
         return "http://localhost:$port"
     }
 

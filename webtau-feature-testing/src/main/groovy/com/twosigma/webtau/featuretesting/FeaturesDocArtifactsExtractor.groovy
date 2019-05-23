@@ -44,7 +44,7 @@ class FeaturesDocArtifactsExtractor {
     static String extractScenarioBody(String script, String scenario) {
         def scenarioIdx = script.indexOf(scenario)
         if (scenarioIdx == -1) {
-            throw new RuntimeException("can't find scenario >${scenario}>")
+            throw new RuntimeException("can't find scenario <${scenario}>")
         }
 
         def scopeStartIdx = script.indexOf("{", scenarioIdx)

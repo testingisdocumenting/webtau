@@ -18,13 +18,18 @@ package com.twosigma.webtau.documentation;
 
 import com.twosigma.webtau.utils.FileUtils;
 
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class DocumentationArtifacts {
     public static void create(Class testClass, String artifactName, String textContent) {
-        Path path = Paths.get(testClass.getProtectionDomain().getCodeSource().getLocation().getPath())
-                .resolve(artifactName);
-        FileUtils.writeTextContent(path, textContent);
+        try {
+            Path path = Paths.get(testClass.getProtectionDomain().getCodeSource().getLocation().toURI())
+                    .resolve(artifactName);
+            FileUtils.writeTextContent(path, textContent);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -20,6 +20,7 @@ import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
+import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
 
@@ -97,12 +98,23 @@ public class HttpJavaTest implements HttpConfiguration  {
                     "k1", "v1",
                     "k3", "v3"))); // matching only specified fields and can be nested multiple times
 
-            body.get("complexList").should(equal(table("k1" , "k2").values( // matching only specified fields, but number of entries must be exact
-                    "v1" ,  30,
-                    "v11",  40)));
+            body.get("complexList").should(equal(table("k1" , "k2", // matching only specified fields, but number of entries must be exact
+                                                      ________________,
+                                                       "v1" ,  30,
+                                                       "v11",  40)));
         });
 
         http.doc.capture("end-point-object-equality-matchers");
+    }
+
+    @Test
+    public void equalityMatcherTableKey() {
+        http.get("/end-point", (header, body) -> {
+            body.get("complexList").should(equal(table("*id", "k1" , "k2", // order agnostic key based match
+                                                       ________________,
+                                                       "id2", "v11", 40,
+                                                       "id1", "v1" , 30)));
+        });
     }
 
     @Test
@@ -171,9 +183,10 @@ public class HttpJavaTest implements HttpConfiguration  {
                     "k1", notEqual("v1"), // any value but v1
                     "k2", greaterThanOrEqual(120))));
 
-            TableData expected = table("k1",       "k2").values( // matching only specified fields, but number of entries must be exact
-                                        withNumber, lessThan(120),
-                                        "v11",      greaterThan(150));
+            TableData expected = table("k1"        , "k2", // matching only specified fields, but number of entries must be exact
+                                       ________________________________,
+                                        withNumber , lessThan(120),
+                                        "v11"      , greaterThan(150));
 
             body.get("complexList").should(equal(expected));
         });
@@ -235,6 +248,25 @@ public class HttpJavaTest implements HttpConfiguration  {
         requestBody.put("hello", "world");
         http.put("/redirect", requestBody, (header, body) -> {
             body.should(equal(requestBody));
+        });
+    }
+
+    @Test
+    public void queryParams() {
+        http.get("/params?a=1&b=text", (header, body) -> {
+            body.get("a").should(equal(1));
+            body.get("b").should(equal("text"));
+        });
+
+        Map<String, String> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
+        http.get("/params", http.query(queryParams), (header, body) -> {
+            body.get("a").should(equal(1));
+            body.get("b").should(equal("text"));
+        });
+
+        http.get("/params", http.query("a", "1", "b", "text"), (header, body) -> {
+            body.get("a").should(equal(1));
+            body.get("b").should(equal("text"));
         });
     }
 

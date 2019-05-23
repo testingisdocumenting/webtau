@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.runner.standalone
 
+import com.twosigma.webtau.reporter.StepReporters
+
 import java.nio.file.Path
 import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.atomic.AtomicBoolean
@@ -32,8 +34,9 @@ class StandaloneTestRunner {
 
     private AtomicBoolean isTerminated
 
-    private ThreadLocal<TestRunCondition> runCondition = ThreadLocal.<TestRunCondition>withInitial { ->
-        new TestRunCondition(isConditionMet: true) }
+    private ThreadLocal<TestRunCondition> runCondition = ThreadLocal.<TestRunCondition> withInitial { ->
+        new TestRunCondition(isConditionMet: true)
+    }
 
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
         this.workingDir = workingDir.toAbsolutePath()
@@ -47,16 +50,26 @@ class StandaloneTestRunner {
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
-        def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
-        script.setDelegate(delegate)
-        script.setProperty("scenario", this.&scenario)
-        script.setProperty("dscenario", this.&dscenario)
-        script.setProperty("sscenario", this.&sscenario)
-        script.setProperty("onlyWhen", this.&onlyWhen)
+        def scriptParse = new StandaloneTest(workingDir, currentTestPath, "parse/init", { ->
+            StandaloneTestListeners.beforeScriptParse(scriptPath)
+            def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
-        StandaloneTestListeners.beforeScriptParse(scriptPath)
-        script.run()
+            script.setDelegate(delegate)
+            script.setProperty("scenario", this.&scenario)
+            script.setProperty("dscenario", this.&dscenario)
+            script.setProperty("sscenario", this.&sscenario)
+            script.setProperty("onlyWhen", this.&onlyWhen)
+
+            StepReporters.withAdditionalReporter(new ForbidStepsOutsideScenarioStepListener()) {
+                script.run()
+            }
+        })
+
+        scriptParse.run()
+        if (scriptParse.hasError()) {
+            tests.add(scriptParse)
+        }
     }
 
     void clearRegisteredTests() {
@@ -175,7 +188,7 @@ class StandaloneTestRunner {
     }
 
     private void runTestIfNotTerminated(StandaloneTest test) {
-        if (! isTerminated.get()) {
+        if (!isTerminated.get()) {
             test.run()
         }
 

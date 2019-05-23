@@ -28,11 +28,11 @@ import java.util.stream.Stream;
 public class OpenApiReportDataProvider implements ReportDataProvider {
     @Override
     public Stream<ReportCustomData> provide(ReportTestEntries testEntries) {
-        List<? extends Map<String, ?>> nonCovered = OpenApi.coverage.nonCoveredOperations()
+        List<? extends Map<String, ?>> nonCovered = OpenApi.getCoverage().nonCoveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
 
-        List<? extends Map<String, ?>> covered = OpenApi.coverage.coveredOperations()
+        List<? extends Map<String, ?>> covered = OpenApi.getCoverage().coveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
 
@@ -40,6 +40,6 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
                 new ReportCustomData("openApiSkippedOperations", nonCovered),
                 new ReportCustomData("openApiCoveredOperations", covered),
                 new ReportCustomData("openApiHttpCallIdsPerOperation",
-                        OpenApi.coverage.httpCallIdsByOperationAsMap()));
+                        OpenApi.getCoverage().httpCallIdsByOperationAsMap()));
     }
 }

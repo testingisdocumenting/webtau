@@ -25,7 +25,7 @@ public class PdfText implements DataNodeExpectations {
 
     public PdfText(String id, String text) {
         this.id = id;
-        this.text = text;
+        this.text = text.replace("\r", "");
     }
 
     public String getText() {

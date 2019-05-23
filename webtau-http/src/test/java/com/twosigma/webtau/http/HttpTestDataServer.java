@@ -66,6 +66,7 @@ public class HttpTestDataServer {
         testServer.registerPost("/file-upload", new TestServerFakeFileUpload());
         testServer.registerDelete("/resource", new TestServerTextResponse("abc"));
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
+        testServer.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
 
         registerRedirects();
     }

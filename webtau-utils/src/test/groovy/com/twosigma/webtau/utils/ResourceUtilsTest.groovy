@@ -22,7 +22,7 @@ class ResourceUtilsTest {
     @Test
     void "should read text from a single resource file"() {
         def content = ResourceUtils.textContent("single.txt")
-        assert content == "single resource\nfile"
+        assert content == String.format("single resource%nfile")
     }
 
     @Test

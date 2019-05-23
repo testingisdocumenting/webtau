@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.data.table;
 
+import com.twosigma.webtau.data.table.header.CompositeKey;
+import com.twosigma.webtau.data.table.header.Header;
 import com.twosigma.webtau.utils.JsonUtils;
 
 import java.util.*;
@@ -120,18 +122,21 @@ public class TableData implements Iterable<Record> {
         int rowIdx = rows.size();
         CompositeKey key = getOrBuildKey(rowIdx, record);
 
-        Record previous = rowsByKey.put(key, record);
-        if (previous != null) {
+        Record existing = rowsByKey.put(key, record);
+        if (existing != null) {
             throw new IllegalArgumentException("duplicate entry found with key: " + key +
-                    "\n" + previous +
+                    "\n" + existing +
                     "\n" + record);
         }
 
+        Record previous = rows.isEmpty() ? null : rows.get(rows.size() - 1);
+        Record withEvaluatedGenerators = record.evaluateValueGenerators(previous, rows.size());
+
         rowIdxByKey.put(key, rowIdx);
-        rows.add(record);
+        rows.add(withEvaluatedGenerators);
     }
 
-    public TableData map(TableDataCellFunction mapper) {
+    public TableData map(TableDataCellMapFunction mapper) {
         TableData mapped = new TableData(header);
 
         int rowIdx = 0;
@@ -143,14 +148,13 @@ public class TableData implements Iterable<Record> {
         return mapped;
     }
 
-    @SuppressWarnings("unchecked")
     public <T, R> Stream<R> mapColumn(String columnName, Function<T, R> mapper) {
         int idx = header.columnIdxByName(columnName);
         return rows.stream().map(r -> mapper.apply(r.get(idx)));
     }
 
     @SuppressWarnings("unchecked")
-    private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellFunction mapper) {
+    private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellMapFunction mapper) {
         return header.getColumnIdxStream()
                 .mapToObj(idx -> mapper.apply(rowIdx, idx, header.columnNameByIdx(idx), originalRow.get(idx)));
     }
@@ -199,7 +203,7 @@ public class TableData implements Iterable<Record> {
         Iterator<?> iterator = columnNameAndValues.iterator();
         while (iterator.hasNext()) {
             Object nameOrValue = iterator.next();
-            if (nameOrValue instanceof TableDataUnderscoreOrPlaceholder) {
+            if (nameOrValue instanceof TableDataUnderscore) {
                 break;
             }
 

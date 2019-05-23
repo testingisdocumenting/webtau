@@ -19,10 +19,12 @@ package com.twosigma.webtau.browser.driver;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import org.openqa.selenium.WebDriver;
 
+import java.util.List;
 import java.util.Set;
 
 public class WebDriverCreatorListeners {
-    private static final Set<WebDriverCreatorListener> listeners = ServiceLoaderUtils.load(WebDriverCreatorListener.class);
+    private static final List<WebDriverCreatorListener> listeners =
+            ServiceLoaderUtils.load(WebDriverCreatorListener.class);
 
     private WebDriverCreatorListeners() {
     }
@@ -41,5 +43,13 @@ public class WebDriverCreatorListeners {
 
     public static void afterDriverCreation(WebDriver webDriver) {
         listeners.forEach(l -> l.afterDriverCreation(webDriver));
+    }
+
+    public static void beforeDriverQuit(WebDriver webDriver) {
+        listeners.forEach(l -> l.beforeDriverQuit(webDriver));
+    }
+
+    public static void afterDriverQuit(WebDriver webDriver) {
+        listeners.forEach(l -> l.afterDriverQuit(webDriver));
     }
 }

@@ -111,64 +111,124 @@ public class Http {
         get(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public <E> E post(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
-        return executeAndValidateHttpCall("POST", url,
+    public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return executeAndValidateHttpCall("POST", queryParams.attachToUrl(url),
                 (fullUrl, fullHeader) -> postToFullUrl(fullUrl, fullHeader, requestBody),
                 header,
                 requestBody,
                 validator);
     }
 
+    public <E> E post(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, HttpQueryParams.EMPTY, header, requestBody, validator);
+    }
+
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        post(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
         post(url, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return post(url, queryParams, header, EmptyRequestBody.INSTANCE, validator);
     }
 
     public <E> E post(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
         return post(url, header, EmptyRequestBody.INSTANCE, validator);
     }
 
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidator validator) {
+        post(url, queryParams, header, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpHeader header, HttpResponseValidator validator) {
         post(url, header, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E post(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
     }
 
     public <E> E post(String url, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, HttpHeader.EMPTY, requestBody, validator);
     }
 
+    public void post(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        post(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpRequestBody requestBody, HttpResponseValidator validator) {
         post(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
     public <E> E post(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, header, new JsonRequestBody(requestBody), validator);
     }
 
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        post(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
         post(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
     public <E> E post(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
+    public void post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E post(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
+        return post(url, queryParams, EmptyRequestBody.INSTANCE, validator);
     }
 
     public <E> E post(String url, HttpResponseValidatorWithReturn validator) {
         return post(url, EmptyRequestBody.INSTANCE, validator);
     }
 
+    public void post(String url, HttpQueryParams queryParams, HttpResponseValidator validator) {
+        post(url, queryParams, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpResponseValidator validator) {
         post(url, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header) {
+        post(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void post(String url, HttpHeader header) {
         post(url, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
+    public void post(String url, HttpQueryParams queryParams) {
+        post(url, queryParams, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void post(String url) {
         post(url, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void post(String url, HttpQueryParams queryParams, HttpRequestBody requestBody) {
+        post(url, queryParams, requestBody, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void post(String url, HttpRequestBody requestBody) {
@@ -269,6 +329,14 @@ public class Http {
 
     public HttpHeader header(Map<String, String> properties) {
         return new HttpHeader(properties);
+    }
+
+    public HttpQueryParams query(String... params) {
+        return new HttpQueryParams(CollectionUtils.aMapOf((Object[]) params));
+    }
+
+    public HttpQueryParams query(Map<String, ?> params) {
+        return new HttpQueryParams(params);
     }
 
     public HttpRequestBody body(String mimeType, String content) {
@@ -428,8 +496,6 @@ public class Http {
         validationResult.setResponseHeaderNode(header);
         validationResult.setResponseBodyNode(body);
 
-        HttpValidationHandlers.validate(validationResult);
-
         ExpectationHandler recordAndThrowHandler = (valueMatcher, actualPath, actualValue, message) -> {
             validationResult.addMismatch(message);
             return ExpectationHandler.Flow.PassToNext;
@@ -449,6 +515,8 @@ public class Http {
                 validateStatusCode(validationResult);
                 return null;
             });
+
+            HttpValidationHandlers.validate(validationResult);
 
             return extracted;
         } catch (Throwable e) {
@@ -567,6 +635,7 @@ public class Http {
             connection.setRequestMethod(method);
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
+            connection.setRequestProperty("User-Agent", getCfg().getUserAgent());
             requestHeader.forEachProperty(connection::setRequestProperty);
 
             if (! (requestBody instanceof EmptyRequestBody)) {

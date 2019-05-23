@@ -20,7 +20,7 @@ import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.handlers.AnyCompareToHandler;
 import com.twosigma.webtau.expectation.equality.handlers.NullCompareToHandler;
-import com.twosigma.webtau.utils.ServiceUtils;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 import com.twosigma.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
@@ -221,7 +221,7 @@ public class CompareToComparator {
 
     private CompareToResult compareUsingEqualOnly(AssertionMode mode, ActualPath actualPath, Object actual, Object expected) {
         setAssertionMode(mode);
-        CompareToHandler handler = getCompareToEqualHandler(actual, expected);
+        CompareToHandler handler = findCompareToEqualHandler(actual, expected);
 
         CompareToComparator comparator = CompareToComparator.comparator(mode);
         handler.compareEqualOnly(comparator, actualPath, actual, expected);
@@ -233,7 +233,7 @@ public class CompareToComparator {
 
     private CompareToResult compareUsingCompareTo(AssertionMode mode, ActualPath actualPath, Object actual, Object expected) {
         setAssertionMode(mode);
-        CompareToHandler handler = getCompareToGreaterLessHandler(actual, expected);
+        CompareToHandler handler = findCompareToGreaterLessHandler(actual, expected);
 
         CompareToComparator comparator = CompareToComparator.comparator(mode);
         handler.compareGreaterLessEqual(comparator, actualPath, actual, expected);
@@ -274,18 +274,6 @@ public class CompareToComparator {
         extraMessages.addAll(comparator.extraMessages);
     }
 
-    private CompareToHandler getCompareToEqualHandler(Object actual, Object expected) {
-        return handlers.stream().
-                filter(h -> h.handleEquality(actual, expected)).findFirst().
-                orElseThrow(() -> noHandlerFound(actual, expected));
-    }
-
-    private CompareToHandler getCompareToGreaterLessHandler(Object actual, Object expected) {
-        return handlers.stream().
-                filter(h -> h.handleGreaterLessEqual(actual, expected)).findFirst().
-                orElseThrow(() -> noHandlerFound(actual, expected));
-    }
-
     private String generateReportPart(String label, List<List<ActualPathMessage>> messagesGroups) {
         if (messagesGroups.stream().allMatch(List::isEmpty)) {
             return "";
@@ -301,10 +289,22 @@ public class CompareToComparator {
         return Arrays.stream(parts).filter(p -> !p.isEmpty()).collect(joining("\n\n"));
     }
 
+    private static CompareToHandler findCompareToEqualHandler(Object actual, Object expected) {
+        return handlers.stream().
+                filter(h -> h.handleEquality(actual, expected)).findFirst().
+                orElseThrow(() -> noHandlerFound(actual, expected));
+    }
+
+    private static CompareToHandler findCompareToGreaterLessHandler(Object actual, Object expected) {
+        return handlers.stream().
+                filter(h -> h.handleGreaterLessEqual(actual, expected)).findFirst().
+                orElseThrow(() -> noHandlerFound(actual, expected));
+    }
+
     private static List<CompareToHandler> discoverHandlers() {
         List<CompareToHandler> result = new ArrayList<>();
 
-        List<CompareToHandler> discovered = ServiceUtils.discover(CompareToHandler.class);
+        List<CompareToHandler> discovered = ServiceLoaderUtils.load(CompareToHandler.class);
 
         discovered.stream().filter(CompareToHandler::handleNulls).forEach(result::add);
         result.add(new NullCompareToHandler());
@@ -315,9 +315,10 @@ public class CompareToComparator {
         return result;
     }
 
-    private RuntimeException noHandlerFound(Object actual, Object expected) {
+    private static RuntimeException noHandlerFound(Object actual, Object expected) {
         return new RuntimeException(
-            "no compareUsingCompareTo handler found for\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
-            "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
+            "no compareUsingCompareTo handler found for" +
+                    "\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
+                    "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
     }
 }

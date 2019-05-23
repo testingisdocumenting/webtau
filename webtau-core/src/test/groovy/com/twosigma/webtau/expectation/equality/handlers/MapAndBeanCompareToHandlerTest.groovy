@@ -51,7 +51,8 @@ class MapAndBeanCompareToHandlerTest {
                 'bean.price:   actual: 100 <java.math.BigDecimal>(before conversion: 100 <java.lang.Long>)\n' +
                 '            expected: 120 <java.math.BigDecimal>(before conversion: 120 <java.lang.Integer>)\n' +
                 'bean.name:   actual: "n1" <java.lang.String>\n' +
-                '           expected: "n2" <java.lang.String>', report)
+                '           expected: "n2" <java.lang.String>\n' +
+                '                       ^', report)
     }
 
     class SmallBean {

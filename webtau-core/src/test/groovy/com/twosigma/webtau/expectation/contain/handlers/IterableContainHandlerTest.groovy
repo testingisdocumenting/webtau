@@ -65,15 +65,19 @@ class IterableContainHandlerTest {
         assert !analyzer.contains(createActualPath('list'), ['hello', 'world', 'of', 'testing'], 'off')
 
         Assert.assertEquals('list: mismatches:\n' +
-            '      \n' +
-            '      list[0]:   actual: "hello" <java.lang.String>\n' +
-            '               expected: "off" <java.lang.String>\n' +
-            '      list[1]:   actual: "world" <java.lang.String>\n' +
-            '               expected: "off" <java.lang.String>\n' +
-            '      list[2]:   actual: "of" <java.lang.String>\n' +
-            '               expected: "off" <java.lang.String>\n' +
-            '      list[3]:   actual: "testing" <java.lang.String>\n' +
-            '               expected: "off" <java.lang.String>', analyzer.generateMismatchReport())
+                '      \n' +
+                '      list[0]:   actual: "hello" <java.lang.String>\n' +
+                '               expected: "off" <java.lang.String>\n' +
+                '                          ^\n' +
+                '      list[1]:   actual: "world" <java.lang.String>\n' +
+                '               expected: "off" <java.lang.String>\n' +
+                '                          ^\n' +
+                '      list[2]:   actual: "of" <java.lang.String>\n' +
+                '               expected: "off" <java.lang.String>\n' +
+                '                            ^\n' +
+                '      list[3]:   actual: "testing" <java.lang.String>\n' +
+                '               expected: "off" <java.lang.String>\n' +
+                '                          ^', analyzer.generateMismatchReport())
 
     }
 
@@ -86,17 +90,22 @@ class IterableContainHandlerTest {
         ], [firstName: 'FN31', lastName: 'LN3'])
 
         Assert.assertEquals('list: mismatches:\n' +
-            '      \n' +
-            '      list[0].firstName:   actual: "FN1" <java.lang.String>\n' +
-            '                         expected: "FN31" <java.lang.String>\n' +
-            '      list[0].lastName:   actual: "LN1" <java.lang.String>\n' +
-            '                        expected: "LN3" <java.lang.String>\n' +
-            '      list[1].firstName:   actual: "FN2" <java.lang.String>\n' +
-            '                         expected: "FN31" <java.lang.String>\n' +
-            '      list[1].lastName:   actual: "LN2" <java.lang.String>\n' +
-            '                        expected: "LN3" <java.lang.String>\n' +
-            '      list[2].firstName:   actual: "FN3" <java.lang.String>\n' +
-            '                         expected: "FN31" <java.lang.String>', analyzer.generateMismatchReport())
+                '      \n' +
+                '      list[0].firstName:   actual: "FN1" <java.lang.String>\n' +
+                '                         expected: "FN31" <java.lang.String>\n' +
+                '                                      ^\n' +
+                '      list[0].lastName:   actual: "LN1" <java.lang.String>\n' +
+                '                        expected: "LN3" <java.lang.String>\n' +
+                '                                     ^\n' +
+                '      list[1].firstName:   actual: "FN2" <java.lang.String>\n' +
+                '                         expected: "FN31" <java.lang.String>\n' +
+                '                                      ^\n' +
+                '      list[1].lastName:   actual: "LN2" <java.lang.String>\n' +
+                '                        expected: "LN3" <java.lang.String>\n' +
+                '                                     ^\n' +
+                '      list[2].firstName:   actual: "FN3" <java.lang.String>\n' +
+                '                         expected: "FN31" <java.lang.String>\n' +
+                '                                       ^', analyzer.generateMismatchReport())
     }
 
     @Test

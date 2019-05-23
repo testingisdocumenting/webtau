@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.twosigma.webtau</groupId>
+        <artifactId>webtau-parent</artifactId>
+        <version>1.10-SNAPSHOT</version>
+    </parent>
+
+    <packaging>pom</packaging>
+    <artifactId>webtau-report-testing</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-groovy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.twosigma.webtau</groupId>
+                <artifactId>webtau-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <workingDir>${project.basedir}/src/test/groovy</workingDir>
+                    <tests>
+                        <directory>${project.basedir}/src/test/groovy</directory>
+                        <includes>
+                            <include>scenarios/*.groovy</include>
+                        </includes>
+                    </tests>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

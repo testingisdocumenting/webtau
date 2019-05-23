@@ -1,0 +1,88 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "Fake endpoints definition"
+  },
+  "paths": {
+    "/employee": {
+      "get": {
+        "summary": "retrieve employee",
+        "operationId": "getEmployee",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "existing employee",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new employee",
+        "operationId": "createEmployee",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "customer already exists",
+            "schema": {
+              "$ref": "#/definitions/Id"
+            }
+          },
+          "201": {
+            "description": "customer created successfully",
+            "schema": {
+              "$ref": "#/definitions/Id"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Employee": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "Id": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

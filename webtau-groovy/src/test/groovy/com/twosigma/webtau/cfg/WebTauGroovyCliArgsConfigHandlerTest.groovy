@@ -18,6 +18,8 @@ package com.twosigma.webtau.cfg
 
 import org.junit.Test
 
+import java.nio.file.Paths
+
 class WebTauGroovyCliArgsConfigHandlerTest {
     @Test
     void "sets file config related values during first run and overrides other cfg values during second"() {
@@ -29,13 +31,36 @@ class WebTauGroovyCliArgsConfigHandlerTest {
         handler.onAfterCreate(cfg)
 
         cfg.env.should == 'dev'
-        cfg.workingDir.toString().should == '/root/a'
+        cfg.workingDir.asList()*.toString().should == ['root', 'a']
         cfg.configFileName.asString.should == 'abc.cfg'
         cfg.baseUrl.should == ""
 
         handler.onAfterCreate(cfg)
 
         cfg.baseUrl.should == 'http://localhost:3434'
+    }
+
+    @Test
+    void "should recurse test files"() {
+        def handler = new WebTauGroovyCliArgsConfigHandler("testScenarios")
+
+        def cfg = createConfig()
+
+        handler.onAfterCreate(cfg)
+        def files = handler.testFilesWithFullPath().collect { it.toString() }.sort()
+
+        def cwd = Paths.get("").toAbsolutePath()
+        def scenariosRoot = cwd.resolve("testScenarios")
+        def expectedFiles = [
+            Paths.get("rootScenarios.groovy"),
+            Paths.get("first-nested-dir", "nestedScenarios.groovy"),
+            Paths.get("first-nested-dir", "second-nested-dir", "nestedNestedScenarios.groovy"),
+            Paths.get("sibling-nested-dir", "siblingScenarios.groovy")
+        ].collect {
+            scenariosRoot.resolve(it).toString()
+        }.sort()
+
+        files.should == expectedFiles
     }
 
     private static WebTauConfig createConfig() {

@@ -25,8 +25,8 @@ import java.util.stream.Stream;
 import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
 
 class HandlerMessages {
-    private static final String ACTUAL_PREFIX = "  actual: ";
-    private static final String EXPECTED_PREFIX = "expected: ";
+    static final String ACTUAL_PREFIX = "  actual: ";
+    static final String EXPECTED_PREFIX = "expected: ";
 
     static String renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
         return ACTUAL_PREFIX + renderValueAndType(actual) + "\n" +

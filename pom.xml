@@ -20,7 +20,7 @@
 
     <groupId>com.twosigma.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.10-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -123,6 +123,7 @@
         <module>webtau-maven-plugin</module>
         <module>webtau-maven-plugin-test</module>
         <module>webtau-maven-plugin-test-skip</module>
+        <module>webtau-report-testing</module>
         <module>webtau-dist</module>
         <module>webtau</module>
     </modules>
@@ -135,7 +136,7 @@
         <spring.version>4.3.18.RELEASE</spring.version>
         <swagger.version>1.5.18</swagger.version>
         <maven.api.version>3.5.4</maven.api.version>
-        <tomcat.version>8.5.34</tomcat.version>
+        <tomcat.version>8.5.40</tomcat.version>
     </properties>
 
     <dependencyManagement>
@@ -608,6 +609,19 @@
                         <version>1.0-beta-9</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

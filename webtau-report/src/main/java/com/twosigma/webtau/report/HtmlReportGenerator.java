@@ -17,14 +17,15 @@
 package com.twosigma.webtau.report;
 
 import com.twosigma.webtau.cfg.ConfigValue;
+import com.twosigma.webtau.cfg.WebTauMeta;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.meta.WebTauMeta;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
 
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,18 +82,18 @@ public class HtmlReportGenerator implements ReportGenerator {
                 "<meta charset=\"UTF-8\"/>\n" +
                 "<head>\n" +
                 "<style>\n" +
-                css +
+                css + "\n" +
                 "</style>" +
+                genFavIconBase64() + "\n" +
                 "<title>WebTau Report</title>" +
                 "\n</head>\n" +
                 "<body><div id=\"root\"/>\n" +
                 "<script>\n" +
-                reportAssignmentJavaScript +
-                bundleJavaScript +
+                reportAssignmentJavaScript + "\n" +
+                bundleJavaScript + "\n" +
                 "</script>\n" +
-                "\n</body>" +
-                "\n</html>\n";
-
+                "</body>\n" +
+                "</html>\n";
     }
 
     private List<Map<String, Object>> configAsListOfMaps(Stream<ConfigValue> cfgValuesStream) {
@@ -105,5 +106,12 @@ public class HtmlReportGenerator implements ReportGenerator {
     private Map<String, Object> loadManifest() {
         String assetManifest = ResourceUtils.textContent("asset-manifest.json");
         return (Map<String, Object>) JsonUtils.deserialize(assetManifest);
+    }
+
+    private String genFavIconBase64() {
+        byte[] content = ResourceUtils.binaryContent("webtau-icon.png");
+        String encoded = Base64.getEncoder().encodeToString(content);
+
+        return "<link rel=\"shortcut icon\" href=\"data:image/png;base64," + encoded + "\">";
     }
 }

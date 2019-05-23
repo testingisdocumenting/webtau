@@ -21,4 +21,7 @@ import org.openqa.selenium.WebDriver;
 public interface WebDriverCreatorListener {
     void beforeDriverCreation();
     void afterDriverCreation(WebDriver webDriver);
+
+    void beforeDriverQuit(WebDriver webDriver);
+    void afterDriverQuit(WebDriver webDriver);
 }

@@ -35,7 +35,8 @@ class ConfigFileEnvironmentsCollector {
     }
 
     List<String> collectEnvironments() {
-        def script = groovy.createScript(configPath.toString(), [environments: this.&environmentsHandler] as Binding)
+        def script = groovy.createScript(configPath.toUri().toString(),
+                [environments: this.&environmentsHandler] as Binding)
         script.run()
 
         return environments

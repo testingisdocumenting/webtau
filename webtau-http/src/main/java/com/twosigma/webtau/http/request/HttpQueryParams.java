@@ -21,6 +21,7 @@ import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class HttpQueryParams {
@@ -53,5 +54,19 @@ public class HttpQueryParams {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HttpQueryParams that = (HttpQueryParams) o;
+        return Objects.equals(params, that.params) &&
+                Objects.equals(asString, that.asString);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(params, asString);
     }
 }
