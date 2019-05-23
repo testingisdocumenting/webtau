@@ -50,6 +50,10 @@ public interface DataNode extends DataNodeExpectations, Iterable<DataNode> {
 
     Map<String, DataNode> asMap();
 
+    default boolean isNull() {
+        return false;
+    }
+
     default boolean isBinary() {
         return getTraceableValue() != null &&
                 getTraceableValue().getValue() != null &&

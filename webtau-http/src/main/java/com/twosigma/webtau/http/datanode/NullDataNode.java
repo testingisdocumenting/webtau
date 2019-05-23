@@ -96,6 +96,11 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
+    public boolean isNull() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "[null node]@" + id;
     }

@@ -118,7 +118,7 @@ public class StructuredDataNode implements DataNode {
 
     @Override
     public boolean has(String pathOrName) {
-        return !(get(pathOrName) instanceof NullDataNode);
+        return !get(pathOrName).isNull();
     }
 
     @Override
