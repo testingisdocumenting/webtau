@@ -65,55 +65,60 @@ public class StructuredDataNode implements DataNode {
         }
 
         int dotIdx = nameOrPath.indexOf('.');
-        int idxIdx = nameOrPath.indexOf('[');
-
-        if (dotIdx == -1 && idxIdx == -1) {
+        if (dotIdx == -1) {
             // simple name
-            return (children != null && children.containsKey(nameOrPath)) ?
-                    children.get(nameOrPath):
-                    new NullDataNode(id.child(nameOrPath));
-        } else if (idxIdx == -1 || (dotIdx != -1 &&dotIdx < idxIdx)) {
-            // first part of path is a field name
-            String name = nameOrPath.substring(0, dotIdx);
-            DataNode rootNode = get(name);
+            return getChild(nameOrPath);
+        }
 
-            String pathUnderRoot = nameOrPath.substring(dotIdx + 1);
-            return rootNode.get(pathUnderRoot);
-        } else {
-            //TODO validate [] match
+        String rootName = nameOrPath.substring(0, dotIdx);
+        DataNode root = getChild(rootName);
+        String pathUnderRoot = nameOrPath.substring(dotIdx + 1);
 
-            int nameAndIdxEnd = dotIdx != -1 ? dotIdx : nameOrPath.length();
-            String nameAndIdx = nameOrPath.substring(0, nameAndIdxEnd);
-            String name = nameAndIdx.substring(0, idxIdx);
-            String idxStr = nameAndIdx.substring(idxIdx + 1, nameAndIdxEnd - 1);
-            int idx = Integer.valueOf(idxStr);
+        return root.get(pathUnderRoot);
+    }
 
-            DataNode node = get(name);
+    private DataNode getChild(String name) {
+        int openBraceIdx = name.indexOf('[');
+        int closeBraceIdx = name.indexOf(']');
+        if (openBraceIdx != -1 && closeBraceIdx != -1) {
+            return getIndexedChild(name, openBraceIdx, closeBraceIdx);
+        } else if (openBraceIdx != -1 || closeBraceIdx != -1) {
+            throw new IllegalArgumentException("Requested name " + name + " is not a simple name nor does it contain a properly formatted index");
+        }
+
+        // simple name
+        return (children != null && children.containsKey(name)) ?
+                children.get(name) :
+                new NullDataNode(id.child(name));
+    }
+
+    private DataNode getIndexedChild(String name, int openBraceIdx, int closeBraceIdx) {
+        int additionalOpenIdx = name.indexOf('[', openBraceIdx + 1);
+        int additionalCloseId = name.indexOf(']', closeBraceIdx + 1);
+
+        if (additionalOpenIdx != -1 || additionalCloseId != -1 || openBraceIdx > closeBraceIdx) {
+            throw new IllegalArgumentException("Requested name " + name + " contains mismatched indexing brackets");
+        }
+
+        String indexStr = name.substring(openBraceIdx + 1, closeBraceIdx);
+        try {
+            int idx = Integer.valueOf(indexStr);
+            String nameWithoutIndex = name.substring(0, openBraceIdx);
+            DataNode node = get(nameWithoutIndex);
 
             if (idx < 0) {
                 idx = node.numberOfElements() + idx;
             }
 
-            DataNode indexedNode = node.get(idx);
-
-            if (dotIdx == -1) {
-                return indexedNode;
-            } else {
-                return indexedNode.get(nameOrPath.substring(dotIdx + 1));
-            }
+            return node.get(idx);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Requested index " + indexStr + " of name " + name.substring(0, openBraceIdx) + " is not an integer");
         }
     }
 
     @Override
     public boolean has(String pathOrName) {
-        // TODO should this check subpaths for their has?  Not sure this was every "correct" for the list projection case btw.
-        int dotIdx = pathOrName.indexOf('.');
-        String firstPart = dotIdx == -1 ? pathOrName : pathOrName.substring(0, dotIdx);
-
-        int idxIdx = firstPart.indexOf('[');
-        String name = idxIdx == -1 ? firstPart : firstPart.substring(0, idxIdx);
-
-        return children.containsKey(name);
+        return !(get(pathOrName) instanceof NullDataNode);
     }
 
     @Override
