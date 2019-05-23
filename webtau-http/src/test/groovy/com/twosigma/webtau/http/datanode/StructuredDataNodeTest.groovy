@@ -138,7 +138,8 @@ class StructuredDataNodeTest {
     @Test
     void "should access array element via path"() {
         def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
-            key1: [[name: 'name1'], [name: 'name2']]
+            key1: [[name: 'name1'], [name: 'name2']],
+            root: [child: [[foo: 'boo'], [foo: 'bar']]]
         ])
 
         Map<String, String> firstElement = node.get('key1[0]').get()
@@ -149,6 +150,9 @@ class StructuredDataNodeTest {
 
         String lastName = node.get('key1[-1].name').get()
         lastName.should == 'name2'
+
+        String nested = node.get('root.child[1].foo')
+        nested.should == 'bar'
     }
 
     @Test
