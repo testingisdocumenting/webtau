@@ -48,6 +48,7 @@ public class StreamGobbler implements Runnable {
         try {
             consume(bufferedReader);
         } catch (IOException e) {
+            e.printStackTrace(); // TODO remove
             exception = e;
         }
     }
