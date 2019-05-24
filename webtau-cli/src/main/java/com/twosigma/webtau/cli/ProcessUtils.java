@@ -41,7 +41,11 @@ public class ProcessUtils {
             consumeErrorThread.join();
             consumeOutThread.join();
 
-            return new ProcessRunResult(process.exitValue(), outputGobbler.getLines(), errorGobbler.getLines());
+            return new ProcessRunResult(process.exitValue(),
+                    outputGobbler.getLines(),
+                    errorGobbler.getLines(),
+                    outputGobbler.getException(),
+                    errorGobbler.getException());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }

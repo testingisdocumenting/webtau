@@ -40,6 +40,10 @@ public class StreamGobbler implements Runnable {
         return lines;
     }
 
+    public IOException getException() {
+        return exception;
+    }
+
     @Override
     public void run() {
         InputStreamReader inputStreamReader = new InputStreamReader(stream);
@@ -48,7 +52,6 @@ public class StreamGobbler implements Runnable {
         try {
             consume(bufferedReader);
         } catch (IOException e) {
-            e.printStackTrace(); // TODO remove
             exception = e;
         }
     }

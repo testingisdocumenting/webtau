@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.cli;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ProcessRunResult {
@@ -23,10 +24,27 @@ public class ProcessRunResult {
     private List<String> output;
     private List<String> error;
 
-    public ProcessRunResult(int exitCode, List<String> output, List<String> error) {
+    private IOException outputReadingException;
+    private IOException errorReadingException;
+
+    public ProcessRunResult(int exitCode,
+                            List<String> output,
+                            List<String> error,
+                            IOException outputReadingException,
+                            IOException errorReadingException) {
         this.exitCode = exitCode;
         this.output = output;
         this.error = error;
+        this.outputReadingException = outputReadingException;
+        this.errorReadingException = errorReadingException;
+    }
+
+    public IOException getOutputReadingException() {
+        return outputReadingException;
+    }
+
+    public IOException getErrorReadingException() {
+        return errorReadingException;
     }
 
     public int getExitCode() {

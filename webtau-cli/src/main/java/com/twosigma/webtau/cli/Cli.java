@@ -45,9 +45,17 @@ public class Cli {
     private void cliStep(String command, Consumer<ProcessRunResult> validationCode) {
         TestStep.createAndExecuteStep(null,
                 tokenizedMessage(action("running cli command "), stringValue(command)),
-                () -> tokenizedMessage(action("ran cli clommand"), stringValue(command)),
+                () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
                 () -> {
                     ProcessRunResult runResult = ProcessUtils.run(command.split("\\s+"));
+                    if (runResult.getErrorReadingException() != null) {
+                        throw new RuntimeException(runResult.getErrorReadingException());
+                    }
+
+                    if (runResult.getOutputReadingException() != null) {
+                        throw new RuntimeException(runResult.getOutputReadingException());
+                    }
+
                     validationCode.accept(runResult);
                 });
     }
@@ -57,10 +65,10 @@ public class Cli {
     }
 
     private static CliOutput cliOutput(ProcessRunResult runResult) {
-        return new CliOutput("out", runResult.getOutput());
+        return new CliOutput("process output", runResult.getOutput());
     }
 
     private static CliOutput cliError(ProcessRunResult runResult) {
-        return new CliOutput("error", runResult.getError());
+        return new CliOutput("process error output", runResult.getError());
     }
 }
