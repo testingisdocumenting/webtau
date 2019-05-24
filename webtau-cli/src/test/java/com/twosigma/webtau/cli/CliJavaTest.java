@@ -44,4 +44,13 @@ public class CliJavaTest {
             });
         });
     }
+
+    @Test
+    public void envVars() {
+        nixOnly(() -> {
+            cli.run("scripts/hello", cli.env("NAME", "Java"), (exitCode, output, error) -> {
+                output.should(contain("hello world Java"));
+            });
+        });
+    }
 }

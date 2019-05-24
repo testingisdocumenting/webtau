@@ -21,7 +21,9 @@ import com.twosigma.webtau.cli.expectation.CliOutput;
 import com.twosigma.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import com.twosigma.webtau.cli.expectation.CliValidationOutputOnlylHandler;
 import com.twosigma.webtau.reporter.TestStep;
+import com.twosigma.webtau.utils.CollectionUtils;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
@@ -34,20 +36,37 @@ public class Cli {
     private Cli() {
     }
 
+    public ProcessEnv env(Map<String, String> env) {
+        return new ProcessEnv(env);
+    }
+
+    public ProcessEnv env(String... keyValue) {
+        return new ProcessEnv(CollectionUtils.aMapOf(keyValue));
+    }
+
     public void run(String command, CliValidationOutputOnlylHandler handler) {
-        cliStep(command, (runResult) -> handler.handle(cliOutput(runResult), cliError(runResult)));
+        run(command, ProcessEnv.EMPTY, handler);
+    }
+
+    public void run(String command, ProcessEnv env, CliValidationOutputOnlylHandler handler) {
+        cliStep(command, env, (runResult) -> handler.handle(cliOutput(runResult), cliError(runResult)));
     }
 
     public void run(String command, CliValidationExitCodeOutputHandler handler) {
-        cliStep(command, (runResult) -> handler.handle(exitCode(runResult), cliOutput(runResult), cliError(runResult)));
+        run(command, ProcessEnv.EMPTY, handler);
     }
 
-    private void cliStep(String command, Consumer<ProcessRunResult> validationCode) {
+    public void run(String command, ProcessEnv env, CliValidationExitCodeOutputHandler handler) {
+        cliStep(command, env,
+                (runResult) -> handler.handle(exitCode(runResult), cliOutput(runResult), cliError(runResult)));
+    }
+
+    private void cliStep(String command, ProcessEnv env, Consumer<ProcessRunResult> validationCode) {
         TestStep.createAndExecuteStep(null,
                 tokenizedMessage(action("running cli command "), stringValue(command)),
                 () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
                 () -> {
-                    ProcessRunResult runResult = ProcessUtils.run(command.split("\\s+"));
+                    ProcessRunResult runResult = ProcessUtils.run(command, env.getEnv());
                     if (runResult.getErrorReadingException() != null) {
                         throw new RuntimeException(runResult.getErrorReadingException());
                     }

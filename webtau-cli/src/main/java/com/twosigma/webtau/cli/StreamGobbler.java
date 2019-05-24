@@ -24,14 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StreamGobbler implements Runnable {
-    private final String id;
     private final InputStream stream;
     private final List<String> lines;
 
     private IOException exception;
 
-    public StreamGobbler(String id, InputStream stream) {
-        this.id = id;
+    public StreamGobbler(InputStream stream) {
         this.stream = stream;
         this.lines = new ArrayList<>();
     }

@@ -17,18 +17,22 @@
 package com.twosigma.webtau.cli;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
 public class ProcessUtils {
     private ProcessUtils() {
     }
 
-    public static ProcessRunResult run(String[] command) {
-        ProcessBuilder processBuilder = new ProcessBuilder(command);
+    public static ProcessRunResult run(String command, Map<String, String> env) {
+        ProcessBuilder processBuilder = new ProcessBuilder(splitCommand(command));
+        processBuilder.environment().putAll(env);
+
         try {
             Process process = processBuilder.start();
 
-            StreamGobbler outputGobbler = new StreamGobbler("output", process.getInputStream());
-            StreamGobbler errorGobbler = new StreamGobbler("error", process.getErrorStream());
+            StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream());
+            StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream());
 
             Thread consumeErrorThread = new Thread(errorGobbler);
             Thread consumeOutThread = new Thread(outputGobbler);
@@ -49,5 +53,9 @@ public class ProcessUtils {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    static String[] splitCommand(String command) {
+        return command.split("\\s+");
     }
 }
