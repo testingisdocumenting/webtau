@@ -30,10 +30,16 @@ public class ProcessUtils {
             StreamGobbler outputGobbler = new StreamGobbler("output", process.getInputStream());
             StreamGobbler errorGobbler = new StreamGobbler("error", process.getErrorStream());
 
-            new Thread(errorGobbler).start();
-            new Thread(outputGobbler).start();
+            Thread consumeErrorThread = new Thread(errorGobbler);
+            Thread consumeOutThread = new Thread(outputGobbler);
+
+            consumeErrorThread.start();
+            consumeOutThread.start();
 
             process.waitFor();
+
+            consumeErrorThread.join();
+            consumeOutThread.join();
 
             return new ProcessRunResult(process.exitValue(), outputGobbler.getLines(), errorGobbler.getLines());
         } catch (IOException | InterruptedException e) {
