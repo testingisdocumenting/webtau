@@ -45,12 +45,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <type>pom</type>
-        </dependency>
-
-        <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-test-server</artifactId>
             <version>${project.version}</version>
