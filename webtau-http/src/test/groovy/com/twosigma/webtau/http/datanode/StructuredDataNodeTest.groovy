@@ -123,4 +123,79 @@ class StructuredDataNodeTest {
         List<Map<String, Object>> list = node.get('key1').get()
         list.should == [[name: 'name1'], [name: 'name2']]
     }
+
+    @Test
+    void "should access underlying value when provided path"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+            key1: [name: 'name1'],
+            key2: [name: 'name2'],
+        ])
+
+        String name = node.get('key1.name').get()
+        name.should == 'name1'
+    }
+
+    @Test
+    void "should access array element via path"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+            key1: [[name: 'name1'], [name: 'name2']],
+            root: [child: [[foo: 'boo'], [foo: 'bar']]]
+        ])
+
+        Map<String, String> firstElement = node.get('key1[0]').get()
+        firstElement.should == [name: 'name1']
+
+        String firstName = node.get('key1[0].name').get()
+        firstName.should == 'name1'
+
+        String lastName = node.get('key1[-1].name').get()
+        lastName.should == 'name2'
+
+        String nested = node.get('root.child[1].foo')
+        nested.should == 'bar'
+    }
+
+    @Test
+    void "should collect over list with path get"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+            key1: [[name: 'name1'], [name: 'name2']]
+        ])
+
+        List<String> names = node.get("key1.name").get()
+        names.should == ['name1', 'name2']
+    }
+
+    @Test
+    void "should collect over list with path"() {
+        def node = DataNodeBuilder.fromList(new DataNodeId("body"), [
+            [key: [name: 'name1']],
+            [key: [name: 'name2']]
+        ])
+
+        List<String> names = node.get("key.name").get()
+        names.should == ['name1', 'name2']
+    }
+
+    @Test
+    void "should check full path in has"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
+            key1: 'name1',
+            key2: [name: 'name2']
+        ])
+
+        boolean has = node.has('key1')
+        has.should == true
+
+        has = node.has('key2')
+        has.should == true
+
+        has = node.has('key2.name')
+        has.should == true
+
+        has = node.has('key2.foo')
+        has.should == false
+
+        has = node.has('key2.name.foo')
+        has.should == false
+    }
 }

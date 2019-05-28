@@ -28,9 +28,9 @@ import static com.twosigma.webtau.Ddjt.createActualPath;
 public interface DataNode extends DataNodeExpectations, Iterable<DataNode> {
     DataNodeId id();
 
-    DataNode get(String name);
+    DataNode get(String pathOrName);
 
-    boolean has(String name);
+    boolean has(String pathOrName);
 
     DataNode get(int idx);
 
@@ -49,6 +49,10 @@ public interface DataNode extends DataNodeExpectations, Iterable<DataNode> {
     int numberOfElements();
 
     Map<String, DataNode> asMap();
+
+    default boolean isNull() {
+        return false;
+    }
 
     default boolean isBinary() {
         return getTraceableValue() != null &&

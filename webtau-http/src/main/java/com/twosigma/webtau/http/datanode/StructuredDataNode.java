@@ -59,19 +59,66 @@ public class StructuredDataNode implements DataNode {
     }
 
     @Override
-    public DataNode get(String name) {
+    public DataNode get(String nameOrPath) {
         if (isList()) {
-            return getAsCollectFromList(name);
+            return getAsCollectFromList(nameOrPath);
         }
 
+        int dotIdx = nameOrPath.indexOf('.');
+        if (dotIdx == -1) {
+            // simple name
+            return getChild(nameOrPath);
+        }
+
+        String rootName = nameOrPath.substring(0, dotIdx);
+        DataNode root = getChild(rootName);
+        String pathUnderRoot = nameOrPath.substring(dotIdx + 1);
+
+        return root.get(pathUnderRoot);
+    }
+
+    private DataNode getChild(String name) {
+        int openBraceIdx = name.indexOf('[');
+        int closeBraceIdx = name.indexOf(']');
+        if (openBraceIdx != -1 && closeBraceIdx != -1) {
+            return getIndexedChild(name, openBraceIdx, closeBraceIdx);
+        } else if (openBraceIdx != -1 || closeBraceIdx != -1) {
+            throw new IllegalArgumentException("Requested name " + name + " is not a simple name nor does it contain a properly formatted index");
+        }
+
+        // simple name
         return (children != null && children.containsKey(name)) ?
-                children.get(name):
+                children.get(name) :
                 new NullDataNode(id.child(name));
     }
 
+    private DataNode getIndexedChild(String name, int openBraceIdx, int closeBraceIdx) {
+        int additionalOpenIdx = name.indexOf('[', openBraceIdx + 1);
+        int additionalCloseId = name.indexOf(']', closeBraceIdx + 1);
+
+        if (additionalOpenIdx != -1 || additionalCloseId != -1 || openBraceIdx > closeBraceIdx) {
+            throw new IllegalArgumentException("Requested name " + name + " contains mismatched indexing brackets");
+        }
+
+        String indexStr = name.substring(openBraceIdx + 1, closeBraceIdx);
+        try {
+            int idx = Integer.valueOf(indexStr);
+            String nameWithoutIndex = name.substring(0, openBraceIdx);
+            DataNode node = get(nameWithoutIndex);
+
+            if (idx < 0) {
+                idx = node.numberOfElements() + idx;
+            }
+
+            return node.get(idx);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Requested index " + indexStr + " of name " + name.substring(0, openBraceIdx) + " is not an integer");
+        }
+    }
+
     @Override
-    public boolean has(String name) {
-        return children.containsKey(name);
+    public boolean has(String pathOrName) {
+        return !get(pathOrName).isNull();
     }
 
     @Override
@@ -152,14 +199,14 @@ public class StructuredDataNode implements DataNode {
         return "{" + children.entrySet().stream().map(e -> e.getKey() + ": " + e.getValue()).collect(joining(", "))  + "}";
     }
 
-    private DataNode getAsCollectFromList(String name) {
-        if (values.stream().noneMatch(v -> v.has(name))) {
-            return new NullDataNode(id.child(name));
+    private DataNode getAsCollectFromList(String nameOrPath) {
+        if (values.stream().noneMatch(v -> v.has(nameOrPath))) {
+            return new NullDataNode(id.child(nameOrPath));
         }
 
-        return new StructuredDataNode(id.child(name),
+        return new StructuredDataNode(id.child(nameOrPath),
                 values.stream()
-                        .map(n -> n.get(name))
+                        .map(n -> n.get(nameOrPath))
                         .collect(Collectors.toList()));
     }
 
