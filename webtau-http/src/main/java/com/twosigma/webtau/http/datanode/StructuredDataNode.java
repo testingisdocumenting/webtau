@@ -199,14 +199,14 @@ public class StructuredDataNode implements DataNode {
         return "{" + children.entrySet().stream().map(e -> e.getKey() + ": " + e.getValue()).collect(joining(", "))  + "}";
     }
 
-    private DataNode getAsCollectFromList(String name) {
-        if (values.stream().noneMatch(v -> v.has(name))) {
-            return new NullDataNode(id.child(name));
+    private DataNode getAsCollectFromList(String nameOrPath) {
+        if (values.stream().noneMatch(v -> v.has(nameOrPath))) {
+            return new NullDataNode(id.child(nameOrPath));
         }
 
-        return new StructuredDataNode(id.child(name),
+        return new StructuredDataNode(id.child(nameOrPath),
                 values.stream()
-                        .map(n -> n.get(name))
+                        .map(n -> n.get(nameOrPath))
                         .collect(Collectors.toList()));
     }
 
