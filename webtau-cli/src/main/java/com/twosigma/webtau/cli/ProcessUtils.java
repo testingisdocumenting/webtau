@@ -16,8 +16,9 @@
 
 package com.twosigma.webtau.cli;
 
+import com.twosigma.webtau.cli.parser.CommandParser;
+
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
 public class ProcessUtils {
@@ -56,6 +57,6 @@ public class ProcessUtils {
     }
 
     static String[] splitCommand(String command) {
-        return command.split("\\s+");
+        return new CommandParser(command).parse();
     }
 }

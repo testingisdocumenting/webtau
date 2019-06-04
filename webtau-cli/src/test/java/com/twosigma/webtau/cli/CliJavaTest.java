@@ -36,11 +36,12 @@ public class CliJavaTest {
     @Test
     public void outputAndExitCodeValidation() {
         nixOnly(() -> {
-            cli.run("scripts/hello", (exitCode, output, error) -> {
+            cli.run("scripts/hello \"message to world\"", (exitCode, output, error) -> {
                 exitCode.should(equal(0));
 
                 output.should(equal(Pattern.compile("hello")));
                 output.should(contain("world"));
+                output.should(contain("\"message to world\""));
             });
         });
     }
