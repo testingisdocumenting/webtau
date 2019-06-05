@@ -23,7 +23,7 @@ public class CommandParser {
     private final String command;
     private final List<String> parts;
 
-    private StringBuilder current;
+    private final StringBuilder current;
 
     public CommandParser(String command) {
         this.command = command;
@@ -61,6 +61,6 @@ public class CommandParser {
         }
 
         parts.add(currentPart);
-        current = new StringBuilder();
+        current.setLength(0);
     }
 }
