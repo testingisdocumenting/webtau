@@ -41,7 +41,7 @@ public class Cli {
     }
 
     public ProcessEnv env(String... keyValue) {
-        return new ProcessEnv(CollectionUtils.aMapOf(keyValue));
+        return new ProcessEnv(CollectionUtils.aMapOf((Object[]) keyValue));
     }
 
     public void run(String command, CliValidationOutputOnlylHandler handler) {

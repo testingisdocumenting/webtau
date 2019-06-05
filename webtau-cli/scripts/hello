@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "hello world" $NAME
+echo "hello world" $1 $NAME
