@@ -65,7 +65,7 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
             def path = cfg.workingDir.resolve(Paths.get(fileName)).toAbsolutePath()
             def paths = []
             if (Files.isDirectory(path)) {
-                path.toFile().eachFileRecurse(FileType.FILES) { paths << it }
+                path.toFile().eachFileRecurse(FileType.FILES) { paths << it.toPath() }
             } else {
                 paths << path
             }
