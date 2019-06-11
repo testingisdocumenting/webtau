@@ -10,8 +10,8 @@ class ReportLocation {
                 .resolve('..')
                 .resolve('..')
                 .resolve('webtau-feature-testing')
-                .resolve('doc-artifacts')
-                .resolve('reports')
+                .resolve('examples')
+                .resolve('scenarios')
                 .resolve(reportName).toAbsolutePath()
     }
 }

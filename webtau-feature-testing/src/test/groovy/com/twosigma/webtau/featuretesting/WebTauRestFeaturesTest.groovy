@@ -110,23 +110,18 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "crud"() {
-        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg',
-                "--url=$customersBaseUrl",
-                '--reportPath=doc-artifacts/reports/webtau-report-crud.html')
+        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
     @Test
     void "crud separated"() {
-        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg',
-                "--url=$customersBaseUrl",
-                '--reportPath=doc-artifacts/reports/webtau-report-crud-separated.html')
+        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
     @Test
     void "crud separated missing method"() {
         runCli('springboot/customerCrudSeparatedMissingMethod.groovy', 'springboot/withSpec.cfg',
-                "--url=$customersBaseUrl",
-                '--reportPath=doc-artifacts/reports/webtau-report-crud-separated-missing-method.html')
+                "--url=$customersBaseUrl")
     }
 
     @Test
