@@ -4,7 +4,7 @@ import static com.twosigma.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
 scenario('http calls') {
-    report.open('webtau-report-crud.html')
+    report.open('rest/springboot/customerCrud-webtau-report.html')
     report.selectTest('CRUD operations for customer')
 
     report.selectHttpCalls()
