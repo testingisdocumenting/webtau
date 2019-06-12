@@ -16,10 +16,9 @@
 
 package com.twosigma.webtau.http.testserver;
 
-import org.apache.commons.io.IOUtils;
-
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+
+import static com.twosigma.webtau.http.testserver.ResponseUtils.echoBody;
 
 public class TestServerResponseEcho implements TestServerResponse {
     private final int statusCode;
@@ -30,11 +29,7 @@ public class TestServerResponseEcho implements TestServerResponse {
 
     @Override
     public byte[] responseBody(HttpServletRequest request) {
-        try {
-            return IOUtils.toByteArray(request.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return echoBody(request);
     }
 
     @Override

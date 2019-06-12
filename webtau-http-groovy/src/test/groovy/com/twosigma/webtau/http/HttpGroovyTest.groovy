@@ -25,6 +25,8 @@ import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.validation.HttpResponseValidator
 import com.twosigma.webtau.http.validation.HttpValidationHandler
 import com.twosigma.webtau.http.validation.HttpValidationHandlers
+import com.twosigma.webtau.utils.FileUtils
+import com.twosigma.webtau.utils.JsonUtils
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
 import org.junit.*
@@ -37,6 +39,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.stream.Collectors
 
 import static com.twosigma.webtau.Ddjt.*
 import static com.twosigma.webtau.cfg.WebTauConfig.cfg
@@ -466,6 +469,72 @@ class HttpGroovyTest implements HttpConfiguration {
         Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
         Path requestFile = docRoot.resolve("request.data")
         assertFalse(Files.exists(requestFile))
+    }
+
+    @Test
+    void "appropriate capture files are generated"() {
+        def requestBody = [a: 'b', c: 1]
+        def requestHeaders = [testheader: 'testValue', another: 'value']
+        http.post("echo-body-and-header", http.header(requestHeaders), requestBody) {
+            body.a.should == 'b'
+            header.testheader.should == 'testValue'
+            header.another.should == 'value'
+        }
+
+        String artifactName = 'echo-body-and-header'
+        http.doc.capture(artifactName)
+
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+
+        Path requestBodyFile = docRoot.resolve("request.json")
+        assertTrue(Files.exists(requestBodyFile))
+        def capturedRequestBody = JsonUtils.deserializeAsMap(FileUtils.fileTextContent(requestBodyFile))
+        capturedRequestBody.should == requestBody
+
+        Path responseBodyFile = docRoot.resolve("response.json")
+        assertTrue(Files.exists(responseBodyFile))
+        def capturedResponseBody = JsonUtils.deserializeAsMap(FileUtils.fileTextContent(responseBodyFile))
+        capturedResponseBody.should == requestBody
+
+        Path requestHeaderFile = docRoot.resolve("request.header.txt")
+        assertTrue(Files.exists(requestHeaderFile))
+        def capturedRequestHeaders = Files.lines(requestHeaderFile).collect(Collectors.toSet())
+        capturedRequestHeaders.should == requestHeaders.collect { header -> "${header.key}: ${header.value}" }.toSet()
+
+        Path responseHeaderFile = docRoot.resolve("response.header.txt")
+        assertTrue(Files.exists(responseHeaderFile))
+        def capturedResponseHeaders = Files.lines(responseHeaderFile).collect(Collectors.toSet())
+        capturedResponseHeaders.should contain('testheader: testValue')
+        capturedResponseHeaders.should contain('another: value')
+
+        Path pathsFile = docRoot.resolve("paths.json")
+        assertTrue(Files.exists(pathsFile))
+        def capturedPaths = JsonUtils.deserializeAsList(FileUtils.fileTextContent(pathsFile))
+        capturedPaths.should == ['root.a']
+    }
+
+    @Test
+    void "captured headers are redacted"() {
+        def requestHeaders = [testheader: 'testValue', authorization: 'topSecret']
+        http.post("echo-body-and-header", http.header(requestHeaders)) {
+            header.testheader.should == 'testValue'
+            header.authorization.should == 'topSecret'
+        }
+
+        String artifactName = 'echo-body-and-header'
+        http.doc.capture(artifactName)
+
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+
+        Path requestHeaderFile = docRoot.resolve("request.header.txt")
+        assertTrue(Files.exists(requestHeaderFile))
+        def authorizationHeader = Files.lines(requestHeaderFile).filter { line -> line.toLowerCase().startsWith('authorization') }.findFirst().get()
+        authorizationHeader.toLowerCase().should == 'authorization: ................'
+
+        Path responseHeaderFile = docRoot.resolve("response.header.txt")
+        assertTrue(Files.exists(responseHeaderFile))
+        authorizationHeader = Files.lines(responseHeaderFile).filter { line -> line.toLowerCase().startsWith('authorization') }.findFirst().get()
+        authorizationHeader.toLowerCase().should == 'authorization: ................'
     }
 
     @Test

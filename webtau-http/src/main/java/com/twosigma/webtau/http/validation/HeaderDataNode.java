@@ -17,6 +17,7 @@
 package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.data.traceable.TraceableValue;
+import com.twosigma.webtau.http.HttpHeader;
 import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.datanode.DataNodeBuilder;
@@ -36,6 +37,7 @@ public class HeaderDataNode implements DataNode {
     );
 
     private final DataNode dataNode;
+    private final HttpHeader responseHeader;
 
     public HeaderDataNode(HttpResponse response) {
         Map<String, Object> headerData = new HashMap<>();
@@ -48,6 +50,7 @@ public class HeaderDataNode implements DataNode {
         translations.forEach(translation -> addCamelCaseVersion(headerData, translation));
 
         this.dataNode = DataNodeBuilder.fromMap(new DataNodeId("header"), headerData);
+        this.responseHeader = response.getHeader();
     }
 
     private static void addCamelCaseVersion(Map<String, Object> headerData, CamelCaseTranslation translation) {
@@ -58,6 +61,10 @@ public class HeaderDataNode implements DataNode {
             headerData.put(translation.camelCaseName, converted);
             headerData.put(translation.originalName, converted);
         }
+    }
+
+    public HttpHeader getResponseHeader() {
+        return responseHeader;
     }
 
     @Override

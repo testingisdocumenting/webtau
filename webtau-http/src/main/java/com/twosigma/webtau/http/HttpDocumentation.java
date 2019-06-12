@@ -44,16 +44,27 @@ public class HttpDocumentation {
 
         public void capture() {
             captureRequestHeader();
+            captureResponseHeader();
+
             captureRequestBody();
             captureResponseBody();
+
             capturePaths();
         }
 
         private void captureRequestHeader() {
-            String requestHeader = lastValidationResult.getRequestHeader().toString();
-            if (! requestHeader.isEmpty()) {
+            String requestHeader = lastValidationResult.getRequestHeader().redactSecrets().toString();
+            if (!requestHeader.isEmpty()) {
                 FileUtils.writeTextContent(path.resolve("request.header.txt"),
                         requestHeader);
+            }
+        }
+
+        private void captureResponseHeader() {
+            String responseHeader = lastValidationResult.getHeaderNode().getResponseHeader().redactSecrets().toString();
+            if (!responseHeader.isEmpty()) {
+                FileUtils.writeTextContent(path.resolve("response.header.txt"),
+                        responseHeader);
             }
         }
 
