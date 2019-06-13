@@ -472,16 +472,6 @@ class HttpGroovyTest implements HttpConfiguration {
         assertFalse(Files.exists(requestFile))
     }
 
-    static def readAndAssertCapturedFile(Path docRoot, String name, Consumer<Path> assertions) {
-        Path captureFile = docRoot.resolve(name)
-        assertTrue(Files.exists(captureFile))
-        assertions.accept(captureFile)
-    }
-
-    static def setOfLines(Path file) {
-        return Files.lines(file).collect(Collectors.toSet())
-    }
-
     @Test
     void "appropriate doc capture files are generated"() {
         def requestBody = [a: 'b', c: 1]
@@ -522,11 +512,6 @@ class HttpGroovyTest implements HttpConfiguration {
             def capturedPaths = JsonUtils.deserializeAsList(pathsFile)
             capturedPaths.should == ['root.a']
         }
-    }
-
-    static def authHeader(Path file) {
-        def authorizationHeader = Files.lines(file).filter { line -> line.toLowerCase().startsWith('authorization') }.findFirst().get()
-        return authorizationHeader.toLowerCase()
     }
 
     @Test
@@ -1169,5 +1154,20 @@ class HttpGroovyTest implements HttpConfiguration {
 
     private static Path testResourcePath(String relativePath) {
         return Paths.get("../webtau-http/${relativePath}")
+    }
+
+    static def readAndAssertCapturedFile(Path docRoot, String name, Consumer<Path> assertions) {
+        Path captureFile = docRoot.resolve(name)
+        assertTrue(Files.exists(captureFile))
+        assertions.accept(captureFile)
+    }
+
+    static def setOfLines(Path file) {
+        return Files.lines(file).collect(Collectors.toSet())
+    }
+
+    static def authHeader(Path file) {
+        def authorizationHeader = Files.lines(file).filter { line -> line.toLowerCase().startsWith('authorization') }.findFirst().get()
+        return authorizationHeader.toLowerCase()
     }
 }
