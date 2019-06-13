@@ -59,6 +59,7 @@ public class HttpTestDataServer {
         testServer.registerPost("/echo-header", new TestServerRequestHeaderEcho(201));
         testServer.registerPut("/echo-header", new TestServerRequestHeaderEcho(200));
         testServer.registerDelete("/echo-header", new TestServerRequestHeaderEcho(200));
+        testServer.registerPost("/echo-body-and-header", new TestServerRequestHeaderAndBodyEcho(201));
         testServer.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0));
         testServer.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1));
         testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201));

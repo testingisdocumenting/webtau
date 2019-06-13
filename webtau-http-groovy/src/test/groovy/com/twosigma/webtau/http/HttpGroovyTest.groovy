@@ -25,6 +25,8 @@ import com.twosigma.webtau.http.testserver.TestServerResponse
 import com.twosigma.webtau.http.validation.HttpResponseValidator
 import com.twosigma.webtau.http.validation.HttpValidationHandler
 import com.twosigma.webtau.http.validation.HttpValidationHandlers
+import com.twosigma.webtau.utils.FileUtils
+import com.twosigma.webtau.utils.JsonUtils
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.UrlUtils
 import org.junit.*
@@ -37,6 +39,8 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.function.Consumer
+import java.util.stream.Collectors
 
 import static com.twosigma.webtau.Ddjt.*
 import static com.twosigma.webtau.cfg.WebTauConfig.cfg
@@ -466,6 +470,71 @@ class HttpGroovyTest implements HttpConfiguration {
         Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
         Path requestFile = docRoot.resolve("request.data")
         assertFalse(Files.exists(requestFile))
+    }
+
+    @Test
+    void "appropriate doc capture files are generated"() {
+        def requestBody = [a: 'b', c: 1]
+        def requestHeaders = [testheader: 'testValue', another: 'value']
+        http.post("echo-body-and-header", http.header(requestHeaders), requestBody) {
+            body.a.should == 'b'
+            header.testheader.should == 'testValue'
+            header.another.should == 'value'
+        }
+
+        String artifactName = 'echo-body-and-header'
+        http.doc.capture(artifactName)
+
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+
+        readAndAssertCapturedFile(docRoot, 'request.json') { requestBodyFile ->
+            def capturedRequestBody = JsonUtils.deserializeAsMap(requestBodyFile)
+            capturedRequestBody.should == requestBody
+        }
+
+        readAndAssertCapturedFile(docRoot, 'response.json') { responseBodyFile ->
+            def capturedResponseBody = JsonUtils.deserializeAsMap(responseBodyFile)
+            capturedResponseBody.should == requestBody
+        }
+
+        readAndAssertCapturedFile(docRoot, 'request.header.txt') { requestHeaderFile ->
+            def capturedRequestHeaders = setOfLines(requestHeaderFile)
+            capturedRequestHeaders.should == requestHeaders.collect { header -> "${header.key}: ${header.value}" }.toSet()
+        }
+
+        readAndAssertCapturedFile(docRoot, 'response.header.txt') { responseHeaderFile ->
+            def capturedResponseHeaders = setOfLines(responseHeaderFile)
+            capturedResponseHeaders.should contain('testheader: testValue')
+            capturedResponseHeaders.should contain('another: value')
+        }
+
+        readAndAssertCapturedFile(docRoot, 'paths.json') { pathsFile ->
+            def capturedPaths = JsonUtils.deserializeAsList(pathsFile)
+            capturedPaths.should == ['root.a']
+        }
+    }
+
+    @Test
+    void "captured doc headers are redacted"() {
+        def requestHeaders = [testheader: 'testValue', authorization: 'topSecret']
+        http.post("echo-body-and-header", http.header(requestHeaders)) {
+            header.testheader.should == 'testValue'
+            header.authorization.should == 'topSecret'
+        }
+
+        String artifactName = 'echo-body-and-header'
+        http.doc.capture(artifactName)
+
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+        String redactedAuth = 'authorization: ................'
+
+        readAndAssertCapturedFile(docRoot, 'request.header.txt') { requestHeaderFile ->
+            authHeader(requestHeaderFile).should == redactedAuth
+        }
+
+        readAndAssertCapturedFile(docRoot, 'response.header.txt') { responseHeaderFile ->
+            authHeader(responseHeaderFile).should == redactedAuth
+        }
     }
 
     @Test
@@ -1085,5 +1154,20 @@ class HttpGroovyTest implements HttpConfiguration {
 
     private static Path testResourcePath(String relativePath) {
         return Paths.get("../webtau-http/${relativePath}")
+    }
+
+    static def readAndAssertCapturedFile(Path docRoot, String name, Consumer<Path> assertions) {
+        Path captureFile = docRoot.resolve(name)
+        assertTrue(Files.exists(captureFile))
+        assertions.accept(captureFile)
+    }
+
+    static def setOfLines(Path file) {
+        return Files.lines(file).collect(Collectors.toSet())
+    }
+
+    static def authHeader(Path file) {
+        def authorizationHeader = Files.lines(file).filter { line -> line.toLowerCase().startsWith('authorization') }.findFirst().get()
+        return authorizationHeader.toLowerCase()
     }
 }

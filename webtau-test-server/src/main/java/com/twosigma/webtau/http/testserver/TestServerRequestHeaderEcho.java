@@ -19,9 +19,9 @@ package com.twosigma.webtau.http.testserver;
 import com.twosigma.webtau.utils.JsonUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.twosigma.webtau.http.testserver.ResponseUtils.echoHeaders;
 
 public class TestServerRequestHeaderEcho implements TestServerResponse {
     private final int statusCode;
@@ -32,24 +32,13 @@ public class TestServerRequestHeaderEcho implements TestServerResponse {
 
     @Override
     public byte[] responseBody(HttpServletRequest request) {
-        Map<String, String> header = buildHeaderResponse(request);
+        Map<String, String> header = echoHeaders(request);
         return JsonUtils.serialize(header).getBytes();
     }
 
     @Override
     public Map<String, String> responseHeader(HttpServletRequest request) {
-        return buildHeaderResponse(request);
-    }
-
-    private Map<String, String> buildHeaderResponse(HttpServletRequest request) {
-        Map<String, String> header = new LinkedHashMap<>();
-
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String name = headerNames.nextElement();
-            header.put(name, request.getHeader(name));
-        }
-        return header;
+        return echoHeaders(request);
     }
 
     @Override

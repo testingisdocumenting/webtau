@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +68,10 @@ public class JsonUtils {
         }
     }
 
+    public static Map<String, ?> deserializeAsMap(Path file) {
+        return deserializeAsMap(FileUtils.fileTextContent(file));
+    }
+
     @SuppressWarnings("unchecked")
     public static List<?> deserializeAsList(String json) {
         if (json == null) {
@@ -79,6 +84,10 @@ public class JsonUtils {
         } catch (IOException e) {
             throw new JsonParseException(e.getMessage());
         }
+    }
+
+    public static List<?> deserializeAsList(Path file) {
+        return deserializeAsList(FileUtils.fileTextContent(file));
     }
 
     public static Object deserialize(String json) {
