@@ -95,14 +95,14 @@ class JsonUtilsTest {
 
     @Test
     void "should deserialize null to map"() {
-        def map = JsonUtils.deserializeAsMap(null)
+        def map = JsonUtils.deserializeAsMap((String) null)
 
         assert map == null
     }
 
     @Test
     void "should deserialize null to list"() {
-        def list = JsonUtils.deserializeAsList(null)
+        def list = JsonUtils.deserializeAsList((String) null)
 
         assert list == null
     }
