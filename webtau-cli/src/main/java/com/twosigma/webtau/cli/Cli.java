@@ -87,7 +87,7 @@ public class Cli {
         try {
             step.execute(StepReportOptions.REPORT_ALL);
         } finally {
-            step.addPayload(lastValidationResult.get());
+            step.addPayload(validationResult);
             lastValidationResult.set(validationResult);
         }
     }
