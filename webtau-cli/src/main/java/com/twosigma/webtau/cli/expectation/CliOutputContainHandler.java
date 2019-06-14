@@ -57,20 +57,11 @@ public class CliOutputContainHandler implements ContainHandler {
                 adjustedExpected(expected));
         List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 
-        Set<Integer> matchedLinesIdx = new HashSet<>();
         indexedValues.forEach(indexedValue -> {
                     containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
                             "equals " + DataRenderers.render(indexedValue.getValue()));
-
-                    matchedLinesIdx.add(indexedValue.getIdx());
                 }
         );
-
-        for (int lineIdx = 0; lineIdx < cliOutput.getLines().size(); lineIdx++) {
-            if (!matchedLinesIdx.contains(lineIdx)) {
-                cliOutput.registerMatchedLine(lineIdx);
-            }
-        }
     }
 
     /*

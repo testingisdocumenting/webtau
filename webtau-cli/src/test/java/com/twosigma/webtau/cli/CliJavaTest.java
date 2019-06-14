@@ -85,6 +85,17 @@ public class CliJavaTest {
         });
     }
 
+    @Test
+    public void linesWithNotContain() {
+        nixOnly(() -> {
+            code(() -> {
+                cli.run("scripts/hello", ((output, error) -> {
+                    output.shouldNot(contain("line"));
+                }));
+            }).should(throwException(Pattern.compile("output\\[1]: equals \"line in the middle\"")));
+        });
+    }
+
     private static void validateCapturedDocs(String artifactName, String fileName, String expectedContent) {
         Path path = DocumentationArtifactsLocation.resolve(artifactName).resolve(fileName);
         actual(Files.exists(path)).should(equal(true));
