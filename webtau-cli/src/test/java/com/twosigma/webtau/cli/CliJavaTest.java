@@ -81,6 +81,7 @@ public class CliJavaTest {
 
             validateCapturedDocs(artifactName, "out.matched.txt", "line in the middle\nmore text");
             validateCapturedDocs(artifactName, "err.matched.txt", "error line one");
+            validateCapturedDocs(artifactName, "exitcode.txt", "5");
         });
     }
 

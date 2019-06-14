@@ -48,6 +48,7 @@ public class CliDocumentation {
             captureErr();
             captureOutMatchedLines();
             captureErrMatchedLines();
+            captureExitCode();
         }
 
         private void captureCommand() {
@@ -83,6 +84,10 @@ public class CliDocumentation {
             if (!lines.isEmpty()) {
                 FileUtils.writeTextContent(path.resolve(fileName), String.join("\n", lines));
             }
+        }
+
+        private void captureExitCode() {
+            FileUtils.writeTextContent(path.resolve("exitcode.txt"), lastValidationResult.getExitCode().toString());
         }
     }
 }
