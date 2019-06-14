@@ -16,9 +16,16 @@
 
 package com.twosigma.webtau.cli.expectation;
 
+import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.contain.ContainAnalyzer;
 import com.twosigma.webtau.expectation.contain.ContainHandler;
+import com.twosigma.webtau.expectation.contain.handlers.IndexedValue;
+import com.twosigma.webtau.expectation.contain.handlers.IterableContainAnalyzer;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CliOutputContainHandler implements ContainHandler {
     @Override
@@ -28,11 +35,38 @@ public class CliOutputContainHandler implements ContainHandler {
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
-        containAnalyzer.contains(actualPath, ((CliOutput) actual).get(), expected);
+        CliOutput cliOutput = ((CliOutput) actual);
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.getLines(), expected);
+        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+
+        if (indexedValues.isEmpty()) {
+            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
+                    .generateEqualMismatchReport());
+        }
+
+        indexedValues.forEach(iv -> cliOutput.registerMatchedLine(iv.getIdx()));
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
-        containAnalyzer.notContains(actualPath, ((CliOutput) actual).get(), expected);
+        CliOutput cliOutput = ((CliOutput) actual);
+
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.getLines(), expected);
+        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+
+        Set<Integer> matchedLinesIdx = new HashSet<>();
+        indexedValues.forEach(indexedValue -> {
+                    containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
+                            "equals " + DataRenderers.render(indexedValue.getValue()));
+
+                    matchedLinesIdx.add(indexedValue.getIdx());
+                }
+        );
+
+        for (int lineIdx = 0; lineIdx < cliOutput.getLines().size(); lineIdx++) {
+            if (!matchedLinesIdx.contains(lineIdx)) {
+                cliOutput.registerMatchedLine(lineIdx);
+            }
+        }
     }
 }

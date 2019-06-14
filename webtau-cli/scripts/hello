@@ -1,2 +1,7 @@
 #!/bin/bash
 echo "hello world" $1 $NAME
+echo "line in the middle"
+echo "more text"
+>&2 echo "error line one"
+>&2 echo "error line two"
+exit 5

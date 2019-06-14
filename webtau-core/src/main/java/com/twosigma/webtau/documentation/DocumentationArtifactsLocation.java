@@ -27,8 +27,8 @@ public class DocumentationArtifactsLocation {
         root.set(newRoot);
     }
 
-    public static Path resolve(String relativePath) {
-        return root.get().resolve(relativePath);
+    public static Path resolve(String artifactName) {
+        return root.get().resolve(artifactName);
     }
 
     private static Path getInitialRoot() {

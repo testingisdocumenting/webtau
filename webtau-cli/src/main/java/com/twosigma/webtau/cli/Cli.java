@@ -33,6 +33,10 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 public class Cli {
     public static final Cli cli = new Cli();
 
+    private final ThreadLocal<CliValidationResult> lastValidationResult = new ThreadLocal<>();
+
+    public final CliDocumentation doc = new CliDocumentation();
+
     private Cli() {
     }
 
@@ -49,7 +53,9 @@ public class Cli {
     }
 
     public void run(String command, ProcessEnv env, CliValidationOutputOnlylHandler handler) {
-        cliStep(command, env, (runResult) -> handler.handle(cliOutput(runResult), cliError(runResult)));
+        cliStep(command, env, (validationResult) -> handler.handle(
+                validationResult.getOut(),
+                validationResult.getErr()));
     }
 
     public void run(String command, CliValidationExitCodeOutputHandler handler) {
@@ -58,10 +64,18 @@ public class Cli {
 
     public void run(String command, ProcessEnv env, CliValidationExitCodeOutputHandler handler) {
         cliStep(command, env,
-                (runResult) -> handler.handle(exitCode(runResult), cliOutput(runResult), cliError(runResult)));
+                (validationResult) -> handler.handle(
+                        exitCode(validationResult),
+                        validationResult.getOut(),
+                        validationResult.getErr()));
+
     }
 
-    private void cliStep(String command, ProcessEnv env, Consumer<ProcessRunResult> validationCode) {
+    public CliValidationResult getLastValidationResult() {
+        return lastValidationResult.get();
+    }
+
+    private void cliStep(String command, ProcessEnv env, Consumer<CliValidationResult> validationCode) {
         TestStep.createAndExecuteStep(null,
                 tokenizedMessage(action("running cli command "), stringValue(command)),
                 () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
@@ -75,12 +89,19 @@ public class Cli {
                         throw new RuntimeException(runResult.getOutputReadingException());
                     }
 
-                    validationCode.accept(runResult);
+                    CliValidationResult validationResult = new CliValidationResult(
+                            command,
+                            runResult.getExitCode(),
+                            cliOutput(runResult),
+                            cliError(runResult));
+
+                    validationCode.accept(validationResult);
+                    lastValidationResult.set(validationResult);
                 });
     }
 
-    private CliExitCode exitCode(ProcessRunResult runResult) {
-        return new CliExitCode(runResult.getExitCode());
+    private CliExitCode exitCode(CliValidationResult validationResult) {
+        return new CliExitCode(validationResult.getExitCode());
     }
 
     private static CliOutput cliOutput(ProcessRunResult runResult) {

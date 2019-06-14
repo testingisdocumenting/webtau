@@ -18,17 +18,24 @@ package com.twosigma.webtau.cli.expectation;
 
 import com.twosigma.webtau.expectation.ActualPath;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class CliOutput implements CliResultExpectations {
     private String id;
     private List<String> lines;
+
+    private Set<Integer> matchedLinesIdx;
 
     private String full;
 
     public CliOutput(String id, List<String> lines) {
         this.id = id;
         this.lines = lines;
+        this.matchedLinesIdx = new TreeSet<>();
         this.full = String.join("\n", lines);
     }
 
@@ -43,5 +50,13 @@ public class CliOutput implements CliResultExpectations {
 
     public List<String> getLines() {
         return lines;
+    }
+
+    public void registerMatchedLine(Integer idx) {
+        matchedLinesIdx.add(idx);
+    }
+
+    public List<String> extractMatchedLines() {
+        return matchedLinesIdx.stream().map(lines::get).collect(Collectors.toList());
     }
 }
