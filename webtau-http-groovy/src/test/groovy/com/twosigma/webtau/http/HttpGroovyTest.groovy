@@ -538,6 +538,24 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
+    void "urls are captured"() {
+        http.get('/end-point') {}
+
+        String artifactName = 'end-point'
+        http.doc.capture('end-point')
+
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+
+        readAndAssertCapturedFile(docRoot, 'request.url.path.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == '/end-point'
+        }
+
+        readAndAssertCapturedFile(docRoot, 'request.url.full.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}end-point"
+        }
+    }
+
+    @Test
     void "no validation request"() {
         def counter = [:].withDefault { 0 }
         def responseCounter = { statusCode -> new TestServerResponse() {
