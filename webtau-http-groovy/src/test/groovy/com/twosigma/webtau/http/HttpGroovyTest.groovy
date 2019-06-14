@@ -535,18 +535,34 @@ class HttpGroovyTest implements HttpConfiguration {
     }
 
     @Test
-    void "urls are captured"() {
-        http.get('/end-point') {}
+    void "url doc capture includes query params when part of url"() {
+        http.get('/params?a=1&b=text') {}
 
-        String artifactName = 'end-point'
-        http.doc.capture('end-point')
+        String artifactName = 'url-capture'
+        http.doc.capture('url-capture')
 
-        readAndAssertCapturedFile(artifactName, 'request.url.path.txt') { pathFile ->
-            FileUtils.fileTextContent(pathFile).should == '/end-point'
+        readAndAssertCapturedFile(artifactName, 'request.url.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == '/params?a=1&b=text'
         }
 
-        readAndAssertCapturedFile(artifactName, 'request.url.full.txt') { pathFile ->
-            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}end-point"
+        readAndAssertCapturedFile(artifactName, 'request.fullurl.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}params?a=1&b=text"
+        }
+    }
+
+    @Test
+    void "url doc capture includes query params specified as HttpQueryParams"() {
+        http.get('/params', http.query([a: 1, b: 'text'])) {}
+
+        String artifactName = 'url-capture2'
+        http.doc.capture('url-capture2')
+
+        readAndAssertCapturedFile(artifactName, 'request.url.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == '/params?a=1&b=text'
+        }
+
+        readAndAssertCapturedFile(artifactName, 'request.fullurl.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}params?a=1&b=text"
         }
     }
 

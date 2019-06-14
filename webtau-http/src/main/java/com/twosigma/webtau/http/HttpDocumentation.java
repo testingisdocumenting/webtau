@@ -56,8 +56,8 @@ public class HttpDocumentation {
         }
 
         private void captureUrl() {
-            FileUtils.writeTextContent(path.resolve("request.url.path.txt"), UrlUtils.extractPath(lastValidationResult.getFullUrl()));
-            FileUtils.writeTextContent(path.resolve("request.url.full.txt"), lastValidationResult.getFullUrl());
+            FileUtils.writeTextContent(path.resolve("request.url.txt"), UrlUtils.extractPath(lastValidationResult.getUrl()));
+            FileUtils.writeTextContent(path.resolve("request.fullurl.txt"), lastValidationResult.getFullUrl());
         }
 
         private void captureRequestHeader() {

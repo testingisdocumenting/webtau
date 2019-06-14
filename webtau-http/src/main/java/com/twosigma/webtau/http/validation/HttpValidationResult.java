@@ -39,6 +39,7 @@ public class HttpValidationResult implements TestStepPayload {
     private static final String BINARY_CONTENT_PLACEHOLDER = "[binary content]";
 
     private final String id;
+    private final String url;
     private final String fullUrl;
     private final String requestMethod;
     private HttpHeader requestHeader;
@@ -54,11 +55,13 @@ public class HttpValidationResult implements TestStepPayload {
     private String errorMessage;
 
     public HttpValidationResult(String requestMethod,
+                                String url,
                                 String fullUrl,
                                 HttpHeader requestHeader,
                                 HttpRequestBody requestBody) {
         this.id = generateId();
         this.requestMethod = requestMethod;
+        this.url = url;
         this.fullUrl = fullUrl;
         this.requestHeader = requestHeader;
         this.requestBody = requestBody;
@@ -159,6 +162,10 @@ public class HttpValidationResult implements TestStepPayload {
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getFullUrl() {

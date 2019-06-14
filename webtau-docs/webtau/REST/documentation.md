@@ -52,12 +52,13 @@ contains an array with the list of paths within the body whose values were asser
 
 ## Request URLs
 
-The actual request URL is captured both as a full URL in `request.url.full.txt` and also just the path
-in `request.url.path.txt`.
+The actual request URL is captured in two forms into two different files:
+* `request.fullurl.txt` - contains the full URL
+* `request.url.txt` - contains only the part specified in the http call in the scenario
 
-:include-file: doc-artifacts/end-point/request.url.path.txt {title: "request.url.path.txt"}
+:include-file: doc-artifacts/url-capture/request.url.path.txt {title: "request.url.txt"}
 
-:include-file: doc-artifacts/end-point/request.url.full.txt {title: "request.url.full.txt"}
+:include-file: doc-artifacts/url-capture/request.url.full.txt {title: "request.fullurl.txt"}
 
 # Document REST calls
 
