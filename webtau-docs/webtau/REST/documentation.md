@@ -40,7 +40,7 @@ Just like payloads, request and response headers are captured in `request.header
 respectively. These files contain a header per line with the name and values colon separated.  The values
 are redacted for any potentially sensitive headers.
 
-:include-json: doc-artifacts/echo-body-and-header-redacted/request.headers.txt {title: "redacted request.headers.txt"}
+:include-json: doc-artifacts/echo-body-and-header-redacted/request.header.txt {title: "redacted request.header.txt"}
 
 ## Response body assertions
 
