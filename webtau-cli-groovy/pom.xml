@@ -20,9 +20,23 @@
         </dependency>
 
         <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-core-groovy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
             <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-cli</artifactId>
+            <type>test-jar</type>
+            <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
