@@ -18,5 +18,34 @@
 
 package com.twosigma.webtau.cli
 
+import com.twosigma.webtau.cli.expectation.CliExitCode
+import com.twosigma.webtau.cli.expectation.CliOutput
+import com.twosigma.webtau.cli.expectation.CliValidationExitCodeOutputHandler
+
 class CliExtension {
+    static void run(Cli cli, String command, Closure handler) {
+        cli.run(command, closureToHttpResponseValidator(handler))
+    }
+
+    static void run(Cli cli, String command, ProcessEnv env, Closure handler) {
+        cli.run(command, env, closureToHttpResponseValidator(handler))
+    }
+
+    private static CliValidationExitCodeOutputHandler closureToHttpResponseValidator(Closure validation) {
+        return new CliValidationExitCodeOutputHandler() {
+            @Override
+            void handle(CliExitCode exitCode, CliOutput output, CliOutput error) {
+                def cloned = validation.clone() as Closure
+                cloned.delegate = new ValidatorDelegate(exitCode: exitCode.get(), output: output, error: error)
+                cloned.resolveStrategy = Closure.OWNER_FIRST
+                cloned.call()
+            }
+        }
+    }
+
+    private static class ValidatorDelegate {
+        Integer exitCode
+        CliOutput output
+        CliOutput error
+    }
 }
