@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "welcome to my script"
+echo "version: 12.43.2"

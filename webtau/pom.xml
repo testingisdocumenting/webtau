@@ -71,6 +71,12 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-cli</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-report</artifactId>
             <version>${project.version}</version>
         </dependency>
