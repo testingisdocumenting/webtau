@@ -42,6 +42,6 @@ class OpenApiCoverageTest {
     }
 
     static HttpValidationResult validationResult(method, url) {
-        return new HttpValidationResult(method, url, null , null)
+        return new HttpValidationResult(method, url, url, null , null)
     }
 }
