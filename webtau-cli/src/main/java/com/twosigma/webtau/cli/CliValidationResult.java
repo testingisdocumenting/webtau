@@ -24,15 +24,12 @@ import java.util.Map;
 
 public class CliValidationResult implements TestStepPayload {
     private final String command;
-    private final Integer exitCode;
-    private final CliOutput out;
-    private final CliOutput err;
+    private Integer exitCode;
+    private CliOutput out;
+    private CliOutput err;
 
-    public CliValidationResult(String command, Integer exitCode, CliOutput out, CliOutput err) {
+    public CliValidationResult(String command) {
         this.command = command;
-        this.exitCode = exitCode;
-        this.out = out;
-        this.err = err;
     }
 
     public String getCommand() {
@@ -43,17 +40,35 @@ public class CliValidationResult implements TestStepPayload {
         return exitCode;
     }
 
+    public void setExitCode(Integer exitCode) {
+        this.exitCode = exitCode;
+    }
+
     public CliOutput getOut() {
         return out;
+    }
+
+    public void setOut(CliOutput out) {
+        this.out = out;
     }
 
     public CliOutput getErr() {
         return err;
     }
 
+    public void setErr(CliOutput err) {
+        this.err = err;
+    }
+
     @Override
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
+        result.put("out", out.get());
+        result.put("err", err.get());
+        result.put("exitCode", exitCode);
+        result.put("outMatches", out.extractMatchedLines());
+        result.put("errMatches", err.extractMatchedLines());
+
         return result;
     }
 }
