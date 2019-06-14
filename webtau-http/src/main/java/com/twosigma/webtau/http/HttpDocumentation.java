@@ -20,6 +20,7 @@ import com.twosigma.webtau.documentation.DocumentationArtifactsLocation;
 import com.twosigma.webtau.http.validation.HttpValidationResult;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
+import com.twosigma.webtau.utils.UrlUtils;
 
 import java.nio.file.Path;
 
@@ -43,6 +44,8 @@ public class HttpDocumentation {
         }
 
         public void capture() {
+            captureUrl();
+
             captureRequestHeader();
             captureResponseHeader();
 
@@ -50,6 +53,11 @@ public class HttpDocumentation {
             captureResponseBody();
 
             capturePaths();
+        }
+
+        private void captureUrl() {
+            FileUtils.writeTextContent(path.resolve("request.url.txt"), UrlUtils.extractPath(lastValidationResult.getUrl()));
+            FileUtils.writeTextContent(path.resolve("request.fullurl.txt"), lastValidationResult.getFullUrl());
         }
 
         private void captureRequestHeader() {

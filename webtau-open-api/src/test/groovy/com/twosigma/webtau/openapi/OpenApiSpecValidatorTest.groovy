@@ -85,7 +85,7 @@ class OpenApiSpecValidatorTest {
     }
 
     static HttpValidationResult validationResult(method, url, response) {
-        def result = new HttpValidationResult(method, url, null, null)
+        def result = new HttpValidationResult(method, url, url, null, null)
         result.setResponse(response)
 
         return result

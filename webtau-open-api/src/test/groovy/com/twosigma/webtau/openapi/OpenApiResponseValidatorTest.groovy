@@ -121,7 +121,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
     }
 
     private static HttpValidationResult createValidationResult() {
-        def validationResult = new HttpValidationResult('GET', '/customer/2',
+        def validationResult = new HttpValidationResult('GET', '/customer/2', '/customer/2',
                 new HttpHeader([:]), new JsonRequestBody([:]))
         validationResult.setResponse(response())
         validationResult

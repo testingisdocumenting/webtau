@@ -421,7 +421,7 @@ public class Http {
         String fullUrl = HttpConfigurations.fullUrl(url);
         HttpHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
 
-        HttpValidationResult validationResult = new HttpValidationResult(requestMethod, fullUrl, fullHeader, requestBody);
+        HttpValidationResult validationResult = new HttpValidationResult(requestMethod, url, fullUrl, fullHeader, requestBody);
 
         TestStep<Void, R> step = createHttpStep(validationResult, requestMethod, fullUrl, httpCall, fullHeader, validator);
         try {
