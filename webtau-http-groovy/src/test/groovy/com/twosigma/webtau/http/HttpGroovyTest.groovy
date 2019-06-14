@@ -522,7 +522,7 @@ class HttpGroovyTest implements HttpConfiguration {
             header.authorization.should == 'topSecret'
         }
 
-        String artifactName = 'echo-body-and-header'
+        String artifactName = 'echo-body-and-header-redacted'
         http.doc.capture(artifactName)
 
         Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
