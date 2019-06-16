@@ -19,17 +19,23 @@ package com.twosigma.webtau.cli;
 import com.twosigma.webtau.cli.expectation.CliOutput;
 import com.twosigma.webtau.reporter.TestStepPayload;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class CliValidationResult implements TestStepPayload {
     private final String command;
+    private final List<String> mismatches;
+
     private Integer exitCode;
     private CliOutput out;
     private CliOutput err;
+    private long startTime;
+    private long elapsedTime;
+
+    private String errorMessage;
 
     public CliValidationResult(String command) {
         this.command = command;
+        this.mismatches = new ArrayList<>();
     }
 
     public String getCommand() {
@@ -60,14 +66,51 @@ public class CliValidationResult implements TestStepPayload {
         this.err = err;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public void addMismatch(String message) {
+        mismatches.add(message);
+    }
+
+    public List<String> getMismatches() {
+        return mismatches;
+    }
+
     @Override
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
-        result.put("out", out.get());
-        result.put("err", err.get());
+        result.put("command", command);
+        result.put("out", out != null ? out.get() : "");
+        result.put("err", err != null ? err.get() : "");
         result.put("exitCode", exitCode);
-        result.put("outMatches", out.extractMatchedLines());
-        result.put("errMatches", err.extractMatchedLines());
+        result.put("outMatches", out != null ? out.extractMatchedLines() : Collections.emptyList());
+        result.put("errMatches", err != null ? err.extractMatchedLines() : Collections.emptyList());
+        result.put("startTime", startTime);
+        result.put("elapsedTime", elapsedTime);
+        result.put("mismatches", mismatches);
+        result.put("errorMessage", errorMessage);
 
         return result;
     }

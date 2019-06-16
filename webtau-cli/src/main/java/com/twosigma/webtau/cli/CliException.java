@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import WebTauReport from './WebTauReport'
-import Report from './Report'
+package com.twosigma.webtau.cli;
 
-import {basicReport, withCliDataReport, withRestDataReport} from '../test-data/testData'
-
-export function webTauReportsDemo(registry) {
-    registry.add('basic', () => <WebTauReport  report={new Report(basicReport)}/>)
-    registry.add('with REST', () => <WebTauReport  report={new Report(withRestDataReport)}/>)
-    registry.add('with CLI', () => <WebTauReport  report={new Report(withCliDataReport)}/>)
+public class CliException extends RuntimeException {
+    CliException(String message, Throwable e) {
+        super(message, e);
+    }
 }

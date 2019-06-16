@@ -16,6 +16,7 @@
 
 import TestHttpCalls from './details/http/TestHttpCalls'
 import NavigationEntriesType from './navigation/NavigationEntriesType'
+import TestCliCalls from "./details/cli/TestCliCalls"
 
 class WebTauReportStateCreator {
     constructor(report) {
@@ -31,7 +32,8 @@ class WebTauReportStateCreator {
             entriesType: '',
             payloadType: '',
             httpCallId: '',
-            [TestHttpCalls.stateName]: ''
+            [TestHttpCalls.stateName]: '',
+            [TestCliCalls.stateName]: ''
         }
     }
 

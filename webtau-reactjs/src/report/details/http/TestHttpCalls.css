@@ -79,7 +79,7 @@
 }
 
 .test-http-call.with-problem {
-    background-color: rgba(239, 94, 99, 0.08);
+    background-color: var(--webtau-table-row-problem-background-color);
 }
 
 .test-http-calls-call-error-message {

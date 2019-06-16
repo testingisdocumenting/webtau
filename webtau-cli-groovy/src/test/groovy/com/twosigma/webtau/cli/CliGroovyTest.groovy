@@ -18,7 +18,10 @@ package com.twosigma.webtau.cli
 
 import org.junit.Test
 
+import static com.twosigma.webtau.Ddjt.code
 import static com.twosigma.webtau.Ddjt.contain
+import static com.twosigma.webtau.Ddjt.greaterThan
+import static com.twosigma.webtau.Ddjt.throwException
 import static com.twosigma.webtau.cli.Cli.cli
 import static com.twosigma.webtau.cli.CliTestUtils.nixOnly
 
@@ -33,6 +36,23 @@ class CliGroovyTest {
                 output.should contain('world')
                 output.should contain('"message to world"')
             }
+        }
+    }
+
+    @Test
+    void "capture validation result"() {
+        nixOnly {
+            code {
+                cli.run('scripts/hello') {
+                    output.shouldNot contain('line')
+                }
+            } should throwException(AssertionError)
+
+            def validationResult = cli.getLastValidationResult().toMap()
+            validationResult.startTime.shouldBe greaterThan(0)
+            validationResult.elapsedTime.shouldBe greaterThan(0)
+            validationResult.mismatches.should == ['process output expect to not contain "line"\n' +
+                                                           'process output[1]: equals "line in the middle"']
         }
     }
 }

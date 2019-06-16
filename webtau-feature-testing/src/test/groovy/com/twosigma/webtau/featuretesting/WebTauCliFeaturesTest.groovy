@@ -32,6 +32,11 @@ class WebTauCliFeaturesTest {
         runCli('simpleRun.groovy', 'webtau.cfg')
     }
 
+    @Test
+    void "error script run"() {
+        runCli('errorRuns.groovy', 'webtau.cfg')
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/cli/$restTestName",
                 "scenarios/cli/$configFileName", additionalArgs)

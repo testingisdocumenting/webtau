@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import WebTauReport from './WebTauReport'
-import Report from './Report'
+export class SelectedIndexes {
+    constructor(indexesAsString) {
+        this.indexesMap = {}
+        const ids = indexesAsString ? indexesAsString.split('-') : []
+        ids.forEach(id => this.indexesMap[id] = true)
+    }
 
-import {basicReport, withCliDataReport, withRestDataReport} from '../test-data/testData'
+    toggle(idx) {
+        const copy = {...this.indexesMap}
 
-export function webTauReportsDemo(registry) {
-    registry.add('basic', () => <WebTauReport  report={new Report(basicReport)}/>)
-    registry.add('with REST', () => <WebTauReport  report={new Report(withRestDataReport)}/>)
-    registry.add('with CLI', () => <WebTauReport  report={new Report(withCliDataReport)}/>)
+        if (copy.hasOwnProperty(idx)) {
+            delete copy[idx]
+        } else {
+            copy[idx] = true
+        }
+
+        return Object.keys(copy).join('-')
+    }
+
+    isExpanded(idx) {
+        return this.indexesMap.hasOwnProperty(idx)
+    }
 }

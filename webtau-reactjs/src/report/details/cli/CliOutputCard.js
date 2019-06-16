@@ -15,13 +15,25 @@
  */
 
 import React from 'react'
-import WebTauReport from './WebTauReport'
-import Report from './Report'
 
-import {basicReport, withCliDataReport, withRestDataReport} from '../test-data/testData'
+import Card from "../../widgets/Card"
 
-export function webTauReportsDemo(registry) {
-    registry.add('basic', () => <WebTauReport  report={new Report(basicReport)}/>)
-    registry.add('with REST', () => <WebTauReport  report={new Report(withRestDataReport)}/>)
-    registry.add('with CLI', () => <WebTauReport  report={new Report(withCliDataReport)}/>)
+import './CliOutputCard.css';
+
+export default function CliOutputCard({output, matchedLines}) {
+    const lines = output.split('\n')
+
+    const matchedAsSet = matchedLines.reduce((set, line) => {
+        set[line] = true;
+        return set;
+    }, {});
+
+    return (
+        <Card className="cli-output">
+            {lines.map((line, idx) => {
+                const className = 'cli-output-line' + (matchedAsSet.hasOwnProperty(line) ? ' matched' : '');
+                return <span className={className} key={idx}>{line + '\n'}</span>
+            })}
+        </Card>
+    )
 }
