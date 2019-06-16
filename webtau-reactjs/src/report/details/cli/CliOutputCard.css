@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import WebTauReport from './WebTauReport'
-import Report from './Report'
+.cli-output {
+    white-space: pre;
+    font-family: var(--webtau-monospace-font);
+    max-height: 500px;
+    overflow: auto;
 
-import {basicReport, withCliDataReport, withRestDataReport} from '../test-data/testData'
+    padding: 8px;
+}
 
-export function webTauReportsDemo(registry) {
-    registry.add('basic', () => <WebTauReport  report={new Report(basicReport)}/>)
-    registry.add('with REST', () => <WebTauReport  report={new Report(withRestDataReport)}/>)
-    registry.add('with CLI', () => <WebTauReport  report={new Report(withCliDataReport)}/>)
+.cli-output-line.matched {
+    background-color: var(--webtau-match-color);
 }

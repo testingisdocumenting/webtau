@@ -22,6 +22,7 @@ import FullStackTrace from './details/FullStackTrace'
 import TestSummary from './details/TestSummary'
 import StatusEnum from './StatusEnum'
 import PerformanceReport from './PerformanceReport'
+import TestCliCalls from "./details/cli/TestCliCalls"
 
 class Report {
     static overallHttpCallTimeForTest(test) {
@@ -369,8 +370,12 @@ function additionalDetails(test) {
         details.push({tabName: 'Screenshot', component: Screenshot})
     }
 
-    if (test.hasOwnProperty('httpCalls')) {
+    if (test.hasOwnProperty('httpCalls') && test.httpCalls.length > 0) {
         details.push({tabName: 'HTTP calls', component: TestHttpCalls})
+    }
+
+    if (test.hasOwnProperty('cliCalls') && test.cliCalls.length > 0) {
+        details.push({tabName: 'CLI calls', component: TestCliCalls})
     }
 
     if (test.hasOwnProperty('steps')) {

@@ -25,7 +25,7 @@ public class ProcessUtils {
     private ProcessUtils() {
     }
 
-    public static ProcessRunResult run(String command, Map<String, String> env) {
+    public static ProcessRunResult run(String command, Map<String, String> env) throws IOException {
         ProcessBuilder processBuilder = new ProcessBuilder(splitCommand(command));
         processBuilder.environment().putAll(env);
 
@@ -51,7 +51,7 @@ public class ProcessUtils {
                     errorGobbler.getLines(),
                     outputGobbler.getException(),
                     errorGobbler.getException());
-        } catch (IOException | InterruptedException e) {
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

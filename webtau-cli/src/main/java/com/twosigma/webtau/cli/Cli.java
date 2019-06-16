@@ -20,6 +20,8 @@ import com.twosigma.webtau.cli.expectation.CliExitCode;
 import com.twosigma.webtau.cli.expectation.CliOutput;
 import com.twosigma.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import com.twosigma.webtau.cli.expectation.CliValidationOutputOnlylHandler;
+import com.twosigma.webtau.expectation.ExpectationHandler;
+import com.twosigma.webtau.expectation.ExpectationHandlers;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.utils.CollectionUtils;
@@ -96,20 +98,40 @@ public class Cli {
                                 String command,
                                 ProcessEnv env,
                                 Consumer<CliValidationResult> validationCode) {
-        ProcessRunResult runResult = ProcessUtils.run(command, env.getEnv());
-        if (runResult.getErrorReadingException() != null) {
-            throw new RuntimeException(runResult.getErrorReadingException());
+        try {
+            long startTime = System.currentTimeMillis();
+            ProcessRunResult runResult = ProcessUtils.run(command, env.getEnv());
+            long endTime = System.currentTimeMillis();
+
+            if (runResult.getErrorReadingException() != null) {
+                throw runResult.getErrorReadingException();
+            }
+
+            if (runResult.getOutputReadingException() != null) {
+                throw runResult.getOutputReadingException();
+            }
+
+            validationResult.setExitCode(runResult.getExitCode());
+            validationResult.setOut(cliOutput(runResult));
+            validationResult.setErr(cliError(runResult));
+            validationResult.setStartTime(startTime);
+            validationResult.setElapsedTime(endTime - startTime);
+
+            ExpectationHandler recordAndThrowHandler = (valueMatcher, actualPath, actualValue, message) -> {
+                validationResult.addMismatch(message);
+                return ExpectationHandler.Flow.PassToNext;
+            };
+
+            ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
+                validationCode.accept(validationResult);
+                return null;
+            });
+        } catch (AssertionError e) {
+            throw e;
+        } catch (Throwable e) {
+            validationResult.setErrorMessage(e.getMessage());
+            throw new CliException("error during running '" + command + "'", e);
         }
-
-        if (runResult.getOutputReadingException() != null) {
-            throw new RuntimeException(runResult.getOutputReadingException());
-        }
-
-        validationResult.setExitCode(runResult.getExitCode());
-        validationResult.setOut(cliOutput(runResult));
-        validationResult.setErr(cliError(runResult));
-
-        validationCode.accept(validationResult);
     }
 
     private CliExitCode exitCode(CliValidationResult validationResult) {
