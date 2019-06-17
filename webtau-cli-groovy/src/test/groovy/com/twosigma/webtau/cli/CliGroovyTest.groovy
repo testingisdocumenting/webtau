@@ -18,10 +18,7 @@ package com.twosigma.webtau.cli
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.contain
-import static com.twosigma.webtau.Ddjt.greaterThan
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.Ddjt.*
 import static com.twosigma.webtau.cli.Cli.cli
 import static com.twosigma.webtau.cli.CliTestUtils.nixOnly
 
@@ -35,6 +32,8 @@ class CliGroovyTest {
                 output.should == ~/hello/
                 output.should contain('world')
                 output.should contain('"message to world"')
+
+                error.should contain("error line two")
             }
         }
     }

@@ -45,6 +45,8 @@ public class CliJavaTest {
                 output.should(equal(Pattern.compile("hello")));
                 output.should(contain("world"));
                 output.should(contain("\"message to world\""));
+
+                error.should(contain("error line two"));
             });
         });
     }
@@ -54,6 +56,7 @@ public class CliJavaTest {
         nixOnly(() -> {
             cli.run("scripts/hello", cli.env("NAME", "Java"), (exitCode, output, error) -> {
                 output.should(contain("hello world Java"));
+                error.should(contain("error line two"));
             });
         });
     }
