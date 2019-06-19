@@ -25,7 +25,7 @@ CLI: :include-cli-command: webtau scenarios/rest/simpleGet.groovy scnearios/rest
 Maven: :include-file: maven/plugin-list.xml
 ```
 
-Wildcard matching is also supported.  In the CLI version this is normal shell (glob)[https://en.wikipedia.org/wiki/Glob_(programming)]
+Wildcard matching is also supported.  In the CLI version this is normal shell [glob](https://en.wikipedia.org/wiki/Glob_(programming)
 and in Maven it's a standard Maven file inclusion block:
 
 ```tabs
