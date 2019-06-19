@@ -247,9 +247,13 @@ function fullContainerId(test) {
 }
 
 function shortContainerId(test) {
-    return test.className ?
-        shortenClassName(test.className):
-        shortenFileName(test.fileName)
+    if (test.shortFileName) {
+        return test.shortFileName
+    } else if (test.className) {
+        return shortenClassName(test.className)
+    } else {
+        return shortenFileName(test.fileName)
+    }
 }
 
 function shortenClassName(className) {

@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "list Customers and assert with a Table Data using key column",
+    "shortContainerId" : "listMatchByKey.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 9
     }

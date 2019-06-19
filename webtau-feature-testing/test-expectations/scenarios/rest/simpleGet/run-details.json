@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "simple get",
+    "shortContainerId" : "simpleGet.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }

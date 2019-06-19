@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "extracting id after POST to use inside GET request",
+    "shortContainerId" : "simplePost.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 6
     }

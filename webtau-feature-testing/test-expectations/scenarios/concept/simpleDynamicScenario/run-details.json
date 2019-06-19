@@ -1,12 +1,15 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "number 1",
+    "shortContainerId" : "simpleDynamicScenario.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "number 2",
+    "shortContainerId" : "simpleDynamicScenario.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "number 3",
+    "shortContainerId" : "simpleDynamicScenario.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 0

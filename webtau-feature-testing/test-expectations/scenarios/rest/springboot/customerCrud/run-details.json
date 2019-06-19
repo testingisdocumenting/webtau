@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "CRUD operations for customer",
+    "shortContainerId" : "customerCrud.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 15
     }

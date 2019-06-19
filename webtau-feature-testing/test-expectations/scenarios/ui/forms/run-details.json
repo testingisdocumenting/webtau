@@ -1,26 +1,31 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "open forms",
+    "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
   }, {
     "scenario" : "input type default",
+    "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "input type date",
+    "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "select options",
+    "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "values validation",
+    "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }

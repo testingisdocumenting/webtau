@@ -44,6 +44,7 @@ public class ReportTestEntry {
 
     private Path filePath;
     private String className;
+    private String shortFileName;
 
     private Throwable exception;
 
@@ -102,6 +103,10 @@ public class ReportTestEntry {
 
     public String getClassName() {
         return className;
+    }
+
+    public void setShortFileName(String shortFileName) {
+        this.shortFileName = shortFileName;
     }
 
     public void setClassName(String className) {
@@ -224,6 +229,10 @@ public class ReportTestEntry {
 
         if (className != null) {
             result.put("className", className);
+        }
+
+        if (shortFileName != null) {
+            result.put("shortFileName", shortFileName);
         }
 
         result.put("disabled", isDisabled);

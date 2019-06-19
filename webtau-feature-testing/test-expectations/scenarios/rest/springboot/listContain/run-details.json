@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "list Customers and assert that it contains a specified entry",
+    "shortContainerId" : "listContain.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }

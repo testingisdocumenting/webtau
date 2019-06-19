@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.runner.standalone
 
+import com.twosigma.webtau.TestFile
 import com.twosigma.webtau.reporter.StepReporters
 
 import java.nio.file.Path
@@ -30,6 +31,7 @@ class StandaloneTestRunner {
 
     private Path workingDir
     private Path currentTestPath
+    private String currentShortFileName
     private GroovyScriptEngine groovy
 
     private AtomicBoolean isTerminated
@@ -46,12 +48,14 @@ class StandaloneTestRunner {
         this.isTerminated = new AtomicBoolean(false)
     }
 
-    void process(Path scriptPath, delegate) {
+    void process(TestFile testFile, delegate) {
+        Path scriptPath = testFile.path
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
+        currentShortFileName = testFile.shortFileName
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
 
-        def scriptParse = new StandaloneTest(workingDir, currentTestPath, "parse/init", { ->
+        def scriptParse = new StandaloneTest(workingDir, currentTestPath, currentShortFileName, "parse/init", { ->
             StandaloneTestListeners.beforeScriptParse(scriptPath)
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
@@ -114,7 +118,7 @@ class StandaloneTestRunner {
     }
 
     void dscenario(String description, String reason, Closure code) {
-        def test = new StandaloneTest(workingDir, currentTestPath, description, code)
+        def test = new StandaloneTest(workingDir, currentTestPath, currentShortFileName, description, code)
         test.disable(reason)
         tests.add(test)
     }
@@ -200,7 +204,7 @@ class StandaloneTestRunner {
     private void handleDisabledByCondition(String scenarioDescription, Closure scenarioCode, Closure registrationCode) {
         def runCondition = runCondition.get()
         if (runCondition.isConditionMet) {
-            def test = new StandaloneTest(workingDir, currentTestPath, scenarioDescription, scenarioCode)
+            def test = new StandaloneTest(workingDir, currentTestPath, currentShortFileName, scenarioDescription, scenarioCode)
             registrationCode(test)
         } else {
             dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)

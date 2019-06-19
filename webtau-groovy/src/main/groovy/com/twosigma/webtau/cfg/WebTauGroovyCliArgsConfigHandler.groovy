@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.TestFile
 import groovy.io.FileType
 
 import java.nio.file.Files
@@ -60,17 +61,24 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
         }
     }
 
-    List<Path> testFilesWithFullPath() {
+    List<TestFile> testFilesWithFullPath() {
         return argsConfig.testFiles.collectMany { fileName ->
             def path = cfg.workingDir.resolve(Paths.get(fileName)).toAbsolutePath()
-            def paths = []
+            def testFiles = []
             if (Files.isDirectory(path)) {
-                path.toFile().eachFileRecurse(FileType.FILES) { paths << it.toPath() }
+                int baseDirEndIdx = path.toString().length()
+                path.toFile().eachFileRecurse(FileType.FILES) {
+                    Path testFilePath = it.toPath()
+                    if (testFilePath.toString().endsWith(".groovy")) {
+                        String shortName = testFilePath.toString().substring(baseDirEndIdx + 1)
+                        testFiles << new TestFile(testFilePath, shortName)
+                    }
+                }
             } else {
-                paths << path
+                testFiles << new TestFile(path, path.fileName.toString())
             }
 
-            return paths
+            return testFiles
         }
     }
 

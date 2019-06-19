@@ -1,11 +1,13 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "open forms",
+    "shortContainerId" : "specialForms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
   }, {
     "scenario" : "get set custom based on registered handler",
+    "shortContainerId" : "specialForms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 4
     }

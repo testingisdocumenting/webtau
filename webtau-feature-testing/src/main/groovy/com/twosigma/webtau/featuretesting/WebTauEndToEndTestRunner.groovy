@@ -65,7 +65,12 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         StepReporters.add(this)
         StandaloneTestListeners.add(this)
 
-        def reportPath = 'examples/' + testFileName.replace('.groovy', '-webtau-report.html')
+        def reportPath = 'examples/'
+        if (testFileName.endsWith('.groovy')) {
+            reportPath += testFileName.replace('.groovy', '-webtau-report.html')
+        } else {
+            reportPath += testFileName + '/webtau-report.html'
+        }
 
         try {
             def args = ['--workingDir=examples', '--config=' + configFileName, '--reportPath=' + reportPath]
@@ -126,7 +131,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
 
     private static String removeExtension(String fileName) {
         def idx = fileName.indexOf('.')
-        return fileName.substring(0, idx)
+        return idx >= 0 ? fileName.substring(0, idx) : fileName
     }
 
     @Override
@@ -159,8 +164,9 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
 
     @Override
     void afterTestRun(StandaloneTest test) {
-        scenariosDetails.add([scenario    : test.scenario,
-                              stepsSummary: capturedStepsSummary])
+        scenariosDetails.add([scenario        : test.scenario,
+                              shortContainerId: test.shortFileName,
+                              stepsSummary    : capturedStepsSummary])
     }
 
     @Override

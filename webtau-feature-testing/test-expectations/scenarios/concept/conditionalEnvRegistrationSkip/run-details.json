@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "this scenario will only be executed in \"experimental\" env",
+    "shortContainerId" : "conditionalEnvRegistrationSkip.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 0

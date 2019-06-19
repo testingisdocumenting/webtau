@@ -1,11 +1,13 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "page open handlers",
+    "shortContainerId" : "openHandler.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "page open handlers during re-open",
+    "shortContainerId" : "openHandler.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }

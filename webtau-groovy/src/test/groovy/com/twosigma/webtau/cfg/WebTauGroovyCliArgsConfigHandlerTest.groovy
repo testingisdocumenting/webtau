@@ -16,8 +16,11 @@
 
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.TestFile
+
 import org.junit.Test
 
+import java.nio.file.Path
 import java.nio.file.Paths
 
 class WebTauGroovyCliArgsConfigHandlerTest {
@@ -42,23 +45,36 @@ class WebTauGroovyCliArgsConfigHandlerTest {
 
     @Test
     void "should recurse test files"() {
-        def handler = new WebTauGroovyCliArgsConfigHandler("testScenarios")
-
-        def cfg = createConfig()
-
-        handler.onAfterCreate(cfg)
-        def files = handler.testFilesWithFullPath().collect { it.toString() }.sort()
-
-        def cwd = Paths.get("").toAbsolutePath()
-        def scenariosRoot = cwd.resolve("testScenarios")
         def expectedFiles = [
             Paths.get("rootScenarios.groovy"),
             Paths.get("first-nested-dir", "nestedScenarios.groovy"),
             Paths.get("first-nested-dir", "second-nested-dir", "nestedNestedScenarios.groovy"),
             Paths.get("sibling-nested-dir", "siblingScenarios.groovy")
-        ].collect {
-            scenariosRoot.resolve(it).toString()
-        }.sort()
+        ]
+        runRecursiveTestDiscoveryTest('testScenarios', expectedFiles)
+    }
+
+    @Test
+    void "recursive test discovery ignores non-groovy files"() {
+        def expectedFiles = [Paths.get('foo.groovy')]
+        runRecursiveTestDiscoveryTest('testScenarios2', expectedFiles)
+    }
+
+    private static runRecursiveTestDiscoveryTest(String scenariosDir, List<Path> expectedTestFiles) {
+        def handler = new WebTauGroovyCliArgsConfigHandler(scenariosDir)
+
+        def cfg = createConfig()
+
+        handler.onAfterCreate(cfg)
+        def files = handler.testFilesWithFullPath().sort { it.path }
+
+        def cwd = Paths.get("").toAbsolutePath()
+        def scenariosRoot = cwd.resolve(scenariosDir)
+        def expectedFiles = expectedTestFiles.collect {
+            new TestFile(scenariosRoot.resolve(it), it.toString())
+        }.sort {
+            it.path
+        }
 
         files.should == expectedFiles
     }
