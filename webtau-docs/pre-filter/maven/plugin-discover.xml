@@ -16,9 +16,6 @@
         <url>http://optional-base-url</url>
         <tests>
             <directory>\${project.basedir}/src/main/groovy</directory>
-            <includes>
-                <include>scenarios/*.groovy</include>
-            </includes>
         </tests>
     </configuration>
 </plugin>
