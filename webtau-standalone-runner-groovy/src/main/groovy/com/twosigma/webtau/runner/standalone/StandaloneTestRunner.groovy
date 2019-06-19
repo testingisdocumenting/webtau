@@ -31,7 +31,7 @@ class StandaloneTestRunner {
 
     private Path workingDir
     private Path currentTestPath
-    private String currentShortFileName
+    private String currentShortContainerId
     private GroovyScriptEngine groovy
 
     private AtomicBoolean isTerminated
@@ -51,11 +51,11 @@ class StandaloneTestRunner {
     void process(TestFile testFile, delegate) {
         Path scriptPath = testFile.path
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
-        currentShortFileName = testFile.shortFileName
+        currentShortContainerId = testFile.shortContainerId
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
 
-        def scriptParse = new StandaloneTest(workingDir, currentTestPath, currentShortFileName, "parse/init", { ->
+        def scriptParse = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, "parse/init", { ->
             StandaloneTestListeners.beforeScriptParse(scriptPath)
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
@@ -118,7 +118,7 @@ class StandaloneTestRunner {
     }
 
     void dscenario(String description, String reason, Closure code) {
-        def test = new StandaloneTest(workingDir, currentTestPath, currentShortFileName, description, code)
+        def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, description, code)
         test.disable(reason)
         tests.add(test)
     }
@@ -204,7 +204,7 @@ class StandaloneTestRunner {
     private void handleDisabledByCondition(String scenarioDescription, Closure scenarioCode, Closure registrationCode) {
         def runCondition = runCondition.get()
         if (runCondition.isConditionMet) {
-            def test = new StandaloneTest(workingDir, currentTestPath, currentShortFileName, scenarioDescription, scenarioCode)
+            def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, scenarioDescription, scenarioCode)
             registrationCode(test)
         } else {
             dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)

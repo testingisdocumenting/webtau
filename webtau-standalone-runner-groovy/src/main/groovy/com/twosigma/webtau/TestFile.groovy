@@ -4,23 +4,23 @@ import java.nio.file.Path
 
 class TestFile {
     private final Path path
-    private final String shortFileName
+    private final String shortContainerId
 
     TestFile(Path path) {
         this(path, null)
     }
 
-    TestFile(Path path, String shortFileName) {
+    TestFile(Path path, String shortContainerId) {
         this.path = path
-        this.shortFileName = shortFileName
+        this.shortContainerId = shortContainerId
     }
 
     Path getPath() {
         return path
     }
 
-    String getShortFileName() {
-        return shortFileName
+    String getShortContainerId() {
+        return shortContainerId
     }
 
     boolean equals(o) {
@@ -30,7 +30,7 @@ class TestFile {
         TestFile testFile = (TestFile) o
 
         if (path != testFile.path) return false
-        if (shortFileName != testFile.shortFileName) return false
+        if (shortContainerId != testFile.shortContainerId) return false
 
         return true
     }
@@ -38,7 +38,7 @@ class TestFile {
     int hashCode() {
         int result
         result = (path != null ? path.hashCode() : 0)
-        result = 31 * result + (shortFileName != null ? shortFileName.hashCode() : 0)
+        result = 31 * result + (shortContainerId != null ? shortContainerId.hashCode() : 0)
         return result
     }
 
@@ -47,7 +47,7 @@ class TestFile {
     public String toString() {
         return "TestFile{" +
             "path=" + path +
-            ", shortFileName='" + shortFileName + '\'' +
+            ", shortContainerId='" + shortContainerId + '\'' +
             '}';
     }
 }

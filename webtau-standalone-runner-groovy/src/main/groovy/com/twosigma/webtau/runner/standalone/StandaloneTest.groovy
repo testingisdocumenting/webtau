@@ -37,12 +37,12 @@ class StandaloneTest implements StepReporter {
     private final Path workingDir
     private final Closure code
 
-    StandaloneTest(Path workingDir, Path filePath, String shortFileName, String description, Closure code) {
+    StandaloneTest(Path workingDir, Path filePath, String shortContainerId, String description, Closure code) {
         this.reportTestEntry = new ReportTestEntry(workingDir)
         this.reportTestEntry.setId(idGenerator.generate(filePath))
         this.reportTestEntry.setScenario(description)
         this.reportTestEntry.setFilePath(workingDir.relativize(filePath))
-        this.reportTestEntry.setShortFileName(shortFileName)
+        this.reportTestEntry.setShortContainerId(shortContainerId)
 
         this.workingDir = workingDir
         this.code = code
@@ -60,8 +60,8 @@ class StandaloneTest implements StepReporter {
         return reportTestEntry.scenario
     }
 
-    String getShortFileName() {
-        return reportTestEntry.shortFileName
+    String getShortContainerId() {
+        return reportTestEntry.shortContainerId
     }
 
     String getDisableReason() {

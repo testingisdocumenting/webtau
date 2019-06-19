@@ -247,8 +247,8 @@ function fullContainerId(test) {
 }
 
 function shortContainerId(test) {
-    if (test.shortFileName) {
-        return test.shortFileName
+    if (test.shortContainerId) {
+        return test.shortContainerId
     } else if (test.className) {
         return shortenClassName(test.className)
     } else {

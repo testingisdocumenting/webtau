@@ -165,7 +165,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
     @Override
     void afterTestRun(StandaloneTest test) {
         scenariosDetails.add([scenario        : test.scenario,
-                              shortContainerId: test.shortFileName,
+                              shortContainerId: test.shortContainerId,
                               stepsSummary    : capturedStepsSummary])
     }
 

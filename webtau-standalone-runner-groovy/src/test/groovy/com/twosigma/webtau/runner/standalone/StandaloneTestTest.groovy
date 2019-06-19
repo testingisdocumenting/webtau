@@ -36,7 +36,7 @@ class StandaloneTestTest {
         test.getReportTestEntry().toMap().should equal([id: 'test.groovy-1',
                                                         scenario: 'my test description',
                                                         fileName: 'test.groovy',
-                                                        shortFileName: 'test.groovy',
+                                                        shortContainerId: 'test.groovy',
                                                         startTime: 12345678,
                                                         elapsedTime: 100,
                                                         status: 'Skipped',
