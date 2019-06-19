@@ -24,14 +24,14 @@ import com.twosigma.webtau.cli.expectation.CliValidationExitCodeOutputHandler
 
 class CliExtension {
     static void run(Cli cli, String command, Closure handler) {
-        cli.run(command, closureToHttpResponseValidator(handler))
+        cli.run(command, closureToCliValidationHandler(handler))
     }
 
     static void run(Cli cli, String command, ProcessEnv env, Closure handler) {
-        cli.run(command, env, closureToHttpResponseValidator(handler))
+        cli.run(command, env, closureToCliValidationHandler(handler))
     }
 
-    private static CliValidationExitCodeOutputHandler closureToHttpResponseValidator(Closure validation) {
+    private static CliValidationExitCodeOutputHandler closureToCliValidationHandler(Closure validation) {
         return new CliValidationExitCodeOutputHandler() {
             @Override
             void handle(CliExitCode exitCode, CliOutput output, CliOutput error) {
