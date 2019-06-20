@@ -109,6 +109,10 @@ public class ReportTestEntry {
         this.shortContainerId = shortContainerId;
     }
 
+    public String getShortContainerId() {
+        return shortContainerId;
+    }
+
     public void setClassName(String className) {
         this.className = className;
     }
