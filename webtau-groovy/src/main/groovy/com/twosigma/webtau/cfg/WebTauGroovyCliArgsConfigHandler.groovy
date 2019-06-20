@@ -66,20 +66,27 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
             def path = cfg.workingDir.resolve(Paths.get(fileName)).toAbsolutePath()
             def testFiles = []
             if (Files.isDirectory(path)) {
-                int baseDirEndIdx = path.toString().length()
-                path.toFile().eachFileRecurse(FileType.FILES) {
-                    Path testFilePath = it.toPath()
-                    if (testFilePath.toString().endsWith(".groovy")) {
-                        String shortName = testFilePath.toString().substring(baseDirEndIdx + 1)
-                        testFiles << new TestFile(testFilePath, shortName)
-                    }
-                }
+                testFiles += discoverTestFiles(path)
             } else {
                 testFiles << new TestFile(path, path.fileName.toString())
             }
 
             return testFiles
         }
+    }
+
+    static List<TestFile> discoverTestFiles(Path directory) {
+        def testFiles = []
+        int baseDirEndIdx = directory.toString().length()
+        directory.toFile().eachFileRecurse(FileType.FILES) {
+            Path testFilePath = it.toPath()
+            if (testFilePath.toString().endsWith(".groovy")) {
+                String shortName = testFilePath.toString().substring(baseDirEndIdx + 1)
+                testFiles << new TestFile(testFilePath, shortName)
+            }
+        }
+
+        return testFiles
     }
 
     @Override
