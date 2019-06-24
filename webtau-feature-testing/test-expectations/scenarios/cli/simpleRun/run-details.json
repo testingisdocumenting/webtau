@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "simple cli run",
+    "shortContainerId" : "simpleRun.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
