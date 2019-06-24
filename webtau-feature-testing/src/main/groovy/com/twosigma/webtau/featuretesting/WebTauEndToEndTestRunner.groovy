@@ -134,9 +134,8 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         def sortedScenarioDetails = scenarioDetails.sort {
             it.shortContainerId
         }
-        testDetails.scenarioDetails = sortedScenarioDetails
 
-        return testDetails
+        return [*: testDetails, scenarioDetails: sortedScenarioDetails]
     }
 
     private static String removeExtension(String fileName) {
