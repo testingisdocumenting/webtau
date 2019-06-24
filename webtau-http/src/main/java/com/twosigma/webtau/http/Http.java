@@ -558,11 +558,8 @@ public class Http {
             }
 
             if (response.isJson()) {
-                Object mapOrList = JsonUtils.deserialize(response.getTextContent());
-
-                return mapOrList instanceof List ?
-                        DataNodeBuilder.fromList(id, (List<Object>) mapOrList) :
-                        DataNodeBuilder.fromMap(id, (Map<String, Object>) mapOrList);
+                Object object = JsonUtils.deserialize(response.getTextContent());
+                return DataNodeBuilder.fromValue(id, object);
             }
 
             return new StructuredDataNode(id, new TraceableValue(response.getBinaryContent()));

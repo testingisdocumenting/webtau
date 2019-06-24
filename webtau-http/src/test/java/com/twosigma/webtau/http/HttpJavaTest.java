@@ -270,6 +270,18 @@ public class HttpJavaTest implements HttpConfiguration  {
         });
     }
 
+    @Test
+    public void handlesIntegerJsonResponses() {
+        Integer ret = http.get("/integer", (header, body) -> {
+            body.should(equal(123));
+            return body;
+        });
+
+        actual(ret).should(equal(123));
+        actual(ret.getClass()).should(equal(Integer.class));
+    }
+
+
     @Override
     public String fullUrl(String url) {
         if (UrlUtils.isFull(url)) {
