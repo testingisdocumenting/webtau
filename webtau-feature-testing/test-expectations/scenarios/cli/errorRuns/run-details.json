@@ -1,0 +1,14 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "match error",
+    "stepsSummary" : {
+      "numberOfFailed" : 2
+    }
+  }, {
+    "scenario" : "run error",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

@@ -24,6 +24,7 @@ import ElapsedTime from '../../widgets/ElapsedTime'
 import moment from 'moment'
 
 import HttpCallHeaders from './HttpCallHeaders'
+import {SelectedIndexes} from "../SelectedIndexes"
 
 import './TestHttpCalls.css'
 import '../../widgets/Table.css'
@@ -35,12 +36,7 @@ class TestHttpCalls extends Component {
 
     static getDerivedStateFromProps(props) {
         const callIdxs = props.urlState[TestHttpCalls.stateName]
-
-        const ids = callIdxs ? callIdxs.split('-') : []
-        const expandedByIdx = {}
-        ids.forEach(id => expandedByIdx[id] = true)
-
-        return {expandedByIdx}
+        return {selectedIndexes: new SelectedIndexes(callIdxs)}
     }
 
     render() {
@@ -100,22 +96,15 @@ class TestHttpCalls extends Component {
     }
 
     isExpanded(idx) {
-        return this.state.expandedByIdx.hasOwnProperty(idx)
+        return this.state.selectedIndexes.isExpanded(idx)
     }
 
     onCollapseToggleClick = (idx) => {
         const {onInternalStateUpdate} = this.props
-
-        const newExpandedByIdx = {...this.state.expandedByIdx}
-
-        if (this.isExpanded(idx)) {
-            delete newExpandedByIdx[idx]
-        } else {
-            newExpandedByIdx[idx] = true
-        }
+        const {selectedIndexes} = this.state
 
         onInternalStateUpdate({
-            [TestHttpCalls.stateName]: Object.keys(newExpandedByIdx).join('-') || ''
+            [TestHttpCalls.stateName]: selectedIndexes.toggle(idx)
         })
     }
 }

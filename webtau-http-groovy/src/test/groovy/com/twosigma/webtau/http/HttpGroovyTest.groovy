@@ -485,30 +485,28 @@ class HttpGroovyTest implements HttpConfiguration {
         String artifactName = 'echo-body-and-header'
         http.doc.capture(artifactName)
 
-        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
-
-        readAndAssertCapturedFile(docRoot, 'request.json') { requestBodyFile ->
+        readAndAssertCapturedFile(artifactName, 'request.json') { requestBodyFile ->
             def capturedRequestBody = JsonUtils.deserializeAsMap(requestBodyFile)
             capturedRequestBody.should == requestBody
         }
 
-        readAndAssertCapturedFile(docRoot, 'response.json') { responseBodyFile ->
+        readAndAssertCapturedFile(artifactName, 'response.json') { responseBodyFile ->
             def capturedResponseBody = JsonUtils.deserializeAsMap(responseBodyFile)
             capturedResponseBody.should == requestBody
         }
 
-        readAndAssertCapturedFile(docRoot, 'request.header.txt') { requestHeaderFile ->
+        readAndAssertCapturedFile(artifactName, 'request.header.txt') { requestHeaderFile ->
             def capturedRequestHeaders = setOfLines(requestHeaderFile)
             capturedRequestHeaders.should == requestHeaders.collect { header -> "${header.key}: ${header.value}" }.toSet()
         }
 
-        readAndAssertCapturedFile(docRoot, 'response.header.txt') { responseHeaderFile ->
+        readAndAssertCapturedFile(artifactName, 'response.header.txt') { responseHeaderFile ->
             def capturedResponseHeaders = setOfLines(responseHeaderFile)
             capturedResponseHeaders.should contain('testheader: testValue')
             capturedResponseHeaders.should contain('another: value')
         }
 
-        readAndAssertCapturedFile(docRoot, 'paths.json') { pathsFile ->
+        readAndAssertCapturedFile(artifactName, 'paths.json') { pathsFile ->
             def capturedPaths = JsonUtils.deserializeAsList(pathsFile)
             capturedPaths.should == ['root.a']
         }
@@ -522,18 +520,49 @@ class HttpGroovyTest implements HttpConfiguration {
             header.authorization.should == 'topSecret'
         }
 
-        String artifactName = 'echo-body-and-header'
+        String artifactName = 'echo-body-and-header-redacted'
         http.doc.capture(artifactName)
 
-        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
         String redactedAuth = 'authorization: ................'
 
-        readAndAssertCapturedFile(docRoot, 'request.header.txt') { requestHeaderFile ->
+        readAndAssertCapturedFile(artifactName, 'request.header.txt') { requestHeaderFile ->
             authHeader(requestHeaderFile).should == redactedAuth
         }
 
-        readAndAssertCapturedFile(docRoot, 'response.header.txt') { responseHeaderFile ->
+        readAndAssertCapturedFile(artifactName, 'response.header.txt') { responseHeaderFile ->
             authHeader(responseHeaderFile).should == redactedAuth
+        }
+    }
+
+    @Test
+    void "url doc capture includes query params when part of url"() {
+        http.get('/params?a=1&b=text') {}
+
+        String artifactName = 'url-capture'
+        http.doc.capture('url-capture')
+
+        readAndAssertCapturedFile(artifactName, 'request.url.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == '/params?a=1&b=text'
+        }
+
+        readAndAssertCapturedFile(artifactName, 'request.fullurl.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}params?a=1&b=text"
+        }
+    }
+
+    @Test
+    void "url doc capture includes query params specified as HttpQueryParams"() {
+        http.get('/params', http.query([a: 1, b: 'text'])) {}
+
+        String artifactName = 'url-capture2'
+        http.doc.capture('url-capture2')
+
+        readAndAssertCapturedFile(artifactName, 'request.url.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == '/params?a=1&b=text'
+        }
+
+        readAndAssertCapturedFile(artifactName, 'request.fullurl.txt') { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}params?a=1&b=text"
         }
     }
 
@@ -1156,9 +1185,10 @@ class HttpGroovyTest implements HttpConfiguration {
         return Paths.get("../webtau-http/${relativePath}")
     }
 
-    static def readAndAssertCapturedFile(Path docRoot, String name, Consumer<Path> assertions) {
+    static def readAndAssertCapturedFile(String artifactName, String name, Consumer<Path> assertions) {
+        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
         Path captureFile = docRoot.resolve(name)
-        assertTrue(Files.exists(captureFile))
+        assertTrue("${name} for ${artifactName} expected in ${captureFile} but does not exist", Files.exists(captureFile))
         assertions.accept(captureFile)
     }
 

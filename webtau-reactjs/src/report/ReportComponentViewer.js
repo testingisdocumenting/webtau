@@ -18,7 +18,7 @@ import React from 'react'
 
 import './WebTauReport.css'
 
-import {ComponentViewer, Registry} from 'react-component-viewer'
+import {ComponentViewer, Registries, DropDowns} from 'react-component-viewer'
 import {sortableTableDemo} from './widgets/SortableTable.demo'
 import {webTauReportsDemo} from './WebTauReports.demo'
 import {stepsDemo} from './details/steps/Steps.demo'
@@ -27,26 +27,36 @@ import {cardListDemo} from './widgets/CardList.demo'
 import {httpHeaderDemo} from './details/http-header/HttpHeader.demo'
 import {loadingDemo} from './loading/Loading.demo'
 import {testErrorMessageDemo} from './widgets/TestErrorMessage.demo'
+import {cliBuildingBlocksDemo} from "./details/cli/CliBuildingBlocksDemo"
+import {testCliCallsDemo} from "./details/cli/TestCliCalls.demo"
 
-const widgets = new Registry('widgets')
-const core = new Registry('core')
-const http = new Registry('http')
-const fullReport = new Registry('full reports')
+const registries = new Registries()
 
-widgets.registerAsRows('table', sortableTableDemo)
-widgets.registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
-widgets.registerAsRows('card list', cardListDemo)
-widgets.registerAsRows('test error message', testErrorMessageDemo)
+registries.add('widgets')
+    .registerAsRows('table', sortableTableDemo)
+    .registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
+    .registerAsRows('card list', cardListDemo)
+    .registerAsRows('test error message', testErrorMessageDemo)
 
-core.registerAsGrid('steps', 0, stepsDemo)
+registries.add('core')
+    .registerAsGrid('steps', 0, stepsDemo)
 
-http.registerAsRows('http header', httpHeaderDemo)
+registries.add('http')
+    .registerAsRows('http header', httpHeaderDemo)
 
-fullReport.registerAsTabs('demo reports', webTauReportsDemo)
-fullReport.registerSingle('loading', loadingDemo)
+registries.add('cli')
+    .registerAsRows('cli building blocks', cliBuildingBlocksDemo)
+    .registerAsTabs('cli calls', testCliCallsDemo)
+
+registries.add('full reports')
+    .registerAsTabs('demo reports', webTauReportsDemo)
+    .registerSingle('loading', loadingDemo)
+
+
+const dropDowns = new DropDowns()
 
 export function ReportComponentViewer() {
     return (
-        <ComponentViewer registries={[widgets, core, http, fullReport]}/>
+        <ComponentViewer registries={registries} dropDowns={dropDowns}/>
     )
 }

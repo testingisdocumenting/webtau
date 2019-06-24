@@ -21,7 +21,7 @@
 }
 
 .json-value-highlight.passed {
-    background-color: rgba(57, 215, 40, 0.2);
+    background-color: var(--webtau-match-color);
     color: #444;
 }
 

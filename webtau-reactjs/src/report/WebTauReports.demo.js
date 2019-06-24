@@ -18,9 +18,10 @@ import React from 'react'
 import WebTauReport from './WebTauReport'
 import Report from './Report'
 
-import {basicReport, withRestDataReport} from '../test-data/testData'
+import {basicReport, withCliDataReport, withRestDataReport} from '../test-data/testData'
 
 export function webTauReportsDemo(registry) {
     registry.add('basic', () => <WebTauReport  report={new Report(basicReport)}/>)
     registry.add('with REST', () => <WebTauReport  report={new Report(withRestDataReport)}/>)
+    registry.add('with CLI', () => <WebTauReport  report={new Report(withCliDataReport)}/>)
 }

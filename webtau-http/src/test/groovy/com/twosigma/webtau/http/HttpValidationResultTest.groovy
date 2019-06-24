@@ -80,7 +80,7 @@ class HttpValidationResultTest {
     }
 
     private static HttpValidationResult createValidationResult(requestBody) {
-        def validationResult = new HttpValidationResult('POST', 'http://site/test/url',
+        def validationResult = new HttpValidationResult('POST', '/test/url', 'http://site/test/url',
                 new HttpHeader([:]), requestBody)
 
         validationResult.setStartTime(12345678)

@@ -24,6 +24,7 @@ import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.cache.Cache;
 import com.twosigma.webtau.cfg.WebTauConfig;
+import com.twosigma.webtau.cli.Cli;
 import com.twosigma.webtau.data.Data;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.http.Http;
@@ -31,12 +32,16 @@ import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.pdf.Pdf;
 import com.twosigma.webtau.schema.expectation.SchemaMatcher;
 
+/*
+Convenient class for static * import
+ */
 public class WebTauDsl extends Ddjt {
     public static final Data data = Data.data;
     public static final Cache cache = Cache.cache;
 
     public static final Http http = Http.http;
     public static final Browser browser = Browser.browser;
+    public static final Cli cli = Cli.cli;
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();
