@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "confirmation emails should be sent",
+    "shortContainerId" : "conditionalCustomRegistrationSkip.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 0

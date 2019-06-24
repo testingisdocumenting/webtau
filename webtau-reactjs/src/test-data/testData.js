@@ -37,7 +37,37 @@ export const basicReport = {
             "id": "another.groovy-1",
             "scenario": "customer super read",
             "status": "Passed",
-            "fileName": "another.groovy",
+            "fileName": "scenarios/another.groovy",
+            "shortContainerId": "another.groovy",
+            "startTime": 1547139662469,
+            "elapsedTime": 82,
+            "steps": []
+        },
+        {
+            "id": "another.groovy-2",
+            "scenario": "another test",
+            "status": "Passed",
+            "fileName": "scenarios/base/another.groovy",
+            "shortContainerId": "base/another.groovy",
+            "startTime": 1547139662469,
+            "elapsedTime": 82,
+            "steps": []
+        },
+        {
+            "id": "another.groovy-3",
+            "scenario": "yet another test",
+            "status": "Passed",
+            "fileName": "scenarios/base/nested/another.groovy",
+            "shortContainerId": "scenarios/base/nested/another.groovy",
+            "startTime": 1547139662469,
+            "elapsedTime": 82,
+            "steps": []
+        },
+        {
+            "id": "foo.groovy-1",
+            "scenario": "no short file name",
+            "status": "Passed",
+            "fileName": "scenarios/foo.groovy",
             "startTime": 1547139662469,
             "elapsedTime": 82,
             "steps": []

@@ -111,13 +111,13 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             cfg.print()
             ConsoleOutputs.out()
 
-            def fullPaths = cliConfigHandler.testFilesWithFullPath()
-            def missing = fullPaths.findAll { path -> !Files.exists(path)}
+            def testFiles = cliConfigHandler.testFilesWithFullPath()
+            def missing = testFiles.findAll { testFile -> !Files.exists(testFile.path)}
             if (!missing.isEmpty()) {
                 throw new RuntimeException('Missing test files:\n  ' + missing.join('  \n'))
             }
 
-            fullPaths.forEach {
+            testFiles.forEach {
                 runner.process(it, this)
             }
 

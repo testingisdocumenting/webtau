@@ -1,12 +1,15 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "first test",
+    "shortContainerId" : "testsTermination.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "second test",
+    "shortContainerId" : "testsTermination.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "third test",
+    "shortContainerId" : "testsTermination.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 1

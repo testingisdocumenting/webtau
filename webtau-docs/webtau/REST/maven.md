@@ -11,7 +11,7 @@ Java: :include-file: maven/java-dep.xml
 
 Use maven plugin to run pure groovy tests as part of your build. 
 
-:include-file: maven/plugin.xml
+:include-file: maven/plugin-wildcard.xml
 
 Use `env` to specify [environment to use](configuration/environments). 
 Alternatively you can use `url` to override base url.

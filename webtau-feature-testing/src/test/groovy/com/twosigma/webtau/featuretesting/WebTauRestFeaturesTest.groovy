@@ -142,6 +142,11 @@ class WebTauRestFeaturesTest {
         runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
     }
 
+    @Test
+    void "recursive scenario discovery"() {
+        testRunner.runCli("recursive/scenarios", "urlOnly.cfg", "--url=${testRunner.testServer.uri}")
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/rest/$restTestName",
             "scenarios/rest/$configFileName", additionalArgs)

@@ -1,9 +1,11 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "use case hello",
+    "shortContainerId" : "dataDrivenTableData.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "use case world",
+    "shortContainerId" : "dataDrivenTableData.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 0

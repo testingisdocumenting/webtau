@@ -248,9 +248,11 @@ function fullContainerId(test) {
 }
 
 function shortContainerId(test) {
-    return test.className ?
-        shortenClassName(test.className):
-        shortenFileName(test.fileName)
+    if (test.className) {
+        return shortenClassName(test.className)
+    } else {
+        return test.shortContainerId
+    }
 }
 
 function shortenClassName(className) {
@@ -258,14 +260,6 @@ function shortenClassName(className) {
     return lastDotIdx === -1 ?
         className:
         className.substr(lastDotIdx + 1)
-}
-
-function shortenFileName(fileName) {
-    const lastSlashIdx = fileName.lastIndexOf('/')
-
-    return lastSlashIdx === -1 ?
-        fileName:
-        fileName.substr(lastSlashIdx + 1)
 }
 
 function groupWithFailedTestsAtTheTop(groups) {

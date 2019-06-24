@@ -27,7 +27,7 @@ class StandaloneTestTest {
     @Test
     void "registered payloads should be merged into toMap test representation"() {
         def test = new StandaloneTest(Paths.get("").toAbsolutePath(),
-                Paths.get("test.groovy").toAbsolutePath(), "my test description", {})
+                Paths.get("test.groovy").toAbsolutePath(), "test.groovy", "my test description", {})
         test.reportTestEntry.startTime = 12345678
         test.reportTestEntry.elapsedTime = 100
         test.addResultPayload(new TestResultPayload("screenshot",  "base64"))
@@ -36,6 +36,7 @@ class StandaloneTestTest {
         test.getReportTestEntry().toMap().should equal([id: 'test.groovy-1',
                                                         scenario: 'my test description',
                                                         fileName: 'test.groovy',
+                                                        shortContainerId: 'test.groovy',
                                                         startTime: 12345678,
                                                         elapsedTime: 100,
                                                         status: 'Skipped',

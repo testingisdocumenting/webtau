@@ -1,16 +1,19 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "disable all validation",
+    "shortContainerId" : "disableOpenApiValidation.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "disable request validation",
+    "shortContainerId" : "disableOpenApiValidation.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "disable response validation",
+    "shortContainerId" : "disableOpenApiValidation.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }

@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "redirect to weather",
+    "shortContainerId" : "redirectOn.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 4
     }
