@@ -105,7 +105,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         def actualPath = Paths.get(EXPECTATIONS_DIR_NAME)
                 .resolve(fileNameWithoutExt).resolve(RUN_DETAILS_FILE_NAME + '.actual.json')
 
-        def serializedTestDetails = JsonUtils.serializePrettyPrint(testDetails)
+        def serializedTestDetails = JsonUtils.serializePrettyPrint(sortTestDetailsByContainerId(testDetails))
 
         if (! Files.exists(expectedPath)) {
             FileUtils.writeTextContent(expectedPath, serializedTestDetails)
@@ -114,7 +114,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
                     'test will not fail next time unless output of the test is changed')
         }
 
-        def expectedDetails = JsonUtils.deserializeAsMap(FileUtils.fileTextContent(expectedPath))
+        def expectedDetails = sortTestDetailsByContainerId(JsonUtils.deserializeAsMap(FileUtils.fileTextContent(expectedPath)))
 
         CompareToComparator comparator = CompareToComparator.comparator()
         def isEqual = comparator.compareIsEqual(new ActualPath('testDetails'), testDetails, expectedDetails)
@@ -127,6 +127,16 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         } else {
             Files.deleteIfExists(actualPath)
         }
+    }
+
+    private static Map sortTestDetailsByContainerId(Map testDetails) {
+        def scenarioDetails = testDetails.scenarioDetails
+        def sortedScenarioDetails = scenarioDetails.sort {
+            it.shortContainerId
+        }
+        testDetails.scenarioDetails = sortedScenarioDetails
+
+        return testDetails
     }
 
     private static String removeExtension(String fileName) {
