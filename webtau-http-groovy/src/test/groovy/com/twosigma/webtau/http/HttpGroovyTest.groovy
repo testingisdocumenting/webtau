@@ -1167,7 +1167,7 @@ class HttpGroovyTest implements HttpConfiguration {
         }
 
         ret.should == 123
-        ret.getClass() == Integer
+        ret.getClass().should == Integer
     }
 
     @Override

@@ -281,7 +281,6 @@ public class HttpJavaTest implements HttpConfiguration  {
         actual(ret.getClass()).should(equal(Integer.class));
     }
 
-
     @Override
     public String fullUrl(String url) {
         if (UrlUtils.isFull(url)) {
