@@ -57,7 +57,7 @@ public class DataNodeBuilder {
     }
 
     @SuppressWarnings("unchecked")
-    private static DataNode fromValue(DataNodeId id, Object value) {
+    public static DataNode fromValue(DataNodeId id, Object value) {
         if (value instanceof Map) {
             return new StructuredDataNode(id, buildMapOfNodes(id, (Map<String, Object>)value));
         } else if (value instanceof List) {
