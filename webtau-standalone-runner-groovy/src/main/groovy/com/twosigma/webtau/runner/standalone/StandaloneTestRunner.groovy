@@ -26,9 +26,7 @@ import java.util.function.Function
 import java.util.stream.Stream
 
 class StandaloneTestRunner {
-    private List<StandaloneTest> tests
-    private List<StandaloneTest> exclusiveTests
-
+    private RegisteredTests registeredTests
     private Path workingDir
     private Path currentTestPath
     private String currentShortContainerId
@@ -42,8 +40,7 @@ class StandaloneTestRunner {
 
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
         this.workingDir = workingDir.toAbsolutePath()
-        this.tests = []
-        this.exclusiveTests = []
+        this.registeredTests = new RegisteredTests()
         this.groovy = groovy
         this.isTerminated = new AtomicBoolean(false)
     }
@@ -72,44 +69,43 @@ class StandaloneTestRunner {
 
         scriptParse.run()
         if (scriptParse.hasError()) {
-            tests.add(scriptParse)
+            registeredTests.add(scriptParse)
         }
     }
 
     void clearRegisteredTests() {
-        tests = []
-        exclusiveTests = []
+        registeredTests.clear()
     }
 
-    List<StandaloneTest> getExclusiveTests() {
-        return exclusiveTests
+    boolean hasExclusiveTests() {
+        return registeredTests.hasExclusiveTests()
     }
 
     List<StandaloneTest> getTests() {
-        return tests
+        return registeredTests.tests
     }
 
     int getNumberOfPassed() {
-        return tests.count { it.isPassed() }
+        return registeredTests.count { it.isPassed() }
     }
 
     int getNumberOfFailed() {
-        return tests.count { it.isFailed() }
+        return registeredTests.count { it.isFailed() }
     }
 
     int getNumberOfErrored() {
-        return tests.count { it.hasError() }
+        return registeredTests.count { it.hasError() }
     }
 
     void scenario(String description, Closure code) {
         handleDisabledByCondition(description, code) { test ->
-            tests.add(test)
+            registeredTests.add(test)
         }
     }
 
     void sscenario(String description, Closure code) {
         handleDisabledByCondition(description, code) { test ->
-            exclusiveTests.add(test)
+            registeredTests.addExclusive(test)
         }
     }
 
@@ -120,7 +116,7 @@ class StandaloneTestRunner {
     void dscenario(String description, String reason, Closure code) {
         def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, description, code)
         test.disable(reason)
-        tests.add(test)
+        registeredTests.add(test)
     }
 
     void onlyWhen(String skipReason, Closure condition, Closure registrationCode) {
@@ -144,8 +140,14 @@ class StandaloneTestRunner {
         runTestsFromStream { testsByFile -> testsByFile.entrySet().stream() }
     }
 
+    int numThreadsToUse(int maxNumberOfThreads) {
+        int numTestsToRun = registeredTests.testsByFile().size()
+        return Math.min(maxNumberOfThreads, numTestsToRun)
+    }
+
     void runTestsInParallel(int maxNumberOfThreads) {
-        ForkJoinPool forkJoinPool = new ForkJoinPool(maxNumberOfThreads)
+        int numThreads = numThreadsToUse(maxNumberOfThreads)
+        ForkJoinPool forkJoinPool = new ForkJoinPool(numThreads)
         forkJoinPool.submit {
             runTestsFromStream { testsByFile ->
                 testsByFile.entrySet().stream().parallel()
@@ -171,17 +173,14 @@ class StandaloneTestRunner {
 
     private void runTestsFromStream(Function<Map, Stream> streamCreator) {
         resetAndWithListeners {
-            def testsToRun = exclusiveTests.isEmpty() ? tests : exclusiveTests
-            def testsToSkip = exclusiveTests.isEmpty() ? [] : tests
+            def testsToSkip = registeredTests.testsToSkip()
 
             testsToSkip.each { test ->
                 StandaloneTestListeners.beforeTestRun(test)
                 StandaloneTestListeners.afterTestRun(test)
             }
 
-            def testsByFile = testsToRun.groupBy { it.filePath }
-
-            def stream = streamCreator.apply(testsByFile)
+            def stream = streamCreator.apply(registeredTests.testsByFile())
             stream.forEach { entry ->
                 Collection<StandaloneTest> tests = entry.value
                 tests.forEach { test ->

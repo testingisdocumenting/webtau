@@ -89,7 +89,7 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
             runTests()
         }
 
-        if (!runner.exclusiveTests.isEmpty()) {
+        if (runner.hasExclusiveTests()) {
             ConsoleOutputs.out(Color.YELLOW, 'sscenario is found, only use it during local development')
             exitHandler.accept(1)
         } else {
