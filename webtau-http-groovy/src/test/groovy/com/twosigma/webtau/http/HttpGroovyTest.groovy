@@ -525,13 +525,8 @@ class HttpGroovyTest implements HttpConfiguration {
 
         String redactedAuth = 'authorization: ................'
 
-        readAndAssertCapturedFile(artifactName, 'request.header.txt') { requestHeaderFile ->
-            authHeader(requestHeaderFile).should == redactedAuth
-        }
-
-        readAndAssertCapturedFile(artifactName, 'response.header.txt') { responseHeaderFile ->
-            authHeader(responseHeaderFile).should == redactedAuth
-        }
+        readAndAssertCapturedFileTextContents(artifactName, 'request.header.txt', redactedAuth)
+        readAndAssertCapturedFileTextContents(artifactName, 'response.header.txt', redactedAuth)
     }
 
     @Test
@@ -539,15 +534,10 @@ class HttpGroovyTest implements HttpConfiguration {
         http.get('/params?a=1&b=text') {}
 
         String artifactName = 'url-capture'
-        http.doc.capture('url-capture')
+        http.doc.capture(artifactName)
 
-        readAndAssertCapturedFile(artifactName, 'request.url.txt') { pathFile ->
-            FileUtils.fileTextContent(pathFile).should == '/params?a=1&b=text'
-        }
-
-        readAndAssertCapturedFile(artifactName, 'request.fullurl.txt') { pathFile ->
-            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}params?a=1&b=text"
-        }
+        readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/params?a=1&b=text')
+        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}params?a=1&b=text")
     }
 
     @Test
@@ -555,15 +545,21 @@ class HttpGroovyTest implements HttpConfiguration {
         http.get('/params', http.query([a: 1, b: 'text'])) {}
 
         String artifactName = 'url-capture2'
-        http.doc.capture('url-capture2')
+        http.doc.capture(artifactName)
 
-        readAndAssertCapturedFile(artifactName, 'request.url.txt') { pathFile ->
-            FileUtils.fileTextContent(pathFile).should == '/params?a=1&b=text'
-        }
+        readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/params?a=1&b=text')
+        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}params?a=1&b=text")
+    }
 
-        readAndAssertCapturedFile(artifactName, 'request.fullurl.txt') { pathFile ->
-            FileUtils.fileTextContent(pathFile).should == "${testServer.uri}params?a=1&b=text"
-        }
+    @Test
+    void "http method and operation are captured for docs"() {
+        http.get('/params', http.query([a: 1, b: 'text'])) {}
+
+        String artifactName = 'operation-capture'
+        http.doc.capture(artifactName)
+
+        readAndAssertCapturedFileTextContents(artifactName, 'request.method.txt', 'GET')
+        readAndAssertCapturedFileTextContents(artifactName, "request.operation.txt", 'GET /params?a=1&b=text')
     }
 
     @Test
@@ -1201,6 +1197,12 @@ class HttpGroovyTest implements HttpConfiguration {
         Path captureFile = docRoot.resolve(name)
         assertTrue("${name} for ${artifactName} expected in ${captureFile} but does not exist", Files.exists(captureFile))
         assertions.accept(captureFile)
+    }
+
+    static def readAndAssertCapturedFileTextContents(String artifactName, String name, String expectedContents) {
+        readAndAssertCapturedFile(artifactName, name) { pathFile ->
+            FileUtils.fileTextContent(pathFile).should == expectedContents
+        }
     }
 
     static def setOfLines(Path file) {
