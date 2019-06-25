@@ -1159,6 +1159,17 @@ class HttpGroovyTest implements HttpConfiguration {
         }
     }
 
+    @Test
+    void "handles integer json responses"() {
+        def ret = http.get('/integer') {
+            body.should == 123
+            return body
+        }
+
+        ret.should == 123
+        ret.getClass().should == Integer
+    }
+
     @Override
     String fullUrl(String url) {
         if (UrlUtils.isFull(url)) {
