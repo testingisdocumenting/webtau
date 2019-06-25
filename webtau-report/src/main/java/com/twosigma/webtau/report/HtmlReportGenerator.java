@@ -46,6 +46,7 @@ public class HtmlReportGenerator implements ReportGenerator {
         bundleJavaScript = ResourceUtils.textContent(manifest.get("main.js").toString());
     }
 
+    @Override
     public void generate(Report report) {
         Path reportPath = getCfg().getReportPath().toAbsolutePath();
 

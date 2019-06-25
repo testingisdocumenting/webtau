@@ -65,7 +65,12 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         StepReporters.add(this)
         StandaloneTestListeners.add(this)
 
-        def reportPath = 'examples/' + testFileName.replace('.groovy', '-webtau-report.html')
+        def reportPath = 'examples/'
+        if (testFileName.endsWith('.groovy')) {
+            reportPath += testFileName.replace('.groovy', '-webtau-report.html')
+        } else {
+            reportPath += testFileName + '/webtau-report.html'
+        }
 
         try {
             def args = ['--workingDir=examples', '--config=' + configFileName, '--reportPath=' + reportPath]
@@ -100,7 +105,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         def actualPath = Paths.get(EXPECTATIONS_DIR_NAME)
                 .resolve(fileNameWithoutExt).resolve(RUN_DETAILS_FILE_NAME + '.actual.json')
 
-        def serializedTestDetails = JsonUtils.serializePrettyPrint(testDetails)
+        def serializedTestDetails = JsonUtils.serializePrettyPrint(sortTestDetailsByContainerId(testDetails))
 
         if (! Files.exists(expectedPath)) {
             FileUtils.writeTextContent(expectedPath, serializedTestDetails)
@@ -109,7 +114,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
                     'test will not fail next time unless output of the test is changed')
         }
 
-        def expectedDetails = JsonUtils.deserializeAsMap(FileUtils.fileTextContent(expectedPath))
+        def expectedDetails = sortTestDetailsByContainerId(JsonUtils.deserializeAsMap(FileUtils.fileTextContent(expectedPath)))
 
         CompareToComparator comparator = CompareToComparator.comparator()
         def isEqual = comparator.compareIsEqual(new ActualPath('testDetails'), testDetails, expectedDetails)
@@ -124,9 +129,18 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         }
     }
 
+    private static Map sortTestDetailsByContainerId(Map testDetails) {
+        def scenarioDetails = testDetails.scenarioDetails
+        def sortedScenarioDetails = scenarioDetails.sort {
+            it.shortContainerId
+        }
+
+        return [*: testDetails, scenarioDetails: sortedScenarioDetails]
+    }
+
     private static String removeExtension(String fileName) {
         def idx = fileName.indexOf('.')
-        return fileName.substring(0, idx)
+        return idx >= 0 ? fileName.substring(0, idx) : fileName
     }
 
     @Override
@@ -159,8 +173,9 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
 
     @Override
     void afterTestRun(StandaloneTest test) {
-        scenariosDetails.add([scenario    : test.scenario,
-                              stepsSummary: capturedStepsSummary])
+        scenariosDetails.add([scenario        : test.scenario,
+                              shortContainerId: test.shortContainerId,
+                              stepsSummary    : capturedStepsSummary])
     }
 
     @Override

@@ -1,11 +1,13 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "match error",
+    "shortContainerId" : "errorRuns.groovy",
     "stepsSummary" : {
       "numberOfFailed" : 2
     }
   }, {
     "scenario" : "run error",
+    "shortContainerId" : "errorRuns.groovy",
     "stepsSummary" : {
       "numberOfFailed" : 1
     }

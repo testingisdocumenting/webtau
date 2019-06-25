@@ -1,15 +1,19 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "step one",
+    "shortContainerId" : "runOnlySelected.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "step four",
+    "shortContainerId" : "runOnlySelected.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "step two",
+    "shortContainerId" : "runOnlySelected.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "step three",
+    "shortContainerId" : "runOnlySelected.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 1

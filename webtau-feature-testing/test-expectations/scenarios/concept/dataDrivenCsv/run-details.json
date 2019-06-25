@@ -1,9 +1,11 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "use case hello",
+    "shortContainerId" : "dataDrivenCsv.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "use case world",
+    "shortContainerId" : "dataDrivenCsv.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 0

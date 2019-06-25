@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.runner.standalone
 
+import com.twosigma.webtau.TestFile
 import org.junit.Test
 
 import java.nio.file.Paths
@@ -128,7 +129,7 @@ class StandaloneTestRunnerTest {
     private static StandaloneTestRunner createRunner(String scenarioFile) {
         def workingDir = Paths.get("test-scripts")
         def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, []), workingDir)
-        runner.process(Paths.get(scenarioFile), this)
+        runner.process(new TestFile(Paths.get(scenarioFile)), this)
 
         return runner
     }

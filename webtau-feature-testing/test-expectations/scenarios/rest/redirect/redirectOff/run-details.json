@@ -1,6 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "redirect disabled",
+    "shortContainerId" : "redirectOff.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }

@@ -1,9 +1,11 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "do not execute this scenario",
+    "shortContainerId" : "skipTests.groovy",
     "stepsSummary" : { }
   }, {
     "scenario" : "do not execute this scenario either",
+    "shortContainerId" : "skipTests.groovy",
     "stepsSummary" : { }
   } ],
   "exitCode" : 0
