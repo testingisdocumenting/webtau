@@ -129,6 +129,12 @@ class StandaloneTestRunnerTest {
         runner.numThreadsToUse(3).should == 2
     }
 
+    @Test
+    void "should use number of files if requested -1 threads"() {
+        def runner = createRunner("StandaloneTest.groovy", "withDisabled.groovy")
+        runner.numThreadsToUse(-1).should == 2
+    }
+
     private static void assertInitFailed(StandaloneTestRunner runner, String message) {
         runner.tests.size().should == 1
 

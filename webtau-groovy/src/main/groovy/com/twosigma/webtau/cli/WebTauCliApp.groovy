@@ -167,8 +167,9 @@ class WebTauCliApp implements StandaloneTestListener, ReportGenerator {
     }
 
     private void runTests() {
-        if (WebTauGroovyCliArgsConfigHandler.getNumberOfThreads() > 1) {
-            runner.runTestsInParallel(WebTauGroovyCliArgsConfigHandler.getNumberOfThreads())
+        def numThreads = WebTauGroovyCliArgsConfigHandler.getNumberOfThreads()
+        if (numThreads > 1 || numThreads == -1) {
+            runner.runTestsInParallel(numThreads)
         } else {
             runner.runTests()
         }

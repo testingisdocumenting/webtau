@@ -142,7 +142,9 @@ class StandaloneTestRunner {
 
     int numThreadsToUse(int maxNumberOfThreads) {
         int numTestsToRun = registeredTests.testsByFile().size()
-        return Math.min(maxNumberOfThreads, numTestsToRun)
+        return maxNumberOfThreads == -1 ?
+            numTestsToRun :
+            Math.min(maxNumberOfThreads, numTestsToRun)
     }
 
     void runTestsInParallel(int maxNumberOfThreads) {
