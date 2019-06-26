@@ -10,7 +10,8 @@ scenarios** are still executed sequentially.
 For large test suites, it is therefore advisable to create many small focused scenario files instead of few large files.
 
 To enable parallel execution, specify the `numberOfThreads` configuration property either through the configuration file
-or as a CLI parameter.  This property dictates the maximum number of threads on which to run tests.
+or as a CLI parameter.  This property dictates the maximum number of threads on which to run tests.  Alternatively,
+set `numberOfThreads` to `-1` and webtau will use as many threads as there are scenario files.
 
 Note: scenario file execution order is not guaranteed.
 
