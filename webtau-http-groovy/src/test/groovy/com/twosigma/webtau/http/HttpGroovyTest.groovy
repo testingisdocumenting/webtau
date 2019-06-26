@@ -525,8 +525,13 @@ class HttpGroovyTest implements HttpConfiguration {
 
         String redactedAuth = 'authorization: ................'
 
-        readAndAssertCapturedFileTextContents(artifactName, 'request.header.txt', redactedAuth)
-        readAndAssertCapturedFileTextContents(artifactName, 'response.header.txt', redactedAuth)
+        readAndAssertCapturedFile(artifactName, 'request.header.txt') { requestHeaderFile ->
+            authHeader(requestHeaderFile).should == redactedAuth
+        }
+
+        readAndAssertCapturedFile(artifactName, 'response.header.txt') { responseHeaderFile ->
+            authHeader(responseHeaderFile).should == redactedAuth
+        }
     }
 
     @Test
