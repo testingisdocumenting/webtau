@@ -44,7 +44,7 @@ public class HttpDocumentation {
         }
 
         public void capture() {
-            captureUrl();
+            captureRequestMetadata();
 
             captureRequestHeader();
             captureResponseHeader();
@@ -55,9 +55,15 @@ public class HttpDocumentation {
             capturePaths();
         }
 
-        private void captureUrl() {
-            FileUtils.writeTextContent(path.resolve("request.url.txt"), UrlUtils.extractPath(lastValidationResult.getUrl()));
+        private void captureRequestMetadata() {
+            String shortUrl = UrlUtils.extractPath(lastValidationResult.getUrl());
+            FileUtils.writeTextContent(path.resolve("request.url.txt"), shortUrl);
             FileUtils.writeTextContent(path.resolve("request.fullurl.txt"), lastValidationResult.getFullUrl());
+
+            FileUtils.writeTextContent(path.resolve("request.method.txt"), lastValidationResult.getRequestMethod());
+
+            String operation = lastValidationResult.getRequestMethod() + " " + shortUrl;
+            FileUtils.writeTextContent(path.resolve("request.operation.txt"), operation);
         }
 
         private void captureRequestHeader() {
