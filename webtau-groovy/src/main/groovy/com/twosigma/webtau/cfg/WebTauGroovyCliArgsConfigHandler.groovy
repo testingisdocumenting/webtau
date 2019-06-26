@@ -29,7 +29,7 @@ import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
     private static final ConfigValue numberOfThreads = declare("numberOfThreads",
-            "number of threads on which to run test files (one file per thread)",
+            "number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files",
             { -> 1 })
 
     private String[] args

@@ -117,6 +117,24 @@ class StandaloneTestRunnerTest {
         assertInitFailed(runner, 'executing <running errand> outside of scenario is not supported')
     }
 
+    @Test
+    void "should use requested thread count if smaller than number of files"() {
+        def runner = createRunner("StandaloneTest.groovy", "withDisabled.groovy")
+        runner.numThreadsToUse(1).should == 1
+    }
+
+    @Test
+    void "should use number of files if smaller than requested thread count"() {
+        def runner = createRunner("StandaloneTest.groovy", "withDisabled.groovy")
+        runner.numThreadsToUse(3).should == 2
+    }
+
+    @Test
+    void "should use number of files if requested -1 threads"() {
+        def runner = createRunner("StandaloneTest.groovy", "withDisabled.groovy")
+        runner.numThreadsToUse(-1).should == 2
+    }
+
     private static void assertInitFailed(StandaloneTestRunner runner, String message) {
         runner.tests.size().should == 1
 
@@ -126,10 +144,10 @@ class StandaloneTestRunnerTest {
         test.reportTestEntry.exception.message.should == message
     }
 
-    private static StandaloneTestRunner createRunner(String scenarioFile) {
+    private static StandaloneTestRunner createRunner(String... scenarioFiles) {
         def workingDir = Paths.get("test-scripts")
         def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, []), workingDir)
-        runner.process(new TestFile(Paths.get(scenarioFile)), this)
+        scenarioFiles.each { runner.process(new TestFile(Paths.get(it)), this) }
 
         return runner
     }
