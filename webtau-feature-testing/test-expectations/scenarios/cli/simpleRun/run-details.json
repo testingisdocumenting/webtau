@@ -5,18 +5,6 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
-  }, {
-    "scenario" : "cli run using path",
-    "shortContainerId" : "simpleRun.groovy",
-    "stepsSummary" : {
-      "numberOfSuccessful" : 2
-    }
-  }, {
-    "scenario" : "cli run with args",
-    "shortContainerId" : "simpleRun.groovy",
-    "stepsSummary" : {
-      "numberOfSuccessful" : 4
-    }
   } ],
   "exitCode" : 0
 }

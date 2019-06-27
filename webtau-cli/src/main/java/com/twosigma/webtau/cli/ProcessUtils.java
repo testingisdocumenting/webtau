@@ -16,8 +16,6 @@
 
 package com.twosigma.webtau.cli;
 
-import com.twosigma.webtau.cli.parser.CommandParser;
-
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -66,19 +64,21 @@ public class ProcessUtils {
     }
 
     private static List<String> prefixCommandWithPathAndSplit(String command) {
-        String additionalPath = String.join(ENV_PATH_SEPARATOR, envPathWithWorkingDirPrefix());
-        if (additionalPath.isEmpty()) {
-            return splitCommand(command);
-        }
+        String commandPrefix = "";
 
-        String existingPath = System.getenv("PATH");
-        String newPath = additionalPath;
-        if (existingPath != null && !existingPath.isEmpty()) {
-            newPath += ENV_PATH_SEPARATOR + existingPath;
+        String additionalPath = String.join(ENV_PATH_SEPARATOR, envPathWithWorkingDirPrefix());
+        if (!additionalPath.isEmpty()) {
+            String existingPath = System.getenv("PATH");
+            String newPath = additionalPath;
+            if (existingPath != null && !existingPath.isEmpty()) {
+                newPath += ENV_PATH_SEPARATOR + existingPath;
+            }
+
+            commandPrefix = "PATH=" + newPath;
         }
 
         // TODO implement windows equivalent with cmd.exe
-        return Arrays.asList("/bin/sh", "-c", "PATH=" + newPath + " " + command);
+        return Arrays.asList("/bin/sh", "-c", commandPrefix + " " + command);
     }
 
     private static List<String> envPathWithWorkingDirPrefix() {
@@ -91,9 +91,5 @@ public class ProcessUtils {
         }
 
         return getCfg().getWorkingDir().resolve(pathName).toAbsolutePath().toString();
-    }
-
-    static List<String> splitCommand(String command) {
-        return new CommandParser(command).parse();
     }
 }
