@@ -78,7 +78,7 @@ public class ProcessUtils {
         }
 
         // TODO implement windows equivalent with cmd.exe
-        return Arrays.asList("/bin/bash", "-c", "PATH=" + newPath + " " + command);
+        return Arrays.asList("/bin/sh", "-c", "PATH=" + newPath + " " + command);
     }
 
     private static List<String> envPathWithWorkingDirPrefix() {
