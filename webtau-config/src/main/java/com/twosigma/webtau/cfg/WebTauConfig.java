@@ -66,6 +66,7 @@ public class WebTauConfig {
     private final ConfigValue headless = declareBoolean("headless", "run headless mode");
     private final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
     private final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
+    private final ConfigValue envPath = declare("envPath", "path items to append to path used for cli tests", Collections::emptyList);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -263,6 +264,10 @@ public class WebTauConfig {
         return chromeDriverPath.getAsPath();
     }
 
+    public List<String> getEnvPath() {
+        return envPath.getAsList();
+    }
+
     @Override
     public String toString() {
         return enumeratedCfgValues.values().stream().map(ConfigValue::toString).collect(Collectors.joining("\n"));
@@ -355,7 +360,8 @@ public class WebTauConfig {
                 staleElementRetry,
                 headless,
                 chromeDriverPath,
-                chromeBinPath);
+                chromeBinPath,
+                envPath);
 
         Stream<ConfigValue> additionalConfigValues = handlers.stream()
                 .flatMap(WebTauConfigHandler::additionalConfigValues);

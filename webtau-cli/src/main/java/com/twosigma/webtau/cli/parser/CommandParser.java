@@ -31,7 +31,7 @@ public class CommandParser {
         this.parts = new ArrayList<>();
     }
 
-    public String[] parse() {
+    public List<String> parse() {
         boolean insideQuote = false;
 
         char previousChar = ' ';
@@ -51,7 +51,7 @@ public class CommandParser {
 
         flush();
 
-        return parts.toArray(new String[0]);
+        return parts;
     }
 
     private void flush() {

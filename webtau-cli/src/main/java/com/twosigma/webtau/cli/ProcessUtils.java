@@ -19,14 +19,23 @@ package com.twosigma.webtau.cli;
 import com.twosigma.webtau.cli.parser.CommandParser;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class ProcessUtils {
+    private static final String ENV_PATH_SEPARATOR = System.getProperty("path.separator");
+
     private ProcessUtils() {
     }
 
     public static ProcessRunResult run(String command, Map<String, String> env) throws IOException {
-        ProcessBuilder processBuilder = new ProcessBuilder(splitCommand(command));
+        List<String> splitCommandWithPrefix = prefixCommandWithPathAndSplit(command);
+        ProcessBuilder processBuilder = new ProcessBuilder(splitCommandWithPrefix);
         processBuilder.environment().putAll(env);
 
         try {
@@ -56,7 +65,35 @@ public class ProcessUtils {
         }
     }
 
-    static String[] splitCommand(String command) {
+    private static List<String> prefixCommandWithPathAndSplit(String command) {
+        String additionalPath = String.join(ENV_PATH_SEPARATOR, envPathWithWorkingDirPrefix());
+        if (additionalPath.isEmpty()) {
+            return splitCommand(command);
+        }
+
+        String existingPath = System.getenv("PATH");
+        String newPath = additionalPath;
+        if (existingPath != null && !existingPath.isEmpty()) {
+            newPath += ENV_PATH_SEPARATOR + existingPath;
+        }
+
+        // TODO implement windows equivalent with cmd.exe
+        return Arrays.asList("/bin/bash", "-c", "PATH=" + newPath + " " + command);
+    }
+
+    private static List<String> envPathWithWorkingDirPrefix() {
+        return getCfg().getEnvPath().stream().map(ProcessUtils::prefixWithWorkingDir).collect(Collectors.toList());
+    }
+
+    private static String prefixWithWorkingDir(String pathName) {
+        if (Paths.get(pathName).isAbsolute()) {
+            return pathName;
+        }
+
+        return getCfg().getWorkingDir().resolve(pathName).toAbsolutePath().toString();
+    }
+
+    static List<String> splitCommand(String command) {
         return new CommandParser(command).parse();
     }
 }

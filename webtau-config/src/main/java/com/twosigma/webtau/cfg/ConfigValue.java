@@ -136,6 +136,10 @@ public class ConfigValue {
         return first.toString().toLowerCase().equals("true");
     }
 
+    public <T> List<T> getAsList() {
+        return (List<T>) getAsObject();
+    }
+
     @Override
     public String toString() {
         return key + ": " + values.stream().map(Value::toString).collect(Collectors.joining(", "));
