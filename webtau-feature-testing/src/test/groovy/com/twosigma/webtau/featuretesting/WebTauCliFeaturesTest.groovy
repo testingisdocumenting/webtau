@@ -33,6 +33,11 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "path based script run"() {
+        runCli('pathBasedScript.groovy', 'webtau-with-path.cfg')
+    }
+
+    @Test
     void "error script run"() {
         runCli('errorRuns.groovy', 'webtau.cfg')
     }

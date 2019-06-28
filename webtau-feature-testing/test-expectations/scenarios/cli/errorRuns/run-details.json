@@ -9,7 +9,7 @@
     "scenario" : "run error",
     "shortContainerId" : "errorRuns.groovy",
     "stepsSummary" : {
-      "numberOfFailed" : 1
+      "numberOfFailed" : 2
     }
   } ],
   "exitCode" : 1
