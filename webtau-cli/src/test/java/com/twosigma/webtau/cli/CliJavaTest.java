@@ -44,7 +44,7 @@ public class CliJavaTest {
 
                 output.should(equal(Pattern.compile("hello")));
                 output.should(contain("world"));
-                output.should(contain("\"message to world\""));
+                output.should(contain("message to world"));
 
                 error.should(contain("error line two"));
             });
