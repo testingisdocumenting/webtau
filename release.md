@@ -35,7 +35,7 @@ You will need to also obtain GPG files to be copied into your `~/.gnupg` and the
 The first step is to prepare the release.  Make sure you are on master and up to date then run:
 
 ```
-mvn release:clean release:prepare -DskipTests
+mvn release:clean release:prepare -DskipTests -Darguments=-DskipTests
 ```
 
 This will do a number of things (let's assume you're trying to release version x.y.z):
@@ -51,7 +51,7 @@ This will do a number of things (let's assume you're trying to release version x
 
 ```
 export GPG_TTY=$(tty)
-mvn release:perform
+mvn release:perform -DskipTests -Darguments=-DskipTests
 ```
 
 This will prompt you for the GPG passphrase.  It will then build and test webtau and publish all artifacts to Maven Central.
