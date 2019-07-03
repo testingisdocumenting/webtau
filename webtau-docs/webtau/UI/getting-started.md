@@ -1,4 +1,4 @@
-:include-markdown: installation.md
+:include-markdown: installation-groovy-runner.md
 
 # Bare Minimum
 

@@ -1,4 +1,4 @@
-:include-markdown: installation.md
+:include-markdown: installation-groovy-runner.md
 
 # Bare Minimum Groovy
 
@@ -19,6 +19,11 @@ Url parameter can be moved to a `webtau.cfg` file.
 [Specify multiple environments](configuration/environments) to streamline test execution.
 
 # Bare Minimum JUnit
+
+```tabs
+Groovy: :include-file: maven/groovy-dep.xml {title: "Maven Dependency"}
+Java: :include-file: maven/java-dep.xml {title: "Maven Dependency"}
+```
 
 ```tabs
 Groovy:
