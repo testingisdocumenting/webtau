@@ -118,6 +118,7 @@
         <module>webtau-junit5-examples</module>
         <module>webtau-junit4</module>
         <module>webtau-junit4-examples</module>
+        <module>webtau-junit-like-examples-common</module>
         <module>webtau-testapp</module>
         <module>webtau-config</module>
         <module>webtau-feature-testing</module>

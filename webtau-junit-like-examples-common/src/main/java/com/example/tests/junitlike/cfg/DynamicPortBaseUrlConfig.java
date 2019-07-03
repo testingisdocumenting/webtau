@@ -14,16 +14,30 @@
  * limitations under the License.
  */
 
-package com.example.tests.junit5.cfg;
+package com.example.tests.junitlike.cfg;
 
+import com.twosigma.webtau.cfg.WebTauConfig;
 import com.twosigma.webtau.http.HttpHeader;
 import com.twosigma.webtau.http.config.HttpConfiguration;
+import com.twosigma.webtau.utils.UrlUtils;
 
 public class DynamicPortBaseUrlConfig implements HttpConfiguration {
+
+    public static final String SPRING_BOOT_EXAMPLE_URL_PREFIX = "/customers";
+
     @Override
     public String fullUrl(String url) {
-        String port = System.getProperty("springboot.http.port", "8080");
-        return "http://localhost:" + port + url;
+        if (url.contains("/customers")) {
+            String port = System.getProperty("springboot.http.port", "8080");
+            int prefixIdx = url.indexOf(SPRING_BOOT_EXAMPLE_URL_PREFIX);
+            return "http://localhost:" + port + url.substring(prefixIdx);
+        }
+
+        if (UrlUtils.isFull(url)) {
+            return url;
+        }
+
+        return UrlUtils.concat(WebTauConfig.getCfg().getBaseUrl(), url);
     }
 
     @Override
