@@ -47,6 +47,13 @@
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-junit-like-examples-common</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-testapp</artifactId>
             <version>${project.version}</version>
         </dependency>

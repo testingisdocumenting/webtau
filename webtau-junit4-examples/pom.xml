@@ -29,13 +29,20 @@
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau</artifactId>
+            <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-junit4</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-junit-like-examples-common</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -68,6 +75,28 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-test-server</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-feature-testing</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-feature-testing</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

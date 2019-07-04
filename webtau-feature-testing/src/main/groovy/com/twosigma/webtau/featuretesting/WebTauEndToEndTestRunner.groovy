@@ -39,9 +39,6 @@ import java.nio.file.Paths
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
-    private static final String RUN_DETAILS_FILE_NAME = 'run-details'
-    private static final String EXPECTATIONS_DIR_NAME = 'test-expectations'
-
     private Map capturedStepsSummary
     private final List scenariosDetails = []
 
@@ -99,34 +96,8 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
     }
 
     private static void validateAndSaveTestDetails(String testFileName, Map testDetails) {
-        def fileNameWithoutExt = removeExtension(testFileName)
-        def expectedPath = Paths.get(EXPECTATIONS_DIR_NAME)
-                .resolve(fileNameWithoutExt).resolve(RUN_DETAILS_FILE_NAME + '.json')
-        def actualPath = Paths.get(EXPECTATIONS_DIR_NAME)
-                .resolve(fileNameWithoutExt).resolve(RUN_DETAILS_FILE_NAME + '.actual.json')
-
-        def serializedTestDetails = JsonUtils.serializePrettyPrint(sortTestDetailsByContainerId(testDetails))
-
-        if (! Files.exists(expectedPath)) {
-            FileUtils.writeTextContent(expectedPath, serializedTestDetails)
-
-            throw new AssertionError('make sure ' + expectedPath + ' is correct. and commit it as a baseline. ' +
-                    'test will not fail next time unless output of the test is changed')
-        }
-
-        def expectedDetails = sortTestDetailsByContainerId(JsonUtils.deserializeAsMap(FileUtils.fileTextContent(expectedPath)))
-
-        CompareToComparator comparator = CompareToComparator.comparator()
-        def isEqual = comparator.compareIsEqual(new ActualPath('testDetails'), testDetails, expectedDetails)
-
-        if (! isEqual) {
-            ConsoleOutputs.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,
-                    Color.BLUE, ' and ', Color.PURPLE, expectedPath)
-            FileUtils.writeTextContent(actualPath, serializedTestDetails)
-            throw new AssertionError(comparator.generateEqualMismatchReport())
-        } else {
-            Files.deleteIfExists(actualPath)
-        }
+        WebTauEndToEndTestValidator.validateAndSaveTestDetails(removeExtension(testFileName), testDetails,
+                this.&sortTestDetailsByContainerId)
     }
 
     private static Map sortTestDetailsByContainerId(Map testDetails) {

@@ -28,7 +28,7 @@ import java.util.Map;
 public class HttpTestDataServer {
     private final TestServer testServer;
 
-    HttpTestDataServer() {
+    public HttpTestDataServer() {
         testServer = new TestServer();
 
         TestServerJsonResponse objectTestResponse = jsonResponse("objectTestResponse.json");

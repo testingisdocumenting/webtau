@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-com.example.tests.junit5.cfg.DynamicPortBaseUrlConfig
+com.example.tests.junitlike.cfg.DynamicPortBaseUrlConfig

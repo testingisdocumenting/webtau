@@ -16,11 +16,7 @@
 
 package com.twosigma.webtau.featuretesting
 
-import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.http.testserver.TestServerJsonResponse
-import com.twosigma.webtau.http.testserver.TestServerRedirectResponse
-import com.twosigma.webtau.http.testserver.TestServerResponse
-import com.twosigma.webtau.utils.JsonUtils
+
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -31,21 +27,13 @@ import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.e
 class WebTauRestFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
-    static void registerEndPoints(TestServer testServer) {
-        def temperature = [temperature: 88]
-        testServer.registerGet("/weather", json(temperature))
-        testServer.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/weather"))
-        testServer.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
-        testServer.registerPost("/employee", json([id: 'id-generated-2'], 201))
-        testServer.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
-    }
 
     @BeforeClass
     static void init() {
         testRunner = new WebTauEndToEndTestRunner()
 
         def testServer = testRunner.testServer
-        registerEndPoints(testServer)
+        WebTauRestFeaturesTestData.registerEndPoints(testServer)
 
         testRunner.startTestServer()
     }
@@ -150,10 +138,6 @@ class WebTauRestFeaturesTest {
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/rest/$restTestName",
             "scenarios/rest/$configFileName", additionalArgs)
-    }
-
-    private static TestServerResponse json(Map response, statusCode = 200) {
-        return new TestServerJsonResponse(JsonUtils.serialize(response), statusCode)
     }
 
     private void deleteCustomers() {

@@ -549,7 +549,7 @@ class HttpGroovyTest implements HttpConfiguration {
     void "url doc capture includes query params specified as HttpQueryParams"() {
         http.get('/params', http.query([a: 1, b: 'text'])) {}
 
-        String artifactName = 'url-capture2'
+        String artifactName = 'url-capture-with-query-params'
         http.doc.capture(artifactName)
 
         readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/params?a=1&b=text')
