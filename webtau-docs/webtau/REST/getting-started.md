@@ -1,6 +1,6 @@
 :include-markdown: installation-groovy-runner.md
 
-# Bare Minimum Groovy
+# Minimal Groovy Setup
 
 :include-file: examples/scenarios/rest/simpleGet.groovy {title: "examples/scenarios/rest/simpleGet.groovy"}
 
@@ -18,7 +18,7 @@ Url parameter can be moved to a `webtau.cfg` file.
 
 [Specify multiple environments](configuration/environments) to streamline test execution.
 
-# Bare Minimum JUnit
+# Minimal JUnit Setup
 
 ```tabs
 Groovy: :include-file: maven/groovy-dep.xml {title: "Maven Dependency"}
