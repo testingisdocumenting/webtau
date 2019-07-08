@@ -47,30 +47,8 @@ import static com.twosigma.webtau.cfg.WebTauConfig.cfg
 import static com.twosigma.webtau.http.Http.*
 import static org.junit.Assert.*
 
-class HttpGroovyTest implements HttpConfiguration {
-    private static final HttpTestDataServer testServer = new HttpTestDataServer()
-
+class HttpGroovyTest extends HttpTestBase {
     private static final byte[] sampleFile = [1, 2, 3]
-
-    @BeforeClass
-    static void startServer() {
-        testServer.start()
-    }
-
-    @AfterClass
-    static void stopServer() {
-        testServer.stop()
-    }
-
-    @Before
-    void initCfg() {
-        HttpConfigurations.add(this)
-    }
-
-    @After
-    void cleanCfg() {
-        HttpConfigurations.remove(this)
-    }
 
     @Test
     void "use groovy closure as validation"() {
@@ -1169,20 +1147,6 @@ class HttpGroovyTest implements HttpConfiguration {
 
         ret.should == 123
         ret.getClass().should == Integer
-    }
-
-    @Override
-    String fullUrl(String url) {
-        if (UrlUtils.isFull(url)) {
-            return url
-        }
-
-        return UrlUtils.concat(testServer.uri, url)
-    }
-
-    @Override
-    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
-        return given
     }
 
     private static void assertStatusCodeMismatchRegistered() {

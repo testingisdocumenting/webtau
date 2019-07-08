@@ -16,8 +16,6 @@
 
 package com.twosigma.webtau.http;
 
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
