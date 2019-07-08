@@ -53,16 +53,6 @@ public class HeaderDataNode implements DataNode {
         this.responseHeader = response.getHeader();
     }
 
-    private static void addCamelCaseVersion(Map<String, Object> headerData, CamelCaseTranslation translation) {
-        Optional<String> existingHeaderName = findMatchingCaseInsensitiveKey(translation.originalName, headerData.keySet().stream());
-        if (existingHeaderName.isPresent()) {
-            Object converted = translation.conversion.apply((String) headerData.get(existingHeaderName.get()));
-
-            headerData.put(translation.camelCaseName, converted);
-            headerData.put(translation.originalName, converted);
-        }
-    }
-
     public HttpHeader getResponseHeader() {
         return responseHeader;
     }
@@ -155,6 +145,16 @@ public class HeaderDataNode implements DataNode {
         return keys
                 .filter(k -> k != null && k.toLowerCase().equals(lowerCaseName))
                 .findFirst();
+    }
+
+    private static void addCamelCaseVersion(Map<String, Object> headerData, CamelCaseTranslation translation) {
+        Optional<String> existingHeaderName = findMatchingCaseInsensitiveKey(translation.originalName, headerData.keySet().stream());
+        if (existingHeaderName.isPresent()) {
+            Object converted = translation.conversion.apply((String) headerData.get(existingHeaderName.get()));
+
+            headerData.put(translation.camelCaseName, converted);
+            headerData.put(translation.originalName, converted);
+        }
     }
 
     private static <T> Set<T> setOf(T... things) {

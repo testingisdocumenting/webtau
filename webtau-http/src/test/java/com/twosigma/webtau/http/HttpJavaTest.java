@@ -20,6 +20,12 @@ import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.data.table.TableData;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
+import com.twosigma.webtau.http.datanode.DataNode;
+import com.twosigma.webtau.http.json.JsonRequestBody;
+import com.twosigma.webtau.http.request.HttpQueryParams;
+import com.twosigma.webtau.http.request.HttpRequestBody;
+import com.twosigma.webtau.http.validation.HeaderDataNode;
+import com.twosigma.webtau.http.validation.HttpResponseValidator;
 import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
@@ -29,37 +35,18 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import static com.twosigma.webtau.Ddjt.*;
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.http.Http.http;
 
-public class HttpJavaTest implements HttpConfiguration  {
-    private static final HttpTestDataServer testServer = new HttpTestDataServer();
-
-    @BeforeClass
-    public static void startServer() {
-        testServer.start();
-    }
-
-    @AfterClass
-    public static void stopServer() {
-        testServer.stop();
-    }
-
-    @Before
-    public void initCfg() {
-        HttpConfigurations.add(this);
-    }
-
-    @After
-    public void cleanCfg() {
-        HttpConfigurations.remove(this);
-    }
-
+public class HttpJavaTest extends HttpTestBase {
     @Test
     public void simpleObjectMappingExample() {
         http.get("/end-point-simple-object", (header, body) -> {
@@ -279,19 +266,5 @@ public class HttpJavaTest implements HttpConfiguration  {
 
         actual(ret).should(equal(123));
         actual(ret.getClass()).should(equal(Integer.class));
-    }
-
-    @Override
-    public String fullUrl(String url) {
-        if (UrlUtils.isFull(url)) {
-            return url;
-        }
-
-        return UrlUtils.concat(testServer.getUri(), url);
-    }
-
-    @Override
-    public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
-        return given;
     }
 }

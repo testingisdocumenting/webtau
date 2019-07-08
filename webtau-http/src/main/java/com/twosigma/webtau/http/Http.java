@@ -235,16 +235,32 @@ public class Http {
         post(url, requestBody, EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public <E> E put(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
-        return executeAndValidateHttpCall("PUT", url,
+    public <E> E put(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return executeAndValidateHttpCall("PUT", queryParams.attachToUrl(url),
                 (fullUrl, fullHeader) -> putToFullUrl(fullUrl, fullHeader, requestBody),
                 header,
                 requestBody,
                 validator);
     }
 
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        put(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E put(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, HttpQueryParams.EMPTY, header, requestBody, validator);
+    }
+
     public void put(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
         put(url, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E put(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
+    }
+
+    public void put(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        put(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E put(String url, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
@@ -253,6 +269,14 @@ public class Http {
 
     public void put(String url, HttpRequestBody requestBody, HttpResponseValidator validator) {
         put(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E put(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
+        return put(url, queryParams, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, validator);
+    }
+
+    public void put(String url, HttpQueryParams queryParams, HttpResponseValidator validator) {
+        put(url, queryParams, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E put(String url, HttpResponseValidatorWithReturn validator) {
@@ -279,6 +303,14 @@ public class Http {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public <E> E put(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return put(url, queryParams, header, EmptyRequestBody.INSTANCE, validator);
+    }
+
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidator validator) {
+        put(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public <E> E put(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
         return put(url, header, EmptyRequestBody.INSTANCE, validator);
     }
@@ -293,6 +325,10 @@ public class Http {
 
     public void put(String url) {
         put(url, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void put(String url, HttpQueryParams queryParams) {
+        put(url, queryParams, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E delete(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
@@ -544,7 +580,6 @@ public class Http {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private DataNode createBodyDataNode(HttpResponse response) {
         try {
             DataNodeId id = new DataNodeId("body");
