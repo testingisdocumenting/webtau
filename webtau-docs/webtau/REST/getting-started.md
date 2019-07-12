@@ -1,4 +1,4 @@
-:include-markdown: installation-groovy-runner.md
+:include-markdown: {firstAvailable: ["installation-company-specific-groovy-runner.md", "installation-groovy-runner.md"]}
 
 # Minimal Groovy Setup
 
