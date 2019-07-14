@@ -25,7 +25,7 @@
     font-size: 14px;
     color: #888;
 
-    padding: 10px 15px;
+    padding: var(--webtau-spacing) var(--webtau-spacing-double);
 
     cursor: pointer;
     user-select: none;

@@ -23,8 +23,8 @@
     font-size: 12px;
 
     height: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: var(--webtau-spacing);
+    padding-right: var(--webtau-spacing);
 }
 
 .test-summary {

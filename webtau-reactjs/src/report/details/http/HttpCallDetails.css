@@ -17,20 +17,20 @@
 .http-call-details {
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 10px;
-    padding: 5px 10px 10px 10px;
+    grid-gap: var(--webtau-spacing);
+    padding: var(--webtau-spacing);
 }
 
 .http-call-details > .body-request-response {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 10px;
+    grid-column-gap: var(--webtau-spacing);
 }
 
 .http-call-time-and-name {
     display: grid;
     grid-template-columns: auto auto auto 1fr;
-    grid-gap: 10px;
+    grid-gap: var(--webtau-spacing);
 }
 
 .http-call-header,
@@ -40,7 +40,7 @@
 .http-call-details-response-details,
 .http-call-details-error-message,
 .http-call-no-details {
-    padding: 15px;
+    padding: var(--webtau-spacing-double);
 }
 
 .http-call-details-request-details,
@@ -60,7 +60,7 @@
 
 .http-call-details-url {
     display: flex;
-    padding: 15px 15px 0 15px;
+    padding: var(--webtau-spacing-double) var(--webtau-spacing-double) 0 var(--webtau-spacing-double);
 }
 
 .http-call-details-url > .method {

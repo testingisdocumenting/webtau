@@ -16,11 +16,11 @@
 
 .card-list > .label {
     font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: var(--webtau-spacing);
 }
 
 .card-list > .list {
     display: grid;
     grid-template-columns: repeat(auto-fill, var(--webtau-card-width));
-    grid-gap: 10px;
+    grid-gap: var(--webtau-spacing);
 }

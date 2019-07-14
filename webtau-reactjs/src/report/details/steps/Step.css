@@ -15,7 +15,7 @@
  */
 
 .card.step {
-    padding: 15px;
+    padding: var(--webtau-spacing-double);
 }
 
 .step > .message-parts {
@@ -26,8 +26,8 @@
 
 .step > .message-parts > .show-children {
     background-color: #eee;
-    margin-left: 16px;
-    padding: 1px 4px;
+    margin-left: var(--webtau-spacing-double);
+    padding: 0 var(--webtau-spacing-half);
 
     cursor: pointer;
 }

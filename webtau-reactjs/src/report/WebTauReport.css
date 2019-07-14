@@ -15,6 +15,13 @@
  */
 
 :root {
+    --webtau-spacing-half-as-number: 4;
+    --webtau-spacing-half: calc(var(--webtau-spacing-half-as-number) * 1px);
+    --webtau-spacing: calc(var(--webtau-spacing-half-as-number) * 2px);
+    --webtau-spacing-double: calc(var(--webtau-spacing-half-as-number) * 4px);
+    --webtau-spacing-tripple: calc(var(--webtau-spacing-half-as-number) * 6px);
+    --webtau-spacing-quadruple: calc(var(--webtau-spacing-half-as-number) * 8px);
+
     --webtau-test-selection-background-color: #5b666c;
     --webtau-test-group-label-color: #bbb;
     --webtau-test-group-label-background-color: #3b4348;
@@ -29,7 +36,7 @@
     --webtau-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --webtau-card-label-color: #969ba7;
     --webtau-card-width: 170px;
-    --webtau-card-padding: 16px;
+    --webtau-card-padding: var(--webtau-spacing-double);
     --webtau-card-height: 120px;
 
     --webtau-match-color: rgba(57, 215, 40, 0.2);
@@ -48,7 +55,7 @@ body {
 .report {
     display: grid;
     grid-template-columns: 350px 1fr;
-    grid-template-rows: 36px 37px 1fr 30px;
+    grid-template-rows: auto 37px 1fr 30px;
 
     grid-template-areas: "selection details"
                          "   search details"
@@ -61,9 +68,10 @@ body {
 
 .report > .report-name-area {
     grid-area: selection;
+
     background-color: var(--webtau-test-status-filter-background-color);
+    padding: var(--webtau-spacing);
     border-bottom: 1px solid #50595e;
-    padding-left: 20px;
 }
 
 .report > .search-area {
@@ -79,7 +87,7 @@ body {
     width: 100%;
     height: 100%;
 
-    padding: 10px 4px 10px 10px;
+    padding: var(--webtau-spacing) var(--webtau-spacing-half) var(--webtau-spacing) var(--webtau-spacing);
     margin: 0;
     border: none;
     outline: none;

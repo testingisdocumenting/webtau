@@ -16,7 +16,7 @@
 
 .test-name {
     display: flex;
-    padding: 15px;
+    padding: var(--webtau-spacing-double);
 }
 
 .test-name.clickable {
