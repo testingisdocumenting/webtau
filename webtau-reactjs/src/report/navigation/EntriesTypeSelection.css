@@ -35,7 +35,7 @@
     display: flex;
     align-items: center;
     height: 100%;
-    padding-right: 20px;
+    padding-right: var(--webtau-spacing);
 }
 
 .entries-type-selection > .selection-area > .entry-type {

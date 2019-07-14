@@ -18,7 +18,7 @@
     color: var(--webtau-test-group-label-color);
 
     background-color: var(--webtau-test-group-label-background-color);
-    padding: 4px 10px;
+    padding: var(--webtau-spacing-half) var(--webtau-spacing);
 
     cursor: pointer;
 }

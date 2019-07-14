@@ -22,7 +22,7 @@
 }
 
 .full-screen-http-payload-content {
-    padding: 20px;
+    padding: var(--webtau-spacing-double);
     overflow: auto;
 }
 

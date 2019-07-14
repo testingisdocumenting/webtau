@@ -45,11 +45,10 @@
 }
 
 .test-details > .tabs-details-area {
-    flex-basis: 40px;
 }
 
 .test-details > .detail-area {
     flex: 1;
     overflow: auto;
-    padding: 12px 16px 16px 16px;
+    padding: var(--webtau-spacing-double);
 }

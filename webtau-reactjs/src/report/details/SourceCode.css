@@ -30,7 +30,7 @@
     border-top-right-radius: 5px;
 
     background-color: var(--webtau-source-code-background-color);
-    padding: 10px;
+    padding: var(--webtau-spacing);
 }
 
 pre.language-groovy {

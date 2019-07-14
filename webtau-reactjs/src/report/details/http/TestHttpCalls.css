@@ -16,13 +16,13 @@
 
 .http-call-header-body {
     display: grid;
-    grid-gap: 20px;
+    grid-gap: var(--webtau-spacing-double);
 }
 
 .test-http-call-details .body-request-response {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 20px;
+    grid-column-gap: var(--webtau-spacing-double);
 }
 
 .test-http-call-details .body-request-response > .request,
@@ -35,7 +35,7 @@
 }
 
 .test-http-call > .collapse-toggle {
-    width: 20px;
+    width: var(--webtau-spacing-double);
     font-size: 16px;
     user-select: none;
 }
@@ -50,7 +50,7 @@
 
 .test-http-call > .status-code {
     color: #867288;
-    margin-right: 15px;
+    margin-right: var(--webtau-spacing-double);
     user-select: none;
     text-align: right;
 }
@@ -65,7 +65,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    margin-right: 15px;
+    margin-right: var(--webtau-spacing-double);
     cursor: auto;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .test-http-call .http-payload {
-    margin-left: 10px;
+    margin-left: var(--webtau-spacing);
 }
 
 .test-http-call.with-problem {
@@ -83,5 +83,5 @@
 }
 
 .test-http-calls-call-error-message {
-    margin-bottom: 16px;
+    margin-bottom: var(--webtau-spacing-double);
 }

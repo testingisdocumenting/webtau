@@ -271,6 +271,7 @@ export const withRestDataReport = {
             "startTime": 1534456916484,
             "elapsedTime": 32,
             "httpCalls": [{
+                "id": "7",
                 "method": "GET",
                 "url": "http://localhost:8080/customers/1",
                 "startTime": 1534456916484,
@@ -341,6 +342,7 @@ export const withRestDataReport = {
             "className": "com.example.tests.rest.CustomerCrudSeparatedIT",
             "fileName": "rest/springboot/customerCrudSeparated.groovy",
             "httpCalls": [{
+                "id": "6",
                 "method": "POST",
                 "url": "http://localhost:8080/customers/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again/long-url/url-sub-part/and-again",
                 "startTime": 1534456916484,
@@ -387,6 +389,7 @@ export const withRestDataReport = {
             "startTime": 1534456916484,
             "elapsedTime": 22,
             "httpCalls": [{
+                "id": "5",
                 "method": "GET",
                 "url": "http://localhost:8080/customers/3",
                 "startTime": 1534456916484,
@@ -440,6 +443,7 @@ export const withRestDataReport = {
             "elapsedTime": 32,
             "fileName": "rest/springboot/customerCrudSeparated.groovy",
             "httpCalls": [{
+                "id": "1",
                 "method": "PUT",
                 "url": "http://localhost:8080/customers/1",
                 "startTime": 1534456927154,
@@ -456,6 +460,7 @@ export const withRestDataReport = {
                     "passedPaths": ["root.lastName"]
                 }
             }, {
+                "id": "2",
                 "method": "GET",
                 "url": "http://localhost:8080/customers/1",
                 "startTime": 1534456916394,
@@ -538,6 +543,7 @@ export const withRestDataReport = {
             "elapsedTime": 32,
             "exceptionMessage": "error calling something",
             "httpCalls": [{
+                "id": "3",
                 "method": "DELETE",
                 "url": "http://localhost:8080/customers/1",
                 "startTime": 1534456916784,
@@ -552,6 +558,7 @@ export const withRestDataReport = {
                     "passedPaths": []
                 }
             }, {
+                "id": "4",
                 "method": "GET",
                 "url": "http://localhost:8080/customers/1",
                 "startTime": 1534456916684,

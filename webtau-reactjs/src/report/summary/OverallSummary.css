@@ -20,9 +20,9 @@
 .overall-summary-tab-content {
     display: grid;
     grid-template-columns: 1fr;
-    grid-gap: 10px;
+    grid-gap: var(--webtau-spacing);
 
-    padding: 20px;
+    padding: var(--webtau-spacing-double);
 }
 
 .overall-number-of-http-calls,
@@ -33,5 +33,5 @@
 .overall-summary-performance-grid {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-gap: 10px;
+    grid-gap: var(--webtau-spacing);
 }

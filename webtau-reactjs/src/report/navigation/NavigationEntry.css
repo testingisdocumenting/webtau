@@ -17,7 +17,7 @@
 .navigation-entry {
     display: flex;
     justify-content: space-between;
-    padding: 10px 15px;
+    padding: var(--webtau-spacing) var(--webtau-spacing-double);
     border-bottom: 1px var(--webtau-list-item-separation-color) solid;
     user-select: none;
     cursor: pointer;

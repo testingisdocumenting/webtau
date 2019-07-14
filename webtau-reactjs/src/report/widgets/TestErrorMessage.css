@@ -22,6 +22,6 @@
 
 .error-message > .show-more {
     color: cornflowerblue;
-    padding: 8px;
+    padding: var(--webtau-spacing);
     cursor: pointer;
 }

@@ -17,9 +17,9 @@
 .http-header {
     display: grid;
     grid-template-columns: minmax(auto, 3fr) 5fr;
-    grid-gap: 5px 20px;
+    grid-gap: var(--webtau-spacing) var(--webtau-spacing-double);
 
-    margin-top: 10px;
+    margin-top: var(--webtau-spacing);
 }
 
 .http-header-key {
