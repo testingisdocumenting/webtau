@@ -26,7 +26,7 @@ function CardWithElapsedTime({millis, label}) {
     const totalSeconds = (millis / 1000) | 0
     const minutes = totalSeconds / 60 | 0
     const seconds = totalSeconds % 60
-    const remainingMs = millis % 1000
+    const remainingMs = (millis % 1000) | 0
 
     return (
         <Card className="card-with-elapsed-time">
