@@ -23,6 +23,7 @@ export function cardWithElapsedTimeDemo(registry) {
     registry.add('with minutes', () => <CardWithElapsedTime millis={66321} label="Total time"/>)
     registry.add('with seconds', () => <CardWithElapsedTime millis={8321} label="Total time"/>)
     registry.add('with milliseconds', () => <CardWithElapsedTime millis={321} label="Total time"/>)
+    registry.add('with decimals', () => <CardWithElapsedTime millis={1966321.23} label="Total time"/>)
     registry.add('with next card next to it', () => (
         <div style={{display: 'flex'}}>
             <CardWithTime millis={1547139662469} label="Start time"/>

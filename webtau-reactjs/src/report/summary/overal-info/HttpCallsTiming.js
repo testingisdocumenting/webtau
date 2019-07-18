@@ -32,7 +32,7 @@ export default function HttpCallsTiming({report, onSwitchToHttpCalls}) {
             </div>
 
             <CardWithElapsedTime label="Average Time"
-                                 millis={report.averageHttpCallTime().toFixed(2)}/>
+                                 millis={report.averageHttpCallTime()}/>
 
             <CardWithElapsedTime label="Overall Time"
                                  millis={report.overallHttpCallTime()}/>
