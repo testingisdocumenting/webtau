@@ -25,12 +25,27 @@
     </parent>
 
     <artifactId>webtau-dist</artifactId>
+    <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-groovy</artifactId>
+            <artifactId>webtau-shaded</artifactId>
+            <classifier>shaded</classifier>
+            <scope>runtime</scope>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.twosigma.webtau</groupId>
+                    <artifactId>webtau-groovy</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <type>pom</type>
         </dependency>
     </dependencies>
 
