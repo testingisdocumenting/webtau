@@ -33,6 +33,12 @@
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-all</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -53,48 +59,24 @@
                             <shadedClassifierName>shaded</shadedClassifierName>
                             <relocations>
                                 <relocation>
-                                    <pattern>groovy</pattern>
-                                    <shadedPattern>webtaushaded.groovy</shadedPattern>
+                                    <pattern>org.</pattern>
+                                    <shadedPattern>webtaushaded.org.</shadedPattern>
+                                    <excludes>
+                                        <exclude>org.codehaus.**</exclude>
+                                    </excludes>
                                 </relocation>
+
                                 <relocation>
-                                    <pattern>org</pattern>
-                                    <shadedPattern>webtaushaded.org</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.atlassian</pattern>
-                                    <shadedPattern>webtaushaded.com.atlassian</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.sun</pattern>
-                                    <shadedPattern>webtaushaded.com.sun</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.fasterxml</pattern>
-                                    <shadedPattern>webtaushaded.com.fasterxml</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google</pattern>
-                                    <shadedPattern>webtaushaded.com.google</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.damnhandy</pattern>
-                                    <shadedPattern>webtaushaded.com.damnhandy</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.thoughtworks</pattern>
-                                    <shadedPattern>webtaushaded.com.thoughtworks</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.github</pattern>
-                                    <shadedPattern>webtaushaded.com.github</shadedPattern>
+                                    <pattern>com.</pattern>
+                                    <shadedPattern>webtaushaded.com.</shadedPattern>
+                                    <excludes>
+                                        <exclude>com.twosigma.**</exclude>
+                                    </excludes>
                                 </relocation>
                             </relocations>
 
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.GroovyResourceTransformer">
-                                    <extModuleName>groovy-datetime</extModuleName>
-                                </transformer>
                             </transformers>
                         </configuration>
                     </execution>
