@@ -69,6 +69,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-groovydoc</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-test-server</artifactId>
             <version>${project.version}</version>
