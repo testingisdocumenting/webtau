@@ -36,7 +36,11 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-all</artifactId>
+                    <artifactId>groovy</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>groovy-nio</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
