@@ -33,16 +33,6 @@
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-nio</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
@@ -51,16 +41,23 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
                 <executions>
                     <execution>
+                        <id>shade-deps</id>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>org.codehaus.groovy:*</exclude>
+                                </excludes>
+                            </artifactSet>
+
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>shaded</shadedClassifierName>
+
                             <relocations>
                                 <relocation>
                                     <pattern>org.</pattern>
@@ -69,7 +66,6 @@
                                         <exclude>org.codehaus.**</exclude>
                                     </excludes>
                                 </relocation>
-
                                 <relocation>
                                     <pattern>com.</pattern>
                                     <shadedPattern>webtaushaded.com.</shadedPattern>
@@ -77,9 +73,18 @@
                                         <exclude>com.twosigma.**</exclude>
                                     </excludes>
                                 </relocation>
+                                <relocation>
+                                    <pattern>io.</pattern>
+                                    <shadedPattern>webtaushaded.io.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.</pattern>
+                                    <shadedPattern>webtaushaded.net.</shadedPattern>
+                                </relocation>
                             </relocations>
 
                             <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.GroovyResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                         </configuration>
