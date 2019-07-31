@@ -33,11 +33,13 @@ import static com.twosigma.webtau.cfg.ConfigValue.declare;
 import static com.twosigma.webtau.cfg.ConfigValue.declareBoolean;
 
 public class WebTauConfig {
+    public static String CONFIG_FILE_NAME_DEFAULT = "webtau.cfg";
+
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
 
     private static final Supplier<Object> NO_DEFAULT = () -> null;
 
-    private final ConfigValue config = declare("config", "config file path", () -> "webtau.cfg");
+    private final ConfigValue config = declare("config", "config file path", () -> CONFIG_FILE_NAME_DEFAULT);
     private final ConfigValue interactive = declareBoolean("interactive", "use CLI interactive mode");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);

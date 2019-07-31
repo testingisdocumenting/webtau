@@ -1,9 +1,10 @@
-../../webtau-groovy/
 ../../webtau-core/src/test/groovy
 ../../webtau-core/src/test/java
 ../../webtau-core-groovy/src/test/groovy
 ../../webtau-core/target/test-classes
+../../webtau-groovy/
 ../../webtau-groovy/src/main/groovy
+../../webtau-groovy/src/main/resources
 ../../webtau-feature-testing
 ../../webtau-feature-testing/examples
 ../../webtau-http/
@@ -18,6 +19,7 @@
 ../../webtau-pdf/src/test/groovy
 ../../webtau-testapp/src/main/java
 ../../webtau-http/src/test/java
+../../webtau-junit4-examples
 ../../webtau-junit4-examples/src/test/groovy
 ../../webtau-junit4-examples/src/test/java
 ../../webtau-junit5-examples/src/test/groovy

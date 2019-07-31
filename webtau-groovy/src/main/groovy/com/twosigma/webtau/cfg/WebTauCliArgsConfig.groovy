@@ -16,14 +16,19 @@
 
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.examples.ExamplesScaffolder
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
 
+import java.nio.file.Paths
+
 class WebTauCliArgsConfig {
-    public static final String CLI_SOURCE = "command line argument"
+    private static final String CLI_SOURCE = "command line argument"
+    private static final String HELP_OPTION = "help"
+    private static final String EXAMPLE_OPTION = "example"
 
     private final WebTauConfig cfg
 
@@ -62,16 +67,26 @@ class WebTauCliArgsConfig {
         Options options = createOptions()
         commandLine = createCommandLine(args, options)
 
-        if (commandLine.hasOption("help") || commandLine.argList.isEmpty()) {
-            HelpFormatter helpFormatter = new HelpFormatter()
-
-            def header = "version: " + WebTauMeta.version
-            helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", header, options, "")
-            exitHandler.exit(1)
-            return
+        if (commandLine.hasOption(EXAMPLE_OPTION)) {
+            scaffoldExamples()
+        } else if (commandLine.hasOption(HELP_OPTION) || commandLine.argList.isEmpty()) {
+            printHelp(options)
+        } else {
+            testFiles = new ArrayList<>(commandLine.argList)
         }
+    }
 
-        testFiles = new ArrayList<>(commandLine.argList)
+    private void scaffoldExamples() {
+        ExamplesScaffolder.scaffold(Paths.get(""))
+        exitHandler.exit(1)
+    }
+
+    private void printHelp(Options options) {
+        HelpFormatter helpFormatter = new HelpFormatter()
+
+        def header = "version: " + WebTauMeta.version
+        helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", header, options, "")
+        exitHandler.exit(0)
     }
 
     private static CommandLine createCommandLine(String[] args, Options options) {
@@ -91,7 +106,8 @@ class WebTauCliArgsConfig {
 
     private Options createOptions() {
         def options = new Options()
-        options.addOption(null, "help", false, "print help")
+        options.addOption(null, HELP_OPTION, false, "print help")
+        options.addOption(null, EXAMPLE_OPTION, false, "generate basic examples")
 
         cfg.getCfgValuesStream().each {
             options.addOption(null, it.key, !it.isBoolean(), it.description)
