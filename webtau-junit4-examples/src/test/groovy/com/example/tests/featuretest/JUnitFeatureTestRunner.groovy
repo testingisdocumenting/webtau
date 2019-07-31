@@ -16,6 +16,7 @@
 
 package com.example.tests.featuretest
 
+import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.featuretesting.WebTauEndToEndTestValidator
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
@@ -29,11 +30,13 @@ class JUnitFeatureTestRunner extends RunListener implements StepReporter {
     private Map<String, Object> scenariosDetails
     private Map<String, Object> capturedStepsSummary
 
-    void runAndValidate(Class testClass) {
+    void runAndValidate(Class testClass, String baseUrl) {
         JUnitCore junit = new JUnitCore()
 
         junit.addListener(this)
         scenariosDetails = [:]
+
+        WebTauConfig.cfg.setBaseUrl(baseUrl)
 
         StepReporters.withAdditionalReporter(this) {
             junit.run(testClass)

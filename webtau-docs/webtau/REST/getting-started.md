@@ -2,19 +2,27 @@
 
 # Minimal Groovy Setup
 
-:include-file: examples/scenarios/rest/simpleGet.groovy {title: "examples/scenarios/rest/simpleGet.groovy"}
+Generate webtau examples 
 
-To run test, navigate to `examples` dir and
+:include-cli-command: webtau --example
 
-:include-cli-command: webtau scenarios/rest/simpleGet.groovy --url=https://my-server {paramsToHighlight: "url"}
+Navigate into `todo` example
+
+:include-cli-command: cd examples/todo
+
+:include-file: examples/todo/todolist.groovy {title: "todolist.groovy"}
+
+To run test
+
+:include-cli-command: webtau todolist.groovy --url=https://jsonplaceholder.typicode.com {paramsToHighlight: "url"}
 
 :include-markdown: common/note-package-import.md
 
-## Config File
+## Groovy Config File
 
 Url parameter can be moved to a `webtau.cfg` file.
 
-:include-file: examples/scenarios/rest/urlOnly.cfg {title: "examples/scenarios/rest/webtau.cfg"}
+:include-file: examples/todo/webtau.cfg {title: "webtau.cfg"}
 
 [Specify multiple environments](configuration/environments) to streamline test execution.
 
@@ -27,10 +35,15 @@ Java: :include-file: maven/java-dep.xml {title: "Maven Dependency"}
 
 ```tabs
 Groovy:
-:include-file: com/example/tests/junit4/WeatherGroovyIT.groovy {title: "JUnit 4 example"}
+:include-file: com/example/tests/junit4/TodoListGroovyIT.groovy {title: "JUnit 4 example"}
  
 Java:
-:include-file: com/example/tests/junit4/WeatherJavaIT.java {title: "JUnit 4 example"}
-
+:include-file: com/example/tests/junit4/TodoListJavaIT.java {title: "JUnit 4 example"}
 ```
+
+## Junit Config File
+
+Add `webtau.properties` to test class path
+
+:include-file: src/test/resources/webtau.properties {title: "webtau.properties"}
 

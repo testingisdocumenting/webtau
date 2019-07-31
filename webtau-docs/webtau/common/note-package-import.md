@@ -1,2 +1,2 @@
-Note: using `package` and `import` is optional and is mainly for IDE auto completion. Imports will be added implicitly
+Note: using `import` is optional and is mainly for IDE auto completion. Imports are added implicitly
 during command line run.  

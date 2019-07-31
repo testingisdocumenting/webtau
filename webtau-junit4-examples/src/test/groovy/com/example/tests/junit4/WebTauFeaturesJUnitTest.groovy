@@ -17,7 +17,6 @@
 package com.example.tests.junit4
 
 import com.example.tests.featuretest.JUnitFeatureTestRunner
-import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.featuretesting.WebTauRestFeaturesTestData
 import com.twosigma.webtau.http.testserver.TestServer
 import org.junit.AfterClass
@@ -29,12 +28,12 @@ class WebTauFeaturesJUnitTest {
 
     private static final JUnitFeatureTestRunner testRunner = new JUnitFeatureTestRunner()
 
+    private static final TODO_BASE_URL = 'https://jsonplaceholder.typicode.com/'
+
     @BeforeClass
     static void startServer() {
         testServer.startRandomPort()
         WebTauRestFeaturesTestData.registerEndPoints(testServer)
-
-        WebTauConfig.cfg.setBaseUrl(testServer.uri.toString())
     }
 
     @AfterClass
@@ -44,11 +43,21 @@ class WebTauFeaturesJUnitTest {
 
     @Test
     void weatherJavaTest() {
-        testRunner.runAndValidate(WeatherJavaIT)
+        testRunner.runAndValidate(WeatherJavaIT, testServer.uri.toString())
     }
 
     @Test
     void weatherGroovyTest() {
-        testRunner.runAndValidate(WeatherGroovyIT)
+        testRunner.runAndValidate(WeatherGroovyIT, testServer.uri.toString())
+    }
+
+    @Test
+    void todoListJavaTest() {
+        testRunner.runAndValidate(TodoListJavaIT, TODO_BASE_URL)
+    }
+
+    @Test
+    void todoListGroovyTest() {
+        testRunner.runAndValidate(TodoListGroovyIT, TODO_BASE_URL)
     }
 }
