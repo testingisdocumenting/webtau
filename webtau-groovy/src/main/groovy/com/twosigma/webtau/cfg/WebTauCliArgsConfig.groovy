@@ -78,7 +78,7 @@ class WebTauCliArgsConfig {
 
     private void scaffoldExamples() {
         ExamplesScaffolder.scaffold(Paths.get(""))
-        exitHandler.exit(1)
+        exitHandler.exit(0)
     }
 
     private void printHelp(Options options) {
@@ -86,7 +86,7 @@ class WebTauCliArgsConfig {
 
         def header = "version: " + WebTauMeta.version
         helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", header, options, "")
-        exitHandler.exit(0)
+        exitHandler.exit(1)
     }
 
     private static CommandLine createCommandLine(String[] args, Options options) {
