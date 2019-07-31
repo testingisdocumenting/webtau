@@ -120,7 +120,8 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "can return list from get"() {
+    void
+    "can return list from get"() {
         def list = http.get("/end-point") {
             return list
         }

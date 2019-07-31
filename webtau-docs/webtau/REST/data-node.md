@@ -25,6 +25,22 @@ If you have a list of objects like `complexList` above, you can access all its c
 
 :include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "groovy children key shortcut", bodyOnly: true}
 
+# Path based properties access
+
+Primarily for Java users, webtau supports the ability to query properties of a `DataNode` via a path instead of chaining
+`get(String name)` calls.  For example, to obtain a simple property:
+
+:include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "canQueryNodeByPath", bodyOnly: true}
+
+It is also possible to query arrays, including the ability to query for the Nth element from the end:
+
+:include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "canQuerySpecificListElementByPath", bodyOnly: true}
+
+Similarly to the Groovy example in [Properties On Lists](REST/data-node#properties-on-lists), it is possible to access 
+all children property values:
+
+:include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "canQueryListByNodePath", bodyOnly: true}
+
 # Each
 
 Special values inside assertion block have convenient methods

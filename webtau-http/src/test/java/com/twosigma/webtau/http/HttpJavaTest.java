@@ -18,16 +18,7 @@ package com.twosigma.webtau.http;
 
 import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.http.config.HttpConfiguration;
-import com.twosigma.webtau.http.config.HttpConfigurations;
-import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.http.json.JsonRequestBody;
-import com.twosigma.webtau.http.request.HttpQueryParams;
-import com.twosigma.webtau.http.request.HttpRequestBody;
-import com.twosigma.webtau.http.validation.HeaderDataNode;
-import com.twosigma.webtau.http.validation.HttpResponseValidator;
 import com.twosigma.webtau.utils.CollectionUtils;
-import com.twosigma.webtau.utils.UrlUtils;
 import org.junit.*;
 
 import java.time.LocalDate;
@@ -35,11 +26,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import static com.twosigma.webtau.Ddjt.*;
@@ -266,5 +254,27 @@ public class HttpJavaTest extends HttpTestBase {
 
         actual(ret).should(equal(123));
         actual(ret.getClass()).should(equal(Integer.class));
+    }
+
+    @Test
+    public void canQueryNodeByPath() {
+        http.get("/end-point", (header, body) -> {
+            body.get("object.k1").should(equal("v1"));
+        });
+    }
+
+    @Test
+    public void canQueryListByNodePath() {
+        http.get("/end-point", (header, body) -> {
+            body.get("complexList.k1").should(equal(Arrays.asList("v1", "v11")));
+        });
+    }
+
+    @Test
+    public void canQuerySpecificListElementByPath() {
+        http.get("/end-point", (header, body) -> {
+            body.get("complexList[0].k1").should(equal("v1"));
+            body.get("complexList[-1].k1").should(equal("v11"));
+        });
     }
 }
