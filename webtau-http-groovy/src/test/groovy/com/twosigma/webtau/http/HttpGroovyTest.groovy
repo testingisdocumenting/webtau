@@ -1149,6 +1149,17 @@ class HttpGroovyTest extends HttpTestBase {
         ret.getClass().should == Integer
     }
 
+    @Test
+    void "handles json derivative content types"() {
+        http.get("/problem-json") {
+            status.should == "ok"
+        }
+
+        http.get("/versioned-json") {
+            version.should == "v1"
+        }
+    }
+
     private static void assertStatusCodeMismatchRegistered() {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }
