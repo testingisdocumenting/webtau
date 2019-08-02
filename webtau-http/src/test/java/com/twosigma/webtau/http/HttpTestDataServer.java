@@ -71,9 +71,7 @@ public class HttpTestDataServer {
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
         testServer.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
         testServer.registerGet("/integer", new TestServerJsonResponse("123"));
-        testServer.registerGet("/problem-json", new TestServerOkResponse("{\"status\": \"ok\"}".getBytes(), "application/problem+json"));
-        testServer.registerGet("/versioned-json", new TestServerOkResponse("{\"version\": \"v1\"}".getBytes(), "application/vnd.foo.com.v2+json"));
-        testServer.registerGet("/charset-json", new TestServerOkResponse("{\"charset\": \"UTF-8\"}".getBytes(), "application/json;charset=UTF-8"));
+        testServer.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
 
         registerRedirects();
     }

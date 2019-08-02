@@ -1151,16 +1151,16 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "handles json derivative content types"() {
-        http.get("/problem-json") {
+        http.post("/json-derivative", [contentType: "application/problem+json"]) {
             status.should == "ok"
         }
 
-        http.get("/versioned-json") {
-            version.should == "v1"
+        http.post("/json-derivative", [contentType: "application/vnd.foo.com.v2+json"]) {
+            status.should == "ok"
         }
 
-        http.get("/charset-json") {
-            charset.should == "UTF-8"
+        http.post("/json-derivative", [contentType: "application/json;charset=UTF-8"]) {
+            status.should == "ok"
         }
     }
 
