@@ -116,6 +116,7 @@
         <module>webtau-junit5</module>
         <module>webtau-junit5-groovy</module>
         <module>webtau-junit5-examples</module>
+        <module>webtau-junit5-examples-kotlin</module>
         <module>webtau-junit4</module>
         <module>webtau-junit4-examples</module>
         <module>webtau-junit-like-examples-common</module>
