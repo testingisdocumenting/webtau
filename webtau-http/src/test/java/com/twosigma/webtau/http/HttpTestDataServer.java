@@ -73,6 +73,7 @@ public class HttpTestDataServer {
         testServer.registerGet("/integer", new TestServerJsonResponse("123"));
         testServer.registerGet("/problem-json", new TestServerOkResponse("{\"status\": \"ok\"}".getBytes(), "application/problem+json"));
         testServer.registerGet("/versioned-json", new TestServerOkResponse("{\"version\": \"v1\"}".getBytes(), "application/vnd.foo.com.v2+json"));
+        testServer.registerGet("/charset-json", new TestServerOkResponse("{\"charset\": \"UTF-8\"}".getBytes(), "application/json;charset=UTF-8"));
 
         registerRedirects();
     }

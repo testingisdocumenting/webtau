@@ -1158,6 +1158,10 @@ class HttpGroovyTest extends HttpTestBase {
         http.get("/versioned-json") {
             version.should == "v1"
         }
+
+        http.get("/charset-json") {
+            charset.should == "UTF-8"
+        }
     }
 
     private static void assertStatusCodeMismatchRegistered() {
