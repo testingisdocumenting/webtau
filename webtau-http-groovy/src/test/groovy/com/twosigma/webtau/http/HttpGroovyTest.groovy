@@ -1149,6 +1149,36 @@ class HttpGroovyTest extends HttpTestBase {
         ret.getClass().should == Integer
     }
 
+    @Test
+    void "handles json derivative content types"() {
+        http.post("/json-derivative", [contentType: "application/problem+json"]) {
+            status.should == "ok"
+        }
+
+        http.post("/json-derivative", [contentType: "application/vnd.foo.com.v2+json"]) {
+            status.should == "ok"
+        }
+
+        http.post("/json-derivative", [contentType: "application/json;charset=UTF-8"]) {
+            status.should == "ok"
+        }
+    }
+
+    @Test
+    void "content type which looks like json but is not is handled as binary"() {
+        String expectedJson = JsonUtils.serializePrettyPrint([status: "ok"])
+        byte[] expectedJsonBytes = expectedJson.bytes
+        http.post("/json-derivative", [contentType: "application/notquitejson"]) {
+            status.should == null
+            body.should == expectedJsonBytes
+        }
+
+        http.post("/json-derivative", [contentType: "application/jsonnotquite"]) {
+            status.should == null
+            body.should == expectedJsonBytes
+        }
+    }
+
     private static void assertStatusCodeMismatchRegistered() {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }
