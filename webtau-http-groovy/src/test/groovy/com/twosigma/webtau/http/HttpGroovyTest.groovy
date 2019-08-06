@@ -693,6 +693,15 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "if-else logic"() {
+        def zipCode = http.get("/address") {
+            return addressType == "complex" ? address.zipCode : "NA"
+        }
+
+        zipCode.should == "12345"
+    }
+
+    @Test
     void "send form data"() {
         byte[] content = [0, 1, 2, 101, 102, 103, 0] as byte[]
 

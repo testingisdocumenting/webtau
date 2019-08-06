@@ -41,6 +41,15 @@ all children property values:
 
 :include-java: com/twosigma/webtau/http/HttpJavaTest.java {entry: "canQueryListByNodePath", bodyOnly: true}
 
+# If-Else Logic
+
+Even though values that you access inside validation block are special values of `DataNode` type, you can still
+perform simple `if-else` like logic checks on them. Accessing the values will mark them as "touched" for data coverage statistic. 
+
+:include-groovy: com/twosigma/webtau/http/HttpGroovyTest.groovy {entry: "if-else logic", bodyOnly: true, title: "simple if-else logic"}
+
+Warning: Comparison of complex values is not properly implemented due to current Groovy API implementation details
+
 # Each
 
 Special values inside assertion block have convenient methods

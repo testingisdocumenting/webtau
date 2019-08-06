@@ -18,14 +18,15 @@ package com.twosigma.webtau.http.datanode;
 
 import com.twosigma.webtau.data.traceable.TraceableValue;
 import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.ActualValueExpectations;
+import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import com.twosigma.webtau.expectation.equality.CompareToResult;
 
 import java.util.List;
 import java.util.Map;
 
 import static com.twosigma.webtau.Ddjt.createActualPath;
 
-public interface DataNode extends DataNodeExpectations, Iterable<DataNode> {
+public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode> {
     DataNodeId id();
 
     DataNode get(String pathOrName);
@@ -63,5 +64,22 @@ public interface DataNode extends DataNodeExpectations, Iterable<DataNode> {
     @Override
     default ActualPath actualPath() {
         return createActualPath(id().getPath());
+    }
+
+    @Override
+    default int compareTo(Object rhv) {
+        CompareToComparator comparator = CompareToComparator.comparator(
+                CompareToComparator.AssertionMode.GREATER_THAN);
+
+        CompareToResult compareToResult = TraceableValue.withAlwaysFuzzyPassedChecks(
+                () -> comparator.compareUsingCompareTo(actualPath(), this, rhv));
+
+        if (compareToResult.isGreater()) {
+            return 1;
+        } else if (compareToResult.isLess()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

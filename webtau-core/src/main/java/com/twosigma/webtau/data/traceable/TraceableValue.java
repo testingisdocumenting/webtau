@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 public class TraceableValue {
     private static ThreadLocal<Boolean> isTracingDisabled = ThreadLocal.withInitial(() -> Boolean.FALSE);
+    private static ThreadLocal<Boolean> isAlwaysFuzzyPassedTracing = ThreadLocal.withInitial(() -> Boolean.FALSE);
     private static ThreadLocal<TraceableValueModifier> traceableValueModifier = ThreadLocal.withInitial(() -> null);
 
     private CheckLevel checkLevel;
@@ -44,6 +45,8 @@ public class TraceableValue {
             return;
         }
 
+        newCheckLevel = isAlwaysFuzzyPassedTracing.get() ? CheckLevel.FuzzyPassed : newCheckLevel;
+
         TraceableValueModifier modifier = TraceableValue.traceableValueModifier.get();
         newCheckLevel = modifier != null ? modifier.modify(newCheckLevel) : newCheckLevel;
 
@@ -56,12 +59,35 @@ public class TraceableValue {
         return checkLevel;
     }
 
+    /**
+     * wrap code with this when values marking is not required
+     * (e.g. using for just comparison)
+     *
+     * @param code code to execute
+     * @return value returned by the passed code
+     */
     public static <R> R withDisabledChecks(Supplier<R> code) {
         try {
             isTracingDisabled.set(true);
             return code.get();
         } finally {
             isTracingDisabled.set(false);
+        }
+    }
+
+    /**
+     * wrap code with this when values need to be marked as touched even though the actual comparison may have failed
+     * (e.g. using nodes inside if-else like constructs)
+     *
+     * @param code code to execute
+     * @return value returned by the passed code
+     */
+    public static <R> R withAlwaysFuzzyPassedChecks(Supplier<R> code) {
+        try {
+            isAlwaysFuzzyPassedTracing.set(true);
+            return code.get();
+        } finally {
+            isAlwaysFuzzyPassedTracing.set(false);
         }
     }
 }
