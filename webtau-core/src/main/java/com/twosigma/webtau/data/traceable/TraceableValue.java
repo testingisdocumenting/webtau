@@ -21,7 +21,6 @@ import java.util.function.Supplier;
 public class TraceableValue {
     private static ThreadLocal<Boolean> isTracingDisabled = ThreadLocal.withInitial(() -> Boolean.FALSE);
     private static ThreadLocal<Boolean> isAlwaysFuzzyPassedTracing = ThreadLocal.withInitial(() -> Boolean.FALSE);
-    private static ThreadLocal<TraceableValueModifier> traceableValueModifier = ThreadLocal.withInitial(() -> null);
 
     private CheckLevel checkLevel;
     private final Object value;
@@ -45,13 +44,10 @@ public class TraceableValue {
             return;
         }
 
-        newCheckLevel = isAlwaysFuzzyPassedTracing.get() ? CheckLevel.FuzzyPassed : newCheckLevel;
+        CheckLevel checkLevelToUse = isAlwaysFuzzyPassedTracing.get() ? CheckLevel.FuzzyPassed : newCheckLevel;
 
-        TraceableValueModifier modifier = TraceableValue.traceableValueModifier.get();
-        newCheckLevel = modifier != null ? modifier.modify(newCheckLevel) : newCheckLevel;
-
-        if (newCheckLevel.ordinal() > checkLevel.ordinal()) {
-            checkLevel = newCheckLevel;
+        if (checkLevelToUse.ordinal() > checkLevel.ordinal()) {
+            checkLevel = checkLevelToUse;
         }
     }
 
