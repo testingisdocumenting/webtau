@@ -16,15 +16,41 @@
 
 package com.twosigma.webtau.cfg;
 
-public class WebTauMeta {
-    private static final WebTauMeta INSTANCE = new WebTauMeta();
-    private final String version;
+import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class WebTauMeta {
+    private static final WebTauVersionOverrider versionOverride = discover();
+
+    private static final WebTauMeta INSTANCE = new WebTauMeta();
+
+    private final String version;
     public static String getVersion() {
         return INSTANCE.version;
     }
 
     private WebTauMeta() {
-        version = getClass().getPackage().getImplementationVersion();
+        version = versionOverride.override(getClass().getPackage().getImplementationVersion());
+    }
+
+    private static WebTauVersionOverrider discover() {
+        List<WebTauVersionOverrider> providers = ServiceLoaderUtils.load(WebTauVersionOverrider.class);
+        if (providers.size() > 1) {
+            throw new IllegalStateException("more than one version override is found: " + providers
+                    .stream()
+                    .map(p -> p.getClass().getCanonicalName())
+                    .collect(Collectors.joining(";")));
+        }
+
+        return providers.isEmpty() ? new DefaultVersionOverrider() : providers.get(0);
+    }
+
+    private static class DefaultVersionOverrider implements WebTauVersionOverrider {
+        @Override
+        public String override(String originalVersion) {
+            return originalVersion;
+        }
     }
 }

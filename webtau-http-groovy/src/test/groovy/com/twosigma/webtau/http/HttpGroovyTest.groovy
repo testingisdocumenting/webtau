@@ -693,6 +693,15 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "if-else logic"() {
+        def zipCode = http.get("/address") {
+            return addressType == "complex" ? address.zipCode : "NA"
+        }
+
+        zipCode.should == "12345"
+    }
+
+    @Test
     void "send form data"() {
         byte[] content = [0, 1, 2, 101, 102, 103, 0] as byte[]
 
@@ -1147,6 +1156,36 @@ class HttpGroovyTest extends HttpTestBase {
 
         ret.should == 123
         ret.getClass().should == Integer
+    }
+
+    @Test
+    void "handles json derivative content types"() {
+        http.post("/json-derivative", [contentType: "application/problem+json"]) {
+            status.should == "ok"
+        }
+
+        http.post("/json-derivative", [contentType: "application/vnd.foo.com.v2+json"]) {
+            status.should == "ok"
+        }
+
+        http.post("/json-derivative", [contentType: "application/json;charset=UTF-8"]) {
+            status.should == "ok"
+        }
+    }
+
+    @Test
+    void "content type which looks like json but is not is handled as binary"() {
+        String expectedJson = JsonUtils.serializePrettyPrint([status: "ok"])
+        byte[] expectedJsonBytes = expectedJson.bytes
+        http.post("/json-derivative", [contentType: "application/notquitejson"]) {
+            status.should == null
+            body.should == expectedJsonBytes
+        }
+
+        http.post("/json-derivative", [contentType: "application/jsonnotquite"]) {
+            status.should == null
+            body.should == expectedJsonBytes
+        }
     }
 
     private static void assertStatusCodeMismatchRegistered() {

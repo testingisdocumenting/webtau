@@ -70,7 +70,7 @@ public class HttpResponse {
     }
 
     public boolean isJson() {
-        return contentType.contains("/json");
+        return contentType.matches(".*/(.*\\+)?json(;.*)?");
     }
 
     public boolean isXml() {

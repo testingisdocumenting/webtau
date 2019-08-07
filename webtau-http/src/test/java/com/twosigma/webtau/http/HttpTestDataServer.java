@@ -71,6 +71,9 @@ public class HttpTestDataServer {
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
         testServer.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
         testServer.registerGet("/integer", new TestServerJsonResponse("123"));
+        testServer.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
+
+        testServer.registerGet("/address", jsonResponse("addressResponse.json"));
 
         registerRedirects();
     }
