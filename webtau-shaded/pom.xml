@@ -63,8 +63,16 @@
                                     <pattern>org.</pattern>
                                     <shadedPattern>webtaushaded.org.</shadedPattern>
                                     <excludes>
-                                        <exclude>org.codehaus.**</exclude>
+                                        <exclude>org.codehaus.groovy.**</exclude>
                                     </excludes>
+                                </relocation>
+                                <relocation>
+                                    <pattern>javax.mail.</pattern>
+                                    <shadedPattern>webtaushaded.javax.mail.</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>javax.annotation.</pattern>
+                                    <shadedPattern>webtaushaded.javax.annotation.</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.</pattern>
