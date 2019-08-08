@@ -1,0 +1,26 @@
+{
+  "nodes": [
+    {
+      "id": "build",
+      "label": "Build"
+    },
+    {
+      "id": "deploy",
+      "label": "Deploy"
+    },
+    {
+      "id": "testrun",
+      "label": "Test Run",
+      "highlight": true
+    },
+    {
+      "id": "documentation",
+      "label": "Documentation"
+    }
+  ],
+  "edges": [
+    ["build", "deploy"],
+    ["deploy", "testrun"],
+    ["testrun", "documentation"]
+  ]
+}

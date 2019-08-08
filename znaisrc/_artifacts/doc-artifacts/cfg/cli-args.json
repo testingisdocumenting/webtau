@@ -1,0 +1,126 @@
+[ {
+  "name" : "chromeBinPath",
+  "environment variable" : "WEBTAU_CHROME_BIN_PATH",
+  "description" : "path to chrome binary",
+  "default value" : ""
+}, {
+  "name" : "chromeDriverPath",
+  "environment variable" : "WEBTAU_CHROME_DRIVER_PATH",
+  "description" : "path to chrome driver binary",
+  "default value" : ""
+}, {
+  "name" : "config",
+  "environment variable" : "WEBTAU_CONFIG",
+  "description" : "config file path",
+  "default value" : "webtau.cfg"
+}, {
+  "name" : "disableRedirects",
+  "environment variable" : "WEBTAU_DISABLE_REDIRECTS",
+  "description" : "disable following of redirects from HTTP calls",
+  "default value" : "false"
+}, {
+  "name" : "docPath",
+  "environment variable" : "WEBTAU_DOC_PATH",
+  "description" : "path for screenshots and other generated artifacts for documentation",
+  "default value" : "${workingDir}"
+}, {
+  "name" : "env",
+  "environment variable" : "WEBTAU_ENV",
+  "description" : "environment id",
+  "default value" : "local"
+}, {
+  "name" : "envPath",
+  "environment variable" : "WEBTAU_ENV_PATH",
+  "description" : "path items to append to path used for cli tests",
+  "default value" : "[]"
+}, {
+  "name" : "headless",
+  "environment variable" : "WEBTAU_HEADLESS",
+  "description" : "run headless mode",
+  "default value" : "false"
+}, {
+  "name" : "interactive",
+  "environment variable" : "WEBTAU_INTERACTIVE",
+  "description" : "use CLI interactive mode",
+  "default value" : "false"
+}, {
+  "name" : "jsonSchemasDir",
+  "environment variable" : "WEBTAU_JSON_SCHEMAS_DIR",
+  "description" : "url of directory containing JSON schemas",
+  "default value" : ""
+}, {
+  "name" : "maxRedirects",
+  "environment variable" : "WEBTAU_MAX_REDIRECTS",
+  "description" : "Maximum number of redirects to follow for an HTTP call",
+  "default value" : "20"
+}, {
+  "name" : "noColor",
+  "environment variable" : "WEBTAU_NO_COLOR",
+  "description" : "disable ANSI colors",
+  "default value" : "false"
+}, {
+  "name" : "numberOfThreads",
+  "environment variable" : "WEBTAU_NUMBER_OF_THREADS",
+  "description" : "number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files",
+  "default value" : "1"
+}, {
+  "name" : "openApiIgnoreAdditionalProperties",
+  "environment variable" : "WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES",
+  "description" : "ignore additional OpenAPI properties ",
+  "default value" : "false"
+}, {
+  "name" : "openApiSpecUrl",
+  "environment variable" : "WEBTAU_OPEN_API_SPEC_URL",
+  "description" : "url of OpenAPI 2 spec against which to validate http calls",
+  "default value" : ""
+}, {
+  "name" : "removeWebtauFromUserAgent",
+  "environment variable" : "WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT",
+  "description" : "By default webtau appends webtau and its version to the user-agent, this disables that part",
+  "default value" : "false"
+}, {
+  "name" : "reportPath",
+  "environment variable" : "WEBTAU_REPORT_PATH",
+  "description" : "report file path",
+  "default value" : "${workingDir}/webtau.report.html"
+}, {
+  "name" : "staleElementRetry",
+  "environment variable" : "WEBTAU_STALE_ELEMENT_RETRY",
+  "description" : "number of times to automatically retry for stale element actions",
+  "default value" : "5"
+}, {
+  "name" : "url",
+  "environment variable" : "WEBTAU_URL",
+  "description" : "base url for application under test",
+  "default value" : ""
+}, {
+  "name" : "userAgent",
+  "environment variable" : "WEBTAU_USER_AGENT",
+  "description" : "User agent to send on HTTP requests",
+  "default value" : "webtau/null"
+}, {
+  "name" : "verbosityLevel",
+  "environment variable" : "WEBTAU_VERBOSITY_LEVEL",
+  "description" : "output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc",
+  "default value" : "2147483647"
+}, {
+  "name" : "waitTimeout",
+  "environment variable" : "WEBTAU_WAIT_TIMEOUT",
+  "description" : "wait timeout in milliseconds",
+  "default value" : "5000"
+}, {
+  "name" : "windowHeight",
+  "environment variable" : "WEBTAU_WINDOW_HEIGHT",
+  "description" : "browser window height",
+  "default value" : "800"
+}, {
+  "name" : "windowWidth",
+  "environment variable" : "WEBTAU_WINDOW_WIDTH",
+  "description" : "browser window width",
+  "default value" : "1000"
+}, {
+  "name" : "workingDir",
+  "environment variable" : "WEBTAU_WORKING_DIR",
+  "description" : "logical working dir",
+  "default value" : ""
+} ]

@@ -1,0 +1,5 @@
+<dependency>
+    <groupId>com.twosigma.webtau</groupId>
+    <artifactId>webtau-junit4</artifactId>
+    <version>1.11-SNAPSHOT</version>
+</dependency>
