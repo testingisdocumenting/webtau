@@ -27,6 +27,7 @@ import static com.twosigma.webtau.console.ConsoleOutputs.out
 
 class ExamplesScaffolder {
     private static List<ExamplesProvider> providers = discoverProviders()
+    public static final String EXAMPLES_DIR_NAME = "examples"
 
     private ExamplesScaffolder() {
     }
@@ -40,9 +41,9 @@ class ExamplesScaffolder {
     }
 
     private static void scaffoldExample(Path root, Example example) {
-        def dir = root.resolve("examples").resolve(example.dirName)
+        def dir = root.resolve(EXAMPLES_DIR_NAME).resolve(example.dirName)
 
-        out("generating example: ", Color.GREEN, example.dirName,
+        out("generating example: ", Color.GREEN, EXAMPLES_DIR_NAME, "/", example.dirName,
                 Color.PURPLE, " (cd ", dir.toAbsolutePath(), " && webtau ${example.fileName})")
 
         FileUtils.writeTextContent(dir.resolve(example.fileName), example.exampleBody)
