@@ -1,20 +1,8 @@
-:include-markdown: {firstAvailable: ["installation-company-specific-groovy-runner.md", "installation-groovy-runner.md"]}
+:include-markdown: {firstAvailable: ["company-specific-installation-groovy-runner.md", "installation-groovy-runner.md"]}
 
 # Minimal Groovy Setup
 
-Generate webtau examples 
-
-:include-cli-command: webtau --example
-
-Navigate into `todo` example
-
-:include-cli-command: cd examples/todo
-
-:include-file: examples/todo/todolist.groovy {title: "todolist.groovy"}
-
-To run test
-
-:include-cli-command: webtau todolist.groovy --url=https://jsonplaceholder.typicode.com {paramsToHighlight: "url"}
+:include-markdown: {firstAvailable: ["company-specific-minimal-groovy-setup.md", "minimal-groovy-setup.md"]}
 
 :include-markdown: common/note-package-import.md
 
