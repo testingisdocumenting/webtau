@@ -6,7 +6,8 @@ class SearchPage {
     def welcomeMessage = $('#welcome')
     def searchMessage = $('#message')
     def box = $('#search-box')
-    def numberOfResults = $('#results .result').count
+    def results = $('#results .result')
+    def numberOfResults = results.count
 
     def submit(query) {
         browser.open("/search")

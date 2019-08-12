@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "search and capture",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  } ],
+  "exitCode" : 0
+}

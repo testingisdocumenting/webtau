@@ -30,7 +30,7 @@ public abstract class ImageAnnotation {
     private String id;
     private String type;
     private String text;
-    private String color = "red";
+    private String color = "a";
     private PageElement pageElement;
 
     public ImageAnnotation(PageElement pageElement, String type, String text) {

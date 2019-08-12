@@ -30,23 +30,23 @@ import java.util.*;
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
-public class DocumentationDsl {
+public class BrowserDocumentation {
     private TakesScreenshot screenshotTaker;
     private List<ImageAnnotation> annotations;
     private WebDriver driver;
 
-    public DocumentationDsl(WebDriver driver) {
+    public BrowserDocumentation(WebDriver driver) {
         this(driver, Collections.emptyList());
     }
 
-    private DocumentationDsl(WebDriver driver, List<ImageAnnotation> annotations) {
+    private BrowserDocumentation(WebDriver driver, List<ImageAnnotation> annotations) {
         this.driver = driver;
         this.annotations = annotations;
         this.screenshotTaker = (TakesScreenshot) driver;
     }
 
-    public DocumentationDsl withAnnotations(ImageAnnotation... annotations) {
-        return new DocumentationDsl(driver, assignDefaultText(Arrays.asList(annotations)));
+    public BrowserDocumentation withAnnotations(ImageAnnotation... annotations) {
+        return new BrowserDocumentation(driver, assignDefaultText(Arrays.asList(annotations)));
     }
 
     public static ImageAnnotation badge(PageElement pageElement) {

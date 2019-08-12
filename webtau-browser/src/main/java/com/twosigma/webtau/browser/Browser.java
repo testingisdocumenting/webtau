@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.browser;
 
-import com.twosigma.webtau.browser.documentation.DocumentationDsl;
+import com.twosigma.webtau.browser.documentation.BrowserDocumentation;
 import com.twosigma.webtau.browser.driver.CurrentWebDriver;
 import com.twosigma.webtau.browser.navigation.BrowserPageNavigation;
 import com.twosigma.webtau.browser.page.PageElement;
@@ -42,7 +42,7 @@ public class Browser {
 
     public final Cookies cookies = new Cookies(driver);
     public final LocalStorage localStorage = new LocalStorage(driver);
-    public final DocumentationDsl doc = new DocumentationDsl(driver);
+    public final BrowserDocumentation doc = new BrowserDocumentation(driver);
 
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
 
