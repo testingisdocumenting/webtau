@@ -17,9 +17,25 @@
 package com.twosigma.webtau.browser.documentation;
 
 import com.twosigma.webtau.browser.page.PageElement;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 
-public class HighlighterImageAnnotation extends RectangleBasedImageAnnotation {
-    public HighlighterImageAnnotation(PageElement pageElement) {
-        super(pageElement, "highlight", "");
+import java.util.Map;
+
+public class RectangleBasedImageAnnotation extends ImageAnnotation {
+    public RectangleBasedImageAnnotation(PageElement pageElement, String type, String text) {
+        super(pageElement, type, text);
+    }
+
+    @Override
+    public void addAnnotationData(Map<String, Object> data, WebElement webElement) {
+        Point location = webElement.getLocation();
+        Dimension size = webElement.getSize();
+
+        data.put("x", location.getX());
+        data.put("y", location.getY());
+        data.put("width", size.getWidth());
+        data.put("height", size.getHeight());
     }
 }

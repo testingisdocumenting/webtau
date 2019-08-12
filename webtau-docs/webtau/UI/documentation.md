@@ -9,7 +9,7 @@ With UI testing we can validate scenarios and at the same time capture screensho
 
 To capture screenshots use `browser.doc[.withAnnotations].capture`:
 
-:include-file: scenarios/ui/docCapture.groovy {title: "docCapture"}
+:include-file: doc-artifacts/snippets/doc-capture/captureBadges.groovy {title: "screenshot capture with badge annotations"}
 
 The result of the `capture` command is two files: actual screenshot and `annotations.json`.
 
@@ -22,3 +22,10 @@ The result of the `capture` command is two files: actual screenshot and `annotat
     
 :include-image: doc-artifacts/ui/search.png {annotationsPath: "doc-artifacts/ui/search.json"}
 
+# Annotation Types
+
+:include-file: doc-artifacts/snippets/doc-capture/captureBadges.groovy {title: "badges"}
+:include-image: doc-artifacts/ui/search.png {annotationsPath: "doc-artifacts/ui/search.json"}
+
+:include-file: doc-artifacts/snippets/doc-capture/captureHighlightCover.groovy {title: "cover and highlight"}
+:include-image: doc-artifacts/ui/search-highlight-cover.png {annotationsPath: "doc-artifacts/ui/search-highlight-cover.json"}

@@ -53,8 +53,16 @@ public class BrowserDocumentation {
         return new BadgeImageAnnotation(pageElement, "");
     }
 
-    public static ImageAnnotation highlighter(PageElement pageElement) {
+    public static ImageAnnotation highlight(PageElement pageElement) {
         return new HighlighterImageAnnotation(pageElement);
+    }
+
+    public static ImageAnnotation cover(PageElement pageElement) {
+        return new RectangleImageAnnotation(pageElement, "");
+    }
+
+    public static ImageAnnotation cover(PageElement pageElement, String text) {
+        return new RectangleImageAnnotation(pageElement, text);
     }
 
     public static ImageAnnotation arrow(PageElement pageElement, String text) {

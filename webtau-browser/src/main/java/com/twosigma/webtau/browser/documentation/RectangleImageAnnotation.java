@@ -18,8 +18,8 @@ package com.twosigma.webtau.browser.documentation;
 
 import com.twosigma.webtau.browser.page.PageElement;
 
-public class HighlighterImageAnnotation extends RectangleBasedImageAnnotation {
-    public HighlighterImageAnnotation(PageElement pageElement) {
-        super(pageElement, "highlight", "");
+public class RectangleImageAnnotation extends RectangleBasedImageAnnotation {
+    public RectangleImageAnnotation(PageElement pageElement, String text) {
+        super(pageElement, "rectangle", text);
     }
 }
