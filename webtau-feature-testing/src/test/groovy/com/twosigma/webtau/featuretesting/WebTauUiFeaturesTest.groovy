@@ -245,7 +245,18 @@ class WebTauUiFeaturesTest {
 
     @Test
     void "documentation capture"() {
-        runCli('docCapture.groovy', 'webtau.cfg')
+        runCli('docCapture.groovy', 'docCapture.cfg')
+    }
+
+    @Test
+    void "doc capture extract snippets"() {
+        extractCodeSnippets(
+                'doc-artifacts/snippets/doc-capture',
+                'examples/scenarios/ui/docCapture.groovy', [
+                'captureBadges.groovy': 'search and capture with badges',
+                'captureHighlightCover.groovy': 'capture with highlight and cover',
+                'captureArrow.groovy': 'capture with arrow',
+        ])
     }
 
     private static void extractHtmlSnippets(String extractedPath, String resourceName, Map<String, String> cssToOutputFile) {

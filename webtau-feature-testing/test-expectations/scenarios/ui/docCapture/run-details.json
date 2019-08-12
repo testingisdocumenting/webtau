@@ -1,10 +1,24 @@
 {
   "scenarioDetails" : [ {
-    "scenario" : "search and capture",
+    "scenario" : "restart browser to use a config size",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "search and capture with badges",
     "shortContainerId" : "docCapture.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 5
     }
+  }, {
+    "scenario" : "capture with highlight and cover",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "capture with arrow",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : { }
   } ],
   "exitCode" : 0
 }
