@@ -1,13 +1,13 @@
 # Scenarios
 
-You provide `REST endpoints` so users can execute various scenarios.
-You need to test those scenarios and then document them.
+You document `REST endpoints` so users can use them to achieve various goals.
+You also need to make sure that documented scenarios work as advertised.
 
-To automate the process, let's capture executed scenarios and use them inside your documentation.
+To automate the process, capture executed scenarios and use them inside your documentation.
 
 # Capturing Test Artifacts
 
-To capture artifacts use `http.doc.capture`:
+To capture `REST` artifacts use `http.doc.capture`:
 
 :include-file: scenarios/rest/simplePost.groovy {title: "test.groovy", commentsType: "inline"}
 

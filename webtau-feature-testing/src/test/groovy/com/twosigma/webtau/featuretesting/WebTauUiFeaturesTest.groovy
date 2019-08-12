@@ -243,6 +243,11 @@ class WebTauUiFeaturesTest {
         runCli('flickingElement.groovy', 'webtau.cfg')
     }
 
+    @Test
+    void "documentation capture"() {
+        runCli('docCapture.groovy', 'webtau.cfg')
+    }
+
     private static void extractHtmlSnippets(String extractedPath, String resourceName, Map<String, String> cssToOutputFile) {
         def artifactsRoot = Paths.get(extractedPath)
 

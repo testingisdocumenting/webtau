@@ -22,6 +22,7 @@ UI
     page-object
     forms
     asynchronous-page
+    documentation
     advanced-configuration
     local-storage
     navigation

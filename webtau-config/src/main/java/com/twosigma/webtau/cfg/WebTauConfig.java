@@ -57,7 +57,7 @@ public class WebTauConfig {
     private final ConfigValue cachePath = declare("cachePath", "user driven cache file path",
             () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
 
-    private final ConfigValue docPath = declare("docPath", "path for screenshots and other generated " +
+    private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
             "artifacts for documentation", workingDir::getAsPath);
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
