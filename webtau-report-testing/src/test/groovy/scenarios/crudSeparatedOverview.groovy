@@ -21,7 +21,7 @@ scenario('customer update http calls') {
     report.expandHttpCall(2)
 
     browser.doc.withAnnotations(
-            browser.doc.highlighter(report.fullScreenIcon),
-            browser.doc.highlighter(report.collapsedHeader))
+            browser.doc.highlight(report.fullScreenIcon),
+            browser.doc.highlight(report.collapsedHeader))
             .capture('report-crud-separated-http-calls')
 }
