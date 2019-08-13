@@ -1,0 +1,22 @@
+{
+  "shapes" : [ {
+    "id" : "highlight3",
+    "type" : "highlight",
+    "text" : "",
+    "color" : "a",
+    "x" : 24,
+    "y" : 24,
+    "width" : 131,
+    "height" : 19
+  }, {
+    "id" : "rectangle4",
+    "type" : "rectangle",
+    "text" : "covering text",
+    "color" : "a",
+    "x" : 28,
+    "y" : 99,
+    "width" : 944,
+    "height" : 36
+  } ],
+  "pixelRatio" : 2
+}

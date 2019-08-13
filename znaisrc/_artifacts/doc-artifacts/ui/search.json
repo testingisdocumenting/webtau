@@ -1,0 +1,20 @@
+{
+  "shapes" : [ {
+    "id" : "circle1",
+    "type" : "circle",
+    "text" : "1",
+    "color" : "a",
+    "x" : 89,
+    "y" : 33,
+    "r" : 20
+  }, {
+    "id" : "circle2",
+    "type" : "circle",
+    "text" : "2",
+    "color" : "a",
+    "x" : 500,
+    "y" : 117,
+    "r" : 20
+  } ],
+  "pixelRatio" : 2
+}
