@@ -26,6 +26,14 @@
 
     <artifactId>webtau-docs</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-feature-testing</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <testOutputDirectory>mdoc/test-artifacts</testOutputDirectory>
         <resources>
