@@ -14,6 +14,9 @@ services:
 addons:
   chrome: stable
 
+# disables the default install step which is mvn install skipping tests
+install: true
+
 script: mvn -B package
 
 deploy:
