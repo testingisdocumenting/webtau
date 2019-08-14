@@ -27,6 +27,7 @@
     <artifactId>webtau-docs</artifactId>
 
     <build>
+        <testOutputDirectory>mdoc/test-artifacts</testOutputDirectory>
         <resources>
             <resource>
                 <directory>${project.basedir}/pre-filter</directory>
@@ -40,6 +41,36 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
                     <escapeString>\</escapeString>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.twosigma.znai</groupId>
+                <artifactId>znai-maven-plugin</artifactId>
+                <version>0.16</version>
+                <executions>
+                    <execution>
+                        <id>guide</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                        <configuration>
+                            <docId>guide</docId>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>export</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>export</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <deployRoot>${project.build.directory}</deployRoot>
+                    <exportRoot>${project.build.directory}/znaisrc</exportRoot>
+                    <sourceRoot>${project.basedir}/webtau</sourceRoot>
                 </configuration>
             </plugin>
         </plugins>
