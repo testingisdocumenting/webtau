@@ -13,6 +13,9 @@ services:
 
 addons:
   chrome: stable
+  apt:
+    packages:
+      - graphviz
 
 # disables the default install step which is mvn install skipping tests
 install: true
