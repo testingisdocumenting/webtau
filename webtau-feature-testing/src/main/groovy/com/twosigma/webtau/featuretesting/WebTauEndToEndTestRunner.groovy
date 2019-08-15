@@ -71,8 +71,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
 
         try {
             def args = ['--workingDir=examples', '--config=' + configFileName,
-                        '--reportPath=' + reportPath,
-                        '--docPath=doc-artifacts/ui']
+                        '--reportPath=' + reportPath]
             args.addAll(Arrays.asList(additionalArgs))
             args.add(testPath.toString())
 
