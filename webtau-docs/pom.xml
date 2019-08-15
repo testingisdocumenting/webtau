@@ -53,6 +53,26 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <configuration>
+                    <rules>
+                        <dependencyConvergence />
+                        <banDuplicateClasses>
+                            <findAllDuplicates>true</findAllDuplicates>
+                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
+                            <ignoreClasses>
+                                <!--tomcat embedded ships javax annotations internally-->
+                                <ignoreClass>javax.persistence.*</ignoreClass>
+                                <ignoreClass>javax.servlet.*</ignoreClass>
+                                <ignoreClass>org.apache.commons.*</ignoreClass>
+                            </ignoreClasses>
+                        </banDuplicateClasses>
+                    </rules>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>com.twosigma.znai</groupId>
                 <artifactId>znai-maven-plugin</artifactId>
                 <version>0.16</version>
