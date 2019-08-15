@@ -25,6 +25,7 @@ script: mvn -B package
 deploy:
   - provider: script
     script: ./update-gh-pages.sh
+    skip_cleanup: true
     on:
       all_branches: true
       tags: true
