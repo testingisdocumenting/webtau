@@ -1,13 +1,30 @@
 language: java
+
 cache:
   directories:
   - $HOME/.m2
   - $HOME/.npm
   - node_modules
+
 dist: xenial
+
 services:
   - xvfb
+
 addons:
   chrome: stable
+  apt:
+    packages:
+      - graphviz
+
+# disables the default install step which is mvn install skipping tests
+install: true
 
 script: mvn -B package
+
+deploy:
+  - provider: script
+    script: ./update-gh-pages.sh
+    on:
+      all_branches: true
+      tags: true
