@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.cli.interactive
 
+import com.twosigma.webtau.TestFile
 import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
 import groovy.transform.PackageScope
@@ -34,7 +35,7 @@ class InteractiveTests {
 
     List<StandaloneTest> refreshScenarios(String filePath) {
         runner.clearRegisteredTests()
-        runner.process(Paths.get(filePath), this)
+        runner.process(new TestFile(Paths.get(filePath)), this)
 
         return runner.tests
     }
