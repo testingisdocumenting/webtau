@@ -12,6 +12,7 @@
 ../../webtau-http/
 ../../webtau-http/target/test-classes
 ../../webtau-http-groovy/
+../../webtau-http-groovy/target/test-classes
 ../../webtau-browser/src/main/java
 ../../webtau-browser/src/test/groovy
 ../../webtau-browser/src/test/resources

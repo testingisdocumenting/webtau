@@ -41,15 +41,15 @@ public class HttpTestBase implements HttpConfiguration {
         testServer.stop();
     }
 
-    @BeforeClass
-    public static void setupDocArtifacts() {
+    @Before
+    public void setupDocArtifacts() {
         existingDocRoot = DocumentationArtifactsLocation.getRoot();
         DocumentationArtifactsLocation.setRoot(
-                DocumentationArtifactsLocation.classBasedLocation(HttpTestBase.class).resolve("doc-artifacts"));
+                DocumentationArtifactsLocation.classBasedLocation(this.getClass()).resolve("doc-artifacts"));
     }
 
-    @AfterClass
-    public static void restoreDocArtifacts() {
+    @After
+    public void restoreDocArtifacts() {
         DocumentationArtifactsLocation.setRoot(existingDocRoot);
     }
 
