@@ -30,6 +30,6 @@ scenario("search by specific query") {
 
 ## Precise Reporting
 
-![report-image](webtau-report-testing/src/test/groovy/doc-artifacts/reports/report-http-calls.png)
+![report-image](report-crud-separated-http-calls.png)
 
 [Full Documentation](https://opensource.twosigma.com/webtau/guide/)

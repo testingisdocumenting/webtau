@@ -1,1 +1,0 @@
-{"scenario":" # Department users list\n\nTo get access to current list of active users\npass department name as the last parameter\n","results":[{"id":"POST:/echo","url":"/echo","body":{"id":2.0,"numberOfUsers":234.0},"pathsToHighlight":["body.id","body.numberOfUsers"]}]}

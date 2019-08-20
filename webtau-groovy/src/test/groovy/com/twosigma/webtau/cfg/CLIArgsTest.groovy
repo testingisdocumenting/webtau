@@ -1,10 +1,10 @@
 package com.twosigma.webtau.cfg
 
+import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.JsonUtils
 import org.junit.Test
 
-import java.nio.file.Paths
 import java.util.stream.Collectors
 
 class CLIArgsTest {
@@ -44,7 +44,9 @@ class CLIArgsTest {
                 }
             }
 
-            def artifactPath = Paths.get('doc-artifacts/cfg/cli-args.json')
+            def artifactPath = DocumentationArtifactsLocation.classBasedLocation(CLIArgsTest)
+                    .resolve('doc-artifacts/cfg/cli-args.json')
+
             FileUtils.writeTextContent(artifactPath, JsonUtils.serializePrettyPrint(cfgList))
         } finally {
             WebTauConfig.resetConfigHandlers()

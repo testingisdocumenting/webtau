@@ -9,9 +9,3 @@ webtau-report-*.html
 *-webtau-report.html
 .webtau.cache.json
 .vertx
-webtau-http-groovy/doc-artifacts/*
-webtau-feature-testing/doc-artifacts/*
-webtau-feature-testing/examples/doc-artifacts/*
-webtau-groovy/doc-artifacts/*
-webtau-http/doc-artifacts/*
-webtau-cli/doc-artifacts/*

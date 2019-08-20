@@ -18,10 +18,7 @@ package com.twosigma.webtau.featuretesting
 
 import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cli.WebTauCliApp
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.expectation.ActualPath
-import com.twosigma.webtau.expectation.equality.CompareToComparator
+import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.http.testserver.TestServer
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
@@ -29,10 +26,7 @@ import com.twosigma.webtau.reporter.TestStep
 import com.twosigma.webtau.runner.standalone.StandaloneTest
 import com.twosigma.webtau.runner.standalone.StandaloneTestListener
 import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
-import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.JsonUtils
 
-import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -62,15 +56,15 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         StepReporters.add(this)
         StandaloneTestListeners.add(this)
 
-        def reportPath = 'examples/'
-        if (testFileName.endsWith('.groovy')) {
-            reportPath += testFileName.replace('.groovy', '-webtau-report.html')
-        } else {
-            reportPath += testFileName + '/webtau-report.html'
-        }
+        def targetClasses = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
+        def reportPath = targetClasses
+                .resolve(testFileName.endsWith('.groovy') ?
+                        testFileName.replace('.groovy', '-webtau-report.html'):
+                        testFileName + '/webtau-report.html')
 
         try {
             def args = ['--workingDir=examples', '--config=' + configFileName,
+                        '--docPath=' + targetClasses.resolve('doc-artifacts'),
                         '--reportPath=' + reportPath]
             args.addAll(Arrays.asList(additionalArgs))
             args.add(testPath.toString())

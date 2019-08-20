@@ -18,14 +18,11 @@ package com.twosigma.webtau.featuretesting
 
 import com.twosigma.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
 import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-
-import java.nio.file.Paths
 
 import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
 
@@ -66,12 +63,6 @@ class WebTauUiFeaturesTest {
     }
 
     @Test
-    void "extract html snippets"() {
-        def html = extractHtml("finders-and-filters.html", "#menu")
-        FileUtils.writeTextContent(Paths.get("doc-artifacts/snippets/menu.html"), html)
-    }
-
-    @Test
     void "open browser and assert"() {
         runCli('basic.groovy', 'webtau.cfg')
     }
@@ -88,7 +79,7 @@ class WebTauUiFeaturesTest {
 
     @Test
     void "finders and filters extract snippets"() {
-        def root = 'doc-artifacts/snippets/finders-filters'
+        def root = 'finders-filters'
 
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/findersFilters.groovy', [
@@ -102,7 +93,7 @@ class WebTauUiFeaturesTest {
         ])
 
         extractHtmlSnippets(root, 'finders-and-filters.html', [
-             'flat-menu.html': '#simple-case'
+             'flat-menu.html': '#menu'
         ])
     }
 
@@ -113,10 +104,8 @@ class WebTauUiFeaturesTest {
 
     @Test
     void "navigation extract snippets"() {
-        def root = 'doc-artifacts/snippets/navigation'
-
         extractCodeSnippets(
-                root, 'examples/scenarios/ui/navigation.groovy', [
+                'navigation', 'examples/scenarios/ui/navigation.groovy', [
                 'open.groovy': 'open',
                 'reopen.groovy': 'reopen',
                 'refresh.groovy': 'refresh',
@@ -134,7 +123,7 @@ class WebTauUiFeaturesTest {
 
     @Test
     void "matchers extract snippets"() {
-        def root = 'doc-artifacts/snippets/matchers'
+        def root = 'matchers'
 
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/matchers.groovy', [
@@ -169,7 +158,7 @@ class WebTauUiFeaturesTest {
 
     @Test
     void "forms extract snippets"() {
-        def root = 'doc-artifacts/snippets/forms'
+        def root = 'forms'
 
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/forms.groovy', [
@@ -186,7 +175,7 @@ class WebTauUiFeaturesTest {
 
     @Test
     void "special forms extract snippets"() {
-        def root = 'doc-artifacts/snippets/special-forms'
+        def root = 'special-forms'
 
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/specialForms.groovy', [
@@ -205,7 +194,7 @@ class WebTauUiFeaturesTest {
 
     @Test
     void "local storage extract snippets"() {
-        def root = 'doc-artifacts/snippets/local-storage'
+        def root = 'local-storage'
 
         extractCodeSnippets(
                 root, 'examples/scenarios/ui/localStorage.groovy', [
@@ -229,7 +218,7 @@ class WebTauUiFeaturesTest {
     @Test
     void "wait sync extract snippets"() {
         extractCodeSnippets(
-                'doc-artifacts/snippets/wait-sync',
+                'wait-sync',
                 'examples/scenarios/ui/waitSync.groovy', [
                 'waitForAppear.groovy': 'wait for element to appear',
                 'waitForMatch.groovy': 'wait for match',
@@ -251,21 +240,12 @@ class WebTauUiFeaturesTest {
     @Test
     void "doc capture extract snippets"() {
         extractCodeSnippets(
-                'doc-artifacts/snippets/doc-capture',
+                'doc-capture',
                 'examples/scenarios/ui/docCapture.groovy', [
                 'captureBadges.groovy': 'search and capture with badges',
                 'captureHighlightCover.groovy': 'capture with highlight and cover',
                 'captureArrow.groovy': 'capture with arrow',
         ])
-    }
-
-    private static void extractHtmlSnippets(String extractedPath, String resourceName, Map<String, String> cssToOutputFile) {
-        def artifactsRoot = Paths.get(extractedPath)
-
-        cssToOutputFile.each { outputFileName, css ->
-            extractAndSaveHtml(resourceName, css,
-                    artifactsRoot.resolve(outputFileName))
-        }
     }
 
     private static void runCli(String uiTestName, String configFileName) {

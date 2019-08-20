@@ -18,6 +18,8 @@ package com.twosigma.webtau.cli;
 
 import com.twosigma.webtau.documentation.DocumentationArtifactsLocation;
 import com.twosigma.webtau.utils.FileUtils;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.nio.file.Files;
@@ -29,6 +31,20 @@ import static com.twosigma.webtau.cli.Cli.cli;
 import static com.twosigma.webtau.cli.CliTestUtils.nixOnly;
 
 public class CliJavaTest {
+    private static Path existingDocRoot;
+
+    @BeforeClass
+    public static void init() {
+        existingDocRoot = DocumentationArtifactsLocation.getRoot();
+        DocumentationArtifactsLocation.setRoot(
+                DocumentationArtifactsLocation.classBasedLocation(CliJavaTest.class).resolve("doc-artifacts"));
+    }
+
+    @AfterClass
+    public static void clean() {
+        DocumentationArtifactsLocation.setRoot(existingDocRoot);
+    }
+
     @Test
     public void outputOnlyValidation() {
         cli.run("ls -l", (output, error) -> {
