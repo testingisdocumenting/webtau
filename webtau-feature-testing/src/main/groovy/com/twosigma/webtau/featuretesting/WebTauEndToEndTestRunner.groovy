@@ -56,15 +56,15 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         StepReporters.add(this)
         StandaloneTestListeners.add(this)
 
-        def targetClasses = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
-        def reportPath = targetClasses
+        def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
+        def reportPath = targetClassesLocation
                 .resolve(testFileName.endsWith('.groovy') ?
                         testFileName.replace('.groovy', '-webtau-report.html'):
                         testFileName + '/webtau-report.html')
 
         try {
             def args = ['--workingDir=examples', '--config=' + configFileName,
-                        '--docPath=' + targetClasses.resolve('doc-artifacts'),
+                        '--docPath=' + targetClassesLocation.resolve('doc-artifacts'),
                         '--reportPath=' + reportPath]
             args.addAll(Arrays.asList(additionalArgs))
             args.add(testPath.toString())
