@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.documentation;
 
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
@@ -27,8 +28,20 @@ public class DocumentationArtifactsLocation {
         root.set(newRoot);
     }
 
+    public static Path getRoot() {
+        return root.get();
+    }
+
     public static Path resolve(String artifactName) {
         return root.get().resolve(artifactName);
+    }
+
+    public static Path classBasedLocation(Class<?> testClass) {
+        try {
+            return Paths.get(testClass.getProtectionDomain().getCodeSource().getLocation().toURI());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Path getInitialRoot() {

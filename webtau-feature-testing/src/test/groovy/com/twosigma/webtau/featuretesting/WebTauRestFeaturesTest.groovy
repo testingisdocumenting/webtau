@@ -60,10 +60,8 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "schema validation extract snippets"() {
-        def root = 'doc-artifacts/snippets/json-schema'
-
         extractCodeSnippets(
-                root, 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
+                'json-schema', 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
                 'validateBody.groovy': 'valid schema',
                 'validateField.groovy': 'validate specific field',
         ])
@@ -86,10 +84,8 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "open api extract snippets"() {
-        def root = 'doc-artifacts/snippets/openapi'
-
         extractCodeSnippets(
-                root, 'examples/scenarios/rest/openapi/disableOpenApiValidation.groovy', [
+                'openapi', 'examples/scenarios/rest/openapi/disableOpenApiValidation.groovy', [
                 'disableAll.groovy': 'disable all validation',
                 'disableRequest.groovy': 'disable request validation',
                 'disableResponse.groovy': 'disable response validation',

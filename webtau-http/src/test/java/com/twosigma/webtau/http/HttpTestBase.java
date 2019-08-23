@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.documentation.DocumentationArtifactsLocation;
 import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.http.config.HttpConfigurations;
 import com.twosigma.webtau.utils.UrlUtils;
@@ -24,8 +25,11 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import java.nio.file.Path;
+
 public class HttpTestBase implements HttpConfiguration {
     protected static final HttpTestDataServer testServer = new HttpTestDataServer();
+    private static Path existingDocRoot;
 
     @BeforeClass
     public static void startServer() {
@@ -35,6 +39,18 @@ public class HttpTestBase implements HttpConfiguration {
     @AfterClass
     public static void stopServer() {
         testServer.stop();
+    }
+
+    @Before
+    public void setupDocArtifacts() {
+        existingDocRoot = DocumentationArtifactsLocation.getRoot();
+        DocumentationArtifactsLocation.setRoot(
+                DocumentationArtifactsLocation.classBasedLocation(this.getClass()).resolve("doc-artifacts"));
+    }
+
+    @After
+    public void restoreDocArtifacts() {
+        DocumentationArtifactsLocation.setRoot(existingDocRoot);
     }
 
     @Before

@@ -32,6 +32,7 @@
 
 package com.twosigma.webtau.featuretesting
 
+import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.ResourceUtils
 import com.twosigma.webtau.utils.StringUtils
@@ -58,8 +59,8 @@ class FeaturesDocArtifactsExtractor {
         return StringUtils.stripIndentation(removeMarkedLines(script.substring(scopeStartIdx + 1, scopeEndIdx)))
     }
 
-    static void extractCodeSnippets(String extractedPath, String inputName, Map<String, String> scenarioToOutputFile) {
-        def artifactsRoot = Paths.get(extractedPath)
+    static void extractCodeSnippets(String artifactName, String inputName, Map<String, String> scenarioToOutputFile) {
+        def artifactsRoot = artifactsRoot(artifactName)
 
         def script = FileUtils.fileTextContent(Paths.get(inputName))
 
@@ -69,12 +70,26 @@ class FeaturesDocArtifactsExtractor {
         }
     }
 
-    static String extractHtml(String resourceName, String css) {
+    static void extractHtmlSnippets(String artifactName, String resourceName, Map<String, String> cssToOutputFile) {
+        def artifactsRoot = artifactsRoot(artifactName)
+
+        cssToOutputFile.each { outputFileName, css ->
+            extractAndSaveHtml(resourceName, css,
+                    artifactsRoot.resolve(outputFileName))
+        }
+    }
+
+    private static Path artifactsRoot(String artifactName) {
+        DocumentationArtifactsLocation.classBasedLocation(FeaturesDocArtifactsExtractor).
+                resolve('doc-artifacts').resolve('snippets').resolve(artifactName)
+    }
+
+    private static String extractHtml(String resourceName, String css) {
         def html = ResourceUtils.textContent(resourceName)
         return Jsoup.parse(html).select(css).html().toString()
     }
 
-    static void extractAndSaveHtml(String resourceName, String css, Path outputPath) {
+    private static void extractAndSaveHtml(String resourceName, String css, Path outputPath) {
         def html = extractHtml(resourceName, css)
         FileUtils.writeTextContent(outputPath, html)
     }
