@@ -63,6 +63,7 @@
                                     <shadedPattern>webtaushaded.org.</shadedPattern>
                                     <excludes>
                                         <exclude>org.codehaus.groovy.**</exclude>
+                                        <exclude>org.w3c.**</exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>
