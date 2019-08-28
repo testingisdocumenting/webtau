@@ -34,6 +34,10 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
 
     private static String fullPath;
 
+    public static ConfigValue getSpecUrl() {
+        return specUrl;
+    }
+
     static String specFullPath() {
         return fullPath;
     }
