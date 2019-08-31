@@ -25,6 +25,9 @@ import java.util.stream.Stream;
 import static com.twosigma.webtau.cfg.ConfigValue.declare;
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
+/**
+ * Configuration of the Open API specification location.
+ */
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue specUrl = declare("openApiSpecUrl",
             "url of OpenAPI 2 spec against which to validate http calls", () -> "");
@@ -36,6 +39,10 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
 
     public static ConfigValue getSpecUrl() {
         return specUrl;
+    }
+
+    public static void setSpecUrl(String url) {
+        specUrl.set("manual", url);
     }
 
     static String specFullPath() {

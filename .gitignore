@@ -2,6 +2,7 @@
 .idea
 .mvn
 build
+doc-artifacts
 target
 node_modules
 webtau.*report*.html
