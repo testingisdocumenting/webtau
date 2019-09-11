@@ -248,10 +248,10 @@ export const withCliDataReport = {
 export const withRestDataReport = {
     "version": "1.4",
     "summary": {
-        "total": 4,
+        "total": 5,
         "passed": 3,
         "failed": 1,
-        "skipped": 0,
+        "skipped": 1,
         "errored": 0,
         "startTime": 1547139662469,
         "stopTime": 1547139827670,
@@ -538,6 +538,86 @@ export const withRestDataReport = {
             "className": "com.example.tests.rest.CustomerCrudSeparatedIT",
             "scenario": "customer delete",
             "status": "Failed",
+            "fileName": "rest/springboot/customerCrudSeparated.groovy",
+            "startTime": 1534456916784,
+            "elapsedTime": 32,
+            "exceptionMessage": "error calling something",
+            "httpCalls": [{
+                "id": "3",
+                "method": "DELETE",
+                "url": "http://localhost:8080/customers/1",
+                "startTime": 1534456916784,
+                "elapsedTime": 12,
+                "errorMessage": null,
+                "mismatches": [],
+                "responseType": "",
+                "responseStatusCode": 204,
+                "responseBody": "",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": []
+                }
+            }, {
+                "id": "4",
+                "method": "GET",
+                "url": "http://localhost:8080/customers/1",
+                "startTime": 1534456916684,
+                "elapsedTime": 9,
+                "mismatches": [],
+                "responseType": "",
+                "responseStatusCode": 404,
+                "responseBody": "",
+                "responseBodyChecks": {
+                    "failedPaths": [],
+                    "passedPaths": []
+                },
+                "errorMessage": "long long long line line line long long long line line line long long long line line line long long long line line line long long long line line line long long long line line line long long long line line line"
+            }],
+            "steps": [{
+                "elapsedTime": 200,
+                "message": [{
+                    "type": "action",
+                    "value": "executed HTTP DELETE"
+                }, {
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "elapsedTime": 50,
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 204\nmatches:\n\nheader.statusCode:   actual: 204 <java.lang.Integer>\n                   expected: 204 <java.lang.Integer>"
+                    }]
+                }]
+            }, {
+                "elapsedTime": 150,
+                "message": [{
+                    "type": "action",
+                    "value": "executed HTTP GET"
+                }, {
+                    "type": "url",
+                    "value": "http://localhost:8080/customers/1"
+                }],
+                "children": [{
+                    "elapsedTime": 50,
+                    "message": [{
+                        "type": "id",
+                        "value": "header.statusCode"
+                    }, {
+                        "type": "matcher",
+                        "value": "equals 404\nmatches:\n\nheader.statusCode:   actual: 404 <java.lang.Integer>\n                   expected: 404 <java.lang.Integer>"
+                    }]
+                }]
+            }]
+        },
+        {
+            "id": "customerCrudSeparated.groovy-5",
+            "className": "com.example.tests.rest.CustomerCrudSeparatedIT",
+            "scenario": "customer extra delete",
+            "status": "Skipped",
             "fileName": "rest/springboot/customerCrudSeparated.groovy",
             "startTime": 1534456916784,
             "elapsedTime": 32,

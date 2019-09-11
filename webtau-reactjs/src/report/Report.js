@@ -155,16 +155,26 @@ class Report {
 function expandSummary(summary) {
     return {
         ...summary,
+        totalRan: calculateTotalRan(),
         totalWithProblems: calculateTotalWithProblems(),
-        percentagePassed: calculatePercentagePassed()
+        percentagePassed: calculatePercentagePassed(),
+        percentageRan: calculatePercentageRan()
     }
 
     function calculateTotalWithProblems() {
-        return summary.failed + summary.errored + summary.skipped
+        return summary.failed + summary.errored
+    }
+
+    function calculateTotalRan() {
+        return summary.total - summary.skipped
     }
 
     function calculatePercentagePassed() {
-        return 100 - ((calculateTotalWithProblems() / summary.total) * 100) | 0
+        return 100 - ((calculateTotalWithProblems() / calculateTotalRan()) * 100) | 0
+    }
+
+    function calculatePercentageRan() {
+        return (calculateTotalRan() / summary.total) * 100 | 0
     }
 }
 
