@@ -19,12 +19,12 @@ import React from 'react'
 import CardList from '../../widgets/CardList'
 import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
 
-export default function TestsSuccessRatio({report}) {
+export default function TestsRanRatio({report}) {
     return (
-        <CardList label="Tests success ratio">
-            <CardLabelAndNumber label="Passed" number={report.summary.percentagePassed} unit="%"/>
-            <CardLabelAndNumber label="Passed total" number={report.summary.passed}/>
-            <CardLabelAndNumber label="Total with Problems" number={report.summary.totalWithProblems}/>
+        <CardList label="Tests run ratio">
+            <CardLabelAndNumber label="Ran" number={report.summary.percentageRan} unit="%"/>
+            <CardLabelAndNumber label="Tests total" number={report.summary.total}/>
+            <CardLabelAndNumber label="Skipped" number={report.summary.skipped}/>
         </CardList>
     )
 }
