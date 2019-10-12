@@ -20,12 +20,12 @@ import org.junit.Test
 
 import static com.twosigma.webtau.Ddjt.*
 import static com.twosigma.webtau.cli.Cli.cli
-import static com.twosigma.webtau.cli.CliTestUtils.nixOnly
+import static com.twosigma.webtau.cli.CliTestUtils.supportedPlatformOnly
 
 class CliGroovyTest {
     @Test
     void "output and exit code validation"() {
-        nixOnly {
+        supportedPlatformOnly {
             cli.run('scripts/hello "message to world"') {
                 exitCode.should == 5
 
@@ -40,7 +40,7 @@ class CliGroovyTest {
 
     @Test
     void "capture validation result"() {
-        nixOnly {
+        supportedPlatformOnly {
             code {
                 cli.run('scripts/hello') {
                     output.shouldNot contain('line')

@@ -38,8 +38,8 @@ public class DynamicTests {
 
     private static String getDisplayName(String prefix, Record row) {
         String rowLabel = row.getHeader().hasColumn(LABEL_COLUMN)
-            ? row.get(LABEL_COLUMN).toString()
-            : row.toString();
+                ? row.get(LABEL_COLUMN).toString()
+                : row.toString();
         return prefix + rowLabel;
-  }
+    }
 }

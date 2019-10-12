@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.junit5
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 import static com.twosigma.webtau.Ddjt.*
 
@@ -49,5 +49,4 @@ class DynamicTestsTest {
         def asList = dynamicTests.collect { it }
         asList.displayName.should == ['prefix: test 1', 'prefix: test 2']
     }
-
 }
