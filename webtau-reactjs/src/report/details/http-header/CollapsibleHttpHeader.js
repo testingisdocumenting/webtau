@@ -18,6 +18,14 @@ import React from 'react'
 import HttpHeader from './HttpHeader'
 
 export default function CollapsibleHttpHeader({label, header, isCollapsed, onToggle}) {
+    if (!header) {
+        return (
+            <div className="empty-http-header" onClick={onToggle}>
+                empty
+            </div>
+        )
+    }
+
     if (isCollapsed) {
         return (
             <div className="collapsed-http-header" onClick={onToggle}>

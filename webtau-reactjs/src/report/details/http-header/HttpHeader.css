@@ -37,3 +37,8 @@
     cursor: pointer;
     user-select: none;
 }
+
+.empty-http-header {
+    color: #333;
+    text-transform: uppercase;
+}
