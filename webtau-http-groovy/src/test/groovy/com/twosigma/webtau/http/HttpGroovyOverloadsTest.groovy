@@ -23,6 +23,14 @@ import static com.twosigma.webtau.http.HttpOverloadsTestCommon.*
 
 class HttpGroovyOverloadsTest extends HttpTestBase {
     @Test
+    void "get without validation syntax check"() {
+        http.get("/end-point")
+        http.get("/end-point", [queryParam1: "queryParamValue1"])
+        http.get("/end-point", [queryParam1: "queryParamValue1"], http.header("h1", "v1"))
+        http.get("/end-point", http.header("h1", "v1"))
+    }
+
+    @Test
     void "put without return overloads"() {
         http.put("/full-echo", query, requestHeader, requestBodyMap) {
             headerValidation.accept(body)

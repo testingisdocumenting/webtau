@@ -87,12 +87,20 @@ public class Http {
         get(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void get(String url, HttpQueryParams queryParams, HttpHeader header) {
+        get(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E get(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
         return get(url, queryParams, HttpHeader.EMPTY, validator);
     }
 
     public void get(String url, HttpQueryParams queryParams, HttpResponseValidator validator) {
         get(url, queryParams, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void get(String url, HttpQueryParams queryParams) {
+        get(url, queryParams, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E get(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
@@ -103,12 +111,20 @@ public class Http {
         get(url, HttpQueryParams.EMPTY, header, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void get(String url, HttpHeader header) {
+        get(url, HttpQueryParams.EMPTY, header, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E get(String url, HttpResponseValidatorWithReturn validator) {
         return get(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, validator);
     }
 
     public void get(String url, HttpResponseValidator validator) {
         get(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void get(String url) {
+        get(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {

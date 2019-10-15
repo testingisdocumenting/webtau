@@ -25,6 +25,14 @@ import static com.twosigma.webtau.http.HttpOverloadsTestCommon.*;
 
 public class HttpJavaOverloadsTest extends HttpTestBase {
     @Test
+    public void getWithoutValidationSyntaxCheck() {
+        http.get("/end-point");
+        http.get("/end-point", http.query("queryParam1", "queryParamValue1"));
+        http.get("/end-point", http.query("queryParam1", "queryParamValue1"), http.header("h1", "v1"));
+        http.get("/end-point", http.header("h1", "v1"));
+    }
+
+    @Test
     public void putWithoutReturnOverloads() {
         http.put("/full-echo", query, requestHeader, requestBody, (header, body) -> {
             headerValidation.accept(body);
