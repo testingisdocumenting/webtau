@@ -29,6 +29,7 @@ import {loadingDemo} from './loading/Loading.demo'
 import {testErrorMessageDemo} from './widgets/TestErrorMessage.demo'
 import {cliBuildingBlocksDemo} from "./details/cli/CliBuildingBlocksDemo"
 import {testCliCallsDemo} from "./details/cli/TestCliCalls.demo"
+import {collapsibleHttpHeaderDemo} from "./details/http-header/CollapsibleHttpHeader.demo"
 
 const registries = new Registries()
 
@@ -43,6 +44,7 @@ registries.add('core')
 
 registries.add('http')
     .registerAsRows('http header', httpHeaderDemo)
+    .registerAsRows('collapsible http header', collapsibleHttpHeaderDemo)
 
 registries.add('cli')
     .registerAsRows('cli building blocks', cliBuildingBlocksDemo)
