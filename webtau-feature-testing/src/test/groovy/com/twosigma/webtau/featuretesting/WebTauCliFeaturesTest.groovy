@@ -19,6 +19,8 @@ package com.twosigma.webtau.featuretesting
 import org.junit.BeforeClass
 import org.junit.Test
 
+import static com.twosigma.webtau.cli.CliTestUtils.supportedPlatformOnly
+
 class WebTauCliFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
@@ -29,17 +31,23 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "simple script run"() {
-        runCli('simpleRun.groovy', 'webtau.cfg')
+        supportedPlatformOnly {
+            runCli('simpleRun.groovy', 'webtau.cfg')
+        }
     }
 
     @Test
     void "path based script run"() {
-        runCli('pathBasedScript.groovy', 'webtau-with-path.cfg')
+        supportedPlatformOnly {
+            runCli('pathBasedScript.groovy', 'webtau-with-path.cfg')
+        }
     }
 
     @Test
     void "error script run"() {
-        runCli('errorRuns.groovy', 'webtau.cfg')
+        supportedPlatformOnly {
+            runCli('errorRuns.groovy', 'webtau.cfg')
+        }
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

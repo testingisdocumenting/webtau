@@ -81,8 +81,7 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
         directory.toFile().eachFileRecurse(FileType.FILES) {
             Path testFilePath = it.toPath()
             if (testFilePath.toString().endsWith(".groovy")) {
-                String shortName = testFilePath.toString().substring(baseDirEndIdx + 1)
-                testFiles << new TestFile(testFilePath, shortName)
+                testFiles << new TestFile(testFilePath, containerIdFromPath(testFilePath, baseDirEndIdx))
             }
         }
 
@@ -96,5 +95,10 @@ class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
 
     static int getNumberOfThreads() {
         return numberOfThreads.getAsInt()
+    }
+
+    private static String containerIdFromPath(Path path, int baseDirEndIdx) {
+        String containerId = path.toString().substring(baseDirEndIdx + 1)
+        return containerId.replace('\\','/')
     }
 }

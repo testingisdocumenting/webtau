@@ -60,23 +60,24 @@ class WebTauGroovyCliArgsConfigHandlerTest {
         runRecursiveTestDiscoveryTest('testScenarios2', expectedFiles)
     }
 
-    private static runRecursiveTestDiscoveryTest(String scenariosDir, List<Path> expectedTestFiles) {
+    private static runRecursiveTestDiscoveryTest(String scenariosDir, List<Path> expectedTestFilePaths) {
         def handler = new WebTauGroovyCliArgsConfigHandler(scenariosDir)
 
         def cfg = createConfig()
 
         handler.onAfterCreate(cfg)
-        def files = handler.testFilesWithFullPath().sort { it.path }
+        def testFiles = handler.testFilesWithFullPath().sort { it.path }
 
         def cwd = Paths.get("").toAbsolutePath()
         def scenariosRoot = cwd.resolve(scenariosDir)
-        def expectedFiles = expectedTestFiles.collect {
-            new TestFile(scenariosRoot.resolve(it), it.toString())
+
+        def expectedFilePaths = expectedTestFilePaths.collect {
+            new TestFile(scenariosRoot.resolve(it), it.collect { it.toString() }.join('/'))
         }.sort {
             it.path
         }
 
-        files.should == expectedFiles
+        testFiles.should == expectedFilePaths
     }
 
     private static WebTauConfig createConfig() {

@@ -86,6 +86,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.twosigma.webtau</groupId>
+            <artifactId>webtau-cli</artifactId>
+            <type>test-jar</type>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-groovydoc</artifactId>
             <scope>provided</scope>

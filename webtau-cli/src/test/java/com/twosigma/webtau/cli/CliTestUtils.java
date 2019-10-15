@@ -16,10 +16,10 @@
 
 package com.twosigma.webtau.cli;
 
-class CliTestUtils {
+public class CliTestUtils {
     private static final String OS = System.getProperty("os.name");
 
-    static void nixOnly(Runnable code) {
+    public static void supportedPlatformOnly(Runnable code) {
         if (OS.toLowerCase().contains("win")) {
             return;
         }

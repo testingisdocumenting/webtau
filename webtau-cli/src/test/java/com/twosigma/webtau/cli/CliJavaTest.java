@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 import static com.twosigma.webtau.Ddjt.*;
 import static com.twosigma.webtau.cli.Cli.cli;
-import static com.twosigma.webtau.cli.CliTestUtils.nixOnly;
+import static com.twosigma.webtau.cli.CliTestUtils.supportedPlatformOnly;
 
 public class CliJavaTest {
     private static Path existingDocRoot;
@@ -47,14 +47,16 @@ public class CliJavaTest {
 
     @Test
     public void outputOnlyValidation() {
-        cli.run("ls -l", (output, error) -> {
+        supportedPlatformOnly(() -> {
+            cli.run("ls -l", (output, error) -> {
 
+            });
         });
     }
 
     @Test
     public void outputAndExitCodeValidation() {
-        nixOnly(() -> {
+        supportedPlatformOnly(() -> {
             cli.run("scripts/hello \"message to world\"", (exitCode, output, error) -> {
                 exitCode.should(equal(5));
 
@@ -69,7 +71,7 @@ public class CliJavaTest {
 
     @Test
     public void envVars() {
-        nixOnly(() -> {
+        supportedPlatformOnly(() -> {
             cli.run("scripts/hello", cli.env("NAME", "Java"), (exitCode, output, error) -> {
                 output.should(contain("hello world Java"));
                 error.should(contain("error line two"));
@@ -79,7 +81,7 @@ public class CliJavaTest {
 
     @Test
     public void docCapture() {
-        nixOnly(() -> {
+        supportedPlatformOnly(() -> {
             cli.run("scripts/hello", ((output, error) -> {
                 output.should(contain("line in the middle"));
                 output.should(contain(Pattern.compile("line in the")));
@@ -106,7 +108,7 @@ public class CliJavaTest {
 
     @Test
     public void linesWithNotContain() {
-        nixOnly(() -> {
+        supportedPlatformOnly(() -> {
             code(() -> {
                 cli.run("scripts/hello", ((output, error) -> {
                     output.shouldNot(contain("line"));
