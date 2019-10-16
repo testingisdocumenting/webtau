@@ -13,7 +13,7 @@ class CustomerCrudSeparatedGroovyTest {
                                           lastName : 'LN']
     private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN']
 
-    private static def id;
+    private static def id
 
     @BeforeAll
     static void createCustomer() {

@@ -4,9 +4,9 @@ import com.twosigma.webtau.junit4.WebTauRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static com.twosigma.webtau.WebTauDsl.*
+import static com.twosigma.webtau.WebTauGroovyDsl.* // convenient single import for DSL methods and props like http
 
-@RunWith(WebTauRunner.class)
+@RunWith(WebTauRunner)  // runner is required to have this test to be a part of generated html report
 class CustomerCrudSingleGroovyTest {
     private def customerPayload = [firstName: 'FN',
                                    lastName: 'LN']

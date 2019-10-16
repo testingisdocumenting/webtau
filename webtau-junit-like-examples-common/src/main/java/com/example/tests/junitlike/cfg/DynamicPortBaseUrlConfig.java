@@ -22,15 +22,14 @@ import com.twosigma.webtau.http.config.HttpConfiguration;
 import com.twosigma.webtau.utils.UrlUtils;
 
 public class DynamicPortBaseUrlConfig implements HttpConfiguration {
-
-    public static final String SPRING_BOOT_EXAMPLE_URL_PREFIX = "/customers";
+    private static final String SPRING_BOOT_EXAMPLE_URL_PREFIX = "/customers";
+    private static final String DEFAULT_SPRINGBOOT_APP_PORT = "8080";
 
     @Override
     public String fullUrl(String url) {
         if (url.contains("/customers")) {
-            String port = System.getProperty("springboot.http.port", "8080");
             int prefixIdx = url.indexOf(SPRING_BOOT_EXAMPLE_URL_PREFIX);
-            return "http://localhost:" + port + url.substring(prefixIdx);
+            return "http://localhost:" + getSpringbootAppPort() + url.substring(prefixIdx);
         }
 
         if (UrlUtils.isFull(url)) {
@@ -43,5 +42,14 @@ public class DynamicPortBaseUrlConfig implements HttpConfiguration {
     @Override
     public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
         return given;
+    }
+
+    private String getSpringbootAppPort() {
+        String port = System.getProperty("springboot.http.port", DEFAULT_SPRINGBOOT_APP_PORT);
+        if (port == null || port.isEmpty()) {
+            return DEFAULT_SPRINGBOOT_APP_PORT;
+        }
+
+        return port;
     }
 }
