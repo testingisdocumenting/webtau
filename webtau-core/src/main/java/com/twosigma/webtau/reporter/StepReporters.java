@@ -51,14 +51,17 @@ public class StepReporters {
         }
     }
 
-    public static void onStart(TestStep step) {
+    @SuppressWarnings("unchecked")
+    public static void onStart(TestStep<?, ?> step) {
         getReportersStream().forEach(r -> r.onStepStart(step));
     }
 
+    @SuppressWarnings("unchecked")
     public static void onSuccess(TestStep step) {
         getReportersStream().forEach(r -> r.onStepSuccess(step));
     }
 
+    @SuppressWarnings("unchecked")
     public static void onFailure(TestStep step) {
         getReportersStream().forEach(r -> r.onStepFailure(step));
     }
