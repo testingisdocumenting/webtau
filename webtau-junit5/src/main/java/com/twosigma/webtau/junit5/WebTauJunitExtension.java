@@ -20,10 +20,16 @@ import com.twosigma.webtau.javarunner.report.JavaBasedTest;
 import com.twosigma.webtau.javarunner.report.JavaReport;
 import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
 import com.twosigma.webtau.report.ReportTestEntry;
+import com.twosigma.webtau.reporter.ConsoleStepReporter;
+import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
 import org.junit.jupiter.api.extension.*;
 
+/**
+ * JUnit 5 extension to enable html report generation
+ * Junit 5 relevant github issues: https://github.com/junit-team/junit5/issues/1769
+ */
 public class WebTauJunitExtension implements
         BeforeAllCallback,
         AfterAllCallback,
@@ -36,7 +42,9 @@ public class WebTauJunitExtension implements
     private static final String BEFORE_ALL_ID = "beforeAll";
 
     @Override
-    public void beforeAll(ExtensionContext extensionContext) throws Exception {
+    public void beforeAll(ExtensionContext extensionContext) {
+        ConsoleReporterRegistrator.register();
+
         JavaBasedTest test = new JavaBasedTest(
                 BEFORE_ALL_ID,
                 "init");
@@ -45,12 +53,12 @@ public class WebTauJunitExtension implements
     }
 
     @Override
-    public void afterAll(ExtensionContext extensionContext) throws Exception {
+    public void afterAll(ExtensionContext extensionContext) {
     }
 
     @Override
-    public void beforeEach(ExtensionContext extensionContext) throws Exception {
-        stopBeforeAllIfRequired(extensionContext);
+    public void beforeEach(ExtensionContext extensionContext) {
+        stopAndRemoveBeforeAllIfRequired(extensionContext);
 
         JavaBasedTest test = new JavaBasedTest(
                 extensionContext.getUniqueId(),
@@ -60,7 +68,7 @@ public class WebTauJunitExtension implements
     }
 
     @Override
-    public void afterEach(ExtensionContext extensionContext) throws Exception {
+    public void afterEach(ExtensionContext extensionContext) {
         JavaBasedTest test = retrieveTest(extensionContext);
         stopTest(extensionContext, test);
     }
@@ -102,7 +110,10 @@ public class WebTauJunitExtension implements
         JavaReportShutdownHook.INSTANCE.noOp();
     }
 
-    private void stopBeforeAllIfRequired(ExtensionContext extensionContext) {
+    // there is no official callback for @BeforeAll, so we deduce code ran before any of the actual tests
+    // we create a fake test called "init" and listen for all the test steps that happen
+    // if there are no actual steps were created before first test then we remove the fake test from report
+    private void stopAndRemoveBeforeAllIfRequired(ExtensionContext extensionContext) {
         if (! extensionContext.getParent().isPresent()) {
             return;
         }
@@ -136,5 +147,20 @@ public class WebTauJunitExtension implements
     private String fullTestName(ExtensionContext extensionContext) {
         return extensionContext.getParent()
                 .map(ExtensionContext::getDisplayName).orElse("") + " " + extensionContext.getDisplayName();
+    }
+
+    // add ConsoleStepReporter only once if the WebTau extension was used
+    private static class ConsoleReporterRegistrator {
+        static {
+            actualRegister();
+        }
+
+        static void register() {
+            // no-op to trigger class load
+        }
+
+        private static void actualRegister() {
+            StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter()));
+        }
     }
 }
