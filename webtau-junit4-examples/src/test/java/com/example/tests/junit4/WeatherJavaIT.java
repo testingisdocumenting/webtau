@@ -4,7 +4,7 @@ import com.twosigma.webtau.junit4.WebTauRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*;
+import static com.twosigma.webtau.WebTauDsl.*;
 
 @RunWith(WebTauRunner.class)
 public class WeatherJavaIT {

@@ -22,10 +22,12 @@ import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
+import org.junit.runner.notification.Failure;
+import org.junit.runner.notification.RunListener;
+import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
-import org.junit.runners.model.Statement;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -37,7 +39,7 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
     }
 
     @Override
-    protected Statement methodInvoker(FrameworkMethod method, Object test) {
+    protected void runChild(FrameworkMethod method, RunNotifier notifier) {
         JavaBasedTest javaBasedTest = new JavaBasedTest(
                 method.getName() + idGenerator.incrementAndGet(),
                 method.getName());
@@ -45,21 +47,22 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
         ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
         reportTestEntry.setClassName(method.getDeclaringClass().getCanonicalName());
 
-        Statement runStatement = super.methodInvoker(method, test);
-        return new Statement() {
+        notifier.addListener(new RunListener() {
             @Override
-            public void evaluate() throws Throwable {
-                beforeTestRun(javaBasedTest);
-                try {
-                    runStatement.evaluate();
-                } catch (Throwable e) {
-                    reportTestEntry.setException(e);
-                    throw e;
-                } finally {
-                    afterTestRun(javaBasedTest);
-                }
+            public void testFailure(Failure failure) {
+                reportTestEntry.setExceptionIfNotSet(failure.getException());
             }
-        };
+        });
+
+        beforeTestRun(javaBasedTest);
+        try {
+            super.runChild(method, notifier);
+        } catch (Throwable e) {
+            reportTestEntry.setExceptionIfNotSet(e);
+            throw e;
+        } finally {
+            afterTestRun(javaBasedTest);
+        }
     }
 
     private void beforeTestRun(JavaBasedTest javaBasedTest) {

@@ -138,6 +138,12 @@ public class ReportTestEntry {
         this.exception = exception;
     }
 
+    public void setExceptionIfNotSet(Throwable exception) {
+        if (this.exception == null) {
+            setException(exception);
+        }
+    }
+
     public void setRan(boolean ran) {
         isRan = ran;
     }
