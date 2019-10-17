@@ -1,41 +1,53 @@
 package com.example.tests.junit4;
 
 import com.twosigma.webtau.junit4.WebTauRunner;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Map;
 
-import static com.twosigma.webtau.WebTauDsl.*; // convenient single import for DSL methods and props like http and equal, aMapOf, etc
+import static com.twosigma.webtau.WebTauDsl.*;
 
-@RunWith(WebTauRunner.class) // runner is required to have this test to be a part of generated html report
-public class CustomerCrudSingleJavaTest {
+@RunWith(WebTauRunner.class)
+public class CustomerCrudBeforeAfterJavaTest {
     private Map<String, Object> customerPayload = createCustomerPayload();
     private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
+    private int customerId;
 
-    @Test
-    public void crud() {
-        int id = http.post("/customers", customerPayload, ((header, body) -> {
+    @Before
+    public void createCustomer() {
+        customerId = http.post("/customers", customerPayload, ((header, body) -> {
             return body.get("id");
         }));
+    }
 
-        http.get("/customers/" + id, ((header, body) -> {
+    @Test
+    public void queryCustomer() {
+        http.get("/customers/" + customerId, ((header, body) -> {
             body.should(equal(customerPayload));
         }));
+    }
 
-        http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> {
+    @Test
+    public void updateCustomer() {
+        http.put("/customers/" + customerId, changedCustomerPayload, ((header, body) -> {
             body.should(equal(changedCustomerPayload));
         }));
 
-        http.get("/customers/" + id, ((header, body) -> {
+        http.get("/customers/" + customerId, ((header, body) -> {
             body.should(equal(changedCustomerPayload));
         }));
+    }
 
-        http.delete("/customers/" + id, ((header, body) -> {
+    @After
+    public void deleteCustomer() {
+        http.delete("/customers/" + customerId, (header, body) -> {
             header.statusCode().should(equal(204));
-        }));
+        });
 
-        http.get("/customers/" + id, ((header, body) -> {
+        http.get("/customers/" + customerId, ((header, body) -> {
             header.statusCode().should(equal(404));
         }));
     }
