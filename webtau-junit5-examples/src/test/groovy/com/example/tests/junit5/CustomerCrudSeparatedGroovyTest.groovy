@@ -50,9 +50,19 @@ class CustomerCrudSeparatedGroovyTest {
         http.delete("/customers/$id") {
             header.statusCode.should == 204
         }
+        id = -1 // marking as deleted to let cleanup step know that no delete is required
 
         http.get("/customers/$id") {
             header.statusCode.should == 404
         }
+    }
+
+    @AfterAll
+    static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean
+        if (id == -1) {
+            return
+        }
+
+        http.delete("/customers/$id")
     }
 }
