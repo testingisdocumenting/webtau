@@ -24,7 +24,9 @@ import com.twosigma.webtau.reporter.ConsoleStepReporter;
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.*;
+import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.lang.reflect.Method;
 
@@ -72,7 +74,7 @@ public class WebTauJunitExtension implements
     public void beforeEach(ExtensionContext extensionContext) {
         JavaBasedTest test = new JavaBasedTest(
                 extensionContext.getUniqueId(),
-                fullTestName(extensionContext));
+                testNameFromExtensionContext(extensionContext));
 
         startTest(extensionContext, test);
     }
@@ -124,7 +126,7 @@ public class WebTauJunitExtension implements
                               ReflectiveInvocationContext<Method> invocationContext,
                               ExtensionContext extensionContext,
                               String testNamePrefix) throws Throwable {
-        String testMethodName = invocationContext.getExecutable().getName();
+        String testMethodName = testNameFromInvocationContext(invocationContext);
 
         JavaBasedTest test = new JavaBasedTest(
                 testNamePrefix + testMethodName,
@@ -152,9 +154,18 @@ public class WebTauJunitExtension implements
         return extensionContext.getStore(NAMESPACE).get(TEST_KEY, JavaBasedTest.class);
     }
 
-    private String fullTestName(ExtensionContext extensionContext) {
-        return extensionContext.getParent()
-                .map(ExtensionContext::getDisplayName).orElse("") + " " + extensionContext.getDisplayName();
+    private String testNameFromInvocationContext(ReflectiveInvocationContext<Method> invocationContext) {
+        Method method = invocationContext.getExecutable();
+        return AnnotationSupport.findAnnotation(method, DisplayName.class)
+                .map(DisplayName::value)
+                .orElseGet(method::getName);
+    }
+
+    private String testNameFromExtensionContext(ExtensionContext extensionContext) {
+        String displayName = extensionContext.getDisplayName();
+        return displayName.endsWith("()") ?
+                displayName.substring(0, displayName.length() - 2):
+                displayName;
     }
 
     // add ConsoleStepReporter only once if the WebTau extension was used
