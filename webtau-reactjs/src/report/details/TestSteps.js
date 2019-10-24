@@ -17,7 +17,7 @@
 import React from 'react'
 import Steps from './steps/Steps'
 
-const TestSteps = ({test}) => <Steps steps={test.steps}/>
+const TestSteps = ({test}) => <Steps test={test}/>
 
 export default TestSteps
 

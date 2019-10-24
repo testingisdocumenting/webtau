@@ -20,10 +20,11 @@ import {Step} from './Step'
 
 import './Steps.css'
 
-function Steps({steps}) {
+function Steps({test}) {
+    const {id, steps} = test
     return (
         <div className="steps">
-            {steps.map((step, idx) => <Step key={idx} step={step} isTopLevel={true}/>)}
+            {steps.map((step, idx) => <Step key={id + idx} step={step} isTopLevel={true}/>)}
         </div>
     )
 }
