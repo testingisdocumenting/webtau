@@ -22,20 +22,41 @@ import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
+import org.junit.BeforeClass;
+import org.junit.internal.runners.statements.RunBefores;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
+import org.junit.runners.model.Statement;
 
+import java.lang.reflect.Method;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class WebTauRunner extends BlockJUnit4ClassRunner {
     private static final AtomicInteger idGenerator = new AtomicInteger();
 
     public WebTauRunner(Class<?> klass) throws InitializationError {
         super(klass);
+    }
+
+//    @Override
+//    protected Statement classBlock(RunNotifier notifier) {
+//        notifier.addListener();
+//        return super.classBlock(notifier);
+//    }
+
+
+    @Override
+    protected Statement withBeforeClasses(Statement statement) {
+        List<FrameworkMethod> befores = wrapInWebTauTestEntry(getTestClass()
+                .getAnnotatedMethods(BeforeClass.class));
+        return befores.isEmpty() ? statement :
+                new RunBefores(statement, befores, null);
     }
 
     @Override
@@ -65,6 +86,14 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
         }
     }
 
+    private List<FrameworkMethod> wrapInWebTauTestEntry(List<FrameworkMethod> annotatedMethods) {
+        return annotatedMethods.stream().map(this::wrapInWebTauTestEntry).collect(Collectors.toList());
+    }
+
+    private FrameworkMethod wrapInWebTauTestEntry(FrameworkMethod annotatedMethod) {
+        return new WrappedFrameworkMethod(annotatedMethod);
+    }
+
     private void beforeTestRun(JavaBasedTest javaBasedTest) {
         javaBasedTest.getReportTestEntry().startClock();
         StepReporters.add(javaBasedTest);
@@ -82,5 +111,20 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
                 .forEach(reportTestEntry::addTestResultPayload);
 
         JavaReportShutdownHook.INSTANCE.noOp();
+    }
+
+    private static class WrappedFrameworkMethod extends FrameworkMethod {
+        public WrappedFrameworkMethod(FrameworkMethod frameworkMethod) {
+            super(frameworkMethod.getMethod());
+        }
+
+        @Override
+        public Object invokeExplosively(Object target, Object... params) throws Throwable {
+            System.out.println("before ----");
+            Object result = super.invokeExplosively(target, params);
+            System.out.println("after ----");
+
+            return result;
+        }
     }
 }
