@@ -145,7 +145,7 @@ class TableDataComparisonTest {
     }
 
     @Test
-    void "should report extra rows when (no key columns)"() {
+    void "should report extra rows (no key columns)"() {
         def actual = ["a" | "b" | "c"] {
                        ______________
                        10 | 20  | 30
@@ -165,12 +165,32 @@ class TableDataComparisonTest {
     }
 
     @Test
-    void "should report extra rows when (with key columns)"() {
+    void "should report extra rows (with key columns)"() {
         def actual = ["*id" | "b" | "c"] {
                       ________________
                          22 | 62  | 132
                          10 | 20  | 30
                          42 | 82  | 232 }
+
+        def expected = ["*id" | "b" | "c"] {
+                        _________________
+                           10 | 20 | 30 }
+
+        def result = TableDataComparison.compare(actual, expected)
+        def extraRows = result.getExtraRows()
+
+        extraRows.numberOfRows().should == 2
+        extraRows.row(0).should == [id: 22, b: 62, c: 132]
+        extraRows.row(1).should == [id: 42, b: 82, c: 232]
+    }
+
+    @Test
+    void "should report extra rows (with key columns only in expected)"() {
+        def actual = ["id" | "b" | "c"] {
+                      _________________
+                        22 | 62  | 132
+                        10 | 20  | 30
+                        42 | 82  | 232 }
 
         def expected = ["*id" | "b" | "c"] {
                         _________________

@@ -82,7 +82,7 @@ public class TableDataComparison {
         actualKeys.removeAll(expected.keySet());
 
         for (CompositeKey actualKey : actualKeys) {
-            comparisonResult.addExtraRow(actual.find(actualKey));
+            comparisonResult.addExtraRow(actualRowsByKey.get(actualKey));
         }
     }
 
