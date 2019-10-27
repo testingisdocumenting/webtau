@@ -37,7 +37,7 @@ class TableDataExtension {
             use(TableBuildCategory) {
                 Closure tableDataCodeToRun = tableDataCode.clone() as Closure
                 tableDataCodeToRun.delegate = new TableBuildDelegate()
-                tableDataCodeToRun.resolveStrategy = Closure.DELEGATE_FIRST
+                tableDataCodeToRun.resolveStrategy = Closure.OWNER_FIRST
 
                 tableDataCodeToRun.call()
             }
