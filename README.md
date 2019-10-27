@@ -6,8 +6,41 @@ Web Test Automation [User Guide](https://opensource.twosigma.com/webtau/guide/)
 
 ## Simple REST tests
 
+### JUnit support
+
+*Groovy*
 ```groovy
-scenario("simple get") {
+@RunWith(WebTauRunner.class)
+class WeatherGroovyIT {
+    @Test
+    void checkWeather() {
+        http.get("/weather") {
+            temperature.shouldBe < 100
+        }
+    }
+}
+```
+
+*Java*
+```java
+@RunWith(WebTauRunner.class)
+public class WeatherJavaIT {
+    @Test
+    public void checkWeather() {
+        http.get("/weather", (header, body) -> {
+            body.get("temperature").shouldBe(lessThan(100));
+        });
+    }
+}
+```
+
+
+### Groovy dev-ops friendly 
+
+Support for command line friendly automation and exploration with Groovy specific simplified runner
+
+```groovy
+scenario("check weather") {
     http.get("/weather") {
         temperature.shouldBe < 100
     }
@@ -17,6 +50,10 @@ scenario("simple get") {
 {
   "temperature": 88
 }
+```
+
+```
+webtau weather.groovy
 ```
 
 ## Robust UI tests
