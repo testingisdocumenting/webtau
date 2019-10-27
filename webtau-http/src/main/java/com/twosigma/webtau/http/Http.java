@@ -211,6 +211,10 @@ public class Http {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, Map<String, Object> requestBody) {
+        post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E post(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
         return post(url, queryParams, EmptyRequestBody.INSTANCE, validator);
     }
