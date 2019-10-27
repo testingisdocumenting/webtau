@@ -1,6 +1,6 @@
 {
   "scenarioDetails" : [ {
-    "scenario" : "simple get",
+    "scenario" : "check weather",
     "shortContainerId" : "simpleGet.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
