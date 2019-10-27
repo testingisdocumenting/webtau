@@ -22,7 +22,9 @@ import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
 import com.twosigma.webtau.report.ReportTestEntry;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.internal.runners.statements.RunAfters;
 import org.junit.internal.runners.statements.RunBefores;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
@@ -44,13 +46,6 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
         super(klass);
     }
 
-//    @Override
-//    protected Statement classBlock(RunNotifier notifier) {
-//        notifier.addListener();
-//        return super.classBlock(notifier);
-//    }
-
-
     @Override
     protected Statement withBeforeClasses(Statement statement) {
         List<FrameworkMethod> befores = wrapInWebTauTestEntry(getTestClass()
@@ -60,13 +55,17 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
     }
 
     @Override
-    protected void runChild(FrameworkMethod method, RunNotifier notifier) {
-        JavaBasedTest javaBasedTest = new JavaBasedTest(
-                method.getName() + idGenerator.incrementAndGet(),
-                method.getName());
+    protected Statement withAfterClasses(Statement statement) {
+        List<FrameworkMethod> afters = wrapInWebTauTestEntry(getTestClass()
+                .getAnnotatedMethods(AfterClass.class));
+        return afters.isEmpty() ? statement :
+                new RunAfters(statement, afters, null);
+    }
 
+    @Override
+    protected void runChild(FrameworkMethod method, RunNotifier notifier) {
+        JavaBasedTest javaBasedTest = createJavaBasedTest(method);
         ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
-        reportTestEntry.setClassName(method.getDeclaringClass().getCanonicalName());
 
         notifier.addListener(new RunListener() {
             @Override
@@ -113,18 +112,38 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
         JavaReportShutdownHook.INSTANCE.noOp();
     }
 
-    private static class WrappedFrameworkMethod extends FrameworkMethod {
-        public WrappedFrameworkMethod(FrameworkMethod frameworkMethod) {
+    private JavaBasedTest createJavaBasedTest(FrameworkMethod method) {
+        JavaBasedTest javaBasedTest = new JavaBasedTest(
+                method.getName() + idGenerator.incrementAndGet(),
+                method.getName());
+
+        ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
+        reportTestEntry.setClassName(method.getDeclaringClass().getCanonicalName());
+
+        return javaBasedTest;
+    }
+
+    private class WrappedFrameworkMethod extends FrameworkMethod {
+        private final FrameworkMethod frameworkMethod;
+
+        WrappedFrameworkMethod(FrameworkMethod frameworkMethod) {
             super(frameworkMethod.getMethod());
+            this.frameworkMethod = frameworkMethod;
         }
 
         @Override
         public Object invokeExplosively(Object target, Object... params) throws Throwable {
-            System.out.println("before ----");
-            Object result = super.invokeExplosively(target, params);
-            System.out.println("after ----");
+            JavaBasedTest javaBasedTest = createJavaBasedTest(frameworkMethod);
 
-            return result;
+            beforeTestRun(javaBasedTest);
+            try {
+                return super.invokeExplosively(target, params);
+            } catch (Throwable e) {
+                javaBasedTest.getReportTestEntry().setException(e);
+                throw e;
+            } finally {
+                afterTestRun(javaBasedTest);
+            }
         }
     }
 }
