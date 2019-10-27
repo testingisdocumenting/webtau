@@ -17,6 +17,15 @@ Groovy: :include-file: com/example/tests/junit4/CustomerCrudBeforeAfterGroovyTes
 Java: :include-file: com/example/tests/junit4/CustomerCrudBeforeAfterJavaTest.java {title: "CRUD test with @Before and @After annotations", commentsType: "inline"}
 ```
 
+# BeforeClass/AfterClass
+
+Use `@BeforeClass` and `@AfterClass` to prepare and cleanup resources required for multiple test methods.
+
+```tabs
+Groovy: :include-file: com/example/tests/junit4/CustomerQueryGroovyTest.groovy {commentsType: "inline"}
+Java: :include-file: com/example/tests/junit4/CustomerQueryJavaTest.java {commentsType: "inline"}
+```
+
 # Maven Import
 
 :include-file: maven/junit4-dep.xml

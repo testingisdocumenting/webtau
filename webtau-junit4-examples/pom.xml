@@ -31,6 +31,7 @@
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -51,24 +52,6 @@
             <artifactId>webtau-junit-like-examples-common</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-http</artifactId>
-            <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-simple</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.twosigma.webtau</groupId>
-            <artifactId>webtau-http-groovy</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
