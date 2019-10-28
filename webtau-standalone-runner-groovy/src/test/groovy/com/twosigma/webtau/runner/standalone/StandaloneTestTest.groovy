@@ -21,7 +21,7 @@ import org.junit.Test
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.Ddjt.equal
+import static com.twosigma.webtau.WebTauCore.equal
 
 class StandaloneTestTest {
     @Test

@@ -16,8 +16,10 @@
 
 package com.twosigma.webtau.data.table.autogen;
 
+import com.twosigma.webtau.WebTauCore;
+
 /**
- * @see com.twosigma.webtau.Ddjt#cell
+ * @see WebTauCore#cell
  */
 public class TableDataCellValueGenFunctions {
     public final TableDataCellValueGenerator<?> above = TableDataCellAbove.generator;

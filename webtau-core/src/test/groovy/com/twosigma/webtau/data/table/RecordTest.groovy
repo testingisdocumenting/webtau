@@ -19,7 +19,7 @@ package com.twosigma.webtau.data.table
 import com.twosigma.webtau.data.table.header.Header
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 
 class RecordTest {
     @Test

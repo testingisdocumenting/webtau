@@ -24,7 +24,7 @@ import com.twosigma.webtau.expectation.equality.CompareToResult;
 import java.util.List;
 import java.util.Map;
 
-import static com.twosigma.webtau.Ddjt.createActualPath;
+import static com.twosigma.webtau.WebTauCore.createActualPath;
 
 public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode> {
     DataNodeId id();

@@ -23,7 +23,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static com.twosigma.webtau.Ddjt.*;
+import static com.twosigma.webtau.WebTauCore.*;
 import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.*;
 
 public class TableDataJavaTest {

@@ -20,12 +20,7 @@ import com.twosigma.webtau.expectation.ActualPath
 import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.beGreaterThanOrEqual
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.createActualPath
-import static com.twosigma.webtau.Ddjt.equal
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
 
 class NumbersCompareToHandlerTest {
@@ -86,14 +81,14 @@ class NumbersCompareToHandlerTest {
     @Test
     void "handler is linked"() {
         actual(10.0).should(equal(10))
-        actual(10.0).should(beGreaterThanOrEqual(8l))
+        actual(10.0).shouldBe(greaterThanOrEqual(8l))
 
         code {
             actual(10.0).should(equal(9))
         } should throwException(AssertionError, ~/expected: 9/)
 
         code {
-            actual(10.0).should(beGreaterThanOrEqual(11))
+            actual(10.0).shouldBe(greaterThanOrEqual(11))
         } should throwException(AssertionError, ~/expected: greater than or equal to 11/)
     }
 

@@ -20,7 +20,7 @@ import com.twosigma.webtau.expectation.ActualPath
 import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.WebTauCore.createActualPath
 import static org.junit.Assert.assertEquals
 
 class ByteArrayCompareToHandlerTest {

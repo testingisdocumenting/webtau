@@ -20,7 +20,7 @@ import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.WebTauCore.createActualPath
 import static com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode
 import static org.junit.Assert.assertEquals
 

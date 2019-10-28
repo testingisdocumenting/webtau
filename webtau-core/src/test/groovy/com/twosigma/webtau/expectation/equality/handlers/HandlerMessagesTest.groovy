@@ -6,11 +6,7 @@ import org.junit.Test
 import java.time.LocalDate
 import java.util.stream.Stream
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.equal
-import static com.twosigma.webtau.Ddjt.lessThan
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class HandlerMessagesTest {
     // AnyCompareTo messages

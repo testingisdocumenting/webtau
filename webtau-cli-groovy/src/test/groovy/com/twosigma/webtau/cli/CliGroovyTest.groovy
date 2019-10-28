@@ -18,7 +18,7 @@ package com.twosigma.webtau.cli
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 import static com.twosigma.webtau.cli.Cli.cli
 import static com.twosigma.webtau.cli.CliTestUtils.supportedPlatformOnly
 

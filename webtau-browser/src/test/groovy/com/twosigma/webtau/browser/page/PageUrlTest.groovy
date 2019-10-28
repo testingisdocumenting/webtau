@@ -19,8 +19,7 @@ package com.twosigma.webtau.browser.page
 import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class PageUrlTest {
     private static def browser = [

@@ -33,7 +33,7 @@ import org.junit.Test
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 
 class OpenApiResponseValidatorTest implements StepReporter {
     List<String> stepMessages = []

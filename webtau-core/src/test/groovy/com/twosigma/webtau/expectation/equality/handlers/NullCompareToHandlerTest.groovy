@@ -19,7 +19,7 @@ package com.twosigma.webtau.expectation.equality.handlers
 import com.twosigma.webtau.expectation.ValueMatcher
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 
 class NullCompareToHandlerTest {
     @Test
@@ -56,8 +56,8 @@ class NullCompareToHandlerTest {
 
     @Test
     void "null is greater-than-or-equal and less-than-or-equal than null"() {
-        actual(null).should(beGreaterThanOrEqual(null))
-        actual(null).should(beLessThanOrEqual(null))
+        actual(null).shouldBe(greaterThanOrEqual(null))
+        actual(null).shouldBe(lessThanOrEqual(null))
     }
 
     @Test
@@ -69,11 +69,11 @@ class NullCompareToHandlerTest {
 
         }
 
-        expect(beGreaterThan(10), "expected: greater than 10")
-        expect(beGreaterThanOrEqual(10), "expected: greater than or equal to 10")
+        expect(greaterThan(10), "expected: greater than 10")
+        expect(greaterThanOrEqual(10), "expected: greater than or equal to 10")
 
-        expect(beLessThan(10), "expected: less than 10")
-        expect(beLessThanOrEqual(10), "expected: less than or equal to 10")
+        expect(lessThan(10), "expected: less than 10")
+        expect(lessThanOrEqual(10), "expected: less than or equal to 10")
     }
 
     @Test
@@ -85,10 +85,10 @@ class NullCompareToHandlerTest {
 
         }
 
-        expect(beGreaterThan(null), "expected: greater than null")
-        expect(beGreaterThanOrEqual(null), "expected: greater than or equal to null")
+        expect(greaterThan(null), "expected: greater than null")
+        expect(greaterThanOrEqual(null), "expected: greater than or equal to null")
 
-        expect(beLessThan(null), "expected: less than null")
-        expect(beLessThanOrEqual(null), "expected: less than or equal to null")
+        expect(lessThan(null), "expected: less than null")
+        expect(lessThanOrEqual(null), "expected: less than or equal to null")
     }
 }

@@ -22,8 +22,7 @@ import org.junit.rules.ExpectedException
 
 import java.lang.reflect.UndeclaredThrowableException
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class ThrowExceptionMatcherGroovyTest {
     @Rule

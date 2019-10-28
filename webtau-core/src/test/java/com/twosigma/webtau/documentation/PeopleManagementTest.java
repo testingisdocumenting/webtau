@@ -21,9 +21,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static com.twosigma.webtau.Ddjt.actual;
-import static com.twosigma.webtau.Ddjt.equal;
-import static com.twosigma.webtau.Ddjt.table;
+import static com.twosigma.webtau.WebTauCore.*;
 import static java.util.stream.Collectors.toList;
 
 public class PeopleManagementTest {

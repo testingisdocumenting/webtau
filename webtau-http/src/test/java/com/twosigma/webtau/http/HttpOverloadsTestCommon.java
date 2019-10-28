@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.twosigma.webtau.Ddjt.equal;
+import static com.twosigma.webtau.WebTauCore.equal;
 import static com.twosigma.webtau.http.Http.http;
 
 public class HttpOverloadsTestCommon {

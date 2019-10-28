@@ -21,7 +21,7 @@ import org.junit.Test
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.Ddjt.contain
+import static com.twosigma.webtau.WebTauCore.contain
 
 class StandaloneTestRunnerTest {
     @Test

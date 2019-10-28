@@ -18,8 +18,7 @@ package com.twosigma.webtau.expectation.equality.handlers
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.equal
+import static com.twosigma.webtau.WebTauCore.*
 
 class RegexpEqualCompareToHandlerTest {
     @Test
