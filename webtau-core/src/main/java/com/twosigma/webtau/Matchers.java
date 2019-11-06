@@ -67,7 +67,8 @@ public class Matchers {
     /**
      * Contain matcher
      * <pre>
-     * actual(value).should(contain(10));
+     * actual(collection).should(contain(10));
+     * actual(text).should(contain("hello"));
      * </pre>
      * @param expected value to be contained
      * @return matcher instance
@@ -77,9 +78,9 @@ public class Matchers {
     }
 
     /**
-     * Contain matcher. Alias to contain
+     * Containing matcher. Alias to contain
      * <pre>
-     * actual(value).should(containing(10));
+     * actual(collectionWithText).should(contain(containing("hello")));
      * </pre>
      * @param expected value to be contained
      * @return matcher instance
