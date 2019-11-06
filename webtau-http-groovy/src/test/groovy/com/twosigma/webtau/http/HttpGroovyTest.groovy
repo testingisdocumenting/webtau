@@ -39,7 +39,7 @@ import java.time.ZonedDateTime
 import java.util.function.Consumer
 import java.util.stream.Collectors
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 import static com.twosigma.webtau.cfg.WebTauConfig.cfg
 import static com.twosigma.webtau.http.Http.http
 import static org.junit.Assert.assertFalse

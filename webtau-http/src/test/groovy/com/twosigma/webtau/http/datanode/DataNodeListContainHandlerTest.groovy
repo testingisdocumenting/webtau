@@ -18,9 +18,7 @@ package com.twosigma.webtau.http.datanode
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.contain
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 import static com.twosigma.webtau.data.traceable.CheckLevel.ExplicitFailed
 import static com.twosigma.webtau.data.traceable.CheckLevel.ExplicitPassed
 import static com.twosigma.webtau.data.traceable.CheckLevel.FuzzyPassed

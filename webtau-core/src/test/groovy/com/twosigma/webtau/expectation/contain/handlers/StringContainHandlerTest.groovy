@@ -21,7 +21,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.WebTauCore.*
 
 class StringContainHandlerTest {
     private ContainAnalyzer analyzer

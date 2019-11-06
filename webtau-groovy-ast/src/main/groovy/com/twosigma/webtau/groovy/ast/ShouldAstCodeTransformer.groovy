@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.groovy.ast
 
-import com.twosigma.webtau.Ddjt
+import com.twosigma.webtau.WebTauCore
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import org.codehaus.groovy.ast.ClassCodeExpressionTransformer
@@ -89,7 +89,7 @@ class ShouldAstCodeTransformer extends ClassCodeExpressionTransformer {
                                                                     Expression rightExpression) {
         new MethodCallExpression(leftExpression.objectExpression, leftExpression.property,
             new ArgumentListExpression(new StaticMethodCallExpression(
-                new ClassNode(Ddjt), matcherMethodForOperation(operationText), rightExpression)))
+                new ClassNode(WebTauCore), matcherMethodForOperation(operationText), rightExpression)))
     }
 
     static String matcherMethodForOperation(String operationText) {

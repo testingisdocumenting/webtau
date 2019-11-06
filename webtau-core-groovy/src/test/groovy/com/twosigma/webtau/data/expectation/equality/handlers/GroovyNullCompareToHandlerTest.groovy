@@ -19,10 +19,7 @@ package com.twosigma.webtau.data.expectation.equality.handlers
 import org.codehaus.groovy.runtime.NullObject
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.equal
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class GroovyNullCompareToHandlerTest {
     @Test

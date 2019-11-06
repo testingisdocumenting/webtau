@@ -21,14 +21,7 @@ import com.twosigma.webtau.expectation.ValueMatcher
 import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.beGreaterThan
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.contain
-import static com.twosigma.webtau.Ddjt.containing
-import static com.twosigma.webtau.Ddjt.createActualPath
-import static com.twosigma.webtau.Ddjt.greaterThan
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
 
 class ValueMatcherCompareToHandlerTest {
@@ -37,7 +30,7 @@ class ValueMatcherCompareToHandlerTest {
     @Test
     void "handles expected as ValueMatcher"() {
         def handler = new ValueMatcherCompareToHandler()
-        assert handler.handleEquality(100, beGreaterThan(10))
+        assert handler.handleEquality(100, greaterThan(10))
         assert !handler.handleEquality(100, 200)
     }
 

@@ -35,7 +35,7 @@ import com.twosigma.webtau.schema.expectation.SchemaMatcher;
 /*
 Convenient class for static * import
  */
-public class WebTauDsl extends Ddjt {
+public class WebTauDsl extends WebTauCore {
     public static final Data data = Data.data;
     public static final Cache cache = Cache.cache;
 

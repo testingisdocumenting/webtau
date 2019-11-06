@@ -28,7 +28,7 @@ import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.equal
+import static com.twosigma.webtau.WebTauCore.equal
 
 class DataNodeAnsiPrinterTest {
     private static def ansiConsoleOutput = new AnsiConsoleOutput()

@@ -27,8 +27,7 @@ import com.twosigma.webtau.expectation.equality.LessThanMatcher
 import com.twosigma.webtau.expectation.equality.LessThanOrEqualMatcher
 import com.twosigma.webtau.expectation.equality.NotEqualMatcher
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class ShouldAstTransformationTest extends GroovyTestCase {
     void testShouldNotTransformationOnNull() {

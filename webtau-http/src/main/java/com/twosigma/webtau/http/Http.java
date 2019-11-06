@@ -57,7 +57,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
 
-import static com.twosigma.webtau.Ddjt.equal;
+import static com.twosigma.webtau.WebTauCore.equal;
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;

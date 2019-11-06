@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static com.twosigma.webtau.Ddjt.*;
+import static com.twosigma.webtau.WebTauCore.*;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.assertEquals;
 

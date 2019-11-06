@@ -22,8 +22,7 @@ import com.twosigma.webtau.expectation.timer.DummyExpectationTimer
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.equal
+import static com.twosigma.webtau.WebTauCore.*
 
 class ActualValueTest {
     LiveValue liveValue

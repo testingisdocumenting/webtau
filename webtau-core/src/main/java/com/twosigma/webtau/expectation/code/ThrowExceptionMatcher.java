@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.expectation.code;
 
-import static com.twosigma.webtau.Ddjt.createActualPath;
+import static com.twosigma.webtau.WebTauCore.createActualPath;
 
 import com.twosigma.webtau.expectation.CodeBlock;
 import com.twosigma.webtau.expectation.CodeMatcher;

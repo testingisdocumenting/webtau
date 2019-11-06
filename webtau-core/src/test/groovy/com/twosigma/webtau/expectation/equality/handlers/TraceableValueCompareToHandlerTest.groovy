@@ -21,14 +21,7 @@ import com.twosigma.webtau.data.traceable.TraceableValue
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.beGreaterThan
-import static com.twosigma.webtau.Ddjt.beGreaterThanOrEqual
-import static com.twosigma.webtau.Ddjt.beLessThan
-import static com.twosigma.webtau.Ddjt.beLessThanOrEqual
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.equal
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class TraceableValueCompareToHandlerTest {
     def nonMatchingValue = 100
@@ -78,38 +71,38 @@ class TraceableValueCompareToHandlerTest {
 
     @Test
     void "mark value as fuzzy passed when matches during greater than"() {
-        actual(traceableValue).should(beGreaterThan(traceableValue.value - 1))
+        actual(traceableValue).shouldBe(greaterThan(traceableValue.value - 1))
         assert traceableValue.checkLevel == CheckLevel.FuzzyPassed
     }
 
     @Test
     void "mark value as fuzzy passed when matches during greater than or equal"() {
-        actual(traceableValue).should(beGreaterThanOrEqual(traceableValue.value))
+        actual(traceableValue).shouldBe(greaterThanOrEqual(traceableValue.value))
         assert traceableValue.checkLevel == CheckLevel.FuzzyPassed
     }
 
     @Test
     void "mark value as fuzzy passed when matches during less than"() {
-        actual(traceableValue).should(beLessThan(traceableValue.value + 1))
+        actual(traceableValue).shouldBe(lessThan(traceableValue.value + 1))
         assert traceableValue.checkLevel == CheckLevel.FuzzyPassed
     }
 
     @Test
     void "mark value as fuzzy passed when matches during less than or equal"() {
-        actual(traceableValue).should(beLessThanOrEqual(traceableValue.value))
+        actual(traceableValue).shouldBe(lessThanOrEqual(traceableValue.value))
         assert traceableValue.checkLevel == CheckLevel.FuzzyPassed
     }
 
     @Test
     void "mark value as fuzzy passed when matches during not less than or equal"() {
-        actual(traceableValue).shouldNot(beLessThanOrEqual(traceableValue.value - 1))
+        actual(traceableValue).shouldNotBe(lessThanOrEqual(traceableValue.value - 1))
         assert traceableValue.checkLevel == CheckLevel.FuzzyPassed
     }
 
     @Test
     void "mark value as explicitly failed when fails during less than"() {
         code {
-            actual(traceableValue).should(beLessThan(traceableValue.value - 1))
+            actual(traceableValue).shouldBe(lessThan(traceableValue.value - 1))
         } should throwException(AssertionError)
 
         assert traceableValue.checkLevel == CheckLevel.ExplicitFailed
@@ -118,7 +111,7 @@ class TraceableValueCompareToHandlerTest {
     @Test
     void "mark value as explicitly failed when fails during less than or equal"() {
         code {
-            actual(traceableValue).should(beLessThanOrEqual(traceableValue.value - 1))
+            actual(traceableValue).shouldBe(lessThanOrEqual(traceableValue.value - 1))
         } should throwException(AssertionError)
 
         assert traceableValue.checkLevel == CheckLevel.ExplicitFailed
@@ -127,7 +120,7 @@ class TraceableValueCompareToHandlerTest {
     @Test
     void "mark value as explicitly failed when fails during greater than"() {
         code {
-            actual(traceableValue).should(beGreaterThan(traceableValue.value + 1))
+            actual(traceableValue).shouldBe(greaterThan(traceableValue.value + 1))
         } should throwException(AssertionError)
 
         assert traceableValue.checkLevel == CheckLevel.ExplicitFailed
@@ -136,7 +129,7 @@ class TraceableValueCompareToHandlerTest {
     @Test
     void "mark value as explicitly failed when fails during greater than or equal"() {
         code {
-            actual(traceableValue).should(beGreaterThanOrEqual(traceableValue.value + 1))
+            actual(traceableValue).shouldBe(greaterThanOrEqual(traceableValue.value + 1))
         } should throwException(AssertionError)
 
         assert traceableValue.checkLevel == CheckLevel.ExplicitFailed
@@ -145,7 +138,7 @@ class TraceableValueCompareToHandlerTest {
     @Test
     void "mark value as explicitly failed when fails during not greater than"() {
         code {
-            actual(traceableValue).shouldNot(beGreaterThan(traceableValue.value - 1))
+            actual(traceableValue).shouldNotBe(greaterThan(traceableValue.value - 1))
         } should throwException(AssertionError)
 
         assert traceableValue.checkLevel == CheckLevel.ExplicitFailed

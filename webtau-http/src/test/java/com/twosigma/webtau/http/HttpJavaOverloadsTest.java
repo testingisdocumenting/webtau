@@ -18,8 +18,7 @@ package com.twosigma.webtau.http;
 
 import org.junit.Test;
 
-import static com.twosigma.webtau.Ddjt.actual;
-import static com.twosigma.webtau.Ddjt.equal;
+import static com.twosigma.webtau.WebTauCore.*;
 import static com.twosigma.webtau.http.Http.http;
 import static com.twosigma.webtau.http.HttpOverloadsTestCommon.*;
 

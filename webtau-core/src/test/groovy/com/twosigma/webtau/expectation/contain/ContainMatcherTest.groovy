@@ -18,10 +18,7 @@ package com.twosigma.webtau.expectation.contain
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.contain
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class ContainMatcherTest {
     @Test

@@ -18,7 +18,7 @@ package com.twosigma.webtau.data.render
 
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.table
+import static com.twosigma.webtau.WebTauCore.table
 import static org.junit.Assert.assertEquals
 
 class TableDataRenderTest {

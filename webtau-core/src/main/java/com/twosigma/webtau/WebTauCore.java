@@ -43,11 +43,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * Data Driven Java Testing
- * <p>
- * Convenient class for a single static * imports
+ * Convenient class for a single static * imports to have matchers and helper functions available for your test
  */
-public class Ddjt {
+public class WebTauCore extends Matchers {
     public static final TableDataCellValueGenFunctions cell = new TableDataCellValueGenFunctions();
 
     public static final TableDataUnderscore __ = TableDataUnderscore.INSTANCE;
@@ -72,84 +70,8 @@ public class Ddjt {
         return new MultiValue(atLeastOneValue, values);
     }
 
-    public static ActualValueExpectations actual(Object actual) {
-        return new ActualValue(actual);
-    }
-
-    public static ActualCodeExpectations code(CodeBlock codeBlock) {
-        return new ActualCode(codeBlock);
-    }
-
-    public static EqualMatcher equal(Object expected) {
-        return new EqualMatcher(expected);
-    }
-
-    public static NotEqualMatcher notEqual(Object expected) {
-        return new NotEqualMatcher(expected);
-    }
-
-    public static ContainMatcher contain(Object expected) {
-        return new ContainMatcher(expected);
-    }
-
-    public static ContainMatcher containing(Object expected) {
-        return new ContainMatcher(expected);
-    }
-
     public static <K, V> Map<K, V> aMapOf(Object... kvs) {
         return CollectionUtils.aMapOf(kvs);
-    }
-
-    public static GreaterThanMatcher beGreaterThan(Object expected) {
-        return new GreaterThanMatcher(expected);
-    }
-
-    public static GreaterThanOrEqualMatcher beGreaterThanOrEqual(Object expected) {
-        return new GreaterThanOrEqualMatcher(expected);
-    }
-
-    public static LessThanMatcher beLessThan(Object expected) {
-        return new LessThanMatcher(expected);
-    }
-
-    public static LessThanOrEqualMatcher beLessThanOrEqual(Object expected) {
-        return new LessThanOrEqualMatcher(expected);
-    }
-
-    public static GreaterThanMatcher greaterThan(Object expected) {
-        return beGreaterThan(expected);
-    }
-
-    public static GreaterThanOrEqualMatcher greaterThanOrEqual(Object expected) {
-        return beGreaterThanOrEqual(expected);
-    }
-
-    public static LessThanMatcher lessThan(Object expected) {
-        return beLessThan(expected);
-    }
-
-    public static LessThanOrEqualMatcher lessThanOrEqual(Object expected) {
-        return beLessThanOrEqual(expected);
-    }
-
-    public static ThrowExceptionMatcher throwException(String expectedMessage) {
-        return new ThrowExceptionMatcher(expectedMessage);
-    }
-
-    public static ThrowExceptionMatcher throwException(Pattern expectedMessageRegexp) {
-        return new ThrowExceptionMatcher(expectedMessageRegexp);
-    }
-
-    public static ThrowExceptionMatcher throwException(Class expectedClass) {
-        return new ThrowExceptionMatcher(expectedClass);
-    }
-
-    public static ThrowExceptionMatcher throwException(Class expectedClass, Pattern expectedMessageRegexp) {
-        return new ThrowExceptionMatcher(expectedClass, expectedMessageRegexp);
-    }
-
-    public static ThrowExceptionMatcher throwException(Class expectedClass, String expectedMessage) {
-        return new ThrowExceptionMatcher(expectedClass, expectedMessage);
     }
 
     public static ActualPath createActualPath(String path) {

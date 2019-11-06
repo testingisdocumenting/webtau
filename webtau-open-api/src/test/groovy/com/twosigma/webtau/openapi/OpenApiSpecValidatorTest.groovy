@@ -22,7 +22,7 @@ import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 
 class OpenApiSpecValidatorTest {
     private final static String GET = "GET"

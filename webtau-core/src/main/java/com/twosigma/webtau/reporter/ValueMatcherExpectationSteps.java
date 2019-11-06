@@ -19,7 +19,7 @@ package com.twosigma.webtau.reporter;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.expectation.timer.ExpectationTimer;
 
-import static com.twosigma.webtau.Ddjt.actual;
+import static com.twosigma.webtau.WebTauCore.actual;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.matcher;

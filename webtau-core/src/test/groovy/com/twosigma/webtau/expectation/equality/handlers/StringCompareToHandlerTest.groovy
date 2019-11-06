@@ -19,9 +19,7 @@ package com.twosigma.webtau.expectation.equality.handlers
 import com.twosigma.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.createActualPath
-import static com.twosigma.webtau.Ddjt.equal
+import static com.twosigma.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
 
 class StringCompareToHandlerTest {

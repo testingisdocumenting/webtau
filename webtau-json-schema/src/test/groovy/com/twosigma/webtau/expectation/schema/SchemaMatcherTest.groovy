@@ -5,9 +5,7 @@ import com.twosigma.webtau.http.datanode.DataNodeId
 import com.twosigma.webtau.schema.expectation.SchemaMatcher
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class SchemaMatcherTest {
     private final static TEST_SCHEMA = "test-schema.json"

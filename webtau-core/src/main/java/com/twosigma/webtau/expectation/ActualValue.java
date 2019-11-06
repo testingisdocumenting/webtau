@@ -21,7 +21,7 @@ import com.twosigma.webtau.expectation.timer.ExpectationTimer;
 
 import java.util.function.Function;
 
-import static com.twosigma.webtau.Ddjt.createActualPath;
+import static com.twosigma.webtau.WebTauCore.createActualPath;
 
 public class ActualValue implements ActualValueExpectations {
     private Object actual;

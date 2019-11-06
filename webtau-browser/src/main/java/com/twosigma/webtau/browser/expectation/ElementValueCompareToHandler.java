@@ -21,7 +21,7 @@ import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.equality.CompareToComparator;
 import com.twosigma.webtau.expectation.equality.CompareToHandler;
 
-import static com.twosigma.webtau.Ddjt.createActualPath;
+import static com.twosigma.webtau.WebTauCore.createActualPath;
 
 public class ElementValueCompareToHandler implements CompareToHandler {
     @Override

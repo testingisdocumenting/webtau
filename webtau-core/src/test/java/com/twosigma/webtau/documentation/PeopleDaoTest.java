@@ -19,9 +19,7 @@ package com.twosigma.webtau.documentation;
 import com.twosigma.webtau.data.table.TableData;
 import org.junit.Test;
 
-import static com.twosigma.webtau.Ddjt.actual;
-import static com.twosigma.webtau.Ddjt.equal;
-import static com.twosigma.webtau.Ddjt.table;
+import static com.twosigma.webtau.WebTauCore.*;
 
 public class PeopleDaoTest {
     private PeopleDao dao = new PeopleDao();

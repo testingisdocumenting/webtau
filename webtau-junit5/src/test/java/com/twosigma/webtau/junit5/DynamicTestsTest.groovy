@@ -18,7 +18,7 @@ package com.twosigma.webtau.junit5
 
 import org.junit.jupiter.api.Test
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 
 class DynamicTestsTest {
     @Test

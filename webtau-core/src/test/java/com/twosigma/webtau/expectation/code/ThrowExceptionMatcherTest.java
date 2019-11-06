@@ -20,12 +20,16 @@ import org.junit.Test;
 
 import java.util.regex.Pattern;
 
-import static com.twosigma.webtau.Ddjt.code;
-import static com.twosigma.webtau.Ddjt.throwException;
+import static com.twosigma.webtau.WebTauCore.code;
+import static com.twosigma.webtau.WebTauCore.throwException;
 
 public class ThrowExceptionMatcherTest {
     @Test
     public void examples() {
+        code(() -> {
+            businessLogic(-10);
+        }).should(throwException("negative are not allowed"));
+
         code(() -> {
             businessLogic(-10);
         }).should(throwException(IllegalArgumentException.class, "negative are not allowed"));

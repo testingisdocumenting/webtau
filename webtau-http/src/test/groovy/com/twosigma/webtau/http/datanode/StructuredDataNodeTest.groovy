@@ -20,9 +20,7 @@ import com.twosigma.webtau.data.traceable.CheckLevel
 import com.twosigma.webtau.data.traceable.TraceableValue
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.equal
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class StructuredDataNodeTest {
     @Test

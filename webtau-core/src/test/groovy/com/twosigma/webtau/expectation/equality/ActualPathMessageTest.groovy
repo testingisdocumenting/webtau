@@ -19,7 +19,7 @@ package com.twosigma.webtau.expectation.equality
 import org.junit.Assert
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.createActualPath
+import static com.twosigma.webtau.WebTauCore.createActualPath
 
 class ActualPathMessageTest {
     @Test

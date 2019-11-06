@@ -18,9 +18,7 @@ package com.twosigma.webtau.data.table;
 
 import java.time.LocalDate;
 
-import static com.twosigma.webtau.Ddjt.aMapOf;
-import static com.twosigma.webtau.Ddjt.actual;
-import static com.twosigma.webtau.Ddjt.equal;
+import static com.twosigma.webtau.WebTauCore.*;
 
 public class TableDataJavaTestValidations {
     public static void validateSimpleTableData(TableData tableData) {

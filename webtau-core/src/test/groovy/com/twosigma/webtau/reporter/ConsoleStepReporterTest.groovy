@@ -26,8 +26,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action
 import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.matcher
 import static org.junit.Assert.assertEquals

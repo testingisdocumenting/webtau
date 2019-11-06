@@ -22,11 +22,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-import static com.twosigma.webtau.Ddjt.actual
-import static com.twosigma.webtau.Ddjt.beGreaterThan
-import static com.twosigma.webtau.Ddjt.code
-import static com.twosigma.webtau.Ddjt.equal
-import static com.twosigma.webtau.Ddjt.throwException
+import static com.twosigma.webtau.WebTauCore.*
 
 class DateAndStringCompareToHandlerTest {
     @Test
@@ -39,7 +35,7 @@ class DateAndStringCompareToHandlerTest {
 
     @Test
     void "actual local date string greater than expected local date instance"() {
-        actual("2018-06-10").should(beGreaterThan(LocalDate.of(2018, 6, 9)))
+        actual("2018-06-10").shouldBe(greaterThan(LocalDate.of(2018, 6, 9)))
     }
 
     @Test
@@ -59,13 +55,13 @@ class DateAndStringCompareToHandlerTest {
 
     @Test
     void "actual zoned date time string greater than expected local date instance"() {
-        actual("2018-01-02T00:00:00Z").should(beGreaterThan(LocalDate.of(2018, 1, 1)))
+        actual("2018-01-02T00:00:00Z").shouldBe(greaterThan(LocalDate.of(2018, 1, 1)))
     }
 
     @Test
     void "actual zoned date time string equals expected local date instance, when should be greater"() {
         code {
-            actual("2018-01-01T00:00:00Z").should(beGreaterThan(LocalDate.of(2018, 1, 1)))
+            actual("2018-01-01T00:00:00Z").shouldBe(greaterThan(LocalDate.of(2018, 1, 1)))
         } should throwException("\nmismatches:\n\n" +
             "[value]:   actual: 2018-01-01T00:00Z <java.time.ZonedDateTime>\n" +
             "         expected: greater than 2018-01-01 <java.time.LocalDate>")
@@ -73,7 +69,7 @@ class DateAndStringCompareToHandlerTest {
 
     @Test
     void "actual zoned date time string greater than expected zoned date time instance"() {
-        actual("2018-01-02T10:00:00-01:00:00").should(beGreaterThan(
+        actual("2018-01-02T10:00:00-01:00:00").shouldBe(greaterThan(
             ZonedDateTime.of(2018, 1, 2, 10, 0, 0, 0, ZoneId.of("UTC"))))
     }
 
@@ -86,7 +82,7 @@ class DateAndStringCompareToHandlerTest {
     @Test
     void "actual zoned date time string less than expected zoned date time instance, when should be greater"() {
         code {
-            actual("2018-01-02T10:00:00+01:00:00").should(beGreaterThan(
+            actual("2018-01-02T10:00:00+01:00:00").shouldBe(greaterThan(
                 ZonedDateTime.of(2018, 1, 2, 10, 0, 0, 0, ZoneId.of("UTC"))))
         } should throwException("\nmismatches:\n" +
             "\n" +
