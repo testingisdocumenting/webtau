@@ -30,7 +30,7 @@ public class Matchers {
      * <pre>
      * code(() -> {
      *    businessLogic(-10);
-     * }).should(throwException(IllegalArgumentException.class, "negative are not allowed"));
+     * }).should(throwException(IllegalArgumentException.class, "negatives are not allowed"));
      * </pre>
      *
      * @param codeBlock code to match against
@@ -142,7 +142,7 @@ public class Matchers {
      * <pre>
      * code(() -> {
      *     businessLogic(-10);
-     * }).should(throwException("negative are not allowed"));
+     * }).should(throwException("negatives are not allowed"));
      * </pre>
      * @see #code(CodeBlock)
      *
@@ -207,7 +207,7 @@ public class Matchers {
      * <pre>
      * code(() -> {
      *      businessLogic(-10);
-     * }).should(throwException(IllegalArgumentException.class, "negative are not allowed"));
+     * }).should(throwException(IllegalArgumentException.class, "negatives are not allowed"));
      * </pre>
      * @see #code(CodeBlock)
      *
@@ -220,7 +220,8 @@ public class Matchers {
     }
 
     /**
-     * Deprecated. Instead use
+     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
+     * use {@link #greaterThan(Object)} instead
      * <pre>
      * actual(value).shouldBe(greaterThan(10));
      * </pre>
@@ -232,7 +233,8 @@ public class Matchers {
     }
 
     /**
-     * Deprecated. Instead use
+     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
+     * use {@link #greaterThanOrEqual(Object)} instead
      * <pre>
      * actual(value).shouldBe(greaterThanOrEqual(10));
      * </pre>
@@ -244,7 +246,8 @@ public class Matchers {
     }
 
     /**
-     * Deprecated. Instead use
+     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
+     * use {@link #lessThan(Object)} instead
      * <pre>
      * actual(value).shouldBe(lessThan(10));
      * </pre>
@@ -256,7 +259,8 @@ public class Matchers {
     }
 
     /**
-     * Deprecated. Instead use
+     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
+     * use {@link #lessThanOrEqual(Object)} instead
      * <pre>
      * actual(value).shouldBe(lessThanOrEqual(10));
      * </pre>
