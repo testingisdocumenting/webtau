@@ -28,15 +28,15 @@ public class ThrowExceptionMatcherTest {
     public void examples() {
         code(() -> {
             businessLogic(-10);
-        }).should(throwException("negative are not allowed"));
+        }).should(throwException("negatives are not allowed"));
 
         code(() -> {
             businessLogic(-10);
-        }).should(throwException(IllegalArgumentException.class, "negative are not allowed"));
+        }).should(throwException(IllegalArgumentException.class, "negatives are not allowed"));
 
         code(() -> {
             businessLogic(-10);
-        }).should(throwException(IllegalArgumentException.class, Pattern.compile("negative .* not allowed")));
+        }).should(throwException(IllegalArgumentException.class, Pattern.compile("negatives .* not allowed")));
 
         code(() -> {
             businessLogic(-10);
@@ -45,7 +45,7 @@ public class ThrowExceptionMatcherTest {
 
     private static void businessLogic(int num) {
         if (num < 0) {
-            throw new IllegalArgumentException("negative are not allowed");
+            throw new IllegalArgumentException("negatives are not allowed");
         }
     }
 }
