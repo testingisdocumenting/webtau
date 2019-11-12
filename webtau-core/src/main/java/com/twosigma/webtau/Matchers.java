@@ -28,7 +28,7 @@ public class Matchers {
     /**
      * Starting point of a code matcher
      * <pre>
-     * code(() -> {
+     * code(() -&gt; {
      *    businessLogic(-10);
      * }).should(throwException(IllegalArgumentException.class, "negatives are not allowed"));
      * </pre>
@@ -140,7 +140,7 @@ public class Matchers {
     /**
      * Throw exception <code>code</code> matcher.
      * <pre>
-     * code(() -> {
+     * code(() -&gt; {
      *     businessLogic(-10);
      * }).should(throwException("negatives are not allowed"));
      * </pre>
@@ -156,7 +156,7 @@ public class Matchers {
     /**
      * Throw exception <code>code</code> matcher.
      * <pre>
-     * code(() -> {
+     * code(() -&gt; {
      *      businessLogic(-10);
      * }).should(throwException(Pattern.compile("negative .* not allowed")));
      * </pre>
@@ -172,7 +172,7 @@ public class Matchers {
     /**
      * Throw exception <code>code</code> matcher.
      * <pre>
-     * code(() -> {
+     * code(() -&gt; {
      *      businessLogic(-10);
      * }).should(throwException(IllegalArgumentException.class));
      * </pre>
@@ -188,7 +188,7 @@ public class Matchers {
     /**
      * Throw exception <code>code</code> matcher.
      * <pre>
-     * code(() -> {
+     * code(() -&gt; {
      *      businessLogic(-10);
      * }).should(throwException(IllegalArgumentException.class, Pattern.compile("negative .* not allowed")));
      * </pre>
@@ -205,7 +205,7 @@ public class Matchers {
     /**
      * Throw exception <code>code</code> matcher.
      * <pre>
-     * code(() -> {
+     * code(() -&gt; {
      *      businessLogic(-10);
      * }).should(throwException(IllegalArgumentException.class, "negatives are not allowed"));
      * </pre>
@@ -225,6 +225,8 @@ public class Matchers {
      * <pre>
      * actual(value).shouldBe(greaterThan(10));
      * </pre>
+     * @param expected value to be greater than
+     * @return matcher instance
      * @see #greaterThan(Object)
      */
     @Deprecated
@@ -238,6 +240,8 @@ public class Matchers {
      * <pre>
      * actual(value).shouldBe(greaterThanOrEqual(10));
      * </pre>
+     * @param expected value to be greater than or equal
+     * @return matcher instance
      * @see #greaterThanOrEqual(Object)
      */
     @Deprecated
@@ -251,6 +255,8 @@ public class Matchers {
      * <pre>
      * actual(value).shouldBe(lessThan(10));
      * </pre>
+     * @param expected value to be less than
+     * @return matcher instance
      * @see #lessThan(Object)
      */
     @Deprecated
@@ -264,6 +270,8 @@ public class Matchers {
      * <pre>
      * actual(value).shouldBe(lessThanOrEqual(10));
      * </pre>
+     * @param expected value to be less than
+     * @return matcher instance
      * @see #lessThanOrEqual(Object)
      */
     @Deprecated

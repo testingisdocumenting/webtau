@@ -60,6 +60,7 @@ public class TraceableValue {
      * (e.g. using for just comparison)
      *
      * @param code code to execute
+     * @param <R> type of the returned value
      * @return value returned by the passed code
      */
     public static <R> R withDisabledChecks(Supplier<R> code) {
@@ -76,6 +77,7 @@ public class TraceableValue {
      * (e.g. using nodes inside if-else like constructs)
      *
      * @param code code to execute
+     * @param <R> type of the returned value
      * @return value returned by the passed code
      */
     public static <R> R withAlwaysFuzzyPassedChecks(Supplier<R> code) {
