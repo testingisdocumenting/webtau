@@ -24,7 +24,7 @@ rm -rf $GH_PAGES_DIR/guide/*
 rm -rf $GH_PAGES_DIR/znaisrc/*
 
 # Copy in new pages
-cp -r $ROOT_DIR/webtau-docs/target/guide/* $GH_PAGES_DIR/guide/
+cp -r $ROOT_DIR/webtau-docs/target/webtau/guide/* $GH_PAGES_DIR/guide/
 cp -r $ROOT_DIR/webtau-docs/target/znaisrc/* $GH_PAGES_DIR/znaisrc/
 
 cd $GH_PAGES_DIR
