@@ -1,7 +1,7 @@
 <plugin>
     <groupId>com.twosigma.webtau</groupId>
     <artifactId>webtau-maven-plugin</artifactId>
-    <version>1.15</version>
+    <version>1.16-SNAPSHOT</version>
     <executions>
         <execution>
             <phase>test</phase>
