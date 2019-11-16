@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Documentation</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/guide/logo.css">
+<title>WebTau: Documentation</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
 <body>
 <div id="mdoc"><!--
   ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
@@ -45,7 +45,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://192.168.1.5:59620/params?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://192.168.1.5:54379/params?a=1&amp;b=text</p>
 </article>
 
 <article>
@@ -54,12 +54,12 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/guide/toc.js"></script>
-<script type="text/javascript" src="/guide/assets.js"></script>
-<script type="text/javascript" src="/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/guide/static/main.js"></script>
-<script type="text/javascript" src="/guide/search-index.js"></script>
+<script type="text/javascript" src="/webtau/guide/toc.js"></script>
+<script type="text/javascript" src="/webtau/guide/assets.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
+<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
@@ -68,7 +68,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "link" : "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
       "title" : "View On GitHub"
     },
-    "id" : "guide",
+    "id" : "webtau/guide",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false
@@ -365,7 +365,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "http://192.168.1.5:59620/params?a=1&b=text",
+        "snippet" : "http://192.168.1.5:54379/params?a=1&b=text",
         "title" : "request.fullurl.txt",
         "type" : "Snippet"
       } ]
