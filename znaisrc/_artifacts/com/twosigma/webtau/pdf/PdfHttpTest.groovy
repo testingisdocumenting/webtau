@@ -29,7 +29,7 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.Ddjt.contain
+import static com.twosigma.webtau.WebTauCore.contain
 import static com.twosigma.webtau.http.Http.http
 import static com.twosigma.webtau.pdf.Pdf.pdf
 

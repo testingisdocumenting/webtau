@@ -6,11 +6,9 @@ import org.junit.runner.RunWith;
 
 import java.util.Map;
 
-import static com.twosigma.webtau.Ddjt.aMapOf;
-import static com.twosigma.webtau.WebTauDsl.equal;
-import static com.twosigma.webtau.WebTauDsl.http;
+import static com.twosigma.webtau.WebTauDsl.*; // convenient single import for DSL methods and props like http and equal, aMapOf, etc
 
-@RunWith(WebTauRunner.class)
+@RunWith(WebTauRunner.class) // runner is required to have this test to be a part of generated html report
 public class CustomerCrudSingleJavaTest {
     private Map<String, Object> customerPayload = createCustomerPayload();
     private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();

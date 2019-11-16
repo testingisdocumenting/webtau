@@ -2,14 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Files Upload</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+<title>WebTau: Files Upload</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+<div id="mdoc"><!--
+  ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
@@ -23,238 +39,185 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/webtau/guide/toc.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
-<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script type="text/javascript" src="/guide/toc.js"></script>
+<script type="text/javascript" src="/guide/assets.js"></script>
+<script type="text/javascript" src="/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/guide/static/main.js"></script>
+<script type="text/javascript" src="/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
-  "docMeta": {
-    "viewOn": {
-      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
-      "title": "View On GitHub"
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
     },
-    "id": "webtau/guide",
-    "title": "WebTau",
-    "type": "Guide",
-    "previewEnabled": false
+    "id" : "guide",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
   },
-  "page": {
-    "type": "Page",
-    "content": [
-      {
-        "title": "File System Content",
-        "id": "file-system-content",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "In following examples backend expects a file passed as ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "multipart/form-data",
-                "type": "InlinedCode"
-              },
-              {
-                "text": ". File content is expected to be stored in ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "file",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " field.",
-                "type": "SimpleText"
-              },
-              {
-                "type": "HardLineBreak"
-              },
-              {
-                "text": "Backend responds with received file name and file description.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "To ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "POST",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " form data, you need to use the same ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "http.post",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " statement as you saw in previous examples.",
-                "type": "SimpleText"
-              },
-              {
-                "type": "SoftLineBreak"
-              },
-              {
-                "text": "Second parameter should be ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "http.formData",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " instead of a map payload we used for ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "JSON",
-                "type": "InlinedCode"
-              },
-              {
-                "text": ".",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def imagePath \u003d testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath)) {\n    fileName.should \u003d\u003d \u0027image.png\u0027\n}",
-            "entry": "file upload example simple",
-            "bodyOnly": true,
-            "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Use ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "http.formFile",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " to override file name that is being sent to the backend.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def imagePath \u003d testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: http.formFile(\u0027myFileName.png\u0027, imagePath))) {\n    fileName.should \u003d\u003d \u0027myFileName.png\u0027\n}",
-            "entry": "file upload example with file name override",
-            "bodyOnly": true,
-            "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Multiple form fields can be specified like in the example below.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "def imagePath \u003d testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath, fileDescription: \u0027new report\u0027)) {\n    fileName.should \u003d\u003d \u0027image.png\u0027\n    description.should \u003d\u003d \u0027new report\u0027\n}",
-            "entry": "file upload example multiple fields",
-            "bodyOnly": true,
-            "type": "Snippet"
-          }
-        ]
-      },
-      {
-        "title": "In-Memory Content",
-        "id": "in-memory-content",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "If your test already has content, you can explicitly pass it as is.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "byte[] fileContent \u003d [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(file: fileContent)) {\n    fileName.should \u003d\u003d \u0027backend-generated-name-as-no-name-provided\u0027\n}",
-            "entry": "file upload example with in-memory content",
-            "bodyOnly": true,
-            "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Note: no file name is passed and this particular backend generated file name on your behalf.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Use ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "http.formFile",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " to provide a file name",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "byte[] fileContent \u003d [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(\n        file: http.formFile(\u0027myFileName.dat\u0027, fileContent))) {\n    fileName.should \u003d\u003d \u0027myFileName.dat\u0027\n}",
-            "entry": "file upload example with in-memory content and file name",
-            "bodyOnly": true,
-            "type": "Snippet"
-          }
-        ]
-      }
-    ],
-    "lastModifiedTime": 1555462050000,
-    "tocItem": {
-      "sectionTitle": "REST",
-      "pageTitle": "Files Upload",
-      "pageMeta": {},
-      "fileName": "files-upload",
-      "dirName": "REST",
-      "pageSectionIdTitles": [
-        {
-          "title": "File System Content",
-          "id": "file-system-content"
-        },
-        {
-          "title": "In-Memory Content",
-          "id": "in-memory-content"
-        }
-      ]
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "File System Content",
+      "id" : "file-system-content",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In following examples backend expects a file passed as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "multipart/form-data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". File content is expected to be stored in ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "file",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " field.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "HardLineBreak"
+        }, {
+          "text" : "Backend responds with received file name and file description.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "POST",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " form data, you need to use the same ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.post",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " statement as you saw in previous examples.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Second parameter should be ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.formData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " instead of a map payload we used for ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "JSON",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath)) {\n    fileName.should == 'image.png'\n}",
+        "entry" : "file upload example simple",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.formFile",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to override file name that is being sent to the backend.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: http.formFile('myFileName.png', imagePath))) {\n    fileName.should == 'myFileName.png'\n}",
+        "entry" : "file upload example with file name override",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Multiple form fields can be specified like in the example below.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath, fileDescription: 'new report')) {\n    fileName.should == 'image.png'\n    description.should == 'new report'\n}",
+        "entry" : "file upload example multiple fields",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "In-Memory Content",
+      "id" : "in-memory-content",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If your test already has content, you can explicitly pass it as is.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(file: fileContent)) {\n    fileName.should == 'backend-generated-name-as-no-name-provided'\n}",
+        "entry" : "file upload example with in-memory content",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: no file name is passed and this particular backend generated file name on your behalf.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.formFile",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to provide a file name",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(\n        file: http.formFile('myFileName.dat', fileContent))) {\n    fileName.should == 'myFileName.dat'\n}",
+        "entry" : "file upload example with in-memory content and file name",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1540302315000,
+    "tocItem" : {
+      "sectionTitle" : "REST",
+      "pageTitle" : "Files Upload",
+      "pageMeta" : { },
+      "fileName" : "files-upload",
+      "dirName" : "REST",
+      "pageSectionIdTitles" : [ {
+        "title" : "File System Content",
+        "id" : "file-system-content"
+      }, {
+        "title" : "In-Memory Content",
+        "id" : "in-memory-content"
+      } ]
     }
   },
-  "footer": {}
+  "footer" : { }
 }), document.getElementById("mdoc"));
 </script>
 

@@ -2,14 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Page Element And Value</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+<title>WebTau: Page Element And Value</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+<div id="mdoc"><!--
+  ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
@@ -23,177 +39,137 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/webtau/guide/toc.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
-<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script type="text/javascript" src="/guide/toc.js"></script>
+<script type="text/javascript" src="/guide/assets.js"></script>
+<script type="text/javascript" src="/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/guide/static/main.js"></script>
+<script type="text/javascript" src="/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
-  "docMeta": {
-    "viewOn": {
-      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
-      "title": "View On GitHub"
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
     },
-    "id": "webtau/guide",
-    "title": "WebTau",
-    "type": "Guide",
-    "previewEnabled": false
+    "id" : "guide",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
   },
-  "page": {
-    "type": "Page",
-    "content": [
-      {
-        "title": "Lazy Element",
-        "id": "lazy-element",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "When you use ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "$(\u0027.css\u0027)",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " you create instance of ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "PageElement",
-                "type": "InlinedCode"
-              },
-              {
-                "text": ".",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "code": "PageElement",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " represent an element that is present or ",
-                "type": "SimpleText"
-              },
-              {
-                "type": "Emphasis",
-                "content": [
-                  {
-                    "text": "will be present",
-                    "type": "SimpleText"
-                  }
-                ]
-              },
-              {
-                "text": " on a web page. It is safe to declare an element",
-                "type": "SimpleText"
-              },
-              {
-                "type": "SoftLineBreak"
-              },
-              {
-                "text": "before you open a browser or navigate to the page you need to test.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndef welcomeMessage \u003d $(\u0027#welcome\u0027)\n\nscenario(\u0027simple open\u0027) {\n    browser.open(\"/search\")\n    welcomeMessage.should \u003d\u003d \u0027welcome to super search\u0027\n}",
-            "type": "Snippet"
-          }
-        ]
-      },
-      {
-        "title": "Lazy Value",
-        "id": "lazy-value",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Consider a simple search page. Enter value, hit enter, see results.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Here is simple test.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\u0027search by specific query\u0027) {\n    browser.open(\u0027/search\u0027)\n\n    $(\u0027#search-box\u0027).setValue(\u0027search this\u0027)\n    $(\u0027#search-box\u0027).sendKeys(\"\\n\")\n\n    $(\u0027#results .result\u0027).count.shouldBe \u003e 1\n}",
-            "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "In the example ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "$(\u0027#results .result\u0027).count",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " represents the number of elements matching the css selector.",
-                "type": "SimpleText"
-              },
-              {
-                "type": "SoftLineBreak"
-              },
-              {
-                "text": "Let\u0027s extract it.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndef searchBox \u003d $(\u0027#search-box\u0027)\ndef numberOfResults \u003d searchBox.count\n\nscenario(\u0027search by specific query\u0027) {\n    browser.open(\u0027/search\u0027)\n\n    searchBox.setValue(\u0027search this\u0027)\n    searchBox.sendKeys(\"\\n\")\n\n    numberOfResults.shouldBe \u003e 1\n}",
-            "type": "Snippet"
-          }
-        ]
-      }
-    ],
-    "lastModifiedTime": 1555462050000,
-    "tocItem": {
-      "sectionTitle": "UI",
-      "pageTitle": "Page Element And Value",
-      "pageMeta": {},
-      "fileName": "page-element-and-value",
-      "dirName": "UI",
-      "pageSectionIdTitles": [
-        {
-          "title": "Lazy Element",
-          "id": "lazy-element"
-        },
-        {
-          "title": "Lazy Value",
-          "id": "lazy-value"
-        }
-      ]
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Lazy Element",
+      "id" : "lazy-element",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "$('.css')",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " you create instance of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PageElement",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "PageElement",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " represent an element that is present or ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "Emphasis",
+          "content" : [ {
+            "text" : "will be present",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " on a web page. It is safe to declare an element",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "before you open a browser or navigate to the page you need to test.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndef welcomeMessage = $('#welcome')\n\nscenario('simple open') {\n    browser.open(\"/search\")\n    welcomeMessage.should == 'welcome to super search'\n}",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Lazy Value",
+      "id" : "lazy-value",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Consider a simple search page. Enter value, hit enter, see results.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Here is simple test.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    $('#search-box').setValue('search this')\n    $('#search-box').sendKeys(\"\\n\")\n\n    $('#results .result').count.shouldBe > 1\n}",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the example ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "$('#results .result').count",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " represents the number of elements matching the css selector.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Let's extract it.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\ndef searchBox = $('#search-box')\ndef numberOfResults = searchBox.count\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    searchBox.setValue('search this')\n    searchBox.sendKeys(\"\\n\")\n\n    numberOfResults.shouldBe > 1\n}",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1534496198000,
+    "tocItem" : {
+      "sectionTitle" : "UI",
+      "pageTitle" : "Page Element And Value",
+      "pageMeta" : { },
+      "fileName" : "page-element-and-value",
+      "dirName" : "UI",
+      "pageSectionIdTitles" : [ {
+        "title" : "Lazy Element",
+        "id" : "lazy-element"
+      }, {
+        "title" : "Lazy Value",
+        "id" : "lazy-value"
+      } ]
     }
   },
-  "footer": {}
+  "footer" : { }
 }), document.getElementById("mdoc"));
 </script>
 

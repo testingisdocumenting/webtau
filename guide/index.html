@@ -2,22 +2,54 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+<title>WebTau</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+<div id="mdoc"><!--
+  ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>WebTau</h1></header>
-<p>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario(&quot;simple get&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } json { &quot;temperature&quot;: 88 } Tests can be written in any JVM language with language specific syntactic sugar where applicable. package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.should == 2 }</p>
+<p>WebTau (Web Test automation) - concise and expressive way to create REST API and Web UI tests. Groovy package scenarios.rest import static com.twosigma.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import com.twosigma.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static com.twosigma.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class WeatherGroovyIT { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } json { &quot;temperature&quot;: 88 } Java package com.example.tests.junit4; import com.twosigma.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static com.twosigma.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class WeatherJavaIT { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;temperature&quot;: 88 } Tests can be written in any JVM language with language specific syntactic sugar where applicable. package scenarios.ui import static com.twosigma.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.should == 2 }</p>
 </article>
 </section>
-<div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+<!--
+  ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
@@ -27,9 +59,9 @@
 
 <article>
 <a href="REST/getting-started/">Getting Started</a>
-<a href="REST/getting-started/#installation">Getting Started Installation</a>
-<a href="REST/getting-started/#bare-minimum">Getting Started Bare Minimum</a>
-<a href="REST/getting-started/#config-file">Getting Started Config File</a>
+<a href="REST/getting-started/#installation-of-groovy-runner">Getting Started Installation Of Groovy Runner</a>
+<a href="REST/getting-started/#minimal-groovy-setup">Getting Started Minimal Groovy Setup</a>
+<a href="REST/getting-started/#minimal-junit-setup">Getting Started Minimal JUnit Setup</a>
 </article>
 
 <article>
@@ -51,6 +83,8 @@
 <a href="REST/data-node/#special-values">Data Node Special Values</a>
 <a href="REST/data-node/#extracting-values">Data Node Extracting Values</a>
 <a href="REST/data-node/#properties-on-lists">Data Node Properties On Lists</a>
+<a href="REST/data-node/#path-based-properties-access">Data Node Path based properties access</a>
+<a href="REST/data-node/#if-else-logic">Data Node If-Else Logic</a>
 <a href="REST/data-node/#each">Data Node Each</a>
 <a href="REST/data-node/#find">Data Node Find</a>
 <a href="REST/data-node/#collect">Data Node Collect</a>
@@ -84,6 +118,8 @@
 <article>
 <a href="REST/documentation/">Documentation</a>
 <a href="REST/documentation/#scenarios">Documentation Scenarios</a>
+<a href="REST/documentation/#capturing-test-artifacts">Documentation Capturing Test Artifacts</a>
+<a href="REST/documentation/#test-artifacts-location">Documentation Test Artifacts Location</a>
 <a href="REST/documentation/#test-artifacts">Documentation Test Artifacts</a>
 <a href="REST/documentation/#document-rest-calls">Documentation Document REST calls</a>
 </article>
@@ -92,6 +128,7 @@
 <a href="REST/complex-types/">Complex Types</a>
 <a href="REST/complex-types/#contain">Complex Types Contain</a>
 <a href="REST/complex-types/#list-of-objects">Complex Types List Of Objects</a>
+<a href="REST/complex-types/#order-agnostic-match">Complex Types Order Agnostic Match</a>
 </article>
 
 <article>
@@ -100,6 +137,7 @@
 <a href="REST/openAPI-spec/#current-limitations">OpenAPI Spec Current limitations</a>
 <a href="REST/openAPI-spec/#validations-report">OpenAPI Spec Validations report</a>
 <a href="REST/openAPI-spec/#validation-configuration">OpenAPI Spec Validation Configuration</a>
+<a href="REST/openAPI-spec/#disable-validation">OpenAPI Spec Disable Validation</a>
 </article>
 
 <article>
@@ -140,11 +178,12 @@
 <a href="REST/test-execution/">Test Execution</a>
 <a href="REST/test-execution/#serial-execution">Test Execution Serial execution</a>
 <a href="REST/test-execution/#parallel-execution">Test Execution Parallel execution</a>
+<a href="REST/test-execution/#scenario-discovery">Test Execution Scenario discovery</a>
 </article>
 
 <article>
 <a href="UI/getting-started/">Getting Started</a>
-<a href="UI/getting-started/#installation">Getting Started Installation</a>
+<a href="UI/getting-started/#installation-of-groovy-runner">Getting Started Installation Of Groovy Runner</a>
 <a href="UI/getting-started/#bare-minimum">Getting Started Bare Minimum</a>
 <a href="UI/getting-started/#config-file">Getting Started Config File</a>
 </article>
@@ -184,6 +223,13 @@
 <a href="UI/asynchronous-page/#enableddisabled-element">Asynchronous Page Enabled/Disabled Element</a>
 <a href="UI/asynchronous-page/#wait-to-match">Asynchronous Page Wait to match</a>
 <a href="UI/asynchronous-page/#wait-on-url">Asynchronous Page Wait on url</a>
+</article>
+
+<article>
+<a href="UI/documentation/">Documentation</a>
+<a href="UI/documentation/#scenarios">Documentation Scenarios</a>
+<a href="UI/documentation/#capturing-screenshots-with-annotations">Documentation Capturing Screenshots With Annotations</a>
+<a href="UI/documentation/#annotation-types">Documentation Annotation Types</a>
 </article>
 
 <article>
@@ -257,12 +303,15 @@
 <article>
 <a href="generic-runners/JUnit-4/">JUnit 4</a>
 <a href="generic-runners/JUnit-4/#webtau-runner">JUnit 4 WebTau Runner</a>
+<a href="generic-runners/JUnit-4/#beforeafter">JUnit 4 Before/After</a>
+<a href="generic-runners/JUnit-4/#beforeclassafterclass">JUnit 4 BeforeClass/AfterClass</a>
 <a href="generic-runners/JUnit-4/#maven-import">JUnit 4 Maven Import</a>
 </article>
 
 <article>
 <a href="generic-runners/JUnit-5/">JUnit 5</a>
 <a href="generic-runners/JUnit-5/#webtau-runner">JUnit 5 WebTau Runner</a>
+<a href="generic-runners/JUnit-5/#beforeallafterall">JUnit 5 BeforeAll/AfterAll</a>
 <a href="generic-runners/JUnit-5/#maven-import">JUnit 5 Maven Import</a>
 <a href="generic-runners/JUnit-5/#testfactory">JUnit 5 TestFactory</a>
 </article>
@@ -292,150 +341,151 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/webtau/guide/toc.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
-<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script type="text/javascript" src="/guide/toc.js"></script>
+<script type="text/javascript" src="/guide/assets.js"></script>
+<script type="text/javascript" src="/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/guide/static/main.js"></script>
+<script type="text/javascript" src="/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
-  "docMeta": {
-    "viewOn": {
-      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
-      "title": "View On GitHub"
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
     },
-    "id": "webtau/guide",
-    "title": "WebTau",
-    "type": "Guide",
-    "previewEnabled": false
+    "id" : "guide",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
   },
-  "page": {
-    "type": "Page",
-    "content": [
-      {
-        "title": "WebTau",
-        "id": "webtau",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "WebTau (",
-                "type": "SimpleText"
-              },
-              {
-                "type": "StrongEmphasis",
-                "content": [
-                  {
-                    "text": "Web",
-                    "type": "SimpleText"
-                  }
-                ]
-              },
-              {
-                "text": " ",
-                "type": "SimpleText"
-              },
-              {
-                "type": "StrongEmphasis",
-                "content": [
-                  {
-                    "text": "T",
-                    "type": "SimpleText"
-                  }
-                ]
-              },
-              {
-                "text": "est ",
-                "type": "SimpleText"
-              },
-              {
-                "type": "StrongEmphasis",
-                "content": [
-                  {
-                    "text": "au",
-                    "type": "SimpleText"
-                  }
-                ]
-              },
-              {
-                "text": "tomation) - concise and expressive way to create REST API and Web UI tests.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "width": 256.0,
-            "align": "left",
-            "imageSrc": "/webtau/guide/webtau-logo.png",
-            "timestamp": 1557230532995,
-            "shapes": [],
-            "height": 256.0,
-            "type": "AnnotatedImage"
-          },
-          {
-            "columns": [
-              {
-                "content": [
-                  {
-                    "lang": "groovy",
-                    "snippet": "package scenarios.rest\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\"simple get\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe \u003c 100\n    }\n}",
-                    "title": "REST API test",
-                    "type": "Snippet"
-                  }
-                ]
-              },
-              {
-                "content": [
-                  {
-                    "lang": "json",
-                    "snippet": "{\n  \"temperature\": 88\n}\n",
-                    "lineNumber": "",
-                    "title": "Server Response",
-                    "type": "Snippet"
-                  }
-                ]
-              }
-            ],
-            "config": {},
-            "type": "Columns"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Tests can be written in any JVM language with language specific syntactic sugar where applicable.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.should \u003d\u003d 2\n}",
-            "title": "Web UI test",
-            "type": "Snippet"
-          }
-        ]
-      }
-    ],
-    "lastModifiedTime": 1555462050000,
-    "tocItem": {
-      "sectionTitle": "",
-      "pageTitle": "Index",
-      "pageMeta": {},
-      "fileName": "index",
-      "dirName": "",
-      "pageSectionIdTitles": [
-        {
-          "title": "WebTau",
-          "id": "webtau"
-        }
-      ]
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "WebTau",
+      "id" : "webtau",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau (",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Web",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "T",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : "est ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "au",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : "tomation) - concise and expressive way to create REST API and Web UI tests.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "width" : 256.0,
+        "align" : "left",
+        "imageSrc" : "/guide/webtau-logo.png",
+        "timestamp" : 1573751735138,
+        "shapes" : [ ],
+        "height" : 256.0,
+        "type" : "AnnotatedImage"
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "columns" : [ {
+              "content" : [ {
+                "lang" : "groovy",
+                "snippet" : "package scenarios.rest\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe < 100\n    }\n}",
+                "title" : "REST API test (Groovy specific runner)",
+                "type" : "Snippet"
+              }, {
+                "lang" : "groovy",
+                "snippet" : "package com.example.tests.junit4\n\nimport com.twosigma.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\n\n@RunWith(WebTauRunner.class)\nclass WeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
+                "title" : "REST API test (JUnit4)",
+                "type" : "Snippet"
+              } ]
+            }, {
+              "content" : [ {
+                "lang" : "json",
+                "snippet" : "{\n  \"temperature\": 88\n}\n",
+                "lineNumber" : "",
+                "title" : "Server Response",
+                "type" : "Snippet"
+              } ]
+            } ],
+            "config" : { },
+            "type" : "Columns"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "columns" : [ {
+              "content" : [ {
+                "lang" : "java",
+                "snippet" : "package com.example.tests.junit4;\n\nimport com.twosigma.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static com.twosigma.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class WeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+                "title" : "REST API test (JUnit4 Java)",
+                "type" : "Snippet"
+              } ]
+            }, {
+              "content" : [ {
+                "lang" : "json",
+                "snippet" : "{\n  \"temperature\": 88\n}\n",
+                "lineNumber" : "",
+                "title" : "Server Response",
+                "type" : "Snippet"
+              } ]
+            } ],
+            "config" : { },
+            "type" : "Columns"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Tests can be written in any JVM language with language specific syntactic sugar where applicable.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static com.twosigma.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.should == 2\n}",
+        "title" : "Web UI test",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1573505152000,
+    "tocItem" : {
+      "sectionTitle" : "",
+      "pageTitle" : "Index",
+      "pageMeta" : { },
+      "fileName" : "index",
+      "dirName" : "",
+      "pageSectionIdTitles" : [ {
+        "title" : "WebTau",
+        "id" : "webtau"
+      } ]
     }
   },
-  "footer": {}
+  "footer" : { }
 }), document.getElementById("mdoc"));
 </script>
 

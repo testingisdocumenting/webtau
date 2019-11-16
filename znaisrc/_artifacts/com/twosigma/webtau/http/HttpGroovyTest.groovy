@@ -17,8 +17,6 @@
 package com.twosigma.webtau.http
 
 import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
-import com.twosigma.webtau.http.config.HttpConfiguration
-import com.twosigma.webtau.http.config.HttpConfigurations
 import com.twosigma.webtau.http.datanode.DataNode
 import com.twosigma.webtau.http.datanode.GroovyDataNode
 import com.twosigma.webtau.http.testserver.TestServerResponse
@@ -28,8 +26,7 @@ import com.twosigma.webtau.http.validation.HttpValidationHandlers
 import com.twosigma.webtau.utils.FileUtils
 import com.twosigma.webtau.utils.JsonUtils
 import com.twosigma.webtau.utils.ResourceUtils
-import com.twosigma.webtau.utils.UrlUtils
-import org.junit.*
+import org.junit.Test
 
 import javax.servlet.http.HttpServletRequest
 import java.nio.file.Files
@@ -42,10 +39,11 @@ import java.time.ZonedDateTime
 import java.util.function.Consumer
 import java.util.stream.Collectors
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 import static com.twosigma.webtau.cfg.WebTauConfig.cfg
-import static com.twosigma.webtau.http.Http.*
-import static org.junit.Assert.*
+import static com.twosigma.webtau.http.Http.http
+import static org.junit.Assert.assertFalse
+import static org.junit.Assert.assertTrue
 
 class HttpGroovyTest extends HttpTestBase {
     private static final byte[] sampleFile = [1, 2, 3]

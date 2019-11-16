@@ -2,14 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Report</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+<title>WebTau: Report</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+<div id="mdoc"><!--
+  ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
@@ -38,218 +54,170 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/webtau/guide/toc.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
-<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script type="text/javascript" src="/guide/toc.js"></script>
+<script type="text/javascript" src="/guide/assets.js"></script>
+<script type="text/javascript" src="/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/guide/static/main.js"></script>
+<script type="text/javascript" src="/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
-  "docMeta": {
-    "viewOn": {
-      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
-      "title": "View On GitHub"
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
     },
-    "id": "webtau/guide",
-    "title": "WebTau",
-    "type": "Guide",
-    "previewEnabled": false
+    "id" : "guide",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
   },
-  "page": {
-    "type": "Page",
-    "content": [
-      {
-        "title": "Location",
-        "id": "location",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "By default report is generated at ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "\u003cworkingdir\u003e/webtau.report.html",
-                "type": "InlinedCode"
-              },
-              {
-                "text": ". To change the location use ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "--reportPath",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " option.",
-                "type": "SimpleText"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Summary",
-        "id": "summary",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "fit": true,
-            "imageSrc": "/webtau/guide/img/rest-report-summary.png",
-            "timestamp": 1557230535449,
-            "shapes": [],
-            "width": 2134.0,
-            "height": 1192.0,
-            "type": "AnnotatedImage"
-          }
-        ]
-      },
-      {
-        "title": "Test Summary",
-        "id": "test-summary",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Selected test to see a summary information about test run",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "fit": true,
-            "imageSrc": "/webtau/guide/report-test-summary.png",
-            "timestamp": 1557230535491,
-            "shapes": [],
-            "width": 2400.0,
-            "height": 1194.0,
-            "type": "AnnotatedImage"
-          }
-        ]
-      },
-      {
-        "title": "Navigation",
-        "id": "navigation",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Report is a self contained single page application.",
-                "type": "SimpleText"
-              },
-              {
-                "type": "SoftLineBreak"
-              },
-              {
-                "text": "Url tracks your navigation through screens, so you can share url with your teammates to narrow down a problem.",
-                "type": "SimpleText"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Additional Reports",
-        "id": "additional-reports",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "To generate custom reports, or upload report data to your server, specify ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "reportGenerator",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " config property.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "cfg",
-            "snippet": "import scenarios.rest.report.Report\n\nurl \u003d \"http://localhost:8080\"\n\nreportGenerator \u003d Report.\u0026generateReport",
-            "title": "webtau.cfg",
-            "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Where ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "Report.\u0026generateReport",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " is implemented as following",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "package scenarios.rest.report\n\nimport com.twosigma.webtau.console.ConsoleOutputs\nimport com.twosigma.webtau.console.ansi.Color\nimport com.twosigma.webtau.report.ReportTestEntries\n\nimport static com.twosigma.webtau.WebTauDsl.cfg\n\nclass Report {\n    static void generateReport(ReportTestEntries entries) {\n        def reportPath \u003d cfg.workingDir.resolve(\u0027report.txt\u0027)\n\n        ConsoleOutputs.out(\u0027generating report: \u0027, Color.PURPLE, reportPath)\n        reportPath.toFile().text \u003d entries.size()\n    }\n}",
-            "title": "scenarios/rest/report/Report.groovy",
-            "type": "Snippet"
-          }
-        ]
-      }
-    ],
-    "lastModifiedTime": 1556201988000,
-    "tocItem": {
-      "sectionTitle": "REST",
-      "pageTitle": "Report",
-      "pageMeta": {},
-      "fileName": "report",
-      "dirName": "REST",
-      "pageSectionIdTitles": [
-        {
-          "title": "Location",
-          "id": "location"
-        },
-        {
-          "title": "Summary",
-          "id": "summary"
-        },
-        {
-          "title": "Test Summary",
-          "id": "test-summary"
-        },
-        {
-          "title": "Navigation",
-          "id": "navigation"
-        },
-        {
-          "title": "Additional Reports",
-          "id": "additional-reports"
-        }
-      ]
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Location",
+      "id" : "location",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "By default report is generated at ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "<workingdir>/webtau.report.html",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". To change the location use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "--reportPath",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " option.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Summary",
+      "id" : "summary",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/guide/doc-artifacts/reports/report-summary.png",
+        "timestamp" : 1573751736901,
+        "shapes" : [ ],
+        "width" : 2400.0,
+        "height" : 1594.0,
+        "type" : "AnnotatedImage"
+      } ]
+    }, {
+      "title" : "Test Summary",
+      "id" : "test-summary",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Selected test to see a summary information about test run",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/guide/doc-artifacts/reports/report-test-summary.png",
+        "timestamp" : 1573751736936,
+        "shapes" : [ ],
+        "width" : 2400.0,
+        "height" : 1594.0,
+        "type" : "AnnotatedImage"
+      } ]
+    }, {
+      "title" : "Navigation",
+      "id" : "navigation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Report is a self contained single page application.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Url tracks your navigation through screens, so you can share url with your teammates to narrow down a problem.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Additional Reports",
+      "id" : "additional-reports",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To generate custom reports, or upload report data to your server, specify ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "reportGenerator",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " config property.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "cfg",
+        "snippet" : "import scenarios.rest.report.Report\n\nurl = \"http://localhost:8080\"\n\nreportGenerator = Report.&generateReport",
+        "title" : "webtau.cfg",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Where ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Report.&generateReport",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is implemented as following",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.report\n\nimport com.twosigma.webtau.console.ConsoleOutputs\nimport com.twosigma.webtau.console.ansi.Color\nimport com.twosigma.webtau.report.ReportTestEntries\n\nimport static com.twosigma.webtau.WebTauDsl.cfg\n\nclass Report {\n    static void generateReport(ReportTestEntries entries) {\n        def reportPath = cfg.workingDir.resolve('report.txt')\n\n        ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath)\n        reportPath.toFile().text = entries.size()\n    }\n}",
+        "title" : "scenarios/rest/report/Report.groovy",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1558533069000,
+    "tocItem" : {
+      "sectionTitle" : "REST",
+      "pageTitle" : "Report",
+      "pageMeta" : { },
+      "fileName" : "report",
+      "dirName" : "REST",
+      "pageSectionIdTitles" : [ {
+        "title" : "Location",
+        "id" : "location"
+      }, {
+        "title" : "Summary",
+        "id" : "summary"
+      }, {
+        "title" : "Test Summary",
+        "id" : "test-summary"
+      }, {
+        "title" : "Navigation",
+        "id" : "navigation"
+      }, {
+        "title" : "Additional Reports",
+        "id" : "additional-reports"
+      } ]
     }
   },
-  "footer": {}
+  "footer" : { }
 }), document.getElementById("mdoc"));
 </script>
 

@@ -4,8 +4,26 @@ You can use webtau `http.` and `browser.` methods as in a junit 4 tests, but to 
 `@RunWith(WebTauRunner.class)`
 
 ```tabs
-Groovy: :include-file: com/example/tests/junit4/CustomerCrudSingleGroovyTest.groovy
-Java: :include-file: com/example/tests/junit4/CustomerCrudSingleJavaTest.java
+Groovy: :include-file: com/example/tests/junit4/CustomerCrudSingleGroovyTest.groovy {title: "CRUD test in a single method", commentsType: "inline"}
+Java: :include-file: com/example/tests/junit4/CustomerCrudSingleJavaTest.java {title: "CRUD test in a single method", commentsType: "inline"}
+```
+
+# Before/After
+
+Use `@Before`, `@After` standard `JUnit 4` annotations to implement init and cleanup logic for each test.
+  
+```tabs
+Groovy: :include-file: com/example/tests/junit4/CustomerCrudBeforeAfterGroovyTest.groovy {title: "CRUD test with @Before and @After annotations", commentsType: "inline"}
+Java: :include-file: com/example/tests/junit4/CustomerCrudBeforeAfterJavaTest.java {title: "CRUD test with @Before and @After annotations", commentsType: "inline"}
+```
+
+# BeforeClass/AfterClass
+
+Use `@BeforeClass` and `@AfterClass` to prepare and cleanup resources required for multiple test methods.
+
+```tabs
+Groovy: :include-file: com/example/tests/junit4/CustomerQueryGroovyTest.groovy {commentsType: "inline"}
+Java: :include-file: com/example/tests/junit4/CustomerQueryJavaTest.java {commentsType: "inline"}
 ```
 
 # Maven Import

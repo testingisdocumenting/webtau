@@ -2,14 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Asynchronous Page</title><link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/css/katex.min.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/static/main.css">
-<link rel="stylesheet" type="text/css" href="/webtau/guide/logo.css">
+<title>WebTau: Asynchronous Page</title><link rel="stylesheet" type="text/css" href="/guide/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/guide/static/main.css">
+<link rel="stylesheet" type="text/css" href="/guide/logo.css">
 </head>
-<link rel="shortcut icon" href="/webtau/guide/favicon.png"type="image/ico"/>
+<link rel="shortcut icon" href="/guide/favicon.png"type="image/ico"/>
 <body>
-<div id="mdoc"><div id="mdoc-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+<div id="mdoc"><!--
+  ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
@@ -38,252 +54,191 @@
 </article>
 </section>
 </div>
-<script type="text/javascript" src="/webtau/guide/toc.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/react-dom.min.js"></script>
-<script type="text/javascript" src="/webtau/guide/static/main.js"></script>
-<script type="text/javascript" src="/webtau/guide/search-index.js"></script>
+<script type="text/javascript" src="/guide/toc.js"></script>
+<script type="text/javascript" src="/guide/assets.js"></script>
+<script type="text/javascript" src="/guide/static/react.min.js"></script>
+<script type="text/javascript" src="/guide/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/guide/static/main.js"></script>
+<script type="text/javascript" src="/guide/search-index.js"></script>
 <script>
 document.getElementById('mdoc').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
-  "docMeta": {
-    "viewOn": {
-      "link": "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
-      "title": "View On GitHub"
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/twosigma/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
     },
-    "id": "webtau/guide",
-    "title": "WebTau",
-    "type": "Guide",
-    "previewEnabled": false
+    "id" : "guide",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
   },
-  "page": {
-    "type": "Page",
-    "content": [
-      {
-        "title": "Synchronization",
-        "id": "synchronization",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Many actions in a modern web page are asynchronous. User presses a button and a moment later a result appears.",
-                "type": "SimpleText"
-              },
-              {
-                "type": "SoftLineBreak"
-              },
-              {
-                "text": "In modern web pages there is no full page reload and only a portion of a page will be changed.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "If a test will try to assert a value after a user action, chances are assertion will fail since it will take time",
-                "type": "SimpleText"
-              },
-              {
-                "type": "SoftLineBreak"
-              },
-              {
-                "text": "for a result to appear on a page.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Question: How do users know that their action is done and they can move on?",
-                "type": "SimpleText"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Visible/Hidden Element",
-        "id": "visiblehidden-element",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "One way to deal with asynchronous pages is to wait for a feedback to appear or disappear.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "calculation.start()\n\ncalculation.feedback.waitTo beVisible()\ncalculation.results.should \u003d\u003d [100, 230]",
-            "title": "beVisible matcher",
-            "type": "Snippet"
-          }
-        ]
-      },
-      {
-        "title": "Enabled/Disabled Element",
-        "id": "enableddisabled-element",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Disabled input box and buttons can be used as a user feedback as well.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "calculation.open()\n\ncalculation.input.waitTo beEnabled()\ncalculation.input.setValue(100)",
-            "title": "beEnabled matcher",
-            "type": "Snippet"
-          }
-        ]
-      },
-      {
-        "title": "Wait to match",
-        "id": "wait-to-match",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "If presence/absence of an element is not important, you can directly to wait for a matcher to match.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "calculation.start()\ncalculation.results.waitTo \u003d\u003d [100, 230]",
-            "title": "waitTo any matcher",
-            "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Note: any matcher that you can use with ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "should",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " and ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "shouldNot",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " can be used with ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "waitTo",
-                "type": "InlinedCode"
-              },
-              {
-                "text": " and ",
-                "type": "SimpleText"
-              },
-              {
-                "code": "waitToNot",
-                "type": "InlinedCode"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "title": "Wait on url",
-        "id": "wait-on-url",
-        "type": "Section",
-        "content": [
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Another cue to use could be a url change after an action.",
-                "type": "SimpleText"
-              }
-            ]
-          },
-          {
-            "lang": "groovy",
-            "snippet": "browser.open(\u0027/resource-creation\u0027)\n\n$(\u0027#new\u0027).click()\nbrowser.url.ref.waitTo \u003d\u003d \u0027created-id\u0027",
-            "type": "Snippet"
-          },
-          {
-            "type": "Paragraph",
-            "content": [
-              {
-                "text": "Note: url exposes other parts that you can ",
-                "type": "SimpleText"
-              },
-              {
-                "url": "/webtau/guide/UI/navigation#assert-url",
-                "isFile": false,
-                "type": "Link",
-                "content": [
-                  {
-                    "text": "read more about here",
-                    "type": "SimpleText"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "lastModifiedTime": 1555462050000,
-    "tocItem": {
-      "sectionTitle": "UI",
-      "pageTitle": "Asynchronous Page",
-      "pageMeta": {},
-      "fileName": "asynchronous-page",
-      "dirName": "UI",
-      "pageSectionIdTitles": [
-        {
-          "title": "Synchronization",
-          "id": "synchronization"
-        },
-        {
-          "title": "Visible/Hidden Element",
-          "id": "visiblehidden-element"
-        },
-        {
-          "title": "Enabled/Disabled Element",
-          "id": "enableddisabled-element"
-        },
-        {
-          "title": "Wait to match",
-          "id": "wait-to-match"
-        },
-        {
-          "title": "Wait on url",
-          "id": "wait-on-url"
-        }
-      ]
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Synchronization",
+      "id" : "synchronization",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Many actions in a modern web page are asynchronous. User presses a button and a moment later a result appears.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "In modern web pages there is no full page reload and only a portion of a page will be changed.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If a test will try to assert a value after a user action, chances are assertion will fail since it will take time",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "for a result to appear on a page.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Question: How do users know that their action is done and they can move on?",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Visible/Hidden Element",
+      "id" : "visiblehidden-element",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "One way to deal with asynchronous pages is to wait for a feedback to appear or disappear.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "calculation.start()\n\ncalculation.feedback.waitTo beVisible()\ncalculation.results.should == [100, 230]",
+        "title" : "beVisible matcher",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Enabled/Disabled Element",
+      "id" : "enableddisabled-element",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Disabled input box and buttons can be used as a user feedback as well.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "calculation.open()\n\ncalculation.input.waitTo beEnabled()\ncalculation.input.setValue(100)",
+        "title" : "beEnabled matcher",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Wait to match",
+      "id" : "wait-to-match",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If presence/absence of an element is not important, you can directly to wait for a matcher to match.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "calculation.start()\ncalculation.results.waitTo == [100, 230]",
+        "title" : "waitTo any matcher",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: any matcher that you can use with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "should",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "shouldNot",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " can be used with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitTo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitToNot",
+          "type" : "InlinedCode"
+        } ]
+      } ]
+    }, {
+      "title" : "Wait on url",
+      "id" : "wait-on-url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Another cue to use could be a url change after an action.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.open('/resource-creation')\n\n$('#new').click()\nbrowser.url.ref.waitTo == 'created-id'",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: url exposes other parts that you can ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/guide/UI/navigation#assert-url",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "read more about here",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1546861265000,
+    "tocItem" : {
+      "sectionTitle" : "UI",
+      "pageTitle" : "Asynchronous Page",
+      "pageMeta" : { },
+      "fileName" : "asynchronous-page",
+      "dirName" : "UI",
+      "pageSectionIdTitles" : [ {
+        "title" : "Synchronization",
+        "id" : "synchronization"
+      }, {
+        "title" : "Visible/Hidden Element",
+        "id" : "visiblehidden-element"
+      }, {
+        "title" : "Enabled/Disabled Element",
+        "id" : "enableddisabled-element"
+      }, {
+        "title" : "Wait to match",
+        "id" : "wait-to-match"
+      }, {
+        "title" : "Wait on url",
+        "id" : "wait-on-url"
+      } ]
     }
   },
-  "footer": {}
+  "footer" : { }
 }), document.getElementById("mdoc"));
 </script>
 

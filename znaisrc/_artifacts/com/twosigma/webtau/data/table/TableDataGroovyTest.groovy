@@ -20,7 +20,7 @@ import org.junit.Test
 
 import java.time.LocalDate
 
-import static com.twosigma.webtau.Ddjt.*
+import static com.twosigma.webtau.WebTauCore.*
 import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
 import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
 import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validatePermute

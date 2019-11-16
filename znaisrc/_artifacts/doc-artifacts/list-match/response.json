@@ -6,10 +6,10 @@
       "lastName" : "LN1",
       "_links" : {
         "self" : {
-          "href" : "http://localhost:50612/customers/1"
+          "href" : "http://localhost:59642/customers/1"
         },
         "customer" : {
-          "href" : "http://localhost:50612/customers/1"
+          "href" : "http://localhost:59642/customers/1"
         }
       }
     }, {
@@ -18,10 +18,10 @@
       "lastName" : "LN2",
       "_links" : {
         "self" : {
-          "href" : "http://localhost:50612/customers/2"
+          "href" : "http://localhost:59642/customers/2"
         },
         "customer" : {
-          "href" : "http://localhost:50612/customers/2"
+          "href" : "http://localhost:59642/customers/2"
         }
       }
     }, {
@@ -30,17 +30,17 @@
       "lastName" : "LN3",
       "_links" : {
         "self" : {
-          "href" : "http://localhost:50612/customers/3"
+          "href" : "http://localhost:59642/customers/3"
         },
         "customer" : {
-          "href" : "http://localhost:50612/customers/3"
+          "href" : "http://localhost:59642/customers/3"
         }
       }
     } ]
   },
   "_links" : {
     "self" : {
-      "href" : "http://localhost:50612/customers/search/findAllByOrderByLastName"
+      "href" : "http://localhost:59642/customers/search/findAllByOrderByLastName"
     }
   }
 }

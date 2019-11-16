@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static com.twosigma.webtau.Ddjt.*;
+import static com.twosigma.webtau.WebTauCore.*;
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 import static com.twosigma.webtau.http.Http.http;
 

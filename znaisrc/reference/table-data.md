@@ -9,7 +9,8 @@ Groovy:
 Java:
 :include-java: com/twosigma/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataInOneGo", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 
- Note: The example above assumes `import static com.twosigma.webtau.Ddjt.*`. Additionally `Ddjt` has header-separating 
+ Note: The example above assumes `import static com.twosigma.webtau.WebTauCore.*` or `import static com.twosigma.webtau.WebTauDsl.*`.
+Additionally `WebTauCore` has header-separating 
 lines defined using underscores `___` of various lengths, which you can optionally use for aesthetics. 
 ```
 

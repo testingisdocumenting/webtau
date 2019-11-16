@@ -21,7 +21,7 @@
 }, {
   "name" : "docPath",
   "environment variable" : "WEBTAU_DOC_PATH",
-  "description" : "path for screenshots and other generated artifacts for documentation",
+  "description" : "path for captured request/responses, screenshots and other generated artifacts for documentation",
   "default value" : "${workingDir}"
 }, {
   "name" : "env",
