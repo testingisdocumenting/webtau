@@ -84,7 +84,7 @@
                             <goal>build</goal>
                         </goals>
                         <configuration>
-                            <docId>guide</docId>
+                            <docId>webtau/guide</docId>
                         </configuration>
                     </execution>
                     <execution>

@@ -24,10 +24,10 @@ rm -rf $GH_PAGES_DIR/guide/*
 rm -rf $GH_PAGES_DIR/znaisrc/*
 
 # Copy in new pages
-cp -r $ROOT_DIR/webtau-docs/target/guide/* $GH_PAGES_DIR/guide/
+cp -r $ROOT_DIR/webtau-docs/target/webtau/guide/* $GH_PAGES_DIR/guide/
 cp -r $ROOT_DIR/webtau-docs/target/znaisrc/* $GH_PAGES_DIR/znaisrc/
 
-cd $GH_PAGES_DIR
+pushd $GH_PAGES_DIR
 
 # Tell git about changed, new and deleted pages
 git add -A
@@ -35,3 +35,5 @@ git add -A
 git commit -m "Updating docs for $WEBTAU_VERSION"
 git push
 
+# change back to root dir to allow cleanup to work properly
+popd
