@@ -28,19 +28,19 @@ class StandaloneTestTest {
     void "registered payloads should be merged into toMap test representation"() {
         def test = new StandaloneTest(Paths.get("").toAbsolutePath(),
                 Paths.get("test.groovy").toAbsolutePath(), "test.groovy", "my test description", {})
-        test.reportTestEntry.startTime = 12345678
-        test.reportTestEntry.elapsedTime = 100
-        test.addResultPayload(new TestResultPayload("screenshot",  "base64"))
-        test.addResultPayload(new TestResultPayload("steps",  ["step1", "step2"]))
+        test.test.startTime = 12345678
+        test.test.elapsedTime = 100
+        test.addResultPayload(new TestResultPayload("screenshot", "base64"))
+        test.addResultPayload(new TestResultPayload("steps", ["step1", "step2"]))
 
-        test.getReportTestEntry().toMap().should equal([id: 'test.groovy-1',
-                                                        scenario: 'my test description',
-                                                        fileName: 'test.groovy',
-                                                        shortContainerId: 'test.groovy',
-                                                        startTime: 12345678,
-                                                        elapsedTime: 100,
-                                                        status: 'Skipped',
-                                                        disabled: false,
-                                                        screenshot: 'base64', steps: ['step1', 'step2']])
+        test.getTest().toMap().should equal([id              : 'test.groovy-1',
+                                             scenario        : 'my test description',
+                                             fileName        : 'test.groovy',
+                                             shortContainerId: 'test.groovy',
+                                             startTime       : 12345678,
+                                             elapsedTime     : 100,
+                                             status          : 'Skipped',
+                                             disabled        : false,
+                                             screenshot      : 'base64', steps: ['step1', 'step2']])
     }
 }

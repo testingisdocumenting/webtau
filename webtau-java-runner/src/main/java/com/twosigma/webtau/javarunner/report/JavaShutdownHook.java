@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.runner.standalone
+package com.twosigma.webtau.javarunner.report;
 
-import java.nio.file.Path
+import com.twosigma.webtau.reporter.TestListeners;
 
-interface StandaloneTestListener {
-    void beforeFirstTest()
-    void beforeScriptParse(Path scriptPath)
-    void beforeTestRun(StandaloneTest test)
-    void afterTestRun(StandaloneTest test)
-    void afterAllTests()
+public class JavaShutdownHook {
+    public final static JavaShutdownHook INSTANCE = new JavaShutdownHook();
+
+    private JavaShutdownHook() {
+        TestListeners.afterAllTests(JavaReport.INSTANCE.create());
+    }
+
+    public void noOp() {
+    }
 }

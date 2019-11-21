@@ -56,7 +56,7 @@ class StandaloneTestRunnerTest {
     void "should extract failed code snippets"() {
         def runner = createRunner("StandaloneTest.groovy")
         runner.runTests()
-        def failedSnippets = runner.tests[0].reportTestEntry.toMap().failedCodeSnippets
+        def failedSnippets = runner.tests[0].test.toMap().failedCodeSnippets
         def firstSnippet = failedSnippets[0]
 
         firstSnippet.filePath.should == 'StandaloneTest.groovy'
@@ -140,8 +140,8 @@ class StandaloneTestRunnerTest {
 
         def test = runner.tests[0]
         test.scenario.should == 'parse/init'
-        test.reportTestEntry.hasError().should == true
-        test.reportTestEntry.exception.message.should == message
+        test.test.hasError().should == true
+        test.test.exception.message.should == message
     }
 
     private static StandaloneTestRunner createRunner(String... scenarioFiles) {

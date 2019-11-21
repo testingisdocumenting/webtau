@@ -18,8 +18,8 @@ package com.twosigma.webtau.http.report;
 
 import com.twosigma.webtau.report.ReportCustomData;
 import com.twosigma.webtau.report.ReportDataProvider;
-import com.twosigma.webtau.report.ReportTestEntries;
-import com.twosigma.webtau.report.ReportTestEntry;
+import com.twosigma.webtau.reporter.WebTauTestList;
+import com.twosigma.webtau.reporter.WebTauTest;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,8 +31,8 @@ import static com.twosigma.webtau.http.report.HttpCallsTestResultPayloadExtracto
 
 public class HttpCallsReportDataProvider implements ReportDataProvider {
     @Override
-    public Stream<ReportCustomData> provide(ReportTestEntries testEntries) {
-        List<Map<String, ?>> reportData = testEntries.stream()
+    public Stream<ReportCustomData> provide(WebTauTestList tests) {
+        List<Map<String, ?>> reportData = tests.stream()
                 .flatMap(HttpCallsReportDataProvider::callsFromTest)
                 .collect(Collectors.toList());
 
@@ -40,7 +40,7 @@ public class HttpCallsReportDataProvider implements ReportDataProvider {
     }
 
     @SuppressWarnings("unchecked")
-    private static Stream<Map<String, ?>> callsFromTest(ReportTestEntry test) {
+    private static Stream<Map<String, ?>> callsFromTest(WebTauTest test) {
         return test.getPayloads().stream()
                 .filter(p -> p.getPayloadName().equals(HTTP_CALLS_PAYLOAD_NAME))
                 .flatMap(p -> ((List<Map<String, ?>>) p.getPayload()).stream())

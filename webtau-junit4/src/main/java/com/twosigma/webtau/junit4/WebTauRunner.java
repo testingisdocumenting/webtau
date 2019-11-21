@@ -18,8 +18,8 @@ package com.twosigma.webtau.junit4;
 
 import com.twosigma.webtau.javarunner.report.JavaBasedTest;
 import com.twosigma.webtau.javarunner.report.JavaReport;
-import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
-import com.twosigma.webtau.report.ReportTestEntry;
+import com.twosigma.webtau.javarunner.report.JavaShutdownHook;
+import com.twosigma.webtau.reporter.WebTauTest;
 import com.twosigma.webtau.reporter.StepReporters;
 import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
 import org.junit.AfterClass;
@@ -34,7 +34,6 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.Statement;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -65,12 +64,12 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
     @Override
     protected void runChild(FrameworkMethod method, RunNotifier notifier) {
         JavaBasedTest javaBasedTest = createJavaBasedTest(method);
-        ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
+        WebTauTest webTauTest = javaBasedTest.getTest();
 
         notifier.addListener(new RunListener() {
             @Override
             public void testFailure(Failure failure) {
-                reportTestEntry.setExceptionIfNotSet(failure.getException());
+                webTauTest.setExceptionIfNotSet(failure.getException());
             }
         });
 
@@ -78,7 +77,7 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
         try {
             super.runChild(method, notifier);
         } catch (Throwable e) {
-            reportTestEntry.setExceptionIfNotSet(e);
+            webTauTest.setExceptionIfNotSet(e);
             throw e;
         } finally {
             afterTestRun(javaBasedTest);
@@ -94,31 +93,34 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
     }
 
     private void beforeTestRun(JavaBasedTest javaBasedTest) {
-        javaBasedTest.getReportTestEntry().startClock();
+        javaBasedTest.getTest().startClock();
         StepReporters.add(javaBasedTest);
     }
 
     private void afterTestRun(JavaBasedTest javaBasedTest) {
-        ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
-        reportTestEntry.setRan(true);
-        reportTestEntry.stopClock();
-        JavaReport.addTestEntry(reportTestEntry);
+        WebTauTest webTauTest = javaBasedTest.getTest();
+        webTauTest.setRan(true);
+        webTauTest.stopClock();
+        JavaReport.INSTANCE.addTest(webTauTest);
 
         StepReporters.remove(javaBasedTest);
 
-        TestResultPayloadExtractors.extract(reportTestEntry.getSteps().stream())
-                .forEach(reportTestEntry::addTestResultPayload);
+        TestResultPayloadExtractors.extract(webTauTest.getSteps().stream())
+                .forEach(webTauTest::addTestResultPayload);
 
-        JavaReportShutdownHook.INSTANCE.noOp();
+        JavaShutdownHook.INSTANCE.noOp();
     }
 
     private JavaBasedTest createJavaBasedTest(FrameworkMethod method) {
+        String canonicalClassName = method.getDeclaringClass().getCanonicalName();
+
         JavaBasedTest javaBasedTest = new JavaBasedTest(
                 method.getName() + idGenerator.incrementAndGet(),
                 method.getName());
 
-        ReportTestEntry reportTestEntry = javaBasedTest.getReportTestEntry();
-        reportTestEntry.setClassName(method.getDeclaringClass().getCanonicalName());
+        WebTauTest webTauTest = javaBasedTest.getTest();
+        webTauTest.setClassName(canonicalClassName);
+        webTauTest.setShortContainerId(canonicalClassName);
 
         return javaBasedTest;
     }
@@ -139,7 +141,7 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
             try {
                 return super.invokeExplosively(target, params);
             } catch (Throwable e) {
-                javaBasedTest.getReportTestEntry().setException(e);
+                javaBasedTest.getTest().setException(e);
                 throw e;
             } finally {
                 afterTestRun(javaBasedTest);

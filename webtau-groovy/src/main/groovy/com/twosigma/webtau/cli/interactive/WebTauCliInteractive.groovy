@@ -20,13 +20,13 @@ import com.twosigma.webtau.WebTauGroovyDsl
 import com.twosigma.webtau.cfg.GroovyRunner
 import com.twosigma.webtau.console.ansi.Color
 import com.twosigma.webtau.reporter.ConsoleStepReporter
+import com.twosigma.webtau.reporter.ConsoleTestListener
 import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
 import com.twosigma.webtau.reporter.StepReporters
+import com.twosigma.webtau.reporter.TestListeners
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
 import com.twosigma.webtau.runner.standalone.StandaloneTest
-import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
 import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
-import com.twosigma.webtau.runner.standalone.report.StandardConsoleTestListener
 
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -314,8 +314,8 @@ class WebTauCliInteractive {
     static void main(String[] args) {
         System.setProperty('workingDir', '../webtau-feature-testing/examples/')
 
-        def consoleTestReporter = new StandardConsoleTestListener()
-        StandaloneTestListeners.add(consoleTestReporter)
+        def consoleTestReporter = new ConsoleTestListener()
+        TestListeners.add(consoleTestReporter)
         StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter))
 
         def runner = new StandaloneTestRunner(

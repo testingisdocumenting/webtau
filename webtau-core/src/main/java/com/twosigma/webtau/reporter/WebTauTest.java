@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.reporter.TestResultPayload;
-import com.twosigma.webtau.reporter.TestStatus;
-import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceCodeEntry;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
 import com.twosigma.webtau.time.Time;
@@ -32,13 +29,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.twosigma.webtau.reporter.TestStatus.Errored;
-import static com.twosigma.webtau.reporter.TestStatus.Failed;
-import static com.twosigma.webtau.reporter.TestStatus.Passed;
-import static com.twosigma.webtau.reporter.TestStatus.Skipped;
+import static com.twosigma.webtau.reporter.TestStatus.*;
 
-
-public class ReportTestEntry {
+public class WebTauTest {
     private String id;
     private String scenario;
 
@@ -60,7 +53,7 @@ public class ReportTestEntry {
     private long startTime;
     private long elapsedTime;
 
-    public ReportTestEntry(Path workingDir) {
+    public WebTauTest(Path workingDir) {
         this.workingDir = workingDir;
         payloads = new ArrayList<>();
         steps = new ArrayList<>();

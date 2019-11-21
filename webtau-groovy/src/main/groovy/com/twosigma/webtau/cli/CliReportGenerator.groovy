@@ -18,46 +18,43 @@ package com.twosigma.webtau.cli
 
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.report.Report
+import com.twosigma.webtau.reporter.WebTauReport
 import com.twosigma.webtau.report.ReportGenerator
-import com.twosigma.webtau.report.ReportTestEntry
+import com.twosigma.webtau.reporter.WebTauTest
 import com.twosigma.webtau.reporter.TestStatus
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
 
 class CliReportGenerator implements ReportGenerator {
     @Override
-    void generate(Report report) {
+    void generate(WebTauReport report) {
         printTestsWithStatus(report, TestStatus.Errored)
         printTestsWithStatus(report, TestStatus.Failed)
         printTotals(report)
     }
 
-    private static void printTestsWithStatus(Report report, TestStatus status) {
-        if (report.testEntries.countWithStatus(status) == 0) {
+    private static void printTestsWithStatus(WebTauReport report, TestStatus status) {
+        if (report.tests.countWithStatus(status) == 0) {
             return
         }
 
         ConsoleOutputs.out(Color.BLUE, status.toString() + ' tests:')
-        report.testEntries
+        report.tests
                 .withStatus(status)
                 .each { te -> printFailedTest(te) }
     }
 
-    private static void printFailedTest(ReportTestEntry testEntry) {
+    private static void printFailedTest(WebTauTest testEntry) {
         ConsoleOutputs.out(Color.RED, '[x] ', testEntry.scenario, Color.PURPLE, ' ',
                 testEntry.filePath)
 
         ConsoleOutputs.out(StackTraceUtils.renderStackTraceWithoutLibCalls(testEntry.exception), '\n')
     }
 
-    private static void printTotals(Report report) {
-        def summary = report.createSummary()
-
-        ConsoleOutputs.out('Total: ', summary.getTotal(), ', ',
-                Color.GREEN, ' Passed: ', summary.passed, ', ',
-                Color.YELLOW, ' Skipped: ', summary.skipped, ', ',
-                Color.RED, ' Failed: ', summary.failed, ', ',
-                ' Errored: ', summary.errored)
-
+    private static void printTotals(WebTauReport report) {
+        ConsoleOutputs.out('Total: ', report.total, ', ',
+                Color.GREEN, ' Passed: ', report.passed, ', ',
+                Color.YELLOW, ' Skipped: ', report.skipped, ', ',
+                Color.RED, ' Failed: ', report.failed, ', ',
+                ' Errored: ', report.errored)
     }
 }

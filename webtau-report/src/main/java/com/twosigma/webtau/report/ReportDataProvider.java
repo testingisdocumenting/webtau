@@ -16,8 +16,10 @@
 
 package com.twosigma.webtau.report;
 
+import com.twosigma.webtau.reporter.WebTauTestList;
+
 import java.util.stream.Stream;
 
 public interface ReportDataProvider {
-    Stream<ReportCustomData> provide(ReportTestEntries testEntries);
+    Stream<ReportCustomData> provide(WebTauTestList tests);
 }

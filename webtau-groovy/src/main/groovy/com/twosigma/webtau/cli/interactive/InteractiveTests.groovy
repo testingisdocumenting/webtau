@@ -30,7 +30,7 @@ class InteractiveTests {
 
     InteractiveTests(StandaloneTestRunner runner) {
         this.runner = runner
-        this.testFilePaths = new LinkedHashSet<>(runner.tests.reportTestEntry.filePath*.toString())
+        this.testFilePaths = new LinkedHashSet<>(runner.tests.test.filePath*.toString())
     }
 
     List<StandaloneTest> refreshScenarios(String filePath) {
