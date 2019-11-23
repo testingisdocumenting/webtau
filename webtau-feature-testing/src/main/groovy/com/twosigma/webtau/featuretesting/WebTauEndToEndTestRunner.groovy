@@ -20,19 +20,13 @@ import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cli.WebTauCliApp
 import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
 import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.reporter.StepReporter
-import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.reporter.TestStep
-import com.twosigma.webtau.runner.standalone.StandaloneTest
-import com.twosigma.webtau.runner.standalone.StandaloneTestListener
-import com.twosigma.webtau.runner.standalone.StandaloneTestListeners
+import com.twosigma.webtau.reporter.*
 
-import java.nio.file.Path
 import java.nio.file.Paths
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
+class WebTauEndToEndTestRunner implements StepReporter, TestListener {
     private Map capturedStepsSummary
     private final List scenariosDetails = []
 
@@ -54,7 +48,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
         def testPath = Paths.get(testFileName)
 
         StepReporters.add(this)
-        StandaloneTestListeners.add(this)
+        TestListeners.add(this)
 
         def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
         def reportPath = targetClassesLocation
@@ -86,7 +80,7 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
             validateAndSaveTestDetails(testFileName, testDetails)
         } finally {
             StepReporters.remove(this)
-            StandaloneTestListeners.remove(this)
+            TestListeners.remove(this)
         }
     }
 
@@ -129,22 +123,18 @@ class WebTauEndToEndTestRunner implements StepReporter, StandaloneTestListener {
     }
 
     @Override
-    void beforeScriptParse(Path scriptPath) {
-    }
-
-    @Override
-    void beforeTestRun(StandaloneTest test) {
+    void beforeTestRun(WebTauTest test) {
         capturedStepsSummary = [:].withDefault { 0 }
     }
 
     @Override
-    void afterTestRun(StandaloneTest test) {
+    void afterTestRun(WebTauTest test) {
         scenariosDetails.add([scenario        : test.scenario,
                               shortContainerId: test.shortContainerId,
                               stepsSummary    : capturedStepsSummary])
     }
 
     @Override
-    void afterAllTests() {
+    void afterAllTests(WebTauReport report) {
     }
 }

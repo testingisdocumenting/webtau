@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
-
-import com.twosigma.webtau.reporter.TestStatus;
+package com.twosigma.webtau.reporter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,39 +22,39 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class ReportTestEntries {
-    private List<ReportTestEntry> entries;
+public class WebTauTestList {
+    private List<WebTauTest> tests;
 
-    public ReportTestEntries() {
-        entries = Collections.synchronizedList(new ArrayList<>());
+    public WebTauTestList() {
+        tests = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public ReportTestEntries(List<ReportTestEntry> entries) {
-        this.entries = Collections.synchronizedList(entries);
+    public WebTauTestList(List<WebTauTest> tests) {
+        this.tests = Collections.synchronizedList(tests);
     }
 
-    public void add(ReportTestEntry entry) {
-        entries.add(entry);
+    public void add(WebTauTest test) {
+        tests.add(test);
     }
 
-    public void forEach(Consumer<ReportTestEntry> action) {
-        entries.forEach(action);
+    public void forEach(Consumer<WebTauTest> action) {
+        tests.forEach(action);
     }
 
-    public Stream<ReportTestEntry> stream() {
-        return entries.stream();
+    public Stream<WebTauTest> stream() {
+        return tests.stream();
     }
 
     public int size() {
-        return entries.size();
+        return tests.size();
     }
 
     public boolean isEmpty() {
-        return entries.isEmpty();
+        return tests.isEmpty();
     }
 
-    public Stream<ReportTestEntry> withStatus(TestStatus status) {
-        return entries.stream().filter(e -> e.getTestStatus() == status);
+    public Stream<WebTauTest> withStatus(TestStatus status) {
+        return tests.stream().filter(e -> e.getTestStatus() == status);
     }
 
     public long countWithStatus(TestStatus status) {

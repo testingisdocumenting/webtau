@@ -18,12 +18,8 @@ package com.twosigma.webtau.junit5;
 
 import com.twosigma.webtau.javarunner.report.JavaBasedTest;
 import com.twosigma.webtau.javarunner.report.JavaReport;
-import com.twosigma.webtau.javarunner.report.JavaReportShutdownHook;
-import com.twosigma.webtau.report.ReportTestEntry;
-import com.twosigma.webtau.reporter.ConsoleStepReporter;
-import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder;
-import com.twosigma.webtau.reporter.StepReporters;
-import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
+import com.twosigma.webtau.javarunner.report.JavaShutdownHook;
+import com.twosigma.webtau.reporter.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
@@ -72,11 +68,16 @@ public class WebTauJunitExtension implements
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) {
-        JavaBasedTest test = new JavaBasedTest(
+        JavaBasedTest javaBasedTest = new JavaBasedTest(
                 extensionContext.getUniqueId(),
                 testNameFromExtensionContext(extensionContext));
 
-        startTest(extensionContext, test);
+        javaBasedTest.getTest().setShortContainerId(
+                extensionContext.getParent()
+                        .map(ExtensionContext::getDisplayName)
+                        .orElse(""));
+
+        startTest(extensionContext, javaBasedTest);
     }
 
     @Override
@@ -87,39 +88,41 @@ public class WebTauJunitExtension implements
 
     @Override
     public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-        JavaBasedTest test = retrieveTest(context);
+        JavaBasedTest javaBasedTest = retrieveTest(context);
 
-        ReportTestEntry reportTestEntry = test.getReportTestEntry();
-        reportTestEntry.setException(throwable);
-        reportTestEntry.stopClock();
+        WebTauTest webTauTest = javaBasedTest.getTest();
+        webTauTest.setException(throwable);
+        webTauTest.stopClock();
 
         throw throwable;
     }
 
-    private void startTest(ExtensionContext extensionContext, JavaBasedTest test) {
-        StepReporters.add(test);
-        test.getReportTestEntry().startClock();
+    private void startTest(ExtensionContext extensionContext, JavaBasedTest javaBasedTest) {
+        TestListeners.beforeTestRun(javaBasedTest.getTest());
+        StepReporters.add(javaBasedTest);
+        javaBasedTest.getTest().startClock();
 
-        storeTestInContext(extensionContext, test);
+        storeTestInContext(extensionContext, javaBasedTest);
     }
 
-    private void stopTest(ExtensionContext extensionContext, JavaBasedTest test) {
+    private void stopTest(ExtensionContext extensionContext, JavaBasedTest javaBasedTest) {
         removeTestFromContext(extensionContext);
 
-        StepReporters.remove(test);
+        StepReporters.remove(javaBasedTest);
 
-        ReportTestEntry reportTestEntry = test.getReportTestEntry();
-        reportTestEntry.setRan(true);
-        reportTestEntry.stopClock();
-        reportTestEntry.setClassName(extensionContext.getTestClass()
+        WebTauTest webTauTest = javaBasedTest.getTest();
+        webTauTest.setRan(true);
+        webTauTest.stopClock();
+        webTauTest.setClassName(extensionContext.getTestClass()
                 .map(Class::getCanonicalName)
                 .orElse(null));
-        JavaReport.addTestEntry(reportTestEntry);
+        JavaReport.INSTANCE.addTest(webTauTest);
 
-        TestResultPayloadExtractors.extract(reportTestEntry.getSteps().stream())
-                .forEach(reportTestEntry::addTestResultPayload);
+        TestResultPayloadExtractors.extract(webTauTest.getSteps().stream())
+                .forEach(webTauTest::addTestResultPayload);
 
-        JavaReportShutdownHook.INSTANCE.noOp();
+        JavaShutdownHook.INSTANCE.noOp();
+        TestListeners.afterTestRun(javaBasedTest.getTest());
     }
 
     private void invokeAsTest(Invocation<Void> invocation,
@@ -128,17 +131,19 @@ public class WebTauJunitExtension implements
                               String testNamePrefix) throws Throwable {
         String testMethodName = testNameFromInvocationContext(invocationContext);
 
-        JavaBasedTest test = new JavaBasedTest(
+        JavaBasedTest javaBasedTest = new JavaBasedTest(
                 testNamePrefix + testMethodName,
                 testMethodName);
 
-        startTest(extensionContext, test);
+        javaBasedTest.getTest().setShortContainerId(extensionContext.getDisplayName());
+
+        startTest(extensionContext, javaBasedTest);
 
         try {
             invocation.proceed();
         } finally {
-            stopTest(extensionContext, test);
-            JavaReportShutdownHook.INSTANCE.noOp();
+            stopTest(extensionContext, javaBasedTest);
+            JavaShutdownHook.INSTANCE.noOp();
         }
     }
 
@@ -179,6 +184,7 @@ public class WebTauJunitExtension implements
         }
 
         private static void actualRegister() {
+            TestListeners.add(new ConsoleTestListener());
             StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter()));
         }
     }

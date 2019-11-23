@@ -20,6 +20,8 @@ import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.cfg.WebTauMeta;
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
+import com.twosigma.webtau.reporter.WebTauReport;
+import com.twosigma.webtau.reporter.WebTauTest;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
@@ -47,22 +49,22 @@ public class HtmlReportGenerator implements ReportGenerator {
     }
 
     @Override
-    public void generate(Report report) {
+    public void generate(WebTauReport report) {
         Path reportPath = getCfg().getReportPath().toAbsolutePath();
 
         FileUtils.writeTextContent(reportPath, generateHtml(report));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
     }
 
-    private String generateHtml(Report report) {
+    private String generateHtml(WebTauReport report) {
         Map<String, Object> reportAsMap = new LinkedHashMap<>();
         reportAsMap.put("config", configAsListOfMaps(getCfg().getCfgValuesStream()));
-        reportAsMap.put("summary", report.createSummary().toMap());
+        reportAsMap.put("summary", reportSummaryToMap(report));
         reportAsMap.put("version", WebTauMeta.getVersion());
-        reportAsMap.put("tests", report.getTestEntries().stream()
-                .map(ReportTestEntry::toMap).collect(Collectors.toList()));
+        reportAsMap.put("tests", report.getTests().stream()
+                .map(WebTauTest::toMap).collect(Collectors.toList()));
 
-        report.extractReportCustomData().stream()
+        ReportDataProviders.provide(report.getTests())
                 .map(ReportCustomData::toMap)
                 .forEach(reportAsMap::putAll);
 
@@ -114,5 +116,19 @@ public class HtmlReportGenerator implements ReportGenerator {
         String encoded = Base64.getEncoder().encodeToString(content);
 
         return "<link rel=\"shortcut icon\" href=\"data:image/png;base64," + encoded + "\">";
+    }
+
+    private Map<String, Object> reportSummaryToMap(WebTauReport report) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("total", report.getTotal());
+        result.put("passed", report.getPassed());
+        result.put("failed", report.getFailed());
+        result.put("skipped", report.getSkipped());
+        result.put("errored", report.getErrored());
+        result.put("startTime", report.getStartTime());
+        result.put("stopTime", report.getStopTime());
+        result.put("duration", report.getDuration());
+
+        return result;
     }
 }

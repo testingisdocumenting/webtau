@@ -18,6 +18,10 @@ package com.twosigma.webtau.runner.standalone
 
 import com.twosigma.webtau.TestFile
 import com.twosigma.webtau.reporter.StepReporters
+import com.twosigma.webtau.reporter.TestListeners
+import com.twosigma.webtau.reporter.WebTauReport
+import com.twosigma.webtau.reporter.WebTauTestList
+import com.twosigma.webtau.time.Time
 
 import java.nio.file.Path
 import java.util.concurrent.ForkJoinPool
@@ -33,6 +37,10 @@ class StandaloneTestRunner {
     private GroovyScriptEngine groovy
 
     private AtomicBoolean isTerminated
+
+    private long startTime
+    private long endTime
+    private WebTauTestList webTauTestList
 
     private ThreadLocal<TestRunCondition> runCondition = ThreadLocal.<TestRunCondition> withInitial { ->
         new TestRunCondition(isConditionMet: true)
@@ -53,7 +61,6 @@ class StandaloneTestRunner {
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
 
         def scriptParse = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, "parse/init", { ->
-            StandaloneTestListeners.beforeScriptParse(scriptPath)
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
             script.setDelegate(delegate)
@@ -83,18 +90,6 @@ class StandaloneTestRunner {
 
     List<StandaloneTest> getTests() {
         return registeredTests.tests
-    }
-
-    int getNumberOfPassed() {
-        return registeredTests.count { it.isPassed() }
-    }
-
-    int getNumberOfFailed() {
-        return registeredTests.count { it.isFailed() }
-    }
-
-    int getNumberOfErrored() {
-        return registeredTests.count { it.hasError() }
     }
 
     void scenario(String description, Closure code) {
@@ -157,19 +152,19 @@ class StandaloneTestRunner {
         }.get()
     }
 
-    void runTestAndNotifyListeners(StandaloneTest test) {
-        StandaloneTestListeners.beforeTestRun(test)
-        runTestIfNotTerminated(test)
-        StandaloneTestListeners.afterTestRun(test)
-    }
-
     void resetAndWithListeners(Closure codeToRunTests) {
         isTerminated.set(false)
         try {
-            StandaloneTestListeners.beforeFirstTest()
+            startTime = Time.currentTimeMillis()
+            webTauTestList = new WebTauTestList()
+
+            TestListeners.beforeFirstTest()
             codeToRunTests()
         } finally {
-            StandaloneTestListeners.afterAllTests()
+            endTime = Time.currentTimeMillis()
+            def report = new WebTauReport(webTauTestList, startTime, endTime)
+
+            TestListeners.afterAllTests(report)
         }
     }
 
@@ -177,9 +172,8 @@ class StandaloneTestRunner {
         resetAndWithListeners {
             def testsToSkip = registeredTests.testsToSkip()
 
-            testsToSkip.each { test ->
-                StandaloneTestListeners.beforeTestRun(test)
-                StandaloneTestListeners.afterTestRun(test)
+            testsToSkip.each { standaloneTest ->
+                handleTestAndNotifyListeners(standaloneTest) {}
             }
 
             def stream = streamCreator.apply(registeredTests.testsByFile())
@@ -192,12 +186,27 @@ class StandaloneTestRunner {
         }
     }
 
-    private void runTestIfNotTerminated(StandaloneTest test) {
+    void runTestAndNotifyListeners(StandaloneTest standaloneTest) {
+        handleTestAndNotifyListeners(standaloneTest) {
+            runTestIfNotTerminated(it)
+        }
+    }
+
+    void handleTestAndNotifyListeners(StandaloneTest standaloneTest, Closure testHandler) {
+        TestListeners.beforeTestRun(standaloneTest.test)
+
+        testHandler(standaloneTest)
+        webTauTestList.add(standaloneTest.test)
+
+        TestListeners.afterTestRun(standaloneTest.test)
+    }
+
+    private void runTestIfNotTerminated(StandaloneTest standaloneTest) {
         if (!isTerminated.get()) {
-            test.run()
+            standaloneTest.run()
         }
 
-        if (test.reportTestEntry.exception instanceof TestsRunTerminateException) {
+        if (standaloneTest.test.exception instanceof TestsRunTerminateException) {
             isTerminated.set(true)
         }
     }
@@ -215,21 +224,5 @@ class StandaloneTestRunner {
     private static class TestRunCondition {
         String skipReason
         boolean isConditionMet
-    }
-
-    private class SkipTestsDelegate {
-        private String skipReason
-
-        SkipTestsDelegate(String skipReason) {
-            this.skipReason = skipReason
-        }
-
-        void scenario(String description, Closure code) {
-            StandaloneTestRunner.this.dscenario(description, skipReason, code)
-        }
-
-        void sscenario(String description, Closure code) {
-            StandaloneTestRunner.this.dscenario(description, skipReason, code)
-        }
     }
 }

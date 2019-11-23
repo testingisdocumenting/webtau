@@ -16,29 +16,29 @@
 
 package com.twosigma.webtau.javarunner.report;
 
-import com.twosigma.webtau.report.ReportTestEntry;
+import com.twosigma.webtau.reporter.WebTauTest;
 import com.twosigma.webtau.reporter.StepReporter;
 import com.twosigma.webtau.reporter.TestStep;
 
 import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
 
 public class JavaBasedTest implements StepReporter {
-    private final ReportTestEntry reportTestEntry;
+    private final WebTauTest test;
 
     public JavaBasedTest(String id, String name) {
-        reportTestEntry = new ReportTestEntry(getCfg().getWorkingDir());
-        reportTestEntry.setId(id);
-        reportTestEntry.setScenario(name);
+        test = new WebTauTest(getCfg().getWorkingDir());
+        test.setId(id);
+        test.setScenario(name);
     }
 
-    public ReportTestEntry getReportTestEntry() {
-        return reportTestEntry;
+    public WebTauTest getTest() {
+        return test;
     }
 
     @Override
     public void onStepStart(TestStep step) {
         if (step.getNumberOfParents() == 0) {
-            reportTestEntry.addStep(step);
+            test.addStep(step);
         }
     }
 

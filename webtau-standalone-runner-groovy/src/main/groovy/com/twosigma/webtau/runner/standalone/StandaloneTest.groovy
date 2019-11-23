@@ -16,14 +16,13 @@
 
 package com.twosigma.webtau.runner.standalone
 
-import com.twosigma.webtau.report.ReportTestEntry
+import com.twosigma.webtau.reporter.WebTauTest
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
 import com.twosigma.webtau.reporter.TestResultPayload
 import com.twosigma.webtau.reporter.TestStep
 
 import java.nio.file.Path
-
 
 /**
  * Most of the runner API can be used outside standard JUnit/TestNG setup.
@@ -32,99 +31,99 @@ import java.nio.file.Path
 class StandaloneTest implements StepReporter {
     private static StandaloneTestIdGenerator idGenerator = new StandaloneTestIdGenerator()
 
-    private final ReportTestEntry reportTestEntry
+    private final WebTauTest test
 
     private final Path workingDir
     private final Closure code
 
     StandaloneTest(Path workingDir, Path filePath, String shortContainerId, String description, Closure code) {
-        this.reportTestEntry = new ReportTestEntry(workingDir)
-        this.reportTestEntry.setId(idGenerator.generate(filePath))
-        this.reportTestEntry.setScenario(description)
-        this.reportTestEntry.setFilePath(workingDir.relativize(filePath))
-        this.reportTestEntry.setShortContainerId(shortContainerId)
+        this.test = new WebTauTest(workingDir)
+        this.test.setId(idGenerator.generate(filePath))
+        this.test.setScenario(description)
+        this.test.setFilePath(workingDir.relativize(filePath))
+        this.test.setShortContainerId(shortContainerId)
 
         this.workingDir = workingDir
         this.code = code
     }
 
-    ReportTestEntry getReportTestEntry() {
-        return reportTestEntry
+    WebTauTest getTest() {
+        return test
     }
 
     Path getFilePath() {
-        return reportTestEntry.filePath
+        return test.filePath
     }
 
     String getScenario() {
-        return reportTestEntry.scenario
+        return test.scenario
     }
 
     String getShortContainerId() {
-        return reportTestEntry.shortContainerId
+        return test.shortContainerId
     }
 
     String getDisableReason() {
-        return reportTestEntry.disableReason
+        return test.disableReason
     }
 
     boolean hasError() {
-        return reportTestEntry.hasError()
+        return test.hasError()
     }
 
     boolean isSkipped() {
-        return reportTestEntry.isSkipped()
+        return test.isSkipped()
     }
 
     boolean isFailed() {
-        return reportTestEntry.isFailed()
+        return test.isFailed()
     }
 
     List<TestStep<?, ?>> getSteps() {
-        return reportTestEntry.steps
+        return test.steps
     }
 
     Throwable getException() {
-        return reportTestEntry.exception
+        return test.exception
     }
 
     String getAssertionMessage() {
-        return reportTestEntry.assertionMessage
+        return test.assertionMessage
     }
 
     void run() {
-        reportTestEntry.clear()
-        if (reportTestEntry.isDisabled()) {
+        test.clear()
+        if (test.isDisabled()) {
             return
         }
 
         StepReporters.withAdditionalReporter(this) {
             try {
-                reportTestEntry.startClock()
-                if (!reportTestEntry.isDisabled()) {
+                test.startClock()
+                if (!test.isDisabled()) {
                     code.run()
                 }
             } catch (Throwable e) {
-                reportTestEntry.setException(e)
+                test.setException(e)
             } finally {
-                reportTestEntry.stopClock()
-                reportTestEntry.setRan(true)
+                test.stopClock()
+                test.setRan(true)
             }
         }
     }
 
     void disable(String reason) {
-        reportTestEntry.disable(reason)
+        test.disable(reason)
     }
 
     void addResultPayload(TestResultPayload payload) {
-        reportTestEntry.addTestResultPayload(payload)
+        test.addTestResultPayload(payload)
     }
 
     @Override
     void onStepStart(TestStep step) {
         if (step.getNumberOfParents() == 0) {
-            reportTestEntry.addStep(step)
+            test.addStep(step)
         }
     }
 

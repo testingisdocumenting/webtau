@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.report;
 
+import com.twosigma.webtau.reporter.WebTauReport;
+
 public interface ReportGenerator {
-    void generate(Report report);
+    void generate(WebTauReport report);
 }

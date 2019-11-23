@@ -16,21 +16,39 @@
 
 package com.twosigma.webtau.javarunner.report;
 
-import com.twosigma.webtau.report.Report;
-import com.twosigma.webtau.report.ReportTestEntry;
+import com.twosigma.webtau.reporter.WebTauReport;
+import com.twosigma.webtau.reporter.WebTauTest;
+import com.twosigma.webtau.reporter.WebTauTestList;
+import com.twosigma.webtau.time.Time;
 
 /**
  * Global storage of java based report.
  * Is used to generate report at the end of all tests run.
  */
 public class JavaReport {
-    private static final Report report = new Report();
+    public static final JavaReport INSTANCE = new JavaReport();
 
-    public static void addTestEntry(ReportTestEntry testEntry) {
-        report.addTestEntry(testEntry);
+    private final WebTauTestList tests = new WebTauTestList();
+
+    private long startTime;
+    private long stopTime;
+
+    private JavaReport() {
     }
 
-    public static Report get() {
-        return report;
+    public void startTimer() {
+        startTime = Time.currentTimeMillis();
+    }
+
+    public void addTest(WebTauTest test) {
+        tests.add(test);
+    }
+
+    public void stopTimer() {
+        stopTime = Time.currentTimeMillis();
+    }
+
+    public WebTauReport create() {
+        return new WebTauReport(tests, startTime, stopTime);
     }
 }

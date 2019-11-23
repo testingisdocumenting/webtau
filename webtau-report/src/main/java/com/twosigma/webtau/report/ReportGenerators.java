@@ -16,15 +16,15 @@
 
 package com.twosigma.webtau.report;
 
+import com.twosigma.webtau.reporter.WebTauReport;
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
-import java.util.Set;
 
 public class ReportGenerators {
     private static final List<ReportGenerator> generators = ServiceLoaderUtils.load(ReportGenerator.class);
 
-    public static void generate(Report report) {
+    public static void generate(WebTauReport report) {
         generators.forEach(g -> g.generate(report));
     }
 
