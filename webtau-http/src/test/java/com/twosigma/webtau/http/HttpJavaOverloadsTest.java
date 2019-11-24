@@ -142,4 +142,61 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
         });
         actual(text).should(equal(PATH_EXPECTED_RETURN));
     }
+
+    @Test
+    public void deleteWithoutReturnOverloads() {
+        http.delete("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.delete("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.delete("/full-echo", query, (header, body) -> {
+            urlValidation.accept(body);
+        });
+
+        http.delete("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+        });
+    }
+
+    @Test
+    public void deleteWithReturnOverloads() {
+        Integer number;
+        Integer expected = 200;
+
+        number = http.delete("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+
+            return header.statusCode();
+        });
+        actual(number).should(equal(expected));
+
+        number = http.delete("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+
+            return header.statusCode();
+        });
+        actual(number).should(equal(expected));
+
+        number = http.delete("/full-echo", query, (header, body) -> {
+            urlValidation.accept(body);
+
+            return header.statusCode();
+        });
+        actual(number).should(equal(expected));
+
+        number = http.delete("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+
+            return header.statusCode();
+        });
+        actual(number).should(equal(expected));
+    }
 }
