@@ -161,12 +161,28 @@ class HttpExtensions {
         return http.put(url, header, closureToHttpResponseValidator(validation))
     }
 
-    static def delete(Http http, String url, Closure validation) {
-        return http.delete(url, closureToHttpResponseValidator(validation))
+    static def delete(Http http, String url, Map<String, ?> queryParams, HttpHeader header, Closure validation) {
+        return http.delete(url, new HttpQueryParams(queryParams), header, closureToHttpResponseValidator(validation))
+    }
+
+    static def delete(Http http, String url, HttpQueryParams queryParams, HttpHeader header, Closure validation) {
+        return http.delete(url, queryParams, header, closureToHttpResponseValidator(validation))
+    }
+
+    static def delete(Http http, String url, Map<String, ?> queryParams, Closure validation) {
+        return http.delete(url, new HttpQueryParams(queryParams), closureToHttpResponseValidator(validation))
+    }
+
+    static def delete(Http http, String url, HttpQueryParams queryParams, Closure validation) {
+        return http.delete(url, queryParams, closureToHttpResponseValidator(validation))
     }
 
     static def delete(Http http, String url, HttpHeader header, Closure validation) {
         return http.delete(url, header, closureToHttpResponseValidator(validation))
+    }
+
+    static def delete(Http http, String url, Closure validation) {
+        return http.delete(url, closureToHttpResponseValidator(validation))
     }
 
     private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(validation) {

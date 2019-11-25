@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.http;
 
+import com.twosigma.webtau.WebTauCore;
 import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
 import com.twosigma.webtau.http.request.HttpQueryParams;
@@ -39,6 +40,7 @@ public class HttpOverloadsTestCommon {
     public static final String PATH_EXPECTED_RETURN = "/full-echo";
 
     public static final HttpQueryParams query = http.query("a", "1", "b", "text");
+    public static final Map<String, ?> queryAsMap = WebTauCore.aMapOf("a", "1", "b", "text");
     public static final HttpHeader requestHeader = http.header(HEADER_KEY, HEADER_EXPECTED_RETURN);
 
     public static final Map<String, Object> requestBodyMap = Collections.singletonMap(BODY_KEY, BODY_EXPECTED_RETURN);

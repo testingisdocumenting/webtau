@@ -351,32 +351,56 @@ public class Http {
         put(url, queryParams, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public <E> E delete(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
-        return executeAndValidateHttpCall("DELETE", url,
+    public <E> E delete(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return executeAndValidateHttpCall("DELETE", queryParams.attachToUrl(url),
                 this::deleteToFullUrl,
                 header,
                 null,
                 validator);
     }
 
+    public void delete(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidator validator) {
+        delete(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E delete(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return delete(url, HttpQueryParams.EMPTY, header, validator);
+    }
+
     public void delete(String url, HttpHeader header, HttpResponseValidator validator) {
-        delete(url, header, new HttpResponseValidatorIgnoringReturn(validator));
+        delete(url, HttpQueryParams.EMPTY, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E delete(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
+        return delete(url, queryParams, HttpHeader.EMPTY, validator);
+    }
+
+    public void delete(String url, HttpQueryParams queryParams, HttpResponseValidator validator) {
+        delete(url, queryParams, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E delete(String url, HttpResponseValidatorWithReturn validator) {
-        return delete(url, HttpHeader.EMPTY, validator);
+        return delete(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, validator);
     }
 
     public void delete(String url, HttpResponseValidator validator) {
-        delete(url, new HttpResponseValidatorIgnoringReturn(validator));
+        delete(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void delete(String url, HttpQueryParams queryParams, HttpHeader header) {
+        delete(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void delete(String url, HttpHeader header) {
-        delete(url, header, EMPTY_RESPONSE_VALIDATOR);
+        delete(url, HttpQueryParams.EMPTY, header, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void delete(String url, HttpQueryParams queryParams) {
+        delete(url, queryParams, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void delete(String url) {
-        delete(url, EMPTY_RESPONSE_VALIDATOR);
+        delete(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public HttpHeader header(String... properties) {

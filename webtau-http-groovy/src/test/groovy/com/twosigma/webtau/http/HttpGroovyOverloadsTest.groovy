@@ -180,4 +180,85 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         }
         v.should == PATH_EXPECTED_RETURN
     }
+
+    @Test
+    void "delete without return overloads"() {
+        http.delete("/full-echo", query, requestHeader) {
+            headerValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.delete("/full-echo", queryAsMap, requestHeader) {
+            headerValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.delete("/full-echo", requestHeader) {
+            headerValidation.accept(body)
+            pathValidation.accept(body)
+        }
+
+        http.delete("/full-echo", query) {
+            urlValidation.accept(body)
+        }
+
+        http.delete("/full-echo", queryAsMap) {
+            urlValidation.accept(body)
+        }
+
+        http.delete("/full-echo") {
+            pathValidation.accept(body)
+        }
+    }
+
+    @Test
+    void "delete with return overloads"() {
+        def number
+        def expected = 200
+
+        number = http.delete("/full-echo", query, requestHeader) {
+            headerValidation.accept(body)
+            urlValidation.accept(body)
+
+            return header.statusCode
+        }
+        number.should == expected
+
+        number = http.delete("/full-echo", queryAsMap, requestHeader) {
+            headerValidation.accept(body)
+            urlValidation.accept(body)
+
+            return header.statusCode
+        }
+        number.should == expected
+
+        number = http.delete("/full-echo", requestHeader) {
+            headerValidation.accept(body)
+            pathValidation.accept(body)
+
+            return header.statusCode
+        }
+        number.should == expected
+
+        number = http.delete("/full-echo", query) {
+            urlValidation.accept(body)
+
+            return header.statusCode
+        }
+        number.should == expected
+
+        number = http.delete("/full-echo", queryAsMap) {
+            urlValidation.accept(body)
+
+            return header.statusCode
+        }
+        number.should == expected
+
+        number = http.delete("/full-echo", ) {
+            pathValidation.accept(body)
+
+            return header.statusCode
+        }
+        number.should == expected
+    }
 }
