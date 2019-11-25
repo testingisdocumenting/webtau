@@ -97,7 +97,8 @@ public class WebTauConfig {
     }
 
     public void reset() {
-        getCfgValuesStream().forEach(ConfigValue::reset);
+        getEnumeratedCfgValuesStream().forEach(ConfigValue::reset);
+        freeFormCfgValues.forEach(ConfigValue::reset);
     }
 
     protected WebTauConfig() {
@@ -116,7 +117,7 @@ public class WebTauConfig {
         handlers.forEach(h -> h.onAfterCreate(this));
     }
 
-    public Stream<ConfigValue> getCfgValuesStream() {
+    public Stream<ConfigValue> getEnumeratedCfgValuesStream() {
         return enumeratedCfgValues.values().stream();
     }
 
