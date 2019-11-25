@@ -26,8 +26,7 @@ import org.apache.maven.shared.model.fileset.util.FileSetManager
 import java.util.concurrent.atomic.AtomicInteger
 
 class WebTauMaven {
-    private static AtomicInteger numberOfRuns = new AtomicInteger(0)
-
+    private static final AtomicInteger numberOfRuns = new AtomicInteger(0)
 
     static void runTests(Log log, FileSet tests, Map options) {
         def fileSetManager = new FileSetManager()
@@ -38,9 +37,15 @@ class WebTauMaven {
         def args = buildArgs(options)
         args.addAll(files)
 
-        def cli = new WebTauCliApp(args as String[])
         // multiple maven plugins can be executed within the same JVM
         // we need to explicitly trigger config handlers
+        if (numberOfRuns.get() > 0) {
+            WebTauConfig.resetConfigHandlers()
+            WebTauConfig.getCfg().reset()
+        }
+
+        def cli = new WebTauCliApp(args as String[])
+
         if (numberOfRuns.get() > 0) {
             WebTauConfig.getCfg().triggerConfigHandlers()
         }

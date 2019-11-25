@@ -58,7 +58,7 @@ public class HtmlReportGenerator implements ReportGenerator {
 
     private String generateHtml(WebTauReport report) {
         Map<String, Object> reportAsMap = new LinkedHashMap<>();
-        reportAsMap.put("config", configAsListOfMaps(getCfg().getCfgValuesStream()));
+        reportAsMap.put("config", configAsListOfMaps(getCfg().getEnumeratedCfgValuesStream()));
         reportAsMap.put("summary", reportSummaryToMap(report));
         reportAsMap.put("version", WebTauMeta.getVersion());
         reportAsMap.put("tests", report.getTests().stream()

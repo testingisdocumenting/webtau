@@ -17,7 +17,7 @@ class CLIArgsTest {
 
             def cfg = new WebTauConfig()
 
-            def cfgValues = cfg.getCfgValuesStream()
+            def cfgValues = cfg.getEnumeratedCfgValuesStream()
             def cfgList = cfgValues.map { cfgValue ->
                 def defaultValue = getDefaultValue(cfgValue)
                 return [
