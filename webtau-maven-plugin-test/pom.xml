@@ -48,21 +48,38 @@
                 <version>${project.version}</version>
                 <executions>
                     <execution>
+                        <id>run-one</id>
                         <phase>test</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <workingDir>${project.basedir}/src/tests/groovy/one</workingDir>
+                            <tests>
+                                <directory>${project.basedir}/src/tests/groovy/one</directory>
+                                <includes>
+                                    <include>scenarios/*.groovy</include>
+                                </includes>
+                            </tests>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>run-two</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <workingDir>${project.basedir}/src/tests/groovy/two</workingDir>
+                            <tests>
+                                <directory>${project.basedir}/src/tests/groovy/two</directory>
+                                <includes>
+                                    <include>scenarios/*.groovy</include>
+                                </includes>
+                            </tests>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <workingDir>${project.basedir}/src/tests/groovy</workingDir>
-                    <tests>
-                        <directory>${project.basedir}/src/tests/groovy</directory>
-                        <includes>
-                            <include>scenarios/*.groovy</include>
-                        </includes>
-                    </tests>
-                </configuration>
             </plugin>
         </plugins>
     </build>

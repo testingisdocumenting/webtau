@@ -109,7 +109,7 @@ class WebTauCliArgsConfig {
         options.addOption(null, HELP_OPTION, false, "print help")
         options.addOption(null, EXAMPLE_OPTION, false, "generate basic examples")
 
-        cfg.getCfgValuesStream().each {
+        cfg.getEnumeratedCfgValuesStream().each {
             options.addOption(null, it.key, !it.isBoolean(), it.description)
         }
 
