@@ -5,7 +5,6 @@ REST
     HTTP-calls
     data-node
     headers
-    query-parameters
     files-upload
     PDF
     documentation
@@ -38,9 +37,12 @@ groovy-specific-runner
 generic-runners
     JUnit-4
     JUnit-5
-reference
-    table-data
 configuration
     cli
     environments
     options
+reference
+    table-data
+    query-parameters
+    http-header
+    http-response-validator

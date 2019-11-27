@@ -7,19 +7,6 @@ Here is an example of a `CRUD` operations test.
 
 :include-file: scenarios/rest/springboot/customerCrud.groovy {commentsType: "inline"}
 
-# Implicit statusCode Check 
-
-If you don't have an explicit `statusCode` validation it will be automatically validated based on the rules below 
-
-| Method             | Expected Code |
-| ------------------ |---------------|
-| GET                | 200           |
-| POST               | 201           |
-| PUT                | 200           |
-| PUT (no content)   | 204           |
-| DELETE             | 200           |
-| DELETE (no content)| 204           |
-
 # Report
 
 After your test executions a report will be produced.

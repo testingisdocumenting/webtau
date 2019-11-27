@@ -77,7 +77,10 @@ public class Http {
     public HttpApplicationMime application = new HttpApplicationMime();
     public HttpTextMime text = new HttpTextMime();
 
-    public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+    public <E> E get(String url,
+                     HttpQueryParams queryParams,
+                     HttpHeader header,
+                     HttpResponseValidatorWithReturn validator) {
         return executeAndValidateHttpCall("GET", queryParams.attachToUrl(url),
                 this::getToFullUrl,
                 header, null, validator);

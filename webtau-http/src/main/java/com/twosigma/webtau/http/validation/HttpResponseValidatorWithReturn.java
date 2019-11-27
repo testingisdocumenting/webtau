@@ -18,6 +18,9 @@ package com.twosigma.webtau.http.validation;
 
 import com.twosigma.webtau.http.datanode.DataNode;
 
+/**
+ code block to validate HTTP response
+ */
 public interface HttpResponseValidatorWithReturn {
     Object validate(HeaderDataNode header, DataNode body);
 }
