@@ -2,6 +2,7 @@ REST
     getting-started
     CRUD
     CRUD-separated
+    HTTP-calls
     data-node
     headers
     query-parameters

@@ -199,4 +199,38 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
         });
         actual(number).should(equal(expected));
     }
+
+    @Test
+    public void getFullReturnSyntaxExample() {
+        int id = http.get("/end-point", http.query("q1", "v1"), http.header("h1", "v1"), ((header, body) -> {
+            body.get("price").should(equal(100)); // validation
+            return body.get("id"); // optional return
+        }));
+    }
+
+    @Test
+    public void getNoHeaderReturnSyntaxExample() {
+        http.get("/end-point", http.query("q1", "v1"), ((header, body) -> {
+            body.get("price").should(equal(100));
+        }));
+    }
+
+    @Test
+    public void getNoQueryReturnSyntaxExample() {
+        http.get("/end-point", http.header("h1", "v1"), ((header, body) -> {
+            body.get("price").should(equal(100));
+        }));
+    }
+
+    @Test
+    public void getOnlyValidationReturnSyntaxExample() {
+        http.get("/end-point", ((header, body) -> {
+            body.get("price").should(equal(100));
+        }));
+    }
+
+    @Test
+    public void getOnlySyntaxExample() {
+        http.get("/end-point");
+    }
 }
