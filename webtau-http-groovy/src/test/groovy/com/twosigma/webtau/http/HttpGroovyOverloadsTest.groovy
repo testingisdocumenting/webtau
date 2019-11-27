@@ -18,6 +18,10 @@ package com.twosigma.webtau.http
 
 import org.junit.Test
 
+import static com.twosigma.webtau.Matchers.equal
+import static com.twosigma.webtau.Matchers.equal
+import static com.twosigma.webtau.Matchers.equal
+import static com.twosigma.webtau.Matchers.equal
 import static com.twosigma.webtau.http.Http.http
 import static com.twosigma.webtau.http.HttpOverloadsTestCommon.*
 
@@ -260,5 +264,39 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
             return header.statusCode
         }
         number.should == expected
+    }
+
+    @Test
+    void "get full return syntax example"() {
+        def id = http.get("/end-point", [q1: "v1"], http.header([h1: "v1"])) {
+            body.price.should == 100 // validation
+            return body.id // optional return
+        }
+    }
+
+    @Test
+    void "get no header return syntax example"() {
+        def id = http.get("/end-point", [q1: "v1"]) {
+            body.price.should == 100 // validation
+        }
+    }
+
+    @Test
+    void "get no query return syntax example"() {
+        def id = http.get("/end-point", http.header([h1: "v1"])) {
+            body.price.should == 100 // validation
+        }
+    }
+
+    @Test
+    void "get only validation return syntax example"() {
+        def id = http.get("/end-point") {
+            body.price.should == 100 // validation
+        }
+    }
+
+    @Test
+    void "get only syntax example"() {
+        http.get("/end-point")
     }
 }

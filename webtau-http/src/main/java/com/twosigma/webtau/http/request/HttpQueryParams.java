@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Query parameters that are attached to url
+ */
 public class HttpQueryParams {
     public static final HttpQueryParams EMPTY = new HttpQueryParams(Collections.emptyMap());
 

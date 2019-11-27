@@ -24,6 +24,9 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 
+/**
+ * Represents request and response <code>HTTP</code> header
+ */
 public class HttpHeader {
     private static final Set<String> KEYS_TO_REDACT = new HashSet<>(Arrays.asList("authorization", "cookie", "set-cookie"));
 
