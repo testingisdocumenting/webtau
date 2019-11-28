@@ -17,6 +17,7 @@
 package com.twosigma.webtau.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -60,7 +61,6 @@ public class JsonUtils {
             return null;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, Map.class);
         } catch (IOException e) {
@@ -72,13 +72,11 @@ public class JsonUtils {
         return deserializeAsMap(FileUtils.fileTextContent(file));
     }
 
-    @SuppressWarnings("unchecked")
     public static List<?> deserializeAsList(String json) {
         if (json == null) {
             return null;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, List.class);
         } catch (IOException e) {
@@ -95,11 +93,14 @@ public class JsonUtils {
             return null;
         }
 
-        ObjectMapper mapper = new ObjectMapper();
         try {
             return mapper.readValue(json, Object.class);
         } catch (IOException e) {
             throw new JsonParseException(e.getMessage());
         }
+    }
+
+    public static JsonNode convertToTree(Object object) {
+        return mapper.valueToTree(object);
     }
 }
