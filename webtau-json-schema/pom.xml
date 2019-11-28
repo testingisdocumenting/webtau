@@ -50,15 +50,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.everit-org.json-schema</groupId>
-            <artifactId>org.everit.json.schema</artifactId>
-            <version>1.9.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>joda-time</groupId>
-                    <artifactId>joda-time</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>1.0.28</version>
         </dependency>
 
         <!-- We don't use joda directly but it is a transitive dependency of a couple of libraries

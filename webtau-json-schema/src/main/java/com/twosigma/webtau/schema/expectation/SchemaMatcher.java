@@ -1,5 +1,9 @@
 package com.twosigma.webtau.schema.expectation;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.networknt.schema.JsonSchema;
+import com.networknt.schema.JsonSchemaFactory;
+import com.networknt.schema.ValidationMessage;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
@@ -7,26 +11,22 @@ import com.twosigma.webtau.http.datanode.DataNode;
 import com.twosigma.webtau.schema.JsonSchemaConfig;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
-import org.everit.json.schema.Schema;
-import org.everit.json.schema.ValidationException;
-import org.everit.json.schema.loader.SchemaLoader;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SchemaMatcher implements ValueMatcher {
     private final String schemaFileName;
-    private final Schema schema;
+    private final JsonSchema schema;
 
     public SchemaMatcher(String schemaFileName) {
         this.schemaFileName = schemaFileName;
 
         Path schemaFilePath = JsonSchemaConfig.getSchemasDir().resolve(schemaFileName);
-        JSONObject rawSchema = new JSONObject(new JSONTokener(FileUtils.fileTextContent(schemaFilePath)));
-        this.schema = SchemaLoader.load(rawSchema);
+        JsonSchemaFactory factory = JsonSchemaFactory.getInstance();
+        this.schema = factory.getSchema(FileUtils.fileTextContent(schemaFilePath));
     }
 
     @Override
@@ -59,13 +59,9 @@ public class SchemaMatcher implements ValueMatcher {
             actualObj = converter.convert((DataNode) actual);
         }
 
-        JSONObject actualJsonObject = new JSONObject(JsonUtils.serialize(actualObj));
-        try {
-            schema.validate(actualJsonObject);
-            return Collections.emptyList();
-        } catch (ValidationException e) {
-            return e.getAllMessages();
-        }
+        JsonNode actualJsonObject = JsonUtils.convertToTree(actualObj);
+        Set<ValidationMessage> validationMessages = schema.validate(actualJsonObject);
+        return validationMessages.stream().map(ValidationMessage::toString).collect(Collectors.toList());
     }
 
     @Override
