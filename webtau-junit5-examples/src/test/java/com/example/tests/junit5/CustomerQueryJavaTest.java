@@ -30,10 +30,10 @@ class CustomerQueryJavaTest {
     @DisplayName("query by first name")
     void queryByFirstName() {
         http.get("/customers/search/first-name", http.query("name", "CQ_FN1"), (header, body) -> {
-            body.get("_embedded.customers").should(equal(table("*id", "firstName", "lastName", // star(*) marks key column so assertion is order agnostic
-                                                              ________________________________,
-                                                                 id1, "CQ_FN1"   , "CQ_LN1",
-                                                                 id2, "CQ_FN1"   , "CQ_LN2")));
+            body.get("content").should(equal(table("*id", "firstName", "lastName", // star(*) marks key column so assertion is order agnostic
+                                                  ________________________________,
+                                                     id1, "CQ_FN1"   , "CQ_LN1",
+                                                     id2, "CQ_FN1"   , "CQ_LN2")));
         });
     }
 
@@ -41,10 +41,10 @@ class CustomerQueryJavaTest {
     @DisplayName("query by last name")
     void queryByLastName() {
         http.get("/customers/search/last-name", http.query("name", "CQ_LN2"), (header, body) -> {
-            body.get("_embedded.customers").should(equal(table("*id", "firstName", "lastName",
-                                                              ________________________________,
-                                                                 id2, "CQ_FN1"   , "CQ_LN2",
-                                                                 id3, "CQ_FN2"   , "CQ_LN2")));
+            body.get("content").should(equal(table("*id", "firstName", "lastName",
+                                                  ________________________________,
+                                                     id2, "CQ_FN1"   , "CQ_LN2",
+                                                     id3, "CQ_FN2"   , "CQ_LN2")));
         });
     }
 

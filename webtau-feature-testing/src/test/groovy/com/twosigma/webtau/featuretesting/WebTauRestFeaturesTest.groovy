@@ -138,7 +138,7 @@ class WebTauRestFeaturesTest {
 
     private void deleteCustomers() {
         def ids = http.get(customersUrl()) {
-            return _embedded.customers.id
+            return content.id
         }
 
         ids.each {
