@@ -99,7 +99,7 @@ public class TestServer {
             Map<String, TestServerResponse> responses = findResponses(request);
 
             MultipartConfigElement multipartConfigElement = new MultipartConfigElement((String) null);
-            request.setAttribute(Request.__MULTIPART_CONFIG_ELEMENT, multipartConfigElement);
+            request.setAttribute(Request.MULTIPART_CONFIG_ELEMENT, multipartConfigElement);
 
             TestServerResponse testServerResponse = responses.get(baseRequest.getOriginalURI());
             if (testServerResponse == null) {
