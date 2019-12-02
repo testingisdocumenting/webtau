@@ -26,7 +26,7 @@ class SchemaMatcherTest {
         code {
             actual([name: "test"]).should(complyWithSchema(TEST_SCHEMA))
         } should throwException('\n[value] expected to comply with schema test-schema.json\n' +
-            '[#: required key [val] not found]')
+            '[$.val: is missing but it is required]')
     }
 
     @Test
@@ -34,7 +34,7 @@ class SchemaMatcherTest {
         code {
             actual([name: "test", val: "foo"]).should(complyWithSchema(TEST_SCHEMA))
         } should throwException('\n[value] expected to comply with schema test-schema.json\n' +
-            '[#/val: expected type: Number, found: String]')
+            '[$.val: string found, integer expected]')
     }
 
     @Test
