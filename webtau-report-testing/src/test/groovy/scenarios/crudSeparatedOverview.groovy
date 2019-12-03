@@ -4,7 +4,7 @@ import static com.twosigma.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
 scenario('summary view') {
-    report.open('rest/springboot/customerCrudSeparatedMissingMethod-webtau-report.html')
+    report.openGroovyStandaloneReport('rest/springboot/customerCrudSeparatedMissingMethod-webtau-report.html')
     browser.doc.capture('report-summary')
 }
 
@@ -14,7 +14,7 @@ scenario('customer update test summary') {
 }
 
 scenario('customer update http calls') {
-    report.open('rest/springboot/customerCrudSeparated-webtau-report.html')
+    report.openGroovyStandaloneReport('rest/springboot/customerCrudSeparated-webtau-report.html')
     report.selectTest('customer update')
 
     report.selectHttpCalls()

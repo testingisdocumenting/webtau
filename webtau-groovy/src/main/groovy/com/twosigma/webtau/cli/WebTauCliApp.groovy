@@ -176,7 +176,6 @@ class WebTauCliApp implements TestListener {
     @Override
     void afterAllTests(WebTauReport report) {
         problemCount = (int) (report.failed + report.errored)
-        ReportGenerators.generate(report)
     }
 
     private static ConsoleOutput createConsoleOutput() {
