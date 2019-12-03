@@ -141,7 +141,11 @@ public class WebTauJunitExtension implements
 
         try {
             invocation.proceed();
-        } finally {
+        } catch (Throwable e) {
+            javaBasedTest.getTest().setException(e);
+            throw e;
+        }
+        finally {
             stopTest(extensionContext, javaBasedTest);
             JavaShutdownHook.INSTANCE.noOp();
         }

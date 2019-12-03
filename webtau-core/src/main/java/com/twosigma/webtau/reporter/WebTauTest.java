@@ -173,7 +173,7 @@ public class WebTauTest {
         return exception.getMessage();
     }
 
-    public boolean hasError() {
+    public boolean isErrored() {
         return exception != null && !isFailed();
     }
 
@@ -190,7 +190,7 @@ public class WebTauTest {
             return Failed;
         }
 
-        if (hasError()) {
+        if (isErrored()) {
             return Errored;
         }
 
@@ -269,5 +269,15 @@ public class WebTauTest {
 
                     return entry;
                 }).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "WebTauTest{" +
+                "id='" + id + '\'' +
+                ", scenario='" + scenario + '\'' +
+                ", shortContainerId='" + shortContainerId + '\'' +
+                ", exception=" + exception +
+                '}';
     }
 }

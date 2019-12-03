@@ -36,6 +36,10 @@ public class JavaReport {
     private JavaReport() {
     }
 
+    public void clear() {
+        tests.clear();
+    }
+
     public void startTimer() {
         startTime = Time.currentTimeMillis();
     }

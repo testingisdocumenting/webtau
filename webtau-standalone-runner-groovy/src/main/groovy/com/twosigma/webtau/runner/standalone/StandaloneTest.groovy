@@ -68,7 +68,7 @@ class StandaloneTest implements StepReporter {
     }
 
     boolean hasError() {
-        return test.hasError()
+        return test.isErrored()
     }
 
     boolean isSkipped() {

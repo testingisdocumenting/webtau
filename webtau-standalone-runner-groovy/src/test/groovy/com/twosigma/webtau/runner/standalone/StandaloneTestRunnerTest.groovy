@@ -140,7 +140,7 @@ class StandaloneTestRunnerTest {
 
         def test = runner.tests[0]
         test.scenario.should == 'parse/init'
-        test.test.hasError().should == true
+        test.test.isErrored().should == true
         test.test.exception.message.should == message
     }
 

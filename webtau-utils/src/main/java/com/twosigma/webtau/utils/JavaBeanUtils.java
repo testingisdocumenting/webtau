@@ -21,6 +21,7 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -49,8 +50,9 @@ public class JavaBeanUtils {
         BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
         PropertyDescriptor[] properties = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor property : properties) {
-            if (!property.getName().equals("class")) {
-                result.put(property.getName(), property.getReadMethod().invoke(bean));
+            Method readMethod = property.getReadMethod();
+            if (!property.getName().equals("class") && readMethod != null) {
+                result.put(property.getName(), readMethod.invoke(bean));
             }
         }
 
