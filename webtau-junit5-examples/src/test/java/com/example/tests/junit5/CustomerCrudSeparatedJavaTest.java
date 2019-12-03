@@ -56,11 +56,12 @@ public class CustomerCrudSeparatedJavaTest {
         http.delete("/customers/" + id, ((header, body) -> {
             header.statusCode().should(equal(204));
         }));
-        id = -1; // marking as deleted to let cleanup step know that no delete is required
 
         http.get("/customers/" + id, ((header, body) -> {
             header.statusCode().should(equal(404));
         }));
+
+        id = -1; // marking as deleted to let cleanup step know that no delete is required
     }
 
     @AfterAll

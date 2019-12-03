@@ -138,7 +138,7 @@ class WebTauRestFeaturesTest {
 
     private void deleteCustomers() {
         def ids = http.get(customersUrl()) {
-            return content.id
+            return body.id
         }
 
         ids.each {
