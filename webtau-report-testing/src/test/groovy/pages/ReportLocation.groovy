@@ -27,7 +27,6 @@ class ReportLocation {
                 .resolve('..')
                 .resolve('..')
                 .resolve('..')
-                .resolve('..')
                 .resolve(moduleName)
     }
 }
