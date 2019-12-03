@@ -144,8 +144,7 @@ public class WebTauJunitExtension implements
         } catch (Throwable e) {
             javaBasedTest.getTest().setException(e);
             throw e;
-        }
-        finally {
+        } finally {
             stopTest(extensionContext, javaBasedTest);
             JavaShutdownHook.INSTANCE.noOp();
         }
