@@ -7,8 +7,12 @@ class Report {
     def fullScreenIcon = $(".fullscreen-icon")
     def collapsedHeader = $(".collapsed-http-header")
 
-    def open(String reportName) {
-        browser.open(ReportLocation.fullUrl(reportName))
+    def openGroovyStandaloneReport(String reportName) {
+        browser.open(ReportLocation.groovyFeatureTestingFullUrl(reportName))
+    }
+
+    def openJunit5ExampleReport() {
+        browser.open(ReportLocation.javaJunit5FullUrl('webtau.report.html'))
     }
 
     def selectTest(String testName) {

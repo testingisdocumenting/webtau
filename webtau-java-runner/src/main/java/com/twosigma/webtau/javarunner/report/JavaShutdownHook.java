@@ -22,7 +22,8 @@ public class JavaShutdownHook {
     public final static JavaShutdownHook INSTANCE = new JavaShutdownHook();
 
     private JavaShutdownHook() {
-        TestListeners.afterAllTests(JavaReport.INSTANCE.create());
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+                TestListeners.afterAllTests(JavaReport.INSTANCE.create())));
     }
 
     public void noOp() {

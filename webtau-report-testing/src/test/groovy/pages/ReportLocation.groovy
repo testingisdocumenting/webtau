@@ -1,18 +1,32 @@
 package pages
 
+import java.nio.file.Path
+
 import static com.twosigma.webtau.WebTauDsl.getCfg
 
 class ReportLocation {
-    static String fullUrl(String reportName) {
-        return 'file://' + cfg.workingDir.toAbsolutePath()
-                .resolve('..')
-                .resolve('..')
-                .resolve('..')
-                .resolve('..')
-                .resolve('webtau-feature-testing')
+    static String groovyFeatureTestingFullUrl(String reportName) {
+        return toUrl(modulePath('webtau-feature-testing')
                 .resolve('target')
                 .resolve('classes')
                 .resolve('scenarios')
-                .resolve(reportName).toAbsolutePath()
+                .resolve(reportName))
+    }
+
+    static String javaJunit5FullUrl(String reportName) {
+        return toUrl(modulePath('webtau-junit5-examples').resolve(reportName))
+    }
+
+    private static String toUrl(Path path) {
+        return 'file://' + path.toAbsolutePath()
+    }
+
+    private static Path modulePath(String moduleName) {
+        return cfg.workingDir.toAbsolutePath()
+                .resolve('..')
+                .resolve('..')
+                .resolve('..')
+                .resolve('..')
+                .resolve(moduleName)
     }
 }

@@ -60,4 +60,8 @@ public class WebTauTestList {
     public long countWithStatus(TestStatus status) {
         return withStatus(status).count();
     }
+
+    public void clear() {
+        tests.clear();
+    }
 }

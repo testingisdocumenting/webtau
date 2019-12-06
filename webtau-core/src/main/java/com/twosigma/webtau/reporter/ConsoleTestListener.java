@@ -22,7 +22,7 @@ public class ConsoleTestListener implements TestListener {
     public void afterTestRun(WebTauTest test) {
         if (test.isFailed()) {
             outAfter(Color.RED, "[x]", test);
-        } else if (test.hasError()) {
+        } else if (test.isErrored()) {
             outAfter(Color.RED, "[~]", test);
         } else if (test.isSkipped()) {
             outAfter(Color.YELLOW, "[o]", test);
