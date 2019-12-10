@@ -40,6 +40,25 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
 
+    @PatchMapping("/customers/{id}")
+    public ResponseEntity<Customer> patchCustomer(@RequestBody Customer customer, @PathVariable long id) {
+        Customer existing = customerRepository.findOne(id);
+
+        if (existing == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (null != customer.getFirstName()) {
+            existing.setFirstName(customer.getFirstName());
+        }
+        if (null != customer.getLastName()) {
+            existing.setLastName(customer.getLastName());
+        }
+        customerRepository.save(customer);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<Object> deleteCustomer(@PathVariable long id) {
         customerRepository.delete(id);
