@@ -824,6 +824,7 @@ public class Http {
                 return 201;
             case "PUT":
             case "DELETE":
+            case "PATCH":
                 return validationResult.hasResponseContent() ? 200 : 204;
             default:
                 return 200;

@@ -3,7 +3,7 @@
     "scenario" : "CRUD operations for customer",
     "shortContainerId" : "customerCrud.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 15
+      "numberOfSuccessful" : 18
     }
   } ],
   "exitCode" : 0
