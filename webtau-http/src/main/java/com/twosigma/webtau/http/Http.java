@@ -73,7 +73,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
+import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
+import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 
 public class Http {
     private static final HttpResponseValidatorWithReturn EMPTY_RESPONSE_VALIDATOR = (header, body) -> null;
@@ -879,13 +881,19 @@ public class Http {
 
     private void setRequestMethod(String method, HttpURLConnection connection) throws ProtocolException {
         if (method.equals("PATCH")) {
-            // HttpUrlConnection does not recognize PATCH, unfortunately, nor will it be added, see
+            // Http(s)UrlConnection does not recognize PATCH, unfortunately, nor will it be added, see
             // https://bugs.openjdk.java.net/browse/JDK-8207840 .
             // The Oracle-recommended solution requires JDK 11's new java.net.http package.
             try {
+                Object connectionTarget = connection;
+                if (connection instanceof HttpsURLConnection) {
+                    final Field delegateField = HttpsURLConnectionImpl.class.getDeclaredField("delegate");
+                    delegateField.setAccessible(true);
+                    connectionTarget = delegateField.get(connection);
+                }
                 final Field f = HttpURLConnection.class.getDeclaredField("method");
                 f.setAccessible(true);
-                f.set(connection, "PATCH");
+                f.set(connectionTarget, "PATCH");
             } catch (IllegalAccessException | NoSuchFieldException e) {
                 throw new RuntimeException("Failed to enable PATCH on HttpUrlConnection", e);
             }
