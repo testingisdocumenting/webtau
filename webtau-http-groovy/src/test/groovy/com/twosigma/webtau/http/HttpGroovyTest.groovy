@@ -315,8 +315,8 @@ class HttpGroovyTest extends HttpTestBase {
             body.should == headerPayload
         }
 
-//        http.get("/echo-header", requestHeader, expectations)
-//        http.get("/echo-header", [qp1: 'v1'], requestHeader, expectations)
+        http.get("/echo-header", requestHeader, expectations)
+        http.get("/echo-header", [qp1: 'v1'], requestHeader, expectations)
         http.patch("/echo-header", requestHeader, [:], expectations)
         http.post("/echo-header", requestHeader, [:], expectations)
         http.put("/echo-header", requestHeader, [:], expectations)
