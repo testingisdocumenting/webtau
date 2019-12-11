@@ -603,6 +603,7 @@
                     <configuration>
                         <detectOfflineLinks>false</detectOfflineLinks>
                         <source>8</source>
+                        <javadocVersion>8</javadocVersion>
                     </configuration>
                 </plugin>
             </plugins>
