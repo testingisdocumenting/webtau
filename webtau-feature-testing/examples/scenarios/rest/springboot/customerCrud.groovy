@@ -19,7 +19,7 @@ scenario("CRUD operations for customer") {
     }
 
     http.get("/customers/${id}") {
-        firstName.should == firstName
+        firstName.should == "FN"
         lastName.should == changedLastName
     }
 
