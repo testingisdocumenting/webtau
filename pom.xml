@@ -602,6 +602,8 @@
                     <version>3.1.1</version>
                     <configuration>
                         <detectOfflineLinks>false</detectOfflineLinks>
+                        <source>8</source>
+                        <javadocVersion>8</javadocVersion>
                     </configuration>
                 </plugin>
             </plugins>

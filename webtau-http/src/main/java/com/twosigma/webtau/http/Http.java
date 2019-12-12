@@ -16,6 +16,14 @@
 
 package com.twosigma.webtau.http;
 
+import static com.twosigma.webtau.WebTauCore.equal;
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
+import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
+import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.toList;
+
 import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.data.traceable.CheckLevel;
@@ -33,9 +41,18 @@ import com.twosigma.webtau.http.multipart.MultiPartFile;
 import com.twosigma.webtau.http.multipart.MultiPartFormData;
 import com.twosigma.webtau.http.multipart.MultiPartFormField;
 import com.twosigma.webtau.http.render.DataNodeAnsiPrinter;
-import com.twosigma.webtau.http.request.*;
+import com.twosigma.webtau.http.request.EmptyRequestBody;
+import com.twosigma.webtau.http.request.HttpApplicationMime;
+import com.twosigma.webtau.http.request.HttpQueryParams;
+import com.twosigma.webtau.http.request.HttpRequestBody;
+import com.twosigma.webtau.http.request.HttpTextMime;
 import com.twosigma.webtau.http.text.TextRequestBody;
-import com.twosigma.webtau.http.validation.*;
+import com.twosigma.webtau.http.validation.HeaderDataNode;
+import com.twosigma.webtau.http.validation.HttpResponseValidator;
+import com.twosigma.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
+import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn;
+import com.twosigma.webtau.http.validation.HttpValidationHandlers;
+import com.twosigma.webtau.http.validation.HttpValidationResult;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
@@ -43,11 +60,11 @@ import com.twosigma.webtau.time.Time;
 import com.twosigma.webtau.utils.CollectionUtils;
 import com.twosigma.webtau.utils.JsonParseException;
 import com.twosigma.webtau.utils.JsonUtils;
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -56,14 +73,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
-
-import static com.twosigma.webtau.WebTauCore.equal;
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
+import javax.net.ssl.HttpsURLConnection;
+import org.apache.commons.io.IOUtils;
+import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 
 public class Http {
     private static final HttpResponseValidatorWithReturn EMPTY_RESPONSE_VALIDATOR = (header, body) -> null;
@@ -125,6 +137,138 @@ public class Http {
 
     public void get(String url) {
         get(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public <E> E patch(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return executeAndValidateHttpCall(
+            "PATCH",
+            queryParams.attachToUrl(url),
+            (fullUrl, fullHeader) -> patchToFullUrl(fullUrl, fullHeader, requestBody),
+            header,
+            requestBody,
+            validator);
+    }
+
+    public <E> E patch(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, HttpQueryParams.EMPTY, header, requestBody, validator);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        patch(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        patch(url, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E patch(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return patch(url, queryParams, header, EmptyRequestBody.INSTANCE, validator);
+    }
+
+    public <E> E patch(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return patch(url, header, EmptyRequestBody.INSTANCE, validator);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidator validator) {
+        patch(url, queryParams, header, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, HttpHeader header, HttpResponseValidator validator) {
+        patch(url, header, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E patch(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
+    }
+
+    public <E> E patch(String url, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, HttpHeader.EMPTY, requestBody, validator);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        patch(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        patch(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E patch(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody,
+        HttpResponseValidatorWithReturn validator) {
+        return patch(url, queryParams, header, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E patch(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, header, new JsonRequestBody(requestBody), validator);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody,
+        HttpResponseValidator validator) {
+        patch(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        patch(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E patch(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E patch(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, Map<String, Object> requestBody) {
+        patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public <E> E patch(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
+        return patch(url, queryParams, EmptyRequestBody.INSTANCE, validator);
+    }
+
+    public <E> E patch(String url, HttpResponseValidatorWithReturn validator) {
+        return patch(url, EmptyRequestBody.INSTANCE, validator);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, HttpResponseValidator validator) {
+        patch(url, queryParams, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, HttpResponseValidator validator) {
+        patch(url, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, HttpHeader header) {
+        patch(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void patch(String url, HttpHeader header) {
+        patch(url, header, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams) {
+        patch(url, queryParams, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void patch(String url) {
+        patch(url, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void patch(String url, HttpQueryParams queryParams, HttpRequestBody requestBody) {
+        patch(url, queryParams, requestBody, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void patch(String url, HttpRequestBody requestBody) {
+        patch(url, requestBody, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
@@ -486,6 +630,10 @@ public class Http {
         return request("DELETE", fullUrl, requestHeader, EmptyRequestBody.INSTANCE);
     }
 
+    public HttpResponse patchToFullUrl(String fullUrl, HttpHeader requestHeader, HttpRequestBody requestBody) {
+        return request("PATCH", fullUrl, requestHeader, requestBody);
+    }
+
     public HttpResponse postToFullUrl(String fullUrl, HttpHeader requestHeader, HttpRequestBody requestBody) {
         return request("POST", fullUrl, requestHeader, requestBody);
     }
@@ -678,6 +826,7 @@ public class Http {
                 return 201;
             case "PUT":
             case "DELETE":
+            case "PATCH":
                 return validationResult.hasResponseContent() ? 200 : 204;
             default:
                 return 200;
@@ -708,7 +857,7 @@ public class Http {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
             connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod(method);
+            setRequestMethod(method, connection);
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
             connection.setRequestProperty("User-Agent", getCfg().getUserAgent());
@@ -727,6 +876,29 @@ public class Http {
             return extractHttpResponse(connection);
         } catch (IOException e) {
             throw new RuntimeException("couldn't " + method + ": " + fullUrl, e);
+        }
+    }
+
+    private void setRequestMethod(String method, HttpURLConnection connection) throws ProtocolException {
+        if (method.equals("PATCH")) {
+            // Http(s)UrlConnection does not recognize PATCH, unfortunately, nor will it be added, see
+            // https://bugs.openjdk.java.net/browse/JDK-8207840 .
+            // The Oracle-recommended solution requires JDK 11's new java.net.http package.
+            try {
+                Object connectionTarget = connection;
+                if (connection instanceof HttpsURLConnection) {
+                    final Field delegateField = HttpsURLConnectionImpl.class.getDeclaredField("delegate");
+                    delegateField.setAccessible(true);
+                    connectionTarget = delegateField.get(connection);
+                }
+                final Field f = HttpURLConnection.class.getDeclaredField("method");
+                f.setAccessible(true);
+                f.set(connectionTarget, "PATCH");
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                throw new RuntimeException("Failed to enable PATCH on HttpUrlConnection", e);
+            }
+        } else {
+            connection.setRequestMethod(method);
         }
     }
 

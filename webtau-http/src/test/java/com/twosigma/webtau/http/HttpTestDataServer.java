@@ -44,6 +44,7 @@ public class HttpTestDataServer {
         testServer.registerGet("/example", jsonResponse("matcherExampleResponse.json"));
 
         testServer.registerPut("/end-point", objectTestResponse);
+        testServer.registerPatch("/end-point", objectTestResponse);
         testServer.registerDelete("/end-point", objectTestResponse);
         testServer.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"));
         testServer.registerGet("/end-point-simple-list", jsonResponse("simpleListTestResponse.json"));
@@ -54,20 +55,26 @@ public class HttpTestDataServer {
         testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("image.png")));
         testServer.registerPost("/echo", new TestServerResponseEcho(201));
         testServer.registerPut("/echo", new TestServerResponseEcho(200));
+        testServer.registerPatch("/echo", new TestServerResponseEcho(200));
         testServer.registerPut("/full-echo", new TestServerRequestFullEcho(200));
         testServer.registerPut("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
+        testServer.registerPatch("/full-echo", new TestServerRequestFullEcho(200));
+        testServer.registerPatch("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
         testServer.registerDelete("/full-echo", new TestServerRequestFullEcho(200));
         testServer.registerDelete("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
         testServer.registerGet("/echo-header", new TestServerRequestHeaderEcho(200));
         testServer.registerGet("/echo-header?qp1=v1", new TestServerRequestHeaderEcho(200));
+        testServer.registerPatch("/echo-header", new TestServerRequestHeaderEcho(200));
         testServer.registerPost("/echo-header", new TestServerRequestHeaderEcho(201));
         testServer.registerPut("/echo-header", new TestServerRequestHeaderEcho(200));
+        testServer.registerPatch("/echo-header", new TestServerRequestHeaderEcho(200));
         testServer.registerDelete("/echo-header", new TestServerRequestHeaderEcho(200));
         testServer.registerPost("/echo-body-and-header", new TestServerRequestHeaderAndBodyEcho(201));
         testServer.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0));
         testServer.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1));
         testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201));
         testServer.registerPost("/empty", new TestServerJsonResponse(null, 201));
+        testServer.registerPatch("/empty", new TestServerJsonResponse(null, 204));
         testServer.registerPost("/file-upload", new TestServerFakeFileUpload());
         testServer.registerDelete("/resource", new TestServerTextResponse("abc"));
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
@@ -76,7 +83,6 @@ public class HttpTestDataServer {
         testServer.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
 
         testServer.registerGet("/address", jsonResponse("addressResponse.json"));
-
         registerRedirects();
     }
 
@@ -96,6 +102,7 @@ public class HttpTestDataServer {
     private void registerRedirectOnAllMethods(int statusCode, String fromPath, String toPath) {
         TestServerRedirectResponse response = new TestServerRedirectResponse(statusCode, testServer, toPath);
         testServer.registerGet(fromPath, response);
+        testServer.registerPatch(fromPath, response);
         testServer.registerPost(fromPath, response);
         testServer.registerPut(fromPath, response);
         testServer.registerDelete(fromPath, response);
@@ -115,6 +122,10 @@ public class HttpTestDataServer {
 
     public void registerGet(String relativeUrl, TestServerResponse response) {
         testServer.registerGet(relativeUrl, response);
+    }
+
+    public void registerPatch(String relativeUrl, TestServerResponse response) {
+        testServer.registerPatch(relativeUrl, response);
     }
 
     public void registerPost(String relativeUrl, TestServerResponse response) {

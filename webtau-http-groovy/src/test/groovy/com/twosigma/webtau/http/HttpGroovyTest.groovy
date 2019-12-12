@@ -89,6 +89,25 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "can return simple value from patch"() {
+        def id = http.patch("/echo", [hello: "world", id: "generated-id"]) {
+            statusCode.should == 200
+            return id
+        }
+
+        assert id == "generated-id"
+        assert id.getClass() == String
+    }
+
+    @Test
+    void "supports empty response body from patch"() {
+        http.patch("/empty") {
+            statusCode.should == 204
+            return id
+        }
+    }
+
+    @Test
     void "can return simple value from post"() {
         def id = http.post("/echo", [hello: "world", id: "generated-id"]) {
             hello.should == "world"
@@ -298,6 +317,7 @@ class HttpGroovyTest extends HttpTestBase {
 
         http.get("/echo-header", requestHeader, expectations)
         http.get("/echo-header", [qp1: 'v1'], requestHeader, expectations)
+        http.patch("/echo-header", requestHeader, [:], expectations)
         http.post("/echo-header", requestHeader, [:], expectations)
         http.put("/echo-header", requestHeader, [:], expectations)
         http.delete("/echo-header", requestHeader, expectations)
@@ -311,6 +331,11 @@ class HttpGroovyTest extends HttpTestBase {
 
         http.get("/end-point", [queryParam1: 'queryParamValue1'],
                 http.header('Accept', 'application/octet-stream')) {
+            // assertions go here
+        }
+
+        http.patch("/end-point", http.header('Accept', 'application/octet-stream'),
+                [fileId: 'myFile']) {
             // assertions go here
         }
 

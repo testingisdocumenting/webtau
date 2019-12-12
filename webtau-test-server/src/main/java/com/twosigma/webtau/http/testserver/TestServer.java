@@ -33,6 +33,7 @@ import java.util.Map;
 
 public class TestServer {
     private Map<String, TestServerResponse> getResponses;
+    private Map<String, TestServerResponse> patchResponses;
     private Map<String, TestServerResponse> postResponses;
     private Map<String, TestServerResponse> putResponses;
     private Map<String, TestServerResponse> deleteResponses;
@@ -40,6 +41,7 @@ public class TestServer {
 
     public TestServer() {
         getResponses = new HashMap<>();
+        patchResponses = new HashMap<>();
         postResponses = new HashMap<>();
         putResponses = new HashMap<>();
         deleteResponses = new HashMap<>();
@@ -77,6 +79,10 @@ public class TestServer {
 
     public void registerGet(String relativeUrl, TestServerResponse response) {
         getResponses.put(relativeUrl, response);
+    }
+
+    public void registerPatch(String relativeUrl, TestServerResponse response) {
+        patchResponses.put(relativeUrl, response);
     }
 
     public void registerPost(String relativeUrl, TestServerResponse response) {
@@ -123,6 +129,8 @@ public class TestServer {
             switch (request.getMethod()) {
                 case "GET":
                     return getResponses;
+                case "PATCH":
+                    return patchResponses;
                 case "POST":
                     return postResponses;
                 case "PUT":

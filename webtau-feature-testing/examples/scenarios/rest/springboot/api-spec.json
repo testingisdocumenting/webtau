@@ -113,6 +113,31 @@
             "description": "successful operation"
           }
         }
+      },
+      "patch": {
+        "summary": "Partially update a customer",
+        "operationId": "patchCustomer",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CustomerPatchRequest"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "successful operation"
+          }
+        }
       }
     }
   },
@@ -123,6 +148,17 @@
         "firstName",
         "lastName"
       ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "CustomerPatchRequest": {
+      "type": "object",
       "properties": {
         "firstName": {
           "type": "string"

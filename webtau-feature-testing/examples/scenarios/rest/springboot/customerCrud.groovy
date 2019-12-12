@@ -19,6 +19,15 @@ scenario("CRUD operations for customer") {
     }
 
     http.get("/customers/${id}") {
+        firstName.should == "FN"
+        lastName.should == changedLastName
+    }
+
+    def changedFirstName = "NFN"
+    http.patch("/customers/${id}", [firstName: changedFirstName])
+
+    http.get("/customers/${id}") {
+        firstName.should == changedFirstName
         lastName.should == changedLastName
     }
 
