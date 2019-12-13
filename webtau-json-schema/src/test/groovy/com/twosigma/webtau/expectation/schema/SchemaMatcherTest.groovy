@@ -8,7 +8,8 @@ import org.junit.Test
 import static com.twosigma.webtau.WebTauCore.*
 
 class SchemaMatcherTest {
-    private final static TEST_SCHEMA = "test-schema.json"
+    private final static TEST_SCHEMA = "test-schema-default-version.json"
+    private final static TEST_SCHEMA_v7 = "test-schema-v7.json"
 
     @Test
     void "should pass when object matches schema"() {
@@ -25,7 +26,7 @@ class SchemaMatcherTest {
     void "should throw exception when object does not match schema"() {
         code {
             actual([name: "test"]).should(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expected to comply with schema test-schema.json\n' +
+        } should throwException('\n[value] expected to comply with schema test-schema-default-version.json\n' +
             '[$.val: is missing but it is required]')
     }
 
@@ -33,7 +34,7 @@ class SchemaMatcherTest {
     void "should throw exception when object has incorrect types"() {
         code {
             actual([name: "test", val: "foo"]).should(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expected to comply with schema test-schema.json\n' +
+        } should throwException('\n[value] expected to comply with schema test-schema-default-version.json\n' +
             '[$.val: string found, integer expected]')
     }
 
@@ -46,8 +47,13 @@ class SchemaMatcherTest {
     void "should throw exception when object matches schema but should not"() {
         code {
             actual([name: "test", val: 123]).shouldNot(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expected to not comply with schema test-schema.json\n' +
+        } should throwException('\n[value] expected to not comply with schema test-schema-default-version.json\n' +
             '[]')
+    }
+
+    @Test
+    void "should pass with older schema version"() {
+        actual([name: "test", val: 123]).should(complyWithSchema(TEST_SCHEMA_v7))
     }
 
     static SchemaMatcher complyWithSchema(String schemaFileName) {
