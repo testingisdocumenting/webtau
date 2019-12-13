@@ -19,6 +19,8 @@ If you don't have an explicit `statusCode` validation it will be automatically v
 | PUT (no content)   | 204           |
 | DELETE             | 200           |
 | DELETE (no content)| 204           |
+| PATCH              | 200           |
+| PATCH (no content) | 204           |
 
 # Report
 
