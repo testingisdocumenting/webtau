@@ -1,8 +1,10 @@
 package com.twosigma.webtau.schema.expectation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.networknt.schema.JsonMetaSchema;
 import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
+import com.networknt.schema.SpecVersion;
 import com.networknt.schema.ValidationMessage;
 import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ValueMatcher;
@@ -25,7 +27,19 @@ public class SchemaMatcher implements ValueMatcher {
         this.schemaFileName = schemaFileName;
 
         Path schemaFilePath = JsonSchemaConfig.getSchemasDir().resolve(schemaFileName);
-        JsonSchemaFactory factory = JsonSchemaFactory.getInstance();
+
+        /*
+        This json schema library requires pre-registering different versions.  We'll initialise the builder (which we
+        have to do) with the latest version.  This has the side effect of also making that version the default (for
+        the case where the schema json does not specify a version).  We'll then register all other versions explicitly
+        without changing the default.
+         */
+        JsonSchemaFactory factory = JsonSchemaFactory
+                .builder(JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V201909))
+                .addMetaSchema(JsonMetaSchema.getV4())
+                .addMetaSchema(JsonMetaSchema.getV6())
+                .addMetaSchema(JsonMetaSchema.getV7())
+                .build();
         this.schema = factory.getSchema(FileUtils.fileTextContent(schemaFilePath));
     }
 
