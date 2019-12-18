@@ -16,6 +16,9 @@
 
 package com.twosigma.webtau.report;
 
+import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static java.util.stream.Collectors.toList;
+
 import com.twosigma.webtau.cfg.ConfigValue;
 import com.twosigma.webtau.cfg.WebTauMeta;
 import com.twosigma.webtau.console.ConsoleOutputs;
@@ -25,7 +28,6 @@ import com.twosigma.webtau.reporter.WebTauTest;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
-
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.LinkedHashMap;
@@ -33,9 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static java.util.stream.Collectors.toList;
 
 public class HtmlReportGenerator implements ReportGenerator {
     private String css;

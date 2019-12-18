@@ -64,6 +64,9 @@
                                     <excludes>
                                         <exclude>org.codehaus.groovy.**</exclude>
                                         <exclude>org.w3c.**</exclude>
+                                        <exclude>org.apache.ivy.**</exclude>
+                                        <exclude>org.mozilla.**</exclude>
+                                        <exclude>org.xml.sax.**</exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>
