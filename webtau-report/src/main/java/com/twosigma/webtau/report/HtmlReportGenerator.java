@@ -131,3 +131,4 @@ public class HtmlReportGenerator implements ReportGenerator {
         return result;
     }
 }
+
