@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package com.twosigma.webtau.data.components;
 
-public class PersonSummary {
-    private String id;
-    private boolean mobilityRequired;
+public class Wallet {
+    private String walletId;
 
-    public PersonSummary(String id, boolean mobilityRequired) {
-        this.id = id;
-        this.mobilityRequired = mobilityRequired;
+    public Wallet(String walletId) {
+        this.walletId = walletId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public boolean isMobilityRequired() {
-        return mobilityRequired;
+    public String getWalletId() {
+        return walletId;
     }
 }

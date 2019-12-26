@@ -14,30 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation.components;
+package com.twosigma.webtau.data;
 
-public class TestCrystals {
-    private String walletId;
-    private int amount;
+import java.util.List;
 
-    public TestCrystals(String walletId, int amount) {
-        this.walletId = walletId;
-        this.amount = amount;
-    }
-
-    public String getWalletId() {
-        return walletId;
-    }
-
-    public void setWalletId(String walletId) {
-        this.walletId = walletId;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
+public class PeopleManagement {
+    public boolean diversityLevel(List<Person> team) {
+        return true;
     }
 }
