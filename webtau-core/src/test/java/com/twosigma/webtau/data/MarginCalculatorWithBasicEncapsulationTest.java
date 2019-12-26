@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package com.twosigma.webtau.data;
 
 import org.junit.Test;
 

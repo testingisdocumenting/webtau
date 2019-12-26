@@ -14,20 +14,28 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation
+package com.twosigma.webtau.data;
 
-import org.junit.Test
+public class Person {
+    private String id;
+    private int level;
+    private int monthsAtCompany;
 
-class PeopleDaoGroovyTest {
-    private PeopleDao dao = new PeopleDao()
+    public Person(String id, int level, int monthsAtCompany) {
+        this.id = id;
+        this.level = level;
+        this.monthsAtCompany = monthsAtCompany;
+    }
 
-    @Test
-    void "provides access to new joiners"() {
-        // ...
+    public String getId() {
+        return id;
+    }
 
-        dao.thisWeekJoiners().should == ["id"    | "level" | "monthsAtCompany"] {
-                                         ______________________________________
-                                         "bob"   | 3       | 0
-                                         "smith" | 4       | 0  }
+    public int getLevel() {
+        return level;
+    }
+
+    public int getMonthsAtCompany() {
+        return monthsAtCompany;
     }
 }

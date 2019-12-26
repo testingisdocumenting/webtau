@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package com.twosigma.webtau.data;
 
-import java.util.List;
+import com.twosigma.webtau.data.table.TableData;
+import org.junit.Test;
 
-public class MarginCalculator {
-    public double calculate(List<Transaction> transactions) {
-        return 0;
+import static com.twosigma.webtau.WebTauCore.*;
+
+public class PeopleDaoTest {
+    private PeopleDao dao = new PeopleDao();
+
+    @Test
+    public void providesAccessToNewJoiners() {
+        // ...
+
+        TableData expected = table(    "id", "level", "monthsAtCompany").values(
+                                      "bob",       3,   0,
+                                    "smith",       4,   0);
+
+        actual(dao.thisWeekJoiners()).should(equal(expected));
     }
 }

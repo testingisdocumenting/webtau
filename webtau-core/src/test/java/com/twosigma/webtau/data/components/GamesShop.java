@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation.components;
+package com.twosigma.webtau.data.components;
 
 public class GamesShop {
     private PaymentService paymentService;
