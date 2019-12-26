@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation.components;
+package com.twosigma.webtau.data;
 
-public class Account {
-    private String id;
-    private String walletId;
-    private String address;
+public class Transaction {
+    private double lot;
+    private double price;
+    private String symbol;
 
-    public Account(String id, String walletId, String address) {
-        this.id = id;
-        this.walletId = walletId;
-        this.address = address;
+    public double getLot() {
+        return lot;
     }
 
-    public String getId() {
-        return id;
+    public void setLot(double lot) {
+        this.lot = lot;
     }
 
-    public String getWalletId() {
-        return walletId;
+    public double getPrice() {
+        return price;
     }
 
-    public String getAddress() {
-        return address;
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 }

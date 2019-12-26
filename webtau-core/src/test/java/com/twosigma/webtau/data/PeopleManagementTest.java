@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package com.twosigma.webtau.data;
 
 import com.twosigma.webtau.data.table.TableData;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class PeopleManagementTest {
 
     @Test
     public void diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany() {
-        TableData employeeData = table(    "id", "level", "monthsAtCompany").values(
+        TableData employeeData = table(     "id", "level", "monthsAtCompany").values(
                                            "bob",       2, 12,
                                          "smith",       4, 34,
                                           "john",       3, 20);

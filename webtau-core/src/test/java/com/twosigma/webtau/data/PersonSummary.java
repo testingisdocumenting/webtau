@@ -14,34 +14,22 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package com.twosigma.webtau.data;
 
-public class Transaction {
-    private double lot;
-    private double price;
-    private String symbol;
+public class PersonSummary {
+    private String id;
+    private boolean mobilityRequired;
 
-    public double getLot() {
-        return lot;
+    public PersonSummary(String id, boolean mobilityRequired) {
+        this.id = id;
+        this.mobilityRequired = mobilityRequired;
     }
 
-    public void setLot(double lot) {
-        this.lot = lot;
+    public String getId() {
+        return id;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public boolean isMobilityRequired() {
+        return mobilityRequired;
     }
 }

@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package com.twosigma.webtau.data.components;
 
-import java.util.List;
-
-public class PeopleManagement {
-    public boolean diversityLevel(List<Person> team) {
-        return true;
-    }
+public interface PaymentService {
+    int availableBalance(String walletId);
+    void makePayment(String walletId, int amount);
 }

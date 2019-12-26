@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation.components;
+package com.twosigma.webtau.data;
 
-public interface DeliveryService {
-    void deliver(Game game, String address);
+import java.util.Arrays;
+import java.util.List;
+
+public class PeopleDao {
+    public List<Person> thisWeekJoiners() {
+        return Arrays.asList(new Person("bob", 3, 0),
+                new Person("smith", 4, 0));
+    }
 }

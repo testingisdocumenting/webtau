@@ -14,16 +14,28 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation.components;
+package com.twosigma.webtau.data.components;
 
-public class Wallet {
+public class Account {
+    private String id;
     private String walletId;
+    private String address;
 
-    public Wallet(String walletId) {
+    public Account(String id, String walletId, String address) {
+        this.id = id;
         this.walletId = walletId;
+        this.address = address;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getWalletId() {
         return walletId;
+    }
+
+    public String getAddress() {
+        return address;
     }
 }

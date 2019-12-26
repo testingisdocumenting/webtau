@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation
+package com.twosigma.webtau.data
 
+import com.twosigma.webtau.data.MarginCalculator
+import com.twosigma.webtau.data.Transaction
 import com.twosigma.webtau.data.table.TableData
 import org.junit.Test
 

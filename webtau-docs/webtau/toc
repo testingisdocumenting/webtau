@@ -37,6 +37,8 @@ groovy-specific-runner
 generic-runners
     JUnit-4
     JUnit-5
+JVM-business-logic
+    data-driven
 reference
     table-data
 configuration
