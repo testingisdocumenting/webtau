@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.page.path
+package com.twosigma.webtau.browser.page.path
 
-import com.twosigma.webtau.browser.page.path.ElementPath
 import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter
 import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter
 import com.twosigma.webtau.browser.page.path.finder.ByCssFinder

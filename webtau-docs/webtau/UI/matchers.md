@@ -10,6 +10,8 @@ type: two-sides
 
 :include-file: doc-artifacts/snippets/matchers/equalListOfText.groovy {title: "list of text"}
 
+:include-file: doc-artifacts/snippets/matchers/containTextInList.groovy {title: "contain text in list"}
+
 :include-file: doc-artifacts/snippets/matchers/equalListOfTextAndRegexp.groovy {title: "list of text and regexp"}
 
 :include-xml: doc-artifacts/snippets/matchers/texts.html {rightSide: true}
