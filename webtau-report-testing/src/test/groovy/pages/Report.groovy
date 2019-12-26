@@ -6,6 +6,7 @@ import static com.twosigma.webtau.WebTauDsl.*
 class Report {
     def fullScreenIcon = $(".fullscreen-icon")
     def collapsedHeader = $(".collapsed-http-header")
+    def groupNames = $(".group-of-tests .navigation-entry-group-label")
 
     def openGroovyStandaloneReport(String reportName) {
         browser.open(ReportLocation.groovyFeatureTestingFullUrl(reportName))

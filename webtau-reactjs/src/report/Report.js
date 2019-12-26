@@ -120,8 +120,8 @@ class Report {
     testsWithStatusAndFilteredByText(status, text) {
         return this.tests.filter(t => statusFilterPredicate(t.status, status) && (
             textFilterPredicate(t.scenario, text) ||
-            textFilterPredicate(t.fileName, text) ||
-            textFilterPredicate(t.className, text)))
+            textFilterPredicate(t.shortContainerId, text) ||
+            textFilterPredicate(t.containerId, text)))
     }
 
     httpCallsWithStatusAndFilteredByText(status, text) {
@@ -258,10 +258,10 @@ function fullContainerId(test) {
 }
 
 function shortContainerId(test) {
-    if (test.className) {
-        return shortenClassName(test.className)
-    } else {
+    if (test.shortContainerId) {
         return test.shortContainerId
+    } else {
+        return shortenClassName(test.className)
     }
 }
 
