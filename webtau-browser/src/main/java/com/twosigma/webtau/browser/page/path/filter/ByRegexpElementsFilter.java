@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.browser.page.path.filter;
 
-import com.twosigma.webtau.browser.InjectedJavaScript;
+import com.twosigma.webtau.browser.AdditionalBrowserInteractions;
 import com.twosigma.webtau.browser.page.path.ElementsFilter;
 import com.twosigma.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
@@ -29,17 +29,17 @@ import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.select
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ByRegexpElementsFilter implements ElementsFilter {
-    private final InjectedJavaScript injectedJavaScript;
+    private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private Pattern regexp;
 
-    public ByRegexpElementsFilter(InjectedJavaScript injectedJavaScript, Pattern regexp) {
-        this.injectedJavaScript = injectedJavaScript;
+    public ByRegexpElementsFilter(AdditionalBrowserInteractions additionalBrowserInteractions, Pattern regexp) {
+        this.additionalBrowserInteractions = additionalBrowserInteractions;
         this.regexp = regexp;
     }
 
     @Override
     public List<WebElement> filter(List<WebElement> original) {
-        return injectedJavaScript.filterByRegexp(original, regexp.pattern());
+        return additionalBrowserInteractions.filterByRegexp(original, regexp.pattern());
     }
 
     @Override

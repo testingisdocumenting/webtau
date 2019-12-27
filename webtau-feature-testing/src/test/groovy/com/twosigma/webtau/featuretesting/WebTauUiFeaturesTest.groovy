@@ -131,6 +131,7 @@ class WebTauUiFeaturesTest {
                 'equalTextRegexp.groovy': 'equal text regexp',
                 'equalListOfText.groovy': 'equal list of text',
                 'equalListOfTextAndRegexp.groovy': 'equal list of text and regexp',
+                'containTextInList.groovy': 'contain text in list',
                 'equalNumber.groovy': 'equal number',
                 'equalListOfNumbers.groovy': 'equal list of numbers',
                 'greaterNumber.groovy': 'greater number',
