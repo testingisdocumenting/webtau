@@ -26,6 +26,11 @@ scenario('equal list of text and regexp') {
     menu.should == ['Hello', ~/T..t/, 'World']
 }
 
+scenario('contain text in list') {
+    def menu = $('#menu ul li')
+    menu.should contain('Text')
+}
+
 scenario('equal number') {
     def total = $('#total')
     total.should == 300.6

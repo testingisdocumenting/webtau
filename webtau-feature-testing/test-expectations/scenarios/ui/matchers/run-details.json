@@ -30,6 +30,12 @@
       "numberOfSuccessful" : 1
     }
   }, {
+    "scenario" : "contain text in list",
+    "shortContainerId" : "matchers.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "equal number",
     "shortContainerId" : "matchers.groovy",
     "stepsSummary" : {

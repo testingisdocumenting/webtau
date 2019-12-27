@@ -16,7 +16,7 @@
 
 package com.twosigma.webtau.browser.page.path;
 
-import com.twosigma.webtau.browser.InjectedJavaScript;
+import com.twosigma.webtau.browser.AdditionalBrowserInteractions;
 import com.twosigma.webtau.browser.page.*;
 import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter;
 import com.twosigma.webtau.browser.page.path.filter.ByRegexpElementsFilter;
@@ -46,15 +46,15 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
     private WebDriver driver;
-    private final InjectedJavaScript injectedJavaScript;
+    private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private ElementPath path;
     private final TokenizedMessage pathDescription;
     private ElementValue<String, PageElement> elementValue;
     private ElementValue<Integer, PageElement> countValue;
 
-    public GenericPageElement(WebDriver driver, InjectedJavaScript injectedJavaScript, ElementPath path) {
+    public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, ElementPath path) {
         this.driver = driver;
-        this.injectedJavaScript = injectedJavaScript;
+        this.additionalBrowserInteractions = additionalBrowserInteractions;
         this.path = path;
         this.pathDescription = path.describe();
         this.elementValue = new ElementValue<>(this, "value", this::getUnderlyingValue);
@@ -73,7 +73,7 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public void highlight() {
-        injectedJavaScript.flashWebElements(findElements());
+        additionalBrowserInteractions.flashWebElements(findElements());
     }
 
     public void click() {
@@ -138,7 +138,7 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public PageElement get(String text) {
-        return withFilter(new ByTextElementsFilter(injectedJavaScript, text));
+        return withFilter(new ByTextElementsFilter(additionalBrowserInteractions, text));
     }
 
     @Override
@@ -148,7 +148,7 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public PageElement get(Pattern regexp) {
-        return withFilter(new ByRegexpElementsFilter(injectedJavaScript, regexp));
+        return withFilter(new ByRegexpElementsFilter(additionalBrowserInteractions, regexp));
     }
 
     @Override
@@ -201,7 +201,7 @@ public class GenericPageElement implements PageElement {
 
     private List<String> extractValues() {
         List<WebElement> elements = path.find(driver);
-        List<Map<String, String>> elementsMeta = handleStaleElement(() -> injectedJavaScript.extractElementsMeta(elements),
+        List<Map<String, ?>> elementsMeta = handleStaleElement(() -> additionalBrowserInteractions.extractElementsMeta(elements),
                 Collections.emptyList());
 
         if (elementsMeta.isEmpty()) {
@@ -247,21 +247,21 @@ public class GenericPageElement implements PageElement {
         ElementPath newPath = path.copy();
         newPath.addFilter(filter);
 
-        return new GenericPageElement(driver, injectedJavaScript, newPath);
+        return new GenericPageElement(driver, additionalBrowserInteractions, newPath);
     }
 
     private PageElement withFinder(ElementsFinder finder) {
         ElementPath newPath = path.copy();
         newPath.addFinder(finder);
 
-        return new GenericPageElement(driver, injectedJavaScript, newPath);
+        return new GenericPageElement(driver, additionalBrowserInteractions, newPath);
     }
 
     private HtmlNode findHtmlNode() {
         List<WebElement> elements = path.find(driver);
-        List<Map<String, String>> elementsMeta = elements.isEmpty() ?
+        List<Map<String, ?>> elementsMeta = elements.isEmpty() ?
                 Collections.emptyList():
-                injectedJavaScript.extractElementsMeta(elements);
+                additionalBrowserInteractions.extractElementsMeta(elements);
 
         return elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
     }

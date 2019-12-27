@@ -23,27 +23,30 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.Map;
 
-public class InjectedJavaScript {
+public class BrowserInjectedJavaScript implements AdditionalBrowserInteractions {
     private final String injectionScript = ResourceUtils.textContent("browser/injection.js");
 
     private JavascriptExecutor javascriptExecutor;
 
-    InjectedJavaScript(JavascriptExecutor javascriptExecutor) {
+    BrowserInjectedJavaScript(JavascriptExecutor javascriptExecutor) {
         this.javascriptExecutor = javascriptExecutor;
     }
 
+    @Override
     public void flashWebElements(List<WebElement> webElements) {
         injectScript();
         javascriptExecutor.executeScript(oneArgFunc("flashElements"), webElements);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    public List<Map<String, String>> extractElementsMeta(List<WebElement> webElements) {
+    public List<Map<String, ?>> extractElementsMeta(List<WebElement> webElements) {
         injectScript();
         Object result = javascriptExecutor.executeScript(returnOneArgFunc("elementsMeta"), webElements);
-        return (List<Map<String, String>>) result;
+        return (List<Map<String, ?>>) result;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<WebElement> filterByText(List<WebElement> webElements, String text) {
         injectScript();
@@ -51,6 +54,7 @@ public class InjectedJavaScript {
                 webElements, text);
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public List<WebElement> filterByRegexp(List<WebElement> webElements, String regexp) {
         injectScript();

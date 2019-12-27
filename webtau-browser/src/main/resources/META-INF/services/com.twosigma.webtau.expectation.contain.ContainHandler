@@ -13,6 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-com.twosigma.webtau.data.converters.PageElementToNumberConverter
-com.twosigma.webtau.data.converters.ElementValueToNumberConverter
+com.twosigma.webtau.browser.expectation.PageElementContainHandler

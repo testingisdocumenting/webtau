@@ -35,7 +35,7 @@ import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 public class Browser {
     private static final String DEFAULT_URL_CACHE_KEY = "current";
 
-    private final InjectedJavaScript injectedJavaScript;
+    private final AdditionalBrowserInteractions additionalBrowserInteractions;
 
     public static final Browser browser = new Browser();
     public final CurrentWebDriver driver = CurrentWebDriver.INSTANCE;
@@ -47,7 +47,7 @@ public class Browser {
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
 
     private Browser() {
-        injectedJavaScript = new InjectedJavaScript(driver);
+        additionalBrowserInteractions = new BrowserInjectedJavaScript(driver);
     }
 
     public void open(String url) {
@@ -126,7 +126,7 @@ public class Browser {
     }
 
     public PageElement $(String css) {
-        return new GenericPageElement(driver, injectedJavaScript, ElementPath.css(css));
+        return new GenericPageElement(driver, additionalBrowserInteractions, ElementPath.css(css));
     }
 
     public boolean wasUsed() {
