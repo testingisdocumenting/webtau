@@ -75,7 +75,7 @@ public class WebTauJunitExtension implements
         javaBasedTest.getTest().setShortContainerId(
                 extensionContext.getParent()
                         .map(ExtensionContext::getDisplayName)
-                        .orElse(""));
+                        .orElse(extensionContext.getDisplayName()));
 
         startTest(extensionContext, javaBasedTest);
     }
