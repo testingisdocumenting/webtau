@@ -143,10 +143,10 @@
         <jackson.version>2.9.9</jackson.version>
         <jackson.databind.version>2.9.10.1</jackson.databind.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.version>4.3.18.RELEASE</spring.version>
+        <spring.version>4.3.25.RELEASE</spring.version>
         <swagger.version>1.5.18</swagger.version>
         <maven.api.version>3.5.4</maven.api.version>
-        <tomcat.version>8.5.40</tomcat.version>
+        <tomcat.version>8.5.50</tomcat.version>
         <junit5.version>5.5.2</junit5.version>
     </properties>
 
