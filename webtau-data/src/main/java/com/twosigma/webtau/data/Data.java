@@ -17,7 +17,7 @@
 package com.twosigma.webtau.data;
 
 import com.twosigma.webtau.cfg.WebTauConfig;
-import com.twosigma.webtau.data.csv.CsvParser;
+import com.twosigma.webtau.utils.CsvUtils;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.ResourceUtils;
 
@@ -33,19 +33,19 @@ public class Data {
     }
 
     public List<Map<String, String>> csv(String fileOrResourcePath) {
-        return CsvParser.parse(textContent(fileOrResourcePath));
+        return CsvUtils.parse(textContent(fileOrResourcePath));
     }
 
     public List<Map<String, Object>> csvAutoConverted(String fileOrResourcePath) {
-        return CsvParser.parseWithAutoConversion(textContent(fileOrResourcePath));
+        return CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath));
     }
 
     public List<Map<String, String>> csv(List<String> header, String fileOrResourcePath) {
-        return CsvParser.parse(header, textContent(fileOrResourcePath));
+        return CsvUtils.parse(header, textContent(fileOrResourcePath));
     }
 
     public List<Map<String, Object>> csvAutoConverted(List<String> header, String fileOrResourcePath) {
-        return CsvParser.parseWithAutoConversion(header, textContent(fileOrResourcePath));
+        return CsvUtils.parseWithAutoConversion(header, textContent(fileOrResourcePath));
     }
 
     private String textContent(String fileOrResourcePath) {
