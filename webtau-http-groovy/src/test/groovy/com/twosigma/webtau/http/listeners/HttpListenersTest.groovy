@@ -33,7 +33,6 @@ class HttpListenersTest extends HttpTestBase implements HttpListener {
     Map beforePayload
     Map afterPayload
 
-
     // Note that testing beforeFirstHttpCall is not done here due to implementation leveraging singleton approach to
     // make sure callback is only called once
 

@@ -21,9 +21,20 @@ import com.twosigma.webtau.http.HttpResponse;
 import com.twosigma.webtau.http.request.HttpRequestBody;
 
 public interface HttpListener {
+    /**
+     * called once right before first <code>http.post|get|put|patch|delete</code> call
+     */
     default void beforeFirstHttpCall() {
     }
 
+    /**
+     * called before each http call
+     * @param requestMethod http method (e.g. POST)
+     * @param passedUrl url used in a test (e.g. /customers)
+     * @param fullUrl fully resolved url (e.g. https://my-server:3010/customers)
+     * @param requestHeader request header
+     * @param requestBody request body
+     */
     default void beforeHttpCall(String requestMethod,
                                 String passedUrl,
                                 String fullUrl,
@@ -31,6 +42,15 @@ public interface HttpListener {
                                 HttpRequestBody requestBody) {
     }
 
+    /**
+     * called after each http call
+     * @param requestMethod http method (e.g. POST)
+     * @param passedUrl url used in a test (e.g. /customers)
+     * @param fullUrl fully resolved url (e.g. https://my-server:3010/customers)
+     * @param requestHeader request header
+     * @param requestBody request body
+     * @param response response
+     */
     default void afterHttpCall(String requestMethod,
                                String passedUrl,
                                String fullUrl,
