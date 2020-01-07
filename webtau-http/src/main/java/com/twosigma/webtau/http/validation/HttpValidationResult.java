@@ -124,6 +124,10 @@ public class HttpValidationResult implements TestStepPayload {
         return requestBody != null ? requestBody.asString() : null;
     }
 
+    public HttpRequestBody getRequestBody() {
+        return requestBody;
+    }
+
     public boolean nullOrEmptyRequestContent() {
         return StringUtils.nullOrEmpty(getRequestContent());
     }
@@ -153,7 +157,7 @@ public class HttpValidationResult implements TestStepPayload {
     }
 
     public String renderMismatches() {
-        return mismatches.stream().collect(Collectors.joining("\n"));
+        return String.join("\n", mismatches);
     }
 
     public void setErrorMessage(String errorMessage) {

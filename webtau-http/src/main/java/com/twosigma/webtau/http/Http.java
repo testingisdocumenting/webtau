@@ -37,6 +37,7 @@ import com.twosigma.webtau.http.datanode.DataNodeBuilder;
 import com.twosigma.webtau.http.datanode.DataNodeId;
 import com.twosigma.webtau.http.datanode.StructuredDataNode;
 import com.twosigma.webtau.http.json.JsonRequestBody;
+import com.twosigma.webtau.http.listener.HttpListeners;
 import com.twosigma.webtau.http.multipart.MultiPartFile;
 import com.twosigma.webtau.http.multipart.MultiPartFormData;
 import com.twosigma.webtau.http.multipart.MultiPartFormField;
@@ -651,7 +652,7 @@ public class Http {
 
         HttpValidationResult validationResult = new HttpValidationResult(requestMethod, url, fullUrl, fullHeader, requestBody);
 
-        TestStep<Void, R> step = createHttpStep(validationResult, requestMethod, fullUrl, httpCall, fullHeader, validator);
+        TestStep<Void, R> step = createHttpStep(validationResult, httpCall, validator);
         try {
             return step.execute(StepReportOptions.REPORT_ALL);
         } finally {
@@ -661,14 +662,23 @@ public class Http {
     }
 
     private <R> TestStep<Void, R> createHttpStep(HttpValidationResult validationResult,
-                                                 String requestMethod, String fullUrl, HttpCall httpCall,
-                                                 HttpHeader fullRequestHeader,
+                                                 HttpCall httpCall,
                                                  HttpResponseValidatorWithReturn validator) {
         Supplier<R> httpCallSupplier = () -> {
+            HttpResponse response = null;
             try {
                 long startTime = Time.currentTimeMillis();
-                HttpResponse response = httpCall.execute(fullUrl, fullRequestHeader);
-                response = followRedirects(requestMethod, httpCall, fullRequestHeader, response);
+
+                BeforeFirstHttpCallListenerTrigger.trigger();
+                HttpListeners.beforeHttpCall(validationResult.getRequestMethod(),
+                        validationResult.getUrl(), validationResult.getFullUrl(),
+                        validationResult.getRequestHeader(), validationResult.getRequestBody());
+
+                response = httpCall.execute(validationResult.getFullUrl(),
+                        validationResult.getRequestHeader());
+
+                response = followRedirects(validationResult.getRequestMethod(),
+                        httpCall, validationResult.getRequestHeader(), response);
 
                 long endTime = Time.currentTimeMillis();
 
@@ -687,12 +697,19 @@ public class Http {
                 throw e;
             } catch (Throwable e) {
                 validationResult.setErrorMessage(StackTraceUtils.fullCauseMessage(e));
-                throw new HttpException("error during http." + requestMethod.toLowerCase() + "(" + fullUrl + ")", e);
+                throw new HttpException("error during http." + validationResult.getRequestMethod().toLowerCase() + "(" +
+                        validationResult.getFullUrl() + ")", e);
+            } finally {
+                HttpListeners.afterHttpCall(validationResult.getRequestMethod(),
+                        validationResult.getUrl(), validationResult.getFullUrl(),
+                        validationResult.getRequestHeader(), validationResult.getRequestBody(),
+                        response);
             }
         };
 
-        return TestStep.createStep(null, tokenizedMessage(action("executing HTTP " + requestMethod), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("executed HTTP " + requestMethod), urlValue(fullUrl)),
+        return TestStep.createStep(null, tokenizedMessage(
+                action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
+                () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 httpCallSupplier);
     }
 
@@ -955,7 +972,7 @@ public class Http {
         }
 
         if (v instanceof List) {
-            return ((List) v).stream().map(this::extractOriginalValue).collect(toList());
+            return ((List<?>) v).stream().map(this::extractOriginalValue).collect(toList());
         }
 
         return v;
@@ -963,5 +980,17 @@ public class Http {
 
     private interface HttpCall {
         HttpResponse execute(String fullUrl, HttpHeader fullHeader);
+    }
+
+    private static class BeforeFirstHttpCallListenerTrigger {
+        static {
+            HttpListeners.beforeFirstHttpCall();
+        }
+
+        /**
+         * no-op to force class loading
+         */
+        private static void trigger() {
+        }
     }
 }
