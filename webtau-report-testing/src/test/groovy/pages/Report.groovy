@@ -9,11 +9,11 @@ class Report {
     def groupNames = $(".group-of-tests .navigation-entry-group-label")
 
     def openGroovyStandaloneReport(String reportName) {
-        browser.open(ReportLocation.groovyFeatureTestingFullUrl(reportName))
+        openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
     }
 
     def openJunit5ExampleReport() {
-        browser.open(ReportLocation.javaJunit5FullUrl('webtau.report.html'))
+        openReportFile(ReportLocation.javaJunit5FullUrl('webtau.report.html'))
     }
 
     def selectTest(String testName) {
@@ -30,5 +30,10 @@ class Report {
         def httpCalls = $(".test-http-call")
         httpCalls.waitTo beVisible()
         httpCalls.get(number).find(".collapse-toggle").click()
+    }
+
+    private static def openReportFile(String fileName) {
+        browser.open(fileName)
+        $(".status-filter-area").waitTo beVisible()
     }
 }
