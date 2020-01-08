@@ -59,8 +59,23 @@ public class Record {
     }
 
     @SuppressWarnings("unchecked")
+    public <E> E get(String name, E defaultValue) {
+        int idx = header.findColumnIdxByName(name);
+        return idx ==-1 ? defaultValue : (E) values.get(idx);
+    }
+
+    @SuppressWarnings("unchecked")
     public <E> E get(int idx) {
         header.validateIdx(idx);
+        return (E) values.get(idx);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <E> E get(int idx, E defaultValue) {
+        if (idx < 0 || idx >= values.size()) {
+            return defaultValue;
+        }
+
         return (E) values.get(idx);
     }
 
@@ -97,7 +112,7 @@ public class Record {
         int colIdx = 0;
         for (Object value : this.values) {
             if (value instanceof TableDataCellValueGenerator) {
-                newValues.add(((TableDataCellValueGenerator) value).generate(
+                newValues.add(((TableDataCellValueGenerator<?>) value).generate(
                         this, previous, rowIdx, colIdx, header.columnNameByIdx(colIdx)));
             } else {
                 newValues.add(value);

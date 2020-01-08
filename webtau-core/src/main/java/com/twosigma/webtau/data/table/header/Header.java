@@ -114,6 +114,16 @@ public class Header {
     /**
      * column index by column name
      * @param columnName column name to get index for
+     * @return column index or -1 if not found
+     */
+    public int findColumnIdxByName(String columnName) {
+        Integer idx = indexByName.get(columnName);
+        return idx == null ? -1: idx;
+    }
+
+    /**
+     * column index by column name
+     * @param columnName column name to get index for
      * @return column index
      * @throws IllegalArgumentException if column is not defined
      */

@@ -39,4 +39,24 @@ class RecordTest {
         def record = new Record(new Header(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
         assert record.key == null
     }
+
+    @Test
+    void "should return defaultValue if a columnName is not present"() {
+        def record = new Record(new Header(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
+        def valueC1 = record.get("c1", 42)
+        def valueC4 = record.get("c4", 42)
+        assert valueC1 == "v1"
+        assert valueC4 == 42
+    }
+
+    @Test
+    void "should return defaultValue if an idx is not present"() {
+        def record = new Record(new Header(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
+        def valueC2 = record.get(1, 42)
+        def valueCN = record.get(5, 42)
+        def valueCMinus = record.get(-1, 42)
+        assert valueC2 == "v2"
+        assert valueCN == 42
+        assert valueCMinus == 42
+    }
 }
