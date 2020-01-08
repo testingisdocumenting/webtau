@@ -21,11 +21,11 @@
     <parent>
         <groupId>com.twosigma.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.17-SNAPSHOT</version>
+        <version>1.17</version>
     </parent>
 
     <artifactId>webtau-maven-plugin</artifactId>
-    <version>1.17-SNAPSHOT</version>
+    <version>1.17</version>
 
     <packaging>maven-plugin</packaging>
 
