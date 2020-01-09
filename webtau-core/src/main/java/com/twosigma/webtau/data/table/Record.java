@@ -79,8 +79,12 @@ public class Record {
         return (E) values.get(idx);
     }
 
-    public Stream<Object> values() {
+    public Stream<Object> valuesStream() {
         return values.stream();
+    }
+
+    public List<Object> getValues() {
+        return values;
     }
 
     public boolean hasMultiValues() {

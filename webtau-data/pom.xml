@@ -28,11 +28,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
             <version>${project.version}</version>
