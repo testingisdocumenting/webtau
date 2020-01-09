@@ -14,48 +14,61 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.csv
+package com.twosigma.webtau.utils
 
+import org.junit.Assert
 import org.junit.Test
 
-class CsvParserTest {
+class CsvUtilsTest {
     @Test
-    void "csv with a header inside content"() {
-        def csvData = CsvParser.parse("""Account, "Description"
+    void "parse csv with a header inside content"() {
+        def csvData = CsvUtils.parse("""Account, "Description"
 #12BGD3, "custom, table"
 #12BGD3, chair
 #91AGB1, lunch
 """)
 
-        csvData.should == [
+        assert csvData == [
                 [Account: "#12BGD3", Description: "custom, table"],
                 [Account: "#12BGD3", Description: "chair"],
                 [Account: "#91AGB1", Description: "lunch"]]
     }
 
     @Test
-    void "passed header from outside"() {
-        def csvData = CsvParser.parse(['Account', 'Description'], """#12BGD3, "custom, table"
+    void "parse csv with passed header from outside"() {
+        def csvData = CsvUtils.parse(['Account', 'Description'], """#12BGD3, "custom, table"
 #12BGD3, chair
 """)
 
-        csvData.should == [
+        assert csvData == [
                 [Account: "#12BGD3", Description: "custom, table"],
                 [Account: "#12BGD3", Description: "chair"]]
     }
 
     @Test
     void "converts text to numbers when using auto conversion method"() {
-        def csvData = CsvParser.parseWithAutoConversion(['Account', 'Price', 'Description'], """#12BGD3, 100, "custom, table"
+        def csvData = CsvUtils.parseWithAutoConversion(['Account', 'Price', 'Description'], """#12BGD3, 100, "custom, table"
 #12BGD3, 150.5, chair
 #12BGD3, 150 %, chair
 #12BGD3, "150,000", chair
 """)
 
-        csvData.should == [
+        assert csvData == [
                 [Account: "#12BGD3", Price: 100, Description: "custom, table"],
                 [Account: "#12BGD3", Price: 150.5, Description: "chair"],
                 [Account: "#12BGD3", Price: '150 %', Description: "chair"],
                 [Account: "#12BGD3", Price: 150000, Description: "chair"]]
+    }
+
+    @Test
+    void "generates csv content from a list of columns and list of rows"() {
+        def csv = CsvUtils.serialize(["colA", "colB", "colC"].stream(), [
+                [1, "a", 3],
+                [null, 4, "hello \"name\""],
+        ].stream())
+
+        Assert.assertEquals('colA,colB,colC\r\n' +
+                '1,a,3\r\n' +
+                ',4,"hello ""name"""\r\n', csv)
     }
 }

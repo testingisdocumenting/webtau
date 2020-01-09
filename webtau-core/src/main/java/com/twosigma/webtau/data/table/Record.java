@@ -64,8 +64,12 @@ public class Record {
         return (E) values.get(idx);
     }
 
-    public Stream<Object> values() {
+    public Stream<Object> valuesStream() {
         return values.stream();
+    }
+
+    public List<Object> getValues() {
+        return values;
     }
 
     public boolean hasMultiValues() {
@@ -97,7 +101,7 @@ public class Record {
         int colIdx = 0;
         for (Object value : this.values) {
             if (value instanceof TableDataCellValueGenerator) {
-                newValues.add(((TableDataCellValueGenerator) value).generate(
+                newValues.add(((TableDataCellValueGenerator<?>) value).generate(
                         this, previous, rowIdx, colIdx, header.columnNameByIdx(colIdx)));
             } else {
                 newValues.add(value);
