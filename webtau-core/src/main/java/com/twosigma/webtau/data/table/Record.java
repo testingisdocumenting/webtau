@@ -59,8 +59,23 @@ public class Record {
     }
 
     @SuppressWarnings("unchecked")
+    public <E> E get(String name, E defaultValue) {
+        int idx = header.findColumnIdxByName(name);
+        return idx ==-1 ? defaultValue : (E) values.get(idx);
+    }
+
+    @SuppressWarnings("unchecked")
     public <E> E get(int idx) {
         header.validateIdx(idx);
+        return (E) values.get(idx);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <E> E get(int idx, E defaultValue) {
+        if (idx < 0 || idx >= values.size()) {
+            return defaultValue;
+        }
+
         return (E) values.get(idx);
     }
 
