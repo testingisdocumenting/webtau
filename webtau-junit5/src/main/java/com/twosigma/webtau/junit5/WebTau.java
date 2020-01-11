@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.junit5;
 
-import com.twosigma.webtau.reporter.Meta;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.Retention;
@@ -30,5 +29,4 @@ import static java.lang.annotation.ElementType.TYPE;
 @Retention(RetentionPolicy.RUNTIME)
 @ExtendWith(WebTauJunitExtension.class)
 public @interface WebTau {
-    Meta[] meta() default {};
 }
