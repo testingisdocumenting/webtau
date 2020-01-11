@@ -28,7 +28,6 @@ class WebTauConceptFeaturesTest {
     @BeforeClass
     static void init() {
         testRunner = new WebTauEndToEndTestRunner()
-        testRunner.captureMeta = true
     }
 
     @Before

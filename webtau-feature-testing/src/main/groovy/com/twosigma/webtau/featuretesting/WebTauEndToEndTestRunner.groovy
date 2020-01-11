@@ -133,7 +133,7 @@ class WebTauEndToEndTestRunner implements StepReporter, TestListener {
                        shortContainerId: test.shortContainerId,
                        stepsSummary    : capturedStepsSummary]
 
-        if (test.meta.isEmpty()) {
+        if (!test.meta.isEmpty()) {
             details.meta = test.meta.toMap()
         }
 
