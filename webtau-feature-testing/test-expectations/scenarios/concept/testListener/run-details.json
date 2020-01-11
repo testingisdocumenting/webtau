@@ -1,0 +1,12 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "simple scenario",
+    "shortContainerId" : "testListener.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "another scenario",
+    "shortContainerId" : "testListener.groovy",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}

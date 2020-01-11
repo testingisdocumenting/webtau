@@ -16,6 +16,8 @@
 
 package com.twosigma.webtau.featuretesting
 
+import com.twosigma.webtau.reporter.TestListeners
+import listeners.CustomTestListener
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
@@ -78,6 +80,15 @@ class WebTauConceptFeaturesTest {
     @Test
     void "conditional tests based on env registration run"() {
         runCli('conditionalEnvRegistrationRun.groovy', 'experimental.cfg')
+    }
+
+    @Test
+    void "custom test listener"() {
+        runCli('testListener.groovy', 'testListener.cfg')
+        def listeners = TestListeners.stream()
+                .findAll { listener -> listener instanceof CustomTestListener }
+
+        listeners.size().should == 1
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
