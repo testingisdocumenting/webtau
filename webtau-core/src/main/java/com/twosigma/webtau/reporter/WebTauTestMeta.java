@@ -14,21 +14,29 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5;
+package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.reporter.Meta;
-import org.junit.jupiter.api.extension.ExtendWith;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class WebTauTestMeta {
+    private final Map<String, Object> meta;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.TYPE;
+    public WebTauTestMeta() {
+        meta = new LinkedHashMap<>();
+    }
 
-@Target({ TYPE, ANNOTATION_TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(WebTauJunitExtension.class)
-public @interface WebTau {
-    Meta[] meta() default {};
+    public void add(String key, Object value) {
+        meta.put(key, value);
+    }
+
+    public void add(WebTauTestMeta meta) {
+        this.meta.putAll(meta.meta);
+    }
+
+    public Map<String, Object> toMap() {
+        return Collections.unmodifiableMap(meta);
+    }
 }
+

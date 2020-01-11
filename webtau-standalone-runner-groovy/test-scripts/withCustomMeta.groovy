@@ -1,3 +1,5 @@
+import Meta
+
 /*
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
@@ -14,21 +16,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5;
+Meta.owner("team A")
 
-import com.twosigma.webtau.reporter.Meta;
-import org.junit.jupiter.api.extension.ExtendWith;
+scenario("test one owned by team A") {
+}
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.TYPE;
-
-@Target({ TYPE, ANNOTATION_TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(WebTauJunitExtension.class)
-public @interface WebTau {
-    Meta[] meta() default {};
+scenario("test two owned by team A") {
 }

@@ -1,6 +1,7 @@
 package com.example.tests.junit5;
 
 import com.twosigma.webtau.junit5.WebTau;
+import com.twosigma.webtau.reporter.Meta;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,9 @@ import java.util.stream.Stream;
 
 import static com.twosigma.webtau.WebTauDsl.*;
 
-@WebTau
+@WebTau(meta = {
+        @Meta(key = "owner", value = "Clemens"),
+        @Meta(key = "custom", value = "entry")})
 @DisplayName("customer query")
 class CustomerQueryJavaTest {
     private static Integer id1; // keep track of created ids to assert and cleanup later
@@ -28,6 +31,7 @@ class CustomerQueryJavaTest {
 
     @Test
     @DisplayName("query by first name")
+    @Owner("team A")
     void queryByFirstName() {
         http.get("/customers/search/first-name", http.query("name", "CQ_FN1"), (header, body) -> {
             body.should(equal(table("*id", "firstName", "lastName", // star(*) marks key column so assertion is order agnostic

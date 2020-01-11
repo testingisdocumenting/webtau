@@ -75,6 +75,14 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
+    static void attachTestMetaValue(String key, Object value) {
+        if (testRunner) {
+            testRunner.attachTestMetaValue(key, value)
+        } else {
+            ConsoleOutputs.out(Color.YELLOW, "ignoring setting meta in ad-hoc mode ", Color.PURPLE, key)
+        }
+    }
+
     static void onlyForEnv(String env, Closure registrationCode) {
         onlyWhen("only for <$env> environment",
                 { -> getCfg().getEnv() == env },

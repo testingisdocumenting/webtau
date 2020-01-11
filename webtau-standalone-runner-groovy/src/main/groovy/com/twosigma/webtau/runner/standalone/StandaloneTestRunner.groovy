@@ -21,6 +21,7 @@ import com.twosigma.webtau.reporter.StepReporters
 import com.twosigma.webtau.reporter.TestListeners
 import com.twosigma.webtau.reporter.WebTauReport
 import com.twosigma.webtau.reporter.WebTauTestList
+import com.twosigma.webtau.reporter.WebTauTestMeta
 import com.twosigma.webtau.time.Time
 
 import java.nio.file.Path
@@ -33,6 +34,9 @@ class StandaloneTestRunner {
     private RegisteredTests registeredTests
     private Path workingDir
     private Path currentTestPath
+
+    private WebTauTestMeta currentParsingMeta
+
     private String currentShortContainerId
     private GroovyScriptEngine groovy
 
@@ -56,6 +60,7 @@ class StandaloneTestRunner {
     void process(TestFile testFile, delegate) {
         Path scriptPath = testFile.path
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
+        currentParsingMeta = new WebTauTestMeta()
         currentShortContainerId = testFile.shortContainerId
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
@@ -78,6 +83,10 @@ class StandaloneTestRunner {
         if (scriptParse.hasError()) {
             registeredTests.add(scriptParse)
         }
+    }
+
+    void attachTestMetaValue(String key, Object value) {
+        println "meta key=$key"
     }
 
     void clearRegisteredTests() {
@@ -215,6 +224,7 @@ class StandaloneTestRunner {
         def runCondition = runCondition.get()
         if (runCondition.isConditionMet) {
             def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, scenarioDescription, scenarioCode)
+            test.test.meta.add(currentParsingMeta)
             registrationCode(test)
         } else {
             dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)

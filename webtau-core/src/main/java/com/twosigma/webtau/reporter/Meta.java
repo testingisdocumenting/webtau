@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5;
+package com.twosigma.webtau.reporter;
 
-import com.twosigma.webtau.reporter.Meta;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.TYPE;
-
-@Target({ TYPE, ANNOTATION_TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@ExtendWith(WebTauJunitExtension.class)
-public @interface WebTau {
-    Meta[] meta() default {};
+public @interface Meta {
+    String key();
+    String value();
 }
