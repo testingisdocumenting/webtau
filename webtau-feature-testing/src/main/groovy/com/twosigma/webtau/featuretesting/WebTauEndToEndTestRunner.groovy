@@ -129,9 +129,15 @@ class WebTauEndToEndTestRunner implements StepReporter, TestListener {
 
     @Override
     void afterTestRun(WebTauTest test) {
-        scenariosDetails.add([scenario        : test.scenario,
-                              shortContainerId: test.shortContainerId,
-                              stepsSummary    : capturedStepsSummary])
+        def details = [scenario        : test.scenario,
+                       shortContainerId: test.shortContainerId,
+                       stepsSummary    : capturedStepsSummary]
+
+        if (test.meta.isEmpty()) {
+            details.meta = test.meta.toMap()
+        }
+
+        scenariosDetails.add(details)
     }
 
     @Override

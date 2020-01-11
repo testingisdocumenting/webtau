@@ -35,7 +35,7 @@ class StandaloneTestRunner {
     private Path workingDir
     private Path currentTestPath
 
-    private WebTauTestMeta currentParsingMeta
+    private final ThreadLocal<WebTauTestMeta> currentTestMeta = new ThreadLocal<>()
 
     private String currentShortContainerId
     private GroovyScriptEngine groovy
@@ -60,7 +60,7 @@ class StandaloneTestRunner {
     void process(TestFile testFile, delegate) {
         Path scriptPath = testFile.path
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
-        currentParsingMeta = new WebTauTestMeta()
+        currentTestMeta.set(new WebTauTestMeta())
         currentShortContainerId = testFile.shortContainerId
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
@@ -81,12 +81,18 @@ class StandaloneTestRunner {
 
         scriptParse.run()
         if (scriptParse.hasError()) {
+            scriptParse.test.meta.add(currentTestMeta.get())
             registeredTests.add(scriptParse)
         }
     }
 
-    void attachTestMetaValue(String key, Object value) {
-        println "meta key=$key"
+    def attachTestMetaValue(String key, Object value) {
+        def testMeta = currentTestMeta.get()
+        if (testMeta == null) {
+            throw new IllegalStateException("current test meta must be already set")
+        }
+
+        return testMeta.add(key, value)
     }
 
     void clearRegisteredTests() {
@@ -212,6 +218,7 @@ class StandaloneTestRunner {
 
     private void runTestIfNotTerminated(StandaloneTest standaloneTest) {
         if (!isTerminated.get()) {
+            currentTestMeta.set(standaloneTest.test.meta)
             standaloneTest.run()
         }
 
@@ -224,7 +231,8 @@ class StandaloneTestRunner {
         def runCondition = runCondition.get()
         if (runCondition.isConditionMet) {
             def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, scenarioDescription, scenarioCode)
-            test.test.meta.add(currentParsingMeta)
+            test.test.meta.add(currentTestMeta.get())
+
             registrationCode(test)
         } else {
             dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)

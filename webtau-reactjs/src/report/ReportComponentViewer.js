@@ -25,11 +25,13 @@ import {stepsDemo} from './details/steps/Steps.demo'
 import {cardWithElapsedTimeDemo} from './widgets/CardWithElapsedTime.demo'
 import {cardListDemo} from './widgets/CardList.demo'
 import {httpHeaderDemo} from './details/http-header/HttpHeader.demo'
-import {loadingDemo} from './loading/Loading.demo'
 import {testErrorMessageDemo} from './widgets/TestErrorMessage.demo'
 import {cliBuildingBlocksDemo} from "./details/cli/CliBuildingBlocksDemo"
 import {testCliCallsDemo} from "./details/cli/TestCliCalls.demo"
 import {collapsibleHttpHeaderDemo} from "./details/http-header/CollapsibleHttpHeader.demo"
+import {testMetaDemo} from './details/meta/TestMeta.demo'
+import Loading from './loading/Loading'
+import {testSummaryDemo} from './details/TestSummary.demo'
 
 const registries = new Registries()
 
@@ -41,6 +43,7 @@ registries.add('widgets')
 
 registries.add('core')
     .registerAsGrid('steps', 0, stepsDemo)
+    .registerAsGrid('test meta', 0, testMetaDemo)
 
 registries.add('http')
     .registerAsRows('http header', httpHeaderDemo)
@@ -50,9 +53,12 @@ registries.add('cli')
     .registerAsRows('cli building blocks', cliBuildingBlocksDemo)
     .registerAsTabs('cli calls', testCliCallsDemo)
 
+registries.add('panels')
+    .registerAsTabs('test summary', testSummaryDemo)
+
 registries.add('full reports')
     .registerAsTabs('demo reports', webTauReportsDemo)
-    .registerSingle('loading', loadingDemo)
+    .registerSingle('loading', () => <Loading/>)
 
 
 const dropDowns = new DropDowns()

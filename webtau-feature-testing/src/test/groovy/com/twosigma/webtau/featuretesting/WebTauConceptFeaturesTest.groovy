@@ -28,6 +28,7 @@ class WebTauConceptFeaturesTest {
     @BeforeClass
     static void init() {
         testRunner = new WebTauEndToEndTestRunner()
+        testRunner.captureMeta = true
     }
 
     @Before
@@ -78,6 +79,21 @@ class WebTauConceptFeaturesTest {
     @Test
     void "conditional tests based on env registration run"() {
         runCli('conditionalEnvRegistrationRun.groovy', 'experimental.cfg')
+    }
+
+    @Test
+    void "custom test meta data driven by raw key value"() {
+        runCli('metaDataRaw.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "custom test meta data driven by method call"() {
+        runCli('metaDataMethodBased.groovy', 'webtau.cfg')
+    }
+
+    @Test // second similar test is to make sure we clean current test meta in between tests
+    void "custom test meta data driven by method sanity check"() {
+        runCli('metaDataMethodBasedSanityCheck.groovy', 'webtau.cfg')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

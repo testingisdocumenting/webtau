@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import Loading from './Loading'
+package scenarios
 
-export function loadingDemo(registry) {
-    registry.add('loading', () => <Loading/>)
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
+
+scenario('open report') {
+    report.openGroovyStandaloneReport('concept/metaDataMethodBased-webtau-report.html')
 }
 
+scenario('select test with meta') {
+    report.selectTest('two')
+
+    browser.doc.withAnnotations(browser.doc.badge(report.testSummaryMetaKey))
+            .capture('report-test-meta')
+}

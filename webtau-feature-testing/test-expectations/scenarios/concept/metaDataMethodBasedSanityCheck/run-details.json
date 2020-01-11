@@ -1,0 +1,25 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "one",
+    "shortContainerId" : "metaDataMethodBasedSanityCheck.groovy",
+    "stepsSummary" : { },
+    "meta" : {
+      "severity" : 1
+    }
+  }, {
+    "scenario" : "two",
+    "shortContainerId" : "metaDataMethodBasedSanityCheck.groovy",
+    "stepsSummary" : { },
+    "meta" : {
+      "severity" : 100
+    }
+  }, {
+    "scenario" : "three",
+    "shortContainerId" : "metaDataMethodBasedSanityCheck.groovy",
+    "stepsSummary" : { },
+    "meta" : {
+      "severity" : 1
+    }
+  } ],
+  "exitCode" : 0
+}

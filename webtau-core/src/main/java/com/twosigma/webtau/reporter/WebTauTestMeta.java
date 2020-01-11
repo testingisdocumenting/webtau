@@ -27,16 +27,25 @@ public class WebTauTestMeta {
         meta = new LinkedHashMap<>();
     }
 
-    public void add(String key, Object value) {
-        meta.put(key, value);
+    /**
+     * register key/value meta
+     * @param key key
+     * @param value value
+     * @return previously registered value for key
+     */
+    public Object add(String key, Object value) {
+        return meta.put(key, value);
     }
 
     public void add(WebTauTestMeta meta) {
         this.meta.putAll(meta.meta);
     }
 
+    public boolean isEmpty() {
+        return meta.isEmpty();
+    }
+
     public Map<String, Object> toMap() {
         return Collections.unmodifiableMap(meta);
     }
 }
-

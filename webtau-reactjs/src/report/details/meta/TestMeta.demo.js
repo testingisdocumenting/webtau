@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import * as React from 'react'
 
-import './ElapsedTimeFragment.css'
+import {TestMeta} from './TestMeta'
 
-export default function ElapsedTimeFragment({value, label, allowZero}) {
-    if (value === 0 && !allowZero) {
-        return null
-    }
-
-    return (
-        <React.Fragment>
-            <span className="elapsed-time-value">{value}</span>
-            <span className="elapsed-time-unit">{label}</span>
-        </React.Fragment>
-    )
+export function testMetaDemo(registry) {
+    registry
+        .add('no values', () => <TestMeta meta={{}}/>)
+        .add('undefined value', () => <TestMeta meta={undefined}/>)
+        .add('with values', () => <TestMeta meta={{owner: 'Team A', severity: 100}}/>)
 }

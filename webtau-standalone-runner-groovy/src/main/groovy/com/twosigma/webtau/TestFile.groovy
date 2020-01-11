@@ -7,7 +7,7 @@ class TestFile {
     private final String shortContainerId
 
     TestFile(Path path) {
-        this(path, null)
+        this(path, path.fileName.toString())
     }
 
     TestFile(Path path, String shortContainerId) {
@@ -44,10 +44,10 @@ class TestFile {
 
 
     @Override
-    public String toString() {
+    String toString() {
         return "TestFile{" +
             "path=" + path +
             ", shortContainerId='" + shortContainerId + '\'' +
-            '}';
+            '}'
     }
 }
