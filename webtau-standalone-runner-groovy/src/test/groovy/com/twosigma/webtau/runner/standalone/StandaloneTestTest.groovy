@@ -41,6 +41,7 @@ class StandaloneTestTest {
                                              elapsedTime     : 100,
                                              status          : 'Skipped',
                                              disabled        : false,
+                                             meta            : [:],
                                              screenshot      : 'base64', steps: ['step1', 'step2']])
     }
 }

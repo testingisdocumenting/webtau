@@ -16,7 +16,6 @@
 
 package com.twosigma.webtau.reporter;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -46,6 +45,6 @@ public class WebTauTestMeta {
     }
 
     public Map<String, Object> toMap() {
-        return Collections.unmodifiableMap(meta);
+        return meta;
     }
 }
