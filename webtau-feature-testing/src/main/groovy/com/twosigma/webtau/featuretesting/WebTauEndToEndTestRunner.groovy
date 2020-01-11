@@ -133,8 +133,4 @@ class WebTauEndToEndTestRunner implements StepReporter, TestListener {
                               shortContainerId: test.shortContainerId,
                               stepsSummary    : capturedStepsSummary])
     }
-
-    @Override
-    void afterAllTests(WebTauReport report) {
-    }
 }

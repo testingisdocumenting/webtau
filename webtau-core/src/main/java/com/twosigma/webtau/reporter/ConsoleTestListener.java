@@ -5,14 +5,6 @@ import com.twosigma.webtau.console.ansi.Color;
 
 public class ConsoleTestListener implements TestListener {
     @Override
-    public void beforeFirstTest() {
-    }
-
-    @Override
-    public void afterAllTests(WebTauReport report) {
-    }
-
-    @Override
     public void beforeTestRun(WebTauTest test) {
         ConsoleOutputs.out(Color.BLUE, test.getScenario().trim(), " ",
                 Color.PURPLE, "(" + test.getShortContainerId() + ")");

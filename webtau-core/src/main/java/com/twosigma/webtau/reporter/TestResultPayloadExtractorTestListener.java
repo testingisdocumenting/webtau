@@ -5,19 +5,7 @@ package com.twosigma.webtau.reporter;
  */
 public class TestResultPayloadExtractorTestListener implements TestListener {
     @Override
-    public void beforeFirstTest() {
-    }
-
-    @Override
-    public void beforeTestRun(WebTauTest test) {
-    }
-
-    @Override
     public void afterTestRun(WebTauTest test) {
         TestResultPayloadExtractors.extract(test.getSteps().stream()).forEach(test::addTestResultPayload);
-    }
-
-    @Override
-    public void afterAllTests(WebTauReport report) {
     }
 }
