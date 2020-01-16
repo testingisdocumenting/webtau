@@ -162,18 +162,6 @@ class WebTauCliApp implements TestListener {
     }
 
     @Override
-    void beforeFirstTest() {
-    }
-
-    @Override
-    void beforeTestRun(WebTauTest test) {
-    }
-
-    @Override
-    void afterTestRun(WebTauTest test) {
-    }
-
-    @Override
     void afterAllTests(WebTauReport report) {
         problemCount = (int) (report.failed + report.errored)
     }
