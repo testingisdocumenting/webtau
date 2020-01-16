@@ -26,6 +26,14 @@ public class TestListeners {
         listeners.forEach(listeners -> listeners.afterAllTests(report));
     }
 
+    public static void beforeFirstTestStatement(WebTauTest test) {
+        listeners.forEach(listeners -> listeners.beforeFirstTestStatement(test));
+    }
+
+    public static void afterLastTestStatement(WebTauTest test) {
+        listeners.forEach(listeners -> listeners.afterLastTestStatement(test));
+    }
+
     public static void add(TestListener listener) {
         listeners.add(listener);
     }

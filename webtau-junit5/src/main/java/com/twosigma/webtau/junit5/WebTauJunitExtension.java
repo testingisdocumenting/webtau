@@ -105,6 +105,11 @@ public class WebTauJunitExtension implements
         storeTestInContext(extensionContext, javaBasedTest);
     }
 
+    @Override
+    public void interceptTestMethod(Invocation<Void> invocation, ReflectiveInvocationContext<Method> invocationContext, ExtensionContext extensionContext) throws Throwable {
+        invoke(invocation, extensionContext);
+    }
+
     private void stopTest(ExtensionContext extensionContext, JavaBasedTest javaBasedTest) {
         removeTestFromContext(extensionContext);
 
@@ -140,7 +145,7 @@ public class WebTauJunitExtension implements
         startTest(extensionContext, javaBasedTest);
 
         try {
-            invocation.proceed();
+            invoke(invocation, extensionContext);
         } catch (Throwable e) {
             javaBasedTest.getTest().setException(e);
             throw e;
@@ -148,6 +153,14 @@ public class WebTauJunitExtension implements
             stopTest(extensionContext, javaBasedTest);
             JavaShutdownHook.INSTANCE.noOp();
         }
+    }
+
+    private void invoke(Invocation<Void> invocation, ExtensionContext extensionContext) throws Throwable {
+        JavaBasedTest javaBasedTest = retrieveTest(extensionContext);
+
+        TestListeners.beforeFirstTestStatement(javaBasedTest.getTest());
+        invocation.proceed();
+        TestListeners.afterLastTestStatement(javaBasedTest.getTest());
     }
 
     private void storeTestInContext(ExtensionContext extensionContext, JavaBasedTest test) {

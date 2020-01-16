@@ -139,8 +139,4 @@ class WebTauEndToEndTestRunner implements StepReporter, TestListener {
 
         scenariosDetails.add(details)
     }
-
-    @Override
-    void afterAllTests(WebTauReport report) {
-    }
 }
