@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-import * as React from 'react'
+package com.twosigma.webtau.reporter
 
-import {TestMeta} from './TestMeta'
+import org.junit.Test
 
-export function testMetaDemo(registry) {
-    registry
-        .add('no values', () => <TestMeta meta={{}}/>)
-        .add('undefined value', () => <TestMeta meta={undefined}/>)
-        .add('with values', () => <TestMeta meta={{owner: 'Team A', severity: 100}}/>)
+class WebTauTestMetaTest {
+    @Test
+    void "should return previously registered values"() {
+        def meta = new WebTauTestMetadata()
+
+        def previous = meta.add([k1: 'v1', k2: 'v2', k3: 'v3'])
+        assert previous == [:]
+
+        previous = meta.add([k2: 'v2_', k3: 'v3_'])
+        assert previous == [k2: 'v2', k3: 'v3']
+    }
 }

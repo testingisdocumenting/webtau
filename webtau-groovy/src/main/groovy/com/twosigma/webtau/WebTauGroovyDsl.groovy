@@ -75,11 +75,13 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
-    static void attachTestMetaValue(String key, Object value) {
+    static Map<String, Object> metadata(Map<String, Object> meta) {
         if (testRunner) {
-            testRunner.attachTestMetaValue(key, value)
+            return testRunner.attachTestMetadata(meta)
         } else {
-            ConsoleOutputs.out(Color.YELLOW, "ignoring setting meta in ad-hoc mode ", Color.PURPLE, key)
+            ConsoleOutputs.out(Color.YELLOW, "ignoring setting meta in ad-hoc mode ", Color.PURPLE,
+                    meta.keySet())
+            return [:]
         }
     }
 

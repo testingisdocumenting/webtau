@@ -50,13 +50,13 @@ public class WebTauTest {
     private long startTime;
     private long elapsedTime;
 
-    private final WebTauTestMeta meta;
+    private final WebTauTestMetadata metadata;
 
     public WebTauTest(Path workingDir) {
         this.workingDir = workingDir;
         payloads = new ArrayList<>();
         steps = new ArrayList<>();
-        meta = new WebTauTestMeta();
+        metadata = new WebTauTestMetadata();
     }
 
     public void clear() {
@@ -210,8 +210,8 @@ public class WebTauTest {
     }
 
 
-    public WebTauTestMeta getMeta() {
-        return meta;
+    public WebTauTestMetadata getMetadata() {
+        return metadata;
     }
 
     public void addStep(TestStep<?, ?> step) {
@@ -259,7 +259,7 @@ public class WebTauTest {
 
         payloads.forEach(p -> result.putAll(p.toMap()));
 
-        result.put("meta", meta.toMap());
+        result.put("metadata", metadata.toMap());
 
         return result;
     }

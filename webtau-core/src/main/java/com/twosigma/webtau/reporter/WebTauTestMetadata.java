@@ -17,27 +17,35 @@
 package com.twosigma.webtau.reporter;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class WebTauTestMeta {
+public class WebTauTestMetadata {
     private final Map<String, Object> meta;
 
-    public WebTauTestMeta() {
+    public WebTauTestMetadata() {
         meta = new LinkedHashMap<>();
     }
 
     /**
      * register key/value meta
-     * @param key key
-     * @param value value
-     * @return previously registered value for key
+     * @param values metadata values to add
+     * @return previously registered values
      */
-    public Object add(String key, Object value) {
-        return meta.put(key, value);
+    public Map<String, Object> add(Map<String, Object> values) {
+        Map<String, Object> previousMetaValues = new HashMap<>();
+        values.forEach((k, v) -> {
+            Object previous = meta.put(k, v);
+            if (previous != null) {
+                previousMetaValues.put(k, previous);
+            }
+        });
+
+        return previousMetaValues;
     }
 
-    public void add(WebTauTestMeta meta) {
+    public void add(WebTauTestMetadata meta) {
         this.meta.putAll(meta.meta);
     }
 

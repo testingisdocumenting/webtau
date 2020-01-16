@@ -29,7 +29,7 @@ import {testErrorMessageDemo} from './widgets/TestErrorMessage.demo'
 import {cliBuildingBlocksDemo} from "./details/cli/CliBuildingBlocksDemo"
 import {testCliCallsDemo} from "./details/cli/TestCliCalls.demo"
 import {collapsibleHttpHeaderDemo} from "./details/http-header/CollapsibleHttpHeader.demo"
-import {testMetaDemo} from './details/meta/TestMeta.demo'
+import {testMetadataDemo} from './details/metadata/TestMetadata.demo'
 import Loading from './loading/Loading'
 import {testSummaryDemo} from './details/TestSummary.demo'
 
@@ -43,7 +43,7 @@ registries.add('widgets')
 
 registries.add('core')
     .registerAsGrid('steps', 0, stepsDemo)
-    .registerAsGrid('test meta', 0, testMetaDemo)
+    .registerAsGrid('test metadata', 0, testMetadataDemo)
 
 registries.add('http')
     .registerAsRows('http header', httpHeaderDemo)

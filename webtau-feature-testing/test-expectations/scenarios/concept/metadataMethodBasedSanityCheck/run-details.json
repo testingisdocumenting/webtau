@@ -1,24 +1,24 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "one",
-    "shortContainerId" : "metaDataRaw.groovy",
+    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
     "stepsSummary" : { },
     "meta" : {
-      "owner" : "team A"
+      "severity" : 1
     }
   }, {
     "scenario" : "two",
-    "shortContainerId" : "metaDataRaw.groovy",
+    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
     "stepsSummary" : { },
     "meta" : {
-      "owner" : "team A"
+      "severity" : 100
     }
   }, {
     "scenario" : "three",
-    "shortContainerId" : "metaDataRaw.groovy",
+    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
     "stepsSummary" : { },
     "meta" : {
-      "owner" : "team B"
+      "severity" : 1
     }
   } ],
   "exitCode" : 0

@@ -21,7 +21,7 @@ import com.twosigma.webtau.reporter.StepReporters
 import com.twosigma.webtau.reporter.TestListeners
 import com.twosigma.webtau.reporter.WebTauReport
 import com.twosigma.webtau.reporter.WebTauTestList
-import com.twosigma.webtau.reporter.WebTauTestMeta
+import com.twosigma.webtau.reporter.WebTauTestMetadata
 import com.twosigma.webtau.time.Time
 
 import java.nio.file.Path
@@ -35,7 +35,7 @@ class StandaloneTestRunner {
     private Path workingDir
     private Path currentTestPath
 
-    private final ThreadLocal<WebTauTestMeta> currentTestMeta = new ThreadLocal<>()
+    private final ThreadLocal<WebTauTestMetadata> currentTestMetadata = new ThreadLocal<>()
 
     private String currentShortContainerId
     private GroovyScriptEngine groovy
@@ -60,7 +60,7 @@ class StandaloneTestRunner {
     void process(TestFile testFile, delegate) {
         Path scriptPath = testFile.path
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
-        currentTestMeta.set(new WebTauTestMeta())
+        currentTestMetadata.set(new WebTauTestMetadata())
         currentShortContainerId = testFile.shortContainerId
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
@@ -81,18 +81,18 @@ class StandaloneTestRunner {
 
         scriptParse.run()
         if (scriptParse.hasError()) {
-            scriptParse.test.meta.add(currentTestMeta.get())
+            scriptParse.test.metadata.add(currentTestMetadata.get())
             registeredTests.add(scriptParse)
         }
     }
 
-    def attachTestMetaValue(String key, Object value) {
-        def testMeta = currentTestMeta.get()
-        if (testMeta == null) {
+    def attachTestMetadata(Map<String, Object> meta) {
+        def testMetadata = currentTestMetadata.get()
+        if (testMetadata == null) {
             throw new IllegalStateException("current test meta must be already set")
         }
 
-        return testMeta.add(key, value)
+        return testMetadata.add(meta)
     }
 
     void clearRegisteredTests() {
@@ -218,7 +218,7 @@ class StandaloneTestRunner {
 
     private void runTestIfNotTerminated(StandaloneTest standaloneTest) {
         if (!isTerminated.get()) {
-            currentTestMeta.set(standaloneTest.test.meta)
+            currentTestMetadata.set(standaloneTest.test.metadata)
             standaloneTest.run()
         }
 
@@ -231,7 +231,7 @@ class StandaloneTestRunner {
         def runCondition = runCondition.get()
         if (runCondition.isConditionMet) {
             def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, scenarioDescription, scenarioCode)
-            test.test.meta.add(currentTestMeta.get())
+            test.test.metadata.add(currentTestMetadata.get())
 
             registrationCode(test)
         } else {

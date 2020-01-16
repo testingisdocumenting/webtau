@@ -4,11 +4,11 @@ import static com.twosigma.webtau.WebTauGroovyDsl.*
 
 class Support {
     static void owner(String name) {
-        attachTestMetaValue("owner", name)
+        metadata([owner: name])
     }
 
     static void severity(int level) {
-        attachTestMetaValue("severity", level)
+        metadata([severity: level])
     }
 
     static void teamA() {

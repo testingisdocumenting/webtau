@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package scenarios
+import * as React from 'react'
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
-import static pages.Pages.*
+import {TestMetadata} from './TestMetadata'
 
-scenario('open report') {
-    report.openGroovyStandaloneReport('concept/metaDataMethodBased-webtau-report.html')
-}
-
-scenario('select test with meta') {
-    report.selectTest('two')
-
-    browser.doc.withAnnotations(browser.doc.badge(report.testSummaryMetaKey))
-            .capture('report-test-meta')
+export function testMetadataDemo(registry) {
+    registry
+        .add('no values', () => <TestMetadata metadata={{}}/>)
+        .add('undefined value', () => <TestMetadata metadata={undefined}/>)
+        .add('with values', () => <TestMetadata metadata={{owner: 'Team A', severity: 100}}/>)
 }

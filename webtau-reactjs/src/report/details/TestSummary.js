@@ -30,7 +30,7 @@ import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
 
 import TestErrorMessage from '../widgets/TestErrorMessage'
 
-import {TestMeta} from './meta/TestMeta'
+import {TestMetadata} from './metadata/TestMetadata'
 
 import './TestSummary.css'
 
@@ -55,8 +55,8 @@ const TestSummary = ({test}) => {
         <div className="test-summary">
             <TestNameCard test={test}/>
 
-            <div className="test-summary-meta">
-                <TestMeta meta={test.meta}/>
+            <div className="test-summary-metadata">
+                <TestMetadata metadata={test.metadata}/>
             </div>
 
             <div className="test-summary-timing">

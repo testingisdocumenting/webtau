@@ -34,7 +34,7 @@ groovy-specific-runner
     tests-hard-stops
     selective-run
     skipping-tests
-    test-meta
+    test-metadata
 generic-runners
     JUnit-4
     JUnit-5

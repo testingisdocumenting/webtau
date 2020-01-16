@@ -16,31 +16,31 @@
 
 import * as React from 'react'
 
-import './TestMeta.css'
+import './TestMetadata.css'
 
-export function TestMeta({meta}) {
-    if (!meta || Object.keys(meta).length === 0) {
+export function TestMetadata({metadata}) {
+    if (!metadata || Object.keys(metadata).length === 0) {
         return null
     }
 
     return (
-        <div className="test-meta">
+        <div className="test-metadata">
             <table className="table">
                 <thead>
                 <tr>
-                    <th>Meta Key</th>
+                    <th>Metadata Key</th>
                     <th>Value</th>
                 </tr>
                 </thead>
                 <tbody>
-                {Object.keys(meta).map(key => <MetaEntry key={key} label={key} value={meta[key]}/>)}
+                {Object.keys(metadata).map(key => <MetadataEntry key={key} label={key} value={metadata[key]}/>)}
                 </tbody>
             </table>
         </div>
     )
 }
 
-function MetaEntry({label, value}) {
+function MetadataEntry({label, value}) {
     return (
         <tr>
             <td>{label}</td>

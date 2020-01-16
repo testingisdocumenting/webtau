@@ -82,17 +82,17 @@ class WebTauConceptFeaturesTest {
 
     @Test
     void "custom test meta data driven by raw key value"() {
-        runCli('metaDataRaw.groovy', 'webtau.cfg')
+        runCli('metadataRaw.groovy', 'webtau.cfg')
     }
 
     @Test
     void "custom test meta data driven by method call"() {
-        runCli('metaDataMethodBased.groovy', 'webtau.cfg')
+        runCli('metadataMethodBased.groovy', 'webtau.cfg')
     }
 
     @Test // second similar test is to make sure we clean current test meta in between tests
     void "custom test meta data driven by method sanity check"() {
-        runCli('metaDataMethodBasedSanityCheck.groovy', 'webtau.cfg')
+        runCli('metadataMethodBasedSanityCheck.groovy', 'webtau.cfg')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
