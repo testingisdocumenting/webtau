@@ -11,7 +11,7 @@ scenario("two") {
 }
 
 scenario("three") {
-    metadata([owner: "team B"]) // owner is overridden for this scenario
+    metadata([owner: "team B"]) // owner is overridden for scenario "three"
 }
 
 scenario("four") {
