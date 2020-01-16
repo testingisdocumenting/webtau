@@ -1,4 +1,4 @@
-# Specifying Test Meta
+# Specifying Test Metadata
 
 To attach custom meta data to a test use `attachTestMetaValue` from `WebTauGroovyDsl`
  
@@ -18,4 +18,4 @@ Test meta data will be available in a generated report as well as in test listen
 
 :include-image: doc-artifacts/reports/report-test-meta.png {annotationsPath: "doc-artifacts/reports/report-test-meta.json"}
 
-1. If meta is present, it will be displayed at the test summary page
+1. If metadata is present, it will be displayed at the test summary page
