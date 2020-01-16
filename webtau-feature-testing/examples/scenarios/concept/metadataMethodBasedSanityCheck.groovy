@@ -13,3 +13,6 @@ scenario("two") {
 
 scenario("three") {
 }
+
+scenario("four") {
+}

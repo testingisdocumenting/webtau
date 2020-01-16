@@ -2,7 +2,7 @@ package scenarios.concept
 
 import static com.twosigma.webtau.WebTauGroovyDsl.*
 
-metadata([owner: "team A"]) // setting owner for all the scenarios below
+metadata([owner: "team A"]) // setting owner for scenarios "one" and "two"
 
 scenario("one") {
 }
@@ -10,8 +10,9 @@ scenario("one") {
 scenario("two") {
 }
 
+metadata([owner: "team B"]) // setting owner for scenarios "three" and "four"
+
 scenario("three") {
-    metadata([owner: "team B"]) // owner is overridden for this scenario
 }
 
 scenario("four") {

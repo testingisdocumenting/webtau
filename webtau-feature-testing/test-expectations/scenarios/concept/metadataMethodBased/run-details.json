@@ -3,22 +3,29 @@
     "scenario" : "one",
     "shortContainerId" : "metadataMethodBased.groovy",
     "stepsSummary" : { },
-    "meta" : {
+    "metadata" : {
       "owner" : "team A"
     }
   }, {
     "scenario" : "two",
     "shortContainerId" : "metadataMethodBased.groovy",
     "stepsSummary" : { },
-    "meta" : {
+    "metadata" : {
       "owner" : "team A"
     }
   }, {
     "scenario" : "three",
     "shortContainerId" : "metadataMethodBased.groovy",
     "stepsSummary" : { },
-    "meta" : {
+    "metadata" : {
       "owner" : "team B"
+    }
+  }, {
+    "scenario" : "four",
+    "shortContainerId" : "metadataMethodBased.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "owner" : "team A"
     }
   } ],
   "exitCode" : 0

@@ -13,3 +13,6 @@ scenario("two") {
 scenario("three") {
     Support.teamB()
 }
+
+scenario("four") {
+}

@@ -1,31 +1,31 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "one",
-    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
     "stepsSummary" : { },
     "metadata" : {
-      "severity" : 1
+      "owner" : "team A"
     }
   }, {
     "scenario" : "two",
-    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
     "stepsSummary" : { },
     "metadata" : {
-      "severity" : 100
+      "owner" : "team A"
     }
   }, {
     "scenario" : "three",
-    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
     "stepsSummary" : { },
     "metadata" : {
-      "severity" : 1
+      "owner" : "team B"
     }
   }, {
     "scenario" : "four",
-    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
     "stepsSummary" : { },
     "metadata" : {
-      "severity" : 1
+      "owner" : "team B"
     }
   } ],
   "exitCode" : 0

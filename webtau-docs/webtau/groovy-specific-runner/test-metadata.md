@@ -1,10 +1,16 @@
 # Specifying Test Metadata
 
-To attach custom meta data to a test use `metadata` from `WebTauGroovyDsl`
+To attach custom metadata to a test use `metadata` from `WebTauGroovyDsl`
  
-:include-file: scenarios/concept/metadataRaw.groovy { title: "attach test metadata" }
+:include-file: scenarios/concept/metadataRaw.groovy { title: "test metadata", commentsType: "inline" }
 
-# Meta Data Encapsulation
+`metadata` can be called multiple times outside of `scenario`. It will be applied to all the scenarios below.
+
+:include-file: scenarios/concept/metadataRawTopLevelOverrides.groovy { title: "multiple top-level metadata", commentsType: "inline" }
+
+Unlike previous example, "team B" will be set for scenario "three" and "four".
+
+# Metadata Encapsulation
 
 You can encapsulate repeated metadata into a separate file. 
  
@@ -14,7 +20,7 @@ You can encapsulate repeated metadata into a separate file.
 
 # Report
 
-Test meta data will be available in a generated report as well as in test listeners.
+Test metadata will be available in a generated report as well as in test listeners.
 
 :include-image: doc-artifacts/reports/report-test-metadata.png {annotationsPath: "doc-artifacts/reports/report-test-metadata.json" }
 

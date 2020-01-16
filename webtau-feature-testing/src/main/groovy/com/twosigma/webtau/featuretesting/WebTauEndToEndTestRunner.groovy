@@ -134,7 +134,7 @@ class WebTauEndToEndTestRunner implements StepReporter, TestListener {
                        stepsSummary    : capturedStepsSummary]
 
         if (!test.metadata.isEmpty()) {
-            details.meta = test.metadata.toMap()
+            details.metadata = test.metadata.toMap()
         }
 
         scenariosDetails.add(details)
