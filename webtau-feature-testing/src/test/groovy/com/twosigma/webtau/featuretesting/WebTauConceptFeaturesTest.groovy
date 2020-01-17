@@ -80,6 +80,26 @@ class WebTauConceptFeaturesTest {
         runCli('conditionalEnvRegistrationRun.groovy', 'experimental.cfg')
     }
 
+    @Test
+    void "custom test metadata driven by raw key value"() {
+        runCli('metadataRaw.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "custom test metadata override top level only"() {
+        runCli('metadataRawTopLevelOverrides.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "custom test metadata driven by method call"() {
+        runCli('metadataMethodBased.groovy', 'webtau.cfg')
+    }
+
+    @Test // second similar test is to make sure we clean current test meta in between tests
+    void "custom test metadata driven by method sanity check"() {
+        runCli('metadataMethodBasedSanityCheck.groovy', 'webtau.cfg')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/concept/$testName",
                 "scenarios/concept/$configFileName", additionalArgs)

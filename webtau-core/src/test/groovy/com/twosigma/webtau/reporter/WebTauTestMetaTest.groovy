@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-import React from 'react'
+package com.twosigma.webtau.reporter
 
-import './ElapsedTimeFragment.css'
+import org.junit.Test
 
-export default function ElapsedTimeFragment({value, label, allowZero}) {
-    if (value === 0 && !allowZero) {
-        return null
+class WebTauTestMetaTest {
+    @Test
+    void "should return previously registered values"() {
+        def meta = new WebTauTestMetadata()
+
+        def previous = meta.add([k1: 'v1', k2: 'v2', k3: 'v3'])
+        assert previous == [:]
+
+        previous = meta.add([k2: 'v2_', k3: 'v3_'])
+        assert previous == [k2: 'v2', k3: 'v3']
     }
-
-    return (
-        <React.Fragment>
-            <span className="elapsed-time-value">{value}</span>
-            <span className="elapsed-time-unit">{label}</span>
-        </React.Fragment>
-    )
 }

@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-import React from 'react'
+package scenarios
 
-import './ElapsedTimeFragment.css'
+import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
 
-export default function ElapsedTimeFragment({value, label, allowZero}) {
-    if (value === 0 && !allowZero) {
-        return null
-    }
+scenario('open report') {
+    report.openGroovyStandaloneReport('concept/metadataMethodBased-webtau-report.html')
+}
 
-    return (
-        <React.Fragment>
-            <span className="elapsed-time-value">{value}</span>
-            <span className="elapsed-time-unit">{label}</span>
-        </React.Fragment>
-    )
+scenario('select test with meta') {
+    report.selectTest('two')
+
+    browser.doc.withAnnotations(browser.doc.badge(report.testSummaryMetaKey))
+            .capture('report-test-metadata')
 }

@@ -1,0 +1,32 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "one",
+    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "severity" : 1
+    }
+  }, {
+    "scenario" : "two",
+    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "severity" : 100
+    }
+  }, {
+    "scenario" : "three",
+    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "severity" : 1
+    }
+  }, {
+    "scenario" : "four",
+    "shortContainerId" : "metadataMethodBasedSanityCheck.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "severity" : 1
+    }
+  } ],
+  "exitCode" : 0
+}

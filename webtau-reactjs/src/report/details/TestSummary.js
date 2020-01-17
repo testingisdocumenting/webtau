@@ -30,6 +30,8 @@ import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
 
 import TestErrorMessage from '../widgets/TestErrorMessage'
 
+import {TestMetadata} from './metadata/TestMetadata'
+
 import './TestSummary.css'
 
 const OptionalPreBlock = ({className, message}) => {
@@ -53,6 +55,10 @@ const TestSummary = ({test}) => {
         <div className="test-summary">
             <TestNameCard test={test}/>
 
+            <div className="test-summary-metadata">
+                <TestMetadata metadata={test.metadata}/>
+            </div>
+
             <div className="test-summary-timing">
                 <CardWithTime label="Start Time (Local)"
                               time={test.startTime}/>
@@ -65,11 +71,14 @@ const TestSummary = ({test}) => {
                                      millis={test.elapsedTime}/>
             </div>
 
-            <div className="test-summary-http-dashboard">
-                <NumberOfHttpCalls number={numberOfHttpCalls}/>
-                <AverageHttpCallsTime test={test}/>
-                <OverallHttpCallsTime test={test}/>
-            </div>
+            {numberOfHttpCalls > 0 ?
+                (
+                    <div className="test-summary-http-dashboard">
+                        <NumberOfHttpCalls number={numberOfHttpCalls}/>
+                        <AverageHttpCallsTime test={test}/>
+                        <OverallHttpCallsTime test={test}/>
+                    </div>
+                ) : null }
 
             <OptionalPreBlock className="context-description" message={test.contextDescription}/>
             <CardPreMessage message={test.exceptionMessage}/>

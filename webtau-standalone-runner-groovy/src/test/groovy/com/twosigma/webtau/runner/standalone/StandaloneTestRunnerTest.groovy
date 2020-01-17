@@ -135,6 +135,14 @@ class StandaloneTestRunnerTest {
         runner.numThreadsToUse(-1).should == 2
     }
 
+    @Test
+    void "should associate meta information with tests"() {
+        def runner = createRunner("withCustomMeta.groovy")
+        runner.runTests()
+
+        println runner.tests
+    }
+
     private static void assertInitFailed(StandaloneTestRunner runner, String message) {
         runner.tests.size().should == 1
 

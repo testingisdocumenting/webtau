@@ -23,10 +23,7 @@ import com.twosigma.webtau.utils.FileUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.twosigma.webtau.reporter.TestStatus.*;
@@ -53,10 +50,13 @@ public class WebTauTest {
     private long startTime;
     private long elapsedTime;
 
+    private final WebTauTestMetadata metadata;
+
     public WebTauTest(Path workingDir) {
         this.workingDir = workingDir;
         payloads = new ArrayList<>();
         steps = new ArrayList<>();
+        metadata = new WebTauTestMetadata();
     }
 
     public void clear() {
@@ -209,6 +209,11 @@ public class WebTauTest {
         return steps;
     }
 
+
+    public WebTauTestMetadata getMetadata() {
+        return metadata;
+    }
+
     public void addStep(TestStep<?, ?> step) {
         steps.add(step);
     }
@@ -253,6 +258,8 @@ public class WebTauTest {
         }
 
         payloads.forEach(p -> result.putAll(p.toMap()));
+
+        result.put("metadata", metadata.toMap());
 
         return result;
     }

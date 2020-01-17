@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import Loading from './Loading'
+import * as React from 'react'
 
-export function loadingDemo(registry) {
-    registry.add('loading', () => <Loading/>)
+import {TestMetadata} from './TestMetadata'
+
+export function testMetadataDemo(registry) {
+    registry
+        .add('no values', () => <TestMetadata metadata={{}}/>)
+        .add('undefined value', () => <TestMetadata metadata={undefined}/>)
+        .add('with values', () => <TestMetadata metadata={{owner: 'Team A', severity: 100}}/>)
 }
-

@@ -7,6 +7,7 @@ class Report {
     def fullScreenIcon = $(".fullscreen-icon")
     def collapsedHeader = $(".collapsed-http-header")
     def groupNames = $(".group-of-tests .navigation-entry-group-label")
+    def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
 
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
