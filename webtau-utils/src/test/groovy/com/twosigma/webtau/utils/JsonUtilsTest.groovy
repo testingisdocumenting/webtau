@@ -52,6 +52,24 @@ class JsonUtilsTest {
     }
 
     @Test
+    void "should serialize single value"() {
+        def asText = JsonUtils.serialize("hello")
+        assert asText == '"hello"'
+    }
+
+    @Test
+    void "should serialize null single value"() {
+        def asText = JsonUtils.serialize(null)
+        assert asText == 'null'
+    }
+
+    @Test
+    void "should deserialize null single value"() {
+        def value = JsonUtils.deserialize('null')
+        assert value == null
+    }
+
+    @Test
     void "should deserialize json as list"() {
         def json = """[{"name": "hello"}, {"name": "world"}] """
 

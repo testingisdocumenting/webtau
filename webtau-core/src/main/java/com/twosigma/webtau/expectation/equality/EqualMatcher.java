@@ -18,9 +18,12 @@ package com.twosigma.webtau.expectation.equality;
 
 import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
+import com.twosigma.webtau.expectation.ExpectedValuesAware;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
-public class EqualMatcher implements ValueMatcher {
+import java.util.stream.Stream;
+
+public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator comparator;
     private final Object expected;
 
@@ -75,5 +78,10 @@ public class EqualMatcher implements ValueMatcher {
     @Override
     public String toString() {
         return EqualNotEqualMatcherRenderer.render(this, comparator, expected);
+    }
+
+    @Override
+    public Stream<Object> expectedValues() {
+        return Stream.of(expected);
     }
 }

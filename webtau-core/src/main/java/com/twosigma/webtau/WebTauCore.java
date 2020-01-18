@@ -22,6 +22,7 @@ import com.twosigma.webtau.data.table.TableDataUnderscore;
 import com.twosigma.webtau.data.table.autogen.TableDataCellAbove;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFunctions;
 import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
+import com.twosigma.webtau.documentation.CoreDocumentation;
 import com.twosigma.webtau.expectation.ActualCode;
 import com.twosigma.webtau.expectation.ActualCodeExpectations;
 import com.twosigma.webtau.expectation.ActualPath;
@@ -46,16 +47,34 @@ import java.util.regex.Pattern;
  * Convenient class for a single static * imports to have matchers and helper functions available for your test
  */
 public class WebTauCore extends Matchers {
+    public static final CoreDocumentation doc = new CoreDocumentation();
+
     public static final TableDataCellValueGenFunctions cell = new TableDataCellValueGenFunctions();
 
     public static final TableDataUnderscore __ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________________ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________________________________ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________________________________________________ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ________________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
+    public static final TableDataUnderscore ____________________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
     public static final TableDataUnderscore ________________________________________________________________________________________________ = TableDataUnderscore.INSTANCE;
 
     public static TableData table(String... columnNames) {

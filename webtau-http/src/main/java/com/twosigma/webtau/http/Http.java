@@ -28,8 +28,10 @@ import com.twosigma.webtau.console.ConsoleOutputs;
 import com.twosigma.webtau.console.ansi.Color;
 import com.twosigma.webtau.data.traceable.CheckLevel;
 import com.twosigma.webtau.data.traceable.TraceableValue;
+import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ExpectationHandler;
 import com.twosigma.webtau.expectation.ExpectationHandlers;
+import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.http.binary.BinaryRequestBody;
 import com.twosigma.webtau.http.config.HttpConfigurations;
 import com.twosigma.webtau.http.datanode.DataNode;
@@ -741,9 +743,12 @@ public class Http {
         validationResult.setResponseHeaderNode(header);
         validationResult.setResponseBodyNode(body);
 
-        ExpectationHandler recordAndThrowHandler = (valueMatcher, actualPath, actualValue, message) -> {
-            validationResult.addMismatch(message);
-            return ExpectationHandler.Flow.PassToNext;
+        ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
+            @Override
+            public Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+                validationResult.addMismatch(message);
+                return ExpectationHandler.Flow.PassToNext;
+            }
         };
 
         // 1. validate using user provided validation block
@@ -765,19 +770,23 @@ public class Http {
 
             return extracted;
         } catch (Throwable e) {
-            ExpectationHandlers.withAdditionalHandler((valueMatcher, actualPath, actualValue, message) -> {
-                validationResult.addMismatch(message);
+            ExpectationHandlers.withAdditionalHandler(new ExpectationHandler() {
+                @Override
+                public Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+                    validationResult.addMismatch(message);
 
-                // another assertion happened before status code check
-                // we discard it and throw status code instead
-                if (e instanceof AssertionError) {
-                    throw new AssertionError('\n' + message);
+                    // another assertion happened before status code check
+                    // we discard it and throw status code instead
+                    if (e instanceof AssertionError) {
+                        throw new AssertionError('\n' + message);
+                    }
+
+                    // originally an exception happened,
+                    // so we combine it's message with status code failure
+                    throw new AssertionError('\n' + message +
+                            "\n\nadditional exception message:\n" + e.getMessage(), e);
+
                 }
-
-                // originally an exception happened,
-                // so we combine it's message with status code failure
-                throw new AssertionError('\n' + message +
-                        "\n\nadditional exception message:\n" + e.getMessage(), e);
             }, () -> {
                 validateErrorsOnlyStatusCode(validationResult);
                 return null;
@@ -961,7 +970,6 @@ public class Http {
      * @param v value returned from a validation callback
      * @return extracted regular value
      */
-    @SuppressWarnings("unchecked")
     private Object extractOriginalValue(Object v) {
         if (v instanceof DataNode) {
             return ((DataNode) v).get();

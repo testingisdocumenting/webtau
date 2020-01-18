@@ -40,6 +40,7 @@ generic-runners
     JUnit-5
 JVM-business-logic
     data-driven
+    documentation-artifacts
 reference
     table-data
 configuration
