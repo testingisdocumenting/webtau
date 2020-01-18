@@ -21,3 +21,26 @@ Example below assumes `core` static import.
 Use `doc.expected.capture` to save most recent expected value.
 
 :include-java: com/twosigma/webtau/data/PeopleDaoWithDocTest.java {title: "capturing most recent expected", entry: "validateNewJoiners", commentsType: "inline", bodyOnly: true}
+
+# Znai Example
+
+Since this documentation is rendered using [Znai](https://github.com/twosigma/znai) here is an example of how to use the captured artifacts.
+[Znai](https://github.com/twosigma/znai) has `:include-table:` plugin to render a table giving a json or CSV file.
+
+```text
+:include-table: all-employees.json
+:include-table: new-joiners.json
+```
+
+Below is the example of the business logic rendered as documentation.
+
+---
+
+Our HR system consider all employees that has been in the company less than a month as new joiners.
+For example, giving employees:
+ 
+:include-table: all-employees.json
+
+System will list following employees as new joiners:
+
+:include-table: new-joiners.json
