@@ -58,13 +58,19 @@ class JsonUtilsTest {
     }
 
     @Test
-    void "should serialize null single value"() {
+    void "should serialize null single value as null"() {
         def asText = JsonUtils.serialize(null)
         assert asText == 'null'
     }
 
     @Test
-    void "should deserialize null single value"() {
+    void "should pretty print serialize null single value as null"() {
+        def asText = JsonUtils.serializePrettyPrint(null)
+        assert asText == 'null'
+    }
+
+    @Test
+    void "should deserialize null single value as null"() {
         def value = JsonUtils.deserialize('null')
         assert value == null
     }
@@ -95,20 +101,6 @@ class JsonUtilsTest {
     "another": {"nested": "value"}} """
         def map = JsonUtils.deserialize(mapJson)
         assert map instanceof Map
-    }
-
-    @Test
-    void "should serialize null as null"() {
-        def asText = JsonUtils.serialize(null)
-
-        assert asText == null
-    }
-
-    @Test
-    void "should pretty serialize null as null"() {
-        def asText = JsonUtils.serializePrettyPrint(null)
-
-        assert asText == null
     }
 
     @Test
