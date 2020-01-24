@@ -30,12 +30,18 @@ public class DocumentationArtifacts {
         FileUtils.writeTextContent(path, text);
     }
 
-    public static void createAsJson(Class<?> testClass, String artifactName, TableData tableData) {
-        create(testClass, artifactName, JsonUtils.serializePrettyPrint(tableData.toListOfMaps()));
+    public static void createAsJson(Class<?> testClass, String artifactName, Object value) {
+        artifactName += ".json";
+
+        if (value instanceof TableData) {
+            create(testClass, artifactName, JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
+        } else {
+            create(testClass, artifactName, JsonUtils.serializePrettyPrint(value));
+        }
     }
 
     public static void createAsCsv(Class<?> testClass, String artifactName, TableData tableData) {
-        create(testClass, artifactName, CsvUtils.serialize(
+        create(testClass, artifactName + ".csv", CsvUtils.serialize(
                 tableData.getHeader().getNamesStream(),
                 tableData.rowsStream().map(Record::getValues)));
     }

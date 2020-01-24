@@ -30,4 +30,8 @@ class DummyLiveValue implements LiveValue {
     Object get() {
         return values[index++]
     }
+
+    Object getLast() {
+        return values[index - 1]
+    }
 }

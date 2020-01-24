@@ -33,7 +33,7 @@ public class JsonUtils {
 
     public static String serialize(Object json) {
         if (json == null) {
-            return null;
+            return "null";
         }
 
         try {
@@ -45,7 +45,7 @@ public class JsonUtils {
 
     public static String serializePrettyPrint(Object json) {
         if (json == null) {
-            return null;
+            return "null";
         }
 
         try {

@@ -79,10 +79,12 @@ class ShouldAstTransformationTest extends GroovyTestCase {
     void testOperationsOverload() {
         def failedMatchers = []
 
-        def expectationHandler = { ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message ->
-            failedMatchers.add(valueMatcher.getClass())
-
-            return ExpectationHandler.Flow.Terminate
+        def expectationHandler = new ExpectationHandler() {
+            @Override
+            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+                failedMatchers.add(valueMatcher.getClass())
+                return ExpectationHandler.Flow.Terminate
+            }
         }
 
         ExpectationHandlers.withAdditionalHandler(expectationHandler) {

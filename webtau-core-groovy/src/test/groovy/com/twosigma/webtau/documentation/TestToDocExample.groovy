@@ -32,7 +32,7 @@ class TestToDocExample {
     }
 
     private static void validateRules(TableData rules) {
-        DocumentationArtifacts.createAsJson(TestToDocExample, "account-rules.json", rules)
-        DocumentationArtifacts.createAsCsv(TestToDocExample, "account-rules.csv", rules)
+        DocumentationArtifacts.createAsJson(TestToDocExample, "account-rules", rules)
+        DocumentationArtifacts.createAsCsv(TestToDocExample, "account-rules", rules)
     }
 }

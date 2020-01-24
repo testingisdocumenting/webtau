@@ -18,9 +18,12 @@ package com.twosigma.webtau.expectation.contain;
 
 import com.twosigma.webtau.data.render.DataRenderers;
 import com.twosigma.webtau.expectation.ActualPath;
+import com.twosigma.webtau.expectation.ExpectedValuesAware;
 import com.twosigma.webtau.expectation.ValueMatcher;
 
-public class ContainMatcher implements ValueMatcher {
+import java.util.stream.Stream;
+
+public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     private ContainAnalyzer containAnalyzer;
     private final Object expected;
     private Boolean isNegative;
@@ -90,5 +93,10 @@ public class ContainMatcher implements ValueMatcher {
         } else {
             return "<contain " + renderedExpected + ">";
         }
+    }
+
+    @Override
+    public Stream<Object> expectedValues() {
+        return Stream.of(expected);
     }
 }

@@ -16,15 +16,8 @@
 
 package com.twosigma.webtau.expectation;
 
-public interface ExpectationHandler {
-    enum Flow {
-        Terminate,
-        PassToNext
-    }
+import java.util.stream.Stream;
 
-    default Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
-        return Flow.PassToNext;
-    }
-
-    default void onValueMatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue) {}
+public interface ExpectedValuesAware {
+    Stream<Object> expectedValues();
 }
