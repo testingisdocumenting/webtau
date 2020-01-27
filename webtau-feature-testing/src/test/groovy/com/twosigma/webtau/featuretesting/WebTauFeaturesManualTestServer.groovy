@@ -26,8 +26,8 @@ class WebTauFeaturesManualTestServer {
 
     WebTauFeaturesManualTestServer() {
         testServer = new TestServer()
-        WebTauRestFeaturesTest.WebTauRestFeaturesTestData.registerEndPoints(testServer)
-        WebTauUiFeaturesTest.registerEndPoints(testServer)
+        WebTauRestFeaturesTestData.registerEndPoints(testServer)
+        WebTauBrowserFeaturesTest.registerEndPoints(testServer)
     }
 
     void start(int port) {
