@@ -8,10 +8,10 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class TestListeners {
-    private static List<TestListener> discoveredListeners = ServiceLoaderUtils.load(TestListener.class);
-    private static List<TestListener> addedListeners = new ArrayList<>();
+    private static final List<TestListener> discoveredListeners = ServiceLoaderUtils.load(TestListener.class);
+    private static final List<TestListener> addedListeners = new ArrayList<>();
 
-    private static ThreadLocal<Boolean> disabled = ThreadLocal.withInitial(() -> false);
+    private static final ThreadLocal<Boolean> disabled = ThreadLocal.withInitial(() -> false);
 
     private TestListeners() {
     }
