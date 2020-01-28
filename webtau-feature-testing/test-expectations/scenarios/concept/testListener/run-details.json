@@ -6,7 +6,10 @@
   }, {
     "scenario" : "another scenario",
     "shortContainerId" : "testListener.groovy",
-    "stepsSummary" : { }
+    "stepsSummary" : { },
+    "metadata" : {
+      "owner" : "team A"
+    }
   } ],
-  "exitCode" : 0
+  "exitCode" : 1
 }

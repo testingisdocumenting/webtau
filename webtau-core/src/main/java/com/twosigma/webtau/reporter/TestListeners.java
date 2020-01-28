@@ -2,43 +2,68 @@ package com.twosigma.webtau.reporter;
 
 import com.twosigma.webtau.utils.ServiceLoaderUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class TestListeners {
-    private static List<TestListener> listeners = ServiceLoaderUtils.load(TestListener.class);
+    private static List<TestListener> discoveredListeners = ServiceLoaderUtils.load(TestListener.class);
+    private static List<TestListener> addedListeners = new ArrayList<>();
+
+    private static ThreadLocal<Boolean> disabled = ThreadLocal.withInitial(() -> false);
 
     private TestListeners() {
     }
 
+    public static <R> R withDisabledListeners(Supplier<R> code) {
+        try {
+            disabled.set(true);
+            return code.get();
+        } finally {
+            disabled.set(false);
+        }
+    }
+
     public static void beforeTestRun(WebTauTest test) {
-        listeners.forEach(listener -> listener.beforeTestRun(test));
+        listenersToUse().forEach(listener -> listener.beforeTestRun(test));
     }
 
     public static void afterTestRun(WebTauTest test) {
-        listeners.forEach(listener -> listener.afterTestRun(test));
+        listenersToUse().forEach(listener -> listener.afterTestRun(test));
     }
 
     public static void beforeFirstTest() {
-        listeners.forEach(TestListener::beforeFirstTest);
+        listenersToUse().forEach(TestListener::beforeFirstTest);
     }
 
     public static void afterAllTests(WebTauReport report) {
-        listeners.forEach(listeners -> listeners.afterAllTests(report));
+        listenersToUse().forEach(listeners -> listeners.afterAllTests(report));
     }
 
     public static void beforeFirstTestStatement(WebTauTest test) {
-        listeners.forEach(listeners -> listeners.beforeFirstTestStatement(test));
+        listenersToUse().forEach(listeners -> listeners.beforeFirstTestStatement(test));
     }
 
     public static void afterLastTestStatement(WebTauTest test) {
-        listeners.forEach(listeners -> listeners.afterLastTestStatement(test));
+        listenersToUse().forEach(listeners -> listeners.afterLastTestStatement(test));
     }
 
     public static void add(TestListener listener) {
-        listeners.add(listener);
+        addedListeners.add(listener);
     }
 
     public static void remove(TestListener listener) {
-        listeners.remove(listener);
+        addedListeners.remove(listener);
+    }
+
+    public static void clearAdded() {
+        addedListeners.clear();
+    }
+
+    private static Stream<TestListener> listenersToUse() {
+        return disabled.get() ?
+                Stream.empty():
+                Stream.concat(discoveredListeners.stream(), addedListeners.stream());
     }
 }

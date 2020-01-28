@@ -17,6 +17,7 @@
 package com.twosigma.webtau.runner.standalone
 
 import com.twosigma.webtau.TestFile
+import com.twosigma.webtau.reporter.TestListeners
 import org.junit.Test
 
 import java.nio.file.Paths
@@ -115,6 +116,17 @@ class StandaloneTestRunnerTest {
         def runner = createRunner("withTestStepOutsideScenario.groovy")
         runner.runTests()
         assertInitFailed(runner, 'executing <running errand> outside of scenario is not supported')
+    }
+
+    @Test
+    void "should not notify test listeners during parsing phase"() {
+        def trackingListener = new TracingTestListener()
+
+        TestListeners.add(trackingListener)
+        createRunner("StandaloneTest.groovy")
+        TestListeners.remove(trackingListener)
+
+        trackingListener.calls.should == []
     }
 
     @Test

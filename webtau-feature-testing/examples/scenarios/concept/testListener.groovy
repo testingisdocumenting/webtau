@@ -6,5 +6,6 @@ scenario('simple scenario') {
 }
 
 scenario('another scenario') {
+    metadata([owner: 'team A'])
 }
 

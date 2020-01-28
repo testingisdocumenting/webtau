@@ -45,6 +45,20 @@ public class WebTauTestMetadata {
         return previousMetaValues;
     }
 
+    public boolean has(String key) {
+        return meta.containsKey(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <E> E get(String key) {
+        return (E) meta.get(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <E> E get(String key, E defaultValue) {
+        return (E) meta.getOrDefault(key, defaultValue);
+    }
+
     public void add(WebTauTestMetadata meta) {
         this.meta.putAll(meta.meta);
     }

@@ -79,7 +79,10 @@ class StandaloneTestRunner {
             }
         })
 
-        scriptParse.run()
+        TestListeners.withDisabledListeners {
+            scriptParse.run()
+        }
+
         if (scriptParse.hasError()) {
             scriptParse.test.metadata.add(currentTestMetadata.get())
             registeredTests.add(scriptParse)
@@ -123,8 +126,8 @@ class StandaloneTestRunner {
         dscenario(description, "disabled with dscenario", code)
     }
 
-    void dscenario(String description, String reason, Closure code) {
-        def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, description, code)
+    void dscenario(String scenarioDescription, String reason, Closure scenarioCode) {
+        def test = createTest(scenarioDescription, scenarioCode)
         test.disable(reason)
         registeredTests.add(test)
     }
@@ -230,13 +233,17 @@ class StandaloneTestRunner {
     private void handleDisabledByCondition(String scenarioDescription, Closure scenarioCode, Closure registrationCode) {
         def runCondition = runCondition.get()
         if (runCondition.isConditionMet) {
-            def test = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, scenarioDescription, scenarioCode)
+            def test = createTest(scenarioDescription, scenarioCode)
             test.test.metadata.add(currentTestMetadata.get())
 
             registrationCode(test)
         } else {
             dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)
         }
+    }
+
+    private StandaloneTest createTest(String scenarioDescription, Closure scenarioCode) {
+        new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, scenarioDescription, scenarioCode)
     }
 
     private static class TestRunCondition {

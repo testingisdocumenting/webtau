@@ -101,11 +101,10 @@ class StandaloneTest implements StepReporter {
         StepReporters.withAdditionalReporter(this) {
             try {
                 test.startClock()
-                if (!test.isDisabled()) {
-                    TestListeners.beforeFirstTestStatement(test)
-                    code.run()
-                    TestListeners.afterLastTestStatement(test)
-                }
+
+                TestListeners.beforeFirstTestStatement(test)
+                code.run()
+                TestListeners.afterLastTestStatement(test)
             } catch (Throwable e) {
                 test.setException(e)
             } finally {

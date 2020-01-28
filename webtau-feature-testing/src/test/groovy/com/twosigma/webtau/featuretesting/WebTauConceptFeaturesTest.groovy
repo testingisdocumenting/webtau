@@ -103,10 +103,6 @@ class WebTauConceptFeaturesTest {
     @Test
     void "custom test listener"() {
         runCli('testListener.groovy', 'testListener.cfg')
-        def listeners = TestListeners.stream()
-                .findAll { listener -> listener instanceof CustomTestListener }
-
-        listeners.size().should == 1
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
