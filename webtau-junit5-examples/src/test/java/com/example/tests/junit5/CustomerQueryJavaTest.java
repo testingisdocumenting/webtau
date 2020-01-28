@@ -1,6 +1,5 @@
 package com.example.tests.junit5;
 
-import com.twosigma.webtau.junit5.WebTau;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +10,6 @@ import java.util.stream.Stream;
 
 import static com.twosigma.webtau.WebTauDsl.*;
 
-@WebTau
 @DisplayName("customer query")
 class CustomerQueryJavaTest {
     private static Integer id1; // keep track of created ids to assert and cleanup later

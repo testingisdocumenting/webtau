@@ -1,23 +1,9 @@
-/*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.twosigma.webtau.data;
 
 import com.twosigma.webtau.data.table.TableData;
 import org.junit.Test;
+
+import java.util.stream.Collectors;
 
 import static com.twosigma.webtau.WebTauCore.*;
 
@@ -26,12 +12,23 @@ public class PeopleDaoTest {
 
     @Test
     public void providesAccessToNewJoiners() {
-        // ...
+        TableData allEmployees = table(    "id", "level", "monthsAtCompany",
+                                        ____________________________________,
+                                        "alice",       5,   1,
+                                          "bob",       3,   0,
+                                        "smith",       4,   1,
+                                          "cat",       4,   0);
+        addEmployees(allEmployees);
 
-        TableData expected = table(    "id", "level", "monthsAtCompany").values(
-                                      "bob",       3,   0,
-                                    "smith",       4,   0);
+        actual(dao.thisWeekJoiners()).should(equal(table(   "*id", "level", "monthsAtCompany",
+                                                            ____________________________________,
+                                                            "bob",       3,   0,
+                                                            "cat",       4,   0)));
+    }
 
-        actual(dao.thisWeekJoiners()).should(equal(expected));
+    private void addEmployees(TableData allEmployees) {
+        dao.add(allEmployees.rowsStream()
+                .map(row -> new Person(row.get("id"), row.get("level"), row.get("monthsAtCompany")))
+                .collect(Collectors.toList()));
     }
 }

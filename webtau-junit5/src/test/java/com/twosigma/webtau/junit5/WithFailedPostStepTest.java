@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import Loading from './Loading'
+package com.twosigma.webtau.junit5;
 
-export function loadingDemo(registry) {
-    registry.add('loading', () => <Loading/>)
+import org.junit.jupiter.api.Test;
+
+@WebTau
+public class WithFailedPostStepTest {
+    @Test
+    void noOpOne() {
+    }
+
+    @Test
+    void noOpTwo() {
+    }
 }
-

@@ -5,11 +5,40 @@ package com.twosigma.webtau.reporter;
  * Core usage is to print current test name
  */
 public interface TestListener {
-    void beforeFirstTest();
+    /**
+     * before any test is ran
+     */
+    default void beforeFirstTest() {}
 
-    void beforeTestRun(WebTauTest test);
+    /**
+     * before test code is invoked
+     * @param test test
+     */
+    default void beforeTestRun(WebTauTest test) {}
 
-    void afterTestRun(WebTauTest test);
+    /**
+     * after test code is invoked
+     * @param test test
+     */
+    default void afterTestRun(WebTauTest test) {}
 
-    void afterAllTests(WebTauReport report);
+    /**
+     * after all the tests are invoked
+     * @param report report
+     */
+    default void afterAllTests(WebTauReport report) {}
+
+    /**
+     * after test is ran but before its first statement.
+     * executed code in this listener is considered to be part of a test.
+     * @param test test
+     */
+    default void beforeFirstTestStatement(WebTauTest test) {}
+
+    /**
+     * right before test considered to be complete. May not be executed if the test didn't reach the last statement.
+     * executed code in this listener is considered to be part of a test.
+     * @param test test
+     */
+    default void afterLastTestStatement(WebTauTest test) {}
 }

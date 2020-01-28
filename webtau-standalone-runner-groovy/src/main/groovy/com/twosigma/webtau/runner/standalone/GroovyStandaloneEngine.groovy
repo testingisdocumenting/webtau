@@ -36,8 +36,7 @@ class GroovyStandaloneEngine {
 
     private static GroovyScriptEngine createImpl(Path workingDir, List<String> staticImports, Class scriptClass) {
         def imports = new ImportCustomizer()
-        def fullListOfStatics = staticImports
-        fullListOfStatics.forEach { imports.addStaticStars(it) }
+        staticImports.forEach { imports.addStaticStars(it) }
 
         def compilerCfg = new CompilerConfiguration()
         compilerCfg.addCompilationCustomizers(imports)

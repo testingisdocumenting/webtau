@@ -59,41 +59,74 @@ class ActualValueTest {
     }
 
     @Test
-    void "custom handler for waitTo"() {
+    void "custom mismatch handler for waitTo"() {
         def expectationTimer = new DummyExpectationTimer(2)
-        testCustomHandler('expected: 2000') {
+        testCustomMismatchHandler('expected: 2000') {
             actual(liveValue).waitTo(equal(2000), expectationTimer, 1000, 10)
         }
     }
 
     @Test
-    void "custom handler for waitToNot"() {
+    void "custom mismatch handler for waitToNot"() {
         def expectationTimer = new DummyExpectationTimer(2)
-        testCustomHandler('actual: 1') {
+        testCustomMismatchHandler('actual: 1') {
             actual(ones).waitToNot(equal(1), expectationTimer, 1000, 10)
         }
     }
 
     @Test
-    void "custom handler for should"() {
-        testCustomHandler('expected: 100') {
+    void "custom mismatch handler for should"() {
+        testCustomMismatchHandler('expected: 100') {
             actual(ones).should(equal(100))
         }
     }
 
     @Test
-    void "custom handler for shouldNot"() {
-        testCustomHandler('actual: 1') {
+    void "custom mismatch handler for shouldNot"() {
+        testCustomMismatchHandler('actual: 1') {
             actual(ones).shouldNot(equal(1))
         }
     }
 
-    static void testCustomHandler(expectedMessagePart, code) {
+    @Test
+    void "custom match handler for waitTo"() {
+        def expectationTimer = new DummyExpectationTimer(100)
+        testCustomMatchHandler(2000) {
+            actual(liveValue).waitTo(equal(2000), expectationTimer, 1, 100)
+        }
+    }
+
+    @Test
+    void "custom match handler for waitToNot"() {
+        def expectationTimer = new DummyExpectationTimer(100)
+        testCustomMatchHandler(10) {
+            actual(liveValue).waitToNot(equal(1), expectationTimer, 1, 100)
+        }
+    }
+
+    @Test
+    void "custom match handler for should"() {
+        testCustomMatchHandler(1) {
+            actual(ones).should(equal(1))
+        }
+    }
+
+    @Test
+    void "custom match handler for shouldNot"() {
+        testCustomMatchHandler(1) {
+            actual(ones).shouldNot(equal(2))
+        }
+    }
+
+    static void testCustomMismatchHandler(expectedMessagePart, code) {
         def messages = []
 
-        def handler = { matcher, path, value, message ->
-            messages.add([path: path, value: value, message: message])
-            return ExpectationHandler.Flow.Terminate
+        def handler = new ExpectationHandler() {
+            @Override
+            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath path, Object actualValue, String message) {
+                messages.add([path: path, value: actualValue, message: message])
+                return ExpectationHandler.Flow.Terminate
+            }
         }
 
         ExpectationHandlers.withAdditionalHandler(handler, code)
@@ -103,6 +136,26 @@ class ActualValueTest {
         def message = messages[0]
         assert message.message.contains(expectedMessagePart)
         assert message.value instanceof LiveValue
+        assert message.path.toString() == '[value]'
+    }
+
+    static void testCustomMatchHandler(expectedActual,code) {
+        def messages = []
+
+        def handler = new ExpectationHandler() {
+            @Override
+            void onValueMatch(ValueMatcher valueMatcher, ActualPath path, Object value) {
+                messages.add([path: path, value: value])
+            }
+        }
+
+        ExpectationHandlers.withAdditionalHandler(handler, code)
+
+        assert messages.size() == 1
+
+        def message = messages[0]
+        assert message.value instanceof LiveValue
+        assert message.value.last == expectedActual
         assert message.path.toString() == '[value]'
     }
 }

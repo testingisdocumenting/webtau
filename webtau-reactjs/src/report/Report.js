@@ -266,7 +266,7 @@ function shortContainerId(test) {
 }
 
 function shortenClassName(className) {
-    const lastDotIdx = className.lastIndexOf('.')
+    const lastDotIdx = className ? className.lastIndexOf('.') : -1
     return lastDotIdx === -1 ?
         className:
         className.substr(lastDotIdx + 1)

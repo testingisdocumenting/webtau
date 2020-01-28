@@ -25,3 +25,8 @@ scenario('capture with arrow') {
     browser.doc.withAnnotations(
             browser.doc.arrow(search.box, "type to search")).capture('search-arrow')
 }
+
+scenario('capture not found element') {
+    browser.doc.withAnnotations(
+            browser.doc.badge($(".non-existing selector"))).capture('non-existing')
+}

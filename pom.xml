@@ -20,7 +20,7 @@
 
     <groupId>com.twosigma.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.18-SNAPSHOT</version>
+    <version>1.19-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -480,6 +480,25 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit5.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit5.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <version>1.5.2</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

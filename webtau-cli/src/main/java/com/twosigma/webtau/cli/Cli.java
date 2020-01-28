@@ -20,8 +20,10 @@ import com.twosigma.webtau.cli.expectation.CliExitCode;
 import com.twosigma.webtau.cli.expectation.CliOutput;
 import com.twosigma.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import com.twosigma.webtau.cli.expectation.CliValidationOutputOnlylHandler;
+import com.twosigma.webtau.expectation.ActualPath;
 import com.twosigma.webtau.expectation.ExpectationHandler;
 import com.twosigma.webtau.expectation.ExpectationHandlers;
+import com.twosigma.webtau.expectation.ValueMatcher;
 import com.twosigma.webtau.reporter.StepReportOptions;
 import com.twosigma.webtau.reporter.TestStep;
 import com.twosigma.webtau.utils.CollectionUtils;
@@ -117,9 +119,12 @@ public class Cli {
             validationResult.setStartTime(startTime);
             validationResult.setElapsedTime(endTime - startTime);
 
-            ExpectationHandler recordAndThrowHandler = (valueMatcher, actualPath, actualValue, message) -> {
-                validationResult.addMismatch(message);
-                return ExpectationHandler.Flow.PassToNext;
+            ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
+                @Override
+                public Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+                    validationResult.addMismatch(message);
+                    return ExpectationHandler.Flow.PassToNext;
+                }
             };
 
             ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
