@@ -21,6 +21,8 @@ import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHan
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
+import com.twosigma.webtau.reporter.TestListener
+import com.twosigma.webtau.reporter.TestListeners
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -58,6 +60,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupBrowserPageNavigationHandler(parsedConfig)
         setupReportGenerator(parsedConfig)
         setupPageElementGetSetValueHandlers(parsedConfig)
+        setupTestListeners(parsedConfig)
     }
 
     private static Map<String, ?> convertConfigToMap(ConfigObject configObject) {
@@ -100,13 +103,22 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     }
 
     private static void setupPageElementGetSetValueHandlers(ConfigObject config) {
-        def handlerClasses = (List<Class>) config.get('pageElementGetSetValueHandlers')
-        if (!handlerClasses) {
-            return
+        List<PageElementGetSetValueHandler> handlerInstances = instancesFromConfig(config, 'pageElementGetSetValueHandlers')
+        handlerInstances.each { PageElementGetSetValueHandlers.add(it) }
+    }
+
+    private static void setupTestListeners(ConfigObject config) {
+        List<TestListener> listenerInstances = instancesFromConfig(config, 'testListeners')
+        listenerInstances.each { TestListeners.add(it) }
+    }
+
+    private static <E> List<E> instancesFromConfig(ConfigObject config, String key) {
+        def classes = (List<Class<E>>) config.get(key)
+        if (!classes) {
+            return []
         }
 
-        def handlerInstances = handlerClasses.collect { handlerClass -> constructFromClass(handlerClass) }
-        handlerInstances.each { PageElementGetSetValueHandlers.add((PageElementGetSetValueHandler) it) }
+        return classes.collect{ c -> (E) constructFromClass(c) }
     }
 
     private static Object constructFromClass(Class handlerClass) {

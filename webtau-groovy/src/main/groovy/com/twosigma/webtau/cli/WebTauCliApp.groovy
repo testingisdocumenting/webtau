@@ -147,9 +147,8 @@ class WebTauCliApp implements TestListener {
 
     private void removeListeners() {
         ConsoleOutputs.remove(consoleOutput)
-        TestListeners.remove(consoleTestReporter)
-        TestListeners.remove(this)
         StepReporters.remove(stepReporter)
+        TestListeners.clearAdded()
     }
 
     private void runTests() {

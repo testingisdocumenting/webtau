@@ -1,8 +1,7 @@
 package com.twosigma.webtau.reporter;
 
 /**
- * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5, etc
- * Core usage is to print current test name
+ * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5
  */
 public interface TestListener {
     /**

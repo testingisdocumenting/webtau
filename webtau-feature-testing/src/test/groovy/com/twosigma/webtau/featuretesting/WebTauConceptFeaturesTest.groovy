@@ -100,6 +100,11 @@ class WebTauConceptFeaturesTest {
         runCli('metadataMethodBasedSanityCheck.groovy', 'webtau.cfg')
     }
 
+    @Test
+    void "custom test listener"() {
+        runCli('testListener.groovy', 'testListener.cfg')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/concept/$testName",
                 "scenarios/concept/$configFileName", additionalArgs)
