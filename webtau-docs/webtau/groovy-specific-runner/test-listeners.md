@@ -10,4 +10,4 @@ Once you have an implementation, use the `testListeners` key in your config file
 
 :include-file: scenarios/concept/testListener.cfg {title: "webtau.cfg"}
 
-:include-file: listeners/MetaDataValidationTestListener.groovy {title: "listeners/MetaDataValidationTestListener.groovy"}
+:include-file: listeners/MetadataValidationTestListener.groovy {title: "listeners/MetadataValidationTestListener.groovy"}
