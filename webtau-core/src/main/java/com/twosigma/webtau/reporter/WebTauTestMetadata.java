@@ -22,52 +22,52 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class WebTauTestMetadata {
-    private final Map<String, Object> meta;
+    private final Map<String, Object> metadata;
 
     public WebTauTestMetadata() {
-        meta = new LinkedHashMap<>();
+        metadata = new LinkedHashMap<>();
     }
 
     /**
-     * register key/value meta
+     * register key/value metadata
      * @param values metadata values to add
      * @return previously registered values
      */
     public Map<String, Object> add(Map<String, Object> values) {
-        Map<String, Object> previousMetaValues = new HashMap<>();
+        Map<String, Object> previousMetadataValues = new HashMap<>();
         values.forEach((k, v) -> {
-            Object previous = meta.put(k, v);
+            Object previous = metadata.put(k, v);
             if (previous != null) {
-                previousMetaValues.put(k, previous);
+                previousMetadataValues.put(k, previous);
             }
         });
 
-        return previousMetaValues;
+        return previousMetadataValues;
     }
 
     public boolean has(String key) {
-        return meta.containsKey(key);
+        return metadata.containsKey(key);
     }
 
     @SuppressWarnings("unchecked")
     public <E> E get(String key) {
-        return (E) meta.get(key);
+        return (E) metadata.get(key);
     }
 
     @SuppressWarnings("unchecked")
     public <E> E get(String key, E defaultValue) {
-        return (E) meta.getOrDefault(key, defaultValue);
+        return (E) metadata.getOrDefault(key, defaultValue);
     }
 
     public void add(WebTauTestMetadata meta) {
-        this.meta.putAll(meta.meta);
+        this.metadata.putAll(meta.metadata);
     }
 
     public boolean isEmpty() {
-        return meta.isEmpty();
+        return metadata.isEmpty();
     }
 
     public Map<String, Object> toMap() {
-        return Collections.unmodifiableMap(meta);
+        return Collections.unmodifiableMap(metadata);
     }
 }

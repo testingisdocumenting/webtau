@@ -118,7 +118,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             return []
         }
 
-        return classes.collect{ c -> (E)constructFromClass(c) }
+        return classes.collect{ c -> (E) constructFromClass(c) }
     }
 
     private static Object constructFromClass(Class handlerClass) {
