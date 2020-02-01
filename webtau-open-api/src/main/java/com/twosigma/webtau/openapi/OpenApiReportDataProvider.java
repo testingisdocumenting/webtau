@@ -40,6 +40,8 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
                 new ReportCustomData("openApiSkippedOperations", nonCovered),
                 new ReportCustomData("openApiCoveredOperations", covered),
                 new ReportCustomData("openApiHttpCallIdsPerOperation",
-                        OpenApi.getCoverage().httpCallIdsByOperationAsMap()));
+                        OpenApi.getCoverage().httpCallIdsByOperationAsMap()),
+                new ReportCustomData("openApiHttpCallsPerOperation",
+                        OpenApi.getCoverage().httpCallsByOperationAsMap()));
     }
 }

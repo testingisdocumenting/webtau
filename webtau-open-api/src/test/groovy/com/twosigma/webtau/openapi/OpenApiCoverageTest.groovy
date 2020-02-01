@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.openapi
 
+import com.twosigma.webtau.http.HttpResponse
 import com.twosigma.webtau.http.validation.HttpValidationResult
 import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.Before
@@ -42,6 +43,11 @@ class OpenApiCoverageTest {
     }
 
     static HttpValidationResult validationResult(method, url) {
-        return new HttpValidationResult(method, url, url, null , null)
+        def response = new HttpResponse()
+        response.statusCode = 200
+
+        def result = new HttpValidationResult(method, url, url, null, null)
+        result.setResponse(response)
+        return result
     }
 }

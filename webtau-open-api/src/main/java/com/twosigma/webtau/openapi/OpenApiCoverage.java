@@ -39,11 +39,15 @@ public class OpenApiCoverage {
                 validationResult.getRequestMethod(),
                 validationResult.getFullUrl());
 
-        apiOperation.ifPresent(openApiOperation -> coveredOperations.add(openApiOperation, validationResult.getId()));
+        apiOperation.ifPresent(openApiOperation -> coveredOperations.add(openApiOperation, validationResult.getResponseStatusCode(), validationResult.getId()));
     }
 
     List<Map<String, ?>> httpCallIdsByOperationAsMap() {
         return coveredOperations.httpCallIdsByOperationAsMap();
+    }
+
+    List<Map<String, ?>> httpCallsByOperationAsMap() {
+        return coveredOperations.httpCallsByOperationAsMap();
     }
 
     Stream<OpenApiOperation> coveredOperations() {
