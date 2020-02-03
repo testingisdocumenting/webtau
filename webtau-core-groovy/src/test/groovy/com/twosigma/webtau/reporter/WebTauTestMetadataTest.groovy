@@ -18,15 +18,24 @@ package com.twosigma.webtau.reporter
 
 import org.junit.Test
 
-class WebTauTestMetaTest {
+class WebTauTestMetadataTest {
     @Test
     void "should return previously registered values"() {
         def meta = new WebTauTestMetadata()
 
         def previous = meta.add([k1: 'v1', k2: 'v2', k3: 'v3'])
-        assert previous == [:]
+        previous.should == [:]
 
         previous = meta.add([k2: 'v2_', k3: 'v3_'])
-        assert previous == [k2: 'v2', k3: 'v3']
+        previous.should == [k2: 'v2', k3: 'v3']
+    }
+
+    @Test
+    void "should provide access to values"() {
+        def meta = new WebTauTestMetadata()
+        meta.add([k1: 'v1', k2: 'v2', k3: 'v3'])
+
+        meta.get('k1').should == 'v1'
+        meta.k1.should == 'v1'
     }
 }
