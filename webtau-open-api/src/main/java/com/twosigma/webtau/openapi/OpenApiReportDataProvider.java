@@ -22,26 +22,32 @@ import com.twosigma.webtau.reporter.WebTauTestList;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class OpenApiReportDataProvider implements ReportDataProvider {
     @Override
     public Stream<ReportCustomData> provide(WebTauTestList tests) {
-        List<? extends Map<String, ?>> nonCovered = OpenApi.getCoverage().nonCoveredOperations()
+        List<? extends Map<String, ?>> nonCoveredOperations = OpenApi.getCoverage().nonCoveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
 
-        List<? extends Map<String, ?>> covered = OpenApi.getCoverage().coveredOperations()
+        List<? extends Map<String, ?>> coveredOperations = OpenApi.getCoverage().coveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
+
+        Map<OpenApiOperation, Set<String>> coveredResponsesByOperation = OpenApi.getCoverage().coveredResponses();
+        Map<OpenApiOperation, Set<String>> nonCoveredResponsesByOperation = OpenApi.getCoverage().nonCoveredResponses();
 
         return Stream.of(
-                new ReportCustomData("openApiSkippedOperations", nonCovered),
-                new ReportCustomData("openApiCoveredOperations", covered),
+                new ReportCustomData("openApiSkippedOperations", nonCoveredOperations),
+                new ReportCustomData("openApiCoveredOperations", coveredOperations),
                 new ReportCustomData("openApiHttpCallIdsPerOperation",
                         OpenApi.getCoverage().httpCallIdsByOperationAsMap()),
                 new ReportCustomData("openApiHttpCallsPerOperation",
-                        OpenApi.getCoverage().httpCallsByOperationAsMap()));
+                        OpenApi.getCoverage().httpCallsByOperationAsMap()),
+                new ReportCustomData("openApiCoveredResponsesByOperation", coveredResponsesByOperation),
+                new ReportCustomData("openApiSkippedResponsesByOperation", nonCoveredResponsesByOperation));
     }
 }

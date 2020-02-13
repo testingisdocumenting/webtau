@@ -20,16 +20,15 @@ import com.atlassian.oai.validator.interaction.ApiOperationResolver;
 import com.atlassian.oai.validator.model.ApiOperationMatch;
 import com.atlassian.oai.validator.model.Request;
 import com.twosigma.webtau.utils.UrlUtils;
-import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.parser.util.SwaggerDeserializationResult;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -39,7 +38,7 @@ public class OpenApiSpec {
     private final ApiOperationResolver apiOperationResolver;
     private final String specUrl;
     private final boolean isSpecDefined;
-    private final List<OpenApiOperation> operations;
+    private final Map<OpenApiOperation, Set<String>> operationsAndResponses;
 
     public OpenApiSpec(String specUrl) {
         isSpecDefined = !specUrl.isEmpty();
@@ -57,7 +56,7 @@ public class OpenApiSpec {
                             specUrl, swaggerParseResult.getMessages().toString().replace("\n", "\n\t")));
         }
 
-        operations = isSpecDefined ? enumerateOperations() : Collections.emptyList();
+        operationsAndResponses = isSpecDefined ? enumerateOperations() : Collections.emptyMap();
     }
 
     public boolean isSpecDefined() {
@@ -69,7 +68,7 @@ public class OpenApiSpec {
     }
 
     public Stream<OpenApiOperation> availableOperationsStream() {
-        return operations.stream();
+        return operationsAndResponses.keySet().stream();
     }
 
     public Optional<OpenApiOperation> findApiOperation(String method, String path) {
@@ -86,27 +85,8 @@ public class OpenApiSpec {
                 combineWithBasePath(apiOperation.getApiOperation().getApiPath().original())));
     }
 
-    private Stream<OpenApiOperation> createMethodAndPath(String url, Path path) {
-        List<OpenApiOperation> result = new ArrayList<>();
-        String fullUrl = combineWithBasePath(url);
-
-        if (path.getGet() != null) {
-            result.add(new OpenApiOperation("GET", fullUrl));
-        }
-
-        if (path.getPut() != null) {
-            result.add(new OpenApiOperation("PUT", fullUrl));
-        }
-
-        if (path.getPost() != null) {
-            result.add(new OpenApiOperation("POST", fullUrl));
-        }
-
-        if (path.getDelete() != null) {
-            result.add(new OpenApiOperation("DELETE", fullUrl));
-        }
-
-        return result.stream();
+    public Set<String> getDeclaredResponses(OpenApiOperation op) {
+        return operationsAndResponses.getOrDefault(op, Collections.emptySet());
     }
 
     private String combineWithBasePath(String url) {
@@ -115,11 +95,29 @@ public class OpenApiSpec {
                 url;
     }
 
-    private List<OpenApiOperation> enumerateOperations() {
-        return api.getPaths()
-                .entrySet()
-                .stream()
-                .flatMap(e -> createMethodAndPath(e.getKey(), e.getValue()))
-                .collect(Collectors.toList());
+    private Map<OpenApiOperation, Set<String>> enumerateOperations() {
+        Map<OpenApiOperation, Set<String>> operationsAndResponses = new HashMap<>();
+
+        api.getPaths().forEach((url, path) -> {
+            String fullUrl = combineWithBasePath(url);
+
+            if (path.getGet() != null) {
+                operationsAndResponses.put(new OpenApiOperation("GET", fullUrl), path.getGet().getResponses().keySet());
+            }
+
+            if (path.getPut() != null) {
+                operationsAndResponses.put(new OpenApiOperation("PUT", fullUrl), path.getPut().getResponses().keySet());
+            }
+
+            if (path.getPost() != null) {
+                operationsAndResponses.put(new OpenApiOperation("POST", fullUrl), path.getPost().getResponses().keySet());
+            }
+
+            if (path.getDelete() != null) {
+                operationsAndResponses.put(new OpenApiOperation("DELETE", fullUrl), path.getDelete().getResponses().keySet());
+            }
+        });
+
+        return operationsAndResponses;
     }
 }

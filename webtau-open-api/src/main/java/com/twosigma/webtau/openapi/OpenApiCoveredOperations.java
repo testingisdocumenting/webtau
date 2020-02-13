@@ -44,6 +44,10 @@ class OpenApiCoveredOperations {
         return actualCallsIdsByOperation.containsKey(openApiOperation);
     }
 
+    public Stream<Map.Entry<OpenApiOperation, Set<Call>>> getActualCalls() {
+        return actualCallsIdsByOperation.entrySet().stream();
+    }
+
     List<Map<String, ?>> httpCallIdsByOperationAsMap() {
         return actualCallsIdsByOperation.entrySet().stream()
                 .map(entry ->
@@ -95,7 +99,7 @@ class OpenApiCoveredOperations {
         return result;
     }
 
-    private static class Call {
+    public static class Call {
         private final int statusCode;
         private final String id;
 
@@ -106,6 +110,10 @@ class OpenApiCoveredOperations {
 
         public String getId() {
             return id;
+        }
+
+        public int getStatusCode() {
+            return statusCode;
         }
     }
 }

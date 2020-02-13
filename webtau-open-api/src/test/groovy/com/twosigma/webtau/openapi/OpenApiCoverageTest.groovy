@@ -42,6 +42,11 @@ class OpenApiCoverageTest {
                                                    'DELETE' | '/customer/{id}' }
     }
 
+    @Test
+    void "should provide covered responses"() {
+        coverage.coveredResponses()
+    }
+
     static HttpValidationResult validationResult(method, url) {
         def response = new HttpResponse()
         response.statusCode = 200
