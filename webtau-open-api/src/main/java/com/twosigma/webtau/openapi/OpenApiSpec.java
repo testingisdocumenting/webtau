@@ -20,12 +20,14 @@ import com.atlassian.oai.validator.interaction.ApiOperationResolver;
 import com.atlassian.oai.validator.model.ApiOperationMatch;
 import com.atlassian.oai.validator.model.Request;
 import com.twosigma.webtau.utils.UrlUtils;
+import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import io.swagger.parser.util.SwaggerDeserializationResult;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -96,28 +98,33 @@ public class OpenApiSpec {
     }
 
     private Map<OpenApiOperation, Set<String>> enumerateOperations() {
-        Map<OpenApiOperation, Set<String>> operationsAndResponses = new HashMap<>();
+        Map<OpenApiOperation, Set<String>> operationsAndResponses = new LinkedHashMap<>();
 
         api.getPaths().forEach((url, path) -> {
             String fullUrl = combineWithBasePath(url);
 
             if (path.getGet() != null) {
-                operationsAndResponses.put(new OpenApiOperation("GET", fullUrl), path.getGet().getResponses().keySet());
+                addOperation(operationsAndResponses, "GET", fullUrl, path.getGet());
             }
 
             if (path.getPut() != null) {
-                operationsAndResponses.put(new OpenApiOperation("PUT", fullUrl), path.getPut().getResponses().keySet());
+                addOperation(operationsAndResponses, "PUT", fullUrl, path.getPut());
             }
 
             if (path.getPost() != null) {
-                operationsAndResponses.put(new OpenApiOperation("POST", fullUrl), path.getPost().getResponses().keySet());
+                addOperation(operationsAndResponses, "POST", fullUrl, path.getPost());
             }
 
             if (path.getDelete() != null) {
-                operationsAndResponses.put(new OpenApiOperation("DELETE", fullUrl), path.getDelete().getResponses().keySet());
+                addOperation(operationsAndResponses, "DELETE", fullUrl, path.getDelete());
             }
         });
 
         return operationsAndResponses;
+    }
+
+    private static void addOperation(Map<OpenApiOperation, Set<String>> operationsAndResponses, String method, String fullUrl, Operation operation) {
+        Set<String> responseCodes = operation.getResponses() == null ? Collections.emptySet() : operation.getResponses().keySet();
+        operationsAndResponses.put(new OpenApiOperation(method, fullUrl), responseCodes);
     }
 }
