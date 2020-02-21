@@ -49,6 +49,14 @@ class WebTauCliArgsConfig {
         parseArgs()
     }
 
+    static boolean isReplMode(String[] args) {
+        return args.any { it == "repl" }
+    }
+
+    static boolean isInteractiveMode(String[] args) {
+        return args.any { it == "interactive" }
+    }
+
     void setConfigFileRelatedCfgIfPresent() {
         setValueFromCliIfPresent(cfg.workingDirConfigValue)
         setValueFromCliIfPresent(cfg.configFileName)
@@ -69,7 +77,9 @@ class WebTauCliArgsConfig {
 
         if (commandLine.hasOption(EXAMPLE_OPTION)) {
             scaffoldExamples()
-        } else if (commandLine.hasOption(HELP_OPTION) || commandLine.argList.isEmpty()) {
+        } else if (commandLine.hasOption(HELP_OPTION) ||
+                commandLine.argList.isEmpty() &&
+                !isReplMode(args)) {
             printHelp(options)
         } else {
             testFiles = new ArrayList<>(commandLine.argList)

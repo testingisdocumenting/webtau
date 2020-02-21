@@ -700,7 +700,7 @@ public class Http {
             } catch (Throwable e) {
                 validationResult.setErrorMessage(StackTraceUtils.fullCauseMessage(e));
                 throw new HttpException("error during http." + validationResult.getRequestMethod().toLowerCase() + "(" +
-                        validationResult.getFullUrl() + ")", e);
+                        validationResult.getFullUrl() + "): " + StackTraceUtils.fullCauseMessage(e), e);
             } finally {
                 HttpListeners.afterHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
