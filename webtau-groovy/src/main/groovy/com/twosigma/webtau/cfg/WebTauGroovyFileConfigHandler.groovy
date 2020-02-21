@@ -76,7 +76,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
 
             def parsedConfig = configSlurper.parse(configScript)
             return parsedConfig
-        } catch (Throwable e) {
+        } catch (Exception e) {
             // main use case for this is during REPL mode
             // we don't want to crash the config class loading due to parsing error
             // because in REPL mode we should be able to recover and continue
