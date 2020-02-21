@@ -42,7 +42,7 @@ public class WebTauConfig {
 
     private final ConfigValue config = declare("config", "config file path", () -> CONFIG_FILE_NAME_DEFAULT);
     private final ConfigValue interactive = declareBoolean("interactive", "use CLI interactive mode (experimental)");
-    private final ConfigValue repl = declareBoolean(REPL_KEY, "use CLI repl mode (will scuppered interactive)");
+    private final ConfigValue repl = declareBoolean(REPL_KEY, "use CLI repl mode (will replace interactive)");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
