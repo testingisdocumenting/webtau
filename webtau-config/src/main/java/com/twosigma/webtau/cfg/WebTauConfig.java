@@ -152,7 +152,7 @@ public class WebTauConfig {
     }
 
     /**
-     * repl mode is going o be merged with interactive
+     * repl mode is going to be merged with interactive
      */
     public boolean isRepl() {
         return repl.getAsBoolean();
