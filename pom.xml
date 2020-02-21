@@ -172,6 +172,12 @@
 
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-groovysh</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-groovydoc</artifactId>
                 <version>${groovy.version}</version>
             </dependency>

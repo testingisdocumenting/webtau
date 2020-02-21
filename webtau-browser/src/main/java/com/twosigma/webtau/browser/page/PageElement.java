@@ -52,9 +52,12 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     boolean isVisible();
     boolean isEnabled();
     boolean isSelected();
+    boolean isPresent();
 
     String getText();
     String getUnderlyingValue();
+
+    TokenizedMessage locationDescription();
 
     void scrollIntoView();
     void highlight();

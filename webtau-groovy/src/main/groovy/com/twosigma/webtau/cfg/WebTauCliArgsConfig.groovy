@@ -69,7 +69,9 @@ class WebTauCliArgsConfig {
 
         if (commandLine.hasOption(EXAMPLE_OPTION)) {
             scaffoldExamples()
-        } else if (commandLine.hasOption(HELP_OPTION) || commandLine.argList.isEmpty()) {
+        } else if (commandLine.hasOption(HELP_OPTION) ||
+                commandLine.argList.isEmpty() &&
+                !commandLine.hasOption(WebTauConfig.REPL_KEY)) {
             printHelp(options)
         } else {
             testFiles = new ArrayList<>(commandLine.argList)
