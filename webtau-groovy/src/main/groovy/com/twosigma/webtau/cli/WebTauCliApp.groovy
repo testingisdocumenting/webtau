@@ -19,6 +19,7 @@ package com.twosigma.webtau.cli
 import com.twosigma.webtau.WebTauGroovyDsl
 import com.twosigma.webtau.browser.driver.WebDriverCreator
 import com.twosigma.webtau.cfg.GroovyRunner
+import com.twosigma.webtau.cfg.WebTauCliArgsConfig
 import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
 import com.twosigma.webtau.cli.interactive.WebTauCliInteractive
@@ -65,10 +66,10 @@ class WebTauCliApp implements TestListener {
     static void main(String[] args) {
         def cliApp = new WebTauCliApp(args)
 
-        if (getCfg().isRepl()) {
-            cliApp.startRepl()
+        if (WebTauCliArgsConfig.isReplMode(args)) {
+            startRepl()
             System.exit(0)
-        } else if (getCfg().isInteractive()) {
+        } else if (WebTauCliArgsConfig.isInteractiveMode(args)) {
             cliApp.startInteractive()
             System.exit(0)
         } else {
@@ -98,7 +99,7 @@ class WebTauCliApp implements TestListener {
         }
     }
 
-    void startRepl() {
+    static void startRepl() {
         def repl = new Repl()
         repl.run()
     }
