@@ -1,0 +1,32 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "one",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "owner" : "team A"
+    }
+  }, {
+    "scenario" : "two",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "owner" : "team A"
+    }
+  }, {
+    "scenario" : "three",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "owner" : "team B"
+    }
+  }, {
+    "scenario" : "four",
+    "shortContainerId" : "metadataRawTopLevelOverrides.groovy",
+    "stepsSummary" : { },
+    "metadata" : {
+      "owner" : "team B"
+    }
+  } ],
+  "exitCode" : 0
+}

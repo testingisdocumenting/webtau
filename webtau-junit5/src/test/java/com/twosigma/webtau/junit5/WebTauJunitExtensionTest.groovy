@@ -2,6 +2,9 @@ package com.twosigma.webtau.junit5
 
 
 import com.twosigma.webtau.javarunner.report.JavaReport
+import com.twosigma.webtau.reporter.TestListener
+import com.twosigma.webtau.reporter.TestListeners
+import com.twosigma.webtau.reporter.WebTauTest
 import org.junit.jupiter.api.Test
 import org.junit.platform.engine.discovery.DiscoverySelectors
 import org.junit.platform.launcher.Launcher
@@ -15,13 +18,47 @@ class WebTauJunitExtensionTest {
     @Test
     void "failed static init methods should have exception attached"() {
         runTest(WithFailedStaticInitAndClean)
-        def report = JavaReport.INSTANCE.create()
 
-        def tests = report.tests.stream().collect(Collectors.toList())
-        tests.should == ['*id'                    | 'failed' | 'errored'] {
-                         ________________________________________________
-                         'beforeAllfailingInit'   | false    | true
-                         'afterAllfailingCleanup' | false    | true  }
+        reportTests.should == ['*id'                    | 'failed' | 'errored'] {
+                               ________________________________________________
+                               'beforeAllfailingInit'   | false    | true
+                               'afterAllfailingCleanup' | false    | true  }
+    }
+
+    @Test
+    void "afterLastTestStatement thrown exception should be part of a test"() {
+        def listener = new TestListener() {
+            @Override
+            void beforeFirstTestStatement(WebTauTest test) {
+                if (test.scenario == 'noOpTwo') {
+                    throw new RuntimeException("pre run validation")
+                }
+            }
+
+            @Override
+            void afterLastTestStatement(WebTauTest test) {
+                if (test.scenario == 'noOpOne') {
+                    throw new RuntimeException("post run validation")
+                }
+            }
+        }
+
+        TestListeners.add(listener)
+        try {
+            runTest(WithFailedPostStepTest)
+        } finally {
+            TestListeners.remove(listener)
+        }
+
+        reportTests.should == ['*scenario' | 'failed' | 'errored' | 'exception'] {
+                               ____________________________________________________________________
+                               'noOpOne'   | false    | true      | [message: 'post run validation']
+                               'noOpTwo'   | false    | true      | [message: 'pre run validation']}
+    }
+
+    private static List<WebTauTest> getReportTests() {
+        def report = JavaReport.INSTANCE.create()
+        return report.tests.stream().collect(Collectors.toList())
     }
 
     private static void runTest(Class testClass) {

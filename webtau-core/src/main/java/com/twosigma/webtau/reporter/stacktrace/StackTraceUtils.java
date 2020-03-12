@@ -36,7 +36,8 @@ public class StackTraceUtils {
             "org.codehaus.groovy",
             "org.junit",
             "com.intellij",
-            "groovy.");
+            "groovy.",
+            "groovysh_evaluate");
 
     private StackTraceUtils() {
     }
@@ -50,7 +51,9 @@ public class StackTraceUtils {
     }
 
     public static String renderStackTraceWithoutLibCalls(Throwable t) {
-        return filterStackTrace(t,  (line) -> !isStandardCall(line) && !isMoreMessage(line));
+        return filterStackTrace(t,  (line) -> !isStandardCall(line) &&
+                !isMoreMessage(line) &&
+                !isUnknownSource(line));
     }
 
     public static String fullCauseMessage(Throwable t) {
@@ -128,6 +131,10 @@ public class StackTraceUtils {
 
     private static boolean isAtLine(String stackTraceLine) {
         return stackTraceLine.trim().startsWith("at");
+    }
+
+    private static boolean isUnknownSource(String stackTraceLine) {
+        return stackTraceLine.contains("(Unknown Source)");
     }
 
     private static boolean isMoreMessage(String stackTraceLine) {

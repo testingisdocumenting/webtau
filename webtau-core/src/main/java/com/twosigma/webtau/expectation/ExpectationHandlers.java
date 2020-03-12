@@ -45,8 +45,16 @@ public class ExpectationHandlers {
         }
     }
 
+    public static void onValueMatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue) {
+        handlersStream().forEach(h -> h.onValueMatch(valueMatcher, actualPath, actualValue));
+    }
+
+    public static Stream<ExpectationHandler> handlersStream() {
+        return Stream.concat(localHandlers.get().stream(), globalHandlers.stream());
+    }
+
     public static Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
-        return Stream.concat(localHandlers.get().stream(), globalHandlers.stream())
+        return handlersStream()
                 .map(h -> h.onValueMismatch(valueMatcher, actualPath, actualValue, message))
                 .filter(flow -> flow == Flow.Terminate)
                 .findFirst().orElse(Flow.PassToNext);

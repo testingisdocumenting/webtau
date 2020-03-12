@@ -33,14 +33,13 @@ import static com.twosigma.webtau.cfg.ConfigValue.declare;
 import static com.twosigma.webtau.cfg.ConfigValue.declareBoolean;
 
 public class WebTauConfig {
-    public static String CONFIG_FILE_NAME_DEFAULT = "webtau.cfg";
+    public static final String CONFIG_FILE_NAME_DEFAULT = "webtau.cfg";
 
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
 
     private static final Supplier<Object> NO_DEFAULT = () -> null;
 
     private final ConfigValue config = declare("config", "config file path", () -> CONFIG_FILE_NAME_DEFAULT);
-    private final ConfigValue interactive = declareBoolean("interactive", "use CLI interactive mode");
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
@@ -143,10 +142,6 @@ public class WebTauConfig {
 
         registerFreeFormCfgValues(values);
         freeFormCfgValues.forEach(v -> v.accept(source, values));
-    }
-
-    public boolean isInteractive() {
-        return interactive.getAsBoolean();
     }
 
     public void setBaseUrl(String url) {
@@ -273,7 +268,9 @@ public class WebTauConfig {
 
     @Override
     public String toString() {
-        return enumeratedCfgValues.values().stream().map(ConfigValue::toString).collect(Collectors.joining("\n"));
+        return Stream.concat(enumeratedCfgValues.values().stream(), freeFormCfgValues.stream())
+                .map(ConfigValue::toString)
+                .collect(Collectors.joining("\n"));
     }
 
     public void print() {
@@ -345,7 +342,6 @@ public class WebTauConfig {
     private Map<String, ConfigValue> enumerateRegisteredConfigValues() {
         Stream<ConfigValue> standardConfigValues = Stream.of(
                 config,
-                interactive,
                 env,
                 url,
                 verbosityLevel,

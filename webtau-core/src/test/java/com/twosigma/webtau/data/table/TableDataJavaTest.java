@@ -53,8 +53,7 @@ public class TableDataJavaTest {
         TableData tableData = createTableDataWithPermute();
 
         validatePermute(tableData);
-        DocumentationArtifacts.create(TableDataJavaTest.class, "table-with-permute.json",
-                tableData.toJson());
+        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, "table-with-permute", tableData);
     }
 
     @Test
@@ -63,7 +62,7 @@ public class TableDataJavaTest {
         validateAboveValue(tableData);
 
 
-        saveTableWithDate(tableData, "table-with-cell-above.json");
+        saveTableWithDate(tableData, "table-with-cell-above");
     }
 
     @Test
@@ -72,7 +71,7 @@ public class TableDataJavaTest {
         validateAboveValueWithMath(tableData);
 
 
-        saveTableWithDate(tableData, "table-with-cell-above-math.json");
+        saveTableWithDate(tableData, "table-with-cell-above-math");
     }
 
     @Test
@@ -134,11 +133,10 @@ public class TableDataJavaTest {
     }
 
     private void saveTableWithDate(TableData tableData, String artifactName) {
-        DocumentationArtifacts.create(TableDataJavaTest.class, artifactName,
+        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, artifactName,
                 tableData
                         .map((rowIdx, colIdx, columnName, v) ->
                                 columnName.equals("Start Date") ?
-                                        ((LocalDate) v).format(DateTimeFormatter.ISO_DATE) : v)
-                        .toJson());
+                                        ((LocalDate) v).format(DateTimeFormatter.ISO_DATE) : v));
     }
 }

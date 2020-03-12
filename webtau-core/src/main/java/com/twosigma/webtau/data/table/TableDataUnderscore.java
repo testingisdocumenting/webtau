@@ -17,7 +17,7 @@
 package com.twosigma.webtau.data.table;
 
 public class TableDataUnderscore {
-    public static final TableDataUnderscore INSTANCE = new TableDataUnderscore();
+    public static final TableDataUnderscore UNDERSCORE = new TableDataUnderscore();
 
     private TableDataUnderscore() {
     }

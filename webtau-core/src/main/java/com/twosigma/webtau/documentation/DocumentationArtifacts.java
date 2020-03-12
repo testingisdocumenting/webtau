@@ -16,13 +16,33 @@
 
 package com.twosigma.webtau.documentation;
 
+import com.twosigma.webtau.data.table.Record;
+import com.twosigma.webtau.data.table.TableData;
+import com.twosigma.webtau.utils.CsvUtils;
 import com.twosigma.webtau.utils.FileUtils;
+import com.twosigma.webtau.utils.JsonUtils;
 
 import java.nio.file.Path;
 
 public class DocumentationArtifacts {
-    public static void create(Class testClass, String artifactName, String textContent) {
+    public static void create(Class<?> testClass, String artifactName, String text) {
         Path path = DocumentationArtifactsLocation.classBasedLocation(testClass).resolve(artifactName);
-        FileUtils.writeTextContent(path, textContent);
+        FileUtils.writeTextContent(path, text);
+    }
+
+    public static void createAsJson(Class<?> testClass, String artifactName, Object value) {
+        artifactName += ".json";
+
+        if (value instanceof TableData) {
+            create(testClass, artifactName, JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
+        } else {
+            create(testClass, artifactName, JsonUtils.serializePrettyPrint(value));
+        }
+    }
+
+    public static void createAsCsv(Class<?> testClass, String artifactName, TableData tableData) {
+        create(testClass, artifactName + ".csv", CsvUtils.serialize(
+                tableData.getHeader().getNamesStream(),
+                tableData.rowsStream().map(Record::getValues)));
     }
 }

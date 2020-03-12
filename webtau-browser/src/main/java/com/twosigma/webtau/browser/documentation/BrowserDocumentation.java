@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.browser.documentation;
 
+import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
 import com.twosigma.webtau.browser.page.PageElement;
 import com.twosigma.webtau.utils.FileUtils;
 import com.twosigma.webtau.utils.JsonUtils;
@@ -101,7 +102,10 @@ public class BrowserDocumentation {
         data.put("text", annotation.getText());
         data.put("color", annotation.getColor());
 
-        annotation.addAnnotationData(data, annotation.getPageElement().findElement());
+        PageElement pageElement = annotation.getPageElement();
+
+        pageElement.should(new VisibleValueMatcher());
+        annotation.addAnnotationData(data, pageElement.findElement());
 
         return data;
     }

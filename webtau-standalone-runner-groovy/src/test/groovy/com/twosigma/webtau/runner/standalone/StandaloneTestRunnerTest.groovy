@@ -17,6 +17,7 @@
 package com.twosigma.webtau.runner.standalone
 
 import com.twosigma.webtau.TestFile
+import com.twosigma.webtau.reporter.TestListeners
 import org.junit.Test
 
 import java.nio.file.Paths
@@ -118,6 +119,17 @@ class StandaloneTestRunnerTest {
     }
 
     @Test
+    void "should not notify test listeners during parsing phase"() {
+        def trackingListener = new TracingTestListener()
+
+        TestListeners.add(trackingListener)
+        createRunner("StandaloneTest.groovy")
+        TestListeners.remove(trackingListener)
+
+        trackingListener.calls.should == []
+    }
+
+    @Test
     void "should use requested thread count if smaller than number of files"() {
         def runner = createRunner("StandaloneTest.groovy", "withDisabled.groovy")
         runner.numThreadsToUse(1).should == 1
@@ -133,6 +145,14 @@ class StandaloneTestRunnerTest {
     void "should use number of files if requested -1 threads"() {
         def runner = createRunner("StandaloneTest.groovy", "withDisabled.groovy")
         runner.numThreadsToUse(-1).should == 2
+    }
+
+    @Test
+    void "should associate meta information with tests"() {
+        def runner = createRunner("withCustomMeta.groovy")
+        runner.runTests()
+
+        println runner.tests
     }
 
     private static void assertInitFailed(StandaloneTestRunner runner, String message) {

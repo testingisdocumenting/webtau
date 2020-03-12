@@ -26,7 +26,7 @@ import org.junit.Test
 
 import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
 
-class WebTauUiFeaturesTest {
+class WebTauBrowserFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
     static void registerEndPoints(TestServer testServer) {
@@ -234,7 +234,7 @@ class WebTauUiFeaturesTest {
     }
 
     @Test
-    void "documentation capture"() {
+    void "doc capture"() {
         runCli('docCapture.groovy', 'docCapture.cfg')
     }
 

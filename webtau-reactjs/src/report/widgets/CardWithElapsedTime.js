@@ -33,7 +33,7 @@ function CardWithElapsedTime({millis, label}) {
             <div className="card-time-part">
                 <ElapsedTimeFragment value={minutes} label="min"/>
                 <ElapsedTimeFragment value={seconds} label="s"/>
-                <ElapsedTimeFragment value={remainingMs} label="ms"/>
+                <ElapsedTimeFragment value={remainingMs} label="ms" allowZero={true}/>
             </div>
             <div className="card-label">{label}</div>
         </Card>

@@ -27,6 +27,14 @@ public class HttpValidationHandlers {
     private static final List<HttpValidationHandler> globalHandlers = ServiceLoaderUtils.load(HttpValidationHandler.class);
     private static final ThreadLocal<List<HttpValidationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
 
+    public static void add(HttpValidationHandler handler) {
+        globalHandlers.add(handler);
+    }
+
+    public static void remove(HttpValidationHandler handler) {
+        globalHandlers.remove(handler);
+    }
+
     public static <R> R withAdditionalHandler(HttpValidationHandler handler, Supplier<R> code) {
         try {
             addLocal(handler);

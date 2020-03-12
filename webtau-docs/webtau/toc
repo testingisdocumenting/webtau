@@ -34,11 +34,14 @@ groovy-specific-runner
     tests-hard-stops
     selective-run
     skipping-tests
+    test-metadata
+    test-listeners
 generic-runners
     JUnit-4
     JUnit-5
 JVM-business-logic
     data-driven
+    documentation-artifacts
 reference
     table-data
 configuration

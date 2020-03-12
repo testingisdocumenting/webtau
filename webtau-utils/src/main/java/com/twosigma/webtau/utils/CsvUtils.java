@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.csv;
+package com.twosigma.webtau.utils;
 
-import com.twosigma.webtau.utils.StringUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
-public class CsvParser {
-    private CsvParser() {
+public class CsvUtils {
+    private CsvUtils() {
     }
 
     public static List<Map<String, String>> parse(String content) {
@@ -57,6 +59,22 @@ public class CsvParser {
 
     public static List<Map<String, Object>> parseWithAutoConversion(List<String> header, String content) {
         return convertValues(parse(header, content));
+    }
+
+    public static String serialize(Stream<String> header, Stream<List<Object>> rows) {
+        try {
+            StringWriter out = new StringWriter();
+            CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(header.toArray(String[]::new)));
+
+            Iterator<List<Object>> it = rows.iterator();
+            while (it.hasNext()) {
+                csvPrinter.printRecord(it.next());
+            }
+
+            return out.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static CSVParser readCsvRecords(List<String> header, String content) {
@@ -95,7 +113,7 @@ public class CsvParser {
     }
 
     private static List<Map<String, Object>> convertValues(List<Map<String, String>> data) {
-        return data.stream().map(CsvParser::convertRecord).collect(toList());
+        return data.stream().map(CsvUtils::convertRecord).collect(toList());
     }
 
     private static Map<String, Object> convertRecord(Map<String, String> row) {

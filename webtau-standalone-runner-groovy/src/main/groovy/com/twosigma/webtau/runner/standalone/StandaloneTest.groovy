@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.runner.standalone
 
+import com.twosigma.webtau.reporter.TestListeners
 import com.twosigma.webtau.reporter.WebTauTest
 import com.twosigma.webtau.reporter.StepReporter
 import com.twosigma.webtau.reporter.StepReporters
@@ -100,9 +101,10 @@ class StandaloneTest implements StepReporter {
         StepReporters.withAdditionalReporter(this) {
             try {
                 test.startClock()
-                if (!test.isDisabled()) {
-                    code.run()
-                }
+
+                TestListeners.beforeFirstTestStatement(test)
+                code.run()
+                TestListeners.afterLastTestStatement(test)
             } catch (Throwable e) {
                 test.setException(e)
             } finally {

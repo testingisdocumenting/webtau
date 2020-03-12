@@ -16,12 +16,21 @@
 
 package com.twosigma.webtau.data;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PeopleDao {
+    private List<Person> people = new ArrayList<>();
+
+    public void add(List<Person> people) {
+        this.people.addAll(people);
+    }
+
     public List<Person> thisWeekJoiners() {
-        return Arrays.asList(new Person("bob", 3, 0),
-                new Person("smith", 4, 0));
+        return people.stream()
+                .filter(person -> person.getMonthsAtCompany() == 0)
+                .collect(Collectors.toList());
     }
 }

@@ -45,12 +45,12 @@ import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep;
 import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
-    private WebDriver driver;
+    private final WebDriver driver;
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
-    private ElementPath path;
+    private final ElementPath path;
     private final TokenizedMessage pathDescription;
-    private ElementValue<String, PageElement> elementValue;
-    private ElementValue<Integer, PageElement> countValue;
+    private final ElementValue<String, PageElement> elementValue;
+    private final ElementValue<Integer, PageElement> countValue;
 
     public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, ElementPath path) {
         this.driver = driver;
@@ -167,6 +167,12 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
+    public boolean isPresent() {
+        WebElement webElement = findElement();
+        return !(webElement instanceof NullWebElement);
+    }
+
+    @Override
     public String toString() {
         return path.toString();
     }
@@ -180,6 +186,11 @@ public class GenericPageElement implements PageElement {
     public String getUnderlyingValue() {
         List<String> values = extractValues();
         return values.isEmpty() ? null : values.get(0);
+    }
+
+    @Override
+    public TokenizedMessage locationDescription() {
+        return pathDescription;
     }
 
     @Override

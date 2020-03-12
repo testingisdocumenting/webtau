@@ -35,7 +35,9 @@ public class ActualValue implements ActualValueExpectations {
         ActualPath actualPath = extractPath(actual);
         boolean matches = valueMatcher.matches(actualPath, actual);
 
-        if (!matches) {
+        if (matches) {
+            handleMatch(valueMatcher, actualPath);
+        } else {
             handleMismatch(valueMatcher, mismatchMessage(valueMatcher, actualPath, false), actualPath);
         }
     }
@@ -45,7 +47,9 @@ public class ActualValue implements ActualValueExpectations {
         ActualPath actualPath = extractPath(actual);
         boolean matches = valueMatcher.negativeMatches(actualPath, actual);
 
-        if (!matches) {
+        if (matches) {
+            handleMatch(valueMatcher, actualPath);
+        } else {
             handleMismatch(valueMatcher, mismatchMessage(valueMatcher, actualPath, true), actualPath);
         }
     }
@@ -68,6 +72,7 @@ public class ActualValue implements ActualValueExpectations {
         while (! expectationTimer.hasTimedOut(timeOutMillis)) {
             boolean matches = valueMatcher.matches(actualPath, actual);
             if (terminate.apply(matches)) {
+                handleMatch(valueMatcher, actualPath);
                 return;
             }
 
@@ -75,6 +80,10 @@ public class ActualValue implements ActualValueExpectations {
         }
 
         handleMismatch(valueMatcher, mismatchMessage(valueMatcher, actualPath, isNegative), actualPath);
+    }
+
+    private void handleMatch(ValueMatcher valueMatcher, ActualPath actualPath) {
+        ExpectationHandlers.onValueMatch(valueMatcher, actualPath, actual);
     }
 
     private void handleMismatch(ValueMatcher valueMatcher, String message, ActualPath actualPath) {

@@ -19,9 +19,11 @@ package com.twosigma.webtau.cli
 import com.twosigma.webtau.WebTauGroovyDsl
 import com.twosigma.webtau.browser.driver.WebDriverCreator
 import com.twosigma.webtau.cfg.GroovyRunner
+import com.twosigma.webtau.cfg.WebTauCliArgsConfig
 import com.twosigma.webtau.cfg.WebTauConfig
 import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
 import com.twosigma.webtau.cli.interactive.WebTauCliInteractive
+import com.twosigma.webtau.cli.repl.Repl
 import com.twosigma.webtau.console.ConsoleOutput
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
@@ -64,7 +66,10 @@ class WebTauCliApp implements TestListener {
     static void main(String[] args) {
         def cliApp = new WebTauCliApp(args)
 
-        if (getCfg().isInteractive()) {
+        if (WebTauCliArgsConfig.isReplMode(args)) {
+            startRepl()
+            System.exit(0)
+        } else if (WebTauCliArgsConfig.isInteractiveMode(args)) {
             cliApp.startInteractive()
             System.exit(0)
         } else {
@@ -92,6 +97,11 @@ class WebTauCliApp implements TestListener {
             def interactive = new WebTauCliInteractive(runner)
             interactive.start()
         }
+    }
+
+    static void startRepl() {
+        def repl = new Repl()
+        repl.run()
     }
 
     private void prepareTestsAndRun(WebDriverBehavior webDriverBehavior, Closure code) {
@@ -147,9 +157,8 @@ class WebTauCliApp implements TestListener {
 
     private void removeListeners() {
         ConsoleOutputs.remove(consoleOutput)
-        TestListeners.remove(consoleTestReporter)
-        TestListeners.remove(this)
         StepReporters.remove(stepReporter)
+        TestListeners.clearAdded()
     }
 
     private void runTests() {
@@ -159,18 +168,6 @@ class WebTauCliApp implements TestListener {
         } else {
             runner.runTests()
         }
-    }
-
-    @Override
-    void beforeFirstTest() {
-    }
-
-    @Override
-    void beforeTestRun(WebTauTest test) {
-    }
-
-    @Override
-    void afterTestRun(WebTauTest test) {
     }
 
     @Override

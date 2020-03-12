@@ -18,8 +18,8 @@ import React from 'react'
 
 import './ElapsedTimeFragment.css'
 
-export default function ElapsedTimeFragment({value, label}) {
-    if (value === 0) {
+export default function ElapsedTimeFragment({value, label, allowZero}) {
+    if (value === 0 && !allowZero) {
         return null
     }
 

@@ -21,17 +21,12 @@
     <parent>
         <groupId>com.twosigma.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.17-SNAPSHOT</version>
+        <version>1.20-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-data</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-csv</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.twosigma.webtau</groupId>
             <artifactId>webtau-utils</artifactId>

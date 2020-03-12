@@ -65,7 +65,8 @@ export const basicReport = {
         },
         {
             "id": "foo.groovy-1",
-            "scenario": "no short file name",
+            "scenario": "some scenario",
+            "shortContainerId": "foo.groovy",
             "status": "Passed",
             "fileName": "scenarios/foo.groovy",
             "startTime": 1547139662469,

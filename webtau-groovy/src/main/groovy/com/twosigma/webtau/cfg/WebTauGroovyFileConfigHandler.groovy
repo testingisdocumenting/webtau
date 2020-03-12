@@ -21,11 +21,21 @@ import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHan
 import com.twosigma.webtau.console.ConsoleOutputs
 import com.twosigma.webtau.report.ReportGenerator
 import com.twosigma.webtau.report.ReportGenerators
+import com.twosigma.webtau.reporter.TestListener
+import com.twosigma.webtau.reporter.TestListeners
+import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.concurrent.atomic.AtomicBoolean
 
 class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
+    private static final AtomicBoolean ignoreConfigErrors = new AtomicBoolean(false)
+
+    static void forceIgnoreErrors() {
+        ignoreConfigErrors.set(true)
+    }
+
     @Override
     void onBeforeCreate(WebTauConfig cfg) {
     }
@@ -42,22 +52,42 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
 
         validateEnv(cfg, workingDir, configPath)
 
-        def groovy = GroovyRunner.createWithoutDelegating(cfg.workingDir)
-
-        ConfigSlurper configSlurper = new ConfigSlurper(cfg.env)
-        def configScript = groovy.createScript(configPath.toUri().toString(), new ConfigBinding())
-
-        def parsedConfig = configSlurper.parse(configScript)
-        cfg.acceptConfigValues("config file", convertConfigToMap(parsedConfig))
+        ConfigObject parsedConfig = parseConfig(cfg, configPath)
 
         if (!parsedConfig) {
             return
         }
 
+        cfg.acceptConfigValues("config file", convertConfigToMap(parsedConfig))
+
         setupHttpHeaderProvider(parsedConfig)
         setupBrowserPageNavigationHandler(parsedConfig)
         setupReportGenerator(parsedConfig)
         setupPageElementGetSetValueHandlers(parsedConfig)
+        setupTestListeners(parsedConfig)
+    }
+
+    private static ConfigObject parseConfig(WebTauConfig cfg, Path configPath) {
+        try {
+            def groovy = GroovyRunner.createWithoutDelegating(cfg.workingDir)
+
+            ConfigSlurper configSlurper = new ConfigSlurper(cfg.env)
+            def configScript = groovy.createScript(configPath.toUri().toString(), new ConfigBinding())
+
+            def parsedConfig = configSlurper.parse(configScript)
+            return parsedConfig
+        } catch (Exception e) {
+            // main use case for this is during REPL mode
+            // we don't want to crash the config class loading due to parsing error
+            // because in REPL mode we should be able to recover and continue
+            // otherwise we will have to restart REPL process
+            if (ignoreConfigErrors.get()) {
+                ConsoleOutputs.err(StackTraceUtils.fullCauseMessage(e))
+                return null
+            } else {
+                throw e
+            }
+        }
     }
 
     private static Map<String, ?> convertConfigToMap(ConfigObject configObject) {
@@ -100,13 +130,22 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     }
 
     private static void setupPageElementGetSetValueHandlers(ConfigObject config) {
-        def handlerClasses = (List<Class>) config.get('pageElementGetSetValueHandlers')
-        if (!handlerClasses) {
-            return
+        List<PageElementGetSetValueHandler> handlerInstances = instancesFromConfig(config, 'pageElementGetSetValueHandlers')
+        handlerInstances.each { PageElementGetSetValueHandlers.add(it) }
+    }
+
+    private static void setupTestListeners(ConfigObject config) {
+        List<TestListener> listenerInstances = instancesFromConfig(config, 'testListeners')
+        listenerInstances.each { TestListeners.add(it) }
+    }
+
+    private static <E> List<E> instancesFromConfig(ConfigObject config, String key) {
+        def classes = (List<Class<E>>) config.get(key)
+        if (!classes) {
+            return []
         }
 
-        def handlerInstances = handlerClasses.collect { handlerClass -> constructFromClass(handlerClass) }
-        handlerInstances.each { PageElementGetSetValueHandlers.add((PageElementGetSetValueHandler) it) }
+        return classes.collect{ c -> (E) constructFromClass(c) }
     }
 
     private static Object constructFromClass(Class handlerClass) {
