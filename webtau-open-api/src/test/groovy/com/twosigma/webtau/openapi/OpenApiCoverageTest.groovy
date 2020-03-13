@@ -56,7 +56,6 @@ class OpenApiCoverageTest {
         ]
         coverage.coveredResponses().should == expectedCovered
 
-        def nonCovered = coverage.nonCoveredResponses()
         def expectedNonCovered = [
             (new OpenApiOperation('GET', '/customer/{id}')): [],
             (new OpenApiOperation('DELETE', '/customer/{id}')): ['200'],

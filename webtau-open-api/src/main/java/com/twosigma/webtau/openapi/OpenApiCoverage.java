@@ -77,7 +77,6 @@ public class OpenApiCoverage {
             Set<Integer> actualResponses = entry.getValue().stream().map(OpenApiCoveredOperations.Call::getStatusCode).collect(Collectors.toSet());
             Map<String, Integer> declaredResponses = operationToResponseToInvocationCount.get(op);
 
-
             for (Integer actualResponse : actualResponses) {
                 String matchingKey = determineMatchingResponse(declaredResponses, actualResponse);
 
