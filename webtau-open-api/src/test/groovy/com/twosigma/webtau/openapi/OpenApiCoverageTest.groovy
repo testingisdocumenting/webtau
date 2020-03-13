@@ -49,7 +49,7 @@ class OpenApiCoverageTest {
         coverage.recordOperation(validationResult('GET', 500, 'http://localhost:8080/customer/3'))
 
         def expectedCovered = [
-            (new OpenApiOperation('GET', '/customer/{id}')): ['default', '200', '4XX'],
+            (new OpenApiOperation('GET', '/customer/{id}')): ['default', '200', '4XX'].toSet(),
             (new OpenApiOperation('DELETE', '/customer/{id}')): [],
             (new OpenApiOperation('GET', '/')): [],
             (new OpenApiOperation('PUT', '/customer/{id}')): [],
@@ -59,7 +59,7 @@ class OpenApiCoverageTest {
         def expectedNonCovered = [
             (new OpenApiOperation('GET', '/customer/{id}')): [],
             (new OpenApiOperation('DELETE', '/customer/{id}')): ['200'],
-            (new OpenApiOperation('GET', '/')): ['default', '200', '4XX'],
+            (new OpenApiOperation('GET', '/')): ['default', '200', '4XX'].toSet(),
             (new OpenApiOperation('PUT', '/customer/{id}')): ['200'],
         ]
         coverage.nonCoveredResponses().should == expectedNonCovered
