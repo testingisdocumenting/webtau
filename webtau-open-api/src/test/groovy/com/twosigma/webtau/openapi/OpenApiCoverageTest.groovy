@@ -43,13 +43,36 @@ class OpenApiCoverageTest {
     }
 
     @Test
-    void "should provide covered responses"() {
-        coverage.coveredResponses()
+    void "should provide covered and non covered responses"() {
+        coverage.recordOperation(validationResult('GET', 200, 'http://localhost:8080/customer/3'))
+        coverage.recordOperation(validationResult('GET', 404, 'http://localhost:8080/customer/3'))
+        coverage.recordOperation(validationResult('GET', 500, 'http://localhost:8080/customer/3'))
+
+        def expectedCovered = [
+            (new OpenApiOperation('GET', '/customer/{id}')): ['default', '200', '4XX'],
+            (new OpenApiOperation('DELETE', '/customer/{id}')): [],
+            (new OpenApiOperation('GET', '/')): [],
+            (new OpenApiOperation('PUT', '/customer/{id}')): [],
+        ]
+        coverage.coveredResponses().should == expectedCovered
+
+        def nonCovered = coverage.nonCoveredResponses()
+        def expectedNonCovered = [
+            (new OpenApiOperation('GET', '/customer/{id}')): [],
+            (new OpenApiOperation('DELETE', '/customer/{id}')): ['200'],
+            (new OpenApiOperation('GET', '/')): ['default', '200', '4XX'],
+            (new OpenApiOperation('PUT', '/customer/{id}')): ['200'],
+        ]
+        coverage.nonCoveredResponses().should == expectedNonCovered
     }
 
     static HttpValidationResult validationResult(method, url) {
+        return validationResult(method, 200, url)
+    }
+
+    static HttpValidationResult validationResult(method, statusCode, url) {
         def response = new HttpResponse()
-        response.statusCode = 200
+        response.statusCode = statusCode
 
         def result = new HttpValidationResult(method, url, url, null, null)
         result.setResponse(response)
