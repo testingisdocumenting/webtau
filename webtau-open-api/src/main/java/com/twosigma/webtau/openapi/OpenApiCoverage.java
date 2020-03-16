@@ -98,6 +98,10 @@ public class OpenApiCoverage {
      */
     private String determineMatchingResponse(Map<String, Integer> declaredResponses, Integer actualResponse) {
         String matchingResponse = null;
+        if (declaredResponses == null) {
+            return matchingResponse;
+        }
+
         if (declaredResponses.containsKey(actualResponse.toString())) {
             matchingResponse = actualResponse.toString();
         } else if (actualResponse < 200 && declaredResponses.containsKey("1XX")) {
