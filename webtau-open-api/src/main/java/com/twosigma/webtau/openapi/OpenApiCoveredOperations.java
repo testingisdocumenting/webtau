@@ -17,22 +17,23 @@
 package com.twosigma.webtau.openapi;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 class OpenApiCoveredOperations {
-    private Map<OpenApiOperation, Set<String>> actualCallsIdsByOperation;
+    private Map<OpenApiOperation, Set<Call>> actualCallsIdsByOperation;
 
     OpenApiCoveredOperations() {
         actualCallsIdsByOperation = new LinkedHashMap<>();
     }
 
-    void add(OpenApiOperation openApiOperation, String id) {
-        Set<String> methodAndUrls =
+    void add(OpenApiOperation openApiOperation, int statusCode, String id) {
+        Set<Call> calls =
                 actualCallsIdsByOperation.computeIfAbsent(openApiOperation, k -> new LinkedHashSet<>());
 
-        methodAndUrls.add(id);
+        calls.add(new Call(statusCode, id));
     }
 
     Stream<OpenApiOperation> coveredOperations() {
@@ -43,12 +44,33 @@ class OpenApiCoveredOperations {
         return actualCallsIdsByOperation.containsKey(openApiOperation);
     }
 
+    public Stream<Map.Entry<OpenApiOperation, Set<Call>>> getActualCalls() {
+        return actualCallsIdsByOperation.entrySet().stream();
+    }
+
     List<Map<String, ?>> httpCallIdsByOperationAsMap() {
-        return actualCallsIdsByOperation.entrySet().stream().map(entry ->
-                createOperationEntryAsMap(
-                        entry.getKey().getMethod(),
-                        entry.getKey().getUrl(),
-                        entry.getValue())).collect(toList());
+        return actualCallsIdsByOperation.entrySet().stream()
+                .map(entry ->
+                        createOperationEntryAsMap(
+                                entry.getKey().getMethod(),
+                                entry.getKey().getUrl(),
+                                allIds(entry.getValue())))
+                .collect(toList());
+    }
+
+    List<Map<String, ?>> httpCallsByOperationAsMap() {
+        return actualCallsIdsByOperation.entrySet().stream()
+                .map(entry ->
+                        createOperationEntryWithStatusCodeAsMap(
+                                entry.getKey().getMethod(),
+                                entry.getKey().getUrl(),
+                                entry.getValue()
+                        ))
+                .collect(toList());
+    }
+
+    private Set<String> allIds(Set<Call> statusCodeToIds) {
+        return statusCodeToIds.stream().map(Call::getId).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     private Map<String, ?> createOperationEntryAsMap(String method, String url, Set<String> callIds) {
@@ -58,5 +80,40 @@ class OpenApiCoveredOperations {
         result.put("httpCallIds", callIds);
 
         return result;
+    }
+
+    private Map<String, ?> createOperationEntryWithStatusCodeAsMap(String method, String url, Set<Call> calls) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("method", method);
+        result.put("url", url);
+        result.put("httpCalls", calls.stream().map(this::createCallAsMap).collect(Collectors.toCollection(LinkedHashSet::new)));
+
+        return result;
+    }
+
+    private Map<String, ?> createCallAsMap(Call call) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("statusCode", call.statusCode);
+        result.put("httpCallId", call.id);
+
+        return result;
+    }
+
+    public static class Call {
+        private final int statusCode;
+        private final String id;
+
+        private Call(int statusCode, String id) {
+            this.statusCode = statusCode;
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public int getStatusCode() {
+            return statusCode;
+        }
     }
 }

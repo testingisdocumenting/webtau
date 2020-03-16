@@ -20,26 +20,48 @@ import com.twosigma.webtau.report.ReportCustomData;
 import com.twosigma.webtau.report.ReportDataProvider;
 import com.twosigma.webtau.reporter.WebTauTestList;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class OpenApiReportDataProvider implements ReportDataProvider {
     @Override
     public Stream<ReportCustomData> provide(WebTauTestList tests) {
-        List<? extends Map<String, ?>> nonCovered = OpenApi.getCoverage().nonCoveredOperations()
+        List<? extends Map<String, ?>> nonCoveredOperations = OpenApi.getCoverage().nonCoveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
 
-        List<? extends Map<String, ?>> covered = OpenApi.getCoverage().coveredOperations()
+        List<? extends Map<String, ?>> coveredOperations = OpenApi.getCoverage().coveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
+
+        List<? extends Map<String, ?>> coveredResponses = convertResponses(OpenApi.getCoverage().coveredResponses());
+        List<? extends Map<String, ?>> nonCoveredResponses = convertResponses(OpenApi.getCoverage().nonCoveredResponses());
 
         return Stream.of(
-                new ReportCustomData("openApiSkippedOperations", nonCovered),
-                new ReportCustomData("openApiCoveredOperations", covered),
+                new ReportCustomData("openApiSkippedOperations", nonCoveredOperations),
+                new ReportCustomData("openApiCoveredOperations", coveredOperations),
                 new ReportCustomData("openApiHttpCallIdsPerOperation",
-                        OpenApi.getCoverage().httpCallIdsByOperationAsMap()));
+                        OpenApi.getCoverage().httpCallIdsByOperationAsMap()),
+                new ReportCustomData("openApiHttpCallsPerOperation",
+                        OpenApi.getCoverage().httpCallsByOperationAsMap()),
+                new ReportCustomData("openApiCoveredResponses", coveredResponses),
+                new ReportCustomData("openApiSkippedResponses", nonCoveredResponses));
+    }
+
+    private static List<? extends Map<String, ?>> convertResponses(Map<OpenApiOperation, Set<String>> responses) {
+        return responses.entrySet()
+                .stream()
+                .flatMap(entry ->
+                        entry.getValue().stream().map(statusCode -> {
+                            Map<String, Object> responseMap = new HashMap<>(entry.getKey().toMap());
+                            responseMap.put("statusCode", statusCode);
+
+                            return responseMap;
+                        }))
+                .collect(Collectors.toList());
     }
 }

@@ -16,6 +16,7 @@
 
 package com.twosigma.webtau.openapi
 
+import com.twosigma.webtau.http.HttpResponse
 import com.twosigma.webtau.http.validation.HttpValidationResult
 import com.twosigma.webtau.utils.ResourceUtils
 import org.junit.Before
@@ -41,7 +42,39 @@ class OpenApiCoverageTest {
                                                    'DELETE' | '/customer/{id}' }
     }
 
+    @Test
+    void "should provide covered and non covered responses"() {
+        coverage.recordOperation(validationResult('GET', 200, 'http://localhost:8080/customer/3'))
+        coverage.recordOperation(validationResult('GET', 404, 'http://localhost:8080/customer/3'))
+        coverage.recordOperation(validationResult('GET', 500, 'http://localhost:8080/customer/3'))
+
+        def expectedCovered = [
+            (new OpenApiOperation('GET', '/customer/{id}')): ['default', '200', '4XX'].toSet(),
+            (new OpenApiOperation('DELETE', '/customer/{id}')): [],
+            (new OpenApiOperation('GET', '/')): [],
+            (new OpenApiOperation('PUT', '/customer/{id}')): [],
+        ]
+        coverage.coveredResponses().should == expectedCovered
+
+        def expectedNonCovered = [
+            (new OpenApiOperation('GET', '/customer/{id}')): [],
+            (new OpenApiOperation('DELETE', '/customer/{id}')): ['200'],
+            (new OpenApiOperation('GET', '/')): ['default', '200', '4XX'].toSet(),
+            (new OpenApiOperation('PUT', '/customer/{id}')): ['200'],
+        ]
+        coverage.nonCoveredResponses().should == expectedNonCovered
+    }
+
     static HttpValidationResult validationResult(method, url) {
-        return new HttpValidationResult(method, url, url, null , null)
+        return validationResult(method, 200, url)
+    }
+
+    static HttpValidationResult validationResult(method, statusCode, url) {
+        def response = new HttpResponse()
+        response.statusCode = statusCode
+
+        def result = new HttpValidationResult(method, url, url, null, null)
+        result.setResponse(response)
+        return result
     }
 }
