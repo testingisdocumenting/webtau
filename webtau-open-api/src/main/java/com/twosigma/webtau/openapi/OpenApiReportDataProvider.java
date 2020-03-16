@@ -55,12 +55,13 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
     private static List<? extends Map<String, ?>> convertResponses(Map<OpenApiOperation, Set<String>> responses) {
         return responses.entrySet()
                 .stream()
-                .map(entry -> {
-                    Map<String, Object> responseMap = new HashMap<>(entry.getKey().toMap());
-                    responseMap.put("statusCode", entry.getValue());
+                .flatMap(entry ->
+                        entry.getValue().stream().map(statusCode -> {
+                            Map<String, Object> responseMap = new HashMap<>(entry.getKey().toMap());
+                            responseMap.put("statusCode", statusCode);
 
-                    return responseMap;
-                })
+                            return responseMap;
+                        }))
                 .collect(Collectors.toList());
     }
 }
