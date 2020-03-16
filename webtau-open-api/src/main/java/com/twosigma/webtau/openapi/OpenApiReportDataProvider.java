@@ -38,9 +38,6 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
 
-        Map<OpenApiOperation, Set<String>> coveredResponsesByOperation = OpenApi.getCoverage().coveredResponses();
-        Map<OpenApiOperation, Set<String>> nonCoveredResponsesByOperation = OpenApi.getCoverage().nonCoveredResponses();
-
         List<? extends Map<String, ?>> coveredResponses = convertResponses(OpenApi.getCoverage().coveredResponses());
         List<? extends Map<String, ?>> nonCoveredResponses = convertResponses(OpenApi.getCoverage().nonCoveredResponses());
 
@@ -51,8 +48,8 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
                         OpenApi.getCoverage().httpCallIdsByOperationAsMap()),
                 new ReportCustomData("openApiHttpCallsPerOperation",
                         OpenApi.getCoverage().httpCallsByOperationAsMap()),
-                new ReportCustomData("openApiCoveredResponses", coveredResponsesByOperation),
-                new ReportCustomData("openApiSkippedResponses", nonCoveredResponsesByOperation));
+                new ReportCustomData("openApiCoveredResponses", coveredResponses),
+                new ReportCustomData("openApiSkippedResponses", nonCoveredResponses));
     }
 
     private static List<? extends Map<String, ?>> convertResponses(Map<OpenApiOperation, Set<String>> responses) {
