@@ -20,6 +20,7 @@ import com.twosigma.webtau.report.ReportCustomData;
 import com.twosigma.webtau.report.ReportDataProvider;
 import com.twosigma.webtau.reporter.WebTauTestList;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,9 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
         Map<OpenApiOperation, Set<String>> coveredResponsesByOperation = OpenApi.getCoverage().coveredResponses();
         Map<OpenApiOperation, Set<String>> nonCoveredResponsesByOperation = OpenApi.getCoverage().nonCoveredResponses();
 
+        List<? extends Map<String, ?>> coveredResponses = convertResponses(OpenApi.getCoverage().coveredResponses());
+        List<? extends Map<String, ?>> nonCoveredResponses = convertResponses(OpenApi.getCoverage().nonCoveredResponses());
+
         return Stream.of(
                 new ReportCustomData("openApiSkippedOperations", nonCoveredOperations),
                 new ReportCustomData("openApiCoveredOperations", coveredOperations),
@@ -47,7 +51,19 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
                         OpenApi.getCoverage().httpCallIdsByOperationAsMap()),
                 new ReportCustomData("openApiHttpCallsPerOperation",
                         OpenApi.getCoverage().httpCallsByOperationAsMap()),
-                new ReportCustomData("openApiCoveredResponsesByOperation", coveredResponsesByOperation),
-                new ReportCustomData("openApiSkippedResponsesByOperation", nonCoveredResponsesByOperation));
+                new ReportCustomData("openApiCoveredResponses", coveredResponsesByOperation),
+                new ReportCustomData("openApiSkippedResponses", nonCoveredResponsesByOperation));
+    }
+
+    private static List<? extends Map<String, ?>> convertResponses(Map<OpenApiOperation, Set<String>> responses) {
+        return responses.entrySet()
+                .stream()
+                .map(entry -> {
+                    Map<String, Object> responseMap = new HashMap<>(entry.getKey().toMap());
+                    responseMap.put("statusCode", entry.getValue());
+
+                    return responseMap;
+                })
+                .collect(Collectors.toList());
     }
 }
