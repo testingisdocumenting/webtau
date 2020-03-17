@@ -16,4 +16,4 @@
 
 moduleName=webtau-cli-groovy
 moduleVersion=1.0
-extensionClasses=com.twosigma.webtau.cli.CliExtension
+extensionClasses=org.testingisdocumenting.webtau.cli.CliExtension

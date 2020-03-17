@@ -1,6 +1,6 @@
 package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
 scenario("search by specific query") {

@@ -1,7 +1,7 @@
 package scenarios.rest
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static org.testingisdocumenting.webtau.WebTauDsl.http
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario
 
 scenario("extracting id after POST to use inside GET request") {
     def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) {

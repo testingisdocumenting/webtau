@@ -17,7 +17,7 @@ Use `onlyForEnv` shortcut if you need to skip tests for certain environment.
 Consider creating your project specific shortcuts to avoid boilerplate. 
 Here is an example of `onlyForEnv` shortcut definition.
 
-:include-groovy: com/twosigma/webtau/WebTauGroovyDsl.groovy {entry: "onlyForEnv", title: "Custom shortcut"}
+:include-groovy: org/testingisdocumenting/webtau/WebTauGroovyDsl.groovy {entry: "onlyForEnv", title: "Custom shortcut"}
 
 # Unconditionally Skipping Tests
 

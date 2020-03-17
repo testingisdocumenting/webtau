@@ -16,4 +16,4 @@
 
 moduleName=webtau-junit5-groovy
 moduleVersion=1.0
-extensionClasses=com.twosigma.webtau.junit5.DynamicTestsExtensions
+extensionClasses=org.testingisdocumenting.webtau.junit5.DynamicTestsExtensions

@@ -2,7 +2,7 @@ package pages
 
 import java.nio.file.Path
 
-import static com.twosigma.webtau.WebTauDsl.getCfg
+import static org.testingisdocumenting.webtau.WebTauDsl.getCfg
 
 class ReportLocation {
     static String groovyFeatureTestingFullUrl(String reportName) {

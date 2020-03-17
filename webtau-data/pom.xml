@@ -19,28 +19,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.twosigma.webtau</groupId>
+        <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.20-SNAPSHOT</version>
+        <version>1.21-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-data</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-core-groovy</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

@@ -16,5 +16,5 @@
 
 moduleName=webtau-core-groovy
 moduleVersion=1.0
-extensionClasses=com.twosigma.webtau.data.expectation.ExpectationExtension,com.twosigma.webtau.data.table.TableDataExtension,com.twosigma.webtau.data.time.TestTimeExtension
-staticExtensionClasses=com.twosigma.webtau.data.expectation.DummyStaticExtension
+extensionClasses=org.testingisdocumenting.webtau.data.expectation.ExpectationExtension,org.testingisdocumenting.webtau.data.table.TableDataExtension,org.testingisdocumenting.webtau.data.time.TestTimeExtension
+staticExtensionClasses=org.testingisdocumenting.webtau.data.expectation.DummyStaticExtension

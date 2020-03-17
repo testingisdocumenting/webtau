@@ -19,16 +19,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.twosigma.webtau</groupId>
+        <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.20-SNAPSHOT</version>
+        <version>1.21-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-feature-testing</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
             <exclusions>
@@ -40,7 +40,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-http</artifactId>
             <version>${project.version}</version>
             <exclusions>
@@ -52,25 +52,25 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-http-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-testapp</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-test-server</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -86,7 +86,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-cli</artifactId>
             <type>test-jar</type>
             <version>${project.version}</version>

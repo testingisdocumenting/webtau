@@ -1,6 +1,6 @@
 package scenarios.concept
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 metadata([owner: "team A"]) // setting owner for all the scenarios below
 

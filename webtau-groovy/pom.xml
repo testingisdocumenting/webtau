@@ -19,22 +19,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.twosigma.webtau</groupId>
+        <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.20-SNAPSHOT</version>
+        <version>1.21-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-groovy</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-open-api</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -45,25 +45,25 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-standalone-runner-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-http-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-cli-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -85,7 +85,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.twosigma.webtau</groupId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-test-server</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -104,7 +104,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.twosigma.webtau.cli.interactive.WebTauCliInteractive</mainClass>
+                    <mainClass>org.testingisdocumenting.webtau.cli.interactive.WebTauCliInteractive</mainClass>
                 </configuration>
             </plugin>
         </plugins>

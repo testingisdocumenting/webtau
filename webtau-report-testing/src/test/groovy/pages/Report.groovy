@@ -1,7 +1,7 @@
 package pages
 
 
-import static com.twosigma.webtau.WebTauDsl.*
+import static org.testingisdocumenting.webtau.WebTauDsl.*
 
 class Report {
     def fullScreenIcon = $(".fullscreen-icon")

@@ -23,7 +23,7 @@ function EntriesTypeSelection({webtauVersion, selectedType, onSelect}) {
     return (
         <div className="entries-type-selection">
             <div className="webtau-link">
-                <a href="https://github.com/twosigma/webtau" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/testingisdocumenting/webtau" target="_blank" rel="noopener noreferrer">
                     {'webtau ' + webtauVersion}
                 </a>
             </div>

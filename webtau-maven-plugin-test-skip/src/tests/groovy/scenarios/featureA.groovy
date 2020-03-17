@@ -16,7 +16,7 @@
 
 package scenarios
 
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario
 
 scenario('test should fail') {
     2.should == 3

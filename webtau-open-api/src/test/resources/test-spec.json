@@ -20,6 +20,18 @@
             "schema": {
               "$ref": "#/definitions/TestResponse"
             }
+          },
+          "4XX": {
+            "description": "bad input",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "something went wrong",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }
@@ -33,6 +45,18 @@
             "description": "success",
             "schema": {
               "$ref": "#/definitions/TestResponse"
+            }
+          },
+          "4XX": {
+            "description": "bad input",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "description": "something went wrong",
+            "schema": {
+              "type": "string"
             }
           }
         }

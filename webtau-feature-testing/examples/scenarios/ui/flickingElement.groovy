@@ -16,7 +16,7 @@
 
 package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 def el = $('#flicking-text')
 
