@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation;
+package org.testingisdocumenting.webtau.expectation;
 
 public interface CodeMatcher {
     /**

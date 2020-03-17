@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation
+package org.testingisdocumenting.webtau.documentation
 
-import com.twosigma.webtau.data.components.Account
-import com.twosigma.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.data.components.Account
+import org.testingisdocumenting.webtau.utils.FileUtils
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class CoreDocumentationAssertionTest {
     @Test

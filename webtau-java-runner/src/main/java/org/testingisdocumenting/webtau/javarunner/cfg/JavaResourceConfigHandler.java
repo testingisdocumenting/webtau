@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.javarunner.cfg;
+package org.testingisdocumenting.webtau.javarunner.cfg;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
-import com.twosigma.webtau.cfg.WebTauConfigHandler;
-import com.twosigma.webtau.utils.ResourceUtils;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
+import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;

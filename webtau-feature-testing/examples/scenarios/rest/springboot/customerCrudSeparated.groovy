@@ -1,6 +1,6 @@
 package scenarios.rest.springboot
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 def customerPayload = [firstName: "FN", lastName: "LN"]
 

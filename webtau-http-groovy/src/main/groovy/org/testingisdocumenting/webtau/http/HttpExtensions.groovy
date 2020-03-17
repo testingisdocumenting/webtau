@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http
+package org.testingisdocumenting.webtau.http
 
-import com.twosigma.webtau.http.datanode.DataNode
-import com.twosigma.webtau.http.datanode.GroovyDataNode
-import com.twosigma.webtau.http.json.JsonRequestBody
-import com.twosigma.webtau.http.request.HttpQueryParams
-import com.twosigma.webtau.http.request.HttpRequestBody
-import com.twosigma.webtau.http.validation.HeaderDataNode
-import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn
+import org.testingisdocumenting.webtau.http.datanode.DataNode
+import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.http.json.JsonRequestBody
+import org.testingisdocumenting.webtau.http.request.HttpQueryParams
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody
+import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
+import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn
 
 class HttpExtensions {
     static def get(Http http, String url, Closure validation) {

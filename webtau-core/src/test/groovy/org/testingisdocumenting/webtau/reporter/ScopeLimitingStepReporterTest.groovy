@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package org.testingisdocumenting.webtau.reporter
 
 import org.junit.Test
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
 import static org.junit.Assert.assertEquals
 
 class ScopeLimitingStepReporterTest implements StepReporter {

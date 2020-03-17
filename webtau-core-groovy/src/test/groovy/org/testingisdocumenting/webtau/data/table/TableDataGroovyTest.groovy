@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table
+package org.testingisdocumenting.webtau.data.table
 
 import org.junit.Test
 
 import java.time.LocalDate
 
-import static com.twosigma.webtau.WebTauCore.*
-import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
-import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
-import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validatePermute
-import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermute
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
 
 class TableDataGroovyTest {
     @Test

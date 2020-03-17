@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli;
+package org.testingisdocumenting.webtau.cli;
 
-import com.twosigma.webtau.cli.expectation.CliOutput;
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation;
-import com.twosigma.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
+import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
 import java.util.List;

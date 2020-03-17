@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli.expectation;
 
-import com.twosigma.webtau.expectation.ActualPathAware;
-import com.twosigma.webtau.expectation.ActualValueExpectations;
-import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
-import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder;
-import com.twosigma.webtau.reporter.StepReportOptions;
-import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
+import org.testingisdocumenting.webtau.expectation.ActualPathAware;
+import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
 
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public interface CliResultExpectations extends ActualValueExpectations, ActualPathAware {
     @Override

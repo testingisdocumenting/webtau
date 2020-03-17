@@ -1,7 +1,7 @@
-package com.twosigma.webtau.data.table.header;
+package org.testingisdocumenting.webtau.data.table.header;
 
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
-import com.twosigma.webtau.utils.TraceUtils;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.List;
 

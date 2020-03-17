@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau;
+package org.testingisdocumenting.webtau;
 
-import com.twosigma.webtau.data.MultiValue;
-import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.data.table.TableDataUnderscore;
-import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenFunctions;
-import com.twosigma.webtau.documentation.CoreDocumentation;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.utils.CollectionUtils;
+import org.testingisdocumenting.webtau.data.MultiValue;
+import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
+import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenFunctions;
+import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Map;
 
-import static com.twosigma.webtau.data.table.TableDataUnderscore.UNDERSCORE;
+import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.UNDERSCORE;
 
 /**
  * Convenient class for a single static * imports to have matchers and helper functions available for your test

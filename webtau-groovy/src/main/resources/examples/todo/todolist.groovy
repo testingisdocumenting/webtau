@@ -1,4 +1,4 @@
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('fetch todo item') {
     http.get('/todos/1') {

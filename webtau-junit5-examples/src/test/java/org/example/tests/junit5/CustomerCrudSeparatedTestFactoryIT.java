@@ -16,7 +16,7 @@
 
 package com.example.tests.junit5;
 
-import com.twosigma.webtau.junit5.WebTau;
+import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.WebTauDsl.equal;
-import static com.twosigma.webtau.WebTauDsl.http;
+import static org.testingisdocumenting.webtau.WebTauDsl.equal;
+import static org.testingisdocumenting.webtau.WebTauDsl.http;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 @WebTau

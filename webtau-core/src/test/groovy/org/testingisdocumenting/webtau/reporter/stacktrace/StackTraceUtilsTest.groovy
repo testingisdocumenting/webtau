@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter.stacktrace
+package org.testingisdocumenting.webtau.reporter.stacktrace
 
 import org.junit.Test
 
@@ -24,6 +24,6 @@ class StackTraceUtilsTest {
         def e = new RuntimeException("for test")
         def stackTrace = StackTraceUtils.renderStackTrace(e)
 
-        assert stackTrace.contains("at com.twosigma.webtau.reporter.stacktrace.StackTraceUtilsTest.converts exception to string")
+        assert stackTrace.contains("at org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtilsTest.converts exception to string")
     }
 }

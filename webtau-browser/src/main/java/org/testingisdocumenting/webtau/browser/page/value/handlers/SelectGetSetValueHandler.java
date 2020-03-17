@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.value.handlers;
+package org.testingisdocumenting.webtau.browser.page.value.handlers;
 
-import com.twosigma.webtau.browser.page.HtmlNode;
-import com.twosigma.webtau.browser.page.NullWebElement;
-import com.twosigma.webtau.browser.page.PageElement;
-import com.twosigma.webtau.browser.page.PageElementStepExecutor;
-import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.browser.page.HtmlNode;
+import org.testingisdocumenting.webtau.browser.page.NullWebElement;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
     @Override

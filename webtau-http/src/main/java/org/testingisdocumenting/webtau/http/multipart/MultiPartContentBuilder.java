@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.multipart;
+package org.testingisdocumenting.webtau.http.multipart;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

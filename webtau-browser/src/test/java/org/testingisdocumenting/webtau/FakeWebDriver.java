@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau;
+package org.testingisdocumenting.webtau;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

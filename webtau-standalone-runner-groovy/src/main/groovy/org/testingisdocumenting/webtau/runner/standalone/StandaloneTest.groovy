@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.runner.standalone
+package org.testingisdocumenting.webtau.runner.standalone
 
-import com.twosigma.webtau.reporter.TestListeners
-import com.twosigma.webtau.reporter.WebTauTest
-import com.twosigma.webtau.reporter.StepReporter
-import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.reporter.TestResultPayload
-import com.twosigma.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.reporter.WebTauTest
+import org.testingisdocumenting.webtau.reporter.StepReporter
+import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.TestResultPayload
+import org.testingisdocumenting.webtau.reporter.TestStep
 
 import java.nio.file.Path
 

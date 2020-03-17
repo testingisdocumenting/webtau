@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.cfg.WebTauConfig.cfg
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 
 class WebTauConceptFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner

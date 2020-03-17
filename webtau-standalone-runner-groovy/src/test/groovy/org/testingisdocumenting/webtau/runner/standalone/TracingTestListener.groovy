@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.runner.standalone
+package org.testingisdocumenting.webtau.runner.standalone
 
-import com.twosigma.webtau.reporter.TestListener
-import com.twosigma.webtau.reporter.WebTauReport
-import com.twosigma.webtau.reporter.WebTauTest
+import org.testingisdocumenting.webtau.reporter.TestListener
+import org.testingisdocumenting.webtau.reporter.WebTauReport
+import org.testingisdocumenting.webtau.reporter.WebTauTest
 
 class TracingTestListener implements TestListener {
     List calls = []

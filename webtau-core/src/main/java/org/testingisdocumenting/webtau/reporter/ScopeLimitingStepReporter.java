@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
 public class ScopeLimitingStepReporter<C, R> implements StepReporter<C, R> {
     private final StepReporter<C, R> stepReporter;

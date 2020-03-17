@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.expectation
+package org.testingisdocumenting.webtau.browser.expectation
 
-import com.twosigma.webtau.FakeAdditionalBrowserInteractions
-import com.twosigma.webtau.FakeWebDriver
-import com.twosigma.webtau.FakeWebElement
-import com.twosigma.webtau.browser.page.path.ElementPath
-import com.twosigma.webtau.browser.page.path.GenericPageElement
-import com.twosigma.webtau.browser.page.path.finder.ByCssFinder
+import org.testingisdocumenting.webtau.FakeAdditionalBrowserInteractions
+import org.testingisdocumenting.webtau.FakeWebDriver
+import org.testingisdocumenting.webtau.FakeWebElement
+import org.testingisdocumenting.webtau.browser.page.path.ElementPath
+import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.Matchers.*
 
 class PageElementContainHandlerTest {
     FakeWebDriver driver

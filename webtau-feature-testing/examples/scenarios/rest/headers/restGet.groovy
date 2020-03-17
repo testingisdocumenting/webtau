@@ -16,8 +16,8 @@
 
 package scenarios.rest.headers
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static org.testingisdocumenting.webtau.WebTauDsl.http
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario
 
 scenario("simple get") {
     http.get("/weather") {

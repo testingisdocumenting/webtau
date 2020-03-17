@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.pdf
+package org.testingisdocumenting.webtau.pdf
 
-import com.twosigma.webtau.http.HttpHeader
-import com.twosigma.webtau.http.config.HttpConfiguration
-import com.twosigma.webtau.http.config.HttpConfigurations
-import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.http.testserver.TestServerBinaryResponse
-import com.twosigma.webtau.utils.ResourceUtils
-import com.twosigma.webtau.utils.UrlUtils
+import org.testingisdocumenting.webtau.http.HttpHeader
+import org.testingisdocumenting.webtau.http.config.HttpConfiguration
+import org.testingisdocumenting.webtau.http.config.HttpConfigurations
+import org.testingisdocumenting.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.http.testserver.TestServerBinaryResponse
+import org.testingisdocumenting.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.utils.UrlUtils
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.contain
-import static com.twosigma.webtau.http.Http.http
-import static com.twosigma.webtau.pdf.Pdf.pdf
+import static org.testingisdocumenting.webtau.WebTauCore.contain
+import static org.testingisdocumenting.webtau.http.Http.http
+import static org.testingisdocumenting.webtau.pdf.Pdf.pdf
 
 class PdfHttpTest implements HttpConfiguration {
     static TestServer testServer = new TestServer()

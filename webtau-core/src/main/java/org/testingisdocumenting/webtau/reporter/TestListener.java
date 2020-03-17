@@ -1,4 +1,4 @@
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
 /**
  * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5

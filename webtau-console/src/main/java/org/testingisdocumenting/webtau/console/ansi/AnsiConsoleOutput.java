@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.console.ansi;
+package org.testingisdocumenting.webtau.console.ansi;
 
-import com.twosigma.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 
 public class AnsiConsoleOutput implements ConsoleOutput {
     @Override

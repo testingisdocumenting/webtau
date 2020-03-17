@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.reporter;
+package org.testingisdocumenting.webtau.browser.reporter;
 
-import com.twosigma.webtau.browser.page.PageElement;
-import com.twosigma.webtau.reporter.StepReporter;
-import com.twosigma.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.reporter.StepReporter;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 
-import static com.twosigma.webtau.browser.Browser.browser;
+import static org.testingisdocumenting.webtau.browser.Browser.browser;
 
 public class ScreenshotStepReporter implements StepReporter<PageElement, Void> {
     @Override

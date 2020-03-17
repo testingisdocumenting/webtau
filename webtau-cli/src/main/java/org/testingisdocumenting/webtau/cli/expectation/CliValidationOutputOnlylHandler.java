@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli.expectation;
 
 public interface CliValidationOutputOnlylHandler {
     void handle(CliOutput output, CliOutput error);

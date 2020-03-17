@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.validation;
+package org.testingisdocumenting.webtau.http.validation;
 
-import com.twosigma.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
 
 public interface HttpResponseValidator {
     void validate(HeaderDataNode header, DataNode body);

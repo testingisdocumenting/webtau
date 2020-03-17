@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.converters;
+package org.testingisdocumenting.webtau.data.converters;
 
-import com.twosigma.webtau.utils.TraceUtils;
+import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.Objects;
 import java.util.stream.Stream;

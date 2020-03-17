@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.driver;
+package org.testingisdocumenting.webtau.browser.driver;
 
-import com.twosigma.webtau.console.ConsoleOutputs;
-import com.twosigma.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class WebDriverCreator {
     private static final String CHROME_DRIVER_PATH_KEY = "webdriver.chrome.driver";

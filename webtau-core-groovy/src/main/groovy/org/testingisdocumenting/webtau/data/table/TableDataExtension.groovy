@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table
+package org.testingisdocumenting.webtau.data.table
 
 class TableDataExtension {
     private static ThreadLocal<List<RowValues>> rows = new ThreadLocal<>()

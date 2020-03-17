@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.comparison;
+package org.testingisdocumenting.webtau.data.table.comparison;
 
-import com.twosigma.webtau.data.table.header.CompositeKey;
-import com.twosigma.webtau.data.table.Record;
-import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
+import org.testingisdocumenting.webtau.data.table.Record;
+import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.WebTauCore.createActualPath;
+import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 import static java.util.stream.Collectors.toSet;
 
 public class TableDataComparison {

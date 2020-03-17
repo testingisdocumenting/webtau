@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table;
+package org.testingisdocumenting.webtau.data.table;
 
 public class TableDataUnderscore {
     public static final TableDataUnderscore UNDERSCORE = new TableDataUnderscore();

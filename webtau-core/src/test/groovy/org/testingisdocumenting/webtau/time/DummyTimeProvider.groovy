@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.time
+package org.testingisdocumenting.webtau.time
 
-import com.twosigma.webtau.time.TimeProvider
+import org.testingisdocumenting.webtau.time.TimeProvider
 
 class DummyTimeProvider implements TimeProvider {
     private List<Integer> timeSnapshots = []

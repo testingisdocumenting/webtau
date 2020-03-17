@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.interactive
 
-import com.twosigma.webtau.console.ConsoleOutput
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.IgnoreAnsiString
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 import org.junit.Before
 import org.junit.Test
 

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.report;
+package org.testingisdocumenting.webtau.cli.report;
 
-import com.twosigma.webtau.cli.CliValidationResult;
-import com.twosigma.webtau.reporter.TestResultPayload;
-import com.twosigma.webtau.reporter.TestResultPayloadExtractor;
-import com.twosigma.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.cli.CliValidationResult;
+import org.testingisdocumenting.webtau.reporter.TestResultPayload;
+import org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractor;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

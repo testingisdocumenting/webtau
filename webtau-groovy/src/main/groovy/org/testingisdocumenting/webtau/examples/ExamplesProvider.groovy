@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.examples
+package org.testingisdocumenting.webtau.examples
 
 interface ExamplesProvider {
     List<Example> provide()

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.timer
+package org.testingisdocumenting.webtau.expectation.timer
 
 class DummyExpectationTimer implements ExpectationTimer {
     int currentTick = 100

@@ -1,8 +1,8 @@
 package com.example.tests.junit5
 
-import com.twosigma.webtau.WebTauDsl.*
-import com.twosigma.webtau.http.validation.HttpResponseValidatorWithReturn
-import com.twosigma.webtau.junit5.WebTau
+import org.testingisdocumenting.webtau.WebTauDsl.*
+import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn
+import org.testingisdocumenting.webtau.junit5.WebTau
 
 import org.junit.jupiter.api.*
 

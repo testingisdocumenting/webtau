@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg;
+package org.testingisdocumenting.webtau.cfg;
 
-import com.twosigma.webtau.console.ConsoleOutputs;
-import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.console.ansi.FontStyle;
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
-import com.twosigma.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,8 +29,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.cfg.ConfigValue.declare;
-import static com.twosigma.webtau.cfg.ConfigValue.declareBoolean;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 
 public class WebTauConfig {
     public static final String CONFIG_FILE_NAME_DEFAULT = "webtau.cfg";

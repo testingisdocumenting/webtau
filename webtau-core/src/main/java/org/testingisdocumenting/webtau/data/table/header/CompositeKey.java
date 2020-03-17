@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.header;
+package org.testingisdocumenting.webtau.data.table.header;
 
-import com.twosigma.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.TableData;
 
 import java.util.Collections;
 import java.util.List;

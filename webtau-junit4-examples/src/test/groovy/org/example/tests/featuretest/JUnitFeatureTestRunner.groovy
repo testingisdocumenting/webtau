@@ -16,11 +16,11 @@
 
 package com.example.tests.featuretest
 
-import com.twosigma.webtau.cfg.WebTauConfig
-import com.twosigma.webtau.featuretesting.WebTauEndToEndTestValidator
-import com.twosigma.webtau.reporter.StepReporter
-import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.featuretesting.WebTauEndToEndTestValidator
+import org.testingisdocumenting.webtau.reporter.StepReporter
+import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.TestStep
 import org.junit.runner.Description
 import org.junit.runner.JUnitCore
 import org.junit.runner.notification.Failure

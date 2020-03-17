@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data;
+package org.testingisdocumenting.webtau.data;
 
-import com.twosigma.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.TableData;
 import org.junit.Test;
 
 import java.util.List;
 
-import static com.twosigma.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static java.util.stream.Collectors.toList;
 
 public class PeopleManagementTest {

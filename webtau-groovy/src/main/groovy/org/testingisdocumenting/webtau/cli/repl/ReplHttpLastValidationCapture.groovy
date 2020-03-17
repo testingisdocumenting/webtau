@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.repl
+package org.testingisdocumenting.webtau.cli.repl
 
-import com.twosigma.webtau.http.datanode.GroovyDataNode
-import com.twosigma.webtau.http.validation.HttpValidationHandler
-import com.twosigma.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 
 class ReplHttpLastValidationCapture implements HttpValidationHandler {
     static GroovyDataNode header

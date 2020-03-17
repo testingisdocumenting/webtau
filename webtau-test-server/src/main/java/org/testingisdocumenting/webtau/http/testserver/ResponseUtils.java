@@ -1,4 +1,4 @@
-package com.twosigma.webtau.http.testserver;
+package org.testingisdocumenting.webtau.http.testserver;
 
 import org.apache.commons.io.IOUtils;
 

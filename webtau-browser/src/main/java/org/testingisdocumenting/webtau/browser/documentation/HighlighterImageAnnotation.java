@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.documentation;
+package org.testingisdocumenting.webtau.browser.documentation;
 
-import com.twosigma.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
 
 public class HighlighterImageAnnotation extends RectangleBasedImageAnnotation {
     public HighlighterImageAnnotation(PageElement pageElement) {

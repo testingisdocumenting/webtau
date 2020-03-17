@@ -1,7 +1,7 @@
-package com.twosigma.webtau.runner.standalone
+package org.testingisdocumenting.webtau.runner.standalone
 
-import com.twosigma.webtau.reporter.StepReporter
-import com.twosigma.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.reporter.StepReporter
+import org.testingisdocumenting.webtau.reporter.TestStep
 
 class ForbidStepsOutsideScenarioStepListener implements StepReporter {
     @Override

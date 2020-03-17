@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.contain.handlers
+package org.testingisdocumenting.webtau.expectation.contain.handlers
 
-import com.twosigma.webtau.expectation.contain.ContainAnalyzer
+import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class IterableContainHandlerTest {
     private ContainAnalyzer analyzer

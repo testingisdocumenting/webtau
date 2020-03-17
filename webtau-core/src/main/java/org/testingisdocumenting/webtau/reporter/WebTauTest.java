@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
-import com.twosigma.webtau.reporter.stacktrace.StackTraceCodeEntry;
-import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils;
-import com.twosigma.webtau.time.Time;
-import com.twosigma.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceCodeEntry;
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
+import org.testingisdocumenting.webtau.time.Time;
+import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.twosigma.webtau.reporter.TestStatus.*;
+import static org.testingisdocumenting.webtau.reporter.TestStatus.*;
 
 public class WebTauTest {
     private String id;

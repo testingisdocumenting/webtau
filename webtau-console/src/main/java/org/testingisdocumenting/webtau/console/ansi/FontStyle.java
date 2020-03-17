@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.console.ansi;
+package org.testingisdocumenting.webtau.console.ansi;
 
 public enum FontStyle {
     NORMAL("\u001B[0m"),

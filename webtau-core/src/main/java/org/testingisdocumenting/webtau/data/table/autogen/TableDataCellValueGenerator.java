@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.autogen;
+package org.testingisdocumenting.webtau.data.table.autogen;
 
-import com.twosigma.webtau.data.math.DynamicMath;
-import com.twosigma.webtau.data.table.Record;
+import org.testingisdocumenting.webtau.data.math.DynamicMath;
+import org.testingisdocumenting.webtau.data.table.Record;
 
 public class TableDataCellValueGenerator<R> {
     private TableDataCellValueGenFullFunction<R> genFunction;

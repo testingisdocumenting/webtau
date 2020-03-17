@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.time;
+package org.testingisdocumenting.webtau.time;
 
 public interface TimeProvider {
     long currentTimeMillis();

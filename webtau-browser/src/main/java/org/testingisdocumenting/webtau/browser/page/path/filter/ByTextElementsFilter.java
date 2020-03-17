@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.path.filter;
+package org.testingisdocumenting.webtau.browser.page.path.filter;
 
-import com.twosigma.webtau.browser.AdditionalBrowserInteractions;
-import com.twosigma.webtau.browser.page.path.ElementsFilter;
-import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
+import org.testingisdocumenting.webtau.browser.page.path.ElementsFilter;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.selectorType;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorType;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ByTextElementsFilter implements ElementsFilter {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;

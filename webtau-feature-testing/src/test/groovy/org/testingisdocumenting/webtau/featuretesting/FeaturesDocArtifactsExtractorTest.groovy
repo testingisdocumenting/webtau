@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.utils.FileUtils
 import org.junit.Test
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtml
-import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractScenarioBody
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtml
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractScenarioBody
 import static org.junit.Assert.assertEquals
 
 class FeaturesDocArtifactsExtractorTest {

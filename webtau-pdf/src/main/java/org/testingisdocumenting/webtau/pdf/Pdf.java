@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.pdf;
+package org.testingisdocumenting.webtau.pdf;
 
-import com.twosigma.webtau.data.traceable.CheckLevel;
-import com.twosigma.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.browser.navigation.BrowserPageNavigationHandler
+import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigationHandler
 
 import java.util.concurrent.atomic.AtomicReference
 

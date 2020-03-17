@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli
+package org.testingisdocumenting.webtau.cli
 
-import com.twosigma.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutput
 
 class SilentConsoleOutput implements ConsoleOutput {
     @Override

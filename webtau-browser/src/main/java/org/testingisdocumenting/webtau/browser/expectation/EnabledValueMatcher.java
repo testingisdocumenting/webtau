@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.expectation;
+package org.testingisdocumenting.webtau.browser.expectation;
 
-import com.twosigma.webtau.browser.page.PageElement;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 public class EnabledValueMatcher implements ValueMatcher {
     @Override

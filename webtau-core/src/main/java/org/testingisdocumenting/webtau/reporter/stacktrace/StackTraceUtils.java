@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter.stacktrace;
+package org.testingisdocumenting.webtau.reporter.stacktrace;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -32,7 +32,7 @@ public class StackTraceUtils {
             "sun.",
             "java.",
             "com.sun.",
-            "com.twosigma.webtau",
+            "org.testingisdocumenting.webtau",
             "org.codehaus.groovy",
             "org.junit",
             "com.intellij",

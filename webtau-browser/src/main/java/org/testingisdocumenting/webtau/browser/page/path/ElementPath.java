@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.path;
+package org.testingisdocumenting.webtau.browser.page.path;
 
-import com.twosigma.webtau.browser.page.path.finder.ByCssFinder;
-import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.COMMA;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.COMMA;
 import static java.util.stream.Collectors.toList;
 
 public class ElementPath {

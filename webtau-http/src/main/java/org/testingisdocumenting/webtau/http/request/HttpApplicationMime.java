@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.request;
+package org.testingisdocumenting.webtau.http.request;
 
-import com.twosigma.webtau.http.binary.BinaryRequestBody;
+import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
 
 public class HttpApplicationMime {
     public HttpRequestBody octetStream(byte[] content) {

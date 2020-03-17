@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
 import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
 import com.atlassian.oai.validator.model.SimpleRequest;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.LevelResolver;
 import com.atlassian.oai.validator.report.ValidationReport;
-import com.twosigma.webtau.console.ConsoleOutputs;
-import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
 import java.util.Optional;
 
-import static com.twosigma.webtau.utils.UrlUtils.extractPath;
-import static com.twosigma.webtau.utils.UrlUtils.extractQueryParams;
+import static org.testingisdocumenting.webtau.utils.UrlUtils.extractPath;
+import static org.testingisdocumenting.webtau.utils.UrlUtils.extractQueryParams;
 import static java.util.stream.Collectors.joining;
 
 public class OpenApiSpecValidator {

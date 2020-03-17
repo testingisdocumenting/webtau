@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality;
+package org.testingisdocumenting.webtau.expectation.equality;
 
-import com.twosigma.webtau.data.render.DataRenderers;
-import com.twosigma.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 class GreaterLessEqualMatcherRenderer {
     static String render(ValueMatcher valueMatcher, CompareToComparator.AssertionMode assertionMode, Object expected) {

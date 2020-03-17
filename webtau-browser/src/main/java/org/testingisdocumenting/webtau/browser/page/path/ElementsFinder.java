@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.path;
+package org.testingisdocumenting.webtau.browser.page.path;
 
-import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 

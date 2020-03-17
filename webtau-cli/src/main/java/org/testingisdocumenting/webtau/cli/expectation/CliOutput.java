@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli.expectation;
 
-import com.twosigma.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
 
 import java.util.ArrayList;
 import java.util.List;

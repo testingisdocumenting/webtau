@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.http.testserver.TestServer
 
 /**
  * Test server for manual run and ad-hoc test scripts execution

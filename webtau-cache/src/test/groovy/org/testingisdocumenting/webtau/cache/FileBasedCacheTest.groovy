@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cache
+package org.testingisdocumenting.webtau.cache
 
-import com.twosigma.webtau.utils.JsonUtils
+import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.junit.Assert
 import org.junit.Test
 

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
-import com.twosigma.webtau.report.ReportCustomData;
-import com.twosigma.webtau.report.ReportDataProvider;
-import com.twosigma.webtau.reporter.WebTauTestList;
+import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.report.ReportDataProvider;
+import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
 import java.util.HashMap;
 import java.util.List;

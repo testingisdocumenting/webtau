@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.listeners
+package org.testingisdocumenting.webtau.http.listeners
 
-import com.twosigma.webtau.http.HttpHeader
-import com.twosigma.webtau.http.HttpResponse
-import com.twosigma.webtau.http.HttpTestBase
-import com.twosigma.webtau.http.listener.HttpListener
-import com.twosigma.webtau.http.listener.HttpListeners
-import com.twosigma.webtau.http.request.HttpRequestBody
+import org.testingisdocumenting.webtau.http.HttpHeader
+import org.testingisdocumenting.webtau.http.HttpResponse
+import org.testingisdocumenting.webtau.http.HttpTestBase
+import org.testingisdocumenting.webtau.http.listener.HttpListener
+import org.testingisdocumenting.webtau.http.listener.HttpListeners
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.Matchers.contain
-import static com.twosigma.webtau.http.Http.http
+import static org.testingisdocumenting.webtau.Matchers.contain
+import static org.testingisdocumenting.webtau.http.Http.http
 
 class HttpListenersTest extends HttpTestBase implements HttpListener {
     Map beforePayload

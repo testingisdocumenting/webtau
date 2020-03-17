@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table;
+package org.testingisdocumenting.webtau.data.table;
 
 public interface TableDataCellMapFunction<T, R> {
     R apply(int rowIdx, int colIdx, String columnName, T v);

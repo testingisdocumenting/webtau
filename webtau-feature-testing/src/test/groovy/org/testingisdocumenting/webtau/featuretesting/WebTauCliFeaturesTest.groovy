@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.cli.CliTestUtils.supportedPlatformOnly
+import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 
 class WebTauCliFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner

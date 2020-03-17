@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package org.testingisdocumenting.webtau.report;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

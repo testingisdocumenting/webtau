@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.http.testserver.TestServerJsonResponse
-import com.twosigma.webtau.http.testserver.TestServerRedirectResponse
-import com.twosigma.webtau.http.testserver.TestServerResponse
-import com.twosigma.webtau.utils.JsonUtils
+import org.testingisdocumenting.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.http.testserver.TestServerJsonResponse
+import org.testingisdocumenting.webtau.http.testserver.TestServerRedirectResponse
+import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
+import org.testingisdocumenting.webtau.utils.JsonUtils
 
 class WebTauRestFeaturesTestData {
     static void registerEndPoints(TestServer testServer) {

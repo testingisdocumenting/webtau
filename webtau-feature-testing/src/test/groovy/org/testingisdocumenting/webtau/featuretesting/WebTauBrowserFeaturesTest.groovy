@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
-import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
+import org.testingisdocumenting.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
 
 class WebTauBrowserFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner

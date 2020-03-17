@@ -1,10 +1,10 @@
 package com.example.tests.junit4
 
-import com.twosigma.webtau.junit4.WebTauRunner
+import org.testingisdocumenting.webtau.junit4.WebTauRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static com.twosigma.webtau.WebTauGroovyDsl.* // convenient single import for DSL methods and props like http
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for DSL methods and props like http
 
 @RunWith(WebTauRunner)  // runner is required to have this test to be a part of generated html report
 class CustomerCrudSingleGroovyTest {

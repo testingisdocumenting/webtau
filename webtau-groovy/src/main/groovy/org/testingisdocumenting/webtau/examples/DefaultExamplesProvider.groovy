@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.examples
+package org.testingisdocumenting.webtau.examples
 
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 
 class DefaultExamplesProvider implements ExamplesProvider {
     @Override

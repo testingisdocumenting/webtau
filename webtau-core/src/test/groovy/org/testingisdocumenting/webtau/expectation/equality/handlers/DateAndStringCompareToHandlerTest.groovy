@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality.handlers
+package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.junit.Test
 
@@ -22,7 +22,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class DateAndStringCompareToHandlerTest {
     @Test

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.reporter;
+package org.testingisdocumenting.webtau.browser.reporter;
 
-import com.twosigma.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.reporter.TestStepPayload;
 
 import java.util.Collections;
 import java.util.Map;

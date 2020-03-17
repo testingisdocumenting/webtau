@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.groovy.ast
+package org.testingisdocumenting.webtau.groovy.ast
 
-import com.twosigma.webtau.WebTauCore
+import org.testingisdocumenting.webtau.WebTauCore
 import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import org.codehaus.groovy.ast.ClassCodeExpressionTransformer

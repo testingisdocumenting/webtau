@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table;
+package org.testingisdocumenting.webtau.data.table;
 
-import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
-import com.twosigma.webtau.documentation.DocumentationArtifacts;
+import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenerator;
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static com.twosigma.webtau.WebTauCore.*;
-import static com.twosigma.webtau.data.table.TableDataJavaTestValidations.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.*;
 
 public class TableDataJavaTest {
     private static TableDataCellValueGenerator<?> increment = cell.above.plus(1);

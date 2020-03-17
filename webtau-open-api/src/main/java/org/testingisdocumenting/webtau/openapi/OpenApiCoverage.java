@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
-import com.twosigma.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
 import java.util.*;
 import java.util.function.Function;

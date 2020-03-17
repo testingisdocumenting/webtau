@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config;
+package org.testingisdocumenting.webtau.http.config;
 
-import com.twosigma.webtau.http.HttpHeader;
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.Collections;
 import java.util.List;

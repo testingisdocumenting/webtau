@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser.page;
 
-import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 public interface WithTokenizedDescription {
     TokenizedMessage describe();

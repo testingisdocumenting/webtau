@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cache;
+package org.testingisdocumenting.webtau.cache;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 
 public class Cache {
     public static final Cache cache = new Cache();

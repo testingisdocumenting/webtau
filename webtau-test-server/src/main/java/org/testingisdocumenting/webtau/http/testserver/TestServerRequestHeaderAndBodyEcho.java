@@ -1,4 +1,4 @@
-package com.twosigma.webtau.http.testserver;
+package org.testingisdocumenting.webtau.http.testserver;
 
 import org.apache.commons.io.IOUtils;
 
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.twosigma.webtau.http.testserver.ResponseUtils.echoHeaders;
+import static org.testingisdocumenting.webtau.http.testserver.ResponseUtils.echoHeaders;
 
 public class TestServerRequestHeaderAndBodyEcho implements TestServerResponse {
     private final int statusCode;

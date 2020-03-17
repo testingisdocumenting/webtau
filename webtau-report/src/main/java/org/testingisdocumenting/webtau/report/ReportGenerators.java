@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package org.testingisdocumenting.webtau.report;
 
-import com.twosigma.webtau.reporter.WebTauReport;
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.reporter.WebTauReport;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
 

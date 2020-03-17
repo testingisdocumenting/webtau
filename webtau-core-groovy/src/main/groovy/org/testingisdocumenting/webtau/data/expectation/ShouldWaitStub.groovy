@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.expectation
+package org.testingisdocumenting.webtau.data.expectation
 
-import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
+import static org.testingisdocumenting.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
 
 class ShouldWaitStub {
     private Object actual

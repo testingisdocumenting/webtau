@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode;
+package org.testingisdocumenting.webtau.http.datanode;
 
-import com.twosigma.webtau.data.converters.ToMapConverter;
+import org.testingisdocumenting.webtau.data.converters.ToMapConverter;
 
 import java.util.Map;
 

@@ -1,12 +1,12 @@
 package com.example.tests.junit5
 
-import com.twosigma.webtau.junit5.WebTau
+import org.testingisdocumenting.webtau.junit5.WebTau
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
-import static com.twosigma.webtau.WebTauDsl.http
+import static org.testingisdocumenting.webtau.WebTauDsl.http
 
 @WebTau
 @DisplayName("customer query")

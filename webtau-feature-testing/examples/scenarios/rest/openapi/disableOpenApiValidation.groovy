@@ -1,7 +1,7 @@
 package scenarios.rest.openapi
 
-import com.twosigma.webtau.openapi.OpenApi
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import org.testingisdocumenting.webtau.openapi.OpenApi
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("disable all validation") {
     OpenApi.withoutValidation {

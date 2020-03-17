@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.interactive
 
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.AutoResetAnsiString
-import com.twosigma.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
+import org.testingisdocumenting.webtau.console.ansi.Color
 import groovy.transform.PackageScope
 
 @PackageScope

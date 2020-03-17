@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser.page;
 
-import com.twosigma.webtau.browser.page.value.ElementValue;
+import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
 
 import java.net.MalformedURLException;
 import java.net.URL;

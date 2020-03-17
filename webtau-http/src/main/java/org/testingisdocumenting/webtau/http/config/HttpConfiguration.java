@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config;
+package org.testingisdocumenting.webtau.http.config;
 
-import com.twosigma.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.HttpHeader;
 
 public interface HttpConfiguration {
     String fullUrl(String url);

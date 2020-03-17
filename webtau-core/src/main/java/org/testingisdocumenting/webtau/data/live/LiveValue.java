@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.live;
+package org.testingisdocumenting.webtau.data.live;
 
 public interface LiveValue<E> {
     E get();

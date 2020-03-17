@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.pdf;
+package org.testingisdocumenting.webtau.pdf;
 
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.http.datanode.DataNodeExpectations;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.http.datanode.DataNodeExpectations;
 
 public class PdfText implements DataNodeExpectations {
     private final String id;

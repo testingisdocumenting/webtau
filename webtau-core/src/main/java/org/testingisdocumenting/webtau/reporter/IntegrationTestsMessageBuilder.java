@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
-import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 
 import java.util.Arrays;
 

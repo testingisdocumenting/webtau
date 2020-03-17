@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
 import java.util.stream.Stream
 
-import static com.twosigma.webtau.cfg.ConfigValue.declare
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare
 
 class TestConfigHandler implements WebTauConfigHandler {
     private static final ConfigValue customConfig = declare('customConfig', 'custom config description',

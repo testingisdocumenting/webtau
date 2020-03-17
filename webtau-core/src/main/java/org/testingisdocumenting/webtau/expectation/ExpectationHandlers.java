@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation;
+package org.testingisdocumenting.webtau.expectation;
 
-import com.twosigma.webtau.expectation.ExpectationHandler.Flow;
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;

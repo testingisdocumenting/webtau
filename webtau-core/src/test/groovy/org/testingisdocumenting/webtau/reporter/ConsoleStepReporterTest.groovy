@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package org.testingisdocumenting.webtau.reporter
 
-import com.twosigma.webtau.console.ConsoleOutput
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
-import com.twosigma.webtau.console.ansi.IgnoreAnsiString
-import com.twosigma.webtau.time.DummyTimeProvider
-import com.twosigma.webtau.time.Time
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
+import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
+import org.testingisdocumenting.webtau.time.DummyTimeProvider
+import org.testingisdocumenting.webtau.time.Time
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.matcher
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.matcher
 import static org.junit.Assert.assertEquals
 
 class ConsoleStepReporterTest implements ConsoleOutput {

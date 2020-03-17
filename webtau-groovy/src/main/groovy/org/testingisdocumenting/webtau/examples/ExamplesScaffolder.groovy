@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.examples
+package org.testingisdocumenting.webtau.examples
 
-import com.twosigma.webtau.cfg.WebTauConfig
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.ServiceLoaderUtils
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils
 
 import java.nio.file.Path
 
-import static com.twosigma.webtau.console.ConsoleOutputs.out
+import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out
 
 class ExamplesScaffolder {
     private static List<ExamplesProvider> providers = discoverProviders()

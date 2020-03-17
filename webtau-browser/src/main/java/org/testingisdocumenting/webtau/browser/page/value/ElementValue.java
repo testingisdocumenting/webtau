@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.value;
+package org.testingisdocumenting.webtau.browser.page.value;
 
-import com.twosigma.webtau.browser.page.WithTokenizedDescription;
-import com.twosigma.webtau.expectation.ActualValueExpectations;
-import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
-import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder;
-import com.twosigma.webtau.reporter.StepReportOptions;
-import com.twosigma.webtau.reporter.TokenizedMessage;
-import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
+import org.testingisdocumenting.webtau.browser.page.WithTokenizedDescription;
+import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.OF;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.OF;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ElementValue<E, C extends WithTokenizedDescription> implements ActualValueExpectations {
     private C parent;

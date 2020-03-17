@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.request;
+package org.testingisdocumenting.webtau.http.request;
 
 public class EmptyRequestBody implements HttpRequestBody {
     public static final HttpRequestBody INSTANCE = new EmptyRequestBody();

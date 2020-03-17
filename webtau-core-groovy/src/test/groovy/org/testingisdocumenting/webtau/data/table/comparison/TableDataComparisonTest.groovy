@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.comparison
+package org.testingisdocumenting.webtau.data.table.comparison
 
 import org.junit.Test
 

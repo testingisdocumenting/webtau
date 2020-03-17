@@ -1,11 +1,11 @@
-package com.twosigma.webtau.expectation.schema
+package org.testingisdocumenting.webtau.expectation.schema
 
-import com.twosigma.webtau.http.datanode.DataNodeBuilder
-import com.twosigma.webtau.http.datanode.DataNodeId
-import com.twosigma.webtau.schema.expectation.SchemaMatcher
+import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.http.datanode.DataNodeId
+import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class SchemaMatcherTest {
     private final static TEST_SCHEMA = "test-schema-default-version.json"

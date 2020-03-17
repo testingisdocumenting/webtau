@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser;
+package org.testingisdocumenting.webtau.browser;
 
-import com.twosigma.webtau.utils.ResourceUtils;
+import org.testingisdocumenting.webtau.utils.ResourceUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 

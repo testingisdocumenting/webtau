@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi
+package org.testingisdocumenting.webtau.openapi
 
-import com.twosigma.webtau.http.HttpResponse
-import com.twosigma.webtau.http.validation.HttpValidationResult
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.http.HttpResponse
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class OpenApiSpecValidatorTest {
     private final static String GET = "GET"

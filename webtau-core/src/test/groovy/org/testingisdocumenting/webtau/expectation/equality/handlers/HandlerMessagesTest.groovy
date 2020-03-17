@@ -1,12 +1,12 @@
-package com.twosigma.webtau.expectation.equality.handlers
+package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import com.twosigma.webtau.data.live.LiveValue
+import org.testingisdocumenting.webtau.data.live.LiveValue
 import org.junit.Test
 
 import java.time.LocalDate
 import java.util.stream.Stream
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class HandlerMessagesTest {
     // AnyCompareTo messages

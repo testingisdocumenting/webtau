@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
-import com.twosigma.webtau.http.validation.HttpValidationHandler;
-import com.twosigma.webtau.http.validation.HttpValidationResult;
-import com.twosigma.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler;
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.classifier;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.classifier;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class OpenApiResponseValidator implements HttpValidationHandler {
     private static final ValidationMode DEFAULT_MODE = ValidationMode.ALL;

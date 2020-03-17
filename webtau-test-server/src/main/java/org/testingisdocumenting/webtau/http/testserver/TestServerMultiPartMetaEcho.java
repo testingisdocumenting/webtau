@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.testserver;
+package org.testingisdocumenting.webtau.http.testserver;
 
-import com.twosigma.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.render;
+package org.testingisdocumenting.webtau.data.render;
 
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
-import com.twosigma.webtau.utils.TraceUtils;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
 import java.util.List;

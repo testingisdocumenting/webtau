@@ -1,10 +1,10 @@
-package com.twosigma.webtau.junit5
+package org.testingisdocumenting.webtau.junit5
 
 
-import com.twosigma.webtau.javarunner.report.JavaReport
-import com.twosigma.webtau.reporter.TestListener
-import com.twosigma.webtau.reporter.TestListeners
-import com.twosigma.webtau.reporter.WebTauTest
+import org.testingisdocumenting.webtau.javarunner.report.JavaReport
+import org.testingisdocumenting.webtau.reporter.TestListener
+import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.junit.jupiter.api.Test
 import org.junit.platform.engine.discovery.DiscoverySelectors
 import org.junit.platform.launcher.Launcher

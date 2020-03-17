@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality;
+package org.testingisdocumenting.webtau.expectation.equality;
 
-import com.twosigma.webtau.data.render.DataRenderers;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.ExpectedValuesAware;
-import com.twosigma.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.expectation.equality.CompareToComparator.AssertionMode.GREATER_THAN;
+import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode.GREATER_THAN;
 
 public class GreaterThanMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator compareToComparator;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.testserver;
+package org.testingisdocumenting.webtau.http.testserver;
 
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;

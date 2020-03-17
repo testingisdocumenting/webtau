@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode
+package org.testingisdocumenting.webtau.http.datanode
 
-import com.twosigma.webtau.data.traceable.CheckLevel
-import com.twosigma.webtau.data.traceable.TraceableValue
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
+import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class StructuredDataNodeTest {
     @Test

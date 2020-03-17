@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli;
+package org.testingisdocumenting.webtau.cli;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class ProcessUtils {
     private static final String ENV_PATH_SEPARATOR = System.getProperty("path.separator");

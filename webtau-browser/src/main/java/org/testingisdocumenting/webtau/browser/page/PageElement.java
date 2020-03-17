@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser.page;
 
-import com.twosigma.webtau.browser.page.path.ElementsFinder;
-import com.twosigma.webtau.browser.page.value.ElementValue;
-import com.twosigma.webtau.expectation.ActualValueExpectations;
-import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
-import com.twosigma.webtau.reporter.StepReportOptions;
-import com.twosigma.webtau.reporter.TokenizedMessage;
-import com.twosigma.webtau.reporter.ValueMatcherExpectationSteps;
+import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
+import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
+import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;

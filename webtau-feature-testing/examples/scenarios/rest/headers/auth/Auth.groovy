@@ -1,7 +1,7 @@
 package scenarios.rest.headers.auth
 
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.http.HttpHeader
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.http.HttpHeader
 
 class Auth {
     static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {

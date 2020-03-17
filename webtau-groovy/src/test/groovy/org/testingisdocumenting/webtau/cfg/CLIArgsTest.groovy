@@ -1,8 +1,8 @@
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
-import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.JsonUtils
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
+import org.testingisdocumenting.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.junit.Test
 
 import java.util.stream.Collectors

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode;
+package org.testingisdocumenting.webtau.http.datanode;
 
-import com.twosigma.webtau.data.traceable.TraceableValue;
+import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 
 import java.util.Collections;
 import java.util.Iterator;

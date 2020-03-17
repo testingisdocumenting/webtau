@@ -1,9 +1,9 @@
-package com.twosigma.webtau;
+package org.testingisdocumenting.webtau;
 
-import com.twosigma.webtau.expectation.*;
-import com.twosigma.webtau.expectation.code.ThrowExceptionMatcher;
-import com.twosigma.webtau.expectation.contain.ContainMatcher;
-import com.twosigma.webtau.expectation.equality.*;
+import org.testingisdocumenting.webtau.expectation.*;
+import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
+import org.testingisdocumenting.webtau.expectation.contain.ContainMatcher;
+import org.testingisdocumenting.webtau.expectation.equality.*;
 
 import java.util.regex.Pattern;
 

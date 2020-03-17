@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.contain.handlers;
+package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 
 import java.util.ArrayList;
 import java.util.Iterator;

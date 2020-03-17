@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode
+package org.testingisdocumenting.webtau.http.datanode
 
-import com.twosigma.webtau.data.traceable.TraceableValue
-import com.twosigma.webtau.expectation.ActualPath
-import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
+import org.testingisdocumenting.webtau.data.traceable.TraceableValue
+import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
 
-import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
+import static org.testingisdocumenting.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
 
 class GroovyDataNode implements DataNodeExpectations, DataNode {
     private DataNode node

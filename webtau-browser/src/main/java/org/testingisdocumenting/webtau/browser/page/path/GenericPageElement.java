@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.path;
+package org.testingisdocumenting.webtau.browser.page.path;
 
-import com.twosigma.webtau.browser.AdditionalBrowserInteractions;
-import com.twosigma.webtau.browser.page.*;
-import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter;
-import com.twosigma.webtau.browser.page.path.filter.ByRegexpElementsFilter;
-import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter;
-import com.twosigma.webtau.browser.page.path.finder.ByCssFinder;
-import com.twosigma.webtau.browser.page.value.ElementValue;
-import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
-import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
+import org.testingisdocumenting.webtau.browser.page.*;
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
+import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
+import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -37,12 +37,12 @@ import java.util.Map;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.TO;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.TO;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
+import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
     private final WebDriver driver;

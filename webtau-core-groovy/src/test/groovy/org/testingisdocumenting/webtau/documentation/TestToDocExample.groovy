@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation
+package org.testingisdocumenting.webtau.documentation
 
-import com.twosigma.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.data.table.TableData
 import org.junit.Test
 
 class TestToDocExample {

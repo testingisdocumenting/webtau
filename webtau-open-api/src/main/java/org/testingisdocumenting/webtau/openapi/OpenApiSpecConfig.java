@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
-import com.twosigma.webtau.cfg.ConfigValue;
-import com.twosigma.webtau.cfg.WebTauConfig;
-import com.twosigma.webtau.cfg.WebTauConfigHandler;
+import org.testingisdocumenting.webtau.cfg.ConfigValue;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.cfg.ConfigValue.declare;
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue specUrl = declare("openApiSpecUrl",

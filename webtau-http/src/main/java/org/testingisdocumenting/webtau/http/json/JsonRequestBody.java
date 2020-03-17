@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.json;
+package org.testingisdocumenting.webtau.http.json;
 
-import com.twosigma.webtau.http.request.HttpRequestBody;
-import com.twosigma.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.Map;
 

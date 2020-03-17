@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli
+package org.testingisdocumenting.webtau.cli
 
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.reporter.WebTauReport
-import com.twosigma.webtau.report.ReportGenerator
-import com.twosigma.webtau.reporter.WebTauTest
-import com.twosigma.webtau.reporter.TestStatus
-import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.reporter.WebTauReport
+import org.testingisdocumenting.webtau.report.ReportGenerator
+import org.testingisdocumenting.webtau.reporter.WebTauTest
+import org.testingisdocumenting.webtau.reporter.TestStatus
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 
 class CliReportGenerator implements ReportGenerator {
     @Override

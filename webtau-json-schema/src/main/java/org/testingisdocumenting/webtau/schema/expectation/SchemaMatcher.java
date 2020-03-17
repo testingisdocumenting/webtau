@@ -1,4 +1,4 @@
-package com.twosigma.webtau.schema.expectation;
+package org.testingisdocumenting.webtau.schema.expectation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.networknt.schema.JsonMetaSchema;
@@ -6,13 +6,13 @@ import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
 import com.networknt.schema.ValidationMessage;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
-import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.schema.JsonSchemaConfig;
-import com.twosigma.webtau.utils.FileUtils;
-import com.twosigma.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.schema.JsonSchemaConfig;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.nio.file.Path;
 import java.util.List;

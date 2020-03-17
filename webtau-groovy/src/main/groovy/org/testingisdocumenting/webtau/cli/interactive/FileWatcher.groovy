@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.interactive
 
 import com.sun.nio.file.SensitivityWatchEventModifier
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 import groovy.io.FileType
 
 import java.nio.file.*

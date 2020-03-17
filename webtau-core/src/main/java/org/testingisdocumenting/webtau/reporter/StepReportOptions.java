@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
 /**
  * for values we already fetched we don't want report redundant "expecting value to equal" as there

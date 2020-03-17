@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package org.testingisdocumenting.webtau.documentation;
 
-import com.twosigma.webtau.expectation.ExpectationHandlers;
+import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 
 public class CoreDocumentation {
     private static final CoreDocumentationAssertion assertion = findHandlerInRegistered();

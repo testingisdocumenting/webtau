@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
-import com.twosigma.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

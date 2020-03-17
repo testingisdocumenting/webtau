@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
 class IgnoreAllConfigScriptClass extends Script {
     def propertyMissing(String name) { null }

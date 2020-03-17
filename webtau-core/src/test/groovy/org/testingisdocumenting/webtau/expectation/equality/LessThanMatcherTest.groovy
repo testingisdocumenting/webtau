@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality
+package org.testingisdocumenting.webtau.expectation.equality
 
-import com.twosigma.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.expectation.ActualPath
 import org.junit.Test
 
-import static com.twosigma.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
+import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
 
 class LessThanMatcherTest {
     private final int expected = 8

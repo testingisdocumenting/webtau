@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data;
+package org.testingisdocumenting.webtau.data;
 
 public class Transaction {
     private double lot;

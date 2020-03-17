@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http
+package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
 
-import static com.twosigma.webtau.http.Http.http
-import static com.twosigma.webtau.http.HttpOverloadsTestCommon.*
+import static org.testingisdocumenting.webtau.http.Http.http
+import static org.testingisdocumenting.webtau.http.HttpOverloadsTestCommon.*
 
 class HttpGroovyOverloadsTest extends HttpTestBase {
     @Test

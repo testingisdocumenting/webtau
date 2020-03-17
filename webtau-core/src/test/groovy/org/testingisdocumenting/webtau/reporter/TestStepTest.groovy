@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter
+package org.testingisdocumenting.webtau.reporter
 
 import org.junit.BeforeClass
 import org.junit.Test
 
 import java.util.function.Supplier
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static com.twosigma.webtau.reporter.StepReportOptions.REPORT_ALL
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
+import static org.testingisdocumenting.webtau.reporter.StepReportOptions.REPORT_ALL
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 import static java.util.stream.Collectors.toList
 
 class TestStepTest {

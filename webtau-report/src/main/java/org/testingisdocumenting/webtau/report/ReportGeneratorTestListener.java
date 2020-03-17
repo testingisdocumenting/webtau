@@ -1,7 +1,7 @@
-package com.twosigma.webtau.report;
+package org.testingisdocumenting.webtau.report;
 
-import com.twosigma.webtau.reporter.TestListener;
-import com.twosigma.webtau.reporter.WebTauReport;
+import org.testingisdocumenting.webtau.reporter.TestListener;
+import org.testingisdocumenting.webtau.reporter.WebTauReport;
 
 public class ReportGeneratorTestListener implements TestListener {
     @Override

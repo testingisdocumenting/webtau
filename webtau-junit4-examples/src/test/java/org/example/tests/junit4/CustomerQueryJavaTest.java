@@ -1,6 +1,6 @@
 package com.example.tests.junit4;
 
-import com.twosigma.webtau.junit4.WebTauRunner;
+import org.testingisdocumenting.webtau.junit4.WebTauRunner;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @RunWith(WebTauRunner.class)
 public class CustomerQueryJavaTest {

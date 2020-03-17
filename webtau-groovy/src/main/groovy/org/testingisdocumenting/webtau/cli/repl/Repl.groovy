@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.repl
+package org.testingisdocumenting.webtau.cli.repl
 
-import com.twosigma.webtau.browser.page.PageElement
-import com.twosigma.webtau.cfg.WebTauGroovyFileConfigHandler
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.http.datanode.DataNode
-import com.twosigma.webtau.http.render.DataNodeAnsiPrinter
-import com.twosigma.webtau.http.validation.HttpValidationHandlers
-import com.twosigma.webtau.reporter.ConsoleStepReporter
-import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
-import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.reporter.TokenizedMessageToAnsiConverter
-import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
+import org.testingisdocumenting.webtau.browser.page.PageElement
+import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.http.datanode.DataNode
+import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
+import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 import org.codehaus.groovy.tools.shell.Groovysh
 import org.codehaus.groovy.tools.shell.util.Preferences
 
@@ -67,9 +67,9 @@ class Repl {
         System.setProperty("groovysh.prompt", "webtau")
 
         def shell = new Groovysh()
-        shell.imports << "static com.twosigma.webtau.WebTauGroovyDsl.*"
-        shell.imports << "static com.twosigma.webtau.cli.repl.ReplCommands.*"
-        shell.imports << "static com.twosigma.webtau.cli.repl.ReplHttpLastValidationCapture.*"
+        shell.imports << "static org.testingisdocumenting.webtau.WebTauGroovyDsl.*"
+        shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplCommands.*"
+        shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplHttpLastValidationCapture.*"
         shell.errorHook = this.&errorHook
 
         shell.resultHook = { Object result ->

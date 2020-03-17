@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.components;
+package org.testingisdocumenting.webtau.data.components;
 
 public interface DeliveryService {
     void deliver(Game game, String address);

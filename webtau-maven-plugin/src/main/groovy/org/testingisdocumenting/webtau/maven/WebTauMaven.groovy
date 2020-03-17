@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.maven
+package org.testingisdocumenting.webtau.maven
 
-import com.twosigma.webtau.cfg.WebTauConfig
-import com.twosigma.webtau.cli.WebTauCliApp
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.cli.WebTauCliApp
 import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugin.logging.Log
 import org.apache.maven.shared.model.fileset.FileSet

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau;
+package org.testingisdocumenting.webtau;
 
-import com.twosigma.webtau.browser.AdditionalBrowserInteractions;
+import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
 import org.openqa.selenium.WebElement;
 
 import java.util.Collections;

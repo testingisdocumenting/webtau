@@ -1,4 +1,4 @@
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
 public enum ValidationMode {
     ALL,

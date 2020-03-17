@@ -1,6 +1,6 @@
-package com.twosigma.webtau.data
+package org.testingisdocumenting.webtau.data
 
-import com.twosigma.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.data.table.TableData
 import org.junit.Test
 
 class PeopleDaoGroovyTest {

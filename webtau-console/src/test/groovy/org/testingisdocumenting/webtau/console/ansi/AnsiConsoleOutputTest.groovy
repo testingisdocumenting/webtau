@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.console.ansi
+package org.testingisdocumenting.webtau.console.ansi
 
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.console.ansi.Color.BLUE
-import static com.twosigma.webtau.console.ansi.Color.YELLOW
-import static com.twosigma.webtau.console.ansi.FontStyle.BOLD
-import static com.twosigma.webtau.console.ansi.FontStyle.NORMAL
+import static org.testingisdocumenting.webtau.console.ansi.Color.BLUE
+import static org.testingisdocumenting.webtau.console.ansi.Color.YELLOW
+import static org.testingisdocumenting.webtau.console.ansi.FontStyle.BOLD
+import static org.testingisdocumenting.webtau.console.ansi.FontStyle.NORMAL
 
 class AnsiConsoleOutputTest {
     def console = new AnsiConsoleOutput()

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
-import com.twosigma.webtau.http.testserver.*;
-import com.twosigma.webtau.utils.CollectionUtils;
-import com.twosigma.webtau.utils.ResourceUtils;
+import org.testingisdocumenting.webtau.http.testserver.*;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
+import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.net.HttpURLConnection;
 import java.net.URI;

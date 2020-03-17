@@ -1,8 +1,8 @@
-package com.twosigma.webtau.data.math;
+package org.testingisdocumenting.webtau.data.math;
 
-import com.twosigma.webtau.data.render.DataRenderers;
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
-import com.twosigma.webtau.utils.TraceUtils;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.List;
 

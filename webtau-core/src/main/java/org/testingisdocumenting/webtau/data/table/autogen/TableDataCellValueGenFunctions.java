@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.autogen;
+package org.testingisdocumenting.webtau.data.table.autogen;
 
-import com.twosigma.webtau.WebTauCore;
+import org.testingisdocumenting.webtau.WebTauCore;
 
 /**
  * @see WebTauCore#cell

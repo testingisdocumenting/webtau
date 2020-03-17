@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.TestFile
+import org.testingisdocumenting.webtau.TestFile
 import groovy.io.FileType
 
 import java.nio.file.Files
@@ -24,8 +24,8 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.stream.Stream
 
-import static com.twosigma.webtau.cfg.ConfigValue.declare
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauGroovyCliArgsConfigHandler implements WebTauConfigHandler {
     private static final ConfigValue numberOfThreads = declare("numberOfThreads",

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality.handlers
+package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import com.twosigma.webtau.data.DummyLiveValue
+import org.testingisdocumenting.webtau.data.DummyLiveValue
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class LiveValueCompareToHandlerTest {
     @Test

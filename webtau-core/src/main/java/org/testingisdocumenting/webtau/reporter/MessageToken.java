@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
-import com.twosigma.webtau.utils.CollectionUtils;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Map;
 

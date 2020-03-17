@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package org.testingisdocumenting.webtau.report;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
-import com.twosigma.webtau.cfg.ConfigValue;
-import com.twosigma.webtau.cfg.WebTauMeta;
-import com.twosigma.webtau.console.ConsoleOutputs;
-import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.reporter.WebTauReport;
-import com.twosigma.webtau.reporter.WebTauTest;
-import com.twosigma.webtau.utils.FileUtils;
-import com.twosigma.webtau.utils.JsonUtils;
-import com.twosigma.webtau.utils.ResourceUtils;
+import org.testingisdocumenting.webtau.cfg.ConfigValue;
+import org.testingisdocumenting.webtau.cfg.WebTauMeta;
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.reporter.WebTauReport;
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.utils.ResourceUtils;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.LinkedHashMap;

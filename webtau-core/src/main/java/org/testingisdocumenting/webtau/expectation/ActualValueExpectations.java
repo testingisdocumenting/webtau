@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation;
+package org.testingisdocumenting.webtau.expectation;
 
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
-import com.twosigma.webtau.expectation.timer.ExpectationTimerConfigProvider;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimerConfigProvider;
 
 public interface ActualValueExpectations {
     void should(ValueMatcher valueMatcher);

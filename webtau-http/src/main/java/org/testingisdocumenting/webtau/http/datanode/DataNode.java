@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode;
+package org.testingisdocumenting.webtau.http.datanode;
 
-import com.twosigma.webtau.data.traceable.TraceableValue;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
-import com.twosigma.webtau.expectation.equality.CompareToResult;
+import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 
 import java.util.List;
 import java.util.Map;
 
-import static com.twosigma.webtau.WebTauCore.createActualPath;
+import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
 public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode> {
     DataNodeId id();

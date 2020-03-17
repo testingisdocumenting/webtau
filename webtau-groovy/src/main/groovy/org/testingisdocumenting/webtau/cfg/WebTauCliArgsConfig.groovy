@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.examples.ExamplesScaffolder
+import org.testingisdocumenting.webtau.examples.ExamplesScaffolder
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter

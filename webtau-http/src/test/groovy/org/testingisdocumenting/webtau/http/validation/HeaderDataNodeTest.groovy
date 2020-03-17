@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.validation
+package org.testingisdocumenting.webtau.http.validation
 
-import com.twosigma.webtau.http.HttpResponse
-import com.twosigma.webtau.http.datanode.NullDataNode
+import org.testingisdocumenting.webtau.http.HttpResponse
+import org.testingisdocumenting.webtau.http.datanode.NullDataNode
 import org.junit.Before
 import org.junit.Test
 

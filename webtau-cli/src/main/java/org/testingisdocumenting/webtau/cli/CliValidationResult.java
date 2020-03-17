@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli;
+package org.testingisdocumenting.webtau.cli;
 
-import com.twosigma.webtau.cli.expectation.CliOutput;
-import com.twosigma.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
+import org.testingisdocumenting.webtau.reporter.TestStepPayload;
 
 import java.util.*;
 

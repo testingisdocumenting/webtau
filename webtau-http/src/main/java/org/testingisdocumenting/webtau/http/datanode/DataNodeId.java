@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode;
+package org.testingisdocumenting.webtau.http.datanode;
 
 public class DataNodeId {
     private String path;

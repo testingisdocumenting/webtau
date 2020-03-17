@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.expectation
+package org.testingisdocumenting.webtau.data.expectation
 
 /**
  * There is a bug in maven shade plugin that checks for presence of static extensions

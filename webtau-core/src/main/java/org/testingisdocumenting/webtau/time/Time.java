@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.time;
+package org.testingisdocumenting.webtau.time;
 
 import java.util.concurrent.atomic.AtomicReference;
 

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.render
+package org.testingisdocumenting.webtau.data.render
 
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.table
+import static org.testingisdocumenting.webtau.WebTauCore.table
 import static org.junit.Assert.assertEquals
 
 class TableDataRenderTest {

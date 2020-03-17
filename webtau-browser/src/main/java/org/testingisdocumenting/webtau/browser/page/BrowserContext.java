@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser.page;
 
-import com.twosigma.webtau.browser.page.WithTokenizedDescription;
-import com.twosigma.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.browser.page.WithTokenizedDescription;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.id;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.id;
 
 class BrowserContext implements WithTokenizedDescription {
     @Override

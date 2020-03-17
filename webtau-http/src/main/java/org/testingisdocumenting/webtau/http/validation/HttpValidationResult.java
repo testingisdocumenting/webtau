@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.validation;
+package org.testingisdocumenting.webtau.http.validation;
 
-import com.twosigma.webtau.data.traceable.CheckLevel;
-import com.twosigma.webtau.http.HttpHeader;
-import com.twosigma.webtau.http.request.HttpRequestBody;
-import com.twosigma.webtau.http.HttpResponse;
-import com.twosigma.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
-import com.twosigma.webtau.http.datacoverage.TraceableValueConverter;
-import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.reporter.TestStepPayload;
-import com.twosigma.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
+import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.http.HttpResponse;
+import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
+import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

@@ -1,12 +1,12 @@
 package com.example.tests.junit4
 
-import com.twosigma.webtau.junit4.WebTauRunner
+import org.testingisdocumenting.webtau.junit4.WebTauRunner
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static com.twosigma.webtau.WebTauDsl.http
+import static org.testingisdocumenting.webtau.WebTauDsl.http
 
 @RunWith(WebTauRunner.class)
 class CustomerQueryGroovyTest {

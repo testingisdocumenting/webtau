@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
 
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauDsl.http
-import static com.twosigma.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
+import static org.testingisdocumenting.webtau.WebTauDsl.http
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauRestFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner

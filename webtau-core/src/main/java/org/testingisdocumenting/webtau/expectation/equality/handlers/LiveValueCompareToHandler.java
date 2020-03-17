@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality.handlers;
+package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import com.twosigma.webtau.data.live.LiveValue;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
-import com.twosigma.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.data.live.LiveValue;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
 public class LiveValueCompareToHandler implements CompareToHandler {
     @Override

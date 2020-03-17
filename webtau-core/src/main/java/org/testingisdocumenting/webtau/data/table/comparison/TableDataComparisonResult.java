@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.comparison;
+package org.testingisdocumenting.webtau.data.table.comparison;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.twosigma.webtau.data.table.Record;
-import com.twosigma.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.Record;
+import org.testingisdocumenting.webtau.data.table.TableData;
 
 public class TableDataComparisonResult {
     private Map<Integer, Map<String, String>> messageByActualRowIdxAndColumn;

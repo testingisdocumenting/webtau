@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.validation;
+package org.testingisdocumenting.webtau.http.validation;
 
 public interface HttpValidationHandler {
     void validate(HttpValidationResult validationResult);

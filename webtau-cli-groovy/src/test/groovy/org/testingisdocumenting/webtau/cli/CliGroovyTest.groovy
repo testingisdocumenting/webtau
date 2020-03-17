@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli
+package org.testingisdocumenting.webtau.cli
 
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
-import static com.twosigma.webtau.cli.Cli.cli
-import static com.twosigma.webtau.cli.CliTestUtils.supportedPlatformOnly
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.cli.Cli.cli
+import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 
 class CliGroovyTest {
     @Test

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.render;
+package org.testingisdocumenting.webtau.http.render;
 
-import com.twosigma.webtau.console.ConsoleOutputs;
-import com.twosigma.webtau.console.ansi.Color;
-import com.twosigma.webtau.console.ansi.FontStyle;
-import com.twosigma.webtau.data.traceable.TraceableValue;
-import com.twosigma.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

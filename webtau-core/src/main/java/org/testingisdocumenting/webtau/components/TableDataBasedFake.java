@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.components;
+package org.testingisdocumenting.webtau.components;
 
 public class TableDataBasedFake {
 }

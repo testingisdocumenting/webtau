@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation
+package org.testingisdocumenting.webtau.expectation
 
-import com.twosigma.webtau.data.DummyLiveValue
-import com.twosigma.webtau.data.live.LiveValue
-import com.twosigma.webtau.expectation.timer.DummyExpectationTimer
+import org.testingisdocumenting.webtau.data.DummyLiveValue
+import org.testingisdocumenting.webtau.data.live.LiveValue
+import org.testingisdocumenting.webtau.expectation.timer.DummyExpectationTimer
 import org.junit.Before
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class ActualValueTest {
     LiveValue liveValue

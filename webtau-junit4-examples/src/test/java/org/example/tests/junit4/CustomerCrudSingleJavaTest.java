@@ -1,12 +1,12 @@
 package com.example.tests.junit4;
 
-import com.twosigma.webtau.junit4.WebTauRunner;
+import org.testingisdocumenting.webtau.junit4.WebTauRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Map;
 
-import static com.twosigma.webtau.WebTauDsl.*; // convenient single import for DSL methods and props like http and equal, aMapOf, etc
+import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for DSL methods and props like http and equal, aMapOf, etc
 
 @RunWith(WebTauRunner.class) // runner is required to have this test to be a part of generated html report
 public class CustomerCrudSingleJavaTest {

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi
+package org.testingisdocumenting.webtau.openapi
 
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
 
 class OpenApiSpecTest {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli;
+package org.testingisdocumenting.webtau.cli;
 
 public class CliTestUtils {
     private static final String OS = System.getProperty("os.name");

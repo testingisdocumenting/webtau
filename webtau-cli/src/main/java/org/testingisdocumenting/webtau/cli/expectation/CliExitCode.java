@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli.expectation;
 
-import com.twosigma.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
 
 public class CliExitCode implements CliResultExpectations {
     private static final ActualPath path = new ActualPath("exitCode");

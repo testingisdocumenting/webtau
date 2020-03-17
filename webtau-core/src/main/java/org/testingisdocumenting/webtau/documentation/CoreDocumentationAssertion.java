@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package org.testingisdocumenting.webtau.documentation;
 
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.ExpectationHandler;
-import com.twosigma.webtau.expectation.ExpectedValuesAware;
-import com.twosigma.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
+import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 import java.util.List;
 import java.util.stream.Collectors;

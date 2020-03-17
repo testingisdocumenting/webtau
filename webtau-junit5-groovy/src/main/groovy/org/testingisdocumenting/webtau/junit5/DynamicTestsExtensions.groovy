@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit5
+package org.testingisdocumenting.webtau.junit5
 
-import com.twosigma.webtau.data.table.Record
-import com.twosigma.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.data.table.Record
+import org.testingisdocumenting.webtau.data.table.TableData
 import org.junit.jupiter.api.DynamicTest
 
 import java.util.function.Consumer

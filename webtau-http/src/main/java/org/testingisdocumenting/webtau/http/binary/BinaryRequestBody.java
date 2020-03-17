@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.binary;
+package org.testingisdocumenting.webtau.http.binary;
 
-import com.twosigma.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 
 public class BinaryRequestBody implements HttpRequestBody {
     private final String type;

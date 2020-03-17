@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser.page;
 
 import java.util.Collections;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.twosigma.webtau.data.math;
+package org.testingisdocumenting.webtau.data.math;
 
 public interface SimpleMathHandler {
     boolean handleAddSubtract(Object left, Object right);

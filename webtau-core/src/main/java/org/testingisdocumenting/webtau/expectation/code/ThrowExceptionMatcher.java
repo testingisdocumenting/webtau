@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.code;
+package org.testingisdocumenting.webtau.expectation.code;
 
-import static com.twosigma.webtau.WebTauCore.createActualPath;
+import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-import com.twosigma.webtau.expectation.CodeBlock;
-import com.twosigma.webtau.expectation.CodeMatcher;
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.CodeBlock;
+import org.testingisdocumenting.webtau.expectation.CodeMatcher;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.regex.Pattern;
 

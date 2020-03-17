@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.multipart;
+package org.testingisdocumenting.webtau.http.multipart;
 
-import com.twosigma.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

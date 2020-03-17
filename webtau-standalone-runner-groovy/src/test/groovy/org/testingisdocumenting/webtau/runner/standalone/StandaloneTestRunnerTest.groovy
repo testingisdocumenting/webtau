@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.runner.standalone
+package org.testingisdocumenting.webtau.runner.standalone
 
-import com.twosigma.webtau.TestFile
-import com.twosigma.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.TestFile
+import org.testingisdocumenting.webtau.reporter.TestListeners
 import org.junit.Test
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.WebTauCore.contain
+import static org.testingisdocumenting.webtau.WebTauCore.contain
 
 class StandaloneTestRunnerTest {
     @Test

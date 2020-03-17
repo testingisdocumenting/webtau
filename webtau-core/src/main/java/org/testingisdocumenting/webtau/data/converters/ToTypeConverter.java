@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.converters;
+package org.testingisdocumenting.webtau.data.converters;
 
 public interface ToTypeConverter<E> {
     E convert(Object v);

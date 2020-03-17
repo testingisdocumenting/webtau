@@ -1,4 +1,4 @@
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
 /**
  * Extracts {@link TestStep} payloads from all test steps at the end of the test and re-attaches it as a test payload.

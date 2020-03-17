@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation;
-import com.twosigma.webtau.http.validation.HttpValidationResult;
-import com.twosigma.webtau.utils.FileUtils;
-import com.twosigma.webtau.utils.JsonUtils;
-import com.twosigma.webtau.utils.UrlUtils;
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.nio.file.Path;
 

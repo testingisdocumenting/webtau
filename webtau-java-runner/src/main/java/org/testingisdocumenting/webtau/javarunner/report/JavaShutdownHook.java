@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.javarunner.report;
+package org.testingisdocumenting.webtau.javarunner.report;
 
-import com.twosigma.webtau.reporter.TestListeners;
+import org.testingisdocumenting.webtau.reporter.TestListeners;
 
 public class JavaShutdownHook {
     public final static JavaShutdownHook INSTANCE = new JavaShutdownHook();

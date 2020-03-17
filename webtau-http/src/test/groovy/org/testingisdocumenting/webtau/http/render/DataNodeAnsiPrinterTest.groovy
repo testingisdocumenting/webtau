@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.render
+package org.testingisdocumenting.webtau.http.render
 
-import com.twosigma.webtau.console.ConsoleOutput
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.console.ansi.FontStyle
-import com.twosigma.webtau.http.datanode.DataNodeBuilder
-import com.twosigma.webtau.http.datanode.DataNodeId
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.console.ansi.FontStyle
+import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.http.datanode.DataNodeId
 import org.junit.AfterClass
 import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.equal
+import static org.testingisdocumenting.webtau.WebTauCore.equal
 
 class DataNodeAnsiPrinterTest {
     private static def ansiConsoleOutput = new AnsiConsoleOutput()

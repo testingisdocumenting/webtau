@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli;
+package org.testingisdocumenting.webtau.cli;
 
 public class CliException extends RuntimeException {
     CliException(String message, Throwable e) {

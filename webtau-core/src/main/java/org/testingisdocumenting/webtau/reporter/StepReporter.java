@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter;
+package org.testingisdocumenting.webtau.reporter;
 
 public interface StepReporter<C, R> {
     void onStepStart(TestStep<C, R> step);

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.contain;
+package org.testingisdocumenting.webtau.expectation.contain;
 
-import com.twosigma.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
 
 public interface ContainHandler {
     boolean handle(Object actual, Object expected);

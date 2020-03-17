@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.runner.standalone.GroovyStandaloneEngine
+import org.testingisdocumenting.webtau.runner.standalone.GroovyStandaloneEngine
 import org.junit.Test
 
 import java.nio.file.Paths

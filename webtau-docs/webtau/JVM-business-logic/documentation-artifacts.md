@@ -10,22 +10,22 @@ As system evolves, so do your tests and so does your documentation. Essentially 
 Use `doc.capture` to save any value to a file.
 Example below assumes `core` static import.
 
-:include-file: com/twosigma/webtau/data/PeopleDaoWithDocTest.java {includeRegexp: "import.*Core"}
+:include-file: org/testingisdocumenting/webtau/data/PeopleDaoWithDocTest.java {includeRegexp: "import.*Core"}
 
-:include-java: com/twosigma/webtau/data/PeopleDaoWithDocTest.java {title: "capturing a value", entry: "initEmployees", commentsType: "inline", bodyOnly: true}
+:include-java: org/testingisdocumenting/webtau/data/PeopleDaoWithDocTest.java {title: "capturing a value", entry: "initEmployees", commentsType: "inline", bodyOnly: true}
 
-:include-java-doc: com/twosigma/webtau/documentation/CoreDocumentation.java {entry: "capture"}
+:include-java-doc: org/testingisdocumenting/webtau/documentation/CoreDocumentation.java {entry: "capture"}
 
 # Capture Expected Output 
 
 Use `doc.expected.capture` to save most recent expected value.
 
-:include-java: com/twosigma/webtau/data/PeopleDaoWithDocTest.java {title: "capturing most recent expected", entry: "validateNewJoiners", commentsType: "inline", bodyOnly: true}
+:include-java: org/testingisdocumenting/webtau/data/PeopleDaoWithDocTest.java {title: "capturing most recent expected", entry: "validateNewJoiners", commentsType: "inline", bodyOnly: true}
 
 # Znai Example
 
-Since this documentation is rendered using [Znai](https://github.com/twosigma/znai) here is an example of how to use the captured artifacts.
-[Znai](https://github.com/twosigma/znai) has `:include-table:` plugin to render a table giving a json or CSV file.
+Since this documentation is rendered using [Znai](https://github.org/testingisdocumenting/znai) here is an example of how to use the captured artifacts.
+[Znai](https://github.org/testingisdocumenting/znai) has `:include-table:` plugin to render a table giving a json or CSV file.
 
 ```text
 :include-table: all-employees.json

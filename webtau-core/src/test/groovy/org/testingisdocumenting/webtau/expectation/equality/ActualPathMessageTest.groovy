@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality
+package org.testingisdocumenting.webtau.expectation.equality
 
 import org.junit.Assert
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.createActualPath
+import static org.testingisdocumenting.webtau.WebTauCore.createActualPath
 
 class ActualPathMessageTest {
     @Test

@@ -1,6 +1,6 @@
 package scenarios.cli
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("cli run using path") {
     cli.run('path-simple') {

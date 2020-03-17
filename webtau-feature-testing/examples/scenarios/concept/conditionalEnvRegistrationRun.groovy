@@ -1,6 +1,6 @@
 package scenarios.concept
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 onlyForEnv('experimental') {
     scenario('this scenario will only be executed in "experimental" env') {

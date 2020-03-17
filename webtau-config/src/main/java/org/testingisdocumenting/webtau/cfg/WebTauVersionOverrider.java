@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg;
+package org.testingisdocumenting.webtau.cfg;
 
 /**
  * Entry point for custom webtau CLI wrappers to provide a version override

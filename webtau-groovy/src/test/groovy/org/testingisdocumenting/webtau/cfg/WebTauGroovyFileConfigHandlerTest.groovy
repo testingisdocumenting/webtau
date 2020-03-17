@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.reporter.WebTauReport
-import com.twosigma.webtau.report.ReportGenerators
-import com.twosigma.webtau.reporter.WebTauTestList
+import org.testingisdocumenting.webtau.reporter.WebTauReport
+import org.testingisdocumenting.webtau.report.ReportGenerators
+import org.testingisdocumenting.webtau.reporter.WebTauTestList
 import org.junit.Test
 
 import java.nio.file.Files
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class WebTauGroovyFileConfigHandlerTest {
     @Test

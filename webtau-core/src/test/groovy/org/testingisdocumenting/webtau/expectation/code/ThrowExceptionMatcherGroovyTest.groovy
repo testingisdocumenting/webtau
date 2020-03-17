@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.code
+package org.testingisdocumenting.webtau.expectation.code
 
 import org.junit.Rule
 import org.junit.Test
@@ -22,7 +22,7 @@ import org.junit.rules.ExpectedException
 
 import java.lang.reflect.UndeclaredThrowableException
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class ThrowExceptionMatcherGroovyTest {
     @Rule

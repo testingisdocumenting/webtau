@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli.expectation;
 
-import com.twosigma.webtau.data.render.DataRenderers;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.contain.ContainAnalyzer;
-import com.twosigma.webtau.expectation.contain.ContainHandler;
-import com.twosigma.webtau.expectation.contain.handlers.IndexedValue;
-import com.twosigma.webtau.expectation.contain.handlers.IterableContainAnalyzer;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
+import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
+import org.testingisdocumenting.webtau.expectation.contain.handlers.IndexedValue;
+import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainAnalyzer;
 
 import java.util.HashSet;
 import java.util.List;

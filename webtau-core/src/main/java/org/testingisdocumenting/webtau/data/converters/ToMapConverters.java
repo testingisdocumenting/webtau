@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.converters;
+package org.testingisdocumenting.webtau.data.converters;
 
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
 import java.util.Map;

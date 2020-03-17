@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.javarunner.report;
+package org.testingisdocumenting.webtau.javarunner.report;
 
-import com.twosigma.webtau.reporter.WebTauReport;
-import com.twosigma.webtau.reporter.WebTauTest;
-import com.twosigma.webtau.reporter.WebTauTestList;
-import com.twosigma.webtau.time.Time;
+import org.testingisdocumenting.webtau.reporter.WebTauReport;
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
+import org.testingisdocumenting.webtau.reporter.WebTauTestList;
+import org.testingisdocumenting.webtau.time.Time;
 
 /**
  * Global storage of java based report.

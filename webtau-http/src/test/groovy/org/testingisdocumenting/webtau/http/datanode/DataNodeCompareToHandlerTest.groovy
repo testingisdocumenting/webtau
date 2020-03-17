@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode
+package org.testingisdocumenting.webtau.http.datanode
 
-import com.twosigma.webtau.expectation.equality.CompareToComparator
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static com.twosigma.webtau.data.traceable.CheckLevel.ExplicitPassed
-import static com.twosigma.webtau.data.traceable.CheckLevel.None
+import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.ExplicitPassed
+import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
 import static org.junit.Assert.assertEquals
 
 class DataNodeCompareToHandlerTest {

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package org.testingisdocumenting.webtau.report;
 
-import com.twosigma.webtau.reporter.WebTauReport;
+import org.testingisdocumenting.webtau.reporter.WebTauReport;
 
 public interface ReportGenerator {
     void generate(WebTauReport report);

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality;
+package org.testingisdocumenting.webtau.expectation.equality;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.interactive
 
-import com.twosigma.webtau.TestFile
-import com.twosigma.webtau.runner.standalone.StandaloneTest
-import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
+import org.testingisdocumenting.webtau.TestFile
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTest
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 import groovy.transform.PackageScope
 
 import java.nio.file.Paths

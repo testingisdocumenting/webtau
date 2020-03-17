@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.http.HttpHeader
-import com.twosigma.webtau.http.config.HttpConfiguration
-import com.twosigma.webtau.http.config.HttpConfigurations
+import org.testingisdocumenting.webtau.http.HttpHeader
+import org.testingisdocumenting.webtau.http.config.HttpConfiguration
+import org.testingisdocumenting.webtau.http.config.HttpConfigurations
 
 import java.util.concurrent.atomic.AtomicReference
 

@@ -1,5 +1,5 @@
 <dependency>
-    <groupId>com.twosigma.webtau</groupId>
+    <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-groovy</artifactId>
     <version>${project.version}</version>
 </dependency>

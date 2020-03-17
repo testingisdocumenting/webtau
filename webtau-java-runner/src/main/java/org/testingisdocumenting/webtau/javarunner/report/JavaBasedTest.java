@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.javarunner.report;
+package org.testingisdocumenting.webtau.javarunner.report;
 
-import com.twosigma.webtau.reporter.WebTauTest;
-import com.twosigma.webtau.reporter.StepReporter;
-import com.twosigma.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
+import org.testingisdocumenting.webtau.reporter.StepReporter;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class JavaBasedTest implements StepReporter {
     private final WebTauTest test;

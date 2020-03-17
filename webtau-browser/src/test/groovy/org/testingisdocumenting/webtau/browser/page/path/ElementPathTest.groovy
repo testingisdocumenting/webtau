@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.path
+package org.testingisdocumenting.webtau.browser.page.path
 
-import com.twosigma.webtau.browser.page.path.filter.ByNumberElementsFilter
-import com.twosigma.webtau.browser.page.path.filter.ByTextElementsFilter
-import com.twosigma.webtau.browser.page.path.finder.ByCssFinder
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElementsFilter
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFilter
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder
 import org.junit.Test
 
 class ElementPathTest {

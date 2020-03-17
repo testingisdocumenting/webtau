@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau;
+package org.testingisdocumenting.webtau;
 
-import com.twosigma.webtau.browser.Browser;
-import com.twosigma.webtau.browser.expectation.DisabledValueMatcher;
-import com.twosigma.webtau.browser.expectation.EnabledValueMatcher;
-import com.twosigma.webtau.browser.expectation.HiddenValueMatcher;
-import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
-import com.twosigma.webtau.browser.page.PageElement;
-import com.twosigma.webtau.cache.Cache;
-import com.twosigma.webtau.cfg.WebTauConfig;
-import com.twosigma.webtau.cli.Cli;
-import com.twosigma.webtau.data.Data;
-import com.twosigma.webtau.expectation.ValueMatcher;
-import com.twosigma.webtau.http.Http;
-import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.pdf.Pdf;
-import com.twosigma.webtau.schema.expectation.SchemaMatcher;
+import org.testingisdocumenting.webtau.browser.Browser;
+import org.testingisdocumenting.webtau.browser.expectation.DisabledValueMatcher;
+import org.testingisdocumenting.webtau.browser.expectation.EnabledValueMatcher;
+import org.testingisdocumenting.webtau.browser.expectation.HiddenValueMatcher;
+import org.testingisdocumenting.webtau.browser.expectation.VisibleValueMatcher;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.cache.Cache;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.cli.Cli;
+import org.testingisdocumenting.webtau.data.Data;
+import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.http.Http;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.pdf.Pdf;
+import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
 
 /*
 Convenient class for static * import

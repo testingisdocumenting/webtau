@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation;
-import com.twosigma.webtau.http.config.HttpConfiguration;
-import com.twosigma.webtau.http.config.HttpConfigurations;
-import com.twosigma.webtau.utils.UrlUtils;
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
+import org.testingisdocumenting.webtau.http.config.HttpConfiguration;
+import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

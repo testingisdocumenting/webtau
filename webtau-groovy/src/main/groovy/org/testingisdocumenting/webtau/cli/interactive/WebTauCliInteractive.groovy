@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.interactive
 
-import com.twosigma.webtau.WebTauGroovyDsl
-import com.twosigma.webtau.cfg.GroovyRunner
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.reporter.ConsoleStepReporter
-import com.twosigma.webtau.reporter.ConsoleTestListener
-import com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder
-import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.reporter.TestListeners
-import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
-import com.twosigma.webtau.runner.standalone.StandaloneTest
-import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
+import org.testingisdocumenting.webtau.WebTauGroovyDsl
+import org.testingisdocumenting.webtau.cfg.GroovyRunner
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
+import org.testingisdocumenting.webtau.reporter.ConsoleTestListener
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
+import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTest
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -35,7 +35,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauCliInteractive {
     // explicit and watch test execution must be in the same thread because browser instance is thread bound

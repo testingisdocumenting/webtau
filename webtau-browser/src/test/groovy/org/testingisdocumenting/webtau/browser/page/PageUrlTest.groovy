@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page
+package org.testingisdocumenting.webtau.browser.page
 
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class PageUrlTest {
     private static def browser = [

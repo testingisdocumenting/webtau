@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.multipart;
+package org.testingisdocumenting.webtau.http.multipart;
 
-import com.twosigma.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
 

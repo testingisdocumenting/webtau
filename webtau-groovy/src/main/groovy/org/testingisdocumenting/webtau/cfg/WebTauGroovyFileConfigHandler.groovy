@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg
+package org.testingisdocumenting.webtau.cfg
 
-import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
-import com.twosigma.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.report.ReportGenerator
-import com.twosigma.webtau.report.ReportGenerators
-import com.twosigma.webtau.reporter.TestListener
-import com.twosigma.webtau.reporter.TestListeners
-import com.twosigma.webtau.reporter.stacktrace.StackTraceUtils
+import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
+import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.report.ReportGenerator
+import org.testingisdocumenting.webtau.report.ReportGenerators
+import org.testingisdocumenting.webtau.reporter.TestListener
+import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 
 import java.nio.file.Files
 import java.nio.file.Path

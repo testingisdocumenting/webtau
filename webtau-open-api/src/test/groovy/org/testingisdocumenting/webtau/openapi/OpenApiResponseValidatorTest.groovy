@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi
+package org.testingisdocumenting.webtau.openapi
 
-import com.twosigma.webtau.cfg.WebTauConfig
-import com.twosigma.webtau.http.HttpHeader
-import com.twosigma.webtau.http.HttpResponse
-import com.twosigma.webtau.http.json.JsonRequestBody
-import com.twosigma.webtau.http.validation.HttpValidationHandlers
-import com.twosigma.webtau.http.validation.HttpValidationResult
-import com.twosigma.webtau.reporter.StepReporter
-import com.twosigma.webtau.reporter.StepReporters
-import com.twosigma.webtau.reporter.TestStep
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.http.HttpHeader
+import org.testingisdocumenting.webtau.http.HttpResponse
+import org.testingisdocumenting.webtau.http.json.JsonRequestBody
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.reporter.StepReporter
+import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
@@ -33,7 +33,7 @@ import org.junit.Test
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class OpenApiResponseValidatorTest implements StepReporter {
     List<String> stepMessages = []

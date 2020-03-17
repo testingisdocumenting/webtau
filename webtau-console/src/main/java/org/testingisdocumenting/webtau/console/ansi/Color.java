@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.console.ansi;
+package org.testingisdocumenting.webtau.console.ansi;
 
 public enum Color {
     BLACK("\u001B[30m"),

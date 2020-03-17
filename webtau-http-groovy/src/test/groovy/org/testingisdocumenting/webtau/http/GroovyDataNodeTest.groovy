@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http
+package org.testingisdocumenting.webtau.http
 
-import com.twosigma.webtau.data.traceable.CheckLevel
-import com.twosigma.webtau.http.datanode.DataNodeBuilder
-import com.twosigma.webtau.http.datanode.DataNodeId
-import com.twosigma.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
+import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.http.datanode.DataNodeId
+import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
 import org.junit.Test
 
 class GroovyDataNodeTest {

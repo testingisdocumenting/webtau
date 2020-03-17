@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality.handlers;
+package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
+import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
 
 class HandlerMessages {
     static final String ACTUAL_PREFIX = "  actual: ";

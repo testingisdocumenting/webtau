@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.expectation;
+package org.testingisdocumenting.webtau.browser.expectation;
 
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
-import com.twosigma.webtau.expectation.timer.ExpectationTimerConfig;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimerConfig;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class SystemTimerConfig implements ExpectationTimerConfig {
     @Override

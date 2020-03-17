@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau
+package org.testingisdocumenting.webtau
 
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.console.ansi.FontStyle
-import com.twosigma.webtau.data.LazyTestResource
-import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
-import com.twosigma.webtau.runner.standalone.TestsRunTerminateException
-import com.twosigma.webtau.utils.RegexpUtils
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.console.ansi.FontStyle
+import org.testingisdocumenting.webtau.data.LazyTestResource
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
+import org.testingisdocumenting.webtau.runner.standalone.TestsRunTerminateException
+import org.testingisdocumenting.webtau.utils.RegexpUtils
 
 import java.util.function.Supplier
 import java.util.regex.Pattern
 
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.none
-import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
+import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 class WebTauGroovyDsl extends WebTauDsl {
     private static final Pattern PLACEHOLDER_PATTERN = ~/<(\w+)>/

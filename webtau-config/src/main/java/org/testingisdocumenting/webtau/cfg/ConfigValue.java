@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cfg;
+package org.testingisdocumenting.webtau.cfg;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table.render;
+package org.testingisdocumenting.webtau.data.table.render;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -24,9 +24,9 @@ import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.twosigma.webtau.data.table.Record;
-import com.twosigma.webtau.data.render.DataRenderers;
-import com.twosigma.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.Record;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.table.TableData;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;

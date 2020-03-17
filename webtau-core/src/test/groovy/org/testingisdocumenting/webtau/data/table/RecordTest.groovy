@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table
+package org.testingisdocumenting.webtau.data.table
 
-import com.twosigma.webtau.data.table.header.Header
+import org.testingisdocumenting.webtau.data.table.header.Header
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class RecordTest {
     @Test

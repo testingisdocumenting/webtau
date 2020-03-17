@@ -17,8 +17,8 @@
 package com.example.tests.junit4
 
 import com.example.tests.featuretest.JUnitFeatureTestRunner
-import com.twosigma.webtau.featuretesting.WebTauRestFeaturesTestData
-import com.twosigma.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.featuretesting.WebTauRestFeaturesTestData
+import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test

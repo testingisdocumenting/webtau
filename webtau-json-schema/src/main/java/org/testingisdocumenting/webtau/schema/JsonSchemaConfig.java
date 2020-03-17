@@ -1,13 +1,13 @@
-package com.twosigma.webtau.schema;
+package org.testingisdocumenting.webtau.schema;
 
-import com.twosigma.webtau.cfg.ConfigValue;
-import com.twosigma.webtau.cfg.WebTauConfigHandler;
+import org.testingisdocumenting.webtau.cfg.ConfigValue;
+import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.cfg.ConfigValue.declare;
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class JsonSchemaConfig implements WebTauConfigHandler {
     private static final ConfigValue schemasDir = declare("jsonSchemasDir",

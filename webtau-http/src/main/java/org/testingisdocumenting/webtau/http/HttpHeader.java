@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
 import java.util.*;
 import java.util.function.BiConsumer;

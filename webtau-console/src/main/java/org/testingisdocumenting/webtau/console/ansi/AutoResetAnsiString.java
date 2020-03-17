@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.console.ansi;
+package org.testingisdocumenting.webtau.console.ansi;
 
 import java.util.stream.Stream;
 

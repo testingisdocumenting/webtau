@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.reporter;
+package org.testingisdocumenting.webtau.browser.reporter;
 
-import com.twosigma.webtau.reporter.TestResultPayload;
-import com.twosigma.webtau.reporter.TestResultPayloadExtractor;
-import com.twosigma.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.TestResultPayload;
+import org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractor;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 
 import java.util.Optional;
 import java.util.stream.Stream;

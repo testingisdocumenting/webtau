@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli.expectation;
 
-import com.twosigma.webtau.cli.CliOutputListener;
+import org.testingisdocumenting.webtau.cli.CliOutputListener;
 
 public interface CliSetupAndValidationFullHandler {
     void setupAndHandle(CliOutputListener listener, int exitCode, CliOutput output, CliOutput error);

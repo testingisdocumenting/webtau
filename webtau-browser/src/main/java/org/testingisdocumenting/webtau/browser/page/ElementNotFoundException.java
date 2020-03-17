@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser.page;
 
 public class ElementNotFoundException extends AssertionError {
     public ElementNotFoundException(String message) {

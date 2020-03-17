@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.report
+package org.testingisdocumenting.webtau.http.report
 
-import com.twosigma.webtau.report.ReportDataProviders
-import com.twosigma.webtau.reporter.WebTauTestList
-import com.twosigma.webtau.reporter.WebTauTest
-import com.twosigma.webtau.reporter.TestResultPayload
+import org.testingisdocumenting.webtau.report.ReportDataProviders
+import org.testingisdocumenting.webtau.reporter.WebTauTestList
+import org.testingisdocumenting.webtau.reporter.WebTauTest
+import org.testingisdocumenting.webtau.reporter.TestResultPayload
 import org.junit.Test
 
 class HttpCallsReportDataProviderTest {

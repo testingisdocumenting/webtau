@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality.handlers;
+package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import com.twosigma.webtau.data.converters.ToMapConverters;
-import com.twosigma.webtau.data.table.header.Header;
-import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.data.table.comparison.TableDataComparison;
-import com.twosigma.webtau.data.table.comparison.TableDataComparisonReport;
-import com.twosigma.webtau.data.table.comparison.TableDataComparisonResult;
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
-import com.twosigma.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.data.converters.ToMapConverters;
+import org.testingisdocumenting.webtau.data.table.header.Header;
+import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparison;
+import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonReport;
+import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonResult;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
 import java.util.ArrayList;
 import java.util.List;

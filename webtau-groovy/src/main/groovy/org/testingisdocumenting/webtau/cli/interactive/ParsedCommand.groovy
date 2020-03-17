@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.interactive
 
-import com.twosigma.webtau.utils.NumberUtils
+import org.testingisdocumenting.webtau.utils.NumberUtils
 import groovy.transform.PackageScope
 
 @PackageScope

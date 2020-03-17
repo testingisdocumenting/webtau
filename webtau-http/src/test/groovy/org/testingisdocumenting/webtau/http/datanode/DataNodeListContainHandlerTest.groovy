@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datanode
+package org.testingisdocumenting.webtau.http.datanode
 
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
-import static com.twosigma.webtau.data.traceable.CheckLevel.ExplicitFailed
-import static com.twosigma.webtau.data.traceable.CheckLevel.ExplicitPassed
-import static com.twosigma.webtau.data.traceable.CheckLevel.FuzzyPassed
-import static com.twosigma.webtau.data.traceable.CheckLevel.None
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.ExplicitFailed
+import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.ExplicitPassed
+import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.FuzzyPassed
+import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
 
 class DataNodeListContainHandlerTest {
     def listOfNames = [

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation;
+package org.testingisdocumenting.webtau.expectation;
 
-import com.twosigma.webtau.expectation.ExpectationHandler.Flow;
-import com.twosigma.webtau.expectation.timer.ExpectationTimer;
+import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
+import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 
 import java.util.function.Function;
 
-import static com.twosigma.webtau.WebTauCore.createActualPath;
+import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
 public class ActualValue implements ActualValueExpectations {
     private Object actual;

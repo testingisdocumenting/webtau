@@ -1,10 +1,10 @@
 package scenarios.rest.report
 
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.reporter.WebTauReport
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.reporter.WebTauReport
 
-import static com.twosigma.webtau.WebTauDsl.cfg
+import static org.testingisdocumenting.webtau.WebTauDsl.cfg
 
 class Report {
     static void generateReport(WebTauReport report) {

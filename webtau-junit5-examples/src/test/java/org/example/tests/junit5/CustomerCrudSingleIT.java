@@ -1,13 +1,13 @@
 package com.example.tests.junit5;
 
-import com.twosigma.webtau.junit5.WebTau;
+import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.twosigma.webtau.WebTauDsl.equal;
-import static com.twosigma.webtau.WebTauDsl.http;
+import static org.testingisdocumenting.webtau.WebTauDsl.equal;
+import static org.testingisdocumenting.webtau.WebTauDsl.http;
 
 @WebTau
 public class CustomerCrudSingleIT {

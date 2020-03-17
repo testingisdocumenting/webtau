@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
 import com.atlassian.oai.validator.interaction.ApiOperationResolver;
 import com.atlassian.oai.validator.model.ApiOperationMatch;
 import com.atlassian.oai.validator.model.Request;
-import com.twosigma.webtau.utils.UrlUtils;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 import io.swagger.models.Operation;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.expectation
+package org.testingisdocumenting.webtau.browser.expectation
 
-import com.twosigma.webtau.browser.page.value.ElementValue
-import com.twosigma.webtau.browser.page.path.ElementPath
-import com.twosigma.webtau.browser.page.path.GenericPageElement
+import org.testingisdocumenting.webtau.browser.page.value.ElementValue
+import org.testingisdocumenting.webtau.browser.page.path.ElementPath
+import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement
 import org.junit.Test
 
 class ElementValueCompareToHandlerTest {

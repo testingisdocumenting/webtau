@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality
+package org.testingisdocumenting.webtau.expectation.equality
 
 class ActualExpectedTestReportExpectations {
     static String simpleActualExpectedWithIntegers(int actual, int expected) {

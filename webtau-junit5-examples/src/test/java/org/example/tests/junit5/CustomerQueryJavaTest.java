@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @DisplayName("customer query")
 class CustomerQueryJavaTest {

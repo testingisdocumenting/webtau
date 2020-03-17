@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.documentation;
+package org.testingisdocumenting.webtau.documentation;
 
 import java.net.URISyntaxException;
 import java.nio.file.Path;

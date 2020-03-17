@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data
+package org.testingisdocumenting.webtau.data
 
 import org.junit.Test
 
-import static com.twosigma.webtau.data.LazyTestResource.createLazyResource
+import static org.testingisdocumenting.webtau.data.LazyTestResource.createLazyResource
 
 class LazyTestResourceTest {
     @Test

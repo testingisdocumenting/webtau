@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.reporter.stacktrace;
+package org.testingisdocumenting.webtau.reporter.stacktrace;
 
 import java.util.Objects;
 import java.util.Set;

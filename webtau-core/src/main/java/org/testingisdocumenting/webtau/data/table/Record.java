@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.table;
+package org.testingisdocumenting.webtau.data.table;
 
-import com.twosigma.webtau.data.MultiValue;
-import com.twosigma.webtau.data.table.autogen.TableDataCellValueGenerator;
-import com.twosigma.webtau.data.table.header.CompositeKey;
-import com.twosigma.webtau.data.table.header.Header;
+import org.testingisdocumenting.webtau.data.MultiValue;
+import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenerator;
+import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
+import org.testingisdocumenting.webtau.data.table.header.Header;
 
 import java.util.*;
 import java.util.function.Function;

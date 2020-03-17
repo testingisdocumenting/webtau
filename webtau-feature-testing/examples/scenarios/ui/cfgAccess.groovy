@@ -1,9 +1,9 @@
 package scenarios.ui
 
-import static com.twosigma.webtau.WebTauDsl.$
-import static com.twosigma.webtau.WebTauDsl.getCfg
-import static com.twosigma.webtau.WebTauDsl.open
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static org.testingisdocumenting.webtau.WebTauDsl.$
+import static org.testingisdocumenting.webtau.WebTauDsl.getCfg
+import static org.testingisdocumenting.webtau.WebTauDsl.open
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario
 
 scenario("accessing custom config value") {
     open("/finders-and-filters")

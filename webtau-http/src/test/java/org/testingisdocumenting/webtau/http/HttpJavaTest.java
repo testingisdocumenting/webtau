@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
-import com.twosigma.webtau.cfg.ConfigValue;
-import com.twosigma.webtau.data.table.TableData;
-import com.twosigma.webtau.utils.CollectionUtils;
+import org.testingisdocumenting.webtau.cfg.ConfigValue;
+import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.junit.*;
 
 import java.time.LocalDate;
@@ -30,9 +30,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static com.twosigma.webtau.WebTauCore.*;
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static com.twosigma.webtau.http.Http.http;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpJavaTest extends HttpTestBase {
     @Test

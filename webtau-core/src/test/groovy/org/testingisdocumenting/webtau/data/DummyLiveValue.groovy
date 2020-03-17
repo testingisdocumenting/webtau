@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data
+package org.testingisdocumenting.webtau.data
 
-import com.twosigma.webtau.data.live.LiveValue
+import org.testingisdocumenting.webtau.data.live.LiveValue
 
 class DummyLiveValue implements LiveValue {
     int index

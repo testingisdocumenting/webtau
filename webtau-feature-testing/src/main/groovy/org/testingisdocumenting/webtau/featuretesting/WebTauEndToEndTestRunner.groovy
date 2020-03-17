@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.cfg.WebTauConfig
-import com.twosigma.webtau.cli.WebTauCliApp
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
-import com.twosigma.webtau.http.testserver.TestServer
-import com.twosigma.webtau.reporter.*
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.cli.WebTauCliApp
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
+import org.testingisdocumenting.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.reporter.*
 
 import java.nio.file.Paths
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauEndToEndTestRunner implements StepReporter, TestListener {
     private Map capturedStepsSummary

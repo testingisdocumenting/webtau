@@ -1,12 +1,12 @@
 package com.example.tests.junit5;
 
-import com.twosigma.webtau.junit5.WebTau;
+import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static com.twosigma.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @WebTau
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.report;
+package org.testingisdocumenting.webtau.report;
 
-import com.twosigma.webtau.reporter.WebTauTestList;
+import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
 import java.util.stream.Stream;
 

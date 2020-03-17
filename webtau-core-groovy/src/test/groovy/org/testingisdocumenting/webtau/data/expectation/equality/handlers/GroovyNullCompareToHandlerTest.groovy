@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.expectation.equality.handlers
+package org.testingisdocumenting.webtau.data.expectation.equality.handlers
 
 import org.codehaus.groovy.runtime.NullObject
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class GroovyNullCompareToHandlerTest {
     @Test

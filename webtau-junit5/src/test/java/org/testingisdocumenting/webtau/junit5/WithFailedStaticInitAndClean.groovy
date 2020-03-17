@@ -1,4 +1,4 @@
-package com.twosigma.webtau.junit5
+package org.testingisdocumenting.webtau.junit5
 
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll

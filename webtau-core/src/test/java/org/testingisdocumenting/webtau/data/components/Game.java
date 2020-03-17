@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.components;
+package org.testingisdocumenting.webtau.data.components;
 
 public class Game {
     private String title;

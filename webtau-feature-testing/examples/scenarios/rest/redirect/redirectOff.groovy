@@ -1,6 +1,6 @@
 package scenarios.rest.redirect
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("redirect disabled") {
     http.get("/redirect") {

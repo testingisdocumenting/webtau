@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.render
+package org.testingisdocumenting.webtau.data.render
 
 import org.junit.Test
 

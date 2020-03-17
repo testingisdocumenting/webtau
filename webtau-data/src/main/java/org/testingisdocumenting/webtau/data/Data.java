@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data;
+package org.testingisdocumenting.webtau.data;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
-import com.twosigma.webtau.utils.CsvUtils;
-import com.twosigma.webtau.utils.FileUtils;
-import com.twosigma.webtau.utils.ResourceUtils;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.utils.CsvUtils;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

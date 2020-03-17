@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.datacoverage;
+package org.testingisdocumenting.webtau.http.datacoverage;
 
-import com.twosigma.webtau.data.traceable.TraceableValue;
-import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.http.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
 
 import java.util.LinkedHashMap;
 import java.util.List;

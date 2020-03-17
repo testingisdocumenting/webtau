@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.time
+package org.testingisdocumenting.webtau.data.time
 
 import org.junit.Test
 

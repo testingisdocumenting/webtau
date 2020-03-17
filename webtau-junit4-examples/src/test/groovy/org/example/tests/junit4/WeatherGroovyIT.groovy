@@ -1,10 +1,10 @@
 package com.example.tests.junit4
 
-import com.twosigma.webtau.junit4.WebTauRunner
+import org.testingisdocumenting.webtau.junit4.WebTauRunner
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 @RunWith(WebTauRunner.class)
 class WeatherGroovyIT {

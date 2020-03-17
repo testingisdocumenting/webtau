@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.code;
+package org.testingisdocumenting.webtau.expectation.code;
 
 import org.junit.Test;
 
 import java.util.regex.Pattern;
 
-import static com.twosigma.webtau.WebTauCore.code;
-import static com.twosigma.webtau.WebTauCore.throwException;
+import static org.testingisdocumenting.webtau.WebTauCore.code;
+import static org.testingisdocumenting.webtau.WebTauCore.throwException;
 
 public class ThrowExceptionMatcherTest {
     @Test

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.console;
+package org.testingisdocumenting.webtau.console;
 
-import com.twosigma.webtau.console.ansi.AnsiConsoleOutput;
-import com.twosigma.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
 import java.util.Set;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;

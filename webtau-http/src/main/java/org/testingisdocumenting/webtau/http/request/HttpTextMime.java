@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.request;
+package org.testingisdocumenting.webtau.http.request;
 
-import com.twosigma.webtau.http.text.TextRequestBody;
+import org.testingisdocumenting.webtau.http.text.TextRequestBody;
 
 public class HttpTextMime {
     public HttpRequestBody plain(String content) {

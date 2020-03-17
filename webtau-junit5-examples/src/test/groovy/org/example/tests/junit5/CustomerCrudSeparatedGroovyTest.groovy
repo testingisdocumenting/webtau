@@ -1,9 +1,9 @@
 package com.example.tests.junit5
 
-import com.twosigma.webtau.junit5.WebTau
+import org.testingisdocumenting.webtau.junit5.WebTau
 import org.junit.jupiter.api.*
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 @WebTau
 @TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order

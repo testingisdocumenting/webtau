@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli;
+package org.testingisdocumenting.webtau.cli;
 
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation;
-import com.twosigma.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
+import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,9 +26,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
-import static com.twosigma.webtau.WebTauCore.*;
-import static com.twosigma.webtau.cli.Cli.cli;
-import static com.twosigma.webtau.cli.CliTestUtils.supportedPlatformOnly;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.cli.Cli.cli;
+import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly;
 
 public class CliJavaTest {
     private static Path existingDocRoot;

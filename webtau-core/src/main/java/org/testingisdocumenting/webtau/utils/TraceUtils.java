@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.utils;
+package org.testingisdocumenting.webtau.utils;
 
-import com.twosigma.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
 
 public class TraceUtils {
     private TraceUtils() {

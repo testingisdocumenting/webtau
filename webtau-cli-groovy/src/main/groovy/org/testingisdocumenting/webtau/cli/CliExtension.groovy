@@ -16,11 +16,11 @@
  *
  */
 
-package com.twosigma.webtau.cli
+package org.testingisdocumenting.webtau.cli
 
-import com.twosigma.webtau.cli.expectation.CliExitCode
-import com.twosigma.webtau.cli.expectation.CliOutput
-import com.twosigma.webtau.cli.expectation.CliValidationExitCodeOutputHandler
+import org.testingisdocumenting.webtau.cli.expectation.CliExitCode
+import org.testingisdocumenting.webtau.cli.expectation.CliOutput
+import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler
 
 class CliExtension {
     static void run(Cli cli, String command, Closure handler) {

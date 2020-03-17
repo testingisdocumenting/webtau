@@ -1,6 +1,6 @@
-package com.twosigma.webtau.http.testserver;
+package org.testingisdocumenting.webtau.http.testserver;
 
-import com.twosigma.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.ServletException;

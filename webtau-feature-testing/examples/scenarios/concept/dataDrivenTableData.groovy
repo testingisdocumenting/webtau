@@ -1,6 +1,6 @@
 package scenarios.concept
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 def lever = 10
 

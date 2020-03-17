@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.documentation;
+package org.testingisdocumenting.webtau.browser.documentation;
 
-import com.twosigma.webtau.browser.expectation.VisibleValueMatcher;
-import com.twosigma.webtau.browser.page.PageElement;
-import com.twosigma.webtau.utils.FileUtils;
-import com.twosigma.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.browser.expectation.VisibleValueMatcher;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -28,7 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
 public class BrowserDocumentation {

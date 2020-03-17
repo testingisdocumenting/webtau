@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http
+package org.testingisdocumenting.webtau.http
 
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
-import com.twosigma.webtau.http.datanode.DataNode
-import com.twosigma.webtau.http.datanode.GroovyDataNode
-import com.twosigma.webtau.http.testserver.TestServerResponse
-import com.twosigma.webtau.http.validation.HttpResponseValidator
-import com.twosigma.webtau.http.validation.HttpValidationHandler
-import com.twosigma.webtau.http.validation.HttpValidationHandlers
-import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.JsonUtils
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
+import org.testingisdocumenting.webtau.http.datanode.DataNode
+import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
+import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.utils.JsonUtils
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
 
 import javax.servlet.http.HttpServletRequest
@@ -39,9 +39,9 @@ import java.time.ZonedDateTime
 import java.util.function.Consumer
 import java.util.stream.Collectors
 
-import static com.twosigma.webtau.WebTauCore.*
-import static com.twosigma.webtau.cfg.WebTauConfig.cfg
-import static com.twosigma.webtau.http.Http.http
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
+import static org.testingisdocumenting.webtau.http.Http.http
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
 

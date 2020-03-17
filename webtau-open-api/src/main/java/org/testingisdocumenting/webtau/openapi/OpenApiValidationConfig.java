@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.openapi;
+package org.testingisdocumenting.webtau.openapi;
 
 public class OpenApiValidationConfig {
     private boolean ignoreAdditionalProperties;

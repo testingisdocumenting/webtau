@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.documentation;
+package org.testingisdocumenting.webtau.browser.documentation;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.testserver;
+package org.testingisdocumenting.webtau.http.testserver;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static com.twosigma.webtau.http.testserver.ResponseUtils.echoBody;
+import static org.testingisdocumenting.webtau.http.testserver.ResponseUtils.echoBody;
 
 public class TestServerResponseEcho implements TestServerResponse {
     private final int statusCode;

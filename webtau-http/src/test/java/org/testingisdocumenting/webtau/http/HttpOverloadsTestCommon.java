@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
-import com.twosigma.webtau.WebTauCore;
-import com.twosigma.webtau.http.datanode.DataNode;
-import com.twosigma.webtau.http.json.JsonRequestBody;
-import com.twosigma.webtau.http.request.HttpQueryParams;
-import com.twosigma.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.WebTauCore;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
+import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.twosigma.webtau.WebTauCore.equal;
-import static com.twosigma.webtau.http.Http.http;
+import static org.testingisdocumenting.webtau.WebTauCore.equal;
+import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpOverloadsTestCommon {
     public static final String BODY_KEY = "b";

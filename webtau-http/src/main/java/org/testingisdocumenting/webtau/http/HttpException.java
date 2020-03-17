@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http;
+package org.testingisdocumenting.webtau.http;
 
 class HttpException extends RuntimeException {
     HttpException(String message, Throwable e) {

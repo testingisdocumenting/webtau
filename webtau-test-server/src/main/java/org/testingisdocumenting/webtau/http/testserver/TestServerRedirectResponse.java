@@ -1,6 +1,6 @@
-package com.twosigma.webtau.http.testserver;
+package org.testingisdocumenting.webtau.http.testserver;
 
-import com.twosigma.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

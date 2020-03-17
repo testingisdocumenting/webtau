@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.expectation
+package org.testingisdocumenting.webtau.data.expectation
 
-import com.twosigma.webtau.expectation.ActualValue
-import com.twosigma.webtau.expectation.ValueMatcher
+import org.testingisdocumenting.webtau.expectation.ActualValue
+import org.testingisdocumenting.webtau.expectation.ValueMatcher
 
-import static com.twosigma.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
+import static org.testingisdocumenting.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
 
 class ExpectationExtension {
     static void should(actual, ValueMatcher valueMatcher) {

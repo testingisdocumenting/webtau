@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser;
+package org.testingisdocumenting.webtau.browser;
 
-import com.twosigma.webtau.browser.documentation.BrowserDocumentation;
-import com.twosigma.webtau.browser.driver.CurrentWebDriver;
-import com.twosigma.webtau.browser.navigation.BrowserPageNavigation;
-import com.twosigma.webtau.browser.page.PageElement;
-import com.twosigma.webtau.browser.page.PageUrl;
-import com.twosigma.webtau.browser.page.path.ElementPath;
-import com.twosigma.webtau.browser.page.path.GenericPageElement;
-import com.twosigma.webtau.cache.Cache;
-import com.twosigma.webtau.utils.UrlUtils;
+import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentation;
+import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
+import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.browser.page.PageUrl;
+import org.testingisdocumenting.webtau.browser.page.path.ElementPath;
+import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement;
+import org.testingisdocumenting.webtau.cache.Cache;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 import org.openqa.selenium.OutputType;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep;
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Browser {
     private static final String DEFAULT_URL_CACHE_KEY = "current";

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.utils;
+package org.testingisdocumenting.webtau.utils;
 
 public class JsonParseException extends RuntimeException {
     public JsonParseException(String message) {

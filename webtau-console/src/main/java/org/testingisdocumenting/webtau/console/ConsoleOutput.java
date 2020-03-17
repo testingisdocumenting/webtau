@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.console;
+package org.testingisdocumenting.webtau.console;
 
 public interface ConsoleOutput {
     void out(Object... styleOrValues);

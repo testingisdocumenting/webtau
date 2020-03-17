@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.tests.junitlike.cfg;
+package org.example.tests.junitlike.cfg;
 
-import com.twosigma.webtau.cfg.WebTauConfig;
-import com.twosigma.webtau.http.HttpHeader;
-import com.twosigma.webtau.http.config.HttpConfiguration;
-import com.twosigma.webtau.utils.UrlUtils;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.config.HttpConfiguration;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 public class DynamicPortBaseUrlConfig implements HttpConfiguration {
     private static final String SPRING_BOOT_EXAMPLE_URL_PREFIX = "/customers";

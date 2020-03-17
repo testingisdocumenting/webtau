@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.data.traceable;
+package org.testingisdocumenting.webtau.data.traceable;
 
 public interface TraceableValueModifier {
     CheckLevel modify(CheckLevel checkLevel);

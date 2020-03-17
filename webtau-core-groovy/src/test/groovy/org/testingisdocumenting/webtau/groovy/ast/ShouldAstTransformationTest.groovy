@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.groovy.ast
+package org.testingisdocumenting.webtau.groovy.ast
 
-import com.twosigma.webtau.expectation.ActualPath
-import com.twosigma.webtau.expectation.ExpectationHandler
-import com.twosigma.webtau.expectation.ExpectationHandlers
-import com.twosigma.webtau.expectation.ValueMatcher
-import com.twosigma.webtau.expectation.equality.EqualMatcher
-import com.twosigma.webtau.expectation.equality.GreaterThanMatcher
-import com.twosigma.webtau.expectation.equality.GreaterThanOrEqualMatcher
-import com.twosigma.webtau.expectation.equality.LessThanMatcher
-import com.twosigma.webtau.expectation.equality.LessThanOrEqualMatcher
-import com.twosigma.webtau.expectation.equality.NotEqualMatcher
+import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.expectation.ExpectationHandler
+import org.testingisdocumenting.webtau.expectation.ExpectationHandlers
+import org.testingisdocumenting.webtau.expectation.ValueMatcher
+import org.testingisdocumenting.webtau.expectation.equality.EqualMatcher
+import org.testingisdocumenting.webtau.expectation.equality.GreaterThanMatcher
+import org.testingisdocumenting.webtau.expectation.equality.GreaterThanOrEqualMatcher
+import org.testingisdocumenting.webtau.expectation.equality.LessThanMatcher
+import org.testingisdocumenting.webtau.expectation.equality.LessThanOrEqualMatcher
+import org.testingisdocumenting.webtau.expectation.equality.NotEqualMatcher
 
-import static com.twosigma.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class ShouldAstTransformationTest extends GroovyTestCase {
     void testShouldNotTransformationOnNull() {

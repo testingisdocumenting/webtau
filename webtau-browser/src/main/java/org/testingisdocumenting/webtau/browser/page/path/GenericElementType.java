@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.page.path;
+package org.testingisdocumenting.webtau.browser.page.path;
 
 public enum GenericElementType {
     INPUT,

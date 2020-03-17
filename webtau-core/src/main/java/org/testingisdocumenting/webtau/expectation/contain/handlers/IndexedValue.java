@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.contain.handlers;
+package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
 public class IndexedValue {
     private int idx;

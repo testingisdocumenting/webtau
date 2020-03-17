@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.text;
+package org.testingisdocumenting.webtau.http.text;
 
-import com.twosigma.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 
 public class TextRequestBody implements HttpRequestBody {
     private final String type;

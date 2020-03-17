@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.junit4;
+package org.testingisdocumenting.webtau.junit4;
 
-import com.twosigma.webtau.javarunner.report.JavaBasedTest;
-import com.twosigma.webtau.javarunner.report.JavaReport;
-import com.twosigma.webtau.javarunner.report.JavaShutdownHook;
-import com.twosigma.webtau.reporter.WebTauTest;
-import com.twosigma.webtau.reporter.StepReporters;
-import com.twosigma.webtau.reporter.TestResultPayloadExtractors;
+import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
+import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
+import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
+import org.testingisdocumenting.webtau.reporter.StepReporters;
+import org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractors;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.internal.runners.statements.RunAfters;

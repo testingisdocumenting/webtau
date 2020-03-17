@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.report;
+package org.testingisdocumenting.webtau.http.report;
 
-import com.twosigma.webtau.report.ReportCustomData;
-import com.twosigma.webtau.report.ReportDataProvider;
-import com.twosigma.webtau.reporter.WebTauTestList;
-import com.twosigma.webtau.reporter.WebTauTest;
+import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.report.ReportDataProvider;
+import org.testingisdocumenting.webtau.reporter.WebTauTestList;
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.twosigma.webtau.http.report.HttpCallsTestResultPayloadExtractor.HTTP_CALLS_PAYLOAD_NAME;
+import static org.testingisdocumenting.webtau.http.report.HttpCallsTestResultPayloadExtractor.HTTP_CALLS_PAYLOAD_NAME;
 
 public class HttpCallsReportDataProvider implements ReportDataProvider {
     @Override

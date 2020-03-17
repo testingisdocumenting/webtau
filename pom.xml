@@ -18,50 +18,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.twosigma.webtau</groupId>
+    <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
     <version>1.21-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
     <description>webtau - web test automation. REST and UI testing framework.</description>
-    <url>https://github.com/twosigma/webtau</url>
-
-    <developers>
-        <developer>
-            <id>MykolaGolubyev</id>
-            <name>Nick Golubyev</name>
-            <email>golubev.nikolay@gmail.com</email>
-            <organization>Two Sigma Investments</organization>
-            <organizationUrl>http://www.twosigma.com/</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>America/New_York</timezone>
-        </developer>
-        <developer>
-            <id>tsiq-karold</id>
-            <name>Karol Dudzinski</name>
-            <email>karol.dudzinski@twosigmaiq.com</email>
-            <organization>Two Sigma Insurance Quantified</organization>
-            <organizationUrl>http://twosigmaiq.com/</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>Europe/London</timezone>
-        </developer>
-        <developer>
-            <id>tsiq-clemens</id>
-            <name>Clemens Bertram</name>
-            <email>clemens.bertram@twosigmaiq.com</email>
-            <organization>Two Sigma Insurance Quantified</organization>
-            <organizationUrl>http://twosigmaiq.com/</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>America/New_York</timezone>
-        </developer>
-    </developers>
+    <url>https://github.com/testingisdocumenting/webtau</url>
 
     <licenses>
         <license>
@@ -72,9 +36,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/twosigma/webtau</url>
-        <connection>scm:git:https://github.com/twosigma/webtau.git</connection>
-        <developerConnection>scm:git:https://github.com/twosigma/webtau.git</developerConnection>
+        <url>https://github.com/testingisdocumenting/webtau</url>
+        <connection>scm:git:https://github.com/testingisdocumenting/webtau.git</connection>
+        <developerConnection>scm:git:https://github.com/testingisdocumenting/webtau.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

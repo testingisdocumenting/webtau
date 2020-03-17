@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli.repl
+package org.testingisdocumenting.webtau.cli.repl
 
-import com.twosigma.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
 
 class ReplCommands {
     static WebTauConfig getReloadConfig() {

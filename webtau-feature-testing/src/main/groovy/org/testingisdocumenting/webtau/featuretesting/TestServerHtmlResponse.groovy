@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.http.testserver.TestServerResponse
+import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 
 import javax.servlet.http.HttpServletRequest
 

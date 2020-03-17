@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.browser.navigation;
+package org.testingisdocumenting.webtau.browser.navigation;
 
 public interface BrowserPageNavigationHandler {
     void onOpenedPage(String passedUrl, String fullUrl, String currentUrl);

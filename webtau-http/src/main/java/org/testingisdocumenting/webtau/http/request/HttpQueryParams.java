@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.request;
+package org.testingisdocumenting.webtau.http.request;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

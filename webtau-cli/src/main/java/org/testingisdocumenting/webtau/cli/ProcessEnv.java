@@ -15,7 +15,7 @@
  *
  */
 
-package com.twosigma.webtau.cli;
+package org.testingisdocumenting.webtau.cli;
 
 import java.util.Collections;
 import java.util.Map;

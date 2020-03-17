@@ -30,12 +30,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
-import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.ResourceUtils
-import com.twosigma.webtau.utils.StringUtils
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
+import org.testingisdocumenting.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.utils.StringUtils
 import org.jsoup.Jsoup
 
 import java.nio.file.Path

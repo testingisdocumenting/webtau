@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.featuretesting
+package org.testingisdocumenting.webtau.featuretesting
 
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.expectation.ActualPath
-import com.twosigma.webtau.expectation.equality.CompareToComparator
-import com.twosigma.webtau.utils.FileUtils
-import com.twosigma.webtau.utils.JsonUtils
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
+import org.testingisdocumenting.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.utils.JsonUtils
 
 import java.nio.file.Files
 import java.nio.file.Paths

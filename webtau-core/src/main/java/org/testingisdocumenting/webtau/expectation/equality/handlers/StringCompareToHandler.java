@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.expectation.equality.handlers;
+package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import com.twosigma.webtau.expectation.ActualPath;
-import com.twosigma.webtau.expectation.equality.CompareToComparator;
-import com.twosigma.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.ACTUAL_PREFIX;
-import static com.twosigma.webtau.expectation.equality.handlers.HandlerMessages.expected;
-import static com.twosigma.webtau.utils.TraceUtils.renderType;
-import static com.twosigma.webtau.utils.TraceUtils.renderValueAndType;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.ACTUAL_PREFIX;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
+import static org.testingisdocumenting.webtau.utils.TraceUtils.renderType;
+import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
 
 public class StringCompareToHandler implements CompareToHandler {
     @Override

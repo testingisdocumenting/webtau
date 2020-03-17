@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.http.config;
+package org.testingisdocumenting.webtau.http.config;
 
-import com.twosigma.webtau.http.HttpHeader;
-import com.twosigma.webtau.utils.UrlUtils;
+import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class WebTauHttpConfiguration implements HttpConfiguration {
     @Override

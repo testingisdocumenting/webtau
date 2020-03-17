@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.pdf
+package org.testingisdocumenting.webtau.pdf
 
-import com.twosigma.webtau.data.traceable.CheckLevel
-import com.twosigma.webtau.data.traceable.TraceableValue
-import com.twosigma.webtau.http.datanode.DataNodeId
-import com.twosigma.webtau.http.datanode.StructuredDataNode
-import com.twosigma.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
+import org.testingisdocumenting.webtau.data.traceable.TraceableValue
+import org.testingisdocumenting.webtau.http.datanode.DataNodeId
+import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
 
-import static com.twosigma.webtau.WebTauCore.*
-import static com.twosigma.webtau.pdf.Pdf.pdf
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.pdf.Pdf.pdf
 
 class PdfTest {
     static byte[] pdfContent = ResourceUtils.binaryContent('sample.pdf')

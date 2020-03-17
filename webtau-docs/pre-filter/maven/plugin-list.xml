@@ -1,5 +1,5 @@
 <plugin>
-    <groupId>com.twosigma.webtau</groupId>
+    <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-maven-plugin</artifactId>
     <version>${project.version}</version>
     <executions>

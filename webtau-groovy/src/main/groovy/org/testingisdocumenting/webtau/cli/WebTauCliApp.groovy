@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-package com.twosigma.webtau.cli
+package org.testingisdocumenting.webtau.cli
 
-import com.twosigma.webtau.WebTauGroovyDsl
-import com.twosigma.webtau.browser.driver.WebDriverCreator
-import com.twosigma.webtau.cfg.GroovyRunner
-import com.twosigma.webtau.cfg.WebTauCliArgsConfig
-import com.twosigma.webtau.cfg.WebTauConfig
-import com.twosigma.webtau.cfg.WebTauGroovyCliArgsConfigHandler
-import com.twosigma.webtau.cli.interactive.WebTauCliInteractive
-import com.twosigma.webtau.cli.repl.Repl
-import com.twosigma.webtau.console.ConsoleOutput
-import com.twosigma.webtau.console.ConsoleOutputs
-import com.twosigma.webtau.console.ansi.AnsiConsoleOutput
-import com.twosigma.webtau.console.ansi.Color
-import com.twosigma.webtau.console.ansi.NoAnsiConsoleOutput
-import com.twosigma.webtau.documentation.DocumentationArtifactsLocation
-import com.twosigma.webtau.pdf.Pdf
-import com.twosigma.webtau.report.ReportGenerators
-import com.twosigma.webtau.reporter.*
-import com.twosigma.webtau.runner.standalone.StandaloneTestRunner
+import org.testingisdocumenting.webtau.WebTauGroovyDsl
+import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
+import org.testingisdocumenting.webtau.cfg.GroovyRunner
+import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.cfg.WebTauGroovyCliArgsConfigHandler
+import org.testingisdocumenting.webtau.cli.interactive.WebTauCliInteractive
+import org.testingisdocumenting.webtau.cli.repl.Repl
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
+import org.testingisdocumenting.webtau.pdf.Pdf
+import org.testingisdocumenting.webtau.report.ReportGenerators
+import org.testingisdocumenting.webtau.reporter.*
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
 import java.nio.file.Files
 import java.util.function.Consumer
 
-import static com.twosigma.webtau.cfg.WebTauConfig.getCfg
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauCliApp implements TestListener {
     enum WebDriverBehavior {
