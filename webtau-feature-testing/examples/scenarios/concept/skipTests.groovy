@@ -1,6 +1,6 @@
 package scenarios.concept
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 dscenario('do not execute this scenario') {
     http.get('/new-endpoint') {

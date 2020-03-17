@@ -1,3 +1,8 @@
+# Transition is in PROGRESS
+
+Webtau is being transfered to `org.testingisdocumenting` from `com.twosigima`.
+During this period documentation is not going to be avilable and all the package names will be renamed.
+
 # webtau
 
 Web Test Automation [User Guide](https://opensource.twosigma.com/webtau/guide/)

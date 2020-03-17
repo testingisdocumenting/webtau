@@ -1,6 +1,6 @@
 package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('open browser') {
     browser.open('/matchers')

@@ -16,7 +16,7 @@
 
 package scenarios.rest.report
 
-import static com.twosigma.webtau.WebTauGroovyDsl.scenario
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario
 
 scenario("no op") {
 

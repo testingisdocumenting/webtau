@@ -2,7 +2,7 @@
 
 To define a custom test listener you need to implement the `TestListener` interface
 
-:include-file: com/twosigma/webtau/reporter/TestListener.java {title: "TestListener.java"}
+:include-file: org/testingisdocumenting/webtau/reporter/TestListener.java {title: "TestListener.java"}
 
 # Config
 

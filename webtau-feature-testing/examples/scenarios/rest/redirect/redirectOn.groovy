@@ -1,6 +1,6 @@
 package scenarios.rest.redirect
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("redirect to weather") {
     http.get("/redirect") {

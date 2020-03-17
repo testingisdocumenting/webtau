@@ -32,11 +32,11 @@ Use `browser.url` to assert on or wait for url changes.
 
 :include-file: sampleBrowserPageUrl.txt {title: "sample url"}
 
-:include-groovy: com/twosigma/webtau/browser/page/PageUrlTest.groovy {title: "asserting url parts", entry: "should expose url parts with should", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/browser/page/PageUrlTest.groovy {title: "asserting url parts", entry: "should expose url parts with should", bodyOnly: true}
 
-:include-groovy: com/twosigma/webtau/browser/page/PageUrlTest.groovy {title: "asserting full url", entry: "full part should be optional and default during assertion", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/browser/page/PageUrlTest.groovy {title: "asserting full url", entry: "full part should be optional and default during assertion", bodyOnly: true}
 
-:include-groovy: com/twosigma/webtau/browser/page/PageUrlTest.groovy {title: "waiting on url parts", entry: "should expose url parts with wait", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/browser/page/PageUrlTest.groovy {title: "waiting on url parts", entry: "should expose url parts with wait", bodyOnly: true}
 
 # Persist URL
 

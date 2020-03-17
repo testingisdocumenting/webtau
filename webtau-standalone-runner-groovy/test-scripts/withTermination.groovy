@@ -1,4 +1,4 @@
-import com.twosigma.webtau.runner.standalone.TestsRunTerminateException
+import org.testingisdocumenting.webtau.runner.standalone.TestsRunTerminateException
 
 /*
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC

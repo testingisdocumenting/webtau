@@ -1,6 +1,6 @@
-import static com.twosigma.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static com.twosigma.webtau.reporter.TestStep.createAndExecuteStep
-import static com.twosigma.webtau.reporter.TokenizedMessage.tokenizedMessage
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
+import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 /*
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC

@@ -1,6 +1,6 @@
 package scenarios.rest.springboot
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("list Customers and assert with a Table Data") {
     http.post("/customers", [firstName: "FN1", lastName: "LN1"])

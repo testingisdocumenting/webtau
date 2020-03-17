@@ -16,4 +16,4 @@
 
 moduleName=webtau-http-groovy
 moduleVersion=1.0
-extensionClasses=com.twosigma.webtau.http.HttpExtensions
+extensionClasses=org.testingisdocumenting.webtau.http.HttpExtensions

@@ -1,6 +1,6 @@
 package scenarios.base
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("simple get") {
     http.get("/weather") {

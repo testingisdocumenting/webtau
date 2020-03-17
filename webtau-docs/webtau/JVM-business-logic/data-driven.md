@@ -8,8 +8,8 @@ Webtau makes tests to be focused on input and output by reducing boilerplate.
 # Simplified Input Preparation
 
 ```tabs
-Groovy: :include-groovy: com/twosigma/webtau/data/PeopleManagementGroovyTest.groovy {entry: "diversified teams should have various levels and time at company"}
-Java: :include-java: com/twosigma/webtau/data/PeopleManagementTest.java {entry: "diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany"}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/data/PeopleManagementGroovyTest.groovy {entry: "diversified teams should have various levels and time at company"}
+Java: :include-java: org/testingisdocumenting/webtau/data/PeopleManagementTest.java {entry: "diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany"}
 ```
 
 # Simplified Output Validation 
@@ -17,12 +17,12 @@ Java: :include-java: com/twosigma/webtau/data/PeopleManagementTest.java {entry: 
 Complex data and assertions are first class citizens.
 
 ```tabs
-Groovy: :include-groovy: com/twosigma/webtau/data/PeopleDaoGroovyTest.groovy {entry: "provides access to new joiners"}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/data/PeopleDaoGroovyTest.groovy {entry: "provides access to new joiners"}
 Java:
 
-:include-java: com/twosigma/webtau/data/PeopleDaoTest.java {entry: "providesAccessToNewJoiners"}
+:include-java: org/testingisdocumenting/webtau/data/PeopleDaoTest.java {entry: "providesAccessToNewJoiners"}
 
- Note: The examples above assumes `import static com.twosigma.webtau.WebTauCore.*` or `import static com.twosigma.webtau.WebTauDsl.*`.
+ Note: The examples above assumes `import static org.testingisdocumenting.webtau.WebTauCore.*` or `import static org.testingisdocumenting.webtau.WebTauDsl.*`.
 ```
 
 For more `TableData` features, check [reference page](reference/table-data)

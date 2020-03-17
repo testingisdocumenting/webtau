@@ -1,7 +1,7 @@
 package listeners
 
-import com.twosigma.webtau.reporter.TestListener
-import com.twosigma.webtau.reporter.WebTauTest
+import org.testingisdocumenting.webtau.reporter.TestListener
+import org.testingisdocumenting.webtau.reporter.WebTauTest
 
 class MetadataValidationTestListener implements TestListener {
     @Override

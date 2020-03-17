@@ -1,6 +1,6 @@
 package scenarios.ui
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("delete all cookies") {
     browser.open("/with-cookies")

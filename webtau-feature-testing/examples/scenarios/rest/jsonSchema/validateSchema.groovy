@@ -1,6 +1,6 @@
 package scenarios.rest.jsonSchema
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("valid schema") {
     http.get("/weather") {

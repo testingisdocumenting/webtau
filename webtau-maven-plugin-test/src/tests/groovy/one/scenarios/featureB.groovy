@@ -1,6 +1,6 @@
 package one.scenarios
 
-import static com.twosigma.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('simple scenario B') {
     cfg.customValue.should == 42
