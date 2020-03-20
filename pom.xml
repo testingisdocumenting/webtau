@@ -35,6 +35,42 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>MykolaGolubyev</id>
+            <name>Nick Golubyev</name>
+            <email>golubev.nikolay@gmail.com</email>
+            <organization>Testing Is Documenting</organization>
+            <organizationUrl>http://testingisdocumenting.org/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>America/New_York</timezone>
+        </developer>
+        <developer>
+            <id>tsiq-karold</id>
+            <name>Karol Dudzinski</name>
+            <email>karol.dudzinski@twosigmaiq.com</email>
+            <organization>Two Sigma Insurance Quantified</organization>
+            <organizationUrl>http://twosigmaiq.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/London</timezone>
+        </developer>
+        <developer>
+            <id>tsiq-clemens</id>
+            <name>Clemens Bertram</name>
+            <email>clemens.bertram@twosigmaiq.com</email>
+            <organization>Two Sigma Insurance Quantified</organization>
+            <organizationUrl>http://twosigmaiq.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>America/New_York</timezone>
+        </developer>
+    </developers>
+
     <scm>
         <url>https://github.com/testingisdocumenting/webtau</url>
         <connection>scm:git:https://github.com/testingisdocumenting/webtau.git</connection>
