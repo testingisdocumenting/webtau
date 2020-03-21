@@ -5,7 +5,7 @@ During this period documentation is not going to be avilable and all the package
 
 # webtau
 
-Web Test Automation [User Guide](https://opensource.twosigma.com/webtau/guide/)
+Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 
 ![logo](webtau-docs/webtau/webtau-logo.png)
 
@@ -86,4 +86,4 @@ scenario("search by specific query") {
 
 ![report-image](report-crud-separated-http-calls.png)
 
-[Full Documentation](https://opensource.twosigma.com/webtau/guide/)
+[Full Documentation](https://testingisdocumenting.org/webtau/)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.example.tests.junitlike.cfg;
+package com.example.tests.junitlike.cfg;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.http.HttpHeader;
