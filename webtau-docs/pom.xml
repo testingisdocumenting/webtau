@@ -73,9 +73,9 @@
             </plugin>
 
             <plugin>
-                <groupId>com.twosigma.znai</groupId>
+                <groupId>org.testingisdocumenting.znai</groupId>
                 <artifactId>znai-maven-plugin</artifactId>
-                <version>0.16</version>
+                <version>1.30</version>
                 <executions>
                     <execution>
                         <id>guide</id>
