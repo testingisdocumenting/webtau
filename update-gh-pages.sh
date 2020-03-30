@@ -20,12 +20,10 @@ trap cleanup EXIT
 git clone $GIT_URL --branch $GH_PAGES_BRANCH --single-branch --depth 1 $GH_PAGES_DIR
 
 # Cleanup existing pages
-rm -rf $GH_PAGES_DIR/guide/*
-rm -rf $GH_PAGES_DIR/znaisrc/*
+rm -rf $GH_PAGES_DIR/*
 
 # Copy in new pages
-cp -r $ROOT_DIR/webtau-docs/target/webtau/guide/* $GH_PAGES_DIR/guide/
-cp -r $ROOT_DIR/webtau-docs/target/znaisrc/* $GH_PAGES_DIR/znaisrc/
+cp -r $ROOT_DIR/webtau-docs/target/webtau/* $GH_PAGES_DIR/
 
 pushd $GH_PAGES_DIR
 
