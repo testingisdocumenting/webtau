@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Report</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Location</h1></header>
+<p>By default report is generated at &lt;workingdir&gt;/webtau.report.html . To change the location use --reportPath option.</p>
+</article>
+
+<article>
+<header><h1>Summary</h1></header>
+<p>Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.</p>
+</article>
+
+<article>
+<header><h1>Test Summary</h1></header>
+<p>Selected test to see a summary information about test run</p>
+</article>
+
+<article>
+<header><h1>Navigation</h1></header>
+<p>Report is a self contained single page application. Url tracks your navigation through screens, so you can share url with your teammates to narrow down a problem.</p>
+</article>
+
+<article>
+<header><h1>Additional Reports</h1></header>
+<p>To generate custom reports, or upload report data to your server, specify reportGenerator config property. import scenarios.rest.report.Report url = &quot;http://localhost:8080&quot; reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as following package scenarios.rest.report import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.console.ansi.Color import org.testingisdocumenting.webtau.reporter.WebTauReport import static org.testingisdocumenting.webtau.WebTauDsl.cfg class Report { static void generateReport(WebTauReport report) { def reportPath = cfg.workingDir.resolve('report.txt') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = report.tests.size() } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Location",
+      "id" : "location",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "By default report is generated at ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "<workingdir>/webtau.report.html",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". To change the location use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "--reportPath",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " option.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Summary",
+      "id" : "summary",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-summary.png",
+        "timestamp" : 1585583700000,
+        "shapes" : [ ],
+        "width" : 2400.0,
+        "height" : 1594.0,
+        "type" : "AnnotatedImage"
+      } ]
+    }, {
+      "title" : "Test Summary",
+      "id" : "test-summary",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Selected test to see a summary information about test run",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary.png",
+        "timestamp" : 1585583701000,
+        "shapes" : [ ],
+        "width" : 2400.0,
+        "height" : 1594.0,
+        "type" : "AnnotatedImage"
+      } ]
+    }, {
+      "title" : "Navigation",
+      "id" : "navigation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Report is a self contained single page application.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Url tracks your navigation through screens, so you can share url with your teammates to narrow down a problem.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Additional Reports",
+      "id" : "additional-reports",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To generate custom reports, or upload report data to your server, specify ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "reportGenerator",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " config property.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "cfg",
+        "snippet" : "import scenarios.rest.report.Report\n\nurl = \"http://localhost:8080\"\n\nreportGenerator = Report.&generateReport",
+        "title" : "webtau.cfg",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Where ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Report.&generateReport",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is implemented as following",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.report\n\nimport org.testingisdocumenting.webtau.console.ConsoleOutputs\nimport org.testingisdocumenting.webtau.console.ansi.Color\nimport org.testingisdocumenting.webtau.reporter.WebTauReport\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.cfg\n\nclass Report {\n    static void generateReport(WebTauReport report) {\n        def reportPath = cfg.workingDir.resolve('report.txt')\n\n        ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath)\n        reportPath.toFile().text = report.tests.size()\n    }\n}",
+        "title" : "scenarios/rest/report/Report.groovy",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "REST",
+      "pageTitle" : "Report",
+      "pageMeta" : { },
+      "dirName" : "REST",
+      "fileName" : "report",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Location",
+        "id" : "location"
+      }, {
+        "title" : "Summary",
+        "id" : "summary"
+      }, {
+        "title" : "Test Summary",
+        "id" : "test-summary"
+      }, {
+        "title" : "Navigation",
+        "id" : "navigation"
+      }, {
+        "title" : "Additional Reports",
+        "id" : "additional-reports"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

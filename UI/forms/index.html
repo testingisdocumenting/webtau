@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Forms</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Universal Set Value</h1></header>
+<p>Use setValue on a declared page element to set its value. It will work on all the standard input types out of the box.Define all the input fields inside a page object. In combination with universal setValue it will make your tests robust.Given a html snippet &lt;html&gt; &lt;body&gt; &lt;div id=&quot;form&quot;&gt; &lt;input id=&quot;name&quot;/&gt; &lt;input id=&quot;startDate&quot; type=&quot;date&quot;/&gt; &lt;select id=&quot;rank&quot;&gt; &lt;option/&gt; &lt;option value=&quot;A&quot;&gt;A&lt;/option&gt; &lt;option value=&quot;B&quot;&gt;B&lt;/option&gt; &lt;option value=&quot;C&quot;&gt;C&lt;/option&gt; &lt;option value=&quot;D&quot;&gt;D&lt;/option&gt; &lt;option value=&quot;E&quot;&gt;E&lt;/option&gt; &lt;/select&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt; Page object can be defined as package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class FormPage { def name = $('#name') def rank = $('#rank') def startDate = $('#startDate') }</p>
+</article>
+
+<article>
+<header><h1>Default Input</h1></header>
+<p>form.name.setValue('Full Automation')</p>
+</article>
+
+<article>
+<header><h1>Date Input</h1></header>
+<p>form.startDate.setValue('2016-06-21')</p>
+</article>
+
+<article>
+<header><h1>Select</h1></header>
+<p>form.rank.setValue('B')</p>
+</article>
+
+<article>
+<header><h1>Universal Assert</h1></header>
+<p>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'B' form.startDate.should == '2016-06-21'</p>
+</article>
+
+<article>
+<header><h1>Custom Form Elements</h1></header>
+<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. import formHandlers.CustomInput url = &quot;http://localhost:8180&quot; pageElementGetSetValueHandlers = [CustomInput] package formHandlers import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}\t&quot;) } @Override String getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Universal Set Value",
+      "id" : "universal-set-value",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "setValue",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " on a declared page element to set its value.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "It will work on all the standard input types out of the box.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Define all the input fields inside a page object. In combination with universal ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "setValue",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " it will make your tests robust.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Given a html snippet",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "html",
+        "snippet" : "<html>\n<body>\n<div id=\"form\">\n    <input id=\"name\"/>\n    <input id=\"startDate\" type=\"date\"/>\n    <select id=\"rank\">\n        <option/>\n        <option value=\"A\">A</option>\n        <option value=\"B\">B</option>\n        <option value=\"C\">C</option>\n        <option value=\"D\">D</option>\n        <option value=\"E\">E</option>\n    </select>\n</div>\n</body>\n</html>",
+        "title" : "HTML form",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Page object can be defined as",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass FormPage {\n    def name = $('#name')\n    def rank = $('#rank')\n    def startDate = $('#startDate')\n}",
+        "title" : "Form page object",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Default Input",
+      "id" : "default-input",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "form.name.setValue('Full Automation')",
+        "title" : "set value to input",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Date Input",
+      "id" : "date-input",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "form.startDate.setValue('2016-06-21')",
+        "title" : "set value to date input",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Select",
+      "id" : "select",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "form.rank.setValue('B')",
+        "title" : "set value to select",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Universal Assert",
+      "id" : "universal-assert",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Form element value can be asserted the same way as any regular element.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Underlying value will be extracted based on the element type",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "form.name.should == 'Full Automation'\nform.rank.should == 'B'\nform.startDate.should == '2016-06-21'",
+        "title" : "universal assert",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Custom Form Elements",
+      "id" : "custom-form-elements",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "One of the benefits of universal ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "set",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "assert",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is that your test is focused on the data and not implementation details.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "But what if you decided to use a custom component to enter the data?",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To hide implementation details from your test you should define a custom input handler for your UI component.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Let's consider a form component that you can start interacting with only after you clicked it. And after the value",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "is entered, the input box disappears again.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "html",
+        "snippet" : "<div id=\"answer\" class=\"special-selector\" onclick=\"activate('answer')\"> \n <div class=\"current-value\">\n   current value \n </div> \n <input class=\"value-input\" value=\"\" onblur=\"valueEntered('answer')\"> \n</div>",
+        "title" : "Custom input",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Our test should still be written in terms of data entering and validation.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def customFormElement = $('#answer')\n\ncustomFormElement.setValue('hello')\ncustomFormElement.should == 'hello'",
+        "title" : "set value to custom component",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In order to achieve this we need to register a custom handler.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import formHandlers.CustomInput\n\nurl = \"http://localhost:8180\"\n\npageElementGetSetValueHandlers = [CustomInput]",
+        "title" : "webtau.cfg",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package formHandlers\n\nimport org.testingisdocumenting.webtau.browser.page.HtmlNode\nimport org.testingisdocumenting.webtau.browser.page.PageElement\nimport org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor\nimport org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler\nimport org.testingisdocumenting.webtau.reporter.TokenizedMessage\n\nclass CustomInput implements PageElementGetSetValueHandler {\n    @Override\n    boolean handles(HtmlNode htmlNode, PageElement pageElement) {\n        return htmlNode.attributes.class =~ /special-selector/\n    }\n\n    @Override\n    void setValue(PageElementStepExecutor stepExecutor,\n                  TokenizedMessage pathDescription,\n                  HtmlNode htmlNode,\n                  PageElement pageElement,\n                  Object value) {\n        pageElement.click()\n        pageElement.find('input').sendKeys(\"${value}\\t\")\n    }\n\n    @Override\n    String getValue(HtmlNode htmlNode, PageElement pageElement) {\n        return pageElement.find('.current-value').getUnderlyingValue()\n    }\n}",
+        "title" : "Custom input handler",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "UI",
+      "pageTitle" : "Forms",
+      "pageMeta" : { },
+      "dirName" : "UI",
+      "fileName" : "forms",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Universal Set Value",
+        "id" : "universal-set-value"
+      }, {
+        "title" : "Default Input",
+        "id" : "default-input"
+      }, {
+        "title" : "Date Input",
+        "id" : "date-input"
+      }, {
+        "title" : "Select",
+        "id" : "select"
+      }, {
+        "title" : "Universal Assert",
+        "id" : "universal-assert"
+      }, {
+        "title" : "Custom Form Elements",
+        "id" : "custom-form-elements"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

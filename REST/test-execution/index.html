@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Test Execution</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Serial execution</h1></header>
+<p>The default mode for running tests is serially; in other words, scenario files are executed one after the other.</p>
+</article>
+
+<article>
+<header><h1>Parallel execution</h1></header>
+<p>Webtau supports executing tests in parallel. In this mode, scenario files are executed in parallel. Individual scenarios are still executed sequentially.For large test suites, it is therefore advisable to create many small focused scenario files instead of few large files.To enable parallel execution, specify the numberOfThreads configuration property either through the configuration file or as a CLI parameter. This property dictates the maximum number of threads on which to run tests. Alternatively, set numberOfThreads to -1 and webtau will use as many threads as there are scenario files.Note: scenario file execution order is not guaranteed.</p>
+</article>
+
+<article>
+<header><h1>Scenario discovery</h1></header>
+<p>Webtau via CLI or Maven plugin supports a number of methods for specifying and discovering scenarios.The simplest way is to list the scenario files explicitly: CLI webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.21&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/simpleGet.groovy&lt;/include&gt; &lt;include&gt;scenarios/simplePost.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; Wildcard matching is also supported. In the CLI version this is normal shell [glob](https://en.wikipedia.org/wiki/Glob_(programming) and in Maven it's a standard Maven file inclusion block: CLI webtau scenarios/rest/simple*.groovy Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.21&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/simple*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; It is also possible to include a set of base directories and webtau will then find all *.groovy files within them, recursively: CLI webtau scenarios/rest Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.21&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; In this mode, the HTML report that webtau generates will show paths to the files relative to the requested directories.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Serial execution",
+      "id" : "serial-execution",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The default mode for running tests is serially; in other words, scenario files are executed one after the other.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Parallel execution",
+      "id" : "parallel-execution",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau supports executing tests in parallel.  In this mode, ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "scenario files",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " are executed in parallel.  ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Individual",
+            "type" : "SimpleText"
+          }, {
+            "type" : "SoftLineBreak"
+          }, {
+            "text" : "scenarios",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " are still executed sequentially.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "For large test suites, it is therefore advisable to create many small focused scenario files instead of few large files.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To enable parallel execution, specify the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "numberOfThreads",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " configuration property either through the configuration file",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "or as a CLI parameter.  This property dictates the maximum number of threads on which to run tests.  Alternatively,",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "set ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "numberOfThreads",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "-1",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and webtau will use as many threads as there are scenario files.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: scenario file execution order is not guaranteed.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Scenario discovery",
+      "id" : "scenario-discovery",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau via CLI or Maven plugin supports a number of methods for specifying and discovering scenarios.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The simplest way is to list the scenario files explicitly:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "CLI",
+          "content" : [ {
+            "command" : "webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          } ]
+        }, {
+          "name" : "Maven",
+          "content" : [ {
+            "lang" : "xml",
+            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.21</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <env>integration</env>\n        <url>http://optional-base-url</url>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/simpleGet.groovy</include>\n                <include>scenarios/simplePost.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Wildcard matching is also supported.  In the CLI version this is normal shell [glob](https://en.wikipedia.org/wiki/Glob_(programming)",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "and in Maven it's a standard Maven file inclusion block:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "CLI",
+          "content" : [ {
+            "command" : "webtau scenarios/rest/simple*.groovy",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          } ]
+        }, {
+          "name" : "Maven",
+          "content" : [ {
+            "lang" : "xml",
+            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.21</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <env>integration</env>\n        <url>http://optional-base-url</url>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/simple*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "It is also possible to include a set of base directories and webtau will then find all ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "*.groovy",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " files within",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "them, recursively:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "CLI",
+          "content" : [ {
+            "command" : "webtau scenarios/rest",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          } ]
+        }, {
+          "name" : "Maven",
+          "content" : [ {
+            "lang" : "xml",
+            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.21</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <env>integration</env>\n        <url>http://optional-base-url</url>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n        </tests>\n    </configuration>\n</plugin>",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In this mode, the HTML report that webtau generates will show paths to the files relative to the",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "requested directories.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "REST",
+      "pageTitle" : "Test Execution",
+      "pageMeta" : { },
+      "dirName" : "REST",
+      "fileName" : "test-execution",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Serial execution",
+        "id" : "serial-execution"
+      }, {
+        "title" : "Parallel execution",
+        "id" : "parallel-execution"
+      }, {
+        "title" : "Scenario discovery",
+        "id" : "scenario-discovery"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

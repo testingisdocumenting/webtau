@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Table Data</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Create</h1></header>
+<p>Use language specific DSL to create TableData instance: Groovy Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;, ________________________________, &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;) Note: The example above assumes import static org.testingisdocumenting.webtau.WebTauCore.* or import static org.testingisdocumenting.webtau.WebTauDsl.* . Additionally WebTauCore has header-separating lines defined using underscores ___ of various lengths, which you can optionally use for aesthetics. Using ____ underscore is optional and is there for aesthetics only Groovy Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;).values( &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;)</p>
+</article>
+
+<article>
+<header><h1>Permutations</h1></header>
+<p>Use permute(v1, v2) to automatically generate multiple rows. Groovy Java table(&quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ________________________________________________________________, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) Col A Col B Col C true v1b a false v1b a true v1b b false v1b b v2a 10 v2c v2a 20 v2c</p>
+</article>
+
+<article>
+<header><h1>Cell Above Value Reference</h1></header>
+<p>Use cell.above to refer to the previous row value Groovy Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , 8, &quot;Mike&quot;, cell.above , 14, &quot;Drew&quot;, LocalDate.of(2016, 6, 22), 10, &quot;Pete&quot;, cell.above , 11, &quot;Max&quot; , cell.above , 3) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 8 Mike 2016-06-20 14 Drew 2016-06-22 10 Pete 2016-06-22 11 Max 2016-06-22 3</p>
+</article>
+
+<article>
+<header><h1>Cell Above Math</h1></header>
+<p>Use cell.above.plus|minus to generate a derived value based on the previous row value Groovy Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , cell.above.plus(1), &quot;Mike&quot;, cell.above , cell.above.plus(1)) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 11 Mike 2016-06-20 12 Extract cell.above.operation to make your intentions clearer Groovy Java TableDataCellValueGenerator&lt;?&gt; increment = cell.above.plus(1) table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , increment, &quot;Mike&quot;, cell.above , increment)</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Create",
+      "id" : "create",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use language specific DSL to create ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " instance:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"Col A\" | \"Col B\" | \"Col C\"] {\n________________________________\n   \"v1a\" |   \"v1b\" | \"v1c\"\n   \"v2a\" |   \"v2b\" | \"v2c\" }",
+            "entry" : "createTableWithUnderscore",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"Col A\", \"Col B\", \"Col C\",\n      ________________________________,\n        \"v1a\",   \"v1b\", \"v1c\",\n        \"v2a\",   \"v2b\", \"v2c\")",
+            "entry" : "createTableDataInOneGo",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Note: The example above assumes ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "import static org.testingisdocumenting.webtau.WebTauCore.*",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " or ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "import static org.testingisdocumenting.webtau.WebTauDsl.*",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ".",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "Additionally ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "WebTauCore",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " has header-separating",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "lines defined using underscores ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "___",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " of various lengths, which you can optionally use for aesthetics.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "____",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " underscore is optional and is there for aesthetics only",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"Col A\" | \"Col B\" | \"Col C\"] {\n   \"v1a\" |   \"v1b\" | \"v1c\"\n   \"v2a\" |   \"v2b\" | \"v2c\" }",
+            "entry" : "createTableWithoutUnderscore",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"Col A\", \"Col B\", \"Col C\").values(\n        \"v1a\",   \"v1b\", \"v1c\",\n        \"v2a\",   \"v2b\", \"v2c\")",
+            "entry" : "createTableDataSeparateValues",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Permutations",
+      "id" : "permutations",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "permute(v1, v2)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to automatically generate multiple rows.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"Col A\"              | \"Col B\"         | \"Col C\"] {\n___________________________________________________________\n permute(true, false) | \"v1b\"           | permute('a', 'b')\n \"v2a\"                | permute(10, 20) | \"v2c\" }",
+            "entry" : "createTableDataWithPermute",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"Col A\"              , \"Col B\"         , \"Col C\",\n      ________________________________________________________________,\n       permute(true, false), \"v1b\"           , permute('a', 'b'),\n       \"v2a\"               , permute(10, 20) , \"v2c\")",
+            "entry" : "createTableDataWithPermute",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "Col A"
+          }, {
+            "title" : "Col B"
+          }, {
+            "title" : "Col C"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "10",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2c",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2c",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "type" : "Table"
+      } ]
+    }, {
+      "title" : "Cell Above Value Reference",
+      "id" : "cell-above-value-reference",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cell.above",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to refer to the previous row value",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"Name\" | \"Start Date\"              | \"Games To Play\" ] {\n ______________________________________________________\n \"John\" | LocalDate.of(2016, 6, 20) | 10\n \"Bob\"  | cell.above                |  8\n \"Mike\" | cell.above                | 14\n\n \"Drew\" | LocalDate.of(2016, 6, 22) | 10\n \"Pete\" | cell.above                | 11\n \"Max\"  | cell.above                |  3 }",
+            "entry" : "createTableDataWithAboveRef",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"Name\", \"Start Date\"             , \"Games To Play\",\n      ________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               ,  8,\n      \"Mike\", cell.above               , 14,\n\n      \"Drew\", LocalDate.of(2016, 6, 22), 10,\n      \"Pete\", cell.above               , 11,\n      \"Max\" , cell.above               ,  3)",
+            "entry" : "createTableDataWithAboveRef",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "Name"
+          }, {
+            "title" : "Start Date"
+          }, {
+            "title" : "Games To Play"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "John",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "10",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Bob",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "8",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Mike",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "14",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Drew",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-22",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "10",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Pete",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-22",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "11",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Max",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-22",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "3",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "type" : "Table"
+      } ]
+    }, {
+      "title" : "Cell Above Math",
+      "id" : "cell-above-math",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cell.above.plus|minus",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to generate a derived value based on the previous row value",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"Name\" | \"Start Date\"              | \"Games To Play\" ] {\n ______________________________________________________\n \"John\" | LocalDate.of(2016, 6, 20) | 10\n \"Bob\"  | cell.above                | cell.above + 1\n \"Mike\" | cell.above                | cell.above + 1 }",
+            "entry" : "createTableDataWithAboveRefAndMath",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"Name\", \"Start Date\"             , \"Games To Play\",\n     ________________________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               , cell.above.plus(1),\n      \"Mike\", cell.above               , cell.above.plus(1))",
+            "entry" : "createTableDataWithAboveRefAndMath",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "Name"
+          }, {
+            "title" : "Start Date"
+          }, {
+            "title" : "Games To Play"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "John",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "10",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Bob",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "11",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Mike",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2016-06-20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "12",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "type" : "Table"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Extract ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cell.above.operation",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to make your intentions clearer",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def increment = cell.above + 1\n\n[\"Name\" | \"Start Date\"              | \"Games To Play\" ] {\n ______________________________________________________\n \"John\" | LocalDate.of(2016, 6, 20) | 10\n \"Bob\"  | cell.above                | increment\n \"Mike\" | cell.above                | increment }",
+            "entry" : "createTableDataWithAboveRefAndMathExtracted",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "TableDataCellValueGenerator<?> increment = cell.above.plus(1)\n\ntable(\"Name\", \"Start Date\"             , \"Games To Play\",\n     ________________________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               , increment,\n      \"Mike\", cell.above               , increment)",
+            "entries" : [ "createIncrementExample", "createTableDataWithAboveRefAndMathExtracted" ],
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    } ],
+    "lastModifiedTime" : 1584487110000,
+    "tocItem" : {
+      "sectionTitle" : "Reference",
+      "pageTitle" : "Table Data",
+      "pageMeta" : { },
+      "dirName" : "reference",
+      "fileName" : "table-data",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Create",
+        "id" : "create"
+      }, {
+        "title" : "Permutations",
+        "id" : "permutations"
+      }, {
+        "title" : "Cell Above Value Reference",
+        "id" : "cell-above-value-reference"
+      }, {
+        "title" : "Cell Above Math",
+        "id" : "cell-above-math"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

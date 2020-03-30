@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Data Driven</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Data Focused Tests</h1></header>
+<p>Webtau simplifies writing REST and UI tests. But if the logic behind REST and UI is written in JVM based language, webtau can also simplify testing the logic directly.Webtau makes tests to be focused on input and output by reducing boilerplate.</p>
+</article>
+
+<article>
+<header><h1>Simplified Input Preparation</h1></header>
+<p>Groovy Java @Test public void diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany() { TableData employeeData = table( &quot;id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;).values( &quot;bob&quot;, 2, 12, &quot;smith&quot;, 4, 34, &quot;john&quot;, 3, 20); boolean diversified = peopleManagement.diversityLevel(employees(employeeData)); actual(diversified).should(equal(true)); }</p>
+</article>
+
+<article>
+<header><h1>Simplified Output Validation</h1></header>
+<p>Complex data and assertions are first class citizens. Groovy Java @Test public void providesAccessToNewJoiners() { TableData allEmployees = table( &quot;id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;alice&quot;, 5, 1, &quot;bob&quot;, 3, 0, &quot;smith&quot;, 4, 1, &quot;cat&quot;, 4, 0); addEmployees(allEmployees); actual(dao.thisWeekJoiners()).should(equal(table( &quot;*id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;bob&quot;, 3, 0, &quot;cat&quot;, 4, 0))); } Note: The examples above assumes import static org.testingisdocumenting.webtau.WebTauCore.* or import static org.testingisdocumenting.webtau.WebTauDsl.* . For more TableData features, check reference/table-data reference page</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Data Focused Tests",
+      "id" : "data-focused-tests",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau simplifies writing REST and UI tests. But if the logic behind REST and UI is written in JVM based language,",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "webtau can also simplify testing the logic directly.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau makes tests to be focused on input and output by reducing boilerplate.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Simplified Input Preparation",
+      "id" : "simplified-input-preparation",
+      "type" : "Section",
+      "content" : [ {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "@Test\nvoid \"diversified teams should have various levels and time at company\"() {\n    def employeeData = [ \"id\"    | \"level\" | \"monthsAtCompany\"] {\n                       _______________________________________\n                         \"bob\"   |       2 |  12\n                         \"smith\" |       4 |  34\n                         \"john\"  |       3 |  20 }\n\n    def diversified = peopleManagement.diversityLevel(employees(employeeData))\n    diversified.should == true\n}",
+            "entry" : "diversified teams should have various levels and time at company",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "@Test\npublic void diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany() {\n    TableData employeeData = table(     \"id\", \"level\", \"monthsAtCompany\").values(\n                                       \"bob\",       2, 12,\n                                     \"smith\",       4, 34,\n                                      \"john\",       3, 20);\n\n    boolean diversified = peopleManagement.diversityLevel(employees(employeeData));\n    actual(diversified).should(equal(true));\n}",
+            "entry" : "diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Simplified Output Validation",
+      "id" : "simplified-output-validation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Complex data and assertions are first class citizens.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "@Test\nvoid \"provides access to new joiners\"() {\n    TableData allEmployees = [\"id\"    | \"level\" | \"monthsAtCompany\"] {\n                              ______________________________________\n                              \"alice\" |       5 |  1\n                              \"bob\"   |       3 |  0\n                              \"smith\" |       4 |  1\n                              \"cat\"   |       4 |  0 }\n\n    addEmployees(allEmployees)\n\n    dao.thisWeekJoiners().should == [\"id\"    | \"level\" | \"monthsAtCompany\"] {\n                                     ______________________________________\n                                     \"bob\"   | 3       | 0\n                                     \"cat\"   | 4       | 0  }\n}",
+            "entry" : "provides access to new joiners",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "@Test\npublic void providesAccessToNewJoiners() {\n    TableData allEmployees = table(    \"id\", \"level\", \"monthsAtCompany\",\n                                    ____________________________________,\n                                    \"alice\",       5,   1,\n                                      \"bob\",       3,   0,\n                                    \"smith\",       4,   1,\n                                      \"cat\",       4,   0);\n    addEmployees(allEmployees);\n\n    actual(dao.thisWeekJoiners()).should(equal(table(   \"*id\", \"level\", \"monthsAtCompany\",\n                                                        ____________________________________,\n                                                        \"bob\",       3,   0,\n                                                        \"cat\",       4,   0)));\n}",
+            "entry" : "providesAccessToNewJoiners",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Note: The examples above assumes ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "import static org.testingisdocumenting.webtau.WebTauCore.*",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " or ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "import static org.testingisdocumenting.webtau.WebTauDsl.*",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ".",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "For more ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " features, check ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/reference/table-data",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "reference page",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1584487110000,
+    "tocItem" : {
+      "sectionTitle" : "JVM Business Logic",
+      "pageTitle" : "Data Driven",
+      "pageMeta" : { },
+      "dirName" : "JVM-business-logic",
+      "fileName" : "data-driven",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Data Focused Tests",
+        "id" : "data-focused-tests"
+      }, {
+        "title" : "Simplified Input Preparation",
+        "id" : "simplified-input-preparation"
+      }, {
+        "title" : "Simplified Output Validation",
+        "id" : "simplified-output-validation"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

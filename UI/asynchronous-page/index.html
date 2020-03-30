@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Asynchronous Page</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Synchronization</h1></header>
+<p>Many actions in a modern web page are asynchronous. User presses a button and a moment later a result appears. In modern web pages there is no full page reload and only a portion of a page will be changed.If a test will try to assert a value after a user action, chances are assertion will fail since it will take time for a result to appear on a page.Question: How do users know that their action is done and they can move on?</p>
+</article>
+
+<article>
+<header><h1>Visible/Hidden Element</h1></header>
+<p>One way to deal with asynchronous pages is to wait for a feedback to appear or disappear. calculation.start() calculation.feedback.waitTo beVisible() calculation.results.should == [100, 230]</p>
+</article>
+
+<article>
+<header><h1>Enabled/Disabled Element</h1></header>
+<p>Disabled input box and buttons can be used as a user feedback as well. calculation.open() calculation.input.waitTo beEnabled() calculation.input.setValue(100)</p>
+</article>
+
+<article>
+<header><h1>Wait to match</h1></header>
+<p>If presence/absence of an element is not important, you can directly to wait for a matcher to match. calculation.start() calculation.results.waitTo == [100, 230] Note: any matcher that you can use with should and shouldNot can be used with waitTo and waitToNot</p>
+</article>
+
+<article>
+<header><h1>Wait on url</h1></header>
+<p>Another cue to use could be a url change after an action. browser.open('/resource-creation') $('#new').click() browser.url.ref.waitTo == 'created-id' Note: url exposes other parts that you can UI/navigation#assert-url read more about here</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Synchronization",
+      "id" : "synchronization",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Many actions in a modern web page are asynchronous. User presses a button and a moment later a result appears.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "In modern web pages there is no full page reload and only a portion of a page will be changed.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If a test will try to assert a value after a user action, chances are assertion will fail since it will take time",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "for a result to appear on a page.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Question: How do users know that their action is done and they can move on?",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Visible/Hidden Element",
+      "id" : "visiblehidden-element",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "One way to deal with asynchronous pages is to wait for a feedback to appear or disappear.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "calculation.start()\n\ncalculation.feedback.waitTo beVisible()\ncalculation.results.should == [100, 230]",
+        "title" : "beVisible matcher",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Enabled/Disabled Element",
+      "id" : "enableddisabled-element",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Disabled input box and buttons can be used as a user feedback as well.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "calculation.open()\n\ncalculation.input.waitTo beEnabled()\ncalculation.input.setValue(100)",
+        "title" : "beEnabled matcher",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Wait to match",
+      "id" : "wait-to-match",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If presence/absence of an element is not important, you can directly to wait for a matcher to match.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "calculation.start()\ncalculation.results.waitTo == [100, 230]",
+        "title" : "waitTo any matcher",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: any matcher that you can use with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "should",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "shouldNot",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " can be used with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitTo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitToNot",
+          "type" : "InlinedCode"
+        } ]
+      } ]
+    }, {
+      "title" : "Wait on url",
+      "id" : "wait-on-url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Another cue to use could be a url change after an action.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.open('/resource-creation')\n\n$('#new').click()\nbrowser.url.ref.waitTo == 'created-id'",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: url exposes other parts that you can ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/UI/navigation#assert-url",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "read more about here",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "UI",
+      "pageTitle" : "Asynchronous Page",
+      "pageMeta" : { },
+      "dirName" : "UI",
+      "fileName" : "asynchronous-page",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Synchronization",
+        "id" : "synchronization"
+      }, {
+        "title" : "Visible/Hidden Element",
+        "id" : "visiblehidden-element"
+      }, {
+        "title" : "Enabled/Disabled Element",
+        "id" : "enableddisabled-element"
+      }, {
+        "title" : "Wait to match",
+        "id" : "wait-to-match"
+      }, {
+        "title" : "Wait on url",
+        "id" : "wait-on-url"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Getting Started</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.21/webtau-dist-1.21-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg file. url = &quot;https://jsonplaceholder.typicode.com/&quot; configuration/environments Specify multiple environments to streamline test execution. Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.21&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.21&lt;/version&gt; &lt;/dependency&gt; Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauDsl.* @RunWith(WebTauRunner) class TodoListGroovyIT { @Test void &quot;fetch todo item&quot;() { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class TodoListJavaIT { @Test public void fetchTodoItem() { http.get(&quot;/todos/1&quot;, (header, body) -&gt; { body.get(&quot;title&quot;).should(equal(&quot;delectus aut autem&quot;)); body.get(&quot;completed&quot;).should(equal(false)); }); } } Add webtau.properties to test class path url = https://jsonplaceholder.typicode.com/</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Installation Of Groovy Runner",
+      "id" : "installation-of-groovy-runner",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Download and unzip ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.21/webtau-dist-1.21-webtau.zip",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "webtau",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Add it to your ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PATH",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Minimal Groovy Setup",
+      "id" : "minimal-groovy-setup",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Generate webtau examples",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "webtau --example",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Navigate into ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "todo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " example",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "cd examples/todo",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch todo item') {\n    http.get('/todos/1') {\n        title.should == 'delectus aut autem'\n        completed.should == false\n    }\n}",
+        "title" : "todolist.groovy",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To run test",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "webtau todolist.groovy --url=https://jsonplaceholder.typicode.com",
+        "paramsToHighlight" : [ "url" ],
+        "type" : "CliCommand"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "import",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is optional and is mainly for IDE auto completion. Imports are added implicitly",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "during command line run.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "level" : 2,
+        "title" : "Groovy Config File",
+        "id" : "groovy-config-file",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Url parameter can be moved to a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "webtau.cfg",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " file.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "cfg",
+        "snippet" : "url = \"https://jsonplaceholder.typicode.com/\"",
+        "title" : "webtau.cfg",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/webtau/configuration/environments",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Specify multiple environments",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " to streamline test execution.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Minimal JUnit Setup",
+      "id" : "minimal-junit-setup",
+      "type" : "Section",
+      "content" : [ {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.21</version>\n</dependency>",
+            "title" : "Maven Dependency",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.21</version>\n</dependency>",
+            "title" : "Maven Dependency",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\n@RunWith(WebTauRunner)\nclass TodoListGroovyIT {\n    @Test\n    void \"fetch todo item\"() {\n        http.get('/todos/1') {\n            title.should == 'delectus aut autem'\n            completed.should == false\n        }\n    }\n}",
+            "title" : "JUnit 4 example",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class TodoListJavaIT {\n    @Test\n    public void fetchTodoItem() {\n        http.get(\"/todos/1\", (header, body) -> {\n            body.get(\"title\").should(equal(\"delectus aut autem\"));\n            body.get(\"completed\").should(equal(false));\n        });\n    }\n}",
+            "title" : "JUnit 4 example",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "level" : 2,
+        "title" : "Junit Config File",
+        "id" : "junit-config-file",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Add ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "webtau.properties",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to test class path",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "properties",
+        "snippet" : "url = https://jsonplaceholder.typicode.com/",
+        "title" : "webtau.properties",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "REST",
+      "pageTitle" : "Getting Started",
+      "pageMeta" : { },
+      "dirName" : "REST",
+      "fileName" : "getting-started",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Installation Of Groovy Runner",
+        "id" : "installation-of-groovy-runner"
+      }, {
+        "title" : "Minimal Groovy Setup",
+        "id" : "minimal-groovy-setup"
+      }, {
+        "title" : "Minimal JUnit Setup",
+        "id" : "minimal-junit-setup"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

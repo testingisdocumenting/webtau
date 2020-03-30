@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Data Driven Scenarios</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Dynamic Scenarios</h1></header>
+<p>Every time you call scenario method a new scenario is being registered. Define scenarios in a loop to have dynamic scenarios based on provided data. package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* [1, 2, 3].each { number -&gt; scenario(&quot;number $number&quot;) { println number } }</p>
+</article>
+
+<article>
+<header><h1>CSV</h1></header>
+<p>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+</article>
+
+<article>
+<header><h1>Table Data</h1></header>
+<p>Use TableData if you want to derive data and/or have a convenience of collocating data and tests package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def lever = 10 def useCases = ['title' | 'input' | 'output'] { ____________________________________ 'hello' | lever | lever + 10 'world' | lever + 30 | lever + 40 } useCases.each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Dynamic Scenarios",
+      "id" : "dynamic-scenarios",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Every time you call ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "scenario",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " method a new scenario is being registered.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Define scenarios in a loop to have dynamic scenarios based on provided data.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n[1, 2, 3].each { number ->\n    scenario(\"number $number\") {\n        println number\n    }\n}",
+        "title" : "dynamic scenarios",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "CSV",
+      "id" : "csv",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to conveniently build your scenarios from an external ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CSV",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " data set.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "csv",
+        "snippet" : "title, input, output\nhello, 10, 20\nworld, 30, 40",
+        "title" : "examples/use-cases.csv",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndata.csv('use-cases.csv').each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
+        "title" : "CSV-driven tests",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Table Data",
+      "id" : "table-data",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " if you want to derive data and/or have a convenience of collocating data and tests",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef lever = 10\n\ndef useCases = ['title'  | 'input'    | 'output'] {\n               ____________________________________\n                'hello'  | lever      | lever + 10\n                'world'  | lever + 30 | lever + 40 }\n\nuseCases.each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
+        "title" : "TableData-driven tests",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "Groovy Specific Runner",
+      "pageTitle" : "Data Driven Scenarios",
+      "pageMeta" : { },
+      "dirName" : "groovy-specific-runner",
+      "fileName" : "data-driven-scenarios",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Dynamic Scenarios",
+        "id" : "dynamic-scenarios"
+      }, {
+        "title" : "CSV",
+        "id" : "csv"
+      }, {
+        "title" : "Table Data",
+        "id" : "table-data"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

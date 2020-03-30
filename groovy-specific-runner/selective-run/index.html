@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Selective Run</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>sscenario</h1></header>
+<p>Define tests with sscenario or singleScenario to only run those tests and skip all the other tests defined in all the test files. Useful during tests creation or debugging. package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('step one') { http.post('/reset') { // ... } } sscenario('step two') { // test that you want to focus on } singleScenario('step three') { // test that you want to focus on } scenario('step four') { http.put('/extra') { // ... } } Note: webtau command line will exit with non zero code if there are sscenario tests present</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "sscenario",
+      "id" : "sscenario",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Define tests with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "sscenario",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "singleScenario",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to only run those tests and skip all the other tests defined in all the test files.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Useful during tests creation or debugging.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('step one') {\n    http.post('/reset') {\n        // ...\n    }\n}\n\nsscenario('step two') {\n    // test that you want to focus on\n}\n\nsingleScenario('step three') {\n    // test that you want to focus on\n}\n\nscenario('step four') {\n    http.put('/extra') {\n        // ...\n    }\n}",
+        "title" : "Selective tests run",
+        "highlight" : [ "sscenario", "singleScenario" ],
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "webtau",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " command line will exit with non zero code if there are ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "sscenario",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " tests present",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "Groovy Specific Runner",
+      "pageTitle" : "Selective Run",
+      "pageMeta" : { },
+      "dirName" : "groovy-specific-runner",
+      "fileName" : "selective-run",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "sscenario",
+        "id" : "sscenario"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

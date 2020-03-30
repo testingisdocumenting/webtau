@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: JUnit 5</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>WebTau Runner</h1></header>
+<p>You can use webtau http. and browser. methods as in a junit 5 tests, but to enable reporting you need to use @Webtau annotation Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order @DisplayName(&quot;customer CRUD&quot;) class CustomerCrudSeparatedGroovyTest { private static def customerPayload = [firstName: 'FN', lastName : 'LN'] private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN'] private static def id @BeforeAll @DisplayName(&quot;create customer&quot;) // optional friendly name for reporting purposes static void createCustomer() { id = http.post(&quot;/customers&quot;, customerPayload) { body.id // using body prefix is required in this case as id conflicts with class field name } id.shouldNot == 0 } @Test @Order(1) @DisplayName(&quot;read customer&quot;) void read() { http.get(&quot;/customers/$id&quot;) { body.should == customerPayload } } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName(&quot;update customer&quot;) void update() { http.put(&quot;/customers/$id&quot;, changedCustomerPayload) { body.should == changedCustomerPayload } http.get(&quot;/customers/$id&quot;) { body.should == changedCustomerPayload } } @Test @Order(3) // but you can still run each method independently @DisplayName(&quot;delete customer&quot;) void delete() { http.delete(&quot;/customers/$id&quot;) { header.statusCode.should == 204 } http.get(&quot;/customers/$id&quot;) { header.statusCode.should == 404 } id = -1 // marking as deleted to let cleanup step know that no delete is required } @AfterAll static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return } http.delete(&quot;/customers/$id&quot;) } } Java package com.example.tests.junit5; import org.testingisdocumenting.webtau.junit5.WebTau; import org.junit.jupiter.api.*; import java.util.LinkedHashMap; import java.util.Map; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order @DisplayName(&quot;customer CRUD&quot;) public class CustomerCrudSeparatedJavaTest { private static final Map&lt;String, Object&gt; customerPayload = createCustomerPayload(); private static final Map&lt;String, Object&gt; changedCustomerPayload = createChangedCustomerPayload(); private static int id; @BeforeAll @DisplayName(&quot;create customer&quot;) // optional friendly name for reporting purposes static void createCustomer() { id = http.post(&quot;/customers&quot;, customerPayload, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); actual(id).shouldNot(equal(0)); } @Test @Order(1) @DisplayName(&quot;read customer&quot;) void read() { http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(customerPayload)); })); } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName(&quot;update customer&quot;) void update() { http.put(&quot;/customers/&quot; + id, changedCustomerPayload, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); } @Test @Order(3) // but you can still run each method independently @DisplayName(&quot;delete customer&quot;) void delete() { http.delete(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(204)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(404)); })); id = -1; // marking as deleted to let cleanup step know that no delete is required } @AfterAll static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return; } http.delete(&quot;/customers/&quot; + id); } private static Map&lt;String, Object&gt; createCustomerPayload() { Map&lt;String, Object&gt; payload = new LinkedHashMap&lt;&gt;(); payload.put(&quot;firstName&quot;, &quot;FN&quot;); payload.put(&quot;lastName&quot;, &quot;LN&quot;); return payload; } private static Map&lt;String, Object&gt; createChangedCustomerPayload() { Map&lt;String, Object&gt; payload = createCustomerPayload(); payload.put(&quot;lastName&quot;, &quot;NLN&quot;); return payload; } }</p>
+</article>
+
+<article>
+<header><h1>BeforeAll/AfterAll</h1></header>
+<p>Use @BeforeAll and @AfterAll to prepare and cleanup resources required for multiple test methods. Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.AfterAll import org.junit.jupiter.api.BeforeAll import org.junit.jupiter.api.DisplayName import org.junit.jupiter.api.Test import static org.testingisdocumenting.webtau.WebTauDsl.http @WebTau @DisplayName(&quot;customer query&quot;) class CustomerQueryGroovyTest { private static def id1 // keep track of created ids to assert and cleanup later private static def id2 private static def id3 @BeforeAll @DisplayName(&quot;create customers&quot;) static void createCustomers() { id1 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN1&quot;) id2 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN2&quot;) id3 = createCustomer(&quot;CQ_FN2&quot;, &quot;CQ_LN2&quot;) } @Test @DisplayName(&quot;query by first name&quot;) void queryByFirstName() { http.get(&quot;/customers/search/first-name&quot;, [name: &quot;CQ_FN1&quot;]) { body.should == [&quot;*id&quot; | &quot;firstName&quot; | &quot;lastName&quot;] { // star(*) marks key column so assertion is order agnostic __________________________________ id1 | &quot;CQ_FN1&quot; | &quot;CQ_LN1&quot; id2 | &quot;CQ_FN1&quot; | &quot;CQ_LN2&quot; } } } @Test @DisplayName(&quot;query by last name&quot;) void queryByLastName() { http.get(&quot;/customers/search/last-name&quot;, [name: &quot;CQ_LN2&quot;]) { body.should == [&quot;*id&quot; | &quot;firstName&quot; | &quot;lastName&quot;] { __________________________________ id2 | &quot;CQ_FN1&quot; | &quot;CQ_LN2&quot; id3 | &quot;CQ_FN2&quot; | &quot;CQ_LN2&quot; } } } @AfterAll @DisplayName(&quot;clean up&quot;) static void cleanup() { [id1, id2, id3].each { http.delete(&quot;/customers/$it&quot;) } } private static def createCustomer(String firstName, String lastName) { return http.post(&quot;/customers&quot;, [firstName: firstName, lastName: lastName]) { id } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.AfterAll; import org.junit.jupiter.api.BeforeAll; import org.junit.jupiter.api.DisplayName; import org.junit.jupiter.api.Test; import java.util.Map; import java.util.stream.Stream; import static org.testingisdocumenting.webtau.WebTauDsl.*; @DisplayName(&quot;customer query&quot;) class CustomerQueryJavaTest { private static Integer id1; // keep track of created ids to assert and cleanup later private static Integer id2; private static Integer id3; @BeforeAll @DisplayName(&quot;create customers&quot;) static void createCustomers() { id1 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN1&quot;); id2 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN2&quot;); id3 = createCustomer(&quot;CQ_FN2&quot;, &quot;CQ_LN2&quot;); } @Test @DisplayName(&quot;query by first name&quot;) void queryByFirstName() { http.get(&quot;/customers/search/first-name&quot;, http.query(&quot;name&quot;, &quot;CQ_FN1&quot;), (header, body) -&gt; { body.should(equal(table(&quot;*id&quot;, &quot;firstName&quot;, &quot;lastName&quot;, // star(*) marks key column so assertion is order agnostic ________________________________, id1, &quot;CQ_FN1&quot; , &quot;CQ_LN1&quot;, id2, &quot;CQ_FN1&quot; , &quot;CQ_LN2&quot;))); }); } @Test @DisplayName(&quot;query by last name&quot;) void queryByLastName() { http.get(&quot;/customers/search/last-name&quot;, http.query(&quot;name&quot;, &quot;CQ_LN2&quot;), (header, body) -&gt; { body.should(equal(table(&quot;*id&quot;, &quot;firstName&quot;, &quot;lastName&quot;, ________________________________, id2, &quot;CQ_FN1&quot; , &quot;CQ_LN2&quot;, id3, &quot;CQ_FN2&quot; , &quot;CQ_LN2&quot;))); }); } @AfterAll @DisplayName(&quot;clean up&quot;) static void cleanup() { Stream.of(id1, id2, id3).forEach(id -&gt; http.delete(&quot;/customers/&quot; + id)); } private static int createCustomer(String firstName, String lastName) { Map&lt;String, Object&gt; payload = aMapOf( &quot;firstName&quot;, firstName, &quot;lastName&quot;, lastName); return http.post(&quot;/customers&quot;, payload, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); } }</p>
+</article>
+
+<article>
+<header><h1>Maven Import</h1></header>
+<p>&lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit5&lt;/artifactId&gt; &lt;version&gt;1.21&lt;/version&gt; &lt;/dependency&gt;</p>
+</article>
+
+<article>
+<header><h1>TestFactory</h1></header>
+<p>With the additional annotation @TestFactory you can use TableData as an easy-to-read source of similar but independent tests where each row is treated as its own test (comparable to JUnit 4's parameterized tests), optionally with a descriptive label. Here are examples of parameterized tests with and without labels, and how an IDE uses the label for display purposes:</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "WebTau Runner",
+      "id" : "webtau-runner",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can use webtau ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " methods as in a junit 5 tests, but to enable reporting you need to use",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "code" : "@Webtau",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " annotation",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package com.example.tests.junit5\n\nimport org.testingisdocumenting.webtau.junit5.WebTau\nimport org.junit.jupiter.api.*\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@WebTau\n@TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order\n@DisplayName(\"customer CRUD\")\nclass CustomerCrudSeparatedGroovyTest {\n    private static def customerPayload = [firstName: 'FN',\n                                          lastName : 'LN']\n    private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN']\n\n    private static def id\n\n    @BeforeAll\n    @DisplayName(\"create customer\") // optional friendly name for reporting purposes\n    static void createCustomer() {\n        id = http.post(\"/customers\", customerPayload) {\n            body.id // using body prefix is required in this case as id conflicts with class field name\n        }\n\n        id.shouldNot == 0\n    }\n\n    @Test\n    @Order(1)\n    @DisplayName(\"read customer\")\n    void read() {\n        http.get(\"/customers/$id\") {\n            body.should == customerPayload\n        }\n    }\n\n    @Test\n    @Order(2) // order dependence saves from creating customer on every test\n    @DisplayName(\"update customer\")\n    void update() {\n        http.put(\"/customers/$id\", changedCustomerPayload) {\n            body.should == changedCustomerPayload\n        }\n\n        http.get(\"/customers/$id\") {\n            body.should == changedCustomerPayload\n        }\n    }\n\n    @Test\n    @Order(3) // but you can still run each method independently\n    @DisplayName(\"delete customer\")\n    void delete() {\n        http.delete(\"/customers/$id\") {\n            header.statusCode.should == 204\n        }\n\n        http.get(\"/customers/$id\") {\n            header.statusCode.should == 404\n        }\n\n        id = -1 // marking as deleted to let cleanup step know that no delete is required\n    }\n\n    @AfterAll\n    static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean\n        if (id == -1) {\n            return\n        }\n\n        http.delete(\"/customers/$id\")\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport org.junit.jupiter.api.*;\n\nimport java.util.LinkedHashMap;\nimport java.util.Map;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order\n@DisplayName(\"customer CRUD\")\npublic class CustomerCrudSeparatedJavaTest {\n    private static final Map<String, Object> customerPayload = createCustomerPayload();\n    private static final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();\n\n    private static int id;\n\n    @BeforeAll\n    @DisplayName(\"create customer\") // optional friendly name for reporting purposes\n    static void createCustomer() {\n        id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n\n        actual(id).shouldNot(equal(0));\n    }\n\n    @Test\n    @Order(1)\n    @DisplayName(\"read customer\")\n    void read() {\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload));\n        }));\n    }\n\n    @Test\n    @Order(2) // order dependence saves from creating customer on every test\n    @DisplayName(\"update customer\")\n    void update() {\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n    }\n\n    @Test\n    @Order(3) // but you can still run each method independently\n    @DisplayName(\"delete customer\")\n    void delete() {\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(404));\n        }));\n\n        id = -1; // marking as deleted to let cleanup step know that no delete is required\n    }\n\n    @AfterAll\n    static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean\n        if (id == -1) {\n            return;\n        }\n\n        http.delete(\"/customers/\" + id);\n    }\n\n    private static Map<String, Object> createCustomerPayload() {\n        Map<String, Object> payload = new LinkedHashMap<>();\n        payload.put(\"firstName\", \"FN\");\n        payload.put(\"lastName\", \"LN\");\n\n        return payload;\n    }\n\n    private static Map<String, Object> createChangedCustomerPayload() {\n        Map<String, Object> payload = createCustomerPayload();\n        payload.put(\"lastName\", \"NLN\");\n\n        return payload;\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "BeforeAll/AfterAll",
+      "id" : "beforeallafterall",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "@BeforeAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "@AfterAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to prepare and cleanup resources required for multiple test methods.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package com.example.tests.junit5\n\nimport org.testingisdocumenting.webtau.junit5.WebTau\nimport org.junit.jupiter.api.AfterAll\nimport org.junit.jupiter.api.BeforeAll\nimport org.junit.jupiter.api.DisplayName\nimport org.junit.jupiter.api.Test\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.http\n\n@WebTau\n@DisplayName(\"customer query\")\nclass CustomerQueryGroovyTest {\n    private static def id1 // keep track of created ids to assert and cleanup later\n    private static def id2\n    private static def id3\n\n    @BeforeAll\n    @DisplayName(\"create customers\")\n    static void createCustomers() {\n        id1 = createCustomer(\"CQ_FN1\", \"CQ_LN1\")\n        id2 = createCustomer(\"CQ_FN1\", \"CQ_LN2\")\n        id3 = createCustomer(\"CQ_FN2\", \"CQ_LN2\")\n    }\n\n    @Test\n    @DisplayName(\"query by first name\")\n    void queryByFirstName() {\n        http.get(\"/customers/search/first-name\", [name: \"CQ_FN1\"]) {\n            body.should == [\"*id\" | \"firstName\" | \"lastName\"] { // star(*) marks key column so assertion is order agnostic\n                           __________________________________\n                             id1  | \"CQ_FN1\"    | \"CQ_LN1\"\n                             id2  | \"CQ_FN1\"    | \"CQ_LN2\" }\n        }\n    }\n\n    @Test\n    @DisplayName(\"query by last name\")\n    void queryByLastName() {\n        http.get(\"/customers/search/last-name\", [name: \"CQ_LN2\"]) {\n            body.should == [\"*id\" | \"firstName\" | \"lastName\"] {\n                           __________________________________\n                             id2  | \"CQ_FN1\"    | \"CQ_LN2\"\n                             id3  | \"CQ_FN2\"    | \"CQ_LN2\" }\n        }\n    }\n\n    @AfterAll\n    @DisplayName(\"clean up\")\n    static void cleanup() {\n        [id1, id2, id3].each { http.delete(\"/customers/$it\") }\n    }\n\n    private static def createCustomer(String firstName, String lastName) {\n        return http.post(\"/customers\", [firstName: firstName, lastName: lastName]) { id }\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.AfterAll;\nimport org.junit.jupiter.api.BeforeAll;\nimport org.junit.jupiter.api.DisplayName;\nimport org.junit.jupiter.api.Test;\n\nimport java.util.Map;\nimport java.util.stream.Stream;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@DisplayName(\"customer query\")\nclass CustomerQueryJavaTest {\n    private static Integer id1; // keep track of created ids to assert and cleanup later\n    private static Integer id2;\n    private static Integer id3;\n\n    @BeforeAll\n    @DisplayName(\"create customers\")\n    static void createCustomers() {\n        id1 = createCustomer(\"CQ_FN1\", \"CQ_LN1\");\n        id2 = createCustomer(\"CQ_FN1\", \"CQ_LN2\");\n        id3 = createCustomer(\"CQ_FN2\", \"CQ_LN2\");\n    }\n\n    @Test\n    @DisplayName(\"query by first name\")\n    void queryByFirstName() {\n        http.get(\"/customers/search/first-name\", http.query(\"name\", \"CQ_FN1\"), (header, body) -> {\n            body.should(equal(table(\"*id\", \"firstName\", \"lastName\", // star(*) marks key column so assertion is order agnostic\n                                   ________________________________,\n                                      id1, \"CQ_FN1\"   , \"CQ_LN1\",\n                                      id2, \"CQ_FN1\"   , \"CQ_LN2\")));\n        });\n    }\n\n    @Test\n    @DisplayName(\"query by last name\")\n    void queryByLastName() {\n        http.get(\"/customers/search/last-name\", http.query(\"name\", \"CQ_LN2\"), (header, body) -> {\n            body.should(equal(table(\"*id\", \"firstName\", \"lastName\",\n                                    ________________________________,\n                                      id2, \"CQ_FN1\"   , \"CQ_LN2\",\n                                      id3, \"CQ_FN2\"   , \"CQ_LN2\")));\n        });\n    }\n\n    @AfterAll\n    @DisplayName(\"clean up\")\n    static void cleanup() {\n        Stream.of(id1, id2, id3).forEach(id -> http.delete(\"/customers/\" + id));\n    }\n\n    private static int createCustomer(String firstName, String lastName) {\n        Map<String, Object> payload = aMapOf(\n                \"firstName\", firstName,\n                \"lastName\", lastName);\n\n        return http.post(\"/customers\", payload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Maven Import",
+      "id" : "maven-import",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit5</artifactId>\n    <version>1.21</version>\n</dependency>",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "TestFactory",
+      "id" : "testfactory",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "With the additional annotation ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "@TestFactory",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " you can use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as an easy-to-read source of",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "similar but independent tests where each row is treated as its own test (comparable to JUnit 4's",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "parameterized tests), optionally with a descriptive label.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Here are examples of parameterized tests with and without labels, and how an IDE uses the label for display purposes:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "@TestFactory\ndef \"individual tests use generated display labels\"() {\n    [\"price\" | \"quantity\" | \"outcome\"] {\n    _________________________________\n      10     |  30        |  300\n      -10    |  30        | -300\n    }.test {\n        PriceCalculator.calculate(price, quantity).should == outcome\n    }\n}",
+        "title" : "Parameterized tests without explicit label",
+        "entry" : "individual tests use generated display labels",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "@TestFactory\ndef \"individual tests can use an optional display label to clarify the use case\"() {\n    [\"label\"           | \"price\" | \"quantity\" | \"outcome\"] {\n    ___________________________________________________\n      \"positive price\" | 10      |  30        |  300\n      \"negative price\" | -10     |  30        | -300\n    }.test {\n        PriceCalculator.calculate(price, quantity).should == outcome\n    }\n}",
+        "title" : "Parameterized tests with explicit label",
+        "entry" : "individual tests can use an optional display label to clarify the use case",
+        "type" : "Snippet"
+      }, {
+        "imageSrc" : "/webtau/img/intellij-parameterized-tests.png",
+        "timestamp" : 1584486488000,
+        "shapes" : [ ],
+        "width" : 402.0,
+        "height" : 156.0,
+        "type" : "AnnotatedImage"
+      } ]
+    } ],
+    "lastModifiedTime" : 1584486488000,
+    "tocItem" : {
+      "sectionTitle" : "Generic Runners",
+      "pageTitle" : "JUnit 5",
+      "pageMeta" : { },
+      "dirName" : "generic-runners",
+      "fileName" : "JUnit-5",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "WebTau Runner",
+        "id" : "webtau-runner"
+      }, {
+        "title" : "BeforeAll/AfterAll",
+        "id" : "beforeallafterall"
+      }, {
+        "title" : "Maven Import",
+        "id" : "maven-import"
+      }, {
+        "title" : "TestFactory",
+        "id" : "testfactory"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

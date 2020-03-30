@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<title>WebTau: Test Listeners</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Test Listener Interface</h1></header>
+<p>To define a custom test listener you need to implement the TestListener interface package org.testingisdocumenting.webtau.reporter; /** * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5 */ public interface TestListener { /** * before any test is ran */ default void beforeFirstTest() {} /** * before test code is invoked * @param test test */ default void beforeTestRun(WebTauTest test) {} /** * after test code is invoked * @param test test */ default void afterTestRun(WebTauTest test) {} /** * after all the tests are invoked * @param report report */ default void afterAllTests(WebTauReport report) {} /** * after test is ran but before its first statement. * executed code in this listener is considered to be part of a test. * @param test test */ default void beforeFirstTestStatement(WebTauTest test) {} /** * right before test considered to be complete. May not be executed if the test didn't reach the last statement. * executed code in this listener is considered to be part of a test. * @param test test */ default void afterLastTestStatement(WebTauTest test) {} }</p>
+</article>
+
+<article>
+<header><h1>Config</h1></header>
+<p>Once you have an implementation, use the testListeners key in your config file to use it import listeners.MetadataValidationTestListener testListeners = [MetadataValidationTestListener] package listeners import org.testingisdocumenting.webtau.reporter.TestListener import org.testingisdocumenting.webtau.reporter.WebTauTest class MetadataValidationTestListener implements TestListener { @Override void afterLastTestStatement(WebTauTest test) { if (!test.metadata.has('owner')) { throw new RuntimeException('owner for &lt;' + test.scenario + '&gt; is not set') } } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/react.min.js"></script>
+<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Test Listener Interface",
+      "id" : "test-listener-interface",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To define a custom test listener you need to implement the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TestListener",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " interface",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "package org.testingisdocumenting.webtau.reporter;\n\n/**\n * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5\n */\npublic interface TestListener {\n    /**\n     * before any test is ran\n     */\n    default void beforeFirstTest() {}\n\n    /**\n     * before test code is invoked\n     * @param test test\n     */\n    default void beforeTestRun(WebTauTest test) {}\n\n    /**\n     * after test code is invoked\n     * @param test test\n     */\n    default void afterTestRun(WebTauTest test) {}\n\n    /**\n     * after all the tests are invoked\n     * @param report report\n     */\n    default void afterAllTests(WebTauReport report) {}\n\n    /**\n     * after test is ran but before its first statement.\n     * executed code in this listener is considered to be part of a test.\n     * @param test test\n     */\n    default void beforeFirstTestStatement(WebTauTest test) {}\n\n    /**\n     * right before test considered to be complete. May not be executed if the test didn't reach the last statement.\n     * executed code in this listener is considered to be part of a test.\n     * @param test test\n     */\n    default void afterLastTestStatement(WebTauTest test) {}\n}",
+        "title" : "TestListener.java",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Config",
+      "id" : "config",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Once you have an implementation, use the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "testListeners",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " key in your config file to use it",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "cfg",
+        "snippet" : "import listeners.MetadataValidationTestListener\n\ntestListeners = [MetadataValidationTestListener]",
+        "title" : "webtau.cfg",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package listeners\n\nimport org.testingisdocumenting.webtau.reporter.TestListener\nimport org.testingisdocumenting.webtau.reporter.WebTauTest\n\nclass MetadataValidationTestListener implements TestListener {\n    @Override\n    void afterLastTestStatement(WebTauTest test) {\n        if (!test.metadata.has('owner')) {\n            throw new RuntimeException('owner for <' + test.scenario + '> is not set')\n        }\n    }\n}",
+        "title" : "listeners/MetadataValidationTestListener.groovy",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1584487110000,
+    "tocItem" : {
+      "sectionTitle" : "Groovy Specific Runner",
+      "pageTitle" : "Test Listeners",
+      "pageMeta" : { },
+      "dirName" : "groovy-specific-runner",
+      "fileName" : "test-listeners",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Test Listener Interface",
+        "id" : "test-listener-interface"
+      }, {
+        "title" : "Config",
+        "id" : "config"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>
