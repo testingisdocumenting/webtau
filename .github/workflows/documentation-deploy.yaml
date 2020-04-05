@@ -17,7 +17,7 @@ jobs:
         run: sudo apt-get install graphviz
 
       - name: Force non snapshot version
-        run: mvn versions:set -DnewVersion=$(git describe --abbrev=0)
+        run: mvn versions:set -DnewVersion=$(git describe --abbrev=0 HEAD)
 
       - name: Build with xvfb enabled
         uses: GabrielBB/xvfb-action@v1.0
