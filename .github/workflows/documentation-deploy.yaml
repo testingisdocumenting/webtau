@@ -1,8 +1,6 @@
 name: Build and deploy documentation
 
-on:
-  push:
-    branches: *
+on: push
 
 jobs:
   build:
