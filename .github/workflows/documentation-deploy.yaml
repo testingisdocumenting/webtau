@@ -15,4 +15,5 @@ jobs:
       - name: Force non snapshot version
         run: mvn versions:use-releases
       - name: Build
+        uses: GabrielBB/xvfb-action@v1.0
         run: mvn -B package
