@@ -7,9 +7,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: checkout code
-        uses: actions/checkout@v2
-        run: git fetch
+      - uses: actions/checkout@v2
+      - run: git fetch
 
       - name: test
         run: echo "hello ref " $GITHUB_REF
