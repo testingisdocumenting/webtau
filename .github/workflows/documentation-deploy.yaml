@@ -15,7 +15,7 @@ jobs:
       - name: Set up grahpviz
         run: sudo apt-get install graphviz
       - name: Force non snapshot version
-        run: mvn versions:use-releases
+        run: mvn versions:set -DremoveSnapshot
       - name: Build with xvfb enabled
         uses: GabrielBB/xvfb-action@v1.0
         with:
