@@ -12,14 +12,18 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+
       - name: Set up grahpviz
         run: sudo apt-get install graphviz
+
       - name: Force non snapshot version
-        run: mvn versions:set -DremoveSnapshot
+        run: mvn versions:set -DnewVersion=$(git describe --abbrev=0)
+
       - name: Build with xvfb enabled
         uses: GabrielBB/xvfb-action@v1.0
         with:
           run: mvn -B package
+
       - name: deploy documentation
         uses: peaceiris/actions-gh-pages@v3
         with:
