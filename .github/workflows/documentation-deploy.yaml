@@ -10,16 +10,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: git fetch
 
-      - name: test
-        run: echo "hello ref " $GITHUB_REF
-
-      - name: test 2
-        run: echo $(git tag)
-
-      - name: Get the version
-        id: version_extraction
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
@@ -29,7 +19,7 @@ jobs:
         run: sudo apt-get install graphviz
 
       - name: Force non snapshot version
-        run: mvn versions:set -DnewVersion=${{ steps.version_extraction.outputs.VERSION }}
+        run: mvn versions:set -DnewVersion=$(git describe --abbrev=0 HEAD)
 
       - name: Build with xvfb enabled
         uses: GabrielBB/xvfb-action@v1.0
