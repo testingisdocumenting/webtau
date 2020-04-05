@@ -9,12 +9,14 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: test
         run: echo "hello ref " $GITHUB_REF
 
       - name: test 2
-        run: echo ${GITHUB_REF/refs\/tags\//}
+        run: echo $(git tag)
 
       - name: Get the version
         id: version_extraction
