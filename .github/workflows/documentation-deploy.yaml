@@ -1,10 +1,13 @@
 name: Build and deploy documentation
 
-on: push
+on:
+  issues:
+    types: [opened]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: startsWith(github.event.issue.title, 'deploy documentation')
 
     steps:
       - uses: actions/checkout@v2
@@ -31,22 +34,23 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./webtau-docs/target/webtau
-#      - name: close triggering issue
-#          uses: actions/github-script@0.9.0
-#          env:
-#            GITHUB_RUN_ID: ${{github.run_id}}
-#          with:
-#            github-token: ${{secrets.GITHUB_TOKEN}}
-#            script: |
-#              await github.issues.createComment({
-#                issue_number: context.issue.number,
-#                owner: context.repo.owner,
-#                repo: context.repo.repo,
-#                body: 'documentation is deployed'
-#              })
-#              await github.issues.update({
-#                issue_number: context.issue.number,
-#                owner: context.repo.owner,
-#                repo: context.repo.repo,
-#                state: 'closed'
-#              })
+
+      - name: close triggering issue
+          uses: actions/github-script@0.9.0
+          env:
+            GITHUB_RUN_ID: ${{github.run_id}}
+          with:
+            github-token: ${{secrets.GITHUB_TOKEN}}
+            script: |
+              await github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: 'documentation is deployed'
+              })
+              await github.issues.update({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'closed'
+              })
