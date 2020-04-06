@@ -1,0 +1,56 @@
+name: Build and deploy documentation
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.issue.title, 'deploy documentation')
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: git fetch --prune --unshallow
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: Set up grahpviz
+        run: sudo apt-get install graphviz
+
+      - name: Force non snapshot version
+        run: mvn versions:set -DnewVersion=$(git describe --abbrev=0)
+
+      - name: Build with xvfb enabled
+        uses: GabrielBB/xvfb-action@v1.0
+        with:
+          run: mvn -B package
+
+      - name: deploy documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./webtau-docs/target/webtau
+
+      - name: close triggering issue
+        uses: actions/github-script@0.9.0
+        env:
+          GITHUB_RUN_ID: ${{github.run_id}}
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            await github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'documentation is deployed'
+            })
+            await github.issues.update({
+             issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed'
+            })

@@ -37,7 +37,7 @@ Java:
 
 ``````
 
-Tests can be written in any JVM language with language specific syntactic sugar where applicable.
+Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
 :include-file: scenarios/ui/searchWithPages.groovy {title: "Web UI test"}
 
