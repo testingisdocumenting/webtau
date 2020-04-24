@@ -131,17 +131,16 @@ window._webtau = window._webtau || function () {
             var rect = webElement.getBoundingClientRect()
 
             var overlay = document.createElement('div')
-            overlay.id = 'webtau-overlay'
             overlay.style.position = 'absolute'
-            overlay.style.top = rect.top
-            overlay.style.right = rect.right
-            overlay.style.bottom = rect.bottom
-            overlay.style.left = rect.left
-            overlay.style.width = rect.width
-            overlay.style.height = rect.height
+            overlay.style.top = rect.top + 'px'
+            overlay.style.right = rect.right + 'px'
+            overlay.style.bottom = rect.bottom + 'px'
+            overlay.style.left = rect.left + 'px'
+            overlay.style.width = rect.width + 'px'
+            overlay.style.height = rect.height + 'px'
             overlay.style.backgroundColor = '#146fd4'
             overlay.style.opacity = 0.5
-            overlay.zIndex = 9000
+            overlay.zIndex = 9999
 
             return overlay
         }
