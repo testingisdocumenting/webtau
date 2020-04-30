@@ -98,6 +98,7 @@
         <module>webtau-core</module>
         <module>webtau-core-groovy</module>
         <module>webtau-standalone-runner-groovy</module>
+        <module>webtau-db</module>
         <module>webtau-browser</module>
         <module>webtau-http</module>
         <module>webtau-http-groovy</module>
