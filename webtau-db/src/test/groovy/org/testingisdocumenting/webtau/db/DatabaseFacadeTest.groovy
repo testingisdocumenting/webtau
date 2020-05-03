@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.db
 
 import org.apache.commons.dbutils.QueryRunner
 import org.h2.jdbcx.JdbcDataSource
+import org.junit.BeforeClass
 import org.junit.Test
 
 import javax.sql.DataSource
@@ -25,13 +26,15 @@ import javax.sql.DataSource
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
 class DatabaseFacadeTest {
+    @BeforeClass
+    static void init() {
+        JdbcDataSource dataSource = createDataSource()
+        createPricesTable(dataSource)
+    }
+
     @Test
     void "should insert table data into a table"() {
-        def dataSource = new JdbcDataSource()
-        dataSource.setURL("jdbc:h2:mem:dbfence;DB_CLOSE_DELAY=-1")
-        dataSource.setUser("sa")
-
-        createPricesTable(dataSource)
+        JdbcDataSource dataSource = createDataSource()
 
         def database = db.from(dataSource)
         def PRICES = database.table("PRICES")
@@ -45,6 +48,19 @@ class DatabaseFacadeTest {
                                 ___________________________________
                                 "id1" | "nice set"    | 1000
                                 "id2" | "another set" | 2000 }
+    }
+
+    @Test
+    void "should use data source provider for primary database"() {
+        def PRICES = db.table("PRICES")
+        PRICES.load().numberOfRows().shouldBe >= 0
+    }
+
+    private static JdbcDataSource createDataSource() {
+        def dataSource = new JdbcDataSource()
+        dataSource.setURL("jdbc:h2:mem:dbfence;DB_CLOSE_DELAY=-1")
+        dataSource.setUser("sa")
+        dataSource
     }
 
     private static void createPricesTable(DataSource dataSource) {

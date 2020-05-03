@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.db;
-
-import org.testingisdocumenting.webtau.db.cfg.DbDataSourceProviders;
+package org.testingisdocumenting.webtau.db.cfg;
 
 import javax.sql.DataSource;
 
-public class DatabaseFacade {
-    public static final DatabaseFacade db = new DatabaseFacade();
-
-    private DatabaseFacade() {
-    }
-
-    public Database from(DataSource dataSource) {
-        return new Database(dataSource);
-    }
-
-    public DatabaseTable table(String tableName) {
-        return from(DbDataSourceProviders.provideByName("primary")).table(tableName);
-    }
+public interface DbDataSourceProvider {
+    DataSource provide(String name);
 }
