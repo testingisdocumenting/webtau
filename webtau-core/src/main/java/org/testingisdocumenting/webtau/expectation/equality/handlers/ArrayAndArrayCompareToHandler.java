@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,39 +19,20 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
-import java.util.Iterator;
+import java.util.List;
 
-public class IterableCompareToHandler implements CompareToHandler {
+public class ArrayAndArrayCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof Iterable && expected instanceof Iterable;
+        return actual.getClass().isArray() && expected.getClass().isArray();
     }
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        Iterator<?> actualIt = ((Iterable<?>) actual).iterator();
-        Iterator<?> expectedIt  = ((Iterable<?>) expected).iterator();
-
-        int idx = 0;
-        while (actualIt.hasNext() && expectedIt.hasNext()) {
-            Object actualElement = actualIt.next();
-            Object expectedElement = expectedIt.next();
-
-            comparator.compareUsingEqualOnly(actualPath.index(idx), actualElement, expectedElement);
-            idx++;
-        }
-
-        while (actualIt.hasNext()) {
-            Object actualElement = actualIt.next();
-            comparator.reportExtra(this, actualPath.index(idx), actualElement);
-            idx++;
-        }
-
-        while (expectedIt.hasNext()) {
-            Object expectedElement = expectedIt.next();
-            comparator.reportMissing(this, actualPath.index(idx), expectedElement);
-            idx++;
-        }
+        List<?> actualList = CollectionUtils.convertArrayToList(actual);
+        List<?> expectedList = CollectionUtils.convertArrayToList(expected);
+        comparator.compareUsingEqualOnly(actualPath, actualList, expectedList);
     }
 }
