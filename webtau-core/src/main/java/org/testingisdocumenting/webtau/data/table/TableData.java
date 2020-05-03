@@ -73,8 +73,8 @@ public class TableData implements Iterable<Record> {
      * @return populate table data instance
      */
     public TableData values(Object... values) {
-        int numberOfRows = values.length / header.size();
-        int numberOfExtraValues = values.length % header.size();
+        int numberOfRows = header.size() == 0 ? 0 : values.length / header.size();
+        int numberOfExtraValues = header.size() == 0 ? 0 : values.length % header.size();
 
         if (numberOfExtraValues != 0) {
             int startIdxOfExtraValues = numberOfRows * header.size();
