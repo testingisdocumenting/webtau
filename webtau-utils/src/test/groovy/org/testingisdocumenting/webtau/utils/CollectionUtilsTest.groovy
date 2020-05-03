@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,5 +29,95 @@ class CollectionUtilsTest {
     @Test(expected = IllegalArgumentException)
     void "should validate completeness of the map when create from varargs"() {
         CollectionUtils.aMapOf("key1", 10, "key2")
+    }
+
+    @Test
+    void "should convert array of boolean to list of Boolean"() {
+        boolean[] array = [true, false]
+        List<Boolean> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Boolean
+        assert converted[0]
+        assert !converted[1]
+    }
+
+    @Test
+    void "should convert array of byte to list of Byte"() {
+        byte[] array = [1, 2]
+        List<Byte> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Byte
+        assert converted[0] == 1
+        assert converted[1] == 2
+    }
+
+    @Test
+    void "should convert array of char to list of Character"() {
+        char[] array = ['a' as char, 'b' as char]
+        List<Character> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Character
+        assert converted[0] == 'a'
+        assert converted[1] == 'b'
+    }
+
+    @Test
+    void "should convert array of short to list of Short"() {
+        short[] array = [1, 2]
+        List<Short> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Short
+        assert converted[0] == 1
+        assert converted[1] == 2
+    }
+
+    @Test
+    void "should convert array of int to list of Integer"() {
+        int[] array = [1, 2]
+        List<Integer> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Integer
+        assert converted[0] == 1
+        assert converted[1] == 2
+    }
+
+    @Test
+    void "should convert array of long to list of Long"() {
+        long[] array = [1, 2]
+        List<Long> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Long
+        assert converted[0] == 1
+        assert converted[1] == 2
+    }
+
+    @Test
+    void "should convert array of float to list of Float"() {
+        float[] array = [1, 2]
+        List<Float> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Float
+        assert converted[0] == 1
+        assert converted[1] == 2
+    }
+
+    @Test
+    void "should convert array of double to list of Double"() {
+        double[] array = [1, 2]
+        List<Double> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == Double
+        assert converted[0] == 1
+        assert converted[1] == 2
+    }
+
+    @Test
+    void "should convert array of String to list of String"() {
+        String[] array = ['a', 'b']
+        List<String> converted = CollectionUtils.convertArrayToList(array)
+
+        assert converted[0].class == String
+        assert converted[0] == 'a'
+        assert converted[1] == 'b'
     }
 }
