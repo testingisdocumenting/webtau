@@ -26,6 +26,7 @@ import org.testingisdocumenting.webtau.cache.Cache;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cli.Cli;
 import org.testingisdocumenting.webtau.data.Data;
+import org.testingisdocumenting.webtau.db.DatabaseFacade;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
@@ -42,6 +43,7 @@ public class WebTauDsl extends WebTauCore {
     public static final Http http = Http.http;
     public static final Browser browser = Browser.browser;
     public static final Cli cli = Cli.cli;
+    public static final DatabaseFacade db = DatabaseFacade.db;
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();

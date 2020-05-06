@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.testingisdocumenting.webtau.data.table.TableData;
+
 import javax.sql.DataSource;
 
 public class Database {
@@ -27,5 +29,13 @@ public class Database {
 
     public DatabaseTable table(String name) {
         return new DatabaseTable(dataSource, name);
+    }
+
+    public TableData query(String query) {
+        return QueryRunnerUtils.runQuery(dataSource, query);
+    }
+
+    public void update(String query) {
+        QueryRunnerUtils.runUpdate(dataSource, query);
     }
 }

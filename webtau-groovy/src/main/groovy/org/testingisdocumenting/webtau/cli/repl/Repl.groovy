@@ -20,6 +20,9 @@ import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.data.table.render.DefaultTableRenderStyle
+import org.testingisdocumenting.webtau.data.table.render.TableRenderer
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
@@ -99,9 +102,15 @@ class Repl {
             showDataNodeResult(result)
         } else if (result instanceof PageElement) {
             showPageElementResult(result)
+        } else if (result instanceof TableData) {
+            showTableData(result)
         } else {
             groovysh.defaultResultHook(result)
         }
+    }
+
+    private static void showTableData(TableData tableData) {
+        println TableRenderer.render(tableData, new DefaultTableRenderStyle())
     }
 
     private static void showDataNodeResult(DataNode result) {
