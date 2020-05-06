@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.cfg.DbDataSourceProviders;
 
 import javax.sql.DataSource;
@@ -31,6 +32,18 @@ public class DatabaseFacade {
     }
 
     public DatabaseTable table(String tableName) {
-        return from(DbDataSourceProviders.provideByName("primary")).table(tableName);
+        return from(PrimaryDataSourceHolder.dataSource).table(tableName);
+    }
+
+    public TableData query(String query) {
+        return from(PrimaryDataSourceHolder.dataSource).query(query);
+    }
+
+    public void update(String query) {
+        from(PrimaryDataSourceHolder.dataSource).update(query);
+    }
+
+    private static class PrimaryDataSourceHolder {
+        static final DataSource dataSource = DbDataSourceProviders.provideByName("primary");
     }
 }

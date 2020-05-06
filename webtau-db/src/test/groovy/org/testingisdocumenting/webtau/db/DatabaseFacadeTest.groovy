@@ -44,16 +44,39 @@ class DatabaseFacadeTest {
                   "id1" | "nice set"    | 1000
                   "id2" | "another set" | 2000 }
 
-        PRICES.load().should == ["ID" | "DESCRIPTION" | "PRICE"] {
-                                ___________________________________
-                                "id1" | "nice set"    | 1000
-                                "id2" | "another set" | 2000 }
+        PRICES.query().should == ["ID" | "DESCRIPTION" | "PRICE"] {
+                                 ___________________________________
+                                 "id1" | "nice set"    | 1000
+                                 "id2" | "another set" | 2000 }
+
+        db.query("select * from PRICES where id='id2'").should ==
+                ["ID" | "DESCRIPTION" | "PRICE"] {
+                __________________________________
+                "id2" | "another set" | 2000 }
     }
 
     @Test
     void "should use data source provider for primary database"() {
+        db.update("delete from PRICES")
+
         def PRICES = db.table("PRICES")
-        PRICES.load().numberOfRows().shouldBe >= 0
+        PRICES << ["id" | "description" | "price"] {
+                  ___________________________________
+                  "id2" | "another set" | 2000   }
+
+        PRICES.query().numberOfRows().should == 1
+    }
+
+    @Test
+    void "should run execute statements for primary data source"() {
+        def PRICES = db.table("PRICES")
+        PRICES << ["id" | "description" | "price"] {
+                  ___________________________________
+                  "id2" | "another set" | 2000   }
+
+        db.update("delete from PRICES")
+
+        PRICES.query().numberOfRows().should == 0
     }
 
     private static JdbcDataSource createDataSource() {
