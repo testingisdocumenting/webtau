@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,25 +33,35 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 public class TableRenderer {
-    private TableData data;
-    private TableRenderStyle style;
-    private StringBuilder rendered;
+    private final TableData data;
+    private final TableCellDataRenderer tableCellDataRenderer;
+    private final TableRenderStyle style;
+    private final StringBuilder rendered;
 
     private TableData renderedCells;
     private Map<String, Integer> widthPerColumnName;
     private List<Integer> heightPerRowIdx;
 
     public static String render(TableData tableData) {
-        return render(tableData, new DefaultTableRenderStyle());
+        return render(tableData, DataRenderers::render, new DefaultTableRenderStyle());
+    }
+
+    public static String render(TableData tableData, TableCellDataRenderer tableCellDataRenderer) {
+        return render(tableData, tableCellDataRenderer, new DefaultTableRenderStyle());
+    }
+
+    public static String render(TableData tableData, TableRenderStyle renderStyle) {
+        return render(tableData, DefaultTableCellDataRenderer.INSTANCE, renderStyle);
     }
 
     // TODO nested tables adjustments
-    public static String render(TableData tableData, TableRenderStyle renderStyle) {
-        return new TableRenderer(tableData, renderStyle).render();
+    public static String render(TableData tableData, TableCellDataRenderer tableCellDataRenderer, TableRenderStyle renderStyle) {
+        return new TableRenderer(tableData, tableCellDataRenderer, renderStyle).render();
     }
 
-    private TableRenderer(TableData data, TableRenderStyle style) {
+    private TableRenderer(TableData data, TableCellDataRenderer tableCellDataRenderer, TableRenderStyle style) {
         this.data = data;
+        this.tableCellDataRenderer = tableCellDataRenderer;
         this.style = style;
         this.rendered = new StringBuilder();
     }
@@ -93,11 +104,16 @@ public class TableRenderer {
     }
 
     private void renderHeaderMid() {
-        renderLine(style.headerMidLeft(), style.headerMidMid(), style.headerMidRight(), " ", (name) -> name);
+        renderLine(style.headerMidLeft(), style.headerMidMid(), style.headerMidRight(), " ",
+                null, (name) -> name);
     }
 
     private void renderHeaderLow() {
-        renderLine(style.headerBotLeft(), style.headerBotMid(), style.headerBotRight(), style.headerBotFill(), (name) -> "");
+        String headerBotFill = style.headerBotFill();
+        if (headerBotFill != null) {
+            renderLine(style.headerBotLeft(), style.headerBotMid(), style.headerBotRight(), headerBotFill,
+                    null, (name) -> "");
+        }
     }
 
     private void renderBody() {
@@ -115,34 +131,60 @@ public class TableRenderer {
         for (int lineIdx = 0; lineIdx < rowHeight; lineIdx++) {
             int finalLineIdx = lineIdx;
             renderLine(style.bodyMidLeft(), style.bodyMidMid(), style.bodyMidRight(), " ",
-                (name) -> ((CellToRender) row.get(name)).getLine(finalLineIdx));
+                    (name) -> ((CellToRender) row.get(name)).getOriginalValue(),
+                    (name) -> ((CellToRender) row.get(name)).getLine(finalLineIdx));
         }
 
-        renderLine(style.bodyBotLeft(), style.bodyBotMid(), style.bodyBotRight(), style.bodyBotFill(), (name) -> "");
+        String bodyBotFill = style.bodyBotFill();
+        if (bodyBotFill != null) {
+            renderLine(style.bodyBotLeft(), style.bodyBotMid(), style.bodyBotRight(), bodyBotFill,
+                    null, (name) -> "");
+        }
     }
 
-    private void renderLine(String left, String mid, String right, String fill, Function<String, String> valueForColumn) {
-        if (widthPerColumnName.isEmpty())
+    private void renderLine(String left, String mid, String right, String fill,
+                            Function<String, Object> originalValueForColumn,
+                            Function<String, String> renderedValueForColumn) {
+        if (widthPerColumnName.isEmpty()) {
             return;
+        }
 
         rendered.append(left);
 
-        rendered.append(widthPerColumnName.entrySet().stream().
-            map(e -> StringUtils.rightPad(valueForColumn.apply(e.getKey()), e.getValue(), fill)).
-            collect(joining(mid)));
+        rendered.append(
+                widthPerColumnName.entrySet()
+                        .stream()
+                        .map(e ->
+                        {
+                            String rendered = renderedValueForColumn.apply(e.getKey());
+
+                            Object original = originalValueForColumn != null ?
+                                    originalValueForColumn.apply(e.getKey()):
+                                    rendered;
+
+                            String aligned = tableCellDataRenderer.align(original, rendered, e.getValue(), fill);
+
+                            return originalValueForColumn != null ?
+                                    tableCellDataRenderer.wrapBeforeRender(
+                                            originalValueForColumn.apply(e.getKey()), aligned):
+                                    aligned;
+                        })
+                        .collect(joining(mid)));
 
         rendered.append(right);
         rendered.append("\n");
     }
 
-    private static class CellToRender {
+    private class CellToRender {
+        private final Object originalValue;
         private List<String> lines;
         private int width;
         private int height;
 
         CellToRender(String columnName, Object originalValue) {
+            this.originalValue = originalValue;
             splitLines(originalValue);
-            calcMaxWidth(columnName);
+            calcMaxWidth(columnName, originalValue);
             calcHeight();
         }
 
@@ -158,13 +200,22 @@ public class TableRenderer {
             return lineIdx < lines.size() ? lines.get(lineIdx) : "";
         }
 
+        private Object getOriginalValue() {
+            return originalValue;
+        }
+
         private void splitLines(Object originalValue) {
-            String rendered = DataRenderers.render(originalValue);
+            String rendered = tableCellDataRenderer.renderCell(originalValue);
             lines = Arrays.asList(rendered.replace("\r", "").split("\n"));
         }
 
-        private void calcMaxWidth(String columnName) {
-            width = lines.stream().map(String::length).reduce(columnName.length(), (l, r) -> l > r ? l : r);
+        private void calcMaxWidth(String columnName, Object originalValue) {
+            width = lines
+                    .stream()
+                    .map(v -> tableCellDataRenderer.useDefaultWidth() ?
+                            v.length() :
+                            tableCellDataRenderer.valueWidth(originalValue))
+                    .reduce(columnName.length(), (l, r) -> l > r ? l : r);
         }
 
         private void calcHeight() {
@@ -172,5 +223,3 @@ public class TableRenderer {
         }
     }
 }
-
-

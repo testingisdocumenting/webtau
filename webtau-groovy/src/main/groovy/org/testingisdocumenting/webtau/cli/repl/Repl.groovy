@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2020 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,11 +19,10 @@ package org.testingisdocumenting.webtau.cli.repl
 
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
+import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.table.TableData
-import org.testingisdocumenting.webtau.data.table.render.DefaultTableRenderStyle
-import org.testingisdocumenting.webtau.data.table.render.TableRenderer
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
@@ -39,7 +39,6 @@ import java.util.stream.Stream
 class Repl {
     private final Groovysh groovysh
     private final TokenizedMessageToAnsiConverter toAnsiConverter
-
 
     Repl() {
         toAnsiConverter = IntegrationTestsMessageBuilder.getConverter()
@@ -110,7 +109,7 @@ class Repl {
     }
 
     private static void showTableData(TableData tableData) {
-        println TableRenderer.render(tableData, new DefaultTableRenderStyle())
+        println ReplTableRenderer.render(tableData)
     }
 
     private static void showDataNodeResult(DataNode result) {

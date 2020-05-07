@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,28 +14,15 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.console.ansi;
+package org.testingisdocumenting.webtau.data.table.render;
 
-public enum Color {
-    BLACK("\u001B[30m"),
-    RED("\u001B[31m"),
-    GREEN("\u001B[32m"),
-    YELLOW("\u001B[33m"),
-    BLUE("\u001B[34m"),
-    PURPLE("\u001B[35m"),
-    CYAN("\u001B[36m"),
-    WHITE("\u001B[37m"),
-    GREY("\u001B[90m"),
-    RESET("\u001B[0m");
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
 
-    private final String code;
-
-    Color(final String code) {
-        this.code = code;
-    }
+public class DefaultTableCellDataRenderer implements TableCellDataRenderer {
+    public static final TableCellDataRenderer INSTANCE = new DefaultTableCellDataRenderer();
 
     @Override
-    public String toString() {
-        return code;
+    public String renderCell(Object value) {
+        return DataRenderers.render(value);
     }
 }
