@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.db
+package org.testingisdocumenting.webtau.db;
 
-import org.h2.jdbcx.JdbcDataSource
+import javax.sql.DataSource;
 
-import javax.sql.DataSource
-
-class H2PrimaryDbDataSourceProvider implements DbDataSourceProvider {
-    @Override
-    DataSource provide(String name) {
-        if (name != 'primary') {
-            return null
-        }
-
-        def dataSource = new JdbcDataSource()
-        dataSource.setURL("jdbc:h2:mem:dbfence;DB_CLOSE_DELAY=-1")
-        dataSource.setUser("sa")
-
-        return dataSource
-    }
+public interface DbDataSourceProvider {
+    DataSource provide(String name);
 }

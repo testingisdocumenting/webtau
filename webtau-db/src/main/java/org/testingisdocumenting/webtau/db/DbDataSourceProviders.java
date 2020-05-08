@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.db.cfg;
+package org.testingisdocumenting.webtau.db;
 
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
@@ -37,6 +37,14 @@ public class DbDataSourceProviders {
         dataSourcesByName.put(name, created);
 
         return created;
+    }
+
+    public static void add(DbDataSourceProvider provider) {
+        providers.add(provider);
+    }
+
+    public static void remove(DbDataSourceProvider provider) {
+        providers.remove(provider);
     }
 
     private static DataSource createDataSource(String name) {

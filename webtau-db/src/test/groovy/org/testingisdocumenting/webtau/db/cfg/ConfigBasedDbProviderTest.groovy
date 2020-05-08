@@ -14,10 +14,17 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.db.cfg;
+package org.testingisdocumenting.webtau.db.cfg
 
-import javax.sql.DataSource;
+import org.junit.Test
 
-public interface DbDataSourceProvider {
-    DataSource provide(String name);
+import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
+
+class ConfigBasedDbProviderTest {
+    @Test
+    void "should use data source provider for primary database"() {
+        DbConfig.setDbPrimaryUrl("jdbc:h2:mem:dbconfig;DB_CLOSE_DELAY=-1")
+        DbConfig.setDbPrimaryUserName("sa")
+        db.query("select 1")
+    }
 }

@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.db
 
 import org.apache.commons.dbutils.QueryRunner
 import org.h2.jdbcx.JdbcDataSource
+import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -26,10 +27,19 @@ import javax.sql.DataSource
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
 class DatabaseFacadeTest {
+    public static DbDataSourceProvider h2PrimaryProvider = new H2PrimaryDbDataSourceProvider()
+
     @BeforeClass
     static void init() {
+        DbDataSourceProviders.add(h2PrimaryProvider)
+
         JdbcDataSource dataSource = createDataSource()
         createPricesTable(dataSource)
+    }
+
+    @AfterClass
+    static void cleanup() {
+        DbDataSourceProviders.remove(h2PrimaryProvider)
     }
 
     @Test

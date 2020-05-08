@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.db;
 
 import org.testingisdocumenting.webtau.data.table.TableData;
-import org.testingisdocumenting.webtau.db.cfg.DbDataSourceProviders;
 
 import javax.sql.DataSource;
 
