@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.db
 
 import org.apache.commons.dbutils.QueryRunner
 import org.h2.jdbcx.JdbcDataSource
+import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -26,17 +27,25 @@ import javax.sql.DataSource
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
 class DatabaseFacadeTest {
+    public static DbDataSourceProvider h2PrimaryProvider = new H2PrimaryDbDataSourceProvider()
+    public static DataSource h2DataSource
+
     @BeforeClass
     static void init() {
-        JdbcDataSource dataSource = createDataSource()
-        createPricesTable(dataSource)
+        DbDataSourceProviders.add(h2PrimaryProvider)
+
+        h2DataSource = createDataSource()
+        createPricesTable(h2DataSource)
+    }
+
+    @AfterClass
+    static void cleanup() {
+        DbDataSourceProviders.remove(h2PrimaryProvider)
     }
 
     @Test
     void "should insert table data into a table"() {
-        JdbcDataSource dataSource = createDataSource()
-
-        def database = db.from(dataSource)
+        def database = db.from(h2DataSource)
         def PRICES = database.table("PRICES")
 
         PRICES << ["id" | "description" | "price"] {
@@ -83,7 +92,8 @@ class DatabaseFacadeTest {
         def dataSource = new JdbcDataSource()
         dataSource.setURL("jdbc:h2:mem:dbfence;DB_CLOSE_DELAY=-1")
         dataSource.setUser("sa")
-        dataSource
+
+        return dataSource
     }
 
     private static void createPricesTable(DataSource dataSource) {

@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.db.H2PrimaryDbDataSourceProvider
+org.testingisdocumenting.webtau.db.cfg.ConfigBasedDbProvider

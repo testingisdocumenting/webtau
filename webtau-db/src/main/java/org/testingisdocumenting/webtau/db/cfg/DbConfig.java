@@ -24,10 +24,12 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 
 public class DbConfig implements WebTauConfigHandler {
+    private static final String SET_SOURCE = "manual";
+
     static final ConfigValue dbPrimaryUrl = declare("dbUrl",
             "primary database url", () -> "");
 
-    static final ConfigValue dbPrimaryDriver = declare("dbDriverClassName",
+    static final ConfigValue dbPrimaryDriverClassName = declare("dbDriverClassName",
             "primary database driver class name", () -> "");
 
     static final ConfigValue dbPrimaryUserName = declare("dbUserName",
@@ -38,6 +40,49 @@ public class DbConfig implements WebTauConfigHandler {
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(dbPrimaryUrl, dbPrimaryDriver, dbPrimaryUserName, dbPrimaryPassword);
+        return Stream.of(dbPrimaryUrl, dbPrimaryDriverClassName, dbPrimaryUserName, dbPrimaryPassword);
+    }
+
+    public static void reset() {
+        dbPrimaryUrl.reset();
+        dbPrimaryDriverClassName.reset();
+        dbPrimaryUserName.reset();
+        dbPrimaryPassword.reset();
+    }
+
+    public static void setDbPrimaryUrl(String url) {
+        dbPrimaryUrl.set(SET_SOURCE, url);
+    }
+
+    public static void setDbPrimaryDriverClassName(String className) {
+        dbPrimaryDriverClassName.set(SET_SOURCE, className);
+    }
+
+    public static void setDbPrimaryUserName(String userName) {
+        dbPrimaryUserName.set(SET_SOURCE, userName);
+    }
+
+    public static void setDbPrimaryPassword(String password) {
+        dbPrimaryPassword.set(SET_SOURCE, password);
+    }
+
+    public static String getDbPrimaryUrl() {
+        return dbPrimaryUrl.getAsString();
+    }
+
+    public static String getDbPrimaryDriverClassName() {
+        return dbPrimaryDriverClassName.getAsString();
+    }
+
+    public static String getDbPrimaryUserName() {
+        return dbPrimaryUserName.getAsString();
+    }
+
+    public static String getDbPrimaryPassword() {
+        return dbPrimaryPassword.getAsString();
+    }
+
+    public static boolean isSet() {
+        return !dbPrimaryUrl.isDefault();
     }
 }
