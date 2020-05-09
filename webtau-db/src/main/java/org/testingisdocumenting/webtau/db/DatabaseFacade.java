@@ -31,18 +31,18 @@ public class DatabaseFacade {
     }
 
     public DatabaseTable table(String tableName) {
-        return from(PrimaryDataSourceHolder.dataSource).table(tableName);
+        return from(getPrimaryDataSource()).table(tableName);
     }
 
     public TableData query(String query) {
-        return from(PrimaryDataSourceHolder.dataSource).query(query);
+        return from(getPrimaryDataSource()).query(query);
     }
 
     public void update(String query) {
-        from(PrimaryDataSourceHolder.dataSource).update(query);
+        from(getPrimaryDataSource()).update(query);
     }
 
-    private static class PrimaryDataSourceHolder {
-        static final DataSource dataSource = DbDataSourceProviders.provideByName("primary");
+    private static DataSource getPrimaryDataSource() {
+        return DbDataSourceProviders.provideByName("primary");
     }
 }

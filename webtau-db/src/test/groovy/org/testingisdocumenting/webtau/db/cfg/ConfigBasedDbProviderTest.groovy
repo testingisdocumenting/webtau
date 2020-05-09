@@ -16,11 +16,17 @@
 
 package org.testingisdocumenting.webtau.db.cfg
 
+import org.junit.AfterClass
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
 class ConfigBasedDbProviderTest {
+    @AfterClass
+    static void cleanup() {
+        DbConfig.reset()
+    }
+
     @Test
     void "should use data source provider for primary database"() {
         DbConfig.setDbPrimaryUrl("jdbc:h2:mem:dbconfig;DB_CLOSE_DELAY=-1")

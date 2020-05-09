@@ -41,10 +41,12 @@ public class DbDataSourceProviders {
 
     public static void add(DbDataSourceProvider provider) {
         providers.add(provider);
+        dataSourcesByName.clear();
     }
 
     public static void remove(DbDataSourceProvider provider) {
         providers.remove(provider);
+        dataSourcesByName.clear();
     }
 
     private static DataSource createDataSource(String name) {
