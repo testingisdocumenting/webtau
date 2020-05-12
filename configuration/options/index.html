@@ -2,32 +2,99 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: Options</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<title>WebTau: Options</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
 </head>
 <link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
-<body>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addEventListener("change", function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
 <div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>CLI and configuration file options</h1></header>
-<p>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} env environment id local envPath path items to append to path used for cli tests [] headless run headless mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test userAgent User agent to send on HTTP requests webtau/null verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</p>
+<p>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg dbDriverClassName primary database driver class name dbPassowrd primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} env environment id local envPath path items to append to path used for cli tests [] headless run headless mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test userAgent User agent to send on HTTP requests webtau/null verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</p>
 </article>
 
 <article>
 <header><h1>Environment variable options</h1></header>
-<p>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_ENV_PATH path items to append to path used for cli tests [] WEBTAU_HEADLESS run headless mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/null WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</p>
+<p>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSOWRD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_ENV_PATH path items to append to path used for cli tests [] WEBTAU_HEADLESS run headless mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/null WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</p>
 </article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
-<script type="text/javascript" src="/webtau/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
 <script>
@@ -101,6 +168,54 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "dbDriverClassName",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database driver class name",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "dbPassowrd",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database password",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "dbUrl",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database url",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "dbUserName",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database user name",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "disableRedirects",
@@ -516,6 +631,54 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "WEBTAU_DB_DRIVER_CLASS_NAME",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database driver class name",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_DB_PASSOWRD",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database password",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_DB_URL",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database url",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_DB_USER_NAME",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "primary database user name",
+              "type" : "SimpleText"
+            } ]
+          } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "WEBTAU_DISABLE_REDIRECTS",
               "type" : "SimpleText"
             } ]
@@ -872,7 +1035,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Table"
       } ]
     } ],
-    "lastModifiedTime" : 1586138367553,
+    "lastModifiedTime" : 1589298402068,
     "tocItem" : {
       "sectionTitle" : "Configuration",
       "pageTitle" : "Options",

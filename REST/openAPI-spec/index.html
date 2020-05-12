@@ -2,14 +2,83 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
-<title>WebTau: OpenAPI Spec</title><link rel="stylesheet" type="text/css" href="/webtau/static/css/bootstrap.min.css">
+<title>WebTau: OpenAPI Spec</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
 </head>
 <link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
-<body>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addEventListener("change", function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
 <div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
@@ -41,8 +110,6 @@
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
-<script type="text/javascript" src="/webtau/static/react.min.js"></script>
-<script type="text/javascript" src="/webtau/static/react-dom.min.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
 <script>
@@ -185,7 +252,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/img/rest-crud-openapi-spec-validation-error.png",
-        "timestamp" : 1586138367557,
+        "timestamp" : 1589298402068,
         "shapes" : [ ],
         "width" : 2242.0,
         "height" : 620.0,
@@ -246,7 +313,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1586138367553,
+    "lastModifiedTime" : 1589298402068,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "OpenAPI Spec",
