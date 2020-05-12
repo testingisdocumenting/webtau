@@ -63,6 +63,7 @@
                                     <pattern>org.</pattern>
                                     <shadedPattern>webtaushaded.org.</shadedPattern>
                                     <excludes>
+                                        <exclude>org.testingisdocumenting.**</exclude>
                                         <exclude>org.codehaus.groovy.**</exclude>
                                         <exclude>org.w3c.**</exclude>
                                         <exclude>org.apache.ivy.**</exclude>
@@ -77,13 +78,6 @@
                                 <relocation>
                                     <pattern>javax.annotation.</pattern>
                                     <shadedPattern>webtaushaded.javax.annotation.</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.</pattern>
-                                    <shadedPattern>webtaushaded.com.</shadedPattern>
-                                    <excludes>
-                                        <exclude>org.testingisdocumenting.**</exclude>
-                                    </excludes>
                                 </relocation>
                                 <relocation>
                                     <pattern>io.</pattern>
