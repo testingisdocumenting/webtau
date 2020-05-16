@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.repl
 
 import com.sun.nio.file.SensitivityWatchEventModifier
 import org.testingisdocumenting.webtau.console.ConsoleOutputs

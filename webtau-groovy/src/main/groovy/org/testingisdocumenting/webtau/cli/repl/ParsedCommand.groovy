@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.repl
 
 import org.testingisdocumenting.webtau.utils.NumberUtils
 import groovy.transform.PackageScope
