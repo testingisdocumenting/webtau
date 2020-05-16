@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.repl
 
-import java.nio.file.Path
+import groovy.transform.PackageScope
 
-interface OnFileChangeHandler {
-    void onChange(Path path)
+@PackageScope
+class TestsSelection {
+    String testFilePath
+    List<String> scenarios
 }

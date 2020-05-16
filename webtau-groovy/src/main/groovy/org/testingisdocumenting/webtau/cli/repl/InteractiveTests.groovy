@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.repl
 
 import org.testingisdocumenting.webtau.TestFile
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTest
@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 import groovy.transform.PackageScope
 
 import java.nio.file.Paths
+import java.util.regex.Pattern
 
 @PackageScope
 class InteractiveTests {
@@ -40,12 +41,20 @@ class InteractiveTests {
         return runner.tests
     }
 
+    StandaloneTestRunner getRunner() {
+        return runner
+    }
+
     LinkedHashSet<String> getTestFilePaths() {
         return testFilePaths
     }
 
     String testFilePathByIdx(int idx) {
         return testFilePaths[idx]
+    }
+
+    String firstTestFilePathByRegexp(Pattern pattern) {
+        return testFilePaths.find { pattern.matcher(it) }
     }
 
     List<StandaloneTest> findSelectedTests(TestsSelection testSelection) {

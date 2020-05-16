@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,9 +27,13 @@ import org.apache.commons.cli.ParseException
 import java.nio.file.Paths
 
 class WebTauCliArgsConfig {
+    private static final String REPL = "repl"
+
     private static final String CLI_SOURCE = "command line argument"
     private static final String HELP_OPTION = "help"
     private static final String EXAMPLE_OPTION = "example"
+
+    private static final Set<String> COMMANDS = [REPL]
 
     private final WebTauConfig cfg
 
@@ -50,7 +55,7 @@ class WebTauCliArgsConfig {
     }
 
     static boolean isReplMode(String[] args) {
-        return args.any { it == "repl" }
+        return args.any { it == REPL }
     }
 
     static boolean isInteractiveMode(String[] args) {
@@ -82,7 +87,7 @@ class WebTauCliArgsConfig {
                 !isReplMode(args)) {
             printHelp(options)
         } else {
-            testFiles = new ArrayList<>(commandLine.argList)
+            testFiles = new ArrayList<>(commandLine.argList.findAll { !COMMANDS.contains(it) })
         }
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.interactive
+package org.testingisdocumenting.webtau.cli.repl
 
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
 import org.testingisdocumenting.webtau.cfg.GroovyRunner

@@ -33,14 +33,24 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 import org.codehaus.groovy.tools.shell.Groovysh
 import org.codehaus.groovy.tools.shell.util.Preferences
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
 import java.util.stream.Stream
+
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
+import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out
 
 class Repl {
     private final Groovysh groovysh
     private final TokenizedMessageToAnsiConverter toAnsiConverter
+    private final StandaloneTestRunner runner
+    private final InteractiveTests interactiveTests
 
-    Repl() {
+    Repl(StandaloneTestRunner runner) {
+        this.runner = runner
+        interactiveTests = new InteractiveTests(runner)
+        ReplCommands.interactiveTests = interactiveTests
+
         toAnsiConverter = IntegrationTestsMessageBuilder.getConverter()
         initHandlers()
         initConfig()
@@ -63,6 +73,7 @@ class Repl {
 
     private static void initConfig() {
         WebTauGroovyFileConfigHandler.forceIgnoreErrors()
+        setDefaultReportPath()
     }
 
     private Groovysh createShell() {
@@ -118,23 +129,32 @@ class Repl {
 
     private void showPageElementResult(PageElement pageElement) {
         if (!pageElement.isPresent()) {
-            ConsoleOutputs.out(Stream.concat(
+            out(Stream.concat(
                     Stream.of(Color.RED, "element is not present: "),
                     toAnsiConverter.convert(pageElement.locationDescription()).stream()).toArray())
             return
         }
 
-        ConsoleOutputs.out(Stream.concat(
+        out(Stream.concat(
                 Stream.of(Color.GREEN, "element is found: "),
                 toAnsiConverter.convert(pageElement.locationDescription()).stream()).toArray())
 
-        ConsoleOutputs.out(Color.YELLOW, "           getText(): ", Color.GREEN, pageElement.getText())
-        ConsoleOutputs.out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, pageElement.getUnderlyingValue())
+        out(Color.YELLOW, "           getText(): ", Color.GREEN, pageElement.getText())
+        out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, pageElement.getUnderlyingValue())
         def count = pageElement.count.get()
         if (count > 1) {
-            ConsoleOutputs.out(Color.YELLOW, "               count: ", Color.GREEN, count)
+            out(Color.YELLOW, "               count: ", Color.GREEN, count)
         }
 
         pageElement.highlight()
+    }
+
+    private static void setDefaultReportPath() {
+        if (!cfg.reportPathConfigValue.isDefault()) {
+            return
+        }
+
+        cfg.reportPathConfigValue.set('repl',
+                cfg.reportPath.toAbsolutePath().parent.resolve('webtau.repl.report.html'))
     }
 }

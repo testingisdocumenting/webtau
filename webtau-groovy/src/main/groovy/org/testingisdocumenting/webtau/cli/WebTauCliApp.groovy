@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,7 @@ import org.testingisdocumenting.webtau.cfg.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyCliArgsConfigHandler
-import org.testingisdocumenting.webtau.cli.interactive.WebTauCliInteractive
+import org.testingisdocumenting.webtau.cli.repl.WebTauCliInteractive
 import org.testingisdocumenting.webtau.cli.repl.Repl
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
@@ -31,7 +32,6 @@ import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
 import org.testingisdocumenting.webtau.pdf.Pdf
-import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
@@ -67,7 +67,7 @@ class WebTauCliApp implements TestListener {
         def cliApp = new WebTauCliApp(args)
 
         if (WebTauCliArgsConfig.isReplMode(args)) {
-            startRepl()
+            cliApp.startRepl()
             System.exit(0)
         } else if (WebTauCliArgsConfig.isInteractiveMode(args)) {
             cliApp.startInteractive()
@@ -99,9 +99,11 @@ class WebTauCliApp implements TestListener {
         }
     }
 
-    static void startRepl() {
-        def repl = new Repl()
-        repl.run()
+    void startRepl() {
+        prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
+            def repl = new Repl(runner)
+            repl.run()
+        }
     }
 
     private void prepareTestsAndRun(WebDriverBehavior webDriverBehavior, Closure code) {
