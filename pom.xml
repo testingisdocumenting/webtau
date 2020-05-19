@@ -106,6 +106,7 @@
         <module>webtau-pdf</module>
         <module>webtau-json-schema</module>
         <module>webtau-data</module>
+        <module>webtau-filesystem</module>
         <module>webtau-cache</module>
         <module>webtau-test-server</module>
         <module>webtau-cli</module>

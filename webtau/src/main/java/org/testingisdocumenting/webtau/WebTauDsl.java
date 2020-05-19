@@ -28,6 +28,7 @@ import org.testingisdocumenting.webtau.cli.Cli;
 import org.testingisdocumenting.webtau.data.Data;
 import org.testingisdocumenting.webtau.db.DatabaseFacade;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.file.FileSystem;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
@@ -37,6 +38,7 @@ import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
 Convenient class for static * import
  */
 public class WebTauDsl extends WebTauCore {
+    public static final FileSystem fs = FileSystem.fs;
     public static final Data data = Data.data;
     public static final Cache cache = Cache.cache;
 
