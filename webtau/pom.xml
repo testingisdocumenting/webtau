@@ -47,6 +47,12 @@
 
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-filesystem</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-data</artifactId>
             <version>${project.version}</version>
         </dependency>
