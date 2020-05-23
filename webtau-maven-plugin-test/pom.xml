@@ -80,6 +80,17 @@
                         </configuration>
                     </execution>
                 </executions>
+
+                <configuration>
+                    <workingDir>${project.basedir}/src/tests/groovy/</workingDir>
+                    <tests>
+                        <directory>${project.basedir}/src/tests/groovy</directory>
+                        <includes>
+                            <include>one/scenarios/*.groovy</include>
+                            <include>two/scenarios/*.groovy</include>
+                        </includes>
+                    </tests>
+                </configuration>
             </plugin>
         </plugins>
     </build>

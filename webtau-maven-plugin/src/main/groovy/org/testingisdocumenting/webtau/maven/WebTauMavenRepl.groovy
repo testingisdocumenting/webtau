@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.shared.model.fileset.FileSet
 
-@Mojo(name = "interactive")
-class WebTauMavenInteractive extends AbstractMojo {
+@Mojo(name = "repl")
+class WebTauMavenRepl extends AbstractMojo {
     @Parameter
     private FileSet tests
 
@@ -39,6 +39,6 @@ class WebTauMavenInteractive extends AbstractMojo {
 
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        WebTauMaven.runTests(getLog(), tests, [env: env, url: url, workingDir: workingDir, interactive: true])
+        WebTauMaven.runTests(getLog(), tests, [env: env, url: url, workingDir: workingDir, repl: true])
     }
 }
