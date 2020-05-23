@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +35,9 @@ class WebTauMaven {
 
         log.info("test files:\n    " + files.join("\n    "))
 
+        def runRepl = options.repl
+        options.remove('repl')
+
         def args = buildArgs(options)
         args.addAll(files)
 
@@ -52,8 +56,8 @@ class WebTauMaven {
 
         numberOfRuns.updateAndGet({ n -> n + 1 })
 
-        if (options.interactive) {
-            cli.startInteractive()
+        if (runRepl) {
+            cli.startRepl()
         } else {
             cli.start(WebTauCliApp.WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
                 if (exitCode > 0) {
