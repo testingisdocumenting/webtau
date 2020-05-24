@@ -79,7 +79,7 @@ class ReplCommands {
         }
 
         testsSelection.scenarios = [availableScenarios[idx].scenario]
-        runSelectedScenarios()
+        runSelected()
     }
 
     static s(Integer idx) {
@@ -117,7 +117,7 @@ class ReplCommands {
         }
 
         testsSelection.scenarios = [found.scenario]
-        runSelectedScenarios()
+        runSelected()
 
         null
     }
@@ -127,22 +127,83 @@ class ReplCommands {
     }
 
     static getRun() {
-        runSelectedScenarios()
+        runSelected()
     }
 
     static getR() {
         getRun()
     }
 
-    static runSelectedScenarios() {
-        interactiveTests.refreshScenarios(testsSelection.testFilePath)
+    static run(Integer idx) {
+        if (testSelected) {
+            selectScenario(idx)
+        } else {
+            selectTest(idx)
+            runSelected()
+        }
+    }
 
-        def tests = interactiveTests.findSelectedTests(testsSelection)
-        if (tests.size() != testsSelection.scenarios.size()) {
-            out(Color.RED, 'Not all scenarios found "' + testsSelection.scenarios + '"')
+    static r(Integer idx) {
+        run(idx)
+    }
+
+    static run(String regexp) {
+        if (testSelected) {
+            selectScenario(regexp)
+        } else {
+            selectTest(regexp)
+            runSelected()
+        }
+    }
+
+    static r(String regexp) {
+        run(regexp)
+    }
+
+    static getList() {
+        listTestFilesOrScenarios()
+    }
+
+    static getLs() {
+        getList()
+    }
+
+    static getBack() {
+        testsSelection.testFilePath = null
+        testsSelection.scenarios = null
+        displayTestFiles()
+    }
+
+    static getB() {
+        getBack()
+    }
+
+    static runSelected() {
+        if (!testsSelection.testFilePath) {
+            out(Color.RED, 'no test file selected to run')
+            listTestFilesOrScenarios()
             return
         }
 
+        def allTests = interactiveTests.refreshScenarios(testsSelection.testFilePath)
+
+        if (!testsSelection.scenarios) {
+            runTests(allTests)
+            return
+        }
+
+        def tests = interactiveTests.findSelectedTests(testsSelection)
+
+        if (tests.size() != testsSelection.scenarios.size()) {
+            out(Color.RED, 'Not all selected scenarios found "' + testsSelection.scenarios + '"')
+            listTestFilesOrScenarios()
+            return
+        }
+
+        runTests(tests)
+    }
+
+    static private void runTests(List<StandaloneTest> tests) {
         interactiveTests.runner.resetAndWithListeners {
             tests.each { test ->
                 displaySelectedScenarios('running', test.scenario)
@@ -157,24 +218,6 @@ class ReplCommands {
                 }
             }
         }
-
-    }
-
-    static getList() {
-        listTestFilesOrScenarios()
-    }
-
-    static getLs() {
-        getList()
-    }
-
-    static getBack() {
-        testsSelection.testFilePath = null
-        displayTestFiles()
-    }
-
-    static getB() {
-        getBack()
     }
 
     static private void listTestFilesOrScenarios() {
