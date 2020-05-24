@@ -28,14 +28,18 @@ public class FileUtils {
     private FileUtils() {
     }
 
-    public static void createDirs(Path path) {
+    public static void createDirsForFile(Path path) {
         Path parent = path.toAbsolutePath().getParent();
         if (parent == null) {
             return;
         }
 
+        createDirs(parent);
+    }
+
+    public static void createDirs(Path path) {
         try {
-            Files.createDirectories(parent);
+            Files.createDirectories(path);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,7 +51,7 @@ public class FileUtils {
 
     public static void writeBinaryContent(Path path, byte[] content) {
         try {
-            createDirs(path);
+            createDirsForFile(path);
             Files.write(path, content);
         } catch (IOException e) {
             throw new RuntimeException(e);

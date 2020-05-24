@@ -79,7 +79,7 @@ public class BrowserDocumentation {
         Screenshot screenshot = new Screenshot(screenshotTaker);
 
         Path screenShotPath = getCfg().getDocArtifactsPath().resolve(screenshotName + ".png");
-        FileUtils.createDirs(screenShotPath);
+        FileUtils.createDirsForFile(screenShotPath);
         screenshot.save(screenShotPath);
     }
 

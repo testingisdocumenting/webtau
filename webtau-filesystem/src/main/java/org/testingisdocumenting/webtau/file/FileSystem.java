@@ -57,11 +57,34 @@ public class FileSystem {
     }
 
     public Path tempDir(String prefix) {
+        return tempDir((Path) null, prefix);
+    }
+
+    public Path tempDir(String dir, String prefix) {
+        return tempDir(getCfg().getWorkingDir().resolve(dir), prefix);
+    }
+
+    public Path tempDir(Path dir, String prefix) {
+        TestStep<Object, Path> step = TestStep.createStep(null,
+                tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
+                () -> tokenizedMessage(action("created temp directory with prefix "), urlValue(prefix)),
+                () -> createTempDir(dir, prefix));
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private static Path createTempDir(Path dir, String prefix) {
         try {
-            Path path = Files.createTempDirectory(prefix);
+            if (dir != null) {
+                org.testingisdocumenting.webtau.utils.FileUtils.createDirs(dir.toAbsolutePath());
+            }
+
+            Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
+                    Files.createTempDirectory(prefix);
+
             Runtime.getRuntime().addShutdownHook(new Thread(() -> FileUtils.deleteQuietly(path.toFile())));
 
-            return path;
+            return path.toAbsolutePath();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
