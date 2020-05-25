@@ -50,6 +50,13 @@ class WebTauCliFeaturesTest {
         }
     }
 
+    @Test
+    void "implicit exit code"() {
+        supportedPlatformOnly {
+            runCli('implicitExitCodeCheck.groovy', 'webtau.cfg')
+        }
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/cli/$restTestName",
                 "scenarios/cli/$configFileName", additionalArgs)

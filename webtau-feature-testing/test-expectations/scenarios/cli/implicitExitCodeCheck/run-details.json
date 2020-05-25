@@ -1,0 +1,17 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "implicitly validates that exit code is zero",
+    "shortContainerId" : "implicitExitCodeCheck.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1,
+      "numberOfFailed" : 2
+    }
+  }, {
+    "scenario" : "does not implicitly validates exit code if explicit validation is present",
+    "shortContainerId" : "implicitExitCodeCheck.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 1
+}

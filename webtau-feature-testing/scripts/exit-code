@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "script will exit"
+exit $1

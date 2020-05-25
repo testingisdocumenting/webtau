@@ -20,7 +20,9 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 
 public class CliExitCode implements CliResultExpectations {
     private static final ActualPath path = new ActualPath("exitCode");
-    private int exitCode;
+    private final int exitCode;
+
+    private boolean isChecked;
 
     public CliExitCode(int exitCode) {
         this.exitCode = exitCode;
@@ -29,6 +31,14 @@ public class CliExitCode implements CliResultExpectations {
     @Override
     public ActualPath actualPath() {
         return path;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public int get() {

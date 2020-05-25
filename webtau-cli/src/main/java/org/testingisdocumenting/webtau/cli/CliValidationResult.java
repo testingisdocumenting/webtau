@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cli.expectation.CliExitCode;
 import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 import org.testingisdocumenting.webtau.reporter.TestStepPayload;
 
@@ -25,7 +26,7 @@ public class CliValidationResult implements TestStepPayload {
     private final String command;
     private final List<String> mismatches;
 
-    private Integer exitCode;
+    private CliExitCode exitCode;
     private CliOutput out;
     private CliOutput err;
     private long startTime;
@@ -42,11 +43,11 @@ public class CliValidationResult implements TestStepPayload {
         return command;
     }
 
-    public Integer getExitCode() {
+    public CliExitCode getExitCode() {
         return exitCode;
     }
 
-    public void setExitCode(Integer exitCode) {
+    public void setExitCode(CliExitCode exitCode) {
         this.exitCode = exitCode;
     }
 
