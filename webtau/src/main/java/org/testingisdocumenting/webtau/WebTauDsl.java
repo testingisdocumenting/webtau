@@ -28,7 +28,7 @@ import org.testingisdocumenting.webtau.cli.Cli;
 import org.testingisdocumenting.webtau.data.Data;
 import org.testingisdocumenting.webtau.db.DatabaseFacade;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.file.FileSystem;
+import org.testingisdocumenting.webtau.fs.FileSystem;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;

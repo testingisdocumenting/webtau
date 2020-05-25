@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.file;
+package org.testingisdocumenting.webtau.fs;
 
 import org.apache.commons.io.FileUtils;
-import org.testingisdocumenting.webtau.file.zip.UnzipTask;
+import org.testingisdocumenting.webtau.fs.zip.UnzipTask;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TestStep;
 
@@ -54,6 +54,14 @@ public class FileSystem {
 
     public void unzip(String src, String dest) {
         unzip(Paths.get(src), Paths.get(dest));
+    }
+
+    public FileContent textContent(Path path) {
+        return new FileContent(path);
+    }
+
+    public FileContent textContent(String path) {
+        return new FileContent(Paths.get(path));
     }
 
     public Path tempDir(String prefix) {

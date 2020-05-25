@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.file.zip;
+package org.testingisdocumenting.webtau.fs.zip;
 
 import org.apache.ant.compress.taskdefs.Unzip;
 import org.apache.tools.ant.Project;
