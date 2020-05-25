@@ -32,35 +32,39 @@ public class ProcessUtils {
     }
 
     public static ProcessRunResult run(String command, Map<String, String> env) throws IOException {
+        ProcessBackgroundRunResult backgroundRunResult = runInBackground(command, env);
+
+        try {
+            backgroundRunResult.getProcess().waitFor();
+
+            backgroundRunResult.getConsumeErrorThread().join();
+            backgroundRunResult.getConsumeOutThread().join();
+
+            return backgroundRunResult.createRunResult();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ProcessBackgroundRunResult runInBackground(String command, Map<String, String> env) throws IOException {
         List<String> splitCommandWithPrefix = prefixCommandWithPathAndSplit(command);
         ProcessBuilder processBuilder = new ProcessBuilder(splitCommandWithPrefix);
         processBuilder.environment().putAll(env);
 
-        try {
-            Process process = processBuilder.start();
+        Process process = processBuilder.start();
 
-            StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream());
-            StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream());
+        StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream());
+        StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream());
 
-            Thread consumeErrorThread = new Thread(errorGobbler);
-            Thread consumeOutThread = new Thread(outputGobbler);
+        Thread consumeErrorThread = new Thread(errorGobbler);
+        Thread consumeOutThread = new Thread(outputGobbler);
 
-            consumeErrorThread.start();
-            consumeOutThread.start();
+        consumeErrorThread.start();
+        consumeOutThread.start();
 
-            process.waitFor();
-
-            consumeErrorThread.join();
-            consumeOutThread.join();
-
-            return new ProcessRunResult(process.exitValue(),
-                    outputGobbler.getLines(),
-                    errorGobbler.getLines(),
-                    outputGobbler.getException(),
-                    errorGobbler.getException());
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        return new ProcessBackgroundRunResult(process,
+                outputGobbler, errorGobbler,
+                consumeOutThread, consumeErrorThread);
     }
 
     private static List<String> prefixCommandWithPathAndSplit(String command) {

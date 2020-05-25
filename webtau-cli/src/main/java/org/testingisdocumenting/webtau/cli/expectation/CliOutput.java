@@ -25,12 +25,12 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class CliOutput implements CliResultExpectations {
-    private String id;
-    private List<String> lines;
+    private final String id;
+    private final List<String> lines;
 
-    private Set<Integer> matchedLinesIdx;
+    private final Set<Integer> matchedLinesIdx;
 
-    private String full;
+    private final String full;
 
     public CliOutput(String id, List<String> lines) {
         this.id = id;
@@ -58,5 +58,10 @@ public class CliOutput implements CliResultExpectations {
 
     public List<String> extractMatchedLines() {
         return matchedLinesIdx.stream().map(lines::get).collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return full;
     }
 }
