@@ -24,6 +24,10 @@ scenario('implicitly validates that exit code is zero') {
     }
 }
 
+scenario('implicitly validates that exit code is zero when no validation block is provided') {
+    cli.run('scripts/exit-code 126')
+}
+
 scenario('does not implicitly validates exit code if explicit validation is present') {
     cli.run('scripts/exit-code 126') {
         output.should contain('script will exit')
