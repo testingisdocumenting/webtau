@@ -3,7 +3,7 @@
     "scenario" : "simple cli run",
     "shortContainerId" : "simpleRun.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   } ],
   "exitCode" : 0

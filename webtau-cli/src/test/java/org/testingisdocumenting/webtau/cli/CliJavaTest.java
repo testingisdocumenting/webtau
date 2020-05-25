@@ -73,6 +73,8 @@ public class CliJavaTest {
     public void envVars() {
         supportedPlatformOnly(() -> {
             cli.run("scripts/hello", cli.env("NAME", "Java"), (exitCode, output, error) -> {
+                exitCode.should(equal(5));
+
                 output.should(contain("hello world Java"));
                 error.should(contain("error line two"));
             });
@@ -82,13 +84,15 @@ public class CliJavaTest {
     @Test
     public void docCapture() {
         supportedPlatformOnly(() -> {
-            cli.run("scripts/hello", ((output, error) -> {
+            cli.run("scripts/hello", (exitCode, output, error) -> {
+                exitCode.should(equal(5));
+
                 output.should(contain("line in the middle"));
                 output.should(contain(Pattern.compile("line in the")));
                 output.should(contain("more text"));
 
                 error.should(contain("error line one"));
-            }));
+            });
 
             String artifactName = "hello-script";
             cli.doc.capture(artifactName);

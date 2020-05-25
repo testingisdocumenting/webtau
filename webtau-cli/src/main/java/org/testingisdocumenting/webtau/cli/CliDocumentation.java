@@ -87,7 +87,8 @@ public class CliDocumentation {
         }
 
         private void captureExitCode() {
-            FileUtils.writeTextContent(path.resolve("exitcode.txt"), lastValidationResult.getExitCode().toString());
+            FileUtils.writeTextContent(path.resolve("exitcode.txt"),
+                    String.valueOf(lastValidationResult.getExitCode().get()));
         }
     }
 }

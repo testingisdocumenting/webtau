@@ -31,6 +31,7 @@ import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static org.testingisdocumenting.webtau.Matchers.equal;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -76,7 +77,7 @@ public class Cli {
     public void run(String command, ProcessEnv env, CliValidationExitCodeOutputHandler handler) {
         cliStep(command, env,
                 (validationResult) -> handler.handle(
-                        exitCode(validationResult),
+                        validationResult.getExitCode(),
                         validationResult.getOut(),
                         validationResult.getErr()));
 
@@ -127,7 +128,7 @@ public class Cli {
                 throw runResult.getOutputReadingException();
             }
 
-            validationResult.setExitCode(runResult.getExitCode());
+            validationResult.setExitCode(exitCode(runResult.getExitCode()));
             validationResult.setOut(cliOutput(runResult));
             validationResult.setErr(cliError(runResult));
             validationResult.setStartTime(startTime);
@@ -143,6 +144,7 @@ public class Cli {
 
             ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
                 validationCode.accept(validationResult);
+                validateExitCode(validationResult);
                 return null;
             });
         } catch (AssertionError e) {
@@ -153,8 +155,16 @@ public class Cli {
         }
     }
 
-    private CliExitCode exitCode(CliValidationResult validationResult) {
-        return new CliExitCode(validationResult.getExitCode());
+    private static void validateExitCode(CliValidationResult validationResult) {
+        if (validationResult.getExitCode().isChecked()) {
+            return;
+        }
+
+        validationResult.getExitCode().should(equal(0));
+    }
+
+    private CliExitCode exitCode(int exitCode) {
+        return new CliExitCode(exitCode);
     }
 
     private static CliOutput cliOutput(ProcessRunResult runResult) {

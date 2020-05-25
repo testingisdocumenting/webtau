@@ -36,7 +36,7 @@ class CliExtension {
             @Override
             void handle(CliExitCode exitCode, CliOutput output, CliOutput error) {
                 def cloned = validation.clone() as Closure
-                cloned.delegate = new ValidatorDelegate(exitCode: exitCode.get(), output: output, error: error)
+                cloned.delegate = new ValidatorDelegate(exitCode: exitCode, output: output, error: error)
                 cloned.resolveStrategy = Closure.OWNER_FIRST
                 cloned.call()
             }
@@ -44,7 +44,7 @@ class CliExtension {
     }
 
     private static class ValidatorDelegate {
-        Integer exitCode
+        CliExitCode exitCode
         CliOutput output
         CliOutput error
     }

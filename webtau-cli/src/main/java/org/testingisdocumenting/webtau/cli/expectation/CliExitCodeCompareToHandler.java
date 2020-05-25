@@ -33,15 +33,22 @@ public class CliExitCodeCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        comparator.compareUsingEqualOnly(actualPath, ((CliExitCode) actual).get(), expected);
+        comparator.compareUsingEqualOnly(actualPath, extractExitCodeAndMarkAsChecked(actual), expected);
     }
 
     @Override
     public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        comparator.compareIsGreaterOrEqual(actualPath, ((CliExitCode) actual).get(), expected);
+        comparator.compareIsGreaterOrEqual(actualPath, extractExitCodeAndMarkAsChecked(actual), expected);
     }
 
     private boolean handles(Object actual) {
         return actual instanceof CliExitCode;
+    }
+
+    private int extractExitCodeAndMarkAsChecked(Object actual) {
+        CliExitCode exitCode = (CliExitCode) actual;
+        exitCode.setChecked(true);
+
+        return exitCode.get();
     }
 }
