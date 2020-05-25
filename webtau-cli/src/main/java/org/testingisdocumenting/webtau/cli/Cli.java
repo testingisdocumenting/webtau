@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.cli;
 import org.testingisdocumenting.webtau.cli.expectation.CliExitCode;
 import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
-import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlylHandler;
+import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
@@ -36,6 +36,8 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Cli {
+    private static final CliValidationOutputOnlyHandler NO_OP_HANDLER = (output, error) -> {};
+
     public static final Cli cli = new Cli();
 
     private final ThreadLocal<CliValidationResult> lastValidationResult = new ThreadLocal<>();
@@ -53,11 +55,15 @@ public class Cli {
         return new ProcessEnv(CollectionUtils.aMapOf((Object[]) keyValue));
     }
 
-    public void run(String command, CliValidationOutputOnlylHandler handler) {
+    public void run(String command, CliValidationOutputOnlyHandler handler) {
         run(command, ProcessEnv.EMPTY, handler);
     }
 
-    public void run(String command, ProcessEnv env, CliValidationOutputOnlylHandler handler) {
+    public void run(String command) {
+        run(command, ProcessEnv.EMPTY, NO_OP_HANDLER);
+    }
+
+    public void run(String command, ProcessEnv env, CliValidationOutputOnlyHandler handler) {
         cliStep(command, env, (validationResult) -> handler.handle(
                 validationResult.getOut(),
                 validationResult.getErr()));
@@ -74,6 +80,14 @@ public class Cli {
                         validationResult.getOut(),
                         validationResult.getErr()));
 
+    }
+
+    public CliBackgroundCommand backgroundCommand(String command, ProcessEnv env) {
+        return new CliBackgroundCommand(command, env);
+    }
+
+    public CliBackgroundCommand backgroundCommand(String command) {
+        return backgroundCommand(command, ProcessEnv.EMPTY);
     }
 
     public CliValidationResult getLastValidationResult() {

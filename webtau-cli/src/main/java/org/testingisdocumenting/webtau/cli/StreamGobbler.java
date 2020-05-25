@@ -42,6 +42,14 @@ public class StreamGobbler implements Runnable {
         return exception;
     }
 
+    public void close() {
+        try {
+            stream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void run() {
         InputStreamReader inputStreamReader = new InputStreamReader(stream);

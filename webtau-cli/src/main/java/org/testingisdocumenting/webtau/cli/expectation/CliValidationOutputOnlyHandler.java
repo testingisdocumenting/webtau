@@ -16,6 +16,6 @@
 
 package org.testingisdocumenting.webtau.cli.expectation;
 
-public interface CliValidationOutputOnlylHandler {
+public interface CliValidationOutputOnlyHandler {
     void handle(CliOutput output, CliOutput error);
 }
