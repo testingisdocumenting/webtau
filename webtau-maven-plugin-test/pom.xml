@@ -54,9 +54,9 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <workingDir>${project.basedir}/src/tests/groovy/one</workingDir>
+                            <workingDir>${project.basedir}/src/test/groovy/one</workingDir>
                             <tests>
-                                <directory>${project.basedir}/src/tests/groovy/one</directory>
+                                <directory>${project.basedir}/src/test/groovy/one</directory>
                                 <includes>
                                     <include>scenarios/*.groovy</include>
                                 </includes>
@@ -70,9 +70,9 @@
                             <goal>run</goal>
                         </goals>
                         <configuration>
-                            <workingDir>${project.basedir}/src/tests/groovy/two</workingDir>
+                            <workingDir>${project.basedir}/src/test/groovy/two</workingDir>
                             <tests>
-                                <directory>${project.basedir}/src/tests/groovy/two</directory>
+                                <directory>${project.basedir}/src/test/groovy/two</directory>
                                 <includes>
                                     <include>scenarios/*.groovy</include>
                                 </includes>
@@ -82,9 +82,9 @@
                 </executions>
 
                 <configuration>
-                    <workingDir>${project.basedir}/src/tests/groovy/</workingDir>
+                    <workingDir>${project.basedir}/src/test/groovy/</workingDir>
                     <tests>
-                        <directory>${project.basedir}/src/tests/groovy</directory>
+                        <directory>${project.basedir}/src/test/groovy</directory>
                         <includes>
                             <include>one/scenarios/*.groovy</include>
                             <include>two/scenarios/*.groovy</include>
