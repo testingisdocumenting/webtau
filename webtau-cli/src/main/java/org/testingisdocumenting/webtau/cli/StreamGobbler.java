@@ -16,6 +16,9 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.reporter.TestStep;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,15 +26,19 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
+
 public class StreamGobbler implements Runnable {
     private final InputStream stream;
     private final List<String> lines;
+    private final boolean renderOutput;
 
     private IOException exception;
 
     public StreamGobbler(InputStream stream) {
         this.stream = stream;
         this.lines = new ArrayList<>();
+        this.renderOutput = shouldRenderOutput();
     }
 
     public List<String> getLines() {
@@ -69,7 +76,18 @@ public class StreamGobbler implements Runnable {
                 break;
             }
 
+            if (renderOutput) {
+                ConsoleOutputs.out(line);
+            }
+
             lines.add(line);
         }
+    }
+
+    private boolean shouldRenderOutput() {
+        TestStep<?, ?> currentStep = TestStep.getCurrentStep();
+        int numberOfParents = currentStep == null ? 0 : currentStep.getNumberOfParents();
+
+        return getCfg().getVerbosityLevel() > numberOfParents + 1;
     }
 }
