@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.cli;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -44,6 +45,10 @@ public class ProcessUtils {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void kill(int pid) throws IOException {
+        run("pkill -TERM -P " + pid, Collections.emptyMap());
     }
 
     public static ProcessBackgroundRunResult runInBackground(String command, Map<String, String> env) throws IOException {

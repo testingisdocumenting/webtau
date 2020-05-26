@@ -16,10 +16,15 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+
 public class ProcessBackgroundRunResult {
     private final Process process;
     private final StreamGobbler outputGobbler;
     private final StreamGobbler errorGobbler;
+
+    private final int pid;
 
     private final Thread consumeErrorThread;
     private final Thread consumeOutThread;
@@ -30,6 +35,7 @@ public class ProcessBackgroundRunResult {
                                       Thread consumeErrorThread,
                                       Thread consumeOutThread) {
         this.process = process;
+        this.pid = extractPid(process);
         this.outputGobbler = outputGobbler;
         this.errorGobbler = errorGobbler;
         this.consumeErrorThread = consumeErrorThread;
@@ -43,7 +49,13 @@ public class ProcessBackgroundRunResult {
     public void destroy() {
         outputGobbler.close();
         errorGobbler.close();
-        process.destroy();
+
+        try {
+            ProcessUtils.kill(pid);
+            process.waitFor();
+        } catch (InterruptedException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public StreamGobbler getOutputGobbler() {
@@ -68,5 +80,21 @@ public class ProcessBackgroundRunResult {
                 errorGobbler.getLines(),
                 outputGobbler.getException(),
                 errorGobbler.getException());
+    }
+
+    /**
+     * we need to support java 8, pid() is added in java 9
+     * so using hacks to get to pid value
+     * @param process process
+     * @return pid
+     */
+    private static int extractPid(Process process) {
+        try {
+            Field pidField = process.getClass().getDeclaredField("pid");
+            pidField.setAccessible(true);
+            return (int) pidField.get(process);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
