@@ -38,7 +38,7 @@ public class StreamGobbler implements Runnable {
     public StreamGobbler(InputStream stream) {
         this.stream = stream;
         this.lines = new ArrayList<>();
-        this.renderOutput = getCfg().getVerbosityLevel() > TestStep.getCurrentStep().getNumberOfParents() + 1;
+        this.renderOutput = shouldRenderOutput();
     }
 
     public List<String> getLines() {
@@ -82,5 +82,12 @@ public class StreamGobbler implements Runnable {
 
             lines.add(line);
         }
+    }
+
+    private boolean shouldRenderOutput() {
+        TestStep<?, ?> currentStep = TestStep.getCurrentStep();
+        int numberOfParents = currentStep == null ? 0 : currentStep.getNumberOfParents();
+
+        return getCfg().getVerbosityLevel() > numberOfParents + 1;
     }
 }
