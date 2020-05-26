@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.reporter.TestStep;
 
 import java.io.BufferedReader;
@@ -76,7 +77,7 @@ public class StreamGobbler implements Runnable {
             }
 
             if (renderOutput) {
-                System.out.println(line);
+                ConsoleOutputs.out(line);
             }
 
             lines.add(line);
