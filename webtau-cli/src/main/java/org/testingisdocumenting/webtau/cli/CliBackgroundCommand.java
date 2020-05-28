@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
+
 import java.io.IOException;
 
 public class CliBackgroundCommand {
@@ -38,6 +40,14 @@ public class CliBackgroundCommand {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public CliOutput getOutput() {
+        return backgroundRunResult.getOutput();
+    }
+
+    public CliOutput getError() {
+        return backgroundRunResult.getError();
     }
 
     public void stop() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,46 +16,39 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
+
 import java.io.IOException;
 import java.util.List;
 
 public class ProcessRunResult {
-    private int exitCode;
-    private List<String> output;
-    private List<String> error;
+    private final int exitCode;
+    private final CliOutput output;
+    private final CliOutput error;
 
-    private IOException outputReadingException;
-    private IOException errorReadingException;
-
-    public ProcessRunResult(int exitCode,
-                            List<String> output,
-                            List<String> error,
-                            IOException outputReadingException,
-                            IOException errorReadingException) {
+    public ProcessRunResult(int exitCode, CliOutput output, CliOutput error) {
         this.exitCode = exitCode;
         this.output = output;
         this.error = error;
-        this.outputReadingException = outputReadingException;
-        this.errorReadingException = errorReadingException;
     }
 
     public IOException getOutputReadingException() {
-        return outputReadingException;
+        return output.getException();
     }
 
     public IOException getErrorReadingException() {
-        return errorReadingException;
+        return error.getException();
     }
 
     public int getExitCode() {
         return exitCode;
     }
 
-    public List<String> getOutput() {
+    public CliOutput getOutput() {
         return output;
     }
 
-    public List<String> getError() {
+    public CliOutput getError() {
         return error;
     }
 }

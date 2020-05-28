@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 
@@ -29,6 +31,9 @@ public class ProcessBackgroundRunResult {
     private final Thread consumeErrorThread;
     private final Thread consumeOutThread;
 
+    private final CliOutput output;
+    private final CliOutput error;
+
     public ProcessBackgroundRunResult(Process process,
                                       StreamGobbler outputGobbler,
                                       StreamGobbler errorGobbler,
@@ -40,6 +45,8 @@ public class ProcessBackgroundRunResult {
         this.errorGobbler = errorGobbler;
         this.consumeErrorThread = consumeErrorThread;
         this.consumeOutThread = consumeOutThread;
+        this.output = new CliOutput("process output", outputGobbler);
+        this.error = new CliOutput("process error output", errorGobbler);
     }
 
     public Process getProcess() {
@@ -58,12 +65,12 @@ public class ProcessBackgroundRunResult {
         }
     }
 
-    public StreamGobbler getOutputGobbler() {
-        return outputGobbler;
+    public CliOutput getOutput() {
+        return output;
     }
 
-    public StreamGobbler getErrorGobbler() {
-        return errorGobbler;
+    public CliOutput getError() {
+        return error;
     }
 
     public Thread getConsumeErrorThread() {
@@ -75,11 +82,7 @@ public class ProcessBackgroundRunResult {
     }
 
     public ProcessRunResult createRunResult() {
-        return new ProcessRunResult(process.exitValue(),
-                outputGobbler.getLines(),
-                errorGobbler.getLines(),
-                outputGobbler.getException(),
-                errorGobbler.getException());
+        return new ProcessRunResult(process.exitValue(), output, error);
     }
 
     /**

@@ -57,6 +57,13 @@ class WebTauCliFeaturesTest {
         }
     }
 
+    @Test
+    void "wait for output"() {
+        supportedPlatformOnly {
+            runCli('outputWait.groovy', 'webtau.cfg')
+        }
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/cli/$restTestName",
                 "scenarios/cli/$configFileName", additionalArgs)

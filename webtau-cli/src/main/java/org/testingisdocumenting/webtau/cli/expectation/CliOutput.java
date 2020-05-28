@@ -16,9 +16,10 @@
 
 package org.testingisdocumenting.webtau.cli.expectation;
 
+import org.testingisdocumenting.webtau.cli.StreamGobbler;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -26,17 +27,15 @@ import java.util.stream.Collectors;
 
 public class CliOutput implements CliResultExpectations {
     private final String id;
-    private final List<String> lines;
+    private final StreamGobbler streamGobbler;
 
     private final Set<Integer> matchedLinesIdx;
 
-    private final String full;
-
-    public CliOutput(String id, List<String> lines) {
+    public CliOutput(String id, StreamGobbler streamGobbler) {
         this.id = id;
-        this.lines = lines;
+        this.streamGobbler = streamGobbler;
+
         this.matchedLinesIdx = new TreeSet<>();
-        this.full = String.join("\n", lines);
     }
 
     @Override
@@ -45,11 +44,15 @@ public class CliOutput implements CliResultExpectations {
     }
 
     public String get() {
-        return full;
+        return streamGobbler.getFull();
     }
 
     public List<String> getLines() {
-        return lines;
+        return streamGobbler.getLines();
+    }
+
+    public IOException getException() {
+        return streamGobbler.getException();
     }
 
     public void registerMatchedLine(Integer idx) {
@@ -57,11 +60,12 @@ public class CliOutput implements CliResultExpectations {
     }
 
     public List<String> extractMatchedLines() {
+        List<String> lines = getLines();
         return matchedLinesIdx.stream().map(lines::get).collect(Collectors.toList());
     }
 
     @Override
     public String toString() {
-        return full;
+        return streamGobbler.getFull();
     }
 }

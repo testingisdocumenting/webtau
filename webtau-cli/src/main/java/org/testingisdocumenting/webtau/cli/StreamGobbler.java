@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,12 +25,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class StreamGobbler implements Runnable {
     private final InputStream stream;
+
+    private final StringBuffer full;
     private final List<String> lines;
     private final boolean renderOutput;
 
@@ -37,12 +41,17 @@ public class StreamGobbler implements Runnable {
 
     public StreamGobbler(InputStream stream) {
         this.stream = stream;
-        this.lines = new ArrayList<>();
+        this.lines = Collections.synchronizedList(new ArrayList<>());
+        this.full = new StringBuffer();
         this.renderOutput = shouldRenderOutput();
     }
 
     public List<String> getLines() {
         return lines;
+    }
+
+    public String getFull() {
+        return full.toString();
     }
 
     public IOException getException() {
@@ -81,6 +90,7 @@ public class StreamGobbler implements Runnable {
             }
 
             lines.add(line);
+            full.append(line).append('\n');
         }
     }
 
