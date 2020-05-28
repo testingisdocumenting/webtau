@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,6 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliExitCode;
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
@@ -83,6 +83,17 @@ public class Cli {
 
     }
 
+    public CliBackgroundCommand runBackground(String command, ProcessEnv env) {
+        CliBackgroundCommand backgroundCommand = backgroundCommand(command, env);
+        backgroundCommand.start();
+
+        return backgroundCommand;
+    }
+
+    public CliBackgroundCommand runBackground(String command) {
+        return runBackground(command, ProcessEnv.EMPTY);
+    }
+
     public CliBackgroundCommand backgroundCommand(String command, ProcessEnv env) {
         return new CliBackgroundCommand(command, env);
     }
@@ -129,8 +140,8 @@ public class Cli {
             }
 
             validationResult.setExitCode(exitCode(runResult.getExitCode()));
-            validationResult.setOut(cliOutput(runResult));
-            validationResult.setErr(cliError(runResult));
+            validationResult.setOut(runResult.getOutput());
+            validationResult.setErr(runResult.getError());
             validationResult.setStartTime(startTime);
             validationResult.setElapsedTime(endTime - startTime);
 
@@ -165,13 +176,5 @@ public class Cli {
 
     private CliExitCode exitCode(int exitCode) {
         return new CliExitCode(exitCode);
-    }
-
-    private static CliOutput cliOutput(ProcessRunResult runResult) {
-        return new CliOutput("process output", runResult.getOutput());
-    }
-
-    private static CliOutput cliError(ProcessRunResult runResult) {
-        return new CliOutput("process error output", runResult.getError());
     }
 }

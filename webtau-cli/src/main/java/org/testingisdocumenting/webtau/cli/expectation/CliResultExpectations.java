@@ -41,11 +41,15 @@ public interface CliResultExpectations extends ActualValueExpectations, ActualPa
 
     @Override
     default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        throw new UnsupportedOperationException();
+        ValueMatcherExpectationSteps.waitStep(null, this, StepReportOptions.REPORT_ALL,
+                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher,
+                expectationTimer, tickMillis, timeOutMillis);
     }
 
     @Override
     default void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        throw new UnsupportedOperationException();
+        ValueMatcherExpectationSteps.waitNotStep(null, this, StepReportOptions.REPORT_ALL,
+                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher,
+                expectationTimer, tickMillis, timeOutMillis);
     }
 }

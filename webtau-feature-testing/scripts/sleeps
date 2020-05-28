@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "welcome sleeping script"
+sleep 1
+echo "line one"
+sleep 1
+echo "line two"
