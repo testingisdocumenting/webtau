@@ -19,44 +19,70 @@ package org.testingisdocumenting.webtau.cli;
 import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CliBackgroundCommand {
-    private final String command;
-    private final ProcessEnv env;
-    private ProcessBackgroundRunResult backgroundRunResult;
+    private static final Map<Integer, CliBackgroundProcess> runningProcesses = new ConcurrentHashMap<>();
+    static {
+        registerShutdown();
+    }
 
+    private final String command;
+
+    private final ProcessEnv env;
+    private CliBackgroundProcess backgroundProcess;
     public CliBackgroundCommand(String command, ProcessEnv env) {
         this.command = command;
         this.env = env;
     }
 
     public void start() {
-        if (backgroundRunResult != null) {
+        if (backgroundProcess != null) {
             return;
         }
 
         try {
-            backgroundRunResult = ProcessUtils.runInBackground(command, env.getEnv());
+            backgroundProcess = ProcessUtils.runInBackground(command, env.getEnv());
+            runningProcesses.put(backgroundProcess.getPid(), backgroundProcess);
+            waitForProcessToFinishInBackground();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public CliOutput getOutput() {
-        return backgroundRunResult.getOutput();
+        return backgroundProcess.getOutput();
     }
 
     public CliOutput getError() {
-        return backgroundRunResult.getError();
+        return backgroundProcess.getError();
     }
 
     public void stop() {
-        backgroundRunResult.destroy();
-        backgroundRunResult = null;
+        backgroundProcess.destroy();
+        backgroundProcess = null;
     }
 
     public void restart() {
         stop();
         start();
+    }
+
+    private void waitForProcessToFinishInBackground() {
+        new Thread(() -> {
+            try {
+                backgroundProcess.getProcess().waitFor();
+                runningProcesses.remove(backgroundProcess.getPid());
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        }).start();
+    }
+
+    private static void registerShutdown() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            runningProcesses.forEach((pid, process) -> process.destroy());
+        }));
     }
 }

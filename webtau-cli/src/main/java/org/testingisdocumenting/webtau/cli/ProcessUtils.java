@@ -33,7 +33,7 @@ public class ProcessUtils {
     }
 
     public static ProcessRunResult run(String command, Map<String, String> env) throws IOException {
-        ProcessBackgroundRunResult backgroundRunResult = runInBackground(command, env);
+        CliBackgroundProcess backgroundRunResult = runInBackground(command, env);
 
         try {
             backgroundRunResult.getProcess().waitFor();
@@ -48,10 +48,10 @@ public class ProcessUtils {
     }
 
     public static void kill(int pid) throws IOException {
-        run("pkill -TERM -P " + pid, Collections.emptyMap());
+        run("kill " + pid + " && pkill -TERM -P " + pid, Collections.emptyMap());
     }
 
-    public static ProcessBackgroundRunResult runInBackground(String command, Map<String, String> env) throws IOException {
+    public static CliBackgroundProcess runInBackground(String command, Map<String, String> env) throws IOException {
         List<String> splitCommandWithPrefix = prefixCommandWithPathAndSplit(command);
         ProcessBuilder processBuilder = new ProcessBuilder(splitCommandWithPrefix);
         processBuilder.environment().putAll(env);
@@ -67,7 +67,7 @@ public class ProcessUtils {
         consumeErrorThread.start();
         consumeOutThread.start();
 
-        return new ProcessBackgroundRunResult(process,
+        return new CliBackgroundProcess(process,
                 outputGobbler, errorGobbler,
                 consumeOutThread, consumeErrorThread);
     }
