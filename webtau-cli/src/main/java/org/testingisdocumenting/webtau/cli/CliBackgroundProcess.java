@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-public class ProcessBackgroundRunResult {
+public class CliBackgroundProcess {
     private final Process process;
     private final StreamGobbler outputGobbler;
     private final StreamGobbler errorGobbler;
@@ -34,11 +34,11 @@ public class ProcessBackgroundRunResult {
     private final CliOutput output;
     private final CliOutput error;
 
-    public ProcessBackgroundRunResult(Process process,
-                                      StreamGobbler outputGobbler,
-                                      StreamGobbler errorGobbler,
-                                      Thread consumeErrorThread,
-                                      Thread consumeOutThread) {
+    public CliBackgroundProcess(Process process,
+                                StreamGobbler outputGobbler,
+                                StreamGobbler errorGobbler,
+                                Thread consumeErrorThread,
+                                Thread consumeOutThread) {
         this.process = process;
         this.pid = extractPid(process);
         this.outputGobbler = outputGobbler;
@@ -51,6 +51,10 @@ public class ProcessBackgroundRunResult {
 
     public Process getProcess() {
         return process;
+    }
+
+    public int getPid() {
+        return pid;
     }
 
     public void destroy() {
