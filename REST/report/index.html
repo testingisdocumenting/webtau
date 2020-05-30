@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
 <title>WebTau: Report</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
@@ -71,7 +72,7 @@
         }
 
         var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
-        lightQuery.addEventListener("change", function (e) {
+        lightQuery.addListener(function (e) {
             const newThemeName = e.matches ? lightThemeName : darkThemeName;
             znaiTheme.setExplicitly(newThemeName);
         });
@@ -163,7 +164,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-summary.png",
-        "timestamp" : 1589298773041,
+        "timestamp" : 1590882733763,
         "shapes" : [ ],
         "width" : 1200.0,
         "height" : 804.0,
@@ -182,7 +183,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary.png",
-        "timestamp" : 1589298773461,
+        "timestamp" : 1590882734195,
         "shapes" : [ ],
         "width" : 1200.0,
         "height" : 804.0,
@@ -244,7 +245,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1589298402068,
+    "lastModifiedTime" : 1590882383851,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Report",

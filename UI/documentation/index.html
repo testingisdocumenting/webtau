@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
 <title>WebTau: Documentation</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
@@ -71,7 +72,7 @@
         }
 
         var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
-        lightQuery.addEventListener("change", function (e) {
+        lightQuery.addListener(function (e) {
             const newThemeName = e.matches ? lightThemeName : darkThemeName;
             znaiTheme.setExplicitly(newThemeName);
         });
@@ -241,7 +242,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "annotationsPath" : "doc-artifacts/search.json",
         "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "timestamp" : 1589298719661,
+        "timestamp" : 1590882675394,
         "shapes" : [ {
           "id" : "circle1",
           "type" : "circle",
@@ -275,7 +276,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "annotationsPath" : "doc-artifacts/search.json",
         "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "timestamp" : 1589298719661,
+        "timestamp" : 1590882675394,
         "shapes" : [ {
           "id" : "circle1",
           "type" : "circle",
@@ -304,7 +305,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "annotationsPath" : "doc-artifacts/search-highlight-cover.json",
         "imageSrc" : "/webtau/doc-artifacts/search-highlight-cover.png",
-        "timestamp" : 1589298719925,
+        "timestamp" : 1590882675694,
         "shapes" : [ {
           "id" : "highlight3",
           "type" : "highlight",
@@ -329,7 +330,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1589298402068,
+    "lastModifiedTime" : 1590882383851,
     "tocItem" : {
       "sectionTitle" : "UI",
       "pageTitle" : "Documentation",

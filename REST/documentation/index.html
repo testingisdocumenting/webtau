@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
 <title>WebTau: Documentation</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
@@ -71,7 +72,7 @@
         }
 
         var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
-        lightQuery.addEventListener("change", function (e) {
+        lightQuery.addListener(function (e) {
             const newThemeName = e.matches ? lightThemeName : darkThemeName;
             znaiTheme.setExplicitly(newThemeName);
         });
@@ -99,7 +100,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:39373/params?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:35615/params?a=1&amp;b=text</p>
 </article>
 
 <article>
@@ -417,7 +418,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "http://10.1.0.4:39373/params?a=1&b=text",
+        "snippet" : "http://10.1.0.4:35615/params?a=1&b=text",
         "title" : "request.fullurl.txt",
         "type" : "Snippet"
       } ]
@@ -457,7 +458,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1589298402068,
+    "lastModifiedTime" : 1590882383851,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Documentation",

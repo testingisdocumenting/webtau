@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
 <title>WebTau: JUnit 4</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
@@ -71,7 +72,7 @@
         }
 
         var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
-        lightQuery.addEventListener("change", function (e) {
+        lightQuery.addListener(function (e) {
             const newThemeName = e.matches ? lightThemeName : darkThemeName;
             znaiTheme.setExplicitly(newThemeName);
         });
@@ -99,7 +100,7 @@
 
 <article>
 <header><h1>Maven Import</h1></header>
-<p>&lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit4&lt;/artifactId&gt; &lt;version&gt;1.21.1&lt;/version&gt; &lt;/dependency&gt;</p>
+<p>&lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit4&lt;/artifactId&gt; &lt;version&gt;1.23&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 </section>
 </div>
@@ -269,11 +270,11 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "content" : [ {
         "lang" : "xml",
-        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.21.1</version>\n</dependency>",
+        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.23</version>\n</dependency>",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1589298402068,
+    "lastModifiedTime" : 1590882383851,
     "tocItem" : {
       "sectionTitle" : "Generic Runners",
       "pageTitle" : "JUnit 4",
