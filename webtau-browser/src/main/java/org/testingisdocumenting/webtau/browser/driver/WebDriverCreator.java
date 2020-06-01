@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +34,7 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 public class WebDriverCreator {
     private static final String CHROME_DRIVER_PATH_KEY = "webdriver.chrome.driver";
 
-    private static List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
+    private static final List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
 
     static {
         registerCleanup();
@@ -55,7 +56,12 @@ public class WebDriverCreator {
 
     private static void quitWithoutRemove(WebDriver driver) {
         WebDriverCreatorListeners.beforeDriverQuit(driver);
-        driver.quit();
+
+        try {
+            driver.quit();
+        } catch (Throwable ignore) {
+        }
+
         WebDriverCreatorListeners.afterDriverQuit(driver);
     }
 
