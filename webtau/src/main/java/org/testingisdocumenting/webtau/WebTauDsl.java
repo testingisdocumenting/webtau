@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +33,12 @@ import org.testingisdocumenting.webtau.fs.FileSystem;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 /*
 Convenient class for static * import
@@ -85,5 +91,11 @@ public class WebTauDsl extends WebTauCore {
 
     public static SchemaMatcher beCompliantWithSchema(String schemaFileName) {
         return complyWithSchema(schemaFileName);
+    }
+
+    public static void step(String label, Runnable code) {
+        TestStep.createAndExecuteStep(null, tokenizedMessage(action(label)),
+                () -> tokenizedMessage(none("completed"), action(label)),
+                code);
     }
 }
