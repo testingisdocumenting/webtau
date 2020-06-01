@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -80,8 +81,16 @@ class StandaloneTest implements StepReporter {
         return test.isFailed()
     }
 
+    boolean isSucceeded() {
+        return test.isSucceeded()
+    }
+
     List<TestStep<?, ?>> getSteps() {
         return test.steps
+    }
+
+    boolean hasSteps() {
+        return !test.steps.isEmpty()
     }
 
     Throwable getException() {
@@ -124,16 +133,29 @@ class StandaloneTest implements StepReporter {
 
     @Override
     void onStepStart(TestStep step) {
+    }
+
+    @Override
+    void onStepSuccess(TestStep step) {
+        addStepIfNoParent(step)
+    }
+
+    @Override
+    void onStepFailure(TestStep step) {
+        addStepIfNoParent(step)
+    }
+
+    private void addStepIfNoParent(TestStep step) {
         if (step.getNumberOfParents() == 0) {
             test.addStep(step)
         }
     }
 
     @Override
-    void onStepSuccess(TestStep step) {
-    }
-
-    @Override
-    void onStepFailure(TestStep step) {
+    String toString() {
+        return "StandaloneTest{" +
+                "test=" + test +
+                ", workingDir=" + workingDir +
+                '}';
     }
 }
