@@ -8,6 +8,6 @@ To define a custom test listener you need to implement the `TestListener` interf
 
 Once you have an implementation, use the `testListeners` key in your config file to use it
 
-:include-file: scenarios/concept/testListener.cfg {title: "webtau.cfg"}
+:include-file: scenarios/concept/metaDataTestListener.cfg {title: "webtau.cfg"}
 
 :include-file: listeners/MetadataValidationTestListener.groovy {title: "listeners/MetadataValidationTestListener.groovy"}

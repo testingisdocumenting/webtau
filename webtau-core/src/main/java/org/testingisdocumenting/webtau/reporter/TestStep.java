@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,26 +31,26 @@ import static org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtil
 import static java.util.stream.Collectors.toList;
 
 public class TestStep<C, R> {
-    private C context;
+    private final C context;
 
-    private TokenizedMessage inProgressMessage;
-    private Supplier<TokenizedMessage> completionMessageSupplier;
-    private Supplier<R> action;
+    private final TokenizedMessage inProgressMessage;
+    private final Supplier<TokenizedMessage> completionMessageSupplier;
+    private final Supplier<R> action;
     private TokenizedMessage completionMessage;
 
     private boolean isInProgress;
     private boolean isSuccessful;
 
-    private List<TestStep<?, ?>> children;
+    private final List<TestStep<?, ?>> children;
     private TestStep<?, ?> parent;
     private String stackTrace;
 
-    private List<TestStepPayload> payloads;
+    private final List<TestStepPayload> payloads;
 
     private long startTime;
     private long elapsedTime;
 
-    private static ThreadLocal<TestStep<?, ?>> currentStep = new ThreadLocal<>();
+    private static final ThreadLocal<TestStep<?, ?>> currentStep = new ThreadLocal<>();
 
     public static <C> TestStep<C, Void> createStep(C context,
                                                    TokenizedMessage inProgressMessage,
@@ -129,6 +130,16 @@ public class TestStep<C, R> {
         return children.stream().anyMatch(TestStep::isFailed);
     }
 
+    public int calcNumberOfSuccessfulSteps() {
+        return ((isSuccessful ? 1 : 0) +
+                children.stream().map(TestStep::calcNumberOfSuccessfulSteps).reduce(0, Integer::sum));
+    }
+
+    public int calcNumberOfFailedSteps() {
+        return ((isFailed() ? 1 : 0) +
+                children.stream().map(TestStep::calcNumberOfFailedSteps).reduce(0, Integer::sum));
+    }
+
     @SuppressWarnings("unchecked")
     public C getFirstAvailableContext() {
         if (context != null) {
@@ -143,7 +154,7 @@ public class TestStep<C, R> {
 
     public int getNumberOfParents() {
         int result = 0;
-        TestStep step = this;
+        TestStep<?, ?> step = this;
         while (step.parent != null) {
             result++;
             step = step.parent;

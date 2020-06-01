@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -88,6 +89,41 @@ class TestStepTest {
         assert rootStep.hasPayload(PayloadA)
         assert rootStep.hasPayload(PayloadB)
         assert ! rootStep.hasPayload(PayloadC)
+    }
+
+    @Test
+    void "should count number of failed and successful steps"() {
+        def root = createStep("root step action") {
+            def step1 = createStep("c1 action") {
+                throw new RuntimeException("error")
+            }
+
+            try {
+                step1.execute(REPORT_ALL)
+            } catch (Exception ignored) {
+            }
+
+            def step2 = createStep("c2 action")
+            step2.execute(REPORT_ALL)
+
+            def step3 = createStep("c3 action") {
+                def step31 = createStep("c31 action", { throw new RuntimeException("error2") })
+                step31.execute(REPORT_ALL)
+
+                def step32 = createStep("c32 action")
+                step32.execute(REPORT_ALL)
+            }
+
+            try {
+                step3.execute(REPORT_ALL)
+            } catch (Exception ignored) {
+            }
+        }
+
+        root.execute(REPORT_ALL)
+
+        assert root.calcNumberOfFailedSteps() == 3
+        assert root.calcNumberOfSuccessfulSteps() == 2
     }
 
     private static TestStep createStep(String title, Supplier stepCode = { return null }) {

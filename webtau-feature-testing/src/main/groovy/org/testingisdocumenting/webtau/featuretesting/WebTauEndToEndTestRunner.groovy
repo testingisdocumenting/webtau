@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,9 +27,8 @@ import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauEndToEndTestRunner implements StepReporter, TestListener {
+class WebTauEndToEndTestRunner  {
     private Map capturedStepsSummary
-    private final List scenariosDetails = []
 
     TestServer testServer
 
@@ -47,41 +47,36 @@ class WebTauEndToEndTestRunner implements StepReporter, TestListener {
     void runCli(String testFileName, String configFileName, String... additionalArgs) {
         def testPath = Paths.get(testFileName)
 
-        StepReporters.add(this)
-        TestListeners.add(this)
-
         def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
         def reportPath = targetClassesLocation
                 .resolve(testFileName.endsWith('.groovy') ?
                         testFileName.replace('.groovy', '-webtau-report.html'):
                         testFileName + '/webtau-report.html')
 
-        try {
-            def args = ['--workingDir=examples', '--config=' + configFileName,
-                        '--docPath=' + targetClassesLocation.resolve('doc-artifacts'),
-                        '--reportPath=' + reportPath]
-            args.addAll(Arrays.asList(additionalArgs))
-            args.add(testPath.toString())
+        def args = ['--workingDir=examples', '--config=' + configFileName,
+                    '--docPath=' + targetClassesLocation.resolve('doc-artifacts'),
+                    '--reportPath=' + reportPath]
+        args.addAll(Arrays.asList(additionalArgs))
+        args.add(testPath.toString())
 
-            WebTauConfig.resetConfigHandlers()
-            getCfg().reset()
+        WebTauConfig.resetConfigHandlers()
+        getCfg().reset()
 
-            def cliApp = new WebTauCliApp(args as String[])
+        def cliApp = new WebTauCliApp(args as String[])
 
-            getCfg().triggerConfigHandlers()
+        getCfg().triggerConfigHandlers()
 
-            def testDetails = [scenarioDetails: scenariosDetails,
-                               exitCode: 0]
+        def testDetails = [scenarioDetails: [], exitCode: 0]
 
-            cliApp.start(WebTauCliApp.WebDriverBehavior.KeepWebDriversOpen) { exitCode ->
-                testDetails.exitCode = exitCode
-            }
+        capturedStepsSummary = [:].withDefault { 0 }
 
-            validateAndSaveTestDetails(testFileName, testDetails)
-        } finally {
-            StepReporters.remove(this)
-            TestListeners.remove(this)
+        cliApp.start(WebTauCliApp.WebDriverBehavior.KeepWebDriversOpen) { exitCode ->
+            testDetails.exitCode = exitCode
         }
+
+        testDetails.scenarioDetails = buildScenarioDetails(cliApp.runner.report)
+
+        validateAndSaveTestDetails(testFileName, testDetails)
     }
 
     private static void validateAndSaveTestDetails(String testFileName, Map testDetails) {
@@ -103,40 +98,29 @@ class WebTauEndToEndTestRunner implements StepReporter, TestListener {
         return idx >= 0 ? fileName.substring(0, idx) : fileName
     }
 
-    @Override
-    void onStepStart(TestStep step) {
-    }
+    static List<Map<String, ?>> buildScenarioDetails(WebTauReport report) {
+        return report.tests.stream().collect { test ->
+            def result = [
+                    scenario: test.scenario,
+                    shortContainerId: test.shortContainerId,
+                    stepsSummary: [:]
+            ]
 
-    @Override
-    void onStepSuccess(TestStep step) {
-        capturedStepsSummary.numberOfSuccessful++
-    }
+            def numberOfSuccessfulSteps = test.calcNumberOfSuccessfulSteps()
+            if (numberOfSuccessfulSteps > 0) {
+                result.stepsSummary.numberOfSuccessful = numberOfSuccessfulSteps
+            }
 
-    @Override
-    void onStepFailure(TestStep step) {
-        capturedStepsSummary.numberOfFailed++
-    }
+            def numberOfFailedSteps = test.calcNumberOfFailedSteps()
+            if (numberOfFailedSteps > 0) {
+                result.stepsSummary.numberOfFailed = numberOfFailedSteps
+            }
 
-    @Override
-    void beforeFirstTest() {
-        scenariosDetails.clear()
-    }
+            if (!test.metadata.isEmpty()) {
+                result.metadata = test.metadata.toMap()
+            }
 
-    @Override
-    void beforeTestRun(WebTauTest test) {
-        capturedStepsSummary = [:].withDefault { 0 }
-    }
-
-    @Override
-    void afterTestRun(WebTauTest test) {
-        def details = [scenario        : test.scenario,
-                       shortContainerId: test.shortContainerId,
-                       stepsSummary    : capturedStepsSummary]
-
-        if (!test.metadata.isEmpty()) {
-            details.metadata = test.metadata.toMap()
+            return result
         }
-
-        scenariosDetails.add(details)
     }
 }

@@ -32,6 +32,8 @@ import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
 import org.testingisdocumenting.webtau.pdf.Pdf
+import org.testingisdocumenting.webtau.report.ReportGenerator
+import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
@@ -40,7 +42,7 @@ import java.util.function.Consumer
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauCliApp implements TestListener {
+class WebTauCliApp implements TestListener, ReportGenerator {
     enum WebDriverBehavior {
         AutoCloseWebDrivers,
         KeepWebDriversOpen
@@ -79,9 +81,14 @@ class WebTauCliApp implements TestListener {
         }
     }
 
+    StandaloneTestRunner getRunner() {
+        return runner
+    }
+
     void start(WebDriverBehavior webDriverBehavior, Consumer<Integer> exitHandler) {
         prepareTestsAndRun(webDriverBehavior) {
             runTests()
+            ReportGenerators.generate(runner.report)
         }
 
         if (runner.hasExclusiveTests()) {
@@ -155,12 +162,14 @@ class WebTauCliApp implements TestListener {
         TestListeners.add(consoleTestReporter)
         TestListeners.add(this)
         StepReporters.add(stepReporter)
+        ReportGenerators.add(this)
     }
 
     private void removeListeners() {
         ConsoleOutputs.remove(consoleOutput)
         StepReporters.remove(stepReporter)
         TestListeners.clearAdded()
+        ReportGenerators.remove(this)
     }
 
     private void runTests() {
@@ -173,7 +182,7 @@ class WebTauCliApp implements TestListener {
     }
 
     @Override
-    void afterAllTests(WebTauReport report) {
+    void generate(WebTauReport report) {
         problemCount = (int) (report.failed + report.errored)
     }
 

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -101,8 +102,13 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
-    void "custom test listener"() {
-        runCli('testListener.groovy', 'testListener.cfg')
+    void "meta data check test listener"() {
+        runCli('metaDataTestListener.groovy', 'metaDataTestListener.cfg')
+    }
+
+    @Test
+    void "before all after all test listener"() {
+        runCli('beforeAllAfterAllSuccess.groovy', 'beforeAllAfterAllTestListener.cfg')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
