@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -185,6 +186,10 @@ public class WebTauTest {
         return exception instanceof AssertionError;
     }
 
+    public boolean isSucceeded() {
+        return !isSkipped() && !isFailed() && !isErrored();
+    }
+
     public TestStatus getTestStatus() {
         if (isFailed()) {
             return Failed;
@@ -209,6 +214,17 @@ public class WebTauTest {
         return steps;
     }
 
+    public boolean hasSteps() {
+        return !steps.isEmpty();
+    }
+
+    public int calcNumberOfSuccessfulSteps() {
+        return steps.stream().map(TestStep::calcNumberOfSuccessfulSteps).reduce(0, Integer::sum);
+    }
+
+    public int calcNumberOfFailedSteps() {
+        return steps.stream().map(TestStep::calcNumberOfFailedSteps).reduce(0, Integer::sum);
+    }
 
     public WebTauTestMetadata getMetadata() {
         return metadata;
@@ -283,8 +299,12 @@ public class WebTauTest {
         return "WebTauTest{" +
                 "id='" + id + '\'' +
                 ", scenario='" + scenario + '\'' +
+                ", filePath=" + filePath +
                 ", shortContainerId='" + shortContainerId + '\'' +
                 ", exception=" + exception +
+                ", isRan=" + isRan +
+                ", startTime=" + startTime +
+                ", elapsedTime=" + elapsedTime +
                 '}';
     }
 }

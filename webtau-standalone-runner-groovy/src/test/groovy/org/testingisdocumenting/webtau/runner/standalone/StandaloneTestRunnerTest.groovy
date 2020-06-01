@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,12 +18,16 @@
 package org.testingisdocumenting.webtau.runner.standalone
 
 import org.testingisdocumenting.webtau.TestFile
+import org.testingisdocumenting.webtau.reporter.TestListener
 import org.testingisdocumenting.webtau.reporter.TestListeners
 import org.junit.Test
+import org.testingisdocumenting.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.WebTauCore.contain
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
 
 class StandaloneTestRunnerTest {
     @Test
@@ -122,9 +127,9 @@ class StandaloneTestRunnerTest {
     void "should not notify test listeners during parsing phase"() {
         def trackingListener = new TracingTestListener()
 
-        TestListeners.add(trackingListener)
-        createRunner("StandaloneTest.groovy")
-        TestListeners.remove(trackingListener)
+        withTestListener(trackingListener) {
+            createRunner("StandaloneTest.groovy")
+        }
 
         trackingListener.calls.should == []
     }
@@ -148,11 +153,138 @@ class StandaloneTestRunnerTest {
     }
 
     @Test
-    void "should associate meta information with tests"() {
-        def runner = createRunner("withCustomMeta.groovy")
-        runner.runTests()
+    void "should create beforeFirstTest handlers as a setup first test if there are actions"() {
+        def listener = new TestListener() {
+            @Override
+            void beforeFirstTest() {
+                TestStep.createAndExecuteStep(null, TokenizedMessage.tokenizedMessage(none("test step")),
+                        { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
+                    println "dummy step"
+                }
+            }
+        }
 
-        println runner.tests
+        withTestListener(listener) {
+            def runner = createRunner("StandaloneTest.groovy")
+            runner.runTests()
+
+            runner.webTauTestList.size().should == 4
+
+            def beforeFirstTest = runner.webTauTestList.get(0)
+            beforeFirstTest.scenario.should == 'before first test'
+            beforeFirstTest.shortContainerId.should == 'Setup'
+        }
+    }
+
+    @Test
+    void "should not create beforeFirstTest handlers as a setup first test if there are no actions"() {
+        def listener = new TestListener() {
+            @Override
+            void beforeFirstTest() {
+                println "dummy step"
+            }
+        }
+
+        withTestListener(listener) {
+            def runner = createRunner("StandaloneTest.groovy")
+            runner.runTests()
+
+            runner.webTauTestList.size().should == 3
+        }
+    }
+
+    @Test
+    void "should create beforeFirstTest handler as a setup first test if there was an exception"() {
+        def listener = new TestListener() {
+            @Override
+            void beforeFirstTest() {
+                throw new RuntimeException("test error message")
+            }
+        }
+
+        withTestListener(listener) {
+            def runner = createRunner("StandaloneTest.groovy")
+            runner.runTests()
+
+            runner.webTauTestList.size().should == 4
+
+            def beforeFirstTest = runner.webTauTestList.get(0)
+            beforeFirstTest.scenario.should == 'before first test'
+            beforeFirstTest.shortContainerId.should == 'Setup'
+            beforeFirstTest.exception.message.should == 'test error message'
+        }
+    }
+
+    @Test
+    void "should create afterAll handlers as a tear down last test if there are actions"() {
+        def listener = new TestListener() {
+            @Override
+            void afterAllTests() {
+                TestStep.createAndExecuteStep(null, TokenizedMessage.tokenizedMessage(none("test step")),
+                        { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
+                    println "dummy step"
+                }
+            }
+        }
+
+        withTestListener(listener) {
+            def runner = createRunner("StandaloneTest.groovy")
+            runner.runTests()
+
+            runner.webTauTestList.size().should == 4
+
+            def beforeFirstTest = runner.webTauTestList.get(3)
+            beforeFirstTest.scenario.should == 'after all tests'
+            beforeFirstTest.shortContainerId.should == 'Teardown'
+        }
+    }
+
+    @Test
+    void "should not create afterAll handlers as a tear down last test if there are no actions"() {
+        def listener = new TestListener() {
+            @Override
+            void afterAllTests() {
+                println "dummy step"
+            }
+        }
+
+        withTestListener(listener) {
+            def runner = createRunner("StandaloneTest.groovy")
+            runner.runTests()
+
+            runner.webTauTestList.size().should == 3
+        }
+    }
+
+    @Test
+    void "should create afterAll handlers as a tear down last test if there was an exception"() {
+        def listener = new TestListener() {
+            @Override
+            void afterAllTests() {
+                throw new RuntimeException("test error message")
+            }
+        }
+
+        withTestListener(listener) {
+            def runner = createRunner("StandaloneTest.groovy")
+            runner.runTests()
+
+            runner.webTauTestList.size().should == 4
+
+            def beforeFirstTest = runner.webTauTestList.get(3)
+            beforeFirstTest.scenario.should == 'after all tests'
+            beforeFirstTest.shortContainerId.should == 'Teardown'
+            beforeFirstTest.exception.message.should == 'test error message'
+        }
+    }
+
+    private static void withTestListener(TestListener listener, Closure code) {
+        TestListeners.add(listener)
+        try {
+            code()
+        } finally {
+            TestListeners.remove(listener)
+        }
     }
 
     private static void assertInitFailed(StandaloneTestRunner runner, String message) {

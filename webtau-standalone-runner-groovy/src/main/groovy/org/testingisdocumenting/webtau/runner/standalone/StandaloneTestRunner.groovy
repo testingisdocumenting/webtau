@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,6 +50,8 @@ class StandaloneTestRunner {
     private ThreadLocal<TestRunCondition> runCondition = ThreadLocal.<TestRunCondition> withInitial { ->
         new TestRunCondition(isConditionMet: true)
     }
+
+    private WebTauReport report
 
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
         this.workingDir = workingDir.toAbsolutePath()
@@ -176,13 +179,48 @@ class StandaloneTestRunner {
             startTime = Time.currentTimeMillis()
             webTauTestList = new WebTauTestList()
 
-            TestListeners.beforeFirstTest()
+            runBeforeFirstTestListenersAsTest()
+
             codeToRunTests()
         } finally {
             endTime = Time.currentTimeMillis()
-            def report = new WebTauReport(webTauTestList, startTime, endTime)
+            runAfterAllTestListenersAsTest()
 
-            TestListeners.afterAllTests(report)
+            report = new WebTauReport(webTauTestList, startTime, endTime)
+        }
+    }
+
+    WebTauReport getReport() {
+        return report
+    }
+
+    WebTauTestList getWebTauTestList() {
+        return webTauTestList
+    }
+
+    private void runBeforeFirstTestListenersAsTest() {
+        def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
+
+        handleTestAndNotifyListeners(beforeFirstTestAsTest) {
+            beforeFirstTestAsTest.run()
+        }
+
+        registerIfFailedOrHasSteps(beforeFirstTestAsTest)
+    }
+
+    private void runAfterAllTestListenersAsTest() {
+        def afterAllTestsAsTest = createAfterAllTestListenersAsTest()
+
+        handleTestAndNotifyListeners(afterAllTestsAsTest) {
+            afterAllTestsAsTest.run()
+        }
+
+        registerIfFailedOrHasSteps(afterAllTestsAsTest)
+    }
+
+    private void registerIfFailedOrHasSteps(StandaloneTest test) {
+        if (!test.isSucceeded() || test.hasSteps()) {
+            webTauTestList.add(test.test)
         }
     }
 
@@ -191,7 +229,9 @@ class StandaloneTestRunner {
             def testsToSkip = registeredTests.testsToSkip()
 
             testsToSkip.each { standaloneTest ->
-                handleTestAndNotifyListeners(standaloneTest) {}
+                handleTestAndNotifyListeners(standaloneTest) {
+                    webTauTestList.add(standaloneTest.test)
+                }
             }
 
             def stream = streamCreator.apply(registeredTests.testsByFile())
@@ -207,16 +247,8 @@ class StandaloneTestRunner {
     void runTestAndNotifyListeners(StandaloneTest standaloneTest) {
         handleTestAndNotifyListeners(standaloneTest) {
             runTestIfNotTerminated(it)
+            webTauTestList.add(standaloneTest.test)
         }
-    }
-
-    void handleTestAndNotifyListeners(StandaloneTest standaloneTest, Closure testHandler) {
-        TestListeners.beforeTestRun(standaloneTest.test)
-
-        testHandler(standaloneTest)
-        webTauTestList.add(standaloneTest.test)
-
-        TestListeners.afterTestRun(standaloneTest.test)
     }
 
     private void runTestIfNotTerminated(StandaloneTest standaloneTest) {
@@ -244,6 +276,28 @@ class StandaloneTestRunner {
 
     private StandaloneTest createTest(String scenarioDescription, Closure scenarioCode) {
         new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, scenarioDescription, scenarioCode)
+    }
+
+    private StandaloneTest createBeforeFirstTestListenersAsTest() {
+        return new StandaloneTest(workingDir, workingDir.resolve("setup-listeners"),
+                'Setup', 'before first test', { ->
+
+            TestListeners.beforeFirstTest()
+        })
+    }
+
+    private StandaloneTest createAfterAllTestListenersAsTest() {
+        return new StandaloneTest(workingDir, workingDir.resolve("teardown-listeners"),
+                'Teardown', 'after all tests', { ->
+
+            TestListeners.afterAllTests()
+        })
+    }
+
+    private static void handleTestAndNotifyListeners(StandaloneTest standaloneTest, Closure testHandler) {
+        TestListeners.beforeTestRun(standaloneTest.test)
+        testHandler(standaloneTest)
+        TestListeners.afterTestRun(standaloneTest.test)
     }
 
     private static class TestRunCondition {

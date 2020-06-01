@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +24,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class WebTauTestList {
-    private List<WebTauTest> tests;
+    private final List<WebTauTest> tests;
 
     public WebTauTestList() {
         tests = Collections.synchronizedList(new ArrayList<>());
@@ -31,6 +32,10 @@ public class WebTauTestList {
 
     public WebTauTestList(List<WebTauTest> tests) {
         this.tests = Collections.synchronizedList(tests);
+    }
+
+    public WebTauTest get(int idx) {
+        return tests.get(idx);
     }
 
     public void add(WebTauTest test) {

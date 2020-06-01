@@ -16,14 +16,17 @@
 
 package org.testingisdocumenting.webtau.javarunner.report;
 
+import org.testingisdocumenting.webtau.report.ReportGenerators;
 import org.testingisdocumenting.webtau.reporter.TestListeners;
 
 public class JavaShutdownHook {
     public final static JavaShutdownHook INSTANCE = new JavaShutdownHook();
 
     private JavaShutdownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                TestListeners.afterAllTests(JavaReport.INSTANCE.create())));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            TestListeners.afterAllTests();
+            ReportGenerators.generate(JavaReport.INSTANCE.create());
+        }));
     }
 
     public void noOp() {
