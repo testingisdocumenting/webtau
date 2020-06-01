@@ -1,0 +1,19 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "simple scenario",
+    "shortContainerId" : "metaDataTestListener.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "another scenario",
+    "shortContainerId" : "metaDataTestListener.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    },
+    "metadata" : {
+      "owner" : "team A"
+    }
+  } ],
+  "exitCode" : 1
+}
