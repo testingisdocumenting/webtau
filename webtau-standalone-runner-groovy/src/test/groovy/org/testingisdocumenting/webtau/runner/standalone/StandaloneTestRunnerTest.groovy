@@ -157,7 +157,7 @@ class StandaloneTestRunnerTest {
         def listener = new TestListener() {
             @Override
             void beforeFirstTest() {
-                TestStep.createAndExecuteStep(null, TokenizedMessage.tokenizedMessage(none("test step")),
+                TestStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
                         { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
                     println "dummy step"
                 }
@@ -220,7 +220,7 @@ class StandaloneTestRunnerTest {
         def listener = new TestListener() {
             @Override
             void afterAllTests() {
-                TestStep.createAndExecuteStep(null, TokenizedMessage.tokenizedMessage(none("test step")),
+                TestStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
                         { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
                     println "dummy step"
                 }

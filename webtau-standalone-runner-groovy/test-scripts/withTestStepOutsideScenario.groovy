@@ -1,8 +1,5 @@
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
-
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +15,16 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
  * limitations under the License.
  */
 
-createAndExecuteStep(null, tokenizedMessage(action("running errand")),
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
+import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
+
+createAndExecuteStep(tokenizedMessage(action("running errand")),
         { -> tokenizedMessage(action("ran errand"))}) {
     throw new RuntimeException("this should not happen")
 }
 
-scenario ('scenario one') {
+scenario('scenario one') {
 }
 
 scenario('scenario two') {

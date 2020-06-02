@@ -23,6 +23,7 @@ import java.lang.reflect.Field;
 
 public class CliBackgroundProcess {
     private final Process process;
+    private final String command;
     private final StreamGobbler outputGobbler;
     private final StreamGobbler errorGobbler;
 
@@ -35,12 +36,14 @@ public class CliBackgroundProcess {
     private final CliOutput error;
 
     public CliBackgroundProcess(Process process,
+                                String command,
                                 StreamGobbler outputGobbler,
                                 StreamGobbler errorGobbler,
                                 Thread consumeErrorThread,
                                 Thread consumeOutThread) {
         this.process = process;
         this.pid = extractPid(process);
+        this.command = command;
         this.outputGobbler = outputGobbler;
         this.errorGobbler = errorGobbler;
         this.consumeErrorThread = consumeErrorThread;
@@ -55,6 +58,14 @@ public class CliBackgroundProcess {
 
     public int getPid() {
         return pid;
+    }
+
+    public int exitCode() {
+        return process.exitValue();
+    }
+
+    public String getCommand() {
+        return command;
     }
 
     public void destroy() {

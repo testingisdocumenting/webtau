@@ -17,10 +17,16 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.time.Time;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class CliBackgroundCommand {
     private static final Map<Integer, CliBackgroundProcess> runningProcesses = new ConcurrentHashMap<>();
@@ -32,6 +38,8 @@ public class CliBackgroundCommand {
 
     private final ProcessEnv env;
     private CliBackgroundProcess backgroundProcess;
+    private long startTime;
+
     public CliBackgroundCommand(String command, ProcessEnv env) {
         this.command = command;
         this.env = env;
@@ -42,13 +50,12 @@ public class CliBackgroundCommand {
             return;
         }
 
-        try {
-            backgroundProcess = ProcessUtils.runInBackground(command, env.getEnv());
-            runningProcesses.put(backgroundProcess.getPid(), backgroundProcess);
-            waitForProcessToFinishInBackground();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        TestStep.createAndExecuteStep(
+                tokenizedMessage(action("running cli command in background"), stringValue(command)),
+                () -> tokenizedMessage(action("ran cli command in background"), stringValue(command)),
+                this::startBackgroundProcess);
+
+        waitForProcessToFinishInBackground();
     }
 
     public CliOutput getOutput() {
@@ -69,11 +76,30 @@ public class CliBackgroundCommand {
         start();
     }
 
+    private void startBackgroundProcess() {
+        try {
+            startTime = Time.currentTimeMillis();
+            backgroundProcess = ProcessUtils.runInBackground(command, env.getEnv());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        runningProcesses.put(backgroundProcess.getPid(), backgroundProcess);
+    }
+
     private void waitForProcessToFinishInBackground() {
         new Thread(() -> {
             try {
                 backgroundProcess.getProcess().waitFor();
-                runningProcesses.remove(backgroundProcess.getPid());
+
+                TestStep<?, CliBackgroundProcess> step = TestStep.createStep(null,
+                        startTime,
+                        tokenizedMessage(),
+                        () -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
+                                action("finished with exit code"), numberValue(backgroundProcess.exitCode())),
+                        () -> runningProcesses.remove(backgroundProcess.getPid()));
+
+                step.execute(StepReportOptions.SKIP_START);
             } catch (InterruptedException e) {
                 // ignore
             }

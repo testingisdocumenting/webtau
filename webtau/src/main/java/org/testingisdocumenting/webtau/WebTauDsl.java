@@ -94,7 +94,7 @@ public class WebTauDsl extends WebTauCore {
     }
 
     public static void step(String label, Runnable code) {
-        TestStep.createAndExecuteStep(null, tokenizedMessage(action(label)),
+        TestStep.createAndExecuteStep(tokenizedMessage(action(label)),
                 () -> tokenizedMessage(none("completed"), action(label)),
                 code);
     }

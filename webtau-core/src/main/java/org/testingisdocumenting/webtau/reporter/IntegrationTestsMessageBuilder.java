@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +31,7 @@ public class IntegrationTestsMessageBuilder {
         CLASSIFIER("classifier", Color.CYAN),
         MATCHER("matcher", Color.GREEN),
         STRING_VALUE("stringValue", Color.GREEN),
+        NUMBER_VALUE("numberValue", Color.BLUE),
         URL("url", Color.PURPLE),
         SELECTOR_TYPE("selectorType", Color.PURPLE),
         SELECTOR_VALUE("selectorValue", FontStyle.BOLD, Color.PURPLE),
@@ -62,6 +64,7 @@ public class IntegrationTestsMessageBuilder {
     public static final MessageToken TO = TokenTypes.PREPOSITION.token("to");
     public static final MessageToken OF = TokenTypes.PREPOSITION.token("of");
     public static final MessageToken COMMA = TokenTypes.DELIMITER.token(",");
+    public static final MessageToken COLON = TokenTypes.DELIMITER.token(":");
 
     private static final TokenizedMessageToAnsiConverter converter = createConverter();
 
@@ -75,6 +78,10 @@ public class IntegrationTestsMessageBuilder {
 
     public static MessageToken stringValue(Object value) {
         return TokenTypes.STRING_VALUE.token(escapeSpecialChars(value.toString()));
+    }
+
+    public static MessageToken numberValue(Object value) {
+        return TokenTypes.NUMBER_VALUE.token(escapeSpecialChars(value.toString()));
     }
 
     public static MessageToken urlValue(String url) {
@@ -99,6 +106,10 @@ public class IntegrationTestsMessageBuilder {
 
     public static MessageToken selectorValue(String selector) {
         return TokenTypes.SELECTOR_VALUE.token(selector);
+    }
+
+    public static MessageToken delimiter(Object value) {
+        return TokenTypes.DELIMITER.token(escapeSpecialChars(value.toString()));
     }
 
     public static TokenizedMessageToAnsiConverter getConverter() {

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +50,7 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
         }
 
         String modeLabel = validationModeLabel(mode);
-        TestStep.createAndExecuteStep(null,
+        TestStep.createAndExecuteStep(
                 tokenizedMessage(action("validating"), classifier(modeLabel)),
                 () -> tokenizedMessage(action("validated"), classifier(modeLabel)),
                 () -> OpenApi.getValidator().validateApiSpec(validationResult, mode));

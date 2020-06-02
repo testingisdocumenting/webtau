@@ -67,11 +67,13 @@ public class StepReporters {
     }
 
     private static Stream<StepReporter> getReportersStream() {
-        if (reporters.isEmpty() && localReporters.get().isEmpty()) {
+        List<StepReporter> localReporters = StepReporters.localReporters.get();
+
+        if (reporters.isEmpty() && localReporters.isEmpty()) {
             return Stream.of(defaultStepReporter);
         }
 
-        return Stream.concat(localReporters.get().stream(), reporters.stream());
+        return Stream.concat(localReporters.stream(), reporters.stream());
     }
 
     private static void addLocal(StepReporter handler) {

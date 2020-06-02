@@ -132,7 +132,7 @@ class WebTauGroovyDsl extends WebTauDsl {
         return { args ->
             String withReplacedValues = replacePlaceholders(description, args)
 
-            createAndExecuteStep(null, tokenizedMessage(none(withReplacedValues)),
+            createAndExecuteStep(tokenizedMessage(none(withReplacedValues)),
                     { -> tokenizedMessage(none("done " + withReplacedValues)) },
                     { -> code.curry(args).call() })
         }
