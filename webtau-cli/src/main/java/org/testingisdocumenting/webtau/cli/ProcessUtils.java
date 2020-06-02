@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,7 +68,7 @@ public class ProcessUtils {
         consumeErrorThread.start();
         consumeOutThread.start();
 
-        return new CliBackgroundProcess(process,
+        return new CliBackgroundProcess(process, command,
                 outputGobbler, errorGobbler,
                 consumeOutThread, consumeErrorThread);
     }

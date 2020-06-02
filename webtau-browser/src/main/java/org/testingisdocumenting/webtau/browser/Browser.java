@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,7 +57,7 @@ public class Browser {
         String currentUrl = driver.getCurrentUrl();
         boolean sameUrl = fullUrl.equals(currentUrl);
 
-        createAndExecuteStep(null, tokenizedMessage(action("opening"), urlValue(fullUrl)),
+        createAndExecuteStep(tokenizedMessage(action("opening"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action(sameUrl ? "staying at" : "opened"), urlValue(fullUrl)),
                 () -> {
                     if (!sameUrl) {
@@ -68,19 +69,19 @@ public class Browser {
     public void reopen(String url) {
         String fullUrl = createFullUrl(url);
 
-        createAndExecuteStep(null, tokenizedMessage(action("re-opening"), urlValue(fullUrl)),
+        createAndExecuteStep(tokenizedMessage(action("re-opening"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("opened"), urlValue(fullUrl)),
                 () -> BrowserPageNavigation.open(driver, url, fullUrl));
     }
 
     public void refresh() {
-        createAndExecuteStep(null, tokenizedMessage(action("refreshing current page")),
+        createAndExecuteStep(tokenizedMessage(action("refreshing current page")),
                 () -> tokenizedMessage(action("refreshed current page")),
                 () -> BrowserPageNavigation.refresh(driver));
     }
 
     public void close() {
-        createAndExecuteStep(null, tokenizedMessage(action("closing browser")),
+        createAndExecuteStep(tokenizedMessage(action("closing browser")),
                 () -> tokenizedMessage(action("browser is closed")),
                 driver::quit);
     }
@@ -88,7 +89,7 @@ public class Browser {
     public void restart() {
         String currentUrl = driver.getCurrentUrl();
 
-        createAndExecuteStep(null, tokenizedMessage(action("restarting browser")),
+        createAndExecuteStep(tokenizedMessage(action("restarting browser")),
                 () -> tokenizedMessage(action("browser is restarted")),
                 () -> {
                     close();
@@ -101,7 +102,7 @@ public class Browser {
     }
 
     public void saveCurrentUrl(String key) {
-        createAndExecuteStep(null, tokenizedMessage(action("saving current url as"), stringValue(key)),
+        createAndExecuteStep(tokenizedMessage(action("saving current url as"), stringValue(key)),
                 () -> tokenizedMessage(action("saved current url as"), stringValue(key)),
                 () -> {
                     Cache.cache.put(makeCacheKey(key), driver.getCurrentUrl());
@@ -113,7 +114,7 @@ public class Browser {
     }
 
     public void openSavedUrl(String key) {
-        createAndExecuteStep(null, tokenizedMessage(action("opening url saved as"), stringValue(key)),
+        createAndExecuteStep(tokenizedMessage(action("opening url saved as"), stringValue(key)),
                 () -> tokenizedMessage(action("opened url saved as"), stringValue(key)),
                 () -> {
                     Object url = Cache.cache.get(makeCacheKey(key));
