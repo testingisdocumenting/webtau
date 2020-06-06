@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-public class CliBackgroundProcess {
+class CliBackgroundProcess {
     private final Process process;
     private final String command;
     private final StreamGobbler outputGobbler;

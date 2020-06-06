@@ -17,31 +17,17 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliExitCode;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
-import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
-import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
-import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Map;
-import java.util.function.Consumer;
-
-import static org.testingisdocumenting.webtau.Matchers.equal;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import java.util.function.Supplier;
 
 public class Cli {
-    private static final CliValidationOutputOnlyHandler NO_OP_HANDLER = (output, error) -> {};
-
     public static final Cli cli = new Cli();
 
-    private final ThreadLocal<CliValidationResult> lastValidationResult = new ThreadLocal<>();
+    final ThreadLocal<CliValidationResult> lastValidationResult = new ThreadLocal<>();
 
     public final CliDocumentation doc = new CliDocumentation();
 
@@ -56,18 +42,24 @@ public class Cli {
         return new ProcessEnv(CollectionUtils.aMapOf((Object[]) keyValue));
     }
 
+    public CliCommand command(String commandBase) {
+        return new CliCommand(commandBase);
+    }
+
+    public CliCommand command(Supplier<String> commandBaseSupplier) {
+        return new CliCommand(commandBaseSupplier);
+    }
+
     public void run(String command, CliValidationOutputOnlyHandler handler) {
         run(command, ProcessEnv.EMPTY, handler);
     }
 
     public void run(String command) {
-        run(command, ProcessEnv.EMPTY, NO_OP_HANDLER);
+        run(command, ProcessEnv.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
     }
 
     public void run(String command, ProcessEnv env, CliValidationOutputOnlyHandler handler) {
-        cliStep(command, env, (validationResult) -> handler.handle(
-                validationResult.getOut(),
-                validationResult.getErr()));
+        new CliForegroundCommand().run(command, env, handler);
     }
 
     public void run(String command, CliValidationExitCodeOutputHandler handler) {
@@ -75,106 +67,21 @@ public class Cli {
     }
 
     public void run(String command, ProcessEnv env, CliValidationExitCodeOutputHandler handler) {
-        cliStep(command, env,
-                (validationResult) -> handler.handle(
-                        validationResult.getExitCode(),
-                        validationResult.getOut(),
-                        validationResult.getErr()));
-
+        new CliForegroundCommand().run(command, env, handler);
     }
 
-    public CliBackgroundCommand runBackground(String command, ProcessEnv env) {
-        CliBackgroundCommand backgroundCommand = backgroundCommand(command, env);
+    public CliBackgroundCommand runInBackground(String command, ProcessEnv env) {
+        CliBackgroundCommand backgroundCommand = new CliBackgroundCommand(command, env);
         backgroundCommand.start();
 
         return backgroundCommand;
     }
 
-    public CliBackgroundCommand runBackground(String command) {
-        return runBackground(command, ProcessEnv.EMPTY);
-    }
-
-    public CliBackgroundCommand backgroundCommand(String command, ProcessEnv env) {
-        return new CliBackgroundCommand(command, env);
-    }
-
-    public CliBackgroundCommand backgroundCommand(String command) {
-        return backgroundCommand(command, ProcessEnv.EMPTY);
+    public CliBackgroundCommand runInBackground(String command) {
+        return runInBackground(command, ProcessEnv.EMPTY);
     }
 
     public CliValidationResult getLastValidationResult() {
         return lastValidationResult.get();
-    }
-
-    private void cliStep(String command, ProcessEnv env, Consumer<CliValidationResult> validationCode) {
-        CliValidationResult validationResult = new CliValidationResult(command);
-
-        TestStep<Object, Void> step = TestStep.createStep(null,
-                tokenizedMessage(action("running cli command "), stringValue(command)),
-                () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
-                () -> runAndValidate(validationResult, command, env, validationCode));
-
-        try {
-            step.execute(StepReportOptions.REPORT_ALL);
-        } finally {
-            step.addPayload(validationResult);
-            lastValidationResult.set(validationResult);
-        }
-    }
-
-    private void runAndValidate(CliValidationResult validationResult,
-                                String command,
-                                ProcessEnv env,
-                                Consumer<CliValidationResult> validationCode) {
-        try {
-            long startTime = System.currentTimeMillis();
-            ProcessRunResult runResult = ProcessUtils.run(command, env.getEnv());
-            long endTime = System.currentTimeMillis();
-
-            if (runResult.getErrorReadingException() != null) {
-                throw runResult.getErrorReadingException();
-            }
-
-            if (runResult.getOutputReadingException() != null) {
-                throw runResult.getOutputReadingException();
-            }
-
-            validationResult.setExitCode(exitCode(runResult.getExitCode()));
-            validationResult.setOut(runResult.getOutput());
-            validationResult.setErr(runResult.getError());
-            validationResult.setStartTime(startTime);
-            validationResult.setElapsedTime(endTime - startTime);
-
-            ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
-                @Override
-                public Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
-                    validationResult.addMismatch(message);
-                    return ExpectationHandler.Flow.PassToNext;
-                }
-            };
-
-            ExpectationHandlers.withAdditionalHandler(recordAndThrowHandler, () -> {
-                validationCode.accept(validationResult);
-                validateExitCode(validationResult);
-                return null;
-            });
-        } catch (AssertionError e) {
-            throw e;
-        } catch (Throwable e) {
-            validationResult.setErrorMessage(e.getMessage());
-            throw new CliException("error during running '" + command + "'", e);
-        }
-    }
-
-    private static void validateExitCode(CliValidationResult validationResult) {
-        if (validationResult.getExitCode().isChecked()) {
-            return;
-        }
-
-        validationResult.getExitCode().should(equal(0));
-    }
-
-    private CliExitCode exitCode(int exitCode) {
-        return new CliExitCode(exitCode);
     }
 }

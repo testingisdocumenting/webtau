@@ -17,5 +17,7 @@
 package org.testingisdocumenting.webtau.cli.expectation;
 
 public interface CliValidationOutputOnlyHandler {
+    CliValidationOutputOnlyHandler NO_OP = (output, error) -> {};
+
     void handle(CliOutput output, CliOutput error);
 }
