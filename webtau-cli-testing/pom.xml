@@ -29,4 +29,51 @@
     <description>
         End to end tests of webtau CLI
     </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-groovy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.testingisdocumenting.webtau</groupId>
+                <artifactId>webtau-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <workingDir>${project.basedir}/src/test/groovy</workingDir>
+                            <tests>
+                                <directory>${project.basedir}/src/test/groovy</directory>
+                                <includes>
+                                    <include>scenarios/*.groovy</include>
+                                </includes>
+                            </tests>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>addTestSources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
