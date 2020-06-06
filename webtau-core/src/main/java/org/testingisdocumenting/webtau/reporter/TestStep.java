@@ -30,19 +30,19 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils.renderStackTrace;
 import static java.util.stream.Collectors.toList;
 
-public class TestStep<C, R> {
-    private final C context;
+public class TestStep {
+    private final Object context;
 
     private final TokenizedMessage inProgressMessage;
     private final Supplier<TokenizedMessage> completionMessageSupplier;
-    private final Supplier<R> action;
+    private final Supplier<Object> action;
     private TokenizedMessage completionMessage;
 
     private boolean isInProgress;
     private boolean isSuccessful;
 
-    private final List<TestStep<?, ?>> children;
-    private TestStep<?, ?> parent;
+    private final List<TestStep> children;
+    private TestStep parent;
     private String stackTrace;
 
     private final List<TestStepPayload> payloads;
@@ -50,29 +50,29 @@ public class TestStep<C, R> {
     private long startTime;
     private long elapsedTime;
 
-    private static final ThreadLocal<TestStep<?, ?>> currentStep = new ThreadLocal<>();
+    private static final ThreadLocal<TestStep> currentStep = new ThreadLocal<>();
 
-    public static <C> TestStep<C, Void> createStep(C context,
-                                                   TokenizedMessage inProgressMessage,
-                                                   Supplier<TokenizedMessage> completionMessageSupplier,
-                                                   Runnable action) {
+    public static TestStep createStep(Object context,
+                                      TokenizedMessage inProgressMessage,
+                                      Supplier<TokenizedMessage> completionMessageSupplier,
+                                      Runnable action) {
         return createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
     }
 
-    public static <C, R> TestStep<C, R> createStep(C context,
-                                                   TokenizedMessage inProgressMessage,
-                                                   Supplier<TokenizedMessage> completionMessageSupplier,
-                                                   Supplier<R> action) {
+    public static TestStep createStep(Object context,
+                                      TokenizedMessage inProgressMessage,
+                                      Supplier<TokenizedMessage> completionMessageSupplier,
+                                      Supplier<Object> action) {
         return createStep(context, 0, inProgressMessage, completionMessageSupplier, action);
     }
 
-    public static <C, R> TestStep<C, R> createStep(C context,
-                                                   long startTime,
-                                                   TokenizedMessage inProgressMessage,
-                                                   Supplier<TokenizedMessage> completionMessageSupplier,
-                                                   Supplier<R> action) {
-        TestStep<C, R> step = new TestStep<>(context, startTime, inProgressMessage, completionMessageSupplier, action);
-        TestStep<?, ?> localCurrentStep = TestStep.currentStep.get();
+    public static TestStep createStep(Object context,
+                                      long startTime,
+                                      TokenizedMessage inProgressMessage,
+                                      Supplier<TokenizedMessage> completionMessageSupplier,
+                                      Supplier<Object> action) {
+        TestStep step = new TestStep(context, startTime, inProgressMessage, completionMessageSupplier, action);
+        TestStep localCurrentStep = TestStep.currentStep.get();
 
         step.parent = localCurrentStep;
         if (localCurrentStep != null) {
@@ -83,16 +83,16 @@ public class TestStep<C, R> {
         return step;
     }
 
-    public static <C> void createAndExecuteStep(C context,
+    public static <C> void createAndExecuteStep(Object context,
                                                 TokenizedMessage inProgressMessage,
                                                 Supplier<TokenizedMessage> completionMessageSupplier,
                                                 Runnable action,
                                                 StepReportOptions stepReportOptions) {
-        TestStep<C, Void> step = createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
+        TestStep step = createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
         step.execute(stepReportOptions);
     }
 
-    public static <C> void createAndExecuteStep(C context,
+    public static <C> void createAndExecuteStep(Object context,
                                                 TokenizedMessage inProgressMessage,
                                                 Supplier<TokenizedMessage> completionMessageSupplier,
                                                 Runnable action) {
@@ -113,15 +113,15 @@ public class TestStep<C, R> {
                 action, StepReportOptions.SKIP_START);
     }
 
-    public static TestStep<?, ?> getCurrentStep() {
+    public static TestStep getCurrentStep() {
         return currentStep.get();
     }
 
-    private TestStep(C context,
+    private TestStep(Object context,
                      long startTime,
                      TokenizedMessage inProgressMessage,
                      Supplier<TokenizedMessage> completionMessageSupplier,
-                     Supplier<R> action) {
+                     Supplier<Object> action) {
         this.context = context;
         this.startTime = startTime;
         this.children = new ArrayList<>();
@@ -132,14 +132,14 @@ public class TestStep<C, R> {
         this.payloads = new ArrayList<>();
     }
 
-    private TestStep(C context,
+    private TestStep(Object context,
                      TokenizedMessage inProgressMessage,
                      Supplier<TokenizedMessage> completionMessageSupplier,
-                     Supplier<R> action) {
+                     Supplier<Object> action) {
         this(context, 0, inProgressMessage, completionMessageSupplier, action);
     }
 
-    public Stream<TestStep<?, ?>> children() {
+    public Stream<TestStep> children() {
         return children.stream();
     }
 
@@ -179,13 +179,12 @@ public class TestStep<C, R> {
                 children.stream().map(TestStep::calcNumberOfFailedSteps).reduce(0, Integer::sum));
     }
 
-    @SuppressWarnings("unchecked")
-    public C getFirstAvailableContext() {
+    public Object getFirstAvailableContext() {
         if (context != null) {
             return context;
         }
 
-        return (C) children.stream()
+        return children.stream()
                 .map(TestStep::getFirstAvailableContext)
                 .filter(Objects::nonNull)
                 .findFirst().orElse(null);
@@ -193,7 +192,7 @@ public class TestStep<C, R> {
 
     public int getNumberOfParents() {
         int result = 0;
-        TestStep<?, ?> step = this;
+        TestStep step = this;
         while (step.parent != null) {
             result++;
             step = step.parent;
@@ -218,20 +217,20 @@ public class TestStep<C, R> {
         return elapsedTime;
     }
 
-    public R execute(StepReportOptions stepReportOptions) {
+    public Object execute(StepReportOptions stepReportOptions) {
         try {
             if (stepReportOptions != StepReportOptions.SKIP_START) {
                 StepReporters.onStart(this);
             }
 
             startClock();
-            R r = action.get();
+            Object result = action.get();
             complete(completionMessageSupplier.get());
             stopClock();
 
             StepReporters.onSuccess(this);
 
-            return r;
+            return result;
         } catch (Throwable e) {
             stopClock();
 
@@ -239,7 +238,7 @@ public class TestStep<C, R> {
             StepReporters.onFailure(this);
             throw e;
         } finally {
-            TestStep<?, ?> localCurrentStep = TestStep.currentStep.get();
+            TestStep localCurrentStep = TestStep.currentStep.get();
             if (localCurrentStep != null) {
                 currentStep.set(localCurrentStep.parent);
             }
@@ -290,7 +289,7 @@ public class TestStep<C, R> {
                 .add("error", t.getMessage());
     }
 
-    private static Supplier<Void> toSupplier(Runnable s) {
+    private static Supplier<Object> toSupplier(Runnable s) {
         return () -> {
             s.run();
             return null;

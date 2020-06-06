@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +26,7 @@ import java.util.stream.Stream;
 
 public class ScreenshotTestResultPayloadExtractor implements TestResultPayloadExtractor {
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
+    public Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
         Stream<ScreenshotStepPayload> payloads = testSteps
                 .flatMap(s -> s.getCombinedPayloadsOfType(ScreenshotStepPayload.class));
 

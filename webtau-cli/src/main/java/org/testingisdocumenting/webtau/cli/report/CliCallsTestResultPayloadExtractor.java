@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +29,7 @@ public class CliCallsTestResultPayloadExtractor implements TestResultPayloadExtr
     private static final String CLI_CALLS_PAYLOAD_NAME = "cliCalls";
 
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
+    public Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
         Stream<CliValidationResult> payloads = testSteps
                 .flatMap(s -> s.getCombinedPayloadsOfType(CliValidationResult.class));
 

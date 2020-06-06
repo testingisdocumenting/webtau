@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,5 +27,5 @@ public interface TestResultPayloadExtractor {
      * @param testSteps test steps belonging to a single test
      * @return summarized test result payloads
      */
-    Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps);
+    Stream<TestResultPayload> extract(Stream<TestStep> testSteps);
 }

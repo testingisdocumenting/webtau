@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,19 +28,19 @@ import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ValueMatcherExpectationSteps {
-    public static <C, V> void shouldStep(C context, V value, StepReportOptions stepReportOptions, TokenizedMessage valueDescription, ValueMatcher valueMatcher) {
+    public static void shouldStep(Object context, Object value, StepReportOptions stepReportOptions, TokenizedMessage valueDescription, ValueMatcher valueMatcher) {
         executeStep(context, value, valueDescription, valueMatcher, false,
                 tokenizedMessage(action("expecting")),
                 () -> actual(value).should(valueMatcher), stepReportOptions);
     }
 
-    public static <C, V> void shouldNotStep(C context, V value, StepReportOptions stepReportOptions, TokenizedMessage valueDescription, ValueMatcher valueMatcher) {
+    public static void shouldNotStep(Object context, Object value, StepReportOptions stepReportOptions, TokenizedMessage valueDescription, ValueMatcher valueMatcher) {
         executeStep(context, value, valueDescription, valueMatcher, true,
                 tokenizedMessage(action("expecting")),
                 () -> actual(value).shouldNot(valueMatcher), stepReportOptions);
     }
 
-    public static <C, V> void waitStep(C context, V value, StepReportOptions stepReportOptions,
+    public static void waitStep(Object context, Object value, StepReportOptions stepReportOptions,
                                        TokenizedMessage valueDescription, ValueMatcher valueMatcher,
                                        ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(context, value, valueDescription, valueMatcher, false,
@@ -47,7 +48,7 @@ public class ValueMatcherExpectationSteps {
                 () -> actual(value).waitTo(valueMatcher, expectationTimer, tickMillis, timeOutMillis), stepReportOptions);
     }
 
-    public static <C, V> void waitNotStep(C context, V value, StepReportOptions stepReportOptions,
+    public static void waitNotStep(Object context, Object value, StepReportOptions stepReportOptions,
                                           TokenizedMessage valueDescription, ValueMatcher valueMatcher,
                                           ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(context, value, valueDescription, valueMatcher, true,
@@ -56,11 +57,11 @@ public class ValueMatcherExpectationSteps {
                 stepReportOptions);
     }
 
-    private static <C, V> void executeStep(C context, V value, TokenizedMessage elementDescription,
+    private static void executeStep(Object context, Object value, TokenizedMessage elementDescription,
                                            ValueMatcher valueMatcher, boolean isNegative,
                                            TokenizedMessage messageStart, Runnable expectationValidation,
                                            StepReportOptions stepReportOptions) {
-        TestStep<C, Void> step = createStep(context,
+        TestStep step = createStep(context,
                 messageStart.add(elementDescription)
                         .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
                 () -> tokenizedMessage(elementDescription)

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +24,7 @@ import org.testingisdocumenting.webtau.utils.StringUtils;
 import java.util.stream.Stream;
 
 public class ConsoleStepReporter implements StepReporter {
-    private TokenizedMessageToAnsiConverter toAnsiConverter;
+    private final TokenizedMessageToAnsiConverter toAnsiConverter;
 
     public ConsoleStepReporter(TokenizedMessageToAnsiConverter toAnsiConverter) {
         this.toAnsiConverter = toAnsiConverter;
@@ -54,14 +55,6 @@ public class ConsoleStepReporter implements StepReporter {
                         Stream.of(Color.YELLOW, " (", Color.GREEN, renderTimeTaken(step), Color.YELLOW, ')')).toArray());
     }
 
-    private String renderTimeTaken(TestStep step) {
-        long seconds = step.getElapsedTime() / 1000;
-        long millisLeft = step.getElapsedTime() % 1000;
-
-        return (seconds > 0 ? String.valueOf(seconds) + "s ": "") +
-                String.valueOf(millisLeft) + "ms";
-    }
-
     @Override
     public void onStepFailure(TestStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
@@ -70,6 +63,14 @@ public class ConsoleStepReporter implements StepReporter {
                 createIndentation(step.getNumberOfParents()),
                 Color.RED, "X "),
                 toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
+    }
+
+    private String renderTimeTaken(TestStep step) {
+        long seconds = step.getElapsedTime() / 1000;
+        long millisLeft = step.getElapsedTime() % 1000;
+
+        return (seconds > 0 ? seconds + "s ": "") +
+                millisLeft + "ms";
     }
 
     private TokenizedMessage messageTokensForFailedStep(TestStep step) {

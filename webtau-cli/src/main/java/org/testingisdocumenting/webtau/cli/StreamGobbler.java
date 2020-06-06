@@ -95,7 +95,7 @@ public class StreamGobbler implements Runnable {
     }
 
     private boolean shouldRenderOutput() {
-        TestStep<?, ?> currentStep = TestStep.getCurrentStep();
+        TestStep currentStep = TestStep.getCurrentStep();
         int numberOfParents = currentStep == null ? 0 : currentStep.getNumberOfParents();
 
         return getCfg().getVerbosityLevel() > numberOfParents + 1;

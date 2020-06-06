@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-public interface StepReporter<C, R> {
-    void onStepStart(TestStep<C, R> step);
-    void onStepSuccess(TestStep<C, R> step);
-    void onStepFailure(TestStep<C, R> step);
+public interface StepReporter {
+    void onStepStart(TestStep step);
+    void onStepSuccess(TestStep step);
+    void onStepFailure(TestStep step);
 }

@@ -40,7 +40,7 @@ public class WebTauTest {
     private Throwable exception;
 
     private final List<TestResultPayload> payloads;
-    private final List<TestStep<?, ?>> steps;
+    private final List<TestStep> steps;
 
     private boolean isDisabled;
     private String disableReason;
@@ -210,7 +210,7 @@ public class WebTauTest {
         return payloads;
     }
 
-    public List<TestStep<?, ?>> getSteps() {
+    public List<TestStep> getSteps() {
         return steps;
     }
 
@@ -230,7 +230,7 @@ public class WebTauTest {
         return metadata;
     }
 
-    public void addStep(TestStep<?, ?> step) {
+    public void addStep(TestStep step) {
         steps.add(step);
     }
 

@@ -37,7 +37,7 @@ public class FileSystem {
     }
 
     public void unzip(Path src, Path dest) {
-        TestStep<Object, Void> step = TestStep.createStep(null,
+        TestStep step = TestStep.createStep(null,
                 tokenizedMessage(action("unzipping "), urlValue(src.toString()), TO, urlValue(dest.toString())),
                 () -> tokenizedMessage(action("unzipped "), urlValue(src.toString()), TO, urlValue(dest.toString())),
                 () -> {
@@ -73,12 +73,12 @@ public class FileSystem {
     }
 
     public Path tempDir(Path dir, String prefix) {
-        TestStep<Object, Path> step = TestStep.createStep(null,
+        TestStep step = TestStep.createStep(null,
                 tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
                 () -> tokenizedMessage(action("created temp directory with prefix "), urlValue(prefix)),
                 () -> createTempDir(dir, prefix));
 
-        return step.execute(StepReportOptions.REPORT_ALL);
+        return (Path) step.execute(StepReportOptions.REPORT_ALL);
     }
 
     private static Path createTempDir(Path dir, String prefix) {
@@ -90,7 +90,7 @@ public class FileSystem {
             Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
                     Files.createTempDirectory(prefix);
 
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> FileUtils.deleteQuietly(path.toFile())));
+            FileUtils.forceDeleteOnExit(path.toFile());
 
             return path.toAbsolutePath();
         } catch (IOException e) {
