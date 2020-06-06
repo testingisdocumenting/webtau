@@ -31,6 +31,18 @@ class CliExtension {
         cli.run(command, env, closureToCliValidationHandler(handler))
     }
 
+    static void run(CliCommand command, Closure handler) {
+        command.run(closureToCliValidationHandler(handler))
+    }
+
+    static void run(CliCommand command, String args, Closure handler) {
+        command.run(args, closureToCliValidationHandler(handler))
+    }
+
+    static void run(CliCommand command, String args, ProcessEnv env, Closure handler) {
+        command.run(args, env, closureToCliValidationHandler(handler))
+    }
+
     private static CliValidationExitCodeOutputHandler closureToCliValidationHandler(Closure validation) {
         return new CliValidationExitCodeOutputHandler() {
             @Override
