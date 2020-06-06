@@ -102,13 +102,14 @@ public class WebTauDsl extends WebTauCore {
                 action);
     }
 
-    public static <R> R step(String label, Supplier<R> action) {
-        TestStep<Void, R> step = TestStep.createStep(
+    @SuppressWarnings("unchecked")
+    public static <R> R step(String label, Supplier<Object> action) {
+        TestStep step = TestStep.createStep(
                 null,
                 tokenizedMessage(action(label)),
                 () -> tokenizedMessage(none("completed"), action(label)),
                 action);
 
-        return step.execute(StepReportOptions.REPORT_ALL);
+        return (R) step.execute(StepReportOptions.REPORT_ALL);
     }
 }

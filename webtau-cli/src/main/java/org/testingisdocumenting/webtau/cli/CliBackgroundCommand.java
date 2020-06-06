@@ -40,7 +40,7 @@ public class CliBackgroundCommand {
     private CliBackgroundProcess backgroundProcess;
     private long startTime;
 
-    public CliBackgroundCommand(String command, ProcessEnv env) {
+    CliBackgroundCommand(String command, ProcessEnv env) {
         this.command = command;
         this.env = env;
     }
@@ -92,7 +92,7 @@ public class CliBackgroundCommand {
             try {
                 backgroundProcess.getProcess().waitFor();
 
-                TestStep<?, CliBackgroundProcess> step = TestStep.createStep(null,
+                TestStep step = TestStep.createStep(null,
                         startTime,
                         tokenizedMessage(),
                         () -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),

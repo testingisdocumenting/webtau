@@ -126,14 +126,14 @@
         <module>webtau-config</module>
         <module>webtau-feature-testing</module>
         <module>webtau-report-testing</module>
-        <module>webtau-cli-testing</module>
         <module>webtau-docs</module>
         <module>webtau-maven-plugin</module>
         <module>webtau-maven-plugin-test</module>
         <module>webtau-maven-plugin-test-skip</module>
         <module>webtau-shaded</module>
-        <module>webtau-dist</module>
         <module>webtau</module>
+        <module>webtau-dist</module>
+        <module>webtau-cli-testing</module>
     </modules>
 
     <properties>
@@ -194,7 +194,7 @@
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
-                <version>2.5</version>
+                <version>2.7</version>
             </dependency>
 
             <dependency>

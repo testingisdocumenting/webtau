@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,23 +17,22 @@
 
 package org.testingisdocumenting.webtau.browser.reporter;
 
-import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.reporter.StepReporter;
 import org.testingisdocumenting.webtau.reporter.TestStep;
 
 import static org.testingisdocumenting.webtau.browser.Browser.browser;
 
-public class ScreenshotStepReporter implements StepReporter<PageElement, Void> {
+public class ScreenshotStepReporter implements StepReporter {
     @Override
-    public void onStepStart(TestStep<PageElement, Void> step) {
+    public void onStepStart(TestStep step) {
     }
 
     @Override
-    public void onStepSuccess(TestStep<PageElement, Void> step) {
+    public void onStepSuccess(TestStep step) {
     }
 
     @Override
-    public void onStepFailure(TestStep<PageElement, Void> step) {
+    public void onStepFailure(TestStep step) {
         if (! browser.wasUsed()) {
             return;
         }

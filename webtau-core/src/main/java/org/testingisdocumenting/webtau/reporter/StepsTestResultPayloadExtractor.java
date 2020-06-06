@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +25,7 @@ import static java.util.stream.Collectors.toList;
 
 public class StepsTestResultPayloadExtractor implements TestResultPayloadExtractor {
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
+    public Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
         List<? extends Map<String, ?>> stepsAsMaps = testSteps.map(TestStep::toMap).collect(toList());
 
         return Stream.of(new TestResultPayload("steps", stepsAsMaps));

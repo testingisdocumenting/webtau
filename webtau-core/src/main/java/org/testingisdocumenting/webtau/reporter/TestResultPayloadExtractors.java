@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +28,8 @@ public class TestResultPayloadExtractors {
     private static final List<TestResultPayloadExtractor> extractors = Collections.synchronizedList(
             ServiceLoaderUtils.load(TestResultPayloadExtractor.class));
 
-    public static Stream<TestResultPayload> extract(Stream<TestStep<?, ?>> testSteps) {
-        List<TestStep<?, ?>> steps = testSteps.collect(Collectors.toList());
+    public static Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
+        List<TestStep> steps = testSteps.collect(Collectors.toList());
         return extractors.stream().flatMap(e -> e.extract(steps.stream()));
     }
 }

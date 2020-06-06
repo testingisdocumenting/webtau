@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,31 +17,31 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-public class ScopeLimitingStepReporter<C, R> implements StepReporter<C, R> {
-    private final StepReporter<C, R> stepReporter;
+public class ScopeLimitingStepReporter implements StepReporter {
+    private final StepReporter stepReporter;
     private final int maxLevel;
 
-    public ScopeLimitingStepReporter(StepReporter<C, R> stepReporter, int maxLevel) {
+    public ScopeLimitingStepReporter(StepReporter stepReporter, int maxLevel) {
         this.stepReporter = stepReporter;
         this.maxLevel = maxLevel;
     }
 
     @Override
-    public void onStepStart(TestStep<C, R> step) {
+    public void onStepStart(TestStep step) {
         checkAndDelegate(step, () -> stepReporter.onStepStart(step));
     }
 
     @Override
-    public void onStepSuccess(TestStep<C, R> step) {
+    public void onStepSuccess(TestStep step) {
         checkAndDelegate(step, () -> stepReporter.onStepSuccess(step));
     }
 
     @Override
-    public void onStepFailure(TestStep<C, R> step) {
+    public void onStepFailure(TestStep step) {
         checkAndDelegate(step, () -> stepReporter.onStepFailure(step));
     }
 
-    private void checkAndDelegate(TestStep<C, R> step, Runnable code) {
+    private void checkAndDelegate(TestStep step, Runnable code) {
         int currentLevel = step.getNumberOfParents() + 1;
         if (currentLevel <= maxLevel) {
             code.run();

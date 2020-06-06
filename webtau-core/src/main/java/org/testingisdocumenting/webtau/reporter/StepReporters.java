@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,10 +30,10 @@ public class StepReporters {
     private static final StepReporter defaultStepReporter =
             new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter());
 
-    private static List<StepReporter> reporters = Collections.synchronizedList(
+    private static final List<StepReporter> reporters = Collections.synchronizedList(
             ServiceLoaderUtils.load(StepReporter.class));
 
-    private static ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);
+    private static final ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);
 
     public static void add(StepReporter reporter) {
         reporters.add(reporter);
@@ -51,17 +52,14 @@ public class StepReporters {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public static void onStart(TestStep<?, ?> step) {
+    public static void onStart(TestStep step) {
         getReportersStream().forEach(r -> r.onStepStart(step));
     }
 
-    @SuppressWarnings("unchecked")
     public static void onSuccess(TestStep step) {
         getReportersStream().forEach(r -> r.onStepSuccess(step));
     }
 
-    @SuppressWarnings("unchecked")
     public static void onFailure(TestStep step) {
         getReportersStream().forEach(r -> r.onStepFailure(step));
     }

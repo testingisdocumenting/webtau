@@ -85,7 +85,7 @@ class StandaloneTest implements StepReporter {
         return test.isSucceeded()
     }
 
-    List<TestStep<?, ?>> getSteps() {
+    List<TestStep> getSteps() {
         return test.steps
     }
 
@@ -156,6 +156,6 @@ class StandaloneTest implements StepReporter {
         return "StandaloneTest{" +
                 "test=" + test +
                 ", workingDir=" + workingDir +
-                '}';
+                '}'
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -645,6 +646,7 @@ public class Http {
         return request("PUT", fullUrl, requestHeader, requestBody);
     }
 
+    @SuppressWarnings("unchecked")
     private <R> R executeAndValidateHttpCall(String requestMethod, String url, HttpCall httpCall,
                                              HttpHeader requestHeader,
                                              HttpRequestBody requestBody,
@@ -654,19 +656,19 @@ public class Http {
 
         HttpValidationResult validationResult = new HttpValidationResult(requestMethod, url, fullUrl, fullHeader, requestBody);
 
-        TestStep<Void, R> step = createHttpStep(validationResult, httpCall, validator);
+        TestStep step = createHttpStep(validationResult, httpCall, validator);
         try {
-            return step.execute(StepReportOptions.REPORT_ALL);
+            return (R) step.execute(StepReportOptions.REPORT_ALL);
         } finally {
             lastValidationResult.set(validationResult);
             step.addPayload(validationResult);
         }
     }
 
-    private <R> TestStep<Void, R> createHttpStep(HttpValidationResult validationResult,
-                                                 HttpCall httpCall,
-                                                 HttpResponseValidatorWithReturn validator) {
-        Supplier<R> httpCallSupplier = () -> {
+    private <R> TestStep createHttpStep(HttpValidationResult validationResult,
+                                        HttpCall httpCall,
+                                        HttpResponseValidatorWithReturn validator) {
+        Supplier<Object> httpCallSupplier = () -> {
             HttpResponse response = null;
             try {
                 long startTime = Time.currentTimeMillis();
@@ -718,15 +720,15 @@ public class Http {
     private HttpResponse followRedirects(String requestMethod, HttpCall httpCall, HttpHeader fullRequestHeader, HttpResponse response) {
         int retryCount = 0;
         while (response.isRedirect() && getCfg().shouldFollowRedirects() && retryCount++ < getCfg().maxRedirects()) {
-            TestStep<Void, HttpResponse> httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
-            response = httpStep.execute(StepReportOptions.REPORT_ALL);
+            TestStep httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
+            response = (HttpResponse) httpStep.execute(StepReportOptions.REPORT_ALL);
         }
         return response;
     }
 
-    private TestStep<Void, HttpResponse> createRedirectStep(String requestMethod, String fullUrl, HttpCall httpCall,
-                                                            HttpHeader fullRequestHeader) {
-        Supplier<HttpResponse> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
+    private TestStep createRedirectStep(String requestMethod, String fullUrl, HttpCall httpCall,
+                                        HttpHeader fullRequestHeader) {
+        Supplier<Object> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
 
         return TestStep.createStep(null, tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
