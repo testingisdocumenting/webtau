@@ -33,8 +33,11 @@ import org.testingisdocumenting.webtau.fs.FileSystem;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TestStep;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
+
+import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none;
@@ -93,9 +96,19 @@ public class WebTauDsl extends WebTauCore {
         return complyWithSchema(schemaFileName);
     }
 
-    public static void step(String label, Runnable code) {
+    public static void step(String label, Runnable action) {
         TestStep.createAndExecuteStep(tokenizedMessage(action(label)),
                 () -> tokenizedMessage(none("completed"), action(label)),
-                code);
+                action);
+    }
+
+    public static <R> R step(String label, Supplier<R> action) {
+        TestStep<Void, R> step = TestStep.createStep(
+                null,
+                tokenizedMessage(action(label)),
+                () -> tokenizedMessage(none("completed"), action(label)),
+                action);
+
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 }
