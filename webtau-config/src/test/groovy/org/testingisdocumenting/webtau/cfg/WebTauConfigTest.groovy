@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +24,7 @@ class WebTauConfigTest {
     void "inits config values from env vars and overrides them from system properties"() {
         System.setProperty('url', 'test-base-url')
         WebTauConfig cfg = new WebTauConfig()
-        cfg.getBaseUrl().should == 'test-base-url'
+        assert cfg.getBaseUrl() == 'test-base-url'
     }
 
     @Test
@@ -33,8 +34,8 @@ class WebTauConfigTest {
         WebTauConfig cfg = new WebTauConfig()
         cfg.setBaseUrl('new-url')
 
-        cfg.getBaseUrl().should == "new-url"
-        cfg.baseUrlConfigValue.getSources().should == ["manual", "system property"]
+        assert cfg.getBaseUrl() == "new-url"
+        assert cfg.baseUrlConfigValue.getSources() == ["manual", "system property"]
     }
 
     @Test
@@ -42,18 +43,18 @@ class WebTauConfigTest {
         System.setProperty('userDefined', 'user-1')
         WebTauConfig cfg = new WebTauConfig()
 
-        cfg.get('userDefined').should == 'user-1'
+        assert cfg.get('userDefined') == 'user-1'
     }
 
     @Test
     void "let register additional config values via service loaders"() {
         WebTauConfig cfg = new WebTauConfig()
-        cfg.get('customConfig').should == 'default config value'
+        assert cfg.get('customConfig') == 'default config value'
     }
 
     @Test
     void "convert uppercase underscore to property name"() {
-        WebTauConfig.convertToCamelCase('WEBTAU_NAME').should == 'name'
-        WebTauConfig.convertToCamelCase('WEBTAU_PROP_NAME').should == 'propName'
+        assert WebTauConfig.convertToCamelCase('WEBTAU_NAME') == 'name'
+        assert WebTauConfig.convertToCamelCase('WEBTAU_PROP_NAME') == 'propName'
     }
 }

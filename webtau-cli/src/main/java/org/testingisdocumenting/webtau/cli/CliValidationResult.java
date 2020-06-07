@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -97,6 +98,10 @@ public class CliValidationResult implements TestStepPayload {
 
     public List<String> getMismatches() {
         return mismatches;
+    }
+
+    public CliDocumentationArtifact createDocumentationArtifact() {
+        return new CliDocumentationArtifact(command, out, err, exitCode.get());
     }
 
     @Override

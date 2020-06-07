@@ -63,7 +63,7 @@ public class CliForegroundCommand {
             step.execute(StepReportOptions.REPORT_ALL);
         } finally {
             step.addPayload(validationResult);
-            Cli.cli.lastValidationResult.set(validationResult);
+            Cli.cli.setLastDocumentationArtifact(validationResult.createDocumentationArtifact());
         }
     }
 

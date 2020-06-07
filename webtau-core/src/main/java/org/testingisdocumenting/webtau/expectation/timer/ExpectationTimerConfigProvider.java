@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +22,7 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import java.util.List;
 
 public class ExpectationTimerConfigProvider {
-    private static List<ExpectationTimerConfig> configs = ServiceLoaderUtils.load(ExpectationTimerConfig.class);
+    private static final List<ExpectationTimerConfig> configs = ServiceLoaderUtils.load(ExpectationTimerConfig.class);
 
     public static ExpectationTimer createExpectationTimer() {
         validate();

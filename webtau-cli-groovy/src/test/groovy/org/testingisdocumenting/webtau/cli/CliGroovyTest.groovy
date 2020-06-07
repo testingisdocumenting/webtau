@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,23 +36,6 @@ class CliGroovyTest {
 
                 error.should contain("error line two")
             }
-        }
-    }
-
-    @Test
-    void "capture validation result"() {
-        supportedPlatformOnly {
-            code {
-                cli.run('scripts/hello') {
-                    output.shouldNot contain('line')
-                }
-            } should throwException(AssertionError)
-
-            def validationResult = cli.getLastValidationResult().toMap()
-            validationResult.startTime.shouldBe greaterThan(0)
-            validationResult.elapsedTime.shouldBe greaterThan(0)
-            validationResult.mismatches.should == ['process output expect to not contain "line"\n' +
-                                                           'process output[1]: equals "line in the middle"']
         }
     }
 }
