@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,7 @@ import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DocumentationArtifactsLocation {
-    private static AtomicReference<Path> root = new AtomicReference<>(getInitialRoot());
+    private static final AtomicReference<Path> root = new AtomicReference<>(getInitialRoot());
 
     public static void setRoot(Path newRoot) {
         root.set(newRoot);

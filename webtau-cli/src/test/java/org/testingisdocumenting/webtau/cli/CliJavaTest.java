@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -107,6 +108,30 @@ public class CliJavaTest {
             validateCapturedDocs(artifactName, "out.matched.txt", "line in the middle\nmore text");
             validateCapturedDocs(artifactName, "err.matched.txt", "error line one");
             validateCapturedDocs(artifactName, "exitcode.txt", "5");
+        });
+    }
+
+    @Test
+    public void docCaptureOfBackgroundProcess() {
+        supportedPlatformOnly(() -> {
+            CliCommand command = cli.command("scripts/hello");
+            CliBackgroundCommand running = command.runInBackground("test-param");
+
+            running.getOutput().waitTo(contain("more text"));
+            running.getError().waitTo(contain("error line on"));
+
+            String artifactName = "background-hello-script";
+            cli.doc.capture(artifactName);
+
+            validateCapturedDocs(artifactName, "out.txt", "hello world test-param\n" +
+                    "line in the middle\n" +
+                    "more text");
+
+            validateCapturedDocs(artifactName, "err.txt", "error line one\n" +
+                    "error line two");
+
+            validateCapturedDocs(artifactName, "out.matched.txt", "more text");
+            validateCapturedDocs(artifactName, "err.matched.txt", "error line one");
         });
     }
 

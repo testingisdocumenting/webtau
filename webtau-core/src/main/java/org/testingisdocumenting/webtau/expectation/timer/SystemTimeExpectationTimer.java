@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,26 +15,29 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.expectation;
+package org.testingisdocumenting.webtau.expectation.timer;
 
-import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimerConfig;
+import org.testingisdocumenting.webtau.time.Time;
 
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
+public class SystemTimeExpectationTimer implements ExpectationTimer {
+    private long startTime;
 
-public class SystemTimerConfig implements ExpectationTimerConfig {
     @Override
-    public ExpectationTimer createExpectationTimer() {
-        return new SystemTimeExpectationTimer();
+    public void start() {
+        startTime = Time.currentTimeMillis();
     }
 
     @Override
-    public long defaultTimeoutMillis() {
-        return getCfg().waitTimeout();
+    public void tick(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public long defaultTickMillis() {
-        return 100;
+    public boolean hasTimedOut(long millis) {
+        return (Time.currentTimeMillis() - startTime) > millis;
     }
 }

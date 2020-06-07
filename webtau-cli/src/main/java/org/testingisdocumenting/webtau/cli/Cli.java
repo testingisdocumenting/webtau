@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 public class Cli {
     public static final Cli cli = new Cli();
 
-    final ThreadLocal<CliValidationResult> lastValidationResult = new ThreadLocal<>();
+    private final ThreadLocal<CliDocumentationArtifact> lastDocumentationArtifact = new ThreadLocal<>();
 
     public final CliDocumentation doc = new CliDocumentation();
 
@@ -81,7 +81,11 @@ public class Cli {
         return runInBackground(command, ProcessEnv.EMPTY);
     }
 
-    public CliValidationResult getLastValidationResult() {
-        return lastValidationResult.get();
+    void setLastDocumentationArtifact(CliDocumentationArtifact documentationArtifact) {
+        lastDocumentationArtifact.set(documentationArtifact);
+    }
+
+    CliDocumentationArtifact getLastDocumentationArtifact() {
+        return lastDocumentationArtifact.get();
     }
 }
