@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +26,14 @@ import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn
 
 class HttpExtensions {
+    static boolean ping(Http http, String url, Map<String, ?> queryParams, HttpHeader header) {
+        return http.ping(url, new HttpQueryParams(queryParams), header)
+    }
+
+    static boolean ping(Http http, String url, Map<String, ?> queryParams) {
+        return http.ping(url, new HttpQueryParams(queryParams), HttpHeader.EMPTY)
+    }
+
     static def get(Http http, String url, Closure validation) {
         return http.get(url, closureToHttpResponseValidator(validation))
     }

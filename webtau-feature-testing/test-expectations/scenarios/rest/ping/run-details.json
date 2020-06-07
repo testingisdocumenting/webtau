@@ -1,0 +1,22 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "ping",
+    "shortContainerId" : "ping.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "ping failed",
+    "shortContainerId" : "ping.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 2
+    }
+  }, {
+    "scenario" : "ping overloads",
+    "shortContainerId" : "ping.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  } ],
+  "exitCode" : 0
+}
