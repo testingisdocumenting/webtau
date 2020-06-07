@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.cli;
 import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 
 class CliBackgroundProcess {
@@ -78,6 +79,21 @@ class CliBackgroundProcess {
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void send(String line) {
+        OutputStream outputStream = process.getOutputStream();
+        try {
+            outputStream.write(line.getBytes());
+            outputStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void clearOutput() {
+        outputGobbler.clear();
+        errorGobbler.clear();
     }
 
     public CliOutput getOutput() {

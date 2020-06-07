@@ -66,6 +66,10 @@ public class StreamGobbler implements Runnable {
         }
     }
 
+    public void clear() {
+        lines.clear();
+    }
+
     @Override
     public void run() {
         InputStreamReader inputStreamReader = new InputStreamReader(stream);
