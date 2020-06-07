@@ -80,6 +80,8 @@ public class CliBackgroundCommand {
         try {
             startTime = Time.currentTimeMillis();
             backgroundProcess = ProcessUtils.runInBackground(command, env.getEnv());
+            Cli.cli.setLastDocumentationArtifact(
+                    new CliDocumentationArtifact(command, getOutput(), getError(), null));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -107,8 +109,7 @@ public class CliBackgroundCommand {
     }
 
     private static void registerShutdown() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            runningProcesses.forEach((pid, process) -> process.destroy());
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() ->
+                runningProcesses.forEach((pid, process) -> process.destroy())));
     }
 }

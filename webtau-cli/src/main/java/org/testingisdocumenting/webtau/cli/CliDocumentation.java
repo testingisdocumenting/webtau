@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,13 +32,13 @@ public class CliDocumentation {
 
     private static class Capture {
         private final Path path;
-        private final CliValidationResult lastValidationResult;
+        private final CliDocumentationArtifact documentationArtifact;
 
         public Capture(String artifactName) {
             this.path = DocumentationArtifactsLocation.resolve(artifactName);
 
-            this.lastValidationResult = Cli.cli.getLastValidationResult();
-            if (this.lastValidationResult == null) {
+            this.documentationArtifact = Cli.cli.getLastDocumentationArtifact();
+            if (this.documentationArtifact == null) {
                 throw new IllegalStateException("no cli calls were made yet");
             }
         }
@@ -52,16 +53,16 @@ public class CliDocumentation {
         }
 
         private void captureCommand() {
-            FileUtils.writeTextContent(path.resolve("command.txt"), lastValidationResult.getCommand());
+            FileUtils.writeTextContent(path.resolve("command.txt"), documentationArtifact.getFullCommand());
 
         }
 
         private void captureOut() {
-            capture("out.txt", lastValidationResult.getOut());
+            capture("out.txt", documentationArtifact.getOutput());
         }
 
         private void captureErr() {
-            capture("err.txt", lastValidationResult.getErr());
+            capture("err.txt", documentationArtifact.getError());
         }
 
         private void capture(String fileName, CliOutput output) {
@@ -72,11 +73,11 @@ public class CliDocumentation {
         }
 
         private void captureOutMatchedLines() {
-            captureMatched("out.matched.txt", lastValidationResult.getOut());
+            captureMatched("out.matched.txt", documentationArtifact.getOutput());
         }
 
         private void captureErrMatchedLines() {
-            captureMatched("err.matched.txt", lastValidationResult.getErr());
+            captureMatched("err.matched.txt", documentationArtifact.getError());
         }
 
         private void captureMatched(String fileName, CliOutput output) {
@@ -87,8 +88,12 @@ public class CliDocumentation {
         }
 
         private void captureExitCode() {
+            if (documentationArtifact.getExitCode() == null) {
+                return;
+            }
+
             FileUtils.writeTextContent(path.resolve("exitcode.txt"),
-                    String.valueOf(lastValidationResult.getExitCode().get()));
+                    String.valueOf(documentationArtifact.getExitCode()));
         }
     }
 }
