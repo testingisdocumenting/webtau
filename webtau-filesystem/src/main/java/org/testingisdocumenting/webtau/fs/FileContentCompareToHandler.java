@@ -28,6 +28,10 @@ public class FileContentCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        comparator.compareUsingEqualOnly(actualPath, ((FileContent) actual).getContent(), expected);
+        Object expectedConverted = expected instanceof FileContent ?
+                ((FileContent) expected).getContent():
+                expected;
+
+        comparator.compareUsingEqualOnly(actualPath, ((FileContent) actual).getContent(), expectedConverted);
     }
 }
