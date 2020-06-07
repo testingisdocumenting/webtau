@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.cli.repl
 
+import org.codehaus.groovy.tools.shell.Groovysh
+import org.codehaus.groovy.tools.shell.util.Preferences
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
@@ -26,13 +28,9 @@ import org.testingisdocumenting.webtau.data.table.TableData
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
-import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
-import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
-import org.codehaus.groovy.tools.shell.Groovysh
-import org.codehaus.groovy.tools.shell.util.Preferences
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
 import java.util.stream.Stream
@@ -66,8 +64,7 @@ class Repl {
         groovysh.run("")
     }
 
-    private void initHandlers() {
-        StepReporters.add(new ConsoleStepReporter(toAnsiConverter))
+    private static void initHandlers() {
         HttpValidationHandlers.add(new ReplHttpLastValidationCapture())
     }
 
