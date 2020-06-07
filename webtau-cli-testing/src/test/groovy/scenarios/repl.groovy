@@ -37,3 +37,17 @@ scenario('simple groovy repl') {
     repl.process.send("cfg\n")
     repl.process.output.waitTo contain("url:")
 }
+
+scenario('http call') {
+    repl.process.with {
+        clearOutput()
+        send('http.get("https://jsonplaceholder.typicode.com/todos/1")\n')
+        output.waitTo contain('executed')
+    }
+
+    cli.doc.capture('http-repl-output')
+    fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
+            '\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get("https://jsonplaceholder.typicode.com/todos/1")\n' +
+                    '\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m\n' +
+                    '  \u001B[32m. \u001B[1mheader.statusCode \u001B[32mequals 200\n')
+}
