@@ -20,9 +20,7 @@ import org.testingisdocumenting.webtau.cli.StreamGobbler;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CliOutput implements CliResultExpectations {
@@ -47,8 +45,8 @@ public class CliOutput implements CliResultExpectations {
         return streamGobbler.getFull();
     }
 
-    public List<String> getLines() {
-        return streamGobbler.getLines();
+    public List<String> copyLines() {
+        return new ArrayList<>(streamGobbler.getLines());
     }
 
     public IOException getException() {
@@ -60,7 +58,7 @@ public class CliOutput implements CliResultExpectations {
     }
 
     public List<String> extractMatchedLines() {
-        List<String> lines = getLines();
+        List<String> lines = streamGobbler.getLines();
         return matchedLinesIdx.stream().map(lines::get).collect(Collectors.toList());
     }
 
