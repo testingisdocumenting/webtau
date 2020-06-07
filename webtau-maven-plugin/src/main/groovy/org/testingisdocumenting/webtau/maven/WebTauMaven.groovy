@@ -31,7 +31,9 @@ class WebTauMaven {
 
     static void runTests(Log log, FileSet tests, Map options) {
         def fileSetManager = new FileSetManager()
-        def files = fileSetManager.getIncludedFiles(tests) as List
+        def files = tests != null ?
+                fileSetManager.getIncludedFiles(tests) as List:
+                []
 
         log.info("test files:\n    " + files.join("\n    "))
 
