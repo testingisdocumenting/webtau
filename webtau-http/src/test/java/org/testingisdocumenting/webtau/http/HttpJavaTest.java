@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +36,17 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpJavaTest extends HttpTestBase {
+    @Test
+    public void ping() {
+        actual(http.ping("/end-point-simple-object")).should(equal(true));
+        actual(http.ping("/end-point-simple-object", http.query("key", "value"))).should(equal(true));
+        actual(http.ping("/end-point-simple-object",
+                http.query("key", "value"),
+                http.header("X-flag", "test"))).should(equal(true));
+
+        actual(http.ping("/end-point-simple-object-non-existing-url")).should(equal(false));
+    }
+
     @Test
     public void simpleObjectMappingExample() {
         http.get("/end-point-simple-object", (header, body) -> {

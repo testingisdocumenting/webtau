@@ -93,6 +93,34 @@ public class Http {
     public HttpApplicationMime application = new HttpApplicationMime();
     public HttpTextMime text = new HttpTextMime();
 
+    public boolean ping(String url) {
+        return ping(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY);
+    }
+
+    public boolean ping(String url, HttpQueryParams queryParams) {
+        return ping(url, queryParams, HttpHeader.EMPTY);
+    }
+
+    public boolean ping(String url, HttpHeader header) {
+        return ping(url, HttpQueryParams.EMPTY, header);
+    }
+
+    public boolean ping(String url, HttpQueryParams queryParams, HttpHeader header) {
+        String fullUrl = HttpConfigurations.fullUrl(queryParams.attachToUrl(url));
+        TestStep step = TestStep.createStep(
+                tokenizedMessage(action("pinging"), urlValue(fullUrl)),
+                () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
+                () -> http.get(url, header));
+
+        try {
+            step.execute(StepReportOptions.REPORT_ALL);
+        } catch (Throwable e) {
+            return false;
+        }
+
+        return true;
+    }
+
     public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
         return executeAndValidateHttpCall("GET", queryParams.attachToUrl(url),
                 this::getToFullUrl,

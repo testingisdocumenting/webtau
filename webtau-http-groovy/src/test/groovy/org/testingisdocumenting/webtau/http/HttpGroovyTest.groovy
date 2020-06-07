@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,6 +67,14 @@ class HttpGroovyTest extends HttpTestBase {
             '\n' +
             'body.a:   actual: null\n' +
             '        expected: not null')
+    }
+
+    @Test
+    void "ping"() {
+        http.ping("/end-point-simple-object", ["key": "value"]).should == true
+        http.ping("/end-point-simple-object", ["key": "value"], http.header(["X-flag": "test"])).should == true
+
+        http.ping("/end-point-simple-object-non-existing-url").should == false
     }
 
     @Test

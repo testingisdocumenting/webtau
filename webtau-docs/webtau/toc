@@ -5,6 +5,7 @@ REST
     data-node
     headers
     query-parameters
+    ping
     files-upload
     PDF
     documentation

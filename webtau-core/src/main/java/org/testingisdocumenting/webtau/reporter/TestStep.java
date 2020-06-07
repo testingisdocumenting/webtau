@@ -59,6 +59,12 @@ public class TestStep {
         return createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
     }
 
+    public static TestStep createStep(TokenizedMessage inProgressMessage,
+                                      Supplier<TokenizedMessage> completionMessageSupplier,
+                                      Runnable action) {
+        return createStep(null, inProgressMessage, completionMessageSupplier, toSupplier(action));
+    }
+
     public static TestStep createStep(Object context,
                                       TokenizedMessage inProgressMessage,
                                       Supplier<TokenizedMessage> completionMessageSupplier,
