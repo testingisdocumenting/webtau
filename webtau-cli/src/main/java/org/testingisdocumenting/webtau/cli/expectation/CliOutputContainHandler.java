@@ -23,9 +23,7 @@ import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IndexedValue;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainAnalyzer;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 public class CliOutputContainHandler implements ContainHandler {
@@ -37,7 +35,7 @@ public class CliOutputContainHandler implements ContainHandler {
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
         CliOutput cliOutput = ((CliOutput) actual);
-        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.getLines(),
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.copyLines(),
                 adjustedExpected(expected));
         List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 
@@ -53,14 +51,13 @@ public class CliOutputContainHandler implements ContainHandler {
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
         CliOutput cliOutput = ((CliOutput) actual);
 
-        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.getLines(),
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.copyLines(),
                 adjustedExpected(expected));
         List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 
-        indexedValues.forEach(indexedValue -> {
-                    containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
-                            "equals " + DataRenderers.render(indexedValue.getValue()));
-                }
+        indexedValues.forEach(indexedValue ->
+                containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
+                        "equals " + DataRenderers.render(indexedValue.getValue()))
         );
     }
 

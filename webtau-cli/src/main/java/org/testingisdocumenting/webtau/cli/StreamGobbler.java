@@ -68,6 +68,7 @@ public class StreamGobbler implements Runnable {
 
     public void clear() {
         lines.clear();
+        full.delete(0, full.length());
     }
 
     @Override
