@@ -92,8 +92,8 @@ class CliBackgroundProcess {
     }
 
     public void clearOutput() {
-        outputGobbler.clear();
-        errorGobbler.clear();
+        output.clear();
+        error.clear();
     }
 
     public CliOutput getOutput() {
