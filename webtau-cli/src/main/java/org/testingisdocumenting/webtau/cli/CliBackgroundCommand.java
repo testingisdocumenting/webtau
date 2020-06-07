@@ -71,6 +71,19 @@ public class CliBackgroundCommand {
         backgroundProcess = null;
     }
 
+    public void send(String line) {
+        TestStep.createAndExecuteStep(
+                tokenizedMessage(action("sending"), stringValue(line), TO, classifier("running"), stringValue(command)),
+                () -> tokenizedMessage(action("sent"), stringValue(line), TO, classifier("running"), stringValue(command)),
+                () -> backgroundProcess.send(line));
+    }
+
+    public void clearOutput() {
+        TestStep.createAndExecuteStep(
+                () -> tokenizedMessage(action("cleared output"), OF, classifier("running"), stringValue(command)),
+                () -> backgroundProcess.clearOutput());
+    }
+
     public void restart() {
         stop();
         start();
@@ -109,7 +122,7 @@ public class CliBackgroundCommand {
     }
 
     private static void registerShutdown() {
-        Runtime.getRuntime().addShutdownHook(new Thread(() ->
-                runningProcesses.forEach((pid, process) -> process.destroy())));
+        Runtime.getRuntime().addShutdownHook(
+                new Thread(() -> runningProcesses.forEach((pid, process) -> process.destroy())));
     }
 }
