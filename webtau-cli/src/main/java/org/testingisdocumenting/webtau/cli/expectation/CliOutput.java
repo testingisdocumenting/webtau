@@ -57,6 +57,11 @@ public class CliOutput implements CliResultExpectations {
         matchedLinesIdx.add(idx);
     }
 
+    public void clear() {
+        matchedLinesIdx.clear();
+        streamGobbler.clear();
+    }
+
     public List<String> extractMatchedLines() {
         List<String> lines = streamGobbler.getLines();
         return matchedLinesIdx.stream().map(lines::get).collect(Collectors.toList());
