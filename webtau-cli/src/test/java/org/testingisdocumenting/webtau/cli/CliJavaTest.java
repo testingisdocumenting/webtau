@@ -123,7 +123,7 @@ public class CliJavaTest {
             String artifactName = "background-hello-script";
             cli.doc.capture(artifactName);
 
-            validateCapturedDocs(artifactName, "out.txt", "hello world\n" +
+            validateCapturedDocs(artifactName, "out.txt", "hello world test-param\n" +
                     "line in the middle\n" +
                     "more text");
 
