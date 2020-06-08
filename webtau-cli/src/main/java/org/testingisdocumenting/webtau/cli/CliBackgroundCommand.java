@@ -45,7 +45,7 @@ public class CliBackgroundCommand {
         this.env = env;
     }
 
-    public void start() {
+    public void run() {
         if (backgroundProcess != null) {
             return;
         }
@@ -58,17 +58,22 @@ public class CliBackgroundCommand {
         waitForProcessToFinishInBackground();
     }
 
+    public void stop() {
+        backgroundProcess.destroy();
+        backgroundProcess = null;
+    }
+
+    public void reRun() {
+        stop();
+        run();
+    }
+
     public CliOutput getOutput() {
         return backgroundProcess.getOutput();
     }
 
     public CliOutput getError() {
         return backgroundProcess.getError();
-    }
-
-    public void stop() {
-        backgroundProcess.destroy();
-        backgroundProcess = null;
     }
 
     public void send(String line) {
@@ -82,11 +87,6 @@ public class CliBackgroundCommand {
         TestStep.createAndExecuteStep(
                 () -> tokenizedMessage(action("cleared output"), OF, classifier("running"), stringValue(command)),
                 () -> backgroundProcess.clearOutput());
-    }
-
-    public void restart() {
-        stop();
-        start();
     }
 
     private void startBackgroundProcess() {
