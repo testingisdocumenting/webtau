@@ -91,7 +91,7 @@ public class CliCommand {
 
     public CliBackgroundCommand runInBackground(String args, ProcessEnv env) {
         CliBackgroundCommand backgroundCommand = new CliBackgroundCommand(fullCommand(args), env);
-        backgroundCommand.start();
+        backgroundCommand.run();
 
         return backgroundCommand;
     }

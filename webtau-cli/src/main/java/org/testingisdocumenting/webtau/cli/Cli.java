@@ -72,7 +72,7 @@ public class Cli {
 
     public CliBackgroundCommand runInBackground(String command, ProcessEnv env) {
         CliBackgroundCommand backgroundCommand = new CliBackgroundCommand(command, env);
-        backgroundCommand.start();
+        backgroundCommand.run();
 
         return backgroundCommand;
     }
