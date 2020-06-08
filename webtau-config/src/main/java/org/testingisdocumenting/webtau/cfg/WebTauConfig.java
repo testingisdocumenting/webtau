@@ -145,6 +145,11 @@ public class WebTauConfig {
         freeFormCfgValues.forEach(v -> v.accept(source, values));
     }
 
+    // for REPL convenience
+    public void setUrl(String url) {
+        setBaseUrl(url);
+    }
+
     public void setBaseUrl(String url) {
         this.url.set("manual", url);
     }
