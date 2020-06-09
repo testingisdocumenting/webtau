@@ -35,7 +35,7 @@ public class DbConfig implements WebTauConfigHandler {
     static final ConfigValue dbPrimaryUserName = declare("dbUserName",
             "primary database user name", () -> "");
 
-    static final ConfigValue dbPrimaryPassword = declare("dbPassowrd",
+    static final ConfigValue dbPrimaryPassword = declare("dbPassword",
             "primary database password", () -> "");
 
     @Override
