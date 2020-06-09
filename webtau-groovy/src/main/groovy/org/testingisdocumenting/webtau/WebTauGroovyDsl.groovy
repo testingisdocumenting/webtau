@@ -138,6 +138,10 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
+    static <R> R step(String label, Closure action) {
+        return step(label, closureToSupplier(action))
+    }
+
     private static void runAdHoc(String description, Closure code) {
         ConsoleOutputs.out(Color.CYAN, "ad-hoc run ", Color.GREEN, FontStyle.BOLD, description)
         code.run()
@@ -147,5 +151,14 @@ class WebTauGroovyDsl extends WebTauDsl {
         return RegexpUtils.replaceAll(description, PLACEHOLDER_PATTERN, { matcher ->
             return args[matcher.group(1)]
         })
+    }
+
+    private static <R> Supplier<R> closureToSupplier(Closure code) {
+        return new Supplier<R>() {
+            @Override
+            R get() {
+                return (R) code()
+            }
+        }
     }
 }
