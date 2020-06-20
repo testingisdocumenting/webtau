@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.driver;
 
+import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -43,7 +44,7 @@ public class WebDriverCreator {
     public static WebDriver create() {
         WebDriverCreatorListeners.beforeDriverCreation();
 
-        ChromeDriver driver = createChromeDriver();
+        WebDriver driver = createChromeDriver();
         initState(driver);
 
         return register(driver);
@@ -68,15 +69,15 @@ public class WebDriverCreator {
     private static ChromeDriver createChromeDriver() {
         ChromeOptions options = new ChromeOptions();
 
-        if (getCfg().getChromeBinPath() != null) {
-            options.setBinary(getCfg().getChromeBinPath().toFile());
+        if (BrowserConfig.getChromeBinPath() != null) {
+            options.setBinary(BrowserConfig.getChromeBinPath().toFile());
         }
 
-        if (getCfg().getChromeDriverPath() != null) {
-            System.setProperty(CHROME_DRIVER_PATH_KEY, getCfg().getChromeDriverPath().toString());
+        if (BrowserConfig.getChromeDriverPath() != null) {
+            System.setProperty(CHROME_DRIVER_PATH_KEY, BrowserConfig.getChromeDriverPath().toString());
         }
 
-        if (getCfg().isHeadless()) {
+        if (BrowserConfig.isHeadless()) {
             options.addArguments("--headless");
             options.addArguments("--disable-gpu");
         }
@@ -112,8 +113,10 @@ public class WebDriverCreator {
 
     private static void initState(WebDriver driver) {
         // setting size for headless chrome crashes chrome
-        if (! getCfg().isHeadless()) {
-            driver.manage().window().setSize(new Dimension(getCfg().getWindowWidth(), getCfg().getWindowHeight()));
+        if (!BrowserConfig.isHeadless()) {
+            driver.manage().window().setSize(new Dimension(
+                    BrowserConfig.getWindowWidth(),
+                    BrowserConfig.getWindowHeight()));
         }
     }
 

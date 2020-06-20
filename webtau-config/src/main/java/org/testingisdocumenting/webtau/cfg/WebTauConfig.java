@@ -61,13 +61,8 @@ public class WebTauConfig {
             "artifacts for documentation", workingDir::getAsPath);
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
-    private final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
-    private final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
     private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
     private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
-    private final ConfigValue headless = declareBoolean("headless", "run headless mode");
-    private final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
-    private final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
     private final ConfigValue envPath = declare("envPath", "path items to append to path used for cli tests", Collections::emptyList);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
@@ -220,14 +215,6 @@ public class WebTauConfig {
         return !noColor.getAsBoolean();
     }
 
-    public int getWindowWidth() {
-        return windowWidth.getAsInt();
-    }
-
-    public int getWindowHeight() {
-        return windowHeight.getAsInt();
-    }
-
     public int getStaleElementRetry() {
         return staleElementRetry.getAsInt();
     }
@@ -254,18 +241,6 @@ public class WebTauConfig {
 
     public String getWorkingDirConfigName() {
         return workingDir.getKey();
-    }
-
-    public boolean isHeadless() {
-        return headless.getAsBoolean();
-    }
-
-    public Path getChromeBinPath() {
-        return chromeBinPath.getAsPath();
-    }
-
-    public Path getChromeDriverPath() {
-        return chromeDriverPath.getAsPath();
     }
 
     public List<String> getEnvPath() {
@@ -360,12 +335,7 @@ public class WebTauConfig {
                 docPath,
                 reportPath,
                 noColor,
-                windowWidth,
-                windowHeight,
                 staleElementRetry,
-                headless,
-                chromeDriverPath,
-                chromeBinPath,
                 envPath);
 
         Stream<ConfigValue> additionalConfigValues = handlers.stream()
