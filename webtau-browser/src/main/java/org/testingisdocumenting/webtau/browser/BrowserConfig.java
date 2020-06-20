@@ -32,8 +32,18 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
     private static final ConfigValue headless = declareBoolean("headless", "run headless mode");
-    private static final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
+
+    private static final ConfigValue browser = declare("browser", "browser name: chrome, firefox", () -> "chrome");
+
     private static final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
+    private static final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
+
+    private static final ConfigValue firefoxBinPath = declare("firefoxBinPath", "path to firefox binary", NO_DEFAULT);
+    private static final ConfigValue firefoxDriverPath = declare("firefoxDriverPath", "path to firefox driver binary", NO_DEFAULT);
+
+    public static String getBrowser() {
+        return browser.getAsString();
+    }
 
     public static int getWindowWidth() {
         return windowWidth.getAsInt();
@@ -55,13 +65,24 @@ public class BrowserConfig implements WebTauConfigHandler {
         return chromeDriverPath.getAsPath();
     }
 
+    public static Path getFirefoxBinPath() {
+        return firefoxBinPath.getAsPath();
+    }
+
+    public static Path getFirefoxDriverPath() {
+        return firefoxDriverPath.getAsPath();
+    }
+
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(
+                browser,
                 windowWidth,
                 windowHeight,
                 headless,
                 chromeDriverPath,
-                chromeBinPath);
+                chromeBinPath,
+                firefoxDriverPath,
+                firefoxBinPath);
     }
 }
