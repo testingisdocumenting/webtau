@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.browser.driver;
 
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
@@ -30,10 +32,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-
 public class WebDriverCreator {
     private static final String CHROME_DRIVER_PATH_KEY = "webdriver.chrome.driver";
+    private static final String FIREFOX_DRIVER_PATH_KEY = "webdriver.gecko.driver";
 
     private static final List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
 
@@ -44,7 +45,7 @@ public class WebDriverCreator {
     public static WebDriver create() {
         WebDriverCreatorListeners.beforeDriverCreation();
 
-        WebDriver driver = createChromeDriver();
+        WebDriver driver = createDriver();
         initState(driver);
 
         return register(driver);
@@ -64,6 +65,17 @@ public class WebDriverCreator {
         }
 
         WebDriverCreatorListeners.afterDriverQuit(driver);
+    }
+
+    private static WebDriver createDriver() {
+        switch (BrowserConfig.getBrowser()) {
+            case "chrome":
+                return createChromeDriver();
+            case "firefox":
+                return createFirefoxDriver();
+            default:
+                throw new IllegalArgumentException("unsupported browser: " + BrowserConfig.getBrowser());
+        }
     }
 
     private static ChromeDriver createChromeDriver() {
@@ -89,6 +101,30 @@ public class WebDriverCreator {
         }
 
         return new ChromeDriver(options);
+    }
+
+    private static FirefoxDriver createFirefoxDriver() {
+        FirefoxOptions options = new FirefoxOptions();
+
+        if (BrowserConfig.getFirefoxBinPath() != null) {
+            options.setBinary(BrowserConfig.getFirefoxBinPath());
+        }
+
+        if (BrowserConfig.getFirefoxDriverPath() != null) {
+            System.setProperty(FIREFOX_DRIVER_PATH_KEY, BrowserConfig.getChromeDriverPath().toString());
+        }
+
+        if (BrowserConfig.isHeadless()) {
+            options.setHeadless(true);
+        }
+
+        if (System.getProperty(FIREFOX_DRIVER_PATH_KEY) == null) {
+            setupDriverManagerConfig();
+            downloadDriverMessage("firefox");
+            WebDriverManager.firefoxdriver().setup();
+        }
+
+        return new FirefoxDriver(options);
     }
 
     private static void downloadDriverMessage(String browser) {
