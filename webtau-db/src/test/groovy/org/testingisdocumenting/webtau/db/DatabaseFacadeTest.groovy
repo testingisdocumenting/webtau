@@ -77,6 +77,22 @@ class DatabaseFacadeTest {
     }
 
     @Test
+    void "query should be optional during comparison"() {
+        db.update("delete from PRICES")
+        def PRICES = db.table("PRICES")
+
+        PRICES << ["id" | "description" | "price"] {
+                  ___________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
+
+        PRICES.should == ["ID" | "DESCRIPTION" | "PRICE"] {
+                         ___________________________________
+                         "id1" | "nice set"    | 1000
+                         "id2" | "another set" | 2000 }
+    }
+
+    @Test
     void "should run execute statements for primary data source"() {
         def PRICES = db.table("PRICES")
         PRICES << ["id" | "description" | "price"] {
