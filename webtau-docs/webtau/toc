@@ -26,6 +26,7 @@ UI
     documentation
     advanced-configuration
     local-storage
+    cookies
     navigation
     page-open-handlers
     finders-and-filters

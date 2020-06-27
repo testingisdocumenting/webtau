@@ -35,6 +35,7 @@ class WebTauBrowserFeaturesTest {
         testServer.registerGet("/special-forms", htmlResponse('special-forms.html'))
         testServer.registerGet("/calculation", htmlResponse('calculation.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
+        testServer.registerGet("/cookies", htmlResponse('cookies.html'))
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
         testServer.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
@@ -204,6 +205,24 @@ class WebTauBrowserFeaturesTest {
 
         extractHtmlSnippets(root, 'local-storage.html', [
                 'body-only.html': 'body'])
+    }
+
+    @Test
+    void "cookies"() {
+        runCli('cookies.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "cookies extract snippets"() {
+        def root = 'cookies'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/cookies.groovy', [
+                'addCookies.groovy': 'add cookies',
+                'getCookies.groovy': 'get all cookies',
+                'deleteCookie.groovy': 'delete named cookie',
+                'deleteAllCookies.groovy': 'delete all cookies',
+        ])
     }
 
     @Test

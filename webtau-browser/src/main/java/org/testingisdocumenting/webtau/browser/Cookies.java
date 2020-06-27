@@ -19,6 +19,9 @@ package org.testingisdocumenting.webtau.browser;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class Cookies {
     private final WebDriver driver;
 
@@ -29,6 +32,16 @@ public class Cookies {
     public void add(String name, String value) {
         Cookie cookie = new Cookie(name, value);
         driver.manage().addCookie(cookie);
+    }
+
+    public String get(String name) {
+        return driver.manage().getCookieNamed(name).getValue();
+    }
+
+    public Map<String, String> getAll() {
+        return driver.manage().getCookies().stream().collect(Collectors.toMap(
+                Cookie::getName,
+                Cookie::getValue));
     }
 
     public void delete(String name) {
