@@ -52,16 +52,7 @@
         <dependency>
             <groupId>com.networknt</groupId>
             <artifactId>json-schema-validator</artifactId>
-            <version>1.0.28</version>
-        </dependency>
-
-        <!-- We don't use joda directly but it is a transitive dependency of a couple of libraries
-         we do use and they use a slightly different version.  This joda dependency is purely
-         to force them onto a specific version and satisfy the enforcer -->
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.9.7</version>
+            <version>1.0.41</version>
         </dependency>
 
         <dependency>
