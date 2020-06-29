@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +17,6 @@
 
 package org.testingisdocumenting.webtau.data
 
-import org.testingisdocumenting.webtau.data.MarginCalculator
-import org.testingisdocumenting.webtau.data.Transaction
 import org.testingisdocumenting.webtau.data.table.TableData
 import org.junit.Test
 

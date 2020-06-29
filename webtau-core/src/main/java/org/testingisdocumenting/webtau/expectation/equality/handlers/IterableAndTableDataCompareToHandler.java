@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.converters.ToMapConverters;
-import org.testingisdocumenting.webtau.data.table.header.Header;
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparison;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonReport;
@@ -37,9 +38,10 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         TableData expectedTable = (TableData) expected;
-        TableData actualTable = createTableFromList(expectedTable.getHeader(), (List) actual);
+        TableData actualTable = createTableFromList(expectedTable.getHeader(), (List<Object>) actual);
 
         TableDataComparisonResult result = TableDataComparison.compare(actualTable, expectedTable);
         if (! result.areEqual()) {
@@ -47,7 +49,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
         }
     }
 
-    private static TableData createTableFromList(Header expectedHeader, List actualList) {
+    private static TableData createTableFromList(TableDataHeader expectedHeader, List<Object> actualList) {
         TableData actualTable = new TableData(expectedHeader.getNamesStream());
         for (Object actualRecord : actualList) {
             Map<String, ?> actualMap = ToMapConverters.convert(actualRecord);
@@ -57,7 +59,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
         return actualTable;
     }
 
-    private static List<Object> mapToList(Header header, Map<String, ?> map) {
+    private static List<Object> mapToList(TableDataHeader header, Map<String, ?> map) {
         List<Object> result = new ArrayList<>();
         header.getNamesStream().forEach(n -> result.add(map.get(n)));
 

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,21 +20,21 @@ package org.testingisdocumenting.webtau.data.table;
 import org.testingisdocumenting.webtau.data.MultiValue;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenerator;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
-import org.testingisdocumenting.webtau.data.table.header.Header;
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class Record {
-    private final Header header;
+    private final TableDataHeader header;
     private final List<Object> values;
     private final CompositeKey key;
 
     private final boolean hasMultiValues;
     private final boolean hasValueGenerators;
 
-    public Record(Header header, Stream<Object> values) {
+    public Record(TableDataHeader header, Stream<Object> values) {
         this.header = header;
         RecordFromStream recordFromStream = new RecordFromStream(values);
 
@@ -45,7 +46,7 @@ public class Record {
                 new CompositeKey(header.getKeyIdxStream().map(this::get)) : null;
     }
 
-    public Header getHeader() {
+    public TableDataHeader getHeader() {
         return header;
     }
 

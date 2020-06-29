@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.db;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.testingisdocumenting.webtau.data.table.TableData;
-import org.testingisdocumenting.webtau.data.table.header.Header;
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ class QueryRunnerUtils {
                     .map(String::toUpperCase)
                     .collect(Collectors.toList());
 
-            Header header = new Header(columns.stream());
+            TableDataHeader header = new TableDataHeader(columns.stream());
             TableData tableData = new TableData(header);
             result.forEach(row -> tableData.addRow(row.values().stream()));
 

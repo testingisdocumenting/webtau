@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,16 +20,16 @@ package org.testingisdocumenting.webtau.data.table
 class TableDataExtension {
     private static ThreadLocal<List<RowValues>> rows = new ThreadLocal<>()
 
-    static List or(String columnNameA, String columnNameB) {
+    static ArrayList or(String columnNameA, String columnNameB) {
         return [columnNameA, columnNameB]
     }
 
-    static List or(List header, String columnName) {
+    static ArrayList or(ArrayList header, String columnName) {
         header.add(columnName)
         return header
     }
 
-    static TableData call(List header, Closure tableDataCode) {
+    static TableData call(ArrayList header, Closure tableDataCode) {
         try {
             def tableData = new TableData(header.flatten().stream())
 
