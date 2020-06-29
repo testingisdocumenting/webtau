@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.data.table;
 
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
-import org.testingisdocumenting.webtau.data.table.header.Header;
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.*;
@@ -34,10 +35,10 @@ public class TableData implements Iterable<Record> {
     private final List<Record> rows;
     private final Map<CompositeKey, Record> rowsByKey;
     private final Map<CompositeKey, Integer> rowIdxByKey;
-    private final Header header;
+    private final TableDataHeader header;
 
     public TableData(List<?> columnNamesAndOptionalValues) {
-        this(new Header(extractColumnNames(columnNamesAndOptionalValues.stream()).stream()));
+        this(new TableDataHeader(extractColumnNames(columnNamesAndOptionalValues.stream()).stream()));
         populateValues(columnNamesAndOptionalValues.stream());
     }
 
@@ -45,14 +46,14 @@ public class TableData implements Iterable<Record> {
         this(columnNamesAndOptionalValues.collect(toList()));
     }
 
-    public TableData(Header header) {
+    public TableData(TableDataHeader header) {
         this.header = header;
         this.rows = new ArrayList<>();
         this.rowsByKey = new HashMap<>();
         this.rowIdxByKey = new HashMap<>();
     }
 
-    public Header getHeader() {
+    public TableDataHeader getHeader() {
         return header;
     }
 
@@ -136,7 +137,7 @@ public class TableData implements Iterable<Record> {
         rows.add(withEvaluatedGenerators);
     }
 
-    public TableData map(TableDataCellMapFunction mapper) {
+    public <T, R> TableData map(TableDataCellMapFunction<T, R> mapper) {
         TableData mapped = new TableData(header);
 
         int rowIdx = 0;
@@ -153,8 +154,7 @@ public class TableData implements Iterable<Record> {
         return rows.stream().map(r -> mapper.apply(r.get(idx)));
     }
 
-    @SuppressWarnings("unchecked")
-    private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellMapFunction mapper) {
+    private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellMapFunction<T, R> mapper) {
         return header.getColumnIdxStream()
                 .mapToObj(idx -> mapper.apply(rowIdx, idx, header.columnNameByIdx(idx), originalRow.get(idx)));
     }

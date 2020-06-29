@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,14 +26,14 @@ import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class Header {
-    private Map<String, Integer> indexByName;
-    private List<String> namesByIndex;
+public class TableDataHeader {
+    private final Map<String, Integer> indexByName;
+    private final List<String> namesByIndex;
 
-    private List<String> keyNames;
-    private List<Integer> keyIdx;
+    private final List<String> keyNames;
+    private final List<Integer> keyIdx;
 
-    public Header(Stream<String> names) {
+    public TableDataHeader(Stream<String> names) {
         this.indexByName = new HashMap<>();
         this.namesByIndex = new ArrayList<>();
         this.keyNames = new ArrayList<>();

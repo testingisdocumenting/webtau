@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +17,15 @@
 
 package org.testingisdocumenting.webtau.data.table
 
-import org.testingisdocumenting.webtau.data.table.header.Header
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader
 import org.junit.Test
 
 import java.util.stream.Stream
 
 import static java.util.stream.Collectors.toList
 
-class HeaderTest {
-    def header = new Header(Stream.of("ColumnA", "*ColumnB", "*ColumnC", "ColumnD"))
+class TableDataHeaderTest {
+    def header = new TableDataHeader(Stream.of("ColumnA", "*ColumnB", "*ColumnC", "ColumnD"))
 
     @Test
     void "knows columns index"() {
@@ -47,7 +48,7 @@ class HeaderTest {
     void "knows when key columns are defined"() {
         assert header.hasKeyColumns()
 
-        def keyLessHeader = new Header(Stream.of("ColumnA", "ColumnB"))
+        def keyLessHeader = new TableDataHeader(Stream.of("ColumnA", "ColumnB"))
         assert ! keyLessHeader.hasKeyColumns()
     }
 }

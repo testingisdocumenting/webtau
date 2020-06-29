@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.data.table
 
-import org.testingisdocumenting.webtau.data.table.header.Header
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
@@ -24,25 +25,25 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 class RecordTest {
     @Test
     void "should be convertible to map"() {
-        def record = new Record(new Header(["n1", "n2"].stream()), ["v1", null].stream())
+        def record = new Record(new TableDataHeader(["n1", "n2"].stream()), ["v1", null].stream())
         actual(record.toMap()).should(equal([n1: 'v1', n2: null]))
     }
 
     @Test
     void "should have key defined if header has key columns"() {
-        def record = new Record(new Header(["*id1", "*id2", "c1"].stream()), ["id1", "id2", "v1"].stream())
+        def record = new Record(new TableDataHeader(["*id1", "*id2", "c1"].stream()), ["id1", "id2", "v1"].stream())
         assert record.key.values == ["id1", "id2"]
     }
 
     @Test
     void "should have null key if header has no key columns"() {
-        def record = new Record(new Header(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
+        def record = new Record(new TableDataHeader(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
         assert record.key == null
     }
 
     @Test
     void "should return defaultValue if a columnName is not present"() {
-        def record = new Record(new Header(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
+        def record = new Record(new TableDataHeader(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
         def valueC1 = record.get("c1", 42)
         def valueColNotFound = record.get("notPresentColumn", 42)
 
@@ -52,7 +53,7 @@ class RecordTest {
 
     @Test
     void "should return defaultValue if an idx is not present"() {
-        def record = new Record(new Header(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
+        def record = new Record(new TableDataHeader(["c1", "c2", "c3"].stream()), ["v1", "v2", "v3"].stream())
         def valueC2 = record.get(1, 42)
         def valueColNotFound = record.get(3, 42)
         def valueColInvalidIdx = record.get(-1, 42)

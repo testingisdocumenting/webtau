@@ -17,17 +17,11 @@
 package org.testingisdocumenting.webtau.db;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.testingisdocumenting.webtau.data.table.TableData;
-import org.testingisdocumenting.webtau.data.table.header.Header;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 class DatabaseTable {
     private final DataSource dataSource;
