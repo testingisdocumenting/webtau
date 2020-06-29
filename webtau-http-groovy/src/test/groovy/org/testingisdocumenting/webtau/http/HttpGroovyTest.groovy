@@ -268,7 +268,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "custom user agent"() {
         try {
-            cfg.userAgentConfigValue.set("test", "custom")
+            cfg.userAgent = "custom"
 
             http.get('/echo-header') {
                 body['User-Agent'].should == ~/^custom \(webtau\/.*\)$/
@@ -281,15 +281,15 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "custom user agent without webtau and its version"() {
         try {
-            cfg.userAgentConfigValue.set("test", "custom")
-            cfg.removeWebtauFromUserAgent.set("true", true)
+            cfg.userAgent = "custom"
+            cfg.removeWebtauFromUserAgent = true
 
             http.get('/echo-header') {
                 body['User-Agent'].should == ~/^custom$/
             }
         } finally {
             cfg.userAgentConfigValue.reset()
-            cfg.removeWebtauFromUserAgent.reset()
+            cfg.removeWebtauFromUserAgentConfigValue.reset()
         }
     }
 

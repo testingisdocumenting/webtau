@@ -34,6 +34,8 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 
 public class WebTauConfig {
+    private static final String SOURCE_MANUAL = "manual";
+
     public static final String CONFIG_FILE_NAME_DEFAULT = "webtau.cfg";
 
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
@@ -146,7 +148,7 @@ public class WebTauConfig {
     }
 
     public void setBaseUrl(String url) {
-        this.url.set("manual", url);
+        this.url.set(SOURCE_MANUAL, url);
     }
 
     public String getBaseUrl() {
@@ -203,7 +205,15 @@ public class WebTauConfig {
         return userAgent;
     }
 
-    public ConfigValue getRemoveWebtauFromUserAgent() {
+    public void setUserAgent(String userAgent) {
+        this.userAgent.set(SOURCE_MANUAL, userAgent);
+    }
+
+    public void setRemoveWebtauFromUserAgent(boolean remove) {
+        this.removeWebtauFromUserAgent.set(SOURCE_MANUAL, remove);
+    }
+
+    public ConfigValue getRemoveWebtauFromUserAgentConfigValue() {
         return removeWebtauFromUserAgent;
     }
 
