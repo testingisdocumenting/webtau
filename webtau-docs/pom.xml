@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.testingisdocumenting.znai</groupId>
                 <artifactId>znai-maven-plugin</artifactId>
-                <version>1.37</version>
+                <version>1.41</version>
                 <executions>
                     <execution>
                         <id>guide</id>
