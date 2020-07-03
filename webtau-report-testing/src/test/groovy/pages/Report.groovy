@@ -25,6 +25,9 @@ class Report {
     def testNames = $(".navigation-entry .label")
     def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
 
+    private def httpCalls = $(".test-http-call")
+    private def cliCalls = $(".test-cli-call")
+
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
     }
@@ -40,13 +43,29 @@ class Report {
     }
 
     def selectHttpCalls() {
-        $(".tab-selection .tab-name").get('HTTP calls').click()
+        selectDetailsTab('HTTP calls')
     }
 
-    def expandHttpCall(number) {
-        def httpCalls = $(".test-http-call")
+    def selectCliCalls() {
+        selectDetailsTab('CLI calls')
+    }
+
+    def selectDetailsTab(String tabName) {
+        $(".tab-selection .tab-name").get(tabName).click()
+    }
+
+    def expandHttpCall(callNumber) {
         httpCalls.waitTo beVisible()
-        httpCalls.get(number).find(".collapse-toggle").click()
+        httpCalls.get(callNumber).find(".collapse-toggle").click()
+    }
+
+    def expandCliCall(callNumber) {
+        cliCalls.waitTo beVisible()
+        cliCalls.get(callNumber).find(".collapse-toggle").click()
+    }
+
+    def standardCliOutput() {
+        return $(".cli-output.standard")
     }
 
     private static def openReportFile(String fileName) {
