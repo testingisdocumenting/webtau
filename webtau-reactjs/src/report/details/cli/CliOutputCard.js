@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +21,7 @@ import Card from "../../widgets/Card"
 
 import './CliOutputCard.css';
 
-export default function CliOutputCard({output, matchedLines}) {
+export default function CliOutputCard({classifier, output, matchedLines}) {
     const lines = output.split('\n')
 
     const matchedAsSet = matchedLines.reduce((set, line) => {
@@ -29,11 +30,14 @@ export default function CliOutputCard({output, matchedLines}) {
     }, {});
 
     return (
-        <Card className="cli-output">
-            {lines.map((line, idx) => {
-                const className = 'cli-output-line' + (matchedAsSet.hasOwnProperty(line) ? ' matched' : '');
-                return <span className={className} key={idx}>{line + '\n'}</span>
-            })}
-        </Card>
+        <React.Fragment>
+            <div className="cli-output-label">{classifier} output</div>
+            <Card className={"cli-output " + classifier}>
+                {lines.map((line, idx) => {
+                    const className = 'cli-output-line' + (matchedAsSet.hasOwnProperty(line) ? ' matched' : '');
+                    return <span className={className} key={idx}>{line + '\n'}</span>
+                })}
+            </Card>
+        </React.Fragment>
     )
 }

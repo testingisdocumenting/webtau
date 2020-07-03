@@ -110,7 +110,7 @@ public class CliValidationResult implements TestStepPayload {
         result.put("command", command);
         result.put("out", out != null ? out.get() : "");
         result.put("err", err != null ? err.get() : "");
-        result.put("exitCode", exitCode);
+        result.put("exitCode", exitCode.get());
         result.put("outMatches", out != null ? out.extractMatchedLines() : Collections.emptyList());
         result.put("errMatches", err != null ? err.extractMatchedLines() : Collections.emptyList());
         result.put("startTime", startTime);

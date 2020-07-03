@@ -91,42 +91,50 @@ export const withCliDataReport = {
     "config": [
         {key: 'env', value: 'dev', source: 'command line'},
     ],
-    "tests": [{
-        "id": "simpleRun.groovy-2",
-        "scenario": "simple cli run",
-        "status": "Passed",
-        "startTime": 1560704560750,
-        "elapsedTime": 123,
-        "fileName": "scenarios/cli/simpleRun.groovy",
-        "disabled": false,
-        "cliCalls": [{
-            "command": "scripts/simple",
-            "out": "welcome to my script\nversion: 12.43.2",
-            "err": "",
-            "exitCode": 0,
-            "outMatches": ["version: 12.43.2"],
-            "errMatches": [],
-            "startTime": 1560704560776,
-            "elapsedTime": 15,
-            "mismatches": [],
-            "errorMessage": null
-        }],
-        "httpCalls": [],
-        "steps": [{
-            "message": [{"type": "action", "value": "ran cli command"}, {
-                "type": "stringValue",
-                "value": "scripts/simple"
+    "tests": [
+        {
+            "id": "simpleRun.groovy-2",
+            "scenario": "simple cli run",
+            "status": "Passed",
+            "startTime": 1593810461246,
+            "elapsedTime": 126,
+            "fileName": "scenarios/cli/simpleRun.groovy",
+            "shortContainerId": "simpleRun.groovy",
+            "disabled": false,
+            "cliCalls": [{
+                "command": "scripts/simple",
+                "out": "welcome to my script\nversion: 12.43.2\n\n\n",
+                "err": "",
+                "exitCode": 0,
+                "outMatches": ["version: 12.43.2"],
+                "errMatches": [],
+                "startTime": 1593810461266,
+                "elapsedTime": 25,
+                "mismatches": [],
+                "errorMessage": null
             }],
-            "startTime": 1560704560776,
-            "elapsedTime": 97,
-            "children": [{
-                "message": [{"type": "id", "value": "process output"}, {
-                    "type": "matcher",
-                    "value": "contains \"version:\""
-                }], "startTime": 1560704560831, "elapsedTime": 41
-            }]
-        }]
-    },
+            "httpCalls": [],
+            "steps": [{
+                "message": [{"type": "action", "value": "ran cli command"}, {
+                    "type": "stringValue",
+                    "value": "scripts/simple"
+                }],
+                "startTime": 1593810461266,
+                "elapsedTime": 106,
+                "children": [{
+                    "message": [{"type": "id", "value": "process output"}, {
+                        "type": "matcher",
+                        "value": "contains \"version:\""
+                    }], "startTime": 1593810461311, "elapsedTime": 55
+                }, {
+                    "message": [{"type": "id", "value": "exitCode"}, {
+                        "type": "matcher",
+                        "value": "equals 0\nmatches:\n\nexitCode:   actual: 0 <java.lang.Integer>\n          expected: 0 <java.lang.Integer>"
+                    }], "startTime": 1593810461370, "elapsedTime": 2
+                }]
+            }],
+            "metadata": {}
+        },
         {
             "id": "errorRuns.groovy-2",
             "scenario": "match error",

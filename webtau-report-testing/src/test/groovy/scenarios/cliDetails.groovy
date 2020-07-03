@@ -19,12 +19,14 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
-scenario('http calls') {
-    report.openGroovyStandaloneReport('rest/springboot/customerCrud-webtau-report.html')
-    report.selectTest('CRUD operations for customer')
+scenario('cli calls') {
+    report.openGroovyStandaloneReport('cli/simpleRun-webtau-report.html')
+    report.selectTest('simple cli run')
 
-    report.selectHttpCalls()
-    report.expandHttpCall(2)
+    report.selectCliCalls()
+    report.expandCliCall(1)
+
+    report.standardCliOutput().should == ~/welcome to my script/
 
     browser.doc.capture('report-crud-http-calls')
 }
