@@ -18,21 +18,59 @@
 <head>
     <style>
         .dropdown {
+            position: fixed;
+            padding: 8px;
             display: none;
+            right: 0;
         }
 
         .menu:hover .dropdown {
             display: block;
         }
+
+        #context-menu {
+            position: fixed;
+            border: 2px solid black;
+            background: white;
+            padding: 8px;
+            z-index: 10;
+            display: none;
+        }
     </style>
 </head>
-<body>
+<body oncontextmenu="hideTableContextMenu()">
 <div class="menu">
     <div id="actions" class="item">Actions</div>
     <div class="dropdown">
         <div class="item" onclick="handleMenuItem('about')">About</div>
         <div class="item" onclick="handleMenuItem('fetching payments')">Payments</div>
     </div>
+
+    <div id="context-menu">
+        <div class="context-menu-item">Menu Item A</div>
+        <div class="context-menu-item">Menu Item B</div>
+    </div>
+</div>
+
+<div class="table" onmousedown="handleTableMouseDown()">
+    <table>
+        <thead>
+        <tr>
+            <th>Column A</th>
+            <th>Column B</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>V1</td>
+            <td>V2</td>
+        </tr>
+        <tr>
+            <td>V3</td>
+            <td>V4</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <div id="messages"></div>
@@ -45,6 +83,21 @@
     function updateNode(node, className, text) {
         node.textContent = text;
         node.className = className;
+    }
+
+    function handleTableMouseDown() {
+        console.log(this.event.which);
+        if (this.event.which !== 3) {
+            return;
+        }
+
+        document.getElementById("context-menu").style.display = "block";
+
+        this.event.preventDefault();
+    }
+
+    function hideTableContextMenu() {
+        this.event.preventDefault();
     }
 </script>
 </body>

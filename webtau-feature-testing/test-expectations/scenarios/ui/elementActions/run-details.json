@@ -17,6 +17,18 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
+  }, {
+    "scenario" : "right click",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "validate context menu",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   } ],
   "exitCode" : 0
 }
