@@ -86,6 +86,13 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
+    public void rightClick() {
+        execute(tokenizedMessage(action("right clicking")).add(pathDescription),
+                () -> tokenizedMessage(action("right clicked")).add(pathDescription),
+                () -> performActions("right click", Actions::contextClick));
+    }
+
+    @Override
     public void hover() {
         execute(tokenizedMessage(action("moving mouse over")).add(pathDescription),
                 () -> tokenizedMessage(action("moved mouse over")).add(pathDescription),

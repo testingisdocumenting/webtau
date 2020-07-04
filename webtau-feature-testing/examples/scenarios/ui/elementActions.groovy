@@ -33,3 +33,11 @@ scenario('click on menu drop down') {
 
     $('#messages').waitTo == 'fetching payments'
 }
+
+scenario('right click') {
+    $('table').rightClick()
+}
+
+scenario('validate context menu') {
+    $('.context-menu-item').waitTo == ['Menu Item A', 'Menu Item B']
+}
