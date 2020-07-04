@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class NullWebElement implements WebElement {
     private static final String NULL_VALUE = "[null value] element is not present on the page";
-    private String id;
+    private final String id;
 
     public NullWebElement(String id) {
         this.id = id;
@@ -122,7 +123,7 @@ public class NullWebElement implements WebElement {
         return null;
     }
 
-    private void error(String action) {
+    public void error(String action) {
         throw new ElementNotFoundException("can't " + action + " as element is not found: " + id + ". Try to wait for it to appear first.");
     }
 }
