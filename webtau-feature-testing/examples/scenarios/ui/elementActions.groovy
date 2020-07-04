@@ -23,7 +23,7 @@ scenario('open browser') {
 }
 
 scenario('move to') {
-    $('.menu').moveTo()
+    $('.menu').moveOver()
 }
 
 scenario('click on menu drop down') {
