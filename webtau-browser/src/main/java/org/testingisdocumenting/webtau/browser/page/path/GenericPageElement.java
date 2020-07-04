@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.browser.page.path;
 
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
 import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElementsFilter;
@@ -80,6 +83,13 @@ public class GenericPageElement implements PageElement {
         execute(tokenizedMessage(action("clicking")).add(pathDescription),
                 () -> tokenizedMessage(action("clicked")).add(pathDescription),
                 () -> findElement().click());
+    }
+
+    @Override
+    public void moveTo() {
+        execute(tokenizedMessage(action("moving mouse to")).add(pathDescription),
+                () -> tokenizedMessage(action("moved mouse to")).add(pathDescription),
+                () -> performActions("moveTo", Actions::moveToElement));
     }
 
     public WebElement findElement() {
@@ -277,6 +287,23 @@ public class GenericPageElement implements PageElement {
         return elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
     }
 
+    private void performActions(String actionLabel, ActionsProvider actionsProvider) {
+        WebElement element = findElement();
+        ensureNotNullElement(element, actionLabel);
+
+        Actions actions = new Actions(driver);
+        actionsProvider.perform(actions, element);
+
+        Action builtAction = actions.build();
+        builtAction.perform();
+    }
+
+    private void ensureNotNullElement(WebElement element, String actionLabel) {
+        if (element instanceof NullWebElement) {
+            ((NullWebElement) element).error(actionLabel);
+        }
+    }
+
     private NullWebElement createNullElement() {
         return new NullWebElement(path.toString());
     }
@@ -313,5 +340,9 @@ public class GenericPageElement implements PageElement {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private interface ActionsProvider {
+        void perform(Actions actions, WebElement element);
     }
 }
