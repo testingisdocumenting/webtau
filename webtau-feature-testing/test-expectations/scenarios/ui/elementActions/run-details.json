@@ -6,7 +6,7 @@
       "numberOfSuccessful" : 1
     }
   }, {
-    "scenario" : "move to",
+    "scenario" : "hover",
     "shortContainerId" : "elementActions.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 1
