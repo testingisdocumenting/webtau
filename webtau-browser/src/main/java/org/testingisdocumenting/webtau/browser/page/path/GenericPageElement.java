@@ -86,10 +86,10 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public void moveOver() {
+    public void hover() {
         execute(tokenizedMessage(action("moving mouse over")).add(pathDescription),
                 () -> tokenizedMessage(action("moved mouse over")).add(pathDescription),
-                () -> performActions("moveOver", Actions::moveToElement));
+                () -> performActions("hover", Actions::moveToElement));
     }
 
     public WebElement findElement() {

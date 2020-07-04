@@ -22,8 +22,8 @@ scenario('open browser') {
     browser.open('/element-actions')
 }
 
-scenario('move to') {
-    $('.menu').moveOver()
+scenario('hover') {
+    $('.menu').hover()
 }
 
 scenario('click on menu drop down') {
