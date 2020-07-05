@@ -54,6 +54,18 @@
       "numberOfSuccessful" : 1
     }
   }, {
+    "scenario" : "setValue",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "setValue validation",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "right click",
     "shortContainerId" : "elementActions.groovy",
     "stepsSummary" : {
