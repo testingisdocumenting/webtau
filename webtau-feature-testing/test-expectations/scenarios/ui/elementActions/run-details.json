@@ -6,13 +6,25 @@
       "numberOfSuccessful" : 1
     }
   }, {
+    "scenario" : "click",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "validate click",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "hover",
     "shortContainerId" : "elementActions.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
   }, {
-    "scenario" : "click on menu drop down",
+    "scenario" : "validate hover",
     "shortContainerId" : "elementActions.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3

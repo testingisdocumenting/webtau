@@ -52,6 +52,10 @@
     </div>
 </div>
 
+<div class="toolbar">
+    <button onclick="handleSingleClick()">Confirmation</button>
+</div>
+
 <div class="table" onmousedown="handleTableMouseDown()">
     <table>
         <thead>
@@ -82,11 +86,11 @@
     Double click me
 </div>
 
-<div id="messages"></div>
+<div id="message"></div>
 <script>
     function handleMenuItem(label) {
         console.log(label)
-        updateNode(document.getElementById('messages'), 'message', label)
+        updateNode(document.getElementById('message'), 'message', label)
     }
 
     function updateNode(node, className, text) {
@@ -109,8 +113,12 @@
         this.event.preventDefault();
     }
 
+    function handleSingleClick() {
+        updateNode(document.getElementById('message'), 'message', 'single clicked')
+    }
+
     function handleDoubleClick() {
-        updateNode(document.getElementById('messages'), 'message', 'double clicked')
+        updateNode(document.getElementById('message'), 'message', 'double clicked')
     }
 </script>
 </body>
