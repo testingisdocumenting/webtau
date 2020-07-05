@@ -29,6 +29,18 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
+  }, {
+    "scenario" : "double click",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "validate double click",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   } ],
   "exitCode" : 0
 }

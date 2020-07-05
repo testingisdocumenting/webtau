@@ -41,3 +41,11 @@ scenario('right click') {
 scenario('validate context menu') {
     $('.context-menu-item').waitTo == ['Menu Item A', 'Menu Item B']
 }
+
+scenario('double click') {
+    $('#expand-area').doubleClick()
+}
+
+scenario('validate double click') {
+    $('#messages').waitTo == 'double clicked'
+}

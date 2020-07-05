@@ -36,6 +36,11 @@
             z-index: 10;
             display: none;
         }
+
+        #expand-area {
+            padding: 8px;
+            border: 1px solid #333;
+        }
     </style>
 </head>
 <body oncontextmenu="hideTableContextMenu()">
@@ -44,11 +49,6 @@
     <div class="dropdown">
         <div class="item" onclick="handleMenuItem('about')">About</div>
         <div class="item" onclick="handleMenuItem('fetching payments')">Payments</div>
-    </div>
-
-    <div id="context-menu">
-        <div class="context-menu-item">Menu Item A</div>
-        <div class="context-menu-item">Menu Item B</div>
     </div>
 </div>
 
@@ -71,6 +71,15 @@
         </tr>
         </tbody>
     </table>
+</div>
+
+<div id="context-menu">
+    <div class="context-menu-item">Menu Item A</div>
+    <div class="context-menu-item">Menu Item B</div>
+</div>
+
+<div id="expand-area" ondblclick="handleDoubleClick()">
+    Double click me
 </div>
 
 <div id="messages"></div>
@@ -98,6 +107,10 @@
 
     function hideTableContextMenu() {
         this.event.preventDefault();
+    }
+
+    function handleDoubleClick() {
+        updateNode(document.getElementById('messages'), 'message', 'double clicked')
     }
 </script>
 </body>
