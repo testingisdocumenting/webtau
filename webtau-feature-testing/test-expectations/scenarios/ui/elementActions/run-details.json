@@ -30,6 +30,18 @@
       "numberOfSuccessful" : 3
     }
   }, {
+    "scenario" : "send keys",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "send keys validation",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "right click",
     "shortContainerId" : "elementActions.groovy",
     "stepsSummary" : {

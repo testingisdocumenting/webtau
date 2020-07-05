@@ -18,6 +18,7 @@ package scenarios.ui
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.payments
+import static pages.Pages.payments
 
 scenario('open browser') {
     browser.open('/element-actions')
@@ -41,6 +42,14 @@ scenario('validate hover') {
     paymentsMenuItem.click()
 
     payments.message.waitTo == 'fetching payments'
+}
+
+scenario('send keys') {
+    payments.dollarAmount.sendKeys("104.5")
+}
+
+scenario('send keys validation') {
+    payments.dollarAmount.should == "104.5"
 }
 
 scenario('right click') {
