@@ -93,6 +93,13 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
+    public void doubleClick() {
+        execute(tokenizedMessage(action("double clicking")).add(pathDescription),
+                () -> tokenizedMessage(action("double clicked")).add(pathDescription),
+                () -> performActions("double click", Actions::doubleClick));
+    }
+
+    @Override
     public void hover() {
         execute(tokenizedMessage(action("moving mouse over")).add(pathDescription),
                 () -> tokenizedMessage(action("moved mouse over")).add(pathDescription),
