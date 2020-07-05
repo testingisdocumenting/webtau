@@ -42,6 +42,18 @@
       "numberOfSuccessful" : 1
     }
   }, {
+    "scenario" : "clear",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "clear validation",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "right click",
     "shortContainerId" : "elementActions.groovy",
     "stepsSummary" : {

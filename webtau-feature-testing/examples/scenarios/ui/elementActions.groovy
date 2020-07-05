@@ -18,52 +18,59 @@ package scenarios.ui
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.payments
-import static pages.Pages.payments
 
-scenario('open browser') {
-    browser.open('/element-actions')
+scenario("open browser") {
+    browser.open("/element-actions")
 }
 
-scenario('click') {
+scenario("click") {
     payments.confirmation.click()
 }
 
-scenario('validate click') {
-    payments.message.waitTo == 'single clicked'
+scenario("validate click") {
+    payments.message.waitTo == "single clicked"
 }
 
-scenario('hover') {
-    $('.menu').hover()
+scenario("hover") {
+    $(".menu").hover()
 }
 
-scenario('validate hover') {
-    def paymentsMenuItem = $('.dropdown .item').get('Payments')
+scenario("validate hover") {
+    def paymentsMenuItem = $(".dropdown .item").get("Payments")
     paymentsMenuItem.waitTo beVisible()
     paymentsMenuItem.click()
 
-    payments.message.waitTo == 'fetching payments'
+    payments.message.waitTo == "fetching payments"
 }
 
-scenario('send keys') {
+scenario("send keys") {
     payments.dollarAmount.sendKeys("104.5")
 }
 
-scenario('send keys validation') {
+scenario("send keys validation") {
     payments.dollarAmount.should == "104.5"
 }
 
-scenario('right click') {
-    $('table').rightClick()
+scenario("clear") {
+    payments.dollarAmount.clear()
 }
 
-scenario('validate context menu') {
-    $('.context-menu-item').waitTo == ['Menu Item A', 'Menu Item B']
+scenario("clear validation") {
+    payments.dollarAmount.should == ""
 }
 
-scenario('double click') {
-    $('#expand-area').doubleClick()
+scenario("right click") {
+    $("table").rightClick()
 }
 
-scenario('validate double click') {
-    payments.message.waitTo == 'double clicked'
+scenario("validate context menu") {
+    $(".context-menu-item").waitTo == ["Menu Item A", "Menu Item B"]
+}
+
+scenario("double click") {
+    $("#expand-area").doubleClick()
+}
+
+scenario("validate double click") {
+    payments.message.waitTo == "double clicked"
 }
