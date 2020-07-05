@@ -21,4 +21,5 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*
 class PaymentsPage {
     def confirmation = $("button").get("Confirmation")
     def message = $('#message')
+    def dollarAmount = $('#amount')
 }
