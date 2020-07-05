@@ -59,6 +59,14 @@ scenario("clear validation") {
     payments.dollarAmount.should == ""
 }
 
+scenario("setValue") {
+    payments.dollarAmount.setValue("104.5")
+}
+
+scenario("setValue validation") {
+    payments.dollarAmount.should == "104.5"
+}
+
 scenario("right click") {
     $("table").rightClick()
 }
