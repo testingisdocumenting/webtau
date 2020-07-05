@@ -17,21 +17,30 @@
 package scenarios.ui
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import static pages.Pages.payments
 
 scenario('open browser') {
     browser.open('/element-actions')
+}
+
+scenario('click') {
+    payments.confirmation.click()
+}
+
+scenario('validate click') {
+    payments.message.waitTo == 'single clicked'
 }
 
 scenario('hover') {
     $('.menu').hover()
 }
 
-scenario('click on menu drop down') {
-    def payments = $('.dropdown .item').get('Payments')
-    payments.waitTo beVisible()
-    payments.click()
+scenario('validate hover') {
+    def paymentsMenuItem = $('.dropdown .item').get('Payments')
+    paymentsMenuItem.waitTo beVisible()
+    paymentsMenuItem.click()
 
-    $('#messages').waitTo == 'fetching payments'
+    payments.message.waitTo == 'fetching payments'
 }
 
 scenario('right click') {
@@ -47,5 +56,5 @@ scenario('double click') {
 }
 
 scenario('validate double click') {
-    $('#messages').waitTo == 'double clicked'
+    payments.message.waitTo == 'double clicked'
 }
