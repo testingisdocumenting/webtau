@@ -23,7 +23,7 @@ class CustomInput implements PageElementGetSetValueHandler {
     }
 
     @Override
-    String getValue(HtmlNode htmlNode, PageElement pageElement) {
+    Object getValue(HtmlNode htmlNode, PageElement pageElement) {
         return pageElement.find('.current-value').getUnderlyingValue()
     }
 }

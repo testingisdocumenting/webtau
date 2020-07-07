@@ -27,6 +27,10 @@ Page object can be defined as
 
 :include-file: doc-artifacts/snippets/forms/selectOptions.groovy {title: "set value to select"}
  
+# CheckBox
+
+:include-file: doc-artifacts/snippets/forms/checkBox.groovy {title: "set value to checkbox"}
+ 
 # Universal Assert
 
 Form element value can be asserted the same way as any regular element. 

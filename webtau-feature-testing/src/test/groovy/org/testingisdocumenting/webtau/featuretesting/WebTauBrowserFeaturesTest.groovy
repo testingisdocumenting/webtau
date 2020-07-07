@@ -173,6 +173,7 @@ class WebTauBrowserFeaturesTest {
                 root, 'examples/scenarios/ui/forms.groovy', [
                 'inputDefault.groovy': 'input type default',
                 'inputDate.groovy': 'input type date',
+                'checkBox.groovy': 'select checkbox',
                 'selectOptions.groovy': 'select options',
                 'validation.groovy': 'values validation',
         ])

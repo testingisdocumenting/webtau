@@ -24,7 +24,31 @@
       "numberOfSuccessful" : 2
     }
   }, {
+    "scenario" : "select checkbox",
+    "shortContainerId" : "forms.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
     "scenario" : "values validation",
+    "shortContainerId" : "forms.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "select checkbox multiple times",
+    "shortContainerId" : "forms.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "deselect checkbox",
+    "shortContainerId" : "forms.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "deselect checkbox multiple times",
     "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
