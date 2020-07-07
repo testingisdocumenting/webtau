@@ -51,7 +51,7 @@ public class PageElementGetSetValueHandlers {
         handler.setValue(stepExecutor, pathDescription, htmlNode, pageElement, value);
     }
 
-    public static String getValue(HtmlNode htmlNode, PageElement pageElement) {
+    public static Object getValue(HtmlNode htmlNode, PageElement pageElement) {
         PageElementGetSetValueHandler handler = findHandler(htmlNode, pageElement);
         return handler.getValue(htmlNode, pageElement);
     }

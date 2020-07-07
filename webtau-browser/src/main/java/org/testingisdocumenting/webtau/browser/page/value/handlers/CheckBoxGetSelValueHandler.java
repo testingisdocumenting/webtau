@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,47 +16,49 @@
 
 package org.testingisdocumenting.webtau.browser.page.value.handlers;
 
+import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 import org.testingisdocumenting.webtau.browser.page.NullWebElement;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
+public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler {
     @Override
     public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
-        return htmlNode.getTagName().equals("select");
+        return htmlNode.getAttributes().getOrDefault("type", "").toLowerCase().equals("checkbox");
     }
 
     @Override
-    public void setValue(PageElementStepExecutor stepExecutor,
-                         TokenizedMessage pathDescription,
-                         HtmlNode htmlNode,
-                         PageElement pageElement,
-                         Object value) {
+    public void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) {
+        if (!(value instanceof Boolean)) {
+            throw new IllegalArgumentException("setValue arg for checkbox must be true or false");
+        }
 
-        stepExecutor.execute(tokenizedMessage(action("selecting drop down option"), stringValue(value)).add(pathDescription),
-                () -> tokenizedMessage(action("selected drop down option"), stringValue(value)).add(pathDescription),
+        stepExecutor.execute(tokenizedMessage(action("setting checkbox value to"), stringValue(value)).add(pathDescription),
+                () -> tokenizedMessage(action("set checkbox value to"), stringValue(value)).add(pathDescription),
                 () -> {
-                    Select select = new Select(pageElement.findElement());
-                    select.selectByValue(value.toString());
+                    boolean needSelection = (boolean) value;
+                    WebElement webElement = pageElement.findElement();
+
+                    if ((!webElement.isSelected() && needSelection) ||
+                            (webElement.isSelected() && !needSelection)) {
+                        webElement.click();
+                    }
                 });
     }
 
     @Override
-    public Object getValue(HtmlNode htmlNode, PageElement pageElement) {
+    public Boolean getValue(HtmlNode htmlNode, PageElement pageElement) {
         WebElement webElement = pageElement.findElement();
         if (webElement instanceof NullWebElement) {
             return null;
         }
 
-        Select select = new Select(webElement);
-        return select.getFirstSelectedOption().getText();
+        return webElement.isSelected();
     }
 }

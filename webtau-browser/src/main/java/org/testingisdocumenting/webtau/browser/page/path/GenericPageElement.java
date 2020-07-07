@@ -52,7 +52,7 @@ public class GenericPageElement implements PageElement {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final ElementPath path;
     private final TokenizedMessage pathDescription;
-    private final ElementValue<String, PageElement> elementValue;
+    private final ElementValue<Object, PageElement> elementValue;
     private final ElementValue<Integer, PageElement> countValue;
 
     public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, ElementPath path) {
@@ -120,12 +120,12 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ElementValue<String, PageElement> elementValue() {
+    public ElementValue<Object, PageElement> elementValue() {
         return elementValue;
     }
 
     @Override
-    public ElementValue<List<String>, PageElement> elementValues() {
+    public ElementValue<List<Object>, PageElement> elementValues() {
         return new ElementValue<>(this, "all values", this::extractValues);
     }
 
@@ -207,8 +207,8 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public String getUnderlyingValue() {
-        List<String> values = extractValues();
+    public Object getUnderlyingValue() {
+        List<Object> values = extractValues();
         return values.isEmpty() ? null : values.get(0);
     }
 
@@ -234,7 +234,7 @@ public class GenericPageElement implements PageElement {
         return findElement().getAttribute(name);
     }
 
-    private List<String> extractValues() {
+    private List<Object> extractValues() {
         List<WebElement> elements = path.find(driver);
         List<Map<String, ?>> elementsMeta = handleStaleElement(() -> additionalBrowserInteractions.extractElementsMeta(elements),
                 Collections.emptyList());
@@ -243,7 +243,7 @@ public class GenericPageElement implements PageElement {
             return Collections.emptyList();
         }
 
-        List<String> result = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
 
         for (int idx = 0; idx < elements.size(); idx++) {
             HtmlNode htmlNode = new HtmlNode(elementsMeta.get(idx));

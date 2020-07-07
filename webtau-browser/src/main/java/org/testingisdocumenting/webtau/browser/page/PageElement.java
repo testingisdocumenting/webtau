@@ -36,8 +36,8 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     WebElement findElement();
     List<WebElement> findElements();
 
-    ElementValue<String, PageElement> elementValue();
-    ElementValue<List<String>, PageElement> elementValues();
+    ElementValue<Object, PageElement> elementValue();
+    ElementValue<List<Object>, PageElement> elementValues();
 
     void setValue(Object value);
     void sendKeys(String keys);
@@ -59,7 +59,7 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     boolean isPresent();
 
     String getText();
-    String getUnderlyingValue();
+    Object getUnderlyingValue();
 
     TokenizedMessage locationDescription();
 
