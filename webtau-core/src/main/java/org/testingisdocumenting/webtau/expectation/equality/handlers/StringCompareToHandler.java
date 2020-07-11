@@ -76,8 +76,8 @@ public class StringCompareToHandler implements CompareToHandler {
             this.expectedString = this.expectedString.replaceAll("\r", "");
             this.actualString = this.actualString.replaceAll("\r", "");
 
-            this.actualLines = actualString.split("\n");
-            this.expectedLines = expectedString.split("\n");
+            this.actualLines = actualString.split("\n", -1);
+            this.expectedLines = expectedString.split("\n", -1);
 
             this.longestLineUnderscore = createLongestLineUnderscore();
 

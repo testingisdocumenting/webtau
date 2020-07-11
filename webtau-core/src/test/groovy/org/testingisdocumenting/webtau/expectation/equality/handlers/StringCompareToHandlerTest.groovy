@@ -105,6 +105,64 @@ class StringCompareToHandlerTest {
     }
 
     @Test
+    void "properly handles new line symbol at the end of a single line"() {
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(createActualPath('text'),
+                'single line\n',
+                'single lone\n')
+
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text:   actual: <java.lang.String>\n' +
+                '      ___________\n' +
+                '      single line\n' +
+                '      \n' +
+                '      ___________\n' +
+                '      \n' +
+                '      expected: <java.lang.String>\n' +
+                '      ___________\n' +
+                '      single lone\n' +
+                '      \n' +
+                '      ___________\n' +
+                '      \n' +
+                '      first mismatch at line idx 0:\n' +
+                '      single line\n' +
+                '      single lone\n' +
+                '              ^', comparator.generateEqualMismatchReport())
+    }
+
+    @Test
+    void "properly handles multiple new line symbols at the end of a single line"() {
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsEqual(createActualPath('text'),
+                'single line\n\n\n',
+                'single lone\n\n\n')
+
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text:   actual: <java.lang.String>\n' +
+                '      ___________\n' +
+                '      single line\n' +
+                '      \n' +
+                '      \n' +
+                '      \n' +
+                '      ___________\n' +
+                '      \n' +
+                '      expected: <java.lang.String>\n' +
+                '      ___________\n' +
+                '      single lone\n' +
+                '      \n' +
+                '      \n' +
+                '      \n' +
+                '      ___________\n' +
+                '      \n' +
+                '      first mismatch at line idx 0:\n' +
+                '      single line\n' +
+                '      single lone\n' +
+                '              ^', comparator.generateEqualMismatchReport())
+    }
+
+    @Test
     void "reports different number of lines"() {
         def comparator = CompareToComparator.comparator()
         comparator.compareIsEqual(createActualPath('text'),
