@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -76,8 +77,8 @@ public class StringCompareToHandler implements CompareToHandler {
             this.expectedString = this.expectedString.replaceAll("\r", "");
             this.actualString = this.actualString.replaceAll("\r", "");
 
-            this.actualLines = actualString.split("\n");
-            this.expectedLines = expectedString.split("\n");
+            this.actualLines = actualString.split("\n", -1);
+            this.expectedLines = expectedString.split("\n", -1);
 
             this.longestLineUnderscore = createLongestLineUnderscore();
 
