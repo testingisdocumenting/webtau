@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.cfg
 import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
 import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.db.DbDataSourceProvider
+import org.testingisdocumenting.webtau.db.DbDataSourceProviders
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.TestListener
@@ -65,6 +67,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupReportGenerator(parsedConfig)
         setupPageElementGetSetValueHandlers(parsedConfig)
         setupTestListeners(parsedConfig)
+        setupDbDataSourceProviders(parsedConfig)
     }
 
     private static ConfigObject parseConfig(WebTauConfig cfg, Path configPath) {
@@ -137,6 +140,11 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     private static void setupTestListeners(ConfigObject config) {
         List<TestListener> listenerInstances = instancesFromConfig(config, 'testListeners')
         listenerInstances.each { TestListeners.add(it) }
+    }
+
+    private static void setupDbDataSourceProviders(ConfigObject config) {
+        List<DbDataSourceProvider> providers = instancesFromConfig(config, 'dbDataSourceProviders')
+        providers.each { DbDataSourceProviders.add(it) }
     }
 
     private static <E> List<E> instancesFromConfig(ConfigObject config, String key) {
