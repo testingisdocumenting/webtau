@@ -178,22 +178,43 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "query params example"() {
-        // Query params in the URL
+    void "query params in url example"() {
         http.get("params?a=1&b=text") {
             // assertions go here
         }
+    }
 
-        // Query params with map based helper - best suited for Groovy
-        http.get("params", http.query([a: 1, b: 'text'])) {
+    @Test
+    void "query params using query as map example"() {
+        http.get("params", [a: 1, b: 'text']) {
             // assertions go here
         }
+    }
 
-        // Query params with varargs based helper - best suited for Java
+    @Test
+    void "query params using query method example"() {
+        http.get("params", http.query([a: 1, b: 'text']), http.header(['x-param': 'value'])) {
+            // assertions go here
+        }
+    }
+
+    @Test
+    void "query params using query method and comma example"() {
         http.get("params", http.query('a', '1', 'b', 'text')) {
             // assertions go here
         }
     }
+
+    @Test
+    void "query params encoding"() {
+        // query params encoding snippet start
+        http.get("params", http.query([message: 'hello world !'])) {
+            // assertions go here
+        }
+        // query params encoding snippet end
+        http.doc.capture('query-params-encoding')
+    }
+
 
     @Test
     void "build query params from the map"() {
