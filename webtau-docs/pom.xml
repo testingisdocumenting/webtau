@@ -75,7 +75,7 @@
             <plugin>
                 <groupId>org.testingisdocumenting.znai</groupId>
                 <artifactId>znai-maven-plugin</artifactId>
-                <version>1.41</version>
+                <version>1.43.1</version>
                 <executions>
                     <execution>
                         <id>guide</id>
@@ -96,7 +96,7 @@
                     <docId>webtau</docId>
                     <deployRoot>${project.build.directory}</deployRoot>
                     <exportRoot>${project.build.directory}/znaisrc</exportRoot>
-                    <sourceRoot>${project.basedir}/webtau</sourceRoot>
+                    <sourceRoot>${project.basedir}/znai</sourceRoot>
                 </configuration>
             </plugin>
         </plugins>
