@@ -36,7 +36,7 @@ class LazyTestResource<E> implements GroovyInterceptable {
             this.@suppliedValue = this.@resourceValueSupplier.get()
         }
 
-        return this.@suppliedValue.getProperty(propertyName)
+        return this.@suppliedValue."$propertyName"
     }
 
     @Override

@@ -21,7 +21,7 @@ import org.junit.Test
 
 class LazyTestResourceTest {
     @Test
-    void "wraps a provided bean with a lazy initialization"() {
+    void "wraps a bean with a lazy initialization"() {
         def sequence = []
 
         sequence << 1
@@ -35,6 +35,16 @@ class LazyTestResourceTest {
         data.score.should == 100
 
         sequence.should == [1, 3, 2]
+    }
+
+    @Test
+    void "wraps a map with a lazy initialization"() {
+        def data = new LazyTestResource("resource name", {
+            return [firstName: 'first-name', score: 100]
+        })
+
+        data.firstName.should == 'first-name'
+        data.score.should == 100
     }
 
     @Test
