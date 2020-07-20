@@ -20,26 +20,24 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static webtau.CliCommands.*
 
 def repl = createLazyResource("repl") {
-    return [
-        process: webtauCli.runInBackground("repl")
-    ]
+    return webtauCli.runInBackground("repl")
 }
 
 scenario('simple groovy repl') {
-    repl.process.send("2 + 2\n")
+    repl.send("2 + 2\n")
 
-    repl.process.output.waitTo contain("4")
+    repl.output.waitTo contain("4")
 
-    repl.process.output.should contain("4")
-    repl.process.clearOutput()
-    repl.process.output.shouldNot contain("4")
+    repl.output.should contain("4")
+    repl.clearOutput()
+    repl.output.shouldNot contain("4")
 
-    repl.process.send("cfg\n")
-    repl.process.output.waitTo contain("url:")
+    repl.send("cfg\n")
+    repl.output.waitTo contain("url:")
 }
 
 scenario('http call') {
-    repl.process.with {
+    repl.with {
         clearOutput()
         send('http.get("https://jsonplaceholder.typicode.com/todos/1")\n')
         output.waitTo contain('executed')
