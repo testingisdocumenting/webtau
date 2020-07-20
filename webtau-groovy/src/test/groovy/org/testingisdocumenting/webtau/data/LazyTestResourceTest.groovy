@@ -55,7 +55,7 @@ class LazyTestResourceTest {
     }
 
     @Test
-    void "provides access to the underyling value"() {
+    void "provides access to the underlying value"() {
         def data = new LazyTestResource("resource name", {
             return new LazyData(firstName: 'first-name', score: 100)
         })
