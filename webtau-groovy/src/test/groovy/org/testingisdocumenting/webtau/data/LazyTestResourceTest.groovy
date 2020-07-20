@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,11 +19,9 @@ package org.testingisdocumenting.webtau.data
 
 import org.junit.Test
 
-import static org.testingisdocumenting.webtau.data.LazyTestResource.createLazyResource
-
 class LazyTestResourceTest {
     @Test
-    void "wraps a provided bean with a delayed initialization"() {
+    void "wraps a provided bean with a lazy initialization"() {
         def sequence = []
 
         sequence << 1
@@ -36,6 +35,33 @@ class LazyTestResourceTest {
         data.score.should == 100
 
         sequence.should == [1, 3, 2]
+    }
+
+    @Test
+    void "intercepts method calls and initialize resource on first access"() {
+        def sequence = []
+
+        sequence << 1
+        def data = new LazyTestResource("resource name", {
+            sequence << 2
+            return "test"
+        })
+        sequence << 3
+
+        data.size().should == 4
+        data.toString().should == "test"
+
+        sequence.should == [1, 3, 2]
+    }
+
+    @Test
+    void "provides access to the underyling value"() {
+        def data = new LazyTestResource("resource name", {
+            return new LazyData(firstName: 'first-name', score: 100)
+        })
+
+        data.get().class.should == LazyData
+        data.get().firstName.should == 'first-name'
     }
 }
 
