@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutp
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -34,12 +35,24 @@ public class Cli {
     private Cli() {
     }
 
-    public ProcessEnv env(Map<String, String> env) {
-        return new ProcessEnv(env);
+    public CliProcessConfig env(Map<String, String> env) {
+        return new CliProcessConfig().env(env);
     }
 
-    public ProcessEnv env(String... keyValue) {
-        return new ProcessEnv(CollectionUtils.aMapOf((Object[]) keyValue));
+    public CliProcessConfig env(String... keyValue) {
+        return new CliProcessConfig().env(CollectionUtils.aMapOf((Object[]) keyValue));
+    }
+
+    public CliProcessConfig workingDir(String workingDir) {
+        return new CliProcessConfig().workingDir(workingDir);
+    }
+
+    public CliProcessConfig workingDir(Path workingDir) {
+        return new CliProcessConfig().workingDir(workingDir);
+    }
+
+    public CliProcessConfig config() {
+        return new CliProcessConfig();
     }
 
     public CliCommand command(String commandBase) {
@@ -51,34 +64,34 @@ public class Cli {
     }
 
     public void run(String command, CliValidationOutputOnlyHandler handler) {
-        run(command, ProcessEnv.EMPTY, handler);
+        run(command, CliProcessConfig.EMPTY, handler);
     }
 
     public void run(String command) {
-        run(command, ProcessEnv.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+        run(command, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
     }
 
-    public void run(String command, ProcessEnv env, CliValidationOutputOnlyHandler handler) {
-        new CliForegroundCommand().run(command, env, handler);
+    public void run(String command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        new CliForegroundCommand().run(command, config, handler);
     }
 
     public void run(String command, CliValidationExitCodeOutputHandler handler) {
-        run(command, ProcessEnv.EMPTY, handler);
+        run(command, CliProcessConfig.EMPTY, handler);
     }
 
-    public void run(String command, ProcessEnv env, CliValidationExitCodeOutputHandler handler) {
-        new CliForegroundCommand().run(command, env, handler);
+    public void run(String command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        new CliForegroundCommand().run(command, config, handler);
     }
 
-    public CliBackgroundCommand runInBackground(String command, ProcessEnv env) {
-        CliBackgroundCommand backgroundCommand = new CliBackgroundCommand(command, env);
+    public CliBackgroundCommand runInBackground(String command, CliProcessConfig config) {
+        CliBackgroundCommand backgroundCommand = new CliBackgroundCommand(command, config);
         backgroundCommand.run();
 
         return backgroundCommand;
     }
 
     public CliBackgroundCommand runInBackground(String command) {
-        return runInBackground(command, ProcessEnv.EMPTY);
+        return runInBackground(command, CliProcessConfig.EMPTY);
     }
 
     void setLastDocumentationArtifact(CliDocumentationArtifact documentationArtifact) {

@@ -36,13 +36,13 @@ public class CliBackgroundCommand {
 
     private final String command;
 
-    private final ProcessEnv env;
+    private final CliProcessConfig processConfig;
     private CliBackgroundProcess backgroundProcess;
     private long startTime;
 
-    CliBackgroundCommand(String command, ProcessEnv env) {
+    CliBackgroundCommand(String command, CliProcessConfig processConfig) {
         this.command = command;
-        this.env = env;
+        this.processConfig = processConfig;
     }
 
     public void run() {
@@ -92,7 +92,7 @@ public class CliBackgroundCommand {
     private void startBackgroundProcess() {
         try {
             startTime = Time.currentTimeMillis();
-            backgroundProcess = ProcessUtils.runInBackground(command, env.getEnv());
+            backgroundProcess = ProcessUtils.runInBackground(command, processConfig);
             Cli.cli.setLastDocumentationArtifact(
                     new CliDocumentationArtifact(command, getOutput(), getError(), null));
         } catch (IOException e) {
