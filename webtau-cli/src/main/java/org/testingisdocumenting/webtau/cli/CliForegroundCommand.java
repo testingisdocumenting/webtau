@@ -37,27 +37,27 @@ public class CliForegroundCommand {
     CliForegroundCommand() {
     }
 
-    public void run(String command, ProcessEnv env, CliValidationOutputOnlyHandler handler) {
-        cliStep(command, env, (validationResult) -> handler.handle(
+    public void run(String command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        cliStep(command, config, (validationResult) -> handler.handle(
                 validationResult.getOut(),
                 validationResult.getErr()));
     }
 
-    public void run(String command, ProcessEnv env, CliValidationExitCodeOutputHandler handler) {
-        cliStep(command, env,
+    public void run(String command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        cliStep(command, config,
                 (validationResult) -> handler.handle(
                         validationResult.getExitCode(),
                         validationResult.getOut(),
                         validationResult.getErr()));
     }
 
-    private void cliStep(String command, ProcessEnv env, Consumer<CliValidationResult> validationCode) {
+    private void cliStep(String command, CliProcessConfig config, Consumer<CliValidationResult> validationCode) {
         CliValidationResult validationResult = new CliValidationResult(command);
 
         TestStep step = TestStep.createStep(null,
                 tokenizedMessage(action("running cli command "), stringValue(command)),
                 () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
-                () -> runAndValidate(validationResult, command, env, validationCode));
+                () -> runAndValidate(validationResult, command, config, validationCode));
 
         try {
             step.execute(StepReportOptions.REPORT_ALL);
@@ -69,11 +69,11 @@ public class CliForegroundCommand {
 
     private void runAndValidate(CliValidationResult validationResult,
                                 String command,
-                                ProcessEnv env,
+                                CliProcessConfig config,
                                 Consumer<CliValidationResult> validationCode) {
         try {
             long startTime = System.currentTimeMillis();
-            ProcessRunResult runResult = ProcessUtils.run(command, env.getEnv());
+            ProcessRunResult runResult = ProcessUtils.run(command, config);
             long endTime = System.currentTimeMillis();
 
             if (runResult.getErrorReadingException() != null) {
@@ -107,7 +107,7 @@ public class CliForegroundCommand {
             throw e;
         } catch (Throwable e) {
             validationResult.setErrorMessage(e.getMessage());
-            throw new CliException("error during running '" + command + "'", e);
+            throw new CliException(e.getMessage(), e);
         }
     }
 

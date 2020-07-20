@@ -101,7 +101,7 @@ public class CliValidationResult implements TestStepPayload {
     }
 
     public CliDocumentationArtifact createDocumentationArtifact() {
-        return new CliDocumentationArtifact(command, out, err, exitCode.get());
+        return new CliDocumentationArtifact(command, out, err, exitCode);
     }
 
     @Override
@@ -110,7 +110,11 @@ public class CliValidationResult implements TestStepPayload {
         result.put("command", command);
         result.put("out", out != null ? out.get() : "");
         result.put("err", err != null ? err.get() : "");
-        result.put("exitCode", exitCode.get());
+
+        if (exitCode != null) {
+            result.put("exitCode", exitCode.get());
+        }
+
         result.put("outMatches", out != null ? out.extractMatchedLines() : Collections.emptyList());
         result.put("errMatches", err != null ? err.extractMatchedLines() : Collections.emptyList());
         result.put("startTime", startTime);
