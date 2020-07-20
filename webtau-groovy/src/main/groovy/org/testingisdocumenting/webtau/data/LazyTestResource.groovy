@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,25 +19,47 @@ package org.testingisdocumenting.webtau.data
 
 import java.util.function.Supplier
 
-class LazyTestResource<E> {
-    private E originalCache
-    private Supplier<E> originalSupplier
+class LazyTestResource<E> implements GroovyInterceptable {
+    private E suppliedValue
+    private Supplier<E> resourceValueSupplier
     private String resourceName
 
-    LazyTestResource(String resourceName, Supplier<E> originalSupplier) {
+    LazyTestResource(String resourceName, Supplier<E> resourceValueSupplier) {
         this.resourceName = resourceName
-        this.originalSupplier = originalSupplier
+        this.resourceValueSupplier = resourceValueSupplier
     }
 
-    def getProperty(String name) {
-        return get()."$name"
-    }
-
-    synchronized E get() {
-        if (this.@originalCache == null) {
-            this.@originalCache = this.@originalSupplier.get()
+    @Override
+    Object getProperty(String propertyName) {
+        // we don't extract into a separate method to avoid recursion
+        if (this.@suppliedValue == null) {
+            this.@suppliedValue = this.@resourceValueSupplier.get()
         }
 
-        return this.@originalCache
+        return this.@suppliedValue."$propertyName"
+    }
+
+    @Override
+    def invokeMethod(String name, Object args) {
+        // we don't extract into a separate method to avoid recursion
+        if (this.@suppliedValue == null) {
+            this.@suppliedValue = this.@resourceValueSupplier.get()
+        }
+
+        if (name == 'get') {
+            return this.@suppliedValue
+        }
+
+        return this.@suppliedValue.invokeMethod(name, args)
+    }
+
+    @Override
+    String toString() {
+        // we don't extract into a separate method to avoid recursion
+        if (this.@suppliedValue == null) {
+            this.@suppliedValue = this.@resourceValueSupplier.get()
+        }
+
+        return this.@suppliedValue.toString()
     }
 }
