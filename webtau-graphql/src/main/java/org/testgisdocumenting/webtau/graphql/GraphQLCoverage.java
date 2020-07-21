@@ -18,7 +18,9 @@ package org.testgisdocumenting.webtau.graphql;
 
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class GraphQLCoverage {
@@ -35,7 +37,7 @@ public class GraphQLCoverage {
         }
 
         Optional<GraphQLOperation> graphQLOperation = schema.findOperation(validationResult.getRequestBody());
-        graphQLOperation.ifPresent(operation -> coveredOperations.add(operation, validationResult.getResponseStatusCode(), validationResult.getId()));
+        graphQLOperation.ifPresent(operation -> coveredOperations.add(operation, validationResult.getId(), validationResult.getElapsedTime()));
     }
 
     Stream<GraphQLOperation> nonCoveredOperations() {
@@ -44,5 +46,9 @@ public class GraphQLCoverage {
 
     Stream<GraphQLOperation> coveredOperations() {
         return coveredOperations.coveredOperations();
+    }
+
+    Stream<Map.Entry<GraphQLOperation, Set<GraphQLCoveredOperations.Call>>> actualCalls() {
+        return coveredOperations.getActualCalls();
     }
 }

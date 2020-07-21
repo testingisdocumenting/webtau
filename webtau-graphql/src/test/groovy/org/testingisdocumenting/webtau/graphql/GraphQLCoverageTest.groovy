@@ -41,8 +41,8 @@ class GraphQLCoverageTest {
         coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY))
         coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION))
 
-        coverage.nonCoveredOperations().should == ['name' | 'type'    ] {
-                                                   _____________________________
+        coverage.nonCoveredOperations().should == ['*name'     | '*type'    ] {
+                                                   ___________________________________________
                                                     'taskById' | GraphQLOperationType.QUERY
                                                   'uncomplete' | GraphQLOperationType.MUTATION
         }

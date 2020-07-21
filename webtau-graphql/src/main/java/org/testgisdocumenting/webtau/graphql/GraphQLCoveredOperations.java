@@ -29,10 +29,10 @@ public class GraphQLCoveredOperations {
         actualCallsIdsByOperation = new LinkedHashMap<>();
     }
 
-    public void add(GraphQLOperation operation, int statusCode, String id) {
+    public void add(GraphQLOperation operation, String id, long elapsedTime) {
         Set<Call> calls = actualCallsIdsByOperation.computeIfAbsent(operation, k -> new LinkedHashSet<>());
 
-        calls.add(new Call(statusCode, id));
+        calls.add(new Call(id, elapsedTime));
     }
 
     public boolean contains(GraphQLOperation operation) {
@@ -43,21 +43,25 @@ public class GraphQLCoveredOperations {
         return actualCallsIdsByOperation.keySet().stream();
     }
 
-    public static class Call {
-        private final int statusCode;
-        private final String id;
+    public Stream<Map.Entry<GraphQLOperation, Set<Call>>> getActualCalls() {
+        return actualCallsIdsByOperation.entrySet().stream();
+    }
 
-        private Call(int statusCode, String id) {
-            this.statusCode = statusCode;
+    public static class Call {
+        private final String id;
+        private final long elapsedTime;
+
+        private Call(String id, long elapsedTime) {
             this.id = id;
+            this.elapsedTime = elapsedTime;
         }
 
         public String getId() {
             return id;
         }
 
-        public int getStatusCode() {
-            return statusCode;
+        public long getElapsedTime() {
+            return elapsedTime;
         }
     }
 }

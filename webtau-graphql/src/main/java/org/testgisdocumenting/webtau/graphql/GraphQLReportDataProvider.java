@@ -16,12 +16,16 @@
 
 package org.testgisdocumenting.webtau.graphql;
 
+import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.testingisdocumenting.webtau.report.ReportCustomData;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,8 +40,36 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
                 .map(GraphQLOperation::toMap)
                 .collect(Collectors.toList());
 
+        List<? extends Map<String, ?>> timingByOperation = computeTiming();
+
         return Stream.of(
                 new ReportCustomData("graphQLSkippedOperations", nonCoveredOperations),
-                new ReportCustomData("graphQLCoveredOperations", coveredOperations));
+                new ReportCustomData("graphQLCoveredOperations", coveredOperations),
+                new ReportCustomData("graphQLOperationTimeStatistics", timingByOperation));
+    }
+
+    private static List<? extends Map<String, ?>> computeTiming() {
+        return GraphQL.getCoverage().actualCalls().map(GraphQLReportDataProvider::computeTiming).collect(Collectors.toList());
+    }
+
+    private static Map<String, ?> computeTiming(Map.Entry<GraphQLOperation, Set<GraphQLCoveredOperations.Call>> entry) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("name", entry.getKey().getName());
+        data.put("type", entry.getKey().getType().name().toLowerCase());
+
+        Map<String, Object> statistics = new LinkedHashMap<>();
+        data.put("statistics", statistics);
+
+        LongSummaryStatistics summaryStatistics = entry.getValue().stream().collect(Collectors.summarizingLong(GraphQLCoveredOperations.Call::getElapsedTime));
+        statistics.put("mean", summaryStatistics.getAverage());
+        statistics.put("min", summaryStatistics.getMin());
+        statistics.put("max", summaryStatistics.getMax());
+
+        double[] times = entry.getValue().stream().map(GraphQLCoveredOperations.Call::getElapsedTime).mapToDouble(Long::doubleValue).sorted().toArray();
+        Percentile percentile = new Percentile();
+        statistics.put("p95", percentile.evaluate(times, 95));
+        statistics.put("p99", percentile.evaluate(times, 99));
+
+        return data;
     }
 }
