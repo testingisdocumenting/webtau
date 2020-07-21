@@ -199,4 +199,42 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
         });
         actual(number).should(equal(expected));
     }
+
+    @Test
+    public void postWithoutValidation() {
+        http.post("/full-echo", query, requestHeader, requestBody);
+        http.post("/full-echo", query, requestHeader);
+        http.post("/full-echo", query, requestBody);
+        http.post("/full-echo", query, requestHeader);
+        http.post("/full-echo", requestHeader);
+        http.post("/full-echo", query, requestBody);
+        http.post("/full-echo", requestHeader, requestBody);
+        http.post("/full-echo", query);
+        http.post("/full-echo", requestBody);
+        http.post("/full-echo");
+
+        http.post("/full-echo", query, requestHeader, requestBodyMap);
+        http.post("/full-echo", query, requestBodyMap);
+        http.post("/full-echo", requestBodyMap);
+        http.post("/full-echo", requestHeader, requestBodyMap);
+    }
+
+    @Test
+    public void putWithoutValidation() {
+        http.put("/full-echo", query, requestHeader, requestBody);
+        http.put("/full-echo", query, requestHeader);
+        http.put("/full-echo", query, requestBody);
+        http.put("/full-echo", query, requestHeader);
+        http.put("/full-echo", requestHeader);
+        http.put("/full-echo", query, requestBody);
+        http.put("/full-echo", requestHeader, requestBody);
+        http.put("/full-echo", query);
+        http.put("/full-echo", requestBody);
+        http.put("/full-echo");
+
+        http.put("/full-echo", query, requestHeader, requestBodyMap);
+        http.put("/full-echo", query, requestBodyMap);
+        http.put("/full-echo", requestBodyMap);
+        http.put("/full-echo", requestHeader, requestBodyMap);
+    }
 }

@@ -30,10 +30,8 @@ export default function CliCallDetails({cliCall}) {
                 <Mismatches cliCall={cliCall}/>
                 <ErrorMessage cliCall={cliCall}/>
 
-                <div className="cli-command-details-std-output-label">standard output</div>
-                <CliOutputCard output={cliCall.out} matchedLines={cliCall.outMatches}/>
-                <div className="cli-command-details-err-output-label">error output</div>
-                <CliOutputCard output={cliCall.err} matchedLines={cliCall.errMatches}/>
+                <CliOutputCard classifier="standard" output={cliCall.out} matchedLines={cliCall.outMatches}/>
+                <CliOutputCard classifier="error" output={cliCall.err} matchedLines={cliCall.errMatches}/>
             </td>
         </tr>
     )

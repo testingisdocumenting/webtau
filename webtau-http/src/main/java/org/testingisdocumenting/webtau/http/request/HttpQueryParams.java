@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.http.request;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,13 +28,13 @@ import java.util.stream.Collectors;
 public class HttpQueryParams {
     public static final HttpQueryParams EMPTY = new HttpQueryParams(Collections.emptyMap());
 
-    private Map<String, ?> params;
-    private String asString;
+    private final Map<String, ?> params;
+    private final String asString;
 
     public HttpQueryParams(Map<String, ?> params) {
         this.params = new LinkedHashMap<>(params);
         this.asString = this.params.entrySet().stream()
-                .map(e -> decode(e.getKey()) + "=" + decode(e.getValue().toString()))
+                .map(e -> encode(e.getKey()) + "=" + encode(e.getValue().toString()))
                 .collect(Collectors.joining("&"));
     }
 
@@ -48,9 +49,9 @@ public class HttpQueryParams {
         return asString;
     }
 
-    private static String decode(String text) {
+    private static String encode(String text) {
         try {
-            return URLDecoder.decode(text, "UTF-8");
+            return URLEncoder.encode(text, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }

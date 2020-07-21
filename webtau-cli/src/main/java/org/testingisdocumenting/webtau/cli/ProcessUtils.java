@@ -20,9 +20,7 @@ package org.testingisdocumenting.webtau.cli;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
@@ -33,8 +31,8 @@ public class ProcessUtils {
     private ProcessUtils() {
     }
 
-    public static ProcessRunResult run(String command, Map<String, String> env) throws IOException {
-        CliBackgroundProcess backgroundRunResult = runInBackground(command, env);
+    public static ProcessRunResult run(String command, CliProcessConfig config) throws IOException {
+        CliBackgroundProcess backgroundRunResult = runInBackground(command, config);
 
         try {
             backgroundRunResult.getProcess().waitFor();
@@ -49,13 +47,14 @@ public class ProcessUtils {
     }
 
     public static void kill(int pid) throws IOException {
-        run("kill " + pid + " && pkill -TERM -P " + pid, Collections.emptyMap());
+        run("kill " + pid + " && pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
     }
 
-    public static CliBackgroundProcess runInBackground(String command, Map<String, String> env) throws IOException {
+    public static CliBackgroundProcess runInBackground(String command, CliProcessConfig config) throws IOException {
         List<String> splitCommandWithPrefix = prefixCommandWithPathAndSplit(command);
+
         ProcessBuilder processBuilder = new ProcessBuilder(splitCommandWithPrefix);
-        processBuilder.environment().putAll(env);
+        config.applyTo(processBuilder);
 
         Process process = processBuilder.start();
 

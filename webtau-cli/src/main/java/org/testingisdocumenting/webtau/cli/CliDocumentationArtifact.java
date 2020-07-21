@@ -16,15 +16,16 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cli.expectation.CliExitCode;
 import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 
 class CliDocumentationArtifact {
     private final String fullCommand;
     private final CliOutput output;
     private final CliOutput error;
-    private final Integer exitCode;
+    private final CliExitCode exitCode;
 
-    public CliDocumentationArtifact(String fullCommand, CliOutput output, CliOutput error, Integer exitCode) {
+    public CliDocumentationArtifact(String fullCommand, CliOutput output, CliOutput error, CliExitCode exitCode) {
         this.fullCommand = fullCommand;
         this.output = output;
         this.error = error;
@@ -43,7 +44,7 @@ class CliDocumentationArtifact {
         return error;
     }
 
-    public Integer getExitCode() {
+    public CliExitCode getExitCode() {
         return exitCode;
     }
 }

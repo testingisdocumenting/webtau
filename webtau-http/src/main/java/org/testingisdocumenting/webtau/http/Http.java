@@ -319,8 +319,16 @@ public class Http {
         post(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody) {
+        post(url, queryParams, header, requestBody, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void post(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
         post(url, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void post(String url, HttpHeader header, HttpRequestBody requestBody) {
+        post(url, header, requestBody, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
@@ -367,8 +375,16 @@ public class Http {
         post(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody) {
+        post(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void post(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
         post(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void post(String url, HttpHeader header, Map<String, Object> requestBody) {
+        post(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
@@ -381,6 +397,10 @@ public class Http {
 
     public void post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidator validator) {
         post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody) {
+        post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void post(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
@@ -443,12 +463,20 @@ public class Http {
         put(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody) {
+        put(url, queryParams, header, requestBody, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E put(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, HttpQueryParams.EMPTY, header, requestBody, validator);
     }
 
     public void put(String url, HttpHeader header, HttpRequestBody requestBody, HttpResponseValidator validator) {
         put(url, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url, HttpHeader header, HttpRequestBody requestBody) {
+        put(url, header, requestBody, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E put(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
@@ -459,12 +487,20 @@ public class Http {
         put(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, HttpQueryParams queryParams, HttpRequestBody requestBody) {
+        put(url, queryParams, requestBody, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E put(String url, HttpRequestBody requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, HttpHeader.EMPTY, requestBody, validator);
     }
 
     public void put(String url, HttpRequestBody requestBody, HttpResponseValidator validator) {
         put(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url, HttpRequestBody requestBody) {
+        put(url, requestBody, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E put(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
@@ -475,12 +511,20 @@ public class Http {
         put(url, queryParams, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, HttpQueryParams queryParams) {
+        put(url, queryParams, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E put(String url, HttpResponseValidatorWithReturn validator) {
         return put(url, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, validator);
     }
 
     public void put(String url, HttpResponseValidator validator) {
         put(url, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url) {
+        put(url, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E put(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
@@ -491,6 +535,14 @@ public class Http {
         put(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, HttpHeader header, Map<String, Object> requestBody) {
+        put(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody) {
+        put(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E put(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
@@ -499,12 +551,24 @@ public class Http {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, Map<String, Object> requestBody) {
+        put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void put(String url, HttpQueryParams queryParams, Map<String, Object> requestBody) {
+        put(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E put(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
         return put(url, queryParams, header, EmptyRequestBody.INSTANCE, validator);
     }
 
     public void put(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidator validator) {
         put(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header) {
+        put(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E put(String url, HttpHeader header, HttpResponseValidatorWithReturn validator) {
@@ -517,14 +581,6 @@ public class Http {
 
     public void put(String url, HttpHeader header) {
         put(url, header, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
-    }
-
-    public void put(String url) {
-        put(url, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
-    }
-
-    public void put(String url, HttpQueryParams queryParams) {
-        put(url, queryParams, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public <E> E delete(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {

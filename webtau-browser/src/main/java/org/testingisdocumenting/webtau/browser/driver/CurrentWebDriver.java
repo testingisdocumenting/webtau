@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +27,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.SessionStorage;
 import org.openqa.selenium.html5.WebStorage;
+import org.openqa.selenium.interactions.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -36,11 +39,13 @@ public class CurrentWebDriver implements
         TakesScreenshot,
         JavascriptExecutor,
         WebStorage,
+        Interactive,
+        HasInputDevices,
         WebDriverCreatorListener {
     public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
 
     private final AtomicBoolean wasUsed;
-    private ThreadLocal<WebDriver> local;
+    private final ThreadLocal<WebDriver> local;
 
     private CurrentWebDriver() {
         wasUsed = new AtomicBoolean(false);
@@ -174,5 +179,25 @@ public class CurrentWebDriver implements
         if (local.get() == webDriver) {
             local.set(null);
         }
+    }
+
+    @Override
+    public void perform(Collection<Sequence> actions) {
+        ((Interactive)getDriver()).perform(actions);
+    }
+
+    @Override
+    public void resetInputState() {
+        ((Interactive)getDriver()).resetInputState();
+    }
+
+    @Override
+    public Keyboard getKeyboard() {
+        return ((HasInputDevices) getDriver()).getKeyboard();
+    }
+
+    @Override
+    public Mouse getMouse() {
+        return ((HasInputDevices) getDriver()).getMouse();
     }
 }

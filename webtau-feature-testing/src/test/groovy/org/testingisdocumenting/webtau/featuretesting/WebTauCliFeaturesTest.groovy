@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,41 +32,43 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "simple script run"() {
-        supportedPlatformOnly {
-            runCli('simpleRun.groovy', 'webtau.cfg')
-        }
+        runCli('simpleRun.groovy', 'webtau.cfg')
     }
 
     @Test
     void "path based script run"() {
-        supportedPlatformOnly {
-            runCli('pathBasedScript.groovy', 'webtau-with-path.cfg')
-        }
+        runCli('pathBasedScript.groovy', 'webtau-with-path.cfg')
     }
 
     @Test
     void "error script run"() {
-        supportedPlatformOnly {
-            runCli('errorRuns.groovy', 'webtau.cfg')
-        }
+        runCli('errorRuns.groovy', 'webtau.cfg')
     }
 
     @Test
     void "implicit exit code"() {
-        supportedPlatformOnly {
-            runCli('implicitExitCodeCheck.groovy', 'webtau.cfg')
-        }
+        runCli('implicitExitCodeCheck.groovy', 'webtau.cfg')
     }
 
     @Test
     void "wait for output"() {
-        supportedPlatformOnly {
-            runCli('outputWait.groovy', 'webtau.cfg')
-        }
+        runCli('outputWait.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "working dir"() {
+        runCli('workingDir.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "send input"() {
+        runCli('sendInput.groovy', 'webtau.cfg')
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
-        testRunner.runCli("scenarios/cli/$restTestName",
-                "scenarios/cli/$configFileName", additionalArgs)
+        supportedPlatformOnly {
+            testRunner.runCli("scenarios/cli/$restTestName",
+                    "scenarios/cli/$configFileName", additionalArgs)
+        }
     }
 }

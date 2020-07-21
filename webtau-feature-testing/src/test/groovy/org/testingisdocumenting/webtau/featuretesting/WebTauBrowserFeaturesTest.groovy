@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +36,7 @@ class WebTauBrowserFeaturesTest {
         testServer.registerGet("/special-forms", htmlResponse('special-forms.html'))
         testServer.registerGet("/calculation", htmlResponse('calculation.html'))
         testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
+        testServer.registerGet("/element-actions", htmlResponse('element-actions.html'))
         testServer.registerGet("/cookies", htmlResponse('cookies.html'))
         testServer.registerGet("/matchers", htmlResponse('matchers.html'))
         testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
@@ -71,6 +73,11 @@ class WebTauBrowserFeaturesTest {
     @Test
     void "lazy declaration"() {
         runCli('basicDeclareFirst.groovy', 'webtau.cfg')
+    }
+
+    @Test
+    void "element actions"() {
+        runCli('elementActions.groovy', 'webtau.cfg')
     }
 
     @Test
@@ -166,6 +173,7 @@ class WebTauBrowserFeaturesTest {
                 root, 'examples/scenarios/ui/forms.groovy', [
                 'inputDefault.groovy': 'input type default',
                 'inputDate.groovy': 'input type date',
+                'checkBox.groovy': 'select checkbox',
                 'selectOptions.groovy': 'select options',
                 'validation.groovy': 'values validation',
         ])
