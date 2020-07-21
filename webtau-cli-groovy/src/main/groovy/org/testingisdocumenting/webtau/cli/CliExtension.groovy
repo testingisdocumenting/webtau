@@ -42,6 +42,10 @@ class CliExtension {
         command.run(args, config, closureToCliValidationHandler(handler))
     }
 
+    static void leftShift(CliBackgroundCommand backgroundCommand, String input) {
+        backgroundCommand.send(input)
+    }
+
     private static CliValidationExitCodeOutputHandler closureToCliValidationHandler(Closure validation) {
         return new CliValidationExitCodeOutputHandler() {
             @Override
