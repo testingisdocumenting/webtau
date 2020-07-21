@@ -60,6 +60,11 @@ class WebTauCliFeaturesTest {
         runCli('workingDir.groovy', 'webtau.cfg')
     }
 
+    @Test
+    void "send input"() {
+        runCli('sendInput.groovy', 'webtau.cfg')
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         supportedPlatformOnly {
             testRunner.runCli("scenarios/cli/$restTestName",

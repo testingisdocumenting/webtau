@@ -34,7 +34,7 @@ class CliGroovyTest {
                 output.should contain('world')
                 output.should contain('message to world')
 
-                error.should contain("error line two")
+                error.should contain('error line two')
             }
         }
     }
