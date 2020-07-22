@@ -170,14 +170,6 @@ class HttpExtensions {
         return http.post(url, requestBody, closureToHttpResponseValidator(validation))
     }
 
-    static void post(Http http, String url, HttpQueryParams queryParams, Map<String, Object> requestBody) {
-        http.post(url, queryParams, new JsonRequestBody(requestBody))
-    }
-
-    static void post(Http http, String url, Map<String, Object> requestBody) {
-        http.post(url, new JsonRequestBody(requestBody))
-    }
-
     static def put(Http http, String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody, Closure validation) {
         return http.put(url, queryParams, header, requestBody, closureToHttpResponseValidator(validation))
     }

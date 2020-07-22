@@ -58,6 +58,8 @@ public class HttpTestDataServer {
         testServer.registerPatch("/echo", new TestServerResponseEcho(200));
         testServer.registerPut("/full-echo", new TestServerRequestFullEcho(200));
         testServer.registerPut("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
+        testServer.registerPost("/full-echo", new TestServerRequestFullEcho(201));
+        testServer.registerPost("/full-echo?a=1&b=text", new TestServerRequestFullEcho(201));
         testServer.registerPatch("/full-echo", new TestServerRequestFullEcho(200));
         testServer.registerPatch("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
         testServer.registerDelete("/full-echo", new TestServerRequestFullEcho(200));
@@ -79,6 +81,7 @@ public class HttpTestDataServer {
         testServer.registerDelete("/resource", new TestServerTextResponse("abc"));
         testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
         testServer.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
+        testServer.registerGet("/params?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
         testServer.registerGet("/integer", new TestServerJsonResponse("123"));
         testServer.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
 

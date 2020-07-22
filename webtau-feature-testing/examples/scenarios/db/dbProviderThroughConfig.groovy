@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,24 +12,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
-package org.testingisdocumenting.webtau.cli;
+package scenarios.db
 
-import java.util.Collections;
-import java.util.Map;
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-public class ProcessEnv {
-    public static final ProcessEnv EMPTY = new ProcessEnv(Collections.emptyMap());
+scenario('access db using provider from config') {
+    db.update("""CREATE TABLE PRICES (
+    id varchar(255),
+    description varchar(255),
+    price int
+);
+"""
+    )
 
-    private Map<String, String> env;
-
-    public ProcessEnv(Map<String, String> env) {
-        this.env = env;
-    }
-
-    public Map<String, String> getEnv() {
-        return env;
-    }
+    db.table("PRICES").query().size().should == 0
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.browser.page.path;
 
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
 import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElementsFilter;
@@ -49,7 +52,7 @@ public class GenericPageElement implements PageElement {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final ElementPath path;
     private final TokenizedMessage pathDescription;
-    private final ElementValue<String, PageElement> elementValue;
+    private final ElementValue<Object, PageElement> elementValue;
     private final ElementValue<Integer, PageElement> countValue;
 
     public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, ElementPath path) {
@@ -82,6 +85,27 @@ public class GenericPageElement implements PageElement {
                 () -> findElement().click());
     }
 
+    @Override
+    public void rightClick() {
+        execute(tokenizedMessage(action("right clicking")).add(pathDescription),
+                () -> tokenizedMessage(action("right clicked")).add(pathDescription),
+                () -> performActions("right click", Actions::contextClick));
+    }
+
+    @Override
+    public void doubleClick() {
+        execute(tokenizedMessage(action("double clicking")).add(pathDescription),
+                () -> tokenizedMessage(action("double clicked")).add(pathDescription),
+                () -> performActions("double click", Actions::doubleClick));
+    }
+
+    @Override
+    public void hover() {
+        execute(tokenizedMessage(action("moving mouse over")).add(pathDescription),
+                () -> tokenizedMessage(action("moved mouse over")).add(pathDescription),
+                () -> performActions("hover", Actions::moveToElement));
+    }
+
     public WebElement findElement() {
         List<WebElement> webElements = findElements();
         return webElements.get(0);
@@ -96,12 +120,12 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ElementValue<String, PageElement> elementValue() {
+    public ElementValue<Object, PageElement> elementValue() {
         return elementValue;
     }
 
     @Override
-    public ElementValue<List<String>, PageElement> elementValues() {
+    public ElementValue<List<Object>, PageElement> elementValues() {
         return new ElementValue<>(this, "all values", this::extractValues);
     }
 
@@ -183,8 +207,8 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public String getUnderlyingValue() {
-        List<String> values = extractValues();
+    public Object getUnderlyingValue() {
+        List<Object> values = extractValues();
         return values.isEmpty() ? null : values.get(0);
     }
 
@@ -210,7 +234,7 @@ public class GenericPageElement implements PageElement {
         return findElement().getAttribute(name);
     }
 
-    private List<String> extractValues() {
+    private List<Object> extractValues() {
         List<WebElement> elements = path.find(driver);
         List<Map<String, ?>> elementsMeta = handleStaleElement(() -> additionalBrowserInteractions.extractElementsMeta(elements),
                 Collections.emptyList());
@@ -219,7 +243,7 @@ public class GenericPageElement implements PageElement {
             return Collections.emptyList();
         }
 
-        List<String> result = new ArrayList<>();
+        List<Object> result = new ArrayList<>();
 
         for (int idx = 0; idx < elements.size(); idx++) {
             HtmlNode htmlNode = new HtmlNode(elementsMeta.get(idx));
@@ -277,6 +301,23 @@ public class GenericPageElement implements PageElement {
         return elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
     }
 
+    private void performActions(String actionLabel, ActionsProvider actionsProvider) {
+        WebElement element = findElement();
+        ensureNotNullElement(element, actionLabel);
+
+        Actions actions = new Actions(driver);
+        actionsProvider.perform(actions, element);
+
+        Action builtAction = actions.build();
+        builtAction.perform();
+    }
+
+    private void ensureNotNullElement(WebElement element, String actionLabel) {
+        if (element instanceof NullWebElement) {
+            ((NullWebElement) element).error(actionLabel);
+        }
+    }
+
     private NullWebElement createNullElement() {
         return new NullWebElement(path.toString());
     }
@@ -313,5 +354,9 @@ public class GenericPageElement implements PageElement {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private interface ActionsProvider {
+        void perform(Actions actions, WebElement element);
     }
 }

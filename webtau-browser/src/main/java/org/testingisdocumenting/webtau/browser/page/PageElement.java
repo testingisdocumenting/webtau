@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,12 +36,15 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     WebElement findElement();
     List<WebElement> findElements();
 
-    ElementValue<String, PageElement> elementValue();
-    ElementValue<List<String>, PageElement> elementValues();
+    ElementValue<Object, PageElement> elementValue();
+    ElementValue<List<Object>, PageElement> elementValues();
 
     void setValue(Object value);
     void sendKeys(String keys);
     void click();
+    void rightClick();
+    void doubleClick();
+    void hover();
     void clear();
 
     PageElement find(String css);
@@ -55,7 +59,7 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     boolean isPresent();
 
     String getText();
-    String getUnderlyingValue();
+    Object getUnderlyingValue();
 
     TokenizedMessage locationDescription();
 

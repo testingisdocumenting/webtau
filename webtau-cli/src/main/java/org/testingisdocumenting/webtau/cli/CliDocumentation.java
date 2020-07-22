@@ -93,7 +93,7 @@ public class CliDocumentation {
             }
 
             FileUtils.writeTextContent(path.resolve("exitcode.txt"),
-                    String.valueOf(documentationArtifact.getExitCode()));
+                    String.valueOf(documentationArtifact.getExitCode().get()));
         }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "access db using provider from config",
+    "shortContainerId" : "dbProviderThroughConfig.groovy",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}
