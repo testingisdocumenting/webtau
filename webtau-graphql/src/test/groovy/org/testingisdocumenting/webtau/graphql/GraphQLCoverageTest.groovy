@@ -20,12 +20,10 @@ import org.junit.Test
 import org.testgisdocumenting.webtau.graphql.GraphQLCoverage
 import org.testgisdocumenting.webtau.graphql.GraphQLOperationType
 import org.testgisdocumenting.webtau.graphql.GraphQLSchema
-import org.testingisdocumenting.webtau.http.HttpResponse
-import org.testingisdocumenting.webtau.http.json.JsonRequestBody
-import org.testingisdocumenting.webtau.http.request.HttpRequestBody
-import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
+
+import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
 class GraphQLCoverageTest {
     private GraphQLCoverage coverage
@@ -46,26 +44,5 @@ class GraphQLCoverageTest {
                                                     'taskById' | GraphQLOperationType.QUERY
                                                   'uncomplete' | GraphQLOperationType.MUTATION
         }
-    }
-
-    static HttpValidationResult validationResult(operationName, operationType) {
-        def response = new HttpResponse()
-        response.statusCode = 200
-
-        def result = new HttpValidationResult('POST', '/graphql', '/graphql', null, body(operationName, operationType))
-        result.setResponse(response)
-        return result
-    }
-
-    static HttpRequestBody body(operationName, operationType) {
-        def type = operationType.name().toLowerCase()
-        def payload = [
-            query: """
-                    $type $operationName {
-                      id
-                    }
-                    """.toString()
-        ]
-        return new JsonRequestBody(payload)
     }
 }

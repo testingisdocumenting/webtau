@@ -30,13 +30,23 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GraphQLReportDataProvider implements ReportDataProvider {
+    private final GraphQLCoverage coverage;
+
+    public GraphQLReportDataProvider() {
+        this(GraphQL.getCoverage());
+    }
+
+    public GraphQLReportDataProvider(GraphQLCoverage coverage) {
+        this.coverage = coverage;
+    }
+
     @Override
     public Stream<ReportCustomData> provide(WebTauTestList tests) {
-        List<? extends Map<String, ?>> nonCoveredOperations = GraphQL.getCoverage().nonCoveredOperations()
+        List<? extends Map<String, ?>> nonCoveredOperations = coverage.nonCoveredOperations()
                 .map(GraphQLOperation::toMap)
                 .collect(Collectors.toList());
 
-        List<? extends Map<String, ?>> coveredOperations = GraphQL.getCoverage().coveredOperations()
+        List<? extends Map<String, ?>> coveredOperations = coverage.coveredOperations()
                 .map(GraphQLOperation::toMap)
                 .collect(Collectors.toList());
 
@@ -48,8 +58,8 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
                 new ReportCustomData("graphQLOperationTimeStatistics", timingByOperation));
     }
 
-    private static List<? extends Map<String, ?>> computeTiming() {
-        return GraphQL.getCoverage().actualCalls().map(GraphQLReportDataProvider::computeTiming).collect(Collectors.toList());
+    private List<? extends Map<String, ?>> computeTiming() {
+        return coverage.actualCalls().map(GraphQLReportDataProvider::computeTiming).collect(Collectors.toList());
     }
 
     private static Map<String, ?> computeTiming(Map.Entry<GraphQLOperation, Set<GraphQLCoveredOperations.Call>> entry) {
