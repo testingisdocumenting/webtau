@@ -123,9 +123,19 @@ class WebTauGroovyDsl extends WebTauDsl {
      * </pre>
      * @param name name of the resource
      * @param supplier resource initialization function
+     * @return lazy resource wrapper
      */
     static <E> E createLazyResource(String name, Supplier<E> supplier) {
         return new LazyTestResource<E>(name, supplier)
+    }
+
+    /**
+     * @see WebTauGroovyDsl#createLazyResource(String, java.util.function.Supplier)
+     * @param supplier resource initialization function
+     * @return lazy resource wrapper
+     */
+    static <E> E createLazyResource(Supplier<E> supplier) {
+        return new LazyTestResource<E>("", supplier)
     }
 
     static Closure action(String description, Closure code) {

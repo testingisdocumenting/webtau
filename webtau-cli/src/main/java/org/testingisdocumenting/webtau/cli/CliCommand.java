@@ -18,10 +18,11 @@ package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
+import org.testingisdocumenting.webtau.data.ResourceNameAware;
 
 import java.util.function.Supplier;
 
-public class CliCommand {
+public class CliCommand implements ResourceNameAware {
     private Supplier<String> commandBaseSupplier;
     private String commandBase;
 
@@ -104,5 +105,10 @@ public class CliCommand {
         return args.isEmpty() ?
                 commandBase:
                 commandBase + " " + args;
+    }
+
+    @Override
+    public String resourceName() {
+        return commandBase;
     }
 }
