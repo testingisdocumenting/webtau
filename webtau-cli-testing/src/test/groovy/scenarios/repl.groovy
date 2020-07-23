@@ -19,9 +19,7 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static webtau.CliCommands.*
 
-def repl = createLazyResource("repl") {
-    return webtauCli.runInBackground("repl")
-}
+def repl = createLazyResource { webtauCli.runInBackground("repl") }
 
 scenario('simple groovy repl') {
     repl.send("2 + 2\n")
