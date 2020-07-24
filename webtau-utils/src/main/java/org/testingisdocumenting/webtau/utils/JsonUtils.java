@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.testingisdocumenting.webtau.utils.json.JsonSerializationModuleProvider;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,7 +27,19 @@ import java.util.List;
 import java.util.Map;
 
 public class JsonUtils {
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final List<JsonSerializationModuleProvider> moduleProviders =
+            ServiceLoaderUtils.load(JsonSerializationModuleProvider.class);
+
+    private static final ObjectMapper mapper = createMapper();
+
+    private static ObjectMapper createMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        moduleProviders.stream()
+                .map(JsonSerializationModuleProvider::provide)
+                .forEach(mapper::registerModule);
+
+        return mapper;
+    }
 
     private JsonUtils() {
     }

@@ -280,6 +280,14 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "post with gstring map"() {
+        def id = "world"
+        http.post("echo", [a: "hello ${id}"]) {
+            a.should == "hello world"
+        }
+    }
+
+    @Test
     void "default user agent"() {
         http.get('/echo-header') {
             body['User-Agent'].should == ~/^webtau\//
