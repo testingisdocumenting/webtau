@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +19,9 @@ package org.testingisdocumenting.webtau.http;
 
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.http.Http.http;
 import static org.testingisdocumenting.webtau.http.HttpOverloadsTestCommon.*;
@@ -32,21 +36,316 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
     }
 
     @Test
+    public void postWithoutReturnOverloads() {
+        http.post("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.post("/full-echo", requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.post("/full-echo", requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", query, (header, body) -> {
+            urlValidation.accept(body);
+        });
+
+        http.post("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.post("/full-echo", requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.post("/full-echo", requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.post("/full-echo", requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.post("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+        });
+    }
+
+    @Test
+    public void postWithReturnOverloads() {
+        Map<String, Object> map;
+        List<Object> list;
+        String text;
+
+        map = http.post("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.post("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.post("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        map = http.post("/full-echo", query, requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.post("/full-echo", query, requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.post("/full-echo", query, requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        map = http.post("/full-echo", requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.post("/full-echo", requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.post("/full-echo", requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        text = http.post("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+
+            return header.get(HEADER_KEY);
+        });
+        actual(text).should(equal(HEADER_EXPECTED_RETURN));
+
+        text = http.post("/full-echo", query, (header, body) -> {
+            urlValidation.accept(body);
+
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
+
+        text = http.post("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+
+            return header.get(HEADER_KEY);
+        });
+        actual(text).should(equal(HEADER_EXPECTED_RETURN));
+
+        map = http.post("/full-echo", requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.post("/full-echo", requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.post("/full-echo", requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        text = http.post("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
+    }
+    
+    @Test
     public void putWithoutReturnOverloads() {
         http.put("/full-echo", query, requestHeader, requestBody, (header, body) -> {
             headerValidation.accept(body);
-            bodyValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.put("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.put("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.put("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.put("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.put("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
             urlValidation.accept(body);
         });
 
         http.put("/full-echo", query, requestBody, (header, body) -> {
-            bodyValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.put("/full-echo", query, requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.put("/full-echo", query, requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
             urlValidation.accept(body);
         });
 
         http.put("/full-echo", requestHeader, requestBody, (header, body) -> {
             headerValidation.accept(body);
-            bodyValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.put("/full-echo", requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.put("/full-echo", requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
             pathValidation.accept(body);
         });
 
@@ -65,7 +364,17 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
         });
 
         http.put("/full-echo", requestBody, (header, body) -> {
-            bodyValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.put("/full-echo", requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.put("/full-echo", requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
             pathValidation.accept(body);
         });
 
@@ -76,34 +385,87 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
 
     @Test
     public void putWithReturnOverloads() {
-        Integer number;
+        Map<String, Object> map;
+        List<Object> list;
         String text;
 
-        number = http.put("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+        map = http.put("/full-echo", query, requestHeader, requestBody, (header, body) -> {
             headerValidation.accept(body);
-            bodyValidation.accept(body);
+            bodyAsMapValidation.accept(body);
             urlValidation.accept(body);
 
-            return body.get(BODY_KEY);
+            return body.get(BODY_RESPONSE_KEY);
         });
-        actual(number).should(equal(BODY_EXPECTED_RETURN));
+        actual(map).should(equal(requestBodyMap));
 
-        number = http.put("/full-echo", query, requestBody, (header, body) -> {
-            bodyValidation.accept(body);
+        map = http.put("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
             urlValidation.accept(body);
 
-            return body.get(BODY_KEY);
+            return body.get(BODY_RESPONSE_KEY);
         });
-        actual(number).should(equal(BODY_EXPECTED_RETURN));
+        actual(map).should(equal(requestBodyMap));
 
-        number = http.put("/full-echo", requestHeader, requestBody, (header, body) -> {
+        list = http.put("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
             headerValidation.accept(body);
-            bodyValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        map = http.put("/full-echo", query, requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.put("/full-echo", query, requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.put("/full-echo", query, requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        map = http.put("/full-echo", requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
             pathValidation.accept(body);
 
-            return body.get(BODY_KEY);
+            return body.get(BODY_RESPONSE_KEY);
         });
-        actual(number).should(equal(BODY_EXPECTED_RETURN));
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.put("/full-echo", requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.put("/full-echo", requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
 
         text = http.put("/full-echo", query, requestHeader, (header, body) -> {
             headerValidation.accept(body);
@@ -128,15 +490,275 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
         });
         actual(text).should(equal(HEADER_EXPECTED_RETURN));
 
-        number = http.put("/full-echo", requestBody, (header, body) -> {
-            bodyValidation.accept(body);
+        map = http.put("/full-echo", requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
             pathValidation.accept(body);
 
-            return body.get(BODY_KEY);
+            return body.get(BODY_RESPONSE_KEY);
         });
-        actual(number).should(equal(BODY_EXPECTED_RETURN));
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.put("/full-echo", requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.put("/full-echo", requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
 
         text = http.put("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
+    }
+
+
+    @Test
+    public void patchWithoutReturnOverloads() {
+        http.patch("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.patch("/full-echo", requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.patch("/full-echo", requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", query, (header, body) -> {
+            urlValidation.accept(body);
+        });
+
+        http.patch("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.patch("/full-echo", requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.patch("/full-echo", requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.patch("/full-echo", requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.patch("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+        });
+    }
+
+    @Test
+    public void patchWithReturnOverloads() {
+        Map<String, Object> map;
+        List<Object> list;
+        String text;
+
+        map = http.patch("/full-echo", query, requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.patch("/full-echo", query, requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.patch("/full-echo", query, requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        map = http.patch("/full-echo", query, requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.patch("/full-echo", query, requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.patch("/full-echo", query, requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        map = http.patch("/full-echo", requestHeader, requestBody, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.patch("/full-echo", requestHeader, requestBodyMap, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.patch("/full-echo", requestHeader, requestBodyList, (header, body) -> {
+            headerValidation.accept(body);
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        text = http.patch("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+
+            return header.get(HEADER_KEY);
+        });
+        actual(text).should(equal(HEADER_EXPECTED_RETURN));
+
+        text = http.patch("/full-echo", query, (header, body) -> {
+            urlValidation.accept(body);
+
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
+
+        text = http.patch("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+
+            return header.get(HEADER_KEY);
+        });
+        actual(text).should(equal(HEADER_EXPECTED_RETURN));
+
+        map = http.patch("/full-echo", requestBody, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        map = http.patch("/full-echo", requestBodyMap, (header, body) -> {
+            bodyAsMapValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(map).should(equal(requestBodyMap));
+
+        list = http.patch("/full-echo", requestBodyList, (header, body) -> {
+            bodyAsListValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(BODY_RESPONSE_KEY);
+        });
+        actual(list).should(equal(requestBodyList));
+
+        text = http.patch("/full-echo", (header, body) -> {
             pathValidation.accept(body);
             return body.get(PATH_KEY);
         });

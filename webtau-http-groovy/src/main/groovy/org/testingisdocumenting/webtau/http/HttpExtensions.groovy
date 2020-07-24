@@ -70,7 +70,15 @@ class HttpExtensions {
         return http.patch(url, queryParams, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
+    static def patch(Http http, String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody, Closure validation) {
+        return http.patch(url, queryParams, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
     static def patch(Http http, String url, HttpHeader header, Map<String, Object> requestBody, Closure validation) {
+        return http.patch(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
+    static def patch(Http http, String url, HttpHeader header, Collection<?> requestBody, Closure validation) {
         return http.patch(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
@@ -78,7 +86,15 @@ class HttpExtensions {
         return http.patch(url, queryParams, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
+    static def patch(Http http, String url, HttpQueryParams queryParams, Collection<?> requestBody, Closure validation) {
+        return http.patch(url, queryParams, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
     static def patch(Http http, String url, Map<String, Object> requestBody, Closure validation) {
+        return http.patch(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
+    static def patch(Http http, String url, Collection<?> requestBody, Closure validation) {
         return http.patch(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
@@ -118,7 +134,15 @@ class HttpExtensions {
         http.patch(url, queryParams, new JsonRequestBody(requestBody))
     }
 
+    static void patch(Http http, String url, HttpQueryParams queryParams, Collection<?> requestBody) {
+        http.patch(url, queryParams, new JsonRequestBody(requestBody))
+    }
+
     static void patch(Http http, String url, Map<String, Object> requestBody) {
+        http.patch(url, new JsonRequestBody(requestBody))
+    }
+
+    static void patch(Http http, String url, Collection<?> requestBody) {
         http.patch(url, new JsonRequestBody(requestBody))
     }
 
@@ -178,7 +202,15 @@ class HttpExtensions {
         return http.put(url, queryParams, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
+    static def put(Http http, String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody, Closure validation) {
+        return http.put(url, queryParams, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
     static def put(Http http, String url, HttpHeader header, Map<String, Object> requestBody, Closure validation) {
+        return http.put(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
+    static def put(Http http, String url, HttpHeader header, Collection<?> requestBody, Closure validation) {
         return http.put(url, header, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
@@ -198,7 +230,15 @@ class HttpExtensions {
         return http.put(url, queryParams, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
+    static def put(Http http, String url, HttpQueryParams queryParams, Collection<?> requestBody, Closure validation) {
+        return http.put(url, queryParams, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
     static def put(Http http, String url, Map<String, Object> requestBody, Closure validation) {
+        return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
+    }
+
+    static def put(Http http, String url, Collection<?> requestBody, Closure validation) {
         return http.put(url, new JsonRequestBody(requestBody), closureToHttpResponseValidator(validation))
     }
 
