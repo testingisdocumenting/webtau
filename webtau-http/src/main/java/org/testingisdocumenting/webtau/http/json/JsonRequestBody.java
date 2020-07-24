@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +20,17 @@ package org.testingisdocumenting.webtau.http.json;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import java.util.Collection;
 import java.util.Map;
 
 public class JsonRequestBody implements HttpRequestBody {
     private final String asString;
 
     public JsonRequestBody(Map<String, Object> data) {
+        this.asString = JsonUtils.serialize(data);
+    }
+
+    public JsonRequestBody(Collection<?> data) {
         this.asString = JsonUtils.serialize(data);
     }
 
