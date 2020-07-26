@@ -882,7 +882,9 @@ public class Http {
     }
 
     @SuppressWarnings("unchecked")
-    private <R> R executeAndValidateHttpCall(String requestMethod, String url, HttpCall httpCall,
+    private <R> R executeAndValidateHttpCall(String requestMethod,
+                                             String url,
+                                             HttpCall httpCall,
                                              HttpHeader requestHeader,
                                              HttpRequestBody requestBody,
                                              HttpResponseValidatorWithReturn validator) {
@@ -912,6 +914,8 @@ public class Http {
                 HttpListeners.beforeHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody());
+
+                renderRequest(validationResult.getRequestBody());
 
                 response = httpCall.execute(validationResult.getFullUrl(),
                         validationResult.getRequestHeader());
@@ -1096,8 +1100,23 @@ public class Http {
         }
     }
 
+    private void renderRequest(HttpRequestBody requestBody) {
+        if (skipRenderRequestResponse() || requestBody == null) {
+            return;
+        }
+
+        if (requestBody.isEmpty()) {
+            ConsoleOutputs.out(Color.YELLOW, "[no request body]");
+        } else if (requestBody.isBinary()) {
+            ConsoleOutputs.out(Color.YELLOW, "[binary request]");
+        } else {
+            ConsoleOutputs.out(Color.YELLOW, "request", Color.CYAN, " (", requestBody.type(), "):");
+            renderRequestBody(requestBody);
+        }
+    }
+
     private void renderResponse(HttpValidationResult result) {
-        if (getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1) {
+        if (skipRenderRequestResponse()) {
             return;
         }
 
@@ -1106,8 +1125,22 @@ public class Http {
         } else if (!result.hasResponseContent()) {
             ConsoleOutputs.out(Color.YELLOW, "[no content]");
         } else {
+            ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", result.getResponse().getContentType(), "):");
             new DataNodeAnsiPrinter().print(result.getBodyNode());
         }
+    }
+
+    private void renderRequestBody(HttpRequestBody requestBody) {
+        if (requestBody instanceof JsonRequestBody) {
+            DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"), ((JsonRequestBody) requestBody).getOriginal());
+            new DataNodeAnsiPrinter().print(dataNode);
+        } else {
+            ConsoleOutputs.out(requestBody.asString());
+        }
+    }
+
+    private boolean skipRenderRequestResponse() {
+        return getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1;
     }
 
     private HttpResponse request(String method, String fullUrl,

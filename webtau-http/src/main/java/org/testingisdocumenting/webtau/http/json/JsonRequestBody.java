@@ -25,13 +25,16 @@ import java.util.Map;
 
 public class JsonRequestBody implements HttpRequestBody {
     private final String asString;
+    private final Object original;
 
     public JsonRequestBody(Map<String, Object> data) {
         this.asString = JsonUtils.serialize(data);
+        this.original = data;
     }
 
     public JsonRequestBody(Collection<?> data) {
         this.asString = JsonUtils.serialize(data);
+        this.original = data;
     }
 
     @Override
@@ -42,6 +45,15 @@ public class JsonRequestBody implements HttpRequestBody {
     @Override
     public String type() {
         return "application/json";
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return asString.isEmpty();
+    }
+
+    public Object getOriginal() {
+        return original;
     }
 
     @Override
