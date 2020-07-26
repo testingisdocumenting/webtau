@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,6 +40,11 @@ public class TextRequestBody implements HttpRequestBody {
     @Override
     public String type() {
         return type;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return content.isEmpty();
     }
 
     @Override
