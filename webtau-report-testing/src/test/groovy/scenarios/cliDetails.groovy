@@ -28,5 +28,5 @@ scenario('cli calls') {
 
     report.standardCliOutput().should == ~/welcome to my script/
 
-    browser.doc.capture('report-crud-http-calls')
+    browser.doc.capture('cli-calls')
 }
