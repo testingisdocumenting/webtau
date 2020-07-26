@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 
@@ -35,6 +36,8 @@ public class CliDocumentation {
         private final CliDocumentationArtifact documentationArtifact;
 
         public Capture(String artifactName) {
+            DocumentationArtifacts.registerName(artifactName);
+
             this.path = DocumentationArtifactsLocation.resolve(artifactName);
 
             this.documentationArtifact = Cli.cli.getLastDocumentationArtifact();

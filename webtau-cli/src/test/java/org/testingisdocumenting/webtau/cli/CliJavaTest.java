@@ -83,59 +83,6 @@ public class CliJavaTest {
     }
 
     @Test
-    public void docCapture() {
-        supportedPlatformOnly(() -> {
-            cli.run("scripts/hello", (exitCode, output, error) -> {
-                exitCode.should(equal(5));
-
-                output.should(contain("line in the middle"));
-                output.should(contain(Pattern.compile("line in the")));
-                output.should(contain("more text"));
-
-                error.should(contain("error line one"));
-            });
-
-            String artifactName = "hello-script";
-            cli.doc.capture(artifactName);
-
-            validateCapturedDocs(artifactName, "out.txt", "hello world\n" +
-                    "line in the middle\n" +
-                    "more text");
-
-            validateCapturedDocs(artifactName, "err.txt", "error line one\n" +
-                    "error line two");
-
-            validateCapturedDocs(artifactName, "out.matched.txt", "line in the middle\nmore text");
-            validateCapturedDocs(artifactName, "err.matched.txt", "error line one");
-            validateCapturedDocs(artifactName, "exitcode.txt", "5");
-        });
-    }
-
-    @Test
-    public void docCaptureOfBackgroundProcess() {
-        supportedPlatformOnly(() -> {
-            CliCommand command = cli.command("scripts/hello");
-            CliBackgroundCommand running = command.runInBackground("test-param");
-
-            running.getOutput().waitTo(contain("more text"));
-            running.getError().waitTo(contain("error line on"));
-
-            String artifactName = "background-hello-script";
-            cli.doc.capture(artifactName);
-
-            validateCapturedDocs(artifactName, "out.txt", "hello world test-param\n" +
-                    "line in the middle\n" +
-                    "more text");
-
-            validateCapturedDocs(artifactName, "err.txt", "error line one\n" +
-                    "error line two");
-
-            validateCapturedDocs(artifactName, "out.matched.txt", "more text");
-            validateCapturedDocs(artifactName, "err.matched.txt", "error line one");
-        });
-    }
-
-    @Test
     public void linesWithNotContain() {
         supportedPlatformOnly(() -> {
             code(() -> {
@@ -144,12 +91,5 @@ public class CliJavaTest {
                 }));
             }).should(throwException(Pattern.compile("output\\[1]: equals \"line in the middle\"")));
         });
-    }
-
-    private static void validateCapturedDocs(String artifactName, String fileName, String expectedContent) {
-        Path path = DocumentationArtifactsLocation.resolve(artifactName).resolve(fileName);
-        actual(Files.exists(path)).should(equal(true));
-
-        actual(FileUtils.fileTextContent(path)).should(equal(expectedContent));
     }
 }

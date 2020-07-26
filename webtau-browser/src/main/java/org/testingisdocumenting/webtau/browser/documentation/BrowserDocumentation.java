@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +19,7 @@ package org.testingisdocumenting.webtau.browser.documentation;
 
 import org.testingisdocumenting.webtau.browser.expectation.VisibleValueMatcher;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -32,9 +34,9 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
 public class BrowserDocumentation {
-    private TakesScreenshot screenshotTaker;
-    private List<ImageAnnotation> annotations;
-    private WebDriver driver;
+    private final TakesScreenshot screenshotTaker;
+    private final List<ImageAnnotation> annotations;
+    private final WebDriver driver;
 
     public BrowserDocumentation(WebDriver driver) {
         this(driver, Collections.emptyList());
@@ -50,23 +52,23 @@ public class BrowserDocumentation {
         return new BrowserDocumentation(driver, assignDefaultText(Arrays.asList(annotations)));
     }
 
-    public static ImageAnnotation badge(PageElement pageElement) {
+    public ImageAnnotation badge(PageElement pageElement) {
         return new BadgeImageAnnotation(pageElement, "");
     }
 
-    public static ImageAnnotation highlight(PageElement pageElement) {
+    public ImageAnnotation highlight(PageElement pageElement) {
         return new HighlighterImageAnnotation(pageElement);
     }
 
-    public static ImageAnnotation cover(PageElement pageElement) {
+    public ImageAnnotation cover(PageElement pageElement) {
         return new RectangleImageAnnotation(pageElement, "");
     }
 
-    public static ImageAnnotation cover(PageElement pageElement, String text) {
+    public ImageAnnotation cover(PageElement pageElement, String text) {
         return new RectangleImageAnnotation(pageElement, text);
     }
 
-    public static ImageAnnotation arrow(PageElement pageElement, String text) {
+    public ImageAnnotation arrow(PageElement pageElement, String text) {
         return new ArrowImageAnnotation(pageElement, text);
     }
 
@@ -76,9 +78,13 @@ public class BrowserDocumentation {
     }
 
     private void createScreenshot(String screenshotName) {
+        DocumentationArtifacts.registerName(screenshotName);
+
         Screenshot screenshot = new Screenshot(screenshotTaker);
 
-        Path screenShotPath = getCfg().getDocArtifactsPath().resolve(screenshotName + ".png");
+        String artifactName = screenshotName + ".png";
+
+        Path screenShotPath = getCfg().getDocArtifactsPath().resolve(artifactName);
         FileUtils.createDirsForFile(screenShotPath);
         screenshot.save(screenShotPath);
     }
