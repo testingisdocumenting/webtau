@@ -57,6 +57,10 @@ public class BrowserConfig implements WebTauConfigHandler {
         return headless.getAsBoolean();
     }
 
+    public static void setHeadless(boolean isHeadless) {
+        headless.set("manual", isHeadless);
+    }
+
     public static Path getChromeBinPath() {
         return chromeBinPath.getAsPath();
     }

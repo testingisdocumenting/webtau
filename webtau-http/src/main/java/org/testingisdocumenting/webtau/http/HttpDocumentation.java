@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http;
 
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.utils.FileUtils;
@@ -26,6 +28,8 @@ import java.nio.file.Path;
 
 public class HttpDocumentation {
     public void capture(String artifactName) {
+        DocumentationArtifacts.registerName(artifactName);
+
         Capture capture = new Capture(artifactName);
         capture.capture();
     }
