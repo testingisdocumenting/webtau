@@ -1101,7 +1101,7 @@ public class Http {
     }
 
     private void renderRequest(HttpRequestBody requestBody) {
-        if (skipRenderRequestResponse()) {
+        if (skipRenderRequestResponse() || requestBody == null) {
             return;
         }
 
