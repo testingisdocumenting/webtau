@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +26,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class DataNodeBuilder {
+    @SuppressWarnings("unchecked")
+    public static DataNode fromValue(DataNodeId id, Object value) {
+        if (value instanceof Map) {
+            return new StructuredDataNode(id, buildMapOfNodes(id, (Map<String, Object>)value));
+        } else if (value instanceof List) {
+            return new StructuredDataNode(id, buildListOfNodes(id, (List<Object>)value));
+        } else {
+            return new StructuredDataNode(id, new TraceableValue(value));
+        }
+    }
+
     public static DataNode fromMap(DataNodeId id, Map<String, Object> map) {
         return fromValue(id, map);
     }
@@ -54,16 +66,5 @@ public class DataNodeBuilder {
         }
 
         return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static DataNode fromValue(DataNodeId id, Object value) {
-        if (value instanceof Map) {
-            return new StructuredDataNode(id, buildMapOfNodes(id, (Map<String, Object>)value));
-        } else if (value instanceof List) {
-            return new StructuredDataNode(id, buildListOfNodes(id, (List<Object>)value));
-        } else {
-            return new StructuredDataNode(id, new TraceableValue(value));
-        }
     }
 }
