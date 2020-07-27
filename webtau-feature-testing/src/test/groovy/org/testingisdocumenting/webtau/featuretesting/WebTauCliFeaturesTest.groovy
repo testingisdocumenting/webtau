@@ -65,6 +65,11 @@ class WebTauCliFeaturesTest {
         runCli('sendInput.groovy', 'webtau.cfg')
     }
 
+    @Test
+    void "background command auto kill"() {
+        runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg')
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         supportedPlatformOnly {
             testRunner.runCli("scenarios/cli/$restTestName",

@@ -93,6 +93,16 @@ public class TestStep {
     public static TestStep createStep(Object context,
                                       long startTime,
                                       TokenizedMessage inProgressMessage,
+                                      Supplier<TokenizedMessage> completionMessageSupplier,
+                                      Runnable action) {
+        return createStep(context, startTime, inProgressMessage,
+                (stepResult) -> completionMessageSupplier.get(),
+                toSupplier(action));
+    }
+
+    public static TestStep createStep(Object context,
+                                      long startTime,
+                                      TokenizedMessage inProgressMessage,
                                       Function<Object, TokenizedMessage> completionMessageFunc,
                                       Supplier<Object> action) {
         TestStep step = new TestStep(context, startTime, inProgressMessage, completionMessageFunc, action);

@@ -1,0 +1,20 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "before first test",
+    "shortContainerId" : "Setup",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "dummy scenario",
+    "shortContainerId" : "backgroundCommandAutoKill.groovy",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}
