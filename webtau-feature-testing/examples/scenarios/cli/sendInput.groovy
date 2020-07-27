@@ -8,6 +8,8 @@ scenario("send input") {
 
     helloWorld.send("webtau\n")
     helloWorld.output.waitTo contain("hello webtau")
+
+    helloWorld.stop()
 }
 
 scenario("send input with shift left") {
@@ -16,4 +18,6 @@ scenario("send input with shift left") {
 
     helloWorld << "webtau\n"
     helloWorld.output.waitTo contain("hello webtau")
+
+    helloWorld.stop()
 }

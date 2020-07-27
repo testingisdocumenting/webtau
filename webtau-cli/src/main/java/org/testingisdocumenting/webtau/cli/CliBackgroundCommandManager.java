@@ -28,12 +28,12 @@ public class CliBackgroundCommandManager implements TestListener {
     }
 
     static void register(CliBackgroundCommand backgroundCommand) {
-        validateProcess(backgroundCommand);
+        validateProcessActive(backgroundCommand);
         runningCommands.put(backgroundCommand.getBackgroundProcess().getPid(), backgroundCommand);
     }
 
     static void remove(CliBackgroundCommand backgroundCommand) {
-        validateProcess(backgroundCommand);
+        validateProcessActive(backgroundCommand);
         runningCommands.remove(backgroundCommand.getBackgroundProcess().getPid());
     }
 
@@ -47,7 +47,7 @@ public class CliBackgroundCommandManager implements TestListener {
         runningCommands.forEach((pid, process) -> process.stop());
     }
 
-    private static void validateProcess(CliBackgroundCommand backgroundCommand) {
+    private static void validateProcessActive(CliBackgroundCommand backgroundCommand) {
         if (backgroundCommand.getBackgroundProcess() == null) {
             throw new IllegalStateException("process should not be null");
         }
