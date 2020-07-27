@@ -39,7 +39,7 @@ public class CliBackgroundCommand {
     }
 
     public void run() {
-        if (backgroundProcess != null) {
+        if (backgroundProcess != null && backgroundProcess.isActive()) {
             return;
         }
 
@@ -52,19 +52,24 @@ public class CliBackgroundCommand {
     }
 
     public void stop() {
-        if (backgroundProcess == null) {
-            return;
+        synchronized (this) {
+            TestStep.createAndExecuteStep(
+                    null,
+                    tokenizedMessage(action("stopping cli command in background"), stringValue(command)),
+                    (wasRunning) -> (Boolean) wasRunning ?
+                            tokenizedMessage(action("stopped cli command in background"), stringValue(command)) :
+                            tokenizedMessage(action("command has already finished"), stringValue(command)),
+                    () -> {
+                        boolean wasRunning = backgroundProcess.isActive();
+                        if (wasRunning) {
+                            backgroundProcess.destroy();
+                            CliBackgroundCommandManager.remove(this);
+                        }
+
+                        return wasRunning;
+                    },
+                    StepReportOptions.REPORT_ALL);
         }
-
-        TestStep.createAndExecuteStep(
-                tokenizedMessage(action("stopping cli command in background"), stringValue(command)),
-                () -> tokenizedMessage(action("stopped cli command in background"), stringValue(command)),
-                () -> {
-                    backgroundProcess.destroy();
-                    CliBackgroundCommandManager.remove(this);
-
-                    backgroundProcess = null;
-                });
     }
 
     CliBackgroundProcess getBackgroundProcess() {
@@ -115,14 +120,21 @@ public class CliBackgroundCommand {
             try {
                 backgroundProcess.getProcess().waitFor();
 
-                TestStep step = TestStep.createStep(null,
-                        startTime,
-                        tokenizedMessage(),
-                        () -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
-                                action("finished with exit code"), numberValue(backgroundProcess.exitCode())),
-                        () -> CliBackgroundCommandManager.remove(this));
+                synchronized (this) {
+                    TestStep step = TestStep.createStep(null,
+                            startTime,
+                            tokenizedMessage(),
+                            (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
+                                    action("finished with exit code"), numberValue(exitCode)),
+                            () -> {
+                                CliBackgroundCommandManager.remove(this);
+                                backgroundProcess.setAsInactive();
 
-                step.execute(StepReportOptions.SKIP_START);
+                                return backgroundProcess.exitCode();
+                            });
+
+                    step.execute(StepReportOptions.SKIP_START);
+                }
             } catch (InterruptedException e) {
                 // ignore
             }
