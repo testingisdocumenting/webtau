@@ -3,13 +3,13 @@
     "scenario" : "send input",
     "shortContainerId" : "sendInput.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "send input with shift left",
     "shortContainerId" : "sendInput.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   } ],
   "exitCode" : 0

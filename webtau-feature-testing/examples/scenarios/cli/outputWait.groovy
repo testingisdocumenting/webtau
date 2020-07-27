@@ -7,4 +7,6 @@ scenario("wait for output") {
     command.output.waitTo contain("line two")
 
     command.output.should contain("line one")
+
+    command.stop()
 }

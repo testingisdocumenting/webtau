@@ -3,7 +3,7 @@
     "scenario" : "wait for output",
     "shortContainerId" : "outputWait.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

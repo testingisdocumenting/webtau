@@ -22,18 +22,11 @@ import org.testingisdocumenting.webtau.reporter.TestStep;
 import org.testingisdocumenting.webtau.time.Time;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class CliBackgroundCommand {
-    private static final Map<Integer, CliBackgroundProcess> runningProcesses = new ConcurrentHashMap<>();
-    static {
-        registerShutdown();
-    }
-
     private final String command;
 
     private final CliProcessConfig processConfig;
@@ -46,7 +39,7 @@ public class CliBackgroundCommand {
     }
 
     public void run() {
-        if (backgroundProcess != null) {
+        if (backgroundProcess != null && backgroundProcess.isActive()) {
             return;
         }
 
@@ -59,8 +52,28 @@ public class CliBackgroundCommand {
     }
 
     public void stop() {
-        backgroundProcess.destroy();
-        backgroundProcess = null;
+        synchronized (this) {
+            TestStep.createAndExecuteStep(
+                    null,
+                    tokenizedMessage(action("stopping cli command in background"), stringValue(command)),
+                    (wasRunning) -> (Boolean) wasRunning ?
+                            tokenizedMessage(action("stopped cli command in background"), stringValue(command)) :
+                            tokenizedMessage(action("command has already finished"), stringValue(command)),
+                    () -> {
+                        boolean wasRunning = backgroundProcess.isActive();
+                        if (wasRunning) {
+                            backgroundProcess.destroy();
+                            CliBackgroundCommandManager.remove(this);
+                        }
+
+                        return wasRunning;
+                    },
+                    StepReportOptions.REPORT_ALL);
+        }
+    }
+
+    CliBackgroundProcess getBackgroundProcess() {
+        return backgroundProcess;
     }
 
     public void reRun() {
@@ -93,13 +106,13 @@ public class CliBackgroundCommand {
         try {
             startTime = Time.currentTimeMillis();
             backgroundProcess = ProcessUtils.runInBackground(command, processConfig);
+            CliBackgroundCommandManager.register(this);
+
             Cli.cli.setLastDocumentationArtifact(
                     new CliDocumentationArtifact(command, getOutput(), getError(), null));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        runningProcesses.put(backgroundProcess.getPid(), backgroundProcess);
     }
 
     private void waitForProcessToFinishInBackground() {
@@ -107,22 +120,24 @@ public class CliBackgroundCommand {
             try {
                 backgroundProcess.getProcess().waitFor();
 
-                TestStep step = TestStep.createStep(null,
-                        startTime,
-                        tokenizedMessage(),
-                        () -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
-                                action("finished with exit code"), numberValue(backgroundProcess.exitCode())),
-                        () -> runningProcesses.remove(backgroundProcess.getPid()));
+                synchronized (this) {
+                    TestStep step = TestStep.createStep(null,
+                            startTime,
+                            tokenizedMessage(),
+                            (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
+                                    action("finished with exit code"), numberValue(exitCode)),
+                            () -> {
+                                CliBackgroundCommandManager.remove(this);
+                                backgroundProcess.setAsInactive();
 
-                step.execute(StepReportOptions.SKIP_START);
+                                return backgroundProcess.exitCode();
+                            });
+
+                    step.execute(StepReportOptions.SKIP_START);
+                }
             } catch (InterruptedException e) {
                 // ignore
             }
         }).start();
-    }
-
-    private static void registerShutdown() {
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(() -> runningProcesses.forEach((pid, process) -> process.destroy())));
     }
 }
