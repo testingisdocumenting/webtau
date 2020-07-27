@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -34,7 +35,7 @@ public class TestStep {
     private final Object context;
 
     private final TokenizedMessage inProgressMessage;
-    private final Supplier<TokenizedMessage> completionMessageSupplier;
+    private final Function<Object, TokenizedMessage> completionMessageFunc;
     private final Supplier<Object> action;
     private TokenizedMessage completionMessage;
 
@@ -59,6 +60,13 @@ public class TestStep {
         return createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
     }
 
+    public static TestStep createStep(Object context,
+                                      TokenizedMessage inProgressMessage,
+                                      Function<Object, TokenizedMessage> completionMessageFunc,
+                                      Supplier<Object> action) {
+        return createStep(context, 0, inProgressMessage, completionMessageFunc, action);
+    }
+
     public static TestStep createStep(TokenizedMessage inProgressMessage,
                                       Supplier<TokenizedMessage> completionMessageSupplier,
                                       Runnable action) {
@@ -77,7 +85,17 @@ public class TestStep {
                                       TokenizedMessage inProgressMessage,
                                       Supplier<TokenizedMessage> completionMessageSupplier,
                                       Supplier<Object> action) {
-        TestStep step = new TestStep(context, startTime, inProgressMessage, completionMessageSupplier, action);
+        return createStep(context, startTime, inProgressMessage,
+                (stepResult) -> completionMessageSupplier.get(),
+                action);
+    }
+
+    public static TestStep createStep(Object context,
+                                      long startTime,
+                                      TokenizedMessage inProgressMessage,
+                                      Function<Object, TokenizedMessage> completionMessageFunc,
+                                      Supplier<Object> action) {
+        TestStep step = new TestStep(context, startTime, inProgressMessage, completionMessageFunc, action);
         TestStep localCurrentStep = TestStep.currentStep.get();
 
         step.parent = localCurrentStep;
@@ -89,19 +107,28 @@ public class TestStep {
         return step;
     }
 
-    public static <C> void createAndExecuteStep(Object context,
-                                                TokenizedMessage inProgressMessage,
-                                                Supplier<TokenizedMessage> completionMessageSupplier,
-                                                Runnable action,
-                                                StepReportOptions stepReportOptions) {
+    public static void createAndExecuteStep(Object context,
+                                            TokenizedMessage inProgressMessage,
+                                            Function<Object, TokenizedMessage> completionMessageFunc,
+                                            Supplier<Object> action,
+                                            StepReportOptions stepReportOptions) {
+        TestStep step = createStep(context, inProgressMessage, completionMessageFunc, action);
+        step.execute(stepReportOptions);
+    }
+
+    public static void createAndExecuteStep(Object context,
+                                            TokenizedMessage inProgressMessage,
+                                            Supplier<TokenizedMessage> completionMessageSupplier,
+                                            Runnable action,
+                                            StepReportOptions stepReportOptions) {
         TestStep step = createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
         step.execute(stepReportOptions);
     }
 
-    public static <C> void createAndExecuteStep(Object context,
-                                                TokenizedMessage inProgressMessage,
-                                                Supplier<TokenizedMessage> completionMessageSupplier,
-                                                Runnable action) {
+    public static void createAndExecuteStep(Object context,
+                                            TokenizedMessage inProgressMessage,
+                                            Supplier<TokenizedMessage> completionMessageSupplier,
+                                            Runnable action) {
         createAndExecuteStep(context,
                 inProgressMessage, completionMessageSupplier,
                 action, StepReportOptions.REPORT_ALL);
@@ -126,13 +153,13 @@ public class TestStep {
     private TestStep(Object context,
                      long startTime,
                      TokenizedMessage inProgressMessage,
-                     Supplier<TokenizedMessage> completionMessageSupplier,
+                     Function<Object, TokenizedMessage> completionMessageFunc,
                      Supplier<Object> action) {
         this.context = context;
         this.startTime = startTime;
         this.children = new ArrayList<>();
         this.inProgressMessage = inProgressMessage;
-        this.completionMessageSupplier = completionMessageSupplier;
+        this.completionMessageFunc = completionMessageFunc;
         this.action = action;
         this.isInProgress = true;
         this.payloads = new ArrayList<>();
@@ -140,9 +167,9 @@ public class TestStep {
 
     private TestStep(Object context,
                      TokenizedMessage inProgressMessage,
-                     Supplier<TokenizedMessage> completionMessageSupplier,
+                     Function<Object, TokenizedMessage> completionMessageFunc,
                      Supplier<Object> action) {
-        this(context, 0, inProgressMessage, completionMessageSupplier, action);
+        this(context, 0, inProgressMessage, completionMessageFunc, action);
     }
 
     public Stream<TestStep> children() {
@@ -231,7 +258,7 @@ public class TestStep {
 
             startClock();
             Object result = action.get();
-            complete(completionMessageSupplier.get());
+            complete(completionMessageFunc.apply(result));
             stopClock();
 
             StepReporters.onSuccess(this);

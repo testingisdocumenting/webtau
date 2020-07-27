@@ -75,7 +75,7 @@ public class FileSystem {
     public Path tempDir(Path dir, String prefix) {
         TestStep step = TestStep.createStep(null,
                 tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
-                () -> tokenizedMessage(action("created temp directory with prefix "), urlValue(prefix)),
+                (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
                 () -> createTempDir(dir, prefix));
 
         return (Path) step.execute(StepReportOptions.REPORT_ALL);
