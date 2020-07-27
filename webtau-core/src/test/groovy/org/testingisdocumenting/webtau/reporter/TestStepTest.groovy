@@ -127,9 +127,9 @@ class TestStepTest {
     }
 
     private static TestStep createStep(String title, Supplier stepCode = { return null }) {
-        TestStep.createStep(null, tokenizedMessage(action(title)), {
+        return TestStep.createStep(null, tokenizedMessage(action(title)), {
             tokenizedMessage(action('done ' + title))
-        }, stepCode)
+        } as Supplier, stepCode)
     }
 
     private static class PayloadA implements TestStepPayload {
