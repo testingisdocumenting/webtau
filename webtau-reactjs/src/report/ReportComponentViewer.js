@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,6 +33,7 @@ import {collapsibleHttpHeaderDemo} from "./details/http-header/CollapsibleHttpHe
 import {testMetadataDemo} from './details/metadata/TestMetadata.demo'
 import Loading from './loading/Loading'
 import {testSummaryDemo} from './details/TestSummary.demo'
+import {testCliBackgroundCallsDemo} from './details/cli/TestCliBackgroundCalls.demo'
 
 const registries = new Registries()
 
@@ -52,6 +54,7 @@ registries.add('http')
 registries.add('cli')
     .registerAsRows('cli building blocks', cliBuildingBlocksDemo)
     .registerAsTabs('cli calls', testCliCallsDemo)
+    .registerAsTabs('cli background calls', testCliBackgroundCallsDemo)
 
 registries.add('panels')
     .registerAsTabs('test summary', testSummaryDemo)

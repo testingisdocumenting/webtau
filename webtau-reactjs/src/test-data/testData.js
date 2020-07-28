@@ -113,6 +113,12 @@ export const withCliDataReport = {
                 "mismatches": [],
                 "errorMessage": null
             }],
+            "cliBackground": [{
+                "command": "server",
+                "out": "server running",
+                "err": "not something",
+                "startTime": 1593810461266,
+            }],
             "httpCalls": [],
             "steps": [{
                 "message": [{"type": "action", "value": "ran cli command"}, {
