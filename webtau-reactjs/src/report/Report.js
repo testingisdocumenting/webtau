@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +24,7 @@ import TestSummary from './details/TestSummary'
 import StatusEnum from './StatusEnum'
 import PerformanceReport from './PerformanceReport'
 import TestCliCalls from "./details/cli/TestCliCalls"
+import TestCliBackground from './details/cli/TestCliBackground'
 
 class Report {
     static overallHttpCallTimeForTest(test) {
@@ -380,6 +382,10 @@ function additionalDetails(test) {
 
     if (test.hasOwnProperty('cliCalls') && test.cliCalls.length > 0) {
         details.push({tabName: 'CLI calls', component: TestCliCalls})
+    }
+
+    if (test.hasOwnProperty('cliBackground') && test.cliBackground.length > 0) {
+        details.push({tabName: 'CLI in background', component: TestCliBackground})
     }
 
     if (test.hasOwnProperty('steps')) {

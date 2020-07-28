@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,53 +18,48 @@ import React from 'react'
 
 import moment from 'moment'
 
-import ElapsedTime from "../../widgets/ElapsedTime"
-import CliCallDetails from "./CliCallDetails"
 import {SelectedIndexes} from "../SelectedIndexes"
 
-import '../../widgets/Table.css'
-import './TestCliCalls.css';
+import CliBackgroundDetails from './CliBackgroundDetails'
 
-export default class TestCliCalls extends React.Component {
+import '../../widgets/Table.css'
+import './TestCliBackground.css';
+
+export default class TestCliBackground extends React.Component {
     state = {}
-    static stateName = 'cliCallIdxs'
+    static stateName = 'cliBackgroundIdxs'
 
     static getDerivedStateFromProps(props) {
-        const callIdxs = props.urlState[TestCliCalls.stateName]
-        return {selectedIndexes: new SelectedIndexes(callIdxs)}
+        const backgroundIdxs = props.urlState[TestCliBackground.stateName]
+        return {selectedIndexes: new SelectedIndexes(backgroundIdxs)}
     }
 
     render() {
         const {test} = this.props
 
         return (
-            <table className="test-cli-calls-table table">
+            <table className="test-cli-background-table table">
                 <thead>
                 <tr>
                     <th width="35px"/>
                     <th width="auto">Command</th>
-                    <th width="80px">Exit Code</th>
                     <th width="60px">Start</th>
-                    <th width="60px">Took</th>
                 </tr>
                 </thead>
                 <tbody>
-                {test.cliCalls.map((cliCall, idx) => this.renderRow(cliCall, idx))}
+                {test.cliBackground.map((cliBackground, idx) => this.renderRow(cliBackground, idx))}
                 </tbody>
             </table>
         )
     }
 
-    renderRow(cliCall, idx) {
+    renderRow(cliBackground, idx) {
         const isExpanded = this.isExpanded(idx)
 
-        const hasProblem = cliCall.mismatches.length > 0 || !!cliCall.errorMessage
-
-        const className = 'test-cli-call'
-            + (hasProblem ? ' with-problem' : '')
+        const className = 'test-cli-background'
             + (isExpanded ? ' expanded' : '')
 
-        const startDateTime = new Date(cliCall.startTime)
+        const startDateTime = new Date(cliBackground.startTime)
 
         const onClick = () => this.onCollapseToggleClick(idx)
 
@@ -72,18 +67,13 @@ export default class TestCliCalls extends React.Component {
             <React.Fragment key={idx}>
                 <tr className={className}>
                     <td className="collapse-toggle" onClick={onClick}>{isExpanded ? '-' : '+'}</td>
-                    <td className="command" onClick={onClick}>{cliCall.command}</td>
-                    <td className="exit-code" onClick={onClick}>{cliCall.exitCode}</td>
+                    <td className="command" onClick={onClick}>{cliBackground.command}</td>
                     <td className="start" onClick={onClick}>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
-                    <td className="cli-call-elapsed-time" onClick={onClick}>
-                        <ElapsedTime millis={cliCall.elapsedTime}/>
-                    </td>
                 </tr>
 
-                {isExpanded && <CliCallDetails cliCall={cliCall}/>}
+                {isExpanded && <CliBackgroundDetails cliBackground={cliBackground}/>}
             </React.Fragment>
         )
-
     }
 
     isExpanded(idx) {
@@ -95,7 +85,7 @@ export default class TestCliCalls extends React.Component {
         const {selectedIndexes} = this.state
 
         onInternalStateUpdate({
-            [TestCliCalls.stateName]: selectedIndexes.toggle(idx)
+            [TestCliBackground.stateName]: selectedIndexes.toggle(idx)
         })
     }
 }

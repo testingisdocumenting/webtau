@@ -168,6 +168,7 @@ public class CliBackgroundCommand implements TestStepPayload {
         result.put("command", command);
         result.put("out", String.join("\n", getThreadLocalOutput()));
         result.put("err", String.join("\n", getThreadLocalError()));
+        result.put("startTime", startTime);
 
         return result;
     }
