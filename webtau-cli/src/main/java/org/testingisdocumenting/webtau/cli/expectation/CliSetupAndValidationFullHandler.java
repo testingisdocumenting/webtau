@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.cli.expectation;
 
+import org.testingisdocumenting.webtau.cli.CliOutput;
 import org.testingisdocumenting.webtau.cli.CliOutputListener;
 
 public interface CliSetupAndValidationFullHandler {

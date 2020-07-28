@@ -17,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
 import org.testingisdocumenting.webtau.utils.FileUtils;

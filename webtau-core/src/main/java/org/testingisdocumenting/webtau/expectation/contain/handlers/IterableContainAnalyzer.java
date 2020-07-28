@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,10 +25,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IterableContainAnalyzer {
-    private ActualPath actualPath;
-    private Object actual;
-    private Object expected;
-    private CompareToComparator comparator;
+    private final ActualPath actualPath;
+    private final Object actual;
+    private final Object expected;
+    private final CompareToComparator comparator;
 
     public IterableContainAnalyzer(ActualPath actualPath, Object actual, Object expected) {
         this.actualPath = actualPath;
@@ -39,8 +40,8 @@ public class IterableContainAnalyzer {
     public List<IndexedValue> containingIndexedValues() {
         List<IndexedValue> matchedIndexes = new ArrayList<>();
 
-        Iterable actualIterable = (Iterable) actual;
-        Iterator iterator = actualIterable.iterator();
+        Iterable<?> actualIterable = (Iterable<?>) actual;
+        Iterator<?> iterator = actualIterable.iterator();
 
         int idx = 0;
         while (iterator.hasNext()) {

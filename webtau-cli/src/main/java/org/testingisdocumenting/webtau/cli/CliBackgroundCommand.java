@@ -16,22 +16,28 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.TestStepPayload;
 import org.testingisdocumenting.webtau.time.Time;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class CliBackgroundCommand {
+public class CliBackgroundCommand implements TestStepPayload {
     private final String command;
 
     private final CliProcessConfig processConfig;
     private CliBackgroundProcess backgroundProcess;
     private long startTime;
+
+    private final ThreadLocal<Integer> localOutputNextLineIdxMarker = ThreadLocal.withInitial(() -> 0);
+    private final ThreadLocal<Integer> localErrorNextLineIdxMarker = ThreadLocal.withInitial(() -> 0);
 
     CliBackgroundCommand(String command, CliProcessConfig processConfig) {
         this.command = command;
@@ -102,6 +108,21 @@ public class CliBackgroundCommand {
                 () -> backgroundProcess.clearOutput());
     }
 
+    // each thread maintains an output for report
+    // so each test can capture the output of background processed during that test run
+    void clearThreadLocal() {
+        localOutputNextLineIdxMarker.set(backgroundProcess.getOutput().getNumberOfLines());
+        localErrorNextLineIdxMarker.set(backgroundProcess.getError().getNumberOfLines());
+    }
+
+    List<String> getThreadLocalOutput() {
+        return backgroundProcess.getOutputStartingAtIdx(localOutputNextLineIdxMarker.get());
+    }
+
+    List<String> getThreadLocalError() {
+        return backgroundProcess.getErrorStartingAtIdx(localErrorNextLineIdxMarker.get());
+    }
+
     private void startBackgroundProcess() {
         try {
             startTime = Time.currentTimeMillis();
@@ -139,5 +160,15 @@ public class CliBackgroundCommand {
                 // ignore
             }
         }).start();
+    }
+
+    @Override
+    public Map<String, ?> toMap() {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("command", command);
+        result.put("out", String.join("\n", getThreadLocalOutput()));
+        result.put("err", String.join("\n", getThreadLocalError()));
+
+        return result;
     }
 }

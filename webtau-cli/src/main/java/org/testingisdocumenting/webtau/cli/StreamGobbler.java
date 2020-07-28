@@ -33,7 +33,6 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 public class StreamGobbler implements Runnable {
     private final InputStream stream;
 
-    private final StringBuffer full;
     private final List<String> lines;
     private final boolean renderOutput;
 
@@ -42,7 +41,6 @@ public class StreamGobbler implements Runnable {
     public StreamGobbler(InputStream stream) {
         this.stream = stream;
         this.lines = Collections.synchronizedList(new ArrayList<>());
-        this.full = new StringBuffer();
         this.renderOutput = shouldRenderOutput();
     }
 
@@ -50,8 +48,20 @@ public class StreamGobbler implements Runnable {
         return lines;
     }
 
-    public String getFull() {
-        return full.toString();
+    public int getNumberOfLines() {
+        return lines.size();
+    }
+
+    public List<String> getLinesStartingAt(int idx) {
+        return lines.subList(idx, lines.size());
+    }
+
+    public String joinLines() {
+        return String.join("\n", lines);
+    }
+
+    public String joinLinesStartingAt(int idx) {
+        return String.join("\n", getLinesStartingAt(idx));
     }
 
     public IOException getException() {
@@ -64,11 +74,6 @@ public class StreamGobbler implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void clear() {
-        lines.clear();
-        full.delete(0, full.length());
     }
 
     @Override
@@ -95,7 +100,6 @@ public class StreamGobbler implements Runnable {
             }
 
             lines.add(line);
-            full.append(line).append('\n');
         }
     }
 

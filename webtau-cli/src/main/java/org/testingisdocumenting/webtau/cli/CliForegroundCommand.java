@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliExitCode;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
 import org.testingisdocumenting.webtau.expectation.ActualPath;

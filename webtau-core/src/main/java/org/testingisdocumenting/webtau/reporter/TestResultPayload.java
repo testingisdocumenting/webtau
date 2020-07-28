@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +21,8 @@ import java.util.Collections;
 import java.util.Map;
 
 public class TestResultPayload {
-    private String payloadName;
-    private Object payload;
+    private final String payloadName;
+    private final Object payload;
 
     public TestResultPayload(String payloadName, Object payload) {
         this.payloadName = payloadName;

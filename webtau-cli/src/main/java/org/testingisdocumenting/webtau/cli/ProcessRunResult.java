@@ -16,10 +16,7 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
-
 import java.io.IOException;
-import java.util.List;
 
 public class ProcessRunResult {
     private final int exitCode;

@@ -17,8 +17,6 @@
 
 package org.testingisdocumenting.webtau.cli
 
-import org.testingisdocumenting.webtau.cli.expectation.CliExitCode
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler
 
 class CliExtension {
