@@ -1,0 +1,12 @@
+#!/bin/bash
+echo "enter your name"
+read name
+echo "hello $name"
+
+echo "enter your language"
+read lang
+echo "nice choice of $lang"
+
+echo "enter your hobby"
+read hobby
+echo "perfect hobby: $hobby"

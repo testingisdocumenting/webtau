@@ -66,6 +66,11 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "multi send input"() {
+        runCli('multiTestSendInput.groovy', 'webtau.cfg')
+    }
+
+    @Test
     void "background command auto kill"() {
         runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg')
     }

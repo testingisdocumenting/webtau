@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +15,9 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cli.expectation.CliResultExpectations;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 
 public class CliExitCode implements CliResultExpectations {

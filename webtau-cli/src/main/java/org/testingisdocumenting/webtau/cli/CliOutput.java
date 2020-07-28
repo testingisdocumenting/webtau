@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +15,9 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.expectation;
+package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.StreamGobbler;
+import org.testingisdocumenting.webtau.cli.expectation.CliResultExpectations;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ public class CliOutput implements CliResultExpectations {
     private final StreamGobbler streamGobbler;
 
     private final Set<Integer> matchedLinesIdx;
+
+    private int lastClearNextLineIdxMarker;
 
     public CliOutput(String id, StreamGobbler streamGobbler) {
         this.id = id;
@@ -42,11 +45,15 @@ public class CliOutput implements CliResultExpectations {
     }
 
     public String get() {
-        return streamGobbler.getFull();
+        return streamGobbler.joinLinesStartingAt(lastClearNextLineIdxMarker);
     }
 
     public List<String> copyLines() {
-        return new ArrayList<>(streamGobbler.getLines());
+        return copyLinesStartingAtIdx(lastClearNextLineIdxMarker);
+    }
+
+    public List<String> copyLinesStartingAtIdx(int idx) {
+        return new ArrayList<>(streamGobbler.getLinesStartingAt(idx));
     }
 
     public IOException getException() {
@@ -59,7 +66,11 @@ public class CliOutput implements CliResultExpectations {
 
     public void clear() {
         matchedLinesIdx.clear();
-        streamGobbler.clear();
+        lastClearNextLineIdxMarker = streamGobbler.getLines().size();
+    }
+
+    public int getNumberOfLines() {
+        return streamGobbler.getNumberOfLines();
     }
 
     public List<String> extractMatchedLines() {
@@ -69,6 +80,6 @@ public class CliOutput implements CliResultExpectations {
 
     @Override
     public String toString() {
-        return streamGobbler.getFull();
+        return streamGobbler.joinLines();
     }
 }

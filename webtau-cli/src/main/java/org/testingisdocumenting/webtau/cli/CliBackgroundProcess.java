@@ -16,11 +16,10 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class CliBackgroundProcess {
@@ -127,6 +126,14 @@ class CliBackgroundProcess {
 
     public ProcessRunResult createRunResult() {
         return new ProcessRunResult(process.exitValue(), output, error);
+    }
+
+    List<String> getOutputStartingAtIdx(int idx) {
+        return output.copyLinesStartingAtIdx(idx);
+    }
+
+    List<String> getErrorStartingAtIdx(int idx) {
+        return error.copyLinesStartingAtIdx(idx);
     }
 
     /**
