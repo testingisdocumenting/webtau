@@ -36,6 +36,10 @@ public class DocumentationArtifacts {
         }
     }
 
+    public static void clearRegisteredNames() {
+        usedArtifactNames.clear();
+    }
+
     public static void create(Class<?> testClass, String artifactName, String text) {
         Path path = DocumentationArtifactsLocation.classBasedLocation(testClass).resolve(artifactName);
         FileUtils.writeTextContent(path, text);
