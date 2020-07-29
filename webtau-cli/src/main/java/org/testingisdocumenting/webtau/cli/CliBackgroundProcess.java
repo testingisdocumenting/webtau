@@ -16,11 +16,11 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class CliBackgroundProcess {
     private final Process process;
@@ -35,6 +35,8 @@ class CliBackgroundProcess {
 
     private final CliOutput output;
     private final CliOutput error;
+
+    private final AtomicBoolean isActive;
 
     public CliBackgroundProcess(Process process,
                                 String command,
@@ -51,6 +53,7 @@ class CliBackgroundProcess {
         this.consumeOutThread = consumeOutThread;
         this.output = new CliOutput("process output", outputGobbler);
         this.error = new CliOutput("process error output", errorGobbler);
+        this.isActive = new AtomicBoolean(true);
     }
 
     public Process getProcess() {
@@ -76,9 +79,18 @@ class CliBackgroundProcess {
         try {
             ProcessUtils.kill(pid);
             process.waitFor();
+            isActive.set(true);
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setAsInactive() {
+        isActive.set(false);
+    }
+
+    public boolean isActive() {
+        return isActive.get();
     }
 
     public void send(String line) {
@@ -114,6 +126,14 @@ class CliBackgroundProcess {
 
     public ProcessRunResult createRunResult() {
         return new ProcessRunResult(process.exitValue(), output, error);
+    }
+
+    List<String> getOutputStartingAtIdx(int idx) {
+        return output.copyLinesStartingAtIdx(idx);
+    }
+
+    List<String> getErrorStartingAtIdx(int idx) {
+        return error.copyLinesStartingAtIdx(idx);
     }
 
     /**

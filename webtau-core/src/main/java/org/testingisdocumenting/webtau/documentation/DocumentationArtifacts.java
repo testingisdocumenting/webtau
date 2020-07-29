@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,8 +24,18 @@ import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.nio.file.Path;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DocumentationArtifacts {
+    private static final ConcurrentHashMap<String, Boolean> usedArtifactNames = new ConcurrentHashMap<>();
+
+    public static void registerName(String artifactName) {
+        Boolean previous = usedArtifactNames.put(artifactName, true);
+        if (previous != null) {
+            throw new AssertionError("doc artifact name <" + artifactName + "> was already used");
+        }
+    }
+
     public static void create(Class<?> testClass, String artifactName, String text) {
         Path path = DocumentationArtifactsLocation.classBasedLocation(testClass).resolve(artifactName);
         FileUtils.writeTextContent(path, text);

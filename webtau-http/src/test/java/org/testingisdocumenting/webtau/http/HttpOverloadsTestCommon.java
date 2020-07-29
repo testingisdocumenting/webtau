@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,9 @@ import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -30,6 +33,8 @@ import static org.testingisdocumenting.webtau.WebTauCore.equal;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpOverloadsTestCommon {
+    public static final String BODY_RESPONSE_KEY = "request";
+
     public static final String BODY_KEY = "b";
     public static final Integer BODY_EXPECTED_RETURN = 2;
 
@@ -44,12 +49,14 @@ public class HttpOverloadsTestCommon {
     public static final HttpHeader requestHeader = http.header(HEADER_KEY, HEADER_EXPECTED_RETURN);
 
     public static final Map<String, Object> requestBodyMap = Collections.singletonMap(BODY_KEY, BODY_EXPECTED_RETURN);
+    public static final List<String> requestBodyList = Arrays.asList("hello", "world");
     public static final HttpRequestBody requestBody = new JsonRequestBody(requestBodyMap);
 
     public static final Consumer<DataNode> headerValidation = (body) -> body.get(HEADER_KEY).should(equal(HEADER_EXPECTED_RETURN));
     public static final Consumer<DataNode> pathValidation = (body) -> body.get(PATH_KEY).should(equal(PATH_EXPECTED_RETURN));
     public static final Consumer<DataNode> queryValidation = (body) -> body.get("urlQuery").should(equal("a=1&b=text"));
-    public static final Consumer<DataNode> bodyValidation = (body) -> body.get("b").should(equal(2));
+    public static final Consumer<DataNode> bodyAsMapValidation = (body) -> body.get("request").should(equal(requestBodyMap));
+    public static final Consumer<DataNode> bodyAsListValidation = (body) -> body.get("request").should(equal(requestBodyList));
 
     public static final Consumer<DataNode> urlValidation = (body) -> {
         pathValidation.accept(body);

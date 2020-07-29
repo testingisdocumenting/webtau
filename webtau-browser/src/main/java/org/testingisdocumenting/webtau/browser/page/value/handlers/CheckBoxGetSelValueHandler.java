@@ -40,15 +40,25 @@ public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler
         }
 
         stepExecutor.execute(tokenizedMessage(action("setting checkbox value to"), stringValue(value)).add(pathDescription),
-                () -> tokenizedMessage(action("set checkbox value to"), stringValue(value)).add(pathDescription),
+                (willClickObj) -> {
+                    Boolean willClick = (Boolean) willClickObj;
+
+                    return willClick ?
+                            tokenizedMessage(action("set checkbox value to"), stringValue(value)).add(pathDescription):
+                            tokenizedMessage(action("checkbox was already set to"), stringValue(value)).add(pathDescription);
+                },
                 () -> {
-                    boolean needSelection = (boolean) value;
+                    boolean needToBeSelected = (boolean) value;
                     WebElement webElement = pageElement.findElement();
 
-                    if ((!webElement.isSelected() && needSelection) ||
-                            (webElement.isSelected() && !needSelection)) {
+                    boolean willClick = (!webElement.isSelected() && needToBeSelected) ||
+                            (webElement.isSelected() && !needToBeSelected);
+
+                    if (willClick) {
                         webElement.click();
                     }
+
+                    return willClick;
                 });
     }
 

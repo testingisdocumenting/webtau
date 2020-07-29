@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,35 +35,63 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
     void "put without return overloads"() {
         http.put("/full-echo", query, requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.put("/full-echo", query, requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.put("/full-echo", query, requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.put("/full-echo", query, requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.put("/full-echo", query, requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.put("/full-echo", query, requestBodyList) {
+            bodyAsListValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.put("/full-echo", query, requestBodyMap) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.put("/full-echo", query, requestBodyList) {
+            bodyAsListValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.put("/full-echo", requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            pathValidation.accept(body)
+        }
+
+        http.put("/full-echo", requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
             pathValidation.accept(body)
         }
 
         http.put("/full-echo", requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
         }
 
@@ -81,7 +110,7 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         }
 
         http.put("/full-echo", requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
         }
 
@@ -95,50 +124,76 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         def v
         v = http.patch("/full-echo", query, requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
+
+        v = http.patch("/full-echo", query, requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
+            urlValidation.accept(body)
+
+            return body[BODY_RESPONSE_KEY]
+        }
+        v.should == requestBodyList
 
         v = http.patch("/full-echo", query, requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
 
         http.patch("/full-echo", query, requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
 
         v = http.patch("/full-echo", query, requestBodyMap) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
+
+        v = http.patch("/full-echo", query, requestBodyList) {
+            bodyAsListValidation.accept(body)
+            urlValidation.accept(body)
+
+            return body[BODY_RESPONSE_KEY]
+        }
+        v.should == requestBodyList
 
         v = http.patch("/full-echo", requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
+
+        v = http.patch("/full-echo", requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
+            pathValidation.accept(body)
+
+            return body[BODY_RESPONSE_KEY]
+        }
+        v.should == requestBodyList
 
         v = http.patch("/full-echo", requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
 
             return body[HEADER_KEY]
@@ -167,12 +222,12 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         v.should == PATH_EXPECTED_RETURN
 
         v = http.patch("/full-echo", requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
 
         v = http.patch("/full-echo") {
             pathValidation.accept(body)
@@ -185,35 +240,58 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
     void "patch without return overloads"() {
         http.patch("/full-echo", query, requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.patch("/full-echo", query, requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.patch("/full-echo", query, requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.patch("/full-echo", query, requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.patch("/full-echo", query, requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.patch("/full-echo", query, requestBodyMap) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            urlValidation.accept(body)
+        }
+
+        http.patch("/full-echo", query, requestBodyList) {
+            bodyAsListValidation.accept(body)
             urlValidation.accept(body)
         }
 
         http.patch("/full-echo", requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
+            pathValidation.accept(body)
+        }
+
+        http.patch("/full-echo", requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
             pathValidation.accept(body)
         }
 
         http.patch("/full-echo", requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
         }
 
@@ -232,7 +310,7 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         }
 
         http.patch("/full-echo", requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
         }
 
@@ -246,50 +324,76 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         def v
         v = http.put("/full-echo", query, requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
+
+        v = http.put("/full-echo", query, requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
+            urlValidation.accept(body)
+
+            return body[BODY_RESPONSE_KEY]
+        }
+        v.should == requestBodyList
 
         v = http.put("/full-echo", query, requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
 
         http.put("/full-echo", query, requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
 
         v = http.put("/full-echo", query, requestBodyMap) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             urlValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
+
+        v = http.put("/full-echo", query, requestBodyList) {
+            bodyAsListValidation.accept(body)
+            urlValidation.accept(body)
+
+            return body[BODY_RESPONSE_KEY]
+        }
+        v.should == requestBodyList
 
         v = http.put("/full-echo", requestHeader, requestBodyMap) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
+
+        v = http.put("/full-echo", requestHeader, requestBodyList) {
+            headerValidation.accept(body)
+            bodyAsListValidation.accept(body)
+            pathValidation.accept(body)
+
+            return body[BODY_RESPONSE_KEY]
+        }
+        v.should == requestBodyList
 
         v = http.put("/full-echo", requestHeader, requestBody) {
             headerValidation.accept(body)
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
 
             return body[HEADER_KEY]
@@ -318,12 +422,12 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         v.should == PATH_EXPECTED_RETURN
 
         v = http.put("/full-echo", requestBody) {
-            bodyValidation.accept(body)
+            bodyAsMapValidation.accept(body)
             pathValidation.accept(body)
 
-            return body[BODY_KEY]
+            return body[BODY_RESPONSE_KEY]
         }
-        v.should == BODY_EXPECTED_RETURN
+        v.should == requestBodyMap
 
         v = http.put("/full-echo") {
             pathValidation.accept(body)
@@ -427,9 +531,13 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         http.post("/full-echo")
 
         http.post("/full-echo", query, requestHeader, requestBodyMap)
+        http.post("/full-echo", query, requestHeader, requestBodyList)
         http.post("/full-echo", query, requestBodyMap)
+        http.post("/full-echo", query, requestBodyList)
         http.post("/full-echo", requestBodyMap)
+        http.post("/full-echo", requestBodyList)
         http.post("/full-echo", requestHeader, requestBodyMap)
+        http.post("/full-echo", requestHeader, requestBodyList)
     }
 
     @Test
@@ -446,9 +554,12 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         http.put("/full-echo")
 
         http.put("/full-echo", query, requestHeader, requestBodyMap)
+        http.put("/full-echo", query, requestHeader, requestBodyList)
         http.put("/full-echo", query, requestBodyMap)
+        http.put("/full-echo", query, requestBodyList)
         http.put("/full-echo", requestBodyMap)
+        http.put("/full-echo", requestBodyList)
         http.put("/full-echo", requestHeader, requestBodyMap)
+        http.put("/full-echo", requestHeader, requestBodyList)
     }
-
 }

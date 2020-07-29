@@ -73,6 +73,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -230,7 +231,16 @@ public class Http {
         return patch(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
+    public <E> E patch(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody,
+        HttpResponseValidatorWithReturn validator) {
+        return patch(url, queryParams, header, new JsonRequestBody(requestBody), validator);
+    }
+
     public <E> E patch(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, header, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E patch(String url, HttpHeader header, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
         return patch(url, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -239,7 +249,16 @@ public class Http {
         patch(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void patch(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody,
+        HttpResponseValidator validator) {
+        patch(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void patch(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        patch(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void patch(String url, HttpHeader header, Collection<?> requestBody, HttpResponseValidator validator) {
         patch(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -247,7 +266,15 @@ public class Http {
         return patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
+    public <E> E patch(String url, HttpQueryParams queryParams, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
+    }
+
     public <E> E patch(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E patch(String url, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
         return patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -255,11 +282,23 @@ public class Http {
         patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void patch(String url, HttpQueryParams queryParams, Collection<?> requestBody, HttpResponseValidator validator) {
+        patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void patch(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
         patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void patch(String url, Collection<?> requestBody, HttpResponseValidator validator) {
+        patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void patch(String url, Map<String, Object> requestBody) {
+        patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void patch(String url, Collection<?> requestBody) {
         patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -367,7 +406,15 @@ public class Http {
         return post(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
+    public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, queryParams, header, new JsonRequestBody(requestBody), validator);
+    }
+
     public <E> E post(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, header, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E post(String url, HttpHeader header, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -375,7 +422,15 @@ public class Http {
         post(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody, HttpResponseValidator validator) {
+        post(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody) {
+        post(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody) {
         post(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -383,7 +438,15 @@ public class Http {
         post(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, HttpHeader header, Collection<?> requestBody, HttpResponseValidator validator) {
+        post(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpHeader header, Map<String, Object> requestBody) {
+        post(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void post(String url, HttpHeader header, Collection<?> requestBody) {
         post(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -391,7 +454,15 @@ public class Http {
         return post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
+    public <E> E post(String url, HttpQueryParams queryParams, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
+    }
+
     public <E> E post(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E post(String url, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -399,7 +470,15 @@ public class Http {
         post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, HttpQueryParams queryParams, Collection<?> requestBody, HttpResponseValidator validator) {
+        post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody) {
+        post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void post(String url, HttpQueryParams queryParams, Collection<?> requestBody) {
         post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -407,7 +486,15 @@ public class Http {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void post(String url, Collection<?> requestBody, HttpResponseValidator validator) {
+        post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void post(String url, Map<String, Object> requestBody) {
+        post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void post(String url, Collection<?> requestBody) {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -463,6 +550,14 @@ public class Http {
         put(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        put(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody, HttpResponseValidator validator) {
+        put(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void put(String url, HttpQueryParams queryParams, HttpHeader header, HttpRequestBody requestBody) {
         put(url, queryParams, header, requestBody, EMPTY_RESPONSE_VALIDATOR);
     }
@@ -483,7 +578,23 @@ public class Http {
         return put(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
     }
 
+    public <E> E put(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
+    }
+
+    public <E> E put(String url, HttpQueryParams queryParams, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
+    }
+
     public void put(String url, HttpQueryParams queryParams, HttpRequestBody requestBody, HttpResponseValidator validator) {
+        put(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidator validator) {
+        put(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void put(String url, HttpQueryParams queryParams, Collection<?> requestBody, HttpResponseValidator validator) {
         put(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -527,7 +638,19 @@ public class Http {
         put(url, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
     }
 
+    public <E> E put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, queryParams, header, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E put(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, queryParams, header, new JsonRequestBody(requestBody), validator);
+    }
+
     public <E> E put(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, header, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E put(String url, HttpHeader header, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -535,7 +658,15 @@ public class Http {
         put(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, HttpHeader header, Collection<?> requestBody, HttpResponseValidator validator) {
+        put(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void put(String url, HttpHeader header, Map<String, Object> requestBody) {
+        put(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void put(String url, HttpHeader header, Collection<?> requestBody) {
         put(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -543,7 +674,15 @@ public class Http {
         put(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Collection<?> requestBody) {
+        put(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public <E> E put(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+        return put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
+    }
+
+    public <E> E put(String url, Collection<?> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -551,11 +690,23 @@ public class Http {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public void put(String url, Collection<?> requestBody, HttpResponseValidator validator) {
+        put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void put(String url, Map<String, Object> requestBody) {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
+    public void put(String url, Collection<?> requestBody) {
+        put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void put(String url, HttpQueryParams queryParams, Map<String, Object> requestBody) {
+        put(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public void put(String url, HttpQueryParams queryParams, Collection<?> requestBody) {
         put(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -731,7 +882,9 @@ public class Http {
     }
 
     @SuppressWarnings("unchecked")
-    private <R> R executeAndValidateHttpCall(String requestMethod, String url, HttpCall httpCall,
+    private <R> R executeAndValidateHttpCall(String requestMethod,
+                                             String url,
+                                             HttpCall httpCall,
                                              HttpHeader requestHeader,
                                              HttpRequestBody requestBody,
                                              HttpResponseValidatorWithReturn validator) {
@@ -761,6 +914,8 @@ public class Http {
                 HttpListeners.beforeHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody());
+
+                renderRequest(validationResult.getRequestBody());
 
                 response = httpCall.execute(validationResult.getFullUrl(),
                         validationResult.getRequestHeader());
@@ -945,8 +1100,23 @@ public class Http {
         }
     }
 
+    private void renderRequest(HttpRequestBody requestBody) {
+        if (skipRenderRequestResponse() || requestBody == null) {
+            return;
+        }
+
+        if (requestBody.isEmpty()) {
+            ConsoleOutputs.out(Color.YELLOW, "[no request body]");
+        } else if (requestBody.isBinary()) {
+            ConsoleOutputs.out(Color.YELLOW, "[binary request]");
+        } else {
+            ConsoleOutputs.out(Color.YELLOW, "request", Color.CYAN, " (", requestBody.type(), "):");
+            renderRequestBody(requestBody);
+        }
+    }
+
     private void renderResponse(HttpValidationResult result) {
-        if (getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1) {
+        if (skipRenderRequestResponse()) {
             return;
         }
 
@@ -955,8 +1125,22 @@ public class Http {
         } else if (!result.hasResponseContent()) {
             ConsoleOutputs.out(Color.YELLOW, "[no content]");
         } else {
+            ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", result.getResponse().getContentType(), "):");
             new DataNodeAnsiPrinter().print(result.getBodyNode());
         }
+    }
+
+    private void renderRequestBody(HttpRequestBody requestBody) {
+        if (requestBody instanceof JsonRequestBody) {
+            DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"), ((JsonRequestBody) requestBody).getOriginal());
+            new DataNodeAnsiPrinter().print(dataNode);
+        } else {
+            ConsoleOutputs.out(requestBody.asString());
+        }
+    }
+
+    private boolean skipRenderRequestResponse() {
+        return getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1;
     }
 
     private HttpResponse request(String method, String fullUrl,

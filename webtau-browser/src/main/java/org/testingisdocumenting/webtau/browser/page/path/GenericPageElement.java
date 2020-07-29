@@ -27,6 +27,7 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFi
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
 import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
 import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -265,7 +267,8 @@ public class GenericPageElement implements PageElement {
 
     private void setValueBasedOnType(Object value) {
         HtmlNode htmlNode = findHtmlNode();
-        PageElementGetSetValueHandlers.setValue(this::execute, pathDescription,
+        PageElementGetSetValueHandlers.setValue(this::execute,
+                pathDescription,
                 htmlNode,
                 this,
                 value);
@@ -275,7 +278,17 @@ public class GenericPageElement implements PageElement {
                          Supplier<TokenizedMessage> completionMessageSupplier,
                          Runnable action) {
         createAndExecuteStep(this, inProgressMessage, completionMessageSupplier,
-                () -> repeatForStaleElement(action));
+                () -> repeatForStaleElement(() -> {
+                    action.run();
+                    return null;
+                }));
+    }
+
+    private void execute(TokenizedMessage inProgressMessage,
+                         Function<Object, TokenizedMessage> completionMessageFunc,
+                         Supplier<Object> action) {
+        createAndExecuteStep(this, inProgressMessage, completionMessageFunc,
+                () -> repeatForStaleElement(action), StepReportOptions.REPORT_ALL);
     }
 
     private PageElement withFilter(ElementsFilter filter) {
@@ -330,13 +343,12 @@ public class GenericPageElement implements PageElement {
         }
     }
 
-    static private void repeatForStaleElement(Runnable code) {
+    static private Object repeatForStaleElement(Supplier<Object> code) {
         int numberOfAttemptsLeft = getCfg().getStaleElementRetry();
 
         for (; numberOfAttemptsLeft >= 1; numberOfAttemptsLeft--) {
             try {
-                code.run();
-                break;
+                return code.get();
             } catch (StaleElementReferenceException e) {
                 if (numberOfAttemptsLeft == 1) {
                     throw new RuntimeException("element is stale, " +
@@ -346,6 +358,8 @@ public class GenericPageElement implements PageElement {
                 sleep(getCfg().getStaleElementRetryWait());
             }
         }
+
+        throw new IllegalStateException("shouldn't reach this point");
     }
 
     static private void sleep(int millis) {

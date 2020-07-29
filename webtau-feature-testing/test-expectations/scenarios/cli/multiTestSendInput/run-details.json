@@ -1,0 +1,28 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "send name",
+    "shortContainerId" : "multiTestSendInput.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "send lang",
+    "shortContainerId" : "multiTestSendInput.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "send hobby",
+    "shortContainerId" : "multiTestSendInput.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "stop",
+    "shortContainerId" : "multiTestSendInput.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  } ],
+  "exitCode" : 0
+}

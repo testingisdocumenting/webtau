@@ -17,8 +17,5 @@ scenario("list Customers and assert with a Table Data using key column") {
 }
 
 def createCustomer(Map payload) {
-    def id = http.post("/customers", payload) { id }
-    http.doc.capture('create-customer')
-
-    return id
+    return http.post("/customers", payload) { id }
 }

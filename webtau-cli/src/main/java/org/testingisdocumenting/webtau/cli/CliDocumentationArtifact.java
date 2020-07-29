@@ -16,9 +16,6 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cli.expectation.CliExitCode;
-import org.testingisdocumenting.webtau.cli.expectation.CliOutput;
-
 class CliDocumentationArtifact {
     private final String fullCommand;
     private final CliOutput output;

@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
+import org.eclipse.jetty.server.Handler
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cli.WebTauCliApp
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
@@ -32,8 +33,8 @@ class WebTauEndToEndTestRunner  {
 
     TestServer testServer
 
-    WebTauEndToEndTestRunner() {
-        testServer = new TestServer()
+    WebTauEndToEndTestRunner(Handler handler) {
+        this.testServer = new TestServer(handler)
     }
 
     void startTestServer() {

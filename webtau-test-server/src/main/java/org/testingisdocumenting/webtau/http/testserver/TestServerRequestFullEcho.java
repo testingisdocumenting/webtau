@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,9 +41,13 @@ public class TestServerRequestFullEcho implements TestServerResponse {
     public byte[] responseBody(HttpServletRequest request) {
         try {
             String json = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
-            Map<String, ?> requestAsMap = json.equals("") ? Collections.emptyMap() : JsonUtils.deserializeAsMap(json);
+            Object parsedRequest = json.equals("") ? Collections.emptyMap() :
+                    json.startsWith("[") ?
+                            JsonUtils.deserializeAsList(json) :
+                            JsonUtils.deserializeAsMap(json);
 
-            Map<String, Object> response = new LinkedHashMap<>(requestAsMap);
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("request", parsedRequest);
             response.put("urlPath", request.getRequestURI());
             response.put("urlQuery", request.getQueryString());
 

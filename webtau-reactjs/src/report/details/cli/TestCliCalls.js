@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
