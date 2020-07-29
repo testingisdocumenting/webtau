@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.cli.repl
 import groovy.transform.PackageScope
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTest
 
@@ -204,6 +205,8 @@ class ReplCommands {
     }
 
     static private void runTests(List<StandaloneTest> tests) {
+        DocumentationArtifacts.clearRegisteredNames()
+
         interactiveTests.runner.resetAndWithListeners {
             tests.each { test ->
                 displaySelectedScenarios('running', test.scenario)
