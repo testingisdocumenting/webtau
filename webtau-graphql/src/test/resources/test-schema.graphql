@@ -15,17 +15,17 @@
 #
 
 type Task {
-  id: String
+  id: ID!
   description: String
-  completed: Boolean
+  completed: Boolean!
 }
 
 type Query {
   allTasks(uncompletedOnly: Boolean = true): [Task]
-  taskById(id: String!): Task
+  taskById(id: ID!): Task
 }
 
 type Mutation {
-  complete(id: String!): Boolean
-  uncomplete(id: String!): Boolean
+  complete(id: ID!): Boolean
+  uncomplete(id: ID!): Boolean
 }

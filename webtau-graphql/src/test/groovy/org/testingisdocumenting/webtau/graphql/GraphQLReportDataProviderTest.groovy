@@ -41,10 +41,8 @@ class GraphQLReportDataProviderTest {
         coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION, 6))
 
         def timeStats = reportDataProvider.provide(null)
-            .filter { data -> (data.getId() == "graphQLOperationTimeStatistics") }
-            .map {data -> data.getData()}
-            .findFirst()
-            .get()
+            .find {data -> data.getId() == "graphQLOperationTimeStatistics" }
+            .getData()
         def expectedStats = [
             [
                 name: 'allTasks',
