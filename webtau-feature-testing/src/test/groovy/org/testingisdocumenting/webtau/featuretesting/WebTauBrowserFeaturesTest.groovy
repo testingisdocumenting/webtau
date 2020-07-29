@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.featuretesting
 
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
-import org.testingisdocumenting.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.AfterClass
 import org.junit.Before
@@ -30,27 +30,27 @@ import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifact
 class WebTauBrowserFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
-    static void registerEndPoints(TestServer testServer) {
-        testServer.registerGet("/search", htmlResponse('search.html'))
-        testServer.registerGet("/forms", htmlResponse('forms.html'))
-        testServer.registerGet("/special-forms", htmlResponse('special-forms.html'))
-        testServer.registerGet("/calculation", htmlResponse('calculation.html'))
-        testServer.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
-        testServer.registerGet("/element-actions", htmlResponse('element-actions.html'))
-        testServer.registerGet("/cookies", htmlResponse('cookies.html'))
-        testServer.registerGet("/matchers", htmlResponse('matchers.html'))
-        testServer.registerGet("/local-storage", htmlResponse('local-storage.html'))
-        testServer.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
-        testServer.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
-        testServer.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
+    static void registerEndPoints(FixedResponsesHandler handler) {
+        handler.registerGet("/search", htmlResponse('search.html'))
+        handler.registerGet("/forms", htmlResponse('forms.html'))
+        handler.registerGet("/special-forms", htmlResponse('special-forms.html'))
+        handler.registerGet("/calculation", htmlResponse('calculation.html'))
+        handler.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
+        handler.registerGet("/element-actions", htmlResponse('element-actions.html'))
+        handler.registerGet("/cookies", htmlResponse('cookies.html'))
+        handler.registerGet("/matchers", htmlResponse('matchers.html'))
+        handler.registerGet("/local-storage", htmlResponse('local-storage.html'))
+        handler.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
+        handler.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
+        handler.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
     }
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauEndToEndTestRunner()
+        FixedResponsesHandler handler = new FixedResponsesHandler()
+        testRunner = new WebTauEndToEndTestRunner(handler)
 
-        def testServer = testRunner.testServer
-        registerEndPoints(testServer)
+        registerEndPoints(handler)
 
         testRunner.startTestServer()
     }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +21,7 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 
 import static org.testingisdocumenting.webtau.WebTauDsl.http
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
@@ -30,10 +32,10 @@ class WebTauRestFeaturesTest {
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauEndToEndTestRunner()
+        FixedResponsesHandler handler = new FixedResponsesHandler()
+        testRunner = new WebTauEndToEndTestRunner(handler)
 
-        def testServer = testRunner.testServer
-        WebTauRestFeaturesTestData.registerEndPoints(testServer)
+        WebTauRestFeaturesTestData.registerEndPoints(testRunner.testServer, handler)
 
         testRunner.startTestServer()
     }
