@@ -18,13 +18,15 @@ package com.example.tests.junit4
 
 import com.example.tests.featuretest.JUnitFeatureTestRunner
 import org.testingisdocumenting.webtau.featuretesting.WebTauRestFeaturesTestData
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
 class WebTauFeaturesJUnitTest {
-    private static final TestServer testServer = new TestServer()
+    private static final FixedResponsesHandler handler = new FixedResponsesHandler()
+    private static final TestServer testServer = new TestServer(handler)
 
     private static final JUnitFeatureTestRunner testRunner = new JUnitFeatureTestRunner()
 
@@ -33,7 +35,7 @@ class WebTauFeaturesJUnitTest {
     @BeforeClass
     static void startServer() {
         testServer.startRandomPort()
-        WebTauRestFeaturesTestData.registerEndPoints(testServer)
+        WebTauRestFeaturesTestData.registerEndPoints(testServer, handler)
     }
 
     @AfterClass

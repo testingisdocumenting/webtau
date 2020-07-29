@@ -16,35 +16,18 @@
 
 package org.testingisdocumenting.webtau.http.testserver;
 
-import org.eclipse.jetty.server.Request;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.net.URI;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class TestServer {
-    private Map<String, TestServerResponse> getResponses;
-    private Map<String, TestServerResponse> patchResponses;
-    private Map<String, TestServerResponse> postResponses;
-    private Map<String, TestServerResponse> putResponses;
-    private Map<String, TestServerResponse> deleteResponses;
     private Server server;
+    private final Handler handler;
 
-    public TestServer() {
-        getResponses = new HashMap<>();
-        patchResponses = new HashMap<>();
-        postResponses = new HashMap<>();
-        putResponses = new HashMap<>();
-        deleteResponses = new HashMap<>();
+    public TestServer(Handler handler) {
+        this.handler = handler;
     }
 
     public void startRandomPort() {
@@ -55,7 +38,7 @@ public class TestServer {
         server = new Server(port);
 
         GzipHandler gzipHandler = new GzipHandler();
-        gzipHandler.setHandler(new RequestHandler());
+        gzipHandler.setHandler(handler);
 
         server.setHandler(gzipHandler);
         try {
@@ -77,70 +60,5 @@ public class TestServer {
         return server.getURI();
     }
 
-    public void registerGet(String relativeUrl, TestServerResponse response) {
-        getResponses.put(relativeUrl, response);
-    }
 
-    public void registerPatch(String relativeUrl, TestServerResponse response) {
-        patchResponses.put(relativeUrl, response);
-    }
-
-    public void registerPost(String relativeUrl, TestServerResponse response) {
-        postResponses.put(relativeUrl, response);
-    }
-
-    public void registerPut(String relativeUrl, TestServerResponse response) {
-        putResponses.put(relativeUrl, response);
-    }
-
-    public void registerDelete(String relativeUrl, TestServerResponse response) {
-        deleteResponses.put(relativeUrl, response);
-    }
-
-    private class RequestHandler extends AbstractHandler {
-        @Override
-        public void handle(String url, Request baseRequest, HttpServletRequest request,
-                           HttpServletResponse response) throws IOException, ServletException {
-
-            Map<String, TestServerResponse> responses = findResponses(request);
-
-            MultipartConfigElement multipartConfigElement = new MultipartConfigElement((String) null);
-            request.setAttribute(Request.MULTIPART_CONFIG_ELEMENT, multipartConfigElement);
-
-            TestServerResponse testServerResponse = responses.get(baseRequest.getOriginalURI());
-            if (testServerResponse == null) {
-                response.setStatus(404);
-            } else {
-                testServerResponse.responseHeader(request).forEach(response::addHeader);
-
-                byte[] responseBody = testServerResponse.responseBody(request);
-                response.setStatus(testServerResponse.responseStatusCode());
-                response.setContentType(testServerResponse.responseType(request));
-
-                if (responseBody != null) {
-                    response.getOutputStream().write(responseBody);
-                }
-            }
-
-            baseRequest.setHandled(true);
-        }
-
-        private Map<String, TestServerResponse> findResponses(HttpServletRequest request) {
-            switch (request.getMethod()) {
-                case "GET":
-                    return getResponses;
-                case "PATCH":
-                    return patchResponses;
-                case "POST":
-                    return postResponses;
-                case "PUT":
-                    return putResponses;
-                case "DELETE":
-                    return deleteResponses;
-                default:
-                    return Collections.emptyMap();
-
-            }
-        }
-    }
 }

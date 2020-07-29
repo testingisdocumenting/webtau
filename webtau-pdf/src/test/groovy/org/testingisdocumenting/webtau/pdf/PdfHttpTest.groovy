@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.pdf
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.config.HttpConfiguration
 import org.testingisdocumenting.webtau.http.config.HttpConfigurations
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.http.testserver.TestServerBinaryResponse
 import org.testingisdocumenting.webtau.utils.ResourceUtils
@@ -34,13 +35,14 @@ import static org.testingisdocumenting.webtau.http.Http.http
 import static org.testingisdocumenting.webtau.pdf.Pdf.pdf
 
 class PdfHttpTest implements HttpConfiguration {
-    static TestServer testServer = new TestServer()
+    static FixedResponsesHandler handler = new FixedResponsesHandler()
+    static TestServer testServer = new TestServer(handler)
 
     @BeforeClass
     static void startServer() {
         testServer.startRandomPort()
 
-        testServer.registerGet("/report",
+        handler.registerGet("/report",
                 new TestServerBinaryResponse(ResourceUtils.binaryContent("report.pdf")))
     }
 

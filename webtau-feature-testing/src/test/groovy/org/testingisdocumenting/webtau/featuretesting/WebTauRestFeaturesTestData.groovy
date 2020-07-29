@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.http.testserver.TestServerJsonResponse
 import org.testingisdocumenting.webtau.http.testserver.TestServerRedirectResponse
@@ -23,14 +24,14 @@ import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.utils.JsonUtils
 
 class WebTauRestFeaturesTestData {
-    static void registerEndPoints(TestServer testServer) {
+    static void registerEndPoints(TestServer testServer, FixedResponsesHandler handler) {
         def temperature = [temperature: 88]
-        testServer.registerGet("/weather", json(temperature))
-        testServer.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP,
+        handler.registerGet("/weather", json(temperature))
+        handler.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP,
                 testServer, "/weather"))
-        testServer.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
-        testServer.registerPost("/employee", json([id: 'id-generated-2'], 201))
-        testServer.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
+        handler.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
+        handler.registerPost("/employee", json([id: 'id-generated-2'], 201))
+        handler.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
 
     }
 

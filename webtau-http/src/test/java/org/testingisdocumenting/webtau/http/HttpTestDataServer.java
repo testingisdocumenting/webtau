@@ -26,66 +26,65 @@ import java.util.Collections;
 import java.util.Map;
 
 public class HttpTestDataServer {
-    private final TestServer testServer;
+    private final FixedResponsesHandler handler = new FixedResponsesHandler();
+    private final TestServer testServer = new TestServer(handler);
 
     public HttpTestDataServer() {
-        testServer = new TestServer();
-
         TestServerJsonResponse objectTestResponse = jsonResponse("objectTestResponse.json");
 
-        testServer.registerGet("/end-point", objectTestResponse);
-        testServer.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse);
+        handler.registerGet("/end-point", objectTestResponse);
+        handler.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse);
 
-        testServer.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201,
+        handler.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201,
                 CollectionUtils.aMapOf(
                         "Content-Location", "/url/23",
                         "Location", "http://www.example.org/url/23")));
 
-        testServer.registerGet("/example", jsonResponse("matcherExampleResponse.json"));
+        handler.registerGet("/example", jsonResponse("matcherExampleResponse.json"));
 
-        testServer.registerPut("/end-point", objectTestResponse);
-        testServer.registerPatch("/end-point", objectTestResponse);
-        testServer.registerDelete("/end-point", objectTestResponse);
-        testServer.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"));
-        testServer.registerGet("/end-point-simple-list", jsonResponse("simpleListTestResponse.json"));
-        testServer.registerGet("/end-point-mixed", jsonResponse("mixedTestResponse.json"));
-        testServer.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"));
-        testServer.registerGet("/end-point-list", jsonResponse("listTestResponse.json"));
-        testServer.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"));
-        testServer.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("image.png")));
-        testServer.registerPost("/echo", new TestServerResponseEcho(201));
-        testServer.registerPut("/echo", new TestServerResponseEcho(200));
-        testServer.registerPatch("/echo", new TestServerResponseEcho(200));
-        testServer.registerPut("/full-echo", new TestServerRequestFullEcho(200));
-        testServer.registerPut("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
-        testServer.registerPost("/full-echo", new TestServerRequestFullEcho(201));
-        testServer.registerPost("/full-echo?a=1&b=text", new TestServerRequestFullEcho(201));
-        testServer.registerPatch("/full-echo", new TestServerRequestFullEcho(200));
-        testServer.registerPatch("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
-        testServer.registerDelete("/full-echo", new TestServerRequestFullEcho(200));
-        testServer.registerDelete("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
-        testServer.registerGet("/echo-header", new TestServerRequestHeaderEcho(200));
-        testServer.registerGet("/echo-header?qp1=v1", new TestServerRequestHeaderEcho(200));
-        testServer.registerPatch("/echo-header", new TestServerRequestHeaderEcho(200));
-        testServer.registerPost("/echo-header", new TestServerRequestHeaderEcho(201));
-        testServer.registerPut("/echo-header", new TestServerRequestHeaderEcho(200));
-        testServer.registerPatch("/echo-header", new TestServerRequestHeaderEcho(200));
-        testServer.registerDelete("/echo-header", new TestServerRequestHeaderEcho(200));
-        testServer.registerPost("/echo-body-and-header", new TestServerRequestHeaderAndBodyEcho(201));
-        testServer.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0));
-        testServer.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1));
-        testServer.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201));
-        testServer.registerPost("/empty", new TestServerJsonResponse(null, 201));
-        testServer.registerPatch("/empty", new TestServerJsonResponse(null, 204));
-        testServer.registerPost("/file-upload", new TestServerFakeFileUpload());
-        testServer.registerDelete("/resource", new TestServerTextResponse("abc"));
-        testServer.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
-        testServer.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
-        testServer.registerGet("/params?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
-        testServer.registerGet("/integer", new TestServerJsonResponse("123"));
-        testServer.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
+        handler.registerPut("/end-point", objectTestResponse);
+        handler.registerPatch("/end-point", objectTestResponse);
+        handler.registerDelete("/end-point", objectTestResponse);
+        handler.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"));
+        handler.registerGet("/end-point-simple-list", jsonResponse("simpleListTestResponse.json"));
+        handler.registerGet("/end-point-mixed", jsonResponse("mixedTestResponse.json"));
+        handler.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"));
+        handler.registerGet("/end-point-list", jsonResponse("listTestResponse.json"));
+        handler.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"));
+        handler.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("image.png")));
+        handler.registerPost("/echo", new TestServerResponseEcho(201));
+        handler.registerPut("/echo", new TestServerResponseEcho(200));
+        handler.registerPatch("/echo", new TestServerResponseEcho(200));
+        handler.registerPut("/full-echo", new TestServerRequestFullEcho(200));
+        handler.registerPut("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
+        handler.registerPost("/full-echo", new TestServerRequestFullEcho(201));
+        handler.registerPost("/full-echo?a=1&b=text", new TestServerRequestFullEcho(201));
+        handler.registerPatch("/full-echo", new TestServerRequestFullEcho(200));
+        handler.registerPatch("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
+        handler.registerDelete("/full-echo", new TestServerRequestFullEcho(200));
+        handler.registerDelete("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
+        handler.registerGet("/echo-header", new TestServerRequestHeaderEcho(200));
+        handler.registerGet("/echo-header?qp1=v1", new TestServerRequestHeaderEcho(200));
+        handler.registerPatch("/echo-header", new TestServerRequestHeaderEcho(200));
+        handler.registerPost("/echo-header", new TestServerRequestHeaderEcho(201));
+        handler.registerPut("/echo-header", new TestServerRequestHeaderEcho(200));
+        handler.registerPatch("/echo-header", new TestServerRequestHeaderEcho(200));
+        handler.registerDelete("/echo-header", new TestServerRequestHeaderEcho(200));
+        handler.registerPost("/echo-body-and-header", new TestServerRequestHeaderAndBodyEcho(201));
+        handler.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0));
+        handler.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1));
+        handler.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201));
+        handler.registerPost("/empty", new TestServerJsonResponse(null, 201));
+        handler.registerPatch("/empty", new TestServerJsonResponse(null, 204));
+        handler.registerPost("/file-upload", new TestServerFakeFileUpload());
+        handler.registerDelete("/resource", new TestServerTextResponse("abc"));
+        handler.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
+        handler.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
+        handler.registerGet("/params?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
+        handler.registerGet("/integer", new TestServerJsonResponse("123"));
+        handler.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
 
-        testServer.registerGet("/address", jsonResponse("addressResponse.json"));
+        handler.registerGet("/address", jsonResponse("addressResponse.json"));
         registerRedirects();
     }
 
@@ -94,21 +93,21 @@ public class HttpTestDataServer {
         registerRedirectOnAllMethods(HttpURLConnection.HTTP_MOVED_PERM, "/redirect2", "/redirect3");
         registerRedirectOnAllMethods(307, "/redirect3", "/redirect4");
 
-        testServer.registerGet("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/end-point"));
-        testServer.registerPost("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
-        testServer.registerPut("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
-        testServer.registerDelete("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/end-point"));
+        handler.registerGet("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/end-point"));
+        handler.registerPost("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
+        handler.registerPut("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/echo"));
+        handler.registerDelete("/redirect4", new TestServerRedirectResponse(HttpURLConnection.HTTP_SEE_OTHER, testServer, "/end-point"));
 
-        testServer.registerGet("/recursive", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/recursive"));
+        handler.registerGet("/recursive", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP, testServer, "/recursive"));
     }
 
     private void registerRedirectOnAllMethods(int statusCode, String fromPath, String toPath) {
         TestServerRedirectResponse response = new TestServerRedirectResponse(statusCode, testServer, toPath);
-        testServer.registerGet(fromPath, response);
-        testServer.registerPatch(fromPath, response);
-        testServer.registerPost(fromPath, response);
-        testServer.registerPut(fromPath, response);
-        testServer.registerDelete(fromPath, response);
+        handler.registerGet(fromPath, response);
+        handler.registerPatch(fromPath, response);
+        handler.registerPost(fromPath, response);
+        handler.registerPut(fromPath, response);
+        handler.registerDelete(fromPath, response);
     }
 
     public void start() {
@@ -124,23 +123,23 @@ public class HttpTestDataServer {
     }
 
     public void registerGet(String relativeUrl, TestServerResponse response) {
-        testServer.registerGet(relativeUrl, response);
+        handler.registerGet(relativeUrl, response);
     }
 
     public void registerPatch(String relativeUrl, TestServerResponse response) {
-        testServer.registerPatch(relativeUrl, response);
+        handler.registerPatch(relativeUrl, response);
     }
 
     public void registerPost(String relativeUrl, TestServerResponse response) {
-        testServer.registerPost(relativeUrl, response);
+        handler.registerPost(relativeUrl, response);
     }
 
     public void registerPut(String relativeUrl, TestServerResponse response) {
-        testServer.registerPut(relativeUrl, response);
+        handler.registerPut(relativeUrl, response);
     }
 
     public void registerDelete(String relativeUrl, TestServerResponse response) {
-        testServer.registerDelete(relativeUrl, response);
+        handler.registerDelete(relativeUrl, response);
     }
 
     private static TestServerJsonResponse jsonResponse(String resourceName) {
