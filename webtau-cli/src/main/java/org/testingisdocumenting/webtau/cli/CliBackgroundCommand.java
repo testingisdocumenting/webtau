@@ -70,7 +70,7 @@ public class CliBackgroundCommand implements TestStepPayload {
                         if (wasRunning) {
                             backgroundProcess.destroy();
                             CliBackgroundCommandManager.remove(this);
-                         }
+                        }
 
                         return wasRunning;
                     },
