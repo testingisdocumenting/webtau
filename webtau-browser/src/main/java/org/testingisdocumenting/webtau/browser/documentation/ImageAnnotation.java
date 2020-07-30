@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,28 +17,38 @@
 
 package org.testingisdocumenting.webtau.browser.documentation;
 
-import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class ImageAnnotation {
-    private static AtomicInteger idGen = new AtomicInteger();
+    public enum Position {
+        Center,
+        Above,
+        Below,
+        ToTheLeft,
+        ToTheRight
+    }
 
-    private String id;
-    private String type;
+    private static final AtomicInteger idGen = new AtomicInteger();
+
+    private final String id;
+    private final String type;
     private String text;
     private String color = "a";
-    private PageElement pageElement;
+    private final PageElement pageElement;
+    protected Position position;
 
     public ImageAnnotation(PageElement pageElement, String type, String text) {
         this.id = type + idGen.incrementAndGet();
         this.pageElement = pageElement;
         this.type = type;
         this.text = text;
+        this.position = Position.Center;
     }
 
     public String getId() {
@@ -64,6 +75,11 @@ public abstract class ImageAnnotation {
         return color;
     }
 
+    public ImageAnnotation above() {
+        position = Position.Above;
+        return this;
+    }
+
     public ImageAnnotation withColor(String color) {
         this.color = color;
         return this;
@@ -71,10 +87,41 @@ public abstract class ImageAnnotation {
 
     public abstract void addAnnotationData(Map<String, Object> data, WebElement webElement);
 
+    protected Point position(WebElement webElement) {
+        if (position == Position.Center) {
+            return center(webElement);
+        }
+
+        return above(webElement);
+    }
+
     protected Point center(WebElement webElement) {
         Point location = webElement.getLocation();
         Dimension size = webElement.getSize();
 
         return new Point(location.getX() + size.getWidth() / 2, location.getY() + size.getHeight() / 2);
+    }
+
+    protected Point above(WebElement webElement) {
+        Point location = webElement.getLocation();
+        Dimension size = webElement.getSize();
+
+        return new Point(location.getX() + size.getWidth() / 2, location.getY() - size.getHeight());
+    }
+
+    private Point center(Point location, Dimension size) {
+        return new Point(location.getX() + size.getWidth() / 2, location.getY() + size.getHeight() / 2);
+    }
+
+    private Point above(Point location, Dimension size) {
+        return new Point(location.getX() + size.getWidth() / 2, location.getY() - size.getHeight());
+    }
+
+    private Point below(Point location, Dimension size) {
+        return new Point(location.getX() + size.getWidth() / 2, location.getY() + size.getHeight());
+    }
+
+    private Point toTheLeft(Point location, Dimension size) {
+        return new Point(location.getX() - size.getWidth(), location.getY() + size.getHeight() / 2);
     }
 }
