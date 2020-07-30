@@ -46,11 +46,13 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
         CliBackgroundCommandManager.destroyActiveProcesses()
 
         output = output.replaceAll(/\(\d+ms\)/, "(time)")
+        def optionalLastLine = '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n'
+        output = output.replace(optionalLastLine, '')
+
         output.should == '> running cli command in background scripts/long-sleep\n' +
                 '. ran cli command in background scripts/long-sleep (time)\n' +
                 '> stopping cli command in background scripts/long-sleep\n' +
-                '. stopped cli command in background scripts/long-sleep (time)\n' +
-                '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n'
+                '. stopped cli command in background scripts/long-sleep (time)\n'
     }
 
     @Test
