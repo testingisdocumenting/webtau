@@ -21,6 +21,8 @@ import org.testingisdocumenting.webtau.report.ReportCustomData;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.LongSummaryStatistics;
@@ -52,10 +54,13 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
 
         List<? extends Map<String, ?>> timingByOperation = computeTiming();
 
+        Map<String, ?> coverageSummary = computeCoverageSummary();
+
         return Stream.of(
                 new ReportCustomData("graphQLSkippedOperations", nonCoveredOperations),
                 new ReportCustomData("graphQLCoveredOperations", coveredOperations),
-                new ReportCustomData("graphQLOperationTimeStatistics", timingByOperation));
+                new ReportCustomData("graphQLOperationTimeStatistics", timingByOperation),
+                new ReportCustomData("graphQLCoverageSummary", coverageSummary));
     }
 
     private List<? extends Map<String, ?>> computeTiming() {
@@ -81,5 +86,35 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
         statistics.put("p99", percentile.evaluate(times, 99));
 
         return data;
+    }
+
+    private Map<String, ?> computeCoverageSummary() {
+        Map<String, Object> summary = new HashMap<>();
+        Map<GraphQLOperationType, List<GraphQLOperation>> declaredOpByType = coverage.declaredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
+        Map<GraphQLOperationType, List<GraphQLOperation>> coveredOpsByType = coverage.coveredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
+
+        Map<String, Object> summaryByType = new HashMap<>();
+        declaredOpByType.forEach((type, ops) -> {
+            double coveredOperations = coveredOpsByType.getOrDefault(type, Collections.emptyList()).size();
+            double coverage = coveredOperations / ops.size();
+
+            Map<String, Object> summaryForType = new HashMap<>();
+            summaryForType.put("declaredOperations", ops.size());
+            summaryForType.put("coveredOperations", coveredOperations);
+            summaryForType.put("coverage", coverage);
+
+            summaryByType.put(type.name().toLowerCase(), summaryForType);
+        });
+        summary.put("types", summaryByType);
+
+        double coveredOperations = coveredOpsByType.values().stream().mapToInt(List::size).sum();
+        double declaredOperations = declaredOpByType.values().stream().mapToInt(List::size).sum();
+        double totalCoverage = coveredOperations / declaredOperations;
+
+        summary.put("totalDeclaredOperations", declaredOperations);
+        summary.put("totalCoveredOperations", coveredOperations);
+        summary.put("coverage", totalCoverage);
+
+        return summary;
     }
 }

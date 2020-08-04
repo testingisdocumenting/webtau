@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.graphql
 
+import org.junit.Before
 import org.junit.Test
 import org.testgisdocumenting.webtau.graphql.GraphQLCoverage
 import org.testgisdocumenting.webtau.graphql.GraphQLOperationType
@@ -30,8 +31,8 @@ class GraphQLReportDataProviderTest {
     def coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.file))
     def reportDataProvider = new GraphQLReportDataProvider(coverage)
 
-    @Test
-    void "computes timing per operation"() {
+    @Before
+    void injectDummyData() {
         coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY, 1))
         coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY, 2))
         coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY, 3))
@@ -39,9 +40,12 @@ class GraphQLReportDataProviderTest {
         coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION, 2))
         coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION, 4))
         coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION, 6))
+    }
 
+    @Test
+    void "computes timing per operation"() {
         def timeStats = reportDataProvider.provide(null)
-            .find {data -> data.getId() == "graphQLOperationTimeStatistics" }
+            .find {it.getId() == "graphQLOperationTimeStatistics" }
             .getData()
         def expectedStats = [
             [
@@ -68,5 +72,30 @@ class GraphQLReportDataProviderTest {
             ]
         ]
         timeStats.should == expectedStats
+    }
+
+    @Test
+    void "computes coverage summary"() {
+        def summary = reportDataProvider.provide(null)
+        .find { it.getId() == "graphQLCoverageSummary" }
+        .getData()
+
+        summary.should == [
+            types: [
+                mutation: [
+                    declaredOperations: 2,
+                    coveredOperations: 1,
+                    coverage: 0.5
+                ],
+                query: [
+                    declaredOperations: 2,
+                    coveredOperations: 1,
+                    coverage: 0.5
+                ]
+            ],
+            totalDeclaredOperations: 4,
+            totalCoveredOperations: 2,
+            coverage: 0.5
+        ]
     }
 }

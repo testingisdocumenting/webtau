@@ -48,6 +48,10 @@ public class GraphQLCoverage {
         return coveredOperations.coveredOperations();
     }
 
+    Stream<GraphQLOperation> declaredOperations() {
+        return schema.getSchemaDeclaredOperations();
+    }
+
     Stream<Map.Entry<GraphQLOperation, Set<GraphQLCoveredOperations.Call>>> actualCalls() {
         return coveredOperations.getActualCalls();
     }

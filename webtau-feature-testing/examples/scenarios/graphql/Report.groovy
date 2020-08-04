@@ -13,6 +13,7 @@ class Report {
         validateSkippedOps(additionalData.graphQLSkippedOperations as Set)
         validateCoveredOps(additionalData.graphQLCoveredOperations as Set)
         validateOperationStatistics(additionalData.graphQLOperationTimeStatistics)
+        validateCoverageSummary(additionalData.graphQLCoverageSummary)
     }
 
     static void validateSkippedOps(Set skippedOps) {
@@ -53,5 +54,25 @@ class Report {
         taskByIdQueryStats.shouldNot == null
         taskByIdQueryStats.type.should == 'query'
         taskByIdQueryStats.statistics.size().shouldBe > 0
+    }
+
+    static void validateCoverageSummary(summary) {
+        summary.should == [
+            types: [
+                mutation: [
+                    declaredOperations: 2,
+                    coveredOperations: 1,
+                    coverage: 0.5
+                ],
+                query: [
+                    declaredOperations: 2,
+                    coveredOperations: 1,
+                    coverage: 0.5
+                ]
+            ],
+            totalDeclaredOperations: 4,
+            totalCoveredOperations: 2,
+            coverage: 0.5
+        ]
     }
 }
