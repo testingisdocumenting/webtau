@@ -31,7 +31,7 @@ class GraphQLCoverageTest {
     @Before
     void setUp() {
         def schemaUrl = ResourceUtils.resourceUrl('test-schema.graphql')
-        coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.toString()))
+        coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.file))
     }
 
     @Test

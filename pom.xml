@@ -152,6 +152,7 @@
         <maven.api.version>3.6.3</maven.api.version>
         <tomcat.version>8.5.56</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
+        <graphql.version>15.0</graphql.version>
     </properties>
 
     <dependencyManagement>
@@ -352,6 +353,12 @@
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.graphql-java</groupId>
+                <artifactId>graphql-java</artifactId>
+                <version>${graphql.version}</version>
             </dependency>
 
             <dependency>

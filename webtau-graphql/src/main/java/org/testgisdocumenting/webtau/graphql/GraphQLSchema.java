@@ -29,7 +29,6 @@ import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
-import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -44,13 +43,13 @@ public class GraphQLSchema {
     private final boolean isSchemaDefined;
     private final Set<GraphQLOperation> schemaDeclaredOperations;
 
-    public GraphQLSchema(String schemaUrl) {
-        isSchemaDefined = !schemaUrl.isEmpty();
+    public GraphQLSchema(String schemaPathStr) {
+        isSchemaDefined = !schemaPathStr.isEmpty();
         schemaDeclaredOperations = new HashSet<>();
 
         if (isSchemaDefined) {
             SchemaParser schemaParser = new SchemaParser();
-            Path schemaPath = Paths.get(URI.create(schemaUrl));
+            Path schemaPath = Paths.get(schemaPathStr);
             TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(FileUtils.fileTextContent(schemaPath));
 
             RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring().build();

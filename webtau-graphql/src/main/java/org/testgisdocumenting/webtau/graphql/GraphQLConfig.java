@@ -25,8 +25,8 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 
 public class GraphQLConfig implements WebTauConfigHandler {
-    static final ConfigValue schemaUrl = declare("graphQLSchemaUrl",
-            "url of GraphQL schema against which to validate http calls", () -> "");
+    static final ConfigValue schemaPath = declare("graphQLSchema",
+            "path to GraphQL schema against which to validate http calls", () -> "");
 
     private static String fullPath;
 
@@ -36,13 +36,13 @@ public class GraphQLConfig implements WebTauConfigHandler {
 
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        fullPath = schemaUrl.getAsString().isEmpty() ? "" :
-                cfg.getWorkingDir().resolve(schemaUrl.getAsString()).toString();
+        fullPath = schemaPath.getAsString().isEmpty() ? "" :
+                cfg.getWorkingDir().resolve(schemaPath.getAsString()).toString();
         GraphQL.reset();
     }
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(schemaUrl);
+        return Stream.of(schemaPath);
     }
 }
