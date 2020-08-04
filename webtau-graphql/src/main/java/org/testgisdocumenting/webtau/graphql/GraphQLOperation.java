@@ -40,7 +40,7 @@ public class GraphQLOperation {
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("name", name);
-        result.put("type", type);
+        result.put("type", type.name().toLowerCase());
 
         return result;
     }

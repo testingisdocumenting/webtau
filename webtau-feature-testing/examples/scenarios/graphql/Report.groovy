@@ -1,6 +1,5 @@
 package scenarios.graphql
 
-import org.testgisdocumenting.webtau.graphql.GraphQLOperationType
 import org.testingisdocumenting.webtau.report.ReportDataProviders
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 
@@ -20,11 +19,11 @@ class Report {
         skippedOps.should == [
             [
                 name: 'uncomplete',
-                type: GraphQLOperationType.MUTATION
+                type: 'mutation'
             ],
             [
                 name: 'allTasks',
-                type: GraphQLOperationType.QUERY
+                type: 'query'
             ]
         ] as Set
     }
@@ -33,11 +32,11 @@ class Report {
         coveredOps.should == [
             [
                 name: 'complete',
-                type: GraphQLOperationType.MUTATION
+                type: 'mutation'
             ],
             [
                 name: 'taskById',
-                type: GraphQLOperationType.QUERY
+                type: 'query'
             ]
         ] as Set
     }
