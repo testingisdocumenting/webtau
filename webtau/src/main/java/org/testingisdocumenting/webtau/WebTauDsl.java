@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau;
 
+import org.testgisdocumenting.webtau.graphql.GraphQL;
 import org.testingisdocumenting.webtau.browser.Browser;
 import org.testingisdocumenting.webtau.browser.expectation.DisabledValueMatcher;
 import org.testingisdocumenting.webtau.browser.expectation.EnabledValueMatcher;
@@ -55,6 +56,7 @@ public class WebTauDsl extends WebTauCore {
     public static final Browser browser = Browser.browser;
     public static final Cli cli = Cli.cli;
     public static final DatabaseFacade db = DatabaseFacade.db;
+    public static final GraphQL graphql = GraphQL.graphql;
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();

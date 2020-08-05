@@ -59,6 +59,12 @@
 
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-graphql-groovy</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -135,6 +135,7 @@
         <module>webtau-dist</module>
         <module>webtau-cli-testing</module>
         <module>webtau-graphql</module>
+        <module>webtau-graphql-groovy</module>
     </modules>
 
     <properties>

@@ -28,36 +28,21 @@ mutation complete($id: ID!) {
 '''
 
 scenario("list all tasks") {
-    http.post("/graphql", [query: listAllQuery]) {
-        statusCode.should == 200
+    graphql.execute(listAllQuery) {
         errors.should == null
-        body.data.allTasks.id.should == ["a", "b", "c"]
+        allTasks.id.should == ["a", "b", "c"]
     }
 }
 
 scenario("complete a task") {
-    def completionRequest = [
-        query: completeMutation,
-        variables: [
-            id: "a"
-        ]
-    ]
-    http.post("/graphql", completionRequest) {
-        statusCode.should == 200
+    graphql.execute(completeMutation, [id: "a"]) {
         errors.should == null
-        body.data.complete.should == true
+        complete.should == true
     }
 
-    def getTaskRequest = [
-        query: taskByIdQuery,
-        variables: [
-            id: "a"
-        ]
-    ]
-    http.post("/graphql", getTaskRequest) {
-        statusCode.should == 200
+    graphql.execute(taskByIdQuery, [id: "a"]) {
         errors.should == null
-        body.data.taskById.id.should == "a"
-        body.data.taskById.completed.should == true
+        taskById.id.should == "a"
+        taskById.completed.should == true
     }
 }
