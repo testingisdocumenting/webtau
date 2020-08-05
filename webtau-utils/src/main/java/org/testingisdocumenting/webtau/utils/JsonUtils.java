@@ -56,6 +56,18 @@ public class JsonUtils {
         }
     }
 
+    public static byte[] serializeToBytes(Object json) {
+        if (json == null) {
+            return "null".getBytes();
+        }
+
+        try {
+            return mapper.writeValueAsBytes(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String serializePrettyPrint(Object json) {
         if (json == null) {
             return "null";

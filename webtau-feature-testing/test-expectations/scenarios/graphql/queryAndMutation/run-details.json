@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "list all tasks",
+    "shortContainerId" : "queryAndMutation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "complete a task",
+    "shortContainerId" : "queryAndMutation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  } ],
+  "exitCode" : 0
+}
