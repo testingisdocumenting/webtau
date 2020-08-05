@@ -29,5 +29,11 @@
             <artifactId>webtau-graphql</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-groovydoc</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 </project>
