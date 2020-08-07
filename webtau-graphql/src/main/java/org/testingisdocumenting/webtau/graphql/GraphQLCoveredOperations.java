@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testgisdocumenting.webtau.graphql;
+package org.testingisdocumenting.webtau.graphql;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;

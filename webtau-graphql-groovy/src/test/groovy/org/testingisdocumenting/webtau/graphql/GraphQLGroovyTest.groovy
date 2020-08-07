@@ -18,7 +18,7 @@ package org.testingisdocumenting.webtau.graphql
 
 import org.junit.Test
 
-import static org.testgisdocumenting.webtau.graphql.GraphQL.graphql
+import static GraphQL.graphql
 
 class GraphQLGroovyTest extends GraphQLTestBase {
     @Test

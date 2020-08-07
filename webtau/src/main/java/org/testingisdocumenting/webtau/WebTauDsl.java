@@ -17,7 +17,6 @@
 
 package org.testingisdocumenting.webtau;
 
-import org.testgisdocumenting.webtau.graphql.GraphQL;
 import org.testingisdocumenting.webtau.browser.Browser;
 import org.testingisdocumenting.webtau.browser.expectation.DisabledValueMatcher;
 import org.testingisdocumenting.webtau.browser.expectation.EnabledValueMatcher;
@@ -31,6 +30,7 @@ import org.testingisdocumenting.webtau.data.Data;
 import org.testingisdocumenting.webtau.db.DatabaseFacade;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.fs.FileSystem;
+import org.testingisdocumenting.webtau.graphql.GraphQL;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;

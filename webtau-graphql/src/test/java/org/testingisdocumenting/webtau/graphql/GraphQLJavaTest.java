@@ -22,9 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.testgisdocumenting.webtau.graphql.GraphQL.graphql;
 import static org.testingisdocumenting.webtau.Matchers.actual;
 import static org.testingisdocumenting.webtau.Matchers.equal;
+import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql;
 import static org.testingisdocumenting.webtau.utils.CollectionUtils.aMapOf;
 
 public class GraphQLJavaTest extends GraphQLTestBase {

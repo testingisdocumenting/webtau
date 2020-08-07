@@ -18,10 +18,6 @@ package org.testingisdocumenting.webtau.graphql
 
 import org.junit.Before
 import org.junit.Test
-import org.testgisdocumenting.webtau.graphql.GraphQLCoverage
-import org.testgisdocumenting.webtau.graphql.GraphQLOperationType
-import org.testgisdocumenting.webtau.graphql.GraphQLReportDataProvider
-import org.testgisdocumenting.webtau.graphql.GraphQLSchema
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
