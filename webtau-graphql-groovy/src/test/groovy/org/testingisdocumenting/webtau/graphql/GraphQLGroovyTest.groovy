@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package scenarios.graphql
+package org.testingisdocumenting.webtau.graphql
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import org.junit.Test
 
-def listAllQuery = '''
+import static org.testgisdocumenting.webtau.graphql.GraphQL.graphql
+
+class GraphQLGroovyTest extends GraphQLTestBase {
+    @Test
+    void "execute"() {
+        def query = '''
 query {
     allTasks(uncompletedOnly: false) {
         id
@@ -27,7 +32,21 @@ query {
 }
 '''
 
-def taskByIdQuery = '''
+        def expectedIds = ["a", "b", "c"]
+
+        def ids = graphql.execute(query) {
+            errors.should == null
+            allTasks.id.should == expectedIds
+
+            return allTasks.id
+        }
+
+        ids.should == expectedIds
+    }
+
+    @Test
+    void "execute with variables"() {
+        String query = '''
 query taskById($id: ID!) {
     taskById(id: $id) {
         id
@@ -37,29 +56,13 @@ query taskById($id: ID!) {
 }
 '''
 
-def completeMutation = '''
-mutation complete($id: ID!) {
-    complete(id: $id)
-}
-'''
+        def id = "a";
+        def variables = [id: id]
 
-scenario("list all tasks") {
-    graphql.execute(listAllQuery) {
-        errors.should == null
-        allTasks.id.should == ["a", "b", "c"]
-        body.data.allTasks.id.should == ["a", "b", "c"]
-    }
-}
+        graphql.execute(query, variables) {
+            errors.should == null
+            taskById.id.should == id
 
-scenario("complete a task") {
-    graphql.execute(completeMutation, [id: "a"]) {
-        errors.should == null
-        complete.should == true
-    }
-
-    graphql.execute(taskByIdQuery, [id: "a"]) {
-        errors.should == null
-        taskById.id.should == "a"
-        taskById.completed.should == true
+        }
     }
 }

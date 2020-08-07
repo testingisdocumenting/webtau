@@ -76,6 +76,14 @@ public class CollectionUtils {
         }
     }
 
+    public static <K, V> boolean nullOrEmpty(Map<K, V> map) {
+        return map == null || map.isEmpty();
+    }
+
+    public static <K, V> boolean notNullOrEmpty(Map<K, V> map) {
+        return !nullOrEmpty(map);
+    }
+
     private static List<Boolean> toList(boolean[] booleans) {
         List<Boolean> list = new ArrayList<>(booleans.length);
         for (boolean bool : booleans) {

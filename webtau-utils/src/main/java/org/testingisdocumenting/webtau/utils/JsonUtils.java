@@ -53,7 +53,7 @@ public class JsonUtils {
         try {
             return mapper.writeValueAsString(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
