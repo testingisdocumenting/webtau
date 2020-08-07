@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package org.testgisdocumenting.webtau.graphql;
+package org.testingisdocumenting.webtau.graphql;
 
-public enum GraphQLOperationType {
-    QUERY,
-    MUTATION,
-    SUBSCRIPTION
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler;
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
+
+public class GraphQLCoverageRecorder implements HttpValidationHandler {
+    @Override
+    public void validate(HttpValidationResult validationResult) {
+        GraphQL.getCoverage().recordOperation(validationResult);
+    }
 }

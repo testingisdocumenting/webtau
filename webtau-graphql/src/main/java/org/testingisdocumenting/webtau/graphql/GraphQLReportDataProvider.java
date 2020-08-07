@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testgisdocumenting.webtau.graphql;
+package org.testingisdocumenting.webtau.graphql;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 import org.testingisdocumenting.webtau.report.ReportCustomData;

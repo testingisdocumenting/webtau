@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testgisdocumenting.webtau.graphql;
+package org.testingisdocumenting.webtau.graphql;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;

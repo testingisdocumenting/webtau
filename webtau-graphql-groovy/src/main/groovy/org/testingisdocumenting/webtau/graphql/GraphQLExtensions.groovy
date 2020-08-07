@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.graphql
 
-import org.testgisdocumenting.webtau.graphql.GraphQL
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
