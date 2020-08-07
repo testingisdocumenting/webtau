@@ -63,6 +63,8 @@ class GraphQLExtensions {
             switch (name) {
                 case "header":
                     return new GroovyDataNode(header)
+                case "body":
+                    return new GroovyDataNode(body)
                 case "errors":
                     return new GroovyDataNode(body).get("errors")
                 default:

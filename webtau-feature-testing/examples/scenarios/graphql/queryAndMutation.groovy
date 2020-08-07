@@ -47,6 +47,7 @@ scenario("list all tasks") {
     graphql.execute(listAllQuery) {
         errors.should == null
         allTasks.id.should == ["a", "b", "c"]
+        body.data.allTasks.id.should == ["a", "b", "c"]
     }
 }
 
