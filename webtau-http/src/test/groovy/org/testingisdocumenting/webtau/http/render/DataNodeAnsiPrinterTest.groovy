@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,21 +46,21 @@ class DataNodeAnsiPrinterTest {
 
     @Test
     void "should print list data node with indentation and using different colors"() {
-        def textOnly = withCapturedOutput {
+        def ansi = captureAnsiOutput {
             new DataNodeAnsiPrinter().print(DataNodeBuilder.fromList(new DataNodeId("root"), [1, 2, 3, 4]))
         }
 
-        Assert.assertEquals('[\n' +
-                '  1,\n' +
-                '  2,\n' +
-                '  3,\n' +
-                '  4\n' +
-                ']', textOnly)
+        ansi.should == [Color.GREY, '[', '\n',
+                        '  ', Color.CYAN, '1', Color.GREY, ',', '\n',
+                        '  ', Color.CYAN, '2', Color.GREY, ',', '\n',
+                        '  ', Color.CYAN, '3', Color.GREY, ',', '\n',
+                        '  ', Color.CYAN, '4', '\n',
+                        Color.GREY, ']', '\n']
     }
 
     @Test
     void "should print object data node"() {
-        def textOnly = withCapturedOutput {
+        def textOnly = captureTextOutput {
             new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
                     key1: 'value1',
                     key2: 'value2',
@@ -92,7 +93,7 @@ class DataNodeAnsiPrinterTest {
                   key3: [key31: 'value31', key32: [5, 6, 8]]]
 
         def o2 = [key4: 'value4',
-                 key5: 'value5']
+                  key5: 'value5']
 
         def dataNode = DataNodeBuilder.fromList(new DataNodeId("root"), [o1, o2])
 
@@ -100,11 +101,11 @@ class DataNodeAnsiPrinterTest {
 
         try {
             dataNode.get(0).get('key3').get('key31') should(equal('wrong-value'))
-        } catch (AssertionError e) {
+        } catch (AssertionError ignored) {
             // catch as it is an expected here and serves to check if the value will be rendered as failed
         }
 
-        def textOnly = withCapturedOutput {
+        def textOnly = captureTextOutput {
             new DataNodeAnsiPrinter().print(dataNode)
         }
 
@@ -130,7 +131,7 @@ class DataNodeAnsiPrinterTest {
 
     @Test
     void "should collapse empty list and object"() {
-        def textOnly = withCapturedOutput {
+        def textOnly = captureTextOutput {
             new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
                     key1: 'value1',
                     key2: 'value2',
@@ -156,13 +157,21 @@ class DataNodeAnsiPrinterTest {
                 '}', textOnly)
     }
 
-    private static String withCapturedOutput(Closure code) {
+    private static String captureTextOutput(Closure code) {
+        return captureOutput(code).textOnly
+    }
+
+    private static List<Object> captureAnsiOutput(Closure code) {
+        return captureOutput(code).stylesAndOutput
+    }
+
+    private static CaptureOutput captureOutput(Closure code) {
         def capture = new CaptureOutput()
         try {
             ConsoleOutputs.add(capture)
             code()
 
-            return capture.textOnly
+            return capture
         } finally {
             ConsoleOutputs.remove(capture)
         }
@@ -180,6 +189,7 @@ class DataNodeAnsiPrinterTest {
 
             textLInes.add(line)
             stylesAndOutput.addAll(Arrays.asList(styleOrValues))
+            stylesAndOutput.add('\n')
         }
 
         String getTextOnly() {
