@@ -23,7 +23,7 @@ import org.testingisdocumenting.webtau.cfg.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyCliArgsConfigHandler
-import org.testingisdocumenting.webtau.cli.repl.WebTauCliInteractive
+
 import org.testingisdocumenting.webtau.cli.repl.Repl
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
@@ -71,9 +71,6 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         if (WebTauCliArgsConfig.isReplMode(args)) {
             cliApp.startRepl()
             System.exit(0)
-        } else if (WebTauCliArgsConfig.isInteractiveMode(args)) {
-            cliApp.startInteractive()
-            System.exit(0)
         } else {
             cliApp.start(WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
                 System.exit(exitCode)
@@ -96,13 +93,6 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             exitHandler.accept(1)
         } else {
             exitHandler.accept(problemCount > 0 ? 1 : 0)
-        }
-    }
-
-    void startInteractive() {
-        prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
-            def interactive = new WebTauCliInteractive(runner)
-            interactive.start()
         }
     }
 
