@@ -44,8 +44,8 @@ class WebTauGraphQLFeaturesTest {
         runCli("queryAndMutation.groovy", "webtau.cfg", "--url=${testRunner.testServer.uri}")
     }
 
-    private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
-        testRunner.runCli("scenarios/graphql/$restTestName",
+    private static void runCli(String graphQLTestName, String configFileName, String... additionalArgs) {
+        testRunner.runCli("scenarios/graphql/$graphQLTestName",
             "scenarios/graphql/$configFileName", additionalArgs)
     }
 }
