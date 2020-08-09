@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,20 +20,27 @@ package org.testingisdocumenting.webtau.report;
 import org.testingisdocumenting.webtau.reporter.WebTauReport;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class ReportGenerators {
-    private static final List<ReportGenerator> generators = ServiceLoaderUtils.load(ReportGenerator.class);
+    private static final List<ReportGenerator> discoveredGenerators = ServiceLoaderUtils.load(ReportGenerator.class);
+    private static final List<ReportGenerator> addedGenerators = new ArrayList<>();
 
     public static void generate(WebTauReport report) {
-        generators.forEach(g -> g.generate(report));
+        Stream.concat(discoveredGenerators.stream(), addedGenerators.stream()).forEach(g -> g.generate(report));
     }
 
     public static void add(ReportGenerator reportGenerator) {
-        generators.add(reportGenerator);
+        addedGenerators.add(reportGenerator);
     }
 
     public static void remove(ReportGenerator reportGenerator) {
-        generators.remove(reportGenerator);
+        addedGenerators.remove(reportGenerator);
+    }
+
+    public static void clearAdded() {
+        addedGenerators.clear();
     }
 }
