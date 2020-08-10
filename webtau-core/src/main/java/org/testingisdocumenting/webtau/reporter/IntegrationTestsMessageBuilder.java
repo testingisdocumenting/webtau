@@ -27,7 +27,7 @@ public class IntegrationTestsMessageBuilder {
         ERROR("error", Color.RED),
         NONE("none", FontStyle.NORMAL),
         ACTION("action", Color.BLUE),
-        ID("id", FontStyle.BOLD),
+        ID("id", FontStyle.NORMAL, FontStyle.BOLD),
         CLASSIFIER("classifier", Color.CYAN),
         MATCHER("matcher", Color.GREEN),
         STRING_VALUE("stringValue", Color.GREEN),
@@ -35,7 +35,7 @@ public class IntegrationTestsMessageBuilder {
         URL("url", Color.PURPLE),
         SELECTOR_TYPE("selectorType", Color.PURPLE),
         SELECTOR_VALUE("selectorValue", FontStyle.BOLD, Color.PURPLE),
-        PREPOSITION("preposition", Color.BLACK),
+        PREPOSITION("preposition", Color.GREY),
         DELIMITER("delimiter", Color.WHITE);
 
         private final String type;
@@ -63,6 +63,8 @@ public class IntegrationTestsMessageBuilder {
 
     public static final MessageToken TO = TokenTypes.PREPOSITION.token("to");
     public static final MessageToken OF = TokenTypes.PREPOSITION.token("of");
+    public static final MessageToken INTO = TokenTypes.PREPOSITION.token("into");
+    public static final MessageToken ON = TokenTypes.PREPOSITION.token("on");
     public static final MessageToken COMMA = TokenTypes.DELIMITER.token(",");
     public static final MessageToken COLON = TokenTypes.DELIMITER.token(":");
 
@@ -98,6 +100,10 @@ public class IntegrationTestsMessageBuilder {
 
     public static MessageToken none(String text) {
         return TokenTypes.NONE.token(text);
+    }
+
+    public static MessageToken preposition(String text) {
+        return TokenTypes.PREPOSITION.token(text);
     }
 
     public static MessageToken selectorType(String selector) {

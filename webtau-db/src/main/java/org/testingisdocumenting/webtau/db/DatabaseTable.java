@@ -19,25 +19,50 @@ package org.testingisdocumenting.webtau.db;
 import org.apache.commons.dbutils.QueryRunner;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
+import org.testingisdocumenting.webtau.reporter.MessageToken;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+
 class DatabaseTable {
-    private final DataSource dataSource;
+    private final LabeledDataSource dataSource;
     private final String name;
 
-    public DatabaseTable(DataSource dataSource, String name) {
+    public DatabaseTable(LabeledDataSource dataSource, String name) {
         this.dataSource = dataSource;
         this.name = name;
     }
 
     public void insert(TableData tableData) {
+        createAndExecuteStep(
+                tokenizedMessage(action("inserting"), numberValue(tableData.numberOfRows()), action("row(s)"),
+                        INTO, createMessageId()),
+                () -> tokenizedMessage(action("inserted"), numberValue(tableData.numberOfRows()), action("row(s)"),
+                        INTO, createMessageId()),
+                () -> insertStep(tableData));
+    }
+
+    public TableData query() {
+        TestStep step = createStep(null,
+                tokenizedMessage(action("querying"), createMessageId()),
+                () -> tokenizedMessage(action("queried"), createMessageId()),
+                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), SqlQueriesGenerator.query(name)));
+
+        return (TableData) step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private void insertStep(TableData tableData) {
         if (tableData.isEmpty()) {
             return;
         }
 
-        QueryRunner run = new QueryRunner(dataSource);
+        QueryRunner run = new QueryRunner(dataSource.getDataSource());
         try {
             Object[][] values = new Object[tableData.numberOfRows()][];
             for (int idx = 0; idx < tableData.numberOfRows(); idx++) {
@@ -50,8 +75,8 @@ class DatabaseTable {
         }
     }
 
-    public TableData query() {
-        return QueryRunnerUtils.runQuery(dataSource, SqlQueriesGenerator.query(name));
+    private MessageToken createMessageId() {
+        return id(dataSource.getLabel() + "." + name);
     }
 
     public void leftShift(TableData tableData) {
