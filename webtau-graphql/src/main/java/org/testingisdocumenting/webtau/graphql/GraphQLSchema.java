@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.graphql;
 import graphql.ExecutionInput;
 import graphql.ParseAndValidate;
 import graphql.ParseAndValidateResult;
+import graphql.language.Field;
 import graphql.language.OperationDefinition;
 import graphql.schema.GraphQLObjectType;
 import graphql.schema.idl.RuntimeWiring;
@@ -31,13 +32,17 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.Collections.emptySet;
 
 public class GraphQLSchema {
     private final boolean isSchemaDefined;
@@ -76,26 +81,47 @@ public class GraphQLSchema {
         return schemaDeclaredOperations.stream();
     }
 
-    public Optional<GraphQLOperation> findOperation(HttpRequestBody requestBody) {
+    public Set<GraphQLOperation> findOperations(HttpRequestBody requestBody) {
         if (requestBody.isBinary()) {
-            return Optional.empty();
+            return emptySet();
         }
 
         Map<String, ?> request = JsonUtils.deserializeAsMap(requestBody.asString());
         String query = (String) request.get("query");
+        String operationName = (String) request.get("operationName");
 
         ExecutionInput executionInput = ExecutionInput.newExecutionInput(query).build();
         ParseAndValidateResult parsingResult = ParseAndValidate.parse(executionInput);
         if (parsingResult.isFailure()) {
-            return Optional.empty();
+            return emptySet();
         }
 
         List<OperationDefinition> operations = parsingResult.getDocument().getDefinitionsOfType(OperationDefinition.class);
-        Optional<OperationDefinition> operation = operations.stream().findFirst();
+        if (operationName != null) {
+            List<OperationDefinition> matchingOperations = operations.stream().filter(operationDefinition -> operationName.equals(operationDefinition.getName())).collect(Collectors.toList());
+            if (matchingOperations.size() != 1) {
+                // Either no matching operation or more than one, either way it's not valid GraphQL
+                return emptySet();
+            }
 
-        return operation
-                .map(op -> new GraphQLOperation(op.getName(), convertType(op.getOperation())))
-                .filter(schemaDeclaredOperations::contains);
+            Optional<OperationDefinition> matchingOperation = matchingOperations.stream().findFirst();
+            return matchingOperation.map(GraphQLSchema::extractOperations).orElseGet(Collections::emptySet);
+        } else {
+            if (operations.size() > 1) {
+                // This is not valid in GraphQL, if you have more than one operation, you need to specify a name
+                return emptySet();
+            }
+            Optional<OperationDefinition> operation = operations.stream().findFirst();
+            return operation.map(GraphQLSchema::extractOperations).orElseGet(Collections::emptySet);
+        }
+    }
+
+    private static Set<GraphQLOperation> extractOperations(OperationDefinition operationDefinition) {
+        List<Field> fields = operationDefinition.getSelectionSet().getSelectionsOfType(Field.class);
+        GraphQLOperationType type = convertType(operationDefinition.getOperation());
+        return fields.stream()
+                .map(field -> new GraphQLOperation(field.getName(), type))
+                .collect(Collectors.toSet());
     }
 
     private static GraphQLOperationType convertType(OperationDefinition.Operation op) {

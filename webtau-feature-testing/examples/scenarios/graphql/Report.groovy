@@ -37,16 +37,16 @@ class Report {
             [
                 name: 'uncomplete',
                 type: 'mutation'
-            ],
-            [
-                name: 'allTasks',
-                type: 'query'
             ]
         ] as Set
     }
 
     static void validateCoveredOps(Set coveredOps) {
         coveredOps.should == [
+            [
+                name: 'allTasks',
+                type: 'query'
+            ],
             [
                 name: 'complete',
                 type: 'mutation'
@@ -59,7 +59,12 @@ class Report {
     }
 
     static void validateOperationStatistics(opStats) {
-        opStats.size().should == 2
+        opStats.size().should == 3
+
+        def allTasksQueryStats = opStats.find { it.name == 'allTasks' }
+        allTasksQueryStats.shouldNot == null
+        allTasksQueryStats.type.should == 'query'
+        allTasksQueryStats.statistics.size().shouldBe > 0
 
         def completeMutationStats = opStats.find { it.name == 'complete' }
         completeMutationStats.shouldNot == null
@@ -82,13 +87,13 @@ class Report {
                 ],
                 query: [
                     declaredOperations: 2,
-                    coveredOperations: 1,
-                    coverage: 0.5
+                    coveredOperations: 2,
+                    coverage: 1.0
                 ]
             ],
             totalDeclaredOperations: 4,
-            totalCoveredOperations: 2,
-            coverage: 0.5
+            totalCoveredOperations: 3,
+            coverage: 0.75
         ]
     }
 }

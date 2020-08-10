@@ -36,8 +36,10 @@ class TestUtils {
         def type = operationType.name().toLowerCase()
         def payload = [
             query: """
-                    $type $operationName {
-                      id
+                    $type {
+                        $operationName {
+                            id
+                        }
                     }
                     """.toString()
         ]

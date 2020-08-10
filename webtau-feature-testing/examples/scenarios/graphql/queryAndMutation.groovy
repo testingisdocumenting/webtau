@@ -19,7 +19,7 @@ package scenarios.graphql
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 def listAllQuery = '''
-query {
+{
     allTasks(uncompletedOnly: false) {
         id
         description
