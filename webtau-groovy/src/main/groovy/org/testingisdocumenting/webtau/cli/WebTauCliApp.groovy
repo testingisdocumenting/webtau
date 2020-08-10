@@ -132,7 +132,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
             code()
         } finally {
-            removeListeners()
+            removeListenersAndHandlers()
 
             Pdf.closeAll()
 
@@ -146,7 +146,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         consoleOutput = createConsoleOutput()
         stepReporter = createStepReporter()
 
-        registerListeners()
+        registerListenersAndHandlers()
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
@@ -157,19 +157,19 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         WebTauGroovyDsl.initWithTestRunner(runner)
     }
 
-    private void registerListeners() {
+    private void registerListenersAndHandlers() {
+        StepReporters.add(stepReporter)
         ConsoleOutputs.add(consoleOutput)
         TestListeners.add(consoleTestReporter)
         TestListeners.add(this)
-        StepReporters.add(stepReporter)
         ReportGenerators.add(this)
     }
 
-    private void removeListeners() {
-        ConsoleOutputs.remove(consoleOutput)
+    private void removeListenersAndHandlers() {
         StepReporters.remove(stepReporter)
+        ConsoleOutputs.remove(consoleOutput)
         TestListeners.clearAdded()
-        ReportGenerators.remove(this)
+        ReportGenerators.clearAdded()
     }
 
     private void runTests() {
