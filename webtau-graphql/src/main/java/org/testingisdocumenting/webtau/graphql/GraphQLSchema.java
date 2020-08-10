@@ -96,8 +96,8 @@ public class GraphQLSchema {
             return emptySet();
         }
 
+        List<OperationDefinition> operations = parsingResult.getDocument().getDefinitionsOfType(OperationDefinition.class);
         if (operationName != null) {
-            List<OperationDefinition> operations = parsingResult.getDocument().getDefinitionsOfType(OperationDefinition.class);
             List<OperationDefinition> matchingOperations = operations.stream().filter(operationDefinition -> operationName.equals(operationDefinition.getName())).collect(Collectors.toList());
             if (matchingOperations.size() != 1) {
                 // Either no matching operation or more than one, either way it's not valid GraphQL
@@ -107,7 +107,6 @@ public class GraphQLSchema {
             Optional<OperationDefinition> matchingOperation = matchingOperations.stream().findFirst();
             return matchingOperation.map(GraphQLSchema::extractOperations).orElseGet(Collections::emptySet);
         } else {
-            List<OperationDefinition> operations = parsingResult.getDocument().getDefinitionsOfType(OperationDefinition.class);
             if (operations.size() > 1) {
                 // This is not valid in GraphQL, if you have more than one operation, you need to specify a name
                 return emptySet();
