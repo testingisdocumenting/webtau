@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.graphql;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -36,8 +35,8 @@ public class GraphQLCoverage {
             return;
         }
 
-        Optional<GraphQLOperation> graphQLOperation = schema.findOperation(validationResult.getRequestBody());
-        graphQLOperation.ifPresent(operation -> coveredOperations.add(operation, validationResult.getId(), validationResult.getElapsedTime()));
+        Set<GraphQLOperation> graphQLOperations = schema.findOperations(validationResult.getRequestBody());
+        graphQLOperations.forEach(operation -> coveredOperations.add(operation, validationResult.getId(), validationResult.getElapsedTime()));
     }
 
     Stream<GraphQLOperation> nonCoveredOperations() {
