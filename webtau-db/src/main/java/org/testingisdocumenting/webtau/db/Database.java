@@ -17,13 +17,18 @@
 package org.testingisdocumenting.webtau.db;
 
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TestStep;
 
-import javax.sql.DataSource;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Database {
-    private final DataSource dataSource;
+    private final LabeledDataSource dataSource;
 
-    Database(DataSource dataSource) {
+    Database(LabeledDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -32,10 +37,18 @@ public class Database {
     }
 
     public TableData query(String query) {
-        return QueryRunnerUtils.runQuery(dataSource, query);
+        TestStep step = createStep(null,
+                tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel())),
+                () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
+                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query));
+
+        return (TableData) step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public void update(String query) {
-        QueryRunnerUtils.runUpdate(dataSource, query);
+        createAndExecuteStep(
+                tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel())),
+                () -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel())),
+                () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query));
     }
 }

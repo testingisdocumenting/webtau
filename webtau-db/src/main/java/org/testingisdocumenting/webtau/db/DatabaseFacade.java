@@ -26,8 +26,12 @@ public class DatabaseFacade {
     private DatabaseFacade() {
     }
 
-    public Database from(DataSource dataSource) {
-        return new Database(dataSource);
+    public Database from(DataSource dataSource, String label) {
+        return new Database(new LabeledDataSource(dataSource, label));
+    }
+
+    public Database from(LabeledDataSource labeledDataSource) {
+        return new Database(labeledDataSource);
     }
 
     public DatabaseTable table(String tableName) {
@@ -42,7 +46,7 @@ public class DatabaseFacade {
         from(getPrimaryDataSource()).update(query);
     }
 
-    private static DataSource getPrimaryDataSource() {
-        return DbDataSourceProviders.provideByName("primary");
+    private static LabeledDataSource getPrimaryDataSource() {
+        return new LabeledDataSource(DbDataSourceProviders.provideByName("primary"), "primary-db");
     }
 }
