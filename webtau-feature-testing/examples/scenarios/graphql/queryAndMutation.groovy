@@ -18,8 +18,16 @@ package scenarios.graphql
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-def listAllQuery = '''
+/*def listAllQuery = '''
 query {
+    allTasks(uncompletedOnly: false) {
+        id
+        description
+    }
+}
+'''*/
+def listAllQuery = '''
+query allTasks {
     allTasks(uncompletedOnly: false) {
         id
         description

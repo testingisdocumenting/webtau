@@ -25,7 +25,7 @@ import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 class GraphQLReportDataProviderTest {
     def schemaUrl = ResourceUtils.resourceUrl('test-schema.graphql')
     def coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.file))
-    def reportDataProvider = new GraphQLReportDataProvider(coverage)
+    def reportDataProvider = new GraphQLReportDataProvider({ coverage })
 
     @Before
     void injectDummyData() {

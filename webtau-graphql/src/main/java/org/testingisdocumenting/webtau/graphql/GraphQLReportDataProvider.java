@@ -28,27 +28,28 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GraphQLReportDataProvider implements ReportDataProvider {
-    private final GraphQLCoverage coverage;
+    private final Supplier<GraphQLCoverage> coverage;
 
     public GraphQLReportDataProvider() {
-        this(GraphQL.getCoverage());
+        this(GraphQL::getCoverage);
     }
 
-    public GraphQLReportDataProvider(GraphQLCoverage coverage) {
+    public GraphQLReportDataProvider(Supplier<GraphQLCoverage> coverage) {
         this.coverage = coverage;
     }
 
     @Override
     public Stream<ReportCustomData> provide(WebTauTestList tests) {
-        List<? extends Map<String, ?>> nonCoveredOperations = coverage.nonCoveredOperations()
+        List<? extends Map<String, ?>> nonCoveredOperations = coverage.get().nonCoveredOperations()
                 .map(GraphQLOperation::toMap)
                 .collect(Collectors.toList());
 
-        List<? extends Map<String, ?>> coveredOperations = coverage.coveredOperations()
+        List<? extends Map<String, ?>> coveredOperations = coverage.get().coveredOperations()
                 .map(GraphQLOperation::toMap)
                 .collect(Collectors.toList());
 
@@ -64,7 +65,7 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
     }
 
     private List<? extends Map<String, ?>> computeTiming() {
-        return coverage.actualCalls().map(GraphQLReportDataProvider::computeTiming).collect(Collectors.toList());
+        return coverage.get().actualCalls().map(GraphQLReportDataProvider::computeTiming).collect(Collectors.toList());
     }
 
     private static Map<String, ?> computeTiming(Map.Entry<GraphQLOperation, Set<GraphQLCoveredOperations.Call>> entry) {
@@ -90,8 +91,8 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
 
     private Map<String, ?> computeCoverageSummary() {
         Map<String, Object> summary = new HashMap<>();
-        Map<GraphQLOperationType, List<GraphQLOperation>> declaredOpByType = coverage.declaredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
-        Map<GraphQLOperationType, List<GraphQLOperation>> coveredOpsByType = coverage.coveredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
+        Map<GraphQLOperationType, List<GraphQLOperation>> declaredOpByType = coverage.get().declaredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
+        Map<GraphQLOperationType, List<GraphQLOperation>> coveredOpsByType = coverage.get().coveredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
 
         Map<String, Object> summaryByType = new HashMap<>();
         declaredOpByType.forEach((type, ops) -> {
