@@ -22,22 +22,22 @@ import org.testingisdocumenting.webtau.http.request.HttpRequestBody
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 
 class TestUtils {
-    static HttpValidationResult validationResult(operationName, operationType, elapsedTime = 0) {
+    static HttpValidationResult validationResult(queryName, queryType, elapsedTime = 0) {
         def response = new HttpResponse()
         response.statusCode = 200
 
-        def result = new HttpValidationResult('POST', '/graphql', '/graphql', null, body(operationName, operationType))
+        def result = new HttpValidationResult('POST', '/graphql', '/graphql', null, body(queryName, queryType))
         result.setResponse(response)
         result.setElapsedTime(elapsedTime)
         return result
     }
 
-    static HttpRequestBody body(operationName, operationType) {
-        def type = operationType.name().toLowerCase()
+    static HttpRequestBody body(queryName, queryType) {
+        def type = queryType.name().toLowerCase()
         def payload = [
             query: """
                     $type {
-                        $operationName {
+                        $queryName {
                             id
                         }
                     }

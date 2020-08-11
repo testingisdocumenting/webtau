@@ -34,13 +34,13 @@ class GraphQLCoverageTest {
     }
 
     @Test
-    void "should provide non covered operations"() {
-        coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY))
-        coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION))
+    void "should provide non covered queries"() {
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION))
 
-        coverage.nonCoveredOperations().should == ['*name'     | '*type'    ] {
-                                                   ___________________________________________
-                                                    'taskById' | GraphQLOperationType.QUERY
-                                                  'uncomplete' | GraphQLOperationType.MUTATION }
+        coverage.nonCoveredQueries().should == ['*name'     | '*type'    ] {
+                                                _______________________________________
+                                                 'taskById' | GraphQLQueryType.QUERY
+                                               'uncomplete' | GraphQLQueryType.MUTATION }
     }
 }

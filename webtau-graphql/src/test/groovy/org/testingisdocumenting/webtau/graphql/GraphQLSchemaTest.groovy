@@ -29,9 +29,9 @@ class GraphQLSchemaTest {
         def payload = [
             query: query
         ]
-        Set<GraphQLOperation> operations = schema.findOperations(new JsonRequestBody(payload))
-        operations.should == [
-            new GraphQLOperation("allTasks", GraphQLOperationType.QUERY)
+        Set<GraphQLQuery> queries = schema.findQueries(new JsonRequestBody(payload))
+        queries.should == [
+            new GraphQLQuery("allTasks", GraphQLQueryType.QUERY)
         ]
     }
 
@@ -48,9 +48,9 @@ query {
         def payload = [
             query: query
         ]
-        Set<GraphQLOperation> operations = schema.findOperations(new JsonRequestBody(payload))
-        operations.should == [
-            new GraphQLOperation("allTasks", GraphQLOperationType.QUERY)
+        Set<GraphQLQuery> queries = schema.findQueries(new JsonRequestBody(payload))
+        queries.should == [
+            new GraphQLQuery("allTasks", GraphQLQueryType.QUERY)
         ]
     }
 
@@ -67,9 +67,9 @@ query foobar {
         def payload = [
             query: query
         ]
-        Set<GraphQLOperation> operations = schema.findOperations(new JsonRequestBody(payload))
-        operations.should == [
-            new GraphQLOperation("allTasks", GraphQLOperationType.QUERY)
+        Set<GraphQLQuery> queries = schema.findQueries(new JsonRequestBody(payload))
+        queries.should == [
+            new GraphQLQuery("allTasks", GraphQLQueryType.QUERY)
         ]
     }
 
@@ -91,10 +91,10 @@ query foobar {
         def payload = [
             query: query
         ]
-        Set<GraphQLOperation> operations = schema.findOperations(new JsonRequestBody(payload))
-        operations.should == [
-            new GraphQLOperation("allTasks", GraphQLOperationType.QUERY),
-            new GraphQLOperation("taskById", GraphQLOperationType.QUERY)
+        Set<GraphQLQuery> queries = schema.findQueries(new JsonRequestBody(payload))
+        queries.should == [
+            new GraphQLQuery("allTasks", GraphQLQueryType.QUERY),
+            new GraphQLQuery("taskById", GraphQLQueryType.QUERY)
         ] as Set
     }
 
@@ -118,9 +118,9 @@ query hello {
         def payload = [
             query: query
         ]
-        Set<GraphQLOperation> operations = schema.findOperations(new JsonRequestBody(payload))
+        Set<GraphQLQuery> queries = schema.findQueries(new JsonRequestBody(payload))
         // Multiple named operations without specifying an operation name in request are not valid
-        operations.should == []
+        queries.should == []
     }
 
     @Test
@@ -144,8 +144,8 @@ query hello {
             query: query,
             operationName: 'does not exist'
         ]
-        Set<GraphQLOperation> operations = schema.findOperations(new JsonRequestBody(payload))
-        operations.should == []
+        Set<GraphQLQuery> queries = schema.findQueries(new JsonRequestBody(payload))
+        queries.should == []
     }
 
     @Test
@@ -169,9 +169,9 @@ query hello {
             query: query,
             operationName: 'foobar'
         ]
-        Set<GraphQLOperation> operations = schema.findOperations(new JsonRequestBody(payload))
-        operations.should == [
-            new GraphQLOperation("allTasks", GraphQLOperationType.QUERY)
+        Set<GraphQLQuery> queries = schema.findQueries(new JsonRequestBody(payload))
+        queries.should == [
+            new GraphQLQuery("allTasks", GraphQLQueryType.QUERY)
         ]
     }
 }

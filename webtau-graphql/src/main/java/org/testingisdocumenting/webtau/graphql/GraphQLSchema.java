@@ -46,11 +46,11 @@ import static java.util.Collections.emptySet;
 
 public class GraphQLSchema {
     private final boolean isSchemaDefined;
-    private final Set<GraphQLOperation> schemaDeclaredOperations;
+    private final Set<GraphQLQuery> schemaDeclaredQueries;
 
     public GraphQLSchema(String schemaPathStr) {
         isSchemaDefined = !schemaPathStr.isEmpty();
-        schemaDeclaredOperations = new HashSet<>();
+        schemaDeclaredQueries = new HashSet<>();
 
         if (isSchemaDefined) {
             SchemaParser schemaParser = new SchemaParser();
@@ -62,14 +62,14 @@ public class GraphQLSchema {
             SchemaGenerator schemaGenerator = new SchemaGenerator();
             graphql.schema.GraphQLSchema schema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
 
-            BiConsumer<Optional<GraphQLObjectType>, GraphQLOperationType> registerTypes = (objectType, operationType) ->
+            BiConsumer<Optional<GraphQLObjectType>, GraphQLQueryType> registerTypes = (objectType, queryType) ->
                     objectType.ifPresent(type ->
-                            type.getFieldDefinitions().forEach(definition -> schemaDeclaredOperations.add(
-                                    new GraphQLOperation(definition.getName(), operationType)
+                            type.getFieldDefinitions().forEach(definition -> schemaDeclaredQueries.add(
+                                    new GraphQLQuery(definition.getName(), queryType)
                             )));
-            registerTypes.accept(Optional.ofNullable(schema.getQueryType()), GraphQLOperationType.QUERY);
-            registerTypes.accept(Optional.ofNullable(schema.getMutationType()), GraphQLOperationType.MUTATION);
-            registerTypes.accept(Optional.ofNullable(schema.getSubscriptionType()), GraphQLOperationType.SUBSCRIPTION);
+            registerTypes.accept(Optional.ofNullable(schema.getQueryType()), GraphQLQueryType.QUERY);
+            registerTypes.accept(Optional.ofNullable(schema.getMutationType()), GraphQLQueryType.MUTATION);
+            registerTypes.accept(Optional.ofNullable(schema.getSubscriptionType()), GraphQLQueryType.SUBSCRIPTION);
         }
     }
 
@@ -77,11 +77,11 @@ public class GraphQLSchema {
         return isSchemaDefined;
     }
 
-    public Stream<GraphQLOperation> getSchemaDeclaredOperations() {
-        return schemaDeclaredOperations.stream();
+    public Stream<GraphQLQuery> getSchemaDeclaredQueries() {
+        return schemaDeclaredQueries.stream();
     }
 
-    public Set<GraphQLOperation> findOperations(HttpRequestBody requestBody) {
+    public Set<GraphQLQuery> findQueries(HttpRequestBody requestBody) {
         if (requestBody.isBinary()) {
             return emptySet();
         }
@@ -105,34 +105,34 @@ public class GraphQLSchema {
             }
 
             Optional<OperationDefinition> matchingOperation = matchingOperations.stream().findFirst();
-            return matchingOperation.map(GraphQLSchema::extractOperations).orElseGet(Collections::emptySet);
+            return matchingOperation.map(GraphQLSchema::extractQueries).orElseGet(Collections::emptySet);
         } else {
             if (operations.size() > 1) {
                 // This is not valid in GraphQL, if you have more than one operation, you need to specify a name
                 return emptySet();
             }
             Optional<OperationDefinition> operation = operations.stream().findFirst();
-            return operation.map(GraphQLSchema::extractOperations).orElseGet(Collections::emptySet);
+            return operation.map(GraphQLSchema::extractQueries).orElseGet(Collections::emptySet);
         }
     }
 
-    private static Set<GraphQLOperation> extractOperations(OperationDefinition operationDefinition) {
+    private static Set<GraphQLQuery> extractQueries(OperationDefinition operationDefinition) {
         List<Field> fields = operationDefinition.getSelectionSet().getSelectionsOfType(Field.class);
-        GraphQLOperationType type = convertType(operationDefinition.getOperation());
+        GraphQLQueryType type = convertType(operationDefinition.getOperation());
         return fields.stream()
-                .map(field -> new GraphQLOperation(field.getName(), type))
+                .map(field -> new GraphQLQuery(field.getName(), type))
                 .collect(Collectors.toSet());
     }
 
-    private static GraphQLOperationType convertType(OperationDefinition.Operation op) {
+    private static GraphQLQueryType convertType(OperationDefinition.Operation op) {
         switch (op) {
             case MUTATION:
-                return GraphQLOperationType.MUTATION;
+                return GraphQLQueryType.MUTATION;
             case SUBSCRIPTION:
-                return GraphQLOperationType.SUBSCRIPTION;
+                return GraphQLQueryType.SUBSCRIPTION;
             case QUERY:
             default:
-                return GraphQLOperationType.QUERY;
+                return GraphQLQueryType.QUERY;
         }
     }
 }
