@@ -115,12 +115,16 @@ public class JsonUtils {
     }
 
     public static Object deserialize(String json) {
+        return deserializeAs(json, Object.class);
+    }
+
+    public static <T> T deserializeAs(String json, Class<T> valueType) {
         if (json == null) {
             return null;
         }
 
         try {
-            return mapper.readValue(json, Object.class);
+            return mapper.readValue(json, valueType);
         } catch (IOException e) {
             throw new JsonParseException(e.getMessage());
         }
@@ -128,9 +132,5 @@ public class JsonUtils {
 
     public static JsonNode convertToTree(Object object) {
         return mapper.valueToTree(object);
-    }
-
-    public static <T> T convert(Object fromValue, Class<T> toValueType) {
-        return mapper.convertValue(fromValue, toValueType);
     }
 }
