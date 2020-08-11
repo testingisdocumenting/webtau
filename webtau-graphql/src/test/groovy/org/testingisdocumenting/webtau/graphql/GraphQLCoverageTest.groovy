@@ -20,6 +20,8 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
 
+import java.nio.file.Paths
+
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
 class GraphQLCoverageTest {
@@ -27,8 +29,8 @@ class GraphQLCoverageTest {
 
     @Before
     void setUp() {
-        def schemaUrl = ResourceUtils.resourceUrl('test-schema.graphql')
-        coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.file))
+        def schemaUrl = Paths.get(ResourceUtils.resourceUrl('test-schema.graphql').toURI()).toString()
+        coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl))
     }
 
     @Test
@@ -39,7 +41,6 @@ class GraphQLCoverageTest {
         coverage.nonCoveredOperations().should == ['*name'     | '*type'    ] {
                                                    ___________________________________________
                                                     'taskById' | GraphQLOperationType.QUERY
-                                                  'uncomplete' | GraphQLOperationType.MUTATION
-        }
+                                                  'uncomplete' | GraphQLOperationType.MUTATION }
     }
 }
