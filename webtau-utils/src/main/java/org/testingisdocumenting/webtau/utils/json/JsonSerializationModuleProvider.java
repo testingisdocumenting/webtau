@@ -16,8 +16,8 @@
 
 package org.testingisdocumenting.webtau.utils.json;
 
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.Module;
 
 public interface JsonSerializationModuleProvider {
-    SimpleModule provide();
+    Module provide();
 }

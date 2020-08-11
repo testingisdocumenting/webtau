@@ -25,24 +25,20 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 
 public class GraphQLConfig implements WebTauConfigHandler {
-    static final ConfigValue schemaPath = declare("graphQLSchema",
-            "path to GraphQL schema against which to validate http calls", () -> "");
+    static final ConfigValue graphQLEnabled = declare("graphQLEnabled",
+            "enable graphQL coverage and timing capture", () -> false);
 
-    private static String fullPath;
-
-    static String schemaFullPath() {
-        return fullPath;
+    static boolean isEnabled() {
+        return graphQLEnabled.getAsBoolean();
     }
 
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        fullPath = schemaPath.getAsString().isEmpty() ? "" :
-                cfg.getWorkingDir().resolve(schemaPath.getAsString()).toString();
         GraphQL.reset();
     }
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(schemaPath);
+        return Stream.of(graphQLEnabled);
     }
 }

@@ -129,4 +129,8 @@ public class JsonUtils {
     public static JsonNode convertToTree(Object object) {
         return mapper.valueToTree(object);
     }
+
+    public static <T> T convert(Object fromValue, Class<T> toValueType) {
+        return mapper.convertValue(fromValue, toValueType);
+    }
 }

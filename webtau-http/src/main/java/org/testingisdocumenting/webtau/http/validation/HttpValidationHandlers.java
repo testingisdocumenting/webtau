@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 public class HttpValidationHandlers {
     private static final List<HttpValidationHandler> globalHandlers = ServiceLoaderUtils.load(HttpValidationHandler.class);
     private static final ThreadLocal<List<HttpValidationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
+    private static final ThreadLocal<Class<? extends HttpValidationHandler>> excludedHandlerType = ThreadLocal.withInitial(() -> null);
 
     public static void add(HttpValidationHandler handler) {
         globalHandlers.add(handler);
@@ -44,8 +45,18 @@ public class HttpValidationHandlers {
         }
     }
 
+    public static <T extends HttpValidationHandler, R> R without(Class<T> handlerToExclude, Supplier<R> code) {
+        excludedHandlerType.set(handlerToExclude);
+        try {
+            return code.get();
+        } finally {
+            excludedHandlerType.set(null);
+        }
+    }
+
     public static void validate(HttpValidationResult validationResult) {
         Stream.concat(localHandlers.get().stream(), globalHandlers.stream())
+                .filter(handler -> excludedHandlerType.get() == null || !excludedHandlerType.get().isInstance(handler))
                 .forEach(c -> c.validate(validationResult));
     }
 

@@ -40,8 +40,12 @@ public class GraphQL {
         return coverage;
     }
 
+    public static GraphQLSchema getSchema() {
+        return schema;
+    }
+
     static void reset() {
-        schema = new GraphQLSchema(GraphQLConfig.schemaFullPath());
+        schema = new GraphQLSchema(GraphQLConfig.isEnabled());
         coverage = new GraphQLCoverage(schema);
     }
 

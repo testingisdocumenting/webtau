@@ -20,6 +20,6 @@ import java.util.stream.Stream;
 
 public interface WebTauConfigHandler {
     default void onBeforeCreate(WebTauConfig cfg) {}
-    default void onAfterCreate(WebTauConfig cfg) {};
+    default void onAfterCreate(WebTauConfig cfg) {}
     default Stream<ConfigValue> additionalConfigValues() { return Stream.empty(); }
 }
