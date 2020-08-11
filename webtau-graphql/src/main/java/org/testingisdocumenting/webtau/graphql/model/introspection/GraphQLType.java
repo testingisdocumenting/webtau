@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.utils.json;
+package org.testingisdocumenting.webtau.graphql.model.introspection;
 
-import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public interface JsonSerializationModuleProvider {
-    Module provide();
+import java.util.List;
+
+public class GraphQLType {
+    private final List<GraphQLField> fields;
+
+    public GraphQLType(@JsonProperty("fields") List<GraphQLField> fields) {
+        this.fields = fields;
+    }
+
+    public List<GraphQLField> getFields() {
+        return fields;
+    }
 }

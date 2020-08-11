@@ -24,7 +24,7 @@ public class GraphQLQuery {
     private final String name;
     private final GraphQLQueryType type;
 
-    GraphQLQuery(String name, GraphQLQueryType type) {
+    public GraphQLQuery(String name, GraphQLQueryType type) {
         this.name = name;
         this.type = type;
     }

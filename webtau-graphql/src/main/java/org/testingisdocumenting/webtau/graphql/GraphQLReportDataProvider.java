@@ -80,6 +80,7 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
         statistics.put("mean", summaryStatistics.getAverage());
         statistics.put("min", summaryStatistics.getMin());
         statistics.put("max", summaryStatistics.getMax());
+        statistics.put("count", summaryStatistics.getCount());
 
         double[] times = entry.getValue().stream().map(GraphQLCoveredQueries.Call::getElapsedTime).mapToDouble(Long::doubleValue).sorted().toArray();
         Percentile percentile = new Percentile();

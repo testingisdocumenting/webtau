@@ -18,13 +18,14 @@ package org.testingisdocumenting.webtau.data.json
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.databind.JsonSerializer
+import com.fasterxml.jackson.databind.Module
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.module.SimpleModule
 import org.testingisdocumenting.webtau.utils.json.JsonSerializationModuleProvider
 
 class GStringJsonSerializationModuleProvider implements JsonSerializationModuleProvider {
     @Override
-    SimpleModule provide() {
+    Module provide() {
         SimpleModule module = new SimpleModule()
         module.addSerializer(GString.class, new JsonSerializer<GString>() {
             @Override

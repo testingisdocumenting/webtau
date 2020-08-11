@@ -3,17 +3,15 @@ package org.testingisdocumenting.webtau.graphql
 import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 
-import java.nio.file.Paths
+import static org.testingisdocumenting.webtau.graphql.TestUtils.getDeclaredOperations
 
 class GraphQLSchemaTest {
     private GraphQLSchema schema
 
     @Before
     void setUp() {
-        def schemaUrl = Paths.get(ResourceUtils.resourceUrl('test-schema.graphql').toURI()).toString()
-        schema = new GraphQLSchema(schemaUrl)
+        schema = new GraphQLSchema(declaredOperations)
     }
 
     @Test

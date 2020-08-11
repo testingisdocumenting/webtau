@@ -22,6 +22,13 @@ import org.testingisdocumenting.webtau.http.request.HttpRequestBody
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 
 class TestUtils {
+    static def declaredOperations = [
+        new GraphQLQuery("allTasks", GraphQLQueryType.QUERY),
+        new GraphQLQuery("taskById", GraphQLQueryType.QUERY),
+        new GraphQLQuery("complete", GraphQLQueryType.MUTATION),
+        new GraphQLQuery("uncomplete", GraphQLQueryType.MUTATION),
+    ] as Set
+
     static HttpValidationResult validationResult(queryName, queryType, elapsedTime = 0) {
         def response = new HttpResponse()
         response.statusCode = 200

@@ -18,15 +18,12 @@ package org.testingisdocumenting.webtau.graphql
 
 import org.junit.Before
 import org.junit.Test
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 
-import java.nio.file.Paths
-
+import static org.testingisdocumenting.webtau.graphql.TestUtils.declaredOperations
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
 class GraphQLReportDataProviderTest {
-    def schemaUrl = ResourceUtils.resourceUrl('test-schema.graphql')
-    def coverage = new GraphQLCoverage(new GraphQLSchema(Paths.get(schemaUrl.toURI()).toString()))
+    def coverage = new GraphQLCoverage(new GraphQLSchema(declaredOperations))
     def reportDataProvider = new GraphQLReportDataProvider({ coverage })
 
     @Before
@@ -53,6 +50,7 @@ class GraphQLReportDataProviderTest {
                     mean: 2,
                     min: 1,
                     max: 3,
+                    count: 3,
                     p95: 3,
                     p99: 3
                 ]
@@ -64,6 +62,7 @@ class GraphQLReportDataProviderTest {
                     mean: 4,
                     min: 2,
                     max: 6,
+                    count: 3,
                     p95: 6,
                     p99: 6
                 ]

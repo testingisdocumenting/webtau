@@ -16,69 +16,51 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import com.google.common.base.Suppliers;
 import graphql.ExecutionInput;
 import graphql.ParseAndValidate;
 import graphql.ParseAndValidateResult;
 import graphql.language.Field;
 import graphql.language.OperationDefinition;
-import graphql.schema.GraphQLObjectType;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
-import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Collections.emptySet;
 
 public class GraphQLSchema {
-    private final boolean isSchemaDefined;
-    private final Set<GraphQLQuery> schemaDeclaredQueries;
+    private static final Supplier<Optional<Set<GraphQLQuery>>> NO_QUERIES_SUPPLIER = Optional::empty;
 
-    public GraphQLSchema(String schemaPathStr) {
-        isSchemaDefined = !schemaPathStr.isEmpty();
-        schemaDeclaredQueries = new HashSet<>();
+    private final Supplier<Optional<Set<GraphQLQuery>>> schemaDeclaredQueriesSupplier;
 
-        if (isSchemaDefined) {
-            SchemaParser schemaParser = new SchemaParser();
-            Path schemaPath = Paths.get(schemaPathStr);
-            TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(FileUtils.fileTextContent(schemaPath));
-
-            RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring().build();
-
-            SchemaGenerator schemaGenerator = new SchemaGenerator();
-            graphql.schema.GraphQLSchema schema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
-
-            BiConsumer<Optional<GraphQLObjectType>, GraphQLQueryType> registerTypes = (objectType, queryType) ->
-                    objectType.ifPresent(type ->
-                            type.getFieldDefinitions().forEach(definition -> schemaDeclaredQueries.add(
-                                    new GraphQLQuery(definition.getName(), queryType)
-                            )));
-            registerTypes.accept(Optional.ofNullable(schema.getQueryType()), GraphQLQueryType.QUERY);
-            registerTypes.accept(Optional.ofNullable(schema.getMutationType()), GraphQLQueryType.MUTATION);
-            registerTypes.accept(Optional.ofNullable(schema.getSubscriptionType()), GraphQLQueryType.SUBSCRIPTION);
+    public GraphQLSchema(boolean isEnabled) {
+        if (!isEnabled) {
+            this.schemaDeclaredQueriesSupplier = NO_QUERIES_SUPPLIER;
+            return;
         }
+
+        this.schemaDeclaredQueriesSupplier = Suppliers.memoize(() ->
+                Optional.of(GraphQLSchemaLoader.fetchSchemaDeclaredQueries()));
+    }
+
+    public GraphQLSchema(Set<GraphQLQuery> schemaDeclaredQueries) {
+        this.schemaDeclaredQueriesSupplier = () -> Optional.of(schemaDeclaredQueries);
     }
 
     public boolean isSchemaDefined() {
-        return isSchemaDefined;
+        return schemaDeclaredQueriesSupplier.get().isPresent();
     }
 
     public Stream<GraphQLQuery> getSchemaDeclaredQueries() {
-        return schemaDeclaredQueries.stream();
+        return schemaDeclaredQueriesSupplier.get().map(Set::stream).orElseGet(Stream::empty);
     }
 
     public Set<GraphQLQuery> findQueries(HttpRequestBody requestBody) {
@@ -98,7 +80,9 @@ public class GraphQLSchema {
 
         List<OperationDefinition> operations = parsingResult.getDocument().getDefinitionsOfType(OperationDefinition.class);
         if (operationName != null) {
-            List<OperationDefinition> matchingOperations = operations.stream().filter(operationDefinition -> operationName.equals(operationDefinition.getName())).collect(Collectors.toList());
+            List<OperationDefinition> matchingOperations = operations.stream()
+                    .filter(operationDefinition -> operationName.equals(operationDefinition.getName()))
+                    .collect(Collectors.toList());
             if (matchingOperations.size() != 1) {
                 // Either no matching operation or more than one, either way it's not valid GraphQL
                 return emptySet();

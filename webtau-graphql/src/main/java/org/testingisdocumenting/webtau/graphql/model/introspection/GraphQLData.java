@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.utils.json;
+package org.testingisdocumenting.webtau.graphql.model.introspection;
 
-import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public interface JsonSerializationModuleProvider {
-    Module provide();
+public class GraphQLData {
+    private final GraphQLSchema schema;
+
+    public GraphQLData(@JsonProperty("__schema") GraphQLSchema schema) {
+        this.schema = schema;
+    }
+
+    public GraphQLSchema getSchema() {
+        return schema;
+    }
 }

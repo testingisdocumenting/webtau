@@ -16,12 +16,10 @@
 
 package org.testingisdocumenting.webtau.graphql
 
-import org.junit.Test
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
+import org.junit.Test
 
-import java.nio.file.Paths
-
+import static org.testingisdocumenting.webtau.graphql.TestUtils.declaredOperations
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
 class GraphQLCoverageTest {
@@ -29,8 +27,7 @@ class GraphQLCoverageTest {
 
     @Before
     void setUp() {
-        def schemaUrl = Paths.get(ResourceUtils.resourceUrl('test-schema.graphql').toURI()).toString()
-        coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl))
+        coverage = new GraphQLCoverage(new GraphQLSchema(declaredOperations))
     }
 
     @Test
