@@ -29,6 +29,9 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 public class BrowserConfig implements WebTauConfigHandler {
     private static final Supplier<Object> NULL_DEFAULT = () -> null;
 
+    private static final ConfigValue browserUrl = declare("browserUrl", "browser base url for application under test. It is being used" +
+            " instead of url when provided", () -> "");
+
     private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
     private static final ConfigValue headless = declareBoolean("headless", "run headless mode");
@@ -45,6 +48,10 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     public static String getBrowser() {
         return browser.getAsString();
+    }
+
+    public static String getBrowserUrl() {
+        return browserUrl.getAsString();
     }
 
     public static int getWindowWidth() {
@@ -87,6 +94,7 @@ public class BrowserConfig implements WebTauConfigHandler {
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(
                 browser,
+                browserUrl,
                 windowWidth,
                 windowHeight,
                 headless,
