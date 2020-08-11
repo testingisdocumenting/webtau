@@ -20,6 +20,10 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
 scenario('cli calls') {
+    if (isWindows()) {
+        return
+    }
+
     report.openGroovyStandaloneReport('cli/simpleRun-webtau-report.html')
     report.selectTest('simple cli run')
 
@@ -29,4 +33,8 @@ scenario('cli calls') {
     report.standardCliOutput().should == ~/welcome to my script/
 
     browser.doc.capture('cli-calls')
+}
+
+static boolean isWindows() {
+    return System.getProperty("os.name").startsWith("Windows")
 }
