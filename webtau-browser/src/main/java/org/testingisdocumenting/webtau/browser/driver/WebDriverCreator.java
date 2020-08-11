@@ -94,6 +94,11 @@ public class WebDriverCreator {
             options.addArguments("--disable-gpu");
         }
 
+        if (BrowserConfig.areExtensionsDisabled()) {
+            options.addArguments("--disable-extensions");
+            options.setExperimentalOption("useAutomationExtension", false);
+        }
+
         if (System.getProperty(CHROME_DRIVER_PATH_KEY) == null) {
             setupDriverManagerConfig();
             downloadDriverMessage("chrome");
