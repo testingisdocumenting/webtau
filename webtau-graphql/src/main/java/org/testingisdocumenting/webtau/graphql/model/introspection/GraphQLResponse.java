@@ -2,14 +2,14 @@ package org.testingisdocumenting.webtau.graphql.model.introspection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Response {
-    private final Data data;
+public class GraphQLResponse {
+    private final GraphQLData data;
 
-    public Response(@JsonProperty("data") Data data) {
+    public GraphQLResponse(@JsonProperty("data") GraphQLData data) {
         this.data = data;
     }
 
-    public Data getData() {
+    public GraphQLData getData() {
         return data;
     }
 }

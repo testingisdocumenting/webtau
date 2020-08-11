@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Type {
-    private final List<Field> fields;
+public class GraphQLType {
+    private final List<GraphQLField> fields;
 
-    public Type(@JsonProperty("fields") List<Field> fields) {
+    public GraphQLType(@JsonProperty("fields") List<GraphQLField> fields) {
         this.fields = fields;
     }
 
-    public List<Field> getFields() {
+    public List<GraphQLField> getFields() {
         return fields;
     }
 }

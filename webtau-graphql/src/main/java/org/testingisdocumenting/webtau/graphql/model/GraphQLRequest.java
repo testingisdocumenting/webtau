@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static org.testingisdocumenting.webtau.utils.CollectionUtils.notNullOrEmpty;
 
-public class Request {
+public class GraphQLRequest {
     public static final String INTROSPECTION_QUERY = "{\n" +
             "    __schema {\n" +
             "        queryType {\n" +
