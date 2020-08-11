@@ -20,11 +20,13 @@ import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 
+import java.nio.file.Paths
+
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
 class GraphQLReportDataProviderTest {
     def schemaUrl = ResourceUtils.resourceUrl('test-schema.graphql')
-    def coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.file))
+    def coverage = new GraphQLCoverage(new GraphQLSchema(Paths.get(schemaUrl.toURI()).toString()))
     def reportDataProvider = new GraphQLReportDataProvider({ coverage })
 
     @Before
