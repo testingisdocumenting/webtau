@@ -24,34 +24,34 @@ import java.util.stream.Stream;
 
 public class GraphQLCoverage {
     private final GraphQLSchema schema;
-    private final GraphQLCoveredOperations coveredOperations = new GraphQLCoveredOperations();
+    private final GraphQLCoveredQueries coveredQueries = new GraphQLCoveredQueries();
 
     public GraphQLCoverage(GraphQLSchema schema) {
         this.schema = schema;
     }
 
-    public void recordOperation(HttpValidationResult validationResult) {
+    public void recordQuery(HttpValidationResult validationResult) {
         if (!schema.isSchemaDefined() || !validationResult.getRequestMethod().equals("POST")) {
             return;
         }
 
-        Set<GraphQLOperation> graphQLOperations = schema.findOperations(validationResult.getRequestBody());
-        graphQLOperations.forEach(operation -> coveredOperations.add(operation, validationResult.getId(), validationResult.getElapsedTime()));
+        Set<GraphQLQuery> graphQLQueries = schema.findQueries(validationResult.getRequestBody());
+        graphQLQueries.forEach(query -> coveredQueries.add(query, validationResult.getId(), validationResult.getElapsedTime()));
     }
 
-    Stream<GraphQLOperation> nonCoveredOperations() {
-        return schema.getSchemaDeclaredOperations().filter(o -> !coveredOperations.contains(o));
+    Stream<GraphQLQuery> nonCoveredQueries() {
+        return schema.getSchemaDeclaredQueries().filter(o -> !coveredQueries.contains(o));
     }
 
-    Stream<GraphQLOperation> coveredOperations() {
-        return coveredOperations.coveredOperations();
+    Stream<GraphQLQuery> coveredQueries() {
+        return coveredQueries.coveredQueries();
     }
 
-    Stream<GraphQLOperation> declaredOperations() {
-        return schema.getSchemaDeclaredOperations();
+    Stream<GraphQLQuery> declaredQueries() {
+        return schema.getSchemaDeclaredQueries();
     }
 
-    Stream<Map.Entry<GraphQLOperation, Set<GraphQLCoveredOperations.Call>>> actualCalls() {
-        return coveredOperations.getActualCalls();
+    Stream<Map.Entry<GraphQLQuery, Set<GraphQLCoveredQueries.Call>>> actualCalls() {
+        return coveredQueries.getActualCalls();
     }
 }

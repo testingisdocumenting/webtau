@@ -20,11 +20,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class GraphQLOperation {
+public class GraphQLQuery {
     private final String name;
-    private final GraphQLOperationType type;
+    private final GraphQLQueryType type;
 
-    GraphQLOperation(String name, GraphQLOperationType type) {
+    GraphQLQuery(String name, GraphQLQueryType type) {
         this.name = name;
         this.type = type;
     }
@@ -33,7 +33,7 @@ public class GraphQLOperation {
         return name;
     }
 
-    public GraphQLOperationType getType() {
+    public GraphQLQueryType getType() {
         return type;
     }
 
@@ -49,7 +49,7 @@ public class GraphQLOperation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GraphQLOperation that = (GraphQLOperation) o;
+        GraphQLQuery that = (GraphQLQuery) o;
         return Objects.equals(name, that.name) &&
                 type == that.type;
     }
@@ -61,7 +61,7 @@ public class GraphQLOperation {
 
     @Override
     public String toString() {
-        return "GraphQLOperation{" +
+        return "GraphQLQuery{" +
                 "name='" + name + '\'' +
                 ", type=" + type +
                 '}';

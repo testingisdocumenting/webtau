@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
-public enum GraphQLOperationType {
+public enum GraphQLQueryType {
     QUERY,
     MUTATION,
     SUBSCRIPTION
