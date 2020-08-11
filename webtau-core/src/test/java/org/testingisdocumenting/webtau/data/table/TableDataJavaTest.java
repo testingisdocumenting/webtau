@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.*;
 
 public class TableDataJavaTest {
-    private static TableDataCellValueGenerator<?> increment = cell.above.plus(1);
+    private static final TableDataCellValueGenerator<?> increment = cell.above.plus(1);
 
     @Test
     public void shouldCreateTableUsingConvenienceMethodsForTableAndValues() {
@@ -61,7 +62,6 @@ public class TableDataJavaTest {
         TableData tableData = createTableDataWithAboveRef();
         validateAboveValue(tableData);
 
-
         saveTableWithDate(tableData, "table-with-cell-above");
     }
 
@@ -70,7 +70,6 @@ public class TableDataJavaTest {
         TableData tableData = createTableDataWithAboveRefAndMath();
         validateAboveValueWithMath(tableData);
 
-
         saveTableWithDate(tableData, "table-with-cell-above-math");
     }
 
@@ -78,6 +77,21 @@ public class TableDataJavaTest {
     public void cellAboveShouldSupportPlusOperationWithExtraction() {
         TableData tableData = createTableDataWithAboveRefAndMathExtracted();
         validateAboveValueWithMath(tableData);
+    }
+
+    @Test
+    public void shouldReplaceSingleSpecifiedValue() {
+        TableData tableData = createTableDataInOneGo();
+        TableData newTableData = replaceValue(tableData);
+
+        validateSimpleTableData(tableData);
+        validateSimpleTableDataAfterReplace(newTableData);
+
+        saveTableWithDate(newTableData, "table-after-replace");
+    }
+
+    private static TableData replaceValue(TableData tableData) {
+        return tableData.replace("v1b", "v1b_");
     }
 
     private static TableData createTableDataSeparateValues() {
