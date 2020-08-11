@@ -143,6 +143,10 @@ public class Browser {
             return url;
         }
 
+        if (!BrowserConfig.getBrowserUrl().isEmpty()) {
+            return UrlUtils.concat(BrowserConfig.getBrowserUrl(), url);
+        }
+
         return UrlUtils.concat(getCfg().getBaseUrl(), url);
     }
 

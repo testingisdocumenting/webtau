@@ -71,6 +71,11 @@ class WebTauBrowserFeaturesTest {
     }
 
     @Test
+    void "open browser using browser url"() {
+        runCliWithBrowserUrlOverride('basic.groovy', 'webtau.cfg')
+    }
+
+    @Test
     void "lazy declaration"() {
         runCli('basicDeclareFirst.groovy', 'webtau.cfg')
     }
@@ -277,8 +282,16 @@ class WebTauBrowserFeaturesTest {
     }
 
     private static void runCli(String uiTestName, String configFileName) {
+        runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}")
+    }
+
+    private static void runCliWithBrowserUrlOverride(String uiTestName, String configFileName) {
+        runCliWithArgs(uiTestName, configFileName, "--url=http://localhost:-1", "--browserUrl=${testRunner.testServer.uri}")
+    }
+
+    private static void runCliWithArgs(String uiTestName, String configFileName, String... args) {
         testRunner.runCli("scenarios/ui/$uiTestName",
-                "scenarios/ui/$configFileName", "--url=${testRunner.testServer.uri}")
+                "scenarios/ui/$configFileName", args)
     }
 
     private static TestServerHtmlResponse htmlResponse(String resourceName) {
