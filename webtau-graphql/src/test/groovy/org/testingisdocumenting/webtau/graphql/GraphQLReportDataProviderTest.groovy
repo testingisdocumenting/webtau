@@ -50,6 +50,7 @@ class GraphQLReportDataProviderTest {
                     mean: 2,
                     min: 1,
                     max: 3,
+                    count: 3,
                     p95: 3,
                     p99: 3
                 ]
@@ -61,6 +62,7 @@ class GraphQLReportDataProviderTest {
                     mean: 4,
                     min: 2,
                     max: 6,
+                    count: 3,
                     p95: 6,
                     p99: 6
                 ]
