@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.cli
 
+import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.cfg.GroovyRunner
@@ -58,6 +59,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
+        AnsiConsole.systemInstall()
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
