@@ -149,6 +149,10 @@ public class TableData implements Iterable<Record> {
         return mapped;
     }
 
+    public TableData replace(Object before, Object after) {
+        return map(((rowIdx, colIdx, columnName, v) -> v.equals(before) ? after : v));
+    }
+
     public <T, R> Stream<R> mapColumn(String columnName, Function<T, R> mapper) {
         int idx = header.columnIdxByName(columnName);
         return rows.stream().map(r -> mapper.apply(r.get(idx)));

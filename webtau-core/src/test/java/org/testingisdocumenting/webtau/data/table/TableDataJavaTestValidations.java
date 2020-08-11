@@ -29,6 +29,14 @@ public class TableDataJavaTestValidations {
                 aMapOf("Col A", "v2a", "Col B", "v2b", "Col C", "v2c")));
     }
 
+    public static void validateSimpleTableDataAfterReplace(TableData tableData) {
+        actual(tableData.numberOfRows()).should(equal(2));
+        actual(tableData.row(0).toMap()).should(equal(
+                aMapOf("Col A", "v1a", "Col B", "v1b_", "Col C", "v1c")));
+        actual(tableData.row(1).toMap()).should(equal(
+                aMapOf("Col A", "v2a", "Col B", "v2b", "Col C", "v2c")));
+    }
+
     public static void validatePermute(TableData tableData) {
         actual(tableData.numberOfRows()).should(equal(6));
         actual(tableData.row(0).toMap()).should(equal(
