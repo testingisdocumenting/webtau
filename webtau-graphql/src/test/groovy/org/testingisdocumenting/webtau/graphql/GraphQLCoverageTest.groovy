@@ -39,9 +39,8 @@ class GraphQLCoverageTest {
         coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION))
 
         coverage.nonCoveredQueries().should == ['*name'     | '*type'    ] {
-                                                   ___________________________________________
-                                                    'taskById' | GraphQLQueryType.QUERY
-                                                  'uncomplete' | GraphQLQueryType.MUTATION
-        }
+                                                   ____________________________________
+                                                 'taskById' | GraphQLQueryType.QUERY
+                                               'uncomplete' | GraphQLQueryType.MUTATION }
     }
 }
