@@ -47,10 +47,14 @@ public class HttpConfigurations {
     }
 
     public static String fullUrl(String url) {
-        if (! enabled.get()) {
+        if (!enabled.get()) {
             return url;
         }
 
+        return fullUrlWithoutEnabledCheck(url);
+    }
+
+    public static String fullUrlWithoutEnabledCheck(String url) {
         String finalUrl = url;
         for (HttpConfiguration configuration : configurations) {
             finalUrl = configuration.fullUrl(finalUrl);
