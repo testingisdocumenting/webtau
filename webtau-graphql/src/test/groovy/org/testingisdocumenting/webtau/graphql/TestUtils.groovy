@@ -29,11 +29,11 @@ class TestUtils {
         new GraphQLQuery("uncomplete", GraphQLQueryType.MUTATION),
     ] as Set
 
-    static HttpValidationResult validationResult(queryName, queryType, elapsedTime = 0) {
+    static HttpValidationResult validationResult(queryName, queryType, elapsedTime = 0, method = 'POST', url = '/graphql') {
         def response = new HttpResponse()
         response.statusCode = 200
 
-        def result = new HttpValidationResult('POST', '/graphql', '/graphql', null, body(queryName, queryType))
+        def result = new HttpValidationResult(method, url, url, null, body(queryName, queryType))
         result.setResponse(response)
         result.setElapsedTime(elapsedTime)
         return result
