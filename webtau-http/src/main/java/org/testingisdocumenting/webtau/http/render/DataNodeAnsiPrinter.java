@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DataNodeAnsiPrinter {
-    private static final Color DELIMITER_COLOR = Color.GREY;
+    private static final Color DELIMITER_COLOR = Color.YELLOW;
     private static final Color STRING_COLOR = Color.GREEN;
     private static final Color NUMBER_COLOR = Color.CYAN;
     private static final Color KEY_COLOR = Color.PURPLE;
