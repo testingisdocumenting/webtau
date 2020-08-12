@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.data.table.render.TableRenderStyle
 import org.testingisdocumenting.webtau.data.table.render.TableRenderer
 
 class ReplTableRenderStyle implements TableRenderStyle {
-    private static final String ANSI_COMMA = Color.GREY.toString() + ", " + Color.RESET.toString()
+    private static final String ANSI_COMMA = Color.YELLOW.toString() + ", " + Color.RESET.toString()
 
     @Override
     String headerMidLeft() {
