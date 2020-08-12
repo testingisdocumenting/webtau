@@ -22,7 +22,9 @@ import graphql.ParseAndValidate;
 import graphql.ParseAndValidateResult;
 import graphql.language.Field;
 import graphql.language.OperationDefinition;
+import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.utils.JsonParseException;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.Collections;
@@ -64,12 +66,31 @@ public class GraphQLSchema {
     }
 
     public Set<GraphQLQuery> findQueries(HttpRequestBody requestBody) {
-        if (requestBody.isBinary()) {
+        if (!(requestBody instanceof JsonRequestBody)) {
             return emptySet();
         }
 
-        Map<String, ?> request = JsonUtils.deserializeAsMap(requestBody.asString());
-        String query = (String) request.get("query");
+        Map<String, ?> request;
+        try {
+            request = JsonUtils.deserializeAsMap(requestBody.asString());
+        } catch (JsonParseException ignore) {
+            // Ignoring as it's not a graphql request
+            return emptySet();
+        }
+
+        if (!request.containsKey("query")) {
+            // Ignoring as it's not a graphql request
+            return emptySet();
+        }
+
+        Object queryObj = request.get("query");
+        if (!(queryObj instanceof String)) {
+            // Ignoring as it's not a graphql request
+            return emptySet();
+        }
+
+        String query = (String) queryObj;
+
         String operationName = (String) request.get("operationName");
 
         ExecutionInput executionInput = ExecutionInput.newExecutionInput(query).build();
