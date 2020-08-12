@@ -37,6 +37,10 @@ class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
         this.headerProvider.set(headerProvider)
     }
 
+    static void clear() {
+        headerProvider.set(null)
+    }
+
     @Override
     HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
         if (!headerProvider.get()) {

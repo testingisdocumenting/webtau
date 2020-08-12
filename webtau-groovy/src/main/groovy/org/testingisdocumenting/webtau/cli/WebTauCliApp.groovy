@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.cli
 import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
 import org.testingisdocumenting.webtau.cfg.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
@@ -172,6 +173,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         ConsoleOutputs.remove(consoleOutput)
         TestListeners.clearAdded()
         ReportGenerators.clearAdded()
+        GroovyConfigBasedHttpConfiguration.clear()
     }
 
     private void runTests() {
