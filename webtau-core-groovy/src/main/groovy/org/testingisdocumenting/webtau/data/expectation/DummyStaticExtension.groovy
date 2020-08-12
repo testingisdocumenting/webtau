@@ -20,7 +20,4 @@ package org.testingisdocumenting.webtau.data.expectation
  * There is a bug in maven shade plugin that checks for presence of static extensions
  */
 class DummyStaticExtension {
-    static void dummy(ShouldWaitStub stub) {
-        throw new UnsupportedOperationException("dummy")
-    }
 }
