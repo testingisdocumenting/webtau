@@ -3,6 +3,7 @@ package org.testingisdocumenting.webtau.graphql
 import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody
+import org.testingisdocumenting.webtau.http.text.TextRequestBody
 
 import static org.testingisdocumenting.webtau.graphql.TestUtils.getDeclaredOperations
 
@@ -171,5 +172,25 @@ query hello {
         queries.should == [
             new GraphQLQuery("allTasks", GraphQLQueryType.QUERY)
         ]
+    }
+
+    @Test
+    void "non json bodies are ignored"() {
+        schema.findQueries(TextRequestBody.withType("text", "foobar")).should == []
+    }
+
+    @Test
+    void "json bodies without a query are ignored"() {
+        schema.findQueries(new JsonRequestBody([foo: 'bar'])).should == []
+    }
+
+    @Test
+    void "json bodies with a non-string query are ignored"() {
+        schema.findQueries(new JsonRequestBody([query: 123])).should == []
+    }
+
+    @Test
+    void "json bodies with invalid query are ignored"() {
+        schema.findQueries(new JsonRequestBody([query: "not valid graphql"])).should == []
     }
 }

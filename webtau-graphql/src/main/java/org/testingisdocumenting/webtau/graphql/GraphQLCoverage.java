@@ -31,7 +31,9 @@ public class GraphQLCoverage {
     }
 
     public void recordQuery(HttpValidationResult validationResult) {
-        if (!schema.isSchemaDefined() || !validationResult.getRequestMethod().equals("POST")) {
+        if (!schema.isSchemaDefined()
+                || !validationResult.getRequestMethod().equals("POST")
+                || !validationResult.getUrl().equals("/graphql")) {
             return;
         }
 
