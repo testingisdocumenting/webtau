@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +36,10 @@ class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
 
     static void setHeaderProvider(Closure headerProvider) {
         this.headerProvider.set(headerProvider)
+    }
+
+    static void clear() {
+        headerProvider.set(null)
     }
 
     @Override
