@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.27</version>
+        <version>1.28-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-http</artifactId>
