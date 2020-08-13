@@ -35,7 +35,7 @@ public class IntegrationTestsMessageBuilder {
         URL("url", Color.PURPLE),
         SELECTOR_TYPE("selectorType", Color.PURPLE),
         SELECTOR_VALUE("selectorValue", FontStyle.BOLD, Color.PURPLE),
-        PREPOSITION("preposition", Color.GREY),
+        PREPOSITION("preposition", Color.YELLOW),
         DELIMITER("delimiter", Color.WHITE);
 
         private final String type;

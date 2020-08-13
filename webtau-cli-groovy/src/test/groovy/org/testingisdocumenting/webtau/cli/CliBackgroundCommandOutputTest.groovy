@@ -26,12 +26,12 @@ import static org.testingisdocumenting.webtau.cli.Cli.cli
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 
 class CliBackgroundCommandOutputTest implements ConsoleOutput {
-    String output
+    StringBuffer output
 
     @Before
     void init() {
         ConsoleOutputs.add(this)
-        output = ""
+        output = new StringBuffer()
     }
 
     @Before
@@ -47,11 +47,7 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
 
             CliBackgroundCommandManager.destroyActiveProcesses()
 
-            output = output.replaceAll(/\(\d+ms\)/, "(time)")
-            def optionalLastLine = '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n'
-            output = output.replace(optionalLastLine, '')
-
-            output.should == '> running cli command in background scripts/long-sleep\n' +
+            normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
                     '> stopping cli command in background scripts/long-sleep\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
@@ -64,17 +60,21 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
             cli.runInBackground("scripts/long-sleep")
             CliBackgroundCommandManager.destroyActiveProcesses()
 
-            output = output.replaceAll(/\(\d+ms\)/, "(time)")
-            output.should == '> running cli command in background scripts/long-sleep\n' +
+            normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
                     '> stopping cli command in background scripts/long-sleep\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
     }
 
+    private static String normalizeOutput(String output) {
+        return output.replaceAll(/\(\d+ms\)/, "(time)")
+            .replace('. background cli command : scripts/long-sleep finished with exit code 143 (time)\n', '')
+    }
+
     @Override
     void out(Object... styleOrValues) {
-        output += new IgnoreAnsiString(styleOrValues).toString() + '\n'
+        output.append(new IgnoreAnsiString(styleOrValues).toString()).append('\n')
     }
 
     @Override
