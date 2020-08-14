@@ -12,8 +12,8 @@ To run test, navigate to `examples` dir and
 
 # Config File
 
-Url parameter can be moved to a `webtau.cfg` file.
+Url parameter can be moved to a `webtau.groovy` file.
 
-:include-file: examples/scenarios/ui/webtau.cfg {title: "examples/scenarios/ui/webtau.cfg"}
+:include-file: examples/scenarios/ui/webtau.groovy {title: "examples/scenarios/ui/webtau.groovy"}
 
 [Specify multiple environments](configuration/environments) to streamline test execution.

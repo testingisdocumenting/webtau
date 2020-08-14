@@ -41,12 +41,12 @@ class WebTauGraphQLFeaturesTest {
 
     @Test
     void "simple query and mutation"() {
-        runCli("queryAndMutation.groovy", "webtau.cfg", "--url=${testRunner.testServer.uri}")
+        runCli("queryAndMutation.groovy", "webtau.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "http based header provider"() {
-        runCli("query.groovy", "webtau-http-header-provider.cfg", "--url=${testRunner.testServer.uri}")
+        runCli("query.groovy", "webtau-http-header-provider.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     private static void runCli(String graphQLTestName, String configFileName, String... additionalArgs) {

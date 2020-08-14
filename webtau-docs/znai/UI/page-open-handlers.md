@@ -7,7 +7,7 @@ One of the typical use cases is to inject cookies or values into a local storage
 
 To register an open handler you need to define `browserPageNavigationHandlerProvider` config value.
 
-:include-file: examples/scenarios/ui/openHandler.cfg {title: "webtau.cfg"}
+:include-file: examples/scenarios/ui/openHandlerCfg.groovy {title: "webtau.groovy"}
  
 :include-file: examples/scenarios/ui/openHandler.groovy {title: "Handler will be called before first assertion"}
 

@@ -47,17 +47,17 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "simple get"() {
-        runCli('simpleGet.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}")
+        runCli('simpleGet.groovy', 'urlOnlyCfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "simple post"() {
-        runCli('simplePost.groovy', 'docArtifacts.cfg', "--url=${testRunner.testServer.uri}")
+        runCli('simplePost.groovy', 'docArtifactsCfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "ping"() {
-        runCli('ping.groovy', 'docArtifacts.cfg', "--url=${testRunner.testServer.uri}")
+        runCli('ping.groovy', 'docArtifactsCfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
@@ -71,7 +71,7 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "schema validation"() {
-        runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg', "--url=${testRunner.testServer.uri}")
+        runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
@@ -85,17 +85,17 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "redirect"() {
-        runCli('redirect/redirectOn.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}")
+        runCli('redirect/redirectOn.groovy', 'urlOnlyCfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "redirect disabled"() {
-        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg', "--url=${testRunner.testServer.uri}", '--disableRedirects')
+        runCli('redirect/redirectOff.groovy', 'urlOnlyCfg.groovy', "--url=${testRunner.testServer.uri}", '--disableRedirects')
     }
 
     @Test
     void "open api disable"() {
-        runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.cfg', "--url=${testRunner.testServer.uri}")
+        runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
@@ -110,41 +110,41 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "crud"() {
-        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/customerCrud.groovy', 'springboot/webtau.groovy', "--url=$customersBaseUrl")
     }
 
     @Test
     void "crud separated"() {
-        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.groovy', "--url=$customersBaseUrl")
     }
 
     @Test
     void "crud separated missing method"() {
-        runCli('springboot/customerCrudSeparatedMissingMethod.groovy', 'springboot/withSpec.cfg',
+        runCli('springboot/customerCrudSeparatedMissingMethod.groovy', 'springboot/withSpecCfg.groovy',
                 "--url=$customersBaseUrl")
     }
 
     @Test
     void "list contain"() {
         http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
-        runCli('springboot/listContain.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/listContain.groovy', 'springboot/webtau.groovy', "--url=$customersBaseUrl")
     }
 
     @Test
     void "list match"() {
         deleteCustomers()
-        runCli('springboot/listMatch.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/listMatch.groovy', 'springboot/webtau.groovy', "--url=$customersBaseUrl")
     }
 
     @Test
     void "list match by key"() {
         deleteCustomers()
-        runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.cfg', "--url=$customersBaseUrl")
+        runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.groovy', "--url=$customersBaseUrl")
     }
 
     @Test
     void "recursive scenario discovery"() {
-        testRunner.runCli("recursive/scenarios", "urlOnly.cfg", "--url=${testRunner.testServer.uri}")
+        testRunner.runCli("recursive/scenarios", "urlOnlyCfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

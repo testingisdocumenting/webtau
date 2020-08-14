@@ -20,9 +20,9 @@ To run test
 
 ## Groovy Config File
 
-Url parameter can be moved to a `webtau.cfg` file.
+Url parameter can be moved to a `webtau.groovy` file.
 
-:include-file: examples/todo/webtau.cfg {title: "webtau.cfg"}
+:include-file: examples/todo/webtau.groovy {title: "webtau.groovy"}
 
 [Specify multiple environments](configuration/environments) to streamline test execution.
 

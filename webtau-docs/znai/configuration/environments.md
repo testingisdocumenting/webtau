@@ -1,6 +1,6 @@
 # Select
 
-```cfg {title: "webtau.cfg"}
+```cfg {title: "webtau.groovy"}
 waitTimeout = 2500
 url = http://my-server
 

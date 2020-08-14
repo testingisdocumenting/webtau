@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -100,16 +101,16 @@ class WebTauGroovyFileConfigHandlerTest {
     }
 
     private static WebTauConfig createConfig() {
-        return createConfigFromFile('src/test/resources/webtau.cfg')
+        return createConfigFromFile('src/test/resources/webtau.groovy')
     }
 
     private static WebTauConfig createNestedConfig() {
-        return createConfigFromFile('src/test/resources/webtau-nested.cfg')
+        return createConfigFromFile('src/test/resources/webtau-nested.groovy')
     }
 
     private static WebTauConfig createConfigFromFile(String filePath) {
         def cfg = new WebTauConfig()
-        cfg.configFileName.set('test', filePath)
+        cfg.configFileNameValue.set('test', filePath)
 
         return cfg
     }

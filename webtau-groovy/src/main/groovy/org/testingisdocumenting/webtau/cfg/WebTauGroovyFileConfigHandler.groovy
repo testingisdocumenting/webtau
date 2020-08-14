@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,7 +46,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     @Override
     void onAfterCreate(WebTauConfig cfg) {
         Path workingDir = cfg.workingDir.toAbsolutePath()
-        Path configPath = workingDir.resolve(cfg.configFileName.asString)
+        Path configPath = workingDir.resolve(cfg.configFileNameValue.asString)
 
         if (!Files.exists(configPath)) {
             ConsoleOutputs.out('skipping config file as it is not found: ', configPath)
