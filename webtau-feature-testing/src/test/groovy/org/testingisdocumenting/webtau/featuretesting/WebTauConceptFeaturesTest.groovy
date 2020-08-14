@@ -111,8 +111,18 @@ class WebTauConceptFeaturesTest {
         runCli('beforeAllAfterAllSuccess.groovy', 'beforeAllAfterAllTestListenerCfg.groovy')
     }
 
+    @Test
+    void "runner should use deprecated config file name when no config file is available"() {
+        runCliWithWorkingDir('deprecatedConfigCheck.groovy',
+                'examples/scenarios/concept/deprecatedconfig')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/concept/$testName",
-                "scenarios/concept/$configFileName", additionalArgs)
+                configFileName.isEmpty() ? "" : "scenarios/concept/$configFileName", additionalArgs)
+    }
+
+    private static void runCliWithWorkingDir(String testName, String workingDir, String... additionalArgs) {
+        testRunner.runCliWithWorkingDir(testName, workingDir, '', additionalArgs)
     }
 }

@@ -46,6 +46,10 @@ class WebTauEndToEndTestRunner  {
     }
 
     void runCli(String testFileName, String configFileName, String... additionalArgs) {
+        runCliWithWorkingDir(testFileName, 'examples', configFileName, additionalArgs)
+    }
+
+    void runCliWithWorkingDir(String testFileName, String workingDir, String configFileName, String... additionalArgs) {
         def testPath = Paths.get(testFileName)
 
         def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
@@ -54,9 +58,14 @@ class WebTauEndToEndTestRunner  {
                         testFileName.replace('.groovy', '-webtau-report.html'):
                         testFileName + '/webtau-report.html')
 
-        def args = ['--workingDir=examples', '--config=' + configFileName,
-                    '--docPath=' + targetClassesLocation.resolve('doc-artifacts'),
-                    '--reportPath=' + reportPath]
+        def args = ['--workingDir=' + workingDir]
+
+        if (!configFileName.isEmpty()) {
+            args.add('--config=' + configFileName)
+        }
+        args.add('--docPath=' + targetClassesLocation.resolve('doc-artifacts'))
+        args.add('--reportPath=' + reportPath)
+
         args.addAll(Arrays.asList(additionalArgs))
         args.add(testPath.toString())
 

@@ -36,6 +36,7 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 public class WebTauConfig {
     private static final String SOURCE_MANUAL = "manual";
 
+    public static final String CONFIG_FILE_DEPRECATED_DEFAULT = "webtau.cfg";
     public static final String CONFIG_FILE_NAME_DEFAULT = "webtau.groovy";
 
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();

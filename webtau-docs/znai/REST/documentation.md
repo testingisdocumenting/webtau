@@ -18,7 +18,7 @@ An `employee-get` directory will be created containing a number of test artifact
 By default, the directory will be created in the current working directory.
 To change it add `docPath` to your `webtau.groovy` file.
 
-:include-file: examples/scenarios/rest/docArtifactsCfg.groovy {title: "webtau.groovy"}
+:include-file: examples/scenarios/rest/docArtifactsCfg.groovy {title: "webtau.groovy", excludeRegexp: "package"}
 
 # Test Artifacts
 
