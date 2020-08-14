@@ -20,15 +20,28 @@ import graphql.schema.GraphQLSchema
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.GraphQLResponseHandler
+import org.testingisdocumenting.webtau.http.testserver.TestServerJsonResponse
+import org.testingisdocumenting.webtau.utils.JsonUtils
 
 class WebTauGraphQLFeaturesTest {
+    private static final String AUTH_TOKEN = "mySuperSecretToken"
+
     private static WebTauEndToEndTestRunner testRunner
+    private static GraphQLResponseHandler handler
 
     @BeforeClass
     static void init() {
         GraphQLSchema schema = WebTauGraphQLFeaturesTestData.getSchema()
-        GraphQLResponseHandler handler = new GraphQLResponseHandler(schema)
+
+        FixedResponsesHandler additionalHttpHandler = new FixedResponsesHandler()
+        additionalHttpHandler.registerGet("/auth",
+            new TestServerJsonResponse(
+                JsonUtils.serialize([token: AUTH_TOKEN])
+            ))
+
+        handler = new GraphQLResponseHandler(schema, additionalHttpHandler)
         testRunner = new WebTauEndToEndTestRunner(handler)
 
         testRunner.startTestServer()
@@ -46,7 +59,9 @@ class WebTauGraphQLFeaturesTest {
 
     @Test
     void "http based header provider"() {
-        runCli("query.groovy", "webtau-http-header-provider.cfg", "--url=${testRunner.testServer.uri}")
+        handler.withAuthEnabled(AUTH_TOKEN) {
+            runCli("query.groovy", "webtau-http-header-provider.cfg", "--url=${testRunner.testServer.uri}")
+        }
     }
 
     private static void runCli(String graphQLTestName, String configFileName, String... additionalArgs) {

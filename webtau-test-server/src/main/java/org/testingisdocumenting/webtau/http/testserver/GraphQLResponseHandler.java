@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /*
@@ -39,17 +41,49 @@ https://graphql.org/learn/serving-over-http/
  */
 public class GraphQLResponseHandler extends AbstractHandler {
     private final GraphQL graphQL;
+    private final Optional<FixedResponsesHandler> additionalHttpHandler;
+    private Optional<String> expectedAuthHeaderValue;
 
     public GraphQLResponseHandler(GraphQLSchema schema) {
-        graphQL = GraphQL.newGraphQL(schema).build();
+        this(schema, null);
+    }
+
+    public GraphQLResponseHandler(GraphQLSchema schema, FixedResponsesHandler additionalHttpHandler) {
+        this.graphQL = GraphQL.newGraphQL(schema).build();
+        this.additionalHttpHandler = Optional.ofNullable(additionalHttpHandler);
+        this.expectedAuthHeaderValue = Optional.empty();
     }
 
     @Override
     public void handle(String url, Request baseRequest, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, ServletException {
-        if (!"/graphql".equals(baseRequest.getOriginalURI())) {
+        if ("/graphql".equals(baseRequest.getOriginalURI())) {
+            handleGraphQLPathRequest(request, response);
+        } else if (additionalHttpHandler.isPresent()) {
+            additionalHttpHandler.get().handle(url, baseRequest, request, response);
+        } else {
             response.setStatus(404);
-        } else if ("GET".equals(request.getMethod())) {
+        }
+
+        baseRequest.setHandled(true);
+    }
+
+    public <R> R withAuthEnabled(String expectedAuthHeaderValue, Supplier<R> code) {
+        this.expectedAuthHeaderValue = Optional.of(expectedAuthHeaderValue);
+        try {
+            return code.get();
+        } finally {
+            this.expectedAuthHeaderValue = Optional.empty();
+        }
+    }
+
+    private void handleGraphQLPathRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (!isAuthorised(request)) {
+            response.setStatus(401);
+            return;
+        }
+
+        if ("GET".equals(request.getMethod())) {
             String query = request.getParameter("query");
             String operationName = request.getParameter("operationName");
             @SuppressWarnings("unchecked")
@@ -76,11 +110,19 @@ public class GraphQLResponseHandler extends AbstractHandler {
         } else {
             response.setStatus(405);
         }
-
-        baseRequest.setHandled(true);
     }
 
-    private void handle(String query, String operationName, Map<String, Object> variables, HttpServletResponse response) throws IOException {
+    private boolean isAuthorised(HttpServletRequest request) {
+        return expectedAuthHeaderValue
+                .map(expectedVal -> expectedVal.equals(request.getHeader("Authorization")))
+                .orElse(true);
+    }
+
+    private void handle(
+            String query,
+            String operationName,
+            Map<String, Object> variables,
+            HttpServletResponse response) throws IOException {
         ExecutionInput executionInput = ExecutionInput.newExecutionInput(query)
                 .operationName(operationName)
                 .variables(variables == null ? Collections.emptyMap() : variables)
@@ -97,5 +139,23 @@ public class GraphQLResponseHandler extends AbstractHandler {
         response.setStatus(200);
         response.setContentType("application/json");
         response.getOutputStream().write(JsonUtils.serializeToBytes(responseBody));
+    }
+
+    public static class Header {
+        private final String name;
+        private final String value;
+
+        private Header(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
 }

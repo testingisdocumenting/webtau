@@ -76,10 +76,14 @@ public class HttpConfigurations {
     }
 
     public static HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
-        if (! enabled.get()) {
+        if (!enabled.get()) {
             return given;
         }
 
+        return fullHeaderWithoutEnabledCheck(fullUrl, passedUrl, given);
+    }
+
+    public static HttpHeader fullHeaderWithoutEnabledCheck(String fullUrl, String passedUrl, HttpHeader given) {
         HttpHeader finalHeaders = given;
         for (HttpConfiguration configuration : configurations) {
             finalHeaders = configuration.fullHeader(fullUrl, passedUrl, finalHeaders);
