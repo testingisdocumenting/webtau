@@ -120,7 +120,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         init()
 
         try {
-            cfg.print()
+            cfg.printEnumerated()
             ConsoleOutputs.out()
 
             def testFiles = cliConfigHandler.testFilesWithFullPath()
