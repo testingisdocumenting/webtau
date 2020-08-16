@@ -15,6 +15,14 @@ scenario('search and capture with badges') {
             browser.doc.badge(search.results)).capture('search')
 }
 
+scenario('search and capture with badges placed in non center position') {
+    search.submit("search this")
+
+    browser.doc.withAnnotations(
+            browser.doc.badge(search.box).toTheRight(),
+            browser.doc.badge(search.results).above()).capture('search-diff-placement')
+}
+
 scenario('capture with highlight and cover') {
     browser.doc.withAnnotations(
             browser.doc.highlight(search.box),

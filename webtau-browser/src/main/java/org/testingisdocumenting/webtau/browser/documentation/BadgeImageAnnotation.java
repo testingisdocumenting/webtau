@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +34,6 @@ public class BadgeImageAnnotation extends ImageAnnotation {
 
         data.put("x", location.getX());
         data.put("y", location.getY());
-        data.put("position", position.toString().toLowerCase());
-        data.put("r", 20);
+        data.put("r", 15);
     }
 }

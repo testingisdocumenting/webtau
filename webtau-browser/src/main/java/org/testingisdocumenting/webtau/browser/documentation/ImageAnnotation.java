@@ -80,6 +80,21 @@ public abstract class ImageAnnotation {
         return this;
     }
 
+    public ImageAnnotation below() {
+        position = Position.Below;
+        return this;
+    }
+
+    public ImageAnnotation toTheLeft() {
+        position = Position.ToTheLeft;
+        return this;
+    }
+
+    public ImageAnnotation toTheRight() {
+        position = Position.ToTheRight;
+        return this;
+    }
+
     public ImageAnnotation withColor(String color) {
         this.color = color;
         return this;
@@ -88,25 +103,19 @@ public abstract class ImageAnnotation {
     public abstract void addAnnotationData(Map<String, Object> data, WebElement webElement);
 
     protected Point position(WebElement webElement) {
-        if (position == Position.Center) {
-            return center(webElement);
+        switch (position) {
+            case Above:
+                return above(webElement.getLocation(), webElement.getSize());
+            case Below:
+                return below(webElement.getLocation(), webElement.getSize());
+            case ToTheLeft:
+                return toTheLeft(webElement.getLocation(), webElement.getSize());
+            case ToTheRight:
+                return toTheRight(webElement.getLocation(), webElement.getSize());
+            case Center:
+            default:
+                return center(webElement.getLocation(), webElement.getSize());
         }
-
-        return above(webElement);
-    }
-
-    protected Point center(WebElement webElement) {
-        Point location = webElement.getLocation();
-        Dimension size = webElement.getSize();
-
-        return new Point(location.getX() + size.getWidth() / 2, location.getY() + size.getHeight() / 2);
-    }
-
-    protected Point above(WebElement webElement) {
-        Point location = webElement.getLocation();
-        Dimension size = webElement.getSize();
-
-        return new Point(location.getX() + size.getWidth() / 2, location.getY() - size.getHeight());
     }
 
     private Point center(Point location, Dimension size) {
@@ -114,7 +123,7 @@ public abstract class ImageAnnotation {
     }
 
     private Point above(Point location, Dimension size) {
-        return new Point(location.getX() + size.getWidth() / 2, location.getY() - size.getHeight());
+        return new Point(location.getX() + size.getWidth() / 2, location.getY());
     }
 
     private Point below(Point location, Dimension size) {
@@ -122,6 +131,10 @@ public abstract class ImageAnnotation {
     }
 
     private Point toTheLeft(Point location, Dimension size) {
-        return new Point(location.getX() - size.getWidth(), location.getY() + size.getHeight() / 2);
+        return new Point(location.getX(), location.getY() + size.getHeight() / 2);
+    }
+
+    private Point toTheRight(Point location, Dimension size) {
+        return new Point(location.getX() + size.getWidth(), location.getY() + size.getHeight() / 2);
     }
 }
