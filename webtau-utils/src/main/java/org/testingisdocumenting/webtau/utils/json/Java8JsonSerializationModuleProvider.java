@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.expectation
+package org.testingisdocumenting.webtau.utils.json;
 
-import static org.testingisdocumenting.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
-class ShouldWaitStub {
-    private Object actual
-
-    ShouldWaitStub(Object actual) {
-        this.actual = actual
-    }
-
-    boolean equals(Object expected) {
-        throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
+public class Java8JsonSerializationModuleProvider implements JsonSerializationModuleProvider {
+    @Override
+    public Module provide() {
+        return new Jdk8Module();
     }
 }

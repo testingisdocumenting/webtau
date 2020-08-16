@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,35 +39,35 @@ class ExpectationExtension {
         shouldNot(actual, valueMatcher)
     }
 
-    static ShouldWaitStub getShould(actual) {
+    static Object getShould(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
-    static ShouldWaitStub getWaitTo(actual) {
+    static Object getWaitTo(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
-    static ShouldWaitStub getShouldBe(actual) {
+    static Object getShouldBe(actual) {
         getShould(actual)
     }
 
-    static ShouldWaitStub getWaitToBe(actual) {
+    static Object getWaitToBe(actual) {
         getWaitTo(actual)
     }
 
-    static ShouldWaitStub getShouldNot(actual) {
+    static Object getShouldNot(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
-    static ShouldWaitStub getWaitToNot(actual) {
+    static Object getWaitToNot(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
-    static ShouldWaitStub getShouldNotBe(actual) {
+    static Object getShouldNotBe(actual) {
         getShouldNot(actual)
     }
 
-    static ShouldWaitStub getWaitToNotBe(actual) {
+    static Object getWaitToNotBe(actual) {
         getWaitToNot(actual)
     }
 }

@@ -28,46 +28,47 @@ import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GraphQLReportDataProvider implements ReportDataProvider {
-    private final GraphQLCoverage coverage;
+    private final Supplier<GraphQLCoverage> coverageSupplier;
 
     public GraphQLReportDataProvider() {
-        this(GraphQL.getCoverage());
+        this(GraphQL::getCoverage);
     }
 
-    public GraphQLReportDataProvider(GraphQLCoverage coverage) {
-        this.coverage = coverage;
+    public GraphQLReportDataProvider(Supplier<GraphQLCoverage> coverageSupplier) {
+        this.coverageSupplier = coverageSupplier;
     }
 
     @Override
     public Stream<ReportCustomData> provide(WebTauTestList tests) {
-        List<? extends Map<String, ?>> nonCoveredOperations = coverage.nonCoveredOperations()
-                .map(GraphQLOperation::toMap)
+        List<? extends Map<String, ?>> nonCoveredQueries = coverageSupplier.get().nonCoveredQueries()
+                .map(GraphQLQuery::toMap)
                 .collect(Collectors.toList());
 
-        List<? extends Map<String, ?>> coveredOperations = coverage.coveredOperations()
-                .map(GraphQLOperation::toMap)
+        List<? extends Map<String, ?>> coveredQueries = coverageSupplier.get().coveredQueries()
+                .map(GraphQLQuery::toMap)
                 .collect(Collectors.toList());
 
-        List<? extends Map<String, ?>> timingByOperation = computeTiming();
+        List<? extends Map<String, ?>> timingByQuery = computeTiming();
 
         Map<String, ?> coverageSummary = computeCoverageSummary();
 
         return Stream.of(
-                new ReportCustomData("graphQLSkippedOperations", nonCoveredOperations),
-                new ReportCustomData("graphQLCoveredOperations", coveredOperations),
-                new ReportCustomData("graphQLOperationTimeStatistics", timingByOperation),
+                new ReportCustomData("graphQLSkippedQueries", nonCoveredQueries),
+                new ReportCustomData("graphQLCoveredQueries", coveredQueries),
+                new ReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
                 new ReportCustomData("graphQLCoverageSummary", coverageSummary));
     }
 
     private List<? extends Map<String, ?>> computeTiming() {
-        return coverage.actualCalls().map(GraphQLReportDataProvider::computeTiming).collect(Collectors.toList());
+        return coverageSupplier.get().actualCalls().map(GraphQLReportDataProvider::computeTiming).collect(Collectors.toList());
     }
 
-    private static Map<String, ?> computeTiming(Map.Entry<GraphQLOperation, Set<GraphQLCoveredOperations.Call>> entry) {
+    private static Map<String, ?> computeTiming(Map.Entry<GraphQLQuery, Set<GraphQLCoveredQueries.Call>> entry) {
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("name", entry.getKey().getName());
         data.put("type", entry.getKey().getType().name().toLowerCase());
@@ -75,12 +76,13 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
         Map<String, Object> statistics = new LinkedHashMap<>();
         data.put("statistics", statistics);
 
-        LongSummaryStatistics summaryStatistics = entry.getValue().stream().collect(Collectors.summarizingLong(GraphQLCoveredOperations.Call::getElapsedTime));
+        LongSummaryStatistics summaryStatistics = entry.getValue().stream().collect(Collectors.summarizingLong(GraphQLCoveredQueries.Call::getElapsedTime));
         statistics.put("mean", summaryStatistics.getAverage());
         statistics.put("min", summaryStatistics.getMin());
         statistics.put("max", summaryStatistics.getMax());
+        statistics.put("count", summaryStatistics.getCount());
 
-        double[] times = entry.getValue().stream().map(GraphQLCoveredOperations.Call::getElapsedTime).mapToDouble(Long::doubleValue).sorted().toArray();
+        double[] times = entry.getValue().stream().map(GraphQLCoveredQueries.Call::getElapsedTime).mapToDouble(Long::doubleValue).sorted().toArray();
         Percentile percentile = new Percentile();
         statistics.put("p95", percentile.evaluate(times, 95));
         statistics.put("p99", percentile.evaluate(times, 99));
@@ -90,29 +92,29 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
 
     private Map<String, ?> computeCoverageSummary() {
         Map<String, Object> summary = new HashMap<>();
-        Map<GraphQLOperationType, List<GraphQLOperation>> declaredOpByType = coverage.declaredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
-        Map<GraphQLOperationType, List<GraphQLOperation>> coveredOpsByType = coverage.coveredOperations().collect(Collectors.groupingBy(GraphQLOperation::getType));
+        Map<GraphQLQueryType, List<GraphQLQuery>> declaredQueriesByType = coverageSupplier.get().declaredQueries().collect(Collectors.groupingBy(GraphQLQuery::getType));
+        Map<GraphQLQueryType, List<GraphQLQuery>> coveredQueriesByType = coverageSupplier.get().coveredQueries().collect(Collectors.groupingBy(GraphQLQuery::getType));
 
         Map<String, Object> summaryByType = new HashMap<>();
-        declaredOpByType.forEach((type, ops) -> {
-            double coveredOperations = coveredOpsByType.getOrDefault(type, Collections.emptyList()).size();
-            double coverage = coveredOperations / ops.size();
+        declaredQueriesByType.forEach((type, queries) -> {
+            double coveredQueries = coveredQueriesByType.getOrDefault(type, Collections.emptyList()).size();
+            double coverage = coveredQueries / queries.size();
 
             Map<String, Object> summaryForType = new HashMap<>();
-            summaryForType.put("declaredOperations", ops.size());
-            summaryForType.put("coveredOperations", coveredOperations);
+            summaryForType.put("declaredQueries", queries.size());
+            summaryForType.put("coveredQueries", coveredQueries);
             summaryForType.put("coverage", coverage);
 
             summaryByType.put(type.name().toLowerCase(), summaryForType);
         });
         summary.put("types", summaryByType);
 
-        double coveredOperations = coveredOpsByType.values().stream().mapToInt(List::size).sum();
-        double declaredOperations = declaredOpByType.values().stream().mapToInt(List::size).sum();
-        double totalCoverage = coveredOperations / declaredOperations;
+        double coveredQueries = coveredQueriesByType.values().stream().mapToInt(List::size).sum();
+        double declaredQueries = declaredQueriesByType.values().stream().mapToInt(List::size).sum();
+        double totalCoverage = coveredQueries / declaredQueries;
 
-        summary.put("totalDeclaredOperations", declaredOperations);
-        summary.put("totalCoveredOperations", coveredOperations);
+        summary.put("totalDeclaredQueries", declaredQueries);
+        summary.put("totalCoveredQueries", coveredQueries);
         summary.put("coverage", totalCoverage);
 
         return summary;

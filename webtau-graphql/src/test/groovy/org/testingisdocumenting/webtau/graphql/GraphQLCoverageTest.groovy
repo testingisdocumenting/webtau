@@ -16,10 +16,10 @@
 
 package org.testingisdocumenting.webtau.graphql
 
-import org.junit.Test
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
+import org.junit.Test
 
+import static org.testingisdocumenting.webtau.graphql.TestUtils.declaredOperations
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
 class GraphQLCoverageTest {
@@ -27,19 +27,25 @@ class GraphQLCoverageTest {
 
     @Before
     void setUp() {
-        def schemaUrl = ResourceUtils.resourceUrl('test-schema.graphql')
-        coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.file))
+        coverage = new GraphQLCoverage(new GraphQLSchema(declaredOperations))
     }
 
     @Test
-    void "should provide non covered operations"() {
-        coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY))
-        coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION))
+    void "should provide non covered queries"() {
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION))
 
-        coverage.nonCoveredOperations().should == ['*name'     | '*type'    ] {
-                                                   ___________________________________________
-                                                    'taskById' | GraphQLOperationType.QUERY
-                                                  'uncomplete' | GraphQLOperationType.MUTATION
-        }
+        coverage.nonCoveredQueries().should == ['*name'     | '*type'    ] {
+                                                _______________________________________
+                                                 'taskById' | GraphQLQueryType.QUERY
+                                               'uncomplete' | GraphQLQueryType.MUTATION }
+    }
+
+    @Test
+    void "ignores non-graphql queries"() {
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 0, 'GET'))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 0, 'POST', '/not-graphql'))
+
+        coverage.coveredQueries().should == []
     }
 }

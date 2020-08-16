@@ -115,12 +115,16 @@ public class JsonUtils {
     }
 
     public static Object deserialize(String json) {
+        return deserializeAs(json, Object.class);
+    }
+
+    public static <T> T deserializeAs(String json, Class<T> valueType) {
         if (json == null) {
             return null;
         }
 
         try {
-            return mapper.readValue(json, Object.class);
+            return mapper.readValue(json, valueType);
         } catch (IOException e) {
             throw new JsonParseException(e.getMessage());
         }

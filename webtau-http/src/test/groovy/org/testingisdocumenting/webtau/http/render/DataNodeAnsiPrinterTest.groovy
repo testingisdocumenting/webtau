@@ -50,12 +50,12 @@ class DataNodeAnsiPrinterTest {
             new DataNodeAnsiPrinter().print(DataNodeBuilder.fromList(new DataNodeId("root"), [1, 2, 3, 4]))
         }
 
-        ansi.should == [Color.GREY, '[', '\n',
-                        '  ', Color.CYAN, '1', Color.GREY, ',', '\n',
-                        '  ', Color.CYAN, '2', Color.GREY, ',', '\n',
-                        '  ', Color.CYAN, '3', Color.GREY, ',', '\n',
+        ansi.should == [Color.YELLOW, '[', '\n',
+                        '  ', Color.CYAN, '1', Color.YELLOW, ',', '\n',
+                        '  ', Color.CYAN, '2', Color.YELLOW, ',', '\n',
+                        '  ', Color.CYAN, '3', Color.YELLOW, ',', '\n',
                         '  ', Color.CYAN, '4', '\n',
-                        Color.GREY, ']', '\n']
+                        Color.YELLOW, ']', '\n']
     }
 
     @Test

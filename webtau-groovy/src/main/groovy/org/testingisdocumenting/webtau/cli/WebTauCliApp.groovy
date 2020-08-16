@@ -17,8 +17,10 @@
 
 package org.testingisdocumenting.webtau.cli
 
+import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
 import org.testingisdocumenting.webtau.cfg.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
@@ -58,6 +60,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
+        AnsiConsole.systemInstall()
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
@@ -122,7 +125,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
             code()
         } finally {
-            removeListeners()
+            removeListenersAndHandlers()
 
             Pdf.closeAll()
 
@@ -136,7 +139,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         consoleOutput = createConsoleOutput()
         stepReporter = createStepReporter()
 
-        registerListeners()
+        registerListenersAndHandlers()
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
@@ -147,19 +150,20 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         WebTauGroovyDsl.initWithTestRunner(runner)
     }
 
-    private void registerListeners() {
+    private void registerListenersAndHandlers() {
+        StepReporters.add(stepReporter)
         ConsoleOutputs.add(consoleOutput)
         TestListeners.add(consoleTestReporter)
         TestListeners.add(this)
-        StepReporters.add(stepReporter)
         ReportGenerators.add(this)
     }
 
-    private void removeListeners() {
-        ConsoleOutputs.remove(consoleOutput)
+    private void removeListenersAndHandlers() {
         StepReporters.remove(stepReporter)
+        ConsoleOutputs.remove(consoleOutput)
         TestListeners.clearAdded()
-        ReportGenerators.remove(this)
+        ReportGenerators.clearAdded()
+        GroovyConfigBasedHttpConfiguration.clear()
     }
 
     private void runTests() {

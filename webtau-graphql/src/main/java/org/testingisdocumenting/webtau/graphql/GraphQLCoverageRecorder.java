@@ -22,6 +22,6 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 public class GraphQLCoverageRecorder implements HttpValidationHandler {
     @Override
     public void validate(HttpValidationResult validationResult) {
-        GraphQL.getCoverage().recordOperation(validationResult);
+        GraphQL.getCoverage().recordQuery(validationResult);
     }
 }

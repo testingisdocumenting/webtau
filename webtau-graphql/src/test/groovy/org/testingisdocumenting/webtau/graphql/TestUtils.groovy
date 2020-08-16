@@ -22,22 +22,31 @@ import org.testingisdocumenting.webtau.http.request.HttpRequestBody
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 
 class TestUtils {
-    static HttpValidationResult validationResult(operationName, operationType, elapsedTime = 0) {
+    static def declaredOperations = [
+        new GraphQLQuery("allTasks", GraphQLQueryType.QUERY),
+        new GraphQLQuery("taskById", GraphQLQueryType.QUERY),
+        new GraphQLQuery("complete", GraphQLQueryType.MUTATION),
+        new GraphQLQuery("uncomplete", GraphQLQueryType.MUTATION),
+    ] as Set
+
+    static HttpValidationResult validationResult(queryName, queryType, elapsedTime = 0, method = 'POST', url = '/graphql') {
         def response = new HttpResponse()
         response.statusCode = 200
 
-        def result = new HttpValidationResult('POST', '/graphql', '/graphql', null, body(operationName, operationType))
+        def result = new HttpValidationResult(method, url, url, null, body(queryName, queryType))
         result.setResponse(response)
         result.setElapsedTime(elapsedTime)
         return result
     }
 
-    static HttpRequestBody body(operationName, operationType) {
-        def type = operationType.name().toLowerCase()
+    static HttpRequestBody body(queryName, queryType) {
+        def type = queryType.name().toLowerCase()
         def payload = [
             query: """
-                    $type $operationName {
-                      id
+                    $type {
+                        $queryName {
+                            id
+                        }
                     }
                     """.toString()
         ]

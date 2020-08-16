@@ -14,10 +14,22 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.graphql;
+package scenarios.graphql
 
-public enum GraphQLOperationType {
-    QUERY,
-    MUTATION,
-    SUBSCRIPTION
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+
+def listAllQuery = '''
+{
+    allTasks(uncompletedOnly: false) {
+        id
+        description
+    }
+}
+'''
+scenario("list all tasks") {
+    graphql.execute(listAllQuery) {
+        errors.should == null
+        allTasks.id.should == ["a", "b", "c"]
+        body.data.allTasks.id.should == ["a", "b", "c"]
+    }
 }

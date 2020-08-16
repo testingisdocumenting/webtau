@@ -18,30 +18,29 @@ package org.testingisdocumenting.webtau.graphql
 
 import org.junit.Before
 import org.junit.Test
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 
+import static org.testingisdocumenting.webtau.graphql.TestUtils.declaredOperations
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
 class GraphQLReportDataProviderTest {
-    def schemaUrl = ResourceUtils.resourceUrl('test-schema.graphql')
-    def coverage = new GraphQLCoverage(new GraphQLSchema(schemaUrl.file))
-    def reportDataProvider = new GraphQLReportDataProvider(coverage)
+    def coverage = new GraphQLCoverage(new GraphQLSchema(declaredOperations))
+    def reportDataProvider = new GraphQLReportDataProvider({ coverage })
 
     @Before
     void injectDummyData() {
-        coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY, 1))
-        coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY, 2))
-        coverage.recordOperation(validationResult('allTasks', GraphQLOperationType.QUERY, 3))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 1))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 2))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 3))
 
-        coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION, 2))
-        coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION, 4))
-        coverage.recordOperation(validationResult('complete', GraphQLOperationType.MUTATION, 6))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, 2))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, 4))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, 6))
     }
 
     @Test
-    void "computes timing per operation"() {
+    void "computes timing per query"() {
         def timeStats = reportDataProvider.provide(null)
-            .find {it.getId() == "graphQLOperationTimeStatistics" }
+            .find {it.getId() == "graphQLQueryTimeStatistics" }
             .getData()
         def expectedStats = [
             [
@@ -51,6 +50,7 @@ class GraphQLReportDataProviderTest {
                     mean: 2,
                     min: 1,
                     max: 3,
+                    count: 3,
                     p95: 3,
                     p99: 3
                 ]
@@ -62,6 +62,7 @@ class GraphQLReportDataProviderTest {
                     mean: 4,
                     min: 2,
                     max: 6,
+                    count: 3,
                     p95: 6,
                     p99: 6
                 ]
@@ -79,18 +80,18 @@ class GraphQLReportDataProviderTest {
         summary.should == [
             types: [
                 mutation: [
-                    declaredOperations: 2,
-                    coveredOperations: 1,
+                    declaredQueries: 2,
+                    coveredQueries: 1,
                     coverage: 0.5
                 ],
                 query: [
-                    declaredOperations: 2,
-                    coveredOperations: 1,
+                    declaredQueries: 2,
+                    coveredQueries: 1,
                     coverage: 0.5
                 ]
             ],
-            totalDeclaredOperations: 4,
-            totalCoveredOperations: 2,
+            totalDeclaredQueries: 4,
+            totalCoveredQueries: 2,
             coverage: 0.5
         ]
     }

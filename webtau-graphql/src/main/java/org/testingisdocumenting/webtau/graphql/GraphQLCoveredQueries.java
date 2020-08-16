@@ -22,29 +22,29 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-public class GraphQLCoveredOperations {
-    private final Map<GraphQLOperation, Set<Call>> actualCallsIdsByOperation;
+public class GraphQLCoveredQueries {
+    private final Map<GraphQLQuery, Set<Call>> actualCallsIdsByQuery;
 
-    GraphQLCoveredOperations() {
-        actualCallsIdsByOperation = new LinkedHashMap<>();
+    GraphQLCoveredQueries() {
+        actualCallsIdsByQuery = new LinkedHashMap<>();
     }
 
-    public void add(GraphQLOperation operation, String id, long elapsedTime) {
-        Set<Call> calls = actualCallsIdsByOperation.computeIfAbsent(operation, k -> new LinkedHashSet<>());
+    public void add(GraphQLQuery query, String id, long elapsedTime) {
+        Set<Call> calls = actualCallsIdsByQuery.computeIfAbsent(query, k -> new LinkedHashSet<>());
 
         calls.add(new Call(id, elapsedTime));
     }
 
-    public boolean contains(GraphQLOperation operation) {
-        return actualCallsIdsByOperation.containsKey(operation);
+    public boolean contains(GraphQLQuery query) {
+        return actualCallsIdsByQuery.containsKey(query);
     }
 
-    Stream<GraphQLOperation> coveredOperations() {
-        return actualCallsIdsByOperation.keySet().stream();
+    Stream<GraphQLQuery> coveredQueries() {
+        return actualCallsIdsByQuery.keySet().stream();
     }
 
-    public Stream<Map.Entry<GraphQLOperation, Set<Call>>> getActualCalls() {
-        return actualCallsIdsByOperation.entrySet().stream();
+    public Stream<Map.Entry<GraphQLQuery, Set<Call>>> getActualCalls() {
+        return actualCallsIdsByQuery.entrySet().stream();
     }
 
     public static class Call {

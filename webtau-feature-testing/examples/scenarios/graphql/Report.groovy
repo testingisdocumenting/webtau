@@ -26,27 +26,27 @@ class Report {
             .map { it.toMap() }
             .forEach { additionalData.putAll(it) }
 
-        validateSkippedOps(additionalData.graphQLSkippedOperations as Set)
-        validateCoveredOps(additionalData.graphQLCoveredOperations as Set)
-        validateOperationStatistics(additionalData.graphQLOperationTimeStatistics)
+        validateSkippedQueries(additionalData.graphQLSkippedQueries as Set)
+        validateCoveredQueries(additionalData.graphQLCoveredQueries as Set)
+        validateQueryStatistics(additionalData.graphQLQueryTimeStatistics)
         validateCoverageSummary(additionalData.graphQLCoverageSummary)
     }
 
-    static void validateSkippedOps(Set skippedOps) {
-        skippedOps.should == [
+    static void validateSkippedQueries(Set skippedQueries) {
+        skippedQueries.should == [
             [
                 name: 'uncomplete',
                 type: 'mutation'
-            ],
-            [
-                name: 'allTasks',
-                type: 'query'
             ]
         ] as Set
     }
 
-    static void validateCoveredOps(Set coveredOps) {
-        coveredOps.should == [
+    static void validateCoveredQueries(Set coveredQueries) {
+        coveredQueries.should == [
+            [
+                name: 'allTasks',
+                type: 'query'
+            ],
             [
                 name: 'complete',
                 type: 'mutation'
@@ -58,15 +58,20 @@ class Report {
         ] as Set
     }
 
-    static void validateOperationStatistics(opStats) {
-        opStats.size().should == 2
+    static void validateQueryStatistics(queryStats) {
+        queryStats.size().should == 3
 
-        def completeMutationStats = opStats.find { it.name == 'complete' }
+        def allTasksQueryStats = queryStats.find { it.name == 'allTasks' }
+        allTasksQueryStats.shouldNot == null
+        allTasksQueryStats.type.should == 'query'
+        allTasksQueryStats.statistics.size().shouldBe > 0
+
+        def completeMutationStats = queryStats.find { it.name == 'complete' }
         completeMutationStats.shouldNot == null
         completeMutationStats.type.should == 'mutation'
         completeMutationStats.statistics.size().shouldBe > 0
 
-        def taskByIdQueryStats = opStats.find { it.name == 'taskById' }
+        def taskByIdQueryStats = queryStats.find { it.name == 'taskById' }
         taskByIdQueryStats.shouldNot == null
         taskByIdQueryStats.type.should == 'query'
         taskByIdQueryStats.statistics.size().shouldBe > 0
@@ -76,19 +81,19 @@ class Report {
         summary.should == [
             types: [
                 mutation: [
-                    declaredOperations: 2,
-                    coveredOperations: 1,
+                    declaredQueries: 2,
+                    coveredQueries: 1,
                     coverage: 0.5
                 ],
                 query: [
-                    declaredOperations: 2,
-                    coveredOperations: 1,
-                    coverage: 0.5
+                    declaredQueries: 2,
+                    coveredQueries: 2,
+                    coverage: 1.0
                 ]
             ],
-            totalDeclaredOperations: 4,
-            totalCoveredOperations: 2,
-            coverage: 0.5
+            totalDeclaredQueries: 4,
+            totalCoveredQueries: 3,
+            coverage: 0.75
         ]
     }
 }

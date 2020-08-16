@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +26,7 @@ import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValida
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermute
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableDataAfterReplace
 
 class TableDataGroovyTest {
     @Test
@@ -73,6 +75,19 @@ class TableDataGroovyTest {
     void "cell above should should support plus operation extracted"() {
         def tableData = createTableDataWithAboveRefAndMathExtracted()
         validateAboveValueWithMath(tableData)
+    }
+
+    @Test
+    void "should replace single specified value"() {
+        def tableData = createTableWithUnderscore()
+        TableData newTableData = replaceValue(tableData)
+
+        validateSimpleTableData(tableData)
+        validateSimpleTableDataAfterReplace(newTableData)
+    }
+
+    private static TableData replaceValue(TableData tableData) {
+        tableData.replace("v1b", "v1b_")
     }
 
     @Test
