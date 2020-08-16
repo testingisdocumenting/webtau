@@ -79,7 +79,7 @@ class CliBackgroundProcess {
         try {
             ProcessUtils.kill(pid);
             process.waitFor();
-            isActive.set(true);
+            isActive.set(false);
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }

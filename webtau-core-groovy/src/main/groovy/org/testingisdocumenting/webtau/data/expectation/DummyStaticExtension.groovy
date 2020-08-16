@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +21,4 @@ package org.testingisdocumenting.webtau.data.expectation
  * There is a bug in maven shade plugin that checks for presence of static extensions
  */
 class DummyStaticExtension {
-    static void dummy(ShouldWaitStub stub) {
-        throw new UnsupportedOperationException("dummy")
-    }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +30,9 @@ import java.util.List;
 import java.util.Map;
 
 public class DataNodeAnsiPrinter {
-    private static final Color DELIMITER_COLOR = Color.CYAN;
+    private static final Color DELIMITER_COLOR = Color.YELLOW;
     private static final Color STRING_COLOR = Color.GREEN;
+    private static final Color NUMBER_COLOR = Color.CYAN;
     private static final Color KEY_COLOR = Color.PURPLE;
 
     private static final Object[] PASS_STYLE = new Object[]{FontStyle.BOLD, Color.GREEN};
@@ -153,9 +155,7 @@ public class DataNodeAnsiPrinter {
         TraceableValue traceableValue = dataNode.getTraceableValue();
 
         Object value = traceableValue.getValue();
-        if (value instanceof String) {
-            print(STRING_COLOR);
-        }
+        print(value instanceof String ? STRING_COLOR : NUMBER_COLOR);
 
         print(valueStyle(traceableValue));
         print(convertToString(traceableValue));
@@ -224,7 +224,10 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printIndentation() {
-        print(indentation());
+        String indentation = indentation();
+        if (!indentation.isEmpty()) {
+            print(indentation);
+        }
     }
 
     private void indentRight() {
@@ -258,7 +261,7 @@ public class DataNodeAnsiPrinter {
     }
 
     private static class Line {
-        private List<Object> styleAndValues = new ArrayList<>();
+        private final List<Object> styleAndValues = new ArrayList<>();
 
         public void append(Object... styleAndValues) {
             this.styleAndValues.addAll(Arrays.asList(styleAndValues));

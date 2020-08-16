@@ -30,6 +30,7 @@ import org.testingisdocumenting.webtau.data.Data;
 import org.testingisdocumenting.webtau.db.DatabaseFacade;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.fs.FileSystem;
+import org.testingisdocumenting.webtau.graphql.GraphQL;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
@@ -55,6 +56,7 @@ public class WebTauDsl extends WebTauCore {
     public static final Browser browser = Browser.browser;
     public static final Cli cli = Cli.cli;
     public static final DatabaseFacade db = DatabaseFacade.db;
+    public static final GraphQL graphql = GraphQL.graphql;
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();

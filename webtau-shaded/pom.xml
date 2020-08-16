@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.25-SNAPSHOT</version>
+        <version>1.28-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-shaded</artifactId>
@@ -66,6 +66,7 @@
                                         <exclude>org.testingisdocumenting.**</exclude>
                                         <exclude>org.codehaus.groovy.**</exclude>
                                         <exclude>org.w3c.**</exclude>
+                                        <exclude>org.fusesource.**</exclude>
                                         <exclude>org.apache.ivy.**</exclude>
                                         <exclude>org.mozilla.**</exclude>
                                         <exclude>org.xml.sax.**</exclude>

@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.cli.repl
 import org.codehaus.groovy.tools.shell.Groovysh
 import org.codehaus.groovy.tools.shell.util.Preferences
 import org.testingisdocumenting.webtau.browser.page.PageElement
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
@@ -105,7 +106,9 @@ class Repl {
             return
         }
 
-        if (result instanceof DataNode) {
+        if (result instanceof WebTauConfig) {
+            result.printAll()
+        } else if (result instanceof DataNode) {
             showDataNodeResult(result)
         } else if (result instanceof PageElement) {
             showPageElementResult(result)

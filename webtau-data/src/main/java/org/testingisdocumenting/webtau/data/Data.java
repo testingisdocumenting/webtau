@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,51 +17,13 @@
 
 package org.testingisdocumenting.webtau.data;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
-import org.testingisdocumenting.webtau.utils.CsvUtils;
-import org.testingisdocumenting.webtau.utils.FileUtils;
-import org.testingisdocumenting.webtau.utils.ResourceUtils;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
+import org.testingisdocumenting.webtau.data.csv.DataCsv;
 
 public class Data {
     public static final Data data = new Data();
 
+    public final DataCsv csv = new DataCsv();
+
     private Data() {
-    }
-
-    public List<Map<String, String>> csv(String fileOrResourcePath) {
-        return CsvUtils.parse(textContent(fileOrResourcePath));
-    }
-
-    public List<Map<String, Object>> csvAutoConverted(String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath));
-    }
-
-    public List<Map<String, String>> csv(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parse(header, textContent(fileOrResourcePath));
-    }
-
-    public List<Map<String, Object>> csvAutoConverted(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(header, textContent(fileOrResourcePath));
-    }
-
-    private String textContent(String fileOrResourcePath) {
-        Path filePath = WebTauConfig.getCfg().getWorkingDir().resolve(fileOrResourcePath);
-
-        boolean hasResource = ResourceUtils.hasResource(fileOrResourcePath);
-        boolean hasFile = Files.exists(filePath);
-
-        if (!hasResource && ! hasFile) {
-            throw new IllegalArgumentException("Can't find resource \"" + fileOrResourcePath + "\" or " +
-                    "file \"" + filePath.toAbsolutePath() + "\"");
-        }
-
-        return hasResource ?
-                ResourceUtils.textContent(fileOrResourcePath) :
-                FileUtils.fileTextContent(filePath);
     }
 }

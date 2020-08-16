@@ -17,13 +17,15 @@
 
 package org.testingisdocumenting.webtau.cli
 
+import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
 import org.testingisdocumenting.webtau.cfg.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyCliArgsConfigHandler
-import org.testingisdocumenting.webtau.cli.repl.WebTauCliInteractive
+
 import org.testingisdocumenting.webtau.cli.repl.Repl
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
@@ -58,6 +60,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
+        AnsiConsole.systemInstall()
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
@@ -70,9 +73,6 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
         if (WebTauCliArgsConfig.isReplMode(args)) {
             cliApp.startRepl()
-            System.exit(0)
-        } else if (WebTauCliArgsConfig.isInteractiveMode(args)) {
-            cliApp.startInteractive()
             System.exit(0)
         } else {
             cliApp.start(WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
@@ -99,13 +99,6 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         }
     }
 
-    void startInteractive() {
-        prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
-            def interactive = new WebTauCliInteractive(runner)
-            interactive.start()
-        }
-    }
-
     void startRepl() {
         prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
             def repl = new Repl(runner)
@@ -117,7 +110,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         init()
 
         try {
-            cfg.print()
+            cfg.printEnumerated()
             ConsoleOutputs.out()
 
             def testFiles = cliConfigHandler.testFilesWithFullPath()
@@ -132,7 +125,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
             code()
         } finally {
-            removeListeners()
+            removeListenersAndHandlers()
 
             Pdf.closeAll()
 
@@ -146,7 +139,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         consoleOutput = createConsoleOutput()
         stepReporter = createStepReporter()
 
-        registerListeners()
+        registerListenersAndHandlers()
 
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
 
@@ -157,19 +150,20 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         WebTauGroovyDsl.initWithTestRunner(runner)
     }
 
-    private void registerListeners() {
+    private void registerListenersAndHandlers() {
+        StepReporters.add(stepReporter)
         ConsoleOutputs.add(consoleOutput)
         TestListeners.add(consoleTestReporter)
         TestListeners.add(this)
-        StepReporters.add(stepReporter)
         ReportGenerators.add(this)
     }
 
-    private void removeListeners() {
-        ConsoleOutputs.remove(consoleOutput)
+    private void removeListenersAndHandlers() {
         StepReporters.remove(stepReporter)
+        ConsoleOutputs.remove(consoleOutput)
         TestListeners.clearAdded()
-        ReportGenerators.remove(this)
+        ReportGenerators.clearAdded()
+        GroovyConfigBasedHttpConfiguration.clear()
     }
 
     private void runTests() {

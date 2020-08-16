@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +53,19 @@ public class JsonUtils {
         try {
             return mapper.writeValueAsString(json);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static byte[] serializeToBytes(Object json) {
+        if (json == null) {
+            return "null".getBytes();
+        }
+
+        try {
+            return mapper.writeValueAsBytes(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -102,12 +115,16 @@ public class JsonUtils {
     }
 
     public static Object deserialize(String json) {
+        return deserializeAs(json, Object.class);
+    }
+
+    public static <T> T deserializeAs(String json, Class<T> valueType) {
         if (json == null) {
             return null;
         }
 
         try {
-            return mapper.readValue(json, Object.class);
+            return mapper.readValue(json, valueType);
         } catch (IOException e) {
             throw new JsonParseException(e.getMessage());
         }

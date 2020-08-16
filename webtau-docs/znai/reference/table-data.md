@@ -38,6 +38,24 @@ Java:
 
 :include-table: table-with-permute.json
 
+# Replace
+
+Use `table.replace(before, after)` to replace values in a table. 
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableWithUnderscore", bodyOnly: true}
+
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "replaceValue", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataInOneGo", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "replaceValue", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+:include-table: table-after-replace.json
+
 # Cell Above Value Reference
 
 Use `cell.above` to refer to the previous row value

@@ -35,7 +35,7 @@ class ReplTableCellDataRenderer implements TableCellDataRenderer {
     @Override
     String wrapBeforeRender(Object original, String rendered) {
         if (original == null) {
-            return Color.GREY.toString() + rendered + Color.RESET.toString()
+            return Color.YELLOW.toString() + rendered + Color.RESET.toString()
         }
 
         if (original instanceof Number) {

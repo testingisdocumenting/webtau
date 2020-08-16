@@ -45,7 +45,7 @@ class DatabaseFacadeTest {
 
     @Test
     void "should insert table data into a table"() {
-        def database = db.from(h2DataSource)
+        def database = db.from(h2DataSource, 'h2db')
         def PRICES = database.table("PRICES")
 
         PRICES << ["id" | "description" | "price"] {

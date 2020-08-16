@@ -27,7 +27,10 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 
 public class BrowserConfig implements WebTauConfigHandler {
-    private static final Supplier<Object> NO_DEFAULT = () -> null;
+    private static final Supplier<Object> NULL_DEFAULT = () -> null;
+
+    private static final ConfigValue browserUrl = declare("browserUrl", "browser base url for application under test. It is being used" +
+            " instead of url when provided", () -> "");
 
     private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
@@ -35,14 +38,20 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     private static final ConfigValue browser = declare("browser", "browser name: chrome, firefox", () -> "chrome");
 
-    private static final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NO_DEFAULT);
-    private static final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NO_DEFAULT);
+    private static final ConfigValue disableExtensions = declare("disableExtensions", "run without extensions", () -> false);
 
-    private static final ConfigValue firefoxBinPath = declare("firefoxBinPath", "path to firefox binary", NO_DEFAULT);
-    private static final ConfigValue firefoxDriverPath = declare("firefoxDriverPath", "path to firefox driver binary", NO_DEFAULT);
+    private static final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NULL_DEFAULT);
+    private static final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NULL_DEFAULT);
+
+    private static final ConfigValue firefoxBinPath = declare("firefoxBinPath", "path to firefox binary", NULL_DEFAULT);
+    private static final ConfigValue firefoxDriverPath = declare("firefoxDriverPath", "path to firefox driver binary", NULL_DEFAULT);
 
     public static String getBrowser() {
         return browser.getAsString();
+    }
+
+    public static String getBrowserUrl() {
+        return browserUrl.getAsString();
     }
 
     public static int getWindowWidth() {
@@ -55,6 +64,10 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     public static boolean isHeadless() {
         return headless.getAsBoolean();
+    }
+
+    public static boolean areExtensionsDisabled() {
+        return disableExtensions.getAsBoolean();
     }
 
     public static void setHeadless(boolean isHeadless) {
@@ -81,9 +94,11 @@ public class BrowserConfig implements WebTauConfigHandler {
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(
                 browser,
+                browserUrl,
                 windowWidth,
                 windowHeight,
                 headless,
+                disableExtensions,
                 chromeDriverPath,
                 chromeBinPath,
                 firefoxDriverPath,

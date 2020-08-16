@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright 2020 webtau maintainers
   ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.25-SNAPSHOT</version>
+        <version>1.28-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-test-server</artifactId>
@@ -52,6 +53,11 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
             <version>${jetty.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java</artifactId>
         </dependency>
 
         <dependency>

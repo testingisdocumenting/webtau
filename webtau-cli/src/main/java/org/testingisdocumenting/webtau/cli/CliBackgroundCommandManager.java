@@ -80,8 +80,10 @@ public class CliBackgroundCommandManager implements TestListener {
         test.addTestResultPayload(new TestResultPayload("cliBackground", backgroundCommands));
     }
 
-    private static void destroyActiveProcesses() {
-        runningCommands.forEach((pid, process) -> process.stop());
+    static void destroyActiveProcesses() {
+        runningCommands.values().stream()
+                .filter(CliBackgroundCommand::isActive)
+                .forEach(CliBackgroundCommand::stop);
     }
 
     private static void validateProcessActive(CliBackgroundCommand backgroundCommand) {

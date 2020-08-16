@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright 2020 webtau maintainers
   ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.25-SNAPSHOT</version>
+        <version>1.28-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-groovy</artifactId>
@@ -40,8 +41,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.ivy</groupId>
-            <artifactId>ivy</artifactId>
+            <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-graphql-groovy</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -66,6 +68,17 @@
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-utils</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.ivy</groupId>
+            <artifactId>ivy</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>2.14.6</version>
         </dependency>
 
         <dependency>

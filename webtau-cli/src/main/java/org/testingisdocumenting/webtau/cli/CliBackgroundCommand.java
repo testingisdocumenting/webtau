@@ -87,6 +87,10 @@ public class CliBackgroundCommand implements TestStepPayload {
         run();
     }
 
+    public boolean isActive() {
+        return backgroundProcess.isActive();
+    }
+
     public CliOutput getOutput() {
         return backgroundProcess.getOutput();
     }

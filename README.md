@@ -1,7 +1,7 @@
 # webtau
 Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 
-![logo](webtau-docs/webtau/webtau-logo.png)
+![logo](webtau-docs/znai/webtau-logo.png)
 
 ## Simple REST tests
 

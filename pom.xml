@@ -21,7 +21,7 @@
 
     <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.25-SNAPSHOT</version>
+    <version>1.28-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -134,6 +134,8 @@
         <module>webtau</module>
         <module>webtau-dist</module>
         <module>webtau-cli-testing</module>
+        <module>webtau-graphql</module>
+        <module>webtau-graphql-groovy</module>
     </modules>
 
     <properties>
@@ -151,6 +153,7 @@
         <maven.api.version>3.6.3</maven.api.version>
         <tomcat.version>8.5.56</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
+        <graphql.version>15.0</graphql.version>
     </properties>
 
     <dependencyManagement>
@@ -354,6 +357,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.graphql-java</groupId>
+                <artifactId>graphql-java</artifactId>
+                <version>${graphql.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.github.java-json-tools</groupId>
                 <artifactId>json-schema-validator</artifactId>
                 <version>2.2.14</version>
@@ -488,6 +497,12 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
 
