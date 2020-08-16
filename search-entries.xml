@@ -11,7 +11,7 @@
     <url>/webtau/REST/getting-started</url>
     <fullTitle>WebTau: Getting Started,  [REST]</fullTitle>
     <text>
-      <text>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.23/webtau-dist-1.23-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg file. url = "https://jsonplaceholder.typicode.com/" configuration/environments Specify multiple environments to streamline test execution. Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;/dependency> Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauDsl.* @RunWith(WebTauRunner) class TodoListGroovyIT { @Test void "fetch todo item"() { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class TodoListJavaIT { @Test public void fetchTodoItem() { http.get("/todos/1", (header, body) -> { body.get("title").should(equal("delectus aut autem")); body.get("completed").should(equal(false)); }); } } Add webtau.properties to test class path url = https://jsonplaceholder.typicode.com/</text>
+      <text>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.27/webtau-dist-1.27-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg file. url = "https://jsonplaceholder.typicode.com/" configuration/environments Specify multiple environments to streamline test execution. Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;/dependency> Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauDsl.* @RunWith(WebTauRunner) class TodoListGroovyIT { @Test void "fetch todo item"() { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class TodoListJavaIT { @Test public void fetchTodoItem() { http.get("/todos/1", (header, body) -> { body.get("title").should(equal("delectus aut autem")); body.get("completed").should(equal(false)); }); } } Add webtau.properties to test class path url = https://jsonplaceholder.typicode.com/</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -176,10 +176,26 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/REST/query-parameters</url>
-    <fullTitle>WebTau: Query Parameters,  [REST]</fullTitle>
+    <url>/webtau/REST/query-parameters#passing-query-parameters</url>
+    <fullTitle>WebTau: Query Parameters, Passing Query Parameters [REST]</fullTitle>
     <text>
-      <text>Webtau offers a number of ways of specifying query parameters:</text>
+      <text>Webtau offers a number of ways of specifying query parameters:Use Map as a second parameter to pass query parameters. Suitable for languages that support in-line creation of Map .Only http.get has a Map variant, for http.put , http.post , etc you must use http.query .Additionally http.query has a vararg variant which is more convenient for Java .</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/query-parameters#parameters-encoding</url>
+    <fullTitle>WebTau: Query Parameters, Parameters Encoding [REST]</fullTitle>
+    <text>
+      <text>All query parameters are encoded automatically. http.get("params", http.query([message: 'hello world !'])) { // assertions go here } params?message=hello+world+%21</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/REST/ping#get</url>
+    <fullTitle>WebTau: Ping, GET [REST]</fullTitle>
+    <text>
+      <text>Use http.ping to have a simplified way to check if url is responding with 200 on GET request. if (!http.ping("/weather")) { http.post("/cluster-master", [restart: "weather"]) } http.ping("/weather") http.ping("/weather", ["query-param": "value"]) http.ping("/weather", ["query-param": "value"], http.header(["X-flag": "test"]))</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -235,7 +251,7 @@
     <url>/webtau/REST/documentation#test-artifacts</url>
     <fullTitle>WebTau: Documentation, Test Artifacts [REST]</fullTitle>
     <text>
-      <text>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:35615/params?a=1&amp;b=text</text>
+      <text>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:41411/params?a=1&amp;b=text</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -267,7 +283,7 @@
     <url>/webtau/REST/complex-types#order-agnostic-match</url>
     <fullTitle>WebTau: Complex Types, Order Agnostic Match [REST]</fullTitle>
     <text>
-      <text>Use *key column(s) if list order is not guaranteed package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("list Customers and assert with a Table Data using key column") { def id1 = createCustomer firstName: "FN1", lastName: "LN1" def id2 = createCustomer firstName: "FN2", lastName: "LN2" def id3 = createCustomer firstName: "FN3", lastName: "LN3" http.get("/customers") { body.should == ['*id' | 'firstName' | 'lastName'] { _________________________________ id2 | 'FN2' | 'LN2' id1 | 'FN1' | 'LN1' id3 | 'FN3' | 'LN3'} } } def createCustomer(Map payload) { def id = http.post("/customers", payload) { id } http.doc.capture('create-customer') return id }</text>
+      <text>Use *key column(s) if list order is not guaranteed package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("list Customers and assert with a Table Data using key column") { def id1 = createCustomer firstName: "FN1", lastName: "LN1" def id2 = createCustomer firstName: "FN2", lastName: "LN2" def id3 = createCustomer firstName: "FN3", lastName: "LN3" http.get("/customers") { body.should == ['*id' | 'firstName' | 'lastName'] { _________________________________ id2 | 'FN2' | 'LN2' id1 | 'FN1' | 'LN1' id3 | 'FN3' | 'LN3'} } } def createCustomer(Map payload) { return http.post("/customers", payload) { id } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -379,7 +395,7 @@
     <url>/webtau/REST/maven#dependency</url>
     <fullTitle>WebTau: Maven, Dependency [REST]</fullTitle>
     <text>
-      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;/dependency></text>
+      <text>You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;/dependency> Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -387,7 +403,7 @@
     <url>/webtau/REST/maven#plugin</url>
     <fullTitle>WebTau: Maven, Plugin [REST]</fullTitle>
     <text>
-      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simple*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
+      <text>Use maven plugin to run pure groovy tests as part of your build. &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simple*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Use env to specify configuration/environments environment to use. Alternatively you can use url to override base url.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -475,7 +491,7 @@
     <url>/webtau/REST/test-execution#scenario-discovery</url>
     <fullTitle>WebTau: Test Execution, Scenario discovery [REST]</fullTitle>
     <text>
-      <text>Webtau via CLI or Maven plugin supports a number of methods for specifying and discovering scenarios.The simplest way is to list the scenario files explicitly: CLI webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simpleGet.groovy&lt;/include> &lt;include>scenarios/simplePost.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Wildcard matching is also supported. In the CLI version this is normal shell [glob](https://en.wikipedia.org/wiki/Glob_(programming) and in Maven it's a standard Maven file inclusion block: CLI webtau scenarios/rest/simple*.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simple*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> It is also possible to include a set of base directories and webtau will then find all *.groovy files within them, recursively: CLI webtau scenarios/rest Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;/tests> &lt;/configuration> &lt;/plugin> In this mode, the HTML report that webtau generates will show paths to the files relative to the requested directories.</text>
+      <text>Webtau via CLI or Maven plugin supports a number of methods for specifying and discovering scenarios.The simplest way is to list the scenario files explicitly: CLI webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simpleGet.groovy&lt;/include> &lt;include>scenarios/simplePost.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Wildcard matching is also supported. In the CLI version this is normal shell [glob](https://en.wikipedia.org/wiki/Glob_(programming) and in Maven it's a standard Maven file inclusion block: CLI webtau scenarios/rest/simple*.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simple*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> It is also possible to include a set of base directories and webtau will then find all *.groovy files within them, recursively: CLI webtau scenarios/rest Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;/tests> &lt;/configuration> &lt;/plugin> In this mode, the HTML report that webtau generates will show paths to the files relative to the requested directories.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -483,7 +499,7 @@
     <url>/webtau/UI/getting-started</url>
     <fullTitle>WebTau: Getting Started,  [UI]</fullTitle>
     <text>
-      <text>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.23/webtau-dist-1.23-webtau.zip webtau. Add it to your PATH . package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open("/search") $('#welcome').should == 'welcome to super search' } To run test, navigate to examples dir and webtau scenarios/ui/basic.groovy --url=https://my-server Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg file. url = "http://localhost:8180" configuration/environments Specify multiple environments to streamline test execution.</text>
+      <text>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.27/webtau-dist-1.27-webtau.zip webtau. Add it to your PATH . package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open("/search") $('#welcome').should == 'welcome to super search' } To run test, navigate to examples dir and webtau scenarios/ui/basic.groovy --url=https://my-server Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg file. url = "http://localhost:8180" configuration/environments Specify multiple environments to streamline test execution.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -492,6 +508,14 @@
     <fullTitle>WebTau: Basic Configuration, Base URL [UI]</fullTitle>
     <text>
       <text>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like open .Define base URL portion either inside a webtau.cfg file url = "http://localhost:8180" or pass as a command line argument --url=http://...</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/basic-configuration#browser-only-base-url</url>
+    <fullTitle>WebTau: Basic Configuration, Browser Only Base URL [UI]</fullTitle>
+    <text>
+      <text>When you use url parameter you set base url for both REST and UI testing.Use browserUrl to specify UI only base url. This can be handy when your backend and frontend live separately.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -539,7 +563,7 @@
     <url>/webtau/UI/forms#universal-set-value</url>
     <fullTitle>WebTau: Forms, Universal Set Value [UI]</fullTitle>
     <text>
-      <text>Use setValue on a declared page element to set its value. It will work on all the standard input types out of the box.Define all the input fields inside a page object. In combination with universal setValue it will make your tests robust.Given a html snippet &lt;html> &lt;body> &lt;div id="form"> &lt;input id="name"/> &lt;input id="startDate" type="date"/> &lt;select id="rank"> &lt;option/> &lt;option value="A">A&lt;/option> &lt;option value="B">B&lt;/option> &lt;option value="C">C&lt;/option> &lt;option value="D">D&lt;/option> &lt;option value="E">E&lt;/option> &lt;/select> &lt;/div> &lt;/body> &lt;/html> Page object can be defined as package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class FormPage { def name = $('#name') def rank = $('#rank') def startDate = $('#startDate') }</text>
+      <text>Use setValue on a declared page element to set its value. It will work on all the standard input types out of the box.Define all the input fields inside a page object. In combination with universal setValue it will make your tests robust.Given a html snippet &lt;html> &lt;body> &lt;div id="form"> &lt;input id="name"/> &lt;input id="startDate" type="date"/> &lt;input id="confirmation" type="checkbox"/> &lt;select id="rank"> &lt;option/> &lt;option value="A">A&lt;/option> &lt;option value="B">B&lt;/option> &lt;option value="C">C&lt;/option> &lt;option value="D">D&lt;/option> &lt;option value="E">E&lt;/option> &lt;/select> &lt;/div> &lt;/body> &lt;/html> Page object can be defined as package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class FormPage { def name = $('#name') def rank = $('#rank') def confirmation = $('#confirmation') def startDate = $('#startDate') }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -568,10 +592,18 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/UI/forms#checkbox</url>
+    <fullTitle>WebTau: Forms, CheckBox [UI]</fullTitle>
+    <text>
+      <text>form.confirmation.setValue(true)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/UI/forms#universal-assert</url>
     <fullTitle>WebTau: Forms, Universal Assert [UI]</fullTitle>
     <text>
-      <text>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'B' form.startDate.should == '2016-06-21'</text>
+      <text>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'B' form.confirmation.should == true form.startDate.should == '2016-06-21'</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -579,7 +611,7 @@
     <url>/webtau/UI/forms#custom-form-elements</url>
     <fullTitle>WebTau: Forms, Custom Form Elements [UI]</fullTitle>
     <text>
-      <text>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id="answer" class="special-selector" onclick="activate('answer')"> &lt;div class="current-value"> current value &lt;/div> &lt;input class="value-input" value="" onblur="valueEntered('answer')"> &lt;/div> Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. import formHandlers.CustomInput url = "http://localhost:8180" pageElementGetSetValueHandlers = [CustomInput] package formHandlers import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys("${value}\t") } @Override String getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</text>
+      <text>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id="answer" class="special-selector" onclick="activate('answer')"> &lt;div class="current-value"> current value &lt;/div> &lt;input class="value-input" value="" onblur="valueEntered('answer')"> &lt;/div> Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. import formHandlers.CustomInput url = "http://localhost:8180" pageElementGetSetValueHandlers = [CustomInput] package formHandlers import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys("${value}\t") } @Override Object getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -635,7 +667,7 @@
     <url>/webtau/UI/documentation#capturing-screenshots-with-annotations</url>
     <fullTitle>WebTau: Documentation, Capturing Screenshots With Annotations [UI]</fullTitle>
     <text>
-      <text>To capture screenshots use browser.doc[.withAnnotations].capture : search.submit("search this") browser.doc.withAnnotations( browser.doc.badge(search.box), browser.doc.badge(search.results)).capture('search') The result of the capture command is two files: actual screenshot and annotations.json . { "shapes" : [ { "id" : "circle1", "type" : "circle", "text" : "1", "color" : "a", "x" : 110, "y" : 34, "r" : 20 }, { "id" : "circle2", "type" : "circle", "text" : "2", "color" : "a", "x" : 492, "y" : 119, "r" : 20 } ], "pixelRatio" : 1 } https://testingisdocumenting.org/webtau Webtau documentation site is generated using https://github.com/testingisdocumenting/znai Znai. https://github.com/testingisdocumenting/znai Znai has include-image plugin that supports annotations format generated by capture command. :include-image: doc-artifacts/search.png {fit: true, annotationsPath: "doc-artifacts/search.json"}</text>
+      <text>To capture screenshots use browser.doc[.withAnnotations].capture : search.submit("search this") browser.doc.withAnnotations( browser.doc.badge(search.box), browser.doc.badge(search.results)).capture('search') The result of the capture command is two files: actual screenshot and annotations.json . { "shapes" : [ { "id" : "circle1", "type" : "circle", "text" : "1", "color" : "a", "x" : 112, "y" : 34, "r" : 20 }, { "id" : "circle2", "type" : "circle", "text" : "2", "color" : "a", "x" : 492, "y" : 119, "r" : 20 } ], "pixelRatio" : 1 } https://testingisdocumenting.org/webtau Webtau documentation site is generated using https://github.com/testingisdocumenting/znai Znai. https://github.com/testingisdocumenting/znai Znai has include-image plugin that supports annotations format generated by capture command. :include-image: doc-artifacts/search.png {fit: true, annotationsPath: "doc-artifacts/search.json"}</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -676,6 +708,30 @@
     <fullTitle>WebTau: Local Storage, Access Local Storage [UI]</fullTitle>
     <text>
       <text>To access local storage use browser.localStorage .Lets consider a simple web page that displays a value from a local storage. &lt;div id="favorite-color"> &lt;/div> &lt;script> const element = document.getElementById('favorite-color'); element.innerHTML = localStorage.getItem('favoriteColor'); &lt;/script> package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("local storage api") { browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'clean') def color = $('#favorite-color') browser.reopen('/local-storage') color.should == 'clean' browser.localStorage.clear() browser.reopen('/local-storage') color.should == '' } public String getItem(String key) public void setItem(String key, String value) public String removeItem(String key) public void clear() public int size()</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/cookies#add-cookies</url>
+    <fullTitle>WebTau: Cookies, Add Cookies [UI]</fullTitle>
+    <text>
+      <text>browser.cookies.add("cookie-a", "hello") browser.cookies.add("cookie-b", "world")</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/cookies#get-cookies</url>
+    <fullTitle>WebTau: Cookies, Get Cookies [UI]</fullTitle>
+    <text>
+      <text>browser.cookies.get("cookie-a").should == "hello" browser.cookies.get("cookie-b").should == "world" browser.cookies.getAll().should == ["cookie-a": "hello", "cookie-b": "world"]</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/UI/cookies#delete-cookies</url>
+    <fullTitle>WebTau: Cookies, Delete Cookies [UI]</fullTitle>
+    <text>
+      <text>browser.cookies.delete("cookie-b") browser.cookies.deleteAll()</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -811,7 +867,7 @@
     <url>/webtau/groovy-specific-runner/data-driven-scenarios#csv</url>
     <fullTitle>WebTau: Data Driven Scenarios, CSV [Groovy Specific Runner]</fullTitle>
     <text>
-      <text>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv('use-cases.csv').each { row -> scenario("use case ${row.title}") { println row.input println row.output } }</text>
+      <text>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -> scenario("use case ${row.title}") { println row.input println row.output } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -899,7 +955,7 @@
     <url>/webtau/groovy-specific-runner/test-listeners#test-listener-interface</url>
     <fullTitle>WebTau: Test Listeners, Test Listener Interface [Groovy Specific Runner]</fullTitle>
     <text>
-      <text>To define a custom test listener you need to implement the TestListener interface package org.testingisdocumenting.webtau.reporter; /** * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5 */ public interface TestListener { /** * before any test is ran */ default void beforeFirstTest() {} /** * before test code is invoked * @param test test */ default void beforeTestRun(WebTauTest test) {} /** * after test code is invoked * @param test test */ default void afterTestRun(WebTauTest test) {} /** * after all the tests are invoked * @param report report */ default void afterAllTests(WebTauReport report) {} /** * after test is ran but before its first statement. * executed code in this listener is considered to be part of a test. * @param test test */ default void beforeFirstTestStatement(WebTauTest test) {} /** * right before test considered to be complete. May not be executed if the test didn't reach the last statement. * executed code in this listener is considered to be part of a test. * @param test test */ default void afterLastTestStatement(WebTauTest test) {} }</text>
+      <text>To define a custom test listener you need to implement the TestListener interface /* * Copyright 2020 webtau maintainers * * Licensed under the Apache License, Version 2.0 (the "License"); * you may not use this file except in compliance with the License. * You may obtain a copy of the License at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, software * distributed under the License is distributed on an "AS IS" BASIS, * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. * See the License for the specific language governing permissions and * limitations under the License. */ package org.testingisdocumenting.webtau.reporter; /** * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5 */ public interface TestListener { /** * before any test is ran */ default void beforeFirstTest() {} /** * before test code is invoked * @param test test */ default void beforeTestRun(WebTauTest test) {} /** * after test code is invoked * @param test test */ default void afterTestRun(WebTauTest test) {} /** * after all the tests are invoked */ default void afterAllTests() {} /** * after test is ran but before its first statement. * executed code in this listener is considered to be part of a test. * @param test test */ default void beforeFirstTestStatement(WebTauTest test) {} /** * right before test considered to be complete. May not be executed if the test didn't reach the last statement. * executed code in this listener is considered to be part of a test. * @param test test */ default void afterLastTestStatement(WebTauTest test) {} }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -907,7 +963,7 @@
     <url>/webtau/groovy-specific-runner/test-listeners#config</url>
     <fullTitle>WebTau: Test Listeners, Config [Groovy Specific Runner]</fullTitle>
     <text>
-      <text>Once you have an implementation, use the testListeners key in your config file to use it import listeners.MetadataValidationTestListener testListeners = [MetadataValidationTestListener] package listeners import org.testingisdocumenting.webtau.reporter.TestListener import org.testingisdocumenting.webtau.reporter.WebTauTest class MetadataValidationTestListener implements TestListener { @Override void afterLastTestStatement(WebTauTest test) { if (!test.metadata.has('owner')) { throw new RuntimeException('owner for &lt;' + test.scenario + '> is not set') } } }</text>
+      <text>Once you have an implementation, use the testListeners key in your config file to use it import listeners.MetadataValidationTestListener testListeners = [MetadataValidationTestListener] package listeners import org.testingisdocumenting.webtau.reporter.TestListener import org.testingisdocumenting.webtau.reporter.WebTauTest class MetadataValidationTestListener implements TestListener { @Override void afterLastTestStatement(WebTauTest test) { if (test.hasSteps() &amp;&amp; !test.metadata.has('owner')) { throw new RuntimeException('owner for &lt;' + test.scenario + '> is not set') } } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -939,7 +995,7 @@
     <url>/webtau/generic-runners/JUnit-4#maven-import</url>
     <fullTitle>WebTau: JUnit 4, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -963,7 +1019,7 @@
     <url>/webtau/generic-runners/JUnit-5#maven-import</url>
     <fullTitle>WebTau: JUnit 5, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.23&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.27&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1048,6 +1104,14 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/reference/table-data#replace</url>
+    <fullTitle>WebTau: Table Data, Replace [Reference]</fullTitle>
+    <text>
+      <text>Use table.replace(before, after) to replace values in a table. Groovy Java table("Col A", "Col B", "Col C", ________________________________, "v1a", "v1b", "v1c", "v2a", "v2b", "v2c") tableData.replace("v1b", "v1b_") Col A Col B Col C v1a v1b_ v1c v2a v2b v2c</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/reference/table-data#cell-above-value-reference</url>
     <fullTitle>WebTau: Table Data, Cell Above Value Reference [Reference]</fullTitle>
     <text>
@@ -1083,7 +1147,7 @@
     <url>/webtau/configuration/options#cli-and-configuration-file-options</url>
     <fullTitle>WebTau: Options, CLI and configuration file options [Configuration]</fullTitle>
     <text>
-      <text>name description default value chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg dbDriverClassName primary database driver class name dbPassowrd primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} env environment id local envPath path items to append to path used for cli tests [] headless run headless mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test userAgent User agent to send on HTTP requests webtau/null verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</text>
+      <text>name description default value browser browser name: chrome, firefox chrome browserUrl browser base url for application under test. It is being used instead of url when provided chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableExtensions run without extensions false disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} env environment id local envPath path items to append to path used for cli tests [] firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary graphQLEnabled enable graphQL coverage and timing capture false headless run headless mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test userAgent User agent to send on HTTP requests webtau/null verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1091,7 +1155,7 @@
     <url>/webtau/configuration/options#environment-variable-options</url>
     <fullTitle>WebTau: Options, Environment variable options [Configuration]</fullTitle>
     <text>
-      <text>environment variable description default value WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSOWRD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_ENV_PATH path items to append to path used for cli tests [] WEBTAU_HEADLESS run headless mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/null WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</text>
+      <text>environment variable description default value WEBTAU_BROWSER browser name: chrome, firefox chrome WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_EXTENSIONS run without extensions false WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_ENV_PATH path items to append to path used for cli tests [] WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_GRAPH_QLENABLED enable graphQL coverage and timing capture false WEBTAU_HEADLESS run headless mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/null WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</text>
       <score>STANDARD</score>
     </text>
   </entry>

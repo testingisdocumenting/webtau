@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Environments</title>
+<title>WebTau: Cookies</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,8 +84,18 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Select</h1></header>
-<p>cfg waitTimeout = 2500 url = http://my-server environments { dev { url = &quot;http://localhost:8080&quot; } } webtau --env=dev</p>
+<header><h1>Add Cookies</h1></header>
+<p>browser.cookies.add(&quot;cookie-a&quot;, &quot;hello&quot;) browser.cookies.add(&quot;cookie-b&quot;, &quot;world&quot;)</p>
+</article>
+
+<article>
+<header><h1>Get Cookies</h1></header>
+<p>browser.cookies.get(&quot;cookie-a&quot;).should == &quot;hello&quot; browser.cookies.get(&quot;cookie-b&quot;).should == &quot;world&quot; browser.cookies.getAll().should == [&quot;cookie-a&quot;: &quot;hello&quot;, &quot;cookie-b&quot;: &quot;world&quot;]</p>
+</article>
+
+<article>
+<header><h1>Delete Cookies</h1></header>
+<p>browser.cookies.delete(&quot;cookie-b&quot;) browser.cookies.deleteAll()</p>
 </article>
 </section>
 </div>
@@ -110,32 +120,58 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Select",
-      "id" : "select",
+      "title" : "Add Cookies",
+      "id" : "add-cookies",
       "type" : "Section",
       "content" : [ {
-        "lang" : "cfg",
-        "snippet" : "waitTimeout = 2500\nurl = http://my-server\n\nenvironments {\n   dev {\n       url = \"http://localhost:8080\"\n   }\n}\n",
-        "lineNumber" : "",
-        "title" : "webtau.cfg",
+        "lang" : "groovy",
+        "snippet" : "browser.cookies.add(\"cookie-a\", \"hello\")\nbrowser.cookies.add(\"cookie-b\", \"world\")",
+        "title" : "add cookies",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Get Cookies",
+      "id" : "get-cookies",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "browser.cookies.get(\"cookie-a\").should == \"hello\"\nbrowser.cookies.get(\"cookie-b\").should == \"world\"\n\nbrowser.cookies.getAll().should == [\"cookie-a\": \"hello\", \"cookie-b\": \"world\"]",
+        "title" : "get cookies",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Delete Cookies",
+      "id" : "delete-cookies",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "browser.cookies.delete(\"cookie-b\")",
+        "title" : "delete cookie by name",
         "type" : "Snippet"
       }, {
-        "command" : "webtau --env=dev",
-        "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "lang" : "groovy",
+        "snippet" : "browser.cookies.deleteAll()",
+        "title" : "delete all cookies",
+        "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1597542284759,
     "tocItem" : {
-      "sectionTitle" : "Configuration",
-      "pageTitle" : "Environments",
+      "sectionTitle" : "UI",
+      "pageTitle" : "Cookies",
       "pageMeta" : { },
-      "dirName" : "configuration",
-      "fileName" : "environments",
+      "dirName" : "UI",
+      "fileName" : "cookies",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Select",
-        "id" : "select"
+        "title" : "Add Cookies",
+        "id" : "add-cookies"
+      }, {
+        "title" : "Get Cookies",
+        "id" : "get-cookies"
+      }, {
+        "title" : "Delete Cookies",
+        "id" : "delete-cookies"
       } ]
     }
   },

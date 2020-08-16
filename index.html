@@ -90,8 +90,8 @@
 </section>
 <section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<a href="/index/">Index</a>
-<a href="/index/#webtau">Index WebTau</a>
+<a href="/index/">WebTau</a>
+<a href="/index/#webtau">WebTau WebTau</a>
 </article>
 
 <article>
@@ -139,6 +139,13 @@
 
 <article>
 <a href="REST/query-parameters/">Query Parameters</a>
+<a href="REST/query-parameters/#passing-query-parameters">Query Parameters Passing Query Parameters</a>
+<a href="REST/query-parameters/#parameters-encoding">Query Parameters Parameters Encoding</a>
+</article>
+
+<article>
+<a href="REST/ping/">Ping</a>
+<a href="REST/ping/#get">Ping GET</a>
 </article>
 
 <article>
@@ -228,6 +235,7 @@
 <article>
 <a href="UI/basic-configuration/">Basic Configuration</a>
 <a href="UI/basic-configuration/#base-url">Basic Configuration Base URL</a>
+<a href="UI/basic-configuration/#browser-only-base-url">Basic Configuration Browser Only Base URL</a>
 </article>
 
 <article>
@@ -249,6 +257,7 @@
 <a href="UI/forms/#default-input">Forms Default Input</a>
 <a href="UI/forms/#date-input">Forms Date Input</a>
 <a href="UI/forms/#select">Forms Select</a>
+<a href="UI/forms/#checkbox">Forms CheckBox</a>
 <a href="UI/forms/#universal-assert">Forms Universal Assert</a>
 <a href="UI/forms/#custom-form-elements">Forms Custom Form Elements</a>
 </article>
@@ -279,6 +288,13 @@
 <article>
 <a href="UI/local-storage/">Local Storage</a>
 <a href="UI/local-storage/#access-local-storage">Local Storage Access Local Storage</a>
+</article>
+
+<article>
+<a href="UI/cookies/">Cookies</a>
+<a href="UI/cookies/#add-cookies">Cookies Add Cookies</a>
+<a href="UI/cookies/#get-cookies">Cookies Get Cookies</a>
+<a href="UI/cookies/#delete-cookies">Cookies Delete Cookies</a>
 </article>
 
 <article>
@@ -385,6 +401,7 @@
 <a href="reference/table-data/">Table Data</a>
 <a href="reference/table-data/#create">Table Data Create</a>
 <a href="reference/table-data/#permutations">Table Data Permutations</a>
+<a href="reference/table-data/#replace">Table Data Replace</a>
 <a href="reference/table-data/#cell-above-value-reference">Table Data Cell Above Value Reference</a>
 <a href="reference/table-data/#cell-above-math">Table Data Cell Above Math</a>
 </article>
@@ -415,13 +432,14 @@ document.getElementById('znai').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
       "title" : "View On GitHub"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
-    "previewEnabled" : false
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
   },
   "page" : {
     "type" : "Page",
@@ -466,7 +484,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "width" : 256.0,
         "align" : "left",
         "imageSrc" : "/webtau/webtau-logo.png",
-        "timestamp" : 1590882383855,
+        "timestamp" : 1597542284759,
         "shapes" : [ ],
         "height" : 256.0,
         "type" : "AnnotatedImage"
@@ -541,10 +559,10 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1590882383855,
+    "lastModifiedTime" : 1597542284759,
     "tocItem" : {
       "sectionTitle" : "",
-      "pageTitle" : "Index",
+      "pageTitle" : "WebTau",
       "pageMeta" : { },
       "dirName" : "",
       "fileName" : "index",

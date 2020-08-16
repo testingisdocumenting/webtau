@@ -94,6 +94,11 @@
 </article>
 
 <article>
+<header><h1>Replace</h1></header>
+<p>Use table.replace(before, after) to replace values in a table. Groovy Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;, ________________________________, &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;) tableData.replace(&quot;v1b&quot;, &quot;v1b_&quot;) Col A Col B Col C v1a v1b_ v1c v2a v2b v2c</p>
+</article>
+
+<article>
 <header><h1>Cell Above Value Reference</h1></header>
 <p>Use cell.above to refer to the previous row value Groovy Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , 8, &quot;Mike&quot;, cell.above , 14, &quot;Drew&quot;, LocalDate.of(2016, 6, 22), 10, &quot;Pete&quot;, cell.above , 11, &quot;Max&quot; , cell.above , 3) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 8 Mike 2016-06-20 14 Drew 2016-06-22 10 Pete 2016-06-22 11 Max 2016-06-22 3</p>
 </article>
@@ -113,13 +118,14 @@ document.getElementById('znai').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
       "title" : "View On GitHub"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
-    "previewEnabled" : false
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
   },
   "page" : {
     "type" : "Page",
@@ -386,6 +392,108 @@ ReactDOM.render(React.createElement(Documentation, {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2c",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "type" : "Table"
+      } ]
+    }, {
+      "title" : "Replace",
+      "id" : "replace",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "table.replace(before, after)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to replace values in a table.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"Col A\" | \"Col B\" | \"Col C\"] {\n________________________________\n   \"v1a\" |   \"v1b\" | \"v1c\"\n   \"v2a\" |   \"v2b\" | \"v2c\" }",
+            "entry" : "createTableWithUnderscore",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          }, {
+            "lang" : "groovy",
+            "snippet" : "tableData.replace(\"v1b\", \"v1b_\")",
+            "entry" : "replaceValue",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"Col A\", \"Col B\", \"Col C\",\n      ________________________________,\n        \"v1a\",   \"v1b\", \"v1c\",\n        \"v2a\",   \"v2b\", \"v2c\")",
+            "entry" : "createTableDataInOneGo",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          }, {
+            "lang" : "java",
+            "snippet" : "tableData.replace(\"v1b\", \"v1b_\")",
+            "entry" : "replaceValue",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "Col A"
+          }, {
+            "title" : "Col B"
+          }, {
+            "title" : "Col C"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b_",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1c",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2b",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -700,7 +808,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1590882383855,
+    "lastModifiedTime" : 1597542284759,
     "tocItem" : {
       "sectionTitle" : "Reference",
       "pageTitle" : "Table Data",
@@ -714,6 +822,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Permutations",
         "id" : "permutations"
+      }, {
+        "title" : "Replace",
+        "id" : "replace"
       }, {
         "title" : "Cell Above Value Reference",
         "id" : "cell-above-value-reference"

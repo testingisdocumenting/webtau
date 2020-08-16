@@ -3,7 +3,7 @@ toc = [ {
   "dirName" : "",
   "items" : [ {
     "sectionTitle" : "",
-    "pageTitle" : "Index",
+    "pageTitle" : "WebTau",
     "pageMeta" : { },
     "dirName" : "",
     "fileName" : "index",
@@ -132,7 +132,24 @@ toc = [ {
     "dirName" : "REST",
     "fileName" : "query-parameters",
     "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ ]
+    "pageSectionIdTitles" : [ {
+      "title" : "Passing Query Parameters",
+      "id" : "passing-query-parameters"
+    }, {
+      "title" : "Parameters Encoding",
+      "id" : "parameters-encoding"
+    } ]
+  }, {
+    "sectionTitle" : "REST",
+    "pageTitle" : "Ping",
+    "pageMeta" : { },
+    "dirName" : "REST",
+    "fileName" : "ping",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "GET",
+      "id" : "get"
+    } ]
   }, {
     "sectionTitle" : "REST",
     "pageTitle" : "Files Upload",
@@ -357,6 +374,9 @@ toc = [ {
     "pageSectionIdTitles" : [ {
       "title" : "Base URL",
       "id" : "base-url"
+    }, {
+      "title" : "Browser Only Base URL",
+      "id" : "browser-only-base-url"
     } ]
   }, {
     "sectionTitle" : "UI",
@@ -408,6 +428,9 @@ toc = [ {
     }, {
       "title" : "Select",
       "id" : "select"
+    }, {
+      "title" : "CheckBox",
+      "id" : "checkbox"
     }, {
       "title" : "Universal Assert",
       "id" : "universal-assert"
@@ -482,6 +505,23 @@ toc = [ {
     "pageSectionIdTitles" : [ {
       "title" : "Access Local Storage",
       "id" : "access-local-storage"
+    } ]
+  }, {
+    "sectionTitle" : "UI",
+    "pageTitle" : "Cookies",
+    "pageMeta" : { },
+    "dirName" : "UI",
+    "fileName" : "cookies",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Add Cookies",
+      "id" : "add-cookies"
+    }, {
+      "title" : "Get Cookies",
+      "id" : "get-cookies"
+    }, {
+      "title" : "Delete Cookies",
+      "id" : "delete-cookies"
     } ]
   }, {
     "sectionTitle" : "UI",
@@ -760,6 +800,9 @@ toc = [ {
     }, {
       "title" : "Permutations",
       "id" : "permutations"
+    }, {
+      "title" : "Replace",
+      "id" : "replace"
     }, {
       "title" : "Cell Above Value Reference",
       "id" : "cell-above-value-reference"

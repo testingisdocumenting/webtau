@@ -87,6 +87,11 @@
 <header><h1>Base URL</h1></header>
 <p>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like open .Define base URL portion either inside a webtau.cfg file url = &quot;http://localhost:8180&quot; or pass as a command line argument --url=http://...</p>
 </article>
+
+<article>
+<header><h1>Browser Only Base URL</h1></header>
+<p>When you use url parameter you set base url for both REST and UI testing.Use browserUrl to specify UI only base url. This can be handy when your backend and frontend live separately.</p>
+</article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
@@ -98,13 +103,14 @@ document.getElementById('znai').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
       "title" : "View On GitHub"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
-    "previewEnabled" : false
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
   },
   "page" : {
     "type" : "Page",
@@ -159,8 +165,55 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "InlinedCode"
         } ]
       } ]
+    }, {
+      "title" : "Browser Only Base URL",
+      "id" : "browser-only-base-url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "url",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " parameter you set base url for both ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "REST",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "UI",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " testing.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browserUrl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to specify ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "UI",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " only base url. This can be handy when your backend and frontend live separately.",
+          "type" : "SimpleText"
+        } ]
+      } ]
     } ],
-    "lastModifiedTime" : 1590882383851,
+    "lastModifiedTime" : 1597542284759,
     "tocItem" : {
       "sectionTitle" : "UI",
       "pageTitle" : "Basic Configuration",
@@ -171,6 +224,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Base URL",
         "id" : "base-url"
+      }, {
+        "title" : "Browser Only Base URL",
+        "id" : "browser-only-base-url"
       } ]
     }
   },

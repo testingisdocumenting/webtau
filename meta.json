@@ -1,10 +1,11 @@
 {
   "viewOn" : {
-    "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+    "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
     "title" : "View On GitHub"
   },
   "id" : "webtau",
   "title" : "WebTau",
   "type" : "Guide",
-  "previewEnabled" : false
+  "previewEnabled" : false,
+  "allowedGroups" : [ "admin" ]
 }

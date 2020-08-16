@@ -98,13 +98,14 @@ document.getElementById('znai').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
       "title" : "View On GitHub"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
-    "previewEnabled" : false
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
   },
   "page" : {
     "type" : "Page",
@@ -139,7 +140,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('step one') {\n    http.post('/reset') {\n        // ...\n    }\n}\n\nsscenario('step two') {\n    // test that you want to focus on\n}\n\nsingleScenario('step three') {\n    // test that you want to focus on\n}\n\nscenario('step four') {\n    http.put('/extra') {\n        // ...\n    }\n}",
         "title" : "Selective tests run",
-        "highlight" : [ "sscenario", "singleScenario" ],
+        "highlight" : [ 10, 14 ],
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -161,7 +162,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1590882383855,
+    "lastModifiedTime" : 1597542284759,
     "tocItem" : {
       "sectionTitle" : "Groovy Specific Runner",
       "pageTitle" : "Selective Run",

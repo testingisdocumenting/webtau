@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>CSV</h1></header>
-<p>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+<p>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
 </article>
 
 <article>
@@ -108,13 +108,14 @@ document.getElementById('znai').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
       "title" : "View On GitHub"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
-    "previewEnabled" : false
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
   },
   "page" : {
     "type" : "Page",
@@ -174,7 +175,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndata.csv('use-cases.csv').each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndata.csv.table('use-cases.csv').each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
         "title" : "CSV-driven tests",
         "type" : "Snippet"
       } ]
@@ -201,7 +202,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1590882383855,
+    "lastModifiedTime" : 1597542284759,
     "tocItem" : {
       "sectionTitle" : "Groovy Specific Runner",
       "pageTitle" : "Data Driven Scenarios",

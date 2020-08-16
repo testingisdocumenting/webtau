@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Order Agnostic Match</h1></header>
-<p>Use *key column(s) if list order is not guaranteed package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;list Customers and assert with a Table Data using key column&quot;) { def id1 = createCustomer firstName: &quot;FN1&quot;, lastName: &quot;LN1&quot; def id2 = createCustomer firstName: &quot;FN2&quot;, lastName: &quot;LN2&quot; def id3 = createCustomer firstName: &quot;FN3&quot;, lastName: &quot;LN3&quot; http.get(&quot;/customers&quot;) { body.should == ['*id' | 'firstName' | 'lastName'] { _________________________________ id2 | 'FN2' | 'LN2' id1 | 'FN1' | 'LN1' id3 | 'FN3' | 'LN3'} } } def createCustomer(Map payload) { def id = http.post(&quot;/customers&quot;, payload) { id } http.doc.capture('create-customer') return id }</p>
+<p>Use *key column(s) if list order is not guaranteed package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;list Customers and assert with a Table Data using key column&quot;) { def id1 = createCustomer firstName: &quot;FN1&quot;, lastName: &quot;LN1&quot; def id2 = createCustomer firstName: &quot;FN2&quot;, lastName: &quot;LN2&quot; def id3 = createCustomer firstName: &quot;FN3&quot;, lastName: &quot;LN3&quot; http.get(&quot;/customers&quot;) { body.should == ['*id' | 'firstName' | 'lastName'] { _________________________________ id2 | 'FN2' | 'LN2' id1 | 'FN1' | 'LN1' id3 | 'FN3' | 'LN3'} } } def createCustomer(Map payload) { return http.post(&quot;/customers&quot;, payload) { id } }</p>
 </article>
 </section>
 </div>
@@ -108,13 +108,14 @@ document.getElementById('znai').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
       "title" : "View On GitHub"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
-    "previewEnabled" : false
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
   },
   "page" : {
     "type" : "Page",
@@ -218,11 +219,11 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"list Customers and assert with a Table Data using key column\") {\n    def id1 = createCustomer firstName: \"FN1\", lastName: \"LN1\"\n    def id2 = createCustomer firstName: \"FN2\", lastName: \"LN2\"\n    def id3 = createCustomer firstName: \"FN3\", lastName: \"LN3\"\n\n    http.get(\"/customers\") {\n        body.should == ['*id' | 'firstName' | 'lastName'] {\n                        _________________________________\n                          id2 |       'FN2' |      'LN2'\n                          id1 |       'FN1' |      'LN1'\n                          id3 |       'FN3' |      'LN3'}\n    }\n}\n\ndef createCustomer(Map payload) {\n    def id = http.post(\"/customers\", payload) { id }\n    http.doc.capture('create-customer')\n\n    return id\n}",
+        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"list Customers and assert with a Table Data using key column\") {\n    def id1 = createCustomer firstName: \"FN1\", lastName: \"LN1\"\n    def id2 = createCustomer firstName: \"FN2\", lastName: \"LN2\"\n    def id3 = createCustomer firstName: \"FN3\", lastName: \"LN3\"\n\n    http.get(\"/customers\") {\n        body.should == ['*id' | 'firstName' | 'lastName'] {\n                        _________________________________\n                          id2 |       'FN2' |      'LN2'\n                          id1 |       'FN1' |      'LN1'\n                          id3 |       'FN3' |      'LN3'}\n    }\n}\n\ndef createCustomer(Map payload) {\n    return http.post(\"/customers\", payload) { id }\n}",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1590882383851,
+    "lastModifiedTime" : 1597542284759,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Complex Types",

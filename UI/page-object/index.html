@@ -108,13 +108,14 @@ document.getElementById('znai').innerHTML = '';
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/webtau",
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
       "title" : "View On GitHub"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
-    "previewEnabled" : false
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
   },
   "page" : {
     "type" : "Page",
@@ -217,7 +218,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package pages\n\nclass Pages {\n    static final def search = new SearchPage()\n    static final def calculation = new CalculationPage()\n    static final def form = new FormPage()\n}",
+        "snippet" : "package pages\n\nclass Pages {\n    static final def search = new SearchPage()\n    static final def calculation = new CalculationPage()\n    static final def form = new FormPage()\n    static final def payments = new PaymentsPage()\n}",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -231,7 +232,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1590882383851,
+    "lastModifiedTime" : 1597542284759,
     "tocItem" : {
       "sectionTitle" : "UI",
       "pageTitle" : "Page Object",

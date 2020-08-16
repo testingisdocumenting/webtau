@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Environments</title>
+<title>WebTau: Ping</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,8 +84,8 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Select</h1></header>
-<p>cfg waitTimeout = 2500 url = http://my-server environments { dev { url = &quot;http://localhost:8080&quot; } } webtau --env=dev</p>
+<header><h1>GET</h1></header>
+<p>Use http.ping to have a simplified way to check if url is responding with 200 on GET request. if (!http.ping(&quot;/weather&quot;)) { http.post(&quot;/cluster-master&quot;, [restart: &quot;weather&quot;]) } http.ping(&quot;/weather&quot;) http.ping(&quot;/weather&quot;, [&quot;query-param&quot;: &quot;value&quot;]) http.ping(&quot;/weather&quot;, [&quot;query-param&quot;: &quot;value&quot;], http.header([&quot;X-flag&quot;: &quot;test&quot;]))</p>
 </article>
 </section>
 </div>
@@ -110,32 +110,62 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Select",
-      "id" : "select",
+      "title" : "GET",
+      "id" : "get",
       "type" : "Section",
       "content" : [ {
-        "lang" : "cfg",
-        "snippet" : "waitTimeout = 2500\nurl = http://my-server\n\nenvironments {\n   dev {\n       url = \"http://localhost:8080\"\n   }\n}\n",
-        "lineNumber" : "",
-        "title" : "webtau.cfg",
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.ping",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to have a simplified way to check if ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "url",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is responding with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "200",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " on ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "GET",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " request.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "if (!http.ping(\"/weather\")) {\n    http.post(\"/cluster-master\", [restart: \"weather\"])\n}",
+        "title" : "Ping response to make reboot action",
         "type" : "Snippet"
       }, {
-        "command" : "webtau --env=dev",
-        "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "lang" : "groovy",
+        "snippet" : "http.ping(\"/weather\")\nhttp.ping(\"/weather\", [\"query-param\": \"value\"])\nhttp.ping(\"/weather\", [\"query-param\": \"value\"], http.header([\"X-flag\": \"test\"]))",
+        "title" : "Ping with query params and header",
+        "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1597542284759,
     "tocItem" : {
-      "sectionTitle" : "Configuration",
-      "pageTitle" : "Environments",
+      "sectionTitle" : "REST",
+      "pageTitle" : "Ping",
       "pageMeta" : { },
-      "dirName" : "configuration",
-      "fileName" : "environments",
+      "dirName" : "REST",
+      "fileName" : "ping",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Select",
-        "id" : "select"
+        "title" : "GET",
+        "id" : "get"
       } ]
     }
   },
