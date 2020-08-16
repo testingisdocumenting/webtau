@@ -1,0 +1,27 @@
+def ctx = context(scope: closureScope())
+
+contributor(ctx, {
+    def call = enclosingCall("call")
+    if (call) {
+//        def boundCalls = call.bind()
+//        def clazz = boundCalls?.containingClass
+//        if ("java.util.ArrayList".equals(clazz?.qualName)) {
+            method name: 'ABC', type: 'String'
+//        }
+    }
+})
+
+//def ctx = context(scope: closureScope())
+//
+//contributor(ctx, {
+//    def call = enclosingCall("run")
+//    if (call) {
+//        def boundCall = call.bind()
+//        def clazz = boundCall?.containingClass
+//        if ("Runner".equals(clazz?.qualName)) {
+////            delegatesTo(call.arguments[0])
+//            method name: 'ABC', type: 'String'
+//
+//        }
+//    }
+//})

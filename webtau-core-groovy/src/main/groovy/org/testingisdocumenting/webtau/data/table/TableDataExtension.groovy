@@ -29,7 +29,7 @@ class TableDataExtension {
         return header
     }
 
-    static TableData call(ArrayList header, Closure tableDataCode) {
+    static TableData call(List header, Closure tableDataCode) {
         try {
             def tableData = new TableData(header.flatten().stream())
 
