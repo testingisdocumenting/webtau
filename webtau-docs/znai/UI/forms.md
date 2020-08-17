@@ -56,7 +56,7 @@ Our test should still be written in terms of data entering and validation.
 
 In order to achieve this we need to register a custom handler.  
 
-:include-file: scenarios/ui/specialForms.groovy {title: "webtau.groovy", lang: "groovy"}
+:include-file: scenarios/ui/specialForms.groovy {title: "webtau.cfg.groovy", lang: "groovy"}
 
 :include-file: formHandlers/CustomInput.groovy {title: "Custom input handler"}
 

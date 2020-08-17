@@ -32,7 +32,7 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "simple script run"() {
-        runCli('simpleRun.groovy', 'webtau.groovy')
+        runCli('simpleRun.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -42,32 +42,32 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "error script run"() {
-        runCli('errorRuns.groovy', 'webtau.groovy')
+        runCli('errorRuns.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "implicit exit code"() {
-        runCli('implicitExitCodeCheck.groovy', 'webtau.groovy')
+        runCli('implicitExitCodeCheck.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "wait for output"() {
-        runCli('outputWait.groovy', 'webtau.groovy')
+        runCli('outputWait.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "working dir"() {
-        runCli('workingDir.groovy', 'webtau.groovy')
+        runCli('workingDir.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "send input"() {
-        runCli('sendInput.groovy', 'webtau.groovy')
+        runCli('sendInput.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "multi send input"() {
-        runCli('multiTestSendInput.groovy', 'webtau.groovy')
+        runCli('multiTestSendInput.groovy', 'webtau.cfg.groovy')
     }
 
     @Test

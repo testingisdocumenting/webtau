@@ -67,27 +67,27 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "open browser and assert"() {
-        runCli('basic.groovy', 'webtau.groovy')
+        runCli('basic.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "open browser using browser url"() {
-        runCliWithBrowserUrlOverride('basic.groovy', 'webtau.groovy')
+        runCliWithBrowserUrlOverride('basic.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "lazy declaration"() {
-        runCli('basicDeclareFirst.groovy', 'webtau.groovy')
+        runCli('basicDeclareFirst.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "element actions"() {
-        runCli('elementActions.groovy', 'webtau.groovy')
+        runCli('elementActions.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "finders and filters"() {
-        runCli('findersFilters.groovy', 'webtau.groovy')
+        runCli('findersFilters.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -112,7 +112,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "navigation"() {
-        runCli('navigation.groovy', 'webtau.groovy')
+        runCli('navigation.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -131,7 +131,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "matchers"() {
-        runCli('matchers.groovy', 'webtau.groovy')
+        runCli('matchers.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -162,7 +162,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "forms"() {
-        runCli('forms.groovy', 'webtau.groovy')
+        runCli('forms.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -204,7 +204,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "local storage"() {
-        runCli('localStorage.groovy', 'webtau.groovy')
+        runCli('localStorage.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -222,7 +222,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "cookies"() {
-        runCli('cookies.groovy', 'webtau.groovy')
+        runCli('cookies.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -245,7 +245,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "wait sync"() {
-        runCli('waitSync.groovy', 'webtau.groovy')
+        runCli('waitSync.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -262,7 +262,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "flicking element"() {
-        runCli('flickingElement.groovy', 'webtau.groovy')
+        runCli('flickingElement.groovy', 'webtau.cfg.groovy')
     }
 
     @Test

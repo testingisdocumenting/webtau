@@ -22,7 +22,7 @@ Url tracks your navigation through screens, so you can share url with your teamm
 
 To generate custom reports, or upload report data to your server, specify `reportGenerator` config property.
 
-:include-file: examples/scenarios/rest/report/webtau.groovy {title: "webtau.groovy", excludeRegexp: "package"}
+:include-file: examples/scenarios/rest/report/webtau.cfg.groovy {title: "webtau.cfg.groovy", excludeRegexp: "package"}
 
 Where `Report.&generateReport` is implemented as following
 

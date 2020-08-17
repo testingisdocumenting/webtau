@@ -54,13 +54,13 @@ class WebTauGraphQLFeaturesTest {
 
     @Test
     void "simple query and mutation"() {
-        runCli("queryAndMutation.groovy", "webtau.groovy", "--url=${testRunner.testServer.uri}")
+        runCli("queryAndMutation.groovy", "webtau.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "authed graphql"() {
         handler.withAuthEnabled(AUTH_TOKEN) {
-            runCli("query.groovy", "webtau-authed-graphql.cfg", "--url=${testRunner.testServer.uri}")
+            runCli("query.groovy", "webtau-authed-graphql.cfg.groovy", "--url=${testRunner.testServer.uri}")
         }
     }
 

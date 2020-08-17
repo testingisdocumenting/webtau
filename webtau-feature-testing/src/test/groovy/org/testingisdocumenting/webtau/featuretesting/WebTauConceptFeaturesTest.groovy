@@ -38,42 +38,42 @@ class WebTauConceptFeaturesTest {
 
     @Test
     void "simple dynamic scenario"() {
-        runCli('simpleDynamicScenario.groovy', 'webtau.groovy')
+        runCli('simpleDynamicScenario.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "data driven scenarios from csv"() {
-        runCli('dataDrivenCsv.groovy', 'webtau.groovy')
+        runCli('dataDrivenCsv.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "data driven scenarios from table"() {
-        runCli('dataDrivenTableData.groovy', 'webtau.groovy')
+        runCli('dataDrivenTableData.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "hard tests termination"() {
-        runCli('testsTermination.groovy', 'webtau.groovy')
+        runCli('testsTermination.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "run selected tests only"() {
-        runCli('runOnlySelected.groovy', 'webtau.groovy')
+        runCli('runOnlySelected.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "disable tests"() {
-        runCli('skipTests.groovy', 'webtau.groovy')
+        runCli('skipTests.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "conditional tests custom condition skip"() {
-        runCli('conditionalCustomRegistrationSkip.groovy', 'webtau.groovy')
+        runCli('conditionalCustomRegistrationSkip.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "conditional tests based on env registration skip"() {
-        runCli('conditionalEnvRegistrationSkip.groovy', 'webtau.groovy')
+        runCli('conditionalEnvRegistrationSkip.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -83,22 +83,22 @@ class WebTauConceptFeaturesTest {
 
     @Test
     void "custom test metadata driven by raw key value"() {
-        runCli('metadataRaw.groovy', 'webtau.groovy')
+        runCli('metadataRaw.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "custom test metadata override top level only"() {
-        runCli('metadataRawTopLevelOverrides.groovy', 'webtau.groovy')
+        runCli('metadataRawTopLevelOverrides.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "custom test metadata driven by method call"() {
-        runCli('metadataMethodBased.groovy', 'webtau.groovy')
+        runCli('metadataMethodBased.groovy', 'webtau.cfg.groovy')
     }
 
     @Test // second similar test is to make sure we clean current test meta in between tests
     void "custom test metadata driven by method sanity check"() {
-        runCli('metadataMethodBasedSanityCheck.groovy', 'webtau.groovy')
+        runCli('metadataMethodBasedSanityCheck.groovy', 'webtau.cfg.groovy')
     }
 
     @Test

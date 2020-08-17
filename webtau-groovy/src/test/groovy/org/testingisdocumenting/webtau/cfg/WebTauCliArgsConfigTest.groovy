@@ -30,14 +30,14 @@ class WebTauCliArgsConfigTest {
     void "should exit if only config file provided"() {
         Integer retCode = 0
         def config = new WebTauCliArgsConfig(cfg, { retCode = it },
-            "--config=src/test/resources/webtau.groovy", "--env=dev")
+            "--config=src/test/resources/webtau.cfg.groovy", "--env=dev")
 
         retCode.should == 1
     }
 
     @Test
     void "should set command line args source when env is specified"() {
-        def cliConfig = new WebTauCliArgsConfig(cfg, "--config=src/test/resources/webtau.groovy", "--env=dev", "testFile")
+        def cliConfig = new WebTauCliArgsConfig(cfg, "--config=src/test/resources/webtau.cfg.groovy", "--env=dev", "testFile")
         cliConfig.setConfigFileRelatedCfgIfPresent()
 
         cfg.envConfigValue.source.should == "command line argument"
@@ -45,7 +45,7 @@ class WebTauCliArgsConfigTest {
 
     @Test
     void "should set default source when env is not specified"() {
-        def cliConfig = new WebTauCliArgsConfig(cfg, "--config=src/test/resources/webtau.groovy", "testFile")
+        def cliConfig = new WebTauCliArgsConfig(cfg, "--config=src/test/resources/webtau.cfg.groovy", "testFile")
         cfg.envConfigValue.source.should == "default"
     }
 
@@ -53,7 +53,7 @@ class WebTauCliArgsConfigTest {
     void "should set default source and value when cfg is not specified"() {
         def cliConfig = new WebTauCliArgsConfig(cfg, "testFile")
 
-        cfg.configFileNameValue.asString.should == "webtau.groovy"
+        cfg.configFileNameValue.asString.should == "webtau.cfg.groovy"
         cfg.configFileNameValue.source.should == "default"
     }
 }

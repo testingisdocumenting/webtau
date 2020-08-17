@@ -30,7 +30,7 @@ class DefaultExamplesProvider implements ExamplesProvider {
     private static Example fromResource(dirName, fileName) {
         return new Example(dirName,
                 fileName,
-                ResourceUtils.textContent("examples/${dirName}/webtau.groovy"),
+                ResourceUtils.textContent("examples/${dirName}/webtau.cfg.groovy"),
                 ResourceUtils.textContent("examples/${dirName}/${fileName}"),
         )
     }

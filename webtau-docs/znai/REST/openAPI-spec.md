@@ -4,7 +4,10 @@ Webtau supports validation of responses against an [OpenAPI specification](https
 be enabled by specifying the `openApiSpecUrl` configuration option.  This should be the URL to the specification against 
 which to validate.
 
-:include-file: scenarios/rest/springboot/webtau-with-spec.groovy {title: "Configuration"}
+:include-file: scenarios/rest/springboot/withSpec.cfg.groovy {
+    title: "Configuration",
+    excludeRegexp: "docPath"
+}
 
 # Current limitations
 
