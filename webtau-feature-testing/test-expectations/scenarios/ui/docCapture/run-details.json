@@ -12,6 +12,12 @@
       "numberOfSuccessful" : 7
     }
   }, {
+    "scenario" : "search and capture with badges placed in non center position",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
     "scenario" : "capture with highlight and cover",
     "shortContainerId" : "docCapture.groovy",
     "stepsSummary" : {

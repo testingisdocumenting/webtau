@@ -19,7 +19,7 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static webtau.CliCommands.*
 
-def repl = createLazyResource { webtauCli.runInBackground("repl") }
+def repl = createLazyResource { webtauCli.runInBackground("repl --noColor") }
 
 scenario('simple groovy repl') {
     repl.send("2 + 2\n")
@@ -43,5 +43,5 @@ scenario('http call') {
 
     cli.doc.capture('http-repl-output')
     fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
-            'header.statusCode \u001B[32mequals 200')
+            'header.statusCode equals 200')
 }
