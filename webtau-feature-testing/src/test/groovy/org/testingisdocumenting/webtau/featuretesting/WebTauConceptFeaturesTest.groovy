@@ -78,7 +78,7 @@ class WebTauConceptFeaturesTest {
 
     @Test
     void "conditional tests based on env registration run"() {
-        runCli('conditionalEnvRegistrationRun.groovy', 'experimentalCfg.groovy')
+        runCli('conditionalEnvRegistrationRun.groovy', 'experimental.cfg.groovy')
     }
 
     @Test
@@ -103,12 +103,12 @@ class WebTauConceptFeaturesTest {
 
     @Test
     void "meta data check test listener"() {
-        runCli('metaDataTestListener.groovy', 'metaDataTestListenerCfg.groovy')
+        runCli('metaDataTestListener.groovy', 'metaDataTestListener.cfg.groovy')
     }
 
     @Test
     void "before all after all test listener"() {
-        runCli('beforeAllAfterAllSuccess.groovy', 'beforeAllAfterAllTestListenerCfg.groovy')
+        runCli('beforeAllAfterAllSuccess.groovy', 'beforeAllAfterAllTestListener.cfg.groovy')
     }
 
     @Test

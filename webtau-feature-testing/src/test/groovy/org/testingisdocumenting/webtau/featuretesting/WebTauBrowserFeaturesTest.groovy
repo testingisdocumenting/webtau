@@ -167,7 +167,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "special forms"() {
-        runCli('specialForms.groovy', 'specialFormsCfg.groovy')
+        runCli('specialForms.groovy', 'specialForms.cfg.groovy')
     }
 
     @Test
@@ -240,7 +240,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "open handlers"() {
-        runCli('openHandler.groovy', 'openHandlerCfg.groovy')
+        runCli('openHandler.groovy', 'openHandler.cfg.groovy')
     }
 
     @Test
@@ -267,7 +267,7 @@ class WebTauBrowserFeaturesTest {
 
     @Test
     void "doc capture"() {
-        runCli('docCapture.groovy', 'docCaptureCfg.groovy')
+        runCli('docCapture.groovy', 'docCapture.cfg.groovy')
     }
 
     @Test

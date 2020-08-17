@@ -47,17 +47,17 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "simple get"() {
-        runCli('simpleGet.groovy', 'urlOnlyCfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli('simpleGet.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "simple post"() {
-        runCli('simplePost.groovy', 'docArtifactsCfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli('simplePost.groovy', 'docArtifacts.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "ping"() {
-        runCli('ping.groovy', 'docArtifactsCfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli('ping.groovy', 'docArtifacts.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
@@ -85,12 +85,12 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "redirect"() {
-        runCli('redirect/redirectOn.groovy', 'urlOnlyCfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli('redirect/redirectOn.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "redirect disabled"() {
-        runCli('redirect/redirectOff.groovy', 'urlOnlyCfg.groovy', "--url=${testRunner.testServer.uri}", '--disableRedirects')
+        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}", '--disableRedirects')
     }
 
     @Test
@@ -144,7 +144,7 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "recursive scenario discovery"() {
-        testRunner.runCli("recursive/scenarios", "urlOnlyCfg.groovy", "--url=${testRunner.testServer.uri}")
+        testRunner.runCli("recursive/scenarios", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

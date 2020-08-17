@@ -37,7 +37,7 @@ class WebTauDbFeaturesTest {
 
     @Test
     void "db provider from config"() {
-        runCli('dbProviderThroughConfig.groovy', 'webtauDbProvider.groovy')
+        runCli('dbProviderThroughConfig.groovy', 'webtauDbProvider.cfg.groovy')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
