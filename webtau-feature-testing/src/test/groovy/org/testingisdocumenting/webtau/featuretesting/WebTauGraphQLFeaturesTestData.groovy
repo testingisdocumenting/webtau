@@ -22,11 +22,18 @@ import graphql.schema.idl.SchemaGenerator
 import graphql.schema.idl.SchemaParser
 import graphql.schema.idl.TypeDefinitionRegistry
 import graphql.schema.idl.TypeRuntimeWiring
+import org.eclipse.jetty.server.Handler
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
+import org.testingisdocumenting.webtau.http.testserver.GraphQLResponseHandler
+import org.testingisdocumenting.webtau.http.testserver.TestServerJsonResponse
 import org.testingisdocumenting.webtau.utils.FileUtils
+import org.testingisdocumenting.webtau.utils.JsonUtils
 
 import java.nio.file.Paths
 
 class WebTauGraphQLFeaturesTestData {
+    public static final String AUTH_TOKEN = "mySuperSecretToken"
+
     static GraphQLSchema getSchema() {
         String sdl = FileUtils.fileTextContent(Paths.get("examples","scenarios", "graphql", "schema.graphql"))
         TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(sdl)
@@ -37,6 +44,23 @@ class WebTauGraphQLFeaturesTestData {
 
         SchemaGenerator schemaGenerator = new SchemaGenerator()
         return schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring)
+    }
+
+    static Handler authHandler() {
+        FixedResponsesHandler additionalHttpHandler = new FixedResponsesHandler()
+        additionalHttpHandler.registerGet("/auth",
+            new TestServerJsonResponse(
+                JsonUtils.serialize([token: AUTH_TOKEN])
+            ))
+
+        return additionalHttpHandler
+    }
+
+    static GraphQLResponseHandler graphQLResponseHandler() {
+        GraphQLSchema schema = getSchema()
+        Handler authHandler = authHandler()
+
+        return new GraphQLResponseHandler(schema, authHandler)
     }
 
     private static void setupTestData(RuntimeWiring.Builder builder) {

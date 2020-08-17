@@ -16,32 +16,21 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
-import graphql.schema.GraphQLSchema
+
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.GraphQLResponseHandler
-import org.testingisdocumenting.webtau.http.testserver.TestServerJsonResponse
-import org.testingisdocumenting.webtau.utils.JsonUtils
+
+import static org.testingisdocumenting.webtau.featuretesting.WebTauGraphQLFeaturesTestData.AUTH_TOKEN
 
 class WebTauGraphQLFeaturesTest {
-    private static final String AUTH_TOKEN = "mySuperSecretToken"
-
     private static WebTauEndToEndTestRunner testRunner
     private static GraphQLResponseHandler handler
 
     @BeforeClass
     static void init() {
-        GraphQLSchema schema = WebTauGraphQLFeaturesTestData.getSchema()
-
-        FixedResponsesHandler additionalHttpHandler = new FixedResponsesHandler()
-        additionalHttpHandler.registerGet("/auth",
-            new TestServerJsonResponse(
-                JsonUtils.serialize([token: AUTH_TOKEN])
-            ))
-
-        handler = new GraphQLResponseHandler(schema, additionalHttpHandler)
+        handler = WebTauGraphQLFeaturesTestData.graphQLResponseHandler()
         testRunner = new WebTauEndToEndTestRunner(handler)
 
         testRunner.startTestServer()

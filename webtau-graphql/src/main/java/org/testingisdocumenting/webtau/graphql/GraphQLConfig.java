@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 
 public class GraphQLConfig implements WebTauConfigHandler {
-    static final ConfigValue graphQLEnabled = declare("graphQLEnabled",
+    public static final ConfigValue graphQLEnabled = declare("graphQLEnabled",
             "enable graphQL coverage and timing capture", () -> false);
 
     static boolean isEnabled() {
