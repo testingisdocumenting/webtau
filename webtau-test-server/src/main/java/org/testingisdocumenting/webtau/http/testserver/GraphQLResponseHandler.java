@@ -79,7 +79,7 @@ public class GraphQLResponseHandler extends AbstractHandler {
     }
 
     private void handleGraphQLPathRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (!isAuthorised(request)) {
+        if (!isAuthenticated(request)) {
             response.setStatus(401);
             return;
         }
@@ -113,7 +113,7 @@ public class GraphQLResponseHandler extends AbstractHandler {
         }
     }
 
-    private boolean isAuthorised(HttpServletRequest request) {
+    private boolean isAuthenticated(HttpServletRequest request) {
         return expectedAuthHeaderValue
                 .map(expectedVal -> expectedVal.equals(request.getHeader("Authorization")))
                 .orElse(true);
