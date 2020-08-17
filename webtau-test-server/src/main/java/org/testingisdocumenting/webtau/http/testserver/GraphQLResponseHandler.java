@@ -20,6 +20,7 @@ import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -41,16 +42,16 @@ https://graphql.org/learn/serving-over-http/
  */
 public class GraphQLResponseHandler extends AbstractHandler {
     private final GraphQL graphQL;
-    private final Optional<FixedResponsesHandler> additionalHttpHandler;
+    private final Optional<Handler> additionalHandler;
     private Optional<String> expectedAuthHeaderValue;
 
     public GraphQLResponseHandler(GraphQLSchema schema) {
         this(schema, null);
     }
 
-    public GraphQLResponseHandler(GraphQLSchema schema, FixedResponsesHandler additionalHttpHandler) {
+    public GraphQLResponseHandler(GraphQLSchema schema, Handler additionalHandler) {
         this.graphQL = GraphQL.newGraphQL(schema).build();
-        this.additionalHttpHandler = Optional.ofNullable(additionalHttpHandler);
+        this.additionalHandler = Optional.ofNullable(additionalHandler);
         this.expectedAuthHeaderValue = Optional.empty();
     }
 
@@ -59,8 +60,8 @@ public class GraphQLResponseHandler extends AbstractHandler {
                        HttpServletResponse response) throws IOException, ServletException {
         if ("/graphql".equals(baseRequest.getOriginalURI())) {
             handleGraphQLPathRequest(request, response);
-        } else if (additionalHttpHandler.isPresent()) {
-            additionalHttpHandler.get().handle(url, baseRequest, request, response);
+        } else if (additionalHandler.isPresent()) {
+            additionalHandler.get().handle(url, baseRequest, request, response);
         } else {
             response.setStatus(404);
         }
