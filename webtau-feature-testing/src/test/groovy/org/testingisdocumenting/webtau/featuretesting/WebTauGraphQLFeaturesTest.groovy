@@ -58,9 +58,9 @@ class WebTauGraphQLFeaturesTest {
     }
 
     @Test
-    void "http based header provider"() {
+    void "authed graphql"() {
         handler.withAuthEnabled(AUTH_TOKEN) {
-            runCli("query.groovy", "webtau-http-header-provider.cfg", "--url=${testRunner.testServer.uri}")
+            runCli("query.groovy", "webtau-authed-graphql.cfg", "--url=${testRunner.testServer.uri}")
         }
     }
 
