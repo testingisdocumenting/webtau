@@ -38,9 +38,8 @@ import static org.testingisdocumenting.webtau.http.Http.http;
 public class GraphQLSchemaLoader {
     public static Set<GraphQLQuery> fetchSchemaDeclaredQueries() {
         HttpRequestBody requestBody = GraphQLRequest.body(INTROSPECTION_QUERY, null, null);
-        String fullUrl = HttpConfigurations.fullUrlWithoutEnabledCheck(GRAPHQL_URL);
-//        HttpHeader header = HttpHeader.EMPTY;
-        HttpHeader header = HttpConfigurations.fullHeaderWithoutEnabledCheck(fullUrl, GRAPHQL_URL, HttpHeader.EMPTY);
+        String fullUrl = HttpConfigurations.fullUrl(GRAPHQL_URL);
+        HttpHeader header = HttpConfigurations.fullHeader(fullUrl, GRAPHQL_URL, HttpHeader.EMPTY);
         HttpResponse httpResponse = http.postToFullUrl(fullUrl, header, requestBody);
         if (httpResponse.getStatusCode() != 200) {
             throw new AssertionError("Error introspecting GraphQL, status code was " + httpResponse.getStatusCode());
