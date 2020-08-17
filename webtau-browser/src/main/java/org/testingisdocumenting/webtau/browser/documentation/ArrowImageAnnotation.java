@@ -29,7 +29,7 @@ public class ArrowImageAnnotation extends ImageAnnotation {
 
     @Override
     public void addAnnotationData(Map<String, Object> data, WebElement webElement) {
-        Point location = center(webElement);
+        Point location = position(webElement);
 
         data.put("beginX", location.getX() - 50);
         data.put("beginY", location.getY() + 90);
