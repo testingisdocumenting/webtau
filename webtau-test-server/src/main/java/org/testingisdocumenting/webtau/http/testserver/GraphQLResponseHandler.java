@@ -141,22 +141,4 @@ public class GraphQLResponseHandler extends AbstractHandler {
         response.setContentType("application/json");
         response.getOutputStream().write(JsonUtils.serializeToBytes(responseBody));
     }
-
-    public static class Header {
-        private final String name;
-        private final String value;
-
-        private Header(String name, String value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
 }
