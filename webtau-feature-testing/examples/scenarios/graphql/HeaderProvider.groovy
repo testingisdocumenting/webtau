@@ -19,14 +19,17 @@ package scenarios.graphql
 
 import org.testingisdocumenting.webtau.http.HttpHeader
 
+import static org.testingisdocumenting.webtau.WebTauDsl.getCfg
 import static org.testingisdocumenting.webtau.WebTauDsl.http
 
 class HeaderProvider {
     static provide(String fullUrl, String url, HttpHeader httpHeaders) {
-        http.get("http://example.com") {
+        String token = http.get("${getCfg().baseUrl}auth") {
             statusCode.should == 200
+            token.shouldNot == null
+            return token
         }
 
-        return HttpHeader.EMPTY
+        return httpHeaders.with("Authorization", token)
     }
 }

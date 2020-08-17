@@ -47,26 +47,11 @@ public class HttpConfigurations {
         }
     }
 
-    /*
-    There are situations where webtau disables http configuration processing (e.g. while invoking http header providers).
-    This function will return the full url, based on the potentially partial url passed in, if and only if http
-    configuration processing has not been disabled.  This function should be used unless you're absolutely certain
-    that bypassing enabled checks is safe.
-     */
     public static String fullUrl(String url) {
         if (!enabled.get()) {
             return url;
         }
 
-        return fullUrlWithoutEnabledCheck(url);
-    }
-
-    /*
-    This function will create a full url from a potentially partial url regardless of whether http configuration
-    processing is enabled.  It should be used only in situations which cannot result in any adverse side effects
-    such as infinite loops.
-     */
-    public static String fullUrlWithoutEnabledCheck(String url) {
         String finalUrl = url;
         for (HttpConfiguration configuration : configurations) {
             finalUrl = configuration.fullUrl(finalUrl);
@@ -76,7 +61,7 @@ public class HttpConfigurations {
     }
 
     public static HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
-        if (! enabled.get()) {
+        if (!enabled.get()) {
             return given;
         }
 

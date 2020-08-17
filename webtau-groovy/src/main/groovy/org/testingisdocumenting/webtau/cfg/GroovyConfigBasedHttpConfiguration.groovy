@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.cfg
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.config.HttpConfiguration
 import org.testingisdocumenting.webtau.http.config.HttpConfigurations
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 
 import java.util.concurrent.atomic.AtomicReference
 
@@ -49,7 +50,9 @@ class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
         }
 
         return HttpConfigurations.withDisabledConfigurations {
-            return headerProvider.get().call(fullUrl, passedUrl, given) as HttpHeader
+            HttpValidationHandlers.withDisabledHandlers {
+                return headerProvider.get().call(fullUrl, passedUrl, given) as HttpHeader
+            }
         }
     }
 }
