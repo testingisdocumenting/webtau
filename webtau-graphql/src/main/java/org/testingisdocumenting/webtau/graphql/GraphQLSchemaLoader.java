@@ -31,13 +31,16 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+import static org.testingisdocumenting.webtau.graphql.GraphQL.GRAPHQL_URL;
 import static org.testingisdocumenting.webtau.graphql.model.GraphQLRequest.INTROSPECTION_QUERY;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class GraphQLSchemaLoader {
     public static Set<GraphQLQuery> fetchSchemaDeclaredQueries() {
         HttpRequestBody requestBody = GraphQLRequest.body(INTROSPECTION_QUERY, null, null);
-        HttpResponse httpResponse = http.postToFullUrl(HttpConfigurations.fullUrlWithoutEnabledCheck("/graphql"), HttpHeader.EMPTY, requestBody);
+        String fullUrl = HttpConfigurations.fullUrl(GRAPHQL_URL);
+        HttpHeader header = HttpConfigurations.fullHeader(fullUrl, GRAPHQL_URL, HttpHeader.EMPTY);
+        HttpResponse httpResponse = http.postToFullUrl(fullUrl, header, requestBody);
         if (httpResponse.getStatusCode() != 200) {
             throw new AssertionError("Error introspecting GraphQL, status code was " + httpResponse.getStatusCode());
         }

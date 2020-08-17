@@ -265,16 +265,25 @@ public class WebTauConfig {
                 .collect(Collectors.joining("\n"));
     }
 
-    public void print() {
-        int maxKeyLength = enumeratedCfgValues.values().stream()
+    public void printEnumerated() {
+        printConfig(enumeratedCfgValues.values());
+    }
+
+    public void printAll() {
+        printConfig(freeFormCfgValues);
+        printConfig(enumeratedCfgValues.values());
+    }
+
+    private void printConfig(Collection<ConfigValue> configValues) {
+        int maxKeyLength = configValues.stream()
                 .filter(ConfigValue::nonDefault)
                 .map(v -> v.getKey().length()).max(Integer::compareTo).orElse(0);
 
-        int maxValueLength = enumeratedCfgValues.values().stream()
+        int maxValueLength = configValues.stream()
                 .filter(ConfigValue::nonDefault)
                 .map(v -> v.getAsString().length()).max(Integer::compareTo).orElse(0);
 
-        enumeratedCfgValues.values().stream().filter(ConfigValue::nonDefault).forEach(v -> {
+        configValues.stream().filter(ConfigValue::nonDefault).forEach(v -> {
                     String valueAsText = v.getAsString();
                     int valuePadding = maxValueLength - valueAsText.length();
 

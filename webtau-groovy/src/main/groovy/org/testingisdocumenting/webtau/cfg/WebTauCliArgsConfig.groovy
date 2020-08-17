@@ -58,10 +58,6 @@ class WebTauCliArgsConfig {
         return args.any { it == REPL }
     }
 
-    static boolean isInteractiveMode(String[] args) {
-        return args.any { it == "interactive" }
-    }
-
     void setConfigFileRelatedCfgIfPresent() {
         setValueFromCliIfPresent(cfg.workingDirConfigValue)
         setValueFromCliIfPresent(cfg.configFileNameValue)

@@ -20,6 +20,7 @@ import graphql.ExecutionInput;
 import graphql.ExecutionResult;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -31,6 +32,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /*
@@ -39,17 +42,49 @@ https://graphql.org/learn/serving-over-http/
  */
 public class GraphQLResponseHandler extends AbstractHandler {
     private final GraphQL graphQL;
+    private final Optional<Handler> additionalHandler;
+    private Optional<String> expectedAuthHeaderValue;
 
     public GraphQLResponseHandler(GraphQLSchema schema) {
-        graphQL = GraphQL.newGraphQL(schema).build();
+        this(schema, null);
+    }
+
+    public GraphQLResponseHandler(GraphQLSchema schema, Handler additionalHandler) {
+        this.graphQL = GraphQL.newGraphQL(schema).build();
+        this.additionalHandler = Optional.ofNullable(additionalHandler);
+        this.expectedAuthHeaderValue = Optional.empty();
     }
 
     @Override
     public void handle(String url, Request baseRequest, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, ServletException {
-        if (!"/graphql".equals(baseRequest.getOriginalURI())) {
+        if ("/graphql".equals(baseRequest.getOriginalURI())) {
+            handleGraphQLPathRequest(request, response);
+        } else if (additionalHandler.isPresent()) {
+            additionalHandler.get().handle(url, baseRequest, request, response);
+        } else {
             response.setStatus(404);
-        } else if ("GET".equals(request.getMethod())) {
+        }
+
+        baseRequest.setHandled(true);
+    }
+
+    public <R> R withAuthEnabled(String expectedAuthHeaderValue, Supplier<R> code) {
+        this.expectedAuthHeaderValue = Optional.of(expectedAuthHeaderValue);
+        try {
+            return code.get();
+        } finally {
+            this.expectedAuthHeaderValue = Optional.empty();
+        }
+    }
+
+    private void handleGraphQLPathRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (!isAuthenticated(request)) {
+            response.setStatus(401);
+            return;
+        }
+
+        if ("GET".equals(request.getMethod())) {
             String query = request.getParameter("query");
             String operationName = request.getParameter("operationName");
             @SuppressWarnings("unchecked")
@@ -76,11 +111,19 @@ public class GraphQLResponseHandler extends AbstractHandler {
         } else {
             response.setStatus(405);
         }
-
-        baseRequest.setHandled(true);
     }
 
-    private void handle(String query, String operationName, Map<String, Object> variables, HttpServletResponse response) throws IOException {
+    private boolean isAuthenticated(HttpServletRequest request) {
+        return expectedAuthHeaderValue
+                .map(expectedVal -> expectedVal.equals(request.getHeader("Authorization")))
+                .orElse(true);
+    }
+
+    private void handle(
+            String query,
+            String operationName,
+            Map<String, Object> variables,
+            HttpServletResponse response) throws IOException {
         ExecutionInput executionInput = ExecutionInput.newExecutionInput(query)
                 .operationName(operationName)
                 .variables(variables == null ? Collections.emptyMap() : variables)

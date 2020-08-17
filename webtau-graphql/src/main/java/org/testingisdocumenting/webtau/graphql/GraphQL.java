@@ -28,6 +28,7 @@ import static org.testingisdocumenting.webtau.http.Http.http;
 public class GraphQL {
     public static final GraphQL graphql = new GraphQL();
 
+    static final String GRAPHQL_URL = "/graphql";
     private static final int SUCCESS_CODE = 200;
 
     private static GraphQLSchema schema;
@@ -55,7 +56,7 @@ public class GraphQL {
     }
 
     public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidatorWithReturn validator) {
-        return http.post("/graphql", header, GraphQLRequest.body(query, variables, operationName), (headerDataNode, body) -> {
+        return http.post(GRAPHQL_URL, header, GraphQLRequest.body(query, variables, operationName), (headerDataNode, body) -> {
             headerDataNode.statusCode().should(equal(SUCCESS_CODE));
             return validator.validate(headerDataNode, body);
         });
