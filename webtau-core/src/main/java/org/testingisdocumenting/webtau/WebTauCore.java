@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenFunctions;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
@@ -55,6 +56,14 @@ public class WebTauCore extends Matchers {
 
     public static ActualPath createActualPath(String path) {
         return new ActualPath(path);
+    }
+
+    public static Persona persona(String id) {
+        return new Persona(id);
+    }
+
+    public static Persona persona(String id, Map<String, Object> payload) {
+        return new Persona(id, payload);
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;
