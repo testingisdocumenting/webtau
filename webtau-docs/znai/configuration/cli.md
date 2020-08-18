@@ -4,7 +4,7 @@ Any config file parameter can be overridden with a command line parameter.
 
 For example, given this config file:
 
-```cfg {title: "webtau.cfg"}
+```cfg {title: "webtau.cfg.groovy"}
 waitTimeout = 2500
 url = http://my-server
 ```

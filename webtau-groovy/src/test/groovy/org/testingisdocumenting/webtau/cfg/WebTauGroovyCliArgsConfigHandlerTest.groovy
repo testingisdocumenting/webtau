@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ class WebTauGroovyCliArgsConfigHandlerTest {
     @Test
     void "sets file config related values during first run and overrides other cfg values during second"() {
         def handler = new WebTauGroovyCliArgsConfigHandler('--env=dev', '--workingDir=/root/a',
-            '--config=abc.cfg', '--url=http://localhost:3434', "test.groovy")
+            '--config=mycfg.groovy', '--url=http://localhost:3434', "test.groovy")
 
         def cfg = createConfig()
 
@@ -35,7 +36,7 @@ class WebTauGroovyCliArgsConfigHandlerTest {
 
         cfg.env.should == 'dev'
         cfg.workingDir.asList()*.toString().should == ['root', 'a']
-        cfg.configFileName.asString.should == 'abc.cfg'
+        cfg.configFileNameValue.asString.should == 'mycfg.groovy'
         cfg.baseUrl.should == ""
 
         handler.onAfterCreate(cfg)
