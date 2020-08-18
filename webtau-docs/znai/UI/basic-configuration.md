@@ -5,9 +5,9 @@ Instead you only pass a relative URL to functions like `open`.
 
 :include-groovy: scenarios/ui/basic.groovy
 
-Define base URL portion either inside a `webtau.cfg` file
+Define base URL either inside a `webtau.cfg.groovy` file
 
-:include-file: scenarios/ui/webtau.cfg {lang: "groovy"}
+:include-file: scenarios/ui/webtau.cfg.groovy
 
 or pass as a command line argument `--url=http://...`
 

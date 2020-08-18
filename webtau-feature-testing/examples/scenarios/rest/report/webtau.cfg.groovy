@@ -1,4 +1,4 @@
-import scenarios.rest.report.Report
+package scenarios.rest.report
 
 url = "http://localhost:8080"
 

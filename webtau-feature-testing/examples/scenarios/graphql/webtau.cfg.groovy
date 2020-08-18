@@ -1,4 +1,4 @@
-import scenarios.graphql.TestReport
+package scenarios.graphql
 
 url = "http://localhost:8180"
 

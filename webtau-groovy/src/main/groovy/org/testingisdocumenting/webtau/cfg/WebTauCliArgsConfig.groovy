@@ -60,7 +60,7 @@ class WebTauCliArgsConfig {
 
     void setConfigFileRelatedCfgIfPresent() {
         setValueFromCliIfPresent(cfg.workingDirConfigValue)
-        setValueFromCliIfPresent(cfg.configFileName)
+        setValueFromCliIfPresent(cfg.configFileNameValue)
         setValueFromCliIfPresent(cfg.envConfigValue)
     }
 

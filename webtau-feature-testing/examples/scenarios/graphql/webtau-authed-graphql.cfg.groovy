@@ -1,5 +1,4 @@
 import scenarios.graphql.HeaderProvider
-import scenarios.graphql.Report
 
 url = "http://localhost:8180"
 
