@@ -1,0 +1,8 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "should read deprecated config name with cfg extension when present",
+    "shortContainerId" : "deprecatedConfigCheck.groovy",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}

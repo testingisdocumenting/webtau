@@ -34,4 +34,4 @@ The path to the schema file specified in `complyWithSchema` can be relative or a
 relative to the `jsonSchemasDir` specified in configuration and if not specified then relative to working directory.
 For example:
 
-:include-file: scenarios/rest/jsonSchema/webtau.cfg {title: "Configuration"}
+:include-file: scenarios/rest/jsonSchema/webtau.cfg.groovy {title: "Configuration", excludeRegexp: "package"}

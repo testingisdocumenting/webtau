@@ -32,47 +32,47 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "simple script run"() {
-        runCli('simpleRun.groovy', 'webtau.cfg')
+        runCli('simpleRun.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "path based script run"() {
-        runCli('pathBasedScript.groovy', 'webtau-with-path.cfg')
+        runCli('pathBasedScript.groovy', 'webtau-with-path.cfg.groovy')
     }
 
     @Test
     void "error script run"() {
-        runCli('errorRuns.groovy', 'webtau.cfg')
+        runCli('errorRuns.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "implicit exit code"() {
-        runCli('implicitExitCodeCheck.groovy', 'webtau.cfg')
+        runCli('implicitExitCodeCheck.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "wait for output"() {
-        runCli('outputWait.groovy', 'webtau.cfg')
+        runCli('outputWait.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "working dir"() {
-        runCli('workingDir.groovy', 'webtau.cfg')
+        runCli('workingDir.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "send input"() {
-        runCli('sendInput.groovy', 'webtau.cfg')
+        runCli('sendInput.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "multi send input"() {
-        runCli('multiTestSendInput.groovy', 'webtau.cfg')
+        runCli('multiTestSendInput.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
     void "background command auto kill"() {
-        runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg')
+        runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg.groovy')
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

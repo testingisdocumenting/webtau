@@ -1,0 +1,1 @@
+testListeners = [listeners.BackgroundCommandStartTestListener]
