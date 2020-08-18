@@ -37,6 +37,10 @@ class TestReport {
             [
                 name: 'uncomplete',
                 type: 'mutation'
+            ],
+            [
+                name: 'weather',
+                type: 'query'
             ]
         ] as Set
     }
@@ -86,14 +90,14 @@ class TestReport {
                     coverage: 0.5
                 ],
                 query: [
-                    declaredQueries: 2,
+                    declaredQueries: 3,
                     coveredQueries: 2,
-                    coverage: 1.0
+                    coverage: (double) 2.0 / 3.0
                 ]
             ],
-            totalDeclaredQueries: 4,
+            totalDeclaredQueries: 5,
             totalCoveredQueries: 3,
-            coverage: 0.75
+            coverage: 0.6
         ]
     }
 }
