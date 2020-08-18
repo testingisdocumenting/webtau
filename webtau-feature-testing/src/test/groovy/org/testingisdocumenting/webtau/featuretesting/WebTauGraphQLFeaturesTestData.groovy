@@ -24,11 +24,16 @@ import graphql.schema.idl.TypeDefinitionRegistry
 import graphql.schema.idl.TypeRuntimeWiring
 import org.testingisdocumenting.webtau.utils.FileUtils
 
+import java.nio.file.Path
 import java.nio.file.Paths
 
 class WebTauGraphQLFeaturesTestData {
     static GraphQLSchema getSchema() {
-        String sdl = FileUtils.fileTextContent(Paths.get("examples","scenarios", "graphql", "schema.graphql"))
+        return getSchema(Paths.get("examples","scenarios", "graphql", "schema.graphql"))
+    }
+
+    static GraphQLSchema getSchema(Path schemaPath) {
+        String sdl = FileUtils.fileTextContent(schemaPath)
         TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(sdl)
 
         RuntimeWiring.Builder runtimeWiringBuilder = RuntimeWiring.newRuntimeWiring()
@@ -47,6 +52,7 @@ class WebTauGraphQLFeaturesTestData {
         TypeRuntimeWiring.Builder queries = TypeRuntimeWiring.newTypeWiring("Query")
         queries.dataFetcher("allTasks") { e -> allTasks(e.getArgument("uncompletedOnly"))}
         queries.dataFetcher("taskById") { e -> taskById(e.getArgument("id")) }
+        queries.dataFetcher("weather") { e -> [temperature: 88] }
 
         TypeRuntimeWiring.Builder mutations = TypeRuntimeWiring.newTypeWiring("Mutation")
         mutations.dataFetcher("complete") {e -> setCompleted(e.getArgument("id"), true) }
