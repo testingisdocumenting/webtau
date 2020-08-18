@@ -19,7 +19,7 @@ package scenarios.graphql
 import org.testingisdocumenting.webtau.report.ReportDataProviders
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 
-class Report {
+class TestReport {
     static void generateReport(WebTauReport report) {
         def additionalData = [:]
         ReportDataProviders.provide(report.tests)
