@@ -37,7 +37,7 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "path based script run"() {
-        runCli('pathBasedScript.groovy', 'webtau-with-path.groovy')
+        runCli('pathBasedScript.groovy', 'webtau-with-path.cfg.groovy')
     }
 
     @Test
@@ -72,7 +72,7 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "background command auto kill"() {
-        runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.groovy')
+        runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg.groovy')
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
