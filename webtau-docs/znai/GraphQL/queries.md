@@ -1,4 +1,4 @@
-# Executing queries
+# Executing Queries
 
 WebTau follows GraphQL's [Serving over HTTP best practices](https://graphql.org/learn/serving-over-http/) when invoking
 GraphQL servers over HTTP.
@@ -10,12 +10,12 @@ Queries allow providing:
 * an operation name
 
 WebTau will default to issuing `POST` requests according to the [best practices](https://graphql.org/learn/serving-over-http/#post-request)
-and will expect a 200 status code and a response with `data` and `errors` fields.
+and will expect a 200 status code and a response with a `data` or `errors` field.
 
 The following example demonstrates most of these query features:
 :include-file: scenarios/graphql/queryAndMutation.groovy {title: "GraphQL example with a query, a mutation and variables", commentsType: "inline"}
 
-# Response assertions
+# Response Assertions
 
 Response assertions follow a similar pattern to REST APIs.
 

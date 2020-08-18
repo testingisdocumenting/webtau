@@ -22,6 +22,9 @@ To run test
 
 Url parameter can be moved to a `webtau.cfg.groovy` file.  Please note that WebTau will automatically append `/graphql` to the url.
 
+You may also wish to add a `graphQLEnabled = true` property which will result in WebTau recording coverage and timing information
+per query for your tests.
+
 :include-file: examples/graphql/webtau.cfg.groovy {title: "webtau.cfg.groovy"}
 
 [Specify multiple environments](configuration/environments) to streamline test execution.
@@ -47,7 +50,7 @@ Add `webtau.properties` to test class path
 
 :include-file: src/test/resources/webtau-graphql.properties {title: "webtau.properties"}
 
-# GraphQL specifics
+# GraphQL Specifics
 
 Before diving further into writing tests for your GraphQL server, please read through the REST testing documentation
 starting with the [Data node page](REST/data-node) as much of the same core principles apply to GraphQL also.

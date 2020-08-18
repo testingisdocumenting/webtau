@@ -30,7 +30,7 @@ mutation complete($id: ID!) {
 scenario("list all tasks") {
     graphql.execute(listAllQuery) { // Execute a simple query with no variables
         errors.should == null // Validate there were no errors
-        allTasks.id.should == ["a", "b", "c"] // Access response data via a shortcut allowing ommitting of `body.data`
+        allTasks.id.should == ["a", "b", "c"] // Access response data via a shortcut allowing omitting of `body.data`
         body.data.allTasks.id.should == ["a", "b", "c"]
     }
 }
