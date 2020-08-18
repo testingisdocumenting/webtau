@@ -24,6 +24,7 @@ class DefaultExamplesProvider implements ExamplesProvider {
     List<Example> provide() {
         return [
                 fromResource('todo', 'todolist.groovy'),
+                fromResource('graphql', 'introspection.groovy'),
         ]
     }
 
