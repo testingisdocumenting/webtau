@@ -218,6 +218,10 @@ public class WebTauConfig {
         return removeWebtauFromUserAgent;
     }
 
+    public ConfigValue getDocArtifactsPathConfigValue() {
+        return docPath;
+    }
+    
     public Path getDocArtifactsPath() {
         return getWorkingDir().resolve(docPath.getAsPath());
     }

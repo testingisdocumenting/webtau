@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.browser.documentation
 
-
+import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 import org.testingisdocumenting.webtau.browser.BrowserConfig
@@ -26,11 +26,18 @@ import java.nio.file.Paths
 import static org.testingisdocumenting.webtau.Matchers.code
 import static org.testingisdocumenting.webtau.Matchers.throwException
 import static org.testingisdocumenting.webtau.browser.Browser.browser
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class BrowserDocumentationTest {
     @BeforeClass
     static void init() {
         BrowserConfig.setHeadless(true)
+        cfg.getDocArtifactsPathConfigValue().set("test", "doc-artifacts")
+    }
+
+    @AfterClass
+    static void cleanUp() {
+        cfg.getDocArtifactsPathConfigValue().reset()
     }
 
     @Test

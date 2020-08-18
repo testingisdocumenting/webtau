@@ -10,3 +10,4 @@ webtau-report-*.html
 .webtau.cache.json
 .vertx
 todo.md
+doc-artifacts
