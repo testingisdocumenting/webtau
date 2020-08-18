@@ -20,9 +20,14 @@ type Task {
     completed: Boolean!
 }
 
+type Weather {
+    temperature: Int
+}
+
 type Query {
     allTasks(uncompletedOnly: Boolean = true): [Task]
     taskById(id: ID!): Task
+    weather: Weather
 }
 
 type Mutation {
