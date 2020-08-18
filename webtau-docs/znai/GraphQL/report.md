@@ -2,7 +2,7 @@
 
 To generate custom reports, or upload report data to your server, specify `reportGenerator` config property.
 
-:include-file: examples/scenarios/graphql/webtau-report.cfg {title: "webtau.cfg"}
+:include-file: examples/scenarios/graphql/webtau-report.cfg.groovy {title: "webtau.cfg.groovy"}
 
 Where `Report.&generateReport` is implemented as follows:
 

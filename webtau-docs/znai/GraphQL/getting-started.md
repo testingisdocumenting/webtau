@@ -20,9 +20,9 @@ To run test
 
 ## Groovy Config File
 
-Url parameter can be moved to a `webtau.cfg` file.  Please note that WebTau will automatically append `/graphql` to the url.
+Url parameter can be moved to a `webtau.cfg.groovy` file.  Please note that WebTau will automatically append `/graphql` to the url.
 
-:include-file: examples/graphql/webtau.cfg {title: "webtau.cfg"}
+:include-file: examples/graphql/webtau.cfg.groovy {title: "webtau.cfg.groovy"}
 
 [Specify multiple environments](configuration/environments) to streamline test execution.
 

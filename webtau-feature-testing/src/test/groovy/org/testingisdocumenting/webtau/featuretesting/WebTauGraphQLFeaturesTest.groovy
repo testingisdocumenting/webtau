@@ -66,12 +66,12 @@ class WebTauGraphQLFeaturesTest {
 
     @Test
     void "weather"() {
-        runCli("weatherQuery.groovy", "webtau-weather.cfg", "--url=${testRunner.testServer.uri}")
+        runCli("weatherQuery.groovy", "webtau-weather.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "sample report"() {
-        runCli("weatherQuery.groovy", "webtau-report.cfg", "--url=${testRunner.testServer.uri}")
+        runCli("weatherQuery.groovy", "webtau-report.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     private static void runCli(String graphQLTestName, String configFileName, String... additionalArgs) {
