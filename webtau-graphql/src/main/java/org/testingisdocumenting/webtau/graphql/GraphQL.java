@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau.graphql;
 
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
+import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
 
 import java.util.Map;
@@ -49,6 +51,10 @@ public class GraphQL {
 
     public <E> E execute(String query, HttpResponseValidatorWithReturn validator) {
         return execute(query, null, null, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, HttpResponseValidator validator) {
+        execute(query, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E execute(String query, Map<String, Object> variables, HttpResponseValidatorWithReturn validator) {

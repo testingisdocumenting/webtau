@@ -18,15 +18,24 @@
 package com.example.tests.junit4
 
 import com.example.tests.featuretest.JUnitFeatureTestRunner
+import graphql.schema.GraphQLSchema
+import org.testingisdocumenting.webtau.featuretesting.WebTauGraphQLFeaturesTestData
 import org.testingisdocumenting.webtau.featuretesting.WebTauRestFeaturesTestData
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
+import org.testingisdocumenting.webtau.http.testserver.GraphQLResponseHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 
+import java.nio.file.Paths
+
 class WebTauFeaturesJUnitTest {
-    private static final FixedResponsesHandler handler = new FixedResponsesHandler()
+    private static final FixedResponsesHandler restHandler = new FixedResponsesHandler()
+    private static final GraphQLSchema schema = WebTauGraphQLFeaturesTestData.getSchema(
+        Paths.get("..", "webtau-feature-testing", "examples","scenarios", "graphql", "schema.graphql")
+    )
+    private static final GraphQLResponseHandler handler = new GraphQLResponseHandler(schema, restHandler)
     private static final TestServer testServer = new TestServer(handler)
 
     private static final JUnitFeatureTestRunner testRunner = new JUnitFeatureTestRunner()
@@ -36,7 +45,7 @@ class WebTauFeaturesJUnitTest {
     @BeforeClass
     static void startServer() {
         testServer.startRandomPort()
-        WebTauRestFeaturesTestData.registerEndPoints(testServer, handler)
+        WebTauRestFeaturesTestData.registerEndPoints(testServer, restHandler)
     }
 
     @AfterClass
@@ -62,5 +71,15 @@ class WebTauFeaturesJUnitTest {
     @Test
     void todoListGroovyTest() {
         testRunner.runAndValidate(TodoListGroovyIT, TODO_BASE_URL)
+    }
+
+    @Test
+    void graphQLWeatherJavaTest() {
+        testRunner.runAndValidate(GraphQLWeatherJavaIT, testServer.uri.toString())
+    }
+
+    @Test
+    void graphQLWeatherGroovyTest() {
+        testRunner.runAndValidate(GraphQLWeatherGroovyIT, testServer.uri.toString())
     }
 }

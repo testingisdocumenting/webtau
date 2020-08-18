@@ -16,6 +16,10 @@ REST
     maven
     matchers
     test-execution
+GraphQL
+    getting-started
+    queries
+    report
 UI
     getting-started
     basic-configuration
