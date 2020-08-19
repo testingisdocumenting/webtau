@@ -28,10 +28,9 @@ import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.SessionStorage;
 import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.interactions.*;
+import org.testingisdocumenting.webtau.persona.Persona;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CurrentWebDriver implements
@@ -45,11 +44,11 @@ public class CurrentWebDriver implements
     public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
 
     private final AtomicBoolean wasUsed;
-    private final ThreadLocal<WebDriver> local;
+    private final ThreadLocal<Map<String, WebDriver>> local;
 
     private CurrentWebDriver() {
         wasUsed = new AtomicBoolean(false);
-        local = new ThreadLocal<>();
+        local = ThreadLocal.withInitial(HashMap::new);
         WebDriverCreatorListeners.add(this);
     }
 
@@ -91,7 +90,6 @@ public class CurrentWebDriver implements
     @Override
     public void quit() {
         WebDriverCreator.quit(getDriver());
-        local.set(null);
     }
 
     @Override
@@ -141,13 +139,17 @@ public class CurrentWebDriver implements
     private WebDriver getDriver() {
         wasUsed.set(true);
 
-        WebDriver webDriver = local.get();
+        Map<String, WebDriver> driverByPersonaId = local.get();
+
+        Persona currentPersona = Persona.getCurrentPersona();
+        WebDriver webDriver = driverByPersonaId.get(currentPersona.getId());
+
         if (webDriver != null) {
             return webDriver;
         }
 
         WebDriver newDriver = WebDriverCreator.create();
-        local.set(newDriver);
+        driverByPersonaId.put(currentPersona.getId(), newDriver);
 
         return newDriver;
     }
@@ -176,9 +178,8 @@ public class CurrentWebDriver implements
 
     @Override
     public void afterDriverQuit(WebDriver webDriver) {
-        if (local.get() == webDriver) {
-            local.set(null);
-        }
+        Map<String, WebDriver> driverByPersona = local.get();
+        driverByPersona.values().removeIf(driver -> driver == webDriver);
     }
 
     @Override
