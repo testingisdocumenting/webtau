@@ -19,10 +19,10 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static webtau.CliCommands.*
 
-def repl = createLazyResource { webtauCli.runInBackground("repl --noColor") }
+def repl = createLazyResource { webtauCli.runInBackground("repl --noColor testscripts/*.groovy") }
 
 scenario('simple groovy repl') {
-    repl.send("2 + 2\n")
+    repl << "2 + 2\n"
 
     repl.output.waitTo contain("4")
 
@@ -30,7 +30,7 @@ scenario('simple groovy repl') {
     repl.clearOutput()
     repl.output.shouldNot contain("4")
 
-    repl.send("cfg\n")
+    repl << "cfg\n"
     repl.output.waitTo contain("url:")
 }
 
@@ -44,4 +44,12 @@ scenario('http call') {
     cli.doc.capture('http-repl-output')
     fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
             'header.statusCode equals 200')
+}
+
+scenario('test listing') {
+    repl.clearOutput()
+    repl << "ls\n"
+    repl.output.waitTo contain('browserSanity.groovy')
+
+    cli.doc.capture('repl-tests-listing')
 }

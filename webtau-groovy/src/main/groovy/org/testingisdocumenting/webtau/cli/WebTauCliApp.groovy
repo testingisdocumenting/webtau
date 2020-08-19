@@ -101,6 +101,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
     void startRepl() {
         prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
+            runner.setRunBeforeFirstAndAfterAllOnlyOnce(true)
             def repl = new Repl(runner)
             repl.run()
         }

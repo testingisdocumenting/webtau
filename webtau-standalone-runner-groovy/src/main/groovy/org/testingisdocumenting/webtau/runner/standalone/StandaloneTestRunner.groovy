@@ -51,6 +51,10 @@ class StandaloneTestRunner {
         new TestRunCondition(isConditionMet: true)
     }
 
+    private boolean runBeforeFirstAndAfterAllOnlyOnce
+    private boolean isBeforeFirstRan
+    private boolean isAfterAllRan
+
     private WebTauReport report
 
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
@@ -90,6 +94,10 @@ class StandaloneTestRunner {
             scriptParse.test.metadata.add(currentTestMetadata.get())
             registeredTests.add(scriptParse)
         }
+    }
+
+    void setRunBeforeFirstAndAfterAllOnlyOnce(boolean runBeforeFirstAndAfterAllOnlyOnce) {
+        this.runBeforeFirstAndAfterAllOnlyOnce = runBeforeFirstAndAfterAllOnlyOnce
     }
 
     def attachTestMetadata(Map<String, Object> meta) {
@@ -199,6 +207,10 @@ class StandaloneTestRunner {
     }
 
     private void runBeforeFirstTestListenersAsTest() {
+        if (runBeforeFirstAndAfterAllOnlyOnce && isBeforeFirstRan) {
+            return
+        }
+
         def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
 
         handleTestAndNotifyListeners(beforeFirstTestAsTest) {
@@ -206,9 +218,15 @@ class StandaloneTestRunner {
         }
 
         registerIfFailedOrHasSteps(beforeFirstTestAsTest)
+
+        isBeforeFirstRan = true
     }
 
     private void runAfterAllTestListenersAsTest() {
+        if (runBeforeFirstAndAfterAllOnlyOnce && isAfterAllRan) {
+            return
+        }
+
         def afterAllTestsAsTest = createAfterAllTestListenersAsTest()
 
         handleTestAndNotifyListeners(afterAllTestsAsTest) {
@@ -216,6 +234,8 @@ class StandaloneTestRunner {
         }
 
         registerIfFailedOrHasSteps(afterAllTestsAsTest)
+
+        isAfterAllRan = true
     }
 
     private void registerIfFailedOrHasSteps(StandaloneTest test) {
