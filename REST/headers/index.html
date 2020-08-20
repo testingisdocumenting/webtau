@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Common Header</h1></header>
-<p>If each http request requires the same header you can specify that header using httpHeaderProvider . Common example is specifying authentication header. import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { ConsoleOutputs.out('auth header injection point') return original.merge([Authorization: 'Bearer &lt;token&gt;']) } } This removes implementation details from your tests and makes them less brittle.</p>
+<p>If each http request requires the same header you can specify that header using httpHeaderProvider . Common example is specifying authentication header. package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { ConsoleOutputs.out('auth header injection point') return original.merge([Authorization: 'Bearer &lt;token&gt;']) } } This removes implementation details from your tests and makes them less brittle.</p>
 </article>
 
 <article>
@@ -190,9 +190,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "cfg",
-        "snippet" : "import scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
-        "title" : "webtau.cfg",
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
+        "title" : "webtau.cfg.groovy",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -368,7 +368,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1597542284759,
+    "lastModifiedTime" : 1597944757738,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Headers",

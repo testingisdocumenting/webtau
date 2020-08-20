@@ -345,6 +345,55 @@ toc = [ {
     } ]
   } ]
 }, {
+  "sectionTitle" : "GraphQL",
+  "dirName" : "GraphQL",
+  "items" : [ {
+    "sectionTitle" : "GraphQL",
+    "pageTitle" : "Getting Started",
+    "pageMeta" : { },
+    "dirName" : "GraphQL",
+    "fileName" : "getting-started",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Installation Of Groovy Runner",
+      "id" : "installation-of-groovy-runner"
+    }, {
+      "title" : "Minimal Groovy Setup",
+      "id" : "minimal-groovy-setup"
+    }, {
+      "title" : "Minimal JUnit Setup",
+      "id" : "minimal-junit-setup"
+    }, {
+      "title" : "GraphQL Specifics",
+      "id" : "graphql-specifics"
+    } ]
+  }, {
+    "sectionTitle" : "GraphQL",
+    "pageTitle" : "Queries",
+    "pageMeta" : { },
+    "dirName" : "GraphQL",
+    "fileName" : "queries",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Executing Queries",
+      "id" : "executing-queries"
+    }, {
+      "title" : "Response Assertions",
+      "id" : "response-assertions"
+    } ]
+  }, {
+    "sectionTitle" : "GraphQL",
+    "pageTitle" : "Report",
+    "pageMeta" : { },
+    "dirName" : "GraphQL",
+    "fileName" : "report",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Additional Reports",
+      "id" : "additional-reports"
+    } ]
+  } ]
+}, {
   "sectionTitle" : "UI",
   "dirName" : "UI",
   "items" : [ {
@@ -477,6 +526,9 @@ toc = [ {
     }, {
       "title" : "Annotation Types",
       "id" : "annotation-types"
+    }, {
+      "title" : "Annotation Placement",
+      "id" : "annotation-placement"
     } ]
   }, {
     "sectionTitle" : "UI",

@@ -105,7 +105,7 @@
 
 <article>
 <header><h1>Additional Reports</h1></header>
-<p>To generate custom reports, or upload report data to your server, specify reportGenerator config property. import scenarios.rest.report.Report url = &quot;http://localhost:8080&quot; reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as following package scenarios.rest.report import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.console.ansi.Color import org.testingisdocumenting.webtau.reporter.WebTauReport import static org.testingisdocumenting.webtau.WebTauDsl.cfg class Report { static void generateReport(WebTauReport report) { def reportPath = cfg.workingDir.resolve('report.txt') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = report.tests.size() } }</p>
+<p>To generate custom reports or upload report data to your server, specify a reportGenerator config property. url = &quot;http://localhost:8080&quot; reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as following package scenarios.rest.report import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.console.ansi.Color import org.testingisdocumenting.webtau.reporter.WebTauReport import static org.testingisdocumenting.webtau.WebTauDsl.cfg class Report { static void generateReport(WebTauReport report) { def reportPath = cfg.workingDir.resolve('report.txt') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = report.tests.size() } }</p>
 </article>
 </section>
 </div>
@@ -165,7 +165,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-summary.png",
-        "timestamp" : 1597542617540,
+        "timestamp" : 1597945127959,
         "shapes" : [ ],
         "width" : 1200.0,
         "height" : 804.0,
@@ -184,7 +184,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary.png",
-        "timestamp" : 1597542617948,
+        "timestamp" : 1597945128283,
         "shapes" : [ ],
         "width" : 1200.0,
         "height" : 804.0,
@@ -213,7 +213,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "To generate custom reports, or upload report data to your server, specify ",
+          "text" : "To generate custom reports or upload report data to your server, specify a ",
           "type" : "SimpleText"
         }, {
           "code" : "reportGenerator",
@@ -223,9 +223,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "cfg",
-        "snippet" : "import scenarios.rest.report.Report\n\nurl = \"http://localhost:8080\"\n\nreportGenerator = Report.&generateReport",
-        "title" : "webtau.cfg",
+        "lang" : "groovy",
+        "snippet" : "url = \"http://localhost:8080\"\n\nreportGenerator = Report.&generateReport",
+        "title" : "webtau.cfg.groovy",
+        "excludeRegexp" : "package",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -246,7 +247,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1597542284759,
+    "lastModifiedTime" : 1597944757738,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Report",

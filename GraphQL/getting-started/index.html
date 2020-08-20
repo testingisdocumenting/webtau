@@ -84,7 +84,18 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.28/webtau-dist-1.28-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg.groovy file. url = &quot;https://jsonplaceholder.typicode.com/&quot; configuration/environments Specify multiple environments to streamline test execution. Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.28&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.28&lt;/version&gt; &lt;/dependency&gt; Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauDsl.* @RunWith(WebTauRunner) class TodoListGroovyIT { @Test void &quot;fetch todo item&quot;() { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class TodoListJavaIT { @Test public void fetchTodoItem() { http.get(&quot;/todos/1&quot;, (header, body) -&gt; { body.get(&quot;title&quot;).should(equal(&quot;delectus aut autem&quot;)); body.get(&quot;completed&quot;).should(equal(false)); }); } } Add webtau.properties to test class path url = https://jsonplaceholder.typicode.com/</p>
+<header><h1>Minimal Groovy Setup</h1></header>
+<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.28/webtau-dist-1.28-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into graphql example cd examples/graphql import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch types from schema') { def query = '{ __schema { types { name } } }' graphql.execute(query) { __schema.types.numberOfElements().shouldBe &gt; 0 } } To run test webtau introspection.groovy --url=http://localhost:8080 Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg.groovy file. Please note that WebTau will automatically append /graphql to the url.You may also wish to add a graphQLEnabled = true property which will result in WebTau recording coverage and timing information per query for your tests. url = &quot;http://localhost:8080/&quot; graphQLEnabled = true configuration/environments Specify multiple environments to streamline test execution.</p>
+</article>
+
+<article>
+<header><h1>Minimal JUnit Setup</h1></header>
+<p>Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.28&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.28&lt;/version&gt; &lt;/dependency&gt; Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class WeatherGroovyIT { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class WeatherJavaIT { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } Add webtau.properties to test class path url = http://localhost graphQLEnabled = true</p>
+</article>
+
+<article>
+<header><h1>GraphQL Specifics</h1></header>
+<p>Before diving further into writing tests for your GraphQL server, please read through the REST testing documentation starting with the REST/data-node Data node page as much of the same core principles apply to GraphQL also.The main GraphQL specific features are covered in the subsequent pages: GraphQL/queries Queries GraphQL/report Report</p>
 </article>
 </section>
 </div>
@@ -161,20 +172,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Navigate into ",
           "type" : "SimpleText"
         }, {
-          "code" : "todo",
+          "code" : "graphql",
           "type" : "InlinedCode"
         }, {
           "text" : " example",
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "cd examples/todo",
+        "command" : "cd examples/graphql",
         "paramsToHighlight" : [ ],
         "type" : "CliCommand"
       }, {
         "lang" : "groovy",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch todo item') {\n    http.get('/todos/1') {\n        title.should == 'delectus aut autem'\n        completed.should == false\n    }\n}",
-        "title" : "todolist.groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch types from schema') {\n    def query = '{ __schema { types { name } } }'\n    graphql.execute(query) {\n        __schema.types.numberOfElements().shouldBe > 0\n    }\n}",
+        "title" : "introspection.groovy",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -183,7 +194,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "webtau todolist.groovy --url=https://jsonplaceholder.typicode.com",
+        "command" : "webtau introspection.groovy --url=http://localhost:8080",
         "paramsToHighlight" : [ "url" ],
         "type" : "CliCommand"
       }, {
@@ -217,12 +228,35 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "webtau.cfg.groovy",
           "type" : "InlinedCode"
         }, {
-          "text" : " file.",
+          "text" : " file.  Please note that WebTau will automatically append ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/graphql",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to the url.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You may also wish to add a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "graphQLEnabled = true",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " property which will result in WebTau recording coverage and timing information",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "per query for your tests.",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "url = \"https://jsonplaceholder.typicode.com/\"",
+        "snippet" : "url = \"http://localhost:8080/\"\ngraphQLEnabled = true",
         "title" : "webtau.cfg.groovy",
         "type" : "Snippet"
       }, {
@@ -268,7 +302,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\n@RunWith(WebTauRunner)\nclass TodoListGroovyIT {\n    @Test\n    void \"fetch todo item\"() {\n        http.get('/todos/1') {\n            title.should == 'delectus aut autem'\n            completed.should == false\n        }\n    }\n}",
+            "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@RunWith(WebTauRunner.class)\nclass WeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
             "title" : "JUnit 4 example",
             "type" : "Snippet"
           } ]
@@ -276,7 +310,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class TodoListJavaIT {\n    @Test\n    public void fetchTodoItem() {\n        http.get(\"/todos/1\", (header, body) -> {\n            body.get(\"title\").should(equal(\"delectus aut autem\"));\n            body.get(\"completed\").should(equal(false));\n        });\n    }\n}",
+            "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class WeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
             "title" : "JUnit 4 example",
             "type" : "Snippet"
           } ]
@@ -301,17 +335,83 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "properties",
-        "snippet" : "url = https://jsonplaceholder.typicode.com/",
+        "snippet" : "url = http://localhost\ngraphQLEnabled = true",
         "title" : "webtau.properties",
         "type" : "Snippet"
       } ]
+    }, {
+      "title" : "GraphQL Specifics",
+      "id" : "graphql-specifics",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Before diving further into writing tests for your GraphQL server, please read through the REST testing documentation",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "starting with the ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/REST/data-node",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Data node page",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " as much of the same core principles apply to GraphQL also.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The main GraphQL specific features are covered in the subsequent pages:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "url" : "/webtau/GraphQL/queries",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Queries",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "url" : "/webtau/GraphQL/report",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Report",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      } ]
     } ],
-    "lastModifiedTime" : 1597944757738,
+    "lastModifiedTime" : 1597944757734,
     "tocItem" : {
-      "sectionTitle" : "REST",
+      "sectionTitle" : "GraphQL",
       "pageTitle" : "Getting Started",
       "pageMeta" : { },
-      "dirName" : "REST",
+      "dirName" : "GraphQL",
       "fileName" : "getting-started",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
@@ -323,6 +423,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Minimal JUnit Setup",
         "id" : "minimal-junit-setup"
+      }, {
+        "title" : "GraphQL Specifics",
+        "id" : "graphql-specifics"
       } ]
     }
   },

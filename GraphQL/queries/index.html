@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Queries</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Executing Queries</h1></header>
+<p>WebTau follows GraphQL's https://graphql.org/learn/serving-over-http/ Serving over HTTP best practices when invoking GraphQL servers over HTTP.It therefore assumes the server responds to requests to /graphql so you do not need to specify that in the URL in your configuration. Queries allow providing:a query stringvariablesan operation nameWebTau will default to issuing POST requests according to the https://graphql.org/learn/serving-over-http/#post-request best practices and will expect a 200 status code and a response with a data or errors field.The following example demonstrates most of these query features: package scenarios.graphql import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def listAllQuery = ''' { allTasks(uncompletedOnly: false) { id description } } ''' def taskByIdQuery = ''' query taskById($id: ID!) { taskById(id: $id) { id description completed } } ''' def completeMutation = ''' mutation complete($id: ID!) { complete(id: $id) } ''' scenario(&quot;list all tasks&quot;) { graphql.execute(listAllQuery) { // Execute a simple query with no variables errors.should == null // Validate there were no errors allTasks.id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] // Access response data via a shortcut allowing omitting of `body.data` body.data.allTasks.id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] } } scenario(&quot;complete a task&quot;) { graphql.execute(completeMutation, [id: &quot;a&quot;]) { // Execute a mutation with a variables map errors.should == null complete.should == true } graphql.execute(taskByIdQuery, [id: &quot;a&quot;]) { errors.should == null taskById.id.should == &quot;a&quot; taskById.completed.should == true } }</p>
+</article>
+
+<article>
+<header><h1>Response Assertions</h1></header>
+<p>Response assertions follow a similar pattern to REST APIs.For Groovy specifically, there are shortcuts for accessing data in the response directly as demonstrated in the example above. You may access errors directly via errors or fields in the response directly with the field names, omitting the data field.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Executing Queries",
+      "id" : "executing-queries",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau follows GraphQL's ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://graphql.org/learn/serving-over-http/",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Serving over HTTP best practices",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " when invoking",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "GraphQL servers over HTTP.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "It therefore assumes the server responds to requests to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/graphql",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " so you do not need to specify that in the URL in your configuration.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Queries allow providing:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a query string",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "variables",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "an operation name",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau will default to issuing ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "POST",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " requests according to the ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://graphql.org/learn/serving-over-http/#post-request",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "best practices",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "and will expect a 200 status code and a response with a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "errors",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " field.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The following example demonstrates most of these query features:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.graphql\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef listAllQuery = '''\n{\n    allTasks(uncompletedOnly: false) {\n        id\n        description\n    }\n}\n'''\n\ndef taskByIdQuery = '''\nquery taskById($id: ID!) {\n    taskById(id: $id) {\n        id\n        description\n        completed\n    }\n}\n'''\n\ndef completeMutation = '''\nmutation complete($id: ID!) {\n    complete(id: $id)\n}\n'''\n\nscenario(\"list all tasks\") {\n    graphql.execute(listAllQuery) { // Execute a simple query with no variables\n        errors.should == null // Validate there were no errors\n        allTasks.id.should == [\"a\", \"b\", \"c\"] // Access response data via a shortcut allowing omitting of `body.data`\n        body.data.allTasks.id.should == [\"a\", \"b\", \"c\"]\n    }\n}\n\nscenario(\"complete a task\") {\n    graphql.execute(completeMutation, [id: \"a\"]) { // Execute a mutation with a variables map\n        errors.should == null\n        complete.should == true\n    }\n\n    graphql.execute(taskByIdQuery, [id: \"a\"]) {\n        errors.should == null\n        taskById.id.should == \"a\"\n        taskById.completed.should == true\n    }\n}",
+        "title" : "GraphQL example with a query, a mutation and variables",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Response Assertions",
+      "id" : "response-assertions",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Response assertions follow a similar pattern to REST APIs.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "For Groovy specifically, there are shortcuts for accessing data in the response directly as demonstrated in the example above.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "You may access errors directly via ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "errors",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or fields in the response directly with the field names, omitting the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " field.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1597944757734,
+    "tocItem" : {
+      "sectionTitle" : "GraphQL",
+      "pageTitle" : "Queries",
+      "pageMeta" : { },
+      "dirName" : "GraphQL",
+      "fileName" : "queries",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Executing Queries",
+        "id" : "executing-queries"
+      }, {
+        "title" : "Response Assertions",
+        "id" : "response-assertions"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

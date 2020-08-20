@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Validation</h1></header>
-<p>Webtau supports validation of responses against an https://www.openapis.org/ OpenAPI specification. This feature can be enabled by specifying the openApiSpecUrl configuration option. This should be the URL to the specification against which to validate. url = &quot;http://localhost:8080&quot; openApiSpecUrl = 'api-spec.json'</p>
+<p>Webtau supports validation of responses against an https://www.openapis.org/ OpenAPI specification. This feature can be enabled by specifying the openApiSpecUrl configuration option. This should be the URL to the specification against which to validate. url = &quot;http://localhost:8080&quot; openApiSpecUrl = &quot;scenarios/rest/springboot/api-spec.json&quot;</p>
 </article>
 
 <article>
@@ -167,9 +167,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "cfg",
-        "snippet" : "url = \"http://localhost:8080\"\nopenApiSpecUrl = 'api-spec.json'",
+        "lang" : "groovy",
+        "snippet" : "url = \"http://localhost:8080\"\nopenApiSpecUrl = \"scenarios/rest/springboot/api-spec.json\"",
         "title" : "Configuration",
+        "excludeRegexp" : "docPath",
         "type" : "Snippet"
       } ]
     }, {
@@ -254,7 +255,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/img/rest-crud-openapi-spec-validation-error.png",
-        "timestamp" : 1597542284759,
+        "timestamp" : 1597944757738,
         "shapes" : [ ],
         "width" : 2242.0,
         "height" : 620.0,
@@ -315,7 +316,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1597542284759,
+    "lastModifiedTime" : 1597944757738,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "OpenAPI Spec",

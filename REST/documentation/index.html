@@ -95,12 +95,12 @@
 
 <article>
 <header><h1>Test Artifacts Location</h1></header>
-<p>By default, the directory will be created in the current working directory. To change it add docPath to your webtau.cfg file. url = &quot;http://localhost:8180&quot; docPath = &quot;doc-artifacts&quot;</p>
+<p>By default, the directory will be created in the current working directory. To change it add docPath to your webtau.cfg.groovy file. url = &quot;http://localhost:8180&quot; docPath = &quot;doc-artifacts&quot;</p>
 </article>
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:41411/params?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:38219/params?a=1&amp;b=text</p>
 </article>
 
 <article>
@@ -219,16 +219,17 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : " to your ",
           "type" : "SimpleText"
         }, {
-          "code" : "webtau.cfg",
+          "code" : "webtau.cfg.groovy",
           "type" : "InlinedCode"
         }, {
           "text" : " file.",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "cfg",
+        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8180\"\n\ndocPath = \"doc-artifacts\"",
-        "title" : "webtau.cfg",
+        "title" : "webtau.cfg.groovy",
+        "excludeRegexp" : "package",
         "type" : "Snippet"
       } ]
     }, {
@@ -419,7 +420,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "http://10.1.0.4:41411/params?a=1&b=text",
+        "snippet" : "http://10.1.0.4:38219/params?a=1&b=text",
         "title" : "request.fullurl.txt",
         "type" : "Snippet"
       } ]
@@ -459,7 +460,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1597542284759,
+    "lastModifiedTime" : 1597944757738,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Documentation",

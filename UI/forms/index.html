@@ -115,7 +115,7 @@
 
 <article>
 <header><h1>Custom Form Elements</h1></header>
-<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. import formHandlers.CustomInput url = &quot;http://localhost:8180&quot; pageElementGetSetValueHandlers = [CustomInput] package formHandlers import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}\t&quot;) } @Override Object getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
+<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('open forms') { browser.open('/special-forms') } scenario('get set custom based on registered handler') { def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' } package formHandlers import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}\t&quot;) } @Override Object getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
 </article>
 </section>
 </div>
@@ -324,8 +324,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "import formHandlers.CustomInput\n\nurl = \"http://localhost:8180\"\n\npageElementGetSetValueHandlers = [CustomInput]",
-        "title" : "webtau.cfg",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('open forms') {\n    browser.open('/special-forms')\n}\n\nscenario('get set custom based on registered handler') {\n    def customFormElement = $('#answer')\n\n    customFormElement.setValue('hello')\n    customFormElement.should == 'hello'\n}",
+        "title" : "webtau.cfg.groovy",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -334,7 +334,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1597542284759,
+    "lastModifiedTime" : 1597944757738,
     "tocItem" : {
       "sectionTitle" : "UI",
       "pageTitle" : "Forms",
