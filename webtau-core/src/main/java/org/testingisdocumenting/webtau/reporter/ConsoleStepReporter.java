@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.stream.Stream;
@@ -30,11 +31,17 @@ public class ConsoleStepReporter implements StepReporter {
         this.toAnsiConverter = toAnsiConverter;
     }
 
+    // TODO persona needs to be part of step itself so it can be properly displayed on web UI
+
     @Override
     public void onStepStart(TestStep step) {
-        ConsoleOutputs.out(Stream.concat(Stream.of(
-                createIndentation(step.getNumberOfParents()),
-                Color.YELLOW, "> "), toAnsiConverter.convert(step.getInProgressMessage()).stream()).toArray());
+        ConsoleOutputs.out(
+                Stream.concat(
+                        Stream.concat(
+                                Stream.of(createIndentation(step.getNumberOfParents()), Color.YELLOW, "> "),
+                                personaStream()),
+                        toAnsiConverter.convert(step.getInProgressMessage()).stream()
+                ).toArray());
     }
 
     @Override
@@ -50,7 +57,10 @@ public class ConsoleStepReporter implements StepReporter {
 
         ConsoleOutputs.out(
                 Stream.concat(
-                        Stream.concat(Stream.of(createIndentation(numberOfParents), Color.GREEN, ". "),
+                        Stream.concat(
+                                Stream.concat(
+                                        Stream.of(createIndentation(numberOfParents), Color.GREEN, ". "),
+                                        personaStream()),
                                 toAnsiConverter.convert(completionMessageToUse).stream()),
                         Stream.of(Color.YELLOW, " (", Color.GREEN, renderTimeTaken(step), Color.YELLOW, ')')).toArray());
     }
@@ -59,17 +69,19 @@ public class ConsoleStepReporter implements StepReporter {
     public void onStepFailure(TestStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
 
-        ConsoleOutputs.out(Stream.concat(Stream.of(
-                createIndentation(step.getNumberOfParents()),
-                Color.RED, "X "),
-                toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
+        ConsoleOutputs.out(
+                Stream.concat(
+                        Stream.concat(
+                                Stream.of(createIndentation(step.getNumberOfParents()), Color.RED, "X "),
+                                personaStream()),
+                        toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
     }
 
     private String renderTimeTaken(TestStep step) {
         long seconds = step.getElapsedTime() / 1000;
         long millisLeft = step.getElapsedTime() % 1000;
 
-        return (seconds > 0 ? seconds + "s ": "") +
+        return (seconds > 0 ? seconds + "s " : "") +
                 millisLeft + "ms";
     }
 
@@ -91,6 +103,15 @@ public class ConsoleStepReporter implements StepReporter {
 
         return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
                 .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken()));
+    }
+
+    private Stream<Object> personaStream() {
+        Persona persona = Persona.getCurrentPersona();
+        if (persona.isDefault()) {
+            return Stream.empty();
+        }
+
+        return Stream.of(Color.YELLOW, persona.getId(), " ", Color.RESET);
     }
 
     private MessageToken reAlignText(int indentLevel, MessageToken token) {

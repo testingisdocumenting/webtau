@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.persona
 import java.util.function.Supplier
 
 class PersonaExtensions {
-    static <R> R call(Persona persona, Closure code) {
+    static <R> R call(Persona persona, Closure<?> code) {
         return persona.execute(code as Supplier<R>)
     }
 }

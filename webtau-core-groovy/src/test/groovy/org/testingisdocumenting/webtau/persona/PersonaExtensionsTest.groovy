@@ -24,16 +24,21 @@ import static org.testingisdocumenting.webtau.Matchers.throwException
 class PersonaExtensionsTest {
     @Test
     void "should support implicit closure call"() {
+        def traces = []
         def Bob = new Persona("Bob")
         def John = new Persona("John")
 
         John {
-            Persona.currentPersona.id.should == 'John'
+            Persona.currentPersona.id.should == "John"
+            traces.add(Persona.currentPersona.id)
         }
 
         Bob {
-            Persona.currentPersona.id.should == 'Bob'
+            Persona.currentPersona.id.should == "Bob"
+            traces.add(Persona.currentPersona.id)
         }
+        
+        traces.should == ["John", "Bob"]
     }
 
     @Test
@@ -56,10 +61,10 @@ class PersonaExtensionsTest {
         code {
             John {
                 Bob {
-                    Persona.currentPersona.id.should == 'John'
+                    Persona.currentPersona.id.should == "John"
                 }
             }
-        } should throwException('nesting personas is not allowed, active persona id: John, ' +
-                'attempted to nest persona id: Bob')
+        } should throwException("nesting personas is not allowed, active persona id: John, " +
+                "attempted to nest persona id: Bob")
     }
 }
