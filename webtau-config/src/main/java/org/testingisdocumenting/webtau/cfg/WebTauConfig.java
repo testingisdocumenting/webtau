@@ -74,6 +74,8 @@ public class WebTauConfig {
 
     private final List<ConfigValue> freeFormCfgValues = new ArrayList<>();
 
+    private static final WebTauConfigHandler coreConfigHandler = new WebTauCoreConfigHandler();
+
     public static WebTauConfig getCfg() {
         return CfgInstanceHolder.INSTANCE;
     }
@@ -106,7 +108,7 @@ public class WebTauConfig {
     }
 
     public void triggerConfigHandlers() {
-        handlers.forEach(h -> h.onBeforeCreate(this));
+        registeredHandlersAndCore().forEach(h -> h.onBeforeCreate(this));
 
         Map<String, ?> envVarValues = envVarsAsMap();
         acceptConfigValues("environment variable", envVarValues);
@@ -114,7 +116,7 @@ public class WebTauConfig {
 
         acceptConfigValues("system property", systemPropsAsMap());
 
-        handlers.forEach(h -> h.onAfterCreate(this));
+        registeredHandlersAndCore().forEach(h -> h.onAfterCreate(this));
     }
 
     public Stream<ConfigValue> getEnumeratedCfgValuesStream() {
@@ -301,6 +303,10 @@ public class WebTauConfig {
         );
     }
 
+    private Stream<WebTauConfigHandler> registeredHandlersAndCore() {
+        return Stream.concat(handlers.stream(), Stream.of(coreConfigHandler));
+    }
+
     private void registerFreeFormCfgValues(Map<String, ?> values) {
         Stream<String> keys = values.keySet().stream()
                 .filter(k -> noConfigValuePresent(enumeratedCfgValues.values(), k));
@@ -376,9 +382,6 @@ public class WebTauConfig {
     }
 
     private static List<WebTauConfigHandler> discoverConfigHandlers() {
-        List<WebTauConfigHandler> handlers = ServiceLoaderUtils.load(WebTauConfigHandler.class);
-        handlers.add(new WebTauCoreConfigHandler());
-
-        return handlers;
+        return ServiceLoaderUtils.load(WebTauConfigHandler.class);
     }
 }
