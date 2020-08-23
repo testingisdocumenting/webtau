@@ -24,4 +24,6 @@ scenario("multiple browsers for search") {
         browser.close()
         search.submit('new search')
     }
+
+    search.box.should == "search this"
 }

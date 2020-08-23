@@ -32,9 +32,13 @@ public class ConsoleStepReporter implements StepReporter {
 
     @Override
     public void onStepStart(TestStep step) {
-        ConsoleOutputs.out(Stream.concat(Stream.of(
-                createIndentation(step.getNumberOfParents()),
-                Color.YELLOW, "> "), toAnsiConverter.convert(step.getInProgressMessage()).stream()).toArray());
+        ConsoleOutputs.out(
+                Stream.concat(
+                        Stream.concat(
+                                Stream.of(createIndentation(step.getNumberOfParents()), Color.YELLOW, "> "),
+                                personaStream(step)),
+                        toAnsiConverter.convert(step.getInProgressMessage()).stream()
+                ).toArray());
     }
 
     @Override
@@ -50,7 +54,10 @@ public class ConsoleStepReporter implements StepReporter {
 
         ConsoleOutputs.out(
                 Stream.concat(
-                        Stream.concat(Stream.of(createIndentation(numberOfParents), Color.GREEN, ". "),
+                        Stream.concat(
+                                Stream.concat(
+                                        Stream.of(createIndentation(numberOfParents), Color.GREEN, ". "),
+                                        personaStream(step)),
                                 toAnsiConverter.convert(completionMessageToUse).stream()),
                         Stream.of(Color.YELLOW, " (", Color.GREEN, renderTimeTaken(step), Color.YELLOW, ')')).toArray());
     }
@@ -59,17 +66,19 @@ public class ConsoleStepReporter implements StepReporter {
     public void onStepFailure(TestStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
 
-        ConsoleOutputs.out(Stream.concat(Stream.of(
-                createIndentation(step.getNumberOfParents()),
-                Color.RED, "X "),
-                toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
+        ConsoleOutputs.out(
+                Stream.concat(
+                        Stream.concat(
+                                Stream.of(createIndentation(step.getNumberOfParents()), Color.RED, "X "),
+                                personaStream(step)),
+                        toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
     }
 
     private String renderTimeTaken(TestStep step) {
         long seconds = step.getElapsedTime() / 1000;
         long millisLeft = step.getElapsedTime() % 1000;
 
-        return (seconds > 0 ? seconds + "s ": "") +
+        return (seconds > 0 ? seconds + "s " : "") +
                 millisLeft + "ms";
     }
 
@@ -91,6 +100,14 @@ public class ConsoleStepReporter implements StepReporter {
 
         return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
                 .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken()));
+    }
+
+    private Stream<Object> personaStream(TestStep step) {
+        if (step.getPersonaId().isEmpty()) {
+            return Stream.empty();
+        }
+
+        return Stream.of(Color.YELLOW, step.getPersonaId(), " ", Color.RESET);
     }
 
     private MessageToken reAlignText(int indentLevel, MessageToken token) {

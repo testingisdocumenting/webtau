@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import static java.util.stream.Collectors.toList;
 
 public class TestStep {
     private final Object context;
+    private final String personaId;
 
     private final TokenizedMessage inProgressMessage;
     private final Function<Object, TokenizedMessage> completionMessageFunc;
@@ -166,6 +168,7 @@ public class TestStep {
                      Function<Object, TokenizedMessage> completionMessageFunc,
                      Supplier<Object> action) {
         this.context = context;
+        this.personaId = Persona.getCurrentPersona().getId();
         this.startTime = startTime;
         this.children = new ArrayList<>();
         this.inProgressMessage = inProgressMessage;
@@ -242,6 +245,10 @@ public class TestStep {
         }
 
         return result;
+    }
+
+    public String getPersonaId() {
+        return personaId;
     }
 
     public boolean isSuccessful() {
