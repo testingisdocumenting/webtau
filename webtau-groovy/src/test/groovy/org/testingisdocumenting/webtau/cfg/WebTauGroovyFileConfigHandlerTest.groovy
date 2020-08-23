@@ -105,7 +105,7 @@ class WebTauGroovyFileConfigHandlerTest {
     }
 
     private static WebTauConfig createNestedConfig() {
-        return createConfigFromFile('src/test/resources/webtau-nested.groovy')
+        return createConfigFromFile('src/test/resources/webtau-nested.cfg.groovy')
     }
 
     private static WebTauConfig createConfigFromFile(String filePath) {

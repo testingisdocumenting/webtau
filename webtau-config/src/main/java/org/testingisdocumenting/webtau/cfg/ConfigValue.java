@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +19,7 @@ package org.testingisdocumenting.webtau.cfg;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.Deque;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -31,41 +27,50 @@ public class ConfigValue {
     static final String ENV_VAR_PREFIX = "WEBTAU_";
     private static final String CAMEL_CASE_PATTERN = "([a-z])([A-Z]+)";
 
-    private String key;
-    private String prefixedUpperCaseKey;
-    private Supplier<Object> defaultValueSupplier;
-    private String description;
+    private final String key;
+    private final String prefixedUpperCaseKey;
+    private final Supplier<Object> defaultValueSupplier;
+    private final String description;
 
-    private Deque<Value> values;
+    private final Map<String, Deque<Value>> valuesPerPersonaId;
 
-    private boolean isBoolean;
+    private final boolean isBoolean;
 
     public static ConfigValue declare(String key, String description, Supplier<Object> defaultValueSupplier) {
-        return new ConfigValue(key,  description,null, null, false, defaultValueSupplier);
+        return new ConfigValue(key, description, false, defaultValueSupplier);
     }
 
     public static ConfigValue declareBoolean(String key, String description) {
-        return new ConfigValue(key,  description,null, null, true, () -> false);
+        return new ConfigValue(key, description, true, () -> false);
     }
 
-    private ConfigValue(String key, String description, String sourceId, Object value, boolean isBoolean, Supplier<Object> defaultValueSupplier) {
+    private ConfigValue(String key, String description, boolean isBoolean, Supplier<Object> defaultValueSupplier) {
         this.key = key;
         this.prefixedUpperCaseKey = ENV_VAR_PREFIX + convertToSnakeCase(key);
         this.description = description;
-        this.values = new ArrayDeque<>();
         this.isBoolean = isBoolean;
         this.defaultValueSupplier = defaultValueSupplier;
+
+        this.valuesPerPersonaId = new HashMap<>();
+        reset();
     }
 
     public void set(String source, Object value) {
+        Deque<Value> values = defaultPersonaValues();
+        values.addFirst(new Value(source, value));
+    }
+
+    public void set(String source, String personaId, Object value) {
+        Deque<Value> values = personaValues(personaId);
         values.addFirst(new Value(source, value));
     }
 
     public void reset() {
-        values.clear();
+        valuesPerPersonaId.clear();
+        valuesPerPersonaId.put("", new ArrayDeque<>());
     }
 
-    public void accept(String source, Map configValues) {
+    public void accept(String source, Map<String, ?> configValues) {
         if (configValues.containsKey(key)) {
             set(source, configValues.get(key));
         } else if (configValues.containsKey(prefixedUpperCaseKey)) {
@@ -90,13 +95,13 @@ public class ConfigValue {
     }
 
     public String getSource() {
-        return (isDefault() ? "default" : values.getFirst().getSourceId());
+        return (isDefault() ? "default" : defaultPersonaValues().getFirst().getSourceId());
     }
 
     public List<String> getSources() {
         return (isDefault() ?
                 Collections.singletonList("default") :
-                values.stream().map(Value::getSourceId).collect(Collectors.toList()));
+                defaultPersonaValues().stream().map(Value::getSourceId).collect(Collectors.toList()));
     }
 
     public boolean isBoolean() {
@@ -105,7 +110,7 @@ public class ConfigValue {
 
     public Object getAsObject() {
         return isDefault() ? defaultValueSupplier.get():
-                values.getFirst().getValue();
+                defaultPersonaValues().getFirst().getValue();
     }
 
     public String getAsString() {
@@ -124,7 +129,7 @@ public class ConfigValue {
         Object first = getAsObject();
         return first instanceof Integer ?
                 (int) first :
-                Integer.valueOf(first.toString());
+                Integer.parseInt(first.toString());
     }
 
     public boolean getAsBoolean() {
@@ -136,13 +141,14 @@ public class ConfigValue {
         return first.toString().toLowerCase().equals("true");
     }
 
+    @SuppressWarnings("unchecked")
     public <T> List<T> getAsList() {
         return (List<T>) getAsObject();
     }
 
     @Override
     public String toString() {
-        return key + ": " + values.stream().map(Value::toString).collect(Collectors.joining(", "));
+        return valuesPerPersonaId.keySet().stream().map(this::renderPersonaValues).collect(Collectors.joining("\n"));
     }
 
     public Map<String, Object> toMap() {
@@ -155,7 +161,7 @@ public class ConfigValue {
     }
 
     public boolean isDefault() {
-        return values.isEmpty();
+        return defaultPersonaValues().isEmpty();
     }
 
     public boolean nonDefault() {
@@ -164,6 +170,13 @@ public class ConfigValue {
 
     public Object getDefaultValue() {
         return defaultValueSupplier.get();
+    }
+
+    private String renderPersonaValues(String personaId) {
+        String title = personaId.isEmpty() ? "" : "persona " + personaId + ":\n";
+        return title + key + ": " + defaultPersonaValues().stream()
+                .map(Value::toString)
+                .collect(Collectors.joining(", "));
     }
 
     private String convertToString(Object value) {
@@ -175,9 +188,23 @@ public class ConfigValue {
                 .toUpperCase();
     }
 
+    private Deque<Value> defaultPersonaValues() {
+        return valuesPerPersonaId.get("");
+    }
+
+    private Deque<Value> personaValues(String personaId) {
+        Deque<Value> values = valuesPerPersonaId.get(personaId);
+        if (values == null) {
+            values = new ArrayDeque<>();
+            valuesPerPersonaId.put(personaId, values);
+        }
+
+        return values;
+    }
+
     private static class Value {
-        private String sourceId;
-        private Object value;
+        private final String sourceId;
+        private final Object value;
 
         public Value(String sourceId, Object value) {
             this.sourceId = sourceId;
