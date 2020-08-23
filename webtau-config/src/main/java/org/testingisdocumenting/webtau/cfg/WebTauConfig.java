@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.cfg;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
@@ -32,6 +33,7 @@ import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
+import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
 
 public class WebTauConfig {
     private static final String SOURCE_MANUAL = "manual";
@@ -48,7 +50,7 @@ public class WebTauConfig {
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
-    private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000);
+    private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls");
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
@@ -61,7 +63,7 @@ public class WebTauConfig {
             () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
 
     private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
-            "artifacts for documentation", workingDir::getAsPath);
+            "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
@@ -71,6 +73,8 @@ public class WebTauConfig {
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
     private final List<ConfigValue> freeFormCfgValues = new ArrayList<>();
+
+    private static final WebTauConfigHandler coreConfigHandler = new WebTauCoreConfigHandler();
 
     public static WebTauConfig getCfg() {
         return CfgInstanceHolder.INSTANCE;
@@ -104,7 +108,7 @@ public class WebTauConfig {
     }
 
     public void triggerConfigHandlers() {
-        handlers.forEach(h -> h.onBeforeCreate(this));
+        registeredHandlersAndCore().forEach(h -> h.onBeforeCreate(this));
 
         Map<String, ?> envVarValues = envVarsAsMap();
         acceptConfigValues("environment variable", envVarValues);
@@ -112,7 +116,7 @@ public class WebTauConfig {
 
         acceptConfigValues("system property", systemPropsAsMap());
 
-        handlers.forEach(h -> h.onAfterCreate(this));
+        registeredHandlersAndCore().forEach(h -> h.onAfterCreate(this));
     }
 
     public Stream<ConfigValue> getEnumeratedCfgValuesStream() {
@@ -297,6 +301,10 @@ public class WebTauConfig {
                             FontStyle.NORMAL, " // from ", v.getSource());
                 }
         );
+    }
+
+    private Stream<WebTauConfigHandler> registeredHandlersAndCore() {
+        return Stream.concat(handlers.stream(), Stream.of(coreConfigHandler));
     }
 
     private void registerFreeFormCfgValues(Map<String, ?> values) {

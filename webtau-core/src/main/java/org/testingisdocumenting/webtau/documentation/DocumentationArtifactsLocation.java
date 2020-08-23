@@ -23,6 +23,8 @@ import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DocumentationArtifactsLocation {
+    public static final String DEFAULT_DOC_ARTIFACTS_DIR_NAME = "doc-artifacts";
+
     private static final AtomicReference<Path> root = new AtomicReference<>(getInitialRoot());
 
     public static void setRoot(Path newRoot) {
@@ -47,6 +49,6 @@ public class DocumentationArtifactsLocation {
 
     private static Path getInitialRoot() {
         String property = System.getProperty("documentation.artifacts.root");
-        return property == null ? Paths.get("doc-artifacts") : Paths.get(property);
+        return property == null ? Paths.get(DEFAULT_DOC_ARTIFACTS_DIR_NAME) : Paths.get(property);
     }
 }
