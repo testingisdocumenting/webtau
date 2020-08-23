@@ -49,16 +49,64 @@ public class GraphQL {
         coverage = new GraphQLCoverage(schema);
     }
 
-    public <E> E execute(String query, HttpResponseValidatorWithReturn validator) {
-        return execute(query, null, null, HttpHeader.EMPTY, validator);
-    }
-
     public void execute(String query, HttpResponseValidator validator) {
         execute(query, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
+    public <E> E execute(String query, HttpResponseValidatorWithReturn validator) {
+        return execute(query, null, null, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, HttpHeader header, HttpResponseValidator validator) {
+        execute(query, null, null, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E execute(String query, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return execute(query, null, null, header, validator);
+    }
+
+    public void execute(String query, String operationName, HttpResponseValidator validator) {
+        execute(query, null, operationName, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E execute(String query, String operationName, HttpResponseValidatorWithReturn validator) {
+        return execute(query, null, operationName, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, String operationName, HttpHeader header, HttpResponseValidator validator) {
+        execute(query, null, operationName, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E execute(String query, String operationName, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return execute(query, null, operationName, header, validator);
+    }
+
+    public void execute(String query, Map<String, Object> variables, HttpResponseValidator validator) {
+        execute(query, variables, null, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public <E> E execute(String query, Map<String, Object> variables, HttpResponseValidatorWithReturn validator) {
         return execute(query, variables, null, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, Map<String, Object> variables, HttpHeader header, HttpResponseValidator validator) {
+        execute(query, variables, null, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E execute(String query, Map<String, Object> variables, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return execute(query, variables, null, header, validator);
+    }
+
+    public void execute(String query, Map<String, Object> variables, String operationName, HttpResponseValidator validator) {
+        execute(query, variables, operationName, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpResponseValidatorWithReturn validator) {
+        return execute(query, variables, operationName, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidator validator) {
+        execute(query, variables, operationName, header, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidatorWithReturn validator) {
