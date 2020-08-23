@@ -60,7 +60,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
-//        AnsiConsole.systemInstall()
+        AnsiConsole.systemInstall()
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
