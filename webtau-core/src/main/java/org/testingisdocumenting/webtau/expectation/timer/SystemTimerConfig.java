@@ -17,9 +17,14 @@
 
 package org.testingisdocumenting.webtau.expectation.timer;
 
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-
 public class SystemTimerConfig implements ExpectationTimerConfig {
+    public static int DEFAULT_WAIT_TIMEOUT = 5000;
+    private static int waitTimeout = DEFAULT_WAIT_TIMEOUT;
+
+    public static void setWaitTimeout(int waitTimeout) {
+        SystemTimerConfig.waitTimeout = waitTimeout;
+    }
+
     @Override
     public ExpectationTimer createExpectationTimer() {
         return new SystemTimeExpectationTimer();
@@ -27,7 +32,7 @@ public class SystemTimerConfig implements ExpectationTimerConfig {
 
     @Override
     public long defaultTimeoutMillis() {
-        return getCfg().waitTimeout();
+        return waitTimeout;
     }
 
     @Override
