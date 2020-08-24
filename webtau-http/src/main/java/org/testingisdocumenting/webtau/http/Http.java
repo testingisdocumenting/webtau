@@ -790,7 +790,7 @@ public class Http {
         return new HttpHeader(CollectionUtils.aMapOf((Object[]) properties));
     }
 
-    public HttpHeader header(Map<String, String> properties) {
+    public HttpHeader header(Map<String, CharSequence> properties) {
         return new HttpHeader(properties);
     }
 
