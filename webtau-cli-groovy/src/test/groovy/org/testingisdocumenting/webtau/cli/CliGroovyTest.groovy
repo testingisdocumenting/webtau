@@ -38,4 +38,20 @@ class CliGroovyTest {
             }
         }
     }
+
+    @Test
+    void "env vars using gstring"() {
+        def token = 'A'
+        supportedPlatformOnly {
+            cli.run("scripts/hello", cli.env([NAME: "Java ${token}"])) {
+                exitCode.should(equal(5))
+                output.should(contain("hello world Java A"))
+            }
+
+            cli.run("scripts/hello", cli.env("NAME", "Java ${token}")) {
+                exitCode.should(equal(5))
+                output.should(contain("hello world Java A"))
+            }
+        }
+    }
 }
