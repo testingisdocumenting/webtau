@@ -53,11 +53,11 @@ class QueryRunnerUtils {
         }
     }
 
-    static void runUpdate(DataSource dataSource, String query) {
+    static int runUpdate(DataSource dataSource, String query) {
         QueryRunner run = new QueryRunner(dataSource);
 
         try {
-            run.update(query);
+            return run.update(query);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
