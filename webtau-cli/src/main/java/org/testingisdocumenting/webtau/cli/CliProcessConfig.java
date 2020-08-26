@@ -31,8 +31,10 @@ class CliProcessConfig {
     private Map<String, String> env;
     private File workingDir;
 
-    public CliProcessConfig env(Map<String, String> env) {
-        this.env = new HashMap<>(env);
+    public CliProcessConfig env(Map<String, CharSequence> env) {
+        this.env = new HashMap<>();
+        env.forEach((k, v) -> this.env.put(k, v.toString()));
+
         return this;
     }
 

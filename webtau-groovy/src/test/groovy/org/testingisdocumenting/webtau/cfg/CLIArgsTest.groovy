@@ -40,7 +40,7 @@ class CLIArgsTest {
                 if (it.name == 'workingDir') {
                     it.'default value'.should == ""
                 } else if (it.name == 'docPath') {
-                    it.'default value'.should == '${workingDir}'
+                    it.'default value'.should == '${workingDir}/doc-artifacts'
                 }
             }
 

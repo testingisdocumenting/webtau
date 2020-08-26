@@ -35,11 +35,11 @@ public class Cli {
     private Cli() {
     }
 
-    public CliProcessConfig env(Map<String, String> env) {
+    public CliProcessConfig env(Map<String, CharSequence> env) {
         return new CliProcessConfig().env(env);
     }
 
-    public CliProcessConfig env(String... keyValue) {
+    public CliProcessConfig env(CharSequence... keyValue) {
         return new CliProcessConfig().env(CollectionUtils.aMapOf((Object[]) keyValue));
     }
 

@@ -26,28 +26,28 @@ class ConfigValueTest {
         configValue.set("config-file", "file value")
         configValue.set("command-line", "command line")
 
-        assert configValue.getAsString() == "command line"
+        configValue.getAsString().should == "command line"
     }
 
     @Test
     void "converts string value true to boolean true"() {
         def configValue = ConfigValue.declare("headless", "headless", { -> false })
-        assert !configValue.getAsBoolean()
+        configValue.getAsBoolean().should == false
 
         configValue.set("command-line", "True")
-        assert configValue.getAsBoolean()
+        configValue.getAsBoolean().should == true
 
         configValue.set("another", "true")
-        assert configValue.getAsBoolean()
+        configValue.getAsBoolean().should == true
     }
 
     @Test
     void "initialize its value by looking through provided map of values using original and prefixed uppercase key"() {
         def configValue = ConfigValue.declare("pathToThat", "path", null)
         configValue.accept("env vars", [dummy: 1, WEBTAU_PATH_TO_THAT: "path1"])
-        assert configValue.getAsString() == "path1"
+        configValue.getAsString().should == "path1"
 
         configValue.accept("command line", [dummy: 1, pathToThat: "path2"])
-        assert configValue.getAsString() == "path2"
+        configValue.getAsString().should == "path2"
     }
 }
