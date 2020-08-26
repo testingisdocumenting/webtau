@@ -16,17 +16,14 @@
 
 package org.testingisdocumenting.webtau.data.csv;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.CsvUtils;
-import org.testingisdocumenting.webtau.utils.FileUtils;
-import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static org.testingisdocumenting.webtau.utils.ResourceUtils.textContent;
 
 public class DataCsv {
     public TableData table(String fileOrResourcePath) {
@@ -68,21 +65,5 @@ public class DataCsv {
         });
 
         return result;
-    }
-
-    private String textContent(String fileOrResourcePath) {
-        Path filePath = WebTauConfig.getCfg().getWorkingDir().resolve(fileOrResourcePath);
-
-        boolean hasResource = ResourceUtils.hasResource(fileOrResourcePath);
-        boolean hasFile = Files.exists(filePath);
-
-        if (!hasResource && !hasFile) {
-            throw new IllegalArgumentException("Can't find resource \"" + fileOrResourcePath + "\" or " +
-                    "file \"" + filePath.toAbsolutePath() + "\"");
-        }
-
-        return hasResource ?
-                ResourceUtils.textContent(fileOrResourcePath) :
-                FileUtils.fileTextContent(filePath);
     }
 }
