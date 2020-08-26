@@ -31,6 +31,7 @@ public class GraphQL {
     public static final GraphQL graphql = new GraphQL();
 
     static final String GRAPHQL_URL = "/graphql";
+    private static final HttpResponseValidatorWithReturn EMPTY_RESPONSE_VALIDATOR = (header, body) -> null;
     private static final int SUCCESS_CODE = 200;
 
     private static GraphQLSchema schema;
@@ -49,12 +50,20 @@ public class GraphQL {
         coverage = new GraphQLCoverage(schema);
     }
 
+    public void execute(String query) {
+        execute(query, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void execute(String query, HttpResponseValidator validator) {
         execute(query, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E execute(String query, HttpResponseValidatorWithReturn validator) {
         return execute(query, null, null, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, HttpHeader header) {
+        execute(query, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void execute(String query, HttpHeader header, HttpResponseValidator validator) {
@@ -65,12 +74,20 @@ public class GraphQL {
         return execute(query, null, null, header, validator);
     }
 
+    public void execute(String query, String operationName) {
+        execute(query, operationName, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void execute(String query, String operationName, HttpResponseValidator validator) {
         execute(query, null, operationName, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E execute(String query, String operationName, HttpResponseValidatorWithReturn validator) {
         return execute(query, null, operationName, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, String operationName, HttpHeader header) {
+        execute(query, operationName, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void execute(String query, String operationName, HttpHeader header, HttpResponseValidator validator) {
@@ -81,12 +98,20 @@ public class GraphQL {
         return execute(query, null, operationName, header, validator);
     }
 
+    public void execute(String query, Map<String, Object> variables) {
+        execute(query, variables, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void execute(String query, Map<String, Object> variables, HttpResponseValidator validator) {
         execute(query, variables, null, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E execute(String query, Map<String, Object> variables, HttpResponseValidatorWithReturn validator) {
         return execute(query, variables, null, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, Map<String, Object> variables, HttpHeader header) {
+        execute(query, variables, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void execute(String query, Map<String, Object> variables, HttpHeader header, HttpResponseValidator validator) {
@@ -97,12 +122,20 @@ public class GraphQL {
         return execute(query, variables, null, header, validator);
     }
 
+    public void execute(String query, Map<String, Object> variables, String operationName) {
+        execute(query, variables, operationName, EMPTY_RESPONSE_VALIDATOR);
+    }
+
     public void execute(String query, Map<String, Object> variables, String operationName, HttpResponseValidator validator) {
         execute(query, variables, operationName, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
     public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpResponseValidatorWithReturn validator) {
         return execute(query, variables, operationName, HttpHeader.EMPTY, validator);
+    }
+
+    public void execute(String query, Map<String, Object> variables, String operationName, HttpHeader header) {
+        execute(query, variables, operationName, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidator validator) {
