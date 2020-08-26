@@ -27,7 +27,7 @@ public class DataContentUtils {
     private DataContentUtils() {
     }
 
-    public static String textContent(String fileOrResourcePath) {
+    public static String dataTextContent(String fileOrResourcePath) {
         Path filePath = WebTauConfig.getCfg().getWorkingDir().resolve(fileOrResourcePath);
 
         boolean hasResource = ResourceUtils.hasResource(fileOrResourcePath);

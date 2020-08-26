@@ -24,14 +24,14 @@ import java.util.Map;
 
 public class DataJson {
     public Map<String, ?> map(String fileOrResourcePath) {
-        return JsonUtils.deserializeAsMap(DataContentUtils.textContent(fileOrResourcePath));
+        return JsonUtils.deserializeAsMap(DataContentUtils.dataTextContent(fileOrResourcePath));
     }
 
     public List<?> list(String fileOrResourcePath) {
-        return JsonUtils.deserializeAsList(DataContentUtils.textContent(fileOrResourcePath));
+        return JsonUtils.deserializeAsList(DataContentUtils.dataTextContent(fileOrResourcePath));
     }
 
     public Object object(String fileOrResourcePath) {
-        return JsonUtils.deserialize(DataContentUtils.textContent(fileOrResourcePath));
+        return JsonUtils.deserialize(DataContentUtils.dataTextContent(fileOrResourcePath));
     }
 }
