@@ -16,41 +16,38 @@
 
 package org.testingisdocumenting.webtau.data.csv;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.CsvUtils;
-import org.testingisdocumenting.webtau.utils.FileUtils;
-import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static org.testingisdocumenting.webtau.data.DataContentUtils.dataTextContent;
+
 public class DataCsv {
     public TableData table(String fileOrResourcePath) {
-        return tableFromListOfMaps(CsvUtils.parse(textContent(fileOrResourcePath)));
+        return tableFromListOfMaps(CsvUtils.parse(dataTextContent(fileOrResourcePath)));
     }
 
     public TableData tableAutoConverted(String fileOrResourcePath) {
-        return tableFromListOfMaps(CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath)));
+        return tableFromListOfMaps(CsvUtils.parseWithAutoConversion(dataTextContent(fileOrResourcePath)));
     }
 
     public List<Map<String, String>> listOfMaps(String fileOrResourcePath) {
-        return CsvUtils.parse(textContent(fileOrResourcePath));
+        return CsvUtils.parse(dataTextContent(fileOrResourcePath));
     }
 
     public List<Map<String, Object>> listOfMapsAutoConverted(String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath));
+        return CsvUtils.parseWithAutoConversion(dataTextContent(fileOrResourcePath));
     }
 
     public List<Map<String, String>> listOfMaps(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parse(header, textContent(fileOrResourcePath));
+        return CsvUtils.parse(header, dataTextContent(fileOrResourcePath));
     }
 
     public List<Map<String, Object>> listOfMapsAutoConverted(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(header, textContent(fileOrResourcePath));
+        return CsvUtils.parseWithAutoConversion(header, dataTextContent(fileOrResourcePath));
     }
 
     @SuppressWarnings("unchecked")
@@ -68,21 +65,5 @@ public class DataCsv {
         });
 
         return result;
-    }
-
-    private String textContent(String fileOrResourcePath) {
-        Path filePath = WebTauConfig.getCfg().getWorkingDir().resolve(fileOrResourcePath);
-
-        boolean hasResource = ResourceUtils.hasResource(fileOrResourcePath);
-        boolean hasFile = Files.exists(filePath);
-
-        if (!hasResource && !hasFile) {
-            throw new IllegalArgumentException("Can't find resource \"" + fileOrResourcePath + "\" or " +
-                    "file \"" + filePath.toAbsolutePath() + "\"");
-        }
-
-        return hasResource ?
-                ResourceUtils.textContent(fileOrResourcePath) :
-                FileUtils.fileTextContent(filePath);
     }
 }

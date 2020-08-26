@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +14,28 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data;
+package org.testingisdocumenting.webtau.data.json
 
-import org.testingisdocumenting.webtau.data.csv.DataCsv;
-import org.testingisdocumenting.webtau.data.json.DataJson;
+import org.junit.Test
 
-public class Data {
-    public static final Data data = new Data();
+class DataJsonTest {
+    @Test
+    void "parse json as map"() {
+        Map map = new DataJson().map("map.json")
+        map.should == [key: 'value', another: 2]
+    }
 
-    public final DataCsv csv = new DataCsv();
-    public final DataJson json = new DataJson();
+    @Test
+    void "parse json as list"() {
+        List list = new DataJson().list("list.json")
+        list.should == [
+                [key: 'value1', another: 1],
+                [key: 'value2', another: 2]]
+    }
 
-    private Data() {
+    @Test
+    void "parse json as object"() {
+        def object = new DataJson().object("map.json")
+        object.should == [key: 'value', another: 2]
     }
 }
