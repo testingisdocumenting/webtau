@@ -23,10 +23,43 @@ import org.junit.BeforeClass;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.config.HttpConfiguration;
 import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
+import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
+import java.util.Map;
+import java.util.function.Consumer;
+
+import static org.testingisdocumenting.webtau.Matchers.actual;
+import static org.testingisdocumenting.webtau.Matchers.equal;
+
 public class GraphQLTestBase implements HttpConfiguration {
-    private static final GraphQLTestDataServer testServer = new GraphQLTestDataServer();
+    protected static final GraphQLTestDataServer testServer = new GraphQLTestDataServer();
+
+    protected final static String QUERY = "{ taskById(id: \"a\") { id } }";
+
+    protected final static String MULTI_OP_QUERY = "query task { taskById(id: \"a\") { id } } " +
+            "query openTasks { allTasks(uncompletedOnly: true) { id } }";
+    protected final static String OP_NAME = "task";
+
+    protected final static String QUERY_WITH_VARS = "query task($id: ID!) { taskById(id: $id) { id } }";
+    protected final static Map<String, Object> VARS = CollectionUtils.aMapOf("id", "a");
+
+    protected final static String MULTI_OP_QUERY_WITH_VARS = "query task($id: ID!) { taskById(id: $id) { id } } " +
+            "query openTasks { allTasks(uncompletedOnly: true) { id } }";
+
+    protected final static HttpResponseValidator VALIDATOR = (header, body) -> body.get("data.taskById.id").should(equal("a"));
+    protected final static HttpResponseValidatorWithReturn VALIDATOR_WITH_RETURN = (header, body) -> {
+        body.get("data.taskById.id").should(equal("a"));
+        return body.get("data.taskById.id");
+    };
+    protected final static Consumer<String> ID_ASSERTION = id -> actual(id).should(equal("a"));
+    protected final static Consumer<DataNode> BODY_ASSERTION = body -> body.get("data.taskById.id").should(equal("a"));
+
+    protected final static String AUTH_HEADER_VALUE = "aSuperSecretToken";
+    protected final static HttpHeader AUTH_HEADER = HttpHeader.EMPTY.with("Authorization", AUTH_HEADER_VALUE);
 
     @BeforeClass
     public static void startServer() {

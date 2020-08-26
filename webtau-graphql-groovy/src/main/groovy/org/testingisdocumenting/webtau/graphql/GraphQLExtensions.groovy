@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.graphql
 
+
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
@@ -27,8 +28,28 @@ class GraphQLExtensions {
         return graphQL.execute(query, closureToHttpResponseValidator(validation))
     }
 
+    static def execute(GraphQL graphQL, String query, HttpHeader header, Closure validation) {
+        return graphQL.execute(query, header, closureToHttpResponseValidator(validation))
+    }
+
+    static def execute(GraphQL graphQL, String query, String operationName, Closure validation) {
+        return graphQL.execute(query, operationName, closureToHttpResponseValidator(validation))
+    }
+
+    static def execute(GraphQL graphQL, String query, String operationName, HttpHeader header, Closure validation) {
+        return graphQL.execute(query, operationName, header, closureToHttpResponseValidator(validation))
+    }
+
     static def execute(GraphQL graphQL, String query, Map<String, Object> variables, Closure validation) {
         return graphQL.execute(query, variables, closureToHttpResponseValidator(validation))
+    }
+
+    static def execute(GraphQL graphQL, String query, Map<String, Object> variables, HttpHeader header, Closure validation) {
+        return graphQL.execute(query, variables, header, closureToHttpResponseValidator(validation))
+    }
+
+    static def execute(GraphQL graphQL, String query, Map<String, Object> variables, String operationName, Closure validation) {
+        return graphQL.execute(query, variables, operationName, closureToHttpResponseValidator(validation))
     }
 
     static def execute(GraphQL graphQL, String query, Map<String, Object> variables, String operationName, HttpHeader header, Closure validation) {
