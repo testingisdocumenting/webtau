@@ -43,7 +43,7 @@ public class CliCommandJavaTest {
             CliRunResult result = wrongLs.run(((exitCode, output, error) -> exitCode.should(equal(127))));
 
             actual(result.getExitCode()).should(equal(127));
-            actual(result.getError()).should(contain("command not found"));
+            actual(result.getError()).should(contain("not found"));
             actual(result.getOutput()).should(equal(""));
         });
     }
