@@ -16,12 +16,15 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.Matchers.equal;
@@ -144,8 +147,19 @@ public class GraphQL {
 
     public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidatorWithReturn validator) {
         return http.post(GRAPHQL_URL, header, GraphQLRequest.body(query, variables, operationName), (headerDataNode, body) -> {
-            headerDataNode.statusCode().should(equal(SUCCESS_CODE));
-            return validator.validate(headerDataNode, body);
+            Object ret = validator.validate(headerDataNode, body);
+
+            DataNode statusCode = headerDataNode.statusCode();
+            if (statusCode.getTraceableValue().getCheckLevel() == CheckLevel.None) {
+                statusCode.should(equal(SUCCESS_CODE));
+            }
+
+            DataNode errors = body.get("errors");
+            if (errors.getTraceableValue().getCheckLevel() == CheckLevel.None) {
+                errors.should(equal(null));
+            }
+
+            return ret;
         });
     }
 }

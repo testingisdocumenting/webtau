@@ -86,10 +86,8 @@ public class StructuredDataNode implements DataNode {
             throw new IllegalArgumentException("Requested name " + name + " is not a simple name nor does it contain a properly formatted index");
         }
 
-        // simple name
-        return (children != null && children.containsKey(name)) ?
-                children.get(name) :
-                new NullDataNode(id.child(name));
+        // Cache the null node so multiple queries for it return the same NullDataNode object
+        return children.computeIfAbsent(name, n -> new NullDataNode(id.child(name)));
     }
 
     private DataNode getIndexedChild(String name, int openBraceIdx, int closeBraceIdx) {
