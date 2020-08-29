@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesCo
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -87,6 +88,9 @@ public class StructuredDataNode implements DataNode {
         }
 
         // Cache the null node so multiple queries for it return the same NullDataNode object
+        if (children == null) {
+            children = new LinkedHashMap<>();
+        }
         return children.computeIfAbsent(name, n -> new NullDataNode(id.child(name)));
     }
 
