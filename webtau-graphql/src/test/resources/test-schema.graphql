@@ -23,6 +23,7 @@ type Task {
 type Query {
   allTasks(uncompletedOnly: Boolean = true): [Task]
   taskById(id: ID!): Task
+  generateError: Task
 }
 
 type Mutation {

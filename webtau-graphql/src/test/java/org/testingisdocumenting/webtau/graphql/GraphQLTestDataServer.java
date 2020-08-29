@@ -58,6 +58,7 @@ public class GraphQLTestDataServer {
         TypeRuntimeWiring.Builder queries = TypeRuntimeWiring.newTypeWiring("Query");
         queries.dataFetcher("allTasks", e -> allTasks(e.getArgument("uncompletedOnly")));
         queries.dataFetcher("taskById",  e -> taskById(e.getArgument("id")));
+        queries.dataFetcher("generateError", e -> { throw new RuntimeException("execution error"); });
 
         TypeRuntimeWiring.Builder mutations = TypeRuntimeWiring.newTypeWiring("Mutation");
         mutations.dataFetcher("complete", e -> setCompleted(e.getArgument("id"), true));
