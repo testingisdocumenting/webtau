@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
@@ -32,7 +33,7 @@ public class GraphQL {
 
     static final String GRAPHQL_URL = "/graphql";
     private static final HttpResponseValidatorWithReturn EMPTY_RESPONSE_VALIDATOR = (header, body) -> null;
-    private static final int SUCCESS_CODE = 200;
+    public static final int SUCCESS_CODE = 200;
 
     private static GraphQLSchema schema;
     private static GraphQLCoverage coverage;
@@ -144,8 +145,13 @@ public class GraphQL {
 
     public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidatorWithReturn validator) {
         return http.post(GRAPHQL_URL, header, GraphQLRequest.body(query, variables, operationName), (headerDataNode, body) -> {
-            headerDataNode.statusCode().should(equal(SUCCESS_CODE));
-            return validator.validate(headerDataNode, body);
+            Object validatorReturnValue = validator.validate(headerDataNode, body);
+
+            if (headerDataNode.statusCode().getTraceableValue().getCheckLevel() == CheckLevel.None) {
+                headerDataNode.statusCode().should(equal(SUCCESS_CODE));
+            }
+
+            return validatorReturnValue;
         });
     }
 }
