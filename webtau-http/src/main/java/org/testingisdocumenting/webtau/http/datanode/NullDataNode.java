@@ -58,6 +58,11 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
+    public boolean hasBeenAsserted() {
+        return value.hasBeenAsserted();
+    }
+
+    @Override
     public <E> E get() {
         return null;
     }

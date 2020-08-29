@@ -88,6 +88,11 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
+    public boolean hasBeenAsserted() {
+        return dataNode.getTraceableValue().hasBeenAsserted();
+    }
+
+    @Override
     public <E> E get() {
         return dataNode.get();
     }

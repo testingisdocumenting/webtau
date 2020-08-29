@@ -37,6 +37,8 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
 
     TraceableValue getTraceableValue();
 
+    boolean hasBeenAsserted();
+
     <E> E get();
 
     boolean isList();

@@ -1064,7 +1064,7 @@ public class Http {
 
     private void validateStatusCode(HttpValidationResult validationResult) {
         DataNode statusCode = validationResult.getHeaderNode().statusCode();
-        if (statusCode.getTraceableValue().getCheckLevel() != CheckLevel.None) {
+        if (statusCode.hasBeenAsserted()) {
             return;
         }
 
@@ -1073,7 +1073,7 @@ public class Http {
 
     private void validateErrorsOnlyStatusCode(HttpValidationResult validationResult) {
         DataNode statusCode = validationResult.getHeaderNode().statusCode();
-        if (statusCode.getTraceableValue().getCheckLevel() != CheckLevel.None) {
+        if (statusCode.hasBeenAsserted()) {
             return;
         }
 

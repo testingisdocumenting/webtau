@@ -33,6 +33,7 @@ public class StructuredDataNode implements DataNode {
     private final DataNodeId id;
 
     private Map<String, DataNode> children;
+    private Map<String, DataNode> nullNodes;
     private TraceableValue value;
     private List<DataNode> values;
 
@@ -52,6 +53,7 @@ public class StructuredDataNode implements DataNode {
     public StructuredDataNode(DataNodeId id, Map<String, DataNode> children) {
         this.id = id;
         this.children = children;
+        this.nullNodes = new LinkedHashMap<>();
     }
 
     @Override
@@ -87,11 +89,12 @@ public class StructuredDataNode implements DataNode {
             throw new IllegalArgumentException("Requested name " + name + " is not a simple name nor does it contain a properly formatted index");
         }
 
-        // Cache the null node so multiple queries for it return the same NullDataNode object
-        if (children == null) {
-            children = new LinkedHashMap<>();
+        // simple name
+        if (children != null && children.containsKey(name)) {
+            return children.get(name);
         }
-        return children.computeIfAbsent(name, n -> new NullDataNode(id.child(name)));
+
+        return nullNodes.computeIfAbsent(name, n -> new NullDataNode(id.child(name)));
     }
 
     private DataNode getIndexedChild(String name, int openBraceIdx, int closeBraceIdx) {
@@ -133,6 +136,19 @@ public class StructuredDataNode implements DataNode {
     @Override
     public TraceableValue getTraceableValue() {
         return value;
+    }
+
+    @Override
+    public boolean hasBeenAsserted() {
+        if (values != null) {
+            return values.stream().anyMatch(DataNode::hasBeenAsserted);
+        }
+
+        if (children != null) {
+            return children.values().stream().anyMatch(DataNode::hasBeenAsserted);
+        }
+
+        return value != null && value.hasBeenAsserted();
     }
 
     @Override

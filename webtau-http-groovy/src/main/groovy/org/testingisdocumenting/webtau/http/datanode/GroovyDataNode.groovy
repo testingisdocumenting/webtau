@@ -72,6 +72,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
+    boolean hasBeenAsserted() {
+        return node.hasBeenAsserted()
+    }
+
+    @Override
     <E> E get() {
         return node.get()
     }

@@ -55,6 +55,10 @@ public class TraceableValue {
         return checkLevel;
     }
 
+    public boolean hasBeenAsserted() {
+        return checkLevel != CheckLevel.None;
+    }
+
     /**
      * wrap code with this when values marking is not required
      * (e.g. using for just comparison)

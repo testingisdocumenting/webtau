@@ -150,12 +150,12 @@ public class GraphQL {
             Object ret = validator.validate(headerDataNode, body);
 
             DataNode statusCode = headerDataNode.statusCode();
-            if (statusCode.getTraceableValue().getCheckLevel() == CheckLevel.None) {
+            if (!statusCode.hasBeenAsserted()) {
                 statusCode.should(equal(SUCCESS_CODE));
             }
 
             DataNode errors = body.get("errors");
-            if (errors.getTraceableValue().getCheckLevel() == CheckLevel.None) {
+            if (!errors.hasBeenAsserted()) {
                 errors.should(equal(null));
             }
 

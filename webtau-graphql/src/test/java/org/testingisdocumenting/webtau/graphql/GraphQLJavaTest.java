@@ -21,9 +21,12 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.Matchers.actual;
+import static org.testingisdocumenting.webtau.Matchers.code;
 import static org.testingisdocumenting.webtau.Matchers.equal;
+import static org.testingisdocumenting.webtau.Matchers.throwException;
 import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql;
 import static org.testingisdocumenting.webtau.utils.CollectionUtils.aMapOf;
 
@@ -67,5 +70,23 @@ public class GraphQLJavaTest extends GraphQLTestBase {
             // We can remove this once we have overrides which take HttpResponseValidatorIgnoringReturn
             return null;
         });
+    }
+
+    @Test
+    public void executeQueryWhichGeneratesErrors() {
+        String query = "{ generateError { id } }";
+        graphql.execute(query, (header, body) -> {
+            body.get("errors").shouldNot(equal(null));
+        });
+    }
+
+    @Test
+    public void implicitErrorsCheck() {
+        String query = "{ generateError { id } }";
+        code(() -> {
+            graphql.execute(query, (header, body) -> {
+                body.get("data.generateError").should(equal(null));
+            });
+        }).should(throwException(AssertionError.class, Pattern.compile("body.errors:   actual: \\[\\{")));
     }
 }
