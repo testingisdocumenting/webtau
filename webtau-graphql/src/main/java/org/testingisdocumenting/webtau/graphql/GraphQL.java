@@ -33,7 +33,7 @@ public class GraphQL {
 
     static final String GRAPHQL_URL = "/graphql";
     private static final HttpResponseValidatorWithReturn EMPTY_RESPONSE_VALIDATOR = (header, body) -> null;
-    public static final int SUCCESS_CODE = 200;
+    private static final int SUCCESS_CODE = 200;
 
     private static GraphQLSchema schema;
     private static GraphQLCoverage coverage;
