@@ -44,6 +44,7 @@ public class GraphQLResponseHandler extends AbstractHandler {
     private final GraphQL graphQL;
     private final Optional<Handler> additionalHandler;
     private Optional<String> expectedAuthHeaderValue;
+    private int successStatusCode = 200;
 
     public GraphQLResponseHandler(GraphQLSchema schema) {
         this(schema, null);
@@ -80,6 +81,16 @@ public class GraphQLResponseHandler extends AbstractHandler {
 
     public void withAuthEnabled(String expectedAuthHeaderValue, Runnable code) {
         withAuthEnabled(expectedAuthHeaderValue, () -> { code.run(); return null; });
+    }
+
+    public void withSuccessStatusCode(int successStatusCode, Runnable code) {
+        int originalSuccessCode = this.successStatusCode;
+        this.successStatusCode = successStatusCode;
+        try {
+            code.run();
+        } finally {
+            this.successStatusCode = originalSuccessCode;
+        }
     }
 
     private void handleGraphQLPathRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -141,7 +152,7 @@ public class GraphQLResponseHandler extends AbstractHandler {
             responseBody.put("errors", result.getErrors());
         }
 
-        response.setStatus(200);
+        response.setStatus(successStatusCode);
         response.setContentType("application/json");
         response.getOutputStream().write(JsonUtils.serializeToBytes(responseBody));
     }
