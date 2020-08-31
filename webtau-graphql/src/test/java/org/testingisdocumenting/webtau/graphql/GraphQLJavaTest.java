@@ -63,9 +63,16 @@ public class GraphQLJavaTest extends GraphQLTestBase {
         graphql.execute(query, variables, (header, body) -> {
             body.get("errors").should(equal(null));
             body.get("data.taskById.id").should(equal(id));
+        });
+    }
 
-            // We can remove this once we have overrides which take HttpResponseValidatorIgnoringReturn
-            return null;
+    @Test
+    public void explicitStatusCodeCheck() {
+        int successStatusCode = 201;
+        testServer.getHandler().withSuccessStatusCode(successStatusCode, () -> {
+            graphql.execute("{ allTasks { id }  }", (header, body) -> {
+                header.statusCode().should(equal(successStatusCode));
+            });
         });
     }
 }
