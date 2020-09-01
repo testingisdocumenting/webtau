@@ -25,7 +25,6 @@ import org.testingisdocumenting.webtau.console.ansi.FontStyle
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId
 import org.junit.AfterClass
-import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 
