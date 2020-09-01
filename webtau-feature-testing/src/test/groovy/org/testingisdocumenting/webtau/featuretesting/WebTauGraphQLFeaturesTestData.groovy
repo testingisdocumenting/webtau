@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
-import graphql.introspection.Introspection
 import graphql.schema.GraphQLSchema
 import graphql.schema.idl.RuntimeWiring
 import graphql.schema.idl.SchemaGenerator
