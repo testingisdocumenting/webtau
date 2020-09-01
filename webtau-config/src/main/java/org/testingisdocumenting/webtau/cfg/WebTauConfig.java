@@ -50,6 +50,9 @@ public class WebTauConfig {
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
+    private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
+            "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
+
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls");
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
@@ -138,6 +141,10 @@ public class WebTauConfig {
 
     public int getVerbosityLevel() {
         return verbosityLevel.getAsInt();
+    }
+
+    public int getConsolePayloadOutputLimit() {
+        return consolePayloadOutputLimit.getAsInt();
     }
 
     public void acceptConfigValues(String source, Map<String, ?> values) {
