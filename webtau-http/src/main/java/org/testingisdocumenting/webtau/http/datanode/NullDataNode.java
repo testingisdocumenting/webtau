@@ -23,7 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class NullDataNode implements DataNode {
+public class NullDataNode implements IdValidatedDataNode {
     private final DataNodeId id;
 
     public NullDataNode(DataNodeId id) {

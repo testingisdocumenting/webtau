@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
 import org.testingisdocumenting.webtau.http.datanode.DataNode
+import org.testingisdocumenting.webtau.http.datanode.DataNodeIdValidator
+import org.testingisdocumenting.webtau.http.datanode.DataNodeIdValidators
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator
@@ -34,6 +36,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.regex.Pattern
 
 import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
@@ -1120,6 +1123,50 @@ class HttpGroovyTest extends HttpTestBase {
         http.post("/json-derivative", [contentType: "application/jsonnotquite"]) {
             status.should == null
             body.should == expectedJsonBytes
+        }
+    }
+
+    @Test
+    void "data node id validator is invoked"() {
+        DataNodeIdValidator validator = { id -> throw new RuntimeException("invalid id: $id") }
+        DataNodeIdValidators.add(validator)
+        try {
+            // simple field
+            code {
+                http.get("/end-point") {
+                    body.id.shouldNot == 0
+                }
+            } should throwException(HttpException, ~/invalid id: body.id$/)
+
+            // list field
+            code {
+                http.get("/end-point") {
+                    list.should == [1, 2, 3]
+                }
+            } should throwException(HttpException, ~/invalid id: body.list$/)
+
+            // single item in list
+            code {
+                http.get("/end-point") {
+                    complexList[0].k1.should == "v1"
+                }
+            } should throwException(HttpException, ~/invalid id: body.complexList\[0\].k1$/)
+
+            // complex field
+            code {
+                http.get("/end-point") {
+                    object.k1.should == ~/v\\d/
+                }
+            } should throwException(HttpException, ~/invalid id: body.object.k1$/)
+
+            // complex list
+            code {
+                http.get("/end-point") {
+                    complexList.k1.should == ["v1", "v2"]
+                }
+            } should throwException(HttpException, ~/invalid id: body.complexList.k1$/)
+        } finally {
+            DataNodeIdValidators.remove(validator)
         }
     }
 

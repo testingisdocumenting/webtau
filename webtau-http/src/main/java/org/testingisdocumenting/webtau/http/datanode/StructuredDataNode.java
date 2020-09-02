@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-public class StructuredDataNode implements DataNode {
+public class StructuredDataNode implements IdValidatedDataNode {
     private final DataNodeId id;
 
     private Map<String, DataNode> children;

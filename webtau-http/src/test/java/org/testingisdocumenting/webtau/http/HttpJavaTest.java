@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.http;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.http.datanode.DataNodeIdValidator;
+import org.testingisdocumenting.webtau.http.datanode.DataNodeIdValidators;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.junit.*;
 
@@ -31,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.testingisdocumenting.webtau.Matchers.code;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.http.Http.http;
@@ -288,5 +291,49 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("complexList[0].k1").should(equal("v1"));
             body.get("complexList[-1].k1").should(equal("v11"));
         });
+    }
+
+    @Test
+    public void dataNodeIdValidatorIsInvoked() {
+        DataNodeIdValidator validator = id -> { throw new RuntimeException("invalid id: " + id); };
+        DataNodeIdValidators.add(validator);
+        try {
+            // simple field
+            code(() -> {
+                http.get("/end-point", (header, body) -> {
+                    body.get("id").shouldNot(equal(0));
+                });
+            }).should(throwException(HttpException.class, Pattern.compile("invalid id: body.id$")));
+
+            // list field
+            code(() -> {
+                http.get("/end-point", (header, body) -> {
+                    body.get("list").should(equal(Arrays.asList(1, 2, 3)));
+                });
+            }).should(throwException(HttpException.class, Pattern.compile("invalid id: body.list$")));
+
+            // single item in list
+            code(() -> {
+                http.get("/end-point", (header, body) -> {
+                    body.get("complexList[0].k1").should(equal("v1"));
+                });
+            }).should(throwException(HttpException.class, Pattern.compile("invalid id: body.complexList\\[0\\].k1$")));
+
+            // complex field
+            code(() -> {
+                http.get("/end-point", (header, body) -> {
+                    body.get("object").get("k1").should(equal(Pattern.compile("v\\d")));
+                });
+            }).should(throwException(HttpException.class, Pattern.compile("invalid id: body.object.k1$")));
+
+            // complex list
+            code(() -> {
+                http.get("/end-point", (header, body) -> {
+                    body.get("complexList").get("k1").should(equal(Arrays.asList("v1", "v2")));
+                });
+            }).should(throwException(HttpException.class, Pattern.compile("invalid id: body.complexList.k1$")));
+        } finally {
+            DataNodeIdValidators.remove(validator);
+        }
     }
 }
