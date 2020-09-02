@@ -36,12 +36,39 @@ query {
 
         def ids = graphql.execute(query) {
             errors.should == null
+
+            // Make sure the full path as well as all shortcuts work
+            body.data.allTasks.id.should == expectedIds
+            data.allTasks.id.should == expectedIds
             allTasks.id.should == expectedIds
+            id.should == expectedIds
 
             return allTasks.id
         }
 
         ids.should == expectedIds
+    }
+
+    @Test
+    void "execute multiple queries"() {
+        def query = '''
+query {
+    allTasks(uncompletedOnly: false) {
+        id
+    }
+    taskById(id: "a") {
+        id
+    }
+}
+'''
+        graphql.execute(query) {
+            errors.should == null
+            allTasks.id.should == ["a", "b", "c"]
+            taskById.id.should == "a"
+
+            // The shortcut to avoid specifying the query name in the path should not apply to multi-query requests
+            id.should == null
+        }
     }
 
     @Test
@@ -62,7 +89,6 @@ query taskById($id: ID!) {
         graphql.execute(query, variables) {
             errors.should == null
             taskById.id.should == id
-
         }
     }
 }
