@@ -25,7 +25,6 @@ import org.testingisdocumenting.webtau.console.ansi.FontStyle
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId
 import org.junit.AfterClass
-import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -68,7 +67,7 @@ class DataNodeAnsiPrinterTest {
                     key4: [key41: 'value41', key42: 'value42']]))
         }
 
-        Assert.assertEquals('{\n' +
+        textOnly.should == '{\n' +
                 '  "key1": "value1",\n' +
                 '  "key2": "value2",\n' +
                 '  "key3": {\n' +
@@ -83,8 +82,55 @@ class DataNodeAnsiPrinterTest {
                 '    "key41": "value41",\n' +
                 '    "key42": "value42"\n' +
                 '  }\n' +
-                '}', textOnly)
+                '}'
     }
+
+    @Test
+    void "should limit output to display a specified number of lines"() {
+        def textOnly = captureTextOutput {
+            new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
+                    key1: 'value1',
+                    key2: 'value2',
+                    key3: [key31: 'value31', key32: [5, 6, 8]],
+                    key4: [key41: 'value41', key42: 'value42']]), 5)
+        }
+
+        textOnly.should == '{\n' +
+                '  "key1": "value1",\n' +
+                '...\n' +
+                '    "key42": "value42"\n' +
+                '  }\n' +
+                '}'
+    }
+
+    @Test
+    void "should print all the lines if specified number of lines greater than or equal actual"() {
+        def textOnly = captureTextOutput {
+            new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
+                    key1: 'value1',
+                    key2: 'value2',
+                    key3: [key31: 'value31', key32: [5, 6, 8]],
+                    key4: [key41: 'value41', key42: 'value42']]), 16)
+        }
+
+        textOnly.should == '{\n' +
+                '  "key1": "value1",\n' +
+                '  "key2": "value2",\n' +
+                '  "key3": {\n' +
+                '    "key31": "value31",\n' +
+                '    "key32": [\n' +
+                '      5,\n' +
+                '      6,\n' +
+                '      8\n' +
+                '    ]\n' +
+                '  },\n' +
+                '  "key4": {\n' +
+                '    "key41": "value41",\n' +
+                '    "key42": "value42"\n' +
+                '  }\n' +
+                '}'
+    }
+
 
     @Test
     void "should print list of objects outlining checklevel"() {
@@ -109,7 +155,7 @@ class DataNodeAnsiPrinterTest {
             new DataNodeAnsiPrinter().print(dataNode)
         }
 
-        Assert.assertEquals('[\n' +
+        textOnly.should == '[\n' +
                 '  {\n' +
                 '    "key1": "value1",\n' +
                 '    "key2": __"value2"__,\n' +
@@ -126,7 +172,7 @@ class DataNodeAnsiPrinterTest {
                 '    "key4": "value4",\n' +
                 '    "key5": "value5"\n' +
                 '  }\n' +
-                ']', textOnly)
+                ']'
     }
 
     @Test
@@ -141,7 +187,7 @@ class DataNodeAnsiPrinterTest {
                     key6: [:]]))
         }
 
-        Assert.assertEquals('{\n' +
+        textOnly.should == '{\n' +
                 '  "key1": "value1",\n' +
                 '  "key2": "value2",\n' +
                 '  "key3": [],\n' +
@@ -154,7 +200,7 @@ class DataNodeAnsiPrinterTest {
                 '    []\n' +
                 '  ],\n' +
                 '  "key6": {}\n' +
-                '}', textOnly)
+                '}'
     }
 
     private static String captureTextOutput(Closure code) {
