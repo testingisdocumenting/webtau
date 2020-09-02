@@ -125,6 +125,16 @@ scenario("check weather") {
     }
 }
 ```
+
+For single query requests, you may also omit the query name while validating the response:
+```groovy
+scenario("check weather") {
+    graphql.execute("{ weather { temperature } }") {
+        temperature.shouldBe < 100
+    }
+}
+```
+
 ```json
 {
   "data": {
