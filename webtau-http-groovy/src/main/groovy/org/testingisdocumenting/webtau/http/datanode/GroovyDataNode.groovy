@@ -22,7 +22,6 @@ import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesCo
 
 import static org.testingisdocumenting.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
 
-//TODO does this need to be IdValidatedDataNode?
 class GroovyDataNode implements DataNodeExpectations, IdValidatedDataNode {
     private DataNode node
 
