@@ -3,7 +3,7 @@
     "scenario" : "list all tasks",
     "shortContainerId" : "queryAndMutation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 5
+      "numberOfSuccessful" : 6
     }
   }, {
     "scenario" : "complete a task",
