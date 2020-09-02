@@ -25,43 +25,43 @@ import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWith
 
 class GraphQLExtensions {
     static def execute(GraphQL graphQL, String query, Closure validation) {
-        return graphQL.execute(query, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, closureToHttpResponseValidator(query, null, validation))
     }
 
     static def execute(GraphQL graphQL, String query, HttpHeader header, Closure validation) {
-        return graphQL.execute(query, header, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, header, closureToHttpResponseValidator(query, null, validation))
     }
 
     static def execute(GraphQL graphQL, String query, String operationName, Closure validation) {
-        return graphQL.execute(query, operationName, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, operationName, closureToHttpResponseValidator(query, operationName, validation))
     }
 
     static def execute(GraphQL graphQL, String query, String operationName, HttpHeader header, Closure validation) {
-        return graphQL.execute(query, operationName, header, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, operationName, header, closureToHttpResponseValidator(query, operationName, validation))
     }
 
     static def execute(GraphQL graphQL, String query, Map<String, Object> variables, Closure validation) {
-        return graphQL.execute(query, variables, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, variables, closureToHttpResponseValidator(query, null, validation))
     }
 
     static def execute(GraphQL graphQL, String query, Map<String, Object> variables, HttpHeader header, Closure validation) {
-        return graphQL.execute(query, variables, header, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, variables, header, closureToHttpResponseValidator(query, null, validation))
     }
 
     static def execute(GraphQL graphQL, String query, Map<String, Object> variables, String operationName, Closure validation) {
-        return graphQL.execute(query, variables, operationName, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, variables, operationName, closureToHttpResponseValidator(query, operationName, validation))
     }
 
     static def execute(GraphQL graphQL, String query, Map<String, Object> variables, String operationName, HttpHeader header, Closure validation) {
-        return graphQL.execute(query, variables, operationName, header, closureToHttpResponseValidator(validation))
+        return graphQL.execute(query, variables, operationName, header, closureToHttpResponseValidator(query, operationName, validation))
     }
 
-    private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(validation) {
+    private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(String query, String operationName, validation) {
         return new HttpResponseValidatorWithReturn() {
             @Override
             def validate(final HeaderDataNode header, final DataNode body) {
                 def cloned = validation.clone() as Closure
-                cloned.delegate = new ValidatorDelegate(header, body)
+                cloned.delegate = new ValidatorDelegate(query, operationName, header, body)
                 cloned.resolveStrategy = Closure.OWNER_FIRST
                 return cloned.maximumNumberOfParameters == 2 ?
                     cloned.call(header, new GroovyDataNode(body)) :
@@ -71,10 +71,12 @@ class GraphQLExtensions {
     }
 
     private static class ValidatorDelegate {
+        private Set<GraphQLQuery> queries
         private HeaderDataNode header
         private DataNode body
 
-        ValidatorDelegate(HeaderDataNode header, DataNode body) {
+        ValidatorDelegate(String query, String operationName, HeaderDataNode header, DataNode body) {
+            this.queries = GraphQL.schema.findQueries(query, operationName)
             this.body = body
             this.header = header
         }
@@ -87,8 +89,14 @@ class GraphQLExtensions {
                     return new GroovyDataNode(body)
                 case "errors":
                     return new GroovyDataNode(body).get("errors")
+                case "data":
+                    return new GroovyDataNode(body).get("data")
                 default:
-                    return new GroovyDataNode(body).get("data").get(name)
+                    if (queries.size() != 1 || name == queries.first().name) {
+                        return new GroovyDataNode(body).get("data").get(name)
+                    } else {
+                        return new GroovyDataNode(body).get("data").get(queries.first().name).get(name)
+                    }
             }
         }
     }
