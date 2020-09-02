@@ -1129,8 +1129,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "data node id validator is invoked"() {
         DataNodeIdValidator validator = { id -> throw new RuntimeException("invalid id: $id") }
-        DataNodeIdValidators.add(validator)
-        try {
+        DataNodeIdValidators.withAdditionalValidator(validator) {
             // simple field
             code {
                 http.get("/end-point") {
@@ -1165,8 +1164,6 @@ class HttpGroovyTest extends HttpTestBase {
                     complexList.k1.should == ["v1", "v2"]
                 }
             } should throwException(HttpException, ~/invalid id: body.complexList.k1$/)
-        } finally {
-            DataNodeIdValidators.remove(validator)
         }
     }
 

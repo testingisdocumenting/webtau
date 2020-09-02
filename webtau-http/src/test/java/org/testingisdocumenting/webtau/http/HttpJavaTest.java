@@ -296,8 +296,7 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void dataNodeIdValidatorIsInvoked() {
         DataNodeIdValidator validator = id -> { throw new RuntimeException("invalid id: " + id); };
-        DataNodeIdValidators.add(validator);
-        try {
+        DataNodeIdValidators.withAdditionalValidator(validator, () -> {
             // simple field
             code(() -> {
                 http.get("/end-point", (header, body) -> {
@@ -332,8 +331,6 @@ public class HttpJavaTest extends HttpTestBase {
                     body.get("complexList").get("k1").should(equal(Arrays.asList("v1", "v2")));
                 });
             }).should(throwException(HttpException.class, Pattern.compile("invalid id: body.complexList.k1$")));
-        } finally {
-            DataNodeIdValidators.remove(validator);
-        }
+        });
     }
 }
