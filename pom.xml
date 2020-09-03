@@ -239,7 +239,7 @@
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
-                <version>4.0.0</version>
+                <version>4.1.0</version>
             </dependency>
 
             <dependency>
@@ -707,7 +707,7 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <configuration>
                     <rules>
-                        <dependencyConvergence />
+                        <dependencyConvergence/>
                         <banDuplicateClasses>
                             <findAllDuplicates>true</findAllDuplicates>
                             <ignoreWhenIdentical>true</ignoreWhenIdentical>
