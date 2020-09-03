@@ -27,7 +27,7 @@
     <artifactId>webtau-junit5-examples</artifactId>
 
     <properties>
-        <kotlin.version>1.3.70</kotlin.version>
+        <kotlin.version>1.3.72</kotlin.version>
     </properties>
 
     <dependencies>
@@ -101,7 +101,7 @@
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <configuration>
                     <rules>
-                        <dependencyConvergence />
+                        <dependencyConvergence/>
                         <banDuplicateClasses>
                             <findAllDuplicates>true</findAllDuplicates>
                             <ignoreWhenIdentical>true</ignoreWhenIdentical>
