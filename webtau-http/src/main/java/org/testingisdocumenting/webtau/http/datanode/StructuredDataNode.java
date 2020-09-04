@@ -33,9 +33,10 @@ public class StructuredDataNode implements DataNode {
     private final DataNodeId id;
 
     private Map<String, DataNode> children;
-    private Map<String, DataNode> missingChildren = new HashMap<>();
+    private final Map<String, DataNode> missingChildren = new HashMap<>();
     private TraceableValue value;
     private List<DataNode> values;
+    private final Map<String, DataNode> missingValues = new HashMap<>();
 
     private boolean isSingleValue;
 
@@ -205,7 +206,7 @@ public class StructuredDataNode implements DataNode {
 
     private DataNode getAsCollectFromList(String nameOrPath) {
         if (values.stream().noneMatch(v -> v.has(nameOrPath))) {
-            return new NullDataNode(id.child(nameOrPath));
+            return missingValues.computeIfAbsent(nameOrPath, n -> new NullDataNode(id.child(nameOrPath)));
         }
 
         return new StructuredDataNode(id.child(nameOrPath),

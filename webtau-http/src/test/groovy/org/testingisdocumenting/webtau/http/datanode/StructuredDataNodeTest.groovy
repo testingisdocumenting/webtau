@@ -197,12 +197,20 @@ class StructuredDataNodeTest {
         has.should == false
     }
 
-    //Search for creation of body node
     @Test
     void "check level is recorded for non-existent child nodes"() {
         def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [:])
-        node.get("key").should == null
+        node["key"].should == null
+        node["key"].traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
 
-        node.get("key").traceableValue.getCheckLevel().should == CheckLevel.ExplicitPassed
+        node = DataNodeBuilder.fromList(new DataNodeId("body"), [])
+        node["key"].should == null
+        node["key"].traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+
+        node = DataNodeBuilder.fromValue(new DataNodeId("body"), null)
+        node.should == null
+        node.traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        node["key"].should == null
+        node["key"].traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
     }
 }
