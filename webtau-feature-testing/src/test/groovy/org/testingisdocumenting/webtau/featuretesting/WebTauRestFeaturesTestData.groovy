@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.http.testserver.TestServerJsonResponse
 import org.testingisdocumenting.webtau.http.testserver.TestServerRedirectResponse
 import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
+import org.testingisdocumenting.webtau.http.testserver.TestServerTextResponse
 import org.testingisdocumenting.webtau.utils.JsonUtils
 
 class WebTauRestFeaturesTestData {
@@ -33,7 +34,7 @@ class WebTauRestFeaturesTestData {
         handler.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
         handler.registerPost("/employee", json([id: 'id-generated-2'], 201))
         handler.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
-
+        handler.registerGet('/text-message', new TestServerTextResponse('hello world'))
     }
 
     private static TestServerResponse json(Map response, statusCode = 200) {
