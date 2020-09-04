@@ -25,9 +25,11 @@ import java.util.Map;
 
 public class NullDataNode implements DataNode {
     private final DataNodeId id;
+    private final TraceableValue value;
 
     public NullDataNode(DataNodeId id) {
         this.id = id;
+        this.value = new TraceableValue(null);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class NullDataNode implements DataNode {
 
     @Override
     public TraceableValue getTraceableValue() {
-        return new TraceableValue(null);
+        return value;
     }
 
     @Override

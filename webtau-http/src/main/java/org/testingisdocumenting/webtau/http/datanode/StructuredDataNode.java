@@ -20,6 +20,7 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class StructuredDataNode implements DataNode {
     private final DataNodeId id;
 
     private Map<String, DataNode> children;
+    private Map<String, DataNode> missingChildren = new HashMap<>();
     private TraceableValue value;
     private List<DataNode> values;
 
@@ -87,9 +89,11 @@ public class StructuredDataNode implements DataNode {
         }
 
         // simple name
-        return (children != null && children.containsKey(name)) ?
-                children.get(name) :
-                new NullDataNode(id.child(name));
+        if (children != null && children.containsKey(name)) {
+            return children.get(name);
+        }
+
+        return missingChildren.computeIfAbsent(name, n -> new NullDataNode(id.child(name)));
     }
 
     private DataNode getIndexedChild(String name, int openBraceIdx, int closeBraceIdx) {

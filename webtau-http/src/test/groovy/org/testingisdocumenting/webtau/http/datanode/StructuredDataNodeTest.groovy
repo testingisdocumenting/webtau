@@ -196,4 +196,13 @@ class StructuredDataNodeTest {
         has = node.has('key2.name.foo')
         has.should == false
     }
+
+    //Search for creation of body node
+    @Test
+    void "check level is recorded for non-existent child nodes"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [:])
+        node.get("key").should == null
+
+        node.get("key").traceableValue.getCheckLevel().should == CheckLevel.ExplicitPassed
+    }
 }
