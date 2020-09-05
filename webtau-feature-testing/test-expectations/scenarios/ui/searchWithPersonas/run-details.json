@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "multiple browsers for search",
+    "shortContainerId" : "searchWithPersonas.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 21
+    }
+  } ],
+  "exitCode" : 0
+}

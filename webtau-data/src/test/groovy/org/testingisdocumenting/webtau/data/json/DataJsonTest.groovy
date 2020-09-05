@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.graphql.model.introspection;
+package org.testingisdocumenting.webtau.data.json
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.junit.Test
 
-public class GraphQLField {
-    private final String name;
-
-    public GraphQLField(@JsonProperty("name") String name) {
-        this.name = name;
+class DataJsonTest {
+    @Test
+    void "parse json as map"() {
+        Map map = new DataJson().map("map.json")
+        map.should == [key: 'value', another: 2]
     }
 
-    public String getName() {
-        return name;
+    @Test
+    void "parse json as list"() {
+        List list = new DataJson().list("list.json")
+        list.should == [
+                [key: 'value1', another: 1],
+                [key: 'value2', another: 2]]
+    }
+
+    @Test
+    void "parse json as object"() {
+        def object = new DataJson().object("map.json")
+        object.should == [key: 'value', another: 2]
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,26 +30,26 @@ public class HttpHeader {
 
     public static final HttpHeader EMPTY = new HttpHeader(Collections.emptyMap());
 
-    private Map<String, String> header;
+    private final Map<String, CharSequence> header;
 
     public HttpHeader() {
         this.header = new LinkedHashMap<>();
     }
 
-    public HttpHeader(Map<String, String> header) {
+    public HttpHeader(Map<String, CharSequence> header) {
         this.header = header;
     }
 
     public void forEachProperty(BiConsumer<String, String> consumer) {
-        header.forEach(consumer);
+        header.forEach((k, v) -> consumer.accept(k, v.toString()));
     }
 
-    public <T> Stream<T> mapProperties(BiFunction<String, String, T> mapper) {
+    public <T> Stream<T> mapProperties(BiFunction<String, CharSequence, T> mapper) {
         return header.entrySet().stream().map(e -> mapper.apply(e.getKey(), e.getValue()));
     }
 
-    public HttpHeader merge(Map<String, String> properties) {
-        Map<String, String> copy = new LinkedHashMap<>(this.header);
+    public HttpHeader merge(Map<String, CharSequence> properties) {
+        Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
         copy.putAll(properties);
 
         return new HttpHeader(copy);
@@ -63,14 +64,14 @@ public class HttpHeader {
     }
 
     public String get(String key) {
-        return header.get(key);
+        return header.get(key).toString();
     }
 
     public String caseInsensitiveGet(String key) {
         return header.entrySet().stream()
                 .filter(entry -> key.equalsIgnoreCase(entry.getKey()))
                 .findFirst()
-                .map(Map.Entry::getValue)
+                .map(e -> e.getValue().toString())
                 .orElse(null);
     }
 
@@ -92,16 +93,16 @@ public class HttpHeader {
         header.put(key, value);
     }
 
-    public HttpHeader with(String key, String value) {
-        Map<String, String> copy = new LinkedHashMap<>(this.header);
+    public HttpHeader with(String key, CharSequence value) {
+        Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
         copy.put(key, value);
 
         return new HttpHeader(copy);
     }
 
     public HttpHeader redactSecrets() {
-        Map<String, String> redacted = new LinkedHashMap<>();
-        for (Map.Entry<String, String> entry : header.entrySet()) {
+        Map<String, CharSequence> redacted = new LinkedHashMap<>();
+        for (Map.Entry<String, CharSequence> entry : header.entrySet()) {
             redacted.put(entry.getKey(), redactValueIfRequired(entry.getKey(), entry.getValue()));
         }
 
@@ -112,7 +113,7 @@ public class HttpHeader {
         return mapProperties((k, v) -> {
             Map<String, String> entry = new LinkedHashMap<>();
             entry.put("key", k);
-            entry.put("value", v);
+            entry.put("value", v.toString());
 
             return entry;
         }).collect(Collectors.toList());
@@ -145,7 +146,7 @@ public class HttpHeader {
                 .collect(joining("\n"));
     }
 
-    private String redactValueIfRequired(String key, String value) {
+    private CharSequence redactValueIfRequired(String key, CharSequence value) {
         if (key == null) {
             return value;
         }

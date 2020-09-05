@@ -26,13 +26,13 @@ public class PersonaTest {
     public void shouldTrackCurrentlyActivePersona() {
         Persona John = persona("John");
 
-        actual(Persona.getCurrentPersona()).should(equal(null));
+        actual(Persona.getCurrentPersona().getId()).should(equal(""));
 
         John.execute(() -> {
             actual(Persona.getCurrentPersona().getId()).should(equal("John"));
         });
 
-        actual(Persona.getCurrentPersona()).should(equal(null));
+        actual(Persona.getCurrentPersona().getId()).should(equal(""));
     }
 
     @Test

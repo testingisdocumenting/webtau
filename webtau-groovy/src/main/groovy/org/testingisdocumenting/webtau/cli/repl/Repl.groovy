@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.cli.repl
 
 import org.codehaus.groovy.tools.shell.Groovysh
+import org.codehaus.groovy.tools.shell.IO
 import org.codehaus.groovy.tools.shell.util.Preferences
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
@@ -77,7 +78,7 @@ class Repl {
     private Groovysh createShell() {
         System.setProperty("groovysh.prompt", "webtau")
 
-        def shell = new Groovysh()
+        def shell = new Groovysh(new IO())
         shell.imports << "static org.testingisdocumenting.webtau.WebTauGroovyDsl.*"
         shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplCommands.*"
         shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplHttpLastValidationCapture.*"
@@ -86,6 +87,12 @@ class Repl {
         shell.resultHook = { Object result ->
             if (result != null) {
                 renderResult(result)
+            }
+        }
+
+        addShutdownHook {
+            if (shell.history) {
+                shell.history.flush()
             }
         }
 

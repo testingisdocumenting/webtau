@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.28-SNAPSHOT</version>
+        <version>1.29-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-shaded</artifactId>
@@ -32,6 +32,21 @@
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-nio</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-groovysh</artifactId>
         </dependency>
     </dependencies>
 
@@ -49,12 +64,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <artifactSet>
-                                <excludes>
-                                    <exclude>org.codehaus.groovy:*</exclude>
-                                </excludes>
-                            </artifactSet>
-
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>shaded</shadedClassifierName>
 

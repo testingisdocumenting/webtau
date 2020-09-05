@@ -56,6 +56,28 @@ public class CliJavaTest {
     }
 
     @Test
+    public void runResultWithoutValidation() {
+        supportedPlatformOnly(() -> {
+            CliRunResult result = cli.run("ls -l");
+
+            actual(result.getExitCode()).should(equal(0));
+            actual(result.getError()).should(equal(""));
+            actual(result.getOutput()).should(contain("pom.xml"));
+        });
+    }
+
+    @Test
+    public void runResultWhenFailToRun() {
+        supportedPlatformOnly(() -> {
+            CliRunResult result = cli.run("a_ls -l", ((exitCode, output, error) -> exitCode.should(equal(127))));
+
+            actual(result.getExitCode()).should(equal(127));
+            actual(result.getError()).should(contain("not found"));
+            actual(result.getOutput()).should(equal(""));
+        });
+    }
+
+    @Test
     public void outputAndExitCodeValidation() {
         supportedPlatformOnly(() -> {
             cli.run("scripts/hello \"message to world\"", (exitCode, output, error) -> {
@@ -67,6 +89,25 @@ public class CliJavaTest {
 
                 error.should(contain("error line two"));
             });
+        });
+    }
+
+    @Test
+    public void outputAndExitCodeValidationAndResult() {
+        supportedPlatformOnly(() -> {
+            CliRunResult result = cli.run("scripts/hello \"message to world\"", (exitCode, output, error) -> {
+                exitCode.should(equal(5));
+
+                output.should(equal(Pattern.compile("hello")));
+                output.should(contain("world"));
+                output.should(contain("message to world"));
+
+                error.should(contain("error line two"));
+            });
+
+            actual(result.getExitCode()).should(equal(5));
+            actual(result.getOutput()).should(contain("world"));
+            actual(result.getError()).should(contain("error line two"));
         });
     }
 

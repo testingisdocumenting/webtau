@@ -21,7 +21,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class Persona {
-    private static final ThreadLocal<Persona> currentPersona = new ThreadLocal<>();
+    private static final Persona defaultPersona = new Persona("");
+    private static final ThreadLocal<Persona> currentPersona = ThreadLocal.withInitial(() -> defaultPersona);
 
     private final String id;
     private final Map<String, Object> payload;
@@ -43,6 +44,10 @@ public class Persona {
         return payload;
     }
 
+    public boolean isDefault() {
+        return id.isEmpty();
+    }
+
     public void execute(Runnable code) {
         execute(() -> {
             code.run();
@@ -52,7 +57,7 @@ public class Persona {
 
     public <R> R execute(Supplier<R> code) {
         Persona current = currentPersona.get();
-        if (current != null) {
+        if (current != defaultPersona) {
             throw new IllegalStateException("nesting personas is not allowed, active persona id: " + current.id +
                     ", attempted to nest persona id: " + id);
         }
@@ -61,7 +66,7 @@ public class Persona {
         try {
             return code.get();
         } finally {
-            currentPersona.set(null);
+            currentPersona.set(defaultPersona);
         }
     }
 

@@ -790,7 +790,7 @@ public class Http {
         return new HttpHeader(CollectionUtils.aMapOf((Object[]) properties));
     }
 
-    public HttpHeader header(Map<String, String> properties) {
+    public HttpHeader header(Map<String, CharSequence> properties) {
         return new HttpHeader(properties);
     }
 
@@ -1126,14 +1126,14 @@ public class Http {
             ConsoleOutputs.out(Color.YELLOW, "[no content]");
         } else {
             ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", result.getResponse().getContentType(), "):");
-            new DataNodeAnsiPrinter().print(result.getBodyNode());
+            new DataNodeAnsiPrinter().print(result.getBodyNode(), getCfg().getConsolePayloadOutputLimit());
         }
     }
 
     private void renderRequestBody(HttpRequestBody requestBody) {
         if (requestBody instanceof JsonRequestBody) {
             DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"), ((JsonRequestBody) requestBody).getOriginal());
-            new DataNodeAnsiPrinter().print(dataNode);
+            new DataNodeAnsiPrinter().print(dataNode, getCfg().getConsolePayloadOutputLimit());
         } else {
             ConsoleOutputs.out(requestBody.asString());
         }

@@ -142,8 +142,6 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
         registerListenersAndHandlers()
 
-        DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath())
-
         runner = new StandaloneTestRunner(
                 GroovyRunner.createWithDelegatingEnabled(cfg.workingDir),
                 cfg.getWorkingDir())

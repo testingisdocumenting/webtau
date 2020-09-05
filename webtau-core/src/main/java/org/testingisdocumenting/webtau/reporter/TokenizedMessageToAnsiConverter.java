@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +25,7 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class TokenizedMessageToAnsiConverter {
-    private Map<String, TokenRenderDetails> tokenRenderDetails;
+    private final Map<String, TokenRenderDetails> tokenRenderDetails;
 
     public TokenizedMessageToAnsiConverter() {
         tokenRenderDetails = new HashMap<>();
@@ -66,8 +67,8 @@ public class TokenizedMessageToAnsiConverter {
     }
 
     private static class TokenRenderDetails {
-        private List<Object> ansiSequence;
-        private boolean isSpaceAfterRequired;
+        private final List<Object> ansiSequence;
+        private final boolean isSpaceAfterRequired;
 
         public TokenRenderDetails(List<Object> ansiSequence, boolean isSpaceAfterRequired) {
             this.ansiSequence = ansiSequence;

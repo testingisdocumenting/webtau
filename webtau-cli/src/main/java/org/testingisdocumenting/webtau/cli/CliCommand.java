@@ -34,52 +34,52 @@ public class CliCommand implements ResourceNameAware {
         this.commandBaseSupplier = commandBaseSupplier;
     }
 
-    public void run() {
-        run("", CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+    public CliRunResult run() {
+        return run("", CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
     }
 
-    public void run(CliValidationOutputOnlyHandler handler) {
-        run("", CliProcessConfig.EMPTY, handler);
+    public CliRunResult run(CliValidationOutputOnlyHandler handler) {
+        return run("", CliProcessConfig.EMPTY, handler);
     }
 
-    public void run(CliValidationExitCodeOutputHandler handler) {
-        run("", CliProcessConfig.EMPTY, handler);
+    public CliRunResult run(CliValidationExitCodeOutputHandler handler) {
+        return run("", CliProcessConfig.EMPTY, handler);
     }
 
-    public void run(String args) {
-        run(args, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+    public CliRunResult run(String args) {
+        return run(args, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
     }
 
-    public void run(String args, CliValidationOutputOnlyHandler handler) {
-        run(args, CliProcessConfig.EMPTY, handler);
+    public CliRunResult run(String args, CliValidationOutputOnlyHandler handler) {
+        return run(args, CliProcessConfig.EMPTY, handler);
     }
 
-    public void run(String args, CliValidationExitCodeOutputHandler handler) {
-        run(args, CliProcessConfig.EMPTY, handler);
+    public CliRunResult run(String args, CliValidationExitCodeOutputHandler handler) {
+        return run(args, CliProcessConfig.EMPTY, handler);
     }
 
-    public void run(CliProcessConfig config) {
-        run("", config, CliValidationOutputOnlyHandler.NO_OP);
+    public CliRunResult run(CliProcessConfig config) {
+        return run("", config, CliValidationOutputOnlyHandler.NO_OP);
     }
 
-    public void run(CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
-        run("", config, handler);
+    public CliRunResult run(CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        return run("", config, handler);
     }
 
-    public void run(CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
-        run("", config, handler);
+    public CliRunResult run(CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        return run("", config, handler);
     }
 
-    public void run(String args, CliProcessConfig config) {
-        run(args, config, CliValidationOutputOnlyHandler.NO_OP);
+    public CliRunResult run(String args, CliProcessConfig config) {
+        return run(args, config, CliValidationOutputOnlyHandler.NO_OP);
     }
 
-    public void run(String args, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
-        new CliForegroundCommand().run(fullCommand(args), config, handler);
+    public CliRunResult run(String args, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        return new CliForegroundCommand().run(fullCommand(args), config, handler);
     }
 
-    public void run(String args, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
-        new CliForegroundCommand().run(fullCommand(args), config, handler);
+    public CliRunResult run(String args, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        return new CliForegroundCommand().run(fullCommand(args), config, handler);
     }
 
     public CliBackgroundCommand runInBackground() {

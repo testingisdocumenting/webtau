@@ -16,28 +16,33 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import graphql.introspection.IntrospectionQuery;
+import graphql.introspection.IntrospectionResultToSchema;
+import graphql.language.Document;
+import graphql.language.FieldDefinition;
+import graphql.language.ObjectTypeDefinition;
+import graphql.schema.idl.SchemaParser;
+import graphql.schema.idl.TypeDefinitionRegistry;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
-import org.testingisdocumenting.webtau.graphql.model.introspection.GraphQLField;
-import org.testingisdocumenting.webtau.graphql.model.introspection.GraphQLResponse;
-import org.testingisdocumenting.webtau.graphql.model.introspection.GraphQLType;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.graphql.GraphQL.GRAPHQL_URL;
-import static org.testingisdocumenting.webtau.graphql.model.GraphQLRequest.INTROSPECTION_QUERY;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class GraphQLSchemaLoader {
     public static Set<GraphQLQuery> fetchSchemaDeclaredQueries() {
-        HttpRequestBody requestBody = GraphQLRequest.body(INTROSPECTION_QUERY, null, null);
+        HttpRequestBody requestBody = GraphQLRequest.body(IntrospectionQuery.INTROSPECTION_QUERY, null, null);
         String fullUrl = HttpConfigurations.fullUrl(GRAPHQL_URL);
         HttpHeader header = HttpConfigurations.fullHeader(fullUrl, GRAPHQL_URL, HttpHeader.EMPTY);
         HttpResponse httpResponse = http.postToFullUrl(fullUrl, header, requestBody);
@@ -45,20 +50,43 @@ public class GraphQLSchemaLoader {
             throw new AssertionError("Error introspecting GraphQL, status code was " + httpResponse.getStatusCode());
         }
 
-        GraphQLResponse response = JsonUtils.deserializeAs(httpResponse.getTextContent(), GraphQLResponse.class);
+        IntrospectionResultToSchema resultToSchema = new IntrospectionResultToSchema();
+        Map<String, ?> response = JsonUtils.deserializeAsMap(httpResponse.getTextContent());
+        if (response.containsKey("errors")) {
+            throw new AssertionError("Error introspecting GraphQL, errors found: " + response.get("errors"));
+        }
+
+        if (!response.containsKey("data")) {
+            throw new AssertionError("Error introspecting GraphQL, expecting a 'data' field but it was not present");
+        }
+
+        Object data = response.get("data");
+        if (!(data instanceof Map)) {
+            throw new AssertionError("Error introspecting GraphQL, expected 'data' to contain a JSON object" +
+                    " but it contains a '" + data.getClass().getSimpleName() + "'");
+        }
+
+        @SuppressWarnings("unchecked") Document schemaDefinition = resultToSchema.createSchemaDefinition((Map<String, Object>) data);
+        TypeDefinitionRegistry typeDefRegistry = new SchemaParser().buildRegistry(schemaDefinition);
 
         Set<GraphQLQuery> queries = new HashSet<>();
-        BiConsumer<Optional<GraphQLType>, GraphQLQueryType> registerTypes = (type, queryType) ->
-                type.ifPresent(t ->
-                        t.getFields()
-                                .stream()
-                                .map(GraphQLField::getName)
-                                .filter(name -> !name.startsWith("_"))
-                                .forEach(name -> queries.add(new GraphQLQuery(name, queryType))));
-        registerTypes.accept(response.getData().getSchema().getQueryType(), GraphQLQueryType.QUERY);
-        registerTypes.accept(response.getData().getSchema().getMutationType(), GraphQLQueryType.MUTATION);
-        registerTypes.accept(response.getData().getSchema().getSubscriptionType(), GraphQLQueryType.SUBSCRIPTION);
+        Arrays.stream(GraphQLQueryType.values())
+                .flatMap(type -> extractTypes(typeDefRegistry, type))
+                .forEach(queries::add);
 
         return queries;
+    }
+
+    private static Stream<GraphQLQuery> extractTypes(TypeDefinitionRegistry registry, GraphQLQueryType type) {
+        String typeName = type.name().charAt(0) + type.name().substring(1).toLowerCase();
+        return registry.getType(typeName)
+                .filter(def -> def instanceof ObjectTypeDefinition)
+                .map(def -> {
+                    ObjectTypeDefinition objectTypeDef = (ObjectTypeDefinition) def;
+                    List<FieldDefinition> fieldDefinitions = objectTypeDef.getFieldDefinitions();
+                    return fieldDefinitions.stream()
+                            .map(fieldDef -> new GraphQLQuery(fieldDef.getName(), type));
+                })
+                .orElseGet(Stream::empty);
     }
 }

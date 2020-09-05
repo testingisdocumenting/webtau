@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.graphql.model.introspection;
+package org.testingisdocumenting.webtau.cli;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public class CliRunResult {
+    private final int exitCode;
+    private final String output;
+    private final String error;
 
-public class GraphQLData {
-    private final GraphQLSchema schema;
-
-    public GraphQLData(@JsonProperty("__schema") GraphQLSchema schema) {
-        this.schema = schema;
+    public CliRunResult(int exitCode, String output, String error) {
+        this.exitCode = exitCode;
+        this.output = output;
+        this.error = error;
     }
 
-    public GraphQLSchema getSchema() {
-        return schema;
+    public int getExitCode() {
+        return exitCode;
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public String getError() {
+        return error;
     }
 }

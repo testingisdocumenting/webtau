@@ -282,6 +282,11 @@ class WebTauBrowserFeaturesTest {
         ])
     }
 
+    @Test
+    void "personas searching"() {
+        runCli('searchWithPersonas.groovy', 'webtau.cfg.groovy')
+    }
+
     private static void runCli(String uiTestName, String configFileName) {
         runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}")
     }

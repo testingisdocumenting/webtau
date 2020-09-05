@@ -93,6 +93,10 @@ public class GraphQLSchema {
 
         String operationName = (String) request.get("operationName");
 
+        return findQueries(query, operationName);
+    }
+
+    Set<GraphQLQuery> findQueries(String query, String operationName) {
         ExecutionInput executionInput = ExecutionInput.newExecutionInput(query).build();
         ParseAndValidateResult parsingResult = ParseAndValidate.parse(executionInput);
         if (parsingResult.isFailure()) {
