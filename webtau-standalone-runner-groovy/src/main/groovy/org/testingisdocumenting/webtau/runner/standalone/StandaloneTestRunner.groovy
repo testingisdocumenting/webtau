@@ -51,9 +51,8 @@ class StandaloneTestRunner {
         new TestRunCondition(isConditionMet: true)
     }
 
-    private boolean runBeforeFirstAndAfterAllOnlyOnce
+    private boolean isReplMode
     private boolean isBeforeFirstRan
-    private boolean isAfterAllRan
 
     private WebTauReport report
 
@@ -96,8 +95,8 @@ class StandaloneTestRunner {
         }
     }
 
-    void setRunBeforeFirstAndAfterAllOnlyOnce(boolean runBeforeFirstAndAfterAllOnlyOnce) {
-        this.runBeforeFirstAndAfterAllOnlyOnce = runBeforeFirstAndAfterAllOnlyOnce
+    void setIsReplMode(boolean isReplMode) {
+        this.isReplMode = isReplMode
     }
 
     def attachTestMetadata(Map<String, Object> meta) {
@@ -207,7 +206,7 @@ class StandaloneTestRunner {
     }
 
     private void runBeforeFirstTestListenersAsTest() {
-        if (runBeforeFirstAndAfterAllOnlyOnce && isBeforeFirstRan) {
+        if (isReplMode && isBeforeFirstRan) {
             return
         }
 
@@ -223,7 +222,7 @@ class StandaloneTestRunner {
     }
 
     private void runAfterAllTestListenersAsTest() {
-        if (runBeforeFirstAndAfterAllOnlyOnce && isAfterAllRan) {
+        if (isReplMode) {
             return
         }
 
@@ -234,8 +233,6 @@ class StandaloneTestRunner {
         }
 
         registerIfFailedOrHasSteps(afterAllTestsAsTest)
-
-        isAfterAllRan = true
     }
 
     private void registerIfFailedOrHasSteps(StandaloneTest test) {

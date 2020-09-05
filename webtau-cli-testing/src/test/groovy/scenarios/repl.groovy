@@ -16,7 +16,12 @@
 
 package scenarios
 
+import withlisteners.SampleTestListener
+
+import java.nio.file.Files
+
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static webtau.CliCommands.*
 
 def repl = createLazyResource { webtauCli.runInBackground("repl --noColor testscripts/*.groovy") }
@@ -52,4 +57,21 @@ scenario('test listing') {
     repl.output.waitTo contain('browserSanity.groovy')
 
     cli.doc.capture('repl-tests-listing')
+}
+
+scenario('before all must be called only once and after all listener should not be called at all') {
+    def localRepl = webtauCli.runInBackground("repl --noColor withlisteners/dummy.groovy --config=withlisteners/webtau.cfg.groovy")
+    localRepl.with {
+        send('s 0\n')
+        send('r 0\n')
+        send('r 1\n')
+    }
+
+    localRepl.output.waitTo contain('[.] dummy test two')
+
+    def markerPath = cfg.workingDir.resolve(SampleTestListener.FILE_NAME)
+    def testListenerContent = Files.readAllLines(markerPath).join('\n')
+    testListenerContent.should == 'beforeFirstTest'
+
+    Files.delete(markerPath)
 }

@@ -32,7 +32,6 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
 import org.testingisdocumenting.webtau.pdf.Pdf
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
@@ -101,7 +100,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
     void startRepl() {
         prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
-            runner.setRunBeforeFirstAndAfterAllOnlyOnce(true)
+            runner.setIsReplMode(true)
             def repl = new Repl(runner)
             repl.run()
         }
