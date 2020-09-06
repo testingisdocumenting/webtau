@@ -29,7 +29,7 @@ public class DataNodeBuilder {
     @SuppressWarnings("unchecked")
     public static DataNode fromValue(DataNodeId id, Object value) {
         if (value instanceof Map) {
-            return new ObjectDataNode(id, buildMapOfNodes(id, (Map<String, Object>)value));
+            return new MapDataNode(id, buildMapOfNodes(id, (Map<String, Object>)value));
         } else if (value instanceof List) {
             return new ListDataNode(id, buildListOfNodes(id, (List<Object>)value));
         } else {

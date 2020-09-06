@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +20,7 @@ package org.testingisdocumenting.webtau.http.datanode;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class NullDataNode implements DataNode {
     private final DataNodeId id;
@@ -41,11 +40,6 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
-    public boolean has(String pathOrName) {
-        return false;
-    }
-
-    @Override
     public DataNode get(int idx) {
         return new NullDataNode(id.peer(idx));
     }
@@ -61,11 +55,6 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
-    public boolean isList() {
-        return false;
-    }
-
-    @Override
     public boolean isSingleValue() {
         return true;
     }
@@ -73,26 +62,6 @@ public class NullDataNode implements DataNode {
     @Override
     public List<DataNode> elements() {
         return Collections.singletonList(new NullDataNode(id.peer(0)));
-    }
-
-    @Override
-    public Iterator<DataNode> iterator() {
-        return elements().iterator();
-    }
-
-    @Override
-    public int numberOfChildren() {
-        return 0;
-    }
-
-    @Override
-    public int numberOfElements() {
-        return 0;
-    }
-
-    @Override
-    public Map<String, DataNode> asMap() {
-        return Collections.emptyMap();
     }
 
     @Override

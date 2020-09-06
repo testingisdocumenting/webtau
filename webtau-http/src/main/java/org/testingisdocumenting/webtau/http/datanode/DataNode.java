@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,35 +22,59 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode> {
+public interface DataNode extends DataNodeExpectations, Comparable<Object>, Iterable<DataNode> {
     DataNodeId id();
 
     DataNode get(String pathOrName);
 
-    boolean has(String pathOrName);
+    default boolean has(String pathOrName) {
+        return !get(pathOrName).isNull();
+    }
 
     DataNode get(int idx);
 
-    TraceableValue getTraceableValue();
+    default TraceableValue getTraceableValue() {
+        return null;
+    }
 
     <E> E get();
 
-    boolean isList();
+    default boolean isList() {
+        return false;
+    }
 
-    boolean isSingleValue();
+    default boolean isSingleValue() {
+        return false;
+    }
 
-    List<DataNode> elements();
+    default List<DataNode> elements() {
+        return Collections.emptyList();
+    }
 
-    int numberOfChildren();
+    @Override
+    @SuppressWarnings("NullableProblems")
+    default Iterator<DataNode> iterator() {
+        return elements().iterator();
+    }
 
-    int numberOfElements();
+    default int numberOfChildren() {
+        return 0;
+    }
 
-    Map<String, DataNode> asMap();
+    default int numberOfElements() {
+        return 0;
+    }
+
+    default Map<String, DataNode> asMap() {
+        return Collections.emptyMap();
+    }
 
     default boolean isNull() {
         return false;
@@ -67,6 +92,7 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     default int compareTo(Object rhv) {
         CompareToComparator comparator = CompareToComparator.comparator(
                 CompareToComparator.AssertionMode.GREATER_THAN);
