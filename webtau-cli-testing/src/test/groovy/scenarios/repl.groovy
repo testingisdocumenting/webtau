@@ -24,7 +24,8 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static webtau.CliCommands.*
 
-def repl = createLazyResource { webtauCli.runInBackground("repl --noColor testscripts/*.groovy") }
+def repl = createLazyResource { webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
+        "testscripts/browserSanity.groovy") }
 
 scenario('simple groovy repl') {
     repl << "2 + 2\n"
@@ -60,7 +61,9 @@ scenario('test listing') {
 }
 
 scenario('before all must be called only once and after all listener should not be called at all') {
-    def localRepl = webtauCli.runInBackground("repl --noColor withlisteners/dummy.groovy --config=withlisteners/webtau.cfg.groovy")
+    def localRepl = webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
+            "--config=withlisteners/webtau.cfg.groovy " +
+            "withlisteners/dummy.groovy  ")
     localRepl.with {
         send('s 0\n')
         send('r 0\n')
