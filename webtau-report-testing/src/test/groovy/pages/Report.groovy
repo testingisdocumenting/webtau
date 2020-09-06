@@ -25,6 +25,8 @@ class Report {
     def testNames = $(".navigation-entry .label")
     def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
 
+    def responseData = $(".response .data")
+
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
 
