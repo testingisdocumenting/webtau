@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.pdf
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId
-import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
+import org.testingisdocumenting.webtau.http.datanode.ValueDataNode
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
 
@@ -37,7 +37,7 @@ class PdfTest {
 
     @Test
     void "should mark binary node as fuzzy passed when pdf is successfully parsed"() {
-        def node = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(pdfContent))
+        def node = new ValueDataNode(new DataNodeId('body'), new TraceableValue(pdfContent))
 
         pdf(node)
         node.getTraceableValue().checkLevel.should == CheckLevel.FuzzyPassed
@@ -45,7 +45,7 @@ class PdfTest {
 
     @Test
     void "should mark binary node as failed when pdf cannot be parsed"() {
-        def node = new StructuredDataNode(new DataNodeId('body'), new TraceableValue([1, 2, 3] as byte[]))
+        def node = new ValueDataNode(new DataNodeId('body'), new TraceableValue([1, 2, 3] as byte[]))
 
         code {
             pdf(node)

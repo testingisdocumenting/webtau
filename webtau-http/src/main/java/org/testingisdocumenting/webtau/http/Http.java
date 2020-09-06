@@ -38,7 +38,7 @@ import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode;
+import org.testingisdocumenting.webtau.http.datanode.ValueDataNode;
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.listener.HttpListeners;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFile;
@@ -1044,11 +1044,11 @@ public class Http {
             DataNodeId id = new DataNodeId("body");
 
             if (!response.isBinary() && response.nullOrEmptyTextContent()) {
-                return new StructuredDataNode(id, new TraceableValue(null));
+                return new ValueDataNode(id, new TraceableValue(null));
             }
 
             if (response.isText()) {
-                return new StructuredDataNode(id, new TraceableValue(response.getTextContent()));
+                return new ValueDataNode(id, new TraceableValue(response.getTextContent()));
             }
 
             if (response.isJson()) {
@@ -1056,7 +1056,7 @@ public class Http {
                 return DataNodeBuilder.fromValue(id, object);
             }
 
-            return new StructuredDataNode(id, new TraceableValue(response.getBinaryContent()));
+            return new ValueDataNode(id, new TraceableValue(response.getBinaryContent()));
         } catch (JsonParseException e) {
             throw new RuntimeException("error parsing body: " + response.getTextContent(), e);
         }

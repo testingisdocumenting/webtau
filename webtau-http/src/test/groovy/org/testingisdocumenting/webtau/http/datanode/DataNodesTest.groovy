@@ -22,10 +22,10 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
-class StructuredDataNodeTest {
+class DataNodesTest {
     @Test
     void "value should be marked as explicitly failed when it mismatches"() {
-        def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
+        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
 
         code {
             node.should(equal(8))
@@ -36,7 +36,7 @@ class StructuredDataNodeTest {
 
     @Test
     void "value should be marked as fuzzy passed when it mismatches and should mismatch"() {
-        def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
+        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
 
         node.shouldNot(equal(8))
         node.getTraceableValue().checkLevel.should == CheckLevel.FuzzyPassed
@@ -44,7 +44,7 @@ class StructuredDataNodeTest {
 
     @Test
     void "value should be marked as explicitly passed when it matches"() {
-        def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
+        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
 
         node.should(equal(10))
         node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitPassed
@@ -52,7 +52,7 @@ class StructuredDataNodeTest {
 
     @Test
     void "value should be marked as explicitly failed when it matches"() {
-        def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
+        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
 
         code {
             node.shouldNot(equal(10))

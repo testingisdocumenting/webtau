@@ -142,7 +142,7 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     private DataNode wrapIntoDataNode(String operationId, List list) {
-        return new GroovyDataNode(new StructuredDataNode(node.id().child(operationId), list))
+        return new GroovyDataNode(new ListDataNode(node.id().child(operationId), list))
     }
 
     private static Closure delegateToNodeAndRemovedDataNodeFromClosure(Closure original) {

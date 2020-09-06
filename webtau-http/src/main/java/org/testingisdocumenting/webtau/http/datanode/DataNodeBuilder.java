@@ -29,11 +29,11 @@ public class DataNodeBuilder {
     @SuppressWarnings("unchecked")
     public static DataNode fromValue(DataNodeId id, Object value) {
         if (value instanceof Map) {
-            return new StructuredDataNode(id, buildMapOfNodes(id, (Map<String, Object>)value));
+            return new ObjectDataNode(id, buildMapOfNodes(id, (Map<String, Object>)value));
         } else if (value instanceof List) {
-            return new StructuredDataNode(id, buildListOfNodes(id, (List<Object>)value));
+            return new ListDataNode(id, buildListOfNodes(id, (List<Object>)value));
         } else {
-            return new StructuredDataNode(id, new TraceableValue(value));
+            return new ValueDataNode(id, new TraceableValue(value));
         }
     }
 

@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId
-import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
+import org.testingisdocumenting.webtau.http.datanode.ValueDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.utils.JsonUtils
@@ -63,7 +63,7 @@ class HttpValidationResultTest {
     @Test
     void "should replace binary content with placeholder"() {
         def binaryContent = [1, 2, 3] as byte[]
-        def binaryNode = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(binaryContent))
+        def binaryNode = new ValueDataNode(new DataNodeId('body'), new TraceableValue(binaryContent))
 
         def validationResult = createValidationResult(BinaryRequestBody.withType('application/octet-stream', binaryContent))
 
