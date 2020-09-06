@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,85 +16,14 @@
 
 package org.testingisdocumenting.webtau.http.datanode
 
-import org.testingisdocumenting.webtau.data.traceable.CheckLevel
-import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.junit.Test
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
-
-class DataNodesTest {
-    @Test
-    void "value should be marked as explicitly failed when it mismatches"() {
-        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
-
-        code {
-            node.should(equal(8))
-        } should throwException(~/mismatches/)
-
-        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
-    }
-
-    @Test
-    void "value should be marked as fuzzy passed when it mismatches and should mismatch"() {
-        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
-
-        node.shouldNot(equal(8))
-        node.getTraceableValue().checkLevel.should == CheckLevel.FuzzyPassed
-    }
-
-    @Test
-    void "value should be marked as explicitly passed when it matches"() {
-        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
-
-        node.should(equal(10))
-        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitPassed
-    }
-
-    @Test
-    void "value should be marked as explicitly failed when it matches"() {
-        def node = new ValueDataNode(new DataNodeId("value"), new TraceableValue(10))
-
-        code {
-            node.shouldNot(equal(10))
-        } should throwException(~/actual: 10/)
-
-        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
-    }
-
-    @Test
-    void "shortcut for children props"() {
-        def node = DataNodeBuilder.fromList(new DataNodeId("body"), [
-                [name: 'name1', score: 10],
-                [name: 'name2', score: 20],
-        ])
-
-        node.name.should(equal(['name1', 'name2']))
-
-        node.get(0).get('name').getTraceableValue().checkLevel.should == CheckLevel.ExplicitPassed
-        node.get(1).get('name').getTraceableValue().checkLevel.should == CheckLevel.ExplicitPassed
-        node.get(0).get('score').getTraceableValue().checkLevel.should == CheckLevel.None
-        node.get(1).get('score').getTraceableValue().checkLevel.should == CheckLevel.None
-    }
-
-    @Test
-    void "shortcut using on non existing field should produce null data node"() {
-        def node = DataNodeBuilder.fromList(new DataNodeId("body"), [
-                [name: 'name1'],
-                [name: 'name2'],
-        ])
-
-        node.score.should == null
-
-        code {
-            node.score.shouldNot == null
-        } should throwException(AssertionError, ~/body\.score/)
-    }
-
+class MapDataNodeTest {
     @Test
     void "should access underlying value in case of simple"() {
         def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
-                key1: [name: 'name1'],
-                key2: [name: 'name2'],
+            key1: [name: 'name1'],
+            key2: [name: 'name2'],
         ])
 
         String name = node.get('key1').get('name').get()
@@ -105,8 +33,8 @@ class DataNodesTest {
     @Test
     void "should extract map value in case of object"() {
         def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
-                key1: [name: 'name1'],
-                key2: [name: 'name2'],
+            key1: [name: 'name1'],
+            key2: [name: 'name2'],
         ])
 
         Map<String, Object> map = node.get('key1').get()
@@ -116,7 +44,7 @@ class DataNodesTest {
     @Test
     void "should extract map value in case of array"() {
         def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
-                key1: [[name: 'name1'], [name: 'name2']]
+            key1: [[name: 'name1'], [name: 'name2']]
         ])
 
         List<Map<String, Object>> list = node.get('key1').get()
@@ -161,17 +89,6 @@ class DataNodesTest {
         ])
 
         List<String> names = node.get("key1.name").get()
-        names.should == ['name1', 'name2']
-    }
-
-    @Test
-    void "should collect over list with path"() {
-        def node = DataNodeBuilder.fromList(new DataNodeId("body"), [
-            [key: [name: 'name1']],
-            [key: [name: 'name2']]
-        ])
-
-        List<String> names = node.get("key.name").get()
         names.should == ['name1', 'name2']
     }
 
