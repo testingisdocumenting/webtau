@@ -51,6 +51,9 @@ class StandaloneTestRunner {
         new TestRunCondition(isConditionMet: true)
     }
 
+    private boolean isReplMode
+    private boolean isBeforeFirstRan
+
     private WebTauReport report
 
     StandaloneTestRunner(GroovyScriptEngine groovy, Path workingDir) {
@@ -90,6 +93,10 @@ class StandaloneTestRunner {
             scriptParse.test.metadata.add(currentTestMetadata.get())
             registeredTests.add(scriptParse)
         }
+    }
+
+    void setIsReplMode(boolean isReplMode) {
+        this.isReplMode = isReplMode
     }
 
     def attachTestMetadata(Map<String, Object> meta) {
@@ -199,6 +206,10 @@ class StandaloneTestRunner {
     }
 
     private void runBeforeFirstTestListenersAsTest() {
+        if (isReplMode && isBeforeFirstRan) {
+            return
+        }
+
         def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
 
         handleTestAndNotifyListeners(beforeFirstTestAsTest) {
@@ -206,9 +217,15 @@ class StandaloneTestRunner {
         }
 
         registerIfFailedOrHasSteps(beforeFirstTestAsTest)
+
+        isBeforeFirstRan = true
     }
 
     private void runAfterAllTestListenersAsTest() {
+        if (isReplMode) {
+            return
+        }
+
         def afterAllTestsAsTest = createAfterAllTestListenersAsTest()
 
         handleTestAndNotifyListeners(afterAllTestsAsTest) {

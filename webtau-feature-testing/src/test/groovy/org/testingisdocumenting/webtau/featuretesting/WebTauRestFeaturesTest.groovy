@@ -56,6 +56,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "simple get text"() {
+        runCli('simpleGetText.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "ping"() {
         runCli('ping.groovy', 'docArtifacts.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
