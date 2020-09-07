@@ -24,11 +24,11 @@ import java.util.Objects;
 
 import static java.util.stream.Collectors.joining;
 
-public class MapDataNode implements DataNode {
+class MapDataNode implements DataNode {
     private final DataNodeId id;
     private final Map<String, DataNode> children;
 
-    public MapDataNode(DataNodeId id, Map<String, DataNode> children) {
+    MapDataNode(DataNodeId id, Map<String, DataNode> children) {
         Objects.requireNonNull(children);
 
         this.id = id;

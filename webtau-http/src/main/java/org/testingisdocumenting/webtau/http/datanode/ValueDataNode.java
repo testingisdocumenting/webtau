@@ -20,11 +20,11 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 
 import java.util.Objects;
 
-public class ValueDataNode implements DataNode {
+class ValueDataNode implements DataNode {
     private final DataNodeId id;
     private final TraceableValue value;
 
-    public ValueDataNode(DataNodeId id, TraceableValue value) {
+    ValueDataNode(DataNodeId id, TraceableValue value) {
         Objects.requireNonNull(value);
 
         this.id = id;

@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-public class ListDataNode implements DataNode {
+class ListDataNode implements DataNode {
     private final DataNodeId id;
     private final List<DataNode> values;
 
-    public ListDataNode(DataNodeId id, List<DataNode> values) {
+    ListDataNode(DataNodeId id, List<DataNode> values) {
         Objects.requireNonNull(values);
 
         this.id = id;

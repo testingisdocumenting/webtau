@@ -23,7 +23,6 @@ import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.datanode.NullDataNode;
 
 import java.util.*;
 import java.util.function.Function;
@@ -69,7 +68,7 @@ public class HeaderDataNode implements DataNode {
 
         return matchingKey
                 .map(dataNode::get)
-                .orElse(new NullDataNode(id().child(name)));
+                .orElse(DataNodeBuilder.nullDataNode(id().child(name)));
     }
 
     @Override

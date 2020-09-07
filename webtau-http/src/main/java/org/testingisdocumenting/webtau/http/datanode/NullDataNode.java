@@ -22,10 +22,10 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import java.util.Collections;
 import java.util.List;
 
-public class NullDataNode implements DataNode {
+class NullDataNode implements DataNode {
     private final DataNodeId id;
 
-    public NullDataNode(DataNodeId id) {
+    NullDataNode(DataNodeId id) {
         this.id = id;
     }
 

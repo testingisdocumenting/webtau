@@ -45,6 +45,10 @@ public class DataNodeBuilder {
         return fromValue(id, list);
     }
 
+    public static DataNode nullDataNode(DataNodeId id) {
+        return new NullDataNode(id);
+    }
+
     private static Map<String, DataNode> buildMapOfNodes(DataNodeId id, Map<String, Object> map) {
         Map<String, DataNode> result = new LinkedHashMap<>();
         for (Entry<String, Object> entry : map.entrySet()) {
