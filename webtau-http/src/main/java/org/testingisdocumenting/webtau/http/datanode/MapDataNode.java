@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.http.datanode;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,13 +27,14 @@ import static java.util.stream.Collectors.joining;
 class MapDataNode implements DataNode {
     private final DataNodeId id;
     private final Map<String, DataNode> children;
-    private final Map<DataNodeId, DataNode> queriedNonExistentNodes = new LinkedHashMap<>();
+    private final NonExistentNodesTracker nonExistentNodesTracker;
 
     MapDataNode(DataNodeId id, Map<String, DataNode> children) {
         Objects.requireNonNull(children);
 
         this.id = id;
         this.children = children;
+        this.nonExistentNodesTracker = new NonExistentNodesTracker(id);
     }
 
     @Override
@@ -69,7 +69,7 @@ class MapDataNode implements DataNode {
         // simple name
         return (children.containsKey(name)) ?
                 children.get(name) :
-                queriedNonExistentNodes.computeIfAbsent(id.child(name), NullDataNode::new);
+                nonExistentNodesTracker.register(name);
     }
 
     private DataNode getIndexedChild(String name, int openBraceIdx, int closeBraceIdx) {
@@ -98,7 +98,7 @@ class MapDataNode implements DataNode {
 
     @Override
     public DataNode get(int idx) {
-        return queriedNonExistentNodes.computeIfAbsent(id.peer(idx), NullDataNode::new);
+        return nonExistentNodesTracker.register(idx);
     }
 
     @Override

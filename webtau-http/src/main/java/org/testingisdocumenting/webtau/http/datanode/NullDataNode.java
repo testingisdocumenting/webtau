@@ -20,17 +20,16 @@ package org.testingisdocumenting.webtau.http.datanode;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 class NullDataNode implements DataNode {
     private final DataNodeId id;
     private final TraceableValue value = new TraceableValue(null);
-    private final Map<DataNodeId, DataNode> queriedNonExistentNodes = new LinkedHashMap<>();
+    private final NonExistentNodesTracker nonExistentNodesTracker;
 
     NullDataNode(DataNodeId id) {
         this.id = id;
+        this.nonExistentNodesTracker = new NonExistentNodesTracker(id);
     }
 
     @Override
@@ -40,12 +39,12 @@ class NullDataNode implements DataNode {
 
     @Override
     public DataNode get(String pathOrName) {
-        return queriedNonExistentNodes.computeIfAbsent(id.child(pathOrName), NullDataNode::new);
+        return nonExistentNodesTracker.register(pathOrName);
     }
 
     @Override
     public DataNode get(int idx) {
-        return queriedNonExistentNodes.computeIfAbsent(id.peer(idx), NullDataNode::new);
+        return nonExistentNodesTracker.register(idx);
     }
 
     @Override
@@ -65,7 +64,7 @@ class NullDataNode implements DataNode {
 
     @Override
     public List<DataNode> elements() {
-        return Collections.singletonList(queriedNonExistentNodes.computeIfAbsent(id.peer(0), NullDataNode::new));
+        return Collections.singletonList(nonExistentNodesTracker.register(0));
     }
 
     @Override

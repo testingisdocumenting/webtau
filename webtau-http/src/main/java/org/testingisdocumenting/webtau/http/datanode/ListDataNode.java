@@ -17,9 +17,7 @@
 package org.testingisdocumenting.webtau.http.datanode;
 
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -29,13 +27,14 @@ import static java.util.stream.Collectors.toList;
 class ListDataNode implements DataNode {
     private final DataNodeId id;
     private final List<DataNode> values;
-    private final Map<DataNodeId, DataNode> queriedNonExistentNodes = new LinkedHashMap<>();
+    private final NonExistentNodesTracker nonExistentNodesTracker;
 
     ListDataNode(DataNodeId id, List<DataNode> values) {
         Objects.requireNonNull(values);
 
         this.id = id;
         this.values = values;
+        this.nonExistentNodesTracker = new NonExistentNodesTracker(id);
     }
 
     @Override
@@ -46,7 +45,7 @@ class ListDataNode implements DataNode {
     @Override
     public DataNode get(String nameOrPath) {
         if (values.stream().noneMatch(v -> v.has(nameOrPath))) {
-            return queriedNonExistentNodes.computeIfAbsent(id.child(nameOrPath), NullDataNode::new);
+            return nonExistentNodesTracker.register(nameOrPath);
         }
 
         return new ListDataNode(id.child(nameOrPath),
@@ -58,7 +57,7 @@ class ListDataNode implements DataNode {
     @Override
     public DataNode get(int idx) {
         return (idx < 0 || idx >= values.size()) ?
-                queriedNonExistentNodes.computeIfAbsent(id.peer(idx), NullDataNode::new):
+                nonExistentNodesTracker.register(idx) :
                 values.get(idx);
     }
 
