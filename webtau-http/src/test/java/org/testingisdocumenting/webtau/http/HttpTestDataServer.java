@@ -46,6 +46,7 @@ public class HttpTestDataServer {
         handler.registerPut("/end-point", objectTestResponse);
         handler.registerPatch("/end-point", objectTestResponse);
         handler.registerDelete("/end-point", objectTestResponse);
+        handler.registerGet("/text-end-point", new TestServerTextResponse("hello world"));
         handler.registerGet("/end-point-simple-object", jsonResponse("simpleObjectTestResponse.json"));
         handler.registerGet("/end-point-simple-list", jsonResponse("simpleListTestResponse.json"));
         handler.registerGet("/end-point-mixed", jsonResponse("mixedTestResponse.json"));
