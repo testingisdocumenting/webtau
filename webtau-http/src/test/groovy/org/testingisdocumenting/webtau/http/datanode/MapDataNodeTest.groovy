@@ -143,10 +143,6 @@ class MapDataNodeTest {
 
         node = DataNodeBuilder.fromMap(new DataNodeId("body"), [key: [:]])
         checkLevelIsRecordedForNonExistentNode {
-            node.get("key")
-        }
-
-        checkLevelIsRecordedForNonExistentNode {
             node["key"]["nested"]
         }
     }
