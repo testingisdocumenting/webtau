@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,6 +39,11 @@ export class Step extends React.Component {
         return (
             <ParentContainer className="step">
                 <div className="message-parts">
+                    {step.personaId ?
+                        <div className="persona-id">{step.personaId}</div> :
+                        <div/>
+                    }
+
                     <StepMessage message={step.message}/>
                     {this.renderMoreToggle()}
                     <StepTime millis={step.elapsedTime}/>

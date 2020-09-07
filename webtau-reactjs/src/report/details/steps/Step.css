@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +19,15 @@
     padding: var(--webtau-spacing-double);
 }
 
+.step .persona-id {
+    color: #b87f1f;
+    margin-right: 8px;
+    align-self: flex-start;
+}
+
 .step > .message-parts {
     display: grid;
-    grid-template-columns: auto auto 1fr;
+    grid-template-columns: auto auto auto 1fr;
     align-items: center;
 }
 
