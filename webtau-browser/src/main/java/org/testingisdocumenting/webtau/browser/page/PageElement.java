@@ -42,10 +42,25 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     void setValue(Object value);
     void sendKeys(String keys);
     void click();
+    void shiftClick();
+    void controlClick();
+    void commandClick();
+    void altClick();
     void rightClick();
     void doubleClick();
     void hover();
     void clear();
+
+    /**
+     * uses command on mac os x, and control on other OSes
+     */
+    default void commandOrControlClick() {
+        if (BrowserConditions.isMac()) {
+            commandClick();
+        } else {
+            controlClick();
+        }
+    }
 
     PageElement find(String css);
     PageElement find(ElementsFinder finder);
