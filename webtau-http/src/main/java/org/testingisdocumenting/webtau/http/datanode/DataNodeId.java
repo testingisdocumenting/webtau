@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
+import java.util.Objects;
+
 public class DataNodeId {
     private String path;
     private String name;
@@ -59,5 +61,20 @@ public class DataNodeId {
     @Override
     public String toString() {
         return path;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DataNodeId that = (DataNodeId) o;
+        return idx == that.idx &&
+                Objects.equals(path, that.path) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(path, name, idx);
     }
 }

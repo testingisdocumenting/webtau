@@ -18,11 +18,14 @@ package org.testingisdocumenting.webtau.http.datanode;
 
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 class ValueDataNode implements DataNode {
     private final DataNodeId id;
     private final TraceableValue value;
+    private final Map<DataNodeId, DataNode> queriedNonExistentNodes = new LinkedHashMap<>();
 
     ValueDataNode(DataNodeId id, TraceableValue value) {
         Objects.requireNonNull(value);
@@ -38,12 +41,12 @@ class ValueDataNode implements DataNode {
 
     @Override
     public DataNode get(String pathOrName) {
-        return new NullDataNode(id.child(pathOrName));
+        return queriedNonExistentNodes.computeIfAbsent(id.child(pathOrName), NullDataNode::new);
     }
 
     @Override
     public DataNode get(int idx) {
-        return new NullDataNode(id.peer(idx));
+        return queriedNonExistentNodes.computeIfAbsent(id.peer(idx), NullDataNode::new);
     }
 
     @Override

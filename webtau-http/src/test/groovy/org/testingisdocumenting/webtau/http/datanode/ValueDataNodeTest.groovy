@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.http.datanode.DataNodeTestUtils.checkLevelIsRecordedForNonExistentNode
 
 class ValueDataNodeTest {
     @Test
@@ -59,5 +60,21 @@ class ValueDataNodeTest {
         } should throwException(~/actual: 10/)
 
         node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
+    }
+
+    @Test
+    void "check level is recorded for non-existent nodes"() {
+        def node = DataNodeBuilder.fromValue(new DataNodeId("body"), null)
+        checkLevelIsRecordedForNonExistentNode {
+            node
+        }
+
+        checkLevelIsRecordedForNonExistentNode {
+            node["key"]
+        }
+
+        checkLevelIsRecordedForNonExistentNode {
+            node.get(0)
+        }
     }
 }

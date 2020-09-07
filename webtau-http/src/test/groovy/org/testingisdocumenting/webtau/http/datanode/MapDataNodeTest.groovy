@@ -17,6 +17,9 @@
 package org.testingisdocumenting.webtau.http.datanode
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
+
+import static org.testingisdocumenting.webtau.http.datanode.DataNodeTestUtils.checkLevelIsRecordedForNonExistentNode
 
 class MapDataNodeTest {
     @Test
@@ -113,5 +116,38 @@ class MapDataNodeTest {
 
         has = node.has('key2.name.foo')
         has.should == false
+    }
+
+    @Test
+    void "check level is recorded for non-existent nodes"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [:])
+        checkLevelIsRecordedForNonExistentNode {
+            node["key"]
+        }
+
+        checkLevelIsRecordedForNonExistentNode {
+            node.get(0)
+        }
+
+        checkLevelIsRecordedForNonExistentNode {
+            node["key"]["nested"]
+        }
+
+        checkLevelIsRecordedForNonExistentNode {
+            node["key"]["nested"].get(1)
+        }
+
+        node["key"]["nested"].elements().traceableValue.checkLevel.should == [CheckLevel.None]
+        node["key"]["nested"].elements().should == [null]
+        node["key"]["nested"].elements().traceableValue.checkLevel.should == [CheckLevel.ExplicitPassed]
+
+        node = DataNodeBuilder.fromMap(new DataNodeId("body"), [key: [:]])
+        checkLevelIsRecordedForNonExistentNode {
+            node.get("key")
+        }
+
+        checkLevelIsRecordedForNonExistentNode {
+            node["key"]["nested"]
+        }
     }
 }

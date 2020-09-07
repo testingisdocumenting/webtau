@@ -17,7 +17,9 @@
 package org.testingisdocumenting.webtau.http.datanode;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,7 @@ import static java.util.stream.Collectors.toList;
 class ListDataNode implements DataNode {
     private final DataNodeId id;
     private final List<DataNode> values;
+    private final Map<DataNodeId, DataNode> queriedNonExistentNodes = new LinkedHashMap<>();
 
     ListDataNode(DataNodeId id, List<DataNode> values) {
         Objects.requireNonNull(values);
@@ -43,7 +46,7 @@ class ListDataNode implements DataNode {
     @Override
     public DataNode get(String nameOrPath) {
         if (values.stream().noneMatch(v -> v.has(nameOrPath))) {
-            return new NullDataNode(id.child(nameOrPath));
+            return queriedNonExistentNodes.computeIfAbsent(id.child(nameOrPath), NullDataNode::new);
         }
 
         return new ListDataNode(id.child(nameOrPath),
@@ -55,7 +58,7 @@ class ListDataNode implements DataNode {
     @Override
     public DataNode get(int idx) {
         return (idx < 0 || idx >= values.size()) ?
-                new NullDataNode(id.peer(idx)):
+                queriedNonExistentNodes.computeIfAbsent(id.peer(idx), NullDataNode::new):
                 values.get(idx);
     }
 
