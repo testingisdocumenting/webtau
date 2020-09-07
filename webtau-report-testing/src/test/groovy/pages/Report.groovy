@@ -27,6 +27,9 @@ class Report {
 
     def responseData = $(".response .data")
 
+    def steps = $(".step")
+    def personaId = $(".step .persona-id")
+
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
 
@@ -50,6 +53,10 @@ class Report {
 
     def selectCliCalls() {
         selectDetailsTab('CLI calls')
+    }
+
+    def selectSteps() {
+        selectDetailsTab('Steps')
     }
 
     def selectDetailsTab(String tabName) {

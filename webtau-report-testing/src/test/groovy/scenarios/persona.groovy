@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +14,21 @@
  * limitations under the License.
  */
 
-.card.step {
-    padding: var(--webtau-spacing-double);
+package scenarios
+
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
+
+scenario('open report') {
+    report.openGroovyStandaloneReport('ui/searchWithPersonas-webtau-report.html')
 }
 
-.step .persona-id {
-    color: #b87f1f;
-    margin-right: 8px;
-    align-self: flex-start;
-}
+scenario('select steps tab and check persona') {
+    report.selectTest('multiple browsers for search')
+    report.selectSteps()
 
-.step > .message-parts {
-    display: grid;
-    grid-template-columns: auto auto auto 1fr;
-    align-items: center;
-}
+    report.steps.count.should == 15
+    report.personaId.count.should == 9
 
-.step > .message-parts > .show-children {
-    background-color: #eee;
-    margin-left: var(--webtau-spacing-double);
-    padding: 0 var(--webtau-spacing-half);
-
-    cursor: pointer;
-}
-
-.step > .message-parts > .step-time {
-    justify-self: end;
+    report.personaId.should == 'John'
 }
