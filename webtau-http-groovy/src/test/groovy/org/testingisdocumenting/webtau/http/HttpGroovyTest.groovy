@@ -1123,6 +1123,13 @@ class HttpGroovyTest extends HttpTestBase {
         }
     }
 
+    @Test
+    void "text content response"() {
+        http.get("/text-end-point") {
+            body.should == 'hello world'
+        }
+    }
+
     private static void assertStatusCodeMismatchRegistered() {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }
