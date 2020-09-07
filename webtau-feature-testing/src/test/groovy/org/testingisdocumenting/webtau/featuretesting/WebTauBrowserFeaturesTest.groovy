@@ -43,6 +43,7 @@ class WebTauBrowserFeaturesTest {
         handler.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
         handler.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
         handler.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
+        handler.registerGet("/ag-grid-multi-select", htmlResponse('ag-grid-multi-select.html'))
     }
 
     @BeforeClass
@@ -285,6 +286,11 @@ class WebTauBrowserFeaturesTest {
     @Test
     void "personas searching"() {
         runCli('searchWithPersonas.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "ag grid multi select"() {
+        runCli('agGridMultiSelect.groovy', 'webtau.cfg.groovy')
     }
 
     private static void runCli(String uiTestName, String configFileName) {
