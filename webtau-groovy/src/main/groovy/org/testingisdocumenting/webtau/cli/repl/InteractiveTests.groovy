@@ -17,6 +17,8 @@
 package org.testingisdocumenting.webtau.cli.repl
 
 import org.testingisdocumenting.webtau.TestFile
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTest
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 import groovy.transform.PackageScope
@@ -37,6 +39,12 @@ class InteractiveTests {
     List<StandaloneTest> refreshScenarios(String filePath) {
         runner.clearRegisteredTests()
         runner.process(new TestFile(Paths.get(filePath)), this)
+
+        def withError = runner.tests.find { it.hasError() }
+        if (withError) {
+            ConsoleOutputs.out(Color.RED, withError.exception)
+            return []
+        }
 
         return runner.tests
     }
