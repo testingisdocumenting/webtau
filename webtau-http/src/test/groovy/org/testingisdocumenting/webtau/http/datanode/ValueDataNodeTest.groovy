@@ -77,4 +77,16 @@ class ValueDataNodeTest {
             node.get(0)
         }
     }
+
+    @Test
+    void "comparing null to list should record correct check levels"() {
+        def node = DataNodeBuilder.fromValue(new DataNodeId("body"), null)
+
+        code {
+            node.should == [1, [key: 'value']]
+        } should throwException(~/mismatches/)
+
+        node.get(0).traceableValue.checkLevel.should == CheckLevel.ExplicitFailed
+        node.get(1).get('key').traceableValue.checkLevel.should == CheckLevel.ExplicitFailed
+    }
 }

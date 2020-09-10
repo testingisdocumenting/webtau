@@ -16,12 +16,19 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.IntStream;
+
+import static org.testingisdocumenting.webtau.expectation.equality.CheckLevelDerivation.determineCompareToCheckLevel;
+import static org.testingisdocumenting.webtau.expectation.equality.CheckLevelDerivation.determineEqualOnlyCheckLevel;
 
 public class DataNodeCompareToHandler implements CompareToHandler {
     @Override
@@ -41,21 +48,33 @@ public class DataNodeCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+        DataNode actualDataNode = (DataNode) actual;
+        CompareToResult result;
         if (expected instanceof Map) {
-            compareWithMap(comparator, actualPath, (DataNode) actual, (Map) expected);
+            result = compareWithMap(comparator, actualPath, actualDataNode, (Map) expected);
         } else {
-            Object extractedActual = extractActual((DataNode) actual);
-            comparator.compareUsingEqualOnly(actualPath, extractedActual, expected);
+            Object extractedActual = extractActual(actualDataNode);
+            result = comparator.compareUsingEqualOnly(actualPath, extractedActual, expected);
+        }
+
+        if (actualDataNode.isNull() || actualDataNode.get() == null) {
+            CheckLevel checkLevel = determineEqualOnlyCheckLevel(result, comparator.getAssertionMode());
+            updateCheckLevels(actualDataNode, expected, checkLevel);
         }
     }
 
     @Override
     public void compareGreaterLessEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
         DataNode actualDataNode = (DataNode) actual;
-        compareToComparator.compareUsingCompareTo(actualPath, actualDataNode.getTraceableValue(), expected);
+        CompareToResult result = compareToComparator.compareUsingCompareTo(actualPath, actualDataNode.getTraceableValue(), expected);
+
+        if (actualDataNode.isNull() || actualDataNode.get() == null) {
+            CheckLevel checkLevel = determineCompareToCheckLevel(result, compareToComparator.getAssertionMode());
+            updateCheckLevels(actualDataNode, expected, checkLevel);
+        }
     }
 
-    private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map expected) {
+    private CompareToResult compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map expected) {
         Map<String, DataNode> actualAsMap = actual.asMap();
 
         Set keys = expected.keySet();
@@ -70,6 +89,8 @@ public class DataNodeCompareToHandler implements CompareToHandler {
                 comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedValue);
             }
         }
+
+        return comparator.createCompareToResult();
     }
 
     private boolean handles(Object actual) {
@@ -90,5 +111,22 @@ public class DataNodeCompareToHandler implements CompareToHandler {
         }
 
         return actual.asMap();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void updateCheckLevels(DataNode actual, Object expected, CheckLevel checkLevel) {
+        if (expected instanceof Map) {
+            ((Map<String, ?>) expected).entrySet().forEach(entry -> {
+                String key = entry.getKey();
+                actual.get(key).getTraceableValue().updateCheckLevel(checkLevel);
+                updateCheckLevels(actual.get(key), entry.getValue(), checkLevel);
+            });
+        } else if (expected instanceof List) {
+            List expectedList = (List) expected;
+            IntStream.range(0, expectedList.size()).forEach(i -> {
+                actual.get(i).getTraceableValue().updateCheckLevel(checkLevel);
+                updateCheckLevels(actual.get(i), expectedList.get(i), checkLevel);
+            });
+        }
     }
 }

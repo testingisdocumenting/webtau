@@ -16,13 +16,14 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
+
+import static org.testingisdocumenting.webtau.expectation.equality.CheckLevelDerivation.determineCompareToCheckLevel;
+import static org.testingisdocumenting.webtau.expectation.equality.CheckLevelDerivation.determineEqualOnlyCheckLevel;
 
 public class TraceableValueCompareToHandler implements CompareToHandler {
     @Override
@@ -54,41 +55,6 @@ public class TraceableValueCompareToHandler implements CompareToHandler {
 
         CompareToResult result = comparator.compareUsingEqualOnly(actualPath, traceableValue.getValue(), expected);
         traceableValue.updateCheckLevel(determineEqualOnlyCheckLevel(result, comparator.getAssertionMode()));
-    }
-
-    private CheckLevel determineCompareToCheckLevel(CompareToResult result, AssertionMode assertionMode) {
-        if (result.isGreater() && assertionMode == AssertionMode.GREATER_THAN ||
-                result.isGreaterOrEqual() && assertionMode == AssertionMode.GREATER_THAN_OR_EQUAL ||
-                result.isLess() && assertionMode == AssertionMode.LESS_THAN ||
-                result.isLessOrEqual() && assertionMode == AssertionMode.LESS_THAN_OR_EQUAL) {
-            return CheckLevel.FuzzyPassed;
-        }
-
-        if (result.isGreaterOrEqual() && assertionMode == AssertionMode.LESS_THAN ||
-                result.isGreater() && assertionMode == AssertionMode.LESS_THAN_OR_EQUAL ||
-                result.isLessOrEqual() && assertionMode == AssertionMode.GREATER_THAN ||
-                result.isLess() && assertionMode == AssertionMode.GREATER_THAN_OR_EQUAL) {
-            return CheckLevel.ExplicitFailed;
-        }
-
-        return CheckLevel.None;
-    }
-
-    private CheckLevel determineEqualOnlyCheckLevel(CompareToResult result, AssertionMode assertionMode) {
-        if (result.isNotEqual() && assertionMode == AssertionMode.EQUAL ||
-                result.isEqual() && assertionMode == AssertionMode.NOT_EQUAL) {
-            return CheckLevel.ExplicitFailed;
-        }
-
-        if (result.isEqual() && assertionMode == AssertionMode.EQUAL) {
-            return CheckLevel.ExplicitPassed;
-        }
-
-        if (result.isNotEqual() && assertionMode == AssertionMode.NOT_EQUAL) {
-            return CheckLevel.FuzzyPassed;
-        }
-
-        return CheckLevel.None;
     }
 
     private boolean handles(Object actual) {
