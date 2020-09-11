@@ -52,6 +52,13 @@ scenario('http call') {
             'header.statusCode equals 200')
 }
 
+scenario('should list test files on start') {
+    repl.clearOutput()
+    repl.output.waitTo contain('browserSanity.groovy')
+
+    cli.doc.capture('repl-tests-listing')
+}
+
 scenario('test listing') {
     repl.clearOutput()
     repl << "ls\n"

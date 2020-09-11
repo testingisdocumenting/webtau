@@ -64,7 +64,8 @@ class Repl {
     }
 
     void run() {
-        groovysh.run("")
+        def commandLine = interactiveTests.testFilePaths.isEmpty() ? "" : "ls"
+        groovysh.run(commandLine)
     }
 
     private static void initHandlers() {
