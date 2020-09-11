@@ -234,6 +234,10 @@ class ReplCommands {
     static private void displayTestFiles() {
         out(Color.BLUE, 'Test files:')
 
+        if (interactiveTests.testFilePaths.isEmpty()) {
+            out(Color.YELLOW, "[no test files specified]")
+        }
+
         interactiveTests.testFilePaths.eachWithIndex { path, idx ->
             out(Color.YELLOW, idx, Color.PURPLE, ' ', path)
         }

@@ -27,7 +27,12 @@ import static webtau.CliCommands.*
 def repl = createLazyResource { webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
         "testscripts/browserSanity.groovy testscripts/scriptWithSyntaxError.groovy") }
 
+scenario('should list test files on start') {
+    repl.output.waitTo contain('browserSanity.groovy')
+}
+
 scenario('simple groovy repl') {
+    repl.clearOutput()
     repl << "2 + 2\n"
 
     repl.output.waitTo contain("4")
