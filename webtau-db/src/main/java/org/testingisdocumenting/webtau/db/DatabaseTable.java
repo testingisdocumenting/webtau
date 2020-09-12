@@ -48,13 +48,13 @@ class DatabaseTable {
                 () -> insertStep(tableData));
     }
 
-    public TableData query() {
+    public DatabaseQueryResult query() {
         TestStep step = createStep(null,
                 tokenizedMessage(action("querying"), createMessageId()),
                 () -> tokenizedMessage(action("queried"), createMessageId()),
                 () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), SqlQueriesGenerator.query(name)));
 
-        return (TableData) step.execute(StepReportOptions.REPORT_ALL);
+        return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
     }
 
     private void insertStep(TableData tableData) {

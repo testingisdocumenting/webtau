@@ -38,7 +38,7 @@ public class DatabaseFacade {
         return from(getPrimaryDataSource()).table(tableName);
     }
 
-    public TableData query(String query) {
+    public DatabaseQueryResult query(String query) {
         return from(getPrimaryDataSource()).query(query);
     }
 
