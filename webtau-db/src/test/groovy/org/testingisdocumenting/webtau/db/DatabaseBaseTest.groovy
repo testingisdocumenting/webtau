@@ -24,8 +24,9 @@ import org.junit.BeforeClass
 import javax.sql.DataSource
 
 class DatabaseBaseTest {
-    public static DbDataSourceProvider h2PrimaryProvider = new H2PrimaryDbDataSourceProvider()
-    public static DataSource h2DataSource
+    private static boolean areTablesCreated
+    protected static DbDataSourceProvider h2PrimaryProvider = new H2PrimaryDbDataSourceProvider()
+    protected static DataSource h2DataSource
 
     @BeforeClass
     static void init() {
@@ -49,6 +50,10 @@ class DatabaseBaseTest {
     }
 
     private static void createPricesTable(DataSource dataSource) {
+        if (areTablesCreated) {
+            return
+        }
+
         String definition =
                 """CREATE TABLE PRICES (
     id varchar(255),
@@ -58,5 +63,7 @@ class DatabaseBaseTest {
 """
         def run = new QueryRunner(dataSource)
         run.update(definition)
+
+        areTablesCreated = true
     }
 }
