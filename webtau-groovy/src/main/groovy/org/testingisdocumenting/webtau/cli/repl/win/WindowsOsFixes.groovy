@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,30 +14,15 @@
  * limitations under the License.
  */
 
-.card.step {
-    padding: var(--webtau-spacing-double);
-}
+package org.testingisdocumenting.webtau.cli.repl.win
 
-.step .persona-id {
-    color: #b87f1f;
-    margin-right: 8px;
-    align-self: flex-start;
-}
+class WindowsOsFixes {
+    static void apply() {
+        if (!System.getProperty('os.name').toLowerCase().contains('windows')) {
+            return
+        }
 
-.step > .message-parts {
-    display: grid;
-    grid-template-columns: auto auto auto 1fr;
-    align-items: center;
-}
-
-.step > .message-parts > .show-children {
-    background-color: #eee;
-    margin-left: var(--webtau-spacing-double);
-    padding: 0 var(--webtau-spacing-half);
-
-    cursor: pointer;
-}
-
-.step > .message-parts > .step-time {
-    justify-self: end;
+        WindowsTerminalFix.registerIfRequired()
+        WindowsPreferenceFix.apply()
+    }
 }

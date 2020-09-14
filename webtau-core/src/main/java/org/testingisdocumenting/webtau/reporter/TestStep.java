@@ -315,9 +315,14 @@ public class TestStep {
 
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
+
         result.put("message", completionMessage.toListOfMaps());
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
+
+        if (!personaId.isEmpty()) {
+            result.put("personaId", personaId);
+        }
 
         if (!children.isEmpty()) {
             result.put("children", children.stream().map(TestStep::toMap).collect(toList()));

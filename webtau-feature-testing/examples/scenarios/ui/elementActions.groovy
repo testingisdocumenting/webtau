@@ -31,6 +31,30 @@ scenario("validate click") {
     payments.message.waitTo == "single clicked"
 }
 
+scenario("shift click") {
+    payments.confirmation.shiftClick()
+}
+
+scenario("validate shift click") {
+    payments.message.waitTo == "single clicked with shift"
+}
+
+scenario("alt click") {
+    payments.confirmation.altClick()
+}
+
+scenario("validate alt click") {
+    payments.message.waitTo == "single clicked with alt"
+}
+
+scenario("control or command click") {
+    payments.confirmation.commandOrControlClick()
+}
+
+scenario("validate control or command click") {
+    payments.message.waitTo == ~/single clicked with command|control/
+}
+
 scenario("hover") {
     $(".menu").hover()
 }

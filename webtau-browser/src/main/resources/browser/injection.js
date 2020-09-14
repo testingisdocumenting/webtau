@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -94,88 +95,66 @@ window._webtau = window._webtau || function () {
     }
 
     function flashElements(webElements) {
-        var overlays = createOverlays()
+        var svg = createSvg(webElements)
 
-        attachOverlays()
+        document.body.appendChild(svg)
 
-        flash(overlays, 3, 200, function () {
-            detachOverlays()
+        flashElement(svg, 3, 200, function () {
+            document.body.removeChild(svg)
         })
 
-        function createOverlays() {
-            var result = []
-            var len = webElements.length
+        function createSvg(elements) {
+            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.style.position = 'fixed';
+            svg.style.top = '0';
+            svg.style.right = '0';
+            svg.style.bottom = '0';
+            svg.style.left = '0';
+            svg.zIndex = 9999;
+
+            svg.setAttribute('width', window.innerWidth);
+            svg.setAttribute('height', window.innerHeight);
+            svg.setAttribute('viewport', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
+
+            var len = Math.min(elements.length, 100);
             for (var idx = 0; idx < len; idx++) {
-                result.push(createOverlayFor(webElements[idx]))
+                svg.appendChild(createSvgRect(elements[idx]));
             }
 
-            return result
+            return svg;
         }
 
-        function attachOverlays() {
-            var len = overlays.length
-            for (var idx = 0; idx < len; idx++) {
-                document.body.appendChild(overlays[idx])
+        function createSvgRect(element) {
+            var rect = element.getBoundingClientRect()
 
-            }
-        }
-
-        function detachOverlays() {
-            var len = overlays.length
-            for (var idx = 0; idx < len; idx++) {
-                document.body.removeChild(overlays[idx])
-            }
-        }
-
-        function createOverlayFor(webElement) {
-            var rect = webElement.getBoundingClientRect()
-
-            var overlay = document.createElement('div')
-            overlay.style.position = 'absolute'
-            overlay.style.top = rect.top + 'px'
-            overlay.style.right = rect.right + 'px'
-            overlay.style.bottom = rect.bottom + 'px'
-            overlay.style.left = rect.left + 'px'
-            overlay.style.width = rect.width + 'px'
-            overlay.style.height = rect.height + 'px'
-            overlay.style.backgroundColor = '#146fd4'
-            overlay.style.opacity = 0.5
-            overlay.zIndex = 9999
+            var overlay = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
+            overlay.setAttribute('x', rect.x)
+            overlay.setAttribute('y', rect.y)
+            overlay.setAttribute('width', rect.width)
+            overlay.setAttribute('height', rect.height)
+            overlay.setAttribute('fill', 'red')
+            overlay.style.fill = '#2c91ea'
 
             return overlay
         }
 
-        function show(elements) {
-            var len = elements.length
-            for (var idx = 0; idx < len; idx++) {
-                elements[idx].style.display = 'block'
-            }
-        }
-
-        function hide(elements) {
-            var len = elements.length
-            for (var idx = 0; idx < len; idx++) {
-                elements[idx].style.display = 'none'
-            }
-        }
-
-        function flash(elements, numberOfTimes, delay, onComplete) {
+        function flashElement(el, numberOfTimes, delay, onComplete) {
             flashOnce(0)
 
             function flashOnce(initialShowDelay) {
                 setTimeout(function () {
-                    show(elements)
+                    el.style.display = 'block';
                     setTimeout(function () {
-                        hide(elements)
-                        numberOfTimes--
+                        el.style.display = 'none';
+                        numberOfTimes--;
 
                         if (numberOfTimes > 0) {
-                            flashOnce(delay)
+                            flashOnce(delay);
                         } else {
-                            onComplete()
+                            onComplete();
                         }
-                    }, delay)
-                }, initialShowDelay)
+                    }, delay);
+                }, initialShowDelay);
             }
         }
     }

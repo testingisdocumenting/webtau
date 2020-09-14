@@ -53,7 +53,7 @@
 </div>
 
 <div class="toolbar">
-    <button onclick="handleSingleClick()">Confirmation</button>
+    <button id="confirmation">Confirmation</button>
 </div>
 
 <div class="form">
@@ -92,38 +92,63 @@
 
 <div id="message"></div>
 <script>
-    function handleMenuItem(label) {
-        console.log(label)
-        updateNode(document.getElementById('message'), 'message', label)
+  document.addEventListener('DOMContentLoaded', function() {
+    var button = document.querySelector('#confirmation')
+    button.addEventListener('click', handleSingleClick)
+  })
+
+  function handleMenuItem(label) {
+    console.log(label)
+    updateNode(document.getElementById('message'), 'message', label)
+  }
+
+  function updateNode(node, className, text) {
+    node.textContent = text;
+    node.className = className;
+  }
+
+  function handleTableMouseDown() {
+    console.log(this.event.which);
+    if (this.event.which !== 3) {
+      return;
     }
 
-    function updateNode(node, className, text) {
-        node.textContent = text;
-        node.className = className;
+    document.getElementById("context-menu").style.display = "block";
+
+    this.event.preventDefault();
+  }
+
+  function hideTableContextMenu() {
+    this.event.preventDefault();
+  }
+
+  function handleSingleClick(e) {
+    updateNode(document.getElementById('message'), 'message', 'single clicked' + renderSuffix())
+
+    function renderSuffix() {
+      if (e.shiftKey) {
+        return ' with shift'
+      }
+
+      if (e.ctrlKey) {
+        return ' with control'
+      }
+
+      if (e.metaKey) {
+        return ' with command'
+      }
+
+      if (e.altKey) {
+        return ' with alt'
+      }
+
+      return ''
     }
+  }
 
-    function handleTableMouseDown() {
-        console.log(this.event.which);
-        if (this.event.which !== 3) {
-            return;
-        }
-
-        document.getElementById("context-menu").style.display = "block";
-
-        this.event.preventDefault();
-    }
-
-    function hideTableContextMenu() {
-        this.event.preventDefault();
-    }
-
-    function handleSingleClick() {
-        updateNode(document.getElementById('message'), 'message', 'single clicked')
-    }
-
-    function handleDoubleClick() {
-        updateNode(document.getElementById('message'), 'message', 'double clicked')
-    }
+  function handleDoubleClick() {
+    updateNode(document.getElementById('message'), 'message', 'double clicked')
+  }
 </script>
 </body>
 </html>

@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page.path;
 
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
@@ -29,10 +30,6 @@ import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
 import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,6 +82,26 @@ public class GenericPageElement implements PageElement {
         execute(tokenizedMessage(action("clicking")).add(pathDescription),
                 () -> tokenizedMessage(action("clicked")).add(pathDescription),
                 () -> findElement().click());
+    }
+
+    @Override
+    public void shiftClick() {
+        clickWithKey("shift", Keys.SHIFT);
+    }
+
+    @Override
+    public void controlClick() {
+        clickWithKey("control", Keys.CONTROL);
+    }
+
+    @Override
+    public void commandClick() {
+        clickWithKey("command", Keys.COMMAND);
+    }
+
+    @Override
+    public void altClick() {
+        clickWithKey("alt", Keys.ALT);
     }
 
     @Override
@@ -226,6 +243,17 @@ public class GenericPageElement implements PageElement {
                 () -> ((JavascriptExecutor)driver).executeScript(
                         "arguments[0].scrollIntoView(true);", findElement())
         );
+    }
+
+    private void clickWithKey(String label, CharSequence key) {
+        execute(tokenizedMessage(action(label + " clicking")).add(pathDescription),
+                () -> tokenizedMessage(action(label + " clicked")).add(pathDescription),
+                () -> new Actions(driver)
+                        .keyDown(key)
+                        .click(findElement())
+                        .keyUp(key)
+                        .build()
+                        .perform());
     }
 
     private String getTagName() {

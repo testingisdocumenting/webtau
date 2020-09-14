@@ -25,9 +25,14 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static webtau.CliCommands.*
 
 def repl = createLazyResource { webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
-        "testscripts/browserSanity.groovy") }
+        "testscripts/browserSanity.groovy testscripts/scriptWithSyntaxError.groovy") }
+
+scenario('should list test files on start') {
+    repl.output.waitTo contain('browserSanity.groovy')
+}
 
 scenario('simple groovy repl') {
+    repl.clearOutput()
     repl << "2 + 2\n"
 
     repl.output.waitTo contain("4")
@@ -58,6 +63,13 @@ scenario('test listing') {
     repl.output.waitTo contain('browserSanity.groovy')
 
     cli.doc.capture('repl-tests-listing')
+}
+
+scenario('report syntax error during test file parse') {
+    repl.clearOutput()
+    repl << "s 'scriptWith'\n"
+
+    repl.output.waitTo contain('groovy.lang.MissingPropertyException: No such property: aaa')
 }
 
 scenario('before all must be called only once and after all listener should not be called at all') {
