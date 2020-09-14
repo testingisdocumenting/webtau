@@ -90,7 +90,7 @@ public class DataNodeCompareToHandler implements CompareToHandler {
             }
         }
 
-        return comparator.createCompareToResult();
+        return CompareToComparator.createCompareToResult(comparator);
     }
 
     private boolean handles(Object actual) {

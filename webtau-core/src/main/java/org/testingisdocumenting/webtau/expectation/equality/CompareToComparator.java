@@ -253,7 +253,7 @@ public class CompareToComparator {
         }
     }
 
-    private CompareToResult createCompareToResult(CompareToComparator comparator) {
+    public static CompareToResult createCompareToResult(CompareToComparator comparator) {
         CompareToResult result = new CompareToResult();
         result.setEqualMessages(comparator.equalMessages);
         result.setNotEqualMessages(comparator.notEqualMessages);
