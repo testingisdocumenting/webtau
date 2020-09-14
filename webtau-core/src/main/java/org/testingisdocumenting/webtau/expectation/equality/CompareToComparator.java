@@ -228,7 +228,7 @@ public class CompareToComparator {
 
         mergeResults(comparator);
 
-        return createCompareToResult();
+        return createCompareToResult(comparator);
     }
 
     private CompareToResult compareUsingCompareTo(AssertionMode mode, ActualPath actualPath, Object actual, Object expected) {
@@ -240,7 +240,7 @@ public class CompareToComparator {
 
         mergeResults(comparator);
 
-        return createCompareToResult();
+        return createCompareToResult(comparator);
     }
 
     private void setAssertionMode(AssertionMode mode) {
@@ -253,14 +253,14 @@ public class CompareToComparator {
         }
     }
 
-    public CompareToResult createCompareToResult() {
+    private CompareToResult createCompareToResult(CompareToComparator comparator) {
         CompareToResult result = new CompareToResult();
-        result.setEqualMessages(equalMessages);
-        result.setNotEqualMessages(notEqualMessages);
-        result.setGreaterMessages(greaterMessages);
-        result.setLessMessages(lessMessages);
-        result.setMissingMessages(missingMessages);
-        result.setExtraMessages(extraMessages);
+        result.setEqualMessages(comparator.equalMessages);
+        result.setNotEqualMessages(comparator.notEqualMessages);
+        result.setGreaterMessages(comparator.greaterMessages);
+        result.setLessMessages(comparator.lessMessages);
+        result.setMissingMessages(comparator.missingMessages);
+        result.setExtraMessages(comparator.extraMessages);
 
         return result;
     }
