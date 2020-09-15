@@ -148,6 +148,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "proxy config"() {
+        runCli("proxy/passingProxy.groovy", "proxy/webtau.proxy.cfg.groovy", "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "recursive scenario discovery"() {
         testRunner.runCli("recursive/scenarios", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }

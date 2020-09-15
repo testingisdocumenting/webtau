@@ -6,6 +6,7 @@ REST
     headers
     query-parameters
     ping
+    proxy
     files-upload
     PDF
     documentation

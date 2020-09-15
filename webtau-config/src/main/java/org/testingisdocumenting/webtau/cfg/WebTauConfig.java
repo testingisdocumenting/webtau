@@ -48,6 +48,11 @@ public class WebTauConfig {
     private final ConfigValue config = declare("config", "config file path", () -> CONFIG_FILE_NAME_DEFAULT);
     private final ConfigValue env = declare("env", "environment id", () -> "local");
     private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
+
+    private final ConfigValue httpProxy = declare("httpProxy", "http proxy host:port", NO_DEFAULT);
+    private final ConfigValue httpsProxy = declare("httpsProxy", "https proxy host:port", NO_DEFAULT);
+    private final ConfigValue noProxy = declare("noProxy", "list of hosts to exclude from proxy host1|*.host2|host3.*", NO_DEFAULT);
+
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
     private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
@@ -185,6 +190,18 @@ public class WebTauConfig {
 
     public ConfigValue getBaseUrlConfigValue() {
         return url;
+    }
+
+    public ConfigValue getHttpProxyConfigValue() {
+        return httpProxy;
+    }
+
+    public ConfigValue getHttpsProxyConfigValue() {
+        return httpsProxy;
+    }
+
+    public ConfigValue getNoProxyConfigValue() {
+        return noProxy;
     }
 
     public int waitTimeout() {
@@ -364,6 +381,9 @@ public class WebTauConfig {
                 config,
                 env,
                 url,
+                httpProxy,
+                httpsProxy,
+                noProxy,
                 verbosityLevel,
                 workingDir,
                 waitTimeout,
