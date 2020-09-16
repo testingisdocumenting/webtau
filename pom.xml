@@ -102,6 +102,8 @@
         <module>webtau-browser</module>
         <module>webtau-http</module>
         <module>webtau-http-groovy</module>
+        <module>webtau-graphql</module>
+        <module>webtau-graphql-groovy</module>
         <module>webtau-open-api</module>
         <module>webtau-pdf</module>
         <module>webtau-json-schema</module>
@@ -126,7 +128,6 @@
         <module>webtau-config</module>
         <module>webtau-feature-testing</module>
         <module>webtau-report-testing</module>
-        <module>webtau-docs</module>
         <module>webtau-maven-plugin</module>
         <module>webtau-maven-plugin-test</module>
         <module>webtau-maven-plugin-test-skip</module>
@@ -134,8 +135,7 @@
         <module>webtau</module>
         <module>webtau-dist</module>
         <module>webtau-cli-testing</module>
-        <module>webtau-graphql</module>
-        <module>webtau-graphql-groovy</module>
+        <module>webtau-docs</module>
     </modules>
 
     <properties>
