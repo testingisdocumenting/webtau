@@ -42,6 +42,8 @@ groovy-specific-runner
     skipping-tests
     test-metadata
     test-listeners
+REPL
+    experiments
 generic-runners
     JUnit-4
     JUnit-5

@@ -36,8 +36,12 @@ scenario('simple groovy repl') {
     repl << "2 + 2\n"
 
     repl.output.waitTo contain("4")
+    repl << "a = 5\n"
+    repl << "a + 3\n"
 
-    repl.output.should contain("4")
+    repl.output.waitTo contain("8")
+    cli.doc.capture('repl-context')
+
     repl.clearOutput()
     repl.output.shouldNot contain("4")
 
@@ -55,6 +59,34 @@ scenario('http call') {
     cli.doc.capture('http-repl-output')
     fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
             'header.statusCode equals 200')
+}
+
+scenario('set config value') {
+    repl.with {
+        clearOutput()
+        send('cfg.url = "https://jsonplaceholder.typicode.com"\n')
+        send('http.get("/todos/1")\n')
+        output.waitTo contain('executed')
+    }
+
+    cli.doc.capture('http-repl-cfg')
+}
+
+scenario('browser context') {
+    repl.with {
+        clearOutput()
+        send('browser.open("https://jsonplaceholder.typicode.com")\n')
+        output.waitTo contain('opened')
+    }
+    cli.doc.capture('browser-repl-open')
+
+    repl.with {
+        clearOutput()
+        send('$("ul li a")\n')
+        output.waitTo contain('count:')
+    }
+
+    cli.doc.capture('browser-repl-select')
 }
 
 scenario('test listing') {
