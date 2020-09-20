@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +20,7 @@ package org.testingisdocumenting.webtau.http.datanode;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -162,6 +160,13 @@ public class StructuredDataNode implements DataNode {
         return values == null ?
                 Collections.emptyList() :
                 Collections.unmodifiableList(values);
+    }
+
+    @Override
+    public Collection<DataNode> children() {
+        return children == null ?
+                Collections.emptyList():
+                children.values();
     }
 
     @Override

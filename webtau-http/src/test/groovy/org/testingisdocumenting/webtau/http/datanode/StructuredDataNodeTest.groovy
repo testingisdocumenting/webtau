@@ -175,6 +175,28 @@ class StructuredDataNodeTest {
     }
 
     @Test
+    void "should expose children data nodes as collection"() {
+        def node = DataNodeBuilder.fromMap(new DataNodeId("body"),
+            [
+                    key1: 'value1',
+                    key2: 'value2',
+            ]
+        )
+
+        def ids = node.children().collect {
+            it.id().toString()
+        }
+
+        ids.sort().should == ['body.key1', 'body.key2']
+
+        def noChildrenNode = DataNodeBuilder.fromList(new DataNodeId("body"), [])
+
+        noChildrenNode.children().collect {
+            it.id().toString()
+        }.should == []
+    }
+
+    @Test
     void "should check full path in has"() {
         def node = DataNodeBuilder.fromMap(new DataNodeId("body"), [
             key1: 'name1',

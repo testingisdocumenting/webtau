@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,6 +74,11 @@ public class NullDataNode implements DataNode {
     @Override
     public List<DataNode> elements() {
         return Collections.singletonList(new NullDataNode(id.peer(0)));
+    }
+
+    @Override
+    public List<DataNode> children() {
+        return Collections.emptyList();
     }
 
     @Override

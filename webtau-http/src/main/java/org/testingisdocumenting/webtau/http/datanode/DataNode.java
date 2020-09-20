@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +22,7 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +46,8 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
     boolean isSingleValue();
 
     List<DataNode> elements();
+
+    Collection<DataNode> children();
 
     int numberOfChildren();
 
