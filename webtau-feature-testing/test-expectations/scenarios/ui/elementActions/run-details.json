@@ -54,6 +54,18 @@
       "numberOfSuccessful" : 1
     }
   }, {
+    "scenario" : "control click",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "command click",
+    "shortContainerId" : "elementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "hover",
     "shortContainerId" : "elementActions.groovy",
     "stepsSummary" : {
