@@ -87,6 +87,27 @@ class WebTauBrowserFeaturesTest {
     }
 
     @Test
+    void "element actions snippets"() {
+        def root = 'element-actions'
+
+        extractCodeSnippets(
+                root, 'examples/scenarios/ui/elementActions.groovy', [
+                'click.groovy': 'click',
+                'shiftClick.groovy': 'shift click',
+                'altClick.groovy': 'alt click',
+                'controlClick.groovy': 'control click',
+                'commandClick.groovy': '"command click"',
+                'controlOrCommandClick.groovy': '"control or command click"',
+                'hover.groovy': 'hover',
+                'sendKeys.groovy': 'send keys',
+                'clear.groovy': 'clear',
+                'setValue.groovy': 'setValue',
+                'rightClick.groovy': 'right click',
+                'doubleClick.groovy': 'double click',
+        ])
+    }
+
+    @Test
     void "finders and filters"() {
         runCli('findersFilters.groovy', 'webtau.cfg.groovy')
     }
