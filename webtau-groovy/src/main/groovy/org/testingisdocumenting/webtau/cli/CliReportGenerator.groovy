@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.cli
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.reporter.WebTauReport
@@ -47,7 +49,9 @@ class CliReportGenerator implements ReportGenerator {
         ConsoleOutputs.out(Color.RED, '[x] ', testEntry.scenario, Color.PURPLE, ' ',
                 testEntry.filePath)
 
-        ConsoleOutputs.out(StackTraceUtils.renderStackTraceWithoutLibCalls(testEntry.exception), '\n')
+        ConsoleOutputs.out(WebTauConfig.getCfg().getFullStackTrace() ?
+                StackTraceUtils.renderStackTrace(testEntry.exception) :
+                StackTraceUtils.renderStackTraceWithoutLibCalls(testEntry.exception), '\n')
     }
 
     private static void printTotals(WebTauReport report) {

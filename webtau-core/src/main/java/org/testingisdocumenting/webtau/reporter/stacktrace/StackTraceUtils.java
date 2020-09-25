@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,14 +29,16 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class StackTraceUtils {
-    private static List<String> libPrefixes = Arrays.asList(
+    private static final List<String> libPrefixes = Arrays.asList(
             "sun.",
             "java.",
             "com.sun.",
             "org.testingisdocumenting.webtau",
+            "org.apache.maven",
             "org.codehaus.groovy",
             "org.junit",
             "com.intellij",
+            "org.codehaus.plexus",
             "groovy.",
             "groovysh_evaluate");
 
