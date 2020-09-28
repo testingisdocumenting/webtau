@@ -24,6 +24,8 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     @Test
     void "should insert table data into a table"() {
         def database = db.from(h2DataSource, 'h2db')
+
+        db.update("delete from PRICES")
         def PRICES = database.table("PRICES")
 
         PRICES << ["id" | "description" | "price"] {
@@ -70,7 +72,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
                          "id2" | "another set" | 2000 }
     }
 
-    @Test\
+    @Test
     void "should query single value"() {
         db.update("delete from PRICES")
         def PRICES = db.table("PRICES")

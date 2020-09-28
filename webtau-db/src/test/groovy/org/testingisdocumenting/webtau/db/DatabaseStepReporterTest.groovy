@@ -45,9 +45,9 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
         def PRICES = db.table("PRICES")
 
         PRICES << ["id" | "description" | "price"] {
-            ___________________________________
-            "id1" | "nice set"    | 1000
-            "id2" | "another set" | 2000 }
+                  ___________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
 
         def price = db.query("select price from PRICES where id='id1'")
         price.should == 1000
