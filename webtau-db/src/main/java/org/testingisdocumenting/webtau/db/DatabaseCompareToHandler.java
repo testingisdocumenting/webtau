@@ -16,19 +16,28 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
-public class DatabaseTableCompareToHandler implements CompareToHandler {
+public class DatabaseCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof DatabaseTable;
+        return actual instanceof DatabaseQueryResult ||
+                actual instanceof DatabaseTable;
     }
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        DatabaseTable actualTable = (DatabaseTable) actual;
-        comparator.compareUsingEqualOnly(actualPath, actualTable.query(), expected);
+        comparator.compareUsingEqualOnly(actualPath, getUnderlyingTable(actual), expected);
+    }
+
+    private TableData getUnderlyingTable(Object actual) {
+        if (actual instanceof DatabaseTable) {
+            return ((DatabaseTable) actual).query().getTableData();
+        }
+
+        return ((DatabaseQueryResult)actual).getTableData();
     }
 }
