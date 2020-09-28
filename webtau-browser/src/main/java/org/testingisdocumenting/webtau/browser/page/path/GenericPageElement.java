@@ -227,7 +227,12 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public Object getUnderlyingValue() {
-        List<Object> values = extractValues();
+        List<WebElement> elements = path.find(driver);
+        if (elements.isEmpty()) {
+            return null;
+        }
+
+        List<Object> values = extractValues(Collections.singletonList(elements.get(0)));
         return values.isEmpty() ? null : values.get(0);
     }
 
@@ -266,6 +271,10 @@ public class GenericPageElement implements PageElement {
 
     private List<Object> extractValues() {
         List<WebElement> elements = path.find(driver);
+        return extractValues(elements);
+    }
+
+    private List<Object> extractValues(List<WebElement> elements) {
         List<Map<String, ?>> elementsMeta = handleStaleElement(() -> additionalBrowserInteractions.extractElementsMeta(elements),
                 Collections.emptyList());
 
