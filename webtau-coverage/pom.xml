@@ -27,9 +27,9 @@
 
     <artifactId>webtau-coverage</artifactId>
 
-    <properties>
+    <!--<properties>
         <enforcer.skip>true</enforcer.skip>
-    </properties>
+    </properties>-->
 
     <dependencies>
         <!-- modules whose source should be checked for coverage is listed as a compile dependency, modules containing
