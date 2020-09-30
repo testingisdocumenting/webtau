@@ -73,17 +73,17 @@
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-console</artifactId>
-            <version>1.30-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-core</artifactId>
-            <version>1.30-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-core-groovy</artifactId>
-            <version>1.30-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
@@ -98,7 +98,7 @@
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-feature-testing</artifactId>
-            <version>1.30-SNAPSHOT</version>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -114,7 +114,7 @@
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-graphql-groovy</artifactId>
-            <version>1.30-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>

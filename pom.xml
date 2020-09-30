@@ -136,7 +136,7 @@
         <module>webtau-dist</module>
         <module>webtau-cli-testing</module>
         <module>webtau-docs</module>
-        <module>webtau-coverage</module>
+        <module>webtau-jacoco-coverage</module>
     </modules>
 
     <properties>
