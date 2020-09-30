@@ -25,7 +25,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>webtau-coverage</artifactId>
+    <artifactId>webtau-jacoco-coverage</artifactId>
 
     <properties>
         <enforcer.skip>true</enforcer.skip>
