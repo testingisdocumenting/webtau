@@ -35,13 +35,13 @@ public class Database {
         return new DatabaseTable(dataSource, name);
     }
 
-    public TableData query(String query) {
+    public DatabaseQueryResult query(String query) {
         TestStep step = createStep(null,
                 tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel())),
                 () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
                 () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query));
 
-        return (TableData) step.execute(StepReportOptions.REPORT_ALL);
+        return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public void update(String query) {
