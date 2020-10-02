@@ -53,8 +53,6 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
 
     int numberOfElements();
 
-    Map<String, DataNode> asMap();
-
     default boolean isNull() {
         return false;
     }

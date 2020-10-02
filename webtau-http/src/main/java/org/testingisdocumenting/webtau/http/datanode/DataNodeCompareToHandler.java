@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +43,7 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         if (expected instanceof Map) {
-            compareWithMap(comparator, actualPath, (DataNode) actual, (Map) expected);
+            compareWithMap(comparator, actualPath, (DataNode) actual, (Map<?, ?>) expected);
         } else {
             Object extractedActual = extractActual((DataNode) actual);
             comparator.compareUsingEqualOnly(actualPath, extractedActual, expected);
@@ -55,10 +56,10 @@ public class DataNodeCompareToHandler implements CompareToHandler {
         compareToComparator.compareUsingCompareTo(actualPath, actualDataNode.getTraceableValue(), expected);
     }
 
-    private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map expected) {
-        Map<String, DataNode> actualAsMap = actual.asMap();
+    private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map<?, ?> expected) {
+        Map<String, DataNode> actualAsMap = DataNodeToMapConverter.convertToMap(actual);
 
-        Set keys = expected.keySet();
+        Set<?> keys = expected.keySet();
         for (Object key : keys) {
             String p = (String) key;
             ActualPath propertyPath = actualPath.property(p);
@@ -89,6 +90,6 @@ public class DataNodeCompareToHandler implements CompareToHandler {
             return actual.elements();
         }
 
-        return actual.asMap();
+        return DataNodeToMapConverter.convertToMap(actual);
     }
 }

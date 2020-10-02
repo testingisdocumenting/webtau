@@ -129,11 +129,6 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
-    public Map<String, DataNode> asMap() {
-        return dataNode.asMap();
-    }
-
-    @Override
     public String toString() {
         return dataNode.toString();
     }
@@ -143,7 +138,9 @@ public class HeaderDataNode implements DataNode {
     }
 
     private Optional<String> findMatchingCaseInsensitiveKey(String name) {
-        return findMatchingCaseInsensitiveKey(name, dataNode.asMap().keySet().stream());
+        return findMatchingCaseInsensitiveKey(name,
+                dataNode.children().stream()
+                        .map(node -> node.id().getName()));
     }
 
     private static Optional<String> findMatchingCaseInsensitiveKey(String name, Stream<String> keys) {

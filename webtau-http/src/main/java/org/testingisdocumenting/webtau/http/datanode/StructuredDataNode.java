@@ -100,7 +100,7 @@ public class StructuredDataNode implements DataNode {
 
         String indexStr = name.substring(openBraceIdx + 1, closeBraceIdx);
         try {
-            int idx = Integer.valueOf(indexStr);
+            int idx = Integer.parseInt(indexStr);
             String nameWithoutIndex = name.substring(0, openBraceIdx);
             DataNode node = get(nameWithoutIndex);
 
@@ -184,11 +184,6 @@ public class StructuredDataNode implements DataNode {
     @Override
     public int numberOfElements() {
         return isList() ? values.size() : 0;
-    }
-
-    @Override
-    public Map<String, DataNode> asMap() {
-        return children != null ? Collections.unmodifiableMap(children) : Collections.emptyMap();
     }
 
     @Override

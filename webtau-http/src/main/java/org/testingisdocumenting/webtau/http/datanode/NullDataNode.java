@@ -97,11 +97,6 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
-    public Map<String, DataNode> asMap() {
-        return Collections.emptyMap();
-    }
-
-    @Override
     public boolean isNull() {
         return true;
     }

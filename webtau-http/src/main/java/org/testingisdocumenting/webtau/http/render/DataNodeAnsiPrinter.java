@@ -24,10 +24,7 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataNodeAnsiPrinter {
     private static final Color DELIMITER_COLOR = Color.YELLOW;
@@ -113,14 +110,12 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printNotEmptyObject(DataNode dataNode, boolean skipIndent) {
-        Map<String, DataNode> children = dataNode.asMap();
-
         openScope("{", skipIndent);
 
+        Collection<DataNode> children = dataNode.children();
         int idx = 0;
-        for (Map.Entry<String, DataNode> entry : children.entrySet()) {
-            String k = entry.getKey();
-            DataNode v = entry.getValue();
+        for (DataNode v : children) {
+            String k = v.id().getName();
 
             boolean isLast = idx == children.size() - 1;
 
