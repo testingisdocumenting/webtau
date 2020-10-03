@@ -136,6 +136,7 @@
         <module>webtau-dist</module>
         <module>webtau-cli-testing</module>
         <module>webtau-docs</module>
+        <module>webtau-jacoco-coverage</module>
     </modules>
 
     <properties>
@@ -154,6 +155,7 @@
         <tomcat.version>8.5.56</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
         <graphql.version>15.0</graphql.version>
+        <jacoco.version>0.8.5</jacoco.version>
     </properties>
 
     <dependencyManagement>
@@ -807,6 +809,27 @@
                                     <groovydocOutputDirectory>${project.build.directory}/apidocs
                                     </groovydocOutputDirectory>
                                 </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <!-- Recording code coverage slows down tests, so only do this when -P code-coverage is explicitly passed to Maven -->
+            <id>code-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacoco.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
