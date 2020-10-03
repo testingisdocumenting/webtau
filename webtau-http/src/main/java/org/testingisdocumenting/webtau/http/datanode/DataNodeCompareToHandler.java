@@ -57,18 +57,16 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     }
 
     private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map<?, ?> expected) {
-        Map<String, DataNode> actualAsMap = DataNodeToMapConverter.convertToMap(actual);
-
         Set<?> keys = expected.keySet();
         for (Object key : keys) {
             String p = (String) key;
             ActualPath propertyPath = actualPath.property(p);
 
             Object expectedValue = expected.get(p);
-            if (! actualAsMap.containsKey(p)) {
+            if (!actual.has(p)) {
                 comparator.reportMissing(this, propertyPath, expectedValue);
             } else {
-                comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedValue);
+                comparator.compareUsingEqualOnly(propertyPath, actual.get(p), expectedValue);
             }
         }
     }
@@ -90,6 +88,8 @@ public class DataNodeCompareToHandler implements CompareToHandler {
             return actual.elements();
         }
 
-        return DataNodeToMapConverter.convertToMap(actual);
+        // fallback that shouldn't match any real default handler/scenario
+        // cases it covers: nodeWithChildren compared against a single value (e.g. null, string, custom class)
+        return actual.children();
     }
 }
