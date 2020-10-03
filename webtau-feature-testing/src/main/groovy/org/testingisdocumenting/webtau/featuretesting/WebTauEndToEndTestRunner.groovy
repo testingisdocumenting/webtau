@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocat
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.reporter.*
 
+import java.nio.file.Path
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
@@ -32,9 +33,15 @@ class WebTauEndToEndTestRunner  {
     private Map capturedStepsSummary
 
     TestServer testServer
+    private String reportPrefix = ""
 
     WebTauEndToEndTestRunner(Handler handler) {
+        this.reportPrefix = reportPrefix
         this.testServer = new TestServer(handler)
+    }
+
+    void setReportPrefix(String reportPrefix) {
+        this.reportPrefix = reportPrefix
     }
 
     void startTestServer() {
@@ -53,10 +60,6 @@ class WebTauEndToEndTestRunner  {
         def testPath = Paths.get(testFileName)
 
         def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
-        def reportPath = targetClassesLocation
-                .resolve(testFileName.endsWith('.groovy') ?
-                        testFileName.replace('.groovy', '-webtau-report.html'):
-                        testFileName + '/webtau-report.html')
 
         def args = ['--workingDir=' + workingDir]
 
@@ -64,7 +67,7 @@ class WebTauEndToEndTestRunner  {
             args.add('--config=' + configFileName)
         }
         args.add('--docPath=' + targetClassesLocation.resolve('doc-artifacts'))
-        args.add('--reportPath=' + reportPath)
+        args.add('--reportPath=' + buildReportPath(testFileName, targetClassesLocation))
 
         args.addAll(Arrays.asList(additionalArgs))
         args.add(testPath.toString())
@@ -87,6 +90,15 @@ class WebTauEndToEndTestRunner  {
         testDetails.scenarioDetails = buildScenarioDetails(cliApp.runner.report)
 
         validateAndSaveTestDetails(testFileName, testDetails)
+    }
+
+    private Path buildReportPath(String testFileName, Path targetClassesLocation) {
+        if (testFileName.endsWith('.groovy')) {
+            return targetClassesLocation.resolve(reportPrefix +
+                    testFileName.replace('.groovy', '-webtau-report.html'))
+        }
+
+        return targetClassesLocation.resolve(reportPrefix + testFileName + '/webtau-report.html')
     }
 
     private static void validateAndSaveTestDetails(String testFileName, Map testDetails) {

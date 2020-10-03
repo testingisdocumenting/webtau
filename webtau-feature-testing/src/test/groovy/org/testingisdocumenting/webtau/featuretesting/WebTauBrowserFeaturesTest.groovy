@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.utils.ResourceUtils
@@ -27,8 +29,19 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
 
+@RunWith(Parameterized)
 class WebTauBrowserFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
+    private String browser
+
+    WebTauBrowserFeaturesTest(String browser) {
+        this.browser = browser
+    }
+
+    @Parameterized.Parameters(name = "browser: {0}")
+    static Iterable<String> browserNames() {
+        return ["chrome", "firefox"]
+    }
 
     static void registerEndPoints(FixedResponsesHandler handler) {
         handler.registerGet("/search", htmlResponse('search.html'))
@@ -64,6 +77,7 @@ class WebTauBrowserFeaturesTest {
     @Before
     void cleanBeforeTest() {
         GroovyConfigBasedBrowserPageNavigationHandler.handler = null
+        testRunner.setReportPrefix(browser + '-')
     }
 
     @Test
@@ -314,12 +328,14 @@ class WebTauBrowserFeaturesTest {
         runCli('agGridMultiSelect.groovy', 'webtau.cfg.groovy')
     }
 
-    private static void runCli(String uiTestName, String configFileName) {
-        runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}")
+    private void runCli(String uiTestName, String configFileName) {
+        runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}",
+                "--browser=" + browser)
     }
 
-    private static void runCliWithBrowserUrlOverride(String uiTestName, String configFileName) {
-        runCliWithArgs(uiTestName, configFileName, "--url=http://localhost:-1", "--browserUrl=${testRunner.testServer.uri}")
+    private void runCliWithBrowserUrlOverride(String uiTestName, String configFileName) {
+        runCliWithArgs(uiTestName, configFileName, "--url=http://localhost:-1",
+                "--browserUrl=${testRunner.testServer.uri}", "--browser=" + browser)
     }
 
     private static void runCliWithArgs(String uiTestName, String configFileName, String... args) {
