@@ -68,14 +68,15 @@ public class WebDriverCreator {
     }
 
     private static WebDriver createDriver() {
-        switch (BrowserConfig.getBrowser()) {
-            case "chrome":
-                return createChromeDriver();
-            case "firefox":
-                return createFirefoxDriver();
-            default:
-                throw new IllegalArgumentException("unsupported browser: " + BrowserConfig.getBrowser());
+        if (BrowserConfig.isChrome()) {
+            return createChromeDriver();
         }
+
+        if (BrowserConfig.isFirefox()) {
+            return createFirefoxDriver();
+        }
+
+        throw new IllegalArgumentException("unsupported browser: " + BrowserConfig.getBrowser());
     }
 
     private static ChromeDriver createChromeDriver() {
