@@ -145,7 +145,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <groovy.version>2.5.12</groovy.version>
+        <groovy.version>3.0.6</groovy.version>
         <jackson.version>2.11.1</jackson.version>
         <jackson.databind.version>2.11.1</jackson.databind.version>
         <slf4j.version>1.7.30</slf4j.version>
@@ -571,11 +571,16 @@
                 <plugin>
                     <groupId>org.codehaus.gmavenplus</groupId>
                     <artifactId>gmavenplus-plugin</artifactId>
-                    <version>1.5</version>
+                    <version>1.10.1</version>
                     <dependencies>
                         <dependency>
                             <groupId>org.codehaus.groovy</groupId>
                             <artifactId>groovy-groovydoc</artifactId>
+                            <version>${groovy.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy</artifactId>
                             <version>${groovy.version}</version>
                         </dependency>
                     </dependencies>
@@ -796,7 +801,7 @@
                                 <id>compile</id>
                                 <goals>
                                     <goal>compile</goal>
-                                    <goal>testCompile</goal>
+                                    <goal>compileTests</goal>
                                 </goals>
                             </execution>
                             <execution>

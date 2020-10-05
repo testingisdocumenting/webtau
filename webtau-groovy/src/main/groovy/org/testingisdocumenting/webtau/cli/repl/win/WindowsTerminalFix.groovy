@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.cli.repl.win
 import groovy.transform.InheritConstructors
 import jline.TerminalFactory
 import jline.WindowsTerminal
-import org.codehaus.groovy.tools.shell.util.WrappedInputStream
+import org.apache.groovy.groovysh.util.WrappedInputStream
 
 @InheritConstructors
 class WindowsTerminalFix extends WindowsTerminal {
