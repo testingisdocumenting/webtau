@@ -17,30 +17,23 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
-import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 
-import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtmlSnippets
 
-@RunWith(Parameterized)
-class WebTauBrowserFeaturesTest {
-    private static WebTauEndToEndTestRunner testRunner
-    private String browser
+class WebTauBrowserFeaturesTestBase {
+    protected static WebTauEndToEndTestRunner testRunner
+    protected String browser
 
-    WebTauBrowserFeaturesTest(String browser) {
-        this.browser = browser
-    }
-
-    @Parameterized.Parameters(name = "browser: {0}")
-    static Iterable<String> browserNames() {
-        return ["chrome", "firefox"]
+    WebTauBrowserFeaturesTestBase() {
+        this.browser = "chrome"
     }
 
     static void registerEndPoints(FixedResponsesHandler handler) {
