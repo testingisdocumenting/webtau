@@ -166,7 +166,7 @@ public class StructuredDataNode implements DataNode {
     public Collection<DataNode> children() {
         return children == null ?
                 Collections.emptyList():
-                children.values();
+                Collections.unmodifiableCollection(children.values());
     }
 
     @Override
