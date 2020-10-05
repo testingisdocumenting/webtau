@@ -81,7 +81,7 @@ class DataNodeCompareToHandlerTest {
         assert comparator.compareIsNotEqual(node.actualPath(), node, "hello")
         comparator.generateNotEqualMatchReport().should == 'matches:\n' +
             '\n' +
-            'node:   actual: [{k1: v1, k2: v2}] <java.util.LinkedHashMap.LinkedValues>\n' +
+            'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
             '      expected: not "hello" <java.lang.String>'
     }
 
@@ -93,7 +93,7 @@ class DataNodeCompareToHandlerTest {
         assert comparator.compareIsNotEqual(node.actualPath(), node, null)
         comparator.generateNotEqualMatchReport().should == 'matches:\n' +
             '\n' +
-            'node:   actual: [{k1: v1, k2: v2}] <java.util.LinkedHashMap.LinkedValues>\n' +
+            'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
             '      expected: not null'
     }
 }
