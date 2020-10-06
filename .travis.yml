@@ -17,6 +17,7 @@ services:
 
 addons:
   chrome: stable
+  firefox: latest
   apt:
     packages:
       - graphviz
