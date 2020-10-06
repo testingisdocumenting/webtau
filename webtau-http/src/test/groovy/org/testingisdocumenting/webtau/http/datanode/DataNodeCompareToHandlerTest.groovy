@@ -74,14 +74,26 @@ class DataNodeCompareToHandlerTest {
     }
 
     @Test
-    void "should handle not-null comparison between structured node and null"() {
+    void "should handle comparison between structured node and string"() {
+        def comparator = CompareToComparator.comparator()
+        def node = DataNodeBuilder.fromMap(new DataNodeId('node'), [node: [k1: 'v1', k2: 'v2']])
+
+        assert comparator.compareIsNotEqual(node.actualPath(), node, "hello")
+        comparator.generateNotEqualMatchReport().should == 'matches:\n' +
+            '\n' +
+            'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
+            '      expected: not "hello" <java.lang.String>'
+    }
+
+    @Test
+    void "should handle not-equal comparison between structured node and null"() {
         def comparator = CompareToComparator.comparator()
         def node = DataNodeBuilder.fromMap(new DataNodeId('node'), [node: [k1: 'v1', k2: 'v2']])
 
         assert comparator.compareIsNotEqual(node.actualPath(), node, null)
-        assertEquals('matches:\n' +
+        comparator.generateNotEqualMatchReport().should == 'matches:\n' +
             '\n' +
-            'node:   actual: {node={k1: v1, k2: v2}} <java.util.Collections.UnmodifiableMap>\n' +
-            '      expected: not null', comparator.generateNotEqualMatchReport())
+            'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
+            '      expected: not null'
     }
 }

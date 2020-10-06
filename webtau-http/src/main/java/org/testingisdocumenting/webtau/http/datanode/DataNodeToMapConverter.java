@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,15 +19,23 @@ package org.testingisdocumenting.webtau.http.datanode;
 
 import org.testingisdocumenting.webtau.data.converters.ToMapConverter;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class DataNodeToMapConverter implements ToMapConverter {
     @Override
     public Map<String, ?> convert(Object v) {
         if (v instanceof DataNode) {
-            return ((DataNode) v).asMap();
+            return convertToMap((DataNode) v);
         }
 
         return null;
+    }
+
+    public static Map<String, DataNode> convertToMap(DataNode node) {
+        return node.children().stream()
+                .collect(Collectors.toMap(n -> n.id().getName(), Function.identity(), (a, b) -> a, LinkedHashMap::new));
     }
 }
