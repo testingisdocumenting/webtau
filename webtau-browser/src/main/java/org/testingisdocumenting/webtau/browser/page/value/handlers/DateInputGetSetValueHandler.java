@@ -46,6 +46,7 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
         if (BrowserConfig.isChrome()) {
             setForChrome(pageElement, localDate);
         } else {
+            pageElement.click();
             pageElement.sendKeys(value.toString());
         }
     }

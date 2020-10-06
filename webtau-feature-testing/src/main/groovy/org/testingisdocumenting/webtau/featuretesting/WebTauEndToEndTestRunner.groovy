@@ -33,15 +33,14 @@ class WebTauEndToEndTestRunner  {
     private Map capturedStepsSummary
 
     TestServer testServer
-    private String reportPrefix = ""
+    private String classifier = ""
 
     WebTauEndToEndTestRunner(Handler handler) {
-        this.reportPrefix = reportPrefix
         this.testServer = new TestServer(handler)
     }
 
-    void setReportPrefix(String reportPrefix) {
-        this.reportPrefix = reportPrefix
+    void setClassifier(String classifier) {
+        this.classifier = classifier
     }
 
     void startTestServer() {
@@ -94,15 +93,17 @@ class WebTauEndToEndTestRunner  {
 
     private Path buildReportPath(String testFileName, Path targetClassesLocation) {
         if (testFileName.endsWith('.groovy')) {
-            return targetClassesLocation.resolve(reportPrefix +
-                    testFileName.replace('.groovy', '-webtau-report.html'))
+            def reportPrefix = classifier.isEmpty() ? '' : "-${classifier}"
+            return targetClassesLocation.resolve(
+                    testFileName.replace('.groovy', reportPrefix + '-webtau-report.html'))
         }
 
-        return targetClassesLocation.resolve(reportPrefix + testFileName + '/webtau-report.html')
+        def reportPrefix = classifier.isEmpty() ? '' : "${classifier}-"
+        return targetClassesLocation.resolve(testFileName + '/' + reportPrefix + '-webtau-report.html')
     }
 
-    private static void validateAndSaveTestDetails(String testFileName, Map testDetails) {
-        WebTauEndToEndTestValidator.validateAndSaveTestDetails(removeExtension(testFileName), testDetails,
+    private void validateAndSaveTestDetails(String testFileName, Map testDetails) {
+        WebTauEndToEndTestValidator.validateAndSaveTestDetails(removeExtension(testFileName), classifier, testDetails,
                 this.&sortTestDetailsByContainerId)
     }
 

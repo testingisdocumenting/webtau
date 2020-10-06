@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "local storage api",
+    "shortContainerId" : "localStorage.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  } ],
+  "exitCode" : 0
+}

@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.featuretesting
 
 // moved to separate classed instead of one parameterized test to guarantee
+// sequential execution of tests for one browser at a time
 class WebTauFirefoxBrowserFeaturesTest extends WebTauBrowserFeaturesTestBase {
     WebTauFirefoxBrowserFeaturesTest() {
         browser = "firefox"
