@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package scenarios
+package org.testingisdocumenting.webtau.featuretesting
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
-import static pages.Pages.*
-
-scenario('open report') {
-    report.openGroovyStandaloneReport('ui/searchWithPersonas-chrome-webtau-report.html')
-}
-
-scenario('select steps tab and check persona') {
-    report.selectTest('multiple browsers for search')
-    report.selectSteps()
-
-    report.steps.count.should == 15
-    report.personaId.count.should == 9
-
-    report.personaId.should == 'John'
+// moved to separate classed instead of one parameterized test to guarantee
+// sequential execution of tests for one browser at a time
+class WebTauFirefoxBrowserFeaturesTest extends WebTauBrowserFeaturesTestBase {
+    WebTauFirefoxBrowserFeaturesTest() {
+        browser = "firefox"
+    }
 }

@@ -27,6 +27,9 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 
 public class BrowserConfig implements WebTauConfigHandler {
+    public static final String CHROME = "chrome";
+    public static final String FIREFOX = "firefox";
+
     private static final Supplier<Object> NULL_DEFAULT = () -> null;
 
     private static final ConfigValue browserUrl = declare("browserUrl", "browser base url for application under test. It is being used" +
@@ -36,7 +39,7 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
     private static final ConfigValue headless = declareBoolean("headless", "run headless mode");
 
-    private static final ConfigValue browser = declare("browser", "browser name: chrome, firefox", () -> "chrome");
+    private static final ConfigValue browser = declare("browser", "browser name: chrome, firefox", () -> CHROME);
 
     private static final ConfigValue disableExtensions = declare("disableExtensions", "run without extensions", () -> false);
 
@@ -48,6 +51,14 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     public static String getBrowser() {
         return browser.getAsString();
+    }
+
+    public static boolean isChrome() {
+        return CHROME.equals(browser.getAsString());
+    }
+
+    public static boolean isFirefox() {
+        return FIREFOX.equals(browser.getAsString());
     }
 
     public static String getBrowserUrl() {

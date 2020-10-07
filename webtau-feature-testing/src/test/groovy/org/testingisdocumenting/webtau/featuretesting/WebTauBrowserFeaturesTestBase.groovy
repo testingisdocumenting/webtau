@@ -17,18 +17,26 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
-import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
-import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 
-import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.*
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtmlSnippets
 
-class WebTauBrowserFeaturesTest {
-    private static WebTauEndToEndTestRunner testRunner
+class WebTauBrowserFeaturesTestBase {
+    protected static WebTauEndToEndTestRunner testRunner
+    protected String browser
+
+    WebTauBrowserFeaturesTestBase() {
+        this.browser = "chrome"
+    }
 
     static void registerEndPoints(FixedResponsesHandler handler) {
         handler.registerGet("/search", htmlResponse('search.html'))
@@ -48,6 +56,9 @@ class WebTauBrowserFeaturesTest {
 
     @BeforeClass
     static void init() {
+        WebDriverCreator.quitAll()
+        DocumentationArtifacts.clearRegisteredNames()
+
         FixedResponsesHandler handler = new FixedResponsesHandler()
         testRunner = new WebTauEndToEndTestRunner(handler)
 
@@ -64,6 +75,7 @@ class WebTauBrowserFeaturesTest {
     @Before
     void cleanBeforeTest() {
         GroovyConfigBasedBrowserPageNavigationHandler.handler = null
+        testRunner.setClassifier(browser)
     }
 
     @Test
@@ -314,12 +326,14 @@ class WebTauBrowserFeaturesTest {
         runCli('agGridMultiSelect.groovy', 'webtau.cfg.groovy')
     }
 
-    private static void runCli(String uiTestName, String configFileName) {
-        runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}")
+    private void runCli(String uiTestName, String configFileName) {
+        runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}",
+                "--browser=" + browser)
     }
 
-    private static void runCliWithBrowserUrlOverride(String uiTestName, String configFileName) {
-        runCliWithArgs(uiTestName, configFileName, "--url=http://localhost:-1", "--browserUrl=${testRunner.testServer.uri}")
+    private void runCliWithBrowserUrlOverride(String uiTestName, String configFileName) {
+        runCliWithArgs(uiTestName, configFileName, "--url=http://localhost:-1",
+                "--browserUrl=${testRunner.testServer.uri}", "--browser=" + browser)
     }
 
     private static void runCliWithArgs(String uiTestName, String configFileName, String... args) {

@@ -17,6 +17,7 @@ services:
 
 addons:
   chrome: stable
+  firefox: latest
   apt:
     packages:
       - graphviz
@@ -25,3 +26,4 @@ addons:
 install: true
 
 script: mvn -B verify -P code-coverage
+

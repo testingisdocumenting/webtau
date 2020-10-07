@@ -1,7 +1,7 @@
 {
   "scenarioDetails" : [ {
     "scenario" : "simple open",
-    "shortContainerId" : "basicDeclareFirst.groovy",
+    "shortContainerId" : "basic.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }

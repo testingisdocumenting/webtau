@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page.value.handlers;
 
+import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
@@ -41,14 +42,24 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
                          PageElement pageElement,
                          Object value) {
         LocalDate localDate = LocalDate.parse(value.toString());
-        Object javaScriptRenderedDate = driver.executeScript(
-                "return new Date(arguments[0], arguments[1], arguments[2]).toLocaleDateString()",
-                localDate.getYear(), localDate.getMonth().getValue() - 1, localDate.getDayOfMonth());
-        pageElement.sendKeys(javaScriptRenderedDate.toString());
+
+        if (BrowserConfig.isChrome()) {
+            setForChrome(pageElement, localDate);
+        } else {
+            pageElement.click();
+            pageElement.sendKeys(value.toString());
+        }
     }
 
     @Override
     public Object getValue(HtmlNode htmlNode, PageElement pageElement) {
         return htmlNode.getValue();
+    }
+
+    private void setForChrome(PageElement pageElement, LocalDate localDate) {
+        Object javaScriptRenderedDate = driver.executeScript(
+                "return new Date(arguments[0], arguments[1], arguments[2]).toLocaleDateString()",
+                localDate.getYear(), localDate.getMonth().getValue() - 1, localDate.getDayOfMonth());
+        pageElement.sendKeys(javaScriptRenderedDate.toString());
     }
 }
