@@ -20,7 +20,7 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
 scenario('open report') {
-    report.openGroovyStandaloneReport('ui/searchWithPersonas-webtau-report.html')
+    report.openGroovyStandaloneReport('ui/searchWithPersonas-chrome-webtau-report.html')
 }
 
 scenario('select steps tab and check persona') {
