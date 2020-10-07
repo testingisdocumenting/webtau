@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +18,8 @@
 package org.testingisdocumenting.webtau.http.datanode;
 
 public class DataNodeId {
-    private String path;
-    private String name;
+    private final String path;
+    private final String name;
     private int idx;
 
     public DataNodeId(String name) {

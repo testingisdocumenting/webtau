@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -92,6 +93,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
+    Collection<DataNode> children() {
+        return node.children()
+    }
+
+    @Override
     Iterator<DataNode> iterator() {
         return elements().iterator()
     }
@@ -104,11 +110,6 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     @Override
     int numberOfElements() {
         return node.numberOfElements()
-    }
-
-    @Override
-    Map<String, DataNode> asMap() {
-        return node.asMap().entrySet().collectEntries { [it.key, new GroovyDataNode(it.value)] }
     }
 
     void each(Closure consumer) {
