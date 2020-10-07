@@ -26,3 +26,4 @@ addons:
 install: true
 
 script: mvn -B verify -P code-coverage
+
