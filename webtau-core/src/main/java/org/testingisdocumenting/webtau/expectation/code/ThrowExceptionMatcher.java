@@ -103,6 +103,10 @@ public class ThrowExceptionMatcher implements CodeMatcher {
             Throwable undeclaredCheckedException = t.getCause();
             thrownMessage = undeclaredCheckedException.getMessage();
             thrownClass = undeclaredCheckedException.getClass();
+        } else if (t instanceof ExceptionInInitializerError) {
+            Throwable exception = ((ExceptionInInitializerError) t).getException();
+            thrownMessage = exception.getMessage();
+            thrownClass = exception.getClass();
         } else {
             thrownMessage = t.getMessage();
             thrownClass = t.getClass();
