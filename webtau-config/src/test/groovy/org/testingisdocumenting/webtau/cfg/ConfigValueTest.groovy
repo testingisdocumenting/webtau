@@ -88,9 +88,5 @@ class ConfigValueTest {
             configValue.isDefault().should == false
             configValue.getAsString().should == 'new-Bob-value'
         }
-
-        John {
-            configValue.isDefault().should == false
-        }
     }
 }
