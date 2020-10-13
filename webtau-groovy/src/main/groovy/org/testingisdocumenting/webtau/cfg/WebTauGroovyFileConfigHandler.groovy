@@ -33,6 +33,9 @@ import java.nio.file.Path
 import java.util.concurrent.atomic.AtomicBoolean
 
 class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
+    private static final String SOURCE = 'config file'
+    private static final String PERSONAS_KEY = 'personas'
+
     private static final AtomicBoolean ignoreConfigErrors = new AtomicBoolean(false)
 
     static void forceIgnoreErrors() {
@@ -65,7 +68,10 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             return
         }
 
-        cfg.acceptConfigValues("config file", convertConfigToMap(parsedConfig))
+        Map<String, ?> configAsMap = convertConfigToMap(parsedConfig)
+        handlePersonas(cfg, configAsMap)
+
+        cfg.acceptConfigValues(SOURCE, configAsMap)
 
         setupHttpHeaderProvider(parsedConfig)
         setupBrowserPageNavigationHandler(parsedConfig)
@@ -73,6 +79,19 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupPageElementGetSetValueHandlers(parsedConfig)
         setupTestListeners(parsedConfig)
         setupDbDataSourceProviders(parsedConfig)
+    }
+
+    private static void handlePersonas(WebTauConfig cfg, Map<String, ?> personasConfig) {
+        def personas = personasConfig.get(PERSONAS_KEY)
+        if (!personas) {
+            return
+        }
+
+        personas.each { String personaId, personaConfig ->
+            cfg.acceptConfigValues(SOURCE, personaId, personaConfig)
+        }
+
+        personasConfig.remove(PERSONAS_KEY)
     }
 
     private static ConfigObject parseConfig(WebTauConfig cfg, Path configPath) {

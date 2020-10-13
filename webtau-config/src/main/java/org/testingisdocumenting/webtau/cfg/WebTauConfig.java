@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
@@ -156,10 +157,14 @@ public class WebTauConfig {
     }
 
     public void acceptConfigValues(String source, Map<String, ?> values) {
-        enumeratedCfgValues.values().forEach(v -> v.accept(source, values));
+        acceptConfigValues(source, Persona.DEFAULT_PERSONA_ID, values);
+    }
+
+    public void acceptConfigValues(String source, String personaId, Map<String, ?> values) {
+        enumeratedCfgValues.values().forEach(v -> v.accept(source, personaId, values));
 
         registerFreeFormCfgValues(values);
-        freeFormCfgValues.forEach(v -> v.accept(source, values));
+        freeFormCfgValues.forEach(v -> v.accept(source, personaId, values));
     }
 
     // for REPL convenience

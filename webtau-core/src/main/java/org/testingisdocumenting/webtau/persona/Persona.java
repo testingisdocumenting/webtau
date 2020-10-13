@@ -21,7 +21,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class Persona {
-    private static final Persona defaultPersona = new Persona("");
+    public static final String DEFAULT_PERSONA_ID = "";
+    private static final Persona defaultPersona = new Persona(DEFAULT_PERSONA_ID);
     private static final ThreadLocal<Persona> currentPersona = ThreadLocal.withInitial(() -> defaultPersona);
 
     private final String id;

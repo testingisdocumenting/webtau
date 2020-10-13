@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.cfg;
 
+import org.testingisdocumenting.webtau.persona.Persona;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -52,16 +54,17 @@ public class ConfigValue {
         this.defaultValueSupplier = defaultValueSupplier;
 
         this.valuesPerPersonaId = new HashMap<>();
+        this.valuesPerPersonaId.put(Persona.DEFAULT_PERSONA_ID, new ArrayDeque<>());
+
         reset();
     }
 
     public void set(String source, Object value) {
-        Deque<Value> values = defaultPersonaValues();
-        values.addFirst(new Value(source, value));
+        set(source, Persona.DEFAULT_PERSONA_ID, value);
     }
 
     public void set(String source, String personaId, Object value) {
-        Deque<Value> values = personaValues(personaId);
+        Deque<Value> values = getOrCreatePersonaValues(personaId);
         values.addFirst(new Value(source, value));
     }
 
@@ -71,10 +74,14 @@ public class ConfigValue {
     }
 
     public void accept(String source, Map<String, ?> configValues) {
+        accept(source, Persona.DEFAULT_PERSONA_ID, configValues);
+    }
+
+    public void accept(String source, String personaId, Map<String, ?> configValues) {
         if (configValues.containsKey(key)) {
-            set(source, configValues.get(key));
+            set(source, personaId, configValues.get(key));
         } else if (configValues.containsKey(prefixedUpperCaseKey)) {
-            set(source, configValues.get(prefixedUpperCaseKey));
+            set(source, personaId, configValues.get(prefixedUpperCaseKey));
         }
     }
 
@@ -95,13 +102,13 @@ public class ConfigValue {
     }
 
     public String getSource() {
-        return (isDefault() ? "default" : defaultPersonaValues().getFirst().getSourceId());
+        return (isDefault() ? "default" : currentOrDefaultPersonaValuesForRead().getFirst().getSourceId());
     }
 
     public List<String> getSources() {
         return (isDefault() ?
                 Collections.singletonList("default") :
-                defaultPersonaValues().stream().map(Value::getSourceId).collect(Collectors.toList()));
+                currentOrDefaultPersonaValuesForRead().stream().map(Value::getSourceId).collect(Collectors.toList()));
     }
 
     public boolean isBoolean() {
@@ -110,7 +117,7 @@ public class ConfigValue {
 
     public Object getAsObject() {
         return isDefault() ? defaultValueSupplier.get():
-                defaultPersonaValues().getFirst().getValue();
+                currentOrDefaultPersonaValuesForRead().getFirst().getValue();
     }
 
     public String getAsString() {
@@ -161,7 +168,7 @@ public class ConfigValue {
     }
 
     public boolean isDefault() {
-        return defaultPersonaValues().isEmpty();
+        return currentOrDefaultPersonaValuesForRead().isEmpty();
     }
 
     public boolean nonDefault() {
@@ -174,7 +181,7 @@ public class ConfigValue {
 
     private String renderPersonaValues(String personaId) {
         String title = personaId.isEmpty() ? "" : "persona " + personaId + ":\n";
-        return title + key + ": " + defaultPersonaValues().stream()
+        return title + key + ": " + personaIdOrDefaultPersonaValuesForRead(personaId).stream()
                 .map(Value::toString)
                 .collect(Collectors.joining(", "));
     }
@@ -188,11 +195,16 @@ public class ConfigValue {
                 .toUpperCase();
     }
 
-    private Deque<Value> defaultPersonaValues() {
-        return valuesPerPersonaId.get("");
+    private Deque<Value> currentOrDefaultPersonaValuesForRead() {
+        return personaIdOrDefaultPersonaValuesForRead(Persona.getCurrentPersona().getId());
     }
 
-    private Deque<Value> personaValues(String personaId) {
+    private Deque<Value> personaIdOrDefaultPersonaValuesForRead(String personaId) {
+        Deque<Value> values = valuesPerPersonaId.get(personaId);
+        return values != null ? values : valuesPerPersonaId.get(Persona.DEFAULT_PERSONA_ID);
+    }
+
+    private Deque<Value> getOrCreatePersonaValues(String personaId) {
         Deque<Value> values = valuesPerPersonaId.get(personaId);
         if (values == null) {
             values = new ArrayDeque<>();

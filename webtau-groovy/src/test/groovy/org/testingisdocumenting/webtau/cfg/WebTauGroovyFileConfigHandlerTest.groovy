@@ -95,6 +95,45 @@ class WebTauGroovyFileConfigHandlerTest {
         cfg.get('additionalUrls').should == [appOne: 'http://app-one-dev', appTwo: 'http://app-two']
     }
 
+    @Test
+    void "should allow to define a persona specific value"() {
+        def John = persona('John')
+        def Bob = persona('Bob')
+
+        def cfg = createPersonaConfig()
+        handle(cfg)
+
+        cfg.configValue.should == 'customDefaultValue'
+
+        John {
+            cfg.configValue.should == 'JohnCustomValue'
+        }
+
+        Bob {
+            cfg.configValue.should == 'BobCustomValue'
+        }
+    }
+
+    @Test
+    void "should allow to define a persona specific value per environment"() {
+        def John = persona('John')
+        def Bob = persona('Bob')
+
+        def cfg = createPersonaConfig()
+        cfg.envConfigValue.set('manual', 'dev')
+        handle(cfg)
+
+        cfg.configValue.should == 'customDefaultValue-dev'
+
+        John {
+            cfg.configValue.should == 'JohnCustomValue-dev'
+        }
+
+        Bob {
+            cfg.configValue.should == 'BobCustomValue-dev'
+        }
+    }
+
     private static void handle(WebTauConfig cfg) {
         def handler = new WebTauGroovyFileConfigHandler()
         handler.onAfterCreate(cfg)
@@ -106,6 +145,10 @@ class WebTauGroovyFileConfigHandlerTest {
 
     private static WebTauConfig createNestedConfig() {
         return createConfigFromFile('src/test/resources/webtau-nested.cfg.groovy')
+    }
+
+    private static WebTauConfig createPersonaConfig() {
+        return createConfigFromFile('src/test/resources/webtau-persona.cfg.groovy')
     }
 
     private static WebTauConfig createConfigFromFile(String filePath) {
