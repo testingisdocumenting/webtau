@@ -55,7 +55,7 @@ class ConfigValueTest {
 
     @Test
     void "set and get the value based current persona"() {
-        def John = persona('Jonh')
+        def John = persona('John')
         def Bob = persona('Bob')
 
         def configValue = ConfigValue.declare("vk", "description", { -> "dv" })
