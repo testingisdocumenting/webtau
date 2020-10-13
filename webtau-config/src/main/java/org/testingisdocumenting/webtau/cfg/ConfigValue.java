@@ -60,7 +60,7 @@ public class ConfigValue {
     }
 
     public void set(String source, Object value) {
-        set(source, Persona.DEFAULT_PERSONA_ID, value);
+        set(source, Persona.getCurrentPersona().getId(), value);
     }
 
     public void set(String source, String personaId, Object value) {
