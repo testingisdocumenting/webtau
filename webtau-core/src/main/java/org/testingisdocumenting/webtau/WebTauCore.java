@@ -58,6 +58,14 @@ public class WebTauCore extends Matchers {
         return new ActualPath(path);
     }
 
+    public static Persona persona(String id) {
+        return Persona.persona(id);
+    }
+
+    public static Persona persona(String id, Map<String, Object> payload) {
+        return Persona.persona(id, payload);
+    }
+
     public static final TableDataUnderscore __ = UNDERSCORE;
     public static final TableDataUnderscore ___ = UNDERSCORE;
     public static final TableDataUnderscore ____ = UNDERSCORE;
