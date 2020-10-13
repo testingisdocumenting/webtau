@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.persona;
 import org.junit.Test;
 
 import static org.testingisdocumenting.webtau.Matchers.*;
-import static org.testingisdocumenting.webtau.WebTauCore.persona;
+import static org.testingisdocumenting.webtau.persona.Persona.persona;
 
 public class PersonaTest {
     @Test

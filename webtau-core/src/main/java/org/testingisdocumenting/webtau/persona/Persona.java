@@ -23,28 +23,26 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class Persona {
-    private static final Persona defaultPersona = new Persona("", Collections.emptyMap(), true);
+    private static final Persona defaultPersona = new Persona("", Collections.emptyMap());
     private static final ThreadLocal<Persona> currentPersona = ThreadLocal.withInitial(() -> defaultPersona);
 
     private final String id;
     private final Map<String, Object> payload;
-    private final boolean isDefault;
 
-    public Persona(String id) {
-        this(id, Collections.emptyMap());
+    public static Persona persona(String id) {
+        return persona(id, Collections.emptyMap());
     }
 
-    public Persona(String id, Map<String, Object> payload) {
-        this(id, payload, false);
-    }
-
-    private Persona(String id, Map<String, Object> payload, boolean isDefault) {
-        if (!isDefault && StringUtils.nullOrEmpty(id)) {
+    public static Persona persona(String id, Map<String, Object> payload) {
+        if (StringUtils.nullOrEmpty(id)) {
             throw new IllegalArgumentException("Persona id may not be null or empty");
         }
+        return new Persona(id, payload);
+    }
+
+    private Persona(String id, Map<String, Object> payload) {
         this.id = id;
         this.payload = payload;
-        this.isDefault = isDefault;
     }
 
     public String getId() {
@@ -56,7 +54,7 @@ public class Persona {
     }
 
     public boolean isDefault() {
-        return isDefault;
+        return this == defaultPersona;
     }
 
     public void execute(Runnable code) {
