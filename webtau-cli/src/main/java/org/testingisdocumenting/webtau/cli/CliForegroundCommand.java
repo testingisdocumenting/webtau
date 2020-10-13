@@ -36,21 +36,21 @@ public class CliForegroundCommand {
     CliForegroundCommand() {
     }
 
-    public void run(String command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
-        cliStep(command, config, (validationResult) -> handler.handle(
+    public CliRunResult run(String command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        return cliStep(command, config, (validationResult) -> handler.handle(
                 validationResult.getOut(),
                 validationResult.getErr()));
     }
 
-    public void run(String command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
-        cliStep(command, config,
+    public CliRunResult run(String command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        return cliStep(command, config,
                 (validationResult) -> handler.handle(
                         validationResult.getExitCode(),
                         validationResult.getOut(),
                         validationResult.getErr()));
     }
 
-    private void cliStep(String command, CliProcessConfig config, Consumer<CliValidationResult> validationCode) {
+    private CliRunResult cliStep(String command, CliProcessConfig config, Consumer<CliValidationResult> validationCode) {
         CliValidationResult validationResult = new CliValidationResult(command);
 
         TestStep step = TestStep.createStep(null,
@@ -60,6 +60,9 @@ public class CliForegroundCommand {
 
         try {
             step.execute(StepReportOptions.REPORT_ALL);
+            return new CliRunResult(validationResult.getExitCode().get(),
+                    validationResult.getOut().get(),
+                    validationResult.getErr().get());
         } finally {
             step.addPayload(validationResult);
             Cli.cli.setLastDocumentationArtifact(validationResult.createDocumentationArtifact());

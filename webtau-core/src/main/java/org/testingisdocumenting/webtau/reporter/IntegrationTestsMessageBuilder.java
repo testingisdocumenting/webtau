@@ -31,6 +31,7 @@ public class IntegrationTestsMessageBuilder {
         CLASSIFIER("classifier", Color.CYAN),
         MATCHER("matcher", Color.GREEN),
         STRING_VALUE("stringValue", Color.GREEN),
+        QUERY_VALUE("queryValue", Color.YELLOW),
         NUMBER_VALUE("numberValue", Color.BLUE),
         URL("url", Color.PURPLE),
         SELECTOR_TYPE("selectorType", Color.PURPLE),
@@ -82,8 +83,12 @@ public class IntegrationTestsMessageBuilder {
         return TokenTypes.STRING_VALUE.token(escapeSpecialChars(value.toString()));
     }
 
+    public static MessageToken queryValue(Object value) {
+        return TokenTypes.QUERY_VALUE.token(escapeSpecialChars(value.toString()));
+    }
+
     public static MessageToken numberValue(Object value) {
-        return TokenTypes.NUMBER_VALUE.token(escapeSpecialChars(value.toString()));
+        return TokenTypes.NUMBER_VALUE.token(value.toString());
     }
 
     public static MessageToken urlValue(String url) {

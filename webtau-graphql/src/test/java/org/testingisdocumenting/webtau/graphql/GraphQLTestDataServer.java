@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 public class GraphQLTestDataServer {
     private final TestServer testServer;
+    private final GraphQLResponseHandler handler;
 
     public GraphQLTestDataServer() {
         String sdl = ResourceUtils.textContent("test-schema.graphql");
@@ -45,7 +46,7 @@ public class GraphQLTestDataServer {
         SchemaGenerator schemaGenerator = new SchemaGenerator();
         GraphQLSchema schema = schemaGenerator.makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
 
-        GraphQLResponseHandler handler = new GraphQLResponseHandler(schema);
+        this.handler = new GraphQLResponseHandler(schema);
         this.testServer = new TestServer(handler);
     }
 
@@ -107,5 +108,9 @@ public class GraphQLTestDataServer {
 
     public URI getUri() {
         return testServer.getUri();
+    }
+
+    public GraphQLResponseHandler getHandler() {
+        return handler;
     }
 }

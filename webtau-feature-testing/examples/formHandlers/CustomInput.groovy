@@ -1,5 +1,6 @@
 package formHandlers
 
+import org.openqa.selenium.Keys
 import org.testingisdocumenting.webtau.browser.page.HtmlNode
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor
@@ -19,7 +20,7 @@ class CustomInput implements PageElementGetSetValueHandler {
                   PageElement pageElement,
                   Object value) {
         pageElement.click()
-        pageElement.find('input').sendKeys("${value}\t")
+        pageElement.find('input').sendKeys("${value}" + Keys.TAB)
     }
 
     @Override

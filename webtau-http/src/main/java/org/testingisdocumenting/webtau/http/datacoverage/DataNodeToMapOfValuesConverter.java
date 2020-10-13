@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 
 public class DataNodeToMapOfValuesConverter {
-    private TraceableValueConverter traceableValueConverter;
+    private final TraceableValueConverter traceableValueConverter;
 
     public DataNodeToMapOfValuesConverter(TraceableValueConverter traceableValueConverter) {
         this.traceableValueConverter = traceableValueConverter;
@@ -45,7 +46,7 @@ public class DataNodeToMapOfValuesConverter {
 
     private Map<String, Object> convertToMap(DataNode dataNode) {
         Map<String, Object> converted = new LinkedHashMap<>();
-        dataNode.asMap().forEach((k, v) -> converted.put(k, convert(v)));
+        dataNode.children().forEach((n) -> converted.put(n.id().getName(), convert(n)));
 
         return converted;
     }

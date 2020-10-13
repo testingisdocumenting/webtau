@@ -35,11 +35,11 @@ public class Cli {
     private Cli() {
     }
 
-    public CliProcessConfig env(Map<String, String> env) {
+    public CliProcessConfig env(Map<String, CharSequence> env) {
         return new CliProcessConfig().env(env);
     }
 
-    public CliProcessConfig env(String... keyValue) {
+    public CliProcessConfig env(CharSequence... keyValue) {
         return new CliProcessConfig().env(CollectionUtils.aMapOf((Object[]) keyValue));
     }
 
@@ -63,24 +63,24 @@ public class Cli {
         return new CliCommand(commandBaseSupplier);
     }
 
-    public void run(String command, CliValidationOutputOnlyHandler handler) {
-        run(command, CliProcessConfig.EMPTY, handler);
+    public CliRunResult run(String command, CliValidationOutputOnlyHandler handler) {
+        return run(command, CliProcessConfig.EMPTY, handler);
     }
 
-    public void run(String command) {
-        run(command, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+    public CliRunResult run(String command) {
+        return run(command, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
     }
 
-    public void run(String command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
-        new CliForegroundCommand().run(command, config, handler);
+    public CliRunResult run(String command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        return new CliForegroundCommand().run(command, config, handler);
     }
 
-    public void run(String command, CliValidationExitCodeOutputHandler handler) {
-        run(command, CliProcessConfig.EMPTY, handler);
+    public CliRunResult run(String command, CliValidationExitCodeOutputHandler handler) {
+        return run(command, CliProcessConfig.EMPTY, handler);
     }
 
-    public void run(String command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
-        new CliForegroundCommand().run(command, config, handler);
+    public CliRunResult run(String command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        return new CliForegroundCommand().run(command, config, handler);
     }
 
     public CliBackgroundCommand runInBackground(String command, CliProcessConfig config) {

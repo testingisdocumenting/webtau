@@ -21,7 +21,6 @@ import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TestStep;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
 import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
@@ -36,19 +35,22 @@ public class Database {
         return new DatabaseTable(dataSource, name);
     }
 
-    public TableData query(String query) {
+    public DatabaseQueryResult query(String query) {
         TestStep step = createStep(null,
                 tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel())),
                 () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
                 () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query));
 
-        return (TableData) step.execute(StepReportOptions.REPORT_ALL);
+        return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public void update(String query) {
-        createAndExecuteStep(
+        TestStep step = createStep(null,
                 tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel())),
-                () -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel())),
+                (rows) -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel()),
+                        action("affected"), numberValue(rows), classifier("rows")),
                 () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query));
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 }

@@ -25,6 +25,11 @@ class Report {
     def testNames = $(".navigation-entry .label")
     def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
 
+    def responseData = $(".response .data")
+
+    def steps = $(".step")
+    def personaId = $(".step .persona-id")
+
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
 
@@ -48,6 +53,10 @@ class Report {
 
     def selectCliCalls() {
         selectDetailsTab('CLI calls')
+    }
+
+    def selectSteps() {
+        selectDetailsTab('Steps')
     }
 
     def selectDetailsTab(String tabName) {

@@ -31,8 +31,41 @@ scenario("validate click") {
     payments.message.waitTo == "single clicked"
 }
 
+scenario("shift click") {
+    payments.confirmation.shiftClick()
+}
+
+scenario("validate shift click") {
+    payments.message.waitTo == "single clicked with shift"
+}
+
+scenario("alt click") {
+    payments.confirmation.altClick()
+}
+
+scenario("validate alt click") {
+    payments.message.waitTo == "single clicked with alt"
+}
+
+scenario("control or command click") {
+    payments.confirmation.commandOrControlClick()
+}
+
+scenario("validate control or command click") {
+    payments.message.waitTo == ~/single clicked with command|control/
+}
+
+scenario("control click") {
+    payments.confirmation.controlClick()
+}
+
+scenario("command click") {
+    payments.confirmation.commandClick()
+}
+
+def menu = $(".menu")
 scenario("hover") {
-    $(".menu").hover()
+    menu.hover()
 }
 
 scenario("validate hover") {
@@ -67,16 +100,18 @@ scenario("setValue validation") {
     payments.dollarAmount.should == "104.5"
 }
 
+def paymentsTable = $("table")
 scenario("right click") {
-    $("table").rightClick()
+    paymentsTable.rightClick()
 }
 
 scenario("validate context menu") {
     $(".context-menu-item").waitTo == ["Menu Item A", "Menu Item B"]
 }
 
+def expandArea = $("#expand-area")
 scenario("double click") {
-    $("#expand-area").doubleClick()
+    expandArea.doubleClick()
 }
 
 scenario("validate double click") {

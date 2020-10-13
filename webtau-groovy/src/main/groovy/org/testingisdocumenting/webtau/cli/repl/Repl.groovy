@@ -17,12 +17,14 @@
 
 package org.testingisdocumenting.webtau.cli.repl
 
-import org.codehaus.groovy.tools.shell.Groovysh
+import org.apache.groovy.groovysh.Groovysh
+import org.codehaus.groovy.tools.shell.IO
 import org.codehaus.groovy.tools.shell.util.Preferences
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
+import org.testingisdocumenting.webtau.cli.repl.win.WindowsOsFixes
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.table.TableData
@@ -62,7 +64,8 @@ class Repl {
     }
 
     void run() {
-        groovysh.run("")
+        def commandLine = interactiveTests.testFilePaths.isEmpty() ? "" : "ls"
+        groovysh.run(commandLine)
     }
 
     private static void initHandlers() {
@@ -76,8 +79,9 @@ class Repl {
 
     private Groovysh createShell() {
         System.setProperty("groovysh.prompt", "webtau")
+        WindowsOsFixes.apply()
 
-        def shell = new Groovysh()
+        def shell = new Groovysh(new IO())
         shell.imports << "static org.testingisdocumenting.webtau.WebTauGroovyDsl.*"
         shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplCommands.*"
         shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplHttpLastValidationCapture.*"
@@ -86,6 +90,12 @@ class Repl {
         shell.resultHook = { Object result ->
             if (result != null) {
                 renderResult(result)
+            }
+        }
+
+        addShutdownHook {
+            if (shell.history) {
+                shell.history.flush()
             }
         }
 

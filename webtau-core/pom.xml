@@ -22,22 +22,16 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.29-SNAPSHOT</version>
+        <version>1.30-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-core</artifactId>
-    <version>1.29-SNAPSHOT</version>
+    <version>1.30-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-console</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testingisdocumenting.webtau</groupId>
-            <artifactId>webtau-config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -68,7 +62,7 @@
                     <execution>
                         <goals>
                             <goal>addTestSources</goal>
-                            <goal>testCompile</goal>
+                            <goal>compileTests</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -17,6 +17,7 @@ services:
 
 addons:
   chrome: stable
+  firefox: latest
   apt:
     packages:
       - graphviz
@@ -24,4 +25,5 @@ addons:
 # disables the default install step which is mvn install skipping tests
 install: true
 
-script: mvn -B package
+script: mvn -B verify -P code-coverage
+

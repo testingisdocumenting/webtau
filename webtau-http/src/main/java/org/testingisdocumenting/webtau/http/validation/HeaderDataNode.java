@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -108,6 +109,11 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
+    public Collection<DataNode> children() {
+        return dataNode.children();
+    }
+
+    @Override
     public Iterator<DataNode> iterator() {
         return dataNode.iterator();
     }
@@ -123,11 +129,6 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
-    public Map<String, DataNode> asMap() {
-        return dataNode.asMap();
-    }
-
-    @Override
     public String toString() {
         return dataNode.toString();
     }
@@ -137,7 +138,9 @@ public class HeaderDataNode implements DataNode {
     }
 
     private Optional<String> findMatchingCaseInsensitiveKey(String name) {
-        return findMatchingCaseInsensitiveKey(name, dataNode.asMap().keySet().stream());
+        return findMatchingCaseInsensitiveKey(name,
+                dataNode.children().stream()
+                        .map(node -> node.id().getName()));
     }
 
     private static Optional<String> findMatchingCaseInsensitiveKey(String name, Stream<String> keys) {

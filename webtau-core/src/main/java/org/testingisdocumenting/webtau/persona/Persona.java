@@ -73,4 +73,12 @@ public class Persona {
     public static Persona getCurrentPersona() {
         return currentPersona.get();
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" +
+                "id='" + id + '\'' +
+                ", payload=" + payload +
+                '}';
+    }
 }

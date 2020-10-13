@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.29-SNAPSHOT</version>
+        <version>1.30-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-groovy</artifactId>
@@ -76,12 +76,6 @@
         </dependency>
 
         <dependency>
-            <groupId>jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>2.14.6</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
         </dependency>
@@ -94,6 +88,13 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-groovydoc</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>2.14.6</version>
             <scope>provided</scope>
         </dependency>
 

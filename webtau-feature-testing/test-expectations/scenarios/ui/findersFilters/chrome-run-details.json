@@ -1,0 +1,58 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open browser",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css id",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css first matched",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css all matched",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css and filter by number",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css and filter by text",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css and filter by regexp",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by css and filter by number and nested css",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "by buttons css and filter by text",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  } ],
+  "exitCode" : 0
+}

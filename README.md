@@ -91,7 +91,7 @@ public class WeatherIT {
     @Test
     public void checkWeather() {
         graphql.execute("{ weather { temperature } }", (header, body) -> {
-            body.get("weather.temperature").shouldBe(lessThan(100));
+            body.get("data.weather.temperature").shouldBe(lessThan(100));
         });
     }
 }
@@ -125,6 +125,16 @@ scenario("check weather") {
     }
 }
 ```
+
+For single query requests, you may also omit the query name while validating the response:
+```groovy
+scenario("check weather") {
+    graphql.execute("{ weather { temperature } }") {
+        temperature.shouldBe < 100
+    }
+}
+```
+
 ```json
 {
   "data": {

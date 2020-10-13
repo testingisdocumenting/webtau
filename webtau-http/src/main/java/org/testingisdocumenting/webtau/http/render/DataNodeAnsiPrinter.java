@@ -24,10 +24,7 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataNodeAnsiPrinter {
     private static final Color DELIMITER_COLOR = Color.YELLOW;
@@ -47,12 +44,37 @@ public class DataNodeAnsiPrinter {
     }
 
     public void print(DataNode dataNode) {
+        print(dataNode, -1);
+    }
+
+    public void print(DataNode dataNode, int maxNumberOfLInes) {
         lines = new ArrayList<>();
         currentLine = new Line();
         lines.add(currentLine);
 
         printNode(dataNode, false);
 
+        if (maxNumberOfLInes == -1 || lines.size() <= maxNumberOfLInes) {
+            consoleOutputWithoutLimit();
+        } else {
+            consoleOutputWithLimit(maxNumberOfLInes);
+        }
+    }
+
+    private void consoleOutputWithoutLimit() {
+        consoleOutputLines(lines);
+    }
+
+    private void consoleOutputWithLimit(int limit) {
+        int firstHalfNumberOfLines = limit / 2;
+        int secondHalfNumberOfLines = firstHalfNumberOfLines + limit % 2;
+
+        consoleOutputLines(lines.subList(0, firstHalfNumberOfLines));
+        ConsoleOutputs.out(Color.YELLOW, "...");
+        consoleOutputLines(lines.subList(lines.size() - secondHalfNumberOfLines, lines.size()));
+    }
+
+    private void consoleOutputLines(List<Line> lines) {
         lines.forEach(l -> ConsoleOutputs.out(l.getStyleAndValues().toArray()));
     }
 
@@ -60,7 +82,7 @@ public class DataNodeAnsiPrinter {
         if (dataNode.isList()) {
             printList(dataNode, skipIndent);
         } else if (dataNode.isSingleValue()) {
-            if (! skipIndent) {
+            if (!skipIndent) {
                 printIndentation();
             }
 
@@ -88,14 +110,12 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printNotEmptyObject(DataNode dataNode, boolean skipIndent) {
-        Map<String, DataNode> children = dataNode.asMap();
-
         openScope("{", skipIndent);
 
+        Collection<DataNode> children = dataNode.children();
         int idx = 0;
-        for (Map.Entry<String, DataNode> entry : children.entrySet()) {
-            String k = entry.getKey();
-            DataNode v = entry.getValue();
+        for (DataNode v : children) {
+            String k = v.id().getName();
 
             boolean isLast = idx == children.size() - 1;
 
@@ -103,7 +123,7 @@ public class DataNodeAnsiPrinter {
             printKey(k);
             printNode(v, true);
 
-            if (! isLast) {
+            if (!isLast) {
                 printDelimiter(",");
                 println();
             }
@@ -140,7 +160,7 @@ public class DataNodeAnsiPrinter {
             printNode(n, false);
 
             boolean isLast = idx == size - 1;
-            if (! isLast) {
+            if (!isLast) {
                 printDelimiter(",");
                 println();
             }
@@ -181,7 +201,7 @@ public class DataNodeAnsiPrinter {
         }
 
         return value instanceof String ?
-                "\"" + value + "\"":
+                "\"" + value + "\"" :
                 value.toString();
     }
 

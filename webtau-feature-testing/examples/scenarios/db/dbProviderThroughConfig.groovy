@@ -27,5 +27,5 @@ scenario('access db using provider from config') {
 """
     )
 
-    db.table("PRICES").query().size().should == 0
+    db.table("PRICES").query().getNumberOfRows().should == 0
 }

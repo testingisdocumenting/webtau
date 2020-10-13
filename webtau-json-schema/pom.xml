@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright 2020 webtau maintainers
   ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.29-SNAPSHOT</version>
+        <version>1.30-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-json-schema</artifactId>
@@ -78,7 +79,7 @@
                     <execution>
                         <goals>
                             <goal>addTestSources</goal>
-                            <goal>testCompile</goal>
+                            <goal>compileTests</goal>
                         </goals>
                     </execution>
                 </executions>

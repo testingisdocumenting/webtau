@@ -1,0 +1,48 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open browser",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "add cookies",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "validate added cookies",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "delete named cookie",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "validate deleted cookies",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "add more cookies",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "get all cookies",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "delete all cookies",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "validate after delete all cookies",
+    "shortContainerId" : "cookies.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  } ],
+  "exitCode" : 0
+}

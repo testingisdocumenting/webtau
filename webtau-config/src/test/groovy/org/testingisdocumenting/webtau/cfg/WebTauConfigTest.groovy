@@ -24,7 +24,7 @@ class WebTauConfigTest {
     void "inits config values from env vars and overrides them from system properties"() {
         System.setProperty('url', 'test-base-url')
         WebTauConfig cfg = new WebTauConfig()
-        assert cfg.getBaseUrl() == 'test-base-url'
+        cfg.getBaseUrl().should == 'test-base-url'
     }
 
     @Test
@@ -34,8 +34,8 @@ class WebTauConfigTest {
         WebTauConfig cfg = new WebTauConfig()
         cfg.setBaseUrl('new-url')
 
-        assert cfg.getBaseUrl() == "new-url"
-        assert cfg.baseUrlConfigValue.getSources() == ["manual", "system property"]
+        cfg.getBaseUrl().should == "new-url"
+        cfg.baseUrlConfigValue.getSources().should == ["manual", "system property"]
     }
 
     @Test
@@ -43,18 +43,18 @@ class WebTauConfigTest {
         System.setProperty('userDefined', 'user-1')
         WebTauConfig cfg = new WebTauConfig()
 
-        assert cfg.get('userDefined') == 'user-1'
+        cfg.get('userDefined').should == 'user-1'
     }
 
     @Test
     void "let register additional config values via service loaders"() {
         WebTauConfig cfg = new WebTauConfig()
-        assert cfg.get('customConfig') == 'default config value'
+        cfg.get('customConfig').should == 'default config value'
     }
 
     @Test
     void "convert uppercase underscore to property name"() {
-        assert WebTauConfig.convertToCamelCase('WEBTAU_NAME') == 'name'
-        assert WebTauConfig.convertToCamelCase('WEBTAU_PROP_NAME') == 'propName'
+        WebTauConfig.convertToCamelCase('WEBTAU_NAME').should == 'name'
+        WebTauConfig.convertToCamelCase('WEBTAU_PROP_NAME').should == 'propName'
     }
 }

@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.29-SNAPSHOT</version>
+        <version>1.30-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-test-server</artifactId>
@@ -82,7 +82,7 @@
                     <execution>
                         <goals>
                             <goal>addTestSources</goal>
-                            <goal>testCompile</goal>
+                            <goal>compileTests</goal>
                         </goals>
                     </execution>
                 </executions>

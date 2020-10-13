@@ -16,36 +16,16 @@
 
 package org.testingisdocumenting.webtau.db
 
-import org.apache.commons.dbutils.QueryRunner
-import org.h2.jdbcx.JdbcDataSource
-import org.junit.AfterClass
-import org.junit.BeforeClass
 import org.junit.Test
-
-import javax.sql.DataSource
 
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
-class DatabaseFacadeTest {
-    public static DbDataSourceProvider h2PrimaryProvider = new H2PrimaryDbDataSourceProvider()
-    public static DataSource h2DataSource
-
-    @BeforeClass
-    static void init() {
-        DbDataSourceProviders.add(h2PrimaryProvider)
-
-        h2DataSource = createDataSource()
-        createPricesTable(h2DataSource)
-    }
-
-    @AfterClass
-    static void cleanup() {
-        DbDataSourceProviders.remove(h2PrimaryProvider)
-    }
-
+class DatabaseFacadeTest extends DatabaseBaseTest {
     @Test
     void "should insert table data into a table"() {
         def database = db.from(h2DataSource, 'h2db')
+
+        db.update("delete from PRICES")
         def PRICES = database.table("PRICES")
 
         PRICES << ["id" | "description" | "price"] {
@@ -73,7 +53,7 @@ class DatabaseFacadeTest {
                   ___________________________________
                   "id2" | "another set" | 2000   }
 
-        PRICES.query().numberOfRows().should == 1
+        PRICES.query().numberOfRows.should == 1
     }
 
     @Test
@@ -93,6 +73,21 @@ class DatabaseFacadeTest {
     }
 
     @Test
+    void "should query single value"() {
+        db.update("delete from PRICES")
+        def PRICES = db.table("PRICES")
+
+        PRICES << ["id" | "description" | "price"] {
+                  ___________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
+
+        def price = db.query("select price from PRICES where id='id1'")
+        price.should == 1000
+        price.shouldNot == 2000
+    }
+
+    @Test
     void "should run execute statements for primary data source"() {
         def PRICES = db.table("PRICES")
         PRICES << ["id" | "description" | "price"] {
@@ -101,26 +96,6 @@ class DatabaseFacadeTest {
 
         db.update("delete from PRICES")
 
-        PRICES.query().numberOfRows().should == 0
-    }
-
-    private static JdbcDataSource createDataSource() {
-        def dataSource = new JdbcDataSource()
-        dataSource.setURL("jdbc:h2:mem:dbfence;DB_CLOSE_DELAY=-1")
-        dataSource.setUser("sa")
-
-        return dataSource
-    }
-
-    private static void createPricesTable(DataSource dataSource) {
-        String definition =
-"""CREATE TABLE PRICES (
-    id varchar(255),
-    description varchar(255),
-    price int
-);
-"""
-        def run = new QueryRunner(dataSource)
-        run.update(definition)
+        PRICES.query().numberOfRows.should == 0
     }
 }

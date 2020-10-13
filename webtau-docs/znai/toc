@@ -25,6 +25,7 @@ UI
     basic-configuration
     page-element-and-value
     page-object
+    element-actions
     forms
     asynchronous-page
     documentation
@@ -42,6 +43,8 @@ groovy-specific-runner
     skipping-tests
     test-metadata
     test-listeners
+REPL
+    experiments
 generic-runners
     JUnit-4
     JUnit-5

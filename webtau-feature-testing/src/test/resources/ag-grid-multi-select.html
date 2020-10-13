@@ -1,0 +1,52 @@
+<!--
+  ~ Copyright 2020 webtau maintainers
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ag-Grid Basic Example</title>
+    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+</head>
+<body>
+<div id="grid" style="height: 200px; width:800px;" class="ag-theme-alpine"></div>
+</body>
+<script>
+  var columnDefs = [
+    {headerName: "Column A", field: "columnA"},
+    {headerName: "Column B", field: "columnB"},
+    {headerName: "Column C", field: "columnC"}
+  ];
+
+  var rowData = [
+    {columnA: "A1", columnB: "B1", columnC: "C1"},
+    {columnA: "A2", columnB: "B2", columnC: "C2"},
+    {columnA: "A3", columnB: "B3", columnC: "C3"}
+  ];
+
+  // let the grid know which columns and what data to use
+  var gridOptions = {
+    columnDefs: columnDefs,
+    rowData: rowData,
+    rowSelection: 'multiple'
+  };
+
+  // setup the grid after the page has finished loading
+  document.addEventListener('DOMContentLoaded', function() {
+    var gridDiv = document.querySelector('#grid');
+    new agGrid.Grid(gridDiv, gridOptions);
+  });
+</script>
+</html>

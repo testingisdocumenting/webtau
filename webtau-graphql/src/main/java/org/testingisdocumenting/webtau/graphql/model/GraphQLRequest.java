@@ -26,26 +26,6 @@ import java.util.Map;
 import static org.testingisdocumenting.webtau.utils.CollectionUtils.notNullOrEmpty;
 
 public class GraphQLRequest {
-    public static final String INTROSPECTION_QUERY = "{\n" +
-            "    __schema {\n" +
-            "        queryType {\n" +
-            "            fields {\n" +
-            "                name\n" +
-            "            }\n" +
-            "        }\n" +
-            "        mutationType {\n" +
-            "            fields {\n" +
-            "                name\n" +
-            "            }\n" +
-            "        }\n" +
-            "        subscriptionType {\n" +
-            "            fields {\n" +
-            "                name\n" +
-            "            }\n" +
-            "        }\n" +
-            "    }\n" +
-            "}\n";
-
     public static HttpRequestBody body(String query, Map<String, Object> variables, String operationName) {
         Map<String, Object> request = new HashMap<>();
         request.put("query", query);

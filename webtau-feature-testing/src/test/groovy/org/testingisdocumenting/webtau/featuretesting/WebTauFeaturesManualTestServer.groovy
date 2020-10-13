@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 
 /**
@@ -25,9 +27,11 @@ class WebTauFeaturesManualTestServer {
     private TestServer testServer
 
     WebTauFeaturesManualTestServer() {
-        testServer = new TestServer()
-        WebTauRestFeaturesTestData.registerEndPoints(testServer)
-        WebTauBrowserFeaturesTest.registerEndPoints(testServer)
+        FixedResponsesHandler handler = new FixedResponsesHandler()
+
+        testServer = new TestServer(handler)
+        WebTauRestFeaturesTestData.registerEndPoints(testServer, handler)
+        WebTauBrowserFeaturesTestBase.registerEndPoints(handler)
     }
 
     void start(int port) {

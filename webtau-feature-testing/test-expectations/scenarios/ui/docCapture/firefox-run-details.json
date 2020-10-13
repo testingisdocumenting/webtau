@@ -1,0 +1,40 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "restart browser to use a config size",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "search and capture with badges",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "search and capture with badges placed in non center position",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "capture with highlight and cover",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "capture with arrow",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "capture not found element",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

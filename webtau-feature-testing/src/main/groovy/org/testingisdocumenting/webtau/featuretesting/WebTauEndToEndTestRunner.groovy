@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocat
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.reporter.*
 
+import java.nio.file.Path
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
@@ -32,9 +33,14 @@ class WebTauEndToEndTestRunner  {
     private Map capturedStepsSummary
 
     TestServer testServer
+    private String classifier = ""
 
     WebTauEndToEndTestRunner(Handler handler) {
         this.testServer = new TestServer(handler)
+    }
+
+    void setClassifier(String classifier) {
+        this.classifier = classifier
     }
 
     void startTestServer() {
@@ -53,10 +59,6 @@ class WebTauEndToEndTestRunner  {
         def testPath = Paths.get(testFileName)
 
         def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
-        def reportPath = targetClassesLocation
-                .resolve(testFileName.endsWith('.groovy') ?
-                        testFileName.replace('.groovy', '-webtau-report.html'):
-                        testFileName + '/webtau-report.html')
 
         def args = ['--workingDir=' + workingDir]
 
@@ -64,7 +66,7 @@ class WebTauEndToEndTestRunner  {
             args.add('--config=' + configFileName)
         }
         args.add('--docPath=' + targetClassesLocation.resolve('doc-artifacts'))
-        args.add('--reportPath=' + reportPath)
+        args.add('--reportPath=' + buildReportPath(testFileName, targetClassesLocation))
 
         args.addAll(Arrays.asList(additionalArgs))
         args.add(testPath.toString())
@@ -89,8 +91,19 @@ class WebTauEndToEndTestRunner  {
         validateAndSaveTestDetails(testFileName, testDetails)
     }
 
-    private static void validateAndSaveTestDetails(String testFileName, Map testDetails) {
-        WebTauEndToEndTestValidator.validateAndSaveTestDetails(removeExtension(testFileName), testDetails,
+    private Path buildReportPath(String testFileName, Path targetClassesLocation) {
+        if (testFileName.endsWith('.groovy')) {
+            def reportPrefix = classifier.isEmpty() ? '' : "-${classifier}"
+            return targetClassesLocation.resolve(
+                    testFileName.replace('.groovy', reportPrefix + '-webtau-report.html'))
+        }
+
+        def reportPrefix = classifier.isEmpty() ? '' : "${classifier}-"
+        return targetClassesLocation.resolve(testFileName + '/' + reportPrefix + '-webtau-report.html')
+    }
+
+    private void validateAndSaveTestDetails(String testFileName, Map testDetails) {
+        WebTauEndToEndTestValidator.validateAndSaveTestDetails(removeExtension(testFileName), classifier, testDetails,
                 this.&sortTestDetailsByContainerId)
     }
 

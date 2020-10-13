@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -452,7 +453,7 @@ export const withRestDataReport = {
         {
             "id": "customerCrudSeparated.groovy-3",
             "className": "com.example.tests.rest.CustomerCrudSeparatedIT",
-            "scenario": "customer update",
+            "scenario": "customer update multi persona",
             "status": "Passed",
             "startTime": 1534456916384,
             "elapsedTime": 32,
@@ -492,13 +493,18 @@ export const withRestDataReport = {
             }],
             "steps": [{
                 "elapsedTime": 450,
+                "personaId": "Admin",
                 "message": [{
                     "type": "action",
                     "value": "executed HTTP PUT"
                 }, {
                     "type": "url",
                     "value": "http://localhost:8080/customers/1"
-                }],
+                },
+                  {
+                    "type": "string",
+                    "value": "long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap long text value to cause wrap "
+                  }],
                 "children": [{
                     "elapsedTime": 50,
                     "message": [{

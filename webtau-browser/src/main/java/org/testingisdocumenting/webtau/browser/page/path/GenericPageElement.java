@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page.path;
 
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
@@ -29,10 +30,6 @@ import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
 import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,6 +82,26 @@ public class GenericPageElement implements PageElement {
         execute(tokenizedMessage(action("clicking")).add(pathDescription),
                 () -> tokenizedMessage(action("clicked")).add(pathDescription),
                 () -> findElement().click());
+    }
+
+    @Override
+    public void shiftClick() {
+        clickWithKey("shift", Keys.SHIFT);
+    }
+
+    @Override
+    public void controlClick() {
+        clickWithKey("control", Keys.CONTROL);
+    }
+
+    @Override
+    public void commandClick() {
+        clickWithKey("command", Keys.COMMAND);
+    }
+
+    @Override
+    public void altClick() {
+        clickWithKey("alt", Keys.ALT);
     }
 
     @Override
@@ -210,7 +227,12 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public Object getUnderlyingValue() {
-        List<Object> values = extractValues();
+        List<WebElement> elements = path.find(driver);
+        if (elements.isEmpty()) {
+            return null;
+        }
+
+        List<Object> values = extractValues(Collections.singletonList(elements.get(0)));
         return values.isEmpty() ? null : values.get(0);
     }
 
@@ -228,6 +250,17 @@ public class GenericPageElement implements PageElement {
         );
     }
 
+    private void clickWithKey(String label, CharSequence key) {
+        execute(tokenizedMessage(action(label + " clicking")).add(pathDescription),
+                () -> tokenizedMessage(action(label + " clicked")).add(pathDescription),
+                () -> new Actions(driver)
+                        .keyDown(key)
+                        .click(findElement())
+                        .keyUp(key)
+                        .build()
+                        .perform());
+    }
+
     private String getTagName() {
         return findElement().getTagName();
     }
@@ -238,6 +271,10 @@ public class GenericPageElement implements PageElement {
 
     private List<Object> extractValues() {
         List<WebElement> elements = path.find(driver);
+        return extractValues(elements);
+    }
+
+    private List<Object> extractValues(List<WebElement> elements) {
         List<Map<String, ?>> elementsMeta = handleStaleElement(() -> additionalBrowserInteractions.extractElementsMeta(elements),
                 Collections.emptyList());
 

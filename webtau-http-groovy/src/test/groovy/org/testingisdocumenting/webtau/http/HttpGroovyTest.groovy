@@ -473,6 +473,14 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "header as gstring"() {
+        def term = 'my-term'
+        http.post("/echo-header", http.header([myKey: "my-value-${term}"])) {
+            body.myKey.should == 'my-value-my-term'
+        }
+    }
+
+    @Test
     void "no validation request"() {
         def counter = [:].withDefault { 0 }
         def responseCounter = { statusCode -> new TestServerResponse() {
@@ -1112,6 +1120,13 @@ class HttpGroovyTest extends HttpTestBase {
         http.post("/json-derivative", [contentType: "application/jsonnotquite"]) {
             status.should == null
             body.should == expectedJsonBytes
+        }
+    }
+
+    @Test
+    void "text content response"() {
+        http.get("/text-end-point") {
+            body.should == 'hello world'
         }
     }
 

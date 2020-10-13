@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,10 +36,17 @@ class WebTauEndToEndTestValidator {
     }
 
     static void validateAndSaveTestDetails(String testName, Map testDetails, Function resultConverter = { v -> v }) {
+        validateAndSaveTestDetails(testName, "", testDetails, resultConverter)
+    }
+
+    static void validateAndSaveTestDetails(String testName, String classifier, Map testDetails, Function resultConverter = { v -> v }) {
+        def resultsFileNameBase = (classifier.isEmpty() ? '' : classifier + '-') +
+                RUN_DETAILS_FILE_NAME
+
         def expectedPath = Paths.get(EXPECTATIONS_DIR_NAME)
-                .resolve(testName).resolve(RUN_DETAILS_FILE_NAME + '.json')
+                .resolve(testName).resolve(resultsFileNameBase + '.json')
         def actualPath = Paths.get(EXPECTATIONS_DIR_NAME)
-                .resolve(testName).resolve(RUN_DETAILS_FILE_NAME + '.actual.json')
+                .resolve(testName).resolve(resultsFileNameBase + '.actual.json')
 
         def serializedTestDetails = JsonUtils.serializePrettyPrint(resultConverter.apply(testDetails))
 
