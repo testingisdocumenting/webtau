@@ -59,11 +59,11 @@ public class WebTauCore extends Matchers {
     }
 
     public static Persona persona(String id) {
-        return new Persona(id);
+        return Persona.persona(id);
     }
 
     public static Persona persona(String id, Map<String, Object> payload) {
-        return new Persona(id, payload);
+        return Persona.persona(id, payload);
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;

@@ -16,23 +16,32 @@
 
 package org.testingisdocumenting.webtau.persona;
 
+import org.testingisdocumenting.webtau.utils.StringUtils;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class Persona {
     public static final String DEFAULT_PERSONA_ID = "";
-    private static final Persona defaultPersona = new Persona(DEFAULT_PERSONA_ID);
+    private static final Persona defaultPersona = new Persona(DEFAULT_PERSONA_ID, Collections.emptyMap());
     private static final ThreadLocal<Persona> currentPersona = ThreadLocal.withInitial(() -> defaultPersona);
 
     private final String id;
     private final Map<String, Object> payload;
 
-    public Persona(String id) {
-        this(id, Collections.emptyMap());
+    public static Persona persona(String id) {
+        return persona(id, Collections.emptyMap());
     }
 
-    public Persona(String id, Map<String, Object> payload) {
+    public static Persona persona(String id, Map<String, Object> payload) {
+        if (StringUtils.nullOrEmpty(id)) {
+            throw new IllegalArgumentException("Persona id may not be null or empty");
+        }
+        return new Persona(id, payload);
+    }
+
+    private Persona(String id, Map<String, Object> payload) {
         this.id = id;
         this.payload = payload;
     }
@@ -46,7 +55,7 @@ public class Persona {
     }
 
     public boolean isDefault() {
-        return id.isEmpty();
+        return this == defaultPersona;
     }
 
     public void execute(Runnable code) {

@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.persona;
 import org.junit.Test;
 
 import static org.testingisdocumenting.webtau.Matchers.*;
-import static org.testingisdocumenting.webtau.WebTauCore.persona;
+import static org.testingisdocumenting.webtau.persona.Persona.persona;
 
 public class PersonaTest {
     @Test
@@ -60,5 +60,15 @@ public class PersonaTest {
             });
         }).should(throwException("nesting personas is not allowed, active persona id: John, " +
                 "attempted to nest persona id: Bob"));
+    }
+
+    @Test
+    public void cannotCreateAPersonWithSameNameAsDefaultPersona() {
+        code(() -> persona("")).should(throwException("Persona id may not be null or empty"));
+    }
+
+    @Test
+    public void currentPersonaIsDefaultIfNotInAPersonaContext() {
+        actual(Persona.getCurrentPersona().isDefault()).should(equal(true));
     }
 }
