@@ -70,7 +70,7 @@ public class ConfigValue {
 
     public void reset() {
         valuesPerPersonaId.clear();
-        valuesPerPersonaId.put("", new ArrayDeque<>());
+        valuesPerPersonaId.put(Persona.DEFAULT_PERSONA_ID, new ArrayDeque<>());
     }
 
     public void accept(String source, Map<String, ?> configValues) {
@@ -205,11 +205,8 @@ public class ConfigValue {
     }
 
     private Deque<Value> getOrCreatePersonaValues(String personaId) {
-        Deque<Value> values = valuesPerPersonaId.get(personaId);
-        if (values == null) {
-            values = new ArrayDeque<>();
-            valuesPerPersonaId.put(personaId, values);
-        }
+        Deque<Value> values = valuesPerPersonaId.computeIfAbsent(personaId, (k) -> new ArrayDeque<>());
+        valuesPerPersonaId.put(personaId, values);
 
         return values;
     }
