@@ -205,10 +205,7 @@ public class ConfigValue {
     }
 
     private Deque<Value> getOrCreatePersonaValues(String personaId) {
-        Deque<Value> values = valuesPerPersonaId.computeIfAbsent(personaId, (k) -> new ArrayDeque<>());
-        valuesPerPersonaId.put(personaId, values);
-
-        return values;
+        return valuesPerPersonaId.computeIfAbsent(personaId, (k) -> new ArrayDeque<>());
     }
 
     private static class Value {
