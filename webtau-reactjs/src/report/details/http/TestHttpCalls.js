@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,12 +43,15 @@ class TestHttpCalls extends Component {
     render() {
         const {test} = this.props
 
+        const hasPersonas = test.httpCalls.some(httpCall => httpCall.personaId)
+
         return (
             <div className="http">
                 <table className="http-table table">
                     <thead>
                     <tr>
                         <th width="35px"/>
+                        { hasPersonas && <th width="50px">Persona</th> }
                         <th width="60px">Method</th>
                         <th width="40px">Code</th>
                         <th width="60px">Start</th>
@@ -56,14 +60,14 @@ class TestHttpCalls extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {test.httpCalls.map((httpCall, idx) => this.renderRow(httpCall, idx))}
+                    {test.httpCalls.map((httpCall, idx) => this.renderRow(httpCall, hasPersonas, idx))}
                     </tbody>
                 </table>
             </div>
         )
     }
 
-    renderRow(httpCall, idx) {
+    renderRow(httpCall, hasPersonas, idx) {
         const {reportNavigation} = this.props
 
         const hasProblem = httpCall.mismatches.length > 0 || !!httpCall.errorMessage
@@ -81,6 +85,7 @@ class TestHttpCalls extends Component {
             <React.Fragment key={idx}>
                 <tr className={className}>
                     <td className="collapse-toggle" onClick={onClick}>{isExpanded ? '-' : '+'}</td>
+                    { hasPersonas && <td className="persona" onClick={onClick}>{httpCall.personaId}</td> }
                     <td className="method" onClick={onClick}>{httpCall.method}</td>
                     <td className="status-code" onClick={onClick}>{httpCall.responseStatusCode}</td>
                     <td onClick={onClick}>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
