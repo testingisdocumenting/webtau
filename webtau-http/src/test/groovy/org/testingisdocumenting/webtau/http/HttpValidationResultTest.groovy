@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.http.datanode.DataNodeId
 import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.persona.Persona
 import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.junit.Test
 
@@ -80,7 +81,7 @@ class HttpValidationResultTest {
     }
 
     private static HttpValidationResult createValidationResult(requestBody) {
-        def validationResult = new HttpValidationResult('POST', '/test/url', 'http://site/test/url',
+        def validationResult = new HttpValidationResult(Persona.DEFAULT_PERSONA_ID, 'POST', '/test/url', 'http://site/test/url',
                 new HttpHeader([:]), requestBody)
 
         validationResult.setStartTime(12345678)

@@ -202,7 +202,11 @@ public class HttpValidationResult implements TestStepPayload {
         Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("id", id);
-        result.put("personaId", personaId);
+
+        if (!personaId.isEmpty()) {
+            result.put("personaId", personaId);
+        }
+
         result.put("method", requestMethod);
         result.put("url", fullUrl);
 
