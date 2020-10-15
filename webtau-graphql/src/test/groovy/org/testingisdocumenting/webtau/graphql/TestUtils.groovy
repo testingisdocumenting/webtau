@@ -20,6 +20,7 @@ import org.testingisdocumenting.webtau.http.HttpResponse
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.persona.Persona
 
 class TestUtils {
     static def declaredOperations = [
@@ -33,7 +34,7 @@ class TestUtils {
         def response = new HttpResponse()
         response.statusCode = 200
 
-        def result = new HttpValidationResult(method, url, url, null, body(queryName, queryType))
+        def result = new HttpValidationResult(Persona.DEFAULT_PERSONA_ID, method, url, url, null, body(queryName, queryType))
         result.setResponse(response)
         result.setElapsedTime(elapsedTime)
         return result

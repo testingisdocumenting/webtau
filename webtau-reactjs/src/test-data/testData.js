@@ -461,6 +461,7 @@ export const withRestDataReport = {
             "httpCalls": [{
                 "id": "1",
                 "method": "PUT",
+                "personaId": "Admin",
                 "url": "http://localhost:8080/customers/1",
                 "startTime": 1534456927154,
                 "elapsedTime": 29,

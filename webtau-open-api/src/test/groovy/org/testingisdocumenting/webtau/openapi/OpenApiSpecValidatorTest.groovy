@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +19,7 @@ package org.testingisdocumenting.webtau.openapi
 
 import org.testingisdocumenting.webtau.http.HttpResponse
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.persona.Persona
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
 import org.junit.Test
@@ -85,7 +87,7 @@ class OpenApiSpecValidatorTest {
     }
 
     static HttpValidationResult validationResult(method, url, response) {
-        def result = new HttpValidationResult(method, url, url, null, null)
+        def result = new HttpValidationResult(Persona.DEFAULT_PERSONA_ID, method, url, url, null, null)
         result.setResponse(response)
 
         return result

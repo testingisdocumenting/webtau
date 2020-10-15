@@ -57,6 +57,7 @@ import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorIgno
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TestStep;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
@@ -891,7 +892,8 @@ public class Http {
         String fullUrl = HttpConfigurations.fullUrl(url);
         HttpHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
 
-        HttpValidationResult validationResult = new HttpValidationResult(requestMethod, url, fullUrl, fullHeader, requestBody);
+        HttpValidationResult validationResult = new HttpValidationResult(Persona.getCurrentPersona().getId(),
+                requestMethod, url, fullUrl, fullHeader, requestBody);
 
         TestStep step = createHttpStep(validationResult, httpCall, validator);
         try {

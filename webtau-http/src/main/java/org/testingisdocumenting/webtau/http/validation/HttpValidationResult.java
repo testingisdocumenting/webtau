@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,8 +43,10 @@ public class HttpValidationResult implements TestStepPayload {
     private final String url;
     private final String fullUrl;
     private final String requestMethod;
-    private HttpHeader requestHeader;
+    private final HttpHeader requestHeader;
     private final HttpRequestBody requestBody;
+
+    private final String personaId;
 
     private final List<String> mismatches;
 
@@ -54,12 +57,14 @@ public class HttpValidationResult implements TestStepPayload {
     private long elapsedTime;
     private String errorMessage;
 
-    public HttpValidationResult(String requestMethod,
+    public HttpValidationResult(String personaId,
+                                String requestMethod,
                                 String url,
                                 String fullUrl,
                                 HttpHeader requestHeader,
                                 HttpRequestBody requestBody) {
         this.id = generateId();
+        this.personaId = personaId;
         this.requestMethod = requestMethod;
         this.url = url;
         this.fullUrl = fullUrl;
@@ -197,6 +202,7 @@ public class HttpValidationResult implements TestStepPayload {
         Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("id", id);
+        result.put("personaId", personaId);
         result.put("method", requestMethod);
         result.put("url", fullUrl);
 
