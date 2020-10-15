@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.TestStepPayload;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
@@ -203,7 +204,7 @@ public class HttpValidationResult implements TestStepPayload {
 
         result.put("id", id);
 
-        if (!personaId.isEmpty()) {
+        if (!Persona.DEFAULT_PERSONA_ID.equals(personaId)) {
             result.put("personaId", personaId);
         }
 
