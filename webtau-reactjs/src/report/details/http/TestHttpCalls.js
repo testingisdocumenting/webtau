@@ -60,7 +60,7 @@ class TestHttpCalls extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {test.httpCalls.map((httpCall, idx) => this.renderRow(httpCall, idx))}
+                    {test.httpCalls.map((httpCall, idx) => this.renderRow(httpCall, hasPersonas, idx))}
                     </tbody>
                 </table>
             </div>
@@ -85,7 +85,7 @@ class TestHttpCalls extends Component {
             <React.Fragment key={idx}>
                 <tr className={className}>
                     <td className="collapse-toggle" onClick={onClick}>{isExpanded ? '-' : '+'}</td>
-                    <td className="persona" onClick={onClick}>{httpCall.personaId}</td>
+                    { hasPersonas && <td className="persona" onClick={onClick}>{httpCall.personaId}</td> }
                     <td className="method" onClick={onClick}>{httpCall.method}</td>
                     <td className="status-code" onClick={onClick}>{httpCall.responseStatusCode}</td>
                     <td onClick={onClick}>{moment(startDateTime).local().format('HH:mm:ss.SSS')}</td>
