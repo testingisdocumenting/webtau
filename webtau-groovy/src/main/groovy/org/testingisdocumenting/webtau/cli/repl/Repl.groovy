@@ -43,19 +43,20 @@ import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out
 
 class Repl {
     private final Groovysh groovysh
-    private final TokenizedMessageToAnsiConverter toAnsiConverter
     private final StandaloneTestRunner runner
     private final InteractiveTests interactiveTests
+    private final ReplResultRenderer resultRenderer
 
     Repl(StandaloneTestRunner runner) {
         this.runner = runner
         interactiveTests = new InteractiveTests(runner)
         ReplCommands.interactiveTests = interactiveTests
 
-        toAnsiConverter = IntegrationTestsMessageBuilder.getConverter()
         initHandlers()
         initConfig()
         groovysh = createShell()
+
+        resultRenderer = new ReplResultRenderer(groovysh)
     }
 
     static void main(String[] args) {
@@ -116,47 +117,7 @@ class Repl {
             return
         }
 
-        if (result instanceof WebTauConfig) {
-            result.printAll()
-        } else if (result instanceof DataNode) {
-            showDataNodeResult(result)
-        } else if (result instanceof PageElement) {
-            showPageElementResult(result)
-        } else if (result instanceof TableData) {
-            showTableData(result)
-        } else {
-            groovysh.defaultResultHook(result)
-        }
-    }
-
-    private static void showTableData(TableData tableData) {
-        println ReplTableRenderer.render(tableData)
-    }
-
-    private static void showDataNodeResult(DataNode result) {
-        new DataNodeAnsiPrinter().print(result)
-    }
-
-    private void showPageElementResult(PageElement pageElement) {
-        if (!pageElement.isPresent()) {
-            out(Stream.concat(
-                    Stream.of(Color.RED, "element is not present: "),
-                    toAnsiConverter.convert(pageElement.locationDescription()).stream()).toArray())
-            return
-        }
-
-        out(Stream.concat(
-                Stream.of(Color.GREEN, "element is found: "),
-                toAnsiConverter.convert(pageElement.locationDescription()).stream()).toArray())
-
-        out(Color.YELLOW, "           getText(): ", Color.GREEN, pageElement.getText())
-        out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, pageElement.getUnderlyingValue())
-        def count = pageElement.count.get()
-        if (count > 1) {
-            out(Color.YELLOW, "               count: ", Color.GREEN, count)
-        }
-
-        pageElement.highlight()
+        resultRenderer.renderResult(result)
     }
 
     private static void setDefaultReportPath() {

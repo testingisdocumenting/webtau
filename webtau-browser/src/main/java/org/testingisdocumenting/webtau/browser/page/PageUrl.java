@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,7 +59,8 @@ public class PageUrl {
     }
 
     private String fetchRef() {
-        return fetchAsUrl().getRef();
+        String ref = fetchAsUrl().getRef();
+        return ref == null ? "" : ref;
     }
 
     private URL fetchAsUrl() {
@@ -67,5 +69,13 @@ public class PageUrl {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "full: " + full +
+                ", path: " + path +
+                ", query: " + query +
+                ", ref: " + ref;
     }
 }
