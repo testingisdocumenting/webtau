@@ -47,20 +47,23 @@ public class PageUrl {
     }
 
     private String fetchUrl() {
-        return currentUrlSupplier.get();
+        return emptyAsNull(currentUrlSupplier.get());
     }
 
     private String fetchPath() {
-        return fetchAsUrl().getPath();
+        return emptyAsNull(fetchAsUrl().getPath());
     }
 
     private String fetchQuery() {
-        return fetchAsUrl().getQuery();
+        return emptyAsNull(fetchAsUrl().getQuery());
     }
 
     private String fetchRef() {
-        String ref = fetchAsUrl().getRef();
-        return ref == null ? "" : ref;
+        return emptyAsNull(fetchAsUrl().getRef());
+    }
+
+    private String emptyAsNull(String value) {
+        return value == null ? "" : value;
     }
 
     private URL fetchAsUrl() {
