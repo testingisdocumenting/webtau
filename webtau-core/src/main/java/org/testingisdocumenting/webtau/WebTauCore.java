@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -64,6 +65,10 @@ public class WebTauCore extends Matchers {
 
     public static Persona persona(String id, Map<String, Object> payload) {
         return Persona.persona(id, payload);
+    }
+
+    public static Persona getCurrentPersona() {
+        return Persona.getCurrentPersona();
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;
