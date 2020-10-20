@@ -115,11 +115,11 @@ class TestHttpCalls extends Component {
 }
 
 function HttpCallDetails({httpCall, reportNavigation}) {
+    const colSpanAll = 10000 // arbitrary large number to span all
     return (
         <tr className="test-http-call-details">
             <td/>
-            <td/>
-            <td colSpan="4">
+            <td colSpan={colSpanAll}>
                 <Mismatches httpCall={httpCall}/>
                 <ErrorMessage httpCall={httpCall}/>
 
