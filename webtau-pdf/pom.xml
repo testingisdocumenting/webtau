@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.31</version>
+        <version>1.32-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-pdf</artifactId>
