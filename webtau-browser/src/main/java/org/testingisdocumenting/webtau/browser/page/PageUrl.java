@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,19 +47,23 @@ public class PageUrl {
     }
 
     private String fetchUrl() {
-        return currentUrlSupplier.get();
+        return emptyAsNull(currentUrlSupplier.get());
     }
 
     private String fetchPath() {
-        return fetchAsUrl().getPath();
+        return emptyAsNull(fetchAsUrl().getPath());
     }
 
     private String fetchQuery() {
-        return fetchAsUrl().getQuery();
+        return emptyAsNull(fetchAsUrl().getQuery());
     }
 
     private String fetchRef() {
-        return fetchAsUrl().getRef();
+        return emptyAsNull(fetchAsUrl().getRef());
+    }
+
+    private String emptyAsNull(String value) {
+        return value == null ? "" : value;
     }
 
     private URL fetchAsUrl() {
@@ -67,5 +72,13 @@ public class PageUrl {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "full: " + full +
+                ", path: " + path +
+                ", query: " + query +
+                ", ref: " + ref;
     }
 }
