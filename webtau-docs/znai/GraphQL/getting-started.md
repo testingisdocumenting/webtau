@@ -56,5 +56,5 @@ Before diving further into writing tests for your GraphQL server, please read th
 starting with the [Data node page](REST/data-node) as much of the same core principles apply to GraphQL also.
 
 The main GraphQL specific features are covered in the subsequent pages:
-* [Queries](GraphQL/queries)
+* [Queries and Mutations](GraphQL/queries-and-mutations)
 * [Report](GraphQL/report)
