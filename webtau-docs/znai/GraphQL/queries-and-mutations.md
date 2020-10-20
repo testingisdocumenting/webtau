@@ -1,11 +1,11 @@
-# Executing Queries
+# Executing Queries and Mutations
 
 WebTau follows GraphQL's [Serving over HTTP best practices](https://graphql.org/learn/serving-over-http/) when invoking
 GraphQL servers over HTTP.
 
 It therefore assumes the server responds to requests to `/graphql` so you do not need to specify that in the URL in your configuration.
-Queries allow providing:
-* a query string
+Requests allow providing:
+* a query/mutation string
 * variables
 * an operation name
 
