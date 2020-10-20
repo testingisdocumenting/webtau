@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,11 +30,11 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ElementValue<E, C extends WithTokenizedDescription> implements ActualValueExpectations {
-    private C parent;
-    private String name;
-    private ElementValueFetcher<E> valueFetcher;
+    private final C parent;
+    private final String name;
+    private final ElementValueFetcher<E> valueFetcher;
 
-    private TokenizedMessage description;
+    private final TokenizedMessage description;
 
     public ElementValue(C parent, String name, ElementValueFetcher<E> valueFetcher) {
         this.parent = parent;
