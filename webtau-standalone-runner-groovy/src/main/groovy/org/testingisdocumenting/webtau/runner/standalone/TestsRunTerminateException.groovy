@@ -20,4 +20,8 @@ class TestsRunTerminateException extends RuntimeException {
     TestsRunTerminateException(String reason) {
         super(reason)
     }
+
+    TestsRunTerminateException(String reason, Throwable cause) {
+        super(reason, cause)
+    }
 }

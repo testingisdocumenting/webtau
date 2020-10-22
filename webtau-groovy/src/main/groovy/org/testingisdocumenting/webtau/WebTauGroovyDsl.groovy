@@ -104,6 +104,10 @@ class WebTauGroovyDsl extends WebTauDsl {
         throw new TestsRunTerminateException(reason)
     }
 
+    static void terminateAll(String reason, Throwable cause) {
+        throw new TestsRunTerminateException(reason, cause)
+    }
+
     /**
      * Multiple scenarios may need the same data setup. If you want those scenarios to run independently,
      * data needs to be initialized on the first request. Typically this is done by moving
