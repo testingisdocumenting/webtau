@@ -114,6 +114,7 @@ scenario('before all must be called only once and after all listener should not 
         send('r 1\n')
     }
 
+    sleep 30000
     println "@@@@@@@@@@@@@@@"
     localRepl.output.copyLines().each {
         println "line:${it}@"
