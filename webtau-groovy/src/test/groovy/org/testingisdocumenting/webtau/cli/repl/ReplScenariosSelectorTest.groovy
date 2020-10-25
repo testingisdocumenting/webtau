@@ -40,7 +40,6 @@ class ReplScenariosSelectorTest {
     void "should select by regexp"() {
         process("two")
 
-        println results.scenario
         results.scenario.should == ['my scenario two']
     }
 

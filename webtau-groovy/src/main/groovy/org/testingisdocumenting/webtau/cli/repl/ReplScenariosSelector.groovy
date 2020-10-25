@@ -27,56 +27,56 @@ class ReplScenariosSelector {
 
     ReplScenariosSelector(List<StandaloneTest> availableScenarios, Object... selectors) {
         this.availableScenarios = availableScenarios
-        this.inputAndResults = selectors.collect { selectScenario(it) }.flatten()
+        this.inputAndResults = selectors.collect { selectScenarios(it) }.flatten()
     }
 
     List<SelectInputAndResult> getInputAndResults() {
         return inputAndResults
     }
 
-    private List<SelectInputAndResult> selectScenario(Object selector) {
+    private List<SelectInputAndResult> selectScenarios(Object selector) {
         if (selector instanceof String) {
-            return selectSingleScenarioByRegexp(selector)
+            return Collections.singletonList(selectSingleScenarioByRegexp(selector))
         }
 
         if (selector instanceof Integer) {
-            return selectSingleScenarioByIdx(selector)
+            return Collections.singletonList(selectSingleScenarioByIdx(selector))
         }
 
         if (selector instanceof Map) {
-            return selectSingleScenariosByRange(selector)
+            return selectMultipleScenariosByRange(selector)
         }
 
-        return [new SelectInputAndResult(selector, -1, null)]
+        return Collections.singletonList(new SelectInputAndResult(selector, -1, null))
     }
     
-    private List<SelectInputAndResult> selectSingleScenarioByRegexp(String regexp) {
+    private SelectInputAndResult selectSingleScenarioByRegexp(String regexp) {
         def pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE)
         def idx = availableScenarios.findIndexOf { pattern.matcher(it.scenario) }
         def found = idx == -1 ? null : availableScenarios[idx]
 
-        return [new SelectInputAndResult(regexp, idx, found)]
+        return new SelectInputAndResult(regexp, idx, found)
     }
 
-    private List<SelectInputAndResult> selectSingleScenarioByIdx(int idx) {
+    private SelectInputAndResult selectSingleScenarioByIdx(int idx) {
         def isInRange = idx >= 0 && idx < availableScenarios.size()
         def found = isInRange ? availableScenarios[idx] : null
 
-        return [new SelectInputAndResult(idx, found ? idx : -1, found)]
+        return new SelectInputAndResult(idx, found ? idx : -1, found)
     }
 
-    private List<SelectInputAndResult> selectSingleScenariosByRange(Map range) {
+    private List<SelectInputAndResult> selectMultipleScenariosByRange(Map range) {
         if (range.size() != 1) {
             return [new SelectInputAndResult(range, -1, null)]
         }
 
         def entrySet = range.iterator().next()
-        return selectSingleScenariosByRange(entrySet.key, entrySet.value)
+        return selectMultipleScenariosByRange(entrySet.key, entrySet.value)
     }
 
-    private List<SelectInputAndResult> selectSingleScenariosByRange(Object from, Object to) {
-        def resultFrom = selectScenario(from)
-        def resultTo = selectScenario(to)
+    private List<SelectInputAndResult> selectMultipleScenariosByRange(Object from, Object to) {
+        def resultFrom = selectScenarios(from)
+        def resultTo = selectScenarios(to)
 
         if (resultFrom.size() != 1 || resultTo.size() != 1) {
             return [new SelectInputAndResult([(from): to], -1, null)]
@@ -119,7 +119,7 @@ class ReplScenariosSelector {
                     ", isFound=" + isFound +
                     ", idx=" + idx +
                     ", scenario='" + scenario + '\'' +
-                    '}';
+                    '}'
         }
     }
 }

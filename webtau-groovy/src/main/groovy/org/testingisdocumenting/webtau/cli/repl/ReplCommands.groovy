@@ -261,7 +261,7 @@ class ReplCommands {
 
     private static void displaySelectedScenarios() {
         if (!testsSelection.scenarios) {
-            out(Color.RED, 'no scenarios are selected')
+            out(Color.YELLOW, '[no scenarios are selected]')
             return
         }
 
