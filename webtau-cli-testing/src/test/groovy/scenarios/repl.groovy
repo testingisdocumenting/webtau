@@ -24,7 +24,7 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static webtau.CliCommands.*
 
-def repl = createLazyResource { webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
+def repl = createLazyResource { webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
         "testscripts/browserSanity.groovy testscripts/scriptWithSyntaxError.groovy") }
 
 scenario('should list test files on start') {
@@ -113,13 +113,6 @@ scenario('before all must be called only once and after all listener should not 
         send('r 0\n')
         send('r 1\n')
     }
-
-    sleep 30000
-    println "@@@@@@@@@@@@@@@"
-    localRepl.output.copyLines().each {
-        println "line:${it}@"
-    }
-    println "@@@@@@@@@@@@@@@"
 
     localRepl.output.waitTo contain('[.] dummy test two')
 

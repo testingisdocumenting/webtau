@@ -72,7 +72,7 @@ public class WebTauConfig {
 
     private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
-    private final ConfigValue color = declareBoolean("color", "force ANSI colors when redirecting");
+    private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
     private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
@@ -250,6 +250,10 @@ public class WebTauConfig {
         return getWorkingDir().resolve(docPath.getAsPath());
     }
 
+    public boolean isAnsiEnabled() {
+        return !noColor.getAsBoolean();
+    }
+
     public int getStaleElementRetry() {
         return staleElementRetry.getAsInt();
     }
@@ -280,10 +284,6 @@ public class WebTauConfig {
 
     public List<String> getEnvPath() {
         return envPath.getAsList();
-    }
-
-    public boolean isColorForced() {
-        return color.getAsBoolean();
     }
 
     @Override
@@ -387,7 +387,7 @@ public class WebTauConfig {
                 removeWebtauFromUserAgent,
                 docPath,
                 reportPath,
-                color,
+                noColor,
                 staleElementRetry,
                 envPath);
 

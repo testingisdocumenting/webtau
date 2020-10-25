@@ -180,10 +180,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     }
 
     private static void setupAnsi() {
-        if (cfg.colorForced) {
-            System.setProperty('jansi.force', 'true')
-        }
-
+        System.setProperty('jansi.force', 'true')
         AnsiConsole.systemInstall()
     }
 
@@ -192,7 +189,9 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             return new SilentConsoleOutput()
         }
 
-        return new AnsiConsoleOutput()
+        return getCfg().isAnsiEnabled() ?
+                new AnsiConsoleOutput():
+                new NoAnsiConsoleOutput()
     }
 
     private static StepReporter createStepReporter() {
