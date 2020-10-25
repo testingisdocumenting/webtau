@@ -1,3 +1,3 @@
-waitTimeout = 30000
+waitTimeout = 10000
 docPath = '../../../target/doc-artifacts/cli-tests'
 fullStackTrace = true

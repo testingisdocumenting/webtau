@@ -114,6 +114,12 @@ scenario('before all must be called only once and after all listener should not 
         send('r 1\n')
     }
 
+    println "@@@@@@@@@@@@@@@"
+    localRepl.output.copyLines().each {
+        println "line:${it}@"
+    }
+    println "@@@@@@@@@@@@@@@"
+
     localRepl.output.waitTo contain('[.] dummy test two')
 
     def markerPath = cfg.workingDir.resolve(SampleTestListener.FILE_NAME)
