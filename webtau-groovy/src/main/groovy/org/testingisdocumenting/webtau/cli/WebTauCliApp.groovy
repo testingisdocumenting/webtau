@@ -59,12 +59,13 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
-        AnsiConsole.systemInstall()
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
+
+        setupAnsi()
     }
 
     static void main(String[] args) {
@@ -178,14 +179,20 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         problemCount = (int) (report.failed + report.errored)
     }
 
+    private static void setupAnsi() {
+        if (cfg.colorForced) {
+            System.setProperty('jansi.force', 'true')
+        }
+
+        AnsiConsole.systemInstall()
+    }
+
     private static ConsoleOutput createConsoleOutput() {
         if (cfg.getVerbosityLevel() == 0) {
             return new SilentConsoleOutput()
         }
 
-        return getCfg().isAnsiEnabled() ?
-                new AnsiConsoleOutput():
-                new NoAnsiConsoleOutput()
+        return new AnsiConsoleOutput()
     }
 
     private static StepReporter createStepReporter() {

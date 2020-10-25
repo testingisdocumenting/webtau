@@ -24,7 +24,7 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static webtau.CliCommands.*
 
-def repl = createLazyResource { webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
+def repl = createLazyResource { webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
         "testscripts/browserSanity.groovy testscripts/scriptWithSyntaxError.groovy") }
 
 scenario('should list test files on start') {
@@ -105,7 +105,7 @@ scenario('report syntax error during test file parse') {
 }
 
 scenario('before all must be called only once and after all listener should not be called at all') {
-    def localRepl = webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
+    def localRepl = webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
             "--config=withlisteners/webtau.cfg.groovy " +
             "withlisteners/dummy.groovy  ")
     localRepl.with {
