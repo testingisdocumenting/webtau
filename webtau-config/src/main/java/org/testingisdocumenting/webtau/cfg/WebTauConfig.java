@@ -59,7 +59,7 @@ public class WebTauConfig {
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
 
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
-    private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls");
+    private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls", false);
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
             () -> "webtau/" + WebTauMeta.getVersion());
@@ -72,7 +72,7 @@ public class WebTauConfig {
 
     private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
-    private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
+    private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
     private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);

@@ -180,7 +180,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     }
 
     private static void setupAnsi() {
-        System.setProperty('jansi.force', 'true')
+        System.setProperty('jansi.passthrough', 'true')
         AnsiConsole.systemInstall()
     }
 
