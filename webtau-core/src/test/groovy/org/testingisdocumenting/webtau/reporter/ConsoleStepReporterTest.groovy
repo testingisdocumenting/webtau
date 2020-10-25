@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,10 +54,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should indent multiline assertion message at the end of a step message"() {
-        def topLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def validationStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
+            def validationStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
                     { -> TokenizedMessage.tokenizedMessage(action("validated"),
                             matcher(multilineMatcherMessage('matches'))) }) {
             }
@@ -77,10 +78,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should indent multiline error message at the end of a step message"() {
-        def topLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def validationStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
+            def validationStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
                     { -> TokenizedMessage.tokenizedMessage(action("validation"),
                             matcher(multilineMatcherMessage('matches'))) }) {
 
@@ -106,7 +107,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render time step took in milliseconds"() {
         Time.setTimeProvider(new DummyTimeProvider([100, 350]))
-        def action = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+        def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
                 { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
         }
 
@@ -119,7 +120,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render long running step time in seconds"() {
         Time.setTimeProvider(new DummyTimeProvider([100, 5350]))
-        def action = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+        def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
                 { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
         }
 

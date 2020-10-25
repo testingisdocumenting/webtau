@@ -17,11 +17,11 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
 
 import java.util.*;
 
-public class CliValidationResult implements TestStepPayload {
+public class CliValidationResult implements WebTauStepPayload {
     private final String command;
     private final List<String> mismatches;
 

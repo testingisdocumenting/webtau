@@ -43,7 +43,7 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {

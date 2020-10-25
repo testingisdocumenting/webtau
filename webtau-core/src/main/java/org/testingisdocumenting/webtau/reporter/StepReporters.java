@@ -22,7 +22,6 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -52,15 +51,15 @@ public class StepReporters {
         }
     }
 
-    public static void onStart(TestStep step) {
+    public static void onStart(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepStart(step));
     }
 
-    public static void onSuccess(TestStep step) {
+    public static void onSuccess(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepSuccess(step));
     }
 
-    public static void onFailure(TestStep step) {
+    public static void onFailure(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepFailure(step));
     }
 

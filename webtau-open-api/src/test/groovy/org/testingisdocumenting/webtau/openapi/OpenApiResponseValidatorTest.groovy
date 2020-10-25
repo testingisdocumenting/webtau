@@ -26,7 +26,7 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.persona.Persona
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.testingisdocumenting.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.After
 import org.junit.Before
@@ -138,16 +138,16 @@ class OpenApiResponseValidatorTest implements StepReporter {
     }
 
     @Override
-    void onStepStart(TestStep step) {
+    void onStepStart(WebTauStep step) {
     }
 
     @Override
-    void onStepSuccess(TestStep step) {
+    void onStepSuccess(WebTauStep step) {
         stepMessages << step.completionMessage.toString()
     }
 
     @Override
-    void onStepFailure(TestStep step) {
+    void onStepFailure(WebTauStep step) {
         stepMessages << step.completionMessage.toString()
     }
 }

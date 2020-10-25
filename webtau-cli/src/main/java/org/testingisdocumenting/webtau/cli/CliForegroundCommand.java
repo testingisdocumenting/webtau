@@ -23,7 +23,7 @@ import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.function.Consumer;
 
@@ -53,7 +53,7 @@ public class CliForegroundCommand {
     private CliRunResult cliStep(String command, CliProcessConfig config, Consumer<CliValidationResult> validationCode) {
         CliValidationResult validationResult = new CliValidationResult(command);
 
-        TestStep step = TestStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("running cli command "), stringValue(command)),
                 () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
                 () -> runAndValidate(validationResult, command, config, validationCode));

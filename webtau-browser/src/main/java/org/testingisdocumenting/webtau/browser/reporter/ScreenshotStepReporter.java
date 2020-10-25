@@ -18,21 +18,21 @@
 package org.testingisdocumenting.webtau.browser.reporter;
 
 import org.testingisdocumenting.webtau.reporter.StepReporter;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import static org.testingisdocumenting.webtau.browser.Browser.browser;
 
 public class ScreenshotStepReporter implements StepReporter {
     @Override
-    public void onStepStart(TestStep step) {
+    public void onStepStart(WebTauStep step) {
     }
 
     @Override
-    public void onStepSuccess(TestStep step) {
+    public void onStepSuccess(WebTauStep step) {
     }
 
     @Override
-    public void onStepFailure(TestStep step) {
+    public void onStepFailure(WebTauStep step) {
         if (! browser.wasUsed()) {
             return;
         }

@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.openapi;
 
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.classifier;
@@ -50,7 +50,7 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
         }
 
         String modeLabel = validationModeLabel(mode);
-        TestStep.createAndExecuteStep(
+        WebTauStep.createAndExecuteStep(
                 tokenizedMessage(action("validating"), classifier(modeLabel)),
                 () -> tokenizedMessage(action("validated"), classifier(modeLabel)),
                 () -> OpenApi.getValidator().validateApiSpec(validationResult, mode));

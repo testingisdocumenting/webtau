@@ -25,7 +25,7 @@ import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesCo
 import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.persona.Persona;
-import org.testingisdocumenting.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -34,9 +34,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
-public class HttpValidationResult implements TestStepPayload {
+public class HttpValidationResult implements WebTauStepPayload {
     private static final AtomicInteger idCounter = new AtomicInteger();
     private static final String BINARY_CONTENT_PLACEHOLDER = "[binary content]";
 
