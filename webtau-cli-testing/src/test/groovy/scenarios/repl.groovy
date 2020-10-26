@@ -105,7 +105,7 @@ scenario('report syntax error during test file parse') {
 }
 
 scenario('before all must be called only once and after all listener should not be called at all') {
-    def localRepl = webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
+    def localRepl = webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
             "--config=withlisteners/webtau.cfg.groovy " +
             "withlisteners/dummy.groovy  ")
     localRepl.with {
