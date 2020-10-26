@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.TestResultPayload
-import org.testingisdocumenting.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import java.nio.file.Path
 
@@ -85,7 +85,7 @@ class StandaloneTest implements StepReporter {
         return test.isSucceeded()
     }
 
-    List<TestStep> getSteps() {
+    List<WebTauStep> getSteps() {
         return test.steps
     }
 
@@ -132,20 +132,20 @@ class StandaloneTest implements StepReporter {
     }
 
     @Override
-    void onStepStart(TestStep step) {
+    void onStepStart(WebTauStep step) {
     }
 
     @Override
-    void onStepSuccess(TestStep step) {
+    void onStepSuccess(WebTauStep step) {
         addStepIfNoParent(step)
     }
 
     @Override
-    void onStepFailure(TestStep step) {
+    void onStepFailure(WebTauStep step) {
         addStepIfNoParent(step)
     }
 
-    private void addStepIfNoParent(TestStep step) {
+    private void addStepIfNoParent(WebTauStep step) {
         if (step.getNumberOfParents() == 0) {
             test.addStep(step)
         }

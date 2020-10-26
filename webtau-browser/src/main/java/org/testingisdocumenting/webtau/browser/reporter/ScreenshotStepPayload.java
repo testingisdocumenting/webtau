@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +17,12 @@
 
 package org.testingisdocumenting.webtau.browser.reporter;
 
-import org.testingisdocumenting.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
 
 import java.util.Collections;
 import java.util.Map;
 
-public class ScreenshotStepPayload implements TestStepPayload {
+public class ScreenshotStepPayload implements WebTauStepPayload {
     private String base64png;
 
     ScreenshotStepPayload(String base64png) {

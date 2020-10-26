@@ -28,8 +28,8 @@ public class TestResultPayloadExtractors {
     private static final List<TestResultPayloadExtractor> extractors = Collections.synchronizedList(
             ServiceLoaderUtils.load(TestResultPayloadExtractor.class));
 
-    public static Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
-        List<TestStep> steps = testSteps.collect(Collectors.toList());
+    public static Stream<TestResultPayload> extract(Stream<WebTauStep> testSteps) {
+        List<WebTauStep> steps = testSteps.collect(Collectors.toList());
         return extractors.stream().flatMap(e -> e.extract(steps.stream()));
     }
 }

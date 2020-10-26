@@ -35,7 +35,7 @@ import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
 
 import java.util.function.Supplier;
@@ -99,14 +99,14 @@ public class WebTauDsl extends WebTauCore {
     }
 
     public static void step(String label, Runnable action) {
-        TestStep.createAndExecuteStep(tokenizedMessage(action(label)),
+        WebTauStep.createAndExecuteStep(tokenizedMessage(action(label)),
                 () -> tokenizedMessage(none("completed"), action(label)),
                 action);
     }
 
     @SuppressWarnings("unchecked")
     public static <R> R step(String label, Supplier<Object> action) {
-        TestStep step = TestStep.createStep(
+        WebTauStep step = WebTauStep.createStep(
                 null,
                 tokenizedMessage(action(label)),
                 () -> tokenizedMessage(none("completed"), action(label)),

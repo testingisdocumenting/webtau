@@ -16,12 +16,11 @@
 
 package org.testingisdocumenting.webtau.db;
 
-import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Database {
@@ -36,7 +35,7 @@ public class Database {
     }
 
     public DatabaseQueryResult query(String query) {
-        TestStep step = createStep(null,
+        WebTauStep step = createStep(null,
                 tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel())),
                 () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
                 () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query));
@@ -45,7 +44,7 @@ public class Database {
     }
 
     public void update(String query) {
-        TestStep step = createStep(null,
+        WebTauStep step = createStep(null,
                 tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel())),
                 (rows) -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel()),
                         action("affected"), numberValue(rows), classifier("rows")),

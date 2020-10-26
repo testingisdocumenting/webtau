@@ -40,7 +40,7 @@ public class WebTauTest {
     private Throwable exception;
 
     private final List<TestResultPayload> payloads;
-    private final List<TestStep> steps;
+    private final List<WebTauStep> steps;
 
     private boolean isDisabled;
     private String disableReason;
@@ -210,7 +210,7 @@ public class WebTauTest {
         return payloads;
     }
 
-    public List<TestStep> getSteps() {
+    public List<WebTauStep> getSteps() {
         return steps;
     }
 
@@ -219,18 +219,18 @@ public class WebTauTest {
     }
 
     public int calcNumberOfSuccessfulSteps() {
-        return steps.stream().map(TestStep::calcNumberOfSuccessfulSteps).reduce(0, Integer::sum);
+        return steps.stream().map(WebTauStep::calcNumberOfSuccessfulSteps).reduce(0, Integer::sum);
     }
 
     public int calcNumberOfFailedSteps() {
-        return steps.stream().map(TestStep::calcNumberOfFailedSteps).reduce(0, Integer::sum);
+        return steps.stream().map(WebTauStep::calcNumberOfFailedSteps).reduce(0, Integer::sum);
     }
 
     public WebTauTestMetadata getMetadata() {
         return metadata;
     }
 
-    public void addStep(TestStep step) {
+    public void addStep(WebTauStep step) {
         steps.add(step);
     }
 

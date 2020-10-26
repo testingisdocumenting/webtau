@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.fs;
 import org.apache.commons.io.FileUtils;
 import org.testingisdocumenting.webtau.fs.zip.UnzipTask;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,7 +37,7 @@ public class FileSystem {
     }
 
     public void unzip(Path src, Path dest) {
-        TestStep step = TestStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("unzipping "), urlValue(src.toString()), TO, urlValue(dest.toString())),
                 () -> tokenizedMessage(action("unzipped "), urlValue(src.toString()), TO, urlValue(dest.toString())),
                 () -> {
@@ -73,7 +73,7 @@ public class FileSystem {
     }
 
     public Path tempDir(Path dir, String prefix) {
-        TestStep step = TestStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
                 (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
                 () -> createTempDir(dir, prefix));

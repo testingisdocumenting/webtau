@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +21,11 @@ import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.featuretesting.WebTauEndToEndTestValidator
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.testingisdocumenting.webtau.reporter.TestStep
 import org.junit.runner.Description
 import org.junit.runner.JUnitCore
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 class JUnitFeatureTestRunner extends RunListener implements StepReporter {
     private Map<String, Object> scenariosDetails
@@ -62,17 +63,17 @@ class JUnitFeatureTestRunner extends RunListener implements StepReporter {
     }
 
     @Override
-    void onStepStart(TestStep step) {
+    void onStepStart(WebTauStep step) {
 
     }
 
     @Override
-    void onStepSuccess(TestStep step) {
+    void onStepSuccess(WebTauStep step) {
         capturedStepsSummary.numberOfSuccessful++
     }
 
     @Override
-    void onStepFailure(TestStep step) {
+    void onStepFailure(WebTauStep step) {
         capturedStepsSummary.numberOfFailed++
     }
 }

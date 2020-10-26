@@ -20,7 +20,7 @@ package org.testingisdocumenting.webtau.http.report;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractor;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,7 +29,7 @@ public class HttpCallsTestResultPayloadExtractor implements TestResultPayloadExt
     static final String HTTP_CALLS_PAYLOAD_NAME = "httpCalls";
 
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
+    public Stream<TestResultPayload> extract(Stream<WebTauStep> testSteps) {
         Stream<HttpValidationResult> payloads = testSteps
                 .flatMap(s -> s.getCombinedPayloadsOfType(HttpValidationResult.class));
 
