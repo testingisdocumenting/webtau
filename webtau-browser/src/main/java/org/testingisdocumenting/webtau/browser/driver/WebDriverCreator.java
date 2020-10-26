@@ -76,7 +76,7 @@ public class WebDriverCreator {
             return createFirefoxDriver();
         }
 
-        throw new IllegalArgumentException("unsupported browser: " + BrowserConfig.getBrowser());
+        throw new IllegalArgumentException("unsupported browser: " + BrowserConfig.getBrowserId());
     }
 
     private static ChromeDriver createChromeDriver() {
