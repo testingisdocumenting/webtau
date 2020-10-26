@@ -55,131 +55,84 @@ class ReplCommands {
         return testsSelection.testFilePath != null
     }
 
-    static select(Integer idx) {
+    static void select(Object... selectors) {
         if (testSelected) {
-            selectScenario(idx)
+            selectScenariosAndValidate(selectors)
+            displaySelectedScenarios()
         } else {
-            selectTest(idx)
+            if (selectors.size() != 1) {
+                out(Color.RED, 'only one test file can be selected at one time, received: ' + selectors)
+                return
+            }
+
+            selectTest(selectors[0])
         }
     }
 
-    static selectTest(Integer idx) {
-        if (idx < 0 || idx >= interactiveTests.testFilePaths.size()) {
-            out(Color.RED, 'enter a test index between 0 and ' + interactiveTests.testFilePaths.size())
-            return
-        }
-
-        testsSelection.testFilePath = interactiveTests.testFilePathByIdx(idx)
-        displayScenarios(testsSelection.testFilePath)
+    static void s(Object... selectors) {
+        select(selectors)
     }
 
-    static selectScenario(Integer idx) {
-        if (idx < 0 || idx >= availableScenarios.size()) {
-            out(Color.RED, 'enter a scenario index between 0 and ' + availableScenarios.size())
-            return
-        }
-
-        testsSelection.scenarios = [availableScenarios[idx].scenario]
+    static void getRun() {
         runSelected()
     }
 
-    static s(Integer idx) {
-        select(idx)
-    }
-
-    static select(String regexp) {
-        if (testSelected) {
-            selectScenario(regexp)
-        } else {
-            selectTest(regexp)
-        }
-    }
-
-    static selectTest(String regexp) {
-        def pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE)
-        def found = interactiveTests.firstTestFilePathByRegexp(pattern)
-        if (!found) {
-            out(Color.RED, "didn't find a test matching regexp: " + regexp)
-            return
-        }
-
-        testsSelection.testFilePath = found
-        displayScenarios(testsSelection.testFilePath)
-
-        null
-    }
-
-    static selectScenario(String regexp) {
-        def pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE)
-        def found = availableScenarios.find { pattern.matcher(it.scenario) }
-        if (!found) {
-            out(Color.RED, "didn't find a scenario matching regexp: " + regexp)
-            return
-        }
-
-        testsSelection.scenarios = [found.scenario]
-        runSelected()
-
-        null
-    }
-
-    static s(String regexp) {
-        select(regexp)
-    }
-
-    static getRun() {
+    static void getR() {
         runSelected()
     }
 
-    static getR() {
-        getRun()
+    static void getSelect() {
+        displaySelectedScenarios()
     }
 
-    static run(Integer idx) {
+    static void getS() {
+        getSelect()
+    }
+
+    static void run(Object... selectors) {
         if (testSelected) {
-            selectScenario(idx)
+            selectScenariosAndValidate(selectors)
+
+            if (testsSelection.scenarios) {
+                runSelected()
+            }
         } else {
-            selectTest(idx)
-            runSelected()
+            if (selectors.size() != 1) {
+                out(Color.RED, 'only one test file can be selected at one time, received: ' + selectors)
+                return
+            }
+
+            selectTest(selectors[0])
+
+            if (testsSelection.testFilePath) {
+                runSelected()
+            }
         }
     }
 
-    static r(Integer idx) {
-        run(idx)
+    static void r(Object... selectors) {
+        run(selectors)
     }
 
-    static run(String regexp) {
-        if (testSelected) {
-            selectScenario(regexp)
-        } else {
-            selectTest(regexp)
-            runSelected()
-        }
-    }
-
-    static r(String regexp) {
-        run(regexp)
-    }
-
-    static getList() {
+    static void getList() {
         listTestFilesOrScenarios()
     }
 
-    static getLs() {
+    static void getLs() {
         getList()
     }
 
-    static getBack() {
+    static void getBack() {
         testsSelection.testFilePath = null
         testsSelection.scenarios = null
         displayTestFiles()
     }
 
-    static getB() {
+    static void getB() {
         getBack()
     }
 
-    static runSelected() {
+    private static void runSelected() {
         if (!testsSelection.testFilePath) {
             out(Color.RED, 'no test file selected to run')
             listTestFilesOrScenarios()
@@ -204,7 +157,7 @@ class ReplCommands {
         runTests(tests)
     }
 
-    static private void runTests(List<StandaloneTest> tests) {
+    private static void runTests(List<StandaloneTest> tests) {
         DocumentationArtifacts.clearRegisteredNames()
 
         interactiveTests.runner.resetAndWithListeners {
@@ -223,7 +176,7 @@ class ReplCommands {
         }
     }
 
-    static private void listTestFilesOrScenarios() {
+    private static void listTestFilesOrScenarios() {
         if (!testSelected) {
             displayTestFiles()
         } else {
@@ -231,7 +184,60 @@ class ReplCommands {
         }
     }
 
-    static private void displayTestFiles() {
+    private static void selectTest(Object selector) {
+        if (selector instanceof String) {
+            selectTestByRegexp(selector)
+            return
+        }
+
+        if (selector instanceof Integer) {
+            selectTestByIndex(selector)
+            return
+        }
+
+        out(Color.RED, "can't select test using: " + selector)
+        testsSelection.testFilePath = ''
+        testsSelection.scenarios = []
+    }
+
+    private static void selectTestByIndex(Integer idx) {
+        if (idx < 0 || idx >= interactiveTests.testFilePaths.size()) {
+            out(Color.RED, 'enter a test index between 0 and ' + interactiveTests.testFilePaths.size())
+            return
+        }
+
+        testsSelection.testFilePath = interactiveTests.testFilePathByIdx(idx)
+        displayScenarios(testsSelection.testFilePath)
+    }
+
+    private static void selectTestByRegexp(String regexp) {
+        def pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE)
+        def found = interactiveTests.firstTestFilePathByRegexp(pattern)
+        if (!found) {
+            out(Color.RED, "didn't find a test matching regexp: " + regexp)
+            return
+        }
+
+        testsSelection.testFilePath = found
+        displayScenarios(testsSelection.testFilePath)
+    }
+
+    private static void selectScenariosAndValidate(Object... scenarios) {
+        def selector = new ReplScenariosSelector(availableScenarios, scenarios)
+        def withIssues = selector.inputAndResults.findAll {!it.isFound }
+
+        if (!withIssues.isEmpty()) {
+            testsSelection.scenarios = []
+
+            withIssues.each {
+                out(Color.RED, "didn't find a test matching: " + it.input)
+            }
+        } else {
+            testsSelection.scenarios = selector.inputAndResults.scenario
+        }
+    }
+
+    private static void displayTestFiles() {
         out(Color.BLUE, 'Test files:')
 
         if (interactiveTests.testFilePaths.isEmpty()) {
@@ -243,7 +249,7 @@ class ReplCommands {
         }
     }
 
-    static private void displayScenarios(String filePath) {
+    private static void displayScenarios(String filePath) {
         out(Color.BLUE, 'Test scenarios of ', Color.PURPLE, filePath, Color.BLUE, ':')
 
         availableScenarios = interactiveTests.refreshScenarios(filePath)
@@ -253,11 +259,20 @@ class ReplCommands {
         }
     }
 
-    static private void displaySelectedScenarios(String prefix) {
-        displaySelectedScenarios(prefix, testsSelection.scenarios.join(', '))
+    private static void displaySelectedScenarios() {
+        if (!testsSelection.scenarios) {
+            out(Color.YELLOW, '[no scenarios are selected]')
+            return
+        }
+
+        out(Color.BLUE, 'Selected scenarios:')
+
+        testsSelection.scenarios.each { scenario ->
+            out('  ' + scenario)
+        }
     }
 
-    static private void displaySelectedScenarios(String prefix, String scenario) {
+    private static void displaySelectedScenarios(String prefix, String scenario) {
         out(Color.BLUE, prefix + ': ',
                 Color.PURPLE, testsSelection.testFilePath, ' ',
                 Color.YELLOW, scenario)

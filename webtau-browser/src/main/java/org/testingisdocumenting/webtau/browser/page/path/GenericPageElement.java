@@ -372,7 +372,7 @@ public class GenericPageElement implements PageElement {
         return new NullWebElement(path.toString());
     }
 
-    static private <R> R handleStaleElement(Supplier<R> code, R valueInCaseOfStale) {
+    private static <R> R handleStaleElement(Supplier<R> code, R valueInCaseOfStale) {
         try {
             return code.get();
         } catch (StaleElementReferenceException e) {
@@ -380,7 +380,7 @@ public class GenericPageElement implements PageElement {
         }
     }
 
-    static private Object repeatForStaleElement(Supplier<Object> code) {
+    private static Object repeatForStaleElement(Supplier<Object> code) {
         int numberOfAttemptsLeft = getCfg().getStaleElementRetry();
 
         for (; numberOfAttemptsLeft >= 1; numberOfAttemptsLeft--) {
@@ -399,7 +399,7 @@ public class GenericPageElement implements PageElement {
         throw new IllegalStateException("shouldn't reach this point");
     }
 
-    static private void sleep(int millis) {
+    private static void sleep(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
