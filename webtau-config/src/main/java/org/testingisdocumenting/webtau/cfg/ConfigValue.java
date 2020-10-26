@@ -42,8 +42,8 @@ public class ConfigValue {
         return new ConfigValue(key, description, false, defaultValueSupplier);
     }
 
-    public static ConfigValue declareBoolean(String key, String description) {
-        return new ConfigValue(key, description, true, () -> false);
+    public static ConfigValue declareBoolean(String key, String description, Boolean defaultValue) {
+        return new ConfigValue(key, description, true, () -> defaultValue);
     }
 
     private ConfigValue(String key, String description, boolean isBoolean, Supplier<Object> defaultValueSupplier) {
