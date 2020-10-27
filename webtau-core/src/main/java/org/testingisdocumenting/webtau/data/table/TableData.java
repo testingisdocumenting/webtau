@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.data.table;
 
+import org.testingisdocumenting.webtau.data.render.TableDataRenderer;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -199,6 +200,11 @@ public class TableData implements Iterable<Record> {
 
     private void populateValues(Stream<?> columnNameAndValues) {
         values(columnNameAndValues.skip(header.size() + 1).toArray());
+    }
+
+    @Override
+    public String toString() {
+        return TableDataRenderer.renderTable(this);
     }
 
     private static List<String> extractColumnNames(Stream<?> columnNameAndValues) {
