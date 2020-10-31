@@ -27,7 +27,6 @@
     <properties>
         <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
         <hsqldb.version>2.4.0</hsqldb.version>
-        <springfox.version>2.8.0</springfox.version>
         <jaxb.version>2.3.0</jaxb.version>
     </properties>
 
@@ -94,18 +93,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-data-rest</artifactId>
-            <version>${springfox.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>${jaxb.version}</version>
@@ -121,6 +108,12 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>${jaxb.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.4.8</version>
         </dependency>
 
         <dependency>
@@ -142,7 +135,6 @@
                             <findAllDuplicates>true</findAllDuplicates>
                             <ignoreWhenIdentical>true</ignoreWhenIdentical>
                             <ignoreClasses>
-                                <!--tomcat embedded ships javax annotations internally-->
                                 <ignoreClass>javax.persistence.*</ignoreClass>
                             </ignoreClasses>
                         </banDuplicateClasses>

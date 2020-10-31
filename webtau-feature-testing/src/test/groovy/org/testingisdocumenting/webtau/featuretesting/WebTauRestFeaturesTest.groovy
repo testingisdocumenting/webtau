@@ -99,6 +99,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "open api http spec"() {
+        runCli('openapi/openApiHttpSpec.groovy', 'openapi/webtau.httpspec.cfg.groovy', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "open api disable"() {
         runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +24,6 @@ import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue specUrl = declare("openApiSpecUrl",
@@ -32,21 +32,32 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue ignoreAdditionalProperties = declare("openApiIgnoreAdditionalProperties",
             "ignore additional OpenAPI properties ", () -> false);
 
-    private static String fullPath;
+    private static String fullPathOrUrl;
 
-    static String specFullPath() {
-        return fullPath;
+    static String getSpecFullPathOrUrl() {
+        return fullPathOrUrl;
     }
 
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        fullPath = specUrl.getAsString().isEmpty() ? "" :
-                cfg.getWorkingDir().resolve(specUrl.getAsString()).toString();
+        fullPathOrUrl = resolveFullPathOrUrl(cfg, specUrl.getAsString());
         OpenApi.reset();
     }
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(specUrl, ignoreAdditionalProperties);
+    }
+
+    private static String resolveFullPathOrUrl(WebTauConfig cfg, String configValue) {
+        if (configValue.isEmpty()) {
+            return "";
+        }
+
+        if (configValue.startsWith("http:") || configValue.startsWith("https:")) {
+            return configValue;
+        }
+
+        return cfg.getWorkingDir().resolve(specUrl.getAsString()).toString();
     }
 }

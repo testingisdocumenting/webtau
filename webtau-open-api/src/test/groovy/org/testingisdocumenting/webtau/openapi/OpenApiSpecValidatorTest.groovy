@@ -81,6 +81,7 @@ class OpenApiSpecValidatorTest {
     static HttpResponse ok(String body) {
         def response = new HttpResponse()
         response.setTextContent(body)
+        response.setContentType("application/json")
         response.setStatusCode(200)
 
         return response

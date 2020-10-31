@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.openapi;
 
-import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
+import com.atlassian.oai.validator.OpenApiInteractionValidator;
 import com.atlassian.oai.validator.model.SimpleRequest;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.LevelResolver;
@@ -27,21 +28,21 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
 import java.util.Optional;
 
+import static java.util.stream.Collectors.joining;
 import static org.testingisdocumenting.webtau.utils.UrlUtils.extractPath;
 import static org.testingisdocumenting.webtau.utils.UrlUtils.extractQueryParams;
-import static java.util.stream.Collectors.joining;
 
 public class OpenApiSpecValidator {
-    private final SwaggerRequestResponseValidator openApiValidator;
+    private final OpenApiInteractionValidator openApiValidator;
     private final OpenApiSpec openAPISpec;
 
     public OpenApiSpecValidator(OpenApiSpec openApiSpec, OpenApiValidationConfig validationConfig) {
         this.openAPISpec = openApiSpec;
         this.openApiValidator = openApiSpec.isSpecDefined() ?
-                SwaggerRequestResponseValidator
-                        .createFor(openApiSpec.getSpecUrl())
+                OpenApiInteractionValidator
+                        .createForSpecificationUrl(openApiSpec.getSpecUrl())
                         .withLevelResolver(createLevelResolver(validationConfig))
-                        .build():
+                        .build() :
                 null;
     }
 
@@ -51,7 +52,7 @@ public class OpenApiSpecValidator {
 
     public void validateApiSpec(HttpValidationResult result, ValidationMode validationMode) {
         Optional<OpenApiOperation> apiOperation = openAPISpec.findApiOperation(result.getRequestMethod(), result.getFullUrl());
-        if (! apiOperation.isPresent()) {
+        if (!apiOperation.isPresent()) {
             ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " not found in OpenAPI spec");
             return;
         }
@@ -60,12 +61,13 @@ public class OpenApiSpecValidator {
         SimpleResponse response = buildResponse(result);
 
         ValidationReport validationReport = validate(validationMode, request, response);
-        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
+        validationReport.getMessages().forEach(message ->
+                result.addMismatch("API spec validation failure: " + renderMessage(message)));
 
         if (!validationReport.getMessages().isEmpty()) {
             throw new AssertionError("schema is not valid:\n" + validationReport
                     .getMessages().stream()
-                    .map(Object::toString)
+                    .map(OpenApiSpecValidator::renderMessage)
                     .collect(joining("\n")));
         }
     }
@@ -84,9 +86,17 @@ public class OpenApiSpecValidator {
         }
     }
 
+    private static String renderMessage(ValidationReport.Message message) {
+        return message.getContext().map(c ->
+                (c.getRequestPath().isPresent() && c.getRequestMethod().isPresent() ?
+                        (c.getRequestMethod().get() + " " + c.getRequestPath().get() + ": ") : "") +
+                        message.getMessage()).orElse("");
+    }
+
     private SimpleResponse buildResponse(HttpValidationResult result) {
         return SimpleResponse.Builder
                 .status(result.getResponseStatusCode())
+                .withContentType(result.getResponseType())
                 .withBody(result.getResponseTextContent())
                 .build();
     }
@@ -109,6 +119,7 @@ public class OpenApiSpecValidator {
 
     private LevelResolver createLevelResolver(OpenApiValidationConfig validationConfig) {
         LevelResolver.Builder builder = LevelResolver.create();
+
         if (validationConfig.isIgnoreAdditionalProperties()) {
             builder.withLevel("validation.schema.additionalProperties", ValidationReport.Level.IGNORE);
         }

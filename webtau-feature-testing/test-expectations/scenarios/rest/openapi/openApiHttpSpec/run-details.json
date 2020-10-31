@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "open api validation",
+    "shortContainerId" : "openApiHttpSpec.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 0
+}
