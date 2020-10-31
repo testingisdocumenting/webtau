@@ -123,10 +123,19 @@ public class OpenApiSpec {
 
         if (openAPI == null) {
             throw new IllegalArgumentException(
-                    format("Unable to load API descriptor from provided %s:\n\t%s",
-                            specUrl, swaggerParseResult.getMessages().toString().replace("\n", "\n\t")));
+                    format("Unable to load API descriptor from provided %s: %s", specUrl,
+                            parseResultMessage(swaggerParseResult)));
         }
 
         return openAPI;
+    }
+
+    private static String parseResultMessage(SwaggerParseResult swaggerParseResult) {
+        List<String> messages = swaggerParseResult.getMessages();
+        if (messages == null) {
+            return "check if it is accessible";
+        }
+
+        return "\n    " + String.join("\n    ", messages);
     }
 }
