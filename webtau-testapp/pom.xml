@@ -28,6 +28,7 @@
         <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
         <hsqldb.version>2.4.0</hsqldb.version>
         <jaxb.version>2.3.0</jaxb.version>
+        <enforcer.skip>true</enforcer.skip>
     </properties>
 
     <artifactId>webtau-testapp</artifactId>
@@ -122,25 +123,4 @@
             <version>1.1.1</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <dependencyConvergence />
-                        <banDuplicateClasses>
-                            <findAllDuplicates>true</findAllDuplicates>
-                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
-                            <ignoreClasses>
-                                <ignoreClass>javax.persistence.*</ignoreClass>
-                            </ignoreClasses>
-                        </banDuplicateClasses>
-                    </rules>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
