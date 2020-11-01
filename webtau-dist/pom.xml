@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-shaded</artifactId>
-            <classifier>shaded</classifier>
+            <classifier>all</classifier>
             <scope>runtime</scope>
             <version>${project.version}</version>
             <exclusions>
