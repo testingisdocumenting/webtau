@@ -94,9 +94,14 @@ public class OpenApiSpecValidator {
     }
 
     private SimpleResponse buildResponse(HttpValidationResult result) {
-        return SimpleResponse.Builder
-                .status(result.getResponseStatusCode())
-                .withContentType(result.getResponseType())
+        SimpleResponse.Builder builder = SimpleResponse.Builder
+                .status(result.getResponseStatusCode());
+
+        if (!result.getResponseType().isEmpty()) {
+            builder.withContentType(result.getResponseType());
+        }
+
+        return builder
                 .withBody(result.getResponseTextContent())
                 .build();
     }
