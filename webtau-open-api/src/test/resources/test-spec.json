@@ -37,14 +37,31 @@
       }
     },
     "/customer/{id}": {
+      "parameters": [
+        {"in": "path", "name": "id", "type": "string"}
+      ],
       "get": {
         "summary": "get customer",
         "operationId": "getCustomer",
         "responses": {
           "200": {
-            "description": "success",
+            "description": "success get response",
             "schema": {
-              "$ref": "#/definitions/TestResponse"
+              "type": "object",
+              "required": [
+                "mandatoryField"
+              ],
+              "properties": {
+                "mandatoryField": {
+                  "type": "string"
+                },
+                "optionalField": {
+                  "type": "string"
+                },
+                "intField": {
+                  "type": "integer"
+                }
+              }
             }
           },
           "4XX": {

@@ -63,9 +63,9 @@ class OpenApiResponseValidatorTest implements StepReporter {
         HttpValidationResult validationResult = createValidationResult()
 
         def expectedError = "schema is not valid:\n" +
-                "ERROR - No request body is expected for GET on path '/customer/{id}'.: []\n" +
-                "ERROR - Object instance has properties which are not allowed by the schema: [\"key\"]: []\n" +
-                "ERROR - Object has missing required properties ([\"mandatoryField\"]): []"
+                "GET /customer/2: No request body is expected but one was found.\n" +
+                "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]\n" +
+                "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
 
         code {
             HttpValidationHandlers.validate(validationResult)
@@ -93,8 +93,8 @@ class OpenApiResponseValidatorTest implements StepReporter {
         HttpValidationResult validationResult = createValidationResult()
 
         def expectedError = "schema is not valid:\n" +
-                "ERROR - Object instance has properties which are not allowed by the schema: [\"key\"]: []\n" +
-                "ERROR - Object has missing required properties ([\"mandatoryField\"]): []"
+                "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]\n" +
+                "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
 
         code {
             OpenApi.responseOnlyValidation {
@@ -111,7 +111,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         HttpValidationResult validationResult = createValidationResult()
 
         def expectedError = "schema is not valid:\n" +
-                "ERROR - No request body is expected for GET on path '/customer/{id}'.: []"
+                "GET /customer/2: No request body is expected but one was found."
         code {
             OpenApi.requestOnlyValidation() {
                 HttpValidationHandlers.validate(validationResult)
@@ -133,6 +133,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
     private static HttpResponse response() {
         def response = new HttpResponse()
         response.setTextContent('{"key": "value"}')
+        response.setContentType('application/json')
         response.setStatusCode(200)
         response
     }

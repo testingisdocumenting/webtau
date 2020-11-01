@@ -24,6 +24,10 @@
         <version>1.32-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <enforcer.skip>true</enforcer.skip>
+    </properties>
+
     <artifactId>webtau-docs</artifactId>
 
     <dependencies>
