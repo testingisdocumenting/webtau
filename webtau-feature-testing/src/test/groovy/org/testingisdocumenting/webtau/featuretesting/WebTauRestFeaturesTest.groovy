@@ -22,6 +22,7 @@ import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
+import org.testingisdocumenting.webtau.openapi.OpenApi
 
 import static org.testingisdocumenting.webtau.WebTauDsl.http
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
@@ -99,6 +100,13 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "open api http spec"() {
+        runCli('openapi/openApiHttpSpec.groovy', 'openapi/webtau.httpspec.cfg.groovy',
+                "--url=${testRunner.testServer.uri}",
+                "--openApiSpecUrl=${testRunner.testServer.uri}/v3/api-docs")
+    }
+
+    @Test
     void "open api disable"() {
         runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
@@ -158,12 +166,14 @@ class WebTauRestFeaturesTest {
     }
 
     private void deleteCustomers() {
-        def ids = http.get(customersUrl()) {
-            return body.id
-        }
+        OpenApi.withoutValidation {
+            def ids = http.get(customersUrl()) {
+                return body.id
+            }
 
-        ids.each {
-            http.delete(customerUrl("$it"))
+            ids.each {
+                http.delete(customerUrl("$it"))
+            }
         }
     }
 
