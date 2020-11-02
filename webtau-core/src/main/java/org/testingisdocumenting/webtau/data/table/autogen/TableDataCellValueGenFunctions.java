@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,12 +18,14 @@
 package org.testingisdocumenting.webtau.data.table.autogen;
 
 import org.testingisdocumenting.webtau.WebTauCore;
+import org.testingisdocumenting.webtau.data.table.Record;
 
 /**
  * @see WebTauCore#cell
  */
 public class TableDataCellValueGenFunctions {
     public final TableDataCellValueGenerator<?> above = TableDataCellAbove.generator;
+    public final TableDataCellValueGenerator<?> guid = value(TableDataCellValueGenFunctions::generateGuid);
 
     public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenFullFunction<R> genFunction) {
         return new TableDataCellValueGenerator<>(genFunction);
@@ -30,5 +33,9 @@ public class TableDataCellValueGenFunctions {
 
     public static <R> TableDataCellValueGenerator<R> value(TableDataCellValueGenOnlyRecordFunction<R> genFunction) {
         return new TableDataCellValueGenerator<>(genFunction);
+    }
+
+    private static String generateGuid(Record record) {
+        return java.util.UUID.randomUUID().toString();
     }
 }

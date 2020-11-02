@@ -38,6 +38,20 @@ Java:
 
 :include-table: table-with-permute.json
 
+# GUID
+
+Use `cell.guid` to automatically generate unique ids.
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableDataWithPermuteAndGuid", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithPermuteAndGuid", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+:include-table: table-with-permute-and-guid.json
+
 # Replace
 
 Use `table.replace(before, after)` to replace values in a table. 

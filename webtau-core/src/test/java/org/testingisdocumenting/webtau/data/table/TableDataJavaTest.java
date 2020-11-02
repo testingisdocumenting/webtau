@@ -58,6 +58,14 @@ public class TableDataJavaTest {
     }
 
     @Test
+    public void shouldGenerateIdsForMultipleRowsFromMultiValues() {
+        TableData tableData = createTableDataWithPermuteAndGuid();
+
+        validatePermuteAndGuid(tableData);
+        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, "table-with-permute-and-guid", tableData);
+    }
+
+    @Test
     public void cellAboveShouldBeSubstitutedWithValueFromPreviousRow() {
         TableData tableData = createTableDataWithAboveRef();
         validateAboveValue(tableData);
@@ -114,9 +122,16 @@ public class TableDataJavaTest {
                       "v2a"               , permute(10, 20) , "v2c");
     }
 
+    private static TableData createTableDataWithPermuteAndGuid() {
+        return table("ID"      , "Col A"              , "Col B"         , "Col C",
+                     ______________________________________________________________________,
+                      cell.guid, permute(true, false), "v1b"           , permute('a', 'b'),
+                      cell.guid, "v2a"               , permute(10, 20) , "v2c");
+    }
+
     private static TableData createTableDataWithAboveRef() {
         return table("Name", "Start Date"             , "Games To Play",
-                     ________________________________________________,
+                     __________________________________________________,
                      "John", LocalDate.of(2016, 6, 20), 10,
                      "Bob" , cell.above               ,  8,
                      "Mike", cell.above               , 14,

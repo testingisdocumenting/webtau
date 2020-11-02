@@ -98,6 +98,7 @@
                 </executions>
                 <configuration>
                     <docId>webtau</docId>
+                    <port>3335</port>
                     <deployRoot>${project.build.directory}</deployRoot>
                     <exportRoot>${project.build.directory}/znaisrc</exportRoot>
                     <sourceRoot>${project.basedir}/znai</sourceRoot>
