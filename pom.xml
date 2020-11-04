@@ -853,8 +853,7 @@
                                     <goal>groovydoc</goal>
                                 </goals>
                                 <configuration>
-                                    <groovydocOutputDirectory>${project.build.directory}/apidocs
-                                    </groovydocOutputDirectory>
+                                    <groovyDocOutputDirectory>${project.build.directory}/apidocs</groovyDocOutputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
