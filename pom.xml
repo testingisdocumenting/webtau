@@ -25,7 +25,7 @@
     <packaging>pom</packaging>
 
     <name>WebTau</name>
-    <description>webtau - web test automation. REST and UI testing framework.</description>
+    <description>WebTau - web test automation. REST/GraphQL/DB/CLI/UI testing framework.</description>
     <url>https://github.com/testingisdocumenting/webtau</url>
 
     <licenses>
