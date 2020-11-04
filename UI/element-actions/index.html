@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Local Storage</title>
+<title>WebTau: Element Actions</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,8 +84,18 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Access Local Storage</h1></header>
-<p>To access local storage use browser.localStorage .Lets consider a simple web page that displays a value from a local storage. &lt;div id=&quot;favorite-color&quot;&gt; &lt;/div&gt; &lt;script&gt; const element = document.getElementById('favorite-color'); element.innerHTML = localStorage.getItem('favoriteColor'); &lt;/script&gt; package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;local storage api&quot;) { browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'clean') def color = $('#favorite-color') browser.reopen('/local-storage') color.should == 'clean' browser.localStorage.clear() browser.reopen('/local-storage') color.should == '' } public String getItem(String key) public void setItem(String key, String value) public String removeItem(String key) public void clear() public int size()</p>
+<header><h1>Clicks</h1></header>
+<p>payments.confirmation.click() expandArea.doubleClick() paymentsTable.rightClick() payments.confirmation.shiftClick() payments.confirmation.altClick() payments.confirmation.controlClick() payments.confirmation.commandClick() payments.confirmation.commandOrControlClick()</p>
+</article>
+
+<article>
+<header><h1>Modifications</h1></header>
+<p>payments.dollarAmount.clear() payments.dollarAmount.sendKeys(&quot;104.5&quot;) Generic way to set a form element value. Will be covered more in UI/forms forms payments.dollarAmount.setValue(&quot;104.5&quot;)</p>
+</article>
+
+<article>
+<header><h1>Move over</h1></header>
+<p>menu.hover()</p>
 </article>
 </section>
 </div>
@@ -110,57 +120,112 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Access Local Storage",
-      "id" : "access-local-storage",
+      "title" : "Clicks",
+      "id" : "clicks",
       "type" : "Section",
       "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "To access local storage use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "browser.localStorage",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ".",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Lets consider a simple web page that displays a value from a local storage.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "html",
-        "snippet" : "<div id=\"favorite-color\"> \n</div> \n<script>\n    const element = document.getElementById('favorite-color');\n    element.innerHTML = localStorage.getItem('favoriteColor');\n</script>",
-        "title" : "Sample web page",
+        "lang" : "groovy",
+        "snippet" : "payments.confirmation.click()",
+        "title" : "click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"local storage api\") {\n    browser.open('/local-storage')\n    browser.localStorage.setItem('favoriteColor', 'clean')\n\n    def color = $('#favorite-color')\n\n    browser.reopen('/local-storage')\n    color.should == 'clean'\n\n    browser.localStorage.clear()\n    browser.reopen('/local-storage')\n    color.should == ''\n}",
-        "title" : "Setting storage after opening page",
+        "snippet" : "expandArea.doubleClick()",
+        "title" : "double click",
         "type" : "Snippet"
       }, {
-        "lang" : "java",
-        "snippet" : "public String getItem(String key)\npublic void setItem(String key, String value)\npublic String removeItem(String key)\npublic void clear()\npublic int size()",
-        "entries" : [ "getItem", "setItem", "removeItem", "clear", "size" ],
-        "title" : "Local Storage methods",
-        "signatureOnly" : true,
+        "lang" : "groovy",
+        "snippet" : "paymentsTable.rightClick()",
+        "title" : "right click",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.confirmation.shiftClick()",
+        "title" : "shift click",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.confirmation.altClick()",
+        "title" : "alt click",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.confirmation.controlClick()",
+        "title" : "control click",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.confirmation.commandClick()",
+        "title" : "command click",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.confirmation.commandOrControlClick()",
+        "title" : "command or control click",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Modifications",
+      "id" : "modifications",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "payments.dollarAmount.clear()",
+        "title" : "clear",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.dollarAmount.sendKeys(\"104.5\")",
+        "title" : "send keys",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Generic way to set a form element value. Will be covered more in ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/UI/forms",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "forms",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.dollarAmount.setValue(\"104.5\")",
+        "title" : "set value",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Move over",
+      "id" : "move-over",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "menu.hover()",
+        "title" : "hover",
         "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1604459318229,
     "tocItem" : {
       "sectionTitle" : "UI",
-      "pageTitle" : "Local Storage",
+      "pageTitle" : "Element Actions",
       "pageMeta" : { },
       "dirName" : "UI",
-      "fileName" : "local-storage",
+      "fileName" : "element-actions",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Access Local Storage",
-        "id" : "access-local-storage"
+        "title" : "Clicks",
+        "id" : "clicks"
+      }, {
+        "title" : "Modifications",
+        "id" : "modifications"
+      }, {
+        "title" : "Move over",
+        "id" : "move-over"
       } ]
     }
   },

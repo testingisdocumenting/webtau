@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>CLI and configuration file options</h1></header>
-<p>name description default value browser browser name: chrome, firefox chrome browserUrl browser base url for application under test. It is being used instead of url when provided chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg.groovy dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableExtensions run without extensions false disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} env environment id local envPath path items to append to path used for cli tests [] firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary graphQLEnabled enable graphQL coverage and timing capture false headless run headless mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test userAgent User agent to send on HTTP requests webtau/null verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</p>
+<p>name description default value browserId browser to use: chrome, firefox chrome browserUrl browser base url for application under test. It is being used instead of url when provided chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg.groovy dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableExtensions run without extensions false disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts env environment id local envPath path items to append to path used for cli tests [] firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary fullStackTrace print full stack trace to console false graphQLEnabled enable graphQL coverage and timing capture false headless run headless mode false jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test userAgent User agent to send on HTTP requests webtau/null verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 windowHeight browser window height 800 windowWidth browser window width 1000 workingDir logical working dir</p>
 </article>
 
 <article>
 <header><h1>Environment variable options</h1></header>
-<p>environment variable description default value WEBTAU_BROWSER browser name: chrome, firefox chrome WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg.groovy WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_EXTENSIONS run without extensions false WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir} WEBTAU_ENV environment id local WEBTAU_ENV_PATH path items to append to path used for cli tests [] WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_GRAPH_QLENABLED enable graphQL coverage and timing capture false WEBTAU_HEADLESS run headless mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/null WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</p>
+<p>environment variable description default value WEBTAU_BROWSER_ID browser to use: chrome, firefox chrome WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg.groovy WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_EXTENSIONS run without extensions false WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts WEBTAU_ENV environment id local WEBTAU_ENV_PATH path items to append to path used for cli tests [] WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_FULL_STACK_TRACE print full stack trace to console false WEBTAU_GRAPH_QLENABLED enable graphQL coverage and timing capture false WEBTAU_HEADLESS run headless mode false WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/null WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WINDOW_HEIGHT browser window height 800 WEBTAU_WINDOW_WIDTH browser window width 1000 WEBTAU_WORKING_DIR logical working dir</p>
 </article>
 </section>
 </div>
@@ -130,13 +130,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "browser",
+              "text" : "browserId",
               "type" : "SimpleText"
             } ]
           } ], [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "browser name: chrome, firefox",
+              "text" : "browser to use: chrome, firefox",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -298,7 +298,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "${workingDir}",
+              "text" : "${workingDir}/doc-artifacts",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -362,6 +362,24 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "fullStackTrace",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "print full stack trace to console",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "graphQLEnabled",
@@ -681,13 +699,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "WEBTAU_BROWSER",
+              "text" : "WEBTAU_BROWSER_ID",
               "type" : "SimpleText"
             } ]
           } ], [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "browser name: chrome, firefox",
+              "text" : "browser to use: chrome, firefox",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -849,7 +867,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "${workingDir}",
+              "text" : "${workingDir}/doc-artifacts",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -913,6 +931,24 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           } ], null ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_FULL_STACK_TRACE",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "print full stack trace to console",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "WEBTAU_GRAPH_QLENABLED",
@@ -1217,7 +1253,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Table"
       } ]
     } ],
-    "lastModifiedTime" : 1597944757738,
+    "lastModifiedTime" : 1604459318229,
     "tocItem" : {
       "sectionTitle" : "Configuration",
       "pageTitle" : "Options",

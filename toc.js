@@ -369,14 +369,14 @@ toc = [ {
     } ]
   }, {
     "sectionTitle" : "GraphQL",
-    "pageTitle" : "Queries",
+    "pageTitle" : "Queries And Mutations",
     "pageMeta" : { },
     "dirName" : "GraphQL",
-    "fileName" : "queries",
+    "fileName" : "queries-and-mutations",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Executing Queries",
-      "id" : "executing-queries"
+      "title" : "Executing Queries and Mutations",
+      "id" : "executing-queries-and-mutations"
     }, {
       "title" : "Response Assertions",
       "id" : "response-assertions"
@@ -457,6 +457,23 @@ toc = [ {
     }, {
       "title" : "Grouping",
       "id" : "grouping"
+    } ]
+  }, {
+    "sectionTitle" : "UI",
+    "pageTitle" : "Element Actions",
+    "pageMeta" : { },
+    "dirName" : "UI",
+    "fileName" : "element-actions",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Clicks",
+      "id" : "clicks"
+    }, {
+      "title" : "Modifications",
+      "id" : "modifications"
+    }, {
+      "title" : "Move over",
+      "id" : "move-over"
     } ]
   }, {
     "sectionTitle" : "UI",
@@ -752,6 +769,33 @@ toc = [ {
     } ]
   } ]
 }, {
+  "sectionTitle" : "REPL",
+  "dirName" : "REPL",
+  "items" : [ {
+    "sectionTitle" : "REPL",
+    "pageTitle" : "Experiments",
+    "pageMeta" : { },
+    "dirName" : "REPL",
+    "fileName" : "experiments",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Read Eval Print Loop",
+      "id" : "read-eval-print-loop"
+    }, {
+      "title" : "Start REPL",
+      "id" : "start-repl"
+    }, {
+      "title" : "Experiment With API",
+      "id" : "experiment-with-api"
+    }, {
+      "title" : "Setting Config Value",
+      "id" : "setting-config-value"
+    }, {
+      "title" : "Preserving Browser Context",
+      "id" : "preserving-browser-context"
+    } ]
+  } ]
+}, {
   "sectionTitle" : "Generic Runners",
   "dirName" : "generic-runners",
   "items" : [ {
@@ -852,6 +896,9 @@ toc = [ {
     }, {
       "title" : "Permutations",
       "id" : "permutations"
+    }, {
+      "title" : "GUID",
+      "id" : "guid"
     }, {
       "title" : "Replace",
       "id" : "replace"

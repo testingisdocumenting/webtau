@@ -94,13 +94,18 @@
 </article>
 
 <article>
+<header><h1>GUID</h1></header>
+<p>Use cell.guid to automatically generate unique ids. Groovy Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 06e5f761-e2a7-46ea-a1ad-ca32bc84c582 true v1b a d399480d-901e-4642-9410-3f0f7ad7b19e false v1b a 85289b6a-a8e4-4fba-bb14-868051a919f3 true v1b b 6518dd0d-f681-427b-a2f4-fd0b162f38c3 false v1b b 029243da-14d5-4e95-ba2c-abcb7360c9cf v2a 10 v2c 2676e0d4-2d69-4a6d-9470-2bf9b79bf005 v2a 20 v2c</p>
+</article>
+
+<article>
 <header><h1>Replace</h1></header>
 <p>Use table.replace(before, after) to replace values in a table. Groovy Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;, ________________________________, &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;) tableData.replace(&quot;v1b&quot;, &quot;v1b_&quot;) Col A Col B Col C v1a v1b_ v1c v2a v2b v2c</p>
 </article>
 
 <article>
 <header><h1>Cell Above Value Reference</h1></header>
-<p>Use cell.above to refer to the previous row value Groovy Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , 8, &quot;Mike&quot;, cell.above , 14, &quot;Drew&quot;, LocalDate.of(2016, 6, 22), 10, &quot;Pete&quot;, cell.above , 11, &quot;Max&quot; , cell.above , 3) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 8 Mike 2016-06-20 14 Drew 2016-06-22 10 Pete 2016-06-22 11 Max 2016-06-22 3</p>
+<p>Use cell.above to refer to the previous row value Groovy Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, __________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , 8, &quot;Mike&quot;, cell.above , 14, &quot;Drew&quot;, LocalDate.of(2016, 6, 22), 10, &quot;Pete&quot;, cell.above , 11, &quot;Max&quot; , cell.above , 3) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 8 Mike 2016-06-20 14 Drew 2016-06-22 10 Pete 2016-06-22 11 Max 2016-06-22 3</p>
 </article>
 
 <article>
@@ -405,6 +410,204 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Table"
       } ]
     }, {
+      "title" : "GUID",
+      "id" : "guid",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cell.guid",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to automatically generate unique ids.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"ID\"      | \"Col A\"              | \"Col B\"         | \"Col C\"] {\n________________________________________________________________________\n cell.guid | permute(true, false) | \"v1b\"           | permute('a', 'b')\n cell.guid | \"v2a\"                | permute(10, 20) | \"v2c\" }",
+            "entry" : "createTableDataWithPermuteAndGuid",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"ID\"      , \"Col A\"              , \"Col B\"         , \"Col C\",\n      ______________________________________________________________________,\n       cell.guid, permute(true, false), \"v1b\"           , permute('a', 'b'),\n       cell.guid, \"v2a\"               , permute(10, 20) , \"v2c\")",
+            "entry" : "createTableDataWithPermuteAndGuid",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "ID"
+          }, {
+            "title" : "Col A"
+          }, {
+            "title" : "Col B"
+          }, {
+            "title" : "Col C"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "06e5f761-e2a7-46ea-a1ad-ca32bc84c582",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "d399480d-901e-4642-9410-3f0f7ad7b19e",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "85289b6a-a8e4-4fba-bb14-868051a919f3",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "6518dd0d-f681-427b-a2f4-fd0b162f38c3",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v1b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "029243da-14d5-4e95-ba2c-abcb7360c9cf",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "10",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2c",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2676e0d4-2d69-4a6d-9470-2bf9b79bf005",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "20",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "v2c",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "type" : "Table"
+      } ]
+    }, {
       "title" : "Replace",
       "id" : "replace",
       "type" : "Section",
@@ -536,7 +739,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "table(\"Name\", \"Start Date\"             , \"Games To Play\",\n      ________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               ,  8,\n      \"Mike\", cell.above               , 14,\n\n      \"Drew\", LocalDate.of(2016, 6, 22), 10,\n      \"Pete\", cell.above               , 11,\n      \"Max\" , cell.above               ,  3)",
+            "snippet" : "table(\"Name\", \"Start Date\"             , \"Games To Play\",\n      __________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               ,  8,\n      \"Mike\", cell.above               , 14,\n\n      \"Drew\", LocalDate.of(2016, 6, 22), 10,\n      \"Pete\", cell.above               , 11,\n      \"Max\" , cell.above               ,  3)",
             "entry" : "createTableDataWithAboveRef",
             "bodyOnly" : true,
             "removeReturn" : true,
@@ -808,7 +1011,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1597944757738,
+    "lastModifiedTime" : 1604459318229,
     "tocItem" : {
       "sectionTitle" : "Reference",
       "pageTitle" : "Table Data",
@@ -822,6 +1025,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Permutations",
         "id" : "permutations"
+      }, {
+        "title" : "GUID",
+        "id" : "guid"
       }, {
         "title" : "Replace",
         "id" : "replace"
