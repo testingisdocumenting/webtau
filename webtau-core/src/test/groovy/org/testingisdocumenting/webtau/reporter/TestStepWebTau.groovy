@@ -27,10 +27,10 @@ import static org.testingisdocumenting.webtau.reporter.StepReportOptions.REPORT_
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 import static java.util.stream.Collectors.toList
 
-class TestStepTest {
-    static TestStep rootStep
-    static TestStep childStep1
-    static TestStep childStep2
+class TestStepWebTau {
+    static WebTauStep rootStep
+    static WebTauStep childStep1
+    static WebTauStep childStep2
 
     @BeforeClass
     static void init() {
@@ -126,13 +126,13 @@ class TestStepTest {
         assert root.calcNumberOfSuccessfulSteps() == 2
     }
 
-    private static TestStep createStep(String title, Supplier stepCode = { return null }) {
-        return TestStep.createStep(null, tokenizedMessage(action(title)), {
+    private static WebTauStep createStep(String title, Supplier stepCode = { return null }) {
+        return WebTauStep.createStep(null, tokenizedMessage(action(title)), {
             tokenizedMessage(action('done ' + title))
         } as Supplier, stepCode)
     }
 
-    private static class PayloadA implements TestStepPayload {
+    private static class PayloadA implements WebTauStepPayload {
         String id
 
         @Override
@@ -141,7 +141,7 @@ class TestStepTest {
         }
     }
 
-    private static class PayloadB implements TestStepPayload {
+    private static class PayloadB implements WebTauStepPayload {
         String name
 
         @Override
@@ -150,7 +150,7 @@ class TestStepTest {
         }
     }
 
-    private static class PayloadC implements TestStepPayload {
+    private static class PayloadC implements WebTauStepPayload {
         @Override
         Map<String, ?> toMap() {
             return [:]

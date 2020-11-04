@@ -37,9 +37,9 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
     private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
-    private static final ConfigValue headless = declareBoolean("headless", "run headless mode");
+    private static final ConfigValue headless = declareBoolean("headless", "run headless mode", false);
 
-    private static final ConfigValue browser = declare("browser", "browser name: chrome, firefox", () -> CHROME);
+    private static final ConfigValue browserId = declare("browserId", "browser to use: chrome, firefox", () -> CHROME);
 
     private static final ConfigValue disableExtensions = declare("disableExtensions", "run without extensions", () -> false);
 
@@ -49,16 +49,16 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue firefoxBinPath = declare("firefoxBinPath", "path to firefox binary", NULL_DEFAULT);
     private static final ConfigValue firefoxDriverPath = declare("firefoxDriverPath", "path to firefox driver binary", NULL_DEFAULT);
 
-    public static String getBrowser() {
-        return browser.getAsString();
+    public static String getBrowserId() {
+        return browserId.getAsString();
     }
 
     public static boolean isChrome() {
-        return CHROME.equals(browser.getAsString());
+        return CHROME.equals(browserId.getAsString());
     }
 
     public static boolean isFirefox() {
-        return FIREFOX.equals(browser.getAsString());
+        return FIREFOX.equals(browserId.getAsString());
     }
 
     public static String getBrowserUrl() {
@@ -104,7 +104,7 @@ public class BrowserConfig implements WebTauConfigHandler {
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(
-                browser,
+                browserId,
                 browserUrl,
                 windowWidth,
                 windowHeight,

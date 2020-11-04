@@ -25,6 +25,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermute
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermuteAndGuid
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableDataAfterReplace
 
@@ -57,6 +58,12 @@ class TableDataGroovyTest {
     void "should generate multiple rows from multi-values"() {
         def tableData = createTableDataWithPermute()
         validatePermute(tableData)
+    }
+
+    @Test
+    void "should generate ids for multiple rows from multi-values"() {
+        def tableData = createTableDataWithPermuteAndGuid()
+        validatePermuteAndGuid(tableData)
     }
 
     @Test
@@ -117,6 +124,13 @@ class TableDataGroovyTest {
         ___________________________________________________________
          permute(true, false) | "v1b"           | permute('a', 'b')
          "v2a"                | permute(10, 20) | "v2c" }
+    }
+
+    static TableData createTableDataWithPermuteAndGuid() {
+        ["ID"      | "Col A"              | "Col B"         | "Col C"] {
+        ________________________________________________________________________
+         cell.guid | permute(true, false) | "v1b"           | permute('a', 'b')
+         cell.guid | "v2a"                | permute(10, 20) | "v2c" }
     }
 
     static TableData createTableDataWithAboveRef() {

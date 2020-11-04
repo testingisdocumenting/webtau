@@ -22,13 +22,13 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.32-SNAPSHOT</version>
+        <version>1.34-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-open-api</artifactId>
 
     <properties>
-        <swagger.validator.version>1.4.2</swagger.validator.version>
+        <swagger.validator.version>2.11.0</swagger.validator.version>
     </properties>
 
     <dependencies>
@@ -54,6 +54,12 @@
             <groupId>com.atlassian.oai</groupId>
             <artifactId>swagger-request-validator-core</artifactId>
             <version>${swagger.validator.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.github.fge</groupId>
+                    <artifactId>jackson-coreutils</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

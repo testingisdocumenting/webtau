@@ -59,7 +59,7 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
@@ -109,7 +109,7 @@ public class Http {
 
     public boolean ping(String url, HttpQueryParams queryParams, HttpHeader header) {
         String fullUrl = HttpConfigurations.fullUrl(queryParams.attachToUrl(url));
-        TestStep step = TestStep.createStep(
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
                 () -> http.get(url, header));
@@ -895,7 +895,7 @@ public class Http {
         HttpValidationResult validationResult = new HttpValidationResult(Persona.getCurrentPersona().getId(),
                 requestMethod, url, fullUrl, fullHeader, requestBody);
 
-        TestStep step = createHttpStep(validationResult, httpCall, validator);
+        WebTauStep step = createHttpStep(validationResult, httpCall, validator);
         try {
             return (R) step.execute(StepReportOptions.REPORT_ALL);
         } finally {
@@ -904,9 +904,9 @@ public class Http {
         }
     }
 
-    private <R> TestStep createHttpStep(HttpValidationResult validationResult,
-                                        HttpCall httpCall,
-                                        HttpResponseValidatorWithReturn validator) {
+    private <R> WebTauStep createHttpStep(HttpValidationResult validationResult,
+                                          HttpCall httpCall,
+                                          HttpResponseValidatorWithReturn validator) {
         Supplier<Object> httpCallSupplier = () -> {
             HttpResponse response = null;
             try {
@@ -952,7 +952,7 @@ public class Http {
             }
         };
 
-        return TestStep.createStep(null, tokenizedMessage(
+        return WebTauStep.createStep(null, tokenizedMessage(
                 action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 httpCallSupplier);
@@ -961,17 +961,17 @@ public class Http {
     private HttpResponse followRedirects(String requestMethod, HttpCall httpCall, HttpHeader fullRequestHeader, HttpResponse response) {
         int retryCount = 0;
         while (response.isRedirect() && getCfg().shouldFollowRedirects() && retryCount++ < getCfg().maxRedirects()) {
-            TestStep httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
+            WebTauStep httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
             response = (HttpResponse) httpStep.execute(StepReportOptions.REPORT_ALL);
         }
         return response;
     }
 
-    private TestStep createRedirectStep(String requestMethod, String fullUrl, HttpCall httpCall,
-                                        HttpHeader fullRequestHeader) {
+    private WebTauStep createRedirectStep(String requestMethod, String fullUrl, HttpCall httpCall,
+                                          HttpHeader fullRequestHeader) {
         Supplier<Object> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
 
-        return TestStep.createStep(null, tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
+        return WebTauStep.createStep(null, tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 httpCallSupplier);
     }
@@ -1142,7 +1142,7 @@ public class Http {
     }
 
     private boolean skipRenderRequestResponse() {
-        return getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1;
+        return getCfg().getVerbosityLevel() <= WebTauStep.getCurrentStep().getNumberOfParents() + 1;
     }
 
     private HttpResponse request(String method, String fullUrl,

@@ -30,7 +30,7 @@ import org.openqa.selenium.OutputType;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Browser {

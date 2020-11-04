@@ -24,7 +24,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.actual;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.TO;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.matcher;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class ValueMatcherExpectationSteps {
@@ -61,7 +61,7 @@ public class ValueMatcherExpectationSteps {
                                            ValueMatcher valueMatcher, boolean isNegative,
                                            TokenizedMessage messageStart, Runnable expectationValidation,
                                            StepReportOptions stepReportOptions) {
-        TestStep step = createStep(context,
+        WebTauStep step = createStep(context,
                 messageStart.add(elementDescription)
                         .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
                 () -> tokenizedMessage(elementDescription)

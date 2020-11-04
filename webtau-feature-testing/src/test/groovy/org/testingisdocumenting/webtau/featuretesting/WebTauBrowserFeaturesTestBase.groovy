@@ -328,12 +328,12 @@ class WebTauBrowserFeaturesTestBase {
 
     private void runCli(String uiTestName, String configFileName) {
         runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}",
-                "--browser=" + browser)
+                "--browserId=" + browser)
     }
 
     private void runCliWithBrowserUrlOverride(String uiTestName, String configFileName) {
         runCliWithArgs(uiTestName, configFileName, "--url=http://localhost:-1",
-                "--browserUrl=${testRunner.testServer.uri}", "--browser=" + browser)
+                "--browserUrl=${testRunner.testServer.uri}", "--browserId=" + browser)
     }
 
     private static void runCliWithArgs(String uiTestName, String configFileName, String... args) {

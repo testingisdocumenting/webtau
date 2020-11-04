@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,17 +56,17 @@ class ScopeLimitingStepReporterTest implements StepReporter {
     }
 
     private static void executeSteps() {
-        def topLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def secondLevelStepSuccess = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action")),
+            def secondLevelStepSuccess = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action")),
                     { -> TokenizedMessage.tokenizedMessage(action("second level action completed")) }) {
             }
 
-            def secondLevelStepFailure = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action with error")),
+            def secondLevelStepFailure = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action with error")),
                     { -> TokenizedMessage.tokenizedMessage(action("second level action with error completed")) }) {
 
-                def thirdLevelStep = TestStep.createStep(null, TokenizedMessage.tokenizedMessage(action("third level action")),
+                def thirdLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("third level action")),
                         { -> TokenizedMessage.tokenizedMessage(action("third level action completed")) }) {
                     throw new RuntimeException('out of memory')
                 }
@@ -95,17 +96,17 @@ class ScopeLimitingStepReporterTest implements StepReporter {
     }
 
     @Override
-    void onStepStart(TestStep step) {
+    void onStepStart(WebTauStep step) {
         capturedStepsDesc.add('> ' + step.inProgressMessage.toString())
     }
 
     @Override
-    void onStepSuccess(TestStep step) {
+    void onStepSuccess(WebTauStep step) {
         capturedStepsDesc.add('> ' + step.completionMessage.toString())
     }
 
     @Override
-    void onStepFailure(TestStep step) {
+    void onStepFailure(WebTauStep step) {
         capturedStepsDesc.add('X ' + step.completionMessage.toString())
     }
 }

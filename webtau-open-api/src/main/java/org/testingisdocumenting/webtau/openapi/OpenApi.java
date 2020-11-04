@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,7 +47,7 @@ public class OpenApi {
     }
 
     static void reset() {
-        spec = new OpenApiSpec(OpenApiSpecConfig.specFullPath());
+        spec = new OpenApiSpec(OpenApiSpecConfig.getSpecFullPathOrUrl());
         validator = new OpenApiSpecValidator(spec, validationConfig());
         coverage = new OpenApiCoverage(spec);
     }

@@ -23,10 +23,14 @@ import org.testingisdocumenting.webtau.data.table.render.TableRenderer;
 public class TableDataRenderer implements DataRenderer {
     private static final DefaultTableRenderStyle renderStyle = new DefaultTableRenderStyle();
 
+    public static String renderTable(TableData tableData) {
+        return TableRenderer.render(tableData, renderStyle);
+    }
+
     @Override
     public String render(final Object data) {
         return (data instanceof TableData)
-                ? "\n" + TableRenderer.render((TableData) data, renderStyle)
+                ? "\n" + renderTable((TableData)data)
                 : null;
     }
 }

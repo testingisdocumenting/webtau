@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.cli.repl.win
 
-class WindowsOsFixes {
+class WindowsOsReplFixes {
     static void apply() {
         if (!System.getProperty('os.name').toLowerCase().contains('windows')) {
             return

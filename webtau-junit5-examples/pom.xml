@@ -22,12 +22,13 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.32-SNAPSHOT</version>
+        <version>1.34-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-junit5-examples</artifactId>
 
     <properties>
+        <enforcer.skip>true</enforcer.skip>
         <kotlin.version>1.3.70</kotlin.version>
     </properties>
 
@@ -97,26 +98,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <dependencyConvergence />
-                        <banDuplicateClasses>
-                            <findAllDuplicates>true</findAllDuplicates>
-                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
-                            <ignoreClasses>
-                                <!--tomcat embedded ships javax annotations internally-->
-                                <ignoreClass>javax.persistence.*</ignoreClass>
-                                <ignoreClass>javax.servlet.*</ignoreClass>
-                                <ignoreClass>org.apache.commons.*</ignoreClass>
-                            </ignoreClasses>
-                        </banDuplicateClasses>
-                    </rules>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>

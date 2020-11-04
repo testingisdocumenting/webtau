@@ -21,13 +21,13 @@ import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.sql.SQLException;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 class DatabaseTable {
@@ -49,7 +49,7 @@ class DatabaseTable {
     }
 
     public DatabaseQueryResult query() {
-        TestStep step = createStep(null,
+        WebTauStep step = createStep(null,
                 tokenizedMessage(action("querying"), createMessageId()),
                 () -> tokenizedMessage(action("queried"), createMessageId()),
                 () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), SqlQueriesGenerator.query(name)));

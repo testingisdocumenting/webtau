@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +28,10 @@ public class DynamicTests {
     private static final String LABEL_COLUMN = "label";
 
     private DynamicTests() {
+    }
+
+    public static Stream<DynamicTest> fromTable(TableData useCases, Consumer<Record> test) {
+        return fromTable("", useCases, test);
     }
 
     public static Stream<DynamicTest> fromTable(String useCasesPrefix, TableData useCases, Consumer<Record> test) {

@@ -21,8 +21,12 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.32-SNAPSHOT</version>
+        <version>1.34-SNAPSHOT</version>
     </parent>
+
+    <properties>
+        <enforcer.skip>true</enforcer.skip>
+    </properties>
 
     <artifactId>webtau-docs</artifactId>
 
@@ -94,6 +98,7 @@
                 </executions>
                 <configuration>
                     <docId>webtau</docId>
+                    <port>3335</port>
                     <deployRoot>${project.build.directory}</deployRoot>
                     <exportRoot>${project.build.directory}/znaisrc</exportRoot>
                     <sourceRoot>${project.basedir}/znai</sourceRoot>

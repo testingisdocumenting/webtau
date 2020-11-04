@@ -21,8 +21,8 @@ import org.testingisdocumenting.webtau.TestFile
 import org.testingisdocumenting.webtau.reporter.TestListener
 import org.testingisdocumenting.webtau.reporter.TestListeners
 import org.junit.Test
-import org.testingisdocumenting.webtau.reporter.TestStep
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import java.nio.file.Paths
 
@@ -157,7 +157,7 @@ class StandaloneTestRunnerTest {
         def listener = new TestListener() {
             @Override
             void beforeFirstTest() {
-                TestStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
+                WebTauStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
                         { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
                     println "dummy step"
                 }
@@ -220,7 +220,7 @@ class StandaloneTestRunnerTest {
         def listener = new TestListener() {
             @Override
             void afterAllTests() {
-                TestStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
+                WebTauStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
                         { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
                     println "dummy step"
                 }

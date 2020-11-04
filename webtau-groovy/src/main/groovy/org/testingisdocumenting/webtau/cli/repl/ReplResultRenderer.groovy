@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.db.DatabaseQueryResult
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
@@ -48,6 +49,8 @@ class ReplResultRenderer {
             renderDataNodeResult(result)
         } else if (result instanceof PageElement) {
             renderPageElementResult(result)
+        } else if (result instanceof DatabaseQueryResult) {
+            renderDbQueryResult(result)
         } else if (result instanceof TableData) {
             renderTableData(result)
         } else if (result instanceof PageUrl) {
@@ -59,6 +62,10 @@ class ReplResultRenderer {
 
     private static void renderTableData(TableData tableData) {
         out(ReplTableRenderer.render(tableData))
+    }
+
+    private static void renderDbQueryResult(DatabaseQueryResult queryResult) {
+        out(ReplTableRenderer.render(queryResult.tableData))
     }
 
     private static void renderDataNodeResult(DataNode result) {

@@ -21,11 +21,11 @@
 
     <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.32-SNAPSHOT</version>
+    <version>1.34-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
-    <description>webtau - web test automation. REST and UI testing framework.</description>
+    <description>WebTau - web test automation. REST/GraphQL/DB/CLI/UI testing framework.</description>
     <url>https://github.com/testingisdocumenting/webtau</url>
 
     <licenses>
@@ -146,16 +146,16 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <groovy.version>3.0.6</groovy.version>
-        <jackson.version>2.11.1</jackson.version>
-        <jackson.databind.version>2.11.1</jackson.databind.version>
+        <jackson.version>2.11.3</jackson.version>
+        <jackson.databind.version>2.11.3</jackson.databind.version>
         <slf4j.version>1.7.30</slf4j.version>
         <spring.version>4.3.25.RELEASE</spring.version>
-        <swagger.version>1.5.18</swagger.version>
         <maven.api.version>3.6.3</maven.api.version>
         <tomcat.version>8.5.56</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
         <graphql.version>15.0</graphql.version>
         <jacoco.version>0.8.5</jacoco.version>
+        <swagger.version>1.6.1</swagger.version>
     </properties>
 
     <dependencyManagement>
@@ -218,6 +218,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
                 <version>1.20</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.13</version>
             </dependency>
 
             <dependency>
@@ -350,18 +356,6 @@
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
                 <version>1.10.13</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.version}</version>
             </dependency>
 
             <dependency>
@@ -512,6 +506,48 @@
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-jdk8</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-core</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>5.3.6.Final</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -817,8 +853,7 @@
                                     <goal>groovydoc</goal>
                                 </goals>
                                 <configuration>
-                                    <groovydocOutputDirectory>${project.build.directory}/apidocs
-                                    </groovydocOutputDirectory>
+                                    <groovyDocOutputDirectory>${project.build.directory}/apidocs</groovyDocOutputDirectory>
                                 </configuration>
                             </execution>
                         </executions>

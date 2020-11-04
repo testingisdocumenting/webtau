@@ -21,7 +21,7 @@ import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.testingisdocumenting.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
@@ -59,16 +59,16 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     }
 
     @Override
-    void onStepStart(TestStep step) {
+    void onStepStart(WebTauStep step) {
     }
 
     @Override
-    void onStepSuccess(TestStep step) {
+    void onStepSuccess(WebTauStep step) {
         stepMessages << step.completionMessage.toString()
     }
 
     @Override
-    void onStepFailure(TestStep step) {
+    void onStepFailure(WebTauStep step) {
         stepMessages << step.completionMessage.toString()
     }
 }

@@ -59,12 +59,13 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
-        AnsiConsole.systemInstall()
         System.setProperty("java.awt.headless", "true")
 
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
+
+        setupAnsi()
     }
 
     static void main(String[] args) {
@@ -176,6 +177,11 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     @Override
     void generate(WebTauReport report) {
         problemCount = (int) (report.failed + report.errored)
+    }
+
+    private static void setupAnsi() {
+        System.setProperty('jansi.passthrough', 'true')
+        AnsiConsole.systemInstall()
     }
 
     private static ConsoleOutput createConsoleOutput() {

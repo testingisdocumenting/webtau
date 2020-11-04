@@ -31,7 +31,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     @Override
-    public void onStepStart(TestStep step) {
+    public void onStepStart(WebTauStep step) {
         ConsoleOutputs.out(
                 Stream.concat(
                         Stream.concat(
@@ -42,7 +42,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     @Override
-    public void onStepSuccess(TestStep step) {
+    public void onStepSuccess(WebTauStep step) {
         TokenizedMessage completionMessage = step.getCompletionMessage();
 
         int numberOfParents = step.getNumberOfParents();
@@ -63,7 +63,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     @Override
-    public void onStepFailure(TestStep step) {
+    public void onStepFailure(WebTauStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
 
         ConsoleOutputs.out(
@@ -74,7 +74,7 @@ public class ConsoleStepReporter implements StepReporter {
                         toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
     }
 
-    private String renderTimeTaken(TestStep step) {
+    private String renderTimeTaken(WebTauStep step) {
         long seconds = step.getElapsedTime() / 1000;
         long millisLeft = step.getElapsedTime() % 1000;
 
@@ -82,7 +82,7 @@ public class ConsoleStepReporter implements StepReporter {
                 millisLeft + "ms";
     }
 
-    private TokenizedMessage messageTokensForFailedStep(TestStep step) {
+    private TokenizedMessage messageTokensForFailedStep(WebTauStep step) {
         TokenizedMessage completionMessage = step.getCompletionMessage();
         int numberOfParents = step.getNumberOfParents();
 
@@ -102,7 +102,7 @@ public class ConsoleStepReporter implements StepReporter {
                 .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken()));
     }
 
-    private Stream<Object> personaStream(TestStep step) {
+    private Stream<Object> personaStream(WebTauStep step) {
         if (step.getPersonaId().isEmpty()) {
             return Stream.empty();
         }

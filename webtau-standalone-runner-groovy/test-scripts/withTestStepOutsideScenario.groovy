@@ -16,7 +16,7 @@
  */
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 createAndExecuteStep(tokenizedMessage(action("running errand")),

@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.reporter;
 
 public interface StepReporter {
-    void onStepStart(TestStep step);
-    void onStepSuccess(TestStep step);
-    void onStepFailure(TestStep step);
+    void onStepStart(WebTauStep step);
+    void onStepSuccess(WebTauStep step);
+    void onStepFailure(WebTauStep step);
 }

@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -104,7 +104,7 @@ public class StreamGobbler implements Runnable {
     }
 
     private boolean shouldRenderOutput() {
-        TestStep currentStep = TestStep.getCurrentStep();
+        WebTauStep currentStep = WebTauStep.getCurrentStep();
         int numberOfParents = currentStep == null ? 0 : currentStep.getNumberOfParents();
 
         return getCfg().getVerbosityLevel() > numberOfParents + 1;
