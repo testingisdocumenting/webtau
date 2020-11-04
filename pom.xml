@@ -136,7 +136,7 @@
         <module>webtau-dist</module>
         <module>webtau-cli-testing</module>
         <module>webtau-docs</module>
-        <module>webtau-jacoco-coverage</module>
+<!--        <module>webtau-jacoco-coverage</module>-->
     </modules>
 
     <properties>
@@ -863,26 +863,26 @@
             </build>
         </profile>
 
-        <profile>
-            <!-- Recording code coverage slows down tests, so only do this when -P code-coverage is explicitly passed to Maven -->
-            <id>code-coverage</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco.version}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+<!--        <profile>-->
+<!--            &lt;!&ndash; Recording code coverage slows down tests, so only do this when -P code-coverage is explicitly passed to Maven &ndash;&gt;-->
+<!--            <id>code-coverage</id>-->
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.jacoco</groupId>-->
+<!--                        <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--                        <version>${jacoco.version}</version>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <goals>-->
+<!--                                    <goal>prepare-agent</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
+<!--        </profile>-->
 
         <profile>
             <id>release</id>
