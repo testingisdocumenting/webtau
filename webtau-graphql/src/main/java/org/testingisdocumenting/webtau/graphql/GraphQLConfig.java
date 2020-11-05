@@ -25,11 +25,13 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 
 public class GraphQLConfig implements WebTauConfigHandler {
-    static final ConfigValue graphQLEnabled = declare("graphQLEnabled",
-            "enable graphQL coverage and timing capture", () -> false);
+    static final ConfigValue ignoreIntrospectionFailures = declare(
+            "graphQLIgnoreIntrospectionFailures",
+            "ignore graphQL introspection failures, introspection is required for coverage reporting",
+            () -> true);
 
-    static boolean isEnabled() {
-        return graphQLEnabled.getAsBoolean();
+    public static boolean ignoreIntrospectionFailures() {
+        return ignoreIntrospectionFailures.getAsBoolean();
     }
 
     @Override
@@ -39,6 +41,6 @@ public class GraphQLConfig implements WebTauConfigHandler {
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(graphQLEnabled);
+        return Stream.of(ignoreIntrospectionFailures);
     }
 }

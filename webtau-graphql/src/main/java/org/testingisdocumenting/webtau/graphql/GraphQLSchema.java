@@ -39,18 +39,10 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptySet;
 
 public class GraphQLSchema {
-    private static final Supplier<Optional<Set<GraphQLQuery>>> NO_QUERIES_SUPPLIER = Optional::empty;
-
     private final Supplier<Optional<Set<GraphQLQuery>>> schemaDeclaredQueriesSupplier;
 
-    public GraphQLSchema(boolean isEnabled) {
-        if (!isEnabled) {
-            this.schemaDeclaredQueriesSupplier = NO_QUERIES_SUPPLIER;
-            return;
-        }
-
-        this.schemaDeclaredQueriesSupplier = Suppliers.memoize(() ->
-                Optional.of(GraphQLSchemaLoader.fetchSchemaDeclaredQueries()));
+    public GraphQLSchema() {
+        this.schemaDeclaredQueriesSupplier = Suppliers.memoize(GraphQLSchemaLoader::fetchSchemaDeclaredQueries);
     }
 
     public GraphQLSchema(Set<GraphQLQuery> schemaDeclaredQueries) {

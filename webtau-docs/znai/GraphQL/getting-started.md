@@ -22,8 +22,9 @@ To run test
 
 Url parameter can be moved to a `webtau.cfg.groovy` file.  Please note that WebTau will automatically append `/graphql` to the url.
 
-You may also wish to add a `graphQLEnabled = true` property which will result in WebTau recording coverage and timing information
-per query for your tests.
+Webtau will attempt to send an introspection query in order to obtain information about the GraphQL schema.  If this fails, it
+will not be able to record coverage information for GraphQL.  Should you wish to fail the test if introspection fails, please
+set the `graphQLIgnoreIntrospectionFailures` property to `false`.
 
 :include-file: examples/graphql/webtau.cfg.groovy {title: "webtau.cfg.groovy"}
 

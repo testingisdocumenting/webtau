@@ -47,7 +47,7 @@ public class GraphQL {
     }
 
     static void reset() {
-        schema = new GraphQLSchema(GraphQLConfig.isEnabled());
+        schema = new GraphQLSchema();
         coverage = new GraphQLCoverage(schema);
     }
 
