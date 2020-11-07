@@ -53,6 +53,9 @@ scenario('simple groovy repl') {
 
     repl << "cfg\n"
     repl.output.waitTo contain("url:")
+
+    repl << "'stop line' + '!'\n" // sync point for all the output from config to finish
+    repl.output.waitTo contain("stop line!")
 }
 
 scenario('http call') {
@@ -64,7 +67,7 @@ scenario('http call') {
 
     cli.doc.capture('http-repl-output')
     fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
-            'header.statusCode equals 200')
+            'header.statusCode:   actual: 200')
 }
 
 scenario('set config value') {
