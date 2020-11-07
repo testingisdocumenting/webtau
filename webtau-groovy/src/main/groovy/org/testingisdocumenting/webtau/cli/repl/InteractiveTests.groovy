@@ -66,9 +66,19 @@ class InteractiveTests {
     }
 
     List<StandaloneTest> findSelectedTests(TestsSelection testSelection) {
-        return runner.tests.findAll {
-            it.filePath.toString() == testSelection.testFilePath &&
-                    it.scenario in testSelection.scenarios
+        def testsByPath = runner.tests.findAll {standaloneTest ->
+            standaloneTest.filePath.toString() == testSelection.testFilePath }
+
+        if (!testsByPath) {
+            return []
+        }
+
+        def byScenario = testsByPath.groupBy { it.scenario }
+
+        return testSelection.scenarios.collect {
+            byScenario[it][0]
+        }.findAll {
+            it != null
         }
     }
 }
