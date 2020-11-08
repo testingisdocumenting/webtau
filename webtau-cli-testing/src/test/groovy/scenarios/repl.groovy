@@ -24,8 +24,14 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static webtau.CliCommands.*
 
-def repl = createLazyResource { webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
-        "testscripts/browserSanity.groovy testscripts/scriptWithSyntaxError.groovy") }
+def repl = createLazyResource {
+    def command = webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
+        "testscripts/browserSanity.groovy testscripts/downstreamValidation.groovy")
+
+    command.output.waitTo contain('browserSanity.groovy')
+
+    return command
+}
 
 scenario('should list test files on start') {
     repl.output.waitTo contain('browserSanity.groovy')
@@ -47,6 +53,9 @@ scenario('simple groovy repl') {
 
     repl << "cfg\n"
     repl.output.waitTo contain("url:")
+
+    repl << "'stop line' + '!'\n" // sync point for all the output from config to finish
+    repl.output.waitTo contain("stop line!")
 }
 
 scenario('http call') {
@@ -58,7 +67,7 @@ scenario('http call') {
 
     cli.doc.capture('http-repl-output')
     fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
-            'header.statusCode equals 200')
+            'header.statusCode:   actual: 200')
 }
 
 scenario('set config value') {
@@ -87,21 +96,6 @@ scenario('browser context') {
     }
 
     cli.doc.capture('browser-repl-select')
-}
-
-scenario('test listing') {
-    repl.clearOutput()
-    repl << "ls\n"
-    repl.output.waitTo contain('browserSanity.groovy')
-
-    cli.doc.capture('repl-tests-listing')
-}
-
-scenario('report syntax error during test file parse') {
-    repl.clearOutput()
-    repl << "s 'scriptWith'\n"
-
-    repl.output.waitTo contain('groovy.lang.MissingPropertyException: No such property: aaa')
 }
 
 scenario('before all must be called only once and after all listener should not be called at all') {

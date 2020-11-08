@@ -45,6 +45,7 @@ groovy-specific-runner
     test-listeners
 REPL
     experiments
+    test-runs
 generic-runners
     JUnit-4
     JUnit-5
