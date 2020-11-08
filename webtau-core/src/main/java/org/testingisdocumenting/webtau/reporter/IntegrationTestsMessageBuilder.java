@@ -66,6 +66,7 @@ public class IntegrationTestsMessageBuilder {
     public static final MessageToken OF = TokenTypes.PREPOSITION.token("of");
     public static final MessageToken INTO = TokenTypes.PREPOSITION.token("into");
     public static final MessageToken ON = TokenTypes.PREPOSITION.token("on");
+    public static final MessageToken WITH = TokenTypes.PREPOSITION.token("with");
     public static final MessageToken COMMA = TokenTypes.DELIMITER.token(",");
     public static final MessageToken COLON = TokenTypes.DELIMITER.token(":");
 
