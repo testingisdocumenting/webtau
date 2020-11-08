@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Test Runs</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Incremental Tests Development</h1></header>
+<p>You can combine experimentation in REPL with actual test development. Your feedback loop becomes even faster:Try APIAdd the line to testRe-run test with REPLExperiment within preserved contextEnumerate test files you want to REPL with and add repl to get into incremental tests development mode webtau testscipts/* repl</p>
+</article>
+
+<article>
+<header><h1>Test Files Listing</h1></header>
+<p>Use ls command to list available test files. webtau:000&gt; ls Test files: 0 testscripts/dataDownload.groovy 1 testscripts/downstreamValidation.groovy 2 testscripts/resourceCreation.groovy Note: Listing will happen automatically at the start</p>
+</article>
+
+<article>
+<header><h1>Test File Selection</h1></header>
+<p>webtau:000&gt; s 0 Test scenarios of testscripts/dataDownload.groovy: 0 clean data 1 download data 2 validate data webtau:000&gt; b Test files: 0 testscripts/dataDownload.groovy 1 testscripts/downstreamValidation.groovy 2 testscripts/resourceCreation.groovy webtau:000&gt; s 'datadownload' Test scenarios of testscripts/dataDownload.groovy: 0 clean data 1 download data 2 validate data</p>
+</article>
+
+<article>
+<header><h1>Single Test Scenario Run</h1></header>
+<p>Selected test file has three scenarios package testscripts import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario scenario(&quot;clean data&quot;) { println &quot;cleaning...&quot; } scenario(&quot;download data&quot;) { println &quot;downloading...&quot; } scenario(&quot;validate data&quot;) { println &quot;validating...&quot; } To run scenario by index webtau:000&gt; r 0 before first test (Setup) [.] before first test (Setup) running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy) To run scenario by partial name match webtau:000&gt; r 'clean' running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy)</p>
+</article>
+
+<article>
+<header><h1>Re-run Last Run</h1></header>
+<p>Use r to re-run previous run webtau:000&gt; r running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy)</p>
+</article>
+
+<article>
+<header><h1>Multiple Test Scenarios Run</h1></header>
+<p>Use comma separated list of indexes or partial text match to run more than one scenario webtau:000&gt; r 0, 1 running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy) running: testscripts/dataDownload.groovy download data download data (dataDownload.groovy) downloading... [.] download data (dataDownload.groovy) webtau:000&gt; r 'download', 'clean' running: testscripts/dataDownload.groovy download data download data (dataDownload.groovy) downloading... [.] download data (dataDownload.groovy) running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy) Note: Order of execution follows the order of specified indexes or textUse r from:to to run a range of scenarios. From , to can be either index or partial text match. webtau:000&gt; r 0:'validate' running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy) running: testscripts/dataDownload.groovy download data download data (dataDownload.groovy) downloading... [.] download data (dataDownload.groovy) running: testscripts/dataDownload.groovy validate data validate data (dataDownload.groovy) validating... [.] validate data (dataDownload.groovy) webtau:000&gt; r 'validate':0 running: testscripts/dataDownload.groovy validate data validate data (dataDownload.groovy) validating... [.] validate data (dataDownload.groovy) running: testscripts/dataDownload.groovy download data download data (dataDownload.groovy) downloading... [.] download data (dataDownload.groovy) running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy)</p>
+</article>
+
+<article>
+<header><h1>Select Scenarios Without Run</h1></header>
+<p>package testscripts import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario scenario(&quot;clean data&quot;) { println &quot;cleaning...&quot; } scenario(&quot;download data&quot;) { println &quot;downloading...&quot; } scenario(&quot;validate data&quot;) { println &quot;validating...&quot; } Lets run scenarios by ranage again webtau:000&gt; r 'validate':0 running: testscripts/dataDownload.groovy validate data validate data (dataDownload.groovy) validating... [.] validate data (dataDownload.groovy) running: testscripts/dataDownload.groovy download data download data (dataDownload.groovy) downloading... [.] download data (dataDownload.groovy) running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy) Use s to display last ran or selected scenarios. These scenarios will be ran with r webtau:000&gt; s Selected scenarios: validate data download data clean data webtau:000&gt; s 0,2 Selected scenarios: clean data validate data</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Incremental Tests Development",
+      "id" : "incremental-tests-development",
+      "type" : "Section",
+      "content" : [ {
+        "bulletListType" : "Steps",
+        "type" : "Meta"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can combine experimentation in REPL with actual test development. Your feedback loop becomes even faster:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Try API",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add the line to test",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Re-run test with REPL",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Experiment within preserved context",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Enumerate test files you want to REPL with and add ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "repl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to get into incremental tests development mode",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "webtau testscipts/* repl",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      } ]
+    }, {
+      "title" : "Test Files Listing",
+      "id" : "test-files-listing",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "ls",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " command to list available test files.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "listing available test files",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m ls", "\u001B[34mTest files:\u001B[0m", "\u001B[33m0\u001B[35m testscripts/dataDownload.groovy\u001B[0m", "\u001B[33m1\u001B[35m testscripts/downstreamValidation.groovy\u001B[0m", "\u001B[33m2\u001B[35m testscripts/resourceCreation.groovy\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Listing will happen automatically at the start",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Test File Selection",
+      "id" : "test-file-selection",
+      "type" : "Section",
+      "content" : [ {
+        "title" : "select test file by index",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s 0", "\u001B[34mTest scenarios of \u001B[35mtestscripts/dataDownload.groovy\u001B[34m:\u001B[0m", "\u001B[33m0\u001B[35m clean data\u001B[0m", "\u001B[33m1\u001B[35m download data\u001B[0m", "\u001B[33m2\u001B[35m validate data\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "title" : "get back to file selection",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m b", "\u001B[34mTest files:\u001B[0m", "\u001B[33m0\u001B[35m testscripts/dataDownload.groovy\u001B[0m", "\u001B[33m1\u001B[35m testscripts/downstreamValidation.groovy\u001B[0m", "\u001B[33m2\u001B[35m testscripts/resourceCreation.groovy\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "title" : "select test file by text",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s 'datadownload'", "\u001B[34mTest scenarios of \u001B[35mtestscripts/dataDownload.groovy\u001B[34m:\u001B[0m", "\u001B[33m0\u001B[35m clean data\u001B[0m", "\u001B[33m1\u001B[35m download data\u001B[0m", "\u001B[33m2\u001B[35m validate data\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "title" : "Single Test Scenario Run",
+      "id" : "single-test-scenario-run",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Selected test file has three scenarios",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package testscripts\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario\n\nscenario(\"clean data\") {\n    println \"cleaning...\"\n}\n\nscenario(\"download data\") {\n    println \"downloading...\"\n}\n\nscenario(\"validate data\") {\n    println \"validating...\"\n}",
+        "title" : "testscripts/dataDownload.groovy",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To run scenario by index",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "run test scenario by index",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 0", "\u001B[34mbefore first test \u001B[35m(Setup)\u001B[0m", "\u001B[32m[.] \u001B[34mbefore first test \u001B[35m(Setup)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To run scenario by partial name match",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "run test scenario by text",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'clean'", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "title" : "Re-run Last Run",
+      "id" : "re-run-last-run",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "r",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to re-run previous run",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "run test scenario by text",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "title" : "Multiple Test Scenarios Run",
+      "id" : "multiple-test-scenarios-run",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use comma separated list of indexes or partial text match to run more than one scenario",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "run multiple scenario by indexes",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 0, 1", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "title" : "run multiple scenarios by partial text matches",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'download', 'clean'", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Order of execution follows the order of specified indexes or text",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "r from:to",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to run a range of scenarios. ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "From",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "to",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " can be either index or partial text match.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "run multiple scenarios by mixed range",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 0:'validate'", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "title" : "run multiple scenarios by range in reverse",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'validate':0", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "title" : "Select Scenarios Without Run",
+      "id" : "select-scenarios-without-run",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "package testscripts\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario\n\nscenario(\"clean data\") {\n    println \"cleaning...\"\n}\n\nscenario(\"download data\") {\n    println \"downloading...\"\n}\n\nscenario(\"validate data\") {\n    println \"validating...\"\n}",
+        "title" : "testscripts/dataDownload.groovy",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Lets run scenarios by ranage again",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "run multiple scenarios by range in reverse",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'validate':0", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "s",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to display last ran or selected scenarios. These scenarios will be ran with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "r",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "title" : "display selected scenarios",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s", "\u001B[34mSelected scenarios:\u001B[0m", "  validate data\u001B[0m", "  download data\u001B[0m", "  clean data\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "title" : "select scenarios without run",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s 0,2", "\u001B[34mSelected scenarios:\u001B[0m", "  clean data\u001B[0m", "  validate data\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    } ],
+    "lastModifiedTime" : 1604812521923,
+    "tocItem" : {
+      "sectionTitle" : "REPL",
+      "pageTitle" : "Test Runs",
+      "pageMeta" : { },
+      "dirName" : "REPL",
+      "fileName" : "test-runs",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Incremental Tests Development",
+        "id" : "incremental-tests-development"
+      }, {
+        "title" : "Test Files Listing",
+        "id" : "test-files-listing"
+      }, {
+        "title" : "Test File Selection",
+        "id" : "test-file-selection"
+      }, {
+        "title" : "Single Test Scenario Run",
+        "id" : "single-test-scenario-run"
+      }, {
+        "title" : "Re-run Last Run",
+        "id" : "re-run-last-run"
+      }, {
+        "title" : "Multiple Test Scenarios Run",
+        "id" : "multiple-test-scenarios-run"
+      }, {
+        "title" : "Select Scenarios Without Run",
+        "id" : "select-scenarios-without-run"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

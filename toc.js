@@ -794,6 +794,35 @@ toc = [ {
       "title" : "Preserving Browser Context",
       "id" : "preserving-browser-context"
     } ]
+  }, {
+    "sectionTitle" : "REPL",
+    "pageTitle" : "Test Runs",
+    "pageMeta" : { },
+    "dirName" : "REPL",
+    "fileName" : "test-runs",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Incremental Tests Development",
+      "id" : "incremental-tests-development"
+    }, {
+      "title" : "Test Files Listing",
+      "id" : "test-files-listing"
+    }, {
+      "title" : "Test File Selection",
+      "id" : "test-file-selection"
+    }, {
+      "title" : "Single Test Scenario Run",
+      "id" : "single-test-scenario-run"
+    }, {
+      "title" : "Re-run Last Run",
+      "id" : "re-run-last-run"
+    }, {
+      "title" : "Multiple Test Scenarios Run",
+      "id" : "multiple-test-scenarios-run"
+    }, {
+      "title" : "Select Scenarios Without Run",
+      "id" : "select-scenarios-without-run"
+    } ]
   } ]
 }, {
   "sectionTitle" : "Generic Runners",

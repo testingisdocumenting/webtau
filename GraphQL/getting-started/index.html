@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Minimal Groovy Setup</h1></header>
-<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.33/webtau-dist-1.33-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into graphql example cd examples/graphql import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch types from schema') { def query = '{ __schema { types { name } } }' graphql.execute(query) { __schema.types.numberOfElements().shouldBe &gt; 0 } } To run test webtau introspection.groovy --url=http://localhost:8080 Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg.groovy file. Please note that WebTau will automatically append /graphql to the url.You may also wish to add a graphQLEnabled = true property which will result in WebTau recording coverage and timing information per query for your tests. url = &quot;http://localhost:8080/&quot; graphQLEnabled = true configuration/environments Specify multiple environments to streamline test execution.</p>
+<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.33/webtau-dist-1.33-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into graphql example cd examples/graphql import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch types from schema') { def query = '{ __schema { types { name } } }' graphql.execute(query) { __schema.types.numberOfElements().shouldBe &gt; 0 } } To run test webtau introspection.groovy --url=http://localhost:8080 Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg.groovy file. Please note that WebTau will automatically append /graphql to the url.Webtau will attempt to send an introspection query in order to obtain information about the GraphQL schema. If this fails, it will not be able to record coverage information for GraphQL. Should you wish to fail the test if introspection fails, please set the graphQLIgnoreIntrospectionFailures property to false . url = &quot;http://localhost:8080/&quot; graphQLIgnoreIntrospectionFailures = false configuration/environments Specify multiple environments to streamline test execution.</p>
 </article>
 
 <article>
 <header><h1>Minimal JUnit Setup</h1></header>
-<p>Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.33&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.33&lt;/version&gt; &lt;/dependency&gt; Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class WeatherGroovyIT { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class WeatherJavaIT { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } Add webtau.properties to test class path url = http://localhost graphQLEnabled = true</p>
+<p>Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.33&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.33&lt;/version&gt; &lt;/dependency&gt; Groovy package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.Matchers.lessThan; import static org.testingisdocumenting.webtau.WebTauDsl.graphql; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = &quot;{ weather { temperature } }&quot;; graphql.execute(query, (header, body) -&gt; { body.get(&quot;data.weather.temperature&quot;).shouldBe(lessThan(100)); }); } } Add webtau.properties to test class path url = http://localhost graphQLIgnoreIntrospectionFailures = false</p>
 </article>
 
 <article>
@@ -240,23 +240,34 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "You may also wish to add a ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "graphQLEnabled = true",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " property which will result in WebTau recording coverage and timing information",
+          "text" : "Webtau will attempt to send an introspection query in order to obtain information about the GraphQL schema.  If this fails, it",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "per query for your tests.",
+          "text" : "will not be able to record coverage information for GraphQL.  Should you wish to fail the test if introspection fails, please",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "set the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "graphQLIgnoreIntrospectionFailures",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " property to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "false",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "url = \"http://localhost:8080/\"\ngraphQLEnabled = true",
+        "snippet" : "url = \"http://localhost:8080/\"\ngraphQLIgnoreIntrospectionFailures = false",
         "title" : "webtau.cfg.groovy",
         "type" : "Snippet"
       }, {
@@ -302,7 +313,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@RunWith(WebTauRunner.class)\nclass WeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
+            "snippet" : "package com.example.tests.junit4\n\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql\n\n@RunWith(WebTauRunner.class)\nclass GraphQLWeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        def query = \"{ weather { temperature } }\";\n        graphql.execute(query) {\n            weather.temperature.shouldBe < 100\n        }\n    }\n}",
             "title" : "JUnit 4 example",
             "type" : "Snippet"
           } ]
@@ -310,7 +321,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class WeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+            "snippet" : "package com.example.tests.junit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\n\nimport static org.testingisdocumenting.webtau.Matchers.lessThan;\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql;\n\n@RunWith(WebTauRunner.class)\npublic class GraphQLWeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        String query = \"{ weather { temperature } }\";\n        graphql.execute(query, (header, body) -> {\n            body.get(\"data.weather.temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
             "title" : "JUnit 4 example",
             "type" : "Snippet"
           } ]
@@ -335,7 +346,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "properties",
-        "snippet" : "url = http://localhost\ngraphQLEnabled = true",
+        "snippet" : "url = http://localhost\ngraphQLIgnoreIntrospectionFailures = false",
         "title" : "webtau.properties",
         "type" : "Snippet"
       } ]
@@ -406,7 +417,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1604459318229,
+    "lastModifiedTime" : 1604812521923,
     "tocItem" : {
       "sectionTitle" : "GraphQL",
       "pageTitle" : "Getting Started",
