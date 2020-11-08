@@ -39,10 +39,10 @@ Java: :include-file: maven/java-dep.xml {title: "Maven Dependency"}
 
 ```tabs
 Groovy:
-:include-file: com/example/tests/junit4/WeatherGroovyIT.groovy {title: "JUnit 4 example"}
+:include-file: com/example/tests/junit4/GraphQLWeatherGroovyIT.groovy {title: "JUnit 4 example"}
  
 Java:
-:include-file: com/example/tests/junit4/WeatherJavaIT.java {title: "JUnit 4 example"}
+:include-file: com/example/tests/junit4/GraphQLWeatherJavaIT.java {title: "JUnit 4 example"}
 ```
 
 ## Junit Config File
