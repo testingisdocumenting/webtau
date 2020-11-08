@@ -21,16 +21,20 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 class QueryRunnerUtils {
     static DatabaseQueryResult runQuery(DataSource dataSource, String query) {
+        return runQuery(dataSource, query, Collections.emptyMap());
+    }
+    static DatabaseQueryResult runQuery(DataSource dataSource, String query, Map<String, Object> params) {
         QueryRunner run = new QueryRunner(dataSource);
         MapListHandler handler = new MapListHandler();
 
         try {
-            List<Map<String, Object>> result = run.query(query, handler);
+            List<Map<String, Object>> result = runQuery(run, handler, query, params);
             return new DatabaseQueryResult(query, result);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -38,12 +42,35 @@ class QueryRunnerUtils {
     }
 
     static int runUpdate(DataSource dataSource, String query) {
+        return runUpdate(dataSource, query, Collections.emptyMap());
+    }
+
+    static int runUpdate(DataSource dataSource, String query, Map<String, Object> params) {
         QueryRunner run = new QueryRunner(dataSource);
 
         try {
-            return run.update(query);
+            if (params.isEmpty()) {
+                return run.update(query);
+            } else {
+                DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
+                return run.update(namedParamsQuery.getQuestionMarksQuery(), namedParamsQuery.getQuestionMarksValues());
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static List<Map<String, Object>> runQuery(QueryRunner runner,
+                                                      MapListHandler handler,
+                                                      String query,
+                                                      Map<String, Object> params) throws SQLException {
+        if (params.isEmpty()) {
+            return runner.query(query, handler);
+        }
+
+        DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
+        return runner.query(namedParamsQuery.getQuestionMarksQuery(),
+                handler,
+                namedParamsQuery.getQuestionMarksValues());
     }
 }

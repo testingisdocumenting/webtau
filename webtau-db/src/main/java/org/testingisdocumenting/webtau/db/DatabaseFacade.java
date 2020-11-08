@@ -16,9 +16,8 @@
 
 package org.testingisdocumenting.webtau.db;
 
-import org.testingisdocumenting.webtau.data.table.TableData;
-
 import javax.sql.DataSource;
+import java.util.Map;
 
 public class DatabaseFacade {
     public static final DatabaseFacade db = new DatabaseFacade();
@@ -42,8 +41,16 @@ public class DatabaseFacade {
         return from(getPrimaryDataSource()).query(query);
     }
 
+    public DatabaseQueryResult query(String query, Map<String, Object> params) {
+        return from(getPrimaryDataSource()).query(query, params);
+    }
+
     public void update(String query) {
         from(getPrimaryDataSource()).update(query);
+    }
+
+    public void update(String query, Map<String, Object> params) {
+        from(getPrimaryDataSource()).update(query, params);
     }
 
     private static LabeledDataSource getPrimaryDataSource() {

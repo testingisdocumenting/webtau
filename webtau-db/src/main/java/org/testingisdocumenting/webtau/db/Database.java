@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.db;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
+import java.util.Map;
+
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -43,12 +45,31 @@ public class Database {
         return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    public DatabaseQueryResult query(String query, Map<String, Object> params) {
+        WebTauStep step = createStep(null,
+                tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel()), WITH, stringValue(params)),
+                () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
+                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query, params));
+
+        return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
+    }
+
     public void update(String query) {
         WebTauStep step = createStep(null,
                 tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel())),
                 (rows) -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel()),
                         action("affected"), numberValue(rows), classifier("rows")),
                 () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query));
+
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public void update(String query, Map<String, Object> params) {
+        WebTauStep step = createStep(null,
+                tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel()), WITH, stringValue(params)),
+                (rows) -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel()),
+                        action("affected"), numberValue(rows), classifier("rows")),
+                () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query, params));
 
         step.execute(StepReportOptions.REPORT_ALL);
     }

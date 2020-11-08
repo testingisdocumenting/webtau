@@ -88,6 +88,39 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "should query single value with params"() {
+        db.update("delete from PRICES")
+        def PRICES = db.table("PRICES")
+
+        PRICES << ["id" | "description" | "price"] {
+                  ___________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
+
+        def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
+        price.should == 1000
+        price.shouldNot == 2000
+    }
+
+    @Test
+    void "should run updates with params"() {
+        db.update("delete from PRICES")
+        def PRICES = db.table("PRICES")
+
+        PRICES << ["id" | "description" | "price"] {
+                  ___________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
+
+        db.update("update PRICES set price=:price where id=:id", [id: 'id2', price: 4000])
+
+        PRICES.should == ["ID" | "DESCRIPTION" | "PRICE"] {
+                         ___________________________________
+                         "id1" | "nice set"    | 1000
+                         "id2" | "another set" | 4000 }
+    }
+
+    @Test
     void "should run execute statements for primary data source"() {
         def PRICES = db.table("PRICES")
         PRICES << ["id" | "description" | "price"] {
