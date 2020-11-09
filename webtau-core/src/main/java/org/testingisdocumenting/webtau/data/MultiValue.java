@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MultiValue {
-    private List<Object> values;
+    private final List<Object> values;
 
     public MultiValue(Object atLeastOneValue, Object... values) {
         this.values = new ArrayList<>();
