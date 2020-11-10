@@ -57,29 +57,9 @@
             </plugin>
 
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <dependencyConvergence />
-                        <banDuplicateClasses>
-                            <findAllDuplicates>true</findAllDuplicates>
-                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
-                            <ignoreClasses>
-                                <!--tomcat embedded ships javax annotations internally-->
-                                <ignoreClass>javax.persistence.*</ignoreClass>
-                                <ignoreClass>javax.servlet.*</ignoreClass>
-                                <ignoreClass>org.apache.commons.*</ignoreClass>
-                            </ignoreClasses>
-                        </banDuplicateClasses>
-                    </rules>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.testingisdocumenting.znai</groupId>
                 <artifactId>znai-maven-plugin</artifactId>
-                <version>1.45.1</version>
+                <version>1.46</version>
                 <executions>
                     <execution>
                         <id>guide</id>

@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau.db
 
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.data.Data.data
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
 class DatabaseFacadeTest extends DatabaseBaseTest {
@@ -28,10 +30,10 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         db.update("delete from PRICES")
         def PRICES = database.table("PRICES")
 
-        PRICES << ["id" | "description" | "price"] {
+        PRICES << [ "id" | "description" | "price"] {
                   ___________________________________
-                  "id1" | "nice set"    | 1000
-                  "id2" | "another set" | 2000 }
+                   "id1" | "nice set"    | 1000
+                   "id2" | "another set" | 2000 }
 
         PRICES.query().should == ["ID" | "DESCRIPTION" | "PRICE"] {
                                  ___________________________________
@@ -48,28 +50,72 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "should use data source provider for primary database"() {
         db.update("delete from PRICES")
 
-        def PRICES = db.table("PRICES")
-        PRICES << ["id" | "description" | "price"] {
-                  ___________________________________
-                  "id2" | "another set" | 2000   }
+        def PRICES = db.table("PRICES") // declare PRICES table
+        PRICES << [ "id" | "description" | "price"] { // append two rows to PRICES
+                   ___________________________________
+                   "id1" | "nice set"    | 1000
+                   "id2" | "another set" | 2000 }
 
-        PRICES.query().numberOfRows.should == 1
+        PRICES.query().numberOfRows.should == 2
+    }
+
+    @Test
+    void "use table data permute, above and guid to generate rows"() {
+        db.update("delete from PRICES")
+
+        def PRICES = db.table("PRICES")
+        PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
+                   _____________________________________________________________________________________________
+                   cell.guid | "nice set"    |                 true |                "card" |            1000 // cell.guid generates random guid that can be used for ids
+                   cell.guid | "nice set"    |                 true |                "card" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations
+                   cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations
+
+        doc.capture(DatabaseFacadeTest, 'db-setup-permute-table', PRICES.query().tableData)
+        PRICES.query().numberOfRows.should == 6
+    }
+
+    @Test
+    void "use csv read data"() {
+        db.update("delete from PRICES")
+
+        def PRICES = db.table("PRICES")
+        PRICES << data.csv.table('prices-db.csv')
+
+        doc.capture(DatabaseFacadeTest, 'db-setup-csv-table', PRICES.query().tableData)
+        PRICES.should == [ "*ID" | "DESCRIPTION"  | "AVAILABLE" | "TYPE" | "PRICE"] {
+                          __________________________________________________________
+                           "id1" | "description1" |        true | "card" | 200
+                           "id2" | "description2" |       false |  "rts" | 400 }
     }
 
     @Test
     void "query should be optional during comparison"() {
         db.update("delete from PRICES")
+        db.table("PRICES") << ["id" | "description" | "price"] {
+                                         ___________________________________
+                                         "id1" | "nice set"    | 1000
+                                         "id2" | "another set" | 2000 }
+
+        // validation mark for docs
         def PRICES = db.table("PRICES")
-
-        PRICES << ["id" | "description" | "price"] {
-                  ___________________________________
-                  "id1" | "nice set"    | 1000
-                  "id2" | "another set" | 2000 }
-
         PRICES.should == ["ID" | "DESCRIPTION" | "PRICE"] {
                          ___________________________________
                          "id1" | "nice set"    | 1000
                          "id2" | "another set" | 2000 }
+    }
+
+    @Test
+    void "delete with params"() {
+        db.update("delete from PRICES") // delete all
+
+        def PRICES = db.table("PRICES")
+        PRICES << [ "id" | "description" | "price"] {
+                   ___________________________________
+                   "id1" | "nice set"    | 1000
+                   "id2" | "another set" | 2000 }
+
+        db.update("delete from PRICES where price > :price", [price: 950]) // delete with params
+        PRICES.query().numberOfRows.should == 0
     }
 
     @Test

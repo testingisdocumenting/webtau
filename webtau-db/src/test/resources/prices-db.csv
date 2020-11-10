@@ -1,0 +1,3 @@
+id, description, available, type, price
+id1, description1, true, card, 200
+id2, description2, false, rts, 400

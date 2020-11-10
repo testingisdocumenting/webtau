@@ -58,6 +58,8 @@ class DatabaseBaseTest {
                 """CREATE TABLE PRICES (
     id varchar(255),
     description varchar(255),
+    available bool,
+    type varchar(255),
     price int
 );
 """

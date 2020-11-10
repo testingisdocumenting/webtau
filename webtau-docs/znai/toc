@@ -36,6 +36,9 @@ UI
     page-open-handlers
     finders-and-filters
     matchers
+database
+    getting-started
+    data-setup
 groovy-specific-runner
     data-driven-scenarios
     tests-hard-stops
