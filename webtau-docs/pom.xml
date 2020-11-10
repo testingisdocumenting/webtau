@@ -59,7 +59,7 @@
             <plugin>
                 <groupId>org.testingisdocumenting.znai</groupId>
                 <artifactId>znai-maven-plugin</artifactId>
-                <version>1.46-SNAPSHOT</version>
+                <version>1.46</version>
                 <executions>
                     <execution>
                         <id>guide</id>
