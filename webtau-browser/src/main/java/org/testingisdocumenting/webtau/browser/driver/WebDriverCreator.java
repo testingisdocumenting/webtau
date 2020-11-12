@@ -103,7 +103,13 @@ public class WebDriverCreator {
         if (System.getProperty(CHROME_DRIVER_PATH_KEY) == null) {
             setupDriverManagerConfig();
             downloadDriverMessage("chrome");
-            WebDriverManager.chromedriver().setup();
+
+            WebDriverManager driverManager = WebDriverManager.chromedriver();
+            if (!BrowserConfig.getBrowserVersion().isEmpty()) {
+                driverManager.browserVersion(BrowserConfig.getBrowserVersion());
+            }
+
+            driverManager.setup();
         }
 
         return new ChromeDriver(options);
@@ -154,8 +160,9 @@ public class WebDriverCreator {
     }
 
     private static void initState(WebDriver driver) {
-        // setting size for headless chrome crashes chrome
-        if (!BrowserConfig.isHeadless()) {
+        if (!BrowserConfig.isHeadless() &&
+                BrowserConfig.getWindowWidth() > 0 &&
+                BrowserConfig.getWindowHeight() > 0) {
             driver.manage().window().setSize(new Dimension(
                     BrowserConfig.getWindowWidth(),
                     BrowserConfig.getWindowHeight()));

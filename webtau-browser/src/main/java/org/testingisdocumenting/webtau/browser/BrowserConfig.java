@@ -35,11 +35,12 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue browserUrl = declare("browserUrl", "browser base url for application under test. It is being used" +
             " instead of url when provided", () -> "");
 
-    private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
-    private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
+    private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 0);
+    private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 0);
     private static final ConfigValue headless = declareBoolean("headless", "run headless mode", false);
 
     private static final ConfigValue browserId = declare("browserId", "browser to use: chrome, firefox", () -> CHROME);
+    private static final ConfigValue browserVersion = declare("browserVersion", "browser version for automatic driver download", () -> "");
 
     private static final ConfigValue disableExtensions = declare("disableExtensions", "run without extensions", () -> false);
 
@@ -51,6 +52,10 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     public static String getBrowserId() {
         return browserId.getAsString();
+    }
+
+    public static String getBrowserVersion() {
+        return browserVersion.getAsString();
     }
 
     public static boolean isChrome() {
@@ -105,6 +110,7 @@ public class BrowserConfig implements WebTauConfigHandler {
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(
                 browserId,
+                browserVersion,
                 browserUrl,
                 windowWidth,
                 windowHeight,
