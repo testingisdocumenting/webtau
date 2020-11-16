@@ -28,7 +28,7 @@
     <artifactId>webtau-test-server</artifactId>
 
     <properties>
-        <jetty.version>9.4.24.v20191120</jetty.version>
+        <jetty.version>9.4.34.v20201102</jetty.version>
     </properties>
 
     <dependencies>
