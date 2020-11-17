@@ -26,7 +26,7 @@
 
     <properties>
         <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
-        <hsqldb.version>2.4.0</hsqldb.version>
+        <h2.version>1.4.200</h2.version>
         <jaxb.version>2.3.0</jaxb.version>
         <enforcer.skip>true</enforcer.skip>
     </properties>
@@ -88,9 +88,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>${hsqldb.version}</version>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
         </dependency>
 
         <dependency>

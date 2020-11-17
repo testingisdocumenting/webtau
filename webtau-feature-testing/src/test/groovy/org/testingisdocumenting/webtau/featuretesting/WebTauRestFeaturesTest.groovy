@@ -17,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
-
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -178,12 +177,7 @@ class WebTauRestFeaturesTest {
     }
 
     private static String getCustomersBaseUrl() {
-        String port = System.getProperty('springboot.http.port')
-        if (!port || port.isEmpty()) {
-            port = '8080'
-        }
-
-        return "http://localhost:$port"
+        return SpringBootDemoAppUrl.baseUrl
     }
 
     private static customersUrl() {

@@ -40,6 +40,11 @@ class WebTauDbFeaturesTest {
         runCli('dbProviderThroughConfig.groovy', 'webtauDbProvider.cfg.groovy')
     }
 
+    @Test
+    void "db primary from config"() {
+        runCli('dbPrimaryConfig.groovy', 'webtau-db-primary.cfg.groovy', "--url=${SpringBootDemoAppUrl.baseUrl}")
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/db/$testName",
                 "scenarios/db/$configFileName", additionalArgs)
