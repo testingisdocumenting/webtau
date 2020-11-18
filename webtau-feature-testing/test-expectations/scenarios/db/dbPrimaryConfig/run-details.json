@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "create customer using http",
+    "shortContainerId" : "dbPrimaryConfig.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "validate db using primary config",
+    "shortContainerId" : "dbPrimaryConfig.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  } ],
+  "exitCode" : 0
+}
