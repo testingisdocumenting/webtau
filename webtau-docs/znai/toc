@@ -39,6 +39,7 @@ UI
 database
     getting-started
     data-setup
+    config
 groovy-specific-runner
     data-driven-scenarios
     tests-hard-stops
