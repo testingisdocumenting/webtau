@@ -37,11 +37,9 @@ public class CliBackgroundCommandManager implements TestListener {
     private static final ThreadLocal<Map<Integer, CliBackgroundCommand>> localRunningCommands =
             ThreadLocal.withInitial(LinkedHashMap::new);
 
-    static {
-        registerShutdown();
-    }
-
     static void register(CliBackgroundCommand backgroundCommand) {
+        LazyShutdownHook.INSTANCE.noOp();
+
         validateProcessActive(backgroundCommand);
         int pid = backgroundCommand.getBackgroundProcess().getPid();
         runningCommands.put(pid, backgroundCommand);
@@ -92,9 +90,18 @@ public class CliBackgroundCommandManager implements TestListener {
         }
     }
 
-    // afterAllTests may not be called if this is used outside of test runner
-    private static void registerShutdown() {
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(CliBackgroundCommandManager::destroyActiveProcesses));
+    private static class LazyShutdownHook {
+        private static final LazyShutdownHook INSTANCE = new LazyShutdownHook();
+
+        private LazyShutdownHook() {
+            // afterAllTests may not be called if cli module is used outside of a test runner
+            // that's why we register clearing of background processed as hook
+            Runtime.getRuntime().addShutdownHook(
+                    new Thread(CliBackgroundCommandManager::destroyActiveProcesses));
+        }
+
+        // to trigger class loading and shutdown hook registration
+        private void noOp() {
+        }
     }
 }
