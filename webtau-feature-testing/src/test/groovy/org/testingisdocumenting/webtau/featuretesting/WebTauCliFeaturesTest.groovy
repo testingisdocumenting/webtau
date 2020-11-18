@@ -31,6 +31,11 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "ls example"() {
+        runCli('basicLs.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "simple script run"() {
         runCli('simpleRun.groovy', 'webtau.cfg.groovy')
     }

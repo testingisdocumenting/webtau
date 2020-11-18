@@ -40,6 +40,8 @@ database
     getting-started
     data-setup
     config
+cli
+    getting-started
 groovy-specific-runner
     data-driven-scenarios
     tests-hard-stops
