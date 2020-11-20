@@ -17,7 +17,9 @@ Note: Import is optional and is added for IDEs benefits.
 
 :include-file: scenarios/cli/basicLs.groovy {
   title: "basicLs.groovy",
-  excludeRegexp: ["package", "import"]
+  excludeRegexp: ["package", "import", "doc.capture"]
 } 
 
 :include-cli-command: webtau basicLs.groovy
+
+:include-file: doc-artifacts/ls-run/out.txt {highlightPath: "doc-artifacts/ls-run/out.matched.txt"}
