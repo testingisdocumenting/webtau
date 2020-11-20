@@ -1,0 +1,22 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "working dir",
+    "shortContainerId" : "cliRunConfig.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "environment var",
+    "shortContainerId" : "cliRunConfig.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "env var and working dir",
+    "shortContainerId" : "cliRunConfig.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 0
+}

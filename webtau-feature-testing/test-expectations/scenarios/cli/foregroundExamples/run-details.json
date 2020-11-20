@@ -1,0 +1,40 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "command without validation",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "command with output validation",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "command with error validation",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "command with exit code validation",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "command implicit exit code check explicitly",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "command run result",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  } ],
+  "exitCode" : 0
+}
