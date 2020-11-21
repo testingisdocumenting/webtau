@@ -40,6 +40,10 @@ database
     getting-started
     data-setup
     config
+cli
+    getting-started
+    foreground-command
+    background-command
 groovy-specific-runner
     data-driven-scenarios
     tests-hard-stops
