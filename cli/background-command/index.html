@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Asynchronous Page</title>
+<title>WebTau: Background Command</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,28 +84,18 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Synchronization</h1></header>
-<p>Many actions in a modern web page are asynchronous. User presses a button and a moment later a result appears. In modern web pages there is no full page reload and only a portion of a page will be changed.If a test will try to assert a value after a user action, chances are assertion will fail since it will take time for a result to appear on a page.Question: How do users know that their action is done and they can move on?</p>
+<header><h1>Run In Background</h1></header>
+<p>Webtau can run commands in foreground and in background . When command is ran in background webtau will continue execution, leaving command to run its course.To run a command in a background use cli.runInBackground with a single string parameter that includes a command and all its arguments: cli.runInBackground('echo hello &amp;&amp; echo world') println &quot;process above may still be running&quot;</p>
 </article>
 
 <article>
-<header><h1>Visible/Hidden Element</h1></header>
-<p>One way to deal with asynchronous pages is to wait for a feedback to appear or disappear. calculation.start() calculation.feedback.waitTo beVisible() calculation.results.should == [100, 230]</p>
+<header><h1>Stop Command</h1></header>
+<p>Use .stop to explicitly terminate the running background command def command = cli.runInBackground('echo hello &amp;&amp; sleep 10 &amp;&amp; echo world') println &quot;some commands that assume running process&quot; command.stop()</p>
 </article>
 
 <article>
-<header><h1>Enabled/Disabled Element</h1></header>
-<p>Disabled input box and buttons can be used as a user feedback as well. calculation.open() calculation.input.waitTo beEnabled() calculation.input.setValue(100)</p>
-</article>
-
-<article>
-<header><h1>Wait to match</h1></header>
-<p>If presence/absence of an element is not important, you can directly to wait for a matcher to match. calculation.start() calculation.results.waitTo == [100, 230] Note: any matcher that you can use with should and shouldNot can be used with waitTo and waitToNot</p>
-</article>
-
-<article>
-<header><h1>Wait on url</h1></header>
-<p>Another cue to use could be a url change after an action. browser.open('/resource-creation') $('#new').click() browser.url.ref.waitTo == 'created-id' Note: url exposes other parts that you can UI/navigation#assert-url read more about here</p>
+<header><h1>Interacting With Command</h1></header>
+<p>We are going to test a &quot;hello world&quot; script that asks you for a name and greet you: #!/bin/bash echo &quot;enter your name&quot; read name echo &quot;hello $name&quot; Use .send to send input to a running command. Use .output.waitTo to wait for command to rich a certain state: def helloWorld = cli.runInBackground(&quot;scripts/hello-world&quot;) helloWorld.output.waitTo contain(&quot;enter your name&quot;) helloWorld.send(&quot;webtau\n&quot;) helloWorld.output.waitTo contain(&quot;hello webtau&quot;) helloWorld.stop() You can use &lt;&lt; instead of .send for extra syntax sugar: def helloWorld = cli.runInBackground(&quot;scripts/hello-world&quot;) helloWorld.output.waitTo contain(&quot;enter your name&quot;) helloWorld &lt;&lt; &quot;webtau\n&quot; helloWorld.output.waitTo contain(&quot;hello webtau&quot;) helloWorld.stop()</p>
 </article>
 </section>
 </div>
@@ -130,166 +120,163 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Synchronization",
-      "id" : "synchronization",
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Webtau can run commands in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "foreground",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "background",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". When command is ran in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "background",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " webtau",
+        "type" : "SimpleText"
+      }, {
+        "type" : "HardLineBreak"
+      }, {
+        "text" : "will continue execution, leaving command to run its course.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "title" : "Run In Background",
+      "id" : "run-in-background",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Many actions in a modern web page are asynchronous. User presses a button and a moment later a result appears.",
+          "text" : "To run a command in a background use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.runInBackground",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " with a single string parameter that includes a command and",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "In modern web pages there is no full page reload and only a portion of a page will be changed.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "If a test will try to assert a value after a user action, chances are assertion will fail since it will take time",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "for a result to appear on a page.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Question: How do users know that their action is done and they can move on?",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "title" : "Visible/Hidden Element",
-      "id" : "visiblehidden-element",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "One way to deal with asynchronous pages is to wait for a feedback to appear or disappear.",
+          "text" : "all its arguments:",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "calculation.start()\n\ncalculation.feedback.waitTo beVisible()\ncalculation.results.should == [100, 230]",
-        "title" : "beVisible matcher",
+        "snippet" : "cli.runInBackground('echo hello && echo world')\nprintln \"process above may still be running\"",
+        "title" : "run command in background",
         "type" : "Snippet"
       } ]
     }, {
-      "title" : "Enabled/Disabled Element",
-      "id" : "enableddisabled-element",
+      "title" : "Stop Command",
+      "id" : "stop-command",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Disabled input box and buttons can be used as a user feedback as well.",
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : ".stop",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to explicitly terminate the running background command",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "calculation.open()\n\ncalculation.input.waitTo beEnabled()\ncalculation.input.setValue(100)",
-        "title" : "beEnabled matcher",
+        "snippet" : "def command = cli.runInBackground('echo hello && sleep 10 && echo world')\nprintln \"some commands that assume running process\"\n\ncommand.stop()",
+        "title" : "command termination",
         "type" : "Snippet"
       } ]
     }, {
-      "title" : "Wait to match",
-      "id" : "wait-to-match",
+      "title" : "Interacting With Command",
+      "id" : "interacting-with-command",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "If presence/absence of an element is not important, you can directly to wait for a matcher to match.",
+          "text" : "We are going to test a \"hello world\" script that asks you for a name and greet you:",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "calculation.start()\ncalculation.results.waitTo == [100, 230]",
-        "title" : "waitTo any matcher",
+        "lang" : "",
+        "snippet" : "#!/bin/bash\necho \"enter your name\"\nread name\necho \"hello $name\"",
+        "title" : "scripts/hello-world",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Note: any matcher that you can use with ",
+          "text" : "Use ",
           "type" : "SimpleText"
         }, {
-          "code" : "should",
+          "code" : ".send",
           "type" : "InlinedCode"
         }, {
-          "text" : " and ",
+          "text" : " to send input to a running command. Use ",
           "type" : "SimpleText"
         }, {
-          "code" : "shouldNot",
+          "code" : ".output.waitTo",
           "type" : "InlinedCode"
         }, {
-          "text" : " can be used with ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "waitTo",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " and ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "waitToNot",
-          "type" : "InlinedCode"
-        } ]
-      } ]
-    }, {
-      "title" : "Wait on url",
-      "id" : "wait-on-url",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Another cue to use could be a url change after an action.",
+          "text" : " to wait for command to rich a certain state:",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "browser.open('/resource-creation')\n\n$('#new').click()\nbrowser.url.ref.waitTo == 'created-id'",
+        "snippet" : "def helloWorld = cli.runInBackground(\"scripts/hello-world\")\nhelloWorld.output.waitTo contain(\"enter your name\")\n\nhelloWorld.send(\"webtau\\n\")\nhelloWorld.output.waitTo contain(\"hello webtau\")\n\nhelloWorld.stop()",
+        "title" : "wait and send input",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Note: url exposes other parts that you can ",
+          "text" : "You can use ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/UI/navigation#assert-url",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "read more about here",
-            "type" : "SimpleText"
-          } ]
+          "code" : "<<",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " instead of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : ".send",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " for extra syntax sugar:",
+          "type" : "SimpleText"
         } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def helloWorld = cli.runInBackground(\"scripts/hello-world\")\nhelloWorld.output.waitTo contain(\"enter your name\")\n\nhelloWorld << \"webtau\\n\"\nhelloWorld.output.waitTo contain(\"hello webtau\")\n\nhelloWorld.stop()",
+        "title" : "use << as .send",
+        "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1605924949780,
     "tocItem" : {
-      "sectionTitle" : "UI",
-      "pageTitle" : "Asynchronous Page",
+      "sectionTitle" : "Cli",
+      "pageTitle" : "Background Command",
       "pageMeta" : { },
-      "dirName" : "UI",
-      "fileName" : "asynchronous-page",
+      "dirName" : "cli",
+      "fileName" : "background-command",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Synchronization",
-        "id" : "synchronization"
+        "title" : "Run In Background",
+        "id" : "run-in-background"
       }, {
-        "title" : "Visible/Hidden Element",
-        "id" : "visiblehidden-element"
+        "title" : "Stop Command",
+        "id" : "stop-command"
       }, {
-        "title" : "Enabled/Disabled Element",
-        "id" : "enableddisabled-element"
-      }, {
-        "title" : "Wait to match",
-        "id" : "wait-to-match"
-      }, {
-        "title" : "Wait on url",
-        "id" : "wait-on-url"
+        "title" : "Interacting With Command",
+        "id" : "interacting-with-command"
       } ]
     }
   },

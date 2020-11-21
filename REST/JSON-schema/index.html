@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Validation</h1></header>
-<p>Webtau supports validation of objects against https://json-schema.org/ JSON Schema. It is possible to validate either the entire body or just a specific field with the complyWithSchema matcher as shown in the two examples below:Both examples above validate against the following schema:</p>
+<p>Webtau supports validation of objects against https://json-schema.org/ JSON Schema. It is possible to validate either the entire body or just a specific field with the complyWithSchema matcher as shown in the two examples below: http.get(&quot;/weather&quot;) { body.should complyWithSchema('valid-schema.json') } http.get(&quot;/city/London&quot;) { weather.should complyWithSchema('valid-schema.json') } Both examples above validate against the following schema:</p>
 </article>
 
 <article>
@@ -259,7 +259,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1604812521923,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "JSON Schema",

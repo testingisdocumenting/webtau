@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.33/webtau-dist-1.33-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg.groovy file. url = &quot;https://jsonplaceholder.typicode.com/&quot; configuration/environments Specify multiple environments to streamline test execution. Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.33&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.33&lt;/version&gt; &lt;/dependency&gt; Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauDsl.* @RunWith(WebTauRunner) class TodoListGroovyIT { @Test void &quot;fetch todo item&quot;() { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class TodoListJavaIT { @Test public void fetchTodoItem() { http.get(&quot;/todos/1&quot;, (header, body) -&gt; { body.get(&quot;title&quot;).should(equal(&quot;delectus aut autem&quot;)); body.get(&quot;completed&quot;).should(equal(false)); }); } } Add webtau.properties to test class path url = https://jsonplaceholder.typicode.com/</p>
+<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.34/webtau-dist-1.34-webtau.zip webtau. Add it to your PATH . Generate webtau examples webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. Url parameter can be moved to a webtau.cfg.groovy file. url = &quot;https://jsonplaceholder.typicode.com/&quot; configuration/environments Specify multiple environments to streamline test execution. Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.34&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.34&lt;/version&gt; &lt;/dependency&gt; Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauDsl.* @RunWith(WebTauRunner) class TodoListGroovyIT { @Test void &quot;fetch todo item&quot;() { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class TodoListJavaIT { @Test public void fetchTodoItem() { http.get(&quot;/todos/1&quot;, (header, body) -&gt; { body.get(&quot;title&quot;).should(equal(&quot;delectus aut autem&quot;)); body.get(&quot;completed&quot;).should(equal(false)); }); } } Add webtau.properties to test class path url = https://jsonplaceholder.typicode.com/</p>
 </article>
 </section>
 </div>
@@ -118,7 +118,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Download and unzip ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.33/webtau-dist-1.33-webtau.zip",
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.34/webtau-dist-1.34-webtau.zip",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
@@ -249,7 +249,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.33</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.34</version>\n</dependency>",
             "title" : "Maven Dependency",
             "type" : "Snippet"
           } ]
@@ -257,7 +257,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.33</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.34</version>\n</dependency>",
             "title" : "Maven Dependency",
             "type" : "Snippet"
           } ]
@@ -306,7 +306,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1604812521923,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Getting Started",

@@ -85,32 +85,32 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Create</h1></header>
-<p>Use language specific DSL to create TableData instance: Groovy Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;, ________________________________, &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;) Note: The example above assumes import static org.testingisdocumenting.webtau.WebTauCore.* or import static org.testingisdocumenting.webtau.WebTauDsl.* . Additionally WebTauCore has header-separating lines defined using underscores ___ of various lengths, which you can optionally use for aesthetics. Using ____ underscore is optional and is there for aesthetics only Groovy Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;).values( &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;)</p>
+<p>Use language specific DSL to create TableData instance: Groovy [&quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________ &quot;v1a&quot; | &quot;v1b&quot; | &quot;v1c&quot; &quot;v2a&quot; | &quot;v2b&quot; | &quot;v2c&quot; } Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;, ________________________________, &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;) Note: The example above assumes import static org.testingisdocumenting.webtau.WebTauCore.* or import static org.testingisdocumenting.webtau.WebTauDsl.* . Additionally WebTauCore has header-separating lines defined using underscores ___ of various lengths, which you can optionally use for aesthetics. Using ____ underscore is optional and is there for aesthetics only Groovy [&quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { &quot;v1a&quot; | &quot;v1b&quot; | &quot;v1c&quot; &quot;v2a&quot; | &quot;v2b&quot; | &quot;v2c&quot; } Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;).values( &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;)</p>
 </article>
 
 <article>
 <header><h1>Permutations</h1></header>
-<p>Use permute(v1, v2) to automatically generate multiple rows. Groovy Java table(&quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ________________________________________________________________, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) Col A Col B Col C true v1b a false v1b a true v1b b false v1b b v2a 10 v2c v2a 20 v2c</p>
+<p>Use permute(v1, v2) to automatically generate multiple rows. Groovy [&quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ___________________________________________________________ permute(true, false) | &quot;v1b&quot; | permute('a', 'b') &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ________________________________________________________________, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) Col A Col B Col C true v1b a false v1b a true v1b b false v1b b v2a 10 v2c v2a 20 v2c</p>
 </article>
 
 <article>
 <header><h1>GUID</h1></header>
-<p>Use cell.guid to automatically generate unique ids. Groovy Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 0736b8a1-7bdd-4dbb-9b62-06737dcb0f9f true v1b a c4fb9f24-98e7-47aa-abb1-d1e4604bdba1 false v1b a 3a4434a6-c5eb-461f-b3ee-fe37e008dc32 true v1b b e7842eac-0713-4eb1-91f9-006ebc124102 false v1b b 76cbd7e0-37e7-45df-a147-b78b8eb47457 v2a 10 v2c da0546a0-fccd-435c-a3bb-de2e931aadfd v2a 20 v2c</p>
+<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 9ac1df75-bbdf-4581-8921-158da9ae32f0 true v1b a 8b68972c-f4d5-44bb-8a95-5de8fb2ac220 false v1b a b6720e3d-b108-4604-a732-a7b424c4fa98 true v1b b e1c9420c-4b6e-4c78-83bd-94a97ab5c251 false v1b b d2e1e5cb-8b87-41d1-bdf6-b75b469cfe9b v2a 10 v2c 91d43e34-166d-4c1c-a4c3-807aa7b2e84a v2a 20 v2c</p>
 </article>
 
 <article>
 <header><h1>Replace</h1></header>
-<p>Use table.replace(before, after) to replace values in a table. Groovy Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;, ________________________________, &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;) tableData.replace(&quot;v1b&quot;, &quot;v1b_&quot;) Col A Col B Col C v1a v1b_ v1c v2a v2b v2c</p>
+<p>Use table.replace(before, after) to replace values in a table. Groovy [&quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________ &quot;v1a&quot; | &quot;v1b&quot; | &quot;v1c&quot; &quot;v2a&quot; | &quot;v2b&quot; | &quot;v2c&quot; } tableData.replace(&quot;v1b&quot;, &quot;v1b_&quot;) Java table(&quot;Col A&quot;, &quot;Col B&quot;, &quot;Col C&quot;, ________________________________, &quot;v1a&quot;, &quot;v1b&quot;, &quot;v1c&quot;, &quot;v2a&quot;, &quot;v2b&quot;, &quot;v2c&quot;) tableData.replace(&quot;v1b&quot;, &quot;v1b_&quot;) Col A Col B Col C v1a v1b_ v1c v2a v2b v2c</p>
 </article>
 
 <article>
 <header><h1>Cell Above Value Reference</h1></header>
-<p>Use cell.above to refer to the previous row value Groovy Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, __________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , 8, &quot;Mike&quot;, cell.above , 14, &quot;Drew&quot;, LocalDate.of(2016, 6, 22), 10, &quot;Pete&quot;, cell.above , 11, &quot;Max&quot; , cell.above , 3) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 8 Mike 2016-06-20 14 Drew 2016-06-22 10 Pete 2016-06-22 11 Max 2016-06-22 3</p>
+<p>Use cell.above to refer to the previous row value Groovy [&quot;Name&quot; | &quot;Start Date&quot; | &quot;Games To Play&quot; ] { ______________________________________________________ &quot;John&quot; | LocalDate.of(2016, 6, 20) | 10 &quot;Bob&quot; | cell.above | 8 &quot;Mike&quot; | cell.above | 14 &quot;Drew&quot; | LocalDate.of(2016, 6, 22) | 10 &quot;Pete&quot; | cell.above | 11 &quot;Max&quot; | cell.above | 3 } Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, __________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , 8, &quot;Mike&quot;, cell.above , 14, &quot;Drew&quot;, LocalDate.of(2016, 6, 22), 10, &quot;Pete&quot;, cell.above , 11, &quot;Max&quot; , cell.above , 3) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 8 Mike 2016-06-20 14 Drew 2016-06-22 10 Pete 2016-06-22 11 Max 2016-06-22 3</p>
 </article>
 
 <article>
 <header><h1>Cell Above Math</h1></header>
-<p>Use cell.above.plus|minus to generate a derived value based on the previous row value Groovy Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , cell.above.plus(1), &quot;Mike&quot;, cell.above , cell.above.plus(1)) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 11 Mike 2016-06-20 12 Extract cell.above.operation to make your intentions clearer Groovy Java TableDataCellValueGenerator&lt;?&gt; increment = cell.above.plus(1) table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , increment, &quot;Mike&quot;, cell.above , increment)</p>
+<p>Use cell.above.plus|minus to generate a derived value based on the previous row value Groovy [&quot;Name&quot; | &quot;Start Date&quot; | &quot;Games To Play&quot; ] { ______________________________________________________ &quot;John&quot; | LocalDate.of(2016, 6, 20) | 10 &quot;Bob&quot; | cell.above | cell.above + 1 &quot;Mike&quot; | cell.above | cell.above + 1 } Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , cell.above.plus(1), &quot;Mike&quot;, cell.above , cell.above.plus(1)) Name Start Date Games To Play John 2016-06-20 10 Bob 2016-06-20 11 Mike 2016-06-20 12 Extract cell.above.operation to make your intentions clearer Groovy def increment = cell.above + 1 [&quot;Name&quot; | &quot;Start Date&quot; | &quot;Games To Play&quot; ] { ______________________________________________________ &quot;John&quot; | LocalDate.of(2016, 6, 20) | 10 &quot;Bob&quot; | cell.above | increment &quot;Mike&quot; | cell.above | increment } Java TableDataCellValueGenerator&lt;?&gt; increment = cell.above.plus(1) table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , increment, &quot;Mike&quot;, cell.above , increment)</p>
 </article>
 </section>
 </div>
@@ -462,7 +462,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "0736b8a1-7bdd-4dbb-9b62-06737dcb0f9f",
+              "text" : "9ac1df75-bbdf-4581-8921-158da9ae32f0",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -486,7 +486,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "c4fb9f24-98e7-47aa-abb1-d1e4604bdba1",
+              "text" : "8b68972c-f4d5-44bb-8a95-5de8fb2ac220",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -510,7 +510,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "3a4434a6-c5eb-461f-b3ee-fe37e008dc32",
+              "text" : "b6720e3d-b108-4604-a732-a7b424c4fa98",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -534,7 +534,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "e7842eac-0713-4eb1-91f9-006ebc124102",
+              "text" : "e1c9420c-4b6e-4c78-83bd-94a97ab5c251",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -558,7 +558,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "76cbd7e0-37e7-45df-a147-b78b8eb47457",
+              "text" : "d2e1e5cb-8b87-41d1-bdf6-b75b469cfe9b",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -582,7 +582,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "da0546a0-fccd-435c-a3bb-de2e931aadfd",
+              "text" : "91d43e34-166d-4c1c-a4c3-807aa7b2e84a",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -1011,7 +1011,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1604812521927,
+    "lastModifiedTime" : 1605924949788,
     "tocItem" : {
       "sectionTitle" : "Reference",
       "pageTitle" : "Table Data",

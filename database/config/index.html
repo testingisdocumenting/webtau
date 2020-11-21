@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: PDF</title>
+<title>WebTau: Config</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,8 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Asserting Text</h1></header>
-<p>If response contains a pdf file you can assert its content using pdf(body) function. http.get(&quot;/report&quot;) { pdf(body).pageText(0).should contain('Quarterly earnings:') } If more than one assertion needs to be made, assign pdf result to a local variable. http.get(&quot;/report&quot;) { def pdf = pdf(body) pdf.pageText(0).should contain('Quarterly earnings:') pdf.pageText(1).should == 'Intentional blank page\n' } Note: use pdf assertions for sanity checks like presence of correct client names or account numbers. Leave comprehensive pdf generation test to unit tests.</p>
+<header><h1>JDBC</h1></header>
+<p>Webtau is JVM based API and it uses https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity. JDBC interface behind the scenes to connect to a database.You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how to build JDBC connection url to be able to connect to a database.</p>
+</article>
+
+<article>
+<header><h1>Primary Database</h1></header>
+<p>Primary DB config used when execute operations using db.update , db.query , etc, without specifying data source name. import groovy.grape.Grape Grape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db) classLoader: ClassLoader.getSystemClassLoader()) dbUrl = &quot;jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE&quot; // primary DB JDBC connection url dbDriverClassName = &quot;org.h2.Driver&quot; // JDBC driver class name dbUserName = &quot;sa&quot; dbPassword = &quot;password&quot;</p>
 </article>
 </section>
 </div>
@@ -110,64 +115,85 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Asserting Text",
-      "id" : "asserting-text",
+      "title" : "JDBC",
+      "id" : "jdbc",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "If response contains a pdf file you can assert its content using ",
+          "text" : "Webtau is JVM based API and it uses ",
           "type" : "SimpleText"
         }, {
-          "code" : "pdf(body)",
-          "type" : "InlinedCode"
+          "url" : "https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity.",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "JDBC",
+            "type" : "SimpleText"
+          } ]
         }, {
-          "text" : " function.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "http.get(\"/report\") {\n    pdf(body).pageText(0).should contain('Quarterly earnings:')\n}",
-        "entry" : "download pdf and assert page text using contains",
-        "bodyOnly" : true,
-        "type" : "Snippet"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "If more than one assertion needs to be made, assign ",
-          "type" : "SimpleText"
+          "type" : "SoftLineBreak"
         }, {
-          "code" : "pdf",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " result to a local variable.",
+          "text" : "interface behind the scenes to connect to a database.",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "http.get(\"/report\") {\n    def pdf = pdf(body)\n    pdf.pageText(0).should contain('Quarterly earnings:')\n    pdf.pageText(1).should == 'Intentional blank page\\n'\n}",
-        "entry" : "download pdf and assert page text using equal and contains",
-        "bodyOnly" : true,
-        "type" : "Snippet"
-      }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Note: use pdf assertions for sanity checks like presence of correct client names or account numbers. Leave comprehensive pdf generation test to unit tests.",
+          "text" : "You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "to build JDBC connection url to be able to connect to a database.",
           "type" : "SimpleText"
         } ]
       } ]
+    }, {
+      "title" : "Primary Database",
+      "id" : "primary-database",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Primary DB config used when execute operations using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "db.update",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "db.query",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", etc, without specifying data source name.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
+        "title" : "Primary DB config",
+        "excludeRegexp" : "package",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1605924949780,
+    "lastModifiedTime" : 1605924949784,
     "tocItem" : {
-      "sectionTitle" : "REST",
-      "pageTitle" : "PDF",
+      "sectionTitle" : "Database",
+      "pageTitle" : "Config",
       "pageMeta" : { },
-      "dirName" : "REST",
-      "fileName" : "PDF",
+      "dirName" : "database",
+      "fileName" : "config",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Asserting Text",
-        "id" : "asserting-text"
+        "title" : "JDBC",
+        "id" : "jdbc"
+      }, {
+        "title" : "Primary Database",
+        "id" : "primary-database"
       } ]
     }
   },

@@ -105,7 +105,7 @@
 
 <article>
 <header><h1>Assert URL</h1></header>
-<p>Use browser.url to assert on or wait for url changes. http://example.com/resource/id?type=full&amp;debug=true#subId</p>
+<p>Use browser.url to assert on or wait for url changes. http://example.com/resource/id?type=full&amp;debug=true#subId browser.url.path.should == '/resource/id' browser.url.query.should == 'type=full&amp;debug=true' browser.url.ref.should == 'subId' browser.url.should == 'http://example.com/resource/id?type=full&amp;debug=true#subId' browser.url.path.waitTo == '/resource/id' browser.url.query.waitTo == 'type=full&amp;debug=true' browser.url.ref.waitTo == 'subId'</p>
 </article>
 
 <article>
@@ -344,7 +344,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1604812521927,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "UI",
       "pageTitle" : "Navigation",

@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Current limitations</h1></header>
-<p>OpenAPI specification support is still in its early stage. It is fully functional but there are a few limitations to be aware of:webtau currently only supports OpenAPI specification v2specification matching is currently done based on the path and methodany HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning on the console</p>
+<p>OpenAPI specification support is still in its early stage. It is fully functional but there are a few limitations to be aware of:webtau currently only supports OpenAPI specification v2 specification matching is currently done based on the path and method any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning on the console</p>
 </article>
 
 <article>
@@ -105,7 +105,7 @@
 
 <article>
 <header><h1>Disable Validation</h1></header>
-<p>import org.testingisdocumenting.webtau.openapi.OpenApi</p>
+<p>import org.testingisdocumenting.webtau.openapi.OpenApi OpenApi.withoutValidation { http.post(&quot;/employee&quot;, [firstName: 'First']) { // ... } } OpenApi.responseOnlyValidation() { http.post(&quot;/employee&quot;, [firstName: 'First']) { // ... } } OpenApi.requestOnlyValidation() { http.post(&quot;/employee&quot;, [firstName: 'First', lastName: 'Second']) { // ... } }</p>
 </article>
 </section>
 </div>
@@ -255,7 +255,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/img/rest-crud-openapi-spec-validation-error.png",
-        "timestamp" : 1604812521927,
+        "timestamp" : 1605924949784,
         "shapes" : [ ],
         "width" : 2242.0,
         "height" : 620.0,
@@ -316,7 +316,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1604812521923,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "OpenAPI Spec",

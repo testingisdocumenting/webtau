@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Test Encapsulation</h1></header>
-<p>Robust tests should not depend on implementation details. UI has plenty of those:UI Elements placementActionsUI test should not depend on any of them. Move elements placement and available actions outside of UI test. Multiple tests can then reuse that information. And more importantly you will have only one place to change if UI changes.</p>
+<p>Robust tests should not depend on implementation details. UI has plenty of those:UI Elements placement Actions UI test should not depend on any of them. Move elements placement and available actions outside of UI test. Multiple tests can then reuse that information. And more importantly you will have only one place to change if UI changes.</p>
 </article>
 
 <article>
 <header><h1>Definition</h1></header>
-<p>To define PageObject create a class.</p>
+<p>To define PageObject create a class. package pages import org.openqa.selenium.Keys import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def welcomeMessage = $('#welcome') def searchMessage = $('#message') def box = $('#search-box') def results = $('#results .result') def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(Keys.ENTER.toString()) // TODO expose keys mapping } }</p>
 </article>
 
 <article>
 <header><h1>Grouping</h1></header>
-<p>To make it easier to refer PageObjects from different tests combine them in one fileUse static import to have seamless access to all of them</p>
+<p>To make it easier to refer PageObjects from different tests combine them in one file package pages class Pages { static final def search = new SearchPage() static final def calculation = new CalculationPage() static final def form = new FormPage() static final def payments = new PaymentsPage() } Use static import to have seamless access to all of them package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.should == 2 }</p>
 </article>
 </section>
 </div>
@@ -232,7 +232,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1604812521927,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "UI",
       "pageTitle" : "Page Object",

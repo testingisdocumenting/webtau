@@ -95,17 +95,17 @@
 
 <article>
 <header><h1>Explicit Header</h1></header>
-<p>To explicitly set header pass http.header(values) as an additional parameter.Additionally http.header accepts values as a map.</p>
+<p>To explicitly set header pass http.header(values) as an additional parameter. http.get(&quot;/end-point&quot;, http.header('Accept', 'application/octet-stream')) { // assertions go here } http.get(&quot;/end-point&quot;, [queryParam1: 'queryParamValue1'], http.header('Accept', 'application/octet-stream')) { // assertions go here } http.patch(&quot;/end-point&quot;, http.header('Accept', 'application/octet-stream'), [fileId: 'myFile']) { // assertions go here } http.post(&quot;/end-point&quot;, http.header('Accept', 'application/octet-stream'), [fileId: 'myFile']) { // assertions go here } http.put(&quot;/end-point&quot;, http.header('Accept', 'application/octet-stream'), [fileId: 'myFile', file: sampleFile]) { // assertions go here } http.delete(&quot;/end-point&quot;, http.header('Custom-Header', 'special-value')) Additionally http.header accepts values as a map. def varArgHeader = http.header( 'My-Header1', 'Value1', 'My-Header2', 'Value2') def mapBasedHeader = http.header([ 'My-Header1': 'Value1', 'My-Header2': 'Value2']) assert varArgHeader == mapBasedHeader</p>
 </article>
 
 <article>
 <header><h1>Mime Type Combined With Payload</h1></header>
-<p>Use http.body to combine Content-Type and payload.If you need a standard type consider using</p>
+<p>Use http.body to combine Content-Type and payload. def content = binaryFile('path') http.post(&quot;/end-point&quot;, http.body(&quot;application/octet-stream&quot;, content)) { // assertions go here } If you need a standard type consider using def content = binaryFile('path') http.post(&quot;/end-point&quot;, http.application.octetStream(content)) { // assertions go here } def content = 'text content' http.post(&quot;/end-point&quot;, http.text.plain(content)) { // assertions go here }</p>
 </article>
 
 <article>
 <header><h1>Response Header</h1></header>
-<p>To validate values from response header use header object.At the moment only location , contentLocation , contentLength have camelCase shortcuts. All the other header values you need to use ['Header-Name'] syntax.</p>
+<p>To validate values from response header use header object. http.post(&quot;/end-point&quot;) { header.location.should == 'http://www.example.org/url/23' header['Location'].should == 'http://www.example.org/url/23' header.contentLocation.should == '/url/23' header['Content-Location'].should == '/url/23' header.contentLength.shouldBe &gt; 300 header['Content-Length'].shouldBe &gt; 300 } At the moment only location , contentLocation , contentLength have camelCase shortcuts. All the other header values you need to use ['Header-Name'] syntax.</p>
 </article>
 </section>
 </div>
@@ -368,7 +368,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1604812521923,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Headers",

@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Special Values</h1></header>
-<p>Values that you access inside validation block are special values of DataNode type. When you assert them using should statement they act as proxies that record every assertion that you do.</p>
+<p>http.get(&quot;/end-point&quot;) { price.should == 100 assert price instanceof DataNode } Values that you access inside validation block are special values of DataNode type. When you assert them using should statement they act as proxies that record every assertion that you do.</p>
 </article>
 
 <article>
 <header><h1>Extracting Values</h1></header>
-<p>As you have seen in REST/CRUD CRUD example you can return values back from a validation block.When you return a value from a validation block, it automatically gets converted to its correspondent primitive.Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</p>
+<p>As you have seen in REST/CRUD CRUD example you can return values back from a validation block. def id = http.get(&quot;/end-point&quot;) { return id } assert id == 10 assert id.getClass() == Integer When you return a value from a validation block, it automatically gets converted to its correspondent primitive.Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</p>
 </article>
 
 <article>
 <header><h1>Properties On Lists</h1></header>
-<p>If you have a list of objects like complexList above, you can access all its children property value with complexList.k2 .</p>
+<p>If you have a list of objects like complexList above, you can access all its children property value with complexList.k2 . http.get(&quot;/end-point&quot;) { complexList.k2.should == [30, 40] }</p>
 </article>
 
 <article>
@@ -105,27 +105,27 @@
 
 <article>
 <header><h1>If-Else Logic</h1></header>
-<p>Even though values that you access inside validation block are special values of DataNode type, you can still perform simple if-else like logic checks on them. Accessing the values will mark them as &quot;touched&quot; for data coverage statistic.Warning: Comparison of complex values is not properly implemented due to current Groovy API implementation details</p>
+<p>Even though values that you access inside validation block are special values of DataNode type, you can still perform simple if-else like logic checks on them. Accessing the values will mark them as &quot;touched&quot; for data coverage statistic. def zipCode = http.get(&quot;/address&quot;) { return addressType == &quot;complex&quot; ? address.zipCode : &quot;NA&quot; } zipCode.should == &quot;12345&quot; Warning: Comparison of complex values is not properly implemented due to current Groovy API implementation details</p>
 </article>
 
 <article>
 <header><h1>Each</h1></header>
-<p>Special values inside assertion block have convenient methods each to iterate over a list</p>
+<p>Special values inside assertion block have convenient methods each to iterate over a list http.get(&quot;/end-point&quot;) { list.each { it.shouldBe &gt; 0 } } http.get(&quot;/end-point&quot;) { complexList.each { k2.shouldBe &gt; 0 } }</p>
 </article>
 
 <article>
 <header><h1>Find</h1></header>
-<p>find to find a single valueand findAll to find all the values matching predicateNote: While values inside a predicate are normal values, the result of find and findAll is still DataNode</p>
+<p>find to find a single value def found = http.get(&quot;/end-point&quot;) { return list.find { it &gt; 1 } } assert found == 2 assert found.getClass() == Integer and findAll to find all the values matching predicate def found = http.get(&quot;/end-point&quot;) { return list.findAll { it &gt; 1 } } assert found == [2, 3] assert found[0].getClass() == Integer Note: While values inside a predicate are normal values, the result of find and findAll is still DataNode def id = http.get(&quot;/end-point&quot;) { def found = complexList.find { assert k1.getClass() == String k1 == 'v1' } assert found.getClass() == GroovyDataNode return found.id } assert id.getClass() == String</p>
 </article>
 
 <article>
 <header><h1>Collect</h1></header>
-<p>Use collect to transform a collection of items</p>
+<p>Use collect to transform a collection of items def transformed = http.get(&quot;/end-point&quot;) { return list.collect { &quot;world#${it}&quot; } } assert transformed == ['world#1', 'world#2', 'world#3'] assert transformed[0] instanceof GString</p>
 </article>
 
 <article>
 <header><h1>Combine</h1></header>
-<p>Methods find and collect can be chained</p>
+<p>Methods find and collect can be chained def sum = http.get(&quot;/end-point&quot;) { return complexList .findAll { k1.startsWith('v1') } .collect { k2 } .sum() } assert sum == 70</p>
 </article>
 </section>
 </div>
@@ -544,7 +544,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1604812521923,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Data Node",

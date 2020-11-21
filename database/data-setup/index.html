@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Data Setup</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Handcrafted TableData</h1></header>
+<p>The simplest way to set up a DB state is to use handcrafted reference/table-data TableData. def PRICES = db.table(&quot;PRICES&quot;) // declare PRICES table PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;price&quot;] { // append two rows to PRICES ___________________________________ &quot;id1&quot; | &quot;nice set&quot; | 1000 &quot;id2&quot; | &quot;another set&quot; | 2000 }</p>
+</article>
+
+<article>
+<header><h1>Semi-Auto Generated TableData</h1></header>
+<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID DESCRIPTION AVAILABLE TYPE PRICE 712067d7-8726-42ae-934d-0fed9091e34e nice set true card 1000 45dfbf9b-816d-4467-abc6-6097a0f83112 nice set true card 1010 43d50adf-5eed-4f2d-8e7f-db7cec6bd1e2 another set true rts 1030 13799247-f36e-43db-84ed-94bf44960611 another set false rts 1050 bb722c7d-5827-4ad2-9c2e-ab7aec0e4ea4 another set true fps 1070 af785d0e-d0d2-420b-99fe-fbe45e3e1874 another set false fps 1090</p>
+</article>
+
+<article>
+<header><h1>External File TableData</h1></header>
+<p>def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; data.csv.table('prices-db.csv') id, description, available, type, price id1, description1, true, card, 200 id2, description2, false, rts, 400 ID DESCRIPTION AVAILABLE TYPE PRICE id1 description1 true card 200 id2 description2 false rts 400</p>
+</article>
+
+<article>
+<header><h1>Cleaning Tables</h1></header>
+<p>db.update(&quot;delete from PRICES&quot;) // delete all db.update(&quot;delete from PRICES where price &gt; :price&quot;, [price: 950]) // delete with params</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Handcrafted TableData",
+      "id" : "handcrafted-tabledata",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The simplest way to set up a DB state is to use handcrafted ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/reference/table-data",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "TableData",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def PRICES = db.table(\"PRICES\") // declare PRICES table\nPRICES << [ \"id\" | \"description\" | \"price\"] { // append two rows to PRICES\n           ___________________________________\n           \"id1\" | \"nice set\"    | 1000\n           \"id2\" | \"another set\" | 2000 }",
+        "entry" : "should use data source provider for primary database",
+        "title" : "data setup with hand crafted table data",
+        "bodyOnly" : true,
+        "startLine" : "def PRICES",
+        "endLine" : "2000 }",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Semi-Auto Generated TableData",
+      "id" : "semi-auto-generated-tabledata",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/webtau/reference/table-data",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "TableData",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " has features like ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/reference/table-data#permutations",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "permute",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " and",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "url" : "/webtau/reference/table-data#guid",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "cell.guid",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " among others.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Using them can reduce the effort required to maintain data setup.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [     \"id\" | \"description\" |          \"available\" |                \"type\" |       \"price\" ] {\n           _____________________________________________________________________________________________\n           cell.guid | \"nice set\"    |                 true |                \"card\" |            1000 // cell.guid generates random guid that can be used for ids\n           cell.guid | \"nice set\"    |                 true |                \"card\" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations\n           cell.guid | \"another set\" | permute(true, false) | permute(\"rts\", \"fps\") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations",
+        "entry" : "use table data permute, above and guid to generate rows",
+        "title" : "data setup with hand crafted table data",
+        "bodyOnly" : true,
+        "startLine" : "def PRICES",
+        "endLine" : "cell.above + 20",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: code above assumes ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauCore.*",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " static import or ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauGroovyDsl.*",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " static import",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*",
+        "includeRegexp" : "import.*Core",
+        "type" : "Snippet"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "ID"
+          }, {
+            "title" : "DESCRIPTION"
+          }, {
+            "title" : "AVAILABLE"
+          }, {
+            "title" : "TYPE"
+          }, {
+            "title" : "PRICE"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "712067d7-8726-42ae-934d-0fed9091e34e",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "nice set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "card",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1000",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "45dfbf9b-816d-4467-abc6-6097a0f83112",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "nice set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "card",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1010",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "43d50adf-5eed-4f2d-8e7f-db7cec6bd1e2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "another set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "rts",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1030",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "13799247-f36e-43db-84ed-94bf44960611",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "another set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "rts",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1050",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "bb722c7d-5827-4ad2-9c2e-ab7aec0e4ea4",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "another set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "fps",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1070",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "af785d0e-d0d2-420b-99fe-fbe45e3e1874",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "another set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "fps",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1090",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "title" : "PRICES",
+        "type" : "Table"
+      } ]
+    }, {
+      "title" : "External File TableData",
+      "id" : "external-file-tabledata",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << data.csv.table('prices-db.csv')",
+        "entry" : "use csv read data",
+        "title" : "data setup with CSV data",
+        "bodyOnly" : true,
+        "startLine" : "def PRICES",
+        "endLine" : "data.csv.table",
+        "type" : "Snippet"
+      }, {
+        "lang" : "csv",
+        "snippet" : "id, description, available, type, price\nid1, description1, true, card, 200\nid2, description2, false, rts, 400",
+        "title" : "prices-db.csv",
+        "type" : "Snippet"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "ID"
+          }, {
+            "title" : "DESCRIPTION"
+          }, {
+            "title" : "AVAILABLE"
+          }, {
+            "title" : "TYPE"
+          }, {
+            "title" : "PRICE"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "id1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "description1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "card",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "200",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "id2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "description2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "false",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "rts",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "400",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "title" : "PRICES",
+        "type" : "Table"
+      } ]
+    }, {
+      "title" : "Cleaning Tables",
+      "id" : "cleaning-tables",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "db.update(\"delete from PRICES\") // delete all\ndb.update(\"delete from PRICES where price > :price\", [price: 950]) // delete with params",
+        "entry" : "delete with params",
+        "title" : "delete data",
+        "bodyOnly" : true,
+        "includeRegexp" : "delete",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1605924949784,
+    "tocItem" : {
+      "sectionTitle" : "Database",
+      "pageTitle" : "Data Setup",
+      "pageMeta" : { },
+      "dirName" : "database",
+      "fileName" : "data-setup",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Handcrafted TableData",
+        "id" : "handcrafted-tabledata"
+      }, {
+        "title" : "Semi-Auto Generated TableData",
+        "id" : "semi-auto-generated-tabledata"
+      }, {
+        "title" : "External File TableData",
+        "id" : "external-file-tabledata"
+      }, {
+        "title" : "Cleaning Tables",
+        "id" : "cleaning-tables"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>

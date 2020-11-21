@@ -90,12 +90,12 @@
 
 <article>
 <header><h1>Simplified Input Preparation</h1></header>
-<p>Groovy Java @Test public void diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany() { TableData employeeData = table( &quot;id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;).values( &quot;bob&quot;, 2, 12, &quot;smith&quot;, 4, 34, &quot;john&quot;, 3, 20); boolean diversified = peopleManagement.diversityLevel(employees(employeeData)); actual(diversified).should(equal(true)); }</p>
+<p>Groovy @Test void &quot;diversified teams should have various levels and time at company&quot;() { def employeeData = [ &quot;id&quot; | &quot;level&quot; | &quot;monthsAtCompany&quot;] { _______________________________________ &quot;bob&quot; | 2 | 12 &quot;smith&quot; | 4 | 34 &quot;john&quot; | 3 | 20 } def diversified = peopleManagement.diversityLevel(employees(employeeData)) diversified.should == true } Java @Test public void diversifiedTeamsShouldHaveVariousLevelsAndTimeAtCompany() { TableData employeeData = table( &quot;id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;).values( &quot;bob&quot;, 2, 12, &quot;smith&quot;, 4, 34, &quot;john&quot;, 3, 20); boolean diversified = peopleManagement.diversityLevel(employees(employeeData)); actual(diversified).should(equal(true)); }</p>
 </article>
 
 <article>
 <header><h1>Simplified Output Validation</h1></header>
-<p>Complex data and assertions are first class citizens. Groovy Java @Test public void providesAccessToNewJoiners() { TableData allEmployees = table( &quot;id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;alice&quot;, 5, 1, &quot;bob&quot;, 3, 0, &quot;smith&quot;, 4, 1, &quot;cat&quot;, 4, 0); addEmployees(allEmployees); actual(dao.thisWeekJoiners()).should(equal(table( &quot;*id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;bob&quot;, 3, 0, &quot;cat&quot;, 4, 0))); } Note: The examples above assumes import static org.testingisdocumenting.webtau.WebTauCore.* or import static org.testingisdocumenting.webtau.WebTauDsl.* . For more TableData features, check reference/table-data reference page</p>
+<p>Complex data and assertions are first class citizens. Groovy @Test void &quot;provides access to new joiners&quot;() { TableData allEmployees = [&quot;id&quot; | &quot;level&quot; | &quot;monthsAtCompany&quot;] { ______________________________________ &quot;alice&quot; | 5 | 1 &quot;bob&quot; | 3 | 0 &quot;smith&quot; | 4 | 1 &quot;cat&quot; | 4 | 0 } addEmployees(allEmployees) dao.thisWeekJoiners().should == [&quot;id&quot; | &quot;level&quot; | &quot;monthsAtCompany&quot;] { ______________________________________ &quot;bob&quot; | 3 | 0 &quot;cat&quot; | 4 | 0 } } Java @Test public void providesAccessToNewJoiners() { TableData allEmployees = table( &quot;id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;alice&quot;, 5, 1, &quot;bob&quot;, 3, 0, &quot;smith&quot;, 4, 1, &quot;cat&quot;, 4, 0); addEmployees(allEmployees); actual(dao.thisWeekJoiners()).should(equal(table( &quot;*id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;bob&quot;, 3, 0, &quot;cat&quot;, 4, 0))); } Note: The examples above assumes import static org.testingisdocumenting.webtau.WebTauCore.* or import static org.testingisdocumenting.webtau.WebTauDsl.* . For more TableData features, check reference/table-data reference page</p>
 </article>
 </section>
 </div>
@@ -234,7 +234,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1604812521923,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "JVM Business Logic",
       "pageTitle" : "Data Driven",

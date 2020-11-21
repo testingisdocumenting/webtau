@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: PDF</title>
+<title>WebTau: Getting Started</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,8 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Asserting Text</h1></header>
-<p>If response contains a pdf file you can assert its content using pdf(body) function. http.get(&quot;/report&quot;) { pdf(body).pageText(0).should contain('Quarterly earnings:') } If more than one assertion needs to be made, assign pdf result to a local variable. http.get(&quot;/report&quot;) { def pdf = pdf(body) pdf.pageText(0).should contain('Quarterly earnings:') pdf.pageText(1).should == 'Intentional blank page\n' } Note: use pdf assertions for sanity checks like presence of correct client names or account numbers. Leave comprehensive pdf generation test to unit tests.</p>
+<p>Webtau provides database access layer db. to help with data setup, validation and manipulation. Use it in conjunction with other layers like http. to write more powerful tests. database/data-setup Data Setup PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;price&quot;] { ___________________________________ &quot;id1&quot; | &quot;nice set&quot; | 1000 &quot;id2&quot; | &quot;another set&quot; | 2000 }</p>
 </article>
 </section>
 </div>
@@ -110,65 +109,66 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Asserting Text",
-      "id" : "asserting-text",
-      "type" : "Section",
+      "type" : "Paragraph",
       "content" : [ {
-        "type" : "Paragraph",
+        "text" : "Webtau provides database access layer ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "db.",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to help with data setup, validation and manipulation.",
+        "type" : "SimpleText"
+      }, {
+        "type" : "SoftLineBreak"
+      }, {
+        "text" : "Use it in conjunction with other layers like ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "http.",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to write more powerful tests.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
         "content" : [ {
-          "text" : "If response contains a pdf file you can assert its content using ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "pdf(body)",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " function.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "http.get(\"/report\") {\n    pdf(body).pageText(0).should contain('Quarterly earnings:')\n}",
-        "entry" : "download pdf and assert page text using contains",
-        "bodyOnly" : true,
-        "type" : "Snippet"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "If more than one assertion needs to be made, assign ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "pdf",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " result to a local variable.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "http.get(\"/report\") {\n    def pdf = pdf(body)\n    pdf.pageText(0).should contain('Quarterly earnings:')\n    pdf.pageText(1).should == 'Intentional blank page\\n'\n}",
-        "entry" : "download pdf and assert page text using equal and contains",
-        "bodyOnly" : true,
-        "type" : "Snippet"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Note: use pdf assertions for sanity checks like presence of correct client names or account numbers. Leave comprehensive pdf generation test to unit tests.",
-          "type" : "SimpleText"
+          "type" : "Paragraph",
+          "content" : [ {
+            "url" : "/webtau/database/data-setup",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "Data Setup",
+              "type" : "SimpleText"
+            } ]
+          } ]
         } ]
       } ]
+    }, {
+      "lang" : "groovy",
+      "snippet" : "PRICES << [ \"id\" | \"description\" | \"price\"] {\n          ___________________________________\n           \"id1\" | \"nice set\"    | 1000\n           \"id2\" | \"another set\" | 2000 }",
+      "entry" : "should insert table data into a table",
+      "title" : "example of data setup",
+      "bodyOnly" : true,
+      "startLine" : "PRICES <<",
+      "endLine" : "2000 }",
+      "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1605924949780,
+    "lastModifiedTime" : 1605924949784,
     "tocItem" : {
-      "sectionTitle" : "REST",
-      "pageTitle" : "PDF",
+      "sectionTitle" : "Database",
+      "pageTitle" : "Getting Started",
       "pageMeta" : { },
-      "dirName" : "REST",
-      "fileName" : "PDF",
+      "dirName" : "database",
+      "fileName" : "getting-started",
       "viewOnRelativePath" : null,
-      "pageSectionIdTitles" : [ {
-        "title" : "Asserting Text",
-        "id" : "asserting-text"
-      } ]
+      "pageSectionIdTitles" : [ ]
     }
   },
   "footer" : { }

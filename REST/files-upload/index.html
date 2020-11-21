@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>File System Content</h1></header>
-<p>In following examples backend expects a file passed as multipart/form-data . File content is expected to be stored in file field. Backend responds with received file name and file description.To POST form data, you need to use the same http.post statement as you saw in previous examples. Second parameter should be http.formData instead of a map payload we used for JSON .Use http.formFile to override file name that is being sent to the backend.Multiple form fields can be specified like in the example below.</p>
+<p>In following examples backend expects a file passed as multipart/form-data . File content is expected to be stored in file field. Backend responds with received file name and file description.To POST form data, you need to use the same http.post statement as you saw in previous examples. Second parameter should be http.formData instead of a map payload we used for JSON . def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath)) { fileName.should == 'image.png' } Use http.formFile to override file name that is being sent to the backend. def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: http.formFile('myFileName.png', imagePath))) { fileName.should == 'myFileName.png' } Multiple form fields can be specified like in the example below. def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath, fileDescription: 'new report')) { fileName.should == 'image.png' description.should == 'new report' }</p>
 </article>
 
 <article>
 <header><h1>In-Memory Content</h1></header>
-<p>If your test already has content, you can explicitly pass it as is.Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name</p>
+<p>If your test already has content, you can explicitly pass it as is. byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData(file: fileContent)) { fileName.should == 'backend-generated-name-as-no-name-provided' } Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData( file: http.formFile('myFileName.dat', fileContent))) { fileName.should == 'myFileName.dat' }</p>
 </article>
 </section>
 </div>
@@ -255,7 +255,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1604812521923,
+    "lastModifiedTime" : 1605924949780,
     "tocItem" : {
       "sectionTitle" : "REST",
       "pageTitle" : "Files Upload",

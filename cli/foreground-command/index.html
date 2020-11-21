@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Foreground Command</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Run</h1></header>
+<p>Webtau can run commands in foreground and in background . When command is ran in foreground webtau will wait for the command to finish.To run a command use cli.run with a single string parameter that includes a command and all its arguments: cli.run('echo hello world')</p>
+</article>
+
+<article>
+<header><h1>Run With Validation</h1></header>
+<p>cli.run('echo hello world') { output.should contain('hello') output.should contain('world') } cli.run('&gt;&amp;2 echo error B892T') { error.should == 'error B892T' } cli.run('exit 8') { exitCode.should == 8 exitCode.shouldNot == 0 }</p>
+</article>
+
+<article>
+<header><h1>Implicit Exit Code Validation</h1></header>
+<p>Webtau performs implicit exit code validation and adds exitCode equals zero when you don't specify explicit exitCode validation. cli.run('echo hello world') Example above is equivalent to cli.run('echo hello world') { exitCode.should == 0 }</p>
+</article>
+
+<article>
+<header><h1>Run Result</h1></header>
+<p>Use the result of cli.run if you need to process the output of the command. def result = cli.run('echo hello world') println result.output println result.error if (result.exitCode == 1) { // ... } Warning: Perform validation inside validation block so webtau can track what was checked.</p>
+</article>
+
+<article>
+<header><h1>Working Dir</h1></header>
+<p>Use cli.workingDir as a second parameter to cli.run to set a working dir: cli.run('./listing', cli.workingDir('../scripts')) { output.should contain('listing files') output.should contain('sleeps') }</p>
+</article>
+
+<article>
+<header><h1>Environment Variables</h1></header>
+<p>Use cli.env as a second parameter to cli.run to set the environment variables: cli.run('scripts/hello-env-var', cli.env([my_var: 'webtau'])) { output.should == 'hello webtau' }</p>
+</article>
+
+<article>
+<header><h1>Chain Cli Run Config</h1></header>
+<p>Combine configs by using cli.env(...).workingDir(...) in any order to set both: cli.run('./hello-env-var', cli.workingDir('../scripts').env([my_var: 'webtau'])) { output.should == 'hello webtau' }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Webtau can run commands in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "foreground",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " and in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "background",
+        "type" : "InlinedCode"
+      }, {
+        "text" : ". When command is ran in ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "foreground",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " webtau will",
+        "type" : "SimpleText"
+      }, {
+        "type" : "SoftLineBreak"
+      }, {
+        "text" : "wait for the command to finish.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "title" : "Run",
+      "id" : "run",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To run a command use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.run",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " with a single string parameter that includes a command and",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "all its arguments:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('echo hello world')",
+        "title" : "run command",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Run With Validation",
+      "id" : "run-with-validation",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "cli.run('echo hello world') {\n    output.should contain('hello')\n    output.should contain('world')\n}",
+        "title" : "output validation",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('>&2 echo error B892T') {\n    error.should == 'error B892T'\n}",
+        "title" : "error validation",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('exit 8') {\n    exitCode.should == 8\n    exitCode.shouldNot == 0\n}",
+        "title" : "exit code validation",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Implicit Exit Code Validation",
+      "id" : "implicit-exit-code-validation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau performs implicit exit code validation and adds ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "exitCode",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " equals zero when",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "you don't specify explicit ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "exitCode",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " validation.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('echo hello world')",
+        "title" : "implicit exit validation happens here",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Example above is equivalent to",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('echo hello world') {\n    exitCode.should == 0\n}",
+        "title" : "exit code check webtau performs if you don't write explicit validation",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Run Result",
+      "id" : "run-result",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use the result of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.run",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " if you need to process the output of the command.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def result = cli.run('echo hello world')\n\nprintln result.output\nprintln result.error\nif (result.exitCode == 1) {\n    // ...\n}",
+        "title" : "using run result",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Warning: Perform validation inside validation block so webtau can track what was checked.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Working Dir",
+      "id" : "working-dir",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.workingDir",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as a second parameter to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.run",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to set a working dir:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('./listing', cli.workingDir('../scripts')) {\n    output.should contain('listing files')\n    output.should contain('sleeps')\n}",
+        "title" : "set working dir",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Environment Variables",
+      "id" : "environment-variables",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.env",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as a second parameter to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.run",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to set the environment variables:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('scripts/hello-env-var', cli.env([my_var: 'webtau'])) {\n    output.should == 'hello webtau'\n}",
+        "title" : "set environment variable",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Chain Cli Run Config",
+      "id" : "chain-cli-run-config",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Combine configs by using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.env(...).workingDir(...)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " in any order to set both:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cli.run('./hello-env-var',\n        cli.workingDir('../scripts').env([my_var: 'webtau'])) {\n    output.should == 'hello webtau'\n}",
+        "title" : "set environment variable and working dir",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1605924949780,
+    "tocItem" : {
+      "sectionTitle" : "Cli",
+      "pageTitle" : "Foreground Command",
+      "pageMeta" : { },
+      "dirName" : "cli",
+      "fileName" : "foreground-command",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Run",
+        "id" : "run"
+      }, {
+        "title" : "Run With Validation",
+        "id" : "run-with-validation"
+      }, {
+        "title" : "Implicit Exit Code Validation",
+        "id" : "implicit-exit-code-validation"
+      }, {
+        "title" : "Run Result",
+        "id" : "run-result"
+      }, {
+        "title" : "Working Dir",
+        "id" : "working-dir"
+      }, {
+        "title" : "Environment Variables",
+        "id" : "environment-variables"
+      }, {
+        "title" : "Chain Cli Run Config",
+        "id" : "chain-cli-run-config"
+      } ]
+    }
+  },
+  "footer" : { }
+}), document.getElementById("znai"));
+</script>
+
+</body>
+</html>
