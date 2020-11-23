@@ -24,12 +24,15 @@ import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenF
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.UNDERSCORE;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 /**
  * Convenient class for a single static * imports to have matchers and helper functions available for your test
@@ -57,6 +60,27 @@ public class WebTauCore extends Matchers {
 
     public static ActualPath createActualPath(String path) {
         return new ActualPath(path);
+    }
+
+    /**
+     * sleep for a provided time. This is a bad practice and must be used as a workaround for
+     * some of the hardest weird cases.
+     *
+     * consider using waitTo approach on various layers: wait for UI to change, wait for HTTP resource to be updated,
+     * wait for file to change, DB result to be different, etc.
+     * @param millis number of milliseconds to wait
+     */
+    public static void sleep(long millis) {
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("sleeping"), FOR, numberValue(millis), classifier("milliseconds")),
+                () -> tokenizedMessage(action("slept"), FOR, numberValue(millis), classifier("milliseconds")),
+                () -> {
+                    try {
+                        Thread.sleep(millis);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 
     public static Persona persona(String id) {
