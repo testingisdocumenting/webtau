@@ -93,9 +93,27 @@ public class HttpHeader {
         header.put(key, value);
     }
 
+    /**
+     * Creates a new header from the current one with an additional key-value
+     * @param key additional key
+     * @param value additional value
+     * @return new header
+     */
     public HttpHeader with(String key, CharSequence value) {
         Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
         copy.put(key, value);
+
+        return new HttpHeader(copy);
+    }
+
+    /**
+     * Creates a new header from the current one with an additional key values
+     * @param additionalValues additional values
+     * @return new header
+     */
+    public HttpHeader with(Map<String, CharSequence> additionalValues) {
+        Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
+        copy.putAll(additionalValues);
 
         return new HttpHeader(copy);
     }
