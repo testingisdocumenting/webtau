@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.data.MultiValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenFunctions;
+import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.persona.Persona;
@@ -48,6 +49,10 @@ public class WebTauCore extends Matchers {
 
     public static TableData table(Object... columnNames) {
         return new TableData(Arrays.stream(columnNames));
+    }
+
+    public static CompositeKey key(Object... values) {
+        return new CompositeKey(Arrays.stream(values));
     }
 
     public static MultiValue permute(Object atLeastOneValue, Object... values) {

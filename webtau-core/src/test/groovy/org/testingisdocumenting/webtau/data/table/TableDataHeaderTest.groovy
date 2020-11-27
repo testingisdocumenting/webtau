@@ -40,8 +40,8 @@ class TableDataHeaderTest {
 
     @Test
     void "defines key columns using asterisk in front of column name"() {
-        assert header.getKeyNamesStream().collect(toList()) == ["ColumnB", "ColumnC"]
-        assert header.getKeyIdxStream().collect(toList()) == [1, 2]
+        assert header.keyNamesStream.collect(toList()) == ["ColumnB", "ColumnC"]
+        assert header.keyIdxStream.collect(toList()) == [1, 2]
     }
 
     @Test
@@ -50,5 +50,16 @@ class TableDataHeaderTest {
 
         def keyLessHeader = new TableDataHeader(Stream.of("ColumnA", "ColumnB"))
         assert ! keyLessHeader.hasKeyColumns()
+    }
+
+    @Test
+    void "define key columns as a second parameter to constructor"() {
+        def header = new TableDataHeader(Stream.of("ColumnA", "ColumnB", "ColumnC", "ColumnD"),
+                Stream.of("ColumnB", "ColumnC"))
+
+        assert header.columnIdxByName("ColumnB") == 1
+        assert header.has("ColumnC")
+        assert header.keyNamesStream.collect(toList()) == ["ColumnB", "ColumnC"]
+        assert header.keyIdxStream.collect(toList()) == [1, 2]
     }
 }
