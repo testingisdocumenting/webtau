@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +25,7 @@ import java.util.function.Function;
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
 public class ActualValue implements ActualValueExpectations {
-    private Object actual;
+    private final Object actual;
 
     public ActualValue(Object actual) {
         this.actual = actual;

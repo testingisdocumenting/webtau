@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +17,7 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
-import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
-import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
-import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.expectation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +32,12 @@ public class CoreDocumentationAssertion implements ExpectationHandler {
         lastExpectedValues.set(extractExpectedValues(valueMatcher));
     }
 
+    @Override
+    public void onCodeMatch(CodeMatcher codeMatcher) {
+        lastActualValue.set(extractActualValue(codeMatcher));
+        lastExpectedValues.set(extractExpectedValues(codeMatcher));
+    }
+
     Object actualValue() {
         return lastActualValue.get();
     }
@@ -42,12 +46,12 @@ public class CoreDocumentationAssertion implements ExpectationHandler {
         return lastExpectedValues.get();
     }
 
-    private static Object extractExpectedValues(ValueMatcher valueMatcher) {
-        if (!(valueMatcher instanceof ExpectedValuesAware)) {
+    private static Object extractExpectedValues(Object matcher) {
+        if (!(matcher instanceof ExpectedValuesAware)) {
             return null;
         }
 
-        List<Object> list = ((ExpectedValuesAware) valueMatcher).expectedValues().collect(Collectors.toList());
+        List<Object> list = ((ExpectedValuesAware) matcher).expectedValues().collect(Collectors.toList());
         if (list.isEmpty()) {
             return null;
         }
@@ -57,5 +61,13 @@ public class CoreDocumentationAssertion implements ExpectationHandler {
         }
 
         return list.get(0);
+    }
+
+    private static Object extractActualValue(CodeMatcher codeMatcher) {
+        if (!(codeMatcher instanceof ActualValueAware)) {
+            return null;
+        }
+
+        return ((ActualValueAware) codeMatcher).actualValue();
     }
 }

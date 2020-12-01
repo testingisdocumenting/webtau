@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +26,8 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class ExpectationHandlers {
-    private static List<ExpectationHandler> globalHandlers = ServiceLoaderUtils.load(ExpectationHandler.class);
-    private static ThreadLocal<List<ExpectationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
+    private static final List<ExpectationHandler> globalHandlers = ServiceLoaderUtils.load(ExpectationHandler.class);
+    private static final ThreadLocal<List<ExpectationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
 
     public static void add(ExpectationHandler handler) {
         globalHandlers.add(handler);
@@ -59,6 +60,18 @@ public class ExpectationHandlers {
                 .filter(flow -> flow == Flow.Terminate)
                 .findFirst().orElse(Flow.PassToNext);
     }
+
+    public static void onCodeMatch(CodeMatcher codeMatcher) {
+        handlersStream().forEach(h -> h.onCodeMatch(codeMatcher));
+    }
+
+    public static Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
+        return handlersStream()
+                .map(h -> h.onCodeMismatch(codeMatcher, message))
+                .filter(flow -> flow == Flow.Terminate)
+                .findFirst().orElse(Flow.PassToNext);
+    }
+
 
     private static void addLocal(ExpectationHandler handler) {
         localHandlers.get().add(handler);
