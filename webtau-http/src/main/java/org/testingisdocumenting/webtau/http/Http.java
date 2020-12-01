@@ -81,6 +81,7 @@ import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 
 public class Http {
@@ -121,6 +122,10 @@ public class Http {
         }
 
         return true;
+    }
+
+    public String concatUrl(String baseUrl, String relativeUrl) {
+        return UrlUtils.concat(baseUrl, relativeUrl);
     }
 
     public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
