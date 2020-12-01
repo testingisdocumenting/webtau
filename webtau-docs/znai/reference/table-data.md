@@ -24,6 +24,40 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataSeparateValues", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
+# Key Columns
+
+Use `*` in front of a column to specify it as a key column
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableWithKeyColumns", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableWithKeyColumns", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+To access a value by key column
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "findByKeyAndValidate", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "findByKeyAndValidate", bodyOnly: true}
+```
+
+To change key columns of an existing table
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "changeKeyColumns", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "changeKeyColumns", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+Note: `withNewKeyColumns` creates new table and validates new key column uniqueness
+
 # Permutations
 
 Use `permute(v1, v2)` to automatically generate multiple rows.

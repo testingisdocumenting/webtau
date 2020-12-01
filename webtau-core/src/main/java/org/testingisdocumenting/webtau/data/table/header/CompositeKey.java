@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
  * Composite key to be used in structures like {@link TableData}.
  */
 public class CompositeKey {
-    private List<Object> values;
+    private final List<Object> values;
 
     public CompositeKey(Stream<Object> values) {
         this.values = values
