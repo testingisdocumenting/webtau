@@ -45,6 +45,15 @@ public class DocumentationArtifacts {
         FileUtils.writeTextContent(path, text);
     }
 
+    public static void createTextOrJson(Class<?> testClass, String artifactName, Object value) {
+        if (value instanceof String) {
+            Path path = DocumentationArtifactsLocation.classBasedLocation(testClass).resolve(artifactName + ".txt");
+            FileUtils.writeTextContent(path, value.toString());
+        } else {
+            createAsJson(testClass, artifactName, value);
+        }
+    }
+
     public static void createAsJson(Class<?> testClass, String artifactName, Object value) {
         artifactName += ".json";
 

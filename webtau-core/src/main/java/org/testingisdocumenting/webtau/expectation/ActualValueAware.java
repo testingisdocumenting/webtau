@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,6 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
-public interface ExpectationHandler {
-    enum Flow {
-        Terminate,
-        PassToNext
-    }
-
-    default Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
-        return Flow.PassToNext;
-    }
-
-    default void onValueMatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue) {}
-
-    default Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
-        return Flow.PassToNext;
-    }
-
-    default void onCodeMatch(CodeMatcher codeMatcher) {}
+public interface ActualValueAware {
+    Object actualValue();
 }

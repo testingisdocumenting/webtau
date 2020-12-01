@@ -64,9 +64,35 @@ class CoreDocumentationAssertionTest {
                 '} ]')
     }
 
+    @Test
+    void "should capture actual exception"() {
+        code {
+            throw new RuntimeException("actual full\nexception")
+        } should throwException(~/actual/)
+
+        doc.actual.capture(CoreDocumentationAssertionTest, "actual-exception")
+        validateArtifactContent("actual-exception", "txt",
+                "actual full\nexception")
+    }
+
+    @Test
+    void "should capture expected exception"() {
+        code {
+            throw new RuntimeException("actual full\nexception")
+        } should throwException(RuntimeException)
+
+        doc.expected.capture(CoreDocumentationAssertionTest, "expected-exception")
+        validateArtifactContent("expected-exception", "json",
+                '"java.lang.RuntimeException"')
+    }
+
     private static void validateArtifactContent(String artifactName, String expectedFileContent) {
+        validateArtifactContent(artifactName, "json", expectedFileContent)
+    }
+
+    private static void validateArtifactContent(String artifactName, String extension, String expectedFileContent) {
         def path = DocumentationArtifactsLocation.classBasedLocation(CoreDocumentationAssertionTest)
-                .resolve(artifactName + ".json")
+                .resolve(artifactName + "." + extension)
 
         actual(FileUtils.fileTextContent(path)).should(equal(expectedFileContent))
     }

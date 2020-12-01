@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,6 +33,6 @@ public class CoreDocumentationAssertionValue {
      * @param artifactName artifact name (file name without extension)
      */
     public void capture(Class<?> testClass, String artifactName) {
-        DocumentationArtifacts.createAsJson(testClass, artifactName, valueSupplier.get());
+        DocumentationArtifacts.createTextOrJson(testClass, artifactName, valueSupplier.get());
     }
 }
