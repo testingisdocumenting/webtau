@@ -17,3 +17,10 @@ When you use `url` parameter you set base url for both `REST` and `UI` testing.
 
 Use `browserUrl` to specify `UI` only base url. This can be handy when your backend and frontend live separately.  
 
+# Browser Id
+
+Use `browserId` via command line, or a config file parameter to specify which browser to use.
+
+:include-cli-command: webtau --browserId=firefox
+
+Note: Default `browserId` is `chrome`
