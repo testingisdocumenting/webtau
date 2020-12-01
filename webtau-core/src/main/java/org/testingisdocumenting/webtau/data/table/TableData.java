@@ -71,6 +71,23 @@ public class TableData implements Iterable<Record> {
     }
 
     /**
+     * create new table data with the data of a current one but with new key columns.
+     * can be used to validate new key columns uniqueness
+     * @param keyColumns new key columns
+     * @return new table data with updated key columns
+     */
+    public TableData withNewKeyColumns(String... keyColumns) {
+        TableDataHeader newHeader = new TableDataHeader(header.getNamesStream(), Arrays.stream(keyColumns));
+        TableData withNewHeader = new TableData(newHeader);
+
+        for (Record originalRow : rows) {
+            withNewHeader.addRow(newHeader.createRecord(originalRow.valuesStream()));
+        }
+
+        return withNewHeader;
+    }
+
+    /**
      * @param values row values combined in one vararg
      * @return populate table data instance
      */

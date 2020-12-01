@@ -24,6 +24,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import static org.testingisdocumenting.webtau.Matchers.code;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.*;
 
@@ -98,8 +99,34 @@ public class TableDataJavaTest {
         saveTableWithDate(newTableData, "table-after-replace");
     }
 
+    @Test
+    public void accessByKeyColumn() {
+        TableData tableData = createTableWithKeyColumns();
+        findByKeyAndValidate(tableData);
+    }
+
+    @Test
+    public void shouldChangeKeyColumnsAndValidateUniqueness() {
+        TableData tableData = createTableWithKeyColumns();
+
+        code(() ->
+            changeKeyColumns(tableData)
+        ).should(throwException("duplicate entry found with key: [N, T]\n" +
+                "{id=id1, Name=N, Type=T}\n" +
+                "{id=id3, Name=N, Type=T}"));
+    }
+
     private static TableData replaceValue(TableData tableData) {
         return tableData.replace("v1b", "v1b_");
+    }
+
+    private static TableData changeKeyColumns(TableData tableData) {
+        return tableData.withNewKeyColumns("Name", "Type");
+    }
+
+    private static void findByKeyAndValidate(TableData tableData) {
+        Record found = tableData.find(key("id2"));
+        actual(found.get("Name")).should(equal("N2"));
     }
 
     private static TableData createTableDataSeparateValues() {
@@ -161,6 +188,14 @@ public class TableDataJavaTest {
                      "Mike", cell.above               , increment);
     }
 
+    static TableData createTableWithKeyColumns() {
+        return table("*id" , "Name" , "Type",
+                     _______________________,
+                     "id1" , "N"    , "T",
+                     "id2" , "N2"   , "T2",
+                     "id3" , "N"    , "T");
+    }
+    
     private void saveTableWithDate(TableData tableData, String artifactName) {
         DocumentationArtifacts.createAsJson(TableDataJavaTest.class, artifactName,
                 tableData

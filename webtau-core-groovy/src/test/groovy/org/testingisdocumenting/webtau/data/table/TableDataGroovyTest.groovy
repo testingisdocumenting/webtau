@@ -93,8 +93,33 @@ class TableDataGroovyTest {
         validateSimpleTableDataAfterReplace(newTableData)
     }
 
+    @Test
+    void "access by key column"() {
+        TableData tableData = createTableWithKeyColumns()
+        findByKeyAndValidate(tableData)
+    }
+
+    @Test
+    void "should change key columns and validate uniqueness"() {
+        def tableData = createTableWithKeyColumns()
+        code {
+            changeKeyColumns(tableData)
+        } should throwException("duplicate entry found with key: [N, T]\n" +
+                "{id=id1, Name=N, Type=T}\n" +
+                "{id=id3, Name=N, Type=T}")
+    }
+
     private static TableData replaceValue(TableData tableData) {
         tableData.replace("v1b", "v1b_")
+    }
+
+    private static TableData changeKeyColumns(TableData tableData) {
+        tableData.withNewKeyColumns("Name", "Type")
+    }
+
+    private static void findByKeyAndValidate(TableData tableData) {
+        def found = tableData.find(key("id2"))
+        found.Name.should == "N2"
     }
 
     @Test
@@ -161,5 +186,13 @@ class TableDataGroovyTest {
          "John" | LocalDate.of(2016, 6, 20) | 10
          "Bob"  | cell.above                | increment
          "Mike" | cell.above                | increment }
+    }
+
+    static TableData createTableWithKeyColumns() {
+        ["*id" | "Name" | "Type"] {
+        ___________________________
+         "id1" | "N"    | "T"
+         "id2" | "N2"   | "T2"
+         "id3" | "N"    | "T" }
     }
 }

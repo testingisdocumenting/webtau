@@ -19,27 +19,27 @@ package org.testingisdocumenting.webtau.data.table.header;
 
 import org.testingisdocumenting.webtau.data.table.Record;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class TableDataHeader {
-    private final Map<String, Integer> indexByName;
-    private final List<String> namesByIndex;
+    private final Map<String, Integer> indexByName = new HashMap<>();
+    private final List<String> namesByIndex = new ArrayList<>();
 
+    private final List<Integer> keyIdx = new ArrayList<>();
     private final List<String> keyNames;
-    private final List<Integer> keyIdx;
 
     public TableDataHeader(Stream<String> names) {
-        this.indexByName = new HashMap<>();
-        this.namesByIndex = new ArrayList<>();
         this.keyNames = new ArrayList<>();
-        this.keyIdx = new ArrayList<>();
-
         names.forEach(this::add);
+    }
+
+    public TableDataHeader(Stream<String> names, Stream<String> keyNames) {
+        this.keyNames = new ArrayList<>();
+        Set<String> keyNamesAsSet = keyNames.collect(Collectors.toSet());
+        names.forEach(name -> add(name, keyNamesAsSet.contains(name)));
     }
 
     public Record createRecord(Stream<Object> values) {
@@ -82,9 +82,13 @@ public class TableDataHeader {
         boolean startsWithAsterisk = nameWithMeta.startsWith("*");
 
         String name = startsWithAsterisk ? nameWithMeta.substring(1) : nameWithMeta;
+        add(name, startsWithAsterisk);
+    }
+
+    private void add(String name, boolean isKeyColumn) {
         int newIdx = namesByIndex.size();
 
-        if (startsWithAsterisk) {
+        if (isKeyColumn) {
             keyNames.add(name);
             keyIdx.add(newIdx);
         }
@@ -95,6 +99,7 @@ public class TableDataHeader {
         }
 
         namesByIndex.add(name);
+
     }
 
     public String columnNameByIdx(int idx) {
