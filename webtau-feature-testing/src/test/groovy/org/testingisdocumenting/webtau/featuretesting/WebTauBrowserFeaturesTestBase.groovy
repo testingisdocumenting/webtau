@@ -140,7 +140,8 @@ class WebTauBrowserFeaturesTestBase {
         ])
 
         extractHtmlSnippets(root, 'finders-and-filters.html', [
-             'flat-menu.html': '#menu'
+                'welcome.html': '#welcome-wrapper',
+                'flat-menu.html': '#menu'
         ])
     }
 

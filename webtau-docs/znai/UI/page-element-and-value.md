@@ -1,6 +1,26 @@
+# Element Selection
+
+Use `$('css-selector')` to select a page element.
+
+```groovy {title: "select by id"}
+$('#element-id')
+```
+
+```groovy {title: "select by class"}
+$('.label')
+```
+
+```groovy {title: "select by attribute"}
+$('[data-test-id="my-id"]')
+```
+
+[Read Finders And Filters](UI/finders-and-filters) to learn how to select elements using more advanced techniques. 
+
+[Read W3Schools CSS selectors](https://www.w3schools.com/cssref/css_selectors.asp) to learn all kind of CSS selection techniques.   
+
 # Lazy Element 
 
-When you use `$('.css')` you create instance of `PageElement`. 
+When you use `$('css-selector')` you create an instance of `PageElement`. 
 
 `PageElement` represent an element that is present or *will be present* on a web page. It is safe to declare an element
 before you open a browser or navigate to the page you need to test.

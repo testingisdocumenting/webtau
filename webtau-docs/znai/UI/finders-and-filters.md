@@ -6,15 +6,15 @@ type: two-sides
 
 Finders in webtau is the initial web element selection that could select one or more elements.
 
-# By CSS
+# CSS Finder
 
-Use `$` to select an element by a given `css` selector.
+Use `$` to select an element by a given `css` selector ([Read W3Schools CSS selectors](https://www.w3schools.com/cssref/css_selectors.asp) to learn all kind of CSS selection techniques).   
 
-:include-file: doc-artifacts/snippets/finders-filters/byCss.groovy
+:include-file: doc-artifacts/snippets/finders-filters/byCss.groovy {title: "example of selecting by id"}
 
 If more than one element is matched, the first one will be used for actions and assertions.
 
-:include-file: doc-artifacts/snippets/finders-filters/byCssFirstMatched.groovy
+:include-file: doc-artifacts/snippets/finders-filters/byCssFirstMatched.groovy {title: "example of selecting by nested tags"}
 
 While `click` and `sendKeys` will always work on a first element only, the matchers can work with a list of things.
 
@@ -22,11 +22,17 @@ While `click` and `sendKeys` will always work on a first element only, the match
 
 Note: declaring element this way will not trigger element search right away.
 
-:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["div.div[0]", "div.div[1].ul.li[0].a"]}
+:include-meta: {rightSide: true}
+
+:include-empty-block:
+
+:include-xml: doc-artifacts/snippets/finders-filters/welcome.html 
+
+:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {paths: ["div.div[0]", "div.div[1].ul.li[0].a"]}
 
 # Filters
 
-You can use filters to narrow down elements selected by finders like `css`.
+You can use filters to narrow down elements selected by finders.
 
 Filter comes in a way of `get` method. Parameter is one of the following 
 * Element number
