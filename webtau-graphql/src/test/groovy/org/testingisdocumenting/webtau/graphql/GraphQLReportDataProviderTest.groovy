@@ -67,7 +67,7 @@ class GraphQLReportDataProviderTest {
                     p99: 6
                 ]
             ]
-        ]
+        ] as Set
         timeStats.should == expectedStats
     }
 
