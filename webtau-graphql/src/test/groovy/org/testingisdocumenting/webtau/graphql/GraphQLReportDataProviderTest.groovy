@@ -41,7 +41,7 @@ class GraphQLReportDataProviderTest {
     void "computes timing per query"() {
         def timeStats = reportDataProvider.provide(null)
             .find {it.getId() == "graphQLQueryTimeStatistics" }
-            .getData()
+            .getData() as Set
         def expectedStats = [
             [
                 name: 'allTasks',
@@ -67,7 +67,7 @@ class GraphQLReportDataProviderTest {
                     p99: 6
                 ]
             ]
-        ]
+        ] as Set
         timeStats.should == expectedStats
     }
 

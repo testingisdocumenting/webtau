@@ -16,21 +16,20 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 public class GraphQLCoveredQueries {
     private final Map<GraphQLQuery, Set<Call>> actualCallsIdsByQuery;
 
     GraphQLCoveredQueries() {
-        actualCallsIdsByQuery = new LinkedHashMap<>();
+        actualCallsIdsByQuery = new ConcurrentHashMap<>();
     }
 
     public void add(GraphQLQuery query, String id, long elapsedTime) {
-        Set<Call> calls = actualCallsIdsByQuery.computeIfAbsent(query, k -> new LinkedHashSet<>());
+        Set<Call> calls = actualCallsIdsByQuery.computeIfAbsent(query, k -> ConcurrentHashMap.newKeySet());
 
         calls.add(new Call(id, elapsedTime));
     }
