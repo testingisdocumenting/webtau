@@ -1,4 +1,4 @@
-name: Build znai
+name: Build webtau
 
 on: [push]
 
@@ -23,4 +23,4 @@ jobs:
       - name: Build with xvfb enabled
         uses: GabrielBB/xvfb-action@v1.0
         with:
-          run: mvn -B package
+          run: mvn -B verify
