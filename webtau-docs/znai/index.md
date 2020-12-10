@@ -1,12 +1,30 @@
 # WebTau 
 
-WebTau (**Web** **T**est **au**tomation) - concise and expressive way to create REST API, GraphQL API and Web UI tests.
+WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
+
+:include-image: webtau-logo.png {width: 256, align: "left"}
+
+Test your application across multiple layers:
+* REST API
+* GraphQL API
+* Web UI
+* CLI
+* Database
+* Business Logic (JVM only)
+
+Use one layer to re-inforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
+to validate GraphQL API.
 
 Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
-Tests can take the form of either scenario files, executed via a command line tool or Maven plugin, or JUnit tests.
+Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end tests development. 
 
-:include-image: webtau-logo.png {width: 256, align: "left"}
+# Quick Links
+
+* [Quick Examples](getting-started/quick-examples)
+* [Groovy Runner](getting-started/groovy-runner)
+* [JUnit4](getting-started/junit4)
+* [JUnit5](getting-started/junit5)
 
 ## Rest API
 
