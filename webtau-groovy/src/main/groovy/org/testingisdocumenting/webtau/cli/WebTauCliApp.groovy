@@ -37,6 +37,7 @@ import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
+import org.testingisdocumenting.webtau.version.WebtauVersion
 
 import java.nio.file.Files
 import java.util.function.Consumer
@@ -66,6 +67,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
 
         setupAnsi()
+        printVersion()
     }
 
     static void main(String[] args) {
@@ -172,6 +174,14 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         } else {
             runner.runTests()
         }
+    }
+
+    private static void printVersion() {
+        if (getCfg().getVerbosityLevel() == 0) {
+            return
+        }
+
+        WebtauVersion.print()
     }
 
     @Override
