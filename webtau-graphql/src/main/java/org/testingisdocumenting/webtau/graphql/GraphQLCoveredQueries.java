@@ -57,11 +57,11 @@ public class GraphQLCoveredQueries {
     }
 
     private Stream<GraphQLQuery> coveredBranches(Predicate<Call> callPredicate) {
-    return actualCallsIdsByQuery.entrySet().stream()
-        .filter(
-            graphQLQuerySetEntry ->
-                graphQLQuerySetEntry.getValue().stream().anyMatch(callPredicate))
-        .map(Entry::getKey);
+        return actualCallsIdsByQuery.entrySet().stream()
+            .filter(
+                graphQLQuerySetEntry ->
+                    graphQLQuerySetEntry.getValue().stream().anyMatch(callPredicate))
+            .map(Entry::getKey);
     }
 
     public static class Call {
