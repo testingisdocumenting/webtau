@@ -53,15 +53,35 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
                 .map(GraphQLQuery::toMap)
                 .collect(Collectors.toList());
 
+        List<? extends Map<String, ?>> successBranches = coverageSupplier.get().coveredSuccessBranches()
+                .map(GraphQLQuery::toMap)
+                .collect(Collectors.toList());
+
+        List<? extends Map<String, ?>> nonCoveredSuccessBranches = coverageSupplier.get().nonCoveredSuccessBranches()
+                .map(GraphQLQuery::toMap)
+                .collect(Collectors.toList());
+
+        List<? extends Map<String, ?>> errorBranches = coverageSupplier.get().coveredErrorBranches()
+                .map(GraphQLQuery::toMap)
+                .collect(Collectors.toList());
+
+        List<? extends Map<String, ?>> nonCoveredErrorBranches = coverageSupplier.get().nonCoveredErrorBranches()
+                .map(GraphQLQuery::toMap)
+                .collect(Collectors.toList());
+
         List<? extends Map<String, ?>> timingByQuery = computeTiming();
 
         Map<String, ?> coverageSummary = computeCoverageSummary();
 
-        return Stream.of(
-                new ReportCustomData("graphQLSkippedQueries", nonCoveredQueries),
-                new ReportCustomData("graphQLCoveredQueries", coveredQueries),
-                new ReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
-                new ReportCustomData("graphQLCoverageSummary", coverageSummary));
+    return Stream.of(
+        new ReportCustomData("graphQLSkippedQueries", nonCoveredQueries),
+        new ReportCustomData("graphQLCoveredQueries", coveredQueries),
+        new ReportCustomData("graphQLSkippedSuccessBranches", nonCoveredSuccessBranches),
+        new ReportCustomData("graphQLCoveredSuccessBranches", successBranches),
+        new ReportCustomData("graphQLSkippedErrorBranches", nonCoveredErrorBranches),
+        new ReportCustomData("graphQLCoveredErrorBranches", errorBranches),
+        new ReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
+        new ReportCustomData("graphQLCoverageSummary", coverageSummary));
     }
 
     private List<? extends Map<String, ?>> computeTiming() {
@@ -110,13 +130,32 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
         summary.put("types", summaryByType);
 
         double coveredQueries = coveredQueriesByType.values().stream().mapToInt(List::size).sum();
+        double successBranches = coverageSupplier.get().coveredSuccessBranches().count();
+        double errorBranches = coverageSupplier.get().coveredErrorBranches().count();
         double declaredQueries = declaredQueriesByType.values().stream().mapToInt(List::size).sum();
         double totalCoverage = coveredQueries / declaredQueries;
+        double successBranchCoverage = successBranches / declaredQueries;
+        double errorBranchCoverage = errorBranches / declaredQueries;
+        double overallBranchCoverage = computeOverallBranchCoverage(successBranchCoverage,
+            errorBranchCoverage);
 
         summary.put("totalDeclaredQueries", declaredQueries);
         summary.put("totalCoveredQueries", coveredQueries);
         summary.put("coverage", totalCoverage);
+        summary.put("successBranchCoverage", successBranchCoverage);
+        summary.put("errorBranchCoverage", errorBranchCoverage);
+        summary.put("branchCoverage", overallBranchCoverage);
 
         return summary;
+    }
+
+    /**
+     * full branch coverage = success + error coverage for each declared query
+     *                      = (successBranches + errorBranches) / 2 * declaredQueries
+     *                      = (successBranchCoverage + errorBranchCoverage) / 2
+     */
+    private double computeOverallBranchCoverage(double successBranchCoverage,
+        double errorBranchCoverage) {
+        return (successBranchCoverage + errorBranchCoverage) / 2;
     }
 }

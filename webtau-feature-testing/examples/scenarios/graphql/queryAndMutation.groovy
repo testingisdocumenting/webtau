@@ -48,3 +48,15 @@ scenario("complete a task") {
         taskById.completed.should == true
     }
 }
+
+scenario("cannot complete a completed task") {
+    graphql.execute(completeMutation, [id: "b"]) { // Execute a mutation with a variables map
+        errors.should == null
+        complete.should == true
+    }
+    graphql.execute(completeMutation, [id: "b"]) { // force an error
+        errors[0].message.shouldNot == null
+        complete.should == null
+    }
+}
+
