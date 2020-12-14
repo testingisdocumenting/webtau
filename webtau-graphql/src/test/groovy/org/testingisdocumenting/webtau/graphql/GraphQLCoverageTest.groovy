@@ -43,8 +43,8 @@ class GraphQLCoverageTest {
 
     @Test
     void "ignores non-graphql queries"() {
-        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '',0, 'GET'))
-        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '',0, 'POST', '/not-graphql'))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '', 0, 'GET'))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '', 0, 'POST', '/not-graphql'))
 
         coverage.coveredQueries().should == []
     }
