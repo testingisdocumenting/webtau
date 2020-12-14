@@ -16,8 +16,10 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -63,15 +65,15 @@ public class GraphQLCoverage {
         return coveredQueries.coveredSuccessBranches();
     }
     Stream<GraphQLQuery> nonCoveredSuccessBranches() {
-        Stream<GraphQLQuery> coveredSuccessBranches = coveredQueries.coveredSuccessBranches();
-        return schema.getSchemaDeclaredQueries().filter(o -> coveredSuccessBranches.noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
+        List<GraphQLQuery> coveredSuccessBranches = coveredQueries.coveredSuccessBranches().collect(Collectors.toList());
+        return schema.getSchemaDeclaredQueries().filter(o -> coveredSuccessBranches.stream().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
     Stream<GraphQLQuery> coveredErrorBranches() {
         return coveredQueries.coveredErrorBranches();
     }
     Stream<GraphQLQuery> nonCoveredErrorBranches() {
-        Stream<GraphQLQuery> coveredErrorBranches = coveredQueries.coveredErrorBranches();
-        return schema.getSchemaDeclaredQueries().filter(o -> coveredErrorBranches.noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
+        List<GraphQLQuery> coveredErrorBranches = coveredQueries.coveredErrorBranches().collect(Collectors.toList());;
+        return schema.getSchemaDeclaredQueries().filter(o -> coveredErrorBranches.stream().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
 
     Stream<GraphQLQuery> declaredQueries() {
