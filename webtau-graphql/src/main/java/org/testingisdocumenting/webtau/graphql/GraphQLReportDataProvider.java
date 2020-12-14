@@ -45,32 +45,13 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
 
     @Override
     public Stream<ReportCustomData> provide(WebTauTestList tests) {
-        List<? extends Map<String, ?>> nonCoveredQueries = coverageSupplier.get().nonCoveredQueries()
-                .map(GraphQLQuery::toMap)
-                .collect(Collectors.toList());
-
-        List<? extends Map<String, ?>> coveredQueries = coverageSupplier.get().coveredQueries()
-                .map(GraphQLQuery::toMap)
-                .collect(Collectors.toList());
-
-        List<? extends Map<String, ?>> successBranches = coverageSupplier.get().coveredSuccessBranches()
-                .map(GraphQLQuery::toMap)
-                .collect(Collectors.toList());
-
-        List<? extends Map<String, ?>> nonCoveredSuccessBranches = coverageSupplier.get().nonCoveredSuccessBranches()
-                .map(GraphQLQuery::toMap)
-                .collect(Collectors.toList());
-
-        List<? extends Map<String, ?>> errorBranches = coverageSupplier.get().coveredErrorBranches()
-                .map(GraphQLQuery::toMap)
-                .collect(Collectors.toList());
-
-        List<? extends Map<String, ?>> nonCoveredErrorBranches = coverageSupplier.get().nonCoveredErrorBranches()
-                .map(GraphQLQuery::toMap)
-                .collect(Collectors.toList());
-
+        List<? extends Map<String, ?>> nonCoveredQueries = formatGraphQLQueries(coverageSupplier.get().nonCoveredQueries());
+        List<? extends Map<String, ?>> coveredQueries = formatGraphQLQueries(coverageSupplier.get().coveredQueries());
+        List<? extends Map<String, ?>> successBranches = formatGraphQLQueries(coverageSupplier.get().coveredSuccessBranches());
+        List<? extends Map<String, ?>> nonCoveredSuccessBranches = formatGraphQLQueries(coverageSupplier.get().nonCoveredSuccessBranches());
+        List<? extends Map<String, ?>> errorBranches = formatGraphQLQueries(coverageSupplier.get().coveredErrorBranches());
+        List<? extends Map<String, ?>> nonCoveredErrorBranches = formatGraphQLQueries(coverageSupplier.get().nonCoveredErrorBranches());
         List<? extends Map<String, ?>> timingByQuery = computeTiming();
-
         Map<String, ?> coverageSummary = computeCoverageSummary();
 
     return Stream.of(
@@ -82,6 +63,10 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
         new ReportCustomData("graphQLCoveredErrorBranches", errorBranches),
         new ReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
         new ReportCustomData("graphQLCoverageSummary", coverageSummary));
+    }
+
+    private List<? extends Map<String, ?>> formatGraphQLQueries(Stream<GraphQLQuery> queryStream) {
+        return queryStream.map(GraphQLQuery::toMap).collect(Collectors.toList());
     }
 
     private List<? extends Map<String, ?>> computeTiming() {

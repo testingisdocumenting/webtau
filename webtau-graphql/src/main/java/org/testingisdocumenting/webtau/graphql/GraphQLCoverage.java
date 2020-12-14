@@ -43,8 +43,13 @@ public class GraphQLCoverage {
     }
 
     private boolean isErrorResult(HttpValidationResult validationResult) {
+      try {
         return JsonUtils.convertToTree(JsonUtils.deserialize(validationResult.getResponse().getTextContent()))
             .has("errors");
+      } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+      }
     }
 
     Stream<GraphQLQuery> nonCoveredQueries() {
@@ -58,13 +63,15 @@ public class GraphQLCoverage {
         return coveredQueries.coveredSuccessBranches();
     }
     Stream<GraphQLQuery> nonCoveredSuccessBranches() {
-        return schema.getSchemaDeclaredQueries().filter(o -> coveredQueries.coveredSuccessBranches().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
+        Stream<GraphQLQuery> coveredSuccessBranches = coveredQueries.coveredSuccessBranches();
+        return schema.getSchemaDeclaredQueries().filter(o -> coveredSuccessBranches.noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
     Stream<GraphQLQuery> coveredErrorBranches() {
         return coveredQueries.coveredErrorBranches();
     }
     Stream<GraphQLQuery> nonCoveredErrorBranches() {
-        return schema.getSchemaDeclaredQueries().filter(o -> coveredQueries.coveredErrorBranches().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
+        Stream<GraphQLQuery> coveredErrorBranches = coveredQueries.coveredErrorBranches();
+        return schema.getSchemaDeclaredQueries().filter(o -> coveredErrorBranches.noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
 
     Stream<GraphQLQuery> declaredQueries() {
