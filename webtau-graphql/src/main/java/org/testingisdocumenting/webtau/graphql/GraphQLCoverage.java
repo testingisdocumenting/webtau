@@ -83,6 +83,4 @@ public class GraphQLCoverage {
     Stream<Map.Entry<GraphQLQuery, Set<GraphQLCoveredQueries.Call>>> actualCalls() {
         return coveredQueries.getActualCalls();
     }
-
-
 }
