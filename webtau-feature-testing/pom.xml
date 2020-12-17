@@ -136,6 +136,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                    <wait>40000</wait>
                 </configuration>
                 <executions>
                     <execution>

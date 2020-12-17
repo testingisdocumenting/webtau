@@ -11,6 +11,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 9
     }
+  }, {
+    "scenario" : "cannot complete a completed task",
+    "shortContainerId" : "queryAndMutation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
   } ],
   "exitCode" : 0
 }

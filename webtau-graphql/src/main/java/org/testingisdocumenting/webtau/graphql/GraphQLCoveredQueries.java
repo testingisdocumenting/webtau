@@ -17,8 +17,10 @@
 package org.testingisdocumenting.webtau.graphql;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class GraphQLCoveredQueries {
@@ -28,10 +30,10 @@ public class GraphQLCoveredQueries {
         actualCallsIdsByQuery = new ConcurrentHashMap<>();
     }
 
-    public void add(GraphQLQuery query, String id, long elapsedTime) {
+    public void add(GraphQLQuery query, String id, long elapsedTime, boolean isError) {
         Set<Call> calls = actualCallsIdsByQuery.computeIfAbsent(query, k -> ConcurrentHashMap.newKeySet());
 
-        calls.add(new Call(id, elapsedTime));
+        calls.add(new Call(id, elapsedTime, isError));
     }
 
     public boolean contains(GraphQLQuery query) {
@@ -46,13 +48,31 @@ public class GraphQLCoveredQueries {
         return actualCallsIdsByQuery.entrySet().stream();
     }
 
+    public Stream<GraphQLQuery> coveredErrorBranches() {
+        return coveredBranches(Call::isErrorResult);
+    }
+
+    public Stream<GraphQLQuery> coveredSuccessBranches() {
+        return coveredBranches(Call::isSuccessResult);
+    }
+
+    private Stream<GraphQLQuery> coveredBranches(Predicate<Call> callPredicate) {
+        return actualCallsIdsByQuery.entrySet().stream()
+            .filter(
+                graphQLQuerySetEntry ->
+                    graphQLQuerySetEntry.getValue().stream().anyMatch(callPredicate))
+            .map(Entry::getKey);
+    }
+
     public static class Call {
         private final String id;
         private final long elapsedTime;
+        private final boolean errorResult;
 
-        private Call(String id, long elapsedTime) {
+        private Call(String id, long elapsedTime, boolean isError) {
             this.id = id;
             this.elapsedTime = elapsedTime;
+            this.errorResult = isError;
         }
 
         public String getId() {
@@ -61,6 +81,14 @@ public class GraphQLCoveredQueries {
 
         public long getElapsedTime() {
             return elapsedTime;
+        }
+
+        public boolean isErrorResult() {
+           return errorResult;
+        }
+
+        public boolean isSuccessResult() {
+            return !errorResult;
         }
     }
 }

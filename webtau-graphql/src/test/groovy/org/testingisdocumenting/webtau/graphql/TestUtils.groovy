@@ -16,11 +16,13 @@
 
 package org.testingisdocumenting.webtau.graphql
 
+import org.apache.commons.lang3.StringUtils
 import org.testingisdocumenting.webtau.http.HttpResponse
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.persona.Persona
+import org.testingisdocumenting.webtau.utils.JsonUtils
 
 class TestUtils {
     static def declaredOperations = [
@@ -30,8 +32,11 @@ class TestUtils {
         new GraphQLQuery("uncomplete", GraphQLQueryType.MUTATION),
     ] as Set
 
-    static HttpValidationResult validationResult(queryName, queryType, elapsedTime = 0, method = 'POST', url = '/graphql') {
-        def response = new HttpResponse()
+    static HttpValidationResult validationResult(queryName, queryType, responseJson = '', elapsedTime = 0, method = 'POST', url = '/graphql') {
+        def json = StringUtils.isNotBlank(responseJson) ? responseJson : JsonUtils.serialize([(queryName): [data: ""]])
+        def response = new HttpResponse(
+                contentType: 'application/json',
+                textContent: json)
         response.statusCode = 200
 
         def result = new HttpValidationResult(Persona.DEFAULT_PERSONA_ID, method, url, url, null, body(queryName, queryType))
