@@ -54,15 +54,15 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
         List<? extends Map<String, ?>> timingByQuery = computeTiming();
         Map<String, ?> coverageSummary = computeCoverageSummary();
 
-    return Stream.of(
-        new ReportCustomData("graphQLSkippedQueries", nonCoveredQueries),
-        new ReportCustomData("graphQLCoveredQueries", coveredQueries),
-        new ReportCustomData("graphQLSkippedSuccessBranches", nonCoveredSuccessBranches),
-        new ReportCustomData("graphQLCoveredSuccessBranches", successBranches),
-        new ReportCustomData("graphQLSkippedErrorBranches", nonCoveredErrorBranches),
-        new ReportCustomData("graphQLCoveredErrorBranches", errorBranches),
-        new ReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
-        new ReportCustomData("graphQLCoverageSummary", coverageSummary));
+        return Stream.of(
+            new ReportCustomData("graphQLSkippedQueries", nonCoveredQueries),
+            new ReportCustomData("graphQLCoveredQueries", coveredQueries),
+            new ReportCustomData("graphQLSkippedSuccessBranches", nonCoveredSuccessBranches),
+            new ReportCustomData("graphQLCoveredSuccessBranches", successBranches),
+            new ReportCustomData("graphQLSkippedErrorBranches", nonCoveredErrorBranches),
+            new ReportCustomData("graphQLCoveredErrorBranches", errorBranches),
+            new ReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
+            new ReportCustomData("graphQLCoverageSummary", coverageSummary));
     }
 
     private List<? extends Map<String, ?>> formatGraphQLQueries(Stream<GraphQLQuery> queryStream) {

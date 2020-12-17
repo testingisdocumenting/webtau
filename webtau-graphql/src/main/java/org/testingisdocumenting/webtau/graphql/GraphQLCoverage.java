@@ -56,21 +56,25 @@ public class GraphQLCoverage {
 
     Stream<GraphQLQuery> nonCoveredQueries() {
           return schema.getSchemaDeclaredQueries().filter(o -> !coveredQueries.contains(o));
-      }
+    }
 
     Stream<GraphQLQuery> coveredQueries() {
         return coveredQueries.coveredQueries();
     }
+
     Stream<GraphQLQuery> coveredSuccessBranches() {
         return coveredQueries.coveredSuccessBranches();
     }
+
     Stream<GraphQLQuery> nonCoveredSuccessBranches() {
         List<GraphQLQuery> coveredSuccessBranches = coveredQueries.coveredSuccessBranches().collect(Collectors.toList());
         return schema.getSchemaDeclaredQueries().filter(o -> coveredSuccessBranches.stream().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
+
     Stream<GraphQLQuery> coveredErrorBranches() {
         return coveredQueries.coveredErrorBranches();
     }
+
     Stream<GraphQLQuery> nonCoveredErrorBranches() {
         List<GraphQLQuery> coveredErrorBranches = coveredQueries.coveredErrorBranches().collect(Collectors.toList());;
         return schema.getSchemaDeclaredQueries().filter(o -> coveredErrorBranches.stream().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
