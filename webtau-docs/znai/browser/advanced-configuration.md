@@ -13,9 +13,9 @@ right:
 ```
 `````
 
-# Window Size
+# Browser Size
 
-Browser window size can be set using `windowWidth` and `windowHeight`
+Browser window size can be set using `browserWidth` and `browserHeight`
 
 :include-file: scenarios/ui/windowSize.cfg.groovy
 
