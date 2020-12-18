@@ -7,7 +7,7 @@ In order to do it we will use `createLazyResource`.
 
 :include-file: scenarios/rest/springboot/Customer.groovy {commentsType: "inline", title: "Customer lazy resource"}
 
-Note: to run one scenario at a time use `sscenario` (additional `s` in front). [Read more](groovy-specific-runner/selective-run)
+Note: to run one scenario at a time use `sscenario` (additional `s` in front). [Read more](groovy-standalone-runner/selective-run)
 
 # Report
 

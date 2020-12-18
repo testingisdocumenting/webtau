@@ -1,7 +1,7 @@
 # Data Focused Tests
 
-Webtau simplifies writing REST and UI tests. But if the logic behind REST and UI is written in JVM based language,
-webtau can also simplify testing the logic directly. 
+Webtau simplifies writing REST/GraphQL/Browser/DB/CLI tests. On top of that if the logic behind those layers is written in JVM based language,
+webtau also simplifies testing logic behind those layers directly. 
 
 Webtau makes tests to be focused on input and output by reducing boilerplate.  
 

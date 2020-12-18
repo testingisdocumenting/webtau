@@ -22,7 +22,7 @@
 
 :include-file: doc-artifacts/snippets/element-actions/sendKeys.groovy {title: "send keys"}
 
-Generic way to set a form element value. Will be covered more in [forms](UI/forms)
+Generic way to set a form element value. Will be covered more in [forms](browser/forms)
 
 :include-file: doc-artifacts/snippets/element-actions/setValue.groovy {title: "set value"}
 
