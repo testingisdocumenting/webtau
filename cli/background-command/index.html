@@ -105,6 +105,7 @@
 <script type="text/javascript" src="/webtau/search-index.js"></script>
 <script>
 document.getElementById('znai').innerHTML = '';
+/*<!--*/
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
@@ -260,7 +261,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1605924949780,
+    "lastModifiedTime" : 1608332058182,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Background Command",
@@ -280,8 +281,33 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }
   },
-  "footer" : { }
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
 }), document.getElementById("znai"));
+/*-->*/
+
 </script>
 
 </body>

@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Data Focused Tests</h1></header>
-<p>Webtau simplifies writing REST and UI tests. But if the logic behind REST and UI is written in JVM based language, webtau can also simplify testing the logic directly.Webtau makes tests to be focused on input and output by reducing boilerplate.</p>
+<p>Webtau simplifies writing REST/GraphQL/Browser/DB/CLI tests. On top of that if the logic behind those layers is written in JVM based language, webtau also simplifies testing logic behind those layers directly.Webtau makes tests to be focused on input and output by reducing boilerplate.</p>
 </article>
 
 <article>
@@ -105,6 +105,7 @@
 <script type="text/javascript" src="/webtau/search-index.js"></script>
 <script>
 document.getElementById('znai').innerHTML = '';
+/*<!--*/
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
@@ -126,12 +127,12 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau simplifies writing REST and UI tests. But if the logic behind REST and UI is written in JVM based language,",
+          "text" : "Webtau simplifies writing REST/GraphQL/Browser/DB/CLI tests. On top of that if the logic behind those layers is written in JVM based language,",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "webtau can also simplify testing the logic directly.",
+          "text" : "webtau also simplifies testing logic behind those layers directly.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -234,7 +235,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1605924949780,
+    "lastModifiedTime" : 1608332058182,
     "tocItem" : {
       "sectionTitle" : "JVM Business Logic",
       "pageTitle" : "Data Driven",
@@ -254,8 +255,33 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }
   },
-  "footer" : { }
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
 }), document.getElementById("znai"));
+/*-->*/
+
 </script>
 
 </body>

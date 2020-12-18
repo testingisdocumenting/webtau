@@ -83,154 +83,167 @@
 <div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
-<article>
-<header><h1>WebTau</h1></header>
-<p>WebTau (Web Test automation) - concise and expressive way to create REST API, GraphQL API and Web UI tests.Tests can be written in any JVM language. Language specific syntactic sugar is available for Groovy .Tests can take the form of either scenario files, executed via a command line tool or Maven plugin, or JUnit tests.WebTau provides a succinct DSL for querying REST APIs and asserting on responses. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class WeatherGroovyIT { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } json { &quot;temperature&quot;: 88 } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class WeatherJavaIT { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;temperature&quot;: 88 } Similar to REST APIs, WebTau also provides the ability to test GraphQL servers with its GraphQL DSL. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.Matchers.lessThan; import static org.testingisdocumenting.webtau.WebTauDsl.graphql; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = &quot;{ weather { temperature } }&quot;; graphql.execute(query, (header, body) -&gt; { body.get(&quot;data.weather.temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } } UI tests follow an identical pattern to API tests. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.should == 2 }</p>
-</article>
 </section>
 <section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <a href="/index/">WebTau</a>
-<a href="/index/#webtau">WebTau WebTau</a>
 </article>
 
 <article>
-<a href="REST/getting-started/">Getting Started</a>
-<a href="REST/getting-started/#installation-of-groovy-runner">Getting Started Installation Of Groovy Runner</a>
-<a href="REST/getting-started/#minimal-groovy-setup">Getting Started Minimal Groovy Setup</a>
-<a href="REST/getting-started/#minimal-junit-setup">Getting Started Minimal JUnit Setup</a>
+<a href="getting-started/what-is-this/">What Is This</a>
+<a href="getting-started/what-is-this/#webtau">What Is This WebTau</a>
+<a href="getting-started/what-is-this/#rest-api-example">What Is This Rest API Example</a>
+<a href="getting-started/what-is-this/#graphql-api-example">What Is This GraphQL API Example</a>
+<a href="getting-started/what-is-this/#web-ui-example">What Is This Web UI Example</a>
+<a href="getting-started/what-is-this/#db-example">What Is This DB Example</a>
+<a href="getting-started/what-is-this/#cli-example">What Is This CLI Example</a>
 </article>
 
 <article>
-<a href="REST/CRUD/">CRUD</a>
-<a href="REST/CRUD/#example">CRUD Example</a>
-<a href="REST/CRUD/#implicit-statuscode-check">CRUD Implicit statusCode Check</a>
-<a href="REST/CRUD/#report">CRUD Report</a>
-<a href="REST/CRUD/#spring-boot">CRUD Spring Boot</a>
+<a href="getting-started/why/">Why</a>
+<a href="getting-started/why/#consistent-api">Why Consistent API</a>
+<a href="getting-started/why/#reporting">Why Reporting</a>
+<a href="getting-started/why/#syntax-sugar">Why Syntax Sugar</a>
+<a href="getting-started/why/#repl">Why REPL</a>
+<a href="getting-started/why/#documentation-artifacts">Why Documentation Artifacts</a>
 </article>
 
 <article>
-<a href="REST/CRUD-separated/">CRUD Separated</a>
-<a href="REST/CRUD-separated/#lazy-resource">CRUD Separated Lazy Resource</a>
-<a href="REST/CRUD-separated/#report">CRUD Separated Report</a>
+<a href="getting-started/installation/">Installation</a>
+<a href="getting-started/installation/#runners">Installation Runners</a>
+<a href="getting-started/installation/#groovy-runner">Installation Groovy Runner</a>
+<a href="getting-started/installation/#junit5">Installation JUnit5</a>
+<a href="getting-started/installation/#junit4">Installation JUnit4</a>
 </article>
 
 <article>
-<a href="REST/data-node/">Data Node</a>
-<a href="REST/data-node/#special-values">Data Node Special Values</a>
-<a href="REST/data-node/#extracting-values">Data Node Extracting Values</a>
-<a href="REST/data-node/#properties-on-lists">Data Node Properties On Lists</a>
-<a href="REST/data-node/#path-based-properties-access">Data Node Path based properties access</a>
-<a href="REST/data-node/#if-else-logic">Data Node If-Else Logic</a>
-<a href="REST/data-node/#each">Data Node Each</a>
-<a href="REST/data-node/#find">Data Node Find</a>
-<a href="REST/data-node/#collect">Data Node Collect</a>
-<a href="REST/data-node/#combine">Data Node Combine</a>
+<a href="getting-started/configuration/">Configuration</a>
+<a href="getting-started/configuration/#config-file">Configuration Config File</a>
+<a href="getting-started/configuration/#overrides">Configuration Overrides</a>
 </article>
 
 <article>
-<a href="REST/headers/">Headers</a>
-<a href="REST/headers/#standard-header">Headers Standard Header</a>
-<a href="REST/headers/#common-header">Headers Common Header</a>
-<a href="REST/headers/#explicit-header">Headers Explicit Header</a>
-<a href="REST/headers/#mime-type-combined-with-payload">Headers Mime Type Combined With Payload</a>
-<a href="REST/headers/#response-header">Headers Response Header</a>
+<a href="HTTP/introduction/">Introduction</a>
 </article>
 
 <article>
-<a href="REST/query-parameters/">Query Parameters</a>
-<a href="REST/query-parameters/#passing-query-parameters">Query Parameters Passing Query Parameters</a>
-<a href="REST/query-parameters/#parameters-encoding">Query Parameters Parameters Encoding</a>
+<a href="HTTP/CRUD/">CRUD</a>
+<a href="HTTP/CRUD/#example">CRUD Example</a>
+<a href="HTTP/CRUD/#implicit-statuscode-check">CRUD Implicit statusCode Check</a>
+<a href="HTTP/CRUD/#report">CRUD Report</a>
 </article>
 
 <article>
-<a href="REST/ping/">Ping</a>
-<a href="REST/ping/#get">Ping GET</a>
+<a href="HTTP/CRUD-separated/">CRUD Separated</a>
+<a href="HTTP/CRUD-separated/#lazy-resource">CRUD Separated Lazy Resource</a>
+<a href="HTTP/CRUD-separated/#report">CRUD Separated Report</a>
 </article>
 
 <article>
-<a href="REST/files-upload/">Files Upload</a>
-<a href="REST/files-upload/#file-system-content">Files Upload File System Content</a>
-<a href="REST/files-upload/#in-memory-content">Files Upload In-Memory Content</a>
+<a href="HTTP/data-node/">Data Node</a>
+<a href="HTTP/data-node/#special-values">Data Node Special Values</a>
+<a href="HTTP/data-node/#extracting-values">Data Node Extracting Values</a>
+<a href="HTTP/data-node/#properties-on-lists">Data Node Properties On Lists</a>
+<a href="HTTP/data-node/#path-based-properties-access">Data Node Path based properties access</a>
+<a href="HTTP/data-node/#if-else-logic">Data Node If-Else Logic</a>
+<a href="HTTP/data-node/#each">Data Node Each</a>
+<a href="HTTP/data-node/#find">Data Node Find</a>
+<a href="HTTP/data-node/#collect">Data Node Collect</a>
+<a href="HTTP/data-node/#combine">Data Node Combine</a>
 </article>
 
 <article>
-<a href="REST/PDF/">PDF</a>
-<a href="REST/PDF/#asserting-text">PDF Asserting Text</a>
+<a href="HTTP/headers/">Headers</a>
+<a href="HTTP/headers/#standard-header">Headers Standard Header</a>
+<a href="HTTP/headers/#common-header">Headers Common Header</a>
+<a href="HTTP/headers/#explicit-header">Headers Explicit Header</a>
+<a href="HTTP/headers/#mime-type-combined-with-payload">Headers Mime Type Combined With Payload</a>
+<a href="HTTP/headers/#response-header">Headers Response Header</a>
 </article>
 
 <article>
-<a href="REST/documentation/">Documentation</a>
-<a href="REST/documentation/#scenarios">Documentation Scenarios</a>
-<a href="REST/documentation/#capturing-test-artifacts">Documentation Capturing Test Artifacts</a>
-<a href="REST/documentation/#test-artifacts-location">Documentation Test Artifacts Location</a>
-<a href="REST/documentation/#test-artifacts">Documentation Test Artifacts</a>
-<a href="REST/documentation/#document-rest-calls">Documentation Document REST calls</a>
+<a href="HTTP/query-parameters/">Query Parameters</a>
+<a href="HTTP/query-parameters/#passing-query-parameters">Query Parameters Passing Query Parameters</a>
+<a href="HTTP/query-parameters/#parameters-encoding">Query Parameters Parameters Encoding</a>
 </article>
 
 <article>
-<a href="REST/complex-types/">Complex Types</a>
-<a href="REST/complex-types/#contain">Complex Types Contain</a>
-<a href="REST/complex-types/#list-of-objects">Complex Types List Of Objects</a>
-<a href="REST/complex-types/#order-agnostic-match">Complex Types Order Agnostic Match</a>
+<a href="HTTP/ping/">Ping</a>
+<a href="HTTP/ping/#get">Ping GET</a>
 </article>
 
 <article>
-<a href="REST/openAPI-spec/">OpenAPI Spec</a>
-<a href="REST/openAPI-spec/#validation">OpenAPI Spec Validation</a>
-<a href="REST/openAPI-spec/#current-limitations">OpenAPI Spec Current limitations</a>
-<a href="REST/openAPI-spec/#validations-report">OpenAPI Spec Validations report</a>
-<a href="REST/openAPI-spec/#validation-configuration">OpenAPI Spec Validation Configuration</a>
-<a href="REST/openAPI-spec/#disable-validation">OpenAPI Spec Disable Validation</a>
+<a href="HTTP/files-upload/">Files Upload</a>
+<a href="HTTP/files-upload/#file-system-content">Files Upload File System Content</a>
+<a href="HTTP/files-upload/#in-memory-content">Files Upload In-Memory Content</a>
 </article>
 
 <article>
-<a href="REST/JSON-schema/">JSON Schema</a>
-<a href="REST/JSON-schema/#validation">JSON Schema Validation</a>
-<a href="REST/JSON-schema/#error-messages">JSON Schema Error messages</a>
-<a href="REST/JSON-schema/#configuration">JSON Schema Configuration</a>
+<a href="HTTP/PDF/">PDF</a>
+<a href="HTTP/PDF/#asserting-text">PDF Asserting Text</a>
 </article>
 
 <article>
-<a href="REST/report/">Report</a>
-<a href="REST/report/#location">Report Location</a>
-<a href="REST/report/#summary">Report Summary</a>
-<a href="REST/report/#test-summary">Report Test Summary</a>
-<a href="REST/report/#navigation">Report Navigation</a>
-<a href="REST/report/#additional-reports">Report Additional Reports</a>
+<a href="HTTP/documentation/">Documentation</a>
+<a href="HTTP/documentation/#scenarios">Documentation Scenarios</a>
+<a href="HTTP/documentation/#capturing-test-artifacts">Documentation Capturing Test Artifacts</a>
+<a href="HTTP/documentation/#test-artifacts-location">Documentation Test Artifacts Location</a>
+<a href="HTTP/documentation/#test-artifacts">Documentation Test Artifacts</a>
+<a href="HTTP/documentation/#document-rest-calls">Documentation Document REST calls</a>
 </article>
 
 <article>
-<a href="REST/maven/">Maven</a>
-<a href="REST/maven/#dependency">Maven Dependency</a>
-<a href="REST/maven/#plugin">Maven Plugin</a>
+<a href="HTTP/complex-types/">Complex Types</a>
+<a href="HTTP/complex-types/#contain">Complex Types Contain</a>
+<a href="HTTP/complex-types/#list-of-objects">Complex Types List Of Objects</a>
+<a href="HTTP/complex-types/#order-agnostic-match">Complex Types Order Agnostic Match</a>
 </article>
 
 <article>
-<a href="REST/matchers/">Matchers</a>
-<a href="REST/matchers/#imports-to-use">Matchers Imports to use</a>
-<a href="REST/matchers/#response-mapping">Matchers Response Mapping</a>
-<a href="REST/matchers/#should-and-should-not">Matchers Should and Should Not</a>
-<a href="REST/matchers/#equality">Matchers Equality</a>
-<a href="REST/matchers/#greaterlessequal">Matchers Greater/Less/Equal</a>
-<a href="REST/matchers/#contain">Matchers Contain</a>
-<a href="REST/matchers/#date-and-time">Matchers Date and Time</a>
-<a href="REST/matchers/#mixing-matchers">Matchers Mixing Matchers</a>
+<a href="HTTP/openAPI-spec/">OpenAPI Spec</a>
+<a href="HTTP/openAPI-spec/#validation">OpenAPI Spec Validation</a>
+<a href="HTTP/openAPI-spec/#current-limitations">OpenAPI Spec Current limitations</a>
+<a href="HTTP/openAPI-spec/#validations-report">OpenAPI Spec Validations report</a>
+<a href="HTTP/openAPI-spec/#validation-configuration">OpenAPI Spec Validation Configuration</a>
+<a href="HTTP/openAPI-spec/#disable-validation">OpenAPI Spec Disable Validation</a>
 </article>
 
 <article>
-<a href="REST/test-execution/">Test Execution</a>
-<a href="REST/test-execution/#serial-execution">Test Execution Serial execution</a>
-<a href="REST/test-execution/#parallel-execution">Test Execution Parallel execution</a>
-<a href="REST/test-execution/#scenario-discovery">Test Execution Scenario discovery</a>
+<a href="HTTP/JSON-schema/">JSON Schema</a>
+<a href="HTTP/JSON-schema/#validation">JSON Schema Validation</a>
+<a href="HTTP/JSON-schema/#error-messages">JSON Schema Error messages</a>
+<a href="HTTP/JSON-schema/#configuration">JSON Schema Configuration</a>
 </article>
 
 <article>
-<a href="GraphQL/getting-started/">Getting Started</a>
-<a href="GraphQL/getting-started/#installation-of-groovy-runner">Getting Started Installation Of Groovy Runner</a>
-<a href="GraphQL/getting-started/#minimal-groovy-setup">Getting Started Minimal Groovy Setup</a>
-<a href="GraphQL/getting-started/#minimal-junit-setup">Getting Started Minimal JUnit Setup</a>
-<a href="GraphQL/getting-started/#graphql-specifics">Getting Started GraphQL Specifics</a>
+<a href="HTTP/report/">Report</a>
+<a href="HTTP/report/#location">Report Location</a>
+<a href="HTTP/report/#summary">Report Summary</a>
+<a href="HTTP/report/#test-summary">Report Test Summary</a>
+<a href="HTTP/report/#navigation">Report Navigation</a>
+<a href="HTTP/report/#additional-reports">Report Additional Reports</a>
+</article>
+
+<article>
+<a href="HTTP/maven/">Maven</a>
+<a href="HTTP/maven/#dependency">Maven Dependency</a>
+<a href="HTTP/maven/#plugin">Maven Plugin</a>
+</article>
+
+<article>
+<a href="HTTP/matchers/">Matchers</a>
+<a href="HTTP/matchers/#imports-to-use">Matchers Imports to use</a>
+<a href="HTTP/matchers/#response-mapping">Matchers Response Mapping</a>
+<a href="HTTP/matchers/#should-and-should-not">Matchers Should and Should Not</a>
+<a href="HTTP/matchers/#equality">Matchers Equality</a>
+<a href="HTTP/matchers/#greaterlessequal">Matchers Greater/Less/Equal</a>
+<a href="HTTP/matchers/#contain">Matchers Contain</a>
+<a href="HTTP/matchers/#date-and-time">Matchers Date and Time</a>
+<a href="HTTP/matchers/#mixing-matchers">Matchers Mixing Matchers</a>
+</article>
+
+<article>
+<a href="GraphQL/introduction/">Introduction</a>
 </article>
 
 <article>
@@ -245,118 +258,117 @@
 </article>
 
 <article>
-<a href="UI/getting-started/">Getting Started</a>
-<a href="UI/getting-started/#installation-of-groovy-runner">Getting Started Installation Of Groovy Runner</a>
-<a href="UI/getting-started/#bare-minimum">Getting Started Bare Minimum</a>
-<a href="UI/getting-started/#config-file">Getting Started Config File</a>
+<a href="browser/introduction/">Introduction</a>
 </article>
 
 <article>
-<a href="UI/basic-configuration/">Basic Configuration</a>
-<a href="UI/basic-configuration/#base-url">Basic Configuration Base URL</a>
-<a href="UI/basic-configuration/#browser-only-base-url">Basic Configuration Browser Only Base URL</a>
+<a href="browser/basic-configuration/">Basic Configuration</a>
+<a href="browser/basic-configuration/#base-url">Basic Configuration Base URL</a>
+<a href="browser/basic-configuration/#browser-only-base-url">Basic Configuration Browser Only Base URL</a>
+<a href="browser/basic-configuration/#browser-id">Basic Configuration Browser Id</a>
 </article>
 
 <article>
-<a href="UI/page-element-and-value/">Page Element And Value</a>
-<a href="UI/page-element-and-value/#lazy-element">Page Element And Value Lazy Element</a>
-<a href="UI/page-element-and-value/#lazy-value">Page Element And Value Lazy Value</a>
+<a href="browser/page-element-and-value/">Page Element And Value</a>
+<a href="browser/page-element-and-value/#element-selection">Page Element And Value Element Selection</a>
+<a href="browser/page-element-and-value/#lazy-element">Page Element And Value Lazy Element</a>
+<a href="browser/page-element-and-value/#lazy-value">Page Element And Value Lazy Value</a>
 </article>
 
 <article>
-<a href="UI/page-object/">Page Object</a>
-<a href="UI/page-object/#test-encapsulation">Page Object Test Encapsulation</a>
-<a href="UI/page-object/#definition">Page Object Definition</a>
-<a href="UI/page-object/#grouping">Page Object Grouping</a>
+<a href="browser/page-object/">Page Object</a>
+<a href="browser/page-object/#test-encapsulation">Page Object Test Encapsulation</a>
+<a href="browser/page-object/#definition">Page Object Definition</a>
+<a href="browser/page-object/#grouping">Page Object Grouping</a>
 </article>
 
 <article>
-<a href="UI/element-actions/">Element Actions</a>
-<a href="UI/element-actions/#clicks">Element Actions Clicks</a>
-<a href="UI/element-actions/#modifications">Element Actions Modifications</a>
-<a href="UI/element-actions/#move-over">Element Actions Move over</a>
+<a href="browser/element-actions/">Element Actions</a>
+<a href="browser/element-actions/#clicks">Element Actions Clicks</a>
+<a href="browser/element-actions/#modifications">Element Actions Modifications</a>
+<a href="browser/element-actions/#move-over">Element Actions Move over</a>
 </article>
 
 <article>
-<a href="UI/forms/">Forms</a>
-<a href="UI/forms/#universal-set-value">Forms Universal Set Value</a>
-<a href="UI/forms/#default-input">Forms Default Input</a>
-<a href="UI/forms/#date-input">Forms Date Input</a>
-<a href="UI/forms/#select">Forms Select</a>
-<a href="UI/forms/#checkbox">Forms CheckBox</a>
-<a href="UI/forms/#universal-assert">Forms Universal Assert</a>
-<a href="UI/forms/#custom-form-elements">Forms Custom Form Elements</a>
+<a href="browser/forms/">Forms</a>
+<a href="browser/forms/#universal-set-value">Forms Universal Set Value</a>
+<a href="browser/forms/#default-input">Forms Default Input</a>
+<a href="browser/forms/#date-input">Forms Date Input</a>
+<a href="browser/forms/#select">Forms Select</a>
+<a href="browser/forms/#checkbox">Forms CheckBox</a>
+<a href="browser/forms/#universal-assert">Forms Universal Assert</a>
+<a href="browser/forms/#custom-form-elements">Forms Custom Form Elements</a>
 </article>
 
 <article>
-<a href="UI/asynchronous-page/">Asynchronous Page</a>
-<a href="UI/asynchronous-page/#synchronization">Asynchronous Page Synchronization</a>
-<a href="UI/asynchronous-page/#visiblehidden-element">Asynchronous Page Visible/Hidden Element</a>
-<a href="UI/asynchronous-page/#enableddisabled-element">Asynchronous Page Enabled/Disabled Element</a>
-<a href="UI/asynchronous-page/#wait-to-match">Asynchronous Page Wait to match</a>
-<a href="UI/asynchronous-page/#wait-on-url">Asynchronous Page Wait on url</a>
+<a href="browser/asynchronous-page/">Asynchronous Page</a>
+<a href="browser/asynchronous-page/#synchronization">Asynchronous Page Synchronization</a>
+<a href="browser/asynchronous-page/#visiblehidden-element">Asynchronous Page Visible/Hidden Element</a>
+<a href="browser/asynchronous-page/#enableddisabled-element">Asynchronous Page Enabled/Disabled Element</a>
+<a href="browser/asynchronous-page/#wait-to-match">Asynchronous Page Wait to match</a>
+<a href="browser/asynchronous-page/#wait-on-url">Asynchronous Page Wait on url</a>
 </article>
 
 <article>
-<a href="UI/documentation/">Documentation</a>
-<a href="UI/documentation/#scenarios">Documentation Scenarios</a>
-<a href="UI/documentation/#capturing-screenshots-with-annotations">Documentation Capturing Screenshots With Annotations</a>
-<a href="UI/documentation/#annotation-types">Documentation Annotation Types</a>
-<a href="UI/documentation/#annotation-placement">Documentation Annotation Placement</a>
+<a href="browser/documentation/">Documentation</a>
+<a href="browser/documentation/#scenarios">Documentation Scenarios</a>
+<a href="browser/documentation/#capturing-screenshots-with-annotations">Documentation Capturing Screenshots With Annotations</a>
+<a href="browser/documentation/#annotation-types">Documentation Annotation Types</a>
+<a href="browser/documentation/#annotation-placement">Documentation Annotation Placement</a>
 </article>
 
 <article>
-<a href="UI/advanced-configuration/">Advanced Configuration</a>
-<a href="UI/advanced-configuration/#timeouts">Advanced Configuration Timeouts</a>
-<a href="UI/advanced-configuration/#window-size">Advanced Configuration Window Size</a>
-<a href="UI/advanced-configuration/#documentation-artifacts">Advanced Configuration Documentation Artifacts</a>
+<a href="browser/advanced-configuration/">Advanced Configuration</a>
+<a href="browser/advanced-configuration/#timeouts">Advanced Configuration Timeouts</a>
+<a href="browser/advanced-configuration/#browser-size">Advanced Configuration Browser Size</a>
+<a href="browser/advanced-configuration/#documentation-artifacts">Advanced Configuration Documentation Artifacts</a>
 </article>
 
 <article>
-<a href="UI/local-storage/">Local Storage</a>
-<a href="UI/local-storage/#access-local-storage">Local Storage Access Local Storage</a>
+<a href="browser/local-storage/">Local Storage</a>
+<a href="browser/local-storage/#access-local-storage">Local Storage Access Local Storage</a>
 </article>
 
 <article>
-<a href="UI/cookies/">Cookies</a>
-<a href="UI/cookies/#add-cookies">Cookies Add Cookies</a>
-<a href="UI/cookies/#get-cookies">Cookies Get Cookies</a>
-<a href="UI/cookies/#delete-cookies">Cookies Delete Cookies</a>
+<a href="browser/cookies/">Cookies</a>
+<a href="browser/cookies/#add-cookies">Cookies Add Cookies</a>
+<a href="browser/cookies/#get-cookies">Cookies Get Cookies</a>
+<a href="browser/cookies/#delete-cookies">Cookies Delete Cookies</a>
 </article>
 
 <article>
-<a href="UI/navigation/">Navigation</a>
-<a href="UI/navigation/#open">Navigation Open</a>
-<a href="UI/navigation/#reopen">Navigation Reopen</a>
-<a href="UI/navigation/#refresh">Navigation Refresh</a>
-<a href="UI/navigation/#restart">Navigation Restart</a>
-<a href="UI/navigation/#assert-url">Navigation Assert URL</a>
-<a href="UI/navigation/#persist-url">Navigation Persist URL</a>
+<a href="browser/navigation/">Navigation</a>
+<a href="browser/navigation/#open">Navigation Open</a>
+<a href="browser/navigation/#reopen">Navigation Reopen</a>
+<a href="browser/navigation/#refresh">Navigation Refresh</a>
+<a href="browser/navigation/#restart">Navigation Restart</a>
+<a href="browser/navigation/#assert-url">Navigation Assert URL</a>
+<a href="browser/navigation/#persist-url">Navigation Persist URL</a>
 </article>
 
 <article>
-<a href="UI/page-open-handlers/">Page Open Handlers</a>
-<a href="UI/page-open-handlers/#implicit-page-open-logic">Page Open Handlers Implicit Page Open Logic</a>
-<a href="UI/page-open-handlers/#auto-login">Page Open Handlers Auto Login</a>
+<a href="browser/page-open-handlers/">Page Open Handlers</a>
+<a href="browser/page-open-handlers/#implicit-page-open-logic">Page Open Handlers Implicit Page Open Logic</a>
+<a href="browser/page-open-handlers/#auto-login">Page Open Handlers Auto Login</a>
 </article>
 
 <article>
-<a href="UI/finders-and-filters/">Finders And Filters</a>
-<a href="UI/finders-and-filters/#finders">Finders And Filters Finders</a>
-<a href="UI/finders-and-filters/#by-css">Finders And Filters By CSS</a>
-<a href="UI/finders-and-filters/#filters">Finders And Filters Filters</a>
-<a href="UI/finders-and-filters/#chaining">Finders And Filters Chaining</a>
+<a href="browser/finders-and-filters/">Finders And Filters</a>
+<a href="browser/finders-and-filters/#finders">Finders And Filters Finders</a>
+<a href="browser/finders-and-filters/#css-finder">Finders And Filters CSS Finder</a>
+<a href="browser/finders-and-filters/#filters">Finders And Filters Filters</a>
+<a href="browser/finders-and-filters/#chaining">Finders And Filters Chaining</a>
 </article>
 
 <article>
-<a href="UI/matchers/">Matchers</a>
-<a href="UI/matchers/#text">Matchers Text</a>
-<a href="UI/matchers/#numbers">Matchers Numbers</a>
-<a href="UI/matchers/#state">Matchers State</a>
+<a href="browser/matchers/">Matchers</a>
+<a href="browser/matchers/#text">Matchers Text</a>
+<a href="browser/matchers/#numbers">Matchers Numbers</a>
+<a href="browser/matchers/#state">Matchers State</a>
 </article>
 
 <article>
-<a href="database/getting-started/">Getting Started</a>
+<a href="database/introduction/">Introduction</a>
 </article>
 
 <article>
@@ -374,9 +386,7 @@
 </article>
 
 <article>
-<a href="cli/getting-started/">Getting Started</a>
-<a href="cli/getting-started/#installation">Getting Started Installation</a>
-<a href="cli/getting-started/#groovy-runner-example">Getting Started Groovy Runner Example</a>
+<a href="cli/introduction/">Introduction</a>
 </article>
 
 <article>
@@ -398,41 +408,55 @@
 </article>
 
 <article>
-<a href="groovy-specific-runner/data-driven-scenarios/">Data Driven Scenarios</a>
-<a href="groovy-specific-runner/data-driven-scenarios/#dynamic-scenarios">Data Driven Scenarios Dynamic Scenarios</a>
-<a href="groovy-specific-runner/data-driven-scenarios/#csv">Data Driven Scenarios CSV</a>
-<a href="groovy-specific-runner/data-driven-scenarios/#table-data">Data Driven Scenarios Table Data</a>
+<a href="groovy-standalone-runner/introduction/">Introduction</a>
+<a href="groovy-standalone-runner/introduction/#standalone-cli">Introduction Standalone CLI</a>
+<a href="groovy-standalone-runner/introduction/#setup">Introduction Setup</a>
+<a href="groovy-standalone-runner/introduction/#repl">Introduction REPL</a>
 </article>
 
 <article>
-<a href="groovy-specific-runner/tests-hard-stops/">Tests Hard Stops</a>
-<a href="groovy-specific-runner/tests-hard-stops/#terminate-all">Tests Hard Stops Terminate All</a>
+<a href="groovy-standalone-runner/data-driven-scenarios/">Data Driven Scenarios</a>
+<a href="groovy-standalone-runner/data-driven-scenarios/#dynamic-scenarios">Data Driven Scenarios Dynamic Scenarios</a>
+<a href="groovy-standalone-runner/data-driven-scenarios/#csv">Data Driven Scenarios CSV</a>
+<a href="groovy-standalone-runner/data-driven-scenarios/#table-data">Data Driven Scenarios Table Data</a>
 </article>
 
 <article>
-<a href="groovy-specific-runner/selective-run/">Selective Run</a>
-<a href="groovy-specific-runner/selective-run/#sscenario">Selective Run sscenario</a>
+<a href="groovy-standalone-runner/tests-hard-stops/">Tests Hard Stops</a>
+<a href="groovy-standalone-runner/tests-hard-stops/#terminate-all">Tests Hard Stops Terminate All</a>
 </article>
 
 <article>
-<a href="groovy-specific-runner/skipping-tests/">Skipping Tests</a>
-<a href="groovy-specific-runner/skipping-tests/#skipping-tests-on-condition">Skipping Tests Skipping Tests on Condition</a>
-<a href="groovy-specific-runner/skipping-tests/#skipping-tests-based-on-env">Skipping Tests Skipping Tests Based on Env</a>
-<a href="groovy-specific-runner/skipping-tests/#custom-shortcuts">Skipping Tests Custom Shortcuts</a>
-<a href="groovy-specific-runner/skipping-tests/#unconditionally-skipping-tests">Skipping Tests Unconditionally Skipping Tests</a>
+<a href="groovy-standalone-runner/selective-run/">Selective Run</a>
+<a href="groovy-standalone-runner/selective-run/#sscenario">Selective Run sscenario</a>
 </article>
 
 <article>
-<a href="groovy-specific-runner/test-metadata/">Test Metadata</a>
-<a href="groovy-specific-runner/test-metadata/#specifying-test-metadata">Test Metadata Specifying Test Metadata</a>
-<a href="groovy-specific-runner/test-metadata/#metadata-encapsulation">Test Metadata Metadata Encapsulation</a>
-<a href="groovy-specific-runner/test-metadata/#report">Test Metadata Report</a>
+<a href="groovy-standalone-runner/skipping-tests/">Skipping Tests</a>
+<a href="groovy-standalone-runner/skipping-tests/#skipping-tests-on-condition">Skipping Tests Skipping Tests on Condition</a>
+<a href="groovy-standalone-runner/skipping-tests/#skipping-tests-based-on-env">Skipping Tests Skipping Tests Based on Env</a>
+<a href="groovy-standalone-runner/skipping-tests/#custom-shortcuts">Skipping Tests Custom Shortcuts</a>
+<a href="groovy-standalone-runner/skipping-tests/#unconditionally-skipping-tests">Skipping Tests Unconditionally Skipping Tests</a>
 </article>
 
 <article>
-<a href="groovy-specific-runner/test-listeners/">Test Listeners</a>
-<a href="groovy-specific-runner/test-listeners/#test-listener-interface">Test Listeners Test Listener Interface</a>
-<a href="groovy-specific-runner/test-listeners/#config">Test Listeners Config</a>
+<a href="groovy-standalone-runner/test-metadata/">Test Metadata</a>
+<a href="groovy-standalone-runner/test-metadata/#specifying-test-metadata">Test Metadata Specifying Test Metadata</a>
+<a href="groovy-standalone-runner/test-metadata/#metadata-encapsulation">Test Metadata Metadata Encapsulation</a>
+<a href="groovy-standalone-runner/test-metadata/#report">Test Metadata Report</a>
+</article>
+
+<article>
+<a href="groovy-standalone-runner/test-listeners/">Test Listeners</a>
+<a href="groovy-standalone-runner/test-listeners/#test-listener-interface">Test Listeners Test Listener Interface</a>
+<a href="groovy-standalone-runner/test-listeners/#config">Test Listeners Config</a>
+</article>
+
+<article>
+<a href="groovy-standalone-runner/test-execution/">Test Execution</a>
+<a href="groovy-standalone-runner/test-execution/#serial-execution">Test Execution Serial execution</a>
+<a href="groovy-standalone-runner/test-execution/#parallel-execution">Test Execution Parallel execution</a>
+<a href="groovy-standalone-runner/test-execution/#scenario-discovery">Test Execution Scenario discovery</a>
 </article>
 
 <article>
@@ -453,6 +477,17 @@
 <a href="REPL/test-runs/#re-run-last-run">Test Runs Re-run Last Run</a>
 <a href="REPL/test-runs/#multiple-test-scenarios-run">Test Runs Multiple Test Scenarios Run</a>
 <a href="REPL/test-runs/#select-scenarios-without-run">Test Runs Select Scenarios Without Run</a>
+</article>
+
+<article>
+<a href="configuration/environments/">Environments</a>
+<a href="configuration/environments/#select">Environments Select</a>
+</article>
+
+<article>
+<a href="configuration/options/">Options</a>
+<a href="configuration/options/#cli-and-configuration-file-options">Options CLI and configuration file options</a>
+<a href="configuration/options/#environment-variable-options">Options Environment variable options</a>
 </article>
 
 <article>
@@ -489,27 +524,12 @@
 <article>
 <a href="reference/table-data/">Table Data</a>
 <a href="reference/table-data/#create">Table Data Create</a>
+<a href="reference/table-data/#key-columns">Table Data Key Columns</a>
 <a href="reference/table-data/#permutations">Table Data Permutations</a>
 <a href="reference/table-data/#guid">Table Data GUID</a>
 <a href="reference/table-data/#replace">Table Data Replace</a>
 <a href="reference/table-data/#cell-above-value-reference">Table Data Cell Above Value Reference</a>
 <a href="reference/table-data/#cell-above-math">Table Data Cell Above Math</a>
-</article>
-
-<article>
-<a href="configuration/cli/">Cli</a>
-<a href="configuration/cli/#overrides">Cli Overrides</a>
-</article>
-
-<article>
-<a href="configuration/environments/">Environments</a>
-<a href="configuration/environments/#select">Environments Select</a>
-</article>
-
-<article>
-<a href="configuration/options/">Options</a>
-<a href="configuration/options/#cli-and-configuration-file-options">Options CLI and configuration file options</a>
-<a href="configuration/options/#environment-variable-options">Options Environment variable options</a>
 </article>
 </section>
 </div>
@@ -519,6 +539,7 @@
 <script type="text/javascript" src="/webtau/search-index.js"></script>
 <script>
 document.getElementById('znai').innerHTML = '';
+/*<!--*/
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
@@ -534,213 +555,10 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "WebTau",
-      "id" : "webtau",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "WebTau (",
-          "type" : "SimpleText"
-        }, {
-          "type" : "StrongEmphasis",
-          "content" : [ {
-            "text" : "Web",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : " ",
-          "type" : "SimpleText"
-        }, {
-          "type" : "StrongEmphasis",
-          "content" : [ {
-            "text" : "T",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : "est ",
-          "type" : "SimpleText"
-        }, {
-          "type" : "StrongEmphasis",
-          "content" : [ {
-            "text" : "au",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : "tomation) - concise and expressive way to create REST API, GraphQL API and Web UI tests.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Tests can be written in any JVM language. Language specific syntactic sugar is available for ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "Groovy",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ".",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Tests can take the form of either scenario files, executed via a command line tool or Maven plugin, or JUnit tests.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "width" : 256.0,
-        "align" : "left",
-        "imageSrc" : "/webtau/webtau-logo.png",
-        "timestamp" : 1605924949788,
-        "shapes" : [ ],
-        "height" : 256.0,
-        "type" : "AnnotatedImage"
-      }, {
-        "level" : 2,
-        "title" : "Rest API",
-        "id" : "rest-api",
-        "type" : "SubHeading"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "WebTau provides a succinct DSL for querying REST APIs and asserting on responses.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "tabsContent" : [ {
-          "name" : "Groovy",
-          "content" : [ {
-            "columns" : [ {
-              "content" : [ {
-                "lang" : "groovy",
-                "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe < 100\n    }\n}",
-                "title" : "REST API test (Groovy specific runner)",
-                "type" : "Snippet"
-              }, {
-                "lang" : "groovy",
-                "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@RunWith(WebTauRunner.class)\nclass WeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
-                "title" : "REST API test (JUnit4)",
-                "type" : "Snippet"
-              } ]
-            }, {
-              "content" : [ {
-                "lang" : "json",
-                "snippet" : "{\n  \"temperature\": 88\n}\n",
-                "lineNumber" : "",
-                "title" : "Server Response",
-                "type" : "Snippet"
-              } ]
-            } ],
-            "config" : { },
-            "type" : "Columns"
-          } ]
-        }, {
-          "name" : "Java",
-          "content" : [ {
-            "columns" : [ {
-              "content" : [ {
-                "lang" : "java",
-                "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class WeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
-                "title" : "REST API test (JUnit4 Java)",
-                "type" : "Snippet"
-              } ]
-            }, {
-              "content" : [ {
-                "lang" : "json",
-                "snippet" : "{\n  \"temperature\": 88\n}\n",
-                "lineNumber" : "",
-                "title" : "Server Response",
-                "type" : "Snippet"
-              } ]
-            } ],
-            "config" : { },
-            "type" : "Columns"
-          } ]
-        } ],
-        "type" : "Tabs"
-      }, {
-        "level" : 2,
-        "title" : "GraphQL API",
-        "id" : "graphql-api",
-        "type" : "SubHeading"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Similar to REST APIs, WebTau also provides the ability to test GraphQL servers with its GraphQL DSL.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "tabsContent" : [ {
-          "name" : "Groovy",
-          "content" : [ {
-            "columns" : [ {
-              "content" : [ {
-                "lang" : "groovy",
-                "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    def query = \"{ weather { temperature } }\";\n    graphql.execute(query) {\n        weather.temperature.shouldBe < 100\n    }\n}",
-                "title" : "GraphQL API test (Groovy specific runner)",
-                "type" : "Snippet"
-              }, {
-                "lang" : "groovy",
-                "snippet" : "package com.example.tests.junit4\n\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql\n\n@RunWith(WebTauRunner.class)\nclass GraphQLWeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        def query = \"{ weather { temperature } }\";\n        graphql.execute(query) {\n            weather.temperature.shouldBe < 100\n        }\n    }\n}",
-                "title" : "GraphQL API test (JUnit4)",
-                "type" : "Snippet"
-              } ]
-            }, {
-              "content" : [ {
-                "lang" : "json",
-                "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
-                "lineNumber" : "",
-                "title" : "Server Response",
-                "type" : "Snippet"
-              } ]
-            } ],
-            "config" : { },
-            "type" : "Columns"
-          } ]
-        }, {
-          "name" : "Java",
-          "content" : [ {
-            "columns" : [ {
-              "content" : [ {
-                "lang" : "java",
-                "snippet" : "package com.example.tests.junit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\n\nimport static org.testingisdocumenting.webtau.Matchers.lessThan;\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql;\n\n@RunWith(WebTauRunner.class)\npublic class GraphQLWeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        String query = \"{ weather { temperature } }\";\n        graphql.execute(query, (header, body) -> {\n            body.get(\"data.weather.temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
-                "title" : "GraphQL API test (JUnit4 Java)",
-                "type" : "Snippet"
-              } ]
-            }, {
-              "content" : [ {
-                "lang" : "json",
-                "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
-                "lineNumber" : "",
-                "title" : "Server Response",
-                "type" : "Snippet"
-              } ]
-            } ],
-            "config" : { },
-            "type" : "Columns"
-          } ]
-        } ],
-        "type" : "Tabs"
-      }, {
-        "level" : 2,
-        "title" : "Web UI",
-        "id" : "web-ui",
-        "type" : "SubHeading"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "UI tests follow an identical pattern to API tests.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.should == 2\n}",
-        "title" : "Web UI test",
-        "type" : "Snippet"
-      } ]
+      "url" : "getting-started/what-is-this",
+      "type" : "Redirect"
     } ],
-    "lastModifiedTime" : 1605924949784,
+    "lastModifiedTime" : 1608332058186,
     "tocItem" : {
       "sectionTitle" : "",
       "pageTitle" : "WebTau",
@@ -748,14 +566,36 @@ ReactDOM.render(React.createElement(Documentation, {
       "dirName" : "",
       "fileName" : "index",
       "viewOnRelativePath" : null,
-      "pageSectionIdTitles" : [ {
-        "title" : "WebTau",
-        "id" : "webtau"
-      } ]
+      "pageSectionIdTitles" : [ ]
     }
   },
-  "footer" : { }
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
 }), document.getElementById("znai"));
+/*-->*/
+
 </script>
 
 </body>

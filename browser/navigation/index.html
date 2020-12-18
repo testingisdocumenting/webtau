@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Navigation</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Open</h1></header>
+<p>To open a page use browser.open . Browser will load a page only if the current url doesn't match the passed one. search.submit('query') browser.open(&quot;/search&quot;) // page is not be ing refreshed search.searchMessage.should == 'searching for query' Note: relative url will be automatically expanded to the full url based on the browser/basic-configuration configuration</p>
+</article>
+
+<article>
+<header><h1>Reopen</h1></header>
+<p>Use brower.reopen to force open the page even if the page url already matches the passed one. search.submit('name') browser.reopen(&quot;/search&quot;) // page is going to be refreshed search.searchMessage.should == ''</p>
+</article>
+
+<article>
+<header><h1>Refresh</h1></header>
+<p>Use browser.refresh to refresh current page. search.submit('name') browser.reopen(&quot;/search&quot;) // page is going to be refreshed search.searchMessage.should == ''</p>
+</article>
+
+<article>
+<header><h1>Restart</h1></header>
+<p>Use browser.restart to restart a browser and open last opened url. browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'pretty') browser.refresh() $('#favorite-color').should == 'pretty' browser.restart() $('#favorite-color').should == '' Note: restarting creates a clean instance of a browser. Local storage is going to be reset.</p>
+</article>
+
+<article>
+<header><h1>Assert URL</h1></header>
+<p>Use browser.url to assert on or wait for url changes. http://example.com/resource/id?type=full&amp;debug=true#subId browser.url.path.should == '/resource/id' browser.url.query.should == 'type=full&amp;debug=true' browser.url.ref.should == 'subId' browser.url.should == 'http://example.com/resource/id?type=full&amp;debug=true#subId' browser.url.path.waitTo == '/resource/id' browser.url.query.waitTo == 'type=full&amp;debug=true' browser.url.ref.waitTo == 'subId'</p>
+</article>
+
+<article>
+<header><h1>Persist URL</h1></header>
+<p>Use browser.saveCurrentUrl to save url in a local cache and browser.openSavedUrl to open a page later.It can be handy in multipart tests where first part creates an entity and the second part updates the created entity. browser.open('/resource-creation') $('#new').click() browser.saveCurrentUrl() In order to simplify tests development of a second part you can run first part once, save URL, and iterate on a second part by opening a page using saved URL. browser.openSavedUrl() // continue resource related manipulations Note: url is stored in a local cache file and will survive tests restart.</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Open",
+      "id" : "open",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To open a page use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.open",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". Browser will load a page only if the current url doesn't match the passed one.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "search.submit('query')\n\nbrowser.open(\"/search\") // page is not be ing refreshed\nsearch.searchMessage.should == 'searching for query'",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: relative url will be automatically expanded to the full url based on the ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/browser/basic-configuration",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "configuration",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "title" : "Reopen",
+      "id" : "reopen",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "brower.reopen",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to force open the page even if the page url already matches the passed one.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "search.submit('name')\n\nbrowser.reopen(\"/search\") // page is going to be refreshed\nsearch.searchMessage.should == ''",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Refresh",
+      "id" : "refresh",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.refresh",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to refresh current page.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "search.submit('name')\n\nbrowser.reopen(\"/search\") // page is going to be refreshed\nsearch.searchMessage.should == ''",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Restart",
+      "id" : "restart",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.restart",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to restart a browser and open last opened url.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.open('/local-storage')\nbrowser.localStorage.setItem('favoriteColor', 'pretty')\n\nbrowser.refresh()\n$('#favorite-color').should == 'pretty'\n\nbrowser.restart()\n$('#favorite-color').should == ''",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: restarting creates a clean instance of a browser. Local storage is going to be reset.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Assert URL",
+      "id" : "assert-url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.url",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to assert on or wait for url changes.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "txt",
+        "snippet" : "http://example.com/resource/id?type=full&debug=true#subId",
+        "title" : "sample url",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.url.path.should == '/resource/id'\nbrowser.url.query.should == 'type=full&debug=true'\nbrowser.url.ref.should == 'subId'",
+        "title" : "asserting url parts",
+        "entry" : "should expose url parts with should",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.url.should == 'http://example.com/resource/id?type=full&debug=true#subId'",
+        "title" : "asserting full url",
+        "entry" : "full part should be optional and default during assertion",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.url.path.waitTo == '/resource/id'\nbrowser.url.query.waitTo == 'type=full&debug=true'\nbrowser.url.ref.waitTo == 'subId'",
+        "title" : "waiting on url parts",
+        "entry" : "should expose url parts with wait",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Persist URL",
+      "id" : "persist-url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.saveCurrentUrl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to save url in a local cache and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.openSavedUrl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to open a page later.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "It can be handy in multipart tests where first part creates an entity and the second part",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "updates the created entity.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.open('/resource-creation')\n\n$('#new').click()\nbrowser.saveCurrentUrl()",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In order to simplify tests development of a second part you can run first part once, save URL,",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "and iterate on a second part by opening a page using saved URL.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.openSavedUrl()\n// continue resource related manipulations",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: url is stored in a local cache file and will survive tests restart.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "Browser",
+      "pageTitle" : "Navigation",
+      "pageMeta" : { },
+      "dirName" : "browser",
+      "fileName" : "navigation",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Open",
+        "id" : "open"
+      }, {
+        "title" : "Reopen",
+        "id" : "reopen"
+      }, {
+        "title" : "Refresh",
+        "id" : "refresh"
+      }, {
+        "title" : "Restart",
+        "id" : "restart"
+      }, {
+        "title" : "Assert URL",
+        "id" : "assert-url"
+      }, {
+        "title" : "Persist URL",
+        "id" : "persist-url"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Matchers</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Text</h1></header>
+<p>def message = $('#message') message.should == 'Select option' def message = $('#message') message.should == ~/option/ def menu = $('#menu ul li') menu.should == ['Hello', 'Text', 'World'] def menu = $('#menu ul li') menu.should contain('Text') def menu = $('#menu ul li') menu.should == ['Hello', ~/T..t/, 'World']</p>
+</article>
+
+<article>
+<header><h1>Numbers</h1></header>
+<p>def total = $('#total') total.should == 300.6 def total = $('#total') total.shouldBe &gt; 200 def total = $('#total') total.shouldBe &gt;= 300 def split = $('#split ul li') split.should == [100, 28, 172.6] def split = $('#split ul li') split.should == [100, lessThan(100), greaterThanOrEqual(150)]</p>
+</article>
+
+<article>
+<header><h1>State</h1></header>
+<p>def button = $(&quot;#action&quot;) button.should beDisabled() button.shouldNot beEnabled() def feedback = $(&quot;#feedback&quot;) feedback.should beHidden() feedback.shouldNot beVisible() &lt;div&gt; &lt;button id=&quot;action&quot; disabled&gt;Click me&lt;/button&gt; &lt;div id=&quot;feedback&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt; &lt;/div&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Text",
+      "id" : "text",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def message = $('#message')\nmessage.should == 'Select option'",
+        "title" : "exact text",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def message = $('#message')\nmessage.should == ~/option/",
+        "title" : "regexp text",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def menu = $('#menu ul li')\nmenu.should == ['Hello', 'Text', 'World']",
+        "title" : "list of text",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def menu = $('#menu ul li')\nmenu.should contain('Text')",
+        "title" : "contain text in list",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def menu = $('#menu ul li')\nmenu.should == ['Hello', ~/T..t/, 'World']",
+        "title" : "list of text and regexp",
+        "type" : "Snippet"
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "xmlAsJson" : {
+          "tagName" : "div",
+          "attributes" : [ ],
+          "children" : [ {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"message\""
+            } ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "Select option"
+            } ]
+          }, {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"menu\""
+            } ],
+            "children" : [ {
+              "tagName" : "ul",
+              "attributes" : [ ],
+              "children" : [ {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "Hello"
+                } ]
+              }, {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "Text"
+                } ]
+              }, {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "World"
+                } ]
+              } ]
+            } ]
+          } ]
+        },
+        "paths" : [ ],
+        "type" : "Xml"
+      } ]
+    }, {
+      "title" : "Numbers",
+      "id" : "numbers",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def total = $('#total')\ntotal.should == 300.6",
+        "title" : "exact number",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def total = $('#total')\ntotal.shouldBe > 200",
+        "title" : "greater than",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def total = $('#total')\ntotal.shouldBe >= 300",
+        "title" : "greater than or equal",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def split = $('#split ul li')\nsplit.should == [100, 28, 172.6]",
+        "title" : "list of numbers",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def split = $('#split ul li')\nsplit.should == [100, lessThan(100), greaterThanOrEqual(150)]",
+        "title" : "list of exact and greater/less",
+        "type" : "Snippet"
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "xmlAsJson" : {
+          "tagName" : "div",
+          "attributes" : [ ],
+          "children" : [ {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"total\""
+            } ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "300.6"
+            } ]
+          }, {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"split\""
+            } ],
+            "children" : [ {
+              "tagName" : "ul",
+              "attributes" : [ ],
+              "children" : [ {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "100"
+                } ]
+              }, {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "28"
+                } ]
+              }, {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "172.6"
+                } ]
+              } ]
+            } ]
+          } ]
+        },
+        "paths" : [ ],
+        "type" : "Xml"
+      } ]
+    }, {
+      "title" : "State",
+      "id" : "state",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def button = $(\"#action\")\nbutton.should beDisabled()\nbutton.shouldNot beEnabled()",
+        "title" : "enabled/disabled",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def feedback = $(\"#feedback\")\nfeedback.should beHidden()\nfeedback.shouldNot beVisible()",
+        "title" : "visible/hidden",
+        "type" : "Snippet"
+      }, {
+        "lang" : "html",
+        "snippet" : "<div> <button id=\"action\" disabled>Click me</button> \n <div id=\"feedback\" style=\"display: none;\"></div> \n</div>",
+        "meta" : {
+          "rightSide" : true
+        },
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "Browser",
+      "pageTitle" : "Matchers",
+      "pageMeta" : {
+        "type" : [ "two-sides" ]
+      },
+      "dirName" : "browser",
+      "fileName" : "matchers",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Text",
+        "id" : "text"
+      }, {
+        "title" : "Numbers",
+        "id" : "numbers"
+      }, {
+        "title" : "State",
+        "id" : "state"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

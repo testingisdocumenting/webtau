@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Introduction</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Standalone CLI</h1></header>
+<p>Webtau has a standalone runner, so you can author and run tests without needing a build system or IDEs. You can fire your editor of choice and start creating automations without worrying about imports and packages to get your first result.In Enterprise setups webtau command line tool can be shared with everyone through mount drives or other similar mechanisms which makes local testing and CI testing to be much more streamlined.</p>
+</article>
+
+<article>
+<header><h1>Setup</h1></header>
+<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip webtau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</p>
+</article>
+
+<article>
+<header><h1>REPL</h1></header>
+<p>Webtau standalone runner comes with repl mode that let you experiment with API and write tests incrementally. Repl mode preserves context of the runs which significantly speeds up tests development.Even if you don't want to use Groovy for your tests, you can still benefit from REPL mode as you experiment with APIs and system under tests. REPL/experiments Learn more about REPL</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Standalone CLI",
+      "id" : "standalone-cli",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau has a standalone runner, so you can author and run tests without needing a build system or IDEs.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "You can fire your editor of choice and start creating automations without worrying about imports and packages",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "to get your first result.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In Enterprise setups webtau command line tool can be shared with everyone through mount drives or other similar",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "mechanisms which makes local testing and CI testing to be much more streamlined.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Setup",
+      "id" : "setup",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Download and unzip ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "webtau",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Add it to your ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PATH",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "webtau --example",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Navigate into ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "todo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " example",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "cd examples/todo",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch todo item') {\n    http.get('/todos/1') {\n        title.should == 'delectus aut autem'\n        completed.should == false\n    }\n}",
+        "title" : "todolist.groovy",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To run test",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "webtau todolist.groovy --url=https://jsonplaceholder.typicode.com",
+        "paramsToHighlight" : [ "url" ],
+        "type" : "CliCommand"
+      } ]
+    }, {
+      "title" : "REPL",
+      "id" : "repl",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau standalone runner comes with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "repl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " mode that let you experiment with API and write tests incrementally.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Repl mode preserves context of the runs which significantly speeds up tests development.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Even if you don't want to use Groovy for your tests, you can still benefit from REPL mode as you experiment with APIs",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "and system under tests.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/webtau/REPL/experiments",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Learn more about REPL",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058186,
+    "tocItem" : {
+      "sectionTitle" : "Groovy Standalone Runner",
+      "pageTitle" : "Introduction",
+      "pageMeta" : { },
+      "dirName" : "groovy-standalone-runner",
+      "fileName" : "introduction",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Standalone CLI",
+        "id" : "standalone-cli"
+      }, {
+        "title" : "Setup",
+        "id" : "setup"
+      }, {
+        "title" : "REPL",
+        "id" : "repl"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

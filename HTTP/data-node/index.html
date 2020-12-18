@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Data Node</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Special Values</h1></header>
+<p>http.get(&quot;/end-point&quot;) { price.should == 100 assert price instanceof DataNode } Values that you access inside validation block are special values of DataNode type. When you assert them using should statement they act as proxies that record every assertion that you do.</p>
+</article>
+
+<article>
+<header><h1>Extracting Values</h1></header>
+<p>As you have seen in HTTP/CRUD CRUD example you can return values back from a validation block. def id = http.get(&quot;/end-point&quot;) { return id } assert id == 10 assert id.getClass() == Integer When you return a value from a validation block, it automatically gets converted to its correspondent primitive.Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only to get values required for consequent test calls.</p>
+</article>
+
+<article>
+<header><h1>Properties On Lists</h1></header>
+<p>If you have a list of objects like complexList above, you can access all its children property value with complexList.k2 . http.get(&quot;/end-point&quot;) { complexList.k2.should == [30, 40] }</p>
+</article>
+
+<article>
+<header><h1>Path based properties access</h1></header>
+<p>Primarily for Java users, webtau supports the ability to query properties of a DataNode via a path instead of chaining get(String name) calls. For example, to obtain a simple property: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;object.k1&quot;).should(equal(&quot;v1&quot;)); }); It is also possible to query arrays, including the ability to query for the Nth element from the end: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList[0].k1&quot;).should(equal(&quot;v1&quot;)); body.get(&quot;complexList[-1].k1&quot;).should(equal(&quot;v11&quot;)); }); Similarly to the Groovy example in HTTP/data-node#properties-on-lists Properties On Lists, it is possible to access all children property values: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList.k1&quot;).should(equal(Arrays.asList(&quot;v1&quot;, &quot;v11&quot;))); });</p>
+</article>
+
+<article>
+<header><h1>If-Else Logic</h1></header>
+<p>Even though values that you access inside validation block are special values of DataNode type, you can still perform simple if-else like logic checks on them. Accessing the values will mark them as &quot;touched&quot; for data coverage statistic. def zipCode = http.get(&quot;/address&quot;) { return addressType == &quot;complex&quot; ? address.zipCode : &quot;NA&quot; } zipCode.should == &quot;12345&quot; Warning: Comparison of complex values is not properly implemented due to current Groovy API implementation details</p>
+</article>
+
+<article>
+<header><h1>Each</h1></header>
+<p>Special values inside assertion block have convenient methods each to iterate over a list http.get(&quot;/end-point&quot;) { list.each { it.shouldBe &gt; 0 } } http.get(&quot;/end-point&quot;) { complexList.each { k2.shouldBe &gt; 0 } }</p>
+</article>
+
+<article>
+<header><h1>Find</h1></header>
+<p>find to find a single value def found = http.get(&quot;/end-point&quot;) { return list.find { it &gt; 1 } } assert found == 2 assert found.getClass() == Integer and findAll to find all the values matching predicate def found = http.get(&quot;/end-point&quot;) { return list.findAll { it &gt; 1 } } assert found == [2, 3] assert found[0].getClass() == Integer Note: While values inside a predicate are normal values, the result of find and findAll is still DataNode def id = http.get(&quot;/end-point&quot;) { def found = complexList.find { assert k1.getClass() == String k1 == 'v1' } assert found.getClass() == GroovyDataNode return found.id } assert id.getClass() == String</p>
+</article>
+
+<article>
+<header><h1>Collect</h1></header>
+<p>Use collect to transform a collection of items def transformed = http.get(&quot;/end-point&quot;) { return list.collect { &quot;world#${it}&quot; } } assert transformed == ['world#1', 'world#2', 'world#3'] assert transformed[0] instanceof GString</p>
+</article>
+
+<article>
+<header><h1>Combine</h1></header>
+<p>Methods find and collect can be chained def sum = http.get(&quot;/end-point&quot;) { return complexList .findAll { k1.startsWith('v1') } .collect { k2 } .sum() } assert sum == 70</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Special Values",
+      "id" : "special-values",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "http.get(\"/end-point\") {\n    price.should == 100\n    assert price instanceof DataNode\n}",
+        "entry" : "use groovy closure as validation",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Values that you access inside validation block are special values of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "DataNode",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " type. When you assert them using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "should",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " statement",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "they act as proxies that record every assertion that you do.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Extracting Values",
+      "id" : "extracting-values",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "As you have seen in ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/HTTP/CRUD",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "CRUD example",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " you can return values back from a validation block.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def id = http.get(\"/end-point\") {\n    return id\n}\n\nassert id == 10\nassert id.getClass() == Integer",
+        "entry" : "can return simple value from get",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you return a value from a validation block, it automatically gets converted to its correspondent primitive.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "to get values required for consequent test calls.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Properties On Lists",
+      "id" : "properties-on-lists",
+      "type" : "Section",
+      "content" : [ {
+        "data" : {
+          "id" : 10,
+          "price" : 100,
+          "amount" : 30,
+          "list" : [ 1, 2, 3 ],
+          "object" : {
+            "k1" : "v1",
+            "k2" : "v2",
+            "k3" : "v3"
+          },
+          "complexList" : [ {
+            "id" : "id1",
+            "k1" : "v1",
+            "k2" : 30
+          }, {
+            "id" : "id2",
+            "k1" : "v11",
+            "k2" : 40
+          } ]
+        },
+        "paths" : [ ],
+        "type" : "Json"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If you have a list of objects like ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "complexList",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " above, you can access all its children property value with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "complexList.k2",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "http.get(\"/end-point\") {\n    complexList.k2.should == [30, 40]\n}",
+        "entry" : "groovy children key shortcut",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Path based properties access",
+      "id" : "path-based-properties-access",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Primarily for Java users, webtau supports the ability to query properties of a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "DataNode",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " via a path instead of chaining",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "code" : "get(String name)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " calls.  For example, to obtain a simple property:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"object.k1\").should(equal(\"v1\"));\n});",
+        "entry" : "canQueryNodeByPath",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "It is also possible to query arrays, including the ability to query for the Nth element from the end:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"complexList[0].k1\").should(equal(\"v1\"));\n    body.get(\"complexList[-1].k1\").should(equal(\"v11\"));\n});",
+        "entry" : "canQuerySpecificListElementByPath",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Similarly to the Groovy example in ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/HTTP/data-node#properties-on-lists",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Properties On Lists",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ", it is possible to access",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "all children property values:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"complexList.k1\").should(equal(Arrays.asList(\"v1\", \"v11\")));\n});",
+        "entry" : "canQueryListByNodePath",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "If-Else Logic",
+      "id" : "if-else-logic",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Even though values that you access inside validation block are special values of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "DataNode",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " type, you can still",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "perform simple ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "if-else",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " like logic checks on them. Accessing the values will mark them as \"touched\" for data coverage statistic.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def zipCode = http.get(\"/address\") {\n    return addressType == \"complex\" ? address.zipCode : \"NA\"\n}\n\nzipCode.should == \"12345\"",
+        "entry" : "if-else logic",
+        "bodyOnly" : true,
+        "title" : "simple if-else logic",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Warning: Comparison of complex values is not properly implemented due to current Groovy API implementation details",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Each",
+      "id" : "each",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Special values inside assertion block have convenient methods",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "each",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to iterate over a list",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "http.get(\"/end-point\") {\n    list.each { it.shouldBe > 0 }\n}",
+        "entry" : "groovy each on simple list",
+        "bodyOnly" : true,
+        "title" : "List of simple values",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "http.get(\"/end-point\") {\n    complexList.each { k2.shouldBe > 0 }\n}",
+        "entry" : "groovy each on complex list",
+        "bodyOnly" : true,
+        "title" : "List of complex values",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Find",
+      "id" : "find",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "find",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to find a single value",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def found = http.get(\"/end-point\") {\n    return list.find { it > 1 }\n}\n\nassert found == 2\nassert found.getClass() == Integer",
+        "entry" : "groovy find on list",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "findAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to find all the values matching predicate",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def found = http.get(\"/end-point\") {\n    return list.findAll { it > 1 }\n}\n\nassert found == [2, 3]\nassert found[0].getClass() == Integer",
+        "entry" : "groovy findAll on list",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: While values inside a predicate are normal values, the result of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "find",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "findAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is still ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "DataNode",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def id = http.get(\"/end-point\") {\n    def found = complexList.find {\n        assert k1.getClass() == String\n        k1 == 'v1'\n    }\n    assert found.getClass() == GroovyDataNode\n\n    return found.id\n}\n\nassert id.getClass() == String",
+        "entry" : "groovy find on list of objects",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Collect",
+      "id" : "collect",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "collect",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to transform a collection of items",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def transformed = http.get(\"/end-point\") {\n    return list.collect { \"world#${it}\" }\n}\n\nassert transformed == ['world#1', 'world#2', 'world#3']\nassert transformed[0] instanceof GString",
+        "entry" : "groovy transform list",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Combine",
+      "id" : "combine",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Methods ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "find",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "collect",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " can be chained",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def sum = http.get(\"/end-point\") {\n    return complexList\n            .findAll { k1.startsWith('v1') }\n            .collect { k2 }\n            .sum()\n}\n\nassert sum == 70",
+        "entry" : "groovy findAll, collect, and sum",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "HTTP",
+      "pageTitle" : "Data Node",
+      "pageMeta" : { },
+      "dirName" : "HTTP",
+      "fileName" : "data-node",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Special Values",
+        "id" : "special-values"
+      }, {
+        "title" : "Extracting Values",
+        "id" : "extracting-values"
+      }, {
+        "title" : "Properties On Lists",
+        "id" : "properties-on-lists"
+      }, {
+        "title" : "Path based properties access",
+        "id" : "path-based-properties-access"
+      }, {
+        "title" : "If-Else Logic",
+        "id" : "if-else-logic"
+      }, {
+        "title" : "Each",
+        "id" : "each"
+      }, {
+        "title" : "Find",
+        "id" : "find"
+      }, {
+        "title" : "Collect",
+        "id" : "collect"
+      }, {
+        "title" : "Combine",
+        "id" : "combine"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

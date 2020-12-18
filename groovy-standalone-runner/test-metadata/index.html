@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Test Metadata</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Specifying Test Metadata</h1></header>
+<p>To attach custom metadata to a test use metadata from WebTauGroovyDsl package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* metadata([owner: &quot;team A&quot;]) // setting owner for all the scenarios below scenario(&quot;one&quot;) { } scenario(&quot;two&quot;) { } scenario(&quot;three&quot;) { metadata([owner: &quot;team B&quot;]) // owner is overridden for scenario &quot;three&quot; } scenario(&quot;four&quot;) { } metadata can be called multiple times outside of scenario . It will be applied to all the scenarios below. package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* metadata([owner: &quot;team A&quot;]) // setting owner for scenarios &quot;one&quot; and &quot;two&quot; scenario(&quot;one&quot;) { } scenario(&quot;two&quot;) { } metadata([owner: &quot;team B&quot;]) // setting owner for scenarios &quot;three&quot; and &quot;four&quot; scenario(&quot;three&quot;) { } scenario(&quot;four&quot;) { } Unlike previous example, &quot;team B&quot; will be set for scenario &quot;three&quot; and &quot;four&quot;.</p>
+</article>
+
+<article>
+<header><h1>Metadata Encapsulation</h1></header>
+<p>You can encapsulate repeated metadata into a separate file. package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* Support.teamA() scenario(&quot;one&quot;) { } scenario(&quot;two&quot;) { } scenario(&quot;three&quot;) { Support.teamB() } scenario(&quot;four&quot;) { } package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* class Support { static void owner(String name) { metadata([owner: name]) } static void severity(int level) { metadata([severity: level]) } static void teamA() { owner(&quot;team A&quot;) } static void teamB() { owner(&quot;team B&quot;) } static void critical() { severity(100) } static void low() { severity(1) } }</p>
+</article>
+
+<article>
+<header><h1>Report</h1></header>
+<p>Test metadata will be available in a generated report as well as in test listeners.If metadata is present, it will be displayed at the test summary page</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Specifying Test Metadata",
+      "id" : "specifying-test-metadata",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To attach custom metadata to a test use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "metadata",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauGroovyDsl",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nmetadata([owner: \"team A\"]) // setting owner for all the scenarios below\n\nscenario(\"one\") {\n}\n\nscenario(\"two\") {\n}\n\nscenario(\"three\") {\n    metadata([owner: \"team B\"]) // owner is overridden for scenario \"three\"\n}\n\nscenario(\"four\") {\n}",
+        "title" : "test metadata",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "metadata",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " can be called multiple times outside of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "scenario",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". It will be applied to all the scenarios below.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nmetadata([owner: \"team A\"]) // setting owner for scenarios \"one\" and \"two\"\n\nscenario(\"one\") {\n}\n\nscenario(\"two\") {\n}\n\nmetadata([owner: \"team B\"]) // setting owner for scenarios \"three\" and \"four\"\n\nscenario(\"three\") {\n}\n\nscenario(\"four\") {\n}",
+        "title" : "multiple top-level metadata",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Unlike previous example, \"team B\" will be set for scenario \"three\" and \"four\".",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Metadata Encapsulation",
+      "id" : "metadata-encapsulation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can encapsulate repeated metadata into a separate file.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nSupport.teamA()\n\nscenario(\"one\") {\n}\n\nscenario(\"two\") {\n}\n\nscenario(\"three\") {\n    Support.teamB()\n}\n\nscenario(\"four\") {\n}",
+        "title" : "encapsulated metadata",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nclass Support {\n    static void owner(String name) {\n        metadata([owner: name])\n    }\n\n    static void severity(int level) {\n        metadata([severity: level])\n    }\n\n    static void teamA() {\n        owner(\"team A\")\n    }\n\n    static void teamB() {\n        owner(\"team B\")\n    }\n\n    static void critical() {\n        severity(100)\n    }\n\n    static void low() {\n        severity(1)\n    }\n}",
+        "title" : "Support.groovy",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Report",
+      "id" : "report",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Test metadata will be available in a generated report as well as in test listeners.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "annotationsPath" : "doc-artifacts/reports/report-test-metadata.json",
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-metadata.png",
+        "timestamp" : 1608332569737,
+        "shapes" : [ {
+          "id" : "circle3",
+          "type" : "circle",
+          "text" : "1",
+          "color" : "a",
+          "x" : 632,
+          "y" : 128,
+          "r" : 15
+        } ],
+        "width" : 1200.0,
+        "height" : 804.0,
+        "type" : "AnnotatedImage"
+      }, {
+        "delimiter" : ".",
+        "startNumber" : 1,
+        "type" : "OrderedList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "If metadata is present, it will be displayed at the test summary page",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058186,
+    "tocItem" : {
+      "sectionTitle" : "Groovy Standalone Runner",
+      "pageTitle" : "Test Metadata",
+      "pageMeta" : { },
+      "dirName" : "groovy-standalone-runner",
+      "fileName" : "test-metadata",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Specifying Test Metadata",
+        "id" : "specifying-test-metadata"
+      }, {
+        "title" : "Metadata Encapsulation",
+        "id" : "metadata-encapsulation"
+      }, {
+        "title" : "Report",
+        "id" : "report"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

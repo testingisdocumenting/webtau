@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: OpenAPI Spec</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Validation</h1></header>
+<p>Webtau supports validation of responses against an https://www.openapis.org/ OpenAPI specification. This feature can be enabled by specifying the openApiSpecUrl configuration option. This should be the URL to the specification against which to validate. url = &quot;http://localhost:8080&quot; openApiSpecUrl = &quot;scenarios/rest/springboot/api-spec.json&quot;</p>
+</article>
+
+<article>
+<header><h1>Current limitations</h1></header>
+<p>OpenAPI specification support is still in its early stage. It is fully functional but there are a few limitations to be aware of:webtau currently only supports OpenAPI specification v2 specification matching is currently done based on the path and method any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning on the console</p>
+</article>
+
+<article>
+<header><h1>Validations report</h1></header>
+<p>The validation errors are reported in the same manner as assertion errors. They are available in the output from the command line webtau runner: bash &gt; executing HTTP POST http://localhost:8080/customers { &quot;id&quot;: 1, &quot;firstName&quot;: &quot;FN&quot;, &quot;lastName&quot;: &quot;LN&quot;, &quot;_links&quot;: { &quot;self&quot;: { &quot;href&quot;: &quot;http://localhost:8080/customers/1&quot; }, &quot;customer&quot;: { &quot;href&quot;: &quot;http://localhost:8080/customers/1&quot; } } } X failed executing HTTP POST http://localhost:8080/customers : API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] [x] failed java.lang.AssertionError: API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8) at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy) Total: 1, Passed: 0, Skipped: 0, Failed: 1, Errored: 0 They are also available in the HTML report:</p>
+</article>
+
+<article>
+<header><h1>Validation Configuration</h1></header>
+<p>To ignore additional properties in responses set openApiIgnoreAdditionalProperties to true . As any other config value it can be done via command line, config file or system properties.</p>
+</article>
+
+<article>
+<header><h1>Disable Validation</h1></header>
+<p>import org.testingisdocumenting.webtau.openapi.OpenApi OpenApi.withoutValidation { http.post(&quot;/employee&quot;, [firstName: 'First']) { // ... } } OpenApi.responseOnlyValidation() { http.post(&quot;/employee&quot;, [firstName: 'First']) { // ... } } OpenApi.requestOnlyValidation() { http.post(&quot;/employee&quot;, [firstName: 'First', lastName: 'Second']) { // ... } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Validation",
+      "id" : "validation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau supports validation of responses against an ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.openapis.org/",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "OpenAPI specification",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".  This feature can",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "be enabled by specifying the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "openApiSpecUrl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " configuration option.  This should be the URL to the specification against",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "which to validate.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "url = \"http://localhost:8080\"\nopenApiSpecUrl = \"scenarios/rest/springboot/api-spec.json\"",
+        "title" : "Configuration",
+        "excludeRegexp" : "docPath",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Current limitations",
+      "id" : "current-limitations",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "OpenAPI specification support is still in its early stage.  It is fully functional but there are a few limitations to be",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "aware of:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "webtau currently only supports OpenAPI specification v2",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "specification matching is currently done based on the path and method",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "on the console",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "title" : "Validations report",
+      "id" : "validations-report",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "The validation errors are reported in the same manner as assertion errors.  They are available in the output from the",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "command line webtau runner:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "bash",
+        "snippet" : "> executing HTTP POST http://localhost:8080/customers\n {\n  \"id\": 1,\n  \"firstName\": \"FN\",\n  \"lastName\": \"LN\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"http://localhost:8080/customers/1\"\n    },\n    \"customer\": {\n      \"href\": \"http://localhost:8080/customers/1\"\n    }\n  }\n }\nX failed executing HTTP POST http://localhost:8080/customers : \nAPI spec validation failure: ERROR - Response status 201 not defined for path ''.: []\n[x] failed\njava.lang.AssertionError: \nAPI spec validation failure: ERROR - Response status 201 not defined for path ''.: []\n\tat scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8)\n\tat scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy)\n\n\n\nTotal: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "They are also available in the HTML report:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/webtau/img/rest-crud-openapi-spec-validation-error.png",
+        "timestamp" : 1608332058186,
+        "shapes" : [ ],
+        "width" : 2242.0,
+        "height" : 620.0,
+        "type" : "AnnotatedImage"
+      } ]
+    }, {
+      "title" : "Validation Configuration",
+      "id" : "validation-configuration",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To ignore additional properties in responses set ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "openApiIgnoreAdditionalProperties",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "true",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "As any other config value it can be done via command line, config file or system properties.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Disable Validation",
+      "id" : "disable-validation",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "import org.testingisdocumenting.webtau.openapi.OpenApi",
+        "includeRegexp" : "import.*Open",
+        "title" : "Additional import",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "OpenApi.withoutValidation {\n    http.post(\"/employee\", [firstName: 'First']) {\n        // ...\n    }\n}",
+        "title" : "Disable request and response validation",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "OpenApi.responseOnlyValidation() {\n    http.post(\"/employee\", [firstName: 'First']) {\n        // ...\n    }\n}",
+        "title" : "Disable request validation",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "OpenApi.requestOnlyValidation() {\n    http.post(\"/employee\", [firstName: 'First', lastName: 'Second']) {\n        // ...\n    }\n}",
+        "title" : "Disable response validation",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "HTTP",
+      "pageTitle" : "OpenAPI Spec",
+      "pageMeta" : { },
+      "dirName" : "HTTP",
+      "fileName" : "openAPI-spec",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Validation",
+        "id" : "validation"
+      }, {
+        "title" : "Current limitations",
+        "id" : "current-limitations"
+      }, {
+        "title" : "Validations report",
+        "id" : "validations-report"
+      }, {
+        "title" : "Validation Configuration",
+        "id" : "validation-configuration"
+      }, {
+        "title" : "Disable Validation",
+        "id" : "disable-validation"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

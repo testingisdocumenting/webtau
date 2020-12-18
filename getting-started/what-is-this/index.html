@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: What Is This</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>WebTau</h1></header>
+<p>Webtau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Web UI CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer to validate GraphQL API.Tests can be written in any JVM language. Language specific syntactic sugar is available for Groovy .Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. #rest-api-example REST API example #graphql-api-example GraphQL API example #web-ui-example Web UI example</p>
+</article>
+
+<article>
+<header><h1>Rest API Example</h1></header>
+<p>Webtau provides a succinct DSL for exercising HTTP end points (e.g. REST APIs) and provides simplified way to assert responses. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class WeatherGroovyIT { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } json { &quot;temperature&quot;: 88 } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class WeatherJavaIT { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;temperature&quot;: 88 }</p>
+</article>
+
+<article>
+<header><h1>GraphQL API Example</h1></header>
+<p>Similar to HTTP APIs, Webtau also provides the ability to test GraphQL servers with its GraphQL DSL. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.Matchers.lessThan; import static org.testingisdocumenting.webtau.WebTauDsl.graphql; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = &quot;{ weather { temperature } }&quot;; graphql.execute(query, (header, body) -&gt; { body.get(&quot;data.weather.temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } }</p>
+</article>
+
+<article>
+<header><h1>Web UI Example</h1></header>
+<p>package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.waitTo == 2 } package pages import org.openqa.selenium.Keys import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(Keys.ENTER.toString()) } }</p>
+</article>
+
+<article>
+<header><h1>DB Example</h1></header>
+<p>def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations</p>
+</article>
+
+<article>
+<header><h1>CLI Example</h1></header>
+<p>cli.run('echo hello world') { output.should contain('hello') output.should contain('world') }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "WebTau",
+      "id" : "webtau",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau (",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Web",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "T",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : "est ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "au",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : "tomation) - concise and expressive way to write end-to-end and unit tests.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "width" : 256.0,
+        "align" : "left",
+        "imageSrc" : "/webtau/webtau-logo.png",
+        "timestamp" : 1608332058186,
+        "shapes" : [ ],
+        "height" : 256.0,
+        "type" : "AnnotatedImage"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Test your application across multiple layers:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "REST API",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "GraphQL API",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Web UI",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "CLI",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Database",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Business Logic (JVM only)",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "to validate GraphQL API.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Tests can be written in any JVM language. Language specific syntactic sugar is available for ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Groovy",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use powerful ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/REPL/experiments",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "REPL",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " mode to significantly speed up end-to-end tests development.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "url" : "/webtau/getting-started/what-is-this#rest-api-example",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "REST API example",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "url" : "/webtau/getting-started/what-is-this#graphql-api-example",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "GraphQL API example",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "url" : "/webtau/getting-started/what-is-this#web-ui-example",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Web UI example",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "title" : "Rest API Example",
+      "id" : "rest-api-example",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau provides a succinct DSL for exercising HTTP end points (e.g. REST APIs) and provides simplified way to",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "assert responses.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "columns" : [ {
+              "content" : [ {
+                "lang" : "groovy",
+                "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe < 100\n    }\n}",
+                "title" : "REST API test (Groovy specific runner)",
+                "type" : "Snippet"
+              }, {
+                "lang" : "groovy",
+                "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@RunWith(WebTauRunner.class)\nclass WeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
+                "title" : "REST API test (JUnit4)",
+                "type" : "Snippet"
+              } ]
+            }, {
+              "content" : [ {
+                "lang" : "json",
+                "snippet" : "{\n  \"temperature\": 88\n}\n",
+                "lineNumber" : "",
+                "title" : "Server Response",
+                "type" : "Snippet"
+              } ]
+            } ],
+            "config" : { },
+            "type" : "Columns"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "columns" : [ {
+              "content" : [ {
+                "lang" : "java",
+                "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class WeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+                "title" : "REST API test (JUnit4 Java)",
+                "type" : "Snippet"
+              } ]
+            }, {
+              "content" : [ {
+                "lang" : "json",
+                "snippet" : "{\n  \"temperature\": 88\n}\n",
+                "lineNumber" : "",
+                "title" : "Server Response",
+                "type" : "Snippet"
+              } ]
+            } ],
+            "config" : { },
+            "type" : "Columns"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "GraphQL API Example",
+      "id" : "graphql-api-example",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Similar to HTTP APIs, Webtau also provides the ability to test GraphQL servers with its GraphQL DSL.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "columns" : [ {
+              "content" : [ {
+                "lang" : "groovy",
+                "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    def query = \"{ weather { temperature } }\";\n    graphql.execute(query) {\n        weather.temperature.shouldBe < 100\n    }\n}",
+                "title" : "GraphQL API test (Groovy specific runner)",
+                "type" : "Snippet"
+              }, {
+                "lang" : "groovy",
+                "snippet" : "package com.example.tests.junit4\n\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql\n\n@RunWith(WebTauRunner.class)\nclass GraphQLWeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        def query = \"{ weather { temperature } }\";\n        graphql.execute(query) {\n            weather.temperature.shouldBe < 100\n        }\n    }\n}",
+                "title" : "GraphQL API test (JUnit4)",
+                "type" : "Snippet"
+              } ]
+            }, {
+              "content" : [ {
+                "lang" : "json",
+                "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
+                "lineNumber" : "",
+                "title" : "Server Response",
+                "type" : "Snippet"
+              } ]
+            } ],
+            "config" : { },
+            "type" : "Columns"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "columns" : [ {
+              "content" : [ {
+                "lang" : "java",
+                "snippet" : "package com.example.tests.junit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\n\nimport static org.testingisdocumenting.webtau.Matchers.lessThan;\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql;\n\n@RunWith(WebTauRunner.class)\npublic class GraphQLWeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        String query = \"{ weather { temperature } }\";\n        graphql.execute(query, (header, body) -> {\n            body.get(\"data.weather.temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+                "title" : "GraphQL API test (JUnit4 Java)",
+                "type" : "Snippet"
+              } ]
+            }, {
+              "content" : [ {
+                "lang" : "json",
+                "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
+                "lineNumber" : "",
+                "title" : "Server Response",
+                "type" : "Snippet"
+              } ]
+            } ],
+            "config" : { },
+            "type" : "Columns"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Web UI Example",
+      "id" : "web-ui-example",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy/",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.waitTo == 2\n}",
+        "title" : "Web UI test",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package pages\n\nimport org.openqa.selenium.Keys\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(Keys.ENTER.toString())\n    }\n}",
+        "title" : "SearchPage.groovy",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "DB Example",
+      "id" : "db-example",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [     \"id\" | \"description\" |          \"available\" |                \"type\" |       \"price\" ] {\n           _____________________________________________________________________________________________\n           cell.guid | \"nice set\"    |                 true |                \"card\" |            1000 // cell.guid generates random guid that can be used for ids\n           cell.guid | \"nice set\"    |                 true |                \"card\" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations\n           cell.guid | \"another set\" | permute(true, false) | permute(\"rts\", \"fps\") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations",
+        "entry" : "use table data permute, above and guid to generate rows",
+        "title" : "DB data setup example",
+        "bodyOnly" : true,
+        "startLine" : "def PRICES",
+        "endLine" : "cell.above + 20",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "CLI Example",
+      "id" : "cli-example",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "cli.run('echo hello world') {\n    output.should contain('hello')\n    output.should contain('world')\n}",
+        "title" : "output validation",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058186,
+    "tocItem" : {
+      "sectionTitle" : "Getting Started",
+      "pageTitle" : "What Is This",
+      "pageMeta" : { },
+      "dirName" : "getting-started",
+      "fileName" : "what-is-this",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "WebTau",
+        "id" : "webtau"
+      }, {
+        "title" : "Rest API Example",
+        "id" : "rest-api-example"
+      }, {
+        "title" : "GraphQL API Example",
+        "id" : "graphql-api-example"
+      }, {
+        "title" : "Web UI Example",
+        "id" : "web-ui-example"
+      }, {
+        "title" : "DB Example",
+        "id" : "db-example"
+      }, {
+        "title" : "CLI Example",
+        "id" : "cli-example"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

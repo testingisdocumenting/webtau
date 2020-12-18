@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: CRUD</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Example</h1></header>
+<p>We have an app that exposes create , read , update , and delete operations for customer records. Records are being served under /customers .Here is an example of a CRUD operations test. package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;CRUD operations for customer&quot;) { def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] def id = http.post(&quot;/customers&quot;, customerPayload) { return id // return id value from response body } http.get(&quot;/customers/${id}&quot;) { body.should == customerPayload // only specified properties will be asserted against } def changedLastName = &quot;NLN&quot; http.put(&quot;/customers/${id}&quot;, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName // specifying body is optional } http.get(&quot;/customers/${id}&quot;) { firstName.should == &quot;FN&quot; lastName.should == changedLastName } def changedFirstName = &quot;NFN&quot; http.patch(&quot;/customers/${id}&quot;, [firstName: changedFirstName]) http.get(&quot;/customers/${id}&quot;) { firstName.should == changedFirstName lastName.should == changedLastName } http.delete(&quot;/customers/${id}&quot;) { statusCode.should == 204 } http.get(&quot;/customers/${id}&quot;) { statusCode.should == 404 } }</p>
+</article>
+
+<article>
+<header><h1>Implicit statusCode Check</h1></header>
+<p>If you don't have an explicit statusCode validation it will be automatically validated based on the rules below Method Expected Code [{text=GET, type=SimpleText}] [{text=200, type=SimpleText}] [{text=POST, type=SimpleText}] [{text=201, type=SimpleText}] [{text=PUT, type=SimpleText}] [{text=200, type=SimpleText}] [{text=PUT (no content), type=SimpleText}] [{text=204, type=SimpleText}] [{text=DELETE, type=SimpleText}] [{text=200, type=SimpleText}] [{text=DELETE (no content), type=SimpleText}] [{text=204, type=SimpleText}] [{text=PATCH, type=SimpleText}] [{text=200, type=SimpleText}] [{text=PATCH (no content), type=SimpleText}] [{text=204, type=SimpleText}]</p>
+</article>
+
+<article>
+<header><h1>Report</h1></header>
+<p>After your test executions a report will be produced.Note: asserted values are being tracked and highlighted inside the report</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Example",
+      "id" : "example",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "We have an app that exposes ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "create",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "read",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "update",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "delete",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " operations for customer records. Records are being served",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "under ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/customers",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Here is an example of a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CRUD",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " operations test.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"CRUD operations for customer\") {\n    def customerPayload = [firstName: \"FN\", lastName: \"LN\"]\n\n    def id = http.post(\"/customers\", customerPayload) {\n        return id // return id value from response body\n    }\n\n    http.get(\"/customers/${id}\") {\n        body.should == customerPayload // only specified properties will be asserted against\n    }\n\n    def changedLastName = \"NLN\"\n    http.put(\"/customers/${id}\", [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName // specifying body is optional\n    }\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == \"FN\"\n        lastName.should == changedLastName\n    }\n\n    def changedFirstName = \"NFN\"\n    http.patch(\"/customers/${id}\", [firstName: changedFirstName])\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == changedFirstName\n        lastName.should == changedLastName\n    }\n\n    http.delete(\"/customers/${id}\") {\n        statusCode.should == 204\n    }\n\n    http.get(\"/customers/${id}\") {\n        statusCode.should == 404\n    }\n}",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Implicit statusCode Check",
+      "id" : "implicit-statuscode-check",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If you don't have an explicit ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "statusCode",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " validation it will be automatically validated based on the rules below",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "Method",
+            "align" : "left"
+          }, {
+            "title" : "Expected Code",
+            "align" : "left"
+          } ],
+          "data" : [ [ [ {
+            "text" : "GET",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "200",
+            "type" : "SimpleText"
+          } ] ], [ [ {
+            "text" : "POST",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "201",
+            "type" : "SimpleText"
+          } ] ], [ [ {
+            "text" : "PUT",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "200",
+            "type" : "SimpleText"
+          } ] ], [ [ {
+            "text" : "PUT (no content)",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "204",
+            "type" : "SimpleText"
+          } ] ], [ [ {
+            "text" : "DELETE",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "200",
+            "type" : "SimpleText"
+          } ] ], [ [ {
+            "text" : "DELETE (no content)",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "204",
+            "type" : "SimpleText"
+          } ] ], [ [ {
+            "text" : "PATCH",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "200",
+            "type" : "SimpleText"
+          } ] ], [ [ {
+            "text" : "PATCH (no content)",
+            "type" : "SimpleText"
+          } ], [ {
+            "text" : "204",
+            "type" : "SimpleText"
+          } ] ] ]
+        },
+        "type" : "Table"
+      } ]
+    }, {
+      "title" : "Report",
+      "id" : "report",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "After your test executions a report will be produced.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
+        "timestamp" : 1608332566105,
+        "shapes" : [ ],
+        "width" : 1200.0,
+        "height" : 804.0,
+        "type" : "AnnotatedImage"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: asserted values are being tracked and highlighted inside the report",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "HTTP",
+      "pageTitle" : "CRUD",
+      "pageMeta" : { },
+      "dirName" : "HTTP",
+      "fileName" : "CRUD",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Example",
+        "id" : "example"
+      }, {
+        "title" : "Implicit statusCode Check",
+        "id" : "implicit-statuscode-check"
+      }, {
+        "title" : "Report",
+        "id" : "report"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

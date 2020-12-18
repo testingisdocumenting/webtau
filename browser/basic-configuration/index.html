@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Basic Configuration</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Base URL</h1></header>
+<p>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like open . package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open(&quot;/search&quot;) $('#welcome').should == 'welcome to super search' } Define base URL either inside a webtau.cfg.groovy file url = &quot;http://localhost:8180&quot; or pass as a command line argument --url=http://...</p>
+</article>
+
+<article>
+<header><h1>Browser Only Base URL</h1></header>
+<p>When you use url parameter you set base url for both REST and UI testing.Use browserUrl to specify UI only base url. This can be handy when your backend and frontend live separately.</p>
+</article>
+
+<article>
+<header><h1>Browser Id</h1></header>
+<p>Use browserId via command line, or a config file parameter to specify which browser to use. webtau --browserId=firefox Note: Default browserId is chrome</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Base URL",
+      "id" : "base-url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Robust tests don't specify the full URL of an application under test.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Instead you only pass a relative URL to functions like ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "open",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('simple open') {\n    browser.open(\"/search\")\n    $('#welcome').should == 'welcome to super search'\n}",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Define base URL either inside a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "webtau.cfg.groovy",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " file",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "url = \"http://localhost:8180\"",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "or pass as a command line argument ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "--url=http://...",
+          "type" : "InlinedCode"
+        } ]
+      } ]
+    }, {
+      "title" : "Browser Only Base URL",
+      "id" : "browser-only-base-url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "url",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " parameter you set base url for both ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "REST",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "UI",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " testing.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browserUrl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to specify ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "UI",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " only base url. This can be handy when your backend and frontend live separately.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Browser Id",
+      "id" : "browser-id",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browserId",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " via command line, or a config file parameter to specify which browser to use.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "webtau --browserId=firefox",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Default ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browserId",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "chrome",
+          "type" : "InlinedCode"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "Browser",
+      "pageTitle" : "Basic Configuration",
+      "pageMeta" : { },
+      "dirName" : "browser",
+      "fileName" : "basic-configuration",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Base URL",
+        "id" : "base-url"
+      }, {
+        "title" : "Browser Only Base URL",
+        "id" : "browser-only-base-url"
+      }, {
+        "title" : "Browser Id",
+        "id" : "browser-id"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

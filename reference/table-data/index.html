@@ -89,13 +89,18 @@
 </article>
 
 <article>
+<header><h1>Key Columns</h1></header>
+<p>Use * in front of a column to specify it as a key column Groovy [&quot;*id&quot; | &quot;Name&quot; | &quot;Type&quot;] { ___________________________ &quot;id1&quot; | &quot;N&quot; | &quot;T&quot; &quot;id2&quot; | &quot;N2&quot; | &quot;T2&quot; &quot;id3&quot; | &quot;N&quot; | &quot;T&quot; } Java table(&quot;*id&quot; , &quot;Name&quot; , &quot;Type&quot;, _______________________, &quot;id1&quot; , &quot;N&quot; , &quot;T&quot;, &quot;id2&quot; , &quot;N2&quot; , &quot;T2&quot;, &quot;id3&quot; , &quot;N&quot; , &quot;T&quot;) To access a value by key column Groovy def found = tableData.find(key(&quot;id2&quot;)) found.Name.should == &quot;N2&quot; Java Record found = tableData.find(key(&quot;id2&quot;)); actual(found.get(&quot;Name&quot;)).should(equal(&quot;N2&quot;)); To change key columns of an existing table Groovy tableData.withNewKeyColumns(&quot;Name&quot;, &quot;Type&quot;) Java tableData.withNewKeyColumns(&quot;Name&quot;, &quot;Type&quot;) Note: withNewKeyColumns creates new table and validates new key column uniqueness</p>
+</article>
+
+<article>
 <header><h1>Permutations</h1></header>
 <p>Use permute(v1, v2) to automatically generate multiple rows. Groovy [&quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ___________________________________________________________ permute(true, false) | &quot;v1b&quot; | permute('a', 'b') &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ________________________________________________________________, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) Col A Col B Col C true v1b a false v1b a true v1b b false v1b b v2a 10 v2c v2a 20 v2c</p>
 </article>
 
 <article>
 <header><h1>GUID</h1></header>
-<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 9ac1df75-bbdf-4581-8921-158da9ae32f0 true v1b a 8b68972c-f4d5-44bb-8a95-5de8fb2ac220 false v1b a b6720e3d-b108-4604-a732-a7b424c4fa98 true v1b b e1c9420c-4b6e-4c78-83bd-94a97ab5c251 false v1b b d2e1e5cb-8b87-41d1-bdf6-b75b469cfe9b v2a 10 v2c 91d43e34-166d-4c1c-a4c3-807aa7b2e84a v2a 20 v2c</p>
+<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C c0b2f7cc-e000-4d01-85a4-20c2e90de144 true v1b a dd42624b-495f-4e79-b8e7-a8ac9805a9f3 false v1b a 7d637d66-6c03-4f0d-b277-239f546e67ab true v1b b cfdc381b-d8a7-4c5f-bfb6-63ac1a0b9141 false v1b b 938165ea-1882-4102-aca8-61a90f9de528 v2a 10 v2c d7d4ecc5-a044-4d49-b6ec-e7cab8c770f4 v2a 20 v2c</p>
 </article>
 
 <article>
@@ -120,6 +125,7 @@
 <script type="text/javascript" src="/webtau/search-index.js"></script>
 <script>
 document.getElementById('znai').innerHTML = '';
+/*<!--*/
 ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
@@ -248,6 +254,114 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ],
         "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Key Columns",
+      "id" : "key-columns",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "*",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " in front of a column to specify it as a key column",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"*id\" | \"Name\" | \"Type\"] {\n___________________________\n \"id1\" | \"N\"    | \"T\"\n \"id2\" | \"N2\"   | \"T2\"\n \"id3\" | \"N\"    | \"T\" }",
+            "entry" : "createTableWithKeyColumns",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"*id\" , \"Name\" , \"Type\",\n      _______________________,\n      \"id1\" , \"N\"    , \"T\",\n      \"id2\" , \"N2\"   , \"T2\",\n      \"id3\" , \"N\"    , \"T\")",
+            "entry" : "createTableWithKeyColumns",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To access a value by key column",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def found = tableData.find(key(\"id2\"))\nfound.Name.should == \"N2\"",
+            "entry" : "findByKeyAndValidate",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "Record found = tableData.find(key(\"id2\"));\nactual(found.get(\"Name\")).should(equal(\"N2\"));",
+            "entry" : "findByKeyAndValidate",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To change key columns of an existing table",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "tableData.withNewKeyColumns(\"Name\", \"Type\")",
+            "entry" : "changeKeyColumns",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "tableData.withNewKeyColumns(\"Name\", \"Type\")",
+            "entry" : "changeKeyColumns",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "withNewKeyColumns",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " creates new table and validates new key column uniqueness",
+          "type" : "SimpleText"
+        } ]
       } ]
     }, {
       "title" : "Permutations",
@@ -462,7 +576,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "9ac1df75-bbdf-4581-8921-158da9ae32f0",
+              "text" : "c0b2f7cc-e000-4d01-85a4-20c2e90de144",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -486,7 +600,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "8b68972c-f4d5-44bb-8a95-5de8fb2ac220",
+              "text" : "dd42624b-495f-4e79-b8e7-a8ac9805a9f3",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -510,7 +624,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "b6720e3d-b108-4604-a732-a7b424c4fa98",
+              "text" : "7d637d66-6c03-4f0d-b277-239f546e67ab",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -534,7 +648,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "e1c9420c-4b6e-4c78-83bd-94a97ab5c251",
+              "text" : "cfdc381b-d8a7-4c5f-bfb6-63ac1a0b9141",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -558,7 +672,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "d2e1e5cb-8b87-41d1-bdf6-b75b469cfe9b",
+              "text" : "938165ea-1882-4102-aca8-61a90f9de528",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -582,7 +696,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "91d43e34-166d-4c1c-a4c3-807aa7b2e84a",
+              "text" : "d7d4ecc5-a044-4d49-b6ec-e7cab8c770f4",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -1011,7 +1125,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1605924949788,
+    "lastModifiedTime" : 1608332058186,
     "tocItem" : {
       "sectionTitle" : "Reference",
       "pageTitle" : "Table Data",
@@ -1022,6 +1136,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Create",
         "id" : "create"
+      }, {
+        "title" : "Key Columns",
+        "id" : "key-columns"
       }, {
         "title" : "Permutations",
         "id" : "permutations"
@@ -1040,8 +1157,33 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }
   },
-  "footer" : { }
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
 }), document.getElementById("znai"));
+/*-->*/
+
 </script>
 
 </body>

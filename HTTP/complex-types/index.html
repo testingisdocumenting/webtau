@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Complex Types</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Contain</h1></header>
+<p>Use contain matcher to test scenarios like search or list of recently created entries. This way you don't have to assume an existing state of your backend under test.Given the response, we want to make sure there is an entry with a specified firstName and lastName . package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;list Customers and assert that it contains a specified entry&quot;) { http.get(&quot;/customers&quot;) { body.should contain([firstName: 'FN1', lastName: 'LN1']) } }</p>
+</article>
+
+<article>
+<header><h1>List Of Objects</h1></header>
+<p>If you want to make sure that all the values in the list are what you need - use TableData . package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;list Customers and assert with a Table Data&quot;) { http.post(&quot;/customers&quot;, [firstName: &quot;FN1&quot;, lastName: &quot;LN1&quot;]) http.post(&quot;/customers&quot;, [firstName: &quot;FN2&quot;, lastName: &quot;LN2&quot;]) http.post(&quot;/customers&quot;, [firstName: &quot;FN3&quot;, lastName: &quot;LN3&quot;]) http.get(&quot;/customers?sortBy=firstName&quot;) { body.should == ['firstName' | 'lastName'] { __________________________ 'FN1' | 'LN1' 'FN2' | 'LN2' 'FN3' | 'LN3' } } http.doc.capture('list-match') }</p>
+</article>
+
+<article>
+<header><h1>Order Agnostic Match</h1></header>
+<p>Use *key column(s) if list order is not guaranteed package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;list Customers and assert with a Table Data using key column&quot;) { def id1 = createCustomer firstName: &quot;FN1&quot;, lastName: &quot;LN1&quot; def id2 = createCustomer firstName: &quot;FN2&quot;, lastName: &quot;LN2&quot; def id3 = createCustomer firstName: &quot;FN3&quot;, lastName: &quot;LN3&quot; http.get(&quot;/customers&quot;) { body.should == ['*id' | 'firstName' | 'lastName'] { _________________________________ id2 | 'FN2' | 'LN2' id1 | 'FN1' | 'LN1' id3 | 'FN3' | 'LN3'} } } def createCustomer(Map payload) { return http.post(&quot;/customers&quot;, payload) { id } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Contain",
+      "id" : "contain",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "contain",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher to test scenarios like search or list of recently created entries.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "This way you don't have to assume an existing state of your backend under test.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "Response",
+        "data" : [ {
+          "id" : 1,
+          "firstName" : "FN1",
+          "lastName" : "LN1"
+        }, {
+          "id" : 2,
+          "firstName" : "FN2",
+          "lastName" : "LN2"
+        }, {
+          "id" : 3,
+          "firstName" : "FN3",
+          "lastName" : "LN3"
+        } ],
+        "paths" : [ ],
+        "type" : "Json"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Given the response, we want to make sure there is an entry with a specified ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "firstName",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "lastName",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"list Customers and assert that it contains a specified entry\") {\n    http.get(\"/customers\") {\n        body.should contain([firstName: 'FN1', lastName: 'LN1'])\n    }\n}",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "List Of Objects",
+      "id" : "list-of-objects",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If you want to make sure that all the values in the list are what you need - use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"list Customers and assert with a Table Data\") {\n    http.post(\"/customers\", [firstName: \"FN1\", lastName: \"LN1\"])\n    http.post(\"/customers\", [firstName: \"FN2\", lastName: \"LN2\"])\n    http.post(\"/customers\", [firstName: \"FN3\", lastName: \"LN3\"])\n\n    http.get(\"/customers?sortBy=firstName\") {\n        body.should == ['firstName' | 'lastName'] {\n                        __________________________\n                              'FN1' |      'LN1'\n                              'FN2' |      'LN2'\n                              'FN3' |      'LN3' }\n    }\n\n    http.doc.capture('list-match')\n}",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Order Agnostic Match",
+      "id" : "order-agnostic-match",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "*key",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " column(s) if list order is not guaranteed",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"list Customers and assert with a Table Data using key column\") {\n    def id1 = createCustomer firstName: \"FN1\", lastName: \"LN1\"\n    def id2 = createCustomer firstName: \"FN2\", lastName: \"LN2\"\n    def id3 = createCustomer firstName: \"FN3\", lastName: \"LN3\"\n\n    http.get(\"/customers\") {\n        body.should == ['*id' | 'firstName' | 'lastName'] {\n                        _________________________________\n                          id2 |       'FN2' |      'LN2'\n                          id1 |       'FN1' |      'LN1'\n                          id3 |       'FN3' |      'LN3'}\n    }\n}\n\ndef createCustomer(Map payload) {\n    return http.post(\"/customers\", payload) { id }\n}",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "HTTP",
+      "pageTitle" : "Complex Types",
+      "pageMeta" : { },
+      "dirName" : "HTTP",
+      "fileName" : "complex-types",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Contain",
+        "id" : "contain"
+      }, {
+        "title" : "List Of Objects",
+        "id" : "list-of-objects"
+      }, {
+        "title" : "Order Agnostic Match",
+        "id" : "order-agnostic-match"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Page Element And Value</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Element Selection</h1></header>
+<p>Use $('css-selector') to select a page element. groovy $('#element-id') groovy $('.label') groovy $('[data-test-id=&quot;my-id&quot;]') browser/finders-and-filters Read Finders And Filters to learn how to select elements using more advanced techniques. https://www.w3schools.com/cssref/css_selectors.asp Read W3Schools CSS selectors to learn all kind of CSS selection techniques.</p>
+</article>
+
+<article>
+<header><h1>Lazy Element</h1></header>
+<p>When you use $('css-selector') you create an instance of PageElement . PageElement represent an element that is present or will be present on a web page. It is safe to declare an element before you open a browser or navigate to the page you need to test. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def welcomeMessage = $('#welcome') scenario('simple open') { browser.open(&quot;/search&quot;) welcomeMessage.should == 'welcome to super search' }</p>
+</article>
+
+<article>
+<header><h1>Lazy Value</h1></header>
+<p>Consider a simple search page. Enter value, hit enter, see results.Here is simple test. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('search by specific query') { browser.open('/search') $('#search-box').setValue('search this') $('#search-box').sendKeys(&quot;\n&quot;) $('#results .result').count.shouldBe &gt; 1 } In the example $('#results .result').count represents the number of elements matching the css selector. Let's extract it. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def searchBox = $('#search-box') def numberOfResults = searchBox.count scenario('search by specific query') { browser.open('/search') searchBox.setValue('search this') searchBox.sendKeys(&quot;\n&quot;) numberOfResults.shouldBe &gt; 1 }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Element Selection",
+      "id" : "element-selection",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "$('css-selector')",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to select a page element.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "$('#element-id')\n",
+        "lineNumber" : "",
+        "title" : "select by id",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "$('.label')\n",
+        "lineNumber" : "",
+        "title" : "select by class",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "$('[data-test-id=\"my-id\"]')\n",
+        "lineNumber" : "",
+        "title" : "select by attribute",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/webtau/browser/finders-and-filters",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Read Finders And Filters",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " to learn how to select elements using more advanced techniques.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "https://www.w3schools.com/cssref/css_selectors.asp",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Read W3Schools CSS selectors",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " to learn all kind of CSS selection techniques.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "title" : "Lazy Element",
+      "id" : "lazy-element",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "$('css-selector')",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " you create an instance of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PageElement",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "PageElement",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " represent an element that is present or ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "Emphasis",
+          "content" : [ {
+            "text" : "will be present",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " on a web page. It is safe to declare an element",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "before you open a browser or navigate to the page you need to test.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef welcomeMessage = $('#welcome')\n\nscenario('simple open') {\n    browser.open(\"/search\")\n    welcomeMessage.should == 'welcome to super search'\n}",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Lazy Value",
+      "id" : "lazy-value",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Consider a simple search page. Enter value, hit enter, see results.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Here is simple test.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    $('#search-box').setValue('search this')\n    $('#search-box').sendKeys(\"\\n\")\n\n    $('#results .result').count.shouldBe > 1\n}",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the example ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "$('#results .result').count",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " represents the number of elements matching the css selector.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Let's extract it.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef searchBox = $('#search-box')\ndef numberOfResults = searchBox.count\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    searchBox.setValue('search this')\n    searchBox.sendKeys(\"\\n\")\n\n    numberOfResults.shouldBe > 1\n}",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058182,
+    "tocItem" : {
+      "sectionTitle" : "Browser",
+      "pageTitle" : "Page Element And Value",
+      "pageMeta" : { },
+      "dirName" : "browser",
+      "fileName" : "page-element-and-value",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Element Selection",
+        "id" : "element-selection"
+      }, {
+        "title" : "Lazy Element",
+        "id" : "lazy-element"
+      }, {
+        "title" : "Lazy Value",
+        "id" : "lazy-value"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

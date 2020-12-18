@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Configuration</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Config File</h1></header>
+<p>Webtau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use webtau will read data from a different place.When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = &quot;https://jsonplaceholder.typicode.com/&quot; Note: webtau treats groovy config file as codeWhen you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, webtau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = https://jsonplaceholder.typicode.com/</p>
+</article>
+
+<article>
+<header><h1>Overrides</h1></header>
+<p>Webtau has a list of options you can specify using config file: configuration/options url, browserId, etc.. You can override any value using configuration/options#environment-variable-options environment variables: export WEBTAU_URL=http://another-server export WEBTAU_CHROME_DRIVER_PATH=/path/to/chrome/driver In addition to environment variables, you can use a runner specific way to override:In case of Groovy standalone runner, pass --&lt;option&gt;=&lt;value&gt; : webtau --waitTimeout=25000 --url=http://another-server Pass system property via java -D option: -Durl=http://another-server</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Config File",
+      "id" : "config-file",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau let you specify services url, browser settings, DB url connections, etc in a config file.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Depending on ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/getting-started/installation",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "runner",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " you use webtau will read data from a different place.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "level" : 2,
+        "title" : "Groovy Standalone Runner",
+        "id" : "groovy-standalone-runner",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you use the Groovy runner, it will look for ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "webtau.cfg.groovy",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " file (default).",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "url = \"https://jsonplaceholder.typicode.com/\"",
+        "title" : "webtau.cfg.groovy",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: webtau treats groovy config file as code",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "level" : 2,
+        "title" : "JUnit Like Runners",
+        "id" : "junit-like-runners",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you use JUnit like runners, e.g. ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/getting-started/installation#junit5",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "JUnit5",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ", webtau expects file named",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "code" : "webtau.properties",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to be present in test classpath, e.g. test resources:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "properties",
+        "snippet" : "url = https://jsonplaceholder.typicode.com/",
+        "title" : "src/test/resources/webtau.properties",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Overrides",
+      "id" : "overrides",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau has a list of options you can specify using config file: ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/configuration/options",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "url, browserId, etc.",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "You can override any value using ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/configuration/options#environment-variable-options",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "environment variables",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ":",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "",
+        "snippet" : "export WEBTAU_URL=http://another-server\nexport WEBTAU_CHROME_DRIVER_PATH=/path/to/chrome/driver\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In addition to environment variables, you can use a runner specific way to override:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "level" : 2,
+        "title" : "Groovy Standalone Runner",
+        "id" : "groovy-standalone-runner",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In case of Groovy standalone runner, pass ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "--<option>=<value>",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ":",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "command" : "webtau --waitTimeout=25000 --url=http://another-server",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      }, {
+        "level" : 2,
+        "title" : "JUnit Like Runners",
+        "id" : "junit-like-runners",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Pass system property via java ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "-D",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " option:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "",
+        "snippet" : "-Durl=http://another-server\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1608332058186,
+    "tocItem" : {
+      "sectionTitle" : "Getting Started",
+      "pageTitle" : "Configuration",
+      "pageMeta" : { },
+      "dirName" : "getting-started",
+      "fileName" : "configuration",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Config File",
+        "id" : "config-file"
+      }, {
+        "title" : "Overrides",
+        "id" : "overrides"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>
