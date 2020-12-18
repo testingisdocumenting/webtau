@@ -1,58 +1,25 @@
-# webtau
+# Webtau
+
 Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 
 ![logo](webtau-docs/znai/webtau-logo.png)
 
-## Simple REST tests
+Webtau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
-### JUnit 4 and JUnit 5
+:include-image: webtau-logo.png {width: 256, align: "left"}
 
-*Groovy*
-```groovy
-@RunWith(WebTauRunner.class)
-class WeatherIT {
-    @Test
-    void checkWeather() {
-        http.get("/weather") {
-            temperature.shouldBe < 100
-        }
-    }
-}
-```
+Test your application across multiple layers:
+* REST API
+* GraphQL API
+* Web UI
+* CLI
+* Database
+* Business Logic (JVM only)
 
-*Java*
-```java
-@RunWith(WebTauRunner.class)
-public class WeatherIT {
-    @Test
-    public void checkWeather() {
-        http.get("/weather", (header, body) -> {
-            body.get("temperature").shouldBe(lessThan(100));
-        });
-    }
-}
-```
+Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
+to validate GraphQL API.
 
-*JUnit5*
-```groovy
-@WebTau
-class WeatherIT {
-    @Test
-    void checkWeather() {
-        http.get("/weather") {
-            temperature.shouldBe < 100
-        }
-    }
-}
-```
-
-### Groovy command line
-
-Support for command line friendly automation and exploration with Groovy specific simplified runner
-
-```
-webtau weather.groovy
-```
+Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
 ```groovy
 scenario("check weather") {
@@ -61,101 +28,14 @@ scenario("check weather") {
     }
 }
 ```
-```json
-{
-  "temperature": 88
-}
-```
-
-## Simple GraphQL tests
-
-### JUnit 4 and JUnit 5
-
-*Groovy*
-```groovy
-@RunWith(WebTauRunner.class)
-class WeatherIT {
-    @Test
-    void checkWeather() {
-        graphql.execute("{ weather { temperature } }") {
-            weather.temperature.shouldBe < 100
-        }
-    }
-}
-```
-
-*Java*
-```java
-@RunWith(WebTauRunner.class)
-public class WeatherIT {
-    @Test
-    public void checkWeather() {
-        graphql.execute("{ weather { temperature } }", (header, body) -> {
-            body.get("data.weather.temperature").shouldBe(lessThan(100));
-        });
-    }
-}
-```
-
-*JUnit5*
-```groovy
-@WebTau
-class WeatherIT {
-    @Test
-    void checkWeather() {
-        graphql.execute("{ weather { temperature } }") {
-            weather.temperature.shouldBe < 100
-        }
-    }
-}
-```
-
-### Groovy command line
-
-Support for command line friendly automation and exploration with Groovy specific simplified runner
 
 ```
-webtau weather.groovy
+def PRICES = db.table("PRICES")
+PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
+           _____________________________________________________________________________________________
+           cell.guid | "nice set"    |                 true |                "card" |            1000
+           cell.guid | "nice set"    |                 true |                "card" | cell.above + 10
+           cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 }
 ```
 
-```groovy
-scenario("check weather") {
-    graphql.execute("{ weather { temperature } }") {
-        weather.temperature.shouldBe < 100
-    }
-}
-```
-
-For single query requests, you may also omit the query name while validating the response:
-```groovy
-scenario("check weather") {
-    graphql.execute("{ weather { temperature } }") {
-        temperature.shouldBe < 100
-    }
-}
-```
-
-```json
-{
-  "data": {
-    "weather": {
-      "temperature": 88
-    }
-  }
-}
-```
-
-## Robust UI tests
-
-```groovy
-scenario("search by specific query") {
-    search.submit("search this")
-    search.numberOfResults.should == 2
-}
-```
-
-## Precise Reporting
-
-![report-image](report-crud-separated-http-calls.png)
-
-[Full Documentation](https://testingisdocumenting.org/webtau/)
+[Learn More](https://testingisdocumenting.org/webtau/)
