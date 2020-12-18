@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
+
 import graphql.schema.GraphQLSchema
 import graphql.schema.idl.RuntimeWiring
 import graphql.schema.idl.SchemaGenerator
@@ -65,6 +66,8 @@ class WebTauGraphQLFeaturesTestData {
         Task task = taskById(id)
         if (task == null) {
             return false
+        } else if (completed && task.completed) {
+            throw new RuntimeException('you cannot complete a completed task')
         } else {
             task.completed = completed
             return true

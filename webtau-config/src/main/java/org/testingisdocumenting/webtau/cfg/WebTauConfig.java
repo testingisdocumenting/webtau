@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.version.WebtauVersion;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -62,7 +63,7 @@ public class WebTauConfig {
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls", false);
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
-            () -> "webtau/" + WebTauMeta.getVersion());
+            () -> "webtau/" + WebtauVersion.getVersion());
     private final ConfigValue removeWebtauFromUserAgent = declare("removeWebtauFromUserAgent",
             "By default webtau appends webtau and its version to the user-agent, this disables that part",
             () -> false);

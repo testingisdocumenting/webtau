@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.35-SNAPSHOT</version>
+        <version>1.36-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-feature-testing</artifactId>
@@ -136,6 +136,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                    <wait>40000</wait>
                 </configuration>
                 <executions>
                     <execution>

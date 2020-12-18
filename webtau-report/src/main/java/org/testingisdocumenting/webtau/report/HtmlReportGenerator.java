@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +21,6 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
-import org.testingisdocumenting.webtau.cfg.WebTauMeta;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.reporter.WebTauReport;
@@ -28,6 +28,8 @@ import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
+import org.testingisdocumenting.webtau.version.WebtauVersion;
+
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.LinkedHashMap;
@@ -37,8 +39,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HtmlReportGenerator implements ReportGenerator {
-    private String css;
-    private String bundleJavaScript;
+    private final String css;
+    private final String bundleJavaScript;
 
     public HtmlReportGenerator() {
         Map<String, Object> manifest = loadManifest();
@@ -59,7 +61,7 @@ public class HtmlReportGenerator implements ReportGenerator {
         Map<String, Object> reportAsMap = new LinkedHashMap<>();
         reportAsMap.put("config", configAsListOfMaps(getCfg().getEnumeratedCfgValuesStream()));
         reportAsMap.put("summary", reportSummaryToMap(report));
-        reportAsMap.put("version", WebTauMeta.getVersion());
+        reportAsMap.put("version", WebtauVersion.getVersion());
         reportAsMap.put("tests", report.getTests().stream()
                 .map(WebTauTest::toMap).collect(Collectors.toList()));
 

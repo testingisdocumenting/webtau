@@ -22,11 +22,15 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.35-SNAPSHOT</version>
+        <version>1.36-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-core</artifactId>
-    <version>1.35-SNAPSHOT</version>
+
+    <properties>
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -54,6 +58,13 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
