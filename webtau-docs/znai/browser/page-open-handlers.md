@@ -13,5 +13,3 @@ To register an open handler you need to define `browserPageNavigationHandlerProv
 
 Note: usage of `localStorage` is just an example. You can use `cookies`, call external services using `http.` or load
 credentials from a file system. 
-
-

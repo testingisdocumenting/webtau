@@ -1,5 +1,10 @@
-REST
-    getting-started
+getting-started
+    what-is-this
+    why
+    installation
+    configuration
+HTTP
+    introduction
     CRUD
     CRUD-separated
     data-node
@@ -15,13 +20,12 @@ REST
     report
     maven
     matchers
-    test-execution
 GraphQL
-    getting-started
+    introduction
     queries-and-mutations
     report
-UI
-    getting-started
+browser
+    introduction
     basic-configuration
     page-element-and-value
     page-object
@@ -37,23 +41,28 @@ UI
     finders-and-filters
     matchers
 database
-    getting-started
+    introduction
     data-setup
     config
 cli
-    getting-started
+    introduction
     foreground-command
     background-command
-groovy-specific-runner
+groovy-standalone-runner
+    introduction
     data-driven-scenarios
     tests-hard-stops
     selective-run
     skipping-tests
     test-metadata
     test-listeners
+    test-execution
 REPL
     experiments
     test-runs
+configuration
+    environments
+    options
 generic-runners
     JUnit-4
     JUnit-5
@@ -62,7 +71,3 @@ JVM-business-logic
     documentation-artifacts
 reference
     table-data
-configuration
-    cli
-    environments
-    options

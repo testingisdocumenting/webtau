@@ -8,7 +8,7 @@ they act as proxies that record every assertion that you do.
 
 # Extracting Values
 
-As you have seen in [CRUD example](REST/CRUD) you can return values back from a validation block.
+As you have seen in [CRUD example](HTTP/CRUD) you can return values back from a validation block.
 
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "can return simple value from get", bodyOnly: true}
 
@@ -36,7 +36,7 @@ It is also possible to query arrays, including the ability to query for the Nth 
 
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "canQuerySpecificListElementByPath", bodyOnly: true}
 
-Similarly to the Groovy example in [Properties On Lists](REST/data-node#properties-on-lists), it is possible to access 
+Similarly to the Groovy example in [Properties On Lists](HTTP/data-node#properties-on-lists), it is possible to access 
 all children property values:
 
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "canQueryListByNodePath", bodyOnly: true}

@@ -30,7 +30,7 @@ import org.junit.Test
 
 import java.nio.file.Paths
 
-class WebTauFeaturesJUnitTest {
+class WebTauFeaturesJUnit4Test {
     private static final FixedResponsesHandler restHandler = new FixedResponsesHandler()
     private static final GraphQLSchema schema = WebTauGraphQLFeaturesTestData.getSchema(
         Paths.get("..", "webtau-feature-testing", "examples","scenarios", "graphql", "schema.graphql")

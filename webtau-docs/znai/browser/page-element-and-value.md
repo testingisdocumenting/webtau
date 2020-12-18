@@ -14,7 +14,7 @@ $('.label')
 $('[data-test-id="my-id"]')
 ```
 
-[Read Finders And Filters](UI/finders-and-filters) to learn how to select elements using more advanced techniques. 
+[Read Finders And Filters](browser/finders-and-filters) to learn how to select elements using more advanced techniques. 
 
 [Read W3Schools CSS selectors](https://www.w3schools.com/cssref/css_selectors.asp) to learn all kind of CSS selection techniques.   
 

@@ -4,7 +4,7 @@ To open a page use `browser.open`. Browser will load a page only if the current 
 
 :include-file: doc-artifacts/snippets/navigation/open.groovy {commentsType: 'inline'}
 
-Note: relative url will be automatically expanded to the full url based on the [configuration](UI/basic-configuration)
+Note: relative url will be automatically expanded to the full url based on the [configuration](browser/basic-configuration)
 
 # Reopen
 

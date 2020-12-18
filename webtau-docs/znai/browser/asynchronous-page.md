@@ -34,5 +34,5 @@ Another cue to use could be a url change after an action.
 
 :include-file: doc-artifacts/snippets/navigation/waitOnUrl.groovy
 
-Note: url exposes other parts that you can [read more about here](UI/navigation#assert-url) 
+Note: url exposes other parts that you can [read more about here](browser/navigation#assert-url) 
 
