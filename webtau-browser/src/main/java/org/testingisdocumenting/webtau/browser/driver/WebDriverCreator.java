@@ -161,11 +161,11 @@ public class WebDriverCreator {
 
     private static void initState(WebDriver driver) {
         if (!BrowserConfig.isHeadless() &&
-                BrowserConfig.getWindowWidth() > 0 &&
-                BrowserConfig.getWindowHeight() > 0) {
+                BrowserConfig.getBrowserWidth() > 0 &&
+                BrowserConfig.getBrowserHeight() > 0) {
             driver.manage().window().setSize(new Dimension(
-                    BrowserConfig.getWindowWidth(),
-                    BrowserConfig.getWindowHeight()));
+                    BrowserConfig.getBrowserWidth(),
+                    BrowserConfig.getBrowserHeight()));
         }
     }
 

@@ -35,14 +35,14 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue browserUrl = declare("browserUrl", "browser base url for application under test. It is being used" +
             " instead of url when provided", () -> "");
 
-    private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 0);
-    private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 0);
-    private static final ConfigValue headless = declareBoolean("headless", "run headless mode", false);
+    private static final ConfigValue browserWidth = declare("browserWidth", "browser window width", () -> 0);
+    private static final ConfigValue browserHeight = declare("browserHeight", "browser window height", () -> 0);
+    private static final ConfigValue browserHeadless = declareBoolean("browserHeadless", "run browser in headless mode", false);
 
     private static final ConfigValue browserId = declare("browserId", "browser to use: chrome, firefox", () -> CHROME);
     private static final ConfigValue browserVersion = declare("browserVersion", "browser version for automatic driver download", () -> "");
 
-    private static final ConfigValue disableExtensions = declare("disableExtensions", "run without extensions", () -> false);
+    private static final ConfigValue disableExtensions = declare("browserDisableExtensions", "run browser without extensions", () -> false);
 
     private static final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NULL_DEFAULT);
     private static final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NULL_DEFAULT);
@@ -70,16 +70,16 @@ public class BrowserConfig implements WebTauConfigHandler {
         return browserUrl.getAsString();
     }
 
-    public static int getWindowWidth() {
-        return windowWidth.getAsInt();
+    public static int getBrowserWidth() {
+        return browserWidth.getAsInt();
     }
 
-    public static int getWindowHeight() {
-        return windowHeight.getAsInt();
+    public static int getBrowserHeight() {
+        return browserHeight.getAsInt();
     }
 
     public static boolean isHeadless() {
-        return headless.getAsBoolean();
+        return browserHeadless.getAsBoolean();
     }
 
     public static boolean areExtensionsDisabled() {
@@ -87,7 +87,7 @@ public class BrowserConfig implements WebTauConfigHandler {
     }
 
     public static void setHeadless(boolean isHeadless) {
-        headless.set("manual", isHeadless);
+        browserHeadless.set("manual", isHeadless);
     }
 
     public static Path getChromeBinPath() {
@@ -112,9 +112,9 @@ public class BrowserConfig implements WebTauConfigHandler {
                 browserId,
                 browserVersion,
                 browserUrl,
-                windowWidth,
-                windowHeight,
-                headless,
+                browserWidth,
+                browserHeight,
+                browserHeadless,
                 disableExtensions,
                 chromeDriverPath,
                 chromeBinPath,

@@ -1,6 +1,6 @@
 url = "http://localhost:8180"
 
-windowWidth = 1000
-windowHeight = 240
+browserWidth = 1000
+browserHeight = 240
 
 docPath = "doc-artifacts/ui"
