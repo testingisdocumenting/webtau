@@ -34,7 +34,7 @@ public class MultiPartFormData implements HttpRequestBody {
         this.boundary = "webtau" + hashCode() + UUID.randomUUID().toString();
     }
 
-    public MultiPartFormData(Map<String, Object> fields) {
+    public MultiPartFormData(Map<String, ?> fields) {
         this();
 
         fields.forEach((fieldName, content) -> {

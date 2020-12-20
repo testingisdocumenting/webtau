@@ -32,6 +32,15 @@ class CollectionUtilsTest {
     }
 
     @Test
+    void "should create a new map from given map and value overrides"() {
+        def original = CollectionUtils.aMapOf("key1", 10, "key2", 20, "key3", 30, "key4", 40)
+        def withOverrides = CollectionUtils.aMapOf(original, "key2", 22, "key3", 33)
+
+        assert original == [key1: 10, key2: 20, key3: 30, key4: 40]
+        assert withOverrides == [key1: 10, key2: 22, key3: 33, key4: 40]
+    }
+
+    @Test
     void "should convert array of boolean to list of Boolean"() {
         boolean[] array = [true, false]
         List<Boolean> converted = CollectionUtils.convertArrayToList(array)

@@ -26,7 +26,7 @@ public class CollectionUtils {
     }
 
     /**
-     * creates map from var args key value
+     * creates a map from var args key value
      * @param kvs key value pairs
      * @param <K> type of key
      * @param <V> type of value
@@ -44,6 +44,22 @@ public class CollectionUtils {
             result.put((K) kvs[idx], (V) kvs[idx + 1]);
         }
 
+        return result;
+    }
+
+    /**
+     * creates a map from original map and var args key value overrides
+     * @param original original map
+     * @param kvs key value pairs
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return map with preserved order
+     */
+    public static <K, V> Map<K, V> aMapOf(Map<K, V> original, Object... kvs) {
+        Map<K, V> result = new LinkedHashMap<>(original);
+        Map<K, V> overrides = aMapOf(kvs);
+
+        result.putAll(overrides);
         return result;
     }
 

@@ -1,4 +1,4 @@
-# WebTau 
+# Webtau 
 
 Webtau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
