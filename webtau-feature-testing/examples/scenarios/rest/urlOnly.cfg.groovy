@@ -1,3 +1,9 @@
 package scenarios.rest
 
-url = "http://localhost:8180"
+url = "http://localhost:8080"
+
+environments {
+    qa {
+        url = "http://server.qa:8080"
+    }
+}

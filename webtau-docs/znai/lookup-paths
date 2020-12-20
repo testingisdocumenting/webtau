@@ -1,3 +1,4 @@
+../../
 ../../webtau-core/src/main/java
 ../../webtau-core/src/test/groovy
 ../../webtau-core/src/test/java
@@ -24,7 +25,6 @@
 ../../webtau-pdf/src/test/groovy
 ../../webtau-testapp/src/main/java
 ../../webtau-http/src/test/java
-../../webtau-junit4-examples
 ../../webtau-junit4-examples/src/test/groovy
 ../../webtau-junit4-examples/src/test/java
 ../../webtau-junit5-examples/src/test/groovy

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 znai maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,8 +43,26 @@ public class JavaResourceConfigHandler implements WebTauConfigHandler {
             Properties properties = new Properties();
             properties.load(ResourceUtils.resourceStream(CFG_RESOURCE_PATH));
 
-            Map<String, String> asMap = new LinkedHashMap<>();
-            properties.forEach((k, v) -> asMap.put(k.toString(), v.toString()));
+            String environmentPrefix = "environments.";
+            String environmentNamePrefix = environmentPrefix + cfg.getEnv() + ".";
+
+            Map<String, Object> asMap = new LinkedHashMap<>();
+            properties.forEach((k, v) -> {
+                String keyAsString = k.toString();
+
+                if (!keyAsString.startsWith(environmentPrefix)) {
+                    asMap.put(keyAsString, v);
+                }
+            });
+
+            // handle environment specific
+            properties.forEach((k, v) -> {
+                String keyAsString = k.toString();
+
+                if (keyAsString.startsWith(environmentNamePrefix)) {
+                    asMap.put(keyAsString.substring(environmentNamePrefix.length()), v);
+                }
+            });
 
             cfg.acceptConfigValues(CFG_RESOURCE_PATH, asMap);
         } catch (IOException e) {

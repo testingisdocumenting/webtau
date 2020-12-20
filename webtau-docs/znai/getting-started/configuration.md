@@ -3,20 +3,55 @@
 Webtau let you specify services url, browser settings, DB url connections, etc in a config file.
 Depending on [runner](getting-started/installation) you use webtau will read data from a different place.
 
-## Groovy Standalone Runner
-
+```tabs
+Groovy:
 When you use the Groovy runner, it will look for `webtau.cfg.groovy` file (default). 
 
-:include-file: examples/todo/webtau.cfg.groovy {title: "webtau.cfg.groovy"}
+:include-file: examples/scenarios/rest/urlOnly.cfg.groovy {
+    title: "webtau.cfg.groovy",
+    includeRegexp: "localhost"
+}
 
-Note: webtau treats groovy config file as code
+ Note: webtau treats groovy config file as code
 
-## JUnit Like Runners
+Java:
 
 When you use JUnit like runners, e.g. [JUnit5](getting-started/installation#junit5), webtau expects file named
 `webtau.properties` to be present in test classpath, e.g. test resources:
 
-:include-file: src/test/resources/webtau.properties {title: "src/test/resources/webtau.properties"}
+:include-file: webtau-junit5-examples/src/test/resources/webtau.properties {
+    title: "src/test/resources/webtau.properties",
+    includeRegexp: "localhost"
+}
+```
+
+# Environments
+
+Webtau supports environment specific config values, and a way to select which environment to set active during tests run.
+
+```tabs
+Groovy:
+:include-file: examples/scenarios/rest/urlOnly.cfg.groovy {
+    title: "webtau.cfg.groovy",
+    excludeRegexp: "package"
+}
+
+To select an active environment using [Groovy Standalone Runner](groovy-standalone-runner/introduction) you 
+can pass `env` as cli parameter 
+
+:include-cli-command: webtau --env=qa
+
+Additionally you can use environment varialbe to set an active environment: `WEBTAU_ENV=qa`.
+
+Java:
+:include-file: webtau-junit5-examples/src/test/resources/webtau.properties {
+    title: "src/test/resources/webtau.properties"
+}
+
+To select an active environment you have two options:
+* System property `-Denv=qa`
+* Environment variable `WEBTAU_ENV=qa`
+```
 
 # Overrides
 
