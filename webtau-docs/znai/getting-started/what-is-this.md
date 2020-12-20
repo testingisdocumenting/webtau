@@ -22,6 +22,8 @@ Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end 
 * [REST API example](#rest-api-example)
 * [GraphQL API example](#graphql-api-example)
 * [Web UI example](#web-ui-example)
+* [DB example](#db-example)
+* [CLI example](#cli-example)
 
 # Rest API Example 
 
