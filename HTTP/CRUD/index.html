@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Example</h1></header>
-<p>We have an app that exposes create , read , update , and delete operations for customer records. Records are being served under /customers .Here is an example of a CRUD operations test. package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;CRUD operations for customer&quot;) { def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] def id = http.post(&quot;/customers&quot;, customerPayload) { return id // return id value from response body } http.get(&quot;/customers/${id}&quot;) { body.should == customerPayload // only specified properties will be asserted against } def changedLastName = &quot;NLN&quot; http.put(&quot;/customers/${id}&quot;, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName // specifying body is optional } http.get(&quot;/customers/${id}&quot;) { firstName.should == &quot;FN&quot; lastName.should == changedLastName } def changedFirstName = &quot;NFN&quot; http.patch(&quot;/customers/${id}&quot;, [firstName: changedFirstName]) http.get(&quot;/customers/${id}&quot;) { firstName.should == changedFirstName lastName.should == changedLastName } http.delete(&quot;/customers/${id}&quot;) { statusCode.should == 204 } http.get(&quot;/customers/${id}&quot;) { statusCode.should == 404 } }</p>
+<p>We have an app that exposes create , read , update , and delete operations for customer records. Records are being served under /customers .Here is an example of a CRUD operations test. Groovy package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;CRUD operations for customer&quot;) { def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] // new customer data def id = http.post(&quot;/customers&quot;, customerPayload) { return id // return id value from response body } http.get(&quot;/customers/${id}&quot;) { body.should == customerPayload // only specified properties will be asserted against } def changedLastName = &quot;NLN&quot; http.put(&quot;/customers/${id}&quot;, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName // specifying body is optional } http.get(&quot;/customers/${id}&quot;) { firstName.should == &quot;FN&quot; lastName.should == changedLastName } def changedFirstName = &quot;NFN&quot; http.patch(&quot;/customers/${id}&quot;, [firstName: changedFirstName]) http.get(&quot;/customers/${id}&quot;) { firstName.should == changedFirstName lastName.should == changedLastName } http.delete(&quot;/customers/${id}&quot;) { statusCode.should == 204 } http.get(&quot;/customers/${id}&quot;) { statusCode.should == 404 } } Java package com.example.tests.junit5; import org.testingisdocumenting.webtau.junit5.WebTau; import org.junit.jupiter.api.Test; import java.util.Map; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class CustomerCrudJavaTest { @Test public void crud() { Map&lt;String, ?&gt; customerPayload = aMapOf( // new customer data &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;LN&quot; ); int id = http.post(&quot;/customers&quot;, customerPayload, ((header, body) -&gt; { return body.get(&quot;id&quot;); // return id value from response body })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(customerPayload)); // only specified properties will be asserted against })); String changedLastName = &quot;NLN&quot;; Map&lt;String, ?&gt; changedCustomerPayload = aMapOf( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, changedLastName); http.put(&quot;/customers/&quot; + id, changedCustomerPayload, ((header, body) -&gt; { body.get(&quot;firstName&quot;).should(equal(&quot;FN&quot;)); body.get(&quot;lastName&quot;).should(equal(changedLastName)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.delete(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(204)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(404)); })); } }</p>
 </article>
 
 <article>
@@ -178,10 +178,24 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"CRUD operations for customer\") {\n    def customerPayload = [firstName: \"FN\", lastName: \"LN\"]\n\n    def id = http.post(\"/customers\", customerPayload) {\n        return id // return id value from response body\n    }\n\n    http.get(\"/customers/${id}\") {\n        body.should == customerPayload // only specified properties will be asserted against\n    }\n\n    def changedLastName = \"NLN\"\n    http.put(\"/customers/${id}\", [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName // specifying body is optional\n    }\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == \"FN\"\n        lastName.should == changedLastName\n    }\n\n    def changedFirstName = \"NFN\"\n    http.patch(\"/customers/${id}\", [firstName: changedFirstName])\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == changedFirstName\n        lastName.should == changedLastName\n    }\n\n    http.delete(\"/customers/${id}\") {\n        statusCode.should == 204\n    }\n\n    http.get(\"/customers/${id}\") {\n        statusCode.should == 404\n    }\n}",
-        "commentsType" : "inline",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"CRUD operations for customer\") {\n    def customerPayload = [firstName: \"FN\", lastName: \"LN\"] // new customer data\n\n    def id = http.post(\"/customers\", customerPayload) {\n        return id // return id value from response body\n    }\n\n    http.get(\"/customers/${id}\") {\n        body.should == customerPayload // only specified properties will be asserted against\n    }\n\n    def changedLastName = \"NLN\"\n    http.put(\"/customers/${id}\", [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName // specifying body is optional\n    }\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == \"FN\"\n        lastName.should == changedLastName\n    }\n\n    def changedFirstName = \"NFN\"\n    http.patch(\"/customers/${id}\", [firstName: changedFirstName])\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == changedFirstName\n        lastName.should == changedLastName\n    }\n\n    http.delete(\"/customers/${id}\") {\n        statusCode.should == 204\n    }\n\n    http.get(\"/customers/${id}\") {\n        statusCode.should == 404\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport org.junit.jupiter.api.Test;\n\nimport java.util.Map;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class CustomerCrudJavaTest {\n    @Test\n    public void crud() {\n        Map<String, ?> customerPayload = aMapOf( // new customer data\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\" );\n\n        int id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\"); // return id value from response body\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload)); // only specified properties will be asserted against\n        }));\n\n        String changedLastName = \"NLN\";\n        Map<String, ?> changedCustomerPayload = aMapOf(\n                \"firstName\", \"FN\",\n                \"lastName\", changedLastName);\n\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.get(\"firstName\").should(equal(\"FN\"));\n            body.get(\"lastName\").should(equal(changedLastName));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(404));\n        }));\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "title" : "Implicit statusCode Check",
@@ -273,7 +287,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
-        "timestamp" : 1608332566105,
+        "timestamp" : 1608498205716,
         "shapes" : [ ],
         "width" : 1200.0,
         "height" : 804.0,
@@ -286,7 +300,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1608332058182,
+    "lastModifiedTime" : 1608497774266,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "CRUD",

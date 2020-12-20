@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Lazy Resource</h1></header>
-<p>One of the benefits of separating one CRUD scenario into multiple is to be able to run one test at a time. In order to do it we will use createLazyResource . package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] def customer = createLazyResource(&quot;customer&quot;) { // lazy resource to be created on the first access def id = http.post(&quot;/customers&quot;, customerPayload) { return id } return new Customer(id: id, url: &quot;/customers/${id}&quot;) // definition is below } scenario(&quot;customer create&quot;) { customer.id.should != null // accessing resource for the first time will trigger POST (in this example) } scenario(&quot;customer read&quot;) { http.get(customer.url) { // convenient re-use of url defined above body.should == customerPayload } } scenario(&quot;customer update&quot;) { def changedLastName = &quot;NLN&quot; http.put(customer.url, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName } http.get(customer.url) { lastName.should == changedLastName } } scenario(&quot;customer delete&quot;) { http.delete(customer.url) { statusCode.should == 204 } http.get(customer.url) { statusCode.should == 404 } } package scenarios.rest.springboot class Customer { Number id String url // store url of the created entity } Note: to run one scenario at a time use sscenario (additional s in front). groovy-standalone-runner/selective-run Read more</p>
+<p>Groovy One of the benefits of separating one CRUD scenario into multiple is to be able to run one test at a time. In order to make each test runnable independently we will use createLazyResource . package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] def customer = createLazyResource(&quot;customer&quot;) { // lazy resource to be created on the first access def id = http.post(&quot;/customers&quot;, customerPayload) { return id } return new Customer(id: id, url: &quot;/customers/${id}&quot;) // definition is below } scenario(&quot;customer create&quot;) { customer.id.should != null // accessing resource for the first time will trigger POST (in this example) } scenario(&quot;customer read&quot;) { http.get(customer.url) { // convenient re-use of url defined above body.should == customerPayload } } scenario(&quot;customer update&quot;) { def changedLastName = &quot;NLN&quot; http.put(customer.url, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName } http.get(customer.url) { lastName.should == changedLastName } } scenario(&quot;customer delete&quot;) { http.delete(customer.url) { statusCode.should == 204 } http.get(customer.url) { statusCode.should == 404 } } package scenarios.rest.springboot class Customer { Number id String url // store url of the created entity } Note: to run one scenario at a time use sscenario (additional s in front). groovy-standalone-runner/selective-run Read more Java One of the benefits of separating one CRUD @Test into multiple is to be able to run one test at a time. In order to make each test runnable independently we will leverage BeforeAll , AfterAll , and TestMethodOrder . package com.example.tests.junit5; import org.testingisdocumenting.webtau.junit5.WebTau; import org.junit.jupiter.api.*; import java.util.Map; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order @DisplayName(&quot;customer CRUD&quot;) public class CustomerCrudSeparatedJavaTest { private static final Map&lt;String, ?&gt; customerPayload = aMapOf( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;LN&quot; ); private static final Map&lt;String, ?&gt; changedCustomerPayload = aMapOf( customerPayload, &quot;lastName&quot;, &quot;NLN&quot;); private static int id; @BeforeAll @DisplayName(&quot;create customer&quot;) // optional friendly name for reporting purposes static void createCustomer() { id = http.post(&quot;/customers&quot;, customerPayload, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); actual(id).shouldNot(equal(0)); } @Test @Order(1) @DisplayName(&quot;read customer&quot;) void read() { http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(customerPayload)); })); } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName(&quot;update customer&quot;) void update() { http.put(&quot;/customers/&quot; + id, changedCustomerPayload, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); } @Test @Order(3) // but you can still run each method independently @DisplayName(&quot;delete customer&quot;) void delete() { http.delete(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(204)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode().should(equal(404)); })); id = -1; // marking as deleted to let cleanup step know that no delete is required } @AfterAll static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return; } http.delete(&quot;/customers/&quot; + id); } }</p>
 </article>
 
 <article>
@@ -120,66 +120,115 @@ ReactDOM.render(React.createElement(Documentation, {
       "id" : "lazy-resource",
       "type" : "Section",
       "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "One of the benefits of separating one CRUD ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "scenario",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " into multiple is to be able to run one test at a time.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "In order to do it we will use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "createLazyResource",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ".",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef customerPayload = [firstName: \"FN\", lastName: \"LN\"]\n\ndef customer = createLazyResource(\"customer\") { // lazy resource to be created on the first access\n    def id = http.post(\"/customers\", customerPayload) {\n        return id\n    }\n\n    return new Customer(id: id, url: \"/customers/${id}\") // definition is below\n}\n\nscenario(\"customer create\") {\n    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)\n}\n\nscenario(\"customer read\") {\n    http.get(customer.url) { // convenient re-use of url defined above\n        body.should == customerPayload\n    }\n}\n\nscenario(\"customer update\") {\n    def changedLastName = \"NLN\"\n    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName\n    }\n\n    http.get(customer.url) {\n        lastName.should == changedLastName\n    }\n}\n\nscenario(\"customer delete\") {\n    http.delete(customer.url) {\n        statusCode.should == 204\n    }\n\n    http.get(customer.url) {\n        statusCode.should == 404\n    }\n}",
-        "commentsType" : "inline",
-        "title" : "CRUD separated",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.rest.springboot\n\nclass Customer {\n    Number id\n    String url // store url of the created entity\n}",
-        "commentsType" : "inline",
-        "title" : "Customer lazy resource",
-        "type" : "Snippet"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Note: to run one scenario at a time use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "sscenario",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " (additional ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "s",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " in front). ",
-          "type" : "SimpleText"
-        }, {
-          "url" : "/webtau/groovy-standalone-runner/selective-run",
-          "isFile" : false,
-          "type" : "Link",
+        "tabsContent" : [ {
+          "name" : "Groovy",
           "content" : [ {
-            "text" : "Read more",
-            "type" : "SimpleText"
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "One of the benefits of separating one CRUD ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "scenario",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " into multiple is to be able to run one test at a time.",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "In order to make each test runnable independently we will use ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "createLazyResource",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ".",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef customerPayload = [firstName: \"FN\", lastName: \"LN\"]\n\ndef customer = createLazyResource(\"customer\") { // lazy resource to be created on the first access\n    def id = http.post(\"/customers\", customerPayload) {\n        return id\n    }\n\n    return new Customer(id: id, url: \"/customers/${id}\") // definition is below\n}\n\nscenario(\"customer create\") {\n    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)\n}\n\nscenario(\"customer read\") {\n    http.get(customer.url) { // convenient re-use of url defined above\n        body.should == customerPayload\n    }\n}\n\nscenario(\"customer update\") {\n    def changedLastName = \"NLN\"\n    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName\n    }\n\n    http.get(customer.url) {\n        lastName.should == changedLastName\n    }\n}\n\nscenario(\"customer delete\") {\n    http.delete(customer.url) {\n        statusCode.should == 204\n    }\n\n    http.get(customer.url) {\n        statusCode.should == 404\n    }\n}",
+            "commentsType" : "inline",
+            "title" : "CRUD separated",
+            "type" : "Snippet"
+          }, {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.springboot\n\nclass Customer {\n    Number id\n    String url // store url of the created entity\n}",
+            "commentsType" : "inline",
+            "title" : "Customer lazy resource",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Note: to run one scenario at a time use ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "sscenario",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " (additional ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "s",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " in front). ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/selective-run",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Read more",
+                "type" : "SimpleText"
+              } ]
+            } ]
           } ]
-        } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "One of the benefits of separating one CRUD ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "@Test",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " into multiple is to be able to run one test at a time.",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "In order to make each test runnable independently we will leverage ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "BeforeAll",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ", ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "AfterAll",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ", and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "TestMethodOrder",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ".",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport org.junit.jupiter.api.*;\n\nimport java.util.Map;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order\n@DisplayName(\"customer CRUD\")\npublic class CustomerCrudSeparatedJavaTest {\n    private static final Map<String, ?> customerPayload = aMapOf(\n            \"firstName\", \"FN\",\n            \"lastName\", \"LN\" );\n\n    private static final Map<String, ?> changedCustomerPayload = aMapOf(\n            customerPayload,\n            \"lastName\", \"NLN\");\n\n    private static int id;\n\n    @BeforeAll\n    @DisplayName(\"create customer\") // optional friendly name for reporting purposes\n    static void createCustomer() {\n        id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n\n        actual(id).shouldNot(equal(0));\n    }\n\n    @Test\n    @Order(1)\n    @DisplayName(\"read customer\")\n    void read() {\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload));\n        }));\n    }\n\n    @Test\n    @Order(2) // order dependence saves from creating customer on every test\n    @DisplayName(\"update customer\")\n    void update() {\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n    }\n\n    @Test\n    @Order(3) // but you can still run each method independently\n    @DisplayName(\"delete customer\")\n    void delete() {\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(404));\n        }));\n\n        id = -1; // marking as deleted to let cleanup step know that no delete is required\n    }\n\n    @AfterAll\n    static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean\n        if (id == -1) {\n            return;\n        }\n\n        http.delete(\"/customers/\" + id);\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "title" : "Report",
@@ -229,14 +278,14 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
-        "timestamp" : 1608332567897,
+        "timestamp" : 1608498207308,
         "shapes" : [ ],
         "width" : 1200.0,
         "height" : 804.0,
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1608332058182,
+    "lastModifiedTime" : 1608497774266,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "CRUD Separated",

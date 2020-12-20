@@ -21,7 +21,7 @@ toc = [ {
     "fileName" : "what-is-this",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "WebTau",
+      "title" : "Webtau",
       "id" : "webtau"
     }, {
       "title" : "Rest API Example",
