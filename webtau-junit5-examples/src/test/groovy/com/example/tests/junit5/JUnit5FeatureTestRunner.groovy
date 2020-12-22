@@ -1,6 +1,5 @@
 /*
  * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,51 +14,64 @@
  * limitations under the License.
  */
 
-package com.example.tests.featuretest
+package com.example.tests.junit5
 
+import org.junit.platform.engine.TestExecutionResult
+import org.junit.platform.launcher.Launcher
+import org.junit.platform.launcher.LauncherDiscoveryRequest
+import org.junit.platform.launcher.TestExecutionListener
+import org.junit.platform.launcher.TestIdentifier
+import org.junit.platform.launcher.TestPlan
+import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder
+import org.junit.platform.launcher.core.LauncherFactory
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.featuretesting.WebTauEndToEndTestValidator
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.junit.runner.Description
-import org.junit.runner.JUnitCore
-import org.junit.runner.notification.Failure
-import org.junit.runner.notification.RunListener
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
-class JUnitFeatureTestRunner extends RunListener implements StepReporter {
+import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
+
+class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
     private Map<String, Object> scenariosDetails
     private Map<String, Object> capturedStepsSummary
 
     void runAndValidate(Class testClass, String baseUrl) {
-        JUnitCore junit = new JUnitCore()
+        LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
+                .selectors(selectClass(testClass))
+                .build()
 
-        junit.addListener(this)
+        Launcher launcher = LauncherFactory.create()
+
+        launcher.discover(request)
+        launcher.registerTestExecutionListeners(this)
+
         scenariosDetails = [:]
-
         WebTauConfig.cfg.setBaseUrl(baseUrl)
 
         StepReporters.withAdditionalReporter(this) {
-            junit.run(testClass)
+            launcher.execute(request)
         }
 
         WebTauEndToEndTestValidator.validateAndSaveTestDetails(testClass.simpleName, scenariosDetails)
     }
 
     @Override
-    void testStarted(Description description) throws Exception {
-        println "started: " + description.methodName
+    void executionStarted(TestIdentifier testIdentifier) {
+        if (!testIdentifier.test) {
+            return
+        }
+
         capturedStepsSummary = [:].withDefault { 0 }
     }
 
     @Override
-    void testFinished(Description description) throws Exception {
-        scenariosDetails.put(description.methodName, capturedStepsSummary)
-    }
+    void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
+        if (!testIdentifier.test) {
+            return
+        }
 
-    @Override
-    void testFailure(Failure failure) throws Exception {
-        super.testFailure(failure)
+        scenariosDetails.put(testIdentifier.displayName, capturedStepsSummary)
     }
 
     @Override

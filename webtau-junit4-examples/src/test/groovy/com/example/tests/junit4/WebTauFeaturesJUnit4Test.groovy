@@ -17,7 +17,6 @@
 
 package com.example.tests.junit4
 
-import com.example.tests.featuretest.JUnitFeatureTestRunner
 import graphql.schema.GraphQLSchema
 import org.testingisdocumenting.webtau.featuretesting.WebTauGraphQLFeaturesTestData
 import org.testingisdocumenting.webtau.featuretesting.WebTauRestFeaturesTestData
@@ -38,7 +37,7 @@ class WebTauFeaturesJUnit4Test {
     private static final GraphQLResponseHandler handler = new GraphQLResponseHandler(schema, restHandler)
     private static final TestServer testServer = new TestServer(handler)
 
-    private static final JUnitFeatureTestRunner testRunner = new JUnitFeatureTestRunner()
+    private static final JUnit4FeatureTestRunner testRunner = new JUnit4FeatureTestRunner()
 
     private static final TODO_BASE_URL = 'https://jsonplaceholder.typicode.com/'
 
