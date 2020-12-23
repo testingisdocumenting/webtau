@@ -6,7 +6,7 @@ import org.testingisdocumenting.webtau.junit5.WebTau
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 @WebTau
-class WeatherGroovyIT {
+class WeatherGroovyTest {
     @Test
     void checkWeather() {
         http.get("/weather") {

@@ -37,7 +37,7 @@ Groovy:
 
  left:
  :include-file: scenarios/rest/simpleGet.groovy {title: "REST API test (Groovy specific runner)"}
- :include-file: com/example/tests/junit4/WeatherGroovyIT.groovy {title: "REST API test (JUnit4)"} 
+ :include-file: com/example/tests/junit5/WeatherGroovyTest.groovy {title: "REST API test (JUnit5)"} 
 
  right: 
  ```json {title: "Server Response"}
@@ -50,7 +50,7 @@ Java:
  ````columns
 
  left:
-:include-file:  com/example/tests/junit4/WeatherJavaIT.java {title: "REST API test (JUnit4 Java)"} 
+:include-file:  com/example/tests/junit5/WeatherJavaTest.java {title: "REST API test (JUnit5 Java)"} 
 
  right: 
  ```json {title: "Server Response"}
@@ -108,7 +108,7 @@ Java:
 
 # Web UI Example 
 
-:include-file: scenarios/ui/searchWithPagesWaitTo.groovy/ {title: "Web UI test"}
+:include-file: scenarios/ui/searchWithPagesWaitTo.groovy {title: "Web UI test"}
 
 :include-groovy: pages/SearchPage.groovy {title: "SearchPage.groovy"}
 
