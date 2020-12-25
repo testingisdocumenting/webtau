@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.browser.page.WithTokenizedDescription;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.id;

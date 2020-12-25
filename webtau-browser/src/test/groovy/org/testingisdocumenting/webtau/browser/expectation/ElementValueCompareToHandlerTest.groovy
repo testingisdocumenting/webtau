@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.browser.expectation
 
-import org.testingisdocumenting.webtau.browser.page.value.ElementValue
+import org.testingisdocumenting.webtau.browser.page.ElementValue
 import org.testingisdocumenting.webtau.browser.page.path.ElementPath
 import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement
 import org.junit.Test

@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
-import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
@@ -31,13 +30,13 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public interface PageElement extends ActualValueExpectations, WithTokenizedDescription {
-    ElementValue<Integer, PageElement> getCount();
+    ElementValue<Integer> getCount();
 
     WebElement findElement();
     List<WebElement> findElements();
 
-    ElementValue<Object, PageElement> elementValue();
-    ElementValue<List<Object>, PageElement> elementValues();
+    ElementValue<Object> elementValue();
+    ElementValue<List<Object>> elementValues();
 
     void setValue(Object value);
     void sendKeys(String keys);

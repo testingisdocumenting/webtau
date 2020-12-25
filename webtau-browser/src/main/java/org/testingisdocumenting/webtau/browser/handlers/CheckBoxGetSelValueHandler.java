@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.value.handlers;
+package org.testingisdocumenting.webtau.browser.handlers;
 
 import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;

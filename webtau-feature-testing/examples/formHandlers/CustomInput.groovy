@@ -4,7 +4,7 @@ import org.openqa.selenium.Keys
 import org.testingisdocumenting.webtau.browser.page.HtmlNode
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor
-import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 class CustomInput implements PageElementGetSetValueHandler {

@@ -38,22 +38,6 @@ class WebTauBrowserFeaturesTestBase {
         this.browser = "chrome"
     }
 
-    static void registerEndPoints(FixedResponsesHandler handler) {
-        handler.registerGet("/search", htmlResponse('search.html'))
-        handler.registerGet("/forms", htmlResponse('forms.html'))
-        handler.registerGet("/special-forms", htmlResponse('special-forms.html'))
-        handler.registerGet("/calculation", htmlResponse('calculation.html'))
-        handler.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
-        handler.registerGet("/element-actions", htmlResponse('element-actions.html'))
-        handler.registerGet("/cookies", htmlResponse('cookies.html'))
-        handler.registerGet("/matchers", htmlResponse('matchers.html'))
-        handler.registerGet("/local-storage", htmlResponse('local-storage.html'))
-        handler.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
-        handler.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
-        handler.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
-        handler.registerGet("/ag-grid-multi-select", htmlResponse('ag-grid-multi-select.html'))
-    }
-
     @BeforeClass
     static void init() {
         WebDriverCreator.quitAll()
@@ -62,7 +46,7 @@ class WebTauBrowserFeaturesTestBase {
         FixedResponsesHandler handler = new FixedResponsesHandler()
         testRunner = new WebTauEndToEndTestRunner(handler)
 
-        registerEndPoints(handler)
+        WebTauBrowserFeaturesTestData.registerEndPoints(handler)
 
         testRunner.startTestServer()
     }
@@ -340,9 +324,5 @@ class WebTauBrowserFeaturesTestBase {
     private static void runCliWithArgs(String uiTestName, String configFileName, String... args) {
         testRunner.runCli("scenarios/ui/$uiTestName",
                 "scenarios/ui/$configFileName", args)
-    }
-
-    private static TestServerHtmlResponse htmlResponse(String resourceName) {
-        new TestServerHtmlResponse(ResourceUtils.textContent(resourceName))
     }
 }

@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.value;
+package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.browser.page.WithTokenizedDescription;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
@@ -29,14 +28,14 @@ import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.OF;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class ElementValue<E, C extends WithTokenizedDescription> implements ActualValueExpectations {
-    private final C parent;
+public class ElementValue<E> implements ActualValueExpectations {
+    private final WithTokenizedDescription parent;
     private final String name;
     private final ElementValueFetcher<E> valueFetcher;
 
     private final TokenizedMessage description;
 
-    public ElementValue(C parent, String name, ElementValueFetcher<E> valueFetcher) {
+    public ElementValue(WithTokenizedDescription parent, String name, ElementValueFetcher<E> valueFetcher) {
         this.parent = parent;
         this.name = name;
         this.valueFetcher = valueFetcher;
@@ -44,7 +43,7 @@ public class ElementValue<E, C extends WithTokenizedDescription> implements Actu
                 IntegrationTestsMessageBuilder.classifier(name)).add(OF).add(parent.describe());
     }
 
-    public C getParent() {
+    public WithTokenizedDescription getParent() {
         return parent;
     }
 

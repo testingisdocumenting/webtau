@@ -17,30 +17,29 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.function.Supplier;
 
 public class PageUrl {
+    private static final BrowserContext browserContext = new BrowserContext();
     private final Supplier<String> currentUrlSupplier;
 
     public PageUrl(Supplier<String> currentUrlSupplier) {
         this.currentUrlSupplier = currentUrlSupplier;
     }
 
-    public final ElementValue<String, BrowserContext> full =
-            new ElementValue<>(new BrowserContext(), "full page url", this::fetchUrl);
+    public final ElementValue<String> full =
+            new ElementValue<>(browserContext, "full page url", this::fetchUrl);
 
-    public final ElementValue<String, BrowserContext> path =
-            new ElementValue<>(new BrowserContext(), "page url path", this::fetchPath);
+    public final ElementValue<String> path =
+            new ElementValue<>(browserContext, "page url path", this::fetchPath);
 
-    public final ElementValue<String, BrowserContext> query =
-            new ElementValue<>(new BrowserContext(), "page url query", this::fetchQuery);
+    public final ElementValue<String> query =
+            new ElementValue<>(browserContext, "page url query", this::fetchQuery);
 
-    public final ElementValue<String, BrowserContext> ref =
-            new ElementValue<>(new BrowserContext(), "page url ref", this::fetchRef);
+    public final ElementValue<String> ref =
+            new ElementValue<>(browserContext, "page url ref", this::fetchRef);
 
     public String get() {
         return fetchUrl();

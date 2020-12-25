@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.value.handlers;
+package org.testingisdocumenting.webtau.browser.handlers;
 
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
@@ -24,7 +25,6 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Stream;
 
 public class PageElementGetSetValueHandlers {

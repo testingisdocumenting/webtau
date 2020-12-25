@@ -7,12 +7,12 @@ Webtau (**Web** **T**est **au**tomation) - concise and expressive way to write e
 Test your application across multiple layers:
 * REST API
 * GraphQL API
-* Web UI
+* Browser
 * CLI
 * Database
 * Business Logic (JVM only)
 
-Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
+Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer
 to validate GraphQL API.
 
 Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
@@ -21,7 +21,7 @@ Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end 
 
 * [REST API example](#rest-api-example)
 * [GraphQL API example](#graphql-api-example)
-* [Web UI example](#web-ui-example)
+* [Browser example](#browser-example)
 * [DB example](#db-example)
 * [CLI example](#cli-example)
 
@@ -36,7 +36,7 @@ Groovy:
  ````columns
 
  left:
- :include-file: scenarios/rest/simpleGet.groovy {title: "REST API test (Groovy specific runner)"}
+ :include-file: scenarios/rest/simpleGet.groovy {title: "REST API test (Groovy runner)"}
  :include-file: com/example/tests/junit5/WeatherGroovyTest.groovy {title: "REST API test (JUnit5)"} 
 
  right: 
@@ -72,7 +72,7 @@ Groovy:
  ````columns
 
  left:
- :include-file: scenarios/graphql/weatherQuery.groovy {title: "GraphQL API test (Groovy specific runner)"}
+ :include-file: scenarios/graphql/weatherQuery.groovy {title: "GraphQL API test (Groovy runner)"}
  :include-file: com/example/tests/junit4/GraphQLWeatherGroovyIT.groovy {title: "GraphQL API test (JUnit4)"} 
 
  right: 
@@ -106,11 +106,28 @@ Java:
 
 ``````
 
-# Web UI Example 
+# Browser Example 
 
-:include-file: scenarios/ui/searchWithPagesWaitTo.groovy {title: "Web UI test"}
+```tabs
+Groovy:
 
+:include-file: scenarios/ui/searchWithPagesWaitTo.groovy {title: "Browser test (Groovy runner)"}
 :include-groovy: pages/SearchPage.groovy {title: "SearchPage.groovy"}
+
+:include-file: pages/Pages.groovy {
+    title: "Pages.groovy",
+    excludeRegexp: ["calculation", "form", "payments"]
+}
+
+Java:
+
+:include-file: com/example/tests/junit5/WebSearchJavaTest.java {title: "Browser test (JUnit 5)"}
+:include-file: com/example/tests/junit5/pages/SearchPage.java {title: "SearchPage.java"}
+
+:include-file: com/example/tests/junit5/pages/Pages.java {
+    title: "Pages.java"
+}
+```
 
 # DB Example
 

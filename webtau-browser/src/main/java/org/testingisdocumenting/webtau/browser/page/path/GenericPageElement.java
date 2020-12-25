@@ -26,8 +26,8 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElements
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
-import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
-import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers;
+import org.testingisdocumenting.webtau.browser.page.ElementValue;
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
@@ -51,8 +51,8 @@ public class GenericPageElement implements PageElement {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final ElementPath path;
     private final TokenizedMessage pathDescription;
-    private final ElementValue<Object, PageElement> elementValue;
-    private final ElementValue<Integer, PageElement> countValue;
+    private final ElementValue<Object> elementValue;
+    private final ElementValue<Integer> countValue;
 
     public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, ElementPath path) {
         this.driver = driver;
@@ -64,7 +64,7 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ElementValue<Integer, PageElement> getCount() {
+    public ElementValue<Integer> getCount() {
         return countValue;
     }
 
@@ -139,12 +139,12 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ElementValue<Object, PageElement> elementValue() {
+    public ElementValue<Object> elementValue() {
         return elementValue;
     }
 
     @Override
-    public ElementValue<List<Object>, PageElement> elementValues() {
+    public ElementValue<List<Object>> elementValues() {
         return new ElementValue<>(this, "all values", this::extractValues);
     }
 
