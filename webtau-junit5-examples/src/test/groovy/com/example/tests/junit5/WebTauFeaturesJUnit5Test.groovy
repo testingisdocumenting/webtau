@@ -19,21 +19,23 @@ package com.example.tests.junit5
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.testingisdocumenting.webtau.featuretesting.WebTauBrowserFeaturesTestData
 import org.testingisdocumenting.webtau.featuretesting.WebTauRestFeaturesTestData
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 
 class WebTauFeaturesJUnit5Test {
-    private static final FixedResponsesHandler restHandler = new FixedResponsesHandler()
+    private static final FixedResponsesHandler responseHandler = new FixedResponsesHandler()
 
-    private static final TestServer testServer = new TestServer(restHandler)
+    private static final TestServer testServer = new TestServer(responseHandler)
 
     private static final JUnit5FeatureTestRunner testRunner = new JUnit5FeatureTestRunner()
 
     @BeforeAll
     static void startServer() {
         testServer.startRandomPort()
-        WebTauRestFeaturesTestData.registerEndPoints(testServer, restHandler)
+        WebTauRestFeaturesTestData.registerEndPoints(testServer, responseHandler)
+        WebTauBrowserFeaturesTestData.registerEndPoints(responseHandler)
     }
 
     @AfterAll
@@ -49,5 +51,10 @@ class WebTauFeaturesJUnit5Test {
     @Test
     void weatherJavaTest() {
         testRunner.runAndValidate(WeatherJavaTest, testServer.uri.toString())
+    }
+
+    @Test
+    void searchByQuery() {
+        testRunner.runAndValidate(WebSearchJavaTest, testServer.uri.toString())
     }
 }

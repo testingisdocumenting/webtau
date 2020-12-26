@@ -5,5 +5,5 @@ import static pages.Pages.*
 
 scenario("search by specific query") {
     search.submit("search this")
-    search.numberOfResults.waitTo == 2
+    search.numberOfResults.waitToBe > 1
 }

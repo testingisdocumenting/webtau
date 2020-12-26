@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.value.handlers;
+package org.testingisdocumenting.webtau.browser.handlers;
 
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 import org.testingisdocumenting.webtau.browser.page.NullWebElement;

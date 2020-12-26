@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.expectation;
 
-import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
+import org.testingisdocumenting.webtau.browser.page.ElementValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
@@ -36,21 +37,21 @@ public class ElementValueCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        ElementValue actualElementValue = (ElementValue) actual;
+        ElementValue<?> actualElementValue = (ElementValue<?>) actual;
         comparator.compareUsingEqualOnly(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
     }
 
     @Override
     public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        ElementValue actualElementValue = (ElementValue) actual;
+        ElementValue<?> actualElementValue = (ElementValue<?>) actual;
         comparator.compareUsingCompareTo(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
     }
 
-    private Object extractActualValue(ElementValue actualElementValue) {
+    private Object extractActualValue(ElementValue<?> actualElementValue) {
         return actualElementValue.get();
     }
 
-    private ActualPath creataPath(ElementValue elementValue) {
+    private ActualPath creataPath(ElementValue<?> elementValue) {
         return createActualPath(elementValue.getName());
     }
 

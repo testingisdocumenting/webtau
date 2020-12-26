@@ -14,6 +14,6 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.browser.page.value.handlers.SelectGetSetValueHandler
-org.testingisdocumenting.webtau.browser.page.value.handlers.DateInputGetSetValueHandler
-org.testingisdocumenting.webtau.browser.page.value.handlers.CheckBoxGetSelValueHandler
+org.testingisdocumenting.webtau.browser.handlers.SelectGetSetValueHandler
+org.testingisdocumenting.webtau.browser.handlers.DateInputGetSetValueHandler
+org.testingisdocumenting.webtau.browser.handlers.CheckBoxGetSelValueHandler

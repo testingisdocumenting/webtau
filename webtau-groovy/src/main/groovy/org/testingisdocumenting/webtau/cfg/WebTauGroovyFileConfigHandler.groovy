@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
-import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.db.DbDataSourceProvider
 import org.testingisdocumenting.webtau.db.DbDataSourceProviders

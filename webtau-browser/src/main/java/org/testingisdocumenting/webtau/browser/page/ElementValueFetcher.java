@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.value;
+package org.testingisdocumenting.webtau.browser.page;
 
 public interface ElementValueFetcher<E> {
     E fetch();

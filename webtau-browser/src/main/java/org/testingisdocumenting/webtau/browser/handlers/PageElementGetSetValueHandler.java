@@ -15,34 +15,19 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.value.handlers;
+package org.testingisdocumenting.webtau.browser.handlers;
 
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler {
-    @Override
-    public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
-        return true;
-    }
-
-    @Override
-    public void setValue(PageElementStepExecutor stepExecutor,
-                         TokenizedMessage pathDescription,
-                         HtmlNode htmlNode,
-                         PageElement pageElement,
-                         Object value) {
-
-        pageElement.clear();
-        pageElement.sendKeys(value.toString());
-    }
-
-    @Override
-    public Object getValue(HtmlNode htmlNode, PageElement pageElement) {
-        return htmlNode.getTagName().equals("input") || htmlNode.getTagName().equals("textarea") ?
-                htmlNode.getValue():
-                pageElement.getText();
-    }
+public interface PageElementGetSetValueHandler {
+    boolean handles(HtmlNode htmlNode, PageElement pageElement);
+    void setValue(PageElementStepExecutor stepExecutor,
+                  TokenizedMessage pathDescription,
+                  HtmlNode htmlNode,
+                  PageElement pageElement,
+                  Object value);
+    Object getValue(HtmlNode htmlNode, PageElement pageElement);
 }
