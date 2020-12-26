@@ -85,7 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Config File</h1></header>
-<p>Webtau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use webtau will read data from a different place.When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = &quot;https://jsonplaceholder.typicode.com/&quot; Note: webtau treats groovy config file as codeWhen you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, webtau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = https://jsonplaceholder.typicode.com/</p>
+<p>Webtau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use webtau will read data from a different place. Groovy When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = &quot;http://localhost:8080&quot; Note: webtau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, webtau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080</p>
+</article>
+
+<article>
+<header><h1>Environments</h1></header>
+<p>Webtau supports environment specific config values, and a way to select which environment to set active during tests run. Groovy url = &quot;http://localhost:8080&quot; environments { qa { url = &quot;http://server.qa:8080&quot; } } To select an active environment using groovy-standalone-runner/introduction Groovy Standalone Runner you can pass env as cli parameter webtau --env=qa Additionally you can use environment varialbe to set an active environment: WEBTAU_ENV=qa . Java url = http://localhost:8080 environments.qa.url = http://server.qa:8080 To select an active environment you have two options:System property -Denv=qa Environment variable WEBTAU_ENV=qa</p>
 </article>
 
 <article>
@@ -142,68 +147,179 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "level" : 2,
-        "title" : "Groovy Standalone Runner",
-        "id" : "groovy-standalone-runner",
-        "type" : "SubHeading"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "When you use the Groovy runner, it will look for ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "webtau.cfg.groovy",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " file (default).",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "url = \"https://jsonplaceholder.typicode.com/\"",
-        "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Note: webtau treats groovy config file as code",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "level" : 2,
-        "title" : "JUnit Like Runners",
-        "id" : "junit-like-runners",
-        "type" : "SubHeading"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "When you use JUnit like runners, e.g. ",
-          "type" : "SimpleText"
-        }, {
-          "url" : "/webtau/getting-started/installation#junit5",
-          "isFile" : false,
-          "type" : "Link",
+        "tabsContent" : [ {
+          "name" : "Groovy",
           "content" : [ {
-            "text" : "JUnit5",
-            "type" : "SimpleText"
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "When you use the Groovy runner, it will look for ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "webtau.cfg.groovy",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " file (default).",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "lang" : "groovy",
+            "snippet" : "url = \"http://localhost:8080\"",
+            "title" : "webtau.cfg.groovy",
+            "includeRegexp" : "localhost",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Note: webtau treats groovy config file as code",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
-          "text" : ", webtau expects file named",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "code" : "webtau.properties",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " to be present in test classpath, e.g. test resources:",
+          "name" : "Java",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "When you use JUnit like runners, e.g. ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/getting-started/installation#junit5",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "JUnit5",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ", webtau expects file named",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "code" : "webtau.properties",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to be present in test classpath, e.g. test resources:",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "lang" : "properties",
+            "snippet" : "url = http://localhost:8080",
+            "title" : "src/test/resources/webtau.properties",
+            "includeRegexp" : "localhost",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Environments",
+      "id" : "environments",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau supports environment specific config values, and a way to select which environment to set active during tests run.",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "properties",
-        "snippet" : "url = https://jsonplaceholder.typicode.com/",
-        "title" : "src/test/resources/webtau.properties",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "url = \"http://localhost:8080\"\n\nenvironments {\n    qa {\n        url = \"http://server.qa:8080\"\n    }\n}",
+            "title" : "webtau.cfg.groovy",
+            "excludeRegexp" : "package",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "To select an active environment using ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Standalone Runner",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " you",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "can pass ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "env",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " as cli parameter",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "command" : "webtau --env=qa",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Additionally you can use environment varialbe to set an active environment: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "WEBTAU_ENV=qa",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ".",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "properties",
+            "snippet" : "url = http://localhost:8080\nenvironments.qa.url = http://server.qa:8080",
+            "title" : "src/test/resources/webtau.properties",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "To select an active environment you have two options:",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "bulletMarker" : "*",
+            "tight" : true,
+            "type" : "BulletList",
+            "content" : [ {
+              "type" : "ListItem",
+              "content" : [ {
+                "type" : "Paragraph",
+                "content" : [ {
+                  "text" : "System property ",
+                  "type" : "SimpleText"
+                }, {
+                  "code" : "-Denv=qa",
+                  "type" : "InlinedCode"
+                } ]
+              } ]
+            }, {
+              "type" : "ListItem",
+              "content" : [ {
+                "type" : "Paragraph",
+                "content" : [ {
+                  "text" : "Environment variable ",
+                  "type" : "SimpleText"
+                }, {
+                  "code" : "WEBTAU_ENV=qa",
+                  "type" : "InlinedCode"
+                } ]
+              } ]
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "title" : "Overrides",
@@ -298,7 +414,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1608497774266,
+    "lastModifiedTime" : 1608949217344,
     "tocItem" : {
       "sectionTitle" : "Getting Started",
       "pageTitle" : "Configuration",
@@ -309,6 +425,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Config File",
         "id" : "config-file"
+      }, {
+        "title" : "Environments",
+        "id" : "environments"
       }, {
         "title" : "Overrides",
         "id" : "overrides"

@@ -30,8 +30,8 @@ toc = [ {
       "title" : "GraphQL API Example",
       "id" : "graphql-api-example"
     }, {
-      "title" : "Web UI Example",
-      "id" : "web-ui-example"
+      "title" : "Browser Example",
+      "id" : "browser-example"
     }, {
       "title" : "DB Example",
       "id" : "db-example"
@@ -92,6 +92,9 @@ toc = [ {
     "pageSectionIdTitles" : [ {
       "title" : "Config File",
       "id" : "config-file"
+    }, {
+      "title" : "Environments",
+      "id" : "environments"
     }, {
       "title" : "Overrides",
       "id" : "overrides"

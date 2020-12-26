@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Webtau http. module lets you exercise and validate HTTP endpoints. It provides a simplified way to access JSON response of an end-point and simplifies REST API tests. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class WeatherGroovyIT { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } json { &quot;temperature&quot;: 88 } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.Test; import org.junit.runner.RunWith; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class WeatherJavaIT { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;temperature&quot;: 88 }</p>
+<p>Webtau http. module lets you exercise and validate HTTP endpoints. It provides a simplified way to access JSON response of an end-point and simplifies REST API tests. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau class WeatherGroovyTest { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } json { &quot;temperature&quot;: 88 } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.Matchers.lessThan; import static org.testingisdocumenting.webtau.WebTauDsl.http; @WebTau public class WeatherJavaTest { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;temperature&quot;: 88 }</p>
 </article>
 </section>
 </div>
@@ -138,8 +138,8 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "Snippet"
             }, {
               "lang" : "groovy",
-              "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@RunWith(WebTauRunner.class)\nclass WeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
-              "title" : "REST API test (JUnit4)",
+              "snippet" : "package com.example.tests.junit5\n\nimport org.junit.jupiter.api.Test\nimport org.testingisdocumenting.webtau.junit5.WebTau\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@WebTau\nclass WeatherGroovyTest {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
+              "title" : "REST API test (JUnit5)",
               "type" : "Snippet"
             } ]
           }, {
@@ -160,8 +160,8 @@ ReactDOM.render(React.createElement(Documentation, {
           "columns" : [ {
             "content" : [ {
               "lang" : "java",
-              "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class WeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
-              "title" : "REST API test (JUnit4 Java)",
+              "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static org.testingisdocumenting.webtau.Matchers.lessThan;\nimport static org.testingisdocumenting.webtau.WebTauDsl.http;\n\n@WebTau\npublic class WeatherJavaTest {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+              "title" : "REST API test (JUnit5 Java)",
               "type" : "Snippet"
             } ]
           }, {
@@ -179,7 +179,7 @@ ReactDOM.render(React.createElement(Documentation, {
       } ],
       "type" : "Tabs"
     } ],
-    "lastModifiedTime" : 1608497774266,
+    "lastModifiedTime" : 1608949217344,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Introduction",
