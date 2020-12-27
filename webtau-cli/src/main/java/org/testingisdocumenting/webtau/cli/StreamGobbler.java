@@ -51,7 +51,7 @@ public class StreamGobbler implements Runnable {
         return lines.size();
     }
 
-    synchronized public List<String> getLinesStartingAt(int idx) {
+    synchronized public List<String> copyLinesStartingAt(int idx) {
         return new ArrayList<>(lines.subList(idx, lines.size()));
     }
 
@@ -60,7 +60,7 @@ public class StreamGobbler implements Runnable {
     }
 
     public String joinLinesStartingAt(int idx) {
-        return String.join("\n", getLinesStartingAt(idx));
+        return String.join("\n", copyLinesStartingAt(idx));
     }
 
     public IOException getException() {
