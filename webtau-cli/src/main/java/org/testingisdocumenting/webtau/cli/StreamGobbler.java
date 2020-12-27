@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
@@ -40,7 +39,7 @@ public class StreamGobbler implements Runnable {
 
     public StreamGobbler(InputStream stream) {
         this.stream = stream;
-        this.lines = Collections.synchronizedList(new ArrayList<>());
+        this.lines = new ArrayList<>();
         this.renderOutput = shouldRenderOutput();
     }
 
@@ -52,8 +51,8 @@ public class StreamGobbler implements Runnable {
         return lines.size();
     }
 
-    public List<String> getLinesStartingAt(int idx) {
-        return lines.subList(idx, lines.size());
+    synchronized public List<String> getLinesStartingAt(int idx) {
+        return new ArrayList<>(lines.subList(idx, lines.size()));
     }
 
     public String joinLines() {
@@ -99,8 +98,12 @@ public class StreamGobbler implements Runnable {
                 ConsoleOutputs.out(line);
             }
 
-            lines.add(line);
+            addLine(line);
         }
+    }
+
+    synchronized private void addLine(String line) {
+        lines.add(line);
     }
 
     private boolean shouldRenderOutput() {
