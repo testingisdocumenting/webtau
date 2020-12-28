@@ -19,6 +19,7 @@ to validate GraphQL API.
 
 Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
+[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction)
 ```groovy
 scenario("check weather") {
     http.get("/weather") {
@@ -27,6 +28,32 @@ scenario("check weather") {
 }
 ```
 
+[Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction)
+```java
+@WebTau
+public class WebSearchTest {
+    @Test
+    public void searchByQuery() {
+        search.submit("search this");
+        search.numberOfResults.waitToBe(greaterThan(1));
+    }
+}
+
+public class SearchPage {
+    private final PageElement box = $("#search-box");
+    private final PageElement results = $("#results .result");
+    public ElementValue<Integer> numberOfResults = results.getCount();
+
+    public void submit(String query) {
+        browser.open("/search");
+
+        box.setValue(query);
+        box.sendKeys(browser.keys.enter);
+    }
+}
+```
+
+[Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup)
 ```
 def PRICES = db.table("PRICES")
 PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
@@ -34,6 +61,14 @@ PRICES << [     "id" | "description" |          "available" |                "ty
            cell.guid | "nice set"    |                 true |                "card" |            1000
            cell.guid | "nice set"    |                 true |                "card" | cell.above + 10
            cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 }
+```
+
+[CLI run example](https://testingisdocumenting.org/webtau/cli/introduction)
+```
+cli.run('echo hello world') {
+    output.should contain('hello')
+    output.should contain('world')
+}
 ```
 
 [Learn More](https://testingisdocumenting.org/webtau/)
