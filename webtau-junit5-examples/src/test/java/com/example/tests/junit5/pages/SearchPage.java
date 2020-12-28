@@ -14,6 +14,6 @@ public class SearchPage {
         browser.open("/search");
 
         box.setValue(query);
-        box.sendKeys(browser.keys.ENTER);
+        box.sendKeys(browser.keys.enter);
     }
 }
