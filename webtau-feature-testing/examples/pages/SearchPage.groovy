@@ -1,7 +1,5 @@
 package pages
 
-import org.openqa.selenium.Keys
-
 import static org.testingisdocumenting.webtau.WebTauDsl.*
 
 class SearchPage {
@@ -15,6 +13,6 @@ class SearchPage {
         browser.open("/search")
 
         box.setValue(query)
-        box.sendKeys(Keys.ENTER.toString())
+        box.sendKeys(browser.keys.ENTER)
     }
 }

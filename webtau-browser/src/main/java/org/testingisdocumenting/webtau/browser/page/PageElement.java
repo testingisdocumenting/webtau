@@ -39,7 +39,7 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     ElementValue<List<Object>> elementValues();
 
     void setValue(Object value);
-    void sendKeys(String keys);
+    void sendKeys(CharSequence keys);
     void click();
     void shiftClick();
     void controlClick();

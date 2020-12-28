@@ -1,6 +1,5 @@
 package com.example.tests.junit5.pages;
 
-import org.openqa.selenium.Keys;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.ElementValue;
 
@@ -15,6 +14,6 @@ public class SearchPage {
         browser.open("/search");
 
         box.setValue(query);
-        box.sendKeys(Keys.ENTER.toString());
+        box.sendKeys(browser.keys.ENTER);
     }
 }
