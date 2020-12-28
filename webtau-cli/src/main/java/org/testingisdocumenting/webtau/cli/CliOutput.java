@@ -53,7 +53,7 @@ public class CliOutput implements CliResultExpectations {
     }
 
     public List<String> copyLinesStartingAtIdx(int idx) {
-        return streamGobbler.getLinesStartingAt(idx);
+        return streamGobbler.copyLinesStartingAt(idx);
     }
 
     public IOException getException() {
