@@ -53,6 +53,20 @@ public class SearchPage {
 }
 ```
 
+[GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction)
+```
+@Webtau
+public class GraphQLWeatherJavaIT {
+    @Test
+    public void checkWeather() {
+        String query = "{ weather { temperature } }";
+        graphql.execute(query, (header, body) -> {
+            body.get("data.weather.temperature").shouldBe(lessThan(100));
+        });
+    }
+}
+```
+
 [Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup)
 ```
 def PRICES = db.table("PRICES")
