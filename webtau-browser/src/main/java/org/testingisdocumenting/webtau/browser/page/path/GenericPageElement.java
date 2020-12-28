@@ -156,7 +156,7 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public void sendKeys(String keys) {
+    public void sendKeys(CharSequence keys) {
         execute(tokenizedMessage(action("sending keys"), stringValue(keys), TO).add(pathDescription),
                 () -> tokenizedMessage(action("sent keys"), stringValue(keys), TO).add(pathDescription),
                 () -> findElement().sendKeys(keys));

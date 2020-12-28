@@ -47,6 +47,8 @@ public class Browser {
 
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
 
+    public final BrowserKeys keys = new BrowserKeys();
+
     private Browser() {
         additionalBrowserInteractions = new BrowserInjectedJavaScript(driver);
     }
