@@ -123,7 +123,7 @@ public class WebDriverCreator {
         }
 
         if (BrowserConfig.getFirefoxDriverPath() != null) {
-            System.setProperty(FIREFOX_DRIVER_PATH_KEY, BrowserConfig.getChromeDriverPath().toString());
+            System.setProperty(FIREFOX_DRIVER_PATH_KEY, BrowserConfig.getFirefoxDriverPath().toString());
         }
 
         if (BrowserConfig.isHeadless()) {
