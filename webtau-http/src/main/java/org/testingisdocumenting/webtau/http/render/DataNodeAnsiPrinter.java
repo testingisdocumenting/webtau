@@ -40,9 +40,6 @@ public class DataNodeAnsiPrinter {
     private Line currentLine;
     private int indentation;
 
-    public DataNodeAnsiPrinter() {
-    }
-
     public void print(DataNode dataNode) {
         print(dataNode, -1);
     }
@@ -54,28 +51,8 @@ public class DataNodeAnsiPrinter {
 
         printNode(dataNode, false);
 
-        if (maxNumberOfLInes == -1 || lines.size() <= maxNumberOfLInes) {
-            consoleOutputWithoutLimit();
-        } else {
-            consoleOutputWithLimit(maxNumberOfLInes);
-        }
-    }
-
-    private void consoleOutputWithoutLimit() {
-        consoleOutputLines(lines);
-    }
-
-    private void consoleOutputWithLimit(int limit) {
-        int firstHalfNumberOfLines = limit / 2;
-        int secondHalfNumberOfLines = firstHalfNumberOfLines + limit % 2;
-
-        consoleOutputLines(lines.subList(0, firstHalfNumberOfLines));
-        ConsoleOutputs.out(Color.YELLOW, "...");
-        consoleOutputLines(lines.subList(lines.size() - secondHalfNumberOfLines, lines.size()));
-    }
-
-    private void consoleOutputLines(List<Line> lines) {
-        lines.forEach(l -> ConsoleOutputs.out(l.getStyleAndValues().toArray()));
+        ConsoleOutputs.outLinesWithLimit(lines, maxNumberOfLInes,
+                (line) -> line.getStyleAndValues().toArray());
     }
 
     private void printNode(DataNode dataNode, boolean skipIndent) {

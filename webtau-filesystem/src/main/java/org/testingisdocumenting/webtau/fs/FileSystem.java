@@ -56,12 +56,12 @@ public class FileSystem {
         unzip(Paths.get(src), Paths.get(dest));
     }
 
-    public FileContent textContent(Path path) {
-        return new FileContent(path);
+    public FileTextContent textContent(Path path) {
+        return new FileTextContent(path);
     }
 
-    public FileContent textContent(String path) {
-        return new FileContent(Paths.get(path));
+    public FileTextContent textContent(String path) {
+        return new FileTextContent(Paths.get(path));
     }
 
     public Path tempDir(String prefix) {

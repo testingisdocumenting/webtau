@@ -21,9 +21,11 @@ import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.PageUrl
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.table.TableData
 import org.testingisdocumenting.webtau.db.DatabaseQueryResult
+import org.testingisdocumenting.webtau.fs.FileTextContent
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
@@ -31,6 +33,7 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
 
 import java.util.stream.Stream
 
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out
 
 class ReplResultRenderer {
@@ -55,9 +58,17 @@ class ReplResultRenderer {
             renderTableData(result)
         } else if (result instanceof PageUrl) {
             renderPageUrl(result)
+        } else if (result instanceof FileTextContent) {
+            renderTextLimitingSize(result.data)
         } else {
             groovysh.defaultResultHook(result)
         }
+    }
+
+    private static void renderTextLimitingSize(String text) {
+        ConsoleOutputs.outLinesWithLimit(
+                Arrays.asList(text.split("\n")),
+                cfg.consolePayloadOutputLimit) {[it] as Object[]}
     }
 
     private static void renderTableData(TableData tableData) {

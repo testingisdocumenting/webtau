@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.fs.FileContentCompareToHandler
+org.testingisdocumenting.webtau.fs.FileTextContentCompareToHandler
