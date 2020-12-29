@@ -17,10 +17,12 @@
 package org.testingisdocumenting.webtau.console;
 
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ConsoleOutputs {
@@ -34,6 +36,29 @@ public class ConsoleOutputs {
 
     public static void err(Object... styleOrValues) {
         getOutputsStream().forEach(o -> o.err(styleOrValues));
+    }
+
+    /**
+     * prints lines limiting output to a given value. Prints values from the start and from the end, omitting middle.
+     *
+     * @param lines lines to print and limit
+     * @param limit max number of lines to print, -1 to print all
+     * @param styleOrValueExtractor function to extract valueOrStyle from given list
+     */
+    public static <E> void outLinesWithLimit(List<E> lines,
+                                             int limit,
+                                             Function<E, Object[]> styleOrValueExtractor) {
+        if (limit == -1 || lines.size() <= limit) {
+            outLines(lines, styleOrValueExtractor);
+            return;
+        }
+
+        int firstHalfNumberOfLines = limit / 2;
+        int secondHalfNumberOfLines = firstHalfNumberOfLines + limit % 2;
+
+        outLines(lines.subList(0, firstHalfNumberOfLines), styleOrValueExtractor);
+        ConsoleOutputs.out(Color.YELLOW, "...");
+        outLines(lines.subList(lines.size() - secondHalfNumberOfLines, lines.size()), styleOrValueExtractor);
     }
 
     public static void add(ConsoleOutput consoleOutput) {
@@ -50,5 +75,9 @@ public class ConsoleOutputs {
         }
 
         return outputs.stream();
+    }
+
+    private static <E> void outLines(List<E> lines, Function<E, Object[]> styleOrValueExtractor) {
+        lines.forEach(l -> ConsoleOutputs.out(styleOrValueExtractor.apply(l)));
     }
 }

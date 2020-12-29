@@ -20,19 +20,19 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
-public class FileContainHandler implements ContainHandler {
+public class FileTextContentContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
-        return actual instanceof FileContent;
+        return actual instanceof FileTextContent;
     }
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
-        containAnalyzer.contains(actualPath, ((FileContent) actual).getContent(), expected);
+        containAnalyzer.contains(actualPath, ((FileTextContent) actual).getData(), expected);
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
-        containAnalyzer.notContains(actualPath, ((FileContent) actual).getContent(), expected);
+        containAnalyzer.notContains(actualPath, ((FileTextContent) actual).getData(), expected);
     }
 }

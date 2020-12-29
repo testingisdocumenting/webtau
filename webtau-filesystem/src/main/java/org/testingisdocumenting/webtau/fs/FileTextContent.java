@@ -30,16 +30,16 @@ import java.nio.file.Path;
 
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class FileContent implements ActualValueExpectations, ActualPathAware {
+public class FileTextContent implements ActualValueExpectations, ActualPathAware {
     private final ActualPath actualPath;
     private final Path path;
 
-    public FileContent(Path path) {
+    public FileTextContent(Path path) {
         this.actualPath = new ActualPath("file <" + path.getFileName().toString() + ">");
         this.path = path;
     }
 
-    public String getContent() {
+    public String getData() {
         return FileUtils.fileTextContent(path);
     }
 
@@ -72,5 +72,10 @@ public class FileContent implements ActualValueExpectations, ActualPathAware {
         ValueMatcherExpectationSteps.waitNotStep(null, this, StepReportOptions.REPORT_ALL,
                 tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher,
                 expectationTimer, tickMillis, timeOutMillis);
+    }
+
+    @Override
+    public String toString() {
+        return getData();
     }
 }
