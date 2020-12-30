@@ -75,6 +75,10 @@ public class Cli {
         return new CliForegroundCommand().run(command, config, handler);
     }
 
+    public CliRunResult run(String command, CliProcessConfig config) {
+        return new CliForegroundCommand().run(command, config, CliValidationOutputOnlyHandler.NO_OP);
+    }
+
     public CliRunResult run(String command, CliValidationExitCodeOutputHandler handler) {
         return run(command, CliProcessConfig.EMPTY, handler);
     }
