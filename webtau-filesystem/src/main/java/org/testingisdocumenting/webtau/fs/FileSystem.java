@@ -81,6 +81,18 @@ public class FileSystem {
         return (Path) step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    public Path fullPath(String relativeOrFull) {
+        return fullPath(Paths.get(relativeOrFull));
+    }
+
+    public Path fullPath(Path relativeOrFull) {
+        if (relativeOrFull.isAbsolute()) {
+            return relativeOrFull;
+        }
+
+        return getCfg().getWorkingDir().resolve(relativeOrFull).toAbsolutePath();
+    }
+
     private static Path createTempDir(Path dir, String prefix) {
         try {
             if (dir != null) {
@@ -96,13 +108,5 @@ public class FileSystem {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static Path fullPath(Path relativeOrFull) {
-        if (relativeOrFull.isAbsolute()) {
-            return relativeOrFull;
-        }
-
-        return getCfg().getWorkingDir().resolve(relativeOrFull);
     }
 }
