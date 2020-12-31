@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,20 +19,29 @@ package org.testingisdocumenting.webtau.browser;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Cookies {
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+
+class BrowserCookies {
     private final WebDriver driver;
 
-    Cookies(WebDriver driver) {
+    BrowserCookies(WebDriver driver) {
         this.driver = driver;
     }
 
     public void add(String name, String value) {
-        Cookie cookie = new Cookie(name, value);
-        driver.manage().addCookie(cookie);
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("setting browser cookie"), id(name), TO, stringValue(value)),
+                () -> tokenizedMessage(action("set browser cookie"), id(name), TO, stringValue(value)),
+                () -> {
+                    Cookie cookie = new Cookie(name, value);
+                    driver.manage().addCookie(cookie);
+                });
     }
 
     public String get(String name) {
@@ -45,10 +55,16 @@ public class Cookies {
     }
 
     public void delete(String name) {
-        driver.manage().deleteCookieNamed(name);
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("deleting browser cookie"), id(name)),
+                () -> tokenizedMessage(action("deleted browser cookie"), id(name)),
+                () -> driver.manage().deleteCookieNamed(name));
     }
 
     public void deleteAll() {
-        driver.manage().deleteAllCookies();
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("deleting all browser cookies")),
+                () -> tokenizedMessage(action("deleted all browser cookies")),
+                () -> driver.manage().deleteAllCookies());
     }
 }

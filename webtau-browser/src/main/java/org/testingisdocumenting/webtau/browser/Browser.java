@@ -41,8 +41,8 @@ public class Browser {
     public static final Browser browser = new Browser();
     public final CurrentWebDriver driver = CurrentWebDriver.INSTANCE;
 
-    public final Cookies cookies = new Cookies(driver);
-    public final LocalStorage localStorage = new LocalStorage(driver);
+    public final BrowserCookies cookies = new BrowserCookies(driver);
+    public final BrowserLocalStorage localStorage = new BrowserLocalStorage(driver);
     public final BrowserDocumentation doc = new BrowserDocumentation(driver);
 
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
@@ -106,9 +106,7 @@ public class Browser {
     public void saveCurrentUrl(String key) {
         createAndExecuteStep(tokenizedMessage(action("saving current url as"), stringValue(key)),
                 () -> tokenizedMessage(action("saved current url as"), stringValue(key)),
-                () -> {
-                    Cache.cache.put(makeCacheKey(key), driver.getCurrentUrl());
-                });
+                () -> Cache.cache.put(makeCacheKey(key), driver.getCurrentUrl()));
     }
 
     public void openSavedUrl() {
