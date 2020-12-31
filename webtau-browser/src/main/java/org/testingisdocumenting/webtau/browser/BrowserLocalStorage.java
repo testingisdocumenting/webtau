@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,13 +19,17 @@ package org.testingisdocumenting.webtau.browser;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.html5.WebStorage;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.Set;
 
-public class LocalStorage {
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+
+class BrowserLocalStorage {
     private final WebDriver driver;
 
-    LocalStorage(WebDriver driver) {
+    BrowserLocalStorage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -37,15 +42,24 @@ public class LocalStorage {
     }
 
     public void setItem(String key, String value) {
-        getLocalStorage().setItem(key, value);
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("setting browser localStorage item"), id(key), TO, stringValue(value)),
+                () -> tokenizedMessage(action("set browser localStorage item"), id(key), TO, stringValue(value)),
+                () -> getLocalStorage().setItem(key, value));
     }
 
-    public String removeItem(String key) {
-        return getLocalStorage().removeItem(key);
+    public void removeItem(String key) {
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("removing browser localStorage item"), id(key)),
+                () -> tokenizedMessage(action("removed browser localStorage item"), id(key)),
+                () -> getLocalStorage().removeItem(key));
     }
 
     public void clear() {
-        getLocalStorage().clear();
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("clearing browser localStorage")),
+                () -> tokenizedMessage(action("cleared browser localStorage")),
+                () -> getLocalStorage().clear());
     }
 
     public int size() {
