@@ -3,7 +3,7 @@
     "scenario" : "local storage api",
     "shortContainerId" : "localStorage.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 5
+      "numberOfSuccessful" : 7
     }
   } ],
   "exitCode" : 0

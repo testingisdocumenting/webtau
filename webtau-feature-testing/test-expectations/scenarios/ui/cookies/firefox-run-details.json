@@ -8,7 +8,9 @@
   }, {
     "scenario" : "add cookies",
     "shortContainerId" : "cookies.groovy",
-    "stepsSummary" : { }
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
   }, {
     "scenario" : "validate added cookies",
     "shortContainerId" : "cookies.groovy",
@@ -18,7 +20,9 @@
   }, {
     "scenario" : "delete named cookie",
     "shortContainerId" : "cookies.groovy",
-    "stepsSummary" : { }
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   }, {
     "scenario" : "validate deleted cookies",
     "shortContainerId" : "cookies.groovy",
@@ -28,7 +32,9 @@
   }, {
     "scenario" : "add more cookies",
     "shortContainerId" : "cookies.groovy",
-    "stepsSummary" : { }
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
   }, {
     "scenario" : "get all cookies",
     "shortContainerId" : "cookies.groovy",
@@ -36,7 +42,9 @@
   }, {
     "scenario" : "delete all cookies",
     "shortContainerId" : "cookies.groovy",
-    "stepsSummary" : { }
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   }, {
     "scenario" : "validate after delete all cookies",
     "shortContainerId" : "cookies.groovy",
