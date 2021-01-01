@@ -21,7 +21,7 @@
     "scenario" : "restart",
     "shortContainerId" : "navigation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 7
+      "numberOfSuccessful" : 8
     }
   }, {
     "scenario" : "save url",
