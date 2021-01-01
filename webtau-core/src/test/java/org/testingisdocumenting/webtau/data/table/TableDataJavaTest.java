@@ -18,13 +18,11 @@
 package org.testingisdocumenting.webtau.data.table;
 
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenerator;
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static org.testingisdocumenting.webtau.Matchers.code;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.*;
 
@@ -55,7 +53,7 @@ public class TableDataJavaTest {
         TableData tableData = createTableDataWithPermute();
 
         validatePermute(tableData);
-        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, "table-with-permute", tableData);
+        doc.captureJson("table-with-permute", tableData);
     }
 
     @Test
@@ -63,7 +61,7 @@ public class TableDataJavaTest {
         TableData tableData = createTableDataWithPermuteAndGuid();
 
         validatePermuteAndGuid(tableData);
-        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, "table-with-permute-and-guid", tableData);
+        doc.captureJson("table-with-permute-and-guid", tableData);
     }
 
     @Test
@@ -195,9 +193,9 @@ public class TableDataJavaTest {
                      "id2" , "N2"   , "T2",
                      "id3" , "N"    , "T");
     }
-    
+
     private void saveTableWithDate(TableData tableData, String artifactName) {
-        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, artifactName,
+        doc.captureJson(artifactName,
                 tableData
                         .map((rowIdx, colIdx, columnName, v) ->
                                 columnName.equals("Start Date") ?

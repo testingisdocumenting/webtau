@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.nio.file.Path;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DocumentationArtifacts {
@@ -40,32 +41,43 @@ public class DocumentationArtifacts {
         usedArtifactNames.clear();
     }
 
-    public static void create(Class<?> testClass, String artifactName, String text) {
-        Path path = DocumentationArtifactsLocation.classBasedLocation(testClass).resolve(artifactName);
+    static void capture(String artifactName, String text) {
+        registerName(artifactName);
+
+        Path path = DocumentationArtifactsLocation.resolve(artifactName);
         FileUtils.writeTextContent(path, text);
     }
 
-    public static void createTextOrJson(Class<?> testClass, String artifactName, Object value) {
+    static void captureText(String artifactName, Object value) {
+        capture(artifactName + ".txt", Objects.toString(value));
+    }
+
+    static void captureTextOrJson(String artifactName, Object value) {
         if (value instanceof String) {
-            Path path = DocumentationArtifactsLocation.classBasedLocation(testClass).resolve(artifactName + ".txt");
-            FileUtils.writeTextContent(path, value.toString());
+            captureText(artifactName, value);
         } else {
-            createAsJson(testClass, artifactName, value);
+            captureJson(artifactName, value);
         }
     }
 
-    public static void createAsJson(Class<?> testClass, String artifactName, Object value) {
+    static void captureJson(String artifactName, Object value) {
         artifactName += ".json";
 
         if (value instanceof TableData) {
-            create(testClass, artifactName, JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
+            capture(artifactName, JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
         } else {
-            create(testClass, artifactName, JsonUtils.serializePrettyPrint(value));
+            capture(artifactName, JsonUtils.serializePrettyPrint(value));
         }
     }
 
-    public static void createAsCsv(Class<?> testClass, String artifactName, TableData tableData) {
-        create(testClass, artifactName + ".csv", CsvUtils.serialize(
+    static void captureCsv(String artifactName, Object value) {
+        if (!(value instanceof TableData)) {
+            throw new IllegalArgumentException("only TableData is supported to be captured as CSV");
+        }
+
+        TableData tableData = (TableData) value;
+
+        capture(artifactName + ".csv", CsvUtils.serialize(
                 tableData.getHeader().getNamesStream(),
                 tableData.rowsStream().map(Record::getValues)));
     }

@@ -23,8 +23,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -38,7 +38,7 @@ public class CliJavaTest {
     public static void init() {
         existingDocRoot = DocumentationArtifactsLocation.getRoot();
         DocumentationArtifactsLocation.setRoot(
-                DocumentationArtifactsLocation.classBasedLocation(CliJavaTest.class).resolve("doc-artifacts"));
+                Paths.get("cli-doc-artifacts"));
     }
 
     @AfterClass

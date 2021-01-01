@@ -70,7 +70,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
                    cell.guid | "nice set"    |                 true |                "card" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations
                    cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations
 
-        doc.capture(DatabaseFacadeTest, 'db-setup-permute-table', PRICES.query().tableData)
+        doc.capture('db-setup-permute-table', PRICES.query().tableData)
         PRICES.query().numberOfRows.should == 6
     }
 
@@ -81,7 +81,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         def PRICES = db.table("PRICES")
         PRICES << data.csv.table('prices-db.csv')
 
-        doc.capture(DatabaseFacadeTest, 'db-setup-csv-table', PRICES.query().tableData)
+        doc.capture('db-setup-csv-table', PRICES.query().tableData)
         PRICES.should == [ "*ID" | "DESCRIPTION"  | "AVAILABLE" | "TYPE" | "PRICE"] {
                           __________________________________________________________
                            "id1" | "description1" |        true | "card" | 200

@@ -30,7 +30,7 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
 
 :include-file: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy  {includeRegexp: "import.*Core"}
 
-:include-table: db-setup-permute-table.json { title: "PRICES" }
+:include-table: doc-artifacts/db-setup-permute-table.json { title: "PRICES" }
 
 # External File TableData
 
@@ -44,7 +44,7 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
  
 :include-file: resources/prices-db.csv {title: "prices-db.csv"} 
 
-:include-table: db-setup-csv-table.json { title: "PRICES" }
+:include-table: doc-artifacts/db-setup-csv-table.json { title: "PRICES" }
 
 # Cleaning Tables
 
