@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.utils.FileUtils
 import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.junit.Test
 
+import java.nio.file.Paths
 import java.util.stream.Collectors
 
 class CLIArgsTest {
@@ -60,10 +61,8 @@ class CLIArgsTest {
                 }
             }
 
-            def artifactPath = DocumentationArtifactsLocation.classBasedLocation(CLIArgsTest)
-                    .resolve('doc-artifacts/cfg/cli-args.json')
-
-            FileUtils.writeTextContent(artifactPath, JsonUtils.serializePrettyPrint(cfgList))
+            FileUtils.writeTextContent(Paths.get('doc-artifacts/cfg/cli-args.json'),
+                    JsonUtils.serializePrettyPrint(cfgList))
         } finally {
             WebTauConfig.resetConfigHandlers()
         }
