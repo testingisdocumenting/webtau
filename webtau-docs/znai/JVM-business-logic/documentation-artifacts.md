@@ -7,14 +7,12 @@ As system evolves, so do your tests and so does your documentation. Essentially 
 
 # Capture Input
 
-Use `doc.capture` to save any value to a file.
+Use `doc.capture` to save a test captured value to a file.
 Example below assumes `core` static import.
 
 :include-file: org/testingisdocumenting/webtau/data/PeopleDaoWithDocTest.java {includeRegexp: "import.*Core"}
 
 :include-java: org/testingisdocumenting/webtau/data/PeopleDaoWithDocTest.java {title: "capturing a value", entry: "initEmployees", commentsType: "inline", bodyOnly: true}
-
-:include-java-doc: org/testingisdocumenting/webtau/documentation/CoreDocumentation.java {entry: "capture"}
 
 # Capture Expected Output 
 
@@ -28,8 +26,8 @@ Since this documentation is rendered using [Znai](https://github.org/testingisdo
 [Znai](https://github.org/testingisdocumenting/znai) has `:include-table:` plugin to render a table giving a json or CSV file.
 
 ```text
-:include-table: all-employees.json
-:include-table: new-joiners.json
+:include-table: doc-artifacts/all-employees.json
+:include-table: doc-artifacts/new-joiners.json
 ```
 
 Below is the example of the business logic rendered as documentation.
@@ -39,8 +37,8 @@ Below is the example of the business logic rendered as documentation.
 Our HR system consider all employees that has been in the company less than a month as new joiners.
 For example, giving employees:
  
-:include-table: all-employees.json
+:include-table: doc-artifacts/all-employees.json
 
 System will list following employees as new joiners:
 
-:include-table: new-joiners.json
+:include-table: doc-artifacts/new-joiners.json

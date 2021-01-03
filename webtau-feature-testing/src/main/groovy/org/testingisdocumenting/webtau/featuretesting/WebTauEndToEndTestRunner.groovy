@@ -58,15 +58,13 @@ class WebTauEndToEndTestRunner  {
     void runCliWithWorkingDir(String testFileName, String workingDir, String configFileName, String... additionalArgs) {
         def testPath = Paths.get(testFileName)
 
-        def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
-
         def args = ['--workingDir=' + workingDir]
 
         if (!configFileName.isEmpty()) {
             args.add('--config=' + configFileName)
         }
-        args.add('--docPath=' + targetClassesLocation.resolve('doc-artifacts'))
-        args.add('--reportPath=' + buildReportPath(testFileName, targetClassesLocation))
+        args.add('--docPath=' + Paths.get('doc-artifacts'))
+        args.add('--reportPath=' + buildReportPath(testFileName, Paths.get('webtau-reports')))
 
         args.addAll(Arrays.asList(additionalArgs))
         args.add(testPath.toString())
@@ -91,15 +89,15 @@ class WebTauEndToEndTestRunner  {
         validateAndSaveTestDetails(testFileName, testDetails)
     }
 
-    private Path buildReportPath(String testFileName, Path targetClassesLocation) {
+    private Path buildReportPath(String testFileName, Path reportsRoot) {
         if (testFileName.endsWith('.groovy')) {
             def reportPrefix = classifier.isEmpty() ? '' : "-${classifier}"
-            return targetClassesLocation.resolve(
+            return reportsRoot.resolve(
                     testFileName.replace('.groovy', reportPrefix + '-webtau-report.html'))
         }
 
         def reportPrefix = classifier.isEmpty() ? '' : "${classifier}-"
-        return targetClassesLocation.resolve(testFileName + '/' + reportPrefix + '-webtau-report.html')
+        return reportsRoot.resolve(testFileName + '/' + reportPrefix + '-webtau-report.html')
     }
 
     private void validateAndSaveTestDetails(String testFileName, Map testDetails) {

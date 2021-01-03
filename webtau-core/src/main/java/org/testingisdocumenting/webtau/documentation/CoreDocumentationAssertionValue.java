@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
+import org.testingisdocumenting.webtau.WebTauCore;
+
 import java.util.function.Supplier;
 
 public class CoreDocumentationAssertionValue {
@@ -27,12 +29,38 @@ public class CoreDocumentationAssertionValue {
     }
 
     /**
-     * capture value to a file using passed test class to determine the root location of the file.
-     * In maven like build systems it will most likely be <code>target/test-classes</code> of a module containing the class
-     * @param testClass test class to determine the root location
+     * Captures value to a text or JSON file (based on the content) in parent location defined by {@link DocumentationArtifactsLocation}
+     *
      * @param artifactName artifact name (file name without extension)
      */
-    public void capture(Class<?> testClass, String artifactName) {
-        DocumentationArtifacts.createTextOrJson(testClass, artifactName, valueSupplier.get());
+    public void capture(String artifactName) {
+        WebTauCore.doc.capture(artifactName, valueSupplier.get());
+    }
+
+    /**
+     * Captures value to a text file in parent location defined by {@link DocumentationArtifactsLocation}
+
+     * @param artifactName artifact name (file name without extension)
+     */
+    public void captureText(String artifactName) {
+        WebTauCore.doc.captureText(artifactName, valueSupplier.get());
+    }
+
+    /**
+     * Captures value to a JSON file in parent location defined by {@link DocumentationArtifactsLocation}
+
+     * @param artifactName artifact name (file name without extension)
+     */
+    public void captureJson(String artifactName) {
+        WebTauCore.doc.captureJson(artifactName, valueSupplier.get());
+    }
+
+    /**
+     * Captures value to a CSV file in parent location defined by {@link DocumentationArtifactsLocation}
+
+     * @param artifactName artifact name (file name without extension)
+     */
+    public void captureCsv(String artifactName) {
+        WebTauCore.doc.captureCsv(artifactName, valueSupplier.get());
     }
 }

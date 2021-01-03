@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class HttpTestBase implements HttpConfiguration {
     protected static final HttpTestDataServer testServer = new HttpTestDataServer();
@@ -44,8 +45,7 @@ public class HttpTestBase implements HttpConfiguration {
     @Before
     public void setupDocArtifacts() {
         existingDocRoot = DocumentationArtifactsLocation.getRoot();
-        DocumentationArtifactsLocation.setRoot(
-                DocumentationArtifactsLocation.classBasedLocation(this.getClass()).resolve("doc-artifacts"));
+        DocumentationArtifactsLocation.setRoot(Paths.get("doc-artifacts"));
     }
 
     @After

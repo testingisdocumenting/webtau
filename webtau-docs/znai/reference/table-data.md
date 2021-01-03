@@ -70,7 +70,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithPermute", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-with-permute.json
+:include-table: doc-artifacts/table-with-permute.json
 
 # GUID
 
@@ -84,7 +84,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithPermuteAndGuid", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-with-permute-and-guid.json
+:include-table: doc-artifacts/table-with-permute-and-guid.json
 
 # Replace
 
@@ -102,7 +102,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "replaceValue", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-after-replace.json
+:include-table: doc-artifacts/table-after-replace.json
 
 # Cell Above Value Reference
 
@@ -116,7 +116,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithAboveRef", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-with-cell-above.json
+:include-table: doc-artifacts/table-with-cell-above.json
 
 # Cell Above Math
 
@@ -130,7 +130,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithAboveRefAndMath", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-with-cell-above-math.json
+:include-table: doc-artifacts/table-with-cell-above-math.json
 
 Extract `cell.above.operation` to make your intentions clearer
 

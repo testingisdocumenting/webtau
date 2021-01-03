@@ -1,4 +1,5 @@
 ../../
+../../webtau-core
 ../../webtau-core/src/main/java
 ../../webtau-core/src/test/groovy
 ../../webtau-core/src/test/java
@@ -31,6 +32,7 @@
 ../../webtau-junit5-examples/src/test/java
 ../../webtau-report-testing/src/test/groovy
 ../../webtau-report-testing/target
+../../webtau-db
 ../../webtau-db/src/test/groovy
 ../../webtau-db/target/test-classes
 ../../webtau-db/src/test
