@@ -19,7 +19,12 @@ to validate GraphQL API.
 
 Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
-[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction)
+* [Full User Guide](https://testingisdocumenting.org/webtau/)
+* [Multiple layers testing example blog](https://testingisdocumenting.org/blog/entry/ultimate-end-to-end-test)
+
+--------
+
+[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```groovy
 scenario("check weather") {
     http.get("/weather") {
@@ -28,7 +33,7 @@ scenario("check weather") {
 }
 ```
 
-[Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction)
+[Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
 ```java
 @WebTau
 public class WebSearchTest {
@@ -53,7 +58,7 @@ public class SearchPage {
 }
 ```
 
-[GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction)
+[GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
 ```
 @Webtau
 public class GraphQLWeatherJavaIT {
@@ -67,7 +72,7 @@ public class GraphQLWeatherJavaIT {
 }
 ```
 
-[Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup)
+[Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
 ```
 def PRICES = db.table("PRICES")
 PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
@@ -77,7 +82,7 @@ PRICES << [     "id" | "description" |          "available" |                "ty
            cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 }
 ```
 
-[CLI run example](https://testingisdocumenting.org/webtau/cli/introduction)
+[CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
 ```
 cli.run('echo hello world') {
     output.should contain('hello')
