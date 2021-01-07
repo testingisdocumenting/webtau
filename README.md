@@ -17,6 +17,20 @@ Test your application across multiple layers:
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
 to validate GraphQL API.
 
+Use REPL to tighten test feedback loop and speed up test writing
+```
+webtau:000> $("ul li a")
+element is found: by css ul li a
+           getText(): Guide
+getUnderlyingValue(): Guide
+               count: 3
+```
+
+Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.
+
+Leverage out of the box rich reporting:
+![report example](https://testingisdocumenting.org/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png)
+
 Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
 * [Full User Guide](https://testingisdocumenting.org/webtau/)
