@@ -15,9 +15,17 @@ Test your application across multiple layers:
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer
 to validate GraphQL API.
 
-Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
+Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end tests development.
 
-Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end tests development. 
+:include-cli-output: cli-tests/browser-repl-select/out.txt {title: "trying css selectors"}
+
+Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.
+
+Leverage out of the box rich reporting
+
+:include-image: doc-artifacts/reports/report-crud-separated-http-calls.png {fit: true}
+
+Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
 * [REST API example](#rest-api-example)
 * [GraphQL API example](#graphql-api-example)
