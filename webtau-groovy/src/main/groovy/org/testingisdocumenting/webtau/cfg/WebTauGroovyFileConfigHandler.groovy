@@ -27,6 +27,7 @@ import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.TestListener
 import org.testingisdocumenting.webtau.reporter.TestListeners
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
+import org.testingisdocumenting.webtau.utils.ConfigUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -172,20 +173,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     }
 
     private static <E> List<E> instancesFromConfig(ConfigObject config, String key) {
-        def classes = (List<Class<E>>) config.get(key)
-        if (!classes) {
-            return []
-        }
-
-        return classes.collect{ c -> (E) constructFromClass(c) }
-    }
-
-    private static Object constructFromClass(Class handlerClass) {
-        def defaultConstructor = handlerClass.constructors.find { constructor -> constructor.parameterCount == 0 }
-        if (!defaultConstructor) {
-            throw new IllegalArgumentException("${handlerClass} must have default constructor")
-        }
-        return defaultConstructor.newInstance()
+        return ConfigUtils.instancesFromClassList(config.get(key) as List)
     }
 
     private static Closure getClosure(ConfigObject config, String key) {
