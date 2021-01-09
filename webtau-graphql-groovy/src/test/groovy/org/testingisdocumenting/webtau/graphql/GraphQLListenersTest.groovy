@@ -69,7 +69,7 @@ class GraphQLListenersTest extends GraphQLTestBase implements GraphQLListener {
     }
 
     @Test
-    void "before and after query callbacks should have correct response data"() {
+    void "after query callback should have correct response data"() {
         graphql.execute(ERROR_QUERY, [msg: "test error msg"])
 
         afterPayload.data.should == [error: null]
@@ -78,7 +78,7 @@ class GraphQLListenersTest extends GraphQLTestBase implements GraphQLListener {
     }
 
     @Test
-    void "remove removes both graphql and http listeners"() {
+    void "removed listeners are not invoked"() {
         cleanup()
 
         graphql.execute(QUERY)
