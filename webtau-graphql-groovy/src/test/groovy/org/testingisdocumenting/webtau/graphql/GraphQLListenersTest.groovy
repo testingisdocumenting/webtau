@@ -2,7 +2,6 @@ package org.testingisdocumenting.webtau.graphql
 
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.testingisdocumenting.webtau.graphql.listener.GraphQLListener
 import org.testingisdocumenting.webtau.graphql.listener.GraphQLListeners
@@ -69,16 +68,13 @@ class GraphQLListenersTest extends GraphQLTestBase implements GraphQLListener {
         afterPayload.errors.should == null
     }
 
-    @Ignore
     @Test
-    void "before and after query callbacks should have essential failing graphql call info"() {
-        graphql.execute()
+    void "before and after query callbacks should have correct response data"() {
+        graphql.execute(ERROR_QUERY, [msg: "test error msg"])
 
-        validateCommonCallBackPayload(beforePayload)
-        validateCommonCallBackPayload(afterPayload)
-
-        afterPayload.data.should == null
-        afterPayload.errors.should == []
+        afterPayload.data.should == [error: null]
+        afterPayload.errors[0].message.should == "Exception while fetching data (/error) : Error executing query: test error msg"
+        afterPayload.errors.size().should == 1
     }
 
     @Test
