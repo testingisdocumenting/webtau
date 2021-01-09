@@ -38,10 +38,13 @@ public class GraphQLListeners {
     }
 
     public static void remove(GraphQLListener listener) {
-        listeners.stream().filter(l -> l.listener == listener).findFirst().ifPresent(l -> {
-            HttpListeners.remove(l);
-            listeners.remove(l);
-        });
+        listeners.stream()
+                .filter(l -> l.listener == listener)
+                .findFirst()
+                .ifPresent(l -> {
+                    HttpListeners.remove(l);
+                    listeners.remove(l);
+                });
     }
 
     private static class WrappedGraphQLListener implements GraphQLListener, HttpListener {
