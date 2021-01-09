@@ -84,7 +84,7 @@ public class GraphQLSchemaLoader {
                     .flatMap(type -> extractTypes(typeDefRegistry, type))
                     .forEach(queries::add);
             return Optional.of(queries);
-        }).orElse(handleIntrospectionError("Error introspecting GraphQL, not a valid GraphQL response"));
+        }).orElseGet(() -> handleIntrospectionError("Error introspecting GraphQL, not a valid GraphQL response"));
     }
 
     private static Optional<Set<GraphQLQuery>> handleIntrospectionError(String msg) {
