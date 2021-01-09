@@ -22,6 +22,8 @@ import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHa
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.db.DbDataSourceProvider
 import org.testingisdocumenting.webtau.db.DbDataSourceProviders
+import org.testingisdocumenting.webtau.http.listener.HttpListener
+import org.testingisdocumenting.webtau.http.listener.HttpListeners
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.TestListener
@@ -78,6 +80,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupReportGenerator(parsedConfig)
         setupPageElementGetSetValueHandlers(parsedConfig)
         setupTestListeners(parsedConfig)
+        setupHttpListeners(parsedConfig)
         setupDbDataSourceProviders(parsedConfig)
     }
 
@@ -164,6 +167,11 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     private static void setupTestListeners(ConfigObject config) {
         List<TestListener> listenerInstances = instancesFromConfig(config, 'testListeners')
         listenerInstances.each { TestListeners.add(it) }
+    }
+
+    private static void setupHttpListeners(ConfigObject config) {
+        List<HttpListener> listenerInstances = instancesFromConfig(config, 'httpListeners')
+        listenerInstances.each { HttpListeners.add(it) }
     }
 
     private static void setupDbDataSourceProviders(ConfigObject config) {
