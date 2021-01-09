@@ -35,7 +35,7 @@ class GraphQLListenersTest extends GraphQLTestBase implements GraphQLListener {
             variables    : variables,
             operationName: operationName,
             requestHeader: requestHeader,
-            data         : data,
+            data         : responseData,
             errors       : errors
         ]
     }
