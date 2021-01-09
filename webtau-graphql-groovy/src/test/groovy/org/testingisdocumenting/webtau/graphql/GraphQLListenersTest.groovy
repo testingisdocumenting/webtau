@@ -29,7 +29,7 @@ class GraphQLListenersTest extends GraphQLTestBase implements GraphQLListener {
     }
 
     @Override
-    void afterGraphQLQuery(String query, Map<String, Object> variables, String operationName, HttpHeader requestHeader, Map<String, Object> data, List<Object> errors) {
+    void afterGraphQLQuery(String query, Map<String, Object> variables, String operationName, HttpHeader requestHeader, Map<String, Object> responseData, List<Object> errors) {
         afterPayload = [
             query        : query,
             variables    : variables,

@@ -28,7 +28,7 @@ public interface GraphQLListener {
                                    Map<String, Object> variables,
                                    String operationName,
                                    HttpHeader requestHeader,
-                                   Map<String, Object> data,
+                                   Map<String, Object> responseData,
                                    List<Object> errors) {
     }
 }
