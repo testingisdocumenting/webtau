@@ -18,9 +18,12 @@ package org.testingisdocumenting.webtau.graphql;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
@@ -33,13 +36,11 @@ public class GraphQLCoverage {
     }
 
     public void recordQuery(HttpValidationResult validationResult) {
-        if (!schema.isSchemaDefined()
-                || !validationResult.getRequestMethod().equals("POST")
-                || !validationResult.getUrl().equals("/graphql")) {
+        if (!schema.isSchemaDefined()) {
             return;
         }
 
-        Set<GraphQLQuery> graphQLQueries = schema.findQueries(validationResult.getRequestBody());
+        Set<GraphQLQuery> graphQLQueries = schema.findQueries(validationResult);
         graphQLQueries.forEach(query -> coveredQueries.
             add(query, validationResult.getId(), validationResult.getElapsedTime(), isErrorResult(validationResult)));
     }
