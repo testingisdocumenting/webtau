@@ -22,12 +22,13 @@ import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHa
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.db.DbDataSourceProvider
 import org.testingisdocumenting.webtau.db.DbDataSourceProviders
+import org.testingisdocumenting.webtau.http.listener.HttpListener
+import org.testingisdocumenting.webtau.http.listener.HttpListeners
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.TestListener
 import org.testingisdocumenting.webtau.reporter.TestListeners
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
-import org.testingisdocumenting.webtau.utils.ConfigUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -79,6 +80,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupReportGenerator(parsedConfig)
         setupPageElementGetSetValueHandlers(parsedConfig)
         setupTestListeners(parsedConfig)
+        setupHttpListeners(parsedConfig)
         setupDbDataSourceProviders(parsedConfig)
     }
 
@@ -167,13 +169,31 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         listenerInstances.each { TestListeners.add(it) }
     }
 
+    private static void setupHttpListeners(ConfigObject config) {
+        List<HttpListener> listenerInstances = instancesFromConfig(config, 'httpListeners')
+        listenerInstances.each { HttpListeners.add(it) }
+    }
+
     private static void setupDbDataSourceProviders(ConfigObject config) {
         List<DbDataSourceProvider> providers = instancesFromConfig(config, 'dbDataSourceProviders')
         providers.each { DbDataSourceProviders.add(it) }
     }
 
     private static <E> List<E> instancesFromConfig(ConfigObject config, String key) {
-        return ConfigUtils.instancesFromClassList(config.get(key) as List)
+        def classes = (List<Class<E>>) config.get(key)
+        if (!classes) {
+            return []
+        }
+
+        return classes.collect{ c -> (E) constructFromClass(c) }
+    }
+
+    private static Object constructFromClass(Class handlerClass) {
+        def defaultConstructor = handlerClass.constructors.find { constructor -> constructor.parameterCount == 0 }
+        if (!defaultConstructor) {
+            throw new IllegalArgumentException("${handlerClass} must have default constructor")
+        }
+        return defaultConstructor.newInstance()
     }
 
     private static Closure getClosure(ConfigObject config, String key) {
