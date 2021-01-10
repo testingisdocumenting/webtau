@@ -24,7 +24,7 @@ import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatform
 
 public class CliCommandJavaTest {
     private static final CliCommand ls = cli.command("ls -l");
-    private static final CliCommand wrongLs = cli.command("a_ls -l");
+    private static final CliCommand script = cli.command("scripts/hello");
 
     @Test
     public void runResultNoValidation() {
@@ -40,11 +40,11 @@ public class CliCommandJavaTest {
     @Test
     public void runResultAndValidation() {
         supportedPlatformOnly(() -> {
-            CliRunResult result = wrongLs.run(((exitCode, output, error) -> exitCode.should(equal(127))));
+            CliRunResult result = script.run(((exitCode, output, error) -> exitCode.should(equal(5))));
 
-            actual(result.getExitCode()).should(equal(127));
-            actual(result.getError()).should(contain("not found"));
-            actual(result.getOutput()).should(equal(""));
+            actual(result.getExitCode()).should(equal(5));
+            actual(result.getError()).should(contain("error line one"));
+            actual(result.getOutput()).should(contain("line in the middle"));
         });
     }
 }

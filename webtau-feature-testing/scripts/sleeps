@@ -2,5 +2,5 @@
 echo "welcome sleeping script"
 sleep 1
 echo "line one"
-sleep 1
+sleep 2
 echo "line two"
