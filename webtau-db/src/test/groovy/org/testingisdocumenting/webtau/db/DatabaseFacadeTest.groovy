@@ -89,44 +89,45 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     }
 
     @Test
-    void "query should be optional during comparison"() {
-        db.update("delete from PRICES")
-        db.table("PRICES") << ["id" | "description" | "price"] {
-                                         ___________________________________
-                                         "id1" | "nice set"    | 1000
-                                         "id2" | "another set" | 2000 }
+    void "query method on table should be optional during comparison"() {
+        setupPrices()
 
-        // validation mark for docs
+        // query whole table start
         def PRICES = db.table("PRICES")
         PRICES.should == ["ID" | "DESCRIPTION" | "PRICE"] {
                          ___________________________________
                          "id1" | "nice set"    | 1000
                          "id2" | "another set" | 2000 }
+        // query whole table end
     }
 
     @Test
-    void "delete with params"() {
-        db.update("delete from PRICES") // delete all
+    void "query table with select statement"() {
+        setupPrices()
 
-        def PRICES = db.table("PRICES")
-        PRICES << [ "id" | "description" | "price"] {
-                   ___________________________________
-                   "id1" | "nice set"    | 1000
-                   "id2" | "another set" | 2000 }
+        // query without where clause start
+        def queriedData = db.query("select * from PRICES")
+        queriedData.should == ["ID" | "DESCRIPTION" | "PRICE"] {
+                              ___________________________________
+                              "id1" | "nice set"    | 1000
+                              "id2" | "another set" | 2000 }
+        // query without where clause end
+    }
 
-        db.update("delete from PRICES where price > :price", [price: 950]) // delete with params
-        PRICES.query().numberOfRows.should == 0
+    @Test
+    void "query table with select statement and param"() {
+        setupPrices()
+        // query with where clause start
+        def queriedData = db.query("select * from PRICES where id=:id", [id: "id1"])
+        queriedData.should == ["ID" | "DESCRIPTION" | "PRICE"] {
+                              ___________________________________
+                              "id1" | "nice set"    | 1000     }
+        // query with where clause end
     }
 
     @Test
     void "should query single value"() {
-        db.update("delete from PRICES")
-        def PRICES = db.table("PRICES")
-
-        PRICES << ["id" | "description" | "price"] {
-                  ___________________________________
-                  "id1" | "nice set"    | 1000
-                  "id2" | "another set" | 2000 }
+        setupPrices()
 
         def price = db.query("select price from PRICES where id='id1'")
         price.should == 1000
@@ -135,30 +136,42 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
 
     @Test
     void "should query single value with params"() {
-        db.update("delete from PRICES")
-        def PRICES = db.table("PRICES")
+        setupPrices()
 
-        PRICES << ["id" | "description" | "price"] {
-                  ___________________________________
-                  "id1" | "nice set"    | 1000
-                  "id2" | "another set" | 2000 }
-
+        // query single value params start
         def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
         price.should == 1000
         price.shouldNot == 2000
+        // query single value params end
     }
 
     @Test
-    void "should run updates with params"() {
-        db.update("delete from PRICES")
-        def PRICES = db.table("PRICES")
+    void "value returned from query is a special wrapper value"() {
+        setupPrices()
+        // single value access start
+        def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
+        if (price.singleValue > 100) {
+            println("do something")
+        }
+        // single value access end
+    }
 
-        PRICES << ["id" | "description" | "price"] {
-                  ___________________________________
-                  "id1" | "nice set"    | 1000
-                  "id2" | "another set" | 2000 }
+    @Test
+    void "delete with params"() {
+        setupPrices()
+
+        db.update("delete from PRICES where price > :price", [price: 950])
+        db.table("PRICES").query().numberOfRows.should == 0
+    }
+
+
+    @Test
+    void "should run updates with params"() {
+        def PRICES = setupPrices()
+        doc.capture('db-before-update', PRICES.query().tableData)
 
         db.update("update PRICES set price=:price where id=:id", [id: 'id2', price: 4000])
+        doc.capture('db-after-update', PRICES.query().tableData)
 
         PRICES.should == ["ID" | "DESCRIPTION" | "PRICE"] {
                          ___________________________________
@@ -176,5 +189,16 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         db.update("delete from PRICES")
 
         PRICES.query().numberOfRows.should == 0
+    }
+
+    private static def setupPrices() {
+        db.update("delete from PRICES")
+        def PRICES = db.table("PRICES")
+        PRICES << ["id" | "description" | "price"] {
+                  ___________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
+
+        return PRICES
     }
 }
