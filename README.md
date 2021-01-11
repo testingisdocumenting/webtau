@@ -1,3 +1,5 @@
+![build](https://github.com/testingisdocumenting/webtau/workflows/Build%20webtau/badge.svg)
+
 # Webtau
 
 Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
