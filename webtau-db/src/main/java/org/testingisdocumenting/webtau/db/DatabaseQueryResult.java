@@ -41,7 +41,7 @@ public class DatabaseQueryResult {
         this.result = convertToTable(result);
     }
 
-    public boolean isSingleValue() {
+    public boolean isUnderlyingValueSingle() {
         return result.numberOfRows() == 1 && result.getHeader().size() == 1;
     }
 
@@ -50,7 +50,7 @@ public class DatabaseQueryResult {
     }
 
     public <E> E getSingleValue() {
-        if (!isSingleValue()) {
+        if (!isUnderlyingValueSingle()) {
             throw new RuntimeException(query + " result is not a single value:\n" + DataRenderers.render(result));
         }
 
@@ -76,7 +76,7 @@ public class DatabaseQueryResult {
     }
 
     private Object underlyingValue() {
-        return isSingleValue() ? getUnderlyingSingleValue() : result;
+        return isUnderlyingValueSingle() ? getUnderlyingSingleValue() : result;
     }
 
     private <E> E getUnderlyingSingleValue() {
