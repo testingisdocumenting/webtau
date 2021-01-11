@@ -17,9 +17,6 @@
 
 package org.testingisdocumenting.webtau.data;
 
-import org.testingisdocumenting.webtau.data.csv.DataCsv;
-import org.testingisdocumenting.webtau.data.json.DataJson;
-
 public class Data {
     public static final Data data = new Data();
 

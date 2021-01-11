@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.csv
+package org.testingisdocumenting.webtau.data
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.DataCsv
 
 class DataCsvTest {
     @Test

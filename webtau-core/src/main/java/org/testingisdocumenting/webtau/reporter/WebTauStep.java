@@ -260,7 +260,8 @@ public class WebTauStep {
         return elapsedTime;
     }
 
-    public Object execute(StepReportOptions stepReportOptions) {
+    @SuppressWarnings("unchecked")
+    public <R> R execute(StepReportOptions stepReportOptions) {
         try {
             if (stepReportOptions != StepReportOptions.SKIP_START) {
                 StepReporters.onStart(this);
@@ -273,7 +274,7 @@ public class WebTauStep {
 
             StepReporters.onSuccess(this);
 
-            return result;
+            return (R) result;
         } catch (Throwable e) {
             stopClock();
 

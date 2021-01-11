@@ -16,18 +16,40 @@
 
 package org.testingisdocumenting.webtau.data;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class DataContentUtils {
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+
+class DataContentUtils {
     private DataContentUtils() {
     }
 
-    public static String dataTextContent(String fileOrResourcePath) {
+    static ContentResult dataTextContent(String dataType, String fileOrResourcePath) {
+        WebTauStep step = WebTauStep.createStep(
+                null,
+                tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"), stringValue(fileOrResourcePath)),
+                (result) -> {
+                    ContentResult contentResult = (ContentResult) result;
+                    return tokenizedMessage(action("read"), numberValue(contentResult.numberOfLines),
+                            classifier("lines of " + dataType), FROM, classifier(contentResult.source),
+                            stringValue(contentResult.path));
+                },
+                () -> dataTextContentImpl(fileOrResourcePath)
+        );
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    static ContentResult dataTextContentImpl(String fileOrResourcePath) {
         Path filePath = WebTauConfig.getCfg().getWorkingDir().resolve(fileOrResourcePath);
 
         boolean hasResource = ResourceUtils.hasResource(fileOrResourcePath);
@@ -39,8 +61,23 @@ public class DataContentUtils {
         }
 
         return hasResource ?
-                ResourceUtils.textContent(fileOrResourcePath) :
-                FileUtils.fileTextContent(filePath);
+                new ContentResult("classpath resource", fileOrResourcePath,
+                        ResourceUtils.textContent(fileOrResourcePath)) :
+                new ContentResult("file", filePath.toAbsolutePath().toString(),
+                        FileUtils.fileTextContent(filePath));
     }
 
+    static class ContentResult {
+        final String source;
+        final String path;
+        final String content;
+        final int numberOfLines;
+
+        public ContentResult(String source, String path, String content) {
+            this.source = source;
+            this.path = path;
+            this.content = content;
+            this.numberOfLines = StringUtils.countMatches(content, '\n');
+        }
+    }
 }

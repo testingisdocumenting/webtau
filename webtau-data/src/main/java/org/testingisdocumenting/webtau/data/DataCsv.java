@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.csv;
+package org.testingisdocumenting.webtau.data;
 
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.CsvUtils;
@@ -27,27 +27,31 @@ import static org.testingisdocumenting.webtau.data.DataContentUtils.dataTextCont
 
 public class DataCsv {
     public TableData table(String fileOrResourcePath) {
-        return tableFromListOfMaps(CsvUtils.parse(dataTextContent(fileOrResourcePath)));
+        return tableFromListOfMaps(CsvUtils.parse(textContent(fileOrResourcePath)));
     }
 
     public TableData tableAutoConverted(String fileOrResourcePath) {
-        return tableFromListOfMaps(CsvUtils.parseWithAutoConversion(dataTextContent(fileOrResourcePath)));
+        return tableFromListOfMaps(CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath)));
     }
 
     public List<Map<String, String>> listOfMaps(String fileOrResourcePath) {
-        return CsvUtils.parse(dataTextContent(fileOrResourcePath));
+        return CsvUtils.parse(textContent(fileOrResourcePath));
     }
 
     public List<Map<String, Object>> listOfMapsAutoConverted(String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(dataTextContent(fileOrResourcePath));
+        return CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath));
     }
 
     public List<Map<String, String>> listOfMaps(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parse(header, dataTextContent(fileOrResourcePath));
+        return CsvUtils.parse(header, textContent(fileOrResourcePath));
     }
 
     public List<Map<String, Object>> listOfMapsAutoConverted(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(header, dataTextContent(fileOrResourcePath));
+        return CsvUtils.parseWithAutoConversion(header, textContent(fileOrResourcePath));
+    }
+
+    private static String textContent(String fileOrResourcePath) {
+        return dataTextContent("csv", fileOrResourcePath).content;
     }
 
     @SuppressWarnings("unchecked")
