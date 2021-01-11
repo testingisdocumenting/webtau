@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Definition</h1></header>
-<p>To define PageObject create a class. package pages import org.openqa.selenium.Keys import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(Keys.ENTER.toString()) } }</p>
+<p>To define PageObject create a class. package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(browser.keys.enter) } }</p>
 </article>
 
 <article>
@@ -198,7 +198,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package pages\n\nimport org.openqa.selenium.Keys\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(Keys.ENTER.toString())\n    }\n}",
+        "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
         "type" : "Snippet"
       } ]
     }, {
@@ -233,7 +233,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1608949217344,
+    "lastModifiedTime" : 1610327005050,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Page Object",

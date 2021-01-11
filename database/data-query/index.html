@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Advanced Configuration</title>
+<title>WebTau: Data Query</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,18 +84,23 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Timeouts</h1></header>
-<p>Default timeout in milliseconds for waitTo and waitToNot waitTimeout = 25000 --waitTimeout=25000</p>
+<header><h1>Full Table</h1></header>
+<p>To query all data from a table use: def PRICES = db.table(&quot;PRICES&quot;) PRICES.should == [&quot;ID&quot; | &quot;DESCRIPTION&quot; | &quot;PRICE&quot;] { ___________________________________ &quot;id1&quot; | &quot;nice set&quot; | 1000 &quot;id2&quot; | &quot;another set&quot; | 2000 }</p>
 </article>
 
 <article>
-<header><h1>Browser Size</h1></header>
-<p>Browser window size can be set using browserWidth and browserHeight url = &quot;http://localhost:8180&quot; browserWidth = 1280 browserHeight = 800</p>
+<header><h1>Custom Query</h1></header>
+<p>def queriedData = db.query(&quot;select * from PRICES where id=:id&quot;, [id: &quot;id1&quot;]) queriedData.should == [&quot;ID&quot; | &quot;DESCRIPTION&quot; | &quot;PRICE&quot;] { ___________________________________ &quot;id1&quot; | &quot;nice set&quot; | 1000 }</p>
 </article>
 
 <article>
-<header><h1>Documentation Artifacts</h1></header>
-<p>By default all generated documentation artifacts (e.g. screenshots) are created in the current directory. To override url = &quot;http://localhost:8180&quot; docPath = &quot;screenshots&quot;</p>
+<header><h1>Single Value</h1></header>
+<p>def price = db.query(&quot;select price from PRICES where id=:id&quot;, [id: 'id1']) price.should == 1000 price.shouldNot == 2000</p>
+</article>
+
+<article>
+<header><h1>Query Result Value</h1></header>
+<p>Value returned from query methods is an instance of DatabaseQueryResult type. It keeps the context of where the value came from and preserves it during assertions to have additional information in a test report.To access underlying value for business logic use def price = db.query(&quot;select price from PRICES where id=:id&quot;, [id: 'id1']) if (price.singleValue &gt; 100) { println(&quot;do something&quot;) }</p>
 </article>
 </section>
 </div>
@@ -121,105 +126,126 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Timeouts",
-      "id" : "timeouts",
+      "title" : "Full Table",
+      "id" : "full-table",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Default timeout in milliseconds for ",
+          "text" : "To query all data from a table use:",
           "type" : "SimpleText"
-        }, {
-          "code" : "waitTo",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " and ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "waitToNot",
-          "type" : "InlinedCode"
-        } ]
-      }, {
-        "columns" : [ {
-          "content" : [ {
-            "lang" : "",
-            "snippet" : "waitTimeout = 25000\n",
-            "lineNumber" : "",
-            "type" : "Snippet"
-          } ]
-        }, {
-          "content" : [ {
-            "lang" : "",
-            "snippet" : "--waitTimeout=25000\n",
-            "lineNumber" : "",
-            "type" : "Snippet"
-          } ]
-        } ],
-        "config" : { },
-        "type" : "Columns"
-      } ]
-    }, {
-      "title" : "Browser Size",
-      "id" : "browser-size",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Browser window size can be set using ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "browserWidth",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " and ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "browserHeight",
-          "type" : "InlinedCode"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "url = \"http://localhost:8180\"\n\nbrowserWidth = 1280\nbrowserHeight = 800",
+        "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES.should == [\"ID\" | \"DESCRIPTION\" | \"PRICE\"] {\n                 ___________________________________\n                 \"id1\" | \"nice set\"    | 1000\n                 \"id2\" | \"another set\" | 2000 }",
+        "entry" : "query method on table should be optional during comparison",
+        "title" : "validate whole table",
+        "bodyOnly" : true,
+        "startLine" : "query whole table start",
+        "endLine" : "query whole table end",
+        "excludeStartEnd" : true,
         "type" : "Snippet"
       } ]
     }, {
-      "title" : "Documentation Artifacts",
-      "id" : "documentation-artifacts",
+      "title" : "Custom Query",
+      "id" : "custom-query",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def queriedData = db.query(\"select * from PRICES where id=:id\", [id: \"id1\"])\nqueriedData.should == [\"ID\" | \"DESCRIPTION\" | \"PRICE\"] {\n                      ___________________________________\n                      \"id1\" | \"nice set\"    | 1000     }",
+        "entry" : "query table with select statement and param",
+        "title" : "validate parts of a table",
+        "bodyOnly" : true,
+        "startLine" : "query with where clause start",
+        "endLine" : "query with where clause end",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Single Value",
+      "id" : "single-value",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def price = db.query(\"select price from PRICES where id=:id\", [id: 'id1'])\nprice.should == 1000\nprice.shouldNot == 2000",
+        "entry" : "should query single value with params",
+        "title" : "validate single value",
+        "bodyOnly" : true,
+        "startLine" : "query single value params start",
+        "endLine" : "query single value params end",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Query Result Value",
+      "id" : "query-result-value",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "By default all generated documentation artifacts (e.g. screenshots) are created in the current directory.",
+          "text" : "Value returned from ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "query",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " methods is an instance of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "DatabaseQueryResult",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " type.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "To override",
+          "text" : "It keeps the context of where the value came from and preserves it during assertions to have additional information in",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "a test report.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To access underlying value for business logic use",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "url = \"http://localhost:8180\"\n\ndocPath = \"screenshots\"",
+        "snippet" : "def price = db.query(\"select price from PRICES where id=:id\", [id: 'id1'])\nif (price.singleValue > 100) {\n    println(\"do something\")\n}",
+        "entry" : "value returned from query is a special wrapper value",
+        "title" : "access single value",
+        "bodyOnly" : true,
+        "startLine" : "single value access start",
+        "endLine" : "single value access end",
+        "excludeStartEnd" : true,
         "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1610327005050,
     "tocItem" : {
-      "sectionTitle" : "Browser",
-      "pageTitle" : "Advanced Configuration",
+      "sectionTitle" : "Database",
+      "pageTitle" : "Data Query",
       "pageMeta" : { },
-      "dirName" : "browser",
-      "fileName" : "advanced-configuration",
+      "dirName" : "database",
+      "fileName" : "data-query",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Timeouts",
-        "id" : "timeouts"
+        "title" : "Full Table",
+        "id" : "full-table"
       }, {
-        "title" : "Browser Size",
-        "id" : "browser-size"
+        "title" : "Custom Query",
+        "id" : "custom-query"
       }, {
-        "title" : "Documentation Artifacts",
-        "id" : "documentation-artifacts"
+        "title" : "Single Value",
+        "id" : "single-value"
+      }, {
+        "title" : "Query Result Value",
+        "id" : "query-result-value"
       } ]
     }
   },

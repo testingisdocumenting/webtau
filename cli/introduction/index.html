@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy examples pom.xml pom.xml.versionsBackup scripts src target test-expectations</p>
+<p>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy doc-artifacts examples pom.xml pom.xml.versionsBackup scripts src target test-expectations webtau-reports</p>
 </article>
 </section>
 </div>
@@ -170,12 +170,12 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "CliCommand"
     }, {
       "lang" : "txt",
-      "snippet" : "examples\npom.xml\npom.xml.versionsBackup\nscripts\nsrc\ntarget\ntest-expectations",
+      "snippet" : "doc-artifacts\nexamples\npom.xml\npom.xml.versionsBackup\nscripts\nsrc\ntarget\ntest-expectations\nwebtau-reports",
       "highlightPath" : "doc-artifacts/ls-run/out.matched.txt",
-      "highlight" : [ 3 ],
+      "highlight" : [ 4 ],
       "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1608949217344,
+    "lastModifiedTime" : 1610327005050,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Introduction",

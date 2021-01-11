@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Semi-Auto Generated TableData</h1></header>
-<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID DESCRIPTION AVAILABLE TYPE PRICE 60a963b0-0df2-4470-a48e-fb9d1e410bdb nice set true card 1000 422509c3-d85a-4821-9cad-ffeb6da44efe nice set true card 1010 36a81f9e-b511-4111-9c85-13ed6cb97be1 another set true rts 1030 edb2b41a-bae1-4f15-a849-82d046b9c27f another set false rts 1050 373744b7-cdd3-4908-9944-0b95850e76e7 another set true fps 1070 1d3b2f8f-1f4b-4dec-882b-2d44f7bcaf6c another set false fps 1090</p>
+<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID DESCRIPTION AVAILABLE TYPE PRICE 96241ab3-eb7a-4434-945b-a0e82ca06aff nice set true card 1000 d1ed2af0-4793-4758-91b1-0be1b392c9eb nice set true card 1010 3066a862-0a41-48f3-876f-d3db5f254558 another set true rts 1030 16b885f8-fc33-455a-b897-686b21c0297d another set false rts 1050 9204fe45-3b86-4ebb-9307-ab49605e4a22 another set true fps 1070 35e32728-2e61-490d-a2e8-a102cb7f0ba0 another set false fps 1090</p>
 </article>
 
 <article>
@@ -100,7 +100,12 @@
 
 <article>
 <header><h1>Cleaning Tables</h1></header>
-<p>db.update(&quot;delete from PRICES&quot;) // delete all db.update(&quot;delete from PRICES where price &gt; :price&quot;, [price: 950]) // delete with params</p>
+<p>db.update(&quot;delete from PRICES where price &gt; :price&quot;, [price: 950])</p>
+</article>
+
+<article>
+<header><h1>Updating Tables</h1></header>
+<p>ID DESCRIPTION AVAILABLE TYPE PRICE id1 nice set 1000 id2 another set 2000 db.update(&quot;update PRICES set price=:price where id=:id&quot;, [id: 'id2', price: 4000]) ID DESCRIPTION AVAILABLE TYPE PRICE id1 nice set 1000 id2 another set 4000</p>
 </article>
 </section>
 </div>
@@ -253,7 +258,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "60a963b0-0df2-4470-a48e-fb9d1e410bdb",
+              "text" : "96241ab3-eb7a-4434-945b-a0e82ca06aff",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -283,7 +288,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "422509c3-d85a-4821-9cad-ffeb6da44efe",
+              "text" : "d1ed2af0-4793-4758-91b1-0be1b392c9eb",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -313,7 +318,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "36a81f9e-b511-4111-9c85-13ed6cb97be1",
+              "text" : "3066a862-0a41-48f3-876f-d3db5f254558",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -343,7 +348,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "edb2b41a-bae1-4f15-a849-82d046b9c27f",
+              "text" : "16b885f8-fc33-455a-b897-686b21c0297d",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -373,7 +378,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "373744b7-cdd3-4908-9944-0b95850e76e7",
+              "text" : "9204fe45-3b86-4ebb-9307-ab49605e4a22",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -403,7 +408,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "1d3b2f8f-1f4b-4dec-882b-2d44f7bcaf6c",
+              "text" : "35e32728-2e61-490d-a2e8-a102cb7f0ba0",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -537,7 +542,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "content" : [ {
         "lang" : "groovy",
-        "snippet" : "db.update(\"delete from PRICES\") // delete all\ndb.update(\"delete from PRICES where price > :price\", [price: 950]) // delete with params",
+        "snippet" : "db.update(\"delete from PRICES where price > :price\", [price: 950])",
         "entry" : "delete with params",
         "title" : "delete data",
         "bodyOnly" : true,
@@ -545,8 +550,128 @@ ReactDOM.render(React.createElement(Documentation, {
         "commentsType" : "inline",
         "type" : "Snippet"
       } ]
+    }, {
+      "title" : "Updating Tables",
+      "id" : "updating-tables",
+      "type" : "Section",
+      "content" : [ {
+        "table" : {
+          "columns" : [ {
+            "title" : "ID"
+          }, {
+            "title" : "DESCRIPTION"
+          }, {
+            "title" : "AVAILABLE"
+          }, {
+            "title" : "TYPE"
+          }, {
+            "title" : "PRICE"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "id1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "nice set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ ], [ ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1000",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "id2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "another set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ ], [ ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2000",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "title" : "PRICES",
+        "type" : "Table"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "db.update(\"update PRICES set price=:price where id=:id\", [id: 'id2', price: 4000])",
+        "entry" : "should run updates with params",
+        "title" : "update data",
+        "bodyOnly" : true,
+        "includeRegexp" : "db.update",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "ID"
+          }, {
+            "title" : "DESCRIPTION"
+          }, {
+            "title" : "AVAILABLE"
+          }, {
+            "title" : "TYPE"
+          }, {
+            "title" : "PRICE"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "id1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "nice set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ ], [ ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1000",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "id2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "another set",
+              "type" : "SimpleText"
+            } ]
+          } ], [ ], [ ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "4000",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "title" : "PRICES after update",
+        "type" : "Table"
+      } ]
     } ],
-    "lastModifiedTime" : 1608949217344,
+    "lastModifiedTime" : 1610327005054,
     "tocItem" : {
       "sectionTitle" : "Database",
       "pageTitle" : "Data Setup",
@@ -566,6 +691,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Cleaning Tables",
         "id" : "cleaning-tables"
+      }, {
+        "title" : "Updating Tables",
+        "id" : "updating-tables"
       } ]
     }
   },

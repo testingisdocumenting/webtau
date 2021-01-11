@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Access Local Storage</h1></header>
-<p>To access local storage use browser.localStorage .Lets consider a simple web page that displays a value from a local storage. &lt;div id=&quot;favorite-color&quot;&gt; &lt;/div&gt; &lt;script&gt; const element = document.getElementById('favorite-color'); element.innerHTML = localStorage.getItem('favoriteColor'); &lt;/script&gt; package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;local storage api&quot;) { browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'clean') def color = $('#favorite-color') browser.reopen('/local-storage') color.should == 'clean' browser.localStorage.clear() browser.reopen('/local-storage') color.should == '' } public String getItem(String key) public void setItem(String key, String value) public String removeItem(String key) public void clear() public int size()</p>
+<p>To access local storage use browser.localStorage .Lets consider a simple web page that displays a value from a local storage. &lt;div id=&quot;favorite-color&quot;&gt; &lt;/div&gt; &lt;script&gt; const element = document.getElementById('favorite-color'); element.innerHTML = localStorage.getItem('favoriteColor'); &lt;/script&gt; package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;local storage api&quot;) { browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'clean') def color = $('#favorite-color') browser.reopen('/local-storage') color.should == 'clean' browser.localStorage.clear() browser.reopen('/local-storage') color.should == '' } public String getItem(String key) public void setItem(String key, String value) public void removeItem(String key) public void clear() public int size()</p>
 </article>
 </section>
 </div>
@@ -144,14 +144,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "java",
-        "snippet" : "public String getItem(String key)\npublic void setItem(String key, String value)\npublic String removeItem(String key)\npublic void clear()\npublic int size()",
+        "snippet" : "public String getItem(String key)\npublic void setItem(String key, String value)\npublic void removeItem(String key)\npublic void clear()\npublic int size()",
         "entries" : [ "getItem", "setItem", "removeItem", "clear", "size" ],
         "title" : "Local Storage methods",
         "signatureOnly" : true,
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1608949217344,
+    "lastModifiedTime" : 1610327005050,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Local Storage",

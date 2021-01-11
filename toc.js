@@ -747,6 +747,29 @@ toc = [ {
     }, {
       "title" : "Cleaning Tables",
       "id" : "cleaning-tables"
+    }, {
+      "title" : "Updating Tables",
+      "id" : "updating-tables"
+    } ]
+  }, {
+    "sectionTitle" : "Database",
+    "pageTitle" : "Data Query",
+    "pageMeta" : { },
+    "dirName" : "database",
+    "fileName" : "data-query",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Full Table",
+      "id" : "full-table"
+    }, {
+      "title" : "Custom Query",
+      "id" : "custom-query"
+    }, {
+      "title" : "Single Value",
+      "id" : "single-value"
+    }, {
+      "title" : "Query Result Value",
+      "id" : "query-result-value"
     } ]
   }, {
     "sectionTitle" : "Database",
