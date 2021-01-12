@@ -24,21 +24,21 @@ import graphql.language.ObjectTypeDefinition;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
+import org.testingisdocumenting.webtau.graphql.model.GraphQLResponse;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
-import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.graphql.GraphQL.GRAPHQL_URL;
+import static org.testingisdocumenting.webtau.graphql.GraphQL.reset;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class GraphQLSchemaLoader {
@@ -57,7 +57,7 @@ public class GraphQLSchemaLoader {
     }
 
     private static HttpResponse sendIntrospectionQuery() {
-        HttpRequestBody requestBody = GraphQLRequest.body(IntrospectionQuery.INTROSPECTION_QUERY, null, null);
+        HttpRequestBody requestBody = new GraphQLRequest(IntrospectionQuery.INTROSPECTION_QUERY).toHttpRequestBody();
         String fullUrl = HttpConfigurations.fullUrl(GRAPHQL_URL);
         HttpHeader header = HttpConfigurations.fullHeader(fullUrl, GRAPHQL_URL, HttpHeader.EMPTY);
 
@@ -65,31 +65,26 @@ public class GraphQLSchemaLoader {
     }
 
     private static Optional<Set<GraphQLQuery>> convertIntrospectionResponse(HttpResponse httpResponse) {
-        IntrospectionResultToSchema resultToSchema = new IntrospectionResultToSchema();
-        Map<String, ?> response = JsonUtils.deserializeAsMap(httpResponse.getTextContent());
-        if (response.containsKey("errors")) {
-            return handleIntrospectionError("Error introspecting GraphQL, errors found: " + response.get("errors"));
-        }
+        Optional<GraphQLResponse> graphQLResponse = GraphQLResponse.from(httpResponse);
+        return graphQLResponse.map(response -> {
+            if (response.getErrors() != null) {
+                return handleIntrospectionError("Error introspecting GraphQL, errors found: " + response.getErrors());
+            }
 
-        if (!response.containsKey("data")) {
-            return handleIntrospectionError("Error introspecting GraphQL, expecting a 'data' field but it was not present");
-        }
+            if (response.getData() == null) {
+                return handleIntrospectionError("Error introspecting GraphQL, expecting a 'data' field but it was not present");
+            }
 
-        Object data = response.get("data");
-        if (!(data instanceof Map)) {
-            return handleIntrospectionError("Error introspecting GraphQL, expected 'data' to contain a JSON object" +
-                    " but it contains a '" + data.getClass().getSimpleName() + "'");
-        }
+            IntrospectionResultToSchema resultToSchema = new IntrospectionResultToSchema();
+            Document schemaDefinition = resultToSchema.createSchemaDefinition(response.getData());
+            TypeDefinitionRegistry typeDefRegistry = new SchemaParser().buildRegistry(schemaDefinition);
 
-        @SuppressWarnings("unchecked") Document schemaDefinition = resultToSchema.createSchemaDefinition((Map<String, Object>) data);
-        TypeDefinitionRegistry typeDefRegistry = new SchemaParser().buildRegistry(schemaDefinition);
-
-        Set<GraphQLQuery> queries = new HashSet<>();
-        Arrays.stream(GraphQLQueryType.values())
-                .flatMap(type -> extractTypes(typeDefRegistry, type))
-                .forEach(queries::add);
-
-        return Optional.of(queries);
+            Set<GraphQLQuery> queries = new HashSet<>();
+            Arrays.stream(GraphQLQueryType.values())
+                    .flatMap(type -> extractTypes(typeDefRegistry, type))
+                    .forEach(queries::add);
+            return Optional.of(queries);
+        }).orElseGet(() -> handleIntrospectionError("Error introspecting GraphQL, not a valid GraphQL response"));
     }
 
     private static Optional<Set<GraphQLQuery>> handleIntrospectionError(String msg) {
