@@ -24,6 +24,8 @@ import org.testingisdocumenting.webtau.db.DbDataSourceProvider
 import org.testingisdocumenting.webtau.db.DbDataSourceProviders
 import org.testingisdocumenting.webtau.graphql.listener.GraphQLListener
 import org.testingisdocumenting.webtau.graphql.listener.GraphQLListeners
+import org.testingisdocumenting.webtau.http.listener.HttpListener
+import org.testingisdocumenting.webtau.http.listener.HttpListeners
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.TestListener
@@ -81,6 +83,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupPageElementGetSetValueHandlers(parsedConfig)
         setupTestListeners(parsedConfig)
         setupGraphQLListeners(parsedConfig)
+        setupHttpListeners(parsedConfig)
         setupDbDataSourceProviders(parsedConfig)
     }
 
@@ -172,6 +175,11 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     private static void setupGraphQLListeners(ConfigObject config) {
         List<GraphQLListener> listenerInstances = instancesFromConfig(config, 'graphqlListeners')
         listenerInstances.each { GraphQLListeners.add(it) }
+    }
+
+    private static void setupHttpListeners(ConfigObject config) {
+        List<HttpListener> listenerInstances = instancesFromConfig(config, 'httpListeners')
+        listenerInstances.each { HttpListeners.add(it) }
     }
 
     private static void setupDbDataSourceProviders(ConfigObject config) {

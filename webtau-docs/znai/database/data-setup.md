@@ -56,3 +56,18 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
     commentsType: "inline"
 }
 
+# Updating Tables
+
+:include-table: doc-artifacts/db-before-update.json { title: "PRICES" }
+
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "should run updates with params",
+    title: "update data",
+    bodyOnly: true,
+    includeRegexp: "db.update",
+    commentsType: "inline"
+}
+
+:include-table: doc-artifacts/db-after-update.json { title: "PRICES after update" }
+
+
