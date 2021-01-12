@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import graphql.GraphQLException;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -58,6 +59,9 @@ public class GraphQLTestDataServer {
         TypeRuntimeWiring.Builder queries = TypeRuntimeWiring.newTypeWiring("Query");
         queries.dataFetcher("allTasks", e -> allTasks(e.getArgument("uncompletedOnly")));
         queries.dataFetcher("taskById",  e -> taskById(e.getArgument("id")));
+        queries.dataFetcher("error", e -> {
+            throw new GraphQLException("Error executing query: " + e.getArgument("msg"));
+        });
 
         TypeRuntimeWiring.Builder mutations = TypeRuntimeWiring.newTypeWiring("Mutation");
         mutations.dataFetcher("complete", e -> setCompleted(e.getArgument("id"), true));

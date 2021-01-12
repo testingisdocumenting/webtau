@@ -20,9 +20,14 @@ type Task {
   completed: Boolean!
 }
 
+type Error {
+  msg: String!
+}
+
 type Query {
   allTasks(uncompletedOnly: Boolean = true): [Task]
   taskById(id: ID!): Task
+  error(msg: String!): Error
 }
 
 type Mutation {
