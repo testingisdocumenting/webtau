@@ -77,7 +77,7 @@ public class WebTauConfig {
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
     private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
-    private final ConfigValue envPath = declare("envPath", "path items to append to path used for cli tests", Collections::emptyList);
+    private final ConfigValue envPath = declare("envPath", "path items to append to path used for cli runs", Collections::emptyList);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -285,6 +285,10 @@ public class WebTauConfig {
 
     public List<String> getEnvPath() {
         return envPath.getAsList();
+    }
+
+    public ConfigValue getEnvPathConfigValue() {
+        return envPath;
     }
 
     @Override

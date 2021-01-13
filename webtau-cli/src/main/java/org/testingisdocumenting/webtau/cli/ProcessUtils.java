@@ -18,6 +18,8 @@
 package org.testingisdocumenting.webtau.cli;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
@@ -26,8 +28,6 @@ import java.util.stream.Collectors;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class ProcessUtils {
-    private static final String ENV_PATH_SEPARATOR = System.getProperty("path.separator");
-
     private ProcessUtils() {
     }
 
@@ -47,13 +47,19 @@ public class ProcessUtils {
     }
 
     public static void kill(int pid) throws IOException {
-        run("kill " + pid + " && pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
+        run("kill " + pid, CliProcessConfig.EMPTY);
+        run("pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
     }
 
     public static CliBackgroundProcess runInBackground(String command, CliProcessConfig config) throws IOException {
-        List<String> splitCommandWithPrefix = prefixCommandWithPathAndSplit(command);
+        String[] splitCommand = CommandParser.splitCommand(command);
+        if (splitCommand.length == 0) {
+            throw new IllegalArgumentException("command is not specified");
+        }
 
-        ProcessBuilder processBuilder = new ProcessBuilder(splitCommandWithPrefix);
+        splitCommand[0] = findCommandIfRequiredUsingPath(splitCommand[0]);
+
+        ProcessBuilder processBuilder = new ProcessBuilder(splitCommand);
         config.applyTo(processBuilder);
 
         Process process = processBuilder.start();
@@ -72,33 +78,32 @@ public class ProcessUtils {
                 consumeOutThread, consumeErrorThread);
     }
 
-    private static List<String> prefixCommandWithPathAndSplit(String command) {
-        String commandPrefix = "";
-
-        String additionalPath = String.join(ENV_PATH_SEPARATOR, envPathWithWorkingDirPrefix());
-        if (!additionalPath.isEmpty()) {
-            String existingPath = System.getenv("PATH");
-            String newPath = additionalPath;
-            if (existingPath != null && !existingPath.isEmpty()) {
-                newPath += ENV_PATH_SEPARATOR + existingPath;
-            }
-
-            commandPrefix = "PATH=" + newPath;
+    private static String findCommandIfRequiredUsingPath(String command) {
+        List<Path> paths = envPathWithWorkingDirPrefix();
+        if (paths.isEmpty()) {
+            return command;
         }
 
-        // TODO implement windows equivalent with cmd.exe
-        return Arrays.asList("/bin/sh", "-c", commandPrefix + " " + command);
+        return paths.stream()
+                .map(p -> p.resolve(command))
+                .filter(Files::exists)
+                .map(Path::toString)
+                .findFirst()
+                .orElse(command);
     }
 
-    private static List<String> envPathWithWorkingDirPrefix() {
-        return getCfg().getEnvPath().stream().map(ProcessUtils::prefixWithWorkingDir).collect(Collectors.toList());
+    private static List<Path> envPathWithWorkingDirPrefix() {
+        return getCfg().getEnvPath().stream()
+                .map(ProcessUtils::prefixWithWorkingDir)
+                .collect(Collectors.toList());
     }
 
-    private static String prefixWithWorkingDir(String pathName) {
-        if (Paths.get(pathName).isAbsolute()) {
-            return pathName;
+    private static Path prefixWithWorkingDir(String pathName) {
+        Path path = Paths.get(pathName);
+        if (path.isAbsolute()) {
+            return path;
         }
 
-        return getCfg().getWorkingDir().resolve(pathName).toAbsolutePath().toString();
+        return getCfg().getWorkingDir().resolve(pathName).toAbsolutePath();
     }
 }

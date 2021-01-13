@@ -14,13 +14,13 @@ scenario("command with output validation") {
 }
 
 scenario("command with error validation") {
-    cli.run('>&2 echo error B892T') {
+    cli.run('scripts/error-output') {
         error.should == 'error B892T'
     }
 }
 
 scenario("command with exit code validation") {
-    cli.run('exit 8') {
+    cli.run('scripts/exit-code 8') {
         exitCode.should == 8
         exitCode.shouldNot == 0
     }
