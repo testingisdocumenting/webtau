@@ -80,16 +80,14 @@ class StandaloneTestRunner {
             script.setProperty("sscenario", this.&sscenario)
             script.setProperty("onlyWhen", this.&onlyWhen)
 
-            StepReporters.withAdditionalReporter(new ForbidStepsOutsideScenarioStepListener()) {
-                script.run()
-            }
+            script.run()
         })
 
         TestListeners.withDisabledListeners {
             scriptParse.run()
         }
 
-        if (scriptParse.hasError()) {
+        if (scriptParse.hasError() || scriptParse.hasSteps()) {
             scriptParse.test.metadata.add(currentTestMetadata.get())
             registeredTests.add(scriptParse)
         }
