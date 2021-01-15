@@ -17,17 +17,22 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import static org.testingisdocumenting.webtau.reporter.TestStatus.Errored;
+import static org.testingisdocumenting.webtau.reporter.TestStatus.Failed;
+import static org.testingisdocumenting.webtau.reporter.TestStatus.Passed;
+import static org.testingisdocumenting.webtau.reporter.TestStatus.Skipped;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceCodeEntry;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.FileUtils;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.testingisdocumenting.webtau.reporter.TestStatus.*;
 
 public class WebTauTest {
     private String id;
@@ -44,6 +49,8 @@ public class WebTauTest {
 
     private boolean isDisabled;
     private String disableReason;
+
+    private boolean isSynthetic;
 
     private boolean isRan;
     private Path workingDir;
@@ -194,6 +201,14 @@ public class WebTauTest {
         return !isSkipped() && !isFailed() && !isErrored();
     }
 
+    public boolean isSynthetic() {
+        return isSynthetic;
+    }
+
+    public void setSynthetic(boolean synthetic) {
+        isSynthetic = synthetic;
+    }
+
     public TestStatus getTestStatus() {
         if (isFailed()) {
             return Failed;
@@ -262,6 +277,8 @@ public class WebTauTest {
         if (shortContainerId != null) {
             result.put("shortContainerId", shortContainerId);
         }
+
+        result.put("synthetic", isSynthetic);
 
         result.put("disabled", isDisabled);
 

@@ -49,6 +49,11 @@ class StandaloneTest implements StepReporter {
         this.code = code
     }
 
+    StandaloneTest asSynthetic() {
+        test.setSynthetic(true)
+        return this
+    }
+
     WebTauTest getTest() {
         return test
     }

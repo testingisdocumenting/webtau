@@ -75,11 +75,6 @@ class StandaloneTestRunner {
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
             script.setDelegate(delegate)
-            script.setProperty("scenario", this.&scenario)
-            script.setProperty("dscenario", this.&dscenario)
-            script.setProperty("sscenario", this.&sscenario)
-            script.setProperty("onlyWhen", this.&onlyWhen)
-
             script.run()
         })
 
@@ -296,17 +291,15 @@ class StandaloneTestRunner {
     private StandaloneTest createBeforeFirstTestListenersAsTest() {
         return new StandaloneTest(workingDir, workingDir.resolve("setup-listeners"),
                 'Setup', 'before first test', { ->
-
             TestListeners.beforeFirstTest()
-        })
+        }).asSynthetic()
     }
 
     private StandaloneTest createAfterAllTestListenersAsTest() {
         return new StandaloneTest(workingDir, workingDir.resolve("teardown-listeners"),
                 'Teardown', 'after all tests', { ->
-
             TestListeners.afterAllTests()
-        })
+        }).asSynthetic()
     }
 
     private static void handleTestAndNotifyListeners(StandaloneTest standaloneTest, Closure testHandler) {

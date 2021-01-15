@@ -194,6 +194,7 @@ class StandaloneTestRunnerTest {
             def beforeFirstTest = runner.webTauTestList.get(0)
             beforeFirstTest.scenario.should == 'before first test'
             beforeFirstTest.shortContainerId.should == 'Setup'
+            beforeFirstTest.isSynthetic.should == true
         }
     }
 
@@ -231,6 +232,7 @@ class StandaloneTestRunnerTest {
 
             def beforeFirstTest = runner.webTauTestList.get(0)
             beforeFirstTest.scenario.should == 'before first test'
+            beforeFirstTest.isSynthetic.should == true
             beforeFirstTest.shortContainerId.should == 'Setup'
             beforeFirstTest.exception.message.should == 'test error message'
         }
@@ -254,9 +256,10 @@ class StandaloneTestRunnerTest {
 
             runner.webTauTestList.size().should == 4
 
-            def beforeFirstTest = runner.webTauTestList.get(3)
-            beforeFirstTest.scenario.should == 'after all tests'
-            beforeFirstTest.shortContainerId.should == 'Teardown'
+            def afterAllTest = runner.webTauTestList.get(3)
+            afterAllTest.scenario.should == 'after all tests'
+            afterAllTest.shortContainerId.should == 'Teardown'
+            afterAllTest.isSynthetic.should == true
         }
     }
 
@@ -292,10 +295,11 @@ class StandaloneTestRunnerTest {
 
             runner.webTauTestList.size().should == 4
 
-            def beforeFirstTest = runner.webTauTestList.get(3)
-            beforeFirstTest.scenario.should == 'after all tests'
-            beforeFirstTest.shortContainerId.should == 'Teardown'
-            beforeFirstTest.exception.message.should == 'test error message'
+            def afterAllTest = runner.webTauTestList.get(3)
+            afterAllTest.scenario.should == 'after all tests'
+            afterAllTest.isSynthetic.should == true
+            afterAllTest.shortContainerId.should == 'Teardown'
+            afterAllTest.exception.message.should == 'test error message'
         }
     }
 
@@ -319,7 +323,10 @@ class StandaloneTestRunnerTest {
 
     private static StandaloneTestRunner createRunner(String... scenarioFiles) {
         def workingDir = Paths.get("test-scripts")
-        def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, []), workingDir)
+        def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir,
+                ["org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunnerTestStaticImport"]), workingDir)
+
+        StandaloneTestRunnerTestStaticImport.runner = runner
         scenarioFiles.each { runner.process(new TestFile(Paths.get(it)), this) }
 
         return runner
