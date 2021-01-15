@@ -21,8 +21,7 @@ import org.testingisdocumenting.webtau.runner.standalone.GroovyStandaloneEngine
 import java.nio.file.Path
 
 class GroovyRunner {
-    private static final List<String> staticImports = ["org.testingisdocumenting.webtau.WebTauDsl",
-                                                       "org.testingisdocumenting.webtau.WebTauGroovyDsl"]
+    private static final List<String> staticImports = ["org.testingisdocumenting.webtau.WebTauGroovyDsl"]
 
     static GroovyScriptEngine createWithDelegatingEnabled(Path workingDir) {
         return GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, staticImports)

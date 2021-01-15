@@ -298,7 +298,10 @@ class StandaloneTestRunnerTest {
 
     private static StandaloneTestRunner createRunner(String... scenarioFiles) {
         def workingDir = Paths.get("test-scripts")
-        def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, []), workingDir)
+        def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir,
+                ["org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunnerTestStaticImport"]), workingDir)
+
+        StandaloneTestRunnerTestStaticImport.runner = runner
         scenarioFiles.each { runner.process(new TestFile(Paths.get(it)), this) }
 
         return runner
