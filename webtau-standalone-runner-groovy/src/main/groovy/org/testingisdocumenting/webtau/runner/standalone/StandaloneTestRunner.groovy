@@ -290,7 +290,7 @@ class StandaloneTestRunner {
 
     private StandaloneTest createBeforeFirstTestListenersAsTest() {
         return new StandaloneTest(workingDir, workingDir.resolve("setup-listeners"),
-                'Setup', 'before first test', { ->
+                'Setup', 'before first test', true,{ ->
 
             TestListeners.beforeFirstTest()
         })
@@ -298,7 +298,7 @@ class StandaloneTestRunner {
 
     private StandaloneTest createAfterAllTestListenersAsTest() {
         return new StandaloneTest(workingDir, workingDir.resolve("teardown-listeners"),
-                'Teardown', 'after all tests', { ->
+                'Teardown', 'after all tests',true, { ->
 
             TestListeners.afterAllTests()
         })
