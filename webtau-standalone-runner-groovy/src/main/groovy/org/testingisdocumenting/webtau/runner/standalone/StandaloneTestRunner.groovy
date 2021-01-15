@@ -75,11 +75,6 @@ class StandaloneTestRunner {
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
             script.setDelegate(delegate)
-            script.setProperty("scenario", this.&scenario)
-            script.setProperty("dscenario", this.&dscenario)
-            script.setProperty("sscenario", this.&sscenario)
-            script.setProperty("onlyWhen", this.&onlyWhen)
-
             StepReporters.withAdditionalReporter(new ForbidStepsOutsideScenarioStepListener()) {
                 script.run()
             }
@@ -89,7 +84,7 @@ class StandaloneTestRunner {
             scriptParse.run()
         }
 
-        if (scriptParse.hasError()) {
+        if (scriptParse.hasError() || scriptParse.hasSteps()) {
             scriptParse.test.metadata.add(currentTestMetadata.get())
             registeredTests.add(scriptParse)
         }
