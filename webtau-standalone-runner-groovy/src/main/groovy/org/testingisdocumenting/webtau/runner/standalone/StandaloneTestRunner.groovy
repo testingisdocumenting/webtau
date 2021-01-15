@@ -75,11 +75,6 @@ class StandaloneTestRunner {
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
             script.setDelegate(delegate)
-            script.setProperty("scenario", this.&scenario)
-            script.setProperty("dscenario", this.&dscenario)
-            script.setProperty("sscenario", this.&sscenario)
-            script.setProperty("onlyWhen", this.&onlyWhen)
-
             script.run()
         })
 
