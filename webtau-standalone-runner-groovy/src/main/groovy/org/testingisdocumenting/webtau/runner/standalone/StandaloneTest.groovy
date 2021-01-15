@@ -38,16 +38,20 @@ class StandaloneTest implements StepReporter {
     private final Path workingDir
     private final Closure code
 
-    StandaloneTest(Path workingDir, Path filePath, String shortContainerId, String description, boolean isSyntheticTest = false, Closure code) {
+    StandaloneTest(Path workingDir, Path filePath, String shortContainerId, String description, Closure code) {
         this.test = new WebTauTest(workingDir)
         this.test.setId(idGenerator.generate(filePath))
         this.test.setScenario(description)
         this.test.setFilePath(workingDir.relativize(filePath))
         this.test.setShortContainerId(shortContainerId)
-        this.test.setSynthetic(isSyntheticTest)
 
         this.workingDir = workingDir
         this.code = code
+    }
+
+    StandaloneTest asSynthetic() {
+        test.setSynthetic(true)
+        return this
     }
 
     WebTauTest getTest() {
