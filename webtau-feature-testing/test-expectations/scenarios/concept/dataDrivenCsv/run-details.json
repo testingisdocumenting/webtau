@@ -1,5 +1,11 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "parse/init",
+    "shortContainerId" : "dataDrivenCsv.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "use case hello",
     "shortContainerId" : "dataDrivenCsv.groovy",
     "stepsSummary" : { }
