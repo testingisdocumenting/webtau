@@ -89,7 +89,7 @@ class StandaloneTestRunner {
 
         if (scriptParseTest.hasError() || scriptParseTest.hasSteps()) {
             scriptParseTest.test.metadata.add(currentTestMetadata.get())
-            registeredTests.addInFront(scriptParseTest)
+            registeredTests.addAsFirstTestWithinFile(scriptParseTest)
         }
     }
 

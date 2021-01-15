@@ -27,8 +27,13 @@ class RegisteredTests {
         tests.add(test)
     }
 
-    void addInFront(StandaloneTest test) {
-        tests.add(0, test)
+    void addAsFirstTestWithinFile(StandaloneTest test) {
+        def idx = tests.findIndexOf {it.filePath == test.filePath }
+        if (idx == -1) {
+            tests.add(test)
+        } else {
+            tests.add(idx, test)
+        }
     }
 
     void addExclusive(StandaloneTest test) {
