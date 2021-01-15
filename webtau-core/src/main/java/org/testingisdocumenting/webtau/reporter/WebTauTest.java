@@ -142,6 +142,10 @@ public class WebTauTest {
         isRan = ran;
     }
 
+    public boolean isRan() {
+        return isRan;
+    }
+
     public void setStartTime(long startTime) {
         this.startTime = startTime;
     }

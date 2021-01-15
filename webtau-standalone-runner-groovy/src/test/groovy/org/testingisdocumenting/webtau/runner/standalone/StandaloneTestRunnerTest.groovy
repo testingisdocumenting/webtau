@@ -17,7 +17,13 @@
 
 package org.testingisdocumenting.webtau.runner.standalone
 
+import org.junit.After
+import org.junit.Before
 import org.testingisdocumenting.webtau.TestFile
+import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
+import org.testingisdocumenting.webtau.reporter.StepReporter
+import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.TestListener
 import org.testingisdocumenting.webtau.reporter.TestListeners
 import org.junit.Test
@@ -30,6 +36,18 @@ import static org.testingisdocumenting.webtau.WebTauCore.contain
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
 
 class StandaloneTestRunnerTest {
+    final StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter())
+
+    @Before
+    void init() {
+        StepReporters.add(stepReporter)
+    }
+
+    @After
+    void cleanup() {
+        StepReporters.remove(stepReporter)
+    }
+
     @Test
     void "should register tests with scenario keyword"() {
         def runner = createRunner("StandaloneTest.groovy")
@@ -117,10 +135,13 @@ class StandaloneTestRunnerTest {
     }
 
     @Test
-    void "should forbid test steps outside of scenario"() {
+    void "should register steps outside of scenario as separate parse-init test"() {
         def runner = createRunner("withTestStepOutsideScenario.groovy")
+
+        runner.tests.scenario.should == ["parse/init", "scenario one", "scenario two", "scenario three"]
+        runner.tests[0].steps.completionMessage.join(",").should == "ran errand"
+
         runner.runTests()
-        assertInitFailed(runner, 'executing <running errand> outside of scenario is not supported')
     }
 
     @Test

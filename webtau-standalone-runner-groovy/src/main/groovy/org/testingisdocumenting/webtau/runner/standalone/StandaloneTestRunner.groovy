@@ -71,22 +71,20 @@ class StandaloneTestRunner {
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
 
-        def scriptParse = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, "parse/init", { ->
+        def scriptParseTest = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, "parse/init", { ->
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
 
             script.setDelegate(delegate)
-            StepReporters.withAdditionalReporter(new ForbidStepsOutsideScenarioStepListener()) {
-                script.run()
-            }
+            script.run()
         })
 
         TestListeners.withDisabledListeners {
-            scriptParse.run()
+            scriptParseTest.run()
         }
 
-        if (scriptParse.hasError() || scriptParse.hasSteps()) {
-            scriptParse.test.metadata.add(currentTestMetadata.get())
-            registeredTests.add(scriptParse)
+        if (scriptParseTest.hasError() || scriptParseTest.hasSteps()) {
+            scriptParseTest.test.metadata.add(currentTestMetadata.get())
+            registeredTests.addAsFirstTestWithinFile(scriptParseTest)
         }
     }
 
@@ -266,7 +264,7 @@ class StandaloneTestRunner {
     private void runTestIfNotTerminated(StandaloneTest standaloneTest) {
         if (!isTerminated.get()) {
             currentTestMetadata.set(standaloneTest.test.metadata)
-            standaloneTest.run()
+            standaloneTest.runIfNotRan()
         }
 
         if (standaloneTest.test.exception instanceof TestsRunTerminateException) {

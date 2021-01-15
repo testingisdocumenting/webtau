@@ -21,7 +21,6 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 
 createAndExecuteStep(tokenizedMessage(action("running errand")),
         { -> tokenizedMessage(action("ran errand"))}) {
-    throw new RuntimeException("this should not happen")
 }
 
 scenario('scenario one') {

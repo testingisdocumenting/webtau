@@ -101,6 +101,14 @@ class StandaloneTest implements StepReporter {
         return test.assertionMessage
     }
 
+    void runIfNotRan() {
+        if (test.ran) {
+            return
+        }
+
+        run()
+    }
+
     void run() {
         test.clear()
         if (test.isDisabled()) {
