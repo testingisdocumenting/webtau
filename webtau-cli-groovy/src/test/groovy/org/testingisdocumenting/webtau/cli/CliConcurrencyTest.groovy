@@ -27,7 +27,7 @@ class CliConcurrencyTest {
     void "should be able to continuously assert output"() {
         supportedPlatformOnly {
             def script = cli.runInBackground('scripts/loop')
-            script.output.waitTo contain('99999')
+            script.output.waitTo contain('9999')
         }
     }
 }
