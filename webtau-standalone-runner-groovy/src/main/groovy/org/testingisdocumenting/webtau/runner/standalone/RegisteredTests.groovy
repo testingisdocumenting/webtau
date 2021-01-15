@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +25,10 @@ class RegisteredTests {
 
     void add(StandaloneTest test) {
         tests.add(test)
+    }
+
+    void addInFront(StandaloneTest test) {
+        tests.add(0, test)
     }
 
     void addExclusive(StandaloneTest test) {
