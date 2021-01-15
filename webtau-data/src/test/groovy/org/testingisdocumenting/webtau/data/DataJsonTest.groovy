@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.json
+package org.testingisdocumenting.webtau.data
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.DataJson
 
 class DataJsonTest {
     @Test

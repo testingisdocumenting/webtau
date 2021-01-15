@@ -14,24 +14,29 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.json;
+package org.testingisdocumenting.webtau.data;
 
-import org.testingisdocumenting.webtau.data.DataContentUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.List;
 import java.util.Map;
 
+import static org.testingisdocumenting.webtau.data.DataContentUtils.dataTextContent;
+
 public class DataJson {
     public Map<String, ?> map(String fileOrResourcePath) {
-        return JsonUtils.deserializeAsMap(DataContentUtils.dataTextContent(fileOrResourcePath));
+        return JsonUtils.deserializeAsMap(textContent(fileOrResourcePath));
     }
 
     public List<?> list(String fileOrResourcePath) {
-        return JsonUtils.deserializeAsList(DataContentUtils.dataTextContent(fileOrResourcePath));
+        return JsonUtils.deserializeAsList(textContent(fileOrResourcePath));
     }
 
     public Object object(String fileOrResourcePath) {
-        return JsonUtils.deserialize(DataContentUtils.dataTextContent(fileOrResourcePath));
+        return JsonUtils.deserialize(textContent(fileOrResourcePath));
+    }
+
+    private static String textContent(String fileOrResourcePath) {
+        return dataTextContent("json", fileOrResourcePath).content;
     }
 }
