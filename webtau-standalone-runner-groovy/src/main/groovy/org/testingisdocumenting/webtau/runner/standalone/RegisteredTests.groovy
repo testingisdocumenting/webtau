@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +25,15 @@ class RegisteredTests {
 
     void add(StandaloneTest test) {
         tests.add(test)
+    }
+
+    void addAsFirstTestWithinFile(StandaloneTest test) {
+        def idx = tests.findIndexOf {it.filePath == test.filePath }
+        if (idx == -1) {
+            tests.add(test)
+        } else {
+            tests.add(idx, test)
+        }
     }
 
     void addExclusive(StandaloneTest test) {

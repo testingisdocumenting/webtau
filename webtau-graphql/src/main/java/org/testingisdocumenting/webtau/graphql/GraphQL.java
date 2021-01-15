@@ -17,8 +17,10 @@
 package org.testingisdocumenting.webtau.graphql;
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
+import org.testingisdocumenting.webtau.graphql.listener.GraphQLListeners;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
@@ -144,7 +146,10 @@ public class GraphQL {
     }
 
     public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidatorWithReturn validator) {
-        return http.post(GRAPHQL_URL, header, GraphQLRequest.body(query, variables, operationName), (headerDataNode, body) -> {
+        BeforeFirstGraphQLQueryListenerTrigger.trigger();
+        GraphQLListeners.beforeGraphQLQuery(query, variables, operationName, header);
+        HttpRequestBody requestBody = new GraphQLRequest(query, variables, operationName).toHttpRequestBody();
+        return http.post(GRAPHQL_URL, header, requestBody, (headerDataNode, body) -> {
             Object validatorReturnValue = validator.validate(headerDataNode, body);
 
             if (headerDataNode.statusCode().getTraceableValue().getCheckLevel() == CheckLevel.None) {
@@ -153,5 +158,17 @@ public class GraphQL {
 
             return validatorReturnValue;
         });
+    }
+
+    private static class BeforeFirstGraphQLQueryListenerTrigger {
+        static {
+            GraphQLListeners.beforeFirstGraphQLQuery();
+        }
+
+        /**
+         * no-op to force class loading
+         */
+        private static void trigger() {
+        }
     }
 }

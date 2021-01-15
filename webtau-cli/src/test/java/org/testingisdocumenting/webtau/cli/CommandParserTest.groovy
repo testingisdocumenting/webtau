@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +14,15 @@
  * limitations under the License.
  */
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
+package org.testingisdocumenting.webtau.cli
 
-createAndExecuteStep(tokenizedMessage(action("running errand")),
-        { -> tokenizedMessage(action("ran errand"))}) {
-}
+import org.junit.Test
 
-scenario('scenario one') {
-}
-
-scenario('scenario two') {
-}
-
-scenario('scenario three') {
+class CommandParserTest {
+    @Test
+    void "split command should respect quotes and quote escape"() {
+        CommandParser.splitCommand('hello "long param"').should == ['hello', '"long param"']
+        CommandParser.splitCommand('hello "long \\" param"').should == ['hello', '"long \\" param"']
+        CommandParser.splitCommand('hello \\"long param"').should == ['hello', '\\"long',  'param"']
+    }
 }
