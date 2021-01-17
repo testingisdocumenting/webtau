@@ -22,6 +22,8 @@ import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,6 +66,21 @@ public class FileSystem {
         return new FileTextContent(Paths.get(path));
     }
 
+    public void writeText(Path path, String content) {
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action("writing text content"), OF, classifier("size"), numberValue(content.length()), TO, urlValue(path.toString())),
+                () -> tokenizedMessage(action("wrote text content"), OF, classifier("size"), numberValue(content.length()), TO, urlValue(path.toString())),
+                () -> {
+                    try {
+                        Files.write(path, content.getBytes(StandardCharsets.UTF_8));
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    }
+                });
+
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
     public Path tempDir(String prefix) {
         return tempDir((Path) null, prefix);
     }
@@ -78,7 +95,7 @@ public class FileSystem {
                 (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
                 () -> createTempDir(dir, prefix));
 
-        return (Path) step.execute(StepReportOptions.REPORT_ALL);
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public Path fullPath(String relativeOrFull) {
@@ -106,7 +123,7 @@ public class FileSystem {
 
             return path.toAbsolutePath();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 }
