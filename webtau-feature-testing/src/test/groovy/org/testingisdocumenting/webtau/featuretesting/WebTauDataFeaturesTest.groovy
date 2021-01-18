@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.BeforeClass
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
+
 class WebTauDataFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
@@ -30,6 +32,19 @@ class WebTauDataFeaturesTest {
     @Test
     void "reading data"() {
         runCli('readingData.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "extract snippets"() {
+        extractCodeSnippets(
+                'readingData', 'examples/scenarios/data/readingData.groovy', [
+                'csvTable.groovy': 'csv table data',
+                'csvTableAutoConverted.groovy': 'csv table data auto converted',
+                'listOfMaps.groovy': 'csv list of maps data',
+                'listOfMapsAutoConverted.groovy': 'csv list of maps data auto converted',
+                'jsonList.groovy': 'json list',
+                'jsonMap.groovy': 'json map'
+        ])
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
