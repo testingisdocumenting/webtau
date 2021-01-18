@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.fs;
 
 import org.apache.commons.io.FileUtils;
-import org.testingisdocumenting.webtau.fs.zip.UnzipTask;
+import org.testingisdocumenting.webtau.ant.UnzipTask;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
@@ -56,6 +56,28 @@ public class FileSystem {
 
     public void unzip(String src, String dest) {
         unzip(Paths.get(src), Paths.get(dest));
+    }
+
+    public void copy(String src, Path dest) {
+        copy(Paths.get(src), dest);
+    }
+
+    public void copy(String src, String dest) {
+        copy(Paths.get(src), Paths.get(dest));
+    }
+
+    public void copy(Path src, Path dest) {
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action("copying"), urlValue(src.toString()), TO, urlValue(dest.toString())),
+                (Object r) -> {
+                    CopyResult result = (CopyResult) r;
+                    return tokenizedMessage(action("copied"), classifier(result.type),
+                            urlValue(result.fullSrc.toAbsolutePath().toString()), TO,
+                            urlValue(result.fullDest.toAbsolutePath().toString()));
+                },
+                () -> copyImpl(src, dest));
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public FileTextContent textContent(Path path) {
@@ -110,6 +132,28 @@ public class FileSystem {
         return getCfg().getWorkingDir().resolve(relativeOrFull).toAbsolutePath();
     }
 
+    private static CopyResult copyImpl(Path src, Path dest) {
+        Path fullSrc = fs.fullPath(src);
+        Path fullDest = fs.fullPath(dest);
+
+        try {
+            if (Files.isDirectory(fullSrc) && Files.isDirectory(fullDest)) {
+                FileUtils.copyDirectory(fullSrc.toFile(), fullDest.toFile());
+                return new CopyResult("directory", fullSrc, fullDest);
+            } else {
+                Path dstForFile = Files.isDirectory(fullDest) ?
+                        fullDest.resolve(fullSrc.getFileName()) :
+                        fullDest;
+
+                FileUtils.copyFile(fullSrc.toFile(), dstForFile.toFile());
+
+                return new CopyResult("file", fullSrc, dstForFile);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     private static Path createTempDir(Path dir, String prefix) {
         try {
             if (dir != null) {
@@ -124,6 +168,18 @@ public class FileSystem {
             return path.toAbsolutePath();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    static class CopyResult {
+        private final String type;
+        private final Path fullSrc;
+        private final Path fullDest;
+
+        public CopyResult(String type, Path fullSrc, Path fullDest) {
+            this.type = type;
+            this.fullSrc = fullSrc;
+            this.fullDest = fullDest;
         }
     }
 }
