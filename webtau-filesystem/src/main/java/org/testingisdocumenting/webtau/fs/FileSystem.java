@@ -119,7 +119,7 @@ public class FileSystem {
             Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
                     Files.createTempDirectory(prefix);
 
-            FileUtils.forceDeleteOnExit(path.toFile());
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> FileUtils.deleteQuietly(path.toFile())));
 
             return path.toAbsolutePath();
         } catch (IOException e) {
