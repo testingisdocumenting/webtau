@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.fs.zip;
+package org.testingisdocumenting.webtau.ant;
 
 import org.apache.ant.compress.taskdefs.Unzip;
 import org.apache.tools.ant.Project;
