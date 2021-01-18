@@ -49,6 +49,9 @@ cli
     introduction
     foreground-command
     background-command
+utilities
+    introduction
+    data
 groovy-standalone-runner
     introduction
     data-driven-scenarios

@@ -24,10 +24,22 @@ import java.util.Map;
 import static org.testingisdocumenting.webtau.data.DataContentUtils.dataTextContent;
 
 public class DataJson {
+    /**
+     * Use <code>data.json.map</code> to read data as {@link java.util.Map} from JSON file.
+     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * @return list of primitive values or maps/list
+     */
     public Map<String, ?> map(String fileOrResourcePath) {
         return JsonUtils.deserializeAsMap(textContent(fileOrResourcePath));
     }
 
+    /**
+     * Use <code>data.json.list</code> to read data as {@link java.util.List} from JSON file.
+     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * @return list of primitive values or maps/list
+     */
     public List<?> list(String fileOrResourcePath) {
         return JsonUtils.deserializeAsList(textContent(fileOrResourcePath));
     }

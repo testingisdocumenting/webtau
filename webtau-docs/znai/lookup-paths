@@ -36,6 +36,7 @@
 ../../webtau-db/src/test/groovy
 ../../webtau-db/target/test-classes
 ../../webtau-db/src/test
+../../webtau-data/src/main/java
 ../../webtau-cli-testing/src/test/groovy
 ../../webtau-cli-testing/target/doc-artifacts
 ../target/classes

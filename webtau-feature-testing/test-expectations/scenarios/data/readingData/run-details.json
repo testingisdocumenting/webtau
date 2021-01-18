@@ -5,6 +5,36 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
+  }, {
+    "scenario" : "csv table data auto converted",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "csv list of maps data",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "csv list of maps data auto converted",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "json list",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "json map",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   } ],
   "exitCode" : 0
 }

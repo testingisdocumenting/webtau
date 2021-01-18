@@ -26,18 +26,46 @@ import java.util.Map;
 import static org.testingisdocumenting.webtau.data.DataContentUtils.dataTextContent;
 
 public class DataCsv {
+    /**
+     * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file.
+     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * @return table data with CSV content
+     */
     public TableData table(String fileOrResourcePath) {
         return tableFromListOfMaps(CsvUtils.parse(textContent(fileOrResourcePath)));
     }
 
+    /**
+     * Use <code>data.csv.tableAutoConverted</code> to read data as {@link TableData} from CSV file. Numeric values become values of Numeric type instead of String type.
+     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
+     *
+     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * @return table data with CSV content
+     */
     public TableData tableAutoConverted(String fileOrResourcePath) {
         return tableFromListOfMaps(CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath)));
     }
 
+    /**
+     * Use <code>data.csv.listOfMaps</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
+     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
+     *
+     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * @return list of maps
+     */
     public List<Map<String, String>> listOfMaps(String fileOrResourcePath) {
         return CsvUtils.parse(textContent(fileOrResourcePath));
     }
 
+    /**
+     * Use <code>data.csv.listOfMaps</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
+     * Numeric values become values of Numeric type instead of String type.
+     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
+     *
+     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * @return list of maps
+     */
     public List<Map<String, Object>> listOfMapsAutoConverted(String fileOrResourcePath) {
         return CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath));
     }
