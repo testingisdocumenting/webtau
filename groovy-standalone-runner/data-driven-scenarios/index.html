@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>CSV</h1></header>
-<p>Use data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+<p>Use utilities/data#csv data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
 </article>
 
 <article>
@@ -100,6 +100,7 @@
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
@@ -157,8 +158,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
-          "code" : "data.csv",
-          "type" : "InlinedCode"
+          "url" : "/webtau/utilities/data#csv",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "data.csv",
+            "type" : "SimpleText"
+          } ]
         }, {
           "text" : " to conveniently build your scenarios from an external ",
           "type" : "SimpleText"
@@ -203,7 +209,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1610327005054,
+    "lastModifiedTime" : 1610999581991,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Data Driven Scenarios",

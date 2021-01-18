@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Groovy Runner</h1></header>
-<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip webtau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. To integrate CLI run into maven build use: &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.35&lt;/version&gt; &lt;/dependency&gt; &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.35&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/simple*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; groovy-standalone-runner/introduction Learn more about Groovy Runner features</p>
+<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip webtau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. To integrate CLI run into maven build use: &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.35&lt;/version&gt; &lt;/dependency&gt; &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.35&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/simple*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; groovy-standalone-runner/introduction Learn more about Groovy Runner features</p>
 </article>
 
 <article>
@@ -105,6 +105,7 @@
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
@@ -190,7 +191,29 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Download and unzip ",
+          "text" : "If you have ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://brew.sh",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "brew",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " installed in your system use",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "",
+        "snippet" : "brew install testingisdocumenting/brew/webtau\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Alternatively, download and unzip ",
           "type" : "SimpleText"
         }, {
           "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip",
@@ -388,7 +411,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1610327005054,
+    "lastModifiedTime" : 1610999581991,
     "tocItem" : {
       "sectionTitle" : "Getting Started",
       "pageTitle" : "Installation",

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Selective Run</title>
+<title>WebTau: Introduction</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,8 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>sscenario</h1></header>
-<p>Define tests with sscenario or singleScenario to only run those tests and skip all the other tests defined in all the test files. Useful during tests creation or debugging. package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('step one') { http.post('/reset') { // ... } } sscenario('step two') { // test that you want to focus on } singleScenario('step three') { // test that you want to focus on } scenario('step four') { http.put('/extra') { // ... } } Note: webtau command line will exit with non zero code if there are sscenario tests present</p>
+<p>Webtau has several modules to help you simplify automation processes. All operations in the modules provide detailed information on steps executed and details are included in web report as well as console output. utilities/data data - module to read structured data like CSV and JSON into data structures like TableData , lists and maps</p>
 </article>
 </section>
 </div>
@@ -112,70 +111,54 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "sscenario",
-      "id" : "sscenario",
-      "type" : "Section",
+      "type" : "Paragraph",
       "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Define tests with ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "sscenario",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " or ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "singleScenario",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " to only run those tests and skip all the other tests defined in all the test files.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "Useful during tests creation or debugging.",
-          "type" : "SimpleText"
-        } ]
+        "text" : "Webtau has several modules to help you simplify automation processes. All operations in the modules provide",
+        "type" : "SimpleText"
       }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('step one') {\n    http.post('/reset') {\n        // ...\n    }\n}\n\nsscenario('step two') {\n    // test that you want to focus on\n}\n\nsingleScenario('step three') {\n    // test that you want to focus on\n}\n\nscenario('step four') {\n    http.put('/extra') {\n        // ...\n    }\n}",
-        "title" : "Selective tests run",
-        "highlight" : [ 10, 14 ],
-        "type" : "Snippet"
+        "type" : "SoftLineBreak"
       }, {
-        "type" : "Paragraph",
+        "text" : "detailed information on steps executed and details are included in web report as well as console output.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "tight" : true,
+      "type" : "BulletList",
+      "content" : [ {
+        "type" : "ListItem",
         "content" : [ {
-          "text" : "Note: ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "webtau",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " command line will exit with non zero code if there are ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "sscenario",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " tests present",
-          "type" : "SimpleText"
+          "type" : "Paragraph",
+          "content" : [ {
+            "url" : "/webtau/utilities/data",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "data",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : " - module to read structured data like CSV and JSON into data structures like ",
+            "type" : "SimpleText"
+          }, {
+            "code" : "TableData",
+            "type" : "InlinedCode"
+          }, {
+            "text" : ", lists and maps",
+            "type" : "SimpleText"
+          } ]
         } ]
       } ]
     } ],
     "lastModifiedTime" : 1610999581991,
     "tocItem" : {
-      "sectionTitle" : "Groovy Standalone Runner",
-      "pageTitle" : "Selective Run",
+      "sectionTitle" : "Utilities",
+      "pageTitle" : "Introduction",
       "pageMeta" : { },
-      "dirName" : "groovy-standalone-runner",
-      "fileName" : "selective-run",
+      "dirName" : "utilities",
+      "fileName" : "introduction",
       "viewOnRelativePath" : null,
-      "pageSectionIdTitles" : [ {
-        "title" : "sscenario",
-        "id" : "sscenario"
-      } ]
+      "pageSectionIdTitles" : [ ]
     }
   },
   "footer" : {

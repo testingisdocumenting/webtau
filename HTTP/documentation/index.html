@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:46415/params?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured.Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data .Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers.Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted.The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://10.1.0.4:46329/params?a=1&amp;b=text</p>
 </article>
 
 <article>
@@ -110,6 +110,7 @@
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
@@ -421,7 +422,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "http://10.1.0.4:46415/params?a=1&b=text",
+        "snippet" : "http://10.1.0.4:46329/params?a=1&b=text",
         "title" : "request.fullurl.txt",
         "type" : "Snippet"
       } ]
@@ -461,7 +462,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1610327005050,
+    "lastModifiedTime" : 1610999581987,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Documentation",

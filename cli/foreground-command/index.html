@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Run With Validation</h1></header>
-<p>cli.run('echo hello world') { output.should contain('hello') output.should contain('world') } cli.run('&gt;&amp;2 echo error B892T') { error.should == 'error B892T' } cli.run('exit 8') { exitCode.should == 8 exitCode.shouldNot == 0 }</p>
+<p>cli.run('echo hello world') { output.should contain('hello') output.should contain('world') } cli.run('scripts/error-output') { error.should == 'error B892T' } cli.run('scripts/exit-code 8') { exitCode.should == 8 exitCode.shouldNot == 0 }</p>
 </article>
 
 <article>
@@ -120,6 +120,7 @@
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
@@ -207,12 +208,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "cli.run('>&2 echo error B892T') {\n    error.should == 'error B892T'\n}",
+        "snippet" : "cli.run('scripts/error-output') {\n    error.should == 'error B892T'\n}",
         "title" : "error validation",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "cli.run('exit 8') {\n    exitCode.should == 8\n    exitCode.shouldNot == 0\n}",
+        "snippet" : "cli.run('scripts/exit-code 8') {\n    exitCode.should == 8\n    exitCode.shouldNot == 0\n}",
         "title" : "exit code validation",
         "type" : "Snippet"
       } ]
@@ -367,7 +368,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1610327005050,
+    "lastModifiedTime" : 1610999581987,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Foreground Command",

@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Setup</h1></header>
-<p>Download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip webtau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</p>
+<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip webtau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</p>
 </article>
 
 <article>
@@ -100,6 +100,7 @@
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
@@ -159,7 +160,29 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Download and unzip ",
+          "text" : "If you have ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://brew.sh",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "brew",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " installed in your system use",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "",
+        "snippet" : "brew install testingisdocumenting/brew/webtau\n",
+        "lineNumber" : "",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Alternatively, download and unzip ",
           "type" : "SimpleText"
         }, {
           "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.35/webtau-dist-1.35-webtau.zip",
@@ -265,7 +288,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1610327005054,
+    "lastModifiedTime" : 1610999581991,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Introduction",

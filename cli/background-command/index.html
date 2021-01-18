@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Run In Background</h1></header>
-<p>Webtau can run commands in foreground and in background . When command is ran in background webtau will continue execution, leaving command to run its course.To run a command in a background use cli.runInBackground with a single string parameter that includes a command and all its arguments: cli.runInBackground('echo hello &amp;&amp; echo world') println &quot;process above may still be running&quot;</p>
+<p>Webtau can run commands in foreground and in background . When command is ran in background webtau will continue execution, leaving command to run its course.To run a command in a background use cli.runInBackground with a single string parameter that includes a command and all its arguments: cli.runInBackground('scripts/sleeps') println &quot;process above may still be running&quot;</p>
 </article>
 
 <article>
 <header><h1>Stop Command</h1></header>
-<p>Use .stop to explicitly terminate the running background command def command = cli.runInBackground('echo hello &amp;&amp; sleep 10 &amp;&amp; echo world') println &quot;some commands that assume running process&quot; command.stop()</p>
+<p>Use .stop to explicitly terminate the running background command def command = cli.runInBackground('scripts/sleeps') println &quot;some commands that assume running process&quot; command.stop()</p>
 </article>
 
 <article>
@@ -100,6 +100,7 @@
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
@@ -172,7 +173,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "cli.runInBackground('echo hello && echo world')\nprintln \"process above may still be running\"",
+        "snippet" : "cli.runInBackground('scripts/sleeps')\nprintln \"process above may still be running\"",
         "title" : "run command in background",
         "type" : "Snippet"
       } ]
@@ -194,7 +195,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def command = cli.runInBackground('echo hello && sleep 10 && echo world')\nprintln \"some commands that assume running process\"\n\ncommand.stop()",
+        "snippet" : "def command = cli.runInBackground('scripts/sleeps')\nprintln \"some commands that assume running process\"\n\ncommand.stop()",
         "title" : "command termination",
         "type" : "Snippet"
       } ]
@@ -261,7 +262,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1610327005050,
+    "lastModifiedTime" : 1610999581987,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Background Command",

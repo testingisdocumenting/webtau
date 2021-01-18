@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Data</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>CSV</h1></header>
+<p>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. A B C 1 2 3 a b c def table = data.csv.table('data/table.csv') table.row(0).B.should == '2' table.row(0).B.class.canonicalName.should == 'java.lang.String' Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.tableAutoConverted to read data as TableData from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def table = data.csv.tableAutoConverted('data/table.csv') table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == 'java.lang.Long' A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def table = data.csv.listOfMaps('data/table.csv') table.get(0).B.should == '2' table.get(0).B.class.canonicalName.should == 'java.lang.String' Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def table = data.csv.listOfMapsAutoConverted('data/table.csv') table.get(0).B.should == 2 table.get(0).B.class.canonicalName.should == 'java.lang.Long'</p>
+</article>
+
+<article>
+<header><h1>JSON</h1></header>
+<p>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def list = data.json.list('data/flat-list.json') list[0].name.should == 'hello' list[1].payload.info.should == ~/id2 payload/ Use data.json.map to read data as java.util.Map from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def map = data.json.map('data/root-map.json') map.payload.info.should == &quot;additional id1 payload&quot;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "CSV",
+      "id" : "csv",
+      "type" : "Section",
+      "content" : [ {
+        "level" : 2,
+        "title" : "Table Data",
+        "id" : "table-data",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.table",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "A"
+          }, {
+            "title" : "B"
+          }, {
+            "title" : "C"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "3",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "c",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "title" : "data/table.csv",
+        "type" : "Table"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def table = data.csv.table('data/table.csv')\ntable.row(0).B.should == '2'\ntable.row(0).B.class.canonicalName.should == 'java.lang.String'",
+        "title" : "read table data from csv",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "tableAutoConverted",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " method",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.tableAutoConverted",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def table = data.csv.tableAutoConverted('data/table.csv')\ntable.row(0).B.should == 2\ntable.row(0).B.class.canonicalName.should == 'java.lang.Long'",
+        "title" : "read table data from csv with auto conversion",
+        "type" : "Snippet"
+      }, {
+        "level" : 2,
+        "title" : "List Of Map",
+        "id" : "list-of-map",
+        "type" : "SubHeading"
+      }, {
+        "table" : {
+          "columns" : [ {
+            "title" : "A"
+          }, {
+            "title" : "B"
+          }, {
+            "title" : "C"
+          } ],
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "3",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "c",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ]
+        },
+        "title" : "data/table.csv",
+        "type" : "Table"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.listOfMaps",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def table = data.csv.listOfMaps('data/table.csv')\ntable.get(0).B.should == '2'\ntable.get(0).B.class.canonicalName.should == 'java.lang.String'",
+        "title" : "read list of maps from csv",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "tableAutoConverted",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " method",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.listOfMaps",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def table = data.csv.listOfMapsAutoConverted('data/table.csv')\ntable.get(0).B.should == 2\ntable.get(0).B.class.canonicalName.should == 'java.lang.Long'",
+        "title" : "read list of maps from csv with auto conversion",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "JSON",
+      "id" : "json",
+      "type" : "Section",
+      "content" : [ {
+        "level" : 2,
+        "title" : "List",
+        "id" : "list",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.json.list",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "paths" : [ "root[0].name", "root[1].payload.info" ],
+        "title" : "data/flat-list.json",
+        "data" : [ {
+          "id" : "id1",
+          "name" : "hello",
+          "payload" : {
+            "info" : "additional id1 payload"
+          }
+        }, {
+          "id" : "id2",
+          "name" : "world",
+          "payload" : {
+            "info" : "additional id2 payload"
+          }
+        } ],
+        "type" : "Json"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def list = data.json.list('data/flat-list.json')\nlist[0].name.should == 'hello'\nlist[1].payload.info.should == ~/id2 payload/",
+        "title" : "read json as list",
+        "type" : "Snippet"
+      }, {
+        "level" : 2,
+        "title" : "Map",
+        "id" : "map",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.json.map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "paths" : [ "root.payload.info" ],
+        "title" : "data/root-map.json",
+        "data" : {
+          "id" : "id1",
+          "name" : "hello",
+          "payload" : {
+            "info" : "additional id1 payload"
+          }
+        },
+        "type" : "Json"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def map = data.json.map('data/root-map.json')\nmap.payload.info.should == \"additional id1 payload\"",
+        "title" : "read json as map",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1610999581991,
+    "tocItem" : {
+      "sectionTitle" : "Utilities",
+      "pageTitle" : "Data",
+      "pageMeta" : { },
+      "dirName" : "utilities",
+      "fileName" : "data",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "CSV",
+        "id" : "csv"
+      }, {
+        "title" : "JSON",
+        "id" : "json"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

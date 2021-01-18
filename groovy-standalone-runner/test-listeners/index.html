@@ -90,11 +90,12 @@
 
 <article>
 <header><h1>Config</h1></header>
-<p>Once you have an implementation, use the testListeners key in your config file to use it import listeners.MetadataValidationTestListener testListeners = [MetadataValidationTestListener] package listeners import org.testingisdocumenting.webtau.reporter.TestListener import org.testingisdocumenting.webtau.reporter.WebTauTest class MetadataValidationTestListener implements TestListener { @Override void afterLastTestStatement(WebTauTest test) { if (test.hasSteps() &amp;&amp; !test.metadata.has('owner')) { throw new RuntimeException('owner for &lt;' + test.scenario + '&gt; is not set') } } }</p>
+<p>Once you have an implementation, use the testListeners key in your config file to use it import listeners.MetadataValidationTestListener testListeners = [MetadataValidationTestListener] package listeners import org.testingisdocumenting.webtau.reporter.TestListener import org.testingisdocumenting.webtau.reporter.WebTauTest class MetadataValidationTestListener implements TestListener { @Override void afterLastTestStatement(WebTauTest test) { if (!test.isSynthetic() &amp;&amp; !test.metadata.has('owner')) { throw new RuntimeException('owner for &lt;' + test.scenario + '&gt; is not set') } } }</p>
 </article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
 <script type="text/javascript" src="/webtau/search-index.js"></script>
@@ -160,12 +161,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "package listeners\n\nimport org.testingisdocumenting.webtau.reporter.TestListener\nimport org.testingisdocumenting.webtau.reporter.WebTauTest\n\nclass MetadataValidationTestListener implements TestListener {\n    @Override\n    void afterLastTestStatement(WebTauTest test) {\n        if (test.hasSteps() && !test.metadata.has('owner')) {\n            throw new RuntimeException('owner for <' + test.scenario + '> is not set')\n        }\n    }\n}",
+        "snippet" : "package listeners\n\nimport org.testingisdocumenting.webtau.reporter.TestListener\nimport org.testingisdocumenting.webtau.reporter.WebTauTest\n\nclass MetadataValidationTestListener implements TestListener {\n    @Override\n    void afterLastTestStatement(WebTauTest test) {\n        if (!test.isSynthetic() && !test.metadata.has('owner')) {\n            throw new RuntimeException('owner for <' + test.scenario + '> is not set')\n        }\n    }\n}",
         "title" : "listeners/MetadataValidationTestListener.groovy",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1610327005054,
+    "lastModifiedTime" : 1610999581991,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Test Listeners",
