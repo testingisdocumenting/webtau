@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.36-SNAPSHOT</version>
+        <version>1.36</version>
     </parent>
 
     <artifactId>webtau-java-runner</artifactId>
