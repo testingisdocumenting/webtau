@@ -32,6 +32,11 @@ class WebTauFileSystemFeaturesTest {
         runCli('copy.groovy', 'webtau.cfg.groovy')
     }
 
+    @Test
+    void "dirs"() {
+        runCli('dirs.groovy', 'webtau.cfg.groovy')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/fs/$testName",
                 configFileName.isEmpty() ? "" : "scenarios/fs/$configFileName", additionalArgs)
