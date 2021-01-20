@@ -17,13 +17,20 @@
 
 package org.testingisdocumenting.webtau.http;
 
-import java.util.*;
+import static java.util.stream.Collectors.joining;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.joining;
 
 public class HttpHeader {
     private static final Set<String> KEYS_TO_REDACT = new HashSet<>(Arrays.asList("authorization", "cookie", "set-cookie"));
@@ -64,7 +71,8 @@ public class HttpHeader {
     }
 
     public String get(String key) {
-        return header.get(key).toString();
+        CharSequence charSequence = header.get(key);
+        return charSequence == null ? null : charSequence.toString();
     }
 
     public String caseInsensitiveGet(String key) {
