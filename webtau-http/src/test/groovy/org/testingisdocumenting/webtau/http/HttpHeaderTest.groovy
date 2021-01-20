@@ -103,4 +103,17 @@ class HttpHeaderTest {
         def newHeader = header.with([k1: 'v1', k2: 'v2'])
         newHeader.should == new HttpHeader([k: 'v', k1: 'v1', k2: 'v2'])
     }
+
+    @Test
+    void "get returns null if the key is not in the map"() {
+        def header = new HttpHeader([:])
+        header.get('noSuchKey').should == null
+    }
+
+    @Test
+    void "caseInsensitiveGet returns null if the key is not in the map"() {
+        def header = new HttpHeader([:])
+        header.caseInsensitiveGet('noSUchKey').should == null
+    }
+
 }
