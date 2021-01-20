@@ -80,6 +80,53 @@ public class FileSystem {
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    public boolean exists(Path path) {
+        return Files.exists(path);
+    }
+
+    public boolean exists(String path) {
+        return exists(Paths.get(path));
+    }
+
+    public Path createDir(String dir) {
+        return createDir(Paths.get(dir));
+    }
+
+    public Path createDir(Path dir) {
+        Path fullDirPath = fullPath(dir);
+
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action("creating"), classifier("dir"), urlValue(dir.toString())),
+                () -> tokenizedMessage(action("created"), classifier("dir"), urlValue(fullDirPath.toAbsolutePath().toString())),
+                () -> {
+                    try {
+                        Files.createDirectory(fullDirPath);
+                        return fullDirPath;
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public void deleteDir(String dir) {
+        deleteDir(Paths.get(dir));
+    }
+
+    public void deleteDir(Path dir) {
+        Path fullDirPath = fullPath(dir);
+
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action("deleting"), classifier("dir"), urlValue(dir.toString())),
+                () -> tokenizedMessage(action("deleted"), classifier("dir"), urlValue(fullDirPath.toAbsolutePath().toString())),
+                () -> {
+                    FileUtils.deleteQuietly(fullDirPath.toFile());
+                });
+
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
     public FileTextContent textContent(Path path) {
         return new FileTextContent(path);
     }
