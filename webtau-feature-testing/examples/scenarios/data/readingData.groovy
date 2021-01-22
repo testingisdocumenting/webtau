@@ -36,3 +36,11 @@ scenario('json map') {
     def map = data.json.map('data/root-map.json')
     map.payload.info.should == "additional id1 payload"
 }
+
+scenario('fail to read csv') {
+    data.csv.table('data/broken-table.csv')
+}
+
+scenario('fail to read json') {
+    data.json.map('data/broken-map.json')
+}

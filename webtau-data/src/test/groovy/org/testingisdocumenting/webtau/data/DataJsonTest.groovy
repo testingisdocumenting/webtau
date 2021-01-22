@@ -16,10 +16,32 @@
 
 package org.testingisdocumenting.webtau.data
 
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
-import org.testingisdocumenting.webtau.data.DataJson
+import org.testingisdocumenting.webtau.reporter.StepReporter
+import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.WebTauStep
+import org.testingisdocumenting.webtau.utils.JsonParseException
 
-class DataJsonTest {
+import static org.testingisdocumenting.webtau.Matchers.code
+import static org.testingisdocumenting.webtau.Matchers.contain
+import static org.testingisdocumenting.webtau.Matchers.throwException
+
+class DataJsonTest implements StepReporter {
+    def failedSteps = []
+
+    @Before
+    void init() {
+        StepReporters.add(this)
+        failedSteps.clear()
+    }
+
+    @After
+    void cleanup() {
+        StepReporters.remove(this)
+    }
+
     @Test
     void "parse json as map"() {
         Map map = new DataJson().map("map.json")
@@ -38,5 +60,30 @@ class DataJsonTest {
     void "parse json as object"() {
         def object = new DataJson().object("map.json")
         object.should == [key: 'value', another: 2]
+    }
+
+    @Test
+    void "parse json error should capture as failed step"() {
+        code {
+            def object = new DataJson().object("broken.json")
+            object.should == [key: 'value', another: 2]
+        } should throwException(JsonParseException)
+
+        failedSteps[0].completionMessage.toString().should contain("failed reading json from file or resource broken.json : Unexpected character")
+    }
+
+    @Override
+    void onStepStart(WebTauStep step) {
+
+    }
+
+    @Override
+    void onStepSuccess(WebTauStep step) {
+
+    }
+
+    @Override
+    void onStepFailure(WebTauStep step) {
+        failedSteps.add(step)
     }
 }
