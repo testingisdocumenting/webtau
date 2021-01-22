@@ -25,6 +25,7 @@ import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Function;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -33,7 +34,8 @@ class DataContentUtils {
     private DataContentUtils() {
     }
 
-    static ContentResult dataTextContent(String dataType, String fileOrResourcePath) {
+    @SuppressWarnings("unchecked")
+    static <R> R handleDataTextContent(String dataType, String fileOrResourcePath, Function<String, R> convertor) {
         WebTauStep step = WebTauStep.createStep(
                 null,
                 tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"), stringValue(fileOrResourcePath)),
@@ -43,10 +45,16 @@ class DataContentUtils {
                             classifier("lines of " + dataType), FROM, classifier(contentResult.source),
                             stringValue(contentResult.path));
                 },
-                () -> dataTextContentImpl(fileOrResourcePath)
+                () -> {
+                    ContentResult contentResult = dataTextContentImpl(fileOrResourcePath);
+                    contentResult.parseResult = convertor.apply(contentResult.textContent);
+
+                    return contentResult;
+                }
         );
 
-        return step.execute(StepReportOptions.REPORT_ALL);
+        ContentResult stepResult = step.execute(StepReportOptions.REPORT_ALL);
+        return (R) stepResult.parseResult;
     }
 
     static ContentResult dataTextContentImpl(String fileOrResourcePath) {
@@ -70,14 +78,15 @@ class DataContentUtils {
     static class ContentResult {
         final String source;
         final String path;
-        final String content;
+        final String textContent;
         final int numberOfLines;
+        Object parseResult;
 
-        public ContentResult(String source, String path, String content) {
+        public ContentResult(String source, String path, String textContent) {
             this.source = source;
             this.path = path;
-            this.content = content;
-            this.numberOfLines = StringUtils.countMatches(content, '\n');
+            this.textContent = textContent;
+            this.numberOfLines = StringUtils.countMatches(textContent, '\n');
         }
     }
 }

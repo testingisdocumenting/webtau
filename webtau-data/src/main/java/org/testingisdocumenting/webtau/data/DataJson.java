@@ -20,8 +20,9 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
-import static org.testingisdocumenting.webtau.data.DataContentUtils.dataTextContent;
+import static org.testingisdocumenting.webtau.data.DataContentUtils.handleDataTextContent;
 
 public class DataJson {
     /**
@@ -31,7 +32,7 @@ public class DataJson {
      * @return list of primitive values or maps/list
      */
     public Map<String, ?> map(String fileOrResourcePath) {
-        return JsonUtils.deserializeAsMap(textContent(fileOrResourcePath));
+        return handleTextContent(fileOrResourcePath, JsonUtils::deserializeAsMap);
     }
 
     /**
@@ -41,14 +42,14 @@ public class DataJson {
      * @return list of primitive values or maps/list
      */
     public List<?> list(String fileOrResourcePath) {
-        return JsonUtils.deserializeAsList(textContent(fileOrResourcePath));
+        return handleTextContent(fileOrResourcePath, JsonUtils::deserializeAsList);
     }
 
     public Object object(String fileOrResourcePath) {
-        return JsonUtils.deserialize(textContent(fileOrResourcePath));
+        return handleTextContent(fileOrResourcePath, JsonUtils::deserialize);
     }
 
-    private static String textContent(String fileOrResourcePath) {
-        return dataTextContent("json", fileOrResourcePath).content;
+    private static <R> R handleTextContent(String fileOrResourcePath, Function<String, R> convertor) {
+        return handleDataTextContent("json", fileOrResourcePath, convertor);
     }
 }

@@ -22,8 +22,9 @@ import org.testingisdocumenting.webtau.utils.CsvUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
-import static org.testingisdocumenting.webtau.data.DataContentUtils.dataTextContent;
+import static org.testingisdocumenting.webtau.data.DataContentUtils.handleDataTextContent;
 
 public class DataCsv {
     /**
@@ -33,7 +34,7 @@ public class DataCsv {
      * @return table data with CSV content
      */
     public TableData table(String fileOrResourcePath) {
-        return tableFromListOfMaps(CsvUtils.parse(textContent(fileOrResourcePath)));
+        return handleTextContent(fileOrResourcePath, (text) -> tableFromListOfMaps(CsvUtils.parse(text)));
     }
 
     /**
@@ -44,7 +45,7 @@ public class DataCsv {
      * @return table data with CSV content
      */
     public TableData tableAutoConverted(String fileOrResourcePath) {
-        return tableFromListOfMaps(CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath)));
+        return handleTextContent(fileOrResourcePath, (text) -> tableFromListOfMaps(CsvUtils.parseWithAutoConversion(text)));
     }
 
     /**
@@ -55,7 +56,7 @@ public class DataCsv {
      * @return list of maps
      */
     public List<Map<String, String>> listOfMaps(String fileOrResourcePath) {
-        return CsvUtils.parse(textContent(fileOrResourcePath));
+        return handleTextContent(fileOrResourcePath, CsvUtils::parse);
     }
 
     /**
@@ -67,19 +68,19 @@ public class DataCsv {
      * @return list of maps
      */
     public List<Map<String, Object>> listOfMapsAutoConverted(String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(textContent(fileOrResourcePath));
+        return handleTextContent(fileOrResourcePath, CsvUtils::parseWithAutoConversion);
     }
 
     public List<Map<String, String>> listOfMaps(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parse(header, textContent(fileOrResourcePath));
+        return handleTextContent(fileOrResourcePath, (text) -> CsvUtils.parse(header, text));
     }
 
     public List<Map<String, Object>> listOfMapsAutoConverted(List<String> header, String fileOrResourcePath) {
-        return CsvUtils.parseWithAutoConversion(header, textContent(fileOrResourcePath));
+        return handleTextContent(fileOrResourcePath, (text) -> CsvUtils.parseWithAutoConversion(header, text));
     }
 
-    private static String textContent(String fileOrResourcePath) {
-        return dataTextContent("csv", fileOrResourcePath).content;
+    private static <R> R handleTextContent(String fileOrResourcePath, Function<String, R> convertor) {
+        return handleDataTextContent("csv", fileOrResourcePath, convertor);
     }
 
     @SuppressWarnings("unchecked")

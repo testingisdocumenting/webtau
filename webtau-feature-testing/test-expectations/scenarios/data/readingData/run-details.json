@@ -35,6 +35,18 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
+  }, {
+    "scenario" : "fail to read csv",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "fail to read json",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
   } ],
-  "exitCode" : 0
+  "exitCode" : 1
 }
