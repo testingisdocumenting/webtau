@@ -5,6 +5,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 4
     }
+  }, {
+    "scenario" : "create the same dir again",
+    "shortContainerId" : "dirs.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   } ],
   "exitCode" : 0
 }
