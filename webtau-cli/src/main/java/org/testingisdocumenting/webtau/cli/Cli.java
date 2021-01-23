@@ -59,32 +59,64 @@ public class Cli {
         return new CliCommand(commandBase);
     }
 
-    public CliCommand command(Supplier<String> commandBaseSupplier) {
+    public CliCommand command(Path commandBase) {
+        return new CliCommand(commandBase.toString());
+    }
+
+    public CliCommand command(Supplier<Object> commandBaseSupplier) {
         return new CliCommand(commandBaseSupplier);
+    }
+
+    public CliRunResult run(Path command, CliValidationOutputOnlyHandler handler) {
+        return run(command.toString(), CliProcessConfig.EMPTY, handler);
     }
 
     public CliRunResult run(String command, CliValidationOutputOnlyHandler handler) {
         return run(command, CliProcessConfig.EMPTY, handler);
     }
 
+    public CliRunResult run(Path command) {
+        return run(command.toString(), CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+    }
+
     public CliRunResult run(String command) {
         return run(command, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+    }
+
+    public CliRunResult run(Path command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        return run(command.toString(), config, handler);
     }
 
     public CliRunResult run(String command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
         return new CliForegroundCommand().run(command, config, handler);
     }
 
+    public CliRunResult run(Path command, CliProcessConfig config) {
+        return run(command.toString(), config);
+    }
+
     public CliRunResult run(String command, CliProcessConfig config) {
         return new CliForegroundCommand().run(command, config, CliValidationOutputOnlyHandler.NO_OP);
+    }
+
+    public CliRunResult run(Path command, CliValidationExitCodeOutputHandler handler) {
+        return run(command.toString(), CliProcessConfig.EMPTY, handler);
     }
 
     public CliRunResult run(String command, CliValidationExitCodeOutputHandler handler) {
         return run(command, CliProcessConfig.EMPTY, handler);
     }
 
+    public CliRunResult run(Path command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        return run(command.toString(), config, handler);
+    }
+
     public CliRunResult run(String command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
         return new CliForegroundCommand().run(command, config, handler);
+    }
+
+    public CliBackgroundCommand runInBackground(Path command, CliProcessConfig config) {
+        return runInBackground(command.toString(), config);
     }
 
     public CliBackgroundCommand runInBackground(String command, CliProcessConfig config) {
@@ -92,6 +124,10 @@ public class Cli {
         backgroundCommand.run();
 
         return backgroundCommand;
+    }
+
+    public CliBackgroundCommand runInBackground(Path command) {
+        return runInBackground(command.toString(), CliProcessConfig.EMPTY);
     }
 
     public CliBackgroundCommand runInBackground(String command) {
