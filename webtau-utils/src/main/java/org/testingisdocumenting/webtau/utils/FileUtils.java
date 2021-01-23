@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +18,7 @@
 package org.testingisdocumenting.webtau.utils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -64,7 +66,7 @@ public class FileUtils {
         }
 
         try {
-            return Files.lines(path).collect(Collectors.joining("\n"));
+            return new String(Files.readAllBytes(path), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -85,7 +87,7 @@ public class FileUtils {
     public static Path existingPathOrThrow(Path... paths) {
         List<Path> nonNull = Arrays.stream(paths).filter(Objects::nonNull).collect(Collectors.toList());
 
-        return nonNull.stream().filter(p -> Files.exists(p)).findFirst().orElseThrow(() ->
+        return nonNull.stream().filter(Files::exists).findFirst().orElseThrow(() ->
                 new RuntimeException("can't find any of the following files:\n" +
                         nonNull.stream().map(Path::toString).collect(Collectors.joining("\n"))));
     }
