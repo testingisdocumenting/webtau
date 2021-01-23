@@ -100,7 +100,7 @@ public class FileSystem {
                 () -> tokenizedMessage(action("created"), classifier("dir"), urlValue(fullDirPath.toAbsolutePath().toString())),
                 () -> {
                     try {
-                        Files.createDirectory(fullDirPath);
+                        Files.createDirectories(fullDirPath);
                         return fullDirPath;
                     } catch (IOException e) {
                         throw new RuntimeException(e);
