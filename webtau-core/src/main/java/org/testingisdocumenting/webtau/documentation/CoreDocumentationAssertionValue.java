@@ -17,9 +17,9 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
-import org.testingisdocumenting.webtau.WebTauCore;
-
 import java.util.function.Supplier;
+
+import static org.testingisdocumenting.webtau.WebTauCore.doc;
 
 public class CoreDocumentationAssertionValue {
     private final Supplier<Object> valueSupplier;
@@ -34,7 +34,7 @@ public class CoreDocumentationAssertionValue {
      * @param artifactName artifact name (file name without extension)
      */
     public void capture(String artifactName) {
-        WebTauCore.doc.capture(artifactName, valueSupplier.get());
+        doc.capture(artifactName, valueSupplier.get());
     }
 
     /**
@@ -43,7 +43,7 @@ public class CoreDocumentationAssertionValue {
      * @param artifactName artifact name (file name without extension)
      */
     public void captureText(String artifactName) {
-        WebTauCore.doc.captureText(artifactName, valueSupplier.get());
+        doc.captureText(artifactName, valueSupplier.get());
     }
 
     /**
@@ -52,7 +52,7 @@ public class CoreDocumentationAssertionValue {
      * @param artifactName artifact name (file name without extension)
      */
     public void captureJson(String artifactName) {
-        WebTauCore.doc.captureJson(artifactName, valueSupplier.get());
+        doc.captureJson(artifactName, valueSupplier.get());
     }
 
     /**
@@ -61,6 +61,6 @@ public class CoreDocumentationAssertionValue {
      * @param artifactName artifact name (file name without extension)
      */
     public void captureCsv(String artifactName) {
-        WebTauCore.doc.captureCsv(artifactName, valueSupplier.get());
+        doc.captureCsv(artifactName, valueSupplier.get());
     }
 }
