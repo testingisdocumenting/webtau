@@ -23,14 +23,14 @@ import org.testingisdocumenting.webtau.data.ResourceNameAware;
 import java.util.function.Supplier;
 
 public class CliCommand implements ResourceNameAware {
-    private Supplier<String> commandBaseSupplier;
+    private Supplier<Object> commandBaseSupplier;
     private String commandBase;
 
     CliCommand(String commandBase) {
         this.commandBase = commandBase;
     }
 
-    CliCommand(Supplier<String> commandBaseSupplier) {
+    CliCommand(Supplier<Object> commandBaseSupplier) {
         this.commandBaseSupplier = commandBaseSupplier;
     }
 
@@ -99,7 +99,7 @@ public class CliCommand implements ResourceNameAware {
 
     private synchronized String fullCommand(String args) {
         if (commandBase == null) {
-            commandBase = commandBaseSupplier.get();
+            commandBase = commandBaseSupplier.get().toString();
         }
 
         return args.isEmpty() ?

@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau.cli;
 
 import org.junit.Test;
 
+import java.nio.file.Paths;
+
 import static org.testingisdocumenting.webtau.Matchers.*;
 import static org.testingisdocumenting.webtau.cli.Cli.cli;
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly;
@@ -25,6 +27,8 @@ import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatform
 public class CliCommandJavaTest {
     private static final CliCommand ls = cli.command("ls -l");
     private static final CliCommand script = cli.command("scripts/hello");
+    private static final CliCommand scriptAsPath = cli.command(Paths.get("scripts/hello"));
+    private static final CliCommand scriptAsSupplier = cli.command(() -> Paths.get("scripts/hello"));
 
     @Test
     public void runResultNoValidation() {
@@ -45,6 +49,20 @@ public class CliCommandJavaTest {
             actual(result.getExitCode()).should(equal(5));
             actual(result.getError()).should(contain("error line one"));
             actual(result.getOutput()).should(contain("line in the middle"));
+        });
+    }
+
+    @Test
+    public void runCommandAsPath() {
+        supportedPlatformOnly(() -> {
+            scriptAsPath.run(((exitCode, output, error) -> exitCode.should(equal(5))));
+        });
+    }
+
+    @Test
+    public void runCommandAsSupplier() {
+        supportedPlatformOnly(() -> {
+            scriptAsSupplier.run(((exitCode, output, error) -> exitCode.should(equal(5))));
         });
     }
 }
