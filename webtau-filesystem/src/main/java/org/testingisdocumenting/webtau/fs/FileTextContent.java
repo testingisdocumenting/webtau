@@ -21,13 +21,14 @@ import org.testingisdocumenting.webtau.expectation.ActualPathAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
+import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class FileTextContent implements ActualValueExpectations, ActualPathAware {
@@ -39,6 +40,10 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
         this.path = path;
     }
 
+    /**
+     * reads data from a file, consequent calls may return a different data
+     * @return current file text content
+     */
     public String getData() {
         return FileUtils.fileTextContent(path);
     }
@@ -46,6 +51,17 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
     @Override
     public ActualPath actualPath() {
         return actualPath;
+    }
+
+    public String extractByRegexp(String regexp) {
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action("extracting text"), classifier("by regexp"),
+                        FROM, urlValue(path), COLON, stringValue(regexp)),
+                (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"),
+                        FROM, urlValue(path), COLON, stringValue(r)),
+                () -> extractByRegexpStepImpl(regexp));
+
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 
     @Override
@@ -77,5 +93,16 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
     @Override
     public String toString() {
         return getData();
+    }
+
+    private String extractByRegexpStepImpl(String regexp) {
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(getData());
+        boolean found = matcher.find();
+        if (!found) {
+            throw new RuntimeException("can't find content to extract using regexp <" + regexp + "> from: " + path);
+        }
+
+        return matcher.group(1);
     }
 }

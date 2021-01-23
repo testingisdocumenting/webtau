@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.reporter;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class IntegrationTestsMessageBuilder {
@@ -66,6 +67,7 @@ public class IntegrationTestsMessageBuilder {
     public static final MessageToken OF = TokenTypes.PREPOSITION.token("of");
     public static final MessageToken FOR = TokenTypes.PREPOSITION.token("for");
     public static final MessageToken FROM = TokenTypes.PREPOSITION.token("from");
+    public static final MessageToken USING = TokenTypes.PREPOSITION.token("using");
     public static final MessageToken INTO = TokenTypes.PREPOSITION.token("into");
     public static final MessageToken ON = TokenTypes.PREPOSITION.token("on");
     public static final MessageToken WITH = TokenTypes.PREPOSITION.token("with");
@@ -96,6 +98,10 @@ public class IntegrationTestsMessageBuilder {
 
     public static MessageToken urlValue(String url) {
         return TokenTypes.URL.token(url);
+    }
+
+    public static MessageToken urlValue(Path url) {
+        return TokenTypes.URL.token(url.toString());
     }
 
     public static MessageToken action(String action) {

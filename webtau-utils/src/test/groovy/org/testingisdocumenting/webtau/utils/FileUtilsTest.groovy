@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.utils
 
 import org.junit.Test
 
+import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 
 class FileUtilsTest {
@@ -26,7 +27,7 @@ class FileUtilsTest {
         def testFile = new File("dummy.txt")
         testFile.deleteOnExit()
 
-        Files.write(testFile.toPath(), ["content of a file \u275e"])
+        Files.write(testFile.toPath(), "content of a file \u275e".getBytes(StandardCharsets.UTF_8))
         assert FileUtils.fileTextContent(testFile.toPath()) == "content of a file ❞"
     }
 }
