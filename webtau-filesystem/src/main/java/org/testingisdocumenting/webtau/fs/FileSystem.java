@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.fs;
 
 import org.apache.commons.io.FileUtils;
 import org.testingisdocumenting.webtau.ant.UnzipTask;
+import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
@@ -110,19 +111,27 @@ public class FileSystem {
         return step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    public void deleteDir(String dir) {
-        deleteDir(Paths.get(dir));
+    /**
+     * Deletes file or directory. In case of directory deletes all files inside
+     * @param fileOrDir path to delete
+     */
+    public void delete(String fileOrDir) {
+        delete(Paths.get(fileOrDir));
     }
 
-    public void deleteDir(Path dir) {
-        Path fullDirPath = fullPath(dir);
+    /**
+     * Deletes file or directory. In case of directory deletes all files inside
+     * @param fileOrDir path to delete
+     */
+    public void delete(Path fileOrDir) {
+        Path fullFileOrDirPath = fullPath(fileOrDir);
 
+        MessageToken classifier = classifier(classifierByPath(fullFileOrDirPath));
         WebTauStep step = WebTauStep.createStep(null,
-                tokenizedMessage(action("deleting"), classifier("dir"), urlValue(dir.toString())),
-                () -> tokenizedMessage(action("deleted"), classifier("dir"), urlValue(fullDirPath.toAbsolutePath().toString())),
-                () -> {
-                    FileUtils.deleteQuietly(fullDirPath.toFile());
-                });
+                tokenizedMessage(action("deleting"), classifier, urlValue(fileOrDir.toString())),
+                () -> tokenizedMessage(action("deleted"), classifier,
+                        urlValue(fullFileOrDirPath.toAbsolutePath().toString())),
+                () -> FileUtils.deleteQuietly(fullFileOrDirPath.toFile()));
 
         step.execute(StepReportOptions.REPORT_ALL);
     }
@@ -216,6 +225,18 @@ public class FileSystem {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private static String classifierByPath(Path path) {
+        if (Files.isDirectory(path)) {
+            return "dir";
+        }
+
+        if (Files.isSymbolicLink(path)) {
+            return "symlink";
+        }
+
+        return "file";
     }
 
     static class CopyResult {

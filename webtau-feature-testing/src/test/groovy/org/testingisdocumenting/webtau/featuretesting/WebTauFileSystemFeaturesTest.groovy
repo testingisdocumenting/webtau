@@ -28,6 +28,11 @@ class WebTauFileSystemFeaturesTest {
     }
 
     @Test
+    void "files"() {
+        runCli('files.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "copy"() {
         runCli('copy.groovy', 'webtau.cfg.groovy')
     }
