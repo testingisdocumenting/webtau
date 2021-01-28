@@ -185,6 +185,10 @@ public class FileSystem {
     }
 
     public Path fullPath(Path relativeOrFull) {
+        if (relativeOrFull == null) {
+            return null;
+        }
+
         if (relativeOrFull.isAbsolute()) {
             return relativeOrFull;
         }
