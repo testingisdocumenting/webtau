@@ -18,3 +18,10 @@ scenario('create and delete file') {
     fs.delete('test-file.txt')
     fs.exists(path).should == false
 }
+
+scenario('create file using string path') {
+    def path = fs.writeText('another-test-file.txt', 'hello world')
+    cfg.workingDir.resolve('another-test-file.txt').toAbsolutePath().toString().should == path.toString()
+
+    fs.delete(path)
+}

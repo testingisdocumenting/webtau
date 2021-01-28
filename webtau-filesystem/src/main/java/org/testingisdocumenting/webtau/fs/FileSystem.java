@@ -144,7 +144,11 @@ public class FileSystem {
         return new FileTextContent(fullPath(path));
     }
 
-    public void writeText(Path path, String content) {
+    public Path writeText(String path, String content) {
+        return writeText(Paths.get(path), content);
+    }
+
+    public Path writeText(Path path, String content) {
         Path fullPath = fullPath(path);
 
         WebTauStep step = WebTauStep.createStep(null,
@@ -161,6 +165,7 @@ public class FileSystem {
                 });
 
         step.execute(StepReportOptions.REPORT_ALL);
+        return fullPath;
     }
 
     public Path tempDir(String prefix) {
