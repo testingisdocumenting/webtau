@@ -17,6 +17,7 @@
 org.testingisdocumenting.webtau.expectation.equality.handlers.LiveValueCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.TraceableValueCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.NumbersCompareToHandler
+org.testingisdocumenting.webtau.expectation.equality.handlers.PathCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.StringCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.RegexpEqualCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.ByteArrayCompareToHandler
