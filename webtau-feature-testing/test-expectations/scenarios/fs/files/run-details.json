@@ -3,7 +3,7 @@
     "scenario" : "create and delete file",
     "shortContainerId" : "files.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0
