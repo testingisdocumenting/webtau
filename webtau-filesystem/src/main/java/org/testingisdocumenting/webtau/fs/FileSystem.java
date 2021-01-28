@@ -82,7 +82,7 @@ public class FileSystem {
     }
 
     public boolean exists(Path path) {
-        return Files.exists(path);
+        return Files.exists(fullPath(path));
     }
 
     public boolean exists(String path) {
@@ -104,7 +104,7 @@ public class FileSystem {
                         Files.createDirectories(fullDirPath);
                         return fullDirPath;
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        throw new UncheckedIOException(e);
                     }
                 });
 
@@ -136,21 +136,25 @@ public class FileSystem {
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    public FileTextContent textContent(Path path) {
-        return new FileTextContent(path);
-    }
-
     public FileTextContent textContent(String path) {
         return new FileTextContent(Paths.get(path));
     }
 
+    public FileTextContent textContent(Path path) {
+        return new FileTextContent(fullPath(path));
+    }
+
     public void writeText(Path path, String content) {
+        Path fullPath = fullPath(path);
+
         WebTauStep step = WebTauStep.createStep(null,
-                tokenizedMessage(action("writing text content"), OF, classifier("size"), numberValue(content.length()), TO, urlValue(path.toString())),
-                () -> tokenizedMessage(action("wrote text content"), OF, classifier("size"), numberValue(content.length()), TO, urlValue(path.toString())),
+                tokenizedMessage(action("writing text content"), OF, classifier("size"),
+                        numberValue(content.length()), TO, urlValue(path.toString())),
+                () -> tokenizedMessage(action("wrote text content"), OF, classifier("size"),
+                        numberValue(content.length()), TO, urlValue(fullPath.toString())),
                 () -> {
                     try {
-                        Files.write(path, content.getBytes(StandardCharsets.UTF_8));
+                        Files.write(fullPath, content.getBytes(StandardCharsets.UTF_8));
                     } catch (IOException e) {
                         throw new UncheckedIOException(e);
                     }
@@ -171,7 +175,7 @@ public class FileSystem {
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
                 (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
-                () -> createTempDir(dir, prefix));
+                () -> createTempDir(fullPath(dir), prefix));
 
         return step.execute(StepReportOptions.REPORT_ALL);
     }
@@ -181,6 +185,10 @@ public class FileSystem {
     }
 
     public Path fullPath(Path relativeOrFull) {
+        if (relativeOrFull == null) {
+            return null;
+        }
+
         if (relativeOrFull.isAbsolute()) {
             return relativeOrFull;
         }
@@ -213,7 +221,7 @@ public class FileSystem {
     private static Path createTempDir(Path dir, String prefix) {
         try {
             if (dir != null) {
-                org.testingisdocumenting.webtau.utils.FileUtils.createDirs(dir.toAbsolutePath());
+                Files.createDirectories(dir);
             }
 
             Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
