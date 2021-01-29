@@ -16,9 +16,7 @@
 
 package org.testingisdocumenting.webtau.db;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class DbNamedParamsQuery {
     private final List<Object> values;
@@ -82,26 +80,46 @@ class DbNamedParamsQuery {
             if (insideParamName && Character.isAlphabetic(c)) {
                 currentNamedParam.append(c);
             } else if (insideParamName) {
-                handleCurrentParamName(' ', true);
+                handleCurrentParamName();
+                questionMarksQuery.append(c);
             } else {
                 questionMarksQuery.append(c);
             }
         }
 
         if (insideParamName && currentNamedParam.length() > 0) {
-            handleCurrentParamName(' ', false);
+            handleCurrentParamName();
         }
     }
 
-    private void handleCurrentParamName(char c, boolean addChar) {
-        values.add(valueByName(currentNamedParam.toString()));
-        questionMarksQuery.append('?');
-
-        if (addChar) {
-            questionMarksQuery.append(c);
+    private void handleCurrentParamName() {
+        Object valueToAppend = valueByName(currentNamedParam.toString());
+        if (valueToAppend instanceof Iterable) {
+            handleIterableParam((Iterable<?>) valueToAppend);
+        } else {
+            handleSingleParam(valueToAppend);
         }
+
         insideParamName = false;
         currentNamedParam.setLength(0);
+    }
+
+    private void handleIterableParam(Iterable<?> valuesToAppend) {
+        Iterator<?> it = valuesToAppend.iterator();
+        while (it.hasNext()) {
+            Object v = it.next();
+            values.add(v);
+            questionMarksQuery.append('?');
+
+            if (it.hasNext()) {
+                questionMarksQuery.append(", ");
+            }
+        }
+    }
+
+    private void handleSingleParam(Object valueToAppend) {
+        values.add(valueToAppend);
+        questionMarksQuery.append('?');
     }
 
     private Object valueByName(String name) {
