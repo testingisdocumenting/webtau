@@ -22,6 +22,15 @@ To query all data from a table use:
     excludeStartEnd: true
 }
 
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "query table with select statement and array param",
+    title: "use array as input",
+    bodyOnly: true,
+    startLine: "query with where clause start",
+    endLine: "query with where clause end",
+    excludeStartEnd: true
+}
+
 # Single Value
 
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {

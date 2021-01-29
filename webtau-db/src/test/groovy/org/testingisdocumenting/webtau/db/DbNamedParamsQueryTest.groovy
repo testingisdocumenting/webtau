@@ -38,4 +38,14 @@ class DbNamedParamsQueryTest {
         query.questionMarksQuery.should == "select * from table where count>':c\"ount' and date<? and last_count<\":count\""
         query.questionMarksValues.should == ['date']
     }
+
+    @Test
+    void "convert placeholder into multiple question marks in case of array"() {
+        def query = new DbNamedParamsQuery(
+                "select * from table where id in (:ids)",
+                [ids: [1, 2, 3, 10]])
+
+        query.questionMarksQuery.should == "select * from table where id in (?, ?, ?, ?)"
+        query.questionMarksValues.should == [1, 2, 3, 10]
+    }
 }

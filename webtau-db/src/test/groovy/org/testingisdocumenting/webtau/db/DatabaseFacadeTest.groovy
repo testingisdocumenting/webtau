@@ -126,6 +126,18 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "query table with select statement and array param"() {
+        setupPrices()
+        // query with where clause start
+        def queriedData = db.query("select * from PRICES where id in (:ids)", [ids: ["id1", "id2"]])
+        queriedData.should == ["ID" | "DESCRIPTION" | "PRICE"] {
+                              ___________________________________
+                              "id1" | "nice set"    | 1000
+                              "id2" | "another set" | 2000     }
+        // query with where clause end
+    }
+
+    @Test
     void "should query single value"() {
         setupPrices()
 
