@@ -41,7 +41,7 @@ public class DatabaseQueryResult {
         this.result = convertToTable(result);
     }
 
-    public boolean isUnderlyingValueSingle() {
+    public boolean isSingleValue() {
         return result.numberOfRows() == 1 && result.getHeader().size() == 1;
     }
 
@@ -50,7 +50,7 @@ public class DatabaseQueryResult {
     }
 
     public <E> E getSingleValue() {
-        if (!isUnderlyingValueSingle()) {
+        if (!isSingleValue()) {
             throw new RuntimeException(query + " result is not a single value:\n" + DataRenderers.render(result));
         }
 
@@ -62,21 +62,17 @@ public class DatabaseQueryResult {
     }
 
     void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(null, underlyingValue(), StepReportOptions.SKIP_START,
+        ValueMatcherExpectationSteps.shouldStep(null, this, StepReportOptions.SKIP_START,
                 assertionDescription(), valueMatcher);
     }
 
     void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(null, underlyingValue(), StepReportOptions.SKIP_START,
+        ValueMatcherExpectationSteps.shouldNotStep(null, this, StepReportOptions.SKIP_START,
                 assertionDescription(), valueMatcher);
     }
 
     private TokenizedMessage assertionDescription() {
         return tokenizedMessage(IntegrationTestsMessageBuilder.queryValue(query));
-    }
-
-    private Object underlyingValue() {
-        return isUnderlyingValueSingle() ? getUnderlyingSingleValue() : result;
     }
 
     private <E> E getUnderlyingSingleValue() {

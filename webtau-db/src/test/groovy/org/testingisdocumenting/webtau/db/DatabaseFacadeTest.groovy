@@ -126,6 +126,25 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "query table to match one row and assert against map"() {
+        setupPrices()
+        // query with where clause start
+        def queriedData = db.query("select * from PRICES where id=:id", [id: "id1"])
+        queriedData.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
+        // query with where clause end
+    }
+
+    @Test
+    void "query table to match multiple row and assert against map"() {
+        setupPrices()
+        def queriedData = db.query("select * from PRICES")
+
+        code {
+            queriedData.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
+        } should throwException(~/(?s).*TableData.*Map.*/)
+    }
+
+    @Test
     void "query table with select statement and array param"() {
         setupPrices()
         // query with where clause start
