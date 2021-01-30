@@ -23,6 +23,15 @@ To query all data from a table use:
 }
 
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "query table to match one row and assert against map",
+    title: "validate parts of a table against map",
+    bodyOnly: true,
+    startLine: "query with where clause start",
+    endLine: "query with where clause end",
+    excludeStartEnd: true
+}
+
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
     entry: "query table with select statement and array param",
     title: "use array as input",
     bodyOnly: true,

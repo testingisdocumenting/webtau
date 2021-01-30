@@ -21,6 +21,8 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
+import java.util.Map;
+
 public class DatabaseCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
@@ -30,14 +32,24 @@ public class DatabaseCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        comparator.compareUsingEqualOnly(actualPath, getUnderlyingTable(actual), expected);
+        comparator.compareUsingEqualOnly(actualPath, extractActual(expected, actual), expected);
     }
 
-    private TableData getUnderlyingTable(Object actual) {
+    private Object extractActual(Object expected, Object actual) {
         if (actual instanceof DatabaseTable) {
             return ((DatabaseTable) actual).query().getTableData();
         }
 
-        return ((DatabaseQueryResult)actual).getTableData();
+        DatabaseQueryResult actualResult = (DatabaseQueryResult) actual;
+        if (actualResult.isSingleValue()) {
+            return actualResult.getSingleValue();
+        }
+
+        TableData tableData = actualResult.getTableData();
+        if (expected instanceof Map && tableData.numberOfRows() == 1) {
+            return tableData.row(0);
+        }
+
+        return tableData;
     }
 }
