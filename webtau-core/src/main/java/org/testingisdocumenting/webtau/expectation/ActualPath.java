@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.expectation;
 
 public class ActualPath {
-    private String path;
+    private final String path;
 
     public ActualPath(String path) {
         if (path == null) {
@@ -37,10 +38,6 @@ public class ActualPath {
 
     public String getPath() {
         return path;
-    }
-
-    private String attachToPath(String suffix) {
-        return isEmpty() ? suffix : path + suffix;
     }
 
     public boolean isEmpty() {

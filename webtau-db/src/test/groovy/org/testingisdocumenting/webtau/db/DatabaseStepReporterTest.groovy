@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
+import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 
 class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter {
@@ -40,22 +41,27 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     }
 
     @Test
-    void "query result comparison step should capture query"() {
-        db.update("delete from PRICES")
-        def PRICES = db.table("PRICES")
+    void "query result comparison step should capture query and params"() {
+        setupPrices()
 
-        PRICES << ["id" | "description" | "price"] {
-                  ___________________________________
-                  "id1" | "nice set"    | 1000
-                  "id2" | "another set" | 2000 }
-
-        def price = db.query("select price from PRICES where id='id1'")
+        def price = db.createQuery("select price from PRICES where id=:id", [id: 'id1'])
         price.should == 1000
         price.shouldNot == 2000
 
         def fullMessage = stepMessages.join('\n')
-        fullMessage.should == ~/select price from PRICES where id='id1' equals 1000/
-        fullMessage.should == ~/select price from PRICES where id='id1' doesn't equal 2000/
+        fullMessage.should contain("select price from PRICES where id=:id with {id=id1} equals 1000")
+        fullMessage.should contain("select price from PRICES where id=:id with {id=id1} doesn't equal 2000")
+    }
+
+    @Test
+    void "query result comparison step should not capture params when no params ara passed"() {
+        setupPrices()
+
+        def price = db.createQuery("select price from PRICES where id='id1'")
+        price.should == 1000
+
+        def fullMessage = stepMessages.join('\n')
+        fullMessage.should contain("select price from PRICES where id='id1' equals 1000")
     }
 
     @Override

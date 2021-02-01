@@ -16,9 +16,11 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -36,22 +38,28 @@ public class Database {
         return new DatabaseTable(dataSource, name);
     }
 
-    public DatabaseQueryResult query(String query) {
-        WebTauStep step = createStep(null,
-                tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel())),
-                () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
-                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query));
-
-        return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
+    public DbQuery createQuery(String query) {
+        return QueryRunnerUtils.createQuery(dataSource, query);
     }
 
-    public DatabaseQueryResult query(String query, Map<String, Object> params) {
-        WebTauStep step = createStep(null,
-                tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel()), WITH, stringValue(params)),
-                () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
-                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query, params));
+    public DbQuery createQuery(String query, Map<String, Object> params) {
+        return QueryRunnerUtils.createQuery(dataSource, query, params);
+    }
 
-        return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
+    public TableData queryTableData(String query) {
+        return queryTableData(query, Collections.emptyMap());
+    }
+
+    public TableData queryTableData(String query, Map<String, Object> params) {
+        return createQuery(query, params).queryTableData();
+    }
+
+    public <E> E querySingleValue(String query) {
+        return querySingleValue(query, Collections.emptyMap());
+    }
+
+    public <E> E querySingleValue(String query, Map<String, Object> params) {
+        return createQuery(query, params).querySingleValue();
     }
 
     public void update(String query) {

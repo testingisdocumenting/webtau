@@ -20,15 +20,12 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.sql.SQLException;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
-import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 
 class DatabaseTable {
     private final LabeledDataSource dataSource;
@@ -48,13 +45,12 @@ class DatabaseTable {
                 () -> insertStep(tableData));
     }
 
-    public DatabaseQueryResult query() {
-        WebTauStep step = createStep(null,
-                tokenizedMessage(action("querying"), createMessageId()),
-                () -> tokenizedMessage(action("queried"), createMessageId()),
-                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), SqlQueriesGenerator.query(name)));
+    public TableData query() {
+        return createQuery().queryTableData();
+    }
 
-        return (DatabaseQueryResult) step.execute(StepReportOptions.REPORT_ALL);
+    public DbQuery createQuery() {
+        return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.query(name));
     }
 
     private void insertStep(TableData tableData) {

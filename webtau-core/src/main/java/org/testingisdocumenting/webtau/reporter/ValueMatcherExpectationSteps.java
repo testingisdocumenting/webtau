@@ -58,9 +58,9 @@ public class ValueMatcherExpectationSteps {
     }
 
     private static void executeStep(Object context, Object value, TokenizedMessage elementDescription,
-                                           ValueMatcher valueMatcher, boolean isNegative,
-                                           TokenizedMessage messageStart, Runnable expectationValidation,
-                                           StepReportOptions stepReportOptions) {
+                                    ValueMatcher valueMatcher, boolean isNegative,
+                                    TokenizedMessage messageStart, Runnable expectationValidation,
+                                    StepReportOptions stepReportOptions) {
         WebTauStep step = createStep(context,
                 messageStart.add(elementDescription)
                         .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
