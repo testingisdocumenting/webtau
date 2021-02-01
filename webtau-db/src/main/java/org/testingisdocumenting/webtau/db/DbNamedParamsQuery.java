@@ -23,22 +23,31 @@ class DbNamedParamsQuery {
     private final Object[] valuesArray;
     private final String namedParamsQuery;
     private final Map<String, Object> params;
+    private final Set<String> uniqueParamNames;
 
     private final StringBuilder currentNamedParam;
     private final StringBuilder questionMarksQuery;
+
+    private final boolean hasSingleNoNameParameter;
 
     private boolean insideParamName;
     private boolean insideSingleQuote;
     private boolean insideDoubleQuote;
 
+    public DbNamedParamsQuery(String namedParamsQuery, Object singleParam) {
+        this(namedParamsQuery, singleNoNameParam(singleParam));
+    }
+
     public DbNamedParamsQuery(String namedParamsQuery, Map<String, Object> params) {
         this.namedParamsQuery = namedParamsQuery;
+        this.uniqueParamNames = new TreeSet<>();
         this.values = new ArrayList<>();
         this.currentNamedParam = new StringBuilder();
         this.questionMarksQuery = new StringBuilder();
         this.insideParamName = false;
         this.insideSingleQuote = false;
         this.insideDoubleQuote = false;
+        this.hasSingleNoNameParameter = params.size() == 1 && params.keySet().iterator().next().equals("");
         this.params = params;
 
         convertToQuestionMarks();
@@ -56,6 +65,22 @@ class DbNamedParamsQuery {
 
     public Object[] getQuestionMarksValues() {
         return valuesArray;
+    }
+
+    public Map<String, Object> effectiveParams() {
+        if (hasSingleNoNameParameter) {
+            return Collections.singletonMap(uniqueParamNames.iterator().next(), params.values().iterator().next());
+        }
+
+        return params;
+    }
+
+    public boolean isEmpty() {
+        return params.isEmpty();
+    }
+
+    static Map<String, Object> singleNoNameParam(Object singleParam) {
+        return Collections.singletonMap("", singleParam);
     }
 
     private void convertToQuestionMarks() {
@@ -77,7 +102,8 @@ class DbNamedParamsQuery {
                 continue;
             }
 
-            if (insideParamName && Character.isAlphabetic(c)) {
+            if (insideParamName &&
+                    (Character.isAlphabetic(c) || (Character.isDigit(c) && currentNamedParam.length() > 0))) {
                 currentNamedParam.append(c);
             } else if (insideParamName) {
                 handleCurrentParamName();
@@ -93,7 +119,10 @@ class DbNamedParamsQuery {
     }
 
     private void handleCurrentParamName() {
-        Object valueToAppend = valueByName(currentNamedParam.toString());
+        String paramName = currentNamedParam.toString();
+        uniqueParamNames.add(paramName);
+
+        Object valueToAppend = valueByName(paramName);
         if (valueToAppend instanceof Iterable) {
             handleIterableParam((Iterable<?>) valueToAppend);
         } else {
@@ -123,6 +152,15 @@ class DbNamedParamsQuery {
     }
 
     private Object valueByName(String name) {
+        if (hasSingleNoNameParameter) {
+            if (uniqueParamNames.size() > 1) {
+                throw new IllegalArgumentException("one no-name parameter value was provided, " +
+                        "but have seen multiple placeholders: " + uniqueParamNames);
+            }
+
+            return params.values().iterator().next();
+        }
+
         Object value = params.get(name);
         if (value == null) {
             throw new IllegalArgumentException("No parameter value found: " + name);

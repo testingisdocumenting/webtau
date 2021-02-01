@@ -72,6 +72,7 @@ class DatabaseBaseTest {
         String definition =
                 """CREATE TABLE PRICES (
     id varchar(255),
+    external_id varchar(255),
     description varchar(255),
     available bool,
     type varchar(255),
