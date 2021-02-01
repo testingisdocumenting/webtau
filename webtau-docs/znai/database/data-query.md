@@ -40,6 +40,19 @@ To query all data from a table use:
     excludeStartEnd: true
 }
 
+# Lazy Declaration
+
+`createQuery` doesn't query database at the call time. It defines a query to be used later.
+
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "create query is lazy",
+    title: "create query is lazy",
+    bodyOnly: true,
+    startLine: "query with where clause start",
+    endLine: "query with where clause end",
+    excludeStartEnd: true
+}
+
 # Single Value
 
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
@@ -51,14 +64,27 @@ To query all data from a table use:
     excludeStartEnd: true
 }
 
+# Wait On Result
+
+Use `waitTo` on query result to continuously query database until condition is met or timeout is reached.
+
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "wait for count to change",
+    title: "wait for count to change",
+    bodyOnly: true,
+    startLine: "query with where clause start",
+    endLine: "query with where clause end",
+    excludeStartEnd: true
+}
+
+
 # Query Result Value
 
-Value returned from `query` methods is an instance of `DatabaseQueryResult` type. 
-It keeps the context of where the value came from and preserves it during assertions to have additional information in 
-a test report.
+Value returned from `createQuery` methods is an instance of `DbQuery` type.
+No actual query is performed when `DbQuery` instance is created. It holds information about what query is, and what its parameters
+and only performs query when validation is triggered.
 
-To access underlying value for business logic use
-
+Use `queryXXX` to access underlying value.
 
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
     entry: "value returned from query is a special wrapper value",
@@ -69,3 +95,4 @@ To access underlying value for business logic use
     excludeStartEnd: true
 }
 
+Avoid: When you use `queryXXX` for assertions you may lose additional report information

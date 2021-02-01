@@ -26,19 +26,15 @@ import java.util.List;
 import java.util.Map;
 
 class QueryRunnerUtils {
-    static DatabaseQueryResult runQuery(DataSource dataSource, String query) {
-        return runQuery(dataSource, query, Collections.emptyMap());
+    static DbQuery createQuery(LabeledDataSource dataSource, String query) {
+        return createQuery(dataSource, query, Collections.emptyMap());
     }
-    static DatabaseQueryResult runQuery(DataSource dataSource, String query, Map<String, Object> params) {
-        QueryRunner run = new QueryRunner(dataSource);
+
+    static DbQuery createQuery(LabeledDataSource dataSource, String query, Map<String, Object> params) {
+        QueryRunner run = new QueryRunner(dataSource.getDataSource());
         MapListHandler handler = new MapListHandler();
 
-        try {
-            List<Map<String, Object>> result = runQuery(run, handler, query, params);
-            return new DatabaseQueryResult(query, result);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return new DbQuery(dataSource.getLabel(),() -> runQuery(run, handler, query, params), query, params);
     }
 
     static int runUpdate(DataSource dataSource, String query) {
@@ -63,14 +59,18 @@ class QueryRunnerUtils {
     private static List<Map<String, Object>> runQuery(QueryRunner runner,
                                                       MapListHandler handler,
                                                       String query,
-                                                      Map<String, Object> params) throws SQLException {
-        if (params.isEmpty()) {
-            return runner.query(query, handler);
-        }
+                                                      Map<String, Object> params) {
+        try {
+            if (params.isEmpty()) {
+                return runner.query(query, handler);
+            }
 
-        DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
-        return runner.query(namedParamsQuery.getQuestionMarksQuery(),
-                handler,
-                namedParamsQuery.getQuestionMarksValues());
+            DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
+            return runner.query(namedParamsQuery.getQuestionMarksQuery(),
+                    handler,
+                    namedParamsQuery.getQuestionMarksValues());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

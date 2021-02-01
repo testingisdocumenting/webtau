@@ -26,7 +26,7 @@ import java.util.Map;
 public class DatabaseCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof DatabaseQueryResult ||
+        return actual instanceof DbQuery ||
                 actual instanceof DatabaseTable;
     }
 
@@ -37,15 +37,15 @@ public class DatabaseCompareToHandler implements CompareToHandler {
 
     private Object extractActual(Object expected, Object actual) {
         if (actual instanceof DatabaseTable) {
-            return ((DatabaseTable) actual).query().getTableData();
+            return ((DatabaseTable) actual).createQuery().queryTableDataNoStep();
         }
 
-        DatabaseQueryResult actualResult = (DatabaseQueryResult) actual;
-        if (actualResult.isSingleValue()) {
-            return actualResult.getSingleValue();
+        DbQuery actualResult = (DbQuery) actual;
+        TableData tableData = actualResult.queryTableDataNoStep();
+        if (actualResult.isSingleValue(tableData)) {
+            return actualResult.getUnderlyingSingleValue(tableData);
         }
 
-        TableData tableData = actualResult.getTableData();
         if (expected instanceof Map && tableData.numberOfRows() == 1) {
             return tableData.row(0);
         }

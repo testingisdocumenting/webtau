@@ -23,6 +23,10 @@ import org.junit.BeforeClass
 
 import javax.sql.DataSource
 
+import static org.testingisdocumenting.webtau.WebTauCore.___________________________________
+import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
+import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
+
 class DatabaseBaseTest {
     private static boolean areTablesCreated
     protected static DbDataSourceProvider h2PrimaryProvider = new H2PrimaryDbDataSourceProvider()
@@ -47,6 +51,17 @@ class DatabaseBaseTest {
         dataSource.setUser("sa")
 
         return dataSource
+    }
+
+    static def setupPrices() {
+        db.update("delete from PRICES")
+        def PRICES = db.table("PRICES")
+        PRICES << ["id" | "description" | "price"] {
+            ___________________________________
+            "id1" | "nice set"    | 1000
+            "id2" | "another set" | 2000 }
+
+        return PRICES
     }
 
     private static void createPricesTable(DataSource dataSource) {
