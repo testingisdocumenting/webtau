@@ -34,7 +34,11 @@ class QueryRunnerUtils {
         QueryRunner run = new QueryRunner(dataSource.getDataSource());
         MapListHandler handler = new MapListHandler();
 
-        return new DbQuery(dataSource.getLabel(),() -> runQuery(run, handler, query, params), query, params);
+        DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
+
+        return new DbQuery(dataSource.getLabel(),
+                () -> runQuery(run, handler, namedParamsQuery),
+                query, namedParamsQuery.effectiveParams());
     }
 
     static int runUpdate(DataSource dataSource, String query) {
@@ -58,14 +62,12 @@ class QueryRunnerUtils {
 
     private static List<Map<String, Object>> runQuery(QueryRunner runner,
                                                       MapListHandler handler,
-                                                      String query,
-                                                      Map<String, Object> params) {
+                                                      DbNamedParamsQuery namedParamsQuery) {
         try {
-            if (params.isEmpty()) {
-                return runner.query(query, handler);
+            if (namedParamsQuery.isEmpty()) {
+                return runner.query(namedParamsQuery.getQuestionMarksQuery(), handler);
             }
 
-            DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
             return runner.query(namedParamsQuery.getQuestionMarksQuery(),
                     handler,
                     namedParamsQuery.getQuestionMarksValues());

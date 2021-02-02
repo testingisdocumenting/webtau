@@ -54,6 +54,17 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     }
 
     @Test
+    void "query result comparison step should capture query and params in case of single param"() {
+        setupPrices()
+
+        def price = db.createQuery("select price from PRICES where id=:id", 'id1')
+        price.should == 1000
+
+        def fullMessage = stepMessages.join('\n')
+        fullMessage.should contain("select price from PRICES where id=:id with {id=id1} equals 1000")
+    }
+
+    @Test
     void "query result comparison step should not capture params when no params ara passed"() {
         setupPrices()
 

@@ -40,6 +40,19 @@ To query all data from a table use:
     excludeStartEnd: true
 }
 
+# Named Parameter Shortcut
+
+If your query uses a single unique placeholder name, you can pass a regular value instead of a `java.util.Map`
+
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "query table to match one row using single param shortcut and assert against map",
+    title: "use regular value in case of one unique placeholder name",
+    bodyOnly: true,
+    startLine: "query with where clause start",
+    endLine: "query with where clause end",
+    excludeStartEnd: true
+}
+
 # Lazy Declaration
 
 `createQuery` doesn't query database at the call time. It defines a query to be used later.

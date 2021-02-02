@@ -145,6 +145,15 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "query table to match one row using single param shortcut and assert against map"() {
+        setupPrices()
+        // query with where clause start
+        def prices = db.createQuery("select * from PRICES where id=:id or external_id=:id", "id1")
+        prices.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
+        // query with where clause end
+    }
+
+    @Test
     void "query table to match multiple row and assert against map"() {
         setupPrices()
         def prices = db.createQuery("select * from PRICES")

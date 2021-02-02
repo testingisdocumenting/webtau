@@ -48,6 +48,10 @@ public class DatabaseFacade {
         return from(getPrimaryDataSource()).createQuery(query, params);
     }
 
+    public <E> DbQuery createQuery(String query, E singleParam) {
+        return from(getPrimaryDataSource()).createQuery(query, singleParam);
+    }
+
     public TableData queryTableData(String query) {
         return from(getPrimaryDataSource()).queryTableData(query);
     }

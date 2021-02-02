@@ -46,6 +46,10 @@ public class Database {
         return QueryRunnerUtils.createQuery(dataSource, query, params);
     }
 
+    public <E> DbQuery createQuery(String query, E singleParam) {
+        return QueryRunnerUtils.createQuery(dataSource, query, DbNamedParamsQuery.singleNoNameParam(singleParam));
+    }
+
     public TableData queryTableData(String query) {
         return queryTableData(query, Collections.emptyMap());
     }
