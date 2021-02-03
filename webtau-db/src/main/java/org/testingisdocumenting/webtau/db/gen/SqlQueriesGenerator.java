@@ -34,7 +34,11 @@ public class SqlQueriesGenerator {
         return "INSERT INTO " + tableName + " (" + columnNames + ") VALUES (" + questionMarks + ")";
     }
 
-    public static String query(String tableName) {
+    public static String fullTable(String tableName) {
         return "SELECT * FROM " + tableName;
+    }
+
+    public static String count(String tableName) {
+        return "SELECT count(*) FROM " + tableName;
     }
 }

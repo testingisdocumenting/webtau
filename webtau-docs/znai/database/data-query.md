@@ -66,6 +66,15 @@ If your query uses a single unique placeholder name, you can pass a regular valu
     excludeStartEnd: true
 }
 
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "lazy count query",
+    title: "lazy count query",
+    bodyOnly: true,
+    startLine: "query with where clause start",
+    endLine: "query with where clause end",
+    excludeStartEnd: true
+}
+
 # Single Value
 
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
