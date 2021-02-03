@@ -130,8 +130,23 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         setupPrices()
         // query with where clause start
         def prices = db.createQuery("select * from PRICES")
+
+        prices.shouldNot == []
         db.update("delete from PRICES")
         prices.should == []
+        // query with where clause end
+    }
+
+    @Test
+    void "lazy count query"() {
+        setupPrices()
+        // query with where clause start
+        def PRICES = db.table("PRICES")
+        def numberOfItems = PRICES.createCountQuery()
+
+        numberOfItems.shouldNot == 0
+        db.update("delete from PRICES")
+        numberOfItems.should == 0
         // query with where clause end
     }
 

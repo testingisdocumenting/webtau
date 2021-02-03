@@ -49,8 +49,12 @@ class DatabaseTable {
         return createQuery().queryTableData();
     }
 
+    public DbQuery createCountQuery() {
+        return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.count(name));
+    }
+
     public DbQuery createQuery() {
-        return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.query(name));
+        return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.fullTable(name));
     }
 
     private void insertStep(TableData tableData) {
