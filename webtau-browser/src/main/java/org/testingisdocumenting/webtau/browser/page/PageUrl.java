@@ -29,17 +29,17 @@ public class PageUrl {
         this.currentUrlSupplier = currentUrlSupplier;
     }
 
-    public final ElementValue<String> full =
-            new ElementValue<>(browserContext, "full page url", this::fetchUrl);
+    public final PageElementValue<String> full =
+            new PageElementValue<>(browserContext, "full page url", this::fetchUrl);
 
-    public final ElementValue<String> path =
-            new ElementValue<>(browserContext, "page url path", this::fetchPath);
+    public final PageElementValue<String> path =
+            new PageElementValue<>(browserContext, "page url path", this::fetchPath);
 
-    public final ElementValue<String> query =
-            new ElementValue<>(browserContext, "page url query", this::fetchQuery);
+    public final PageElementValue<String> query =
+            new PageElementValue<>(browserContext, "page url query", this::fetchQuery);
 
-    public final ElementValue<String> ref =
-            new ElementValue<>(browserContext, "page url ref", this::fetchRef);
+    public final PageElementValue<String> ref =
+            new PageElementValue<>(browserContext, "page url ref", this::fetchRef);
 
     public String get() {
         return fetchUrl();

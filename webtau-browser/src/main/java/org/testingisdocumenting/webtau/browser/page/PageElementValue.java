@@ -28,14 +28,14 @@ import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.OF;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class ElementValue<E> implements ActualValueExpectations {
+public class PageElementValue<E> implements ActualValueExpectations {
     private final WithTokenizedDescription parent;
     private final String name;
-    private final ElementValueFetcher<E> valueFetcher;
+    private final PageElementValueFetcher<E> valueFetcher;
 
     private final TokenizedMessage description;
 
-    public ElementValue(WithTokenizedDescription parent, String name, ElementValueFetcher<E> valueFetcher) {
+    public PageElementValue(WithTokenizedDescription parent, String name, PageElementValueFetcher<E> valueFetcher) {
         this.parent = parent;
         this.name = name;
         this.valueFetcher = valueFetcher;

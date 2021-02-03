@@ -30,13 +30,13 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public interface PageElement extends ActualValueExpectations, WithTokenizedDescription {
-    ElementValue<Integer> getCount();
+    PageElementValue<Integer> getCount();
 
     WebElement findElement();
     List<WebElement> findElements();
 
-    ElementValue<Object> elementValue();
-    ElementValue<List<Object>> elementValues();
+    PageElementValue<Object> elementValue();
+    PageElementValue<List<Object>> elementValues();
 
     void setValue(Object value);
     void sendKeys(CharSequence keys);

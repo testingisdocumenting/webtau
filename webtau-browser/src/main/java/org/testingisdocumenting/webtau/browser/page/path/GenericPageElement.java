@@ -26,7 +26,7 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElements
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
-import org.testingisdocumenting.webtau.browser.page.ElementValue;
+import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -51,20 +51,20 @@ public class GenericPageElement implements PageElement {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final ElementPath path;
     private final TokenizedMessage pathDescription;
-    private final ElementValue<Object> elementValue;
-    private final ElementValue<Integer> countValue;
+    private final PageElementValue<Object> elementValue;
+    private final PageElementValue<Integer> countValue;
 
     public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, ElementPath path) {
         this.driver = driver;
         this.additionalBrowserInteractions = additionalBrowserInteractions;
         this.path = path;
         this.pathDescription = path.describe();
-        this.elementValue = new ElementValue<>(this, "value", this::getUnderlyingValue);
-        this.countValue = new ElementValue<>(this, "count", this::getNumberOfElements);
+        this.elementValue = new PageElementValue<>(this, "value", this::getUnderlyingValue);
+        this.countValue = new PageElementValue<>(this, "count", this::getNumberOfElements);
     }
 
     @Override
-    public ElementValue<Integer> getCount() {
+    public PageElementValue<Integer> getCount() {
         return countValue;
     }
 
@@ -139,13 +139,13 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ElementValue<Object> elementValue() {
+    public PageElementValue<Object> elementValue() {
         return elementValue;
     }
 
     @Override
-    public ElementValue<List<Object>> elementValues() {
-        return new ElementValue<>(this, "all values", this::extractValues);
+    public PageElementValue<List<Object>> elementValues() {
+        return new PageElementValue<>(this, "all values", this::extractValues);
     }
 
     @Override
