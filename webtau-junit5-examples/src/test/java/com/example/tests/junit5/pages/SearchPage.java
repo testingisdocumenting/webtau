@@ -1,14 +1,14 @@
 package com.example.tests.junit5.pages;
 
 import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.browser.page.ElementValue;
+import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 public class SearchPage {
     private final PageElement box = $("#search-box");
     private final PageElement results = $("#results .result");
-    public final ElementValue<Integer> numberOfResults = results.getCount();
+    public final PageElementValue<Integer> numberOfResults = results.getCount();
 
     public void submit(String query) {
         browser.open("/search");
