@@ -20,7 +20,7 @@ Use one layer to re-enforce tests on another. E.g. REST API layer to set up data
 to validate GraphQL API.
 
 Use REPL to tighten test feedback loop and speed up test writing
-```
+```groovy
 webtau:000> $("ul li a")
 element is found: by css ul li a
            getText(): Guide
@@ -75,7 +75,7 @@ public class SearchPage {
 ```
 
 [GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
-```
+```groovy
 @Webtau
 public class GraphQLWeatherJavaIT {
     @Test
@@ -89,7 +89,7 @@ public class GraphQLWeatherJavaIT {
 ```
 
 [Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
-```
+```groovy
 def PRICES = db.table("PRICES")
 PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
            _____________________________________________________________________________________________
@@ -99,7 +99,7 @@ PRICES << [     "id" | "description" |          "available" |                "ty
 ```
 
 [CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
-```
+```groovy
 cli.run('echo hello world') {
     output.should contain('hello')
     output.should contain('world')
