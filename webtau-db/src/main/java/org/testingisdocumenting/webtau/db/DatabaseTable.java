@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -42,7 +43,16 @@ class DatabaseTable {
                         INTO, createMessageId()),
                 () -> tokenizedMessage(action("inserted"), numberValue(tableData.numberOfRows()), action("row(s)"),
                         INTO, createMessageId()),
-                () -> insertStep(tableData));
+                () -> insertTableStep(tableData));
+    }
+
+    public void insert(Map<String, Object> row) {
+        createAndExecuteStep(
+                tokenizedMessage(action("inserting"), numberValue(1), action("row"),
+                        INTO, createMessageId()),
+                () -> tokenizedMessage(action("inserted"), numberValue(1), action("row"),
+                        INTO, createMessageId()),
+                () -> insertRowStep(row));
     }
 
     public TableData query() {
@@ -57,7 +67,7 @@ class DatabaseTable {
         return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.fullTable(name));
     }
 
-    private void insertStep(TableData tableData) {
+    private void insertTableStep(TableData tableData) {
         if (tableData.isEmpty()) {
             return;
         }
@@ -75,11 +85,25 @@ class DatabaseTable {
         }
     }
 
+    private void insertRowStep(Map<String, Object> row) {
+        QueryRunner run = new QueryRunner(dataSource.getDataSource());
+        try {
+            run.update(SqlQueriesGenerator.insert(name, row.keySet().stream(), row.values().stream()),
+                    row.values().toArray());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private MessageToken createMessageId() {
         return id(dataSource.getLabel() + "." + name);
     }
 
     public void leftShift(TableData tableData) {
         insert(tableData);
+    }
+
+    public void leftShift(Map<String, Object> row) {
+        insert(row);
     }
 }

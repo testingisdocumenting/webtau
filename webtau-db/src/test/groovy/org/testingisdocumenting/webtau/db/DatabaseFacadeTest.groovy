@@ -36,9 +36,9 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
                    "id2" | "another set" | 2000 }
 
         PRICES.createQuery().should == ["ID" | "DESCRIPTION" | "PRICE"] {
-                                 ___________________________________
-                                 "id1" | "nice set"    | 1000
-                                 "id2" | "another set" | 2000 }
+                                       ___________________________________
+                                       "id1" | "nice set"    | 1000
+                                       "id2" | "another set" | 2000 }
 
         db.createQuery("select * from PRICES where id='id2'").should ==
                 ["ID" | "DESCRIPTION" | "PRICE"] {
@@ -57,6 +57,18 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
                    "id2" | "another set" | 2000 }
 
         PRICES.query().numberOfRows().should == 2
+    }
+
+    @Test
+    void "should insert single row into table"() {
+        db.update("delete from PRICES")
+
+        def PRICES = db.table("PRICES")
+        PRICES << [id: "id1", description: "nice set", price: 1000]
+
+        PRICES.should == ["ID" | "DESCRIPTION" | "PRICE"] {
+                         ___________________________________
+                         "id1" | "nice set"    | 1000 }
     }
 
     @Test

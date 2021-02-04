@@ -11,6 +11,15 @@ The simplest way to set up a DB state is to use handcrafted [TableData](referenc
     commentsType: "inline"
 }
  
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "should insert single row into table",
+    title: "inserting single row",
+    bodyOnly: true,
+    startLine: "def PRICES",
+    endLine: "1000]",
+    commentsType: "inline"
+}
+ 
 # Semi-Auto Generated TableData
 
 [TableData](reference/table-data) has features like [permute](reference/table-data#permutations) and 
