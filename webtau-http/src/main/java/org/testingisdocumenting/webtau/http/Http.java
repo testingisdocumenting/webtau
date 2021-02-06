@@ -887,7 +887,6 @@ public class Http {
         return request("PUT", fullUrl, requestHeader, requestBody);
     }
 
-    @SuppressWarnings("unchecked")
     private <R> R executeAndValidateHttpCall(String requestMethod,
                                              String url,
                                              HttpCall httpCall,
@@ -902,7 +901,7 @@ public class Http {
 
         WebTauStep step = createHttpStep(validationResult, httpCall, validator);
         try {
-            return (R) step.execute(StepReportOptions.REPORT_ALL);
+            return step.execute(StepReportOptions.REPORT_ALL);
         } finally {
             lastValidationResult.set(validationResult);
             step.addPayload(validationResult);
@@ -967,7 +966,7 @@ public class Http {
         int retryCount = 0;
         while (response.isRedirect() && getCfg().shouldFollowRedirects() && retryCount++ < getCfg().maxRedirects()) {
             WebTauStep httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
-            response = (HttpResponse) httpStep.execute(StepReportOptions.REPORT_ALL);
+            response = httpStep.execute(StepReportOptions.REPORT_ALL);
         }
         return response;
     }
@@ -1161,6 +1160,8 @@ public class Http {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
             connection.setInstanceFollowRedirects(false);
             setRequestMethod(method, connection);
+            connection.setConnectTimeout(getCfg().getHttpTimeout());
+            connection.setReadTimeout(getCfg().getHttpTimeout());
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
             connection.setRequestProperty("User-Agent", getCfg().getUserAgent());
