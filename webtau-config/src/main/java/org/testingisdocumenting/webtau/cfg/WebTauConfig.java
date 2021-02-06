@@ -60,6 +60,9 @@ public class WebTauConfig {
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
 
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
+
+    private final ConfigValue httpTimeout = declare("httpTimeout", "http connect and read timeout in milliseconds", () -> 30000);
+
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls", false);
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
@@ -201,8 +204,12 @@ public class WebTauConfig {
         return url;
     }
 
-    public int waitTimeout() {
+    public int getWaitTimeout() {
         return waitTimeout.getAsInt();
+    }
+
+    public int getHttpTimeout() {
+        return httpTimeout.getAsInt();
     }
 
     public boolean shouldFollowRedirects() {
