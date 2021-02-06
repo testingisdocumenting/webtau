@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class Time {
     private static final TimeProvider systemTimeProvider = new SystemTimeProvider();
-    private static AtomicReference<TimeProvider> timeProvider = new AtomicReference<>(systemTimeProvider);
+    private static final AtomicReference<TimeProvider> timeProvider = new AtomicReference<>(systemTimeProvider);
 
     public static long currentTimeMillis() {
         return Time.timeProvider.get().currentTimeMillis();

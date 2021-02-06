@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,18 +17,25 @@
 
 package org.testingisdocumenting.webtau.time
 
-import org.testingisdocumenting.webtau.time.TimeProvider
-
 class DummyTimeProvider implements TimeProvider {
-    private List<Integer> timeSnapshots = []
+    private List<Long> timeSnapshots = []
+    private Long constantTime = null
     private int currentSnapshotIdx = 0
 
     DummyTimeProvider(List<Integer> timeSnapshots) {
         this.timeSnapshots.addAll(timeSnapshots)
     }
 
+    DummyTimeProvider(Long constantTime) {
+        this.constantTime = constantTime
+    }
+
     @Override
     long currentTimeMillis() {
+        if (constantTime != null) {
+            return constantTime
+        }
+
         if (currentSnapshotIdx >= timeSnapshots.size()) {
             throw new RuntimeException("$currentSnapshotIdx idx is out of the provided time snapshots $timeSnapshots")
         }
