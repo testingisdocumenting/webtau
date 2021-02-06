@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,17 +25,29 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
 public class FileBasedCache {
     private static final String VALUE_KEY = "value";
     private static final String EXPIRATION_TIME_KEY = "expirationTime";
 
+    private final AtomicBoolean isCacheLoaded;
+
     private final Supplier<Path> cachePathSupplier;
-    private Map<String, Object> loadedCache;
+    private final AtomicLong lastPutTime;
+
+    private final Map<String, Object> loadedCache;
 
     public FileBasedCache(Supplier<Path> cachePathSupplier) {
         this.cachePathSupplier = cachePathSupplier;
+        this.isCacheLoaded = new AtomicBoolean(false);
+        this.lastPutTime = new AtomicLong(Time.currentTimeMillis());
+        this.loadedCache = new ConcurrentHashMap<>();
+
+        registerFlushCacheOnExit();
     }
 
     @SuppressWarnings("unchecked")
@@ -47,10 +60,15 @@ public class FileBasedCache {
 
         Number expirationTime = (Number) valueWithMeta.get(EXPIRATION_TIME_KEY);
         if (Time.currentTimeMillis() >= expirationTime.longValue()) {
+            loadedCache.remove(key);
+            flushCacheToDiskIfRequired();
             return null;
         }
 
-        return (E) valueWithMeta.get(VALUE_KEY);
+        E result = (E) valueWithMeta.get(VALUE_KEY);
+        flushCacheToDiskIfRequired();
+
+        return result;
     }
 
     public void put(String key, Object value, long expirationTime) {
@@ -58,11 +76,12 @@ public class FileBasedCache {
         Map<String, Object> valueWithMeta = createValueWithMeta(value, expirationTime);
         loadedCache.put(key, valueWithMeta);
 
-        FileUtils.writeTextContent(cachePathSupplier.get(), JsonUtils.serializePrettyPrint(loadedCache));
+        flushCacheToDiskIfRequired();
     }
 
     public void put(String key, Object value) {
         put(key, value, Long.MAX_VALUE);
+        flushCacheToDiskIfRequired();
     }
 
     private Map<String, Object> createValueWithMeta(Object value, long expirationTime) {
@@ -75,16 +94,36 @@ public class FileBasedCache {
 
     @SuppressWarnings("unchecked")
     private void loadCacheIfRequired() {
-        if (loadedCache != null) {
+        if (isCacheLoaded.get()) {
             return;
         }
 
         Path cachePath = cachePathSupplier.get();
         if (!Files.exists(cachePath)) {
-            loadedCache = new LinkedHashMap<>();
+            isCacheLoaded.set(true);
             return;
         }
 
-        loadedCache = (Map<String, Object>) JsonUtils.deserialize(FileUtils.fileTextContent(cachePath));
+        loadedCache.putAll((Map<String, ?>) JsonUtils.deserialize(FileUtils.fileTextContent(cachePath)));
+        isCacheLoaded.set(true);
+    }
+
+    private void flushCacheToDiskIfRequired() {
+        long lastTime = lastPutTime.get();
+        long current = Time.currentTimeMillis();
+
+        if (current - lastTime > 10_000) {
+            flushCacheToDisk();
+        }
+
+        lastPutTime.set(current);
+    }
+
+    private synchronized void flushCacheToDisk() {
+        FileUtils.writeTextContent(cachePathSupplier.get(), JsonUtils.serializePrettyPrint(loadedCache));
+    }
+
+    private void registerFlushCacheOnExit() {
+        Runtime.getRuntime().addShutdownHook(new Thread(this::flushCacheToDisk));
     }
 }

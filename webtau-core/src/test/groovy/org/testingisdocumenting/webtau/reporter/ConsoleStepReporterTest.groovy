@@ -42,7 +42,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         ConsoleOutputs.add(this)
         ConsoleOutputs.add(ansiConsoleOutput)
 
-        Time.setTimeProvider(new DummyTimeProvider([0, 0, 0, 0, 0, 0]))
+        Time.setTimeProvider(new DummyTimeProvider(0))
     }
 
     @After
