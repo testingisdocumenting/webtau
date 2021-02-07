@@ -27,6 +27,10 @@ public class Cache {
         fileBasedCache = new FileBasedCache(() -> WebTauConfig.getCfg().getCachePath());
     }
 
+    public <E> CachedValue<E> value(String id) {
+        return new CachedValue<>(cache, id);
+    }
+
     public <E> E get(String key) {
         return fileBasedCache.get(key);
     }
