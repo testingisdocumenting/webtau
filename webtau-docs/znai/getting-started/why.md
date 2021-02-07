@@ -29,6 +29,12 @@ Writing end-to-end tests is hard and there are a lot of excuses not write one.
 End to end test feedback loop is usually long and slow. Webtau provides [REPL](REPL/experiments) mode to help you 
 experiment with API and write a test in incremental fashion. 
 
+# Utilities
+
+Webtau provides many utility functions to simplify data organization and setup. [Data](utilities/data) module provides
+shortcuts to deal with `CSV` and `JSON` based data. [File System](utilities/file-system) module provides shortcuts to 
+deal with file system related things.
+
 # Documentation Artifacts
 
 I believe that big chunks of a documentation of your product should be automatically generated:
