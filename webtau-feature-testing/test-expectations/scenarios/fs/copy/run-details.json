@@ -1,6 +1,18 @@
 {
   "scenarioDetails" : [ {
-    "scenario" : "copy file",
+    "scenario" : "copy file to temp dir",
+    "shortContainerId" : "copy.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "copy file to a dir",
+    "shortContainerId" : "copy.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "copy file to a different file",
     "shortContainerId" : "copy.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3

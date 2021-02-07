@@ -20,8 +20,35 @@ scenario('create and delete file') {
 }
 
 scenario('create file using string path') {
-    def path = fs.writeText('another-test-file.txt', 'hello world')
-    cfg.workingDir.resolve('another-test-file.txt').toAbsolutePath().toString().should == path.toString()
+    def path = fs.writeText('my-test-file.txt', 'hello world')
+    cfg.workingDir.resolve('my-test-file.txt').toAbsolutePath().toString().should == path.toString()
+
+    fs.delete(path)
+}
+
+scenario('read file using string path') {
+    def path = fs.writeText('my-test-file.txt', 'hello world\nid=15')
+    // assert-file
+    fs.textContent('my-test-file.txt').should == 'hello world\nid=15'
+    // assert-file
+
+    // wait-for-id
+    def fileTextContent = fs.textContent('my-test-file.txt')
+    fileTextContent.waitTo contain('id=15')
+    // wait-for-id
+
+    // actual-file-content
+    def actualFileContent = fileTextContent.data
+    // actual-file-content
+    actualFileContent.should == 'hello world\nid=15'
+
+    // extract-id
+    def id = fileTextContent.extractByRegexp("id=(\\d+)")
+    http.get("/customers/${id}") {
+        // ...
+        statusCode.should == 404
+    }
+    // extract-id
 
     fs.delete(path)
 }

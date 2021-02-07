@@ -11,6 +11,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
+  }, {
+    "scenario" : "read file using string path",
+    "shortContainerId" : "files.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
   } ],
   "exitCode" : 0
 }

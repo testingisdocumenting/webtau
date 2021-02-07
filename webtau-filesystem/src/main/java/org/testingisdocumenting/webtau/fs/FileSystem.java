@@ -40,11 +40,14 @@ public class FileSystem {
     }
 
     public void unzip(Path src, Path dest) {
+        Path fullSrc = fullPath(src);
+        Path fullDest = fullPath(dest);
+
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("unzipping "), urlValue(src.toString()), TO, urlValue(dest.toString())),
-                () -> tokenizedMessage(action("unzipped "), urlValue(src.toString()), TO, urlValue(dest.toString())),
+                () -> tokenizedMessage(action("unzipped "), urlValue(fullSrc.toString()), TO, urlValue(fullDest.toString())),
                 () -> {
-                    UnzipTask unzipTask = new UnzipTask(fullPath(src), fullPath(dest));
+                    UnzipTask unzipTask = new UnzipTask(fullSrc, fullDest);
                     unzipTask.execute();
                 });
 
@@ -137,7 +140,7 @@ public class FileSystem {
     }
 
     public FileTextContent textContent(String path) {
-        return new FileTextContent(Paths.get(path));
+        return textContent(Paths.get(path));
     }
 
     public FileTextContent textContent(Path path) {

@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.BeforeClass
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
+
 class WebTauFileSystemFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
@@ -29,7 +31,7 @@ class WebTauFileSystemFeaturesTest {
 
     @Test
     void "files"() {
-        runCli('files.groovy', 'webtau.cfg.groovy')
+        runCli('files.groovy', 'webtau.cfg.groovy', "--url=${SpringBootDemoAppUrl.baseUrl}")
     }
 
     @Test
@@ -40,6 +42,32 @@ class WebTauFileSystemFeaturesTest {
     @Test
     void "dirs"() {
         runCli('dirs.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "archive"() {
+        runCli('archive.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "extract snippets"() {
+        extractCodeSnippets(
+                'fsCopy', 'examples/scenarios/fs/copy.groovy', [
+                'copyFileToTempDir.groovy': 'copy file to temp dir',
+                'copyFileToDir.groovy': 'copy file to a dir',
+                'copyFileToFile.groovy': 'copy file to a different file'
+        ])
+
+        extractCodeSnippets(
+                'fsFileContent', 'examples/scenarios/fs/files.groovy', [
+                'createFile.groovy': 'create file using string path',
+                'readFile.groovy': 'read file using string path'
+        ])
+
+        extractCodeSnippets(
+                'fsArchive', 'examples/scenarios/fs/archive.groovy', [
+                'unzip.groovy': 'unzip'
+        ])
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
