@@ -27,7 +27,7 @@
     "scenario" : "save url",
     "shortContainerId" : "navigation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "change url in between save and load",
@@ -39,7 +39,7 @@
     "scenario" : "load url",
     "shortContainerId" : "navigation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   }, {
     "scenario" : "wait on url",
