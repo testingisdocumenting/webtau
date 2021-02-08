@@ -49,10 +49,14 @@ cli
     introduction
     foreground-command
     background-command
+REPL
+    experiments
+    test-runs
 utilities
     introduction
     data
     file-system
+    cache
 groovy-standalone-runner
     introduction
     data-driven-scenarios
@@ -62,9 +66,6 @@ groovy-standalone-runner
     test-metadata
     test-listeners
     test-execution
-REPL
-    experiments
-    test-runs
 configuration
     environments
     options

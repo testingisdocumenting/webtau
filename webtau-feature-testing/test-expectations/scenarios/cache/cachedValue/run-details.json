@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "heavy setup operation",
+    "shortContainerId" : "cachedValue.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "using previous setup id even after restart",
+    "shortContainerId" : "cachedValue.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  } ],
+  "exitCode" : 0
+}

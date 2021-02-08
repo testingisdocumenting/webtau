@@ -1,0 +1,3 @@
+#!/bin/bash
+echo heavy process start
+echo id=generated-id-123

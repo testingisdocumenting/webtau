@@ -29,7 +29,6 @@ import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifact
 class WebTauRestFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
-
     @BeforeClass
     static void init() {
         FixedResponsesHandler handler = new FixedResponsesHandler()
