@@ -41,3 +41,21 @@ scenario("command run result") {
         // ...
     }
 }
+
+scenario("run result extract by regexp from output") {
+    // example
+    def result = cli.run('scripts/generate-id')
+    def id = result.extractFromOutputByRegexp("id=(\\d+)")
+    // example
+
+    id.should == "4321254"
+}
+
+scenario("run result extract by regexp from error") {
+    // example
+    def result = cli.run('scripts/generate-id')
+    def id = result.extractFromErrorByRegexp("id=(\\d+)")
+    // example
+
+    id.should == "123457"
+}

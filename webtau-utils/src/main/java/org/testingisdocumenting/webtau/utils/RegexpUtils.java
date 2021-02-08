@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,5 +36,16 @@ public class RegexpUtils {
         matcher.appendTail(result);
 
         return result.toString();
+    }
+
+    public static String extractByRegexp(String source, String regexp) {
+        Pattern pattern = Pattern.compile(regexp);
+        Matcher matcher = pattern.matcher(source);
+        boolean found = matcher.find();
+        if (!found) {
+            return null;
+        }
+
+        return matcher.group(1);
     }
 }

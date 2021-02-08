@@ -21,12 +21,14 @@ import org.testingisdocumenting.webtau.expectation.ActualPathAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.reporter.*;
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
 import java.nio.file.Path;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -55,9 +57,9 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
 
     public String extractByRegexp(String regexp) {
         WebTauStep step = WebTauStep.createStep(null,
-                tokenizedMessage(action("extracting text"), classifier("by regexp"),
-                        FROM, urlValue(path), COLON, stringValue(regexp)),
-                (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"),
+                tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
+                        FROM, urlValue(path)),
+                (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"), stringValue(regexp),
                         FROM, urlValue(path), COLON, stringValue(r)),
                 () -> extractByRegexpStepImpl(regexp));
 
@@ -96,13 +98,11 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
     }
 
     private String extractByRegexpStepImpl(String regexp) {
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(getData());
-        boolean found = matcher.find();
-        if (!found) {
+        String extracted = RegexpUtils.extractByRegexp(getData(), regexp);
+        if (extracted == null) {
             throw new RuntimeException("can't find content to extract using regexp <" + regexp + "> from: " + path);
         }
 
-        return matcher.group(1);
+        return extracted;
     }
 }
