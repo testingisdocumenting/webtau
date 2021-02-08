@@ -60,7 +60,8 @@ public class CliForegroundCommand {
 
         try {
             step.execute(StepReportOptions.REPORT_ALL);
-            return new CliRunResult(validationResult.getExitCode().get(),
+            return new CliRunResult(command,
+                    validationResult.getExitCode().get(),
                     validationResult.getOut().get(),
                     validationResult.getErr().get());
         } finally {

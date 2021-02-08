@@ -35,6 +35,18 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
+  }, {
+    "scenario" : "run result extract by regexp from output",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "run result extract by regexp from error",
+    "shortContainerId" : "foregroundExamples.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
   } ],
   "exitCode" : 0
 }
