@@ -50,7 +50,9 @@ class WebTauCliFeaturesTest {
                 'withErrorValidation.groovy': 'command with error validation',
                 'withExitCodeValidation.groovy': 'command with exit code validation',
                 'implicitExitCodeBehindScenes.groovy': 'command implicit exit code check explicitly',
-                'runResult.groovy': 'command run result'
+                'runResult.groovy': 'command run result',
+                'runResultExtractOutput.groovy': 'run result extract by regexp from output',
+                'runResultExtractError.groovy': 'run result extract by regexp from error'
         ])
     }
 

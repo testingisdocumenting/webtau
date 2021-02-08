@@ -49,6 +49,20 @@ Use the result of `cli.run` if you need to process the output of the command.
 
 Warning: Perform validation inside validation block so webtau can track what was checked.
 
+:include-file: doc-artifacts/snippets/foreground-cli/runResultExtractOutput.groovy {
+  title: "extract from output by regexp",
+  startLine: "example",
+  endLine: "example",
+  excludeStartEnd: true
+}
+
+:include-file: doc-artifacts/snippets/foreground-cli/runResultExtractError.groovy {
+  title: "extract from error by regexp",
+  startLine: "example",
+  endLine: "example",
+  excludeStartEnd: true
+}
+
 # Working Dir
 
 Use `cli.workingDir` as a second parameter to `cli.run` to set a working dir:
