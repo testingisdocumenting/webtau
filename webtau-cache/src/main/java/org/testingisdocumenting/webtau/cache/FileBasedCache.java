@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
-public class FileBasedCache {
+class FileBasedCache {
     private static final String VALUE_KEY = "value";
     private static final String EXPIRATION_TIME_KEY = "expirationTime";
 
@@ -81,7 +81,6 @@ public class FileBasedCache {
 
     public void put(String key, Object value) {
         put(key, value, Long.MAX_VALUE);
-        flushCacheToDiskIfRequired();
     }
 
     private Map<String, Object> createValueWithMeta(Object value, long expirationTime) {

@@ -16,11 +16,20 @@
 
 package scenarios.cache
 
+// example
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-def createdId = cache.value("cli-heavy-created-id")
+def createdId = cache.value("cli-heavy-created-id") // declare cached value with distinct id
 
 scenario("heavy setup operation") {
-    def cliResult = cli.run("scripts/cli-heavy-process")
-    cliResult.
+    def cliResult = cli.run("scripts/cli-heavy-process") // long running process that you don't want to re-run as you write your tests
+    createdId.set(cliResult.extractFromOutputByRegexp("id=(\\S+)")) // caching the extracted id from CLI run
 }
+
+scenario("using previous setup id even after restart") {
+    def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile
+    http.get("/resource/${id}") {
+        message.should == "hello"
+    }
+}
+// example

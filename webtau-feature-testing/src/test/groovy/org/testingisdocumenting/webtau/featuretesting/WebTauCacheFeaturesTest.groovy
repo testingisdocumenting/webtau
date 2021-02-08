@@ -16,22 +16,32 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
+import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-
-import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
+import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 
 class WebTauCacheFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauEndToEndTestRunner()
+        FixedResponsesHandler handler = new FixedResponsesHandler()
+        testRunner = new WebTauEndToEndTestRunner(handler)
+
+        WebTauRestFeaturesTestData.registerEndPoints(testRunner.testServer, handler)
+
+        testRunner.startTestServer()
+    }
+
+    @AfterClass
+    static void cleanup() {
+        testRunner.stopTestServer()
     }
 
     @Test
-    void "files"() {
-        runCli('cachedValue.groovy', 'webtau.cfg.groovy', "--url=${SpringBootDemoAppUrl.baseUrl}")
+    void "cached value"() {
+        runCli('cachedValue.groovy', 'webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

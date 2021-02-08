@@ -19,20 +19,17 @@ package org.testingisdocumenting.webtau.cache;
 public class CachedValue<E> {
     private final Cache cache;
     private final String id;
-    private E value;
 
     public CachedValue(Cache cache, String id) {
         this.cache = cache;
         this.id = id;
-        this.value = cache.get(id);
     }
 
     public E get() {
-        return value;
+        return cache.get(id);
     }
 
     public void set(E value) {
-        this.value = value;
         cache.put(id, value);
     }
 }

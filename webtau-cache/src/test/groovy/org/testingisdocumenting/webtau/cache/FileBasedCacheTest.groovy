@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -92,8 +93,8 @@ class FileBasedCacheTest {
     void "should create non expiring values if no expiration time is provided"() {
         def cacheFile = createTempCacheFile([:])
 
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
         Time.timeProvider = new DummyTimeProvider([0, 11_000])
+        def fileBasedCache = new FileBasedCache({ -> cacheFile })
         fileBasedCache.put('accessToken', 'abc')
 
         Assert.assertEquals(String.format('{%n' +
