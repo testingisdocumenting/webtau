@@ -31,7 +31,6 @@ class ServerAutoStartListener implements TestListener {
         server.output.waitTo(contain("Tomcat started on port(s)"), 10_000)
 
         def port = RegexpUtils.extractByRegexp(server.output.get(), /Tomcat started on port\(s\): (\d+)/)
-        println "@@@port:" + port
         cfg.baseUrl = "http://localhost:${port}"
     }
 
