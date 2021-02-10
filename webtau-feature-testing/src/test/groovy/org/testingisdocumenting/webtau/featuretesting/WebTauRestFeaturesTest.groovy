@@ -154,6 +154,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "start server before first test and stop after"() {
+        runCli("springboot/startAndStopAsPartOfSuite.groovy", "springboot/webtau-auto-start.groovy")
+    }
+
+    @Test
     void "recursive scenario discovery"() {
         testRunner.runCli("recursive/scenarios", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }

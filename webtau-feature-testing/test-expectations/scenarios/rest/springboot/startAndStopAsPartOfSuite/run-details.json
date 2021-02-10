@@ -1,0 +1,22 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "before first test",
+    "shortContainerId" : "Setup",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "list customers",
+    "shortContainerId" : "startAndStopAsPartOfSuite.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  } ],
+  "exitCode" : 0
+}

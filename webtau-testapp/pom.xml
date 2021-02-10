@@ -123,4 +123,27 @@
             <version>1.1.1</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                    <wait>40000</wait>
+                    <finalName>springboot-testapp</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>package-app</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

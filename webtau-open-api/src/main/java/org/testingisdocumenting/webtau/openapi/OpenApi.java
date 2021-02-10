@@ -17,21 +17,27 @@
 
 package org.testingisdocumenting.webtau.openapi;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class OpenApi {
-    private static OpenApiSpec spec;
-    private static OpenApiSpecValidator validator;
-    private static OpenApiCoverage coverage;
+    private static final AtomicReference<OpenApiSpec> spec = new AtomicReference<>();
+    private static final AtomicReference<OpenApiSpecValidator> validator = new AtomicReference<>();
+    private static final AtomicReference<OpenApiCoverage> coverage = new AtomicReference<>();
 
-    static OpenApiSpec getSpec() {
-        return spec;
+    synchronized static OpenApiSpecValidator getValidator() {
+        if (validator.get() == null) {
+            initialize();
+        }
+
+        return validator.get();
     }
 
-    static OpenApiSpecValidator getValidator() {
-        return validator;
-    }
+    synchronized static OpenApiCoverage getCoverage() {
+        if (coverage.get() == null) {
+            initialize();
+        }
 
-    static OpenApiCoverage getCoverage() {
-        return coverage;
+        return coverage.get();
     }
 
     public static void withoutValidation(Runnable code) {
@@ -47,9 +53,9 @@ public class OpenApi {
     }
 
     static void reset() {
-        spec = new OpenApiSpec(OpenApiSpecConfig.getSpecFullPathOrUrl());
-        validator = new OpenApiSpecValidator(spec, validationConfig());
-        coverage = new OpenApiCoverage(spec);
+        spec.set(null);
+        validator.set(null);
+        coverage.set(null);
     }
 
     private static OpenApiValidationConfig validationConfig() {
@@ -59,4 +65,9 @@ public class OpenApi {
         return config;
     }
 
+    static void initialize() {
+        spec.set(new OpenApiSpec(OpenApiSpecConfig.determineSpecFullPathOrUrl()));
+        validator.set(new OpenApiSpecValidator(spec.get(), validationConfig()));
+        coverage.set(new OpenApiCoverage(spec.get()));
+    }
 }
