@@ -59,6 +59,9 @@ toc = [ {
       "title" : "REPL",
       "id" : "repl"
     }, {
+      "title" : "Utilities",
+      "id" : "utilities"
+    }, {
       "title" : "Documentation Artifacts",
       "id" : "documentation-artifacts"
     } ]
@@ -765,8 +768,17 @@ toc = [ {
       "title" : "Custom Query",
       "id" : "custom-query"
     }, {
+      "title" : "Named Parameter Shortcut",
+      "id" : "named-parameter-shortcut"
+    }, {
+      "title" : "Lazy Declaration",
+      "id" : "lazy-declaration"
+    }, {
       "title" : "Single Value",
       "id" : "single-value"
+    }, {
+      "title" : "Wait On Result",
+      "id" : "wait-on-result"
     }, {
       "title" : "Query Result Value",
       "id" : "query-result-value"
@@ -845,6 +857,62 @@ toc = [ {
     } ]
   } ]
 }, {
+  "sectionTitle" : "REPL",
+  "dirName" : "REPL",
+  "items" : [ {
+    "sectionTitle" : "REPL",
+    "pageTitle" : "Experiments",
+    "pageMeta" : { },
+    "dirName" : "REPL",
+    "fileName" : "experiments",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Read Eval Print Loop",
+      "id" : "read-eval-print-loop"
+    }, {
+      "title" : "Start REPL",
+      "id" : "start-repl"
+    }, {
+      "title" : "Experiment With API",
+      "id" : "experiment-with-api"
+    }, {
+      "title" : "Setting Config Value",
+      "id" : "setting-config-value"
+    }, {
+      "title" : "Preserving Browser Context",
+      "id" : "preserving-browser-context"
+    } ]
+  }, {
+    "sectionTitle" : "REPL",
+    "pageTitle" : "Test Runs",
+    "pageMeta" : { },
+    "dirName" : "REPL",
+    "fileName" : "test-runs",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Incremental Tests Development",
+      "id" : "incremental-tests-development"
+    }, {
+      "title" : "Test Files Listing",
+      "id" : "test-files-listing"
+    }, {
+      "title" : "Test File Selection",
+      "id" : "test-file-selection"
+    }, {
+      "title" : "Single Test Scenario Run",
+      "id" : "single-test-scenario-run"
+    }, {
+      "title" : "Re-run Last Run",
+      "id" : "re-run-last-run"
+    }, {
+      "title" : "Multiple Test Scenarios Run",
+      "id" : "multiple-test-scenarios-run"
+    }, {
+      "title" : "Select Scenarios Without Run",
+      "id" : "select-scenarios-without-run"
+    } ]
+  } ]
+}, {
   "sectionTitle" : "Utilities",
   "dirName" : "utilities",
   "items" : [ {
@@ -868,6 +936,34 @@ toc = [ {
     }, {
       "title" : "JSON",
       "id" : "json"
+    } ]
+  }, {
+    "sectionTitle" : "Utilities",
+    "pageTitle" : "File System",
+    "pageMeta" : { },
+    "dirName" : "utilities",
+    "fileName" : "file-system",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "File Content",
+      "id" : "file-content"
+    }, {
+      "title" : "Copy",
+      "id" : "copy"
+    }, {
+      "title" : "Unzip",
+      "id" : "unzip"
+    } ]
+  }, {
+    "sectionTitle" : "Utilities",
+    "pageTitle" : "Cache",
+    "pageMeta" : { },
+    "dirName" : "utilities",
+    "fileName" : "cache",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Cached Value",
+      "id" : "cached-value"
     } ]
   } ]
 }, {
@@ -996,62 +1092,6 @@ toc = [ {
     }, {
       "title" : "Scenario discovery",
       "id" : "scenario-discovery"
-    } ]
-  } ]
-}, {
-  "sectionTitle" : "REPL",
-  "dirName" : "REPL",
-  "items" : [ {
-    "sectionTitle" : "REPL",
-    "pageTitle" : "Experiments",
-    "pageMeta" : { },
-    "dirName" : "REPL",
-    "fileName" : "experiments",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Read Eval Print Loop",
-      "id" : "read-eval-print-loop"
-    }, {
-      "title" : "Start REPL",
-      "id" : "start-repl"
-    }, {
-      "title" : "Experiment With API",
-      "id" : "experiment-with-api"
-    }, {
-      "title" : "Setting Config Value",
-      "id" : "setting-config-value"
-    }, {
-      "title" : "Preserving Browser Context",
-      "id" : "preserving-browser-context"
-    } ]
-  }, {
-    "sectionTitle" : "REPL",
-    "pageTitle" : "Test Runs",
-    "pageMeta" : { },
-    "dirName" : "REPL",
-    "fileName" : "test-runs",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Incremental Tests Development",
-      "id" : "incremental-tests-development"
-    }, {
-      "title" : "Test Files Listing",
-      "id" : "test-files-listing"
-    }, {
-      "title" : "Test File Selection",
-      "id" : "test-file-selection"
-    }, {
-      "title" : "Single Test Scenario Run",
-      "id" : "single-test-scenario-run"
-    }, {
-      "title" : "Re-run Last Run",
-      "id" : "re-run-last-run"
-    }, {
-      "title" : "Multiple Test Scenarios Run",
-      "id" : "multiple-test-scenarios-run"
-    }, {
-      "title" : "Select Scenarios Without Run",
-      "id" : "select-scenarios-without-run"
     } ]
   } ]
 }, {

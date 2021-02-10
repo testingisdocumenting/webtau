@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Run Result</h1></header>
-<p>Use the result of cli.run if you need to process the output of the command. def result = cli.run('echo hello world') println result.output println result.error if (result.exitCode == 1) { // ... } Warning: Perform validation inside validation block so webtau can track what was checked.</p>
+<p>Use the result of cli.run if you need to process the output of the command. def result = cli.run('echo hello world') println result.output println result.error if (result.exitCode == 1) { // ... } Warning: Perform validation inside validation block so webtau can track what was checked. def result = cli.run('scripts/generate-id') def id = result.extractFromOutputByRegexp(&quot;id=(\\d+)&quot;) def result = cli.run('scripts/generate-id') def id = result.extractFromErrorByRegexp(&quot;id=(\\d+)&quot;)</p>
 </article>
 
 <article>
@@ -288,6 +288,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Warning: Perform validation inside validation block so webtau can track what was checked.",
           "type" : "SimpleText"
         } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def result = cli.run('scripts/generate-id')\ndef id = result.extractFromOutputByRegexp(\"id=(\\\\d+)\")",
+        "title" : "extract from output by regexp",
+        "startLine" : "example",
+        "endLine" : "example",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def result = cli.run('scripts/generate-id')\ndef id = result.extractFromErrorByRegexp(\"id=(\\\\d+)\")",
+        "title" : "extract from error by regexp",
+        "startLine" : "example",
+        "endLine" : "example",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
       } ]
     }, {
       "title" : "Working Dir",
@@ -368,7 +384,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1610999581987,
+    "lastModifiedTime" : 1612919654555,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Foreground Command",

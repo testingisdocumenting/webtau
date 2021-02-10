@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Config</title>
+<title>WebTau: Cache</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,8 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>JDBC</h1></header>
-<p>Webtau is JVM based API and it uses https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity. JDBC interface behind the scenes to connect to a database.You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how to build JDBC connection url to be able to connect to a database.</p>
-</article>
-
-<article>
-<header><h1>Primary Database</h1></header>
-<p>Primary DB config used when execute operations using db.update , db.query , etc, without specifying data source name. import groovy.grape.Grape Grape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db) classLoader: ClassLoader.getSystemClassLoader()) dbUrl = &quot;jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE&quot; // primary DB JDBC connection url dbDriverClassName = &quot;org.h2.Driver&quot; // JDBC driver class name dbUserName = &quot;sa&quot; dbPassword = &quot;password&quot;</p>
+<header><h1>Cached Value</h1></header>
+<p>When you develop tests, you don't have to restart the whole flow from the beginning.Imagine you have a multi step test that includes running Command Line tool and then validating REST API response, and then opening a browser to assert UI values.Cache long steps results like created entities ids to speed up tests development.In the example below, you create first scenario that runs a heavy command line tool that generates an id. We then cache the value and you can write a second scenario and keep re-running it, without the need to re-run the first one. import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def createdId = cache.value(&quot;cli-heavy-created-id&quot;) // declare cached value with distinct id scenario(&quot;heavy setup operation&quot;) { def cliResult = cli.run(&quot;scripts/cli-heavy-process&quot;) // long running process that you don't want to re-run as you write your tests createdId.set(cliResult.extractFromOutputByRegexp(&quot;id=(\\S+)&quot;)) // caching the extracted id from CLI run } scenario(&quot;using previous setup id even after restart&quot;) { def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile http.get(&quot;/resource/${id}&quot;) { message.should == &quot;hello&quot; } } Note: Use groovy-standalone-runner/selective-run Selective Run or REPL/test-runs REPL mode to run one scenario at a time.</p>
 </article>
 </section>
 </div>
@@ -117,85 +112,104 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "JDBC",
-      "id" : "jdbc",
+      "title" : "Cached Value",
+      "id" : "cached-value",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau is JVM based API and it uses ",
-          "type" : "SimpleText"
-        }, {
-          "url" : "https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity.",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "JDBC",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "interface behind the scenes to connect to a database.",
+          "text" : "When you develop tests, you don't have to restart the whole flow from the beginning.",
           "type" : "SimpleText"
         } ]
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how",
+          "text" : "Imagine you have a multi step test that includes running Command Line tool and then validating REST API response, and",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "to build JDBC connection url to be able to connect to a database.",
+          "text" : "then opening a browser to assert UI values.",
           "type" : "SimpleText"
         } ]
-      } ]
-    }, {
-      "title" : "Primary Database",
-      "id" : "primary-database",
-      "type" : "Section",
-      "content" : [ {
+      }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Primary DB config used when execute operations using ",
+          "text" : "Cache long steps results like created entities ",
           "type" : "SimpleText"
         }, {
-          "code" : "db.update",
+          "code" : "ids",
           "type" : "InlinedCode"
         }, {
-          "text" : ", ",
+          "text" : " to speed up tests development.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the example below, you create first scenario that runs a heavy command line tool that generates an id.",
           "type" : "SimpleText"
         }, {
-          "code" : "db.query",
-          "type" : "InlinedCode"
+          "type" : "SoftLineBreak"
         }, {
-          "text" : ", etc, without specifying data source name.",
+          "text" : "We then cache the value and you can write a second scenario and keep re-running it, without the need to re-run the first one.",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
-        "title" : "Primary DB config",
-        "excludeRegexp" : "package",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef createdId = cache.value(\"cli-heavy-created-id\") // declare cached value with distinct id\n\nscenario(\"heavy setup operation\") {\n    def cliResult = cli.run(\"scripts/cli-heavy-process\") // long running process that you don't want to re-run as you write your tests\n    createdId.set(cliResult.extractFromOutputByRegexp(\"id=(\\\\S+)\")) // caching the extracted id from CLI run\n}\n\nscenario(\"using previous setup id even after restart\") {\n    def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile\n    http.get(\"/resource/${id}\") {\n        message.should == \"hello\"\n    }\n}",
+        "title" : "cached value",
+        "startLine" : "example",
+        "endLine" : "example",
+        "excludeStartEnd" : true,
         "commentsType" : "inline",
         "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Use ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/groovy-standalone-runner/selective-run",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Selective Run",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " or ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/REPL/test-runs",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "REPL mode",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : "",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "to run one scenario at a time.",
+          "type" : "SimpleText"
+        } ]
       } ]
     } ],
     "lastModifiedTime" : 1612919654559,
     "tocItem" : {
-      "sectionTitle" : "Database",
-      "pageTitle" : "Config",
+      "sectionTitle" : "Utilities",
+      "pageTitle" : "Cache",
       "pageMeta" : { },
-      "dirName" : "database",
-      "fileName" : "config",
+      "dirName" : "utilities",
+      "fileName" : "cache",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "JDBC",
-        "id" : "jdbc"
-      }, {
-        "title" : "Primary Database",
-        "id" : "primary-database"
+        "title" : "Cached Value",
+        "id" : "cached-value"
       } ]
     }
   },

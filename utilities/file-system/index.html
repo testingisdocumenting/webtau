@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Config</title>
+<title>WebTau: File System</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,18 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>JDBC</h1></header>
-<p>Webtau is JVM based API and it uses https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity. JDBC interface behind the scenes to connect to a database.You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how to build JDBC connection url to be able to connect to a database.</p>
+<header><h1>File Content</h1></header>
+<p>def path = fs.writeText('my-test-file.txt', 'hello world') fs.textContent('my-test-file.txt').should == 'hello world\nid=15' fs.textContent declares file content, but doesn't access it right away. Webtau reads file content when validation happens. Here is an example of waiting on file content: def fileTextContent = fs.textContent('my-test-file.txt') fileTextContent.waitTo contain('id=15') Use .data to access actual file content for further processing def actualFileContent = fileTextContent.data Use extractByRegexp to extract content from a file by regular expression def id = fileTextContent.extractByRegexp(&quot;id=(\\d+)&quot;) http.get(&quot;/customers/${id}&quot;) { // ... }</p>
 </article>
 
 <article>
-<header><h1>Primary Database</h1></header>
-<p>Primary DB config used when execute operations using db.update , db.query , etc, without specifying data source name. import groovy.grape.Grape Grape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db) classLoader: ClassLoader.getSystemClassLoader()) dbUrl = &quot;jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE&quot; // primary DB JDBC connection url dbDriverClassName = &quot;org.h2.Driver&quot; // JDBC driver class name dbUserName = &quot;sa&quot; dbPassword = &quot;password&quot;</p>
+<header><h1>Copy</h1></header>
+<p>def dir = fs.createDir(&quot;my-dir&quot;) fs.copy(&quot;data/message.txt&quot;, dir) def dir = fs.tempDir(&quot;fs-copy&quot;) fs.copy(&quot;data/message.txt&quot;, dir) fs.copy(&quot;data/message.txt&quot;, &quot;data/new-message.txt&quot;)</p>
+</article>
+
+<article>
+<header><h1>Unzip</h1></header>
+<p>def dir = fs.tempDir('for-unzip') fs.unzip('data/data.zip', dir)</p>
 </article>
 </section>
 </div>
@@ -117,85 +122,138 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "JDBC",
-      "id" : "jdbc",
+      "title" : "File Content",
+      "id" : "file-content",
       "type" : "Section",
       "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Webtau is JVM based API and it uses ",
-          "type" : "SimpleText"
-        }, {
-          "url" : "https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity.",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "JDBC",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "interface behind the scenes to connect to a database.",
-          "type" : "SimpleText"
-        } ]
+        "lang" : "groovy",
+        "snippet" : "def path = fs.writeText('my-test-file.txt', 'hello world')",
+        "title" : "write content to a file",
+        "includeRegexp" : [ "fs\\.writeText" ],
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "fs.textContent('my-test-file.txt').should == 'hello world\\nid=15'",
+        "title" : "validate file content",
+        "startLine" : "assert-file",
+        "endLine" : "assert-file",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how",
+          "code" : "fs.textContent",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " declares file content, but doesn't access it right away.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "to build JDBC connection url to be able to connect to a database.",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "title" : "Primary Database",
-      "id" : "primary-database",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Primary DB config used when execute operations using ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "db.update",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "db.query",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", etc, without specifying data source name.",
+          "text" : "Webtau reads file content when validation happens. Here is an example of waiting on file content:",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
-        "title" : "Primary DB config",
-        "excludeRegexp" : "package",
-        "commentsType" : "inline",
+        "snippet" : "def fileTextContent = fs.textContent('my-test-file.txt')\nfileTextContent.waitTo contain('id=15')",
+        "title" : "wait for file content",
+        "startLine" : "wait-for-id",
+        "endLine" : "wait-for-id",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : ".data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to access actual file content for further processing",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def actualFileContent = fileTextContent.data",
+        "title" : "access file content",
+        "startLine" : "actual-file-content",
+        "endLine" : "actual-file-content",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "extractByRegexp",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to extract content from a file by regular expression",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def id = fileTextContent.extractByRegexp(\"id=(\\\\d+)\")\nhttp.get(\"/customers/${id}\") {\n    // ...\n}",
+        "title" : "extract file content",
+        "startLine" : "extract-id",
+        "endLine" : "extract-id",
+        "excludeStartEnd" : true,
+        "excludeRegexp" : "statusCode",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Copy",
+      "id" : "copy",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def dir = fs.createDir(\"my-dir\")\nfs.copy(\"data/message.txt\", dir)",
+        "title" : "copy single file to a directory",
+        "includeRegexp" : [ "fs\\.copy", "createDir" ],
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def dir = fs.tempDir(\"fs-copy\")\nfs.copy(\"data/message.txt\", dir)",
+        "title" : "copy single file to a temp directory",
+        "includeRegexp" : [ "fs\\.copy", "tempDir" ],
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "fs.copy(\"data/message.txt\", \"data/new-message.txt\")",
+        "title" : "copy single file to a file",
+        "includeRegexp" : [ "fs\\.copy" ],
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Unzip",
+      "id" : "unzip",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def dir = fs.tempDir('for-unzip')\nfs.unzip('data/data.zip', dir)",
+        "title" : "unzip a file",
         "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1612919654559,
     "tocItem" : {
-      "sectionTitle" : "Database",
-      "pageTitle" : "Config",
+      "sectionTitle" : "Utilities",
+      "pageTitle" : "File System",
       "pageMeta" : { },
-      "dirName" : "database",
-      "fileName" : "config",
+      "dirName" : "utilities",
+      "fileName" : "file-system",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "JDBC",
-        "id" : "jdbc"
+        "title" : "File Content",
+        "id" : "file-content"
       }, {
-        "title" : "Primary Database",
-        "id" : "primary-database"
+        "title" : "Copy",
+        "id" : "copy"
+      }, {
+        "title" : "Unzip",
+        "id" : "unzip"
       } ]
     }
   },
