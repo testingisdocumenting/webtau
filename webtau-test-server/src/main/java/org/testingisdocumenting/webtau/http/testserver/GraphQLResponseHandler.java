@@ -59,7 +59,7 @@ public class GraphQLResponseHandler extends AbstractHandler {
     @Override
     public void handle(String url, Request baseRequest, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, ServletException {
-        if ("/graphql".equals(baseRequest.getOriginalURI())) {
+        if (baseRequest.getOriginalURI().startsWith("/graphql")) {
             handleGraphQLPathRequest(request, response);
         } else if (additionalHandler.isPresent()) {
             additionalHandler.get().handle(url, baseRequest, request, response);
