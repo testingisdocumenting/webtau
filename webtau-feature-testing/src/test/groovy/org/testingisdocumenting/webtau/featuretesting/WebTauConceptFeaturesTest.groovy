@@ -112,6 +112,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "repeat step"() {
+        runCli('repeatStep.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "runner should use deprecated config file name when no config file is available"() {
         runCliWithWorkingDir('deprecatedConfigCheck.groovy',
                 'examples/scenarios/concept/deprecatedconfig')

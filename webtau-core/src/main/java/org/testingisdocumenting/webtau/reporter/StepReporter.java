@@ -21,4 +21,7 @@ public interface StepReporter {
     void onStepStart(WebTauStep step);
     void onStepSuccess(WebTauStep step);
     void onStepFailure(WebTauStep step);
+
+    default void onStepRepeat(WebTauStep step, int current, int total) {
+    }
 }

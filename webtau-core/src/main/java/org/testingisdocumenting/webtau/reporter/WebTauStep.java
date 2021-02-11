@@ -53,6 +53,8 @@ public class WebTauStep {
     private long startTime;
     private long elapsedTime;
 
+    private int totalNumberOfAttempts;
+
     private static final ThreadLocal<WebTauStep> currentStep = new ThreadLocal<>();
 
     public static WebTauStep createStep(Object context,
@@ -176,6 +178,7 @@ public class WebTauStep {
         this.action = action;
         this.isInProgress = true;
         this.payloads = new ArrayList<>();
+        this.totalNumberOfAttempts = 1;
     }
 
     public Stream<WebTauStep> children() {
@@ -194,6 +197,10 @@ public class WebTauStep {
         return getCombinedPayloads()
                 .filter(p -> p.getClass().isAssignableFrom(type))
                 .map(p -> (V) p);
+    }
+
+    public void setTotalNumberOfAttempts(int totalNumberOfAttempts) {
+        this.totalNumberOfAttempts = totalNumberOfAttempts;
     }
 
     public void addPayload(WebTauStepPayload payload) {
@@ -262,17 +269,33 @@ public class WebTauStep {
 
     @SuppressWarnings("unchecked")
     public <R> R execute(StepReportOptions stepReportOptions) {
+        if (totalNumberOfAttempts == 1) {
+            return executeSingleRun(stepReportOptions);
+        } else {
+            return executeMultipleRuns(stepReportOptions);
+        }
+    }
+
+    private <R> R executeSingleRun(StepReportOptions stepReportOptions) {
+        return executeSingleRunWithAction(stepReportOptions, action);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <R> R executeSingleRunWithAction(StepReportOptions stepReportOptions,
+                                             Supplier<Object> actionToUse) {
         try {
-            if (stepReportOptions != StepReportOptions.SKIP_START) {
+            if (stepReportOptions != StepReportOptions.SKIP_START && stepReportOptions != StepReportOptions.SKIP_ALL) {
                 StepReporters.onStart(this);
             }
 
             startClock();
-            Object result = action.get();
+            Object result = actionToUse.get();
             complete(completionMessageFunc.apply(result));
             stopClock();
 
-            StepReporters.onSuccess(this);
+            if (stepReportOptions != StepReportOptions.SKIP_ALL) {
+                StepReporters.onSuccess(this);
+            }
 
             return (R) result;
         } catch (Throwable e) {
@@ -287,6 +310,42 @@ public class WebTauStep {
                 currentStep.set(localCurrentStep.parent);
             }
         }
+    }
+
+    private <R> R executeMultipleRuns(StepReportOptions stepReportOptions) {
+        int remaining = totalNumberOfAttempts;
+
+        WebTauStep repeatParent = getCurrentStep();
+
+        executeSingleRunWithAction(stepReportOptions, () -> multipleTimesRunActionWrapper(stepReportOptions));
+        while (remaining > 0) {
+            boolean reportStep = remaining == totalNumberOfAttempts || remaining == 1;
+
+//            if (reportStep) {
+//            } else {
+//                StepReporters.withoutReporters(() -> executeSingleRun(stepReportOptions));
+//            }
+
+            StepReporters.onStepRepeat(this, totalNumberOfAttempts - remaining + 1, totalNumberOfAttempts);
+            remaining--;
+        }
+
+        return null;
+    }
+
+    private Object multipleTimesRunActionWrapper(StepReportOptions stepReportOptions) {
+        Object result = null;
+        int remaining = totalNumberOfAttempts;
+        while (remaining > 0) {
+            boolean reportStep = remaining == totalNumberOfAttempts || remaining == 1;
+
+            result = executeSingleRun(stepReportOptions);
+
+            StepReporters.onStepRepeat(this, totalNumberOfAttempts - remaining + 1, totalNumberOfAttempts);
+            remaining--;
+        }
+
+        return result;
     }
 
     private void startClock() {

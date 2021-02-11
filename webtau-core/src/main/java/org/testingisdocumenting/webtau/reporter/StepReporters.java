@@ -51,12 +51,26 @@ public class StepReporters {
         }
     }
 
+    public static <R> R withoutReporters(Supplier<R> code) {
+        // TODO
+//        try {
+//            addLocal(reporter);
+            return code.get();
+//        } finally {
+//            removeLocal(reporter);
+//        }
+    }
+
     public static void onStart(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepStart(step));
     }
 
     public static void onSuccess(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepSuccess(step));
+    }
+
+    public static void onStepRepeat(WebTauStep step, int current, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeat(step, current, total));
     }
 
     public static void onFailure(WebTauStep step) {
