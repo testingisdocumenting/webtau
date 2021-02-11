@@ -1,8 +1,8 @@
 # Customizing the GraphQL Endpoint
 
-By default, WebTau assumes that all requests are made to a `/graphql` endpoint. 
+By default, webtau assumes that all requests are made to a `/graphql` endpoint. 
 In some cases it may make sense to customize this URL, e.g. to hit a non-standard endpoint or
-to decorate the query with an ignored query parameter that contains the query's `operationName`. Execution logs as well as WebTau's step reports will then become easier to read and debug, especially since the operation's name is in the request's payload and is usually not logged by request loggers.
+to decorate the query with an ignored query parameter that contains the query's `operationName`. Execution logs as well as webtau's step reports will then become easier to read and debug, especially since the operation's name is in the request's payload and is usually not logged by request loggers.
 
 In order to change the URL, you need to implement a `GraphQLHttpConfiguration` and ensure it gets loaded at runtime via the Java ServiceLoader.
 

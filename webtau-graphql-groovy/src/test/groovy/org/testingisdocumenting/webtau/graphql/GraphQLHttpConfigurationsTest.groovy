@@ -43,6 +43,7 @@ class GraphQLHttpConfigurationsTest extends GraphQLTestBase {
             return given
         }
     }
+
     private GraphQLHttpConfiguration withOperationAsQueryParam = new CustomGraphQLHttpConfiguration()
 
     @Before
