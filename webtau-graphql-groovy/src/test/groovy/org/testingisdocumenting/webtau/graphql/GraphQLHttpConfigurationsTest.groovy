@@ -21,16 +21,14 @@ import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfiguration
 import org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfigurations
-import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.config.HttpConfiguration
 import org.testingisdocumenting.webtau.http.config.HttpConfigurations
 
+import static org.testingisdocumenting.webtau.graphql.CustomGraphQLHttpConfiguration.CUSTOM_GRAPHQL_ENDPOINT
 import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql
 
 class GraphQLHttpConfigurationsTest extends GraphQLTestBase {
-    static final CUSTOM_GRAPHQL_ENDPOINT = 'graphql-custom'
-
     private HttpConfiguration urlVerifier = new HttpConfiguration() {
         List<String> urls = []
 
@@ -45,15 +43,7 @@ class GraphQLHttpConfigurationsTest extends GraphQLTestBase {
             return given
         }
     }
-    private withOperationAsQueryParam = new GraphQLHttpConfiguration() {
-        @Override
-        String requestUrl(String url, GraphQLRequest graphQLRequest) {
-            if (null != graphQLRequest.operationName && !graphQLRequest.operationName.isEmpty()) {
-                return "${CUSTOM_GRAPHQL_ENDPOINT}?operation=${graphQLRequest.operationName}"
-            }
-            return url
-        }
-    }
+    private GraphQLHttpConfiguration withOperationAsQueryParam = new CustomGraphQLHttpConfiguration()
 
     @Before
     void addGraphQLUrlVerifier() {
