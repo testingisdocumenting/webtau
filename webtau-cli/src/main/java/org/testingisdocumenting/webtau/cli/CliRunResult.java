@@ -20,6 +20,8 @@ import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
+import java.util.regex.Pattern;
+
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -50,14 +52,22 @@ public class CliRunResult {
     }
 
     public String extractFromOutputByRegexp(String regexp) {
+        return extractFromOutputByRegexp(Pattern.compile(regexp));
+    }
+
+    public String extractFromOutputByRegexp(Pattern regexp) {
         return extractFromSourceByRegexp("stdout", output, regexp);
     }
 
     public String extractFromErrorByRegexp(String regexp) {
+        return extractFromErrorByRegexp(Pattern.compile(regexp));
+    }
+
+    public String extractFromErrorByRegexp(Pattern regexp) {
         return extractFromSourceByRegexp("stderr", error, regexp);
     }
 
-    private String extractFromSourceByRegexp(String sourceLabel, String source, String regexp) {
+    private String extractFromSourceByRegexp(String sourceLabel, String source, Pattern regexp) {
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
                         FROM, urlValue(command), classifier(sourceLabel)),
@@ -68,7 +78,7 @@ public class CliRunResult {
         return step.execute(StepReportOptions.SKIP_START);
     }
 
-    private String extractByRegexpStepImpl(String sourceLabel, String source, String regexp) {
+    private String extractByRegexpStepImpl(String sourceLabel, String source, Pattern regexp) {
         String extracted = RegexpUtils.extractByRegexp(source, regexp);
         if (extracted == null) {
             throw new RuntimeException("can't find content to extract using regexp <" + regexp + "> from " +
