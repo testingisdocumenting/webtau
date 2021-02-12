@@ -76,7 +76,7 @@ class ReplResultRenderer {
     }
 
     private static void renderDbQueryResult(DbQuery queryResult) {
-        out(ReplTableRenderer.render(queryResult.tableData))
+        out(ReplTableRenderer.render(queryResult.queryTableData()))
     }
 
     private static void renderDataNodeResult(DataNode result) {
