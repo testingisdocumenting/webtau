@@ -19,15 +19,12 @@ package org.testingisdocumenting.webtau.cli.repl
 import org.apache.groovy.groovysh.Groovysh
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.PageUrl
-import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
-import org.testingisdocumenting.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.db.DbQuery
 import org.testingisdocumenting.webtau.fs.FileTextContent
-import org.testingisdocumenting.webtau.http.datanode.DataNode
-import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
 import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
 
@@ -46,16 +43,12 @@ class ReplResultRenderer {
     }
 
     void renderResult(Object result) {
-        if (result instanceof WebTauConfig) {
-            result.printAll()
-        } else if (result instanceof DataNode) {
-            renderDataNodeResult(result)
+        if (result instanceof PrettyPrintable) {
+            result.prettyPrint()
         } else if (result instanceof PageElement) {
             renderPageElementResult(result)
         } else if (result instanceof DbQuery) {
             renderDbQueryResult(result)
-        } else if (result instanceof TableData) {
-            renderTableData(result)
         } else if (result instanceof PageUrl) {
             renderPageUrl(result)
         } else if (result instanceof FileTextContent) {
@@ -71,16 +64,8 @@ class ReplResultRenderer {
                 cfg.consolePayloadOutputLimit) {[it] as Object[]}
     }
 
-    private static void renderTableData(TableData tableData) {
-        out(ReplTableRenderer.render(tableData))
-    }
-
     private static void renderDbQueryResult(DbQuery queryResult) {
         out(ReplTableRenderer.render(queryResult.tableData))
-    }
-
-    private static void renderDataNodeResult(DataNode result) {
-        new DataNodeAnsiPrinter().print(result)
     }
 
     private static void renderPageUrl(PageUrl pageUrl) {
