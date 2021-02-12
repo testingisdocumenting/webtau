@@ -32,6 +32,9 @@ class RegexpUtilsTest {
         Assert.assertEquals("123",
                 RegexpUtils.extractByRegexp("line 1\nline 2\nhello id=123 ere\n", "id=(\\d+)"))
 
+        Assert.assertEquals("123",
+                RegexpUtils.extractByRegexp("line 1\nline 2\nhello id=123 ere\n", ~/id=(\d+)/))
+
         Assert.assertEquals(null,
                 RegexpUtils.extractByRegexp("line 1\nline 2\nhello id=123 ere\n", "bid=(\\d+)"))
     }

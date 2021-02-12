@@ -40,6 +40,10 @@ public class RegexpUtils {
 
     public static String extractByRegexp(String source, String regexp) {
         Pattern pattern = Pattern.compile(regexp);
+        return extractByRegexp(source, pattern);
+    }
+
+    public static String extractByRegexp(String source, Pattern pattern) {
         Matcher matcher = pattern.matcher(source);
         boolean found = matcher.find();
         if (!found) {
