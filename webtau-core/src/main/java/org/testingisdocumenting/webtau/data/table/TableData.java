@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.data.table;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.TableDataRenderer;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
@@ -32,7 +34,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * Represents a set of rows with named columns to be used as part of test input preparation and/or test output validation
  */
-public class TableData implements Iterable<Record> {
+public class TableData implements Iterable<Record>, PrettyPrintable {
     private final List<Record> rows;
     private final Map<CompositeKey, Record> rowsByKey;
     private final Map<CompositeKey, Integer> rowIdxByKey;
@@ -238,5 +240,10 @@ public class TableData implements Iterable<Record> {
         }
 
         return result;
+    }
+
+    @Override
+    public void prettyPrint() {
+        ConsoleOutputs.out(PrettyPrintTableRenderer.render(this));
     }
 }
