@@ -17,11 +17,16 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.function.Supplier;
 
-public class PageUrl {
+import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out;
+
+public class PageUrl implements PrettyPrintable {
     private static final BrowserContext browserContext = new BrowserContext();
     private final Supplier<String> currentUrlSupplier;
 
@@ -79,5 +84,13 @@ public class PageUrl {
                 ", path: " + path +
                 ", query: " + query +
                 ", ref: " + ref;
+    }
+
+    @Override
+    public void prettyPrint() {
+        out(Color.YELLOW, " full: ", Color.GREEN, full.get());
+        out(Color.YELLOW, " path: ", Color.GREEN, path.get());
+        out(Color.YELLOW, "query: ", Color.GREEN, query.get());
+        out(Color.YELLOW, "  ref: ", Color.GREEN, ref.get());
     }
 }
