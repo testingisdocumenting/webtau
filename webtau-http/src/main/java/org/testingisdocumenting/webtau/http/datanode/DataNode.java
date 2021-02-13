@@ -17,18 +17,19 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
+import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode> {
+public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode>, PrettyPrintable {
     DataNodeId id();
 
     DataNode get(String pathOrName);
@@ -83,5 +84,10 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
         } else {
             return 0;
         }
+    }
+
+    @Override
+    default void prettyPrint() {
+        new DataNodeAnsiPrinter().print(this);
     }
 }

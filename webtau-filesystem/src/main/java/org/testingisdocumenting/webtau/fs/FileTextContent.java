@@ -29,6 +29,7 @@ import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -56,6 +57,10 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
     }
 
     public String extractByRegexp(String regexp) {
+        return extractByRegexp(Pattern.compile(regexp));
+    }
+
+    public String extractByRegexp(Pattern regexp) {
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
                         FROM, urlValue(path)),
@@ -97,7 +102,7 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
         return getData();
     }
 
-    private String extractByRegexpStepImpl(String regexp) {
+    private String extractByRegexpStepImpl(Pattern regexp) {
         String extracted = RegexpUtils.extractByRegexp(getData(), regexp);
         if (extracted == null) {
             throw new RuntimeException("can't find content to extract using regexp <" + regexp + "> from: " + path);
