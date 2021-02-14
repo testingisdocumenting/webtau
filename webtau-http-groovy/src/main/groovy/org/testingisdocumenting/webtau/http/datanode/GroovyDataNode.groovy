@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.datanode
 
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.testingisdocumenting.webtau.expectation.ActualPath
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
@@ -118,13 +119,26 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
 
     DataNode find(Closure predicate) {
         def result = node.elements().find(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
-        return (result instanceof DataNode) ?
-                new GroovyDataNode(result) :
-                result
+
+        if (result instanceof DataNode) {
+            if (result.singleValue) {
+                result.traceableValue.updateCheckLevel(CheckLevel.FuzzyPassed)
+            }
+            return new GroovyDataNode(result)
+        }
+
+        return result
     }
 
     DataNode findAll(Closure predicate) {
         def list = node.elements().findAll(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
+
+        list.each {
+            if (it.isSingleValue()) {
+                it.traceableValue.updateCheckLevel(CheckLevel.FuzzyPassed)
+            }
+        }
+
         return wrapIntoDataNode('findAll', list)
     }
 
