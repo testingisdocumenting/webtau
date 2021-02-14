@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
@@ -525,6 +526,18 @@ class HttpGroovyTest extends HttpTestBase {
         http.get("/end-point") {
             complexList.each { k2.shouldBe > 0 }
         }
+    }
+
+    @Test
+    void "list contain check level"() {
+        http.get("/end-point") {
+            list.should contain(2)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.None
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.None
     }
 
     @Test
