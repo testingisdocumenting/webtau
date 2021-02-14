@@ -18,7 +18,7 @@ package scenarios.rest.springboot
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-scenario("list customers") {
+scenario("list customers on started server as part of listeners") {
     http.get("/customers") {
         body.should == []
     }

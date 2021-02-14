@@ -28,7 +28,7 @@
     <artifactId>webtau-open-api</artifactId>
 
     <properties>
-        <swagger.validator.version>2.11.0</swagger.validator.version>
+        <swagger.validator.version>2.15.1</swagger.validator.version>
     </properties>
 
     <dependencies>

@@ -12,7 +12,7 @@
       "numberOfSuccessful" : 2
     }
   }, {
-    "scenario" : "list customers",
+    "scenario" : "list customers on started server as part of listeners",
     "shortContainerId" : "startAndStopAsPartOfSuite.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 4

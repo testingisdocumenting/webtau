@@ -20,9 +20,13 @@ package org.testingisdocumenting.webtau.openapi;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class OpenApi {
+    private static final ValidationMode DEFAULT_MODE = ValidationMode.ALL;
+
     private static final AtomicReference<OpenApiSpec> spec = new AtomicReference<>();
     private static final AtomicReference<OpenApiSpecValidator> validator = new AtomicReference<>();
     private static final AtomicReference<OpenApiCoverage> coverage = new AtomicReference<>();
+
+    static final ThreadLocal<ValidationMode> validationMode = ThreadLocal.withInitial(() -> DEFAULT_MODE);
 
     synchronized static OpenApiSpecValidator getValidator() {
         if (validator.get() == null) {
@@ -41,15 +45,24 @@ public class OpenApi {
     }
 
     public static void withoutValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.NONE, code);
+        withMode(ValidationMode.NONE, code);
     }
 
     public static void responseOnlyValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.RESPONSE_ONLY, code);
+        withMode(ValidationMode.RESPONSE_ONLY, code);
     }
 
     public static void requestOnlyValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.REQUEST_ONLY, code);
+        withMode(ValidationMode.REQUEST_ONLY, code);
+    }
+
+    static void withMode(ValidationMode mode, Runnable code) {
+        validationMode.set(mode);
+        try {
+            code.run();
+        } finally {
+            validationMode.set(DEFAULT_MODE);
+        }
     }
 
     static void reset() {
@@ -58,16 +71,20 @@ public class OpenApi {
         coverage.set(null);
     }
 
+    static void initialize() {
+        if (validationMode.get() == ValidationMode.NONE) {
+            return;
+        }
+
+        spec.set(new OpenApiSpec(OpenApiSpecConfig.determineSpecFullPathOrUrl()));
+        validator.set(new OpenApiSpecValidator(spec.get(), validationConfig()));
+        coverage.set(new OpenApiCoverage(spec.get()));
+    }
+
     private static OpenApiValidationConfig validationConfig() {
         OpenApiValidationConfig config = new OpenApiValidationConfig();
         config.setIgnoreAdditionalProperties(OpenApiSpecConfig.ignoreAdditionalProperties.getAsBoolean());
 
         return config;
-    }
-
-    static void initialize() {
-        spec.set(new OpenApiSpec(OpenApiSpecConfig.determineSpecFullPathOrUrl()));
-        validator.set(new OpenApiSpecValidator(spec.get(), validationConfig()));
-        coverage.set(new OpenApiCoverage(spec.get()));
     }
 }
