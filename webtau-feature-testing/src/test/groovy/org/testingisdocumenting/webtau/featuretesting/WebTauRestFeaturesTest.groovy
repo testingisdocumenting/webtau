@@ -100,8 +100,8 @@ class WebTauRestFeaturesTest {
     @Test
     void "open api http spec"() {
         runCli('openapi/openApiHttpSpec.groovy', 'openapi/webtau.httpspec.cfg.groovy',
-                "--url=${testRunner.testServer.uri}",
-                "--openApiSpecUrl=${testRunner.testServer.uri}/v3/api-docs")
+                "--url=${customersBaseUrl}",
+                "--openApiSpecUrl=/v3/api-docs")
     }
 
     @Test
@@ -137,7 +137,10 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "list contain"() {
-        http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
+        OpenApi.withoutValidation {
+            http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
+        }
+
         runCli('springboot/listContain.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
     }
 
@@ -151,6 +154,11 @@ class WebTauRestFeaturesTest {
     void "list match by key"() {
         deleteCustomers()
         runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
+    }
+
+    @Test
+    void "start server before first test and stop after"() {
+        runCli("springboot/startAndStopAsPartOfSuite.groovy", "springboot/webtau-auto-start.groovy")
     }
 
     @Test

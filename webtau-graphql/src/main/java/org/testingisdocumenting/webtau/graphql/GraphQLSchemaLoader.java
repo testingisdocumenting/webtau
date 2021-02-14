@@ -38,7 +38,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.graphql.GraphQL.GRAPHQL_URL;
-import static org.testingisdocumenting.webtau.graphql.GraphQL.reset;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class GraphQLSchemaLoader {
