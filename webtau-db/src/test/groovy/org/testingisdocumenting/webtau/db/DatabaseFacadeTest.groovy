@@ -263,6 +263,14 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "delete with single param shortcut"() {
+        setupPrices()
+
+        db.update("delete from PRICES where price > :price", 950)
+        db.table("PRICES").query().numberOfRows().should == 0
+    }
+
+    @Test
     void "should run updates with params"() {
         def PRICES = setupPrices()
         doc.capture('db-before-update', PRICES.query())
