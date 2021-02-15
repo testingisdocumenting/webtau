@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +23,6 @@ import org.codehaus.groovy.control.customizers.ImportCustomizer
 import java.nio.file.Path
 
 class GroovyStandaloneEngine {
-    static GroovyScriptEngine createWithDelegatingEnabled(Path workingDir, List<String> staticImports) {
-        return createImpl(workingDir, staticImports, DelegatingScript.class)
-    }
-
     static GroovyScriptEngine createWithoutDelegating(Path workingDir, List<String> staticImports) {
         return createImpl(workingDir, staticImports, null)
     }

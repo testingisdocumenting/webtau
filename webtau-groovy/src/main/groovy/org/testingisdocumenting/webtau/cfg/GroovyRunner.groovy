@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +23,6 @@ import java.nio.file.Path
 
 class GroovyRunner {
     private static final List<String> staticImports = ["org.testingisdocumenting.webtau.WebTauGroovyDsl"]
-
-    static GroovyScriptEngine createWithDelegatingEnabled(Path workingDir) {
-        return GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, staticImports)
-    }
 
     static GroovyScriptEngine createWithoutDelegating(Path workingDir) {
         return GroovyStandaloneEngine.createWithoutDelegating(workingDir, staticImports)

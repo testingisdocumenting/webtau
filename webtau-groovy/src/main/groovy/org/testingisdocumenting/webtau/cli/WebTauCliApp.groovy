@@ -122,7 +122,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             }
 
             testFiles.forEach {
-                runner.process(it, this)
+                runner.process(it)
             }
 
             code()
@@ -144,7 +144,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         registerListenersAndHandlers()
 
         runner = new StandaloneTestRunner(
-                GroovyRunner.createWithDelegatingEnabled(cfg.workingDir),
+                GroovyRunner.createWithoutDelegating(cfg.workingDir),
                 cfg.getWorkingDir())
 
         WebTauGroovyDsl.initWithTestRunner(runner)
