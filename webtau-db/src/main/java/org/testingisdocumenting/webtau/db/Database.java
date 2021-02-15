@@ -38,15 +38,15 @@ public class Database {
         return new DatabaseTable(dataSource, name);
     }
 
-    public DbQuery createQuery(String query) {
+    public DbQuery query(String query) {
         return QueryRunnerUtils.createQuery(dataSource, query);
     }
 
-    public DbQuery createQuery(String query, Map<String, Object> params) {
+    public DbQuery query(String query, Map<String, Object> params) {
         return QueryRunnerUtils.createQuery(dataSource, query, params);
     }
 
-    public <E> DbQuery createQuery(String query, E singleParam) {
+    public <E> DbQuery query(String query, E singleParam) {
         return QueryRunnerUtils.createQuery(dataSource, query, DbNamedParamsQuery.singleNoNameParam(singleParam));
     }
 
@@ -55,7 +55,7 @@ public class Database {
     }
 
     public TableData queryTableData(String query, Map<String, Object> params) {
-        return createQuery(query, params).queryTableData();
+        return query(query, params).tableData();
     }
 
     public <E> E querySingleValue(String query) {
@@ -63,7 +63,7 @@ public class Database {
     }
 
     public <E> E querySingleValue(String query, Map<String, Object> params) {
-        return createQuery(query, params).querySingleValue();
+        return query(query, params).singleValue();
     }
 
     public void update(String query) {
