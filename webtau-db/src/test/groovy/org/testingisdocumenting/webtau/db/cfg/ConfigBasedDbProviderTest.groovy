@@ -31,6 +31,6 @@ class ConfigBasedDbProviderTest {
     void "should use data source provider for primary database"() {
         DbConfig.setDbPrimaryUrl("jdbc:h2:mem:dbconfig;DB_CLOSE_DELAY=-1")
         DbConfig.setDbPrimaryUserName("sa")
-        db.createQuery("select 1")
+        db.query("select 1")
     }
 }

@@ -46,13 +46,17 @@ class QueryRunnerUtils {
     }
 
     static int runUpdate(DataSource dataSource, String query, Map<String, Object> params) {
+        DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
+        return runUpdate(dataSource, query, namedParamsQuery);
+    }
+
+    static int runUpdate(DataSource dataSource, String query, DbNamedParamsQuery namedParamsQuery) {
         QueryRunner run = new QueryRunner(dataSource);
 
         try {
-            if (params.isEmpty()) {
+            if (namedParamsQuery.isEmpty()) {
                 return run.update(query);
             } else {
-                DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
                 return run.update(namedParamsQuery.getQuestionMarksQuery(), namedParamsQuery.getQuestionMarksValues());
             }
         } catch (SQLException e) {
