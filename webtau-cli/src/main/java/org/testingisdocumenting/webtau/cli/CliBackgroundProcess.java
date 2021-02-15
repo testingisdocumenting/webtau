@@ -51,8 +51,8 @@ class CliBackgroundProcess {
         this.errorGobbler = errorGobbler;
         this.consumeErrorThread = consumeErrorThread;
         this.consumeOutThread = consumeOutThread;
-        this.output = new CliOutput("process output", outputGobbler);
-        this.error = new CliOutput("process error output", errorGobbler);
+        this.output = new CliOutput(command, "process output", outputGobbler);
+        this.error = new CliOutput(command, "process error output", errorGobbler);
         this.isActive = new AtomicBoolean(true);
     }
 
