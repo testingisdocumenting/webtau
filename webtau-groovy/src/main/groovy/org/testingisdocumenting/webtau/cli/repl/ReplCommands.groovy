@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.cli.repl
 import groovy.transform.PackageScope
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTest
@@ -36,8 +37,11 @@ class ReplCommands {
     @PackageScope
     static InteractiveTests interactiveTests
 
-    private static TestsSelection testsSelection = new TestsSelection()
-    private static List<StandaloneTest> availableScenarios = []
+    @PackageScope
+    static TestsSelection testsSelection = new TestsSelection()
+
+    @PackageScope
+    static List<StandaloneTest> availableScenarios = []
 
     static WebTauConfig getReloadConfig() {
         return reloadConfig()
@@ -51,12 +55,12 @@ class ReplCommands {
         return WebTauConfig.cfg
     }
 
-    static boolean getTestSelected() {
+    static boolean getTestFileSelected() {
         return testsSelection.testFilePath != null
     }
 
     static void select(Object... selectors) {
-        if (testSelected) {
+        if (testFileSelected) {
             selectScenariosAndValidate(selectors)
             displaySelectedScenarios()
         } else {
@@ -65,7 +69,7 @@ class ReplCommands {
                 return
             }
 
-            selectTest(selectors[0])
+            selectTestFile(selectors[0])
         }
     }
 
@@ -73,24 +77,24 @@ class ReplCommands {
         select(selectors)
     }
 
-    static void getRun() {
-        runSelected()
+    static Object getRun() {
+        return new ProxyToHandleNegativeIndexAndRunScenarios()
     }
 
-    static void getR() {
-        runSelected()
+    static Object getR() {
+        return getRun()
     }
 
-    static void getSelect() {
-        displaySelectedScenarios()
+    static Object getSelect() {
+        return new ProxyToHandleNegativeIndexAndDisplayScenarios()
     }
 
-    static void getS() {
-        getSelect()
+    static Object getS() {
+        return getSelect()
     }
 
     static void run(Object... selectors) {
-        if (testSelected) {
+        if (testFileSelected) {
             selectScenariosAndValidate(selectors)
 
             if (testsSelection.scenarios) {
@@ -102,7 +106,7 @@ class ReplCommands {
                 return
             }
 
-            selectTest(selectors[0])
+            selectTestFile(selectors[0])
 
             if (testsSelection.testFilePath) {
                 runSelected()
@@ -177,32 +181,34 @@ class ReplCommands {
     }
 
     private static void listTestFilesOrScenarios() {
-        if (!testSelected) {
+        if (!testFileSelected) {
             displayTestFiles()
         } else {
             displayScenarios(testsSelection.testFilePath)
         }
     }
 
-    private static void selectTest(Object selector) {
+    private static void selectTestFile(Object selector) {
         if (selector instanceof String) {
-            selectTestByRegexp(selector)
+            selectTestFileByRegexp(selector)
             return
         }
 
         if (selector instanceof Integer) {
-            selectTestByIndex(selector)
+            selectTestFileByIndex(selector)
             return
         }
 
-        out(Color.RED, "can't select test using: " + selector)
+        out(Color.RED, "can't select test file using: " + selector)
         testsSelection.testFilePath = ''
         testsSelection.scenarios = []
     }
 
-    private static void selectTestByIndex(Integer idx) {
-        if (idx < 0 || idx >= interactiveTests.testFilePaths.size()) {
-            out(Color.RED, 'enter a test index between 0 and ' + interactiveTests.testFilePaths.size())
+    private static void selectTestFileByIndex(Integer idx) {
+        def size = interactiveTests.testFilePaths.size()
+        idx = IndexSelection.convertNegativeIdxToAbsolute(size, idx)
+        if (idx < 0 || idx >= size) {
+            out(Color.RED, 'enter a test file index between 0 and ' + (size - 1))
             return
         }
 
@@ -210,11 +216,11 @@ class ReplCommands {
         displayScenarios(testsSelection.testFilePath)
     }
 
-    private static void selectTestByRegexp(String regexp) {
+    private static void selectTestFileByRegexp(String regexp) {
         def pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE)
         def found = interactiveTests.firstTestFilePathByRegexp(pattern)
         if (!found) {
-            out(Color.RED, "didn't find a test matching regexp: " + regexp)
+            out(Color.RED, "didn't find a test file matching regexp: " + regexp)
             return
         }
 
@@ -230,7 +236,7 @@ class ReplCommands {
             testsSelection.scenarios = []
 
             withIssues.each {
-                out(Color.RED, "didn't find a test matching: " + it.input)
+                out(Color.RED, "didn't find a scenario matching: " + it.input)
             }
         } else {
             testsSelection.scenarios = selector.inputAndResults.scenario
@@ -276,5 +282,32 @@ class ReplCommands {
         out(Color.BLUE, prefix + ': ',
                 Color.PURPLE, testsSelection.testFilePath, ' ',
                 Color.YELLOW, scenario)
+    }
+
+    // <s 1> is treated as method "s" call with parameter <1>
+    // <s -1> is treated as "getS() - 1" so we need to handle this in a way to make it feel like <s 1>
+    // <s> still needs to display selected scenarios, so when <s> without minus index is called we need to render
+    private static class ProxyToHandleNegativeIndexAndDisplayScenarios implements PrettyPrintable {
+        Object minus(Integer indexToMakeNegative) {
+            select(indexToMakeNegative * -1)
+            return null
+        }
+
+        @Override
+        void prettyPrint() {
+            displaySelectedScenarios()
+        }
+    }
+
+    private static class ProxyToHandleNegativeIndexAndRunScenarios implements PrettyPrintable {
+        Object minus(Integer indexToMakeNegative) {
+            run(indexToMakeNegative * -1)
+            return null
+        }
+
+        @Override
+        void prettyPrint() {
+            runSelected()
+        }
     }
 }
