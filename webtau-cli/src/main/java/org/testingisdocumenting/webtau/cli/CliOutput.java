@@ -19,20 +19,30 @@ package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliResultExpectations;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class CliOutput implements CliResultExpectations {
     private final String id;
     private final StreamGobbler streamGobbler;
 
     private final Set<Integer> matchedLinesIdx;
+    private final String command;
 
     private int lastClearNextLineIdxMarker;
 
-    public CliOutput(String id, StreamGobbler streamGobbler) {
+    public CliOutput(String command, String id, StreamGobbler streamGobbler) {
+        this.command = command;
         this.id = id;
         this.streamGobbler = streamGobbler;
 
@@ -42,6 +52,21 @@ public class CliOutput implements CliResultExpectations {
     @Override
     public ActualPath actualPath() {
         return new ActualPath(id);
+    }
+
+    public String extractByRegexp(String regexp) {
+        return extractByRegexp(Pattern.compile(regexp));
+    }
+
+    public String extractByRegexp(Pattern regexp) {
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
+                        FROM, urlValue(command), classifier(id)),
+                (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"), stringValue(regexp),
+                        FROM, urlValue(command), classifier(id), COLON, stringValue(r)),
+                    () -> RegexpUtils.extractByRegexp(get(), regexp));
+
+            return step.execute(StepReportOptions.SKIP_START);
     }
 
     public String get() {
