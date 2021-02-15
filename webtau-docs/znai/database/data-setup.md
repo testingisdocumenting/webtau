@@ -65,6 +65,14 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
     commentsType: "inline"
 }
 
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "delete with single param shortcut",
+    title: "delete data with single param shortcut",
+    bodyOnly: true,
+    includeRegexp: "delete",
+    commentsType: "inline"
+}
+
 # Updating Tables
 
 :include-table: doc-artifacts/db-before-update.json { title: "PRICES" }

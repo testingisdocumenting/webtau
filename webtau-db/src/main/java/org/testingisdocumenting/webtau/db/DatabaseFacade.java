@@ -75,6 +75,10 @@ public class DatabaseFacade {
         from(getPrimaryDataSource()).update(query, params);
     }
 
+    public <E> void update(String query, E singleParam) {
+        from(getPrimaryDataSource()).update(query, singleParam);
+    }
+
     private static LabeledDataSource getPrimaryDataSource() {
         return new LabeledDataSource(DbDataSourceProviders.provideByName("primary"), "primary-db");
     }

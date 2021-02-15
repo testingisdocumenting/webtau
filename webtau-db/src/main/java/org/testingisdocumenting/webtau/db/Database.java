@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.db;
 
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.Collections;
@@ -67,22 +68,45 @@ public class Database {
     }
 
     public void update(String query) {
+        update(query, Collections.emptyMap());
+    }
+
+    public <E> void update(String query, E singleParam) {
+        update(query, DbNamedParamsQuery.singleNoNameParam(singleParam));
+    }
+
+    public void update(String query, Map<String, Object> params) {
+        DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
+
         WebTauStep step = createStep(null,
-                tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel())),
-                (rows) -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel()),
-                        action("affected"), numberValue(rows), classifier("rows")),
-                () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query));
+                updateMessage("running DB update", query, namedParamsQuery.effectiveParams(), null),
+                (rows) -> updateMessage("ran DB update", query, Collections.emptyMap(), (Integer) rows),
+                () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query, namedParamsQuery));
 
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    public void update(String query, Map<String, Object> params) {
-        WebTauStep step = createStep(null,
-                tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel()), WITH, stringValue(params)),
-                (rows) -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel()),
-                        action("affected"), numberValue(rows), classifier("rows")),
-                () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query, params));
+    private TokenizedMessage updateMessage(String actionLabel,
+                                           String query,
+                                           Map<String, Object> params,
+                                           Integer numberOfRows) {
+        return appendParamsAndAffectedIfRequired(
+                tokenizedMessage(action(actionLabel), stringValue(query), ON, id(dataSource.getLabel())),
+                params,
+                numberOfRows);
+    }
 
-        step.execute(StepReportOptions.REPORT_ALL);
+    private TokenizedMessage appendParamsAndAffectedIfRequired(TokenizedMessage message,
+                                                               Map<String, Object> params,
+                                                               Integer numberOfRows) {
+        if (!params.isEmpty()) {
+            message.add(WITH, stringValue(params));
+        }
+
+        if (numberOfRows != null) {
+            message.add(action("affected"), numberValue(numberOfRows), classifier("rows"));
+        }
+
+        return message;
     }
 }
