@@ -63,7 +63,7 @@ class StandaloneTestRunner {
         this.isTerminated = new AtomicBoolean(false)
     }
 
-    void process(TestFile testFile, delegate) {
+    void process(TestFile testFile) {
         Path scriptPath = testFile.path
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
         currentTestMetadata.set(new WebTauTestMetadata())
@@ -73,8 +73,6 @@ class StandaloneTestRunner {
 
         def scriptParseTest = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, "parse/init", { ->
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
-
-            script.setDelegate(delegate)
             script.run()
         })
 

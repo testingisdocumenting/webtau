@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +39,7 @@ class InteractiveTests {
 
     List<StandaloneTest> refreshScenarios(String filePath) {
         runner.clearRegisteredTests()
-        runner.process(new TestFile(Paths.get(filePath)), this)
+        runner.process(new TestFile(Paths.get(filePath)))
 
         def withError = runner.tests.find { it.hasError() }
         if (withError) {
