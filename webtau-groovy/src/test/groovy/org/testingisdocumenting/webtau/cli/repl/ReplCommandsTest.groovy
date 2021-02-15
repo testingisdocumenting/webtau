@@ -50,13 +50,13 @@ class ReplCommandsTest implements StepReporter, ConsoleOutput {
     void init() {
         def workingDir = Paths.get("").toAbsolutePath()
         def runner = new StandaloneTestRunner(
-                GroovyRunner.createWithDelegatingEnabled(workingDir),
+                GroovyRunner.createWithoutDelegating(workingDir),
                 workingDir)
 
         WebTauGroovyDsl.initWithTestRunner(runner)
 
-        runner.process(new TestFile(Paths.get("src/test/resources/repl/doNothingScenariosOne.groovy")), this)
-        runner.process(new TestFile(Paths.get("src/test/resources/repl/doNothingScenariosTwo.groovy")), this)
+        runner.process(new TestFile(Paths.get("src/test/resources/repl/doNothingScenariosOne.groovy")))
+        runner.process(new TestFile(Paths.get("src/test/resources/repl/doNothingScenariosTwo.groovy")))
 
         repl = new Repl(runner)
 
