@@ -23,7 +23,7 @@ to get values required for consequent test calls.
 
 If you have a list of objects like `complexList` above, you can access all its children property value with `complexList.k2`.
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy children key shortcut", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "children key shortcut", bodyOnly: true}
 
 # Path based properties access
 
@@ -56,34 +56,34 @@ Special values inside assertion block have convenient methods
 
 `each` to iterate over a list
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy each on simple list", bodyOnly: true, title: "List of simple values"}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "each on simple list", bodyOnly: true, title: "List of simple values"}
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy each on complex list", bodyOnly: true, title: "List of complex values"}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "each on complex list", bodyOnly: true, title: "List of complex values"}
 
 
 # Find
 
 `find` to find a single value
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy find on list", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "find on list", bodyOnly: true}
 
 
 and `findAll` to find all the values matching predicate
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy findAll on list", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "findAll on list", bodyOnly: true}
 
 Note: While values inside a predicate are normal values, the result of `find` and `findAll` is still `DataNode`
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy find on list of objects", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "find on list of objects", bodyOnly: true}
 
 # Collect
 
 Use `collect` to transform a collection of items
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy transform list", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "transform list", bodyOnly: true}
 
 # Combine
 
 Methods `find` and `collect` can be chained
  
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "groovy findAll, collect, and sum", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "findAll, collect, and sum", bodyOnly: true}
