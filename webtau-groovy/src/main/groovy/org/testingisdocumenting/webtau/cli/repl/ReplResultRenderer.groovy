@@ -18,48 +18,31 @@ package org.testingisdocumenting.webtau.cli.repl
 
 import org.apache.groovy.groovysh.Groovysh
 import org.testingisdocumenting.webtau.browser.page.PageElement
-import org.testingisdocumenting.webtau.browser.page.PageUrl
-import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.console.ansi.Color
-import org.testingisdocumenting.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.db.DbQuery
 import org.testingisdocumenting.webtau.fs.FileTextContent
-import org.testingisdocumenting.webtau.http.datanode.DataNode
-import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
-import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
-
-import java.util.stream.Stream
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out
 
 class ReplResultRenderer {
     private final Groovysh groovysh
-    private final TokenizedMessageToAnsiConverter toAnsiConverter
 
     ReplResultRenderer(Groovysh groovysh) {
         this.groovysh = groovysh
-        toAnsiConverter = IntegrationTestsMessageBuilder.getConverter()
     }
 
     void renderResult(Object result) {
-        if (result instanceof WebTauConfig) {
-            result.printAll()
-        } else if (result instanceof DataNode) {
-            renderDataNodeResult(result)
-        } else if (result instanceof PageElement) {
-            renderPageElementResult(result)
+        if (result instanceof PageElement) {
+            renderPageElementAndHighlight(result)
         } else if (result instanceof DbQuery) {
             renderDbQueryResult(result)
-        } else if (result instanceof TableData) {
-            renderTableData(result)
-        } else if (result instanceof PageUrl) {
-            renderPageUrl(result)
         } else if (result instanceof FileTextContent) {
             renderTextLimitingSize(result.data)
+        } else if (result instanceof PrettyPrintable) {
+            result.prettyPrint()
         } else {
             groovysh.defaultResultHook(result)
         }
@@ -71,44 +54,12 @@ class ReplResultRenderer {
                 cfg.consolePayloadOutputLimit) {[it] as Object[]}
     }
 
-    private static void renderTableData(TableData tableData) {
-        out(ReplTableRenderer.render(tableData))
-    }
-
     private static void renderDbQueryResult(DbQuery queryResult) {
         out(ReplTableRenderer.render(queryResult.queryTableData()))
     }
 
-    private static void renderDataNodeResult(DataNode result) {
-        new DataNodeAnsiPrinter().print(result)
-    }
-
-    private static void renderPageUrl(PageUrl pageUrl) {
-        out(Color.YELLOW, " full: ", Color.GREEN, pageUrl.full.get())
-        out(Color.YELLOW, " path: ", Color.GREEN, pageUrl.path.get())
-        out(Color.YELLOW, "query: ", Color.GREEN, pageUrl.query.get())
-        out(Color.YELLOW, "  ref: ", Color.GREEN, pageUrl.ref.get())
-    }
-
-    private void renderPageElementResult(PageElement pageElement) {
-        if (!pageElement.isPresent()) {
-            out(Stream.concat(
-                    Stream.of(Color.RED, "element is not present: "),
-                    toAnsiConverter.convert(pageElement.locationDescription()).stream()).toArray())
-            return
-        }
-
-        out(Stream.concat(
-                Stream.of(Color.GREEN, "element is found: "),
-                toAnsiConverter.convert(pageElement.locationDescription()).stream()).toArray())
-
-        out(Color.YELLOW, "           getText(): ", Color.GREEN, pageElement.getText())
-        out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, pageElement.getUnderlyingValue())
-        def count = pageElement.count.get()
-        if (count > 1) {
-            out(Color.YELLOW, "               count: ", Color.GREEN, count)
-        }
-
+    private static void renderPageElementAndHighlight(PageElement pageElement) {
+        pageElement.prettyPrint()
         pageElement.highlight()
     }
 }
