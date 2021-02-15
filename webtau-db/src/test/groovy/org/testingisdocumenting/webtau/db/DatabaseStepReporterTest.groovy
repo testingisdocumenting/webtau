@@ -44,7 +44,7 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     void "query result comparison step should capture query and params"() {
         setupPrices()
 
-        def price = db.createQuery("select price from PRICES where id=:id", [id: 'id1'])
+        def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
         price.should == 1000
         price.shouldNot == 2000
 
@@ -57,7 +57,7 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     void "query result comparison step should capture query and params in case of single param"() {
         setupPrices()
 
-        def price = db.createQuery("select price from PRICES where id=:id", 'id1')
+        def price = db.query("select price from PRICES where id=:id", 'id1')
         price.should == 1000
 
         def fullMessage = stepMessages.join('\n')
@@ -68,7 +68,7 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     void "query result comparison step should not capture params when no params are passed"() {
         setupPrices()
 
-        def price = db.createQuery("select price from PRICES where id='id1'")
+        def price = db.query("select price from PRICES where id='id1'")
         price.should == 1000
 
         def fullMessage = stepMessages.join('\n')
