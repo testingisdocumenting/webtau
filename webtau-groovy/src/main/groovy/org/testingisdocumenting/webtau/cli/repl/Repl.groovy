@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.cli.repl
 
+import groovy.transform.PackageScope
 import org.apache.groovy.groovysh.Groovysh
 import org.codehaus.groovy.tools.shell.IO
 import org.codehaus.groovy.tools.shell.util.Preferences
@@ -33,10 +34,15 @@ class Repl {
     private final Groovysh groovysh
     private final StandaloneTestRunner runner
     private final InteractiveTests interactiveTests
-    private final ReplResultRenderer resultRenderer
+
+    @PackageScope
+    final ReplResultRenderer resultRenderer
 
     Repl(StandaloneTestRunner runner) {
+        runner.setIsReplMode(true)
+
         this.runner = runner
+
         interactiveTests = new InteractiveTests(runner)
         ReplCommands.interactiveTests = interactiveTests
 

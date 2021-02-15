@@ -104,7 +104,6 @@ public class WebTauDsl extends WebTauCore {
                 action);
     }
 
-    @SuppressWarnings("unchecked")
     public static <R> R step(String label, Supplier<Object> action) {
         WebTauStep step = WebTauStep.createStep(
                 null,
@@ -112,6 +111,6 @@ public class WebTauDsl extends WebTauCore {
                 () -> tokenizedMessage(none("completed"), action(label)),
                 action);
 
-        return (R) step.execute(StepReportOptions.REPORT_ALL);
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 }

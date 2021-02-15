@@ -64,6 +64,14 @@ scenario('run scenario by index') {
     cli.doc.capture('repl-test-scenario-ran-by-idx')
 }
 
+scenario('run scenario by negative index') {
+    repl.clearOutput()
+    repl << "r -1\n"
+    repl.output.waitTo contain("validating...")
+
+    cli.doc.capture('repl-test-scenario-ran-by-negative-idx')
+}
+
 scenario('run scenario by text') {
     repl.clearOutput()
     repl << "r 'clean'\n"
