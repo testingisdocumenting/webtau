@@ -57,15 +57,15 @@ public class DbQuery implements ActualValueExpectations, ActualPathAware {
         this.params = params;
     }
 
-    public int queryNumberOfRows() {
+    public int numberOfRows() {
         return queryTableDataNoStep().numberOfRows();
     }
 
-    public TableData queryTableData() {
+    public TableData tableData() {
         return fetchValueAsStep(this::queryTableDataNoStep);
     }
 
-    public <E> E querySingleValue() {
+    public <E> E singleValue() {
         return fetchValueAsStep(this::querySingleValueNoStep);
     }
 

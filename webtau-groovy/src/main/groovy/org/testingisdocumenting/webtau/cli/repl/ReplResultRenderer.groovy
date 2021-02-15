@@ -55,7 +55,7 @@ class ReplResultRenderer {
     }
 
     private static void renderDbQueryResult(DbQuery queryResult) {
-        out(ReplTableRenderer.render(queryResult.queryTableData()))
+        out(ReplTableRenderer.render(queryResult.tableData()))
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {

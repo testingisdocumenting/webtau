@@ -55,15 +55,11 @@ class DatabaseTable {
                 () -> insertRowStep(row));
     }
 
-    public TableData query() {
-        return createQuery().queryTableData();
-    }
-
-    public DbQuery createCountQuery() {
+    public DbQuery queryCount() {
         return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.count(name));
     }
 
-    public DbQuery createQuery() {
+    public DbQuery query() {
         return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.fullTable(name));
     }
 

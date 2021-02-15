@@ -35,12 +35,12 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
                    "id1" | "nice set"    | 1000
                    "id2" | "another set" | 2000 }
 
-        PRICES.createQuery().should == ["ID" | "DESCRIPTION" | "PRICE"] {
+        PRICES.query().should == ["ID" | "DESCRIPTION" | "PRICE"] {
                                        ___________________________________
                                        "id1" | "nice set"    | 1000
                                        "id2" | "another set" | 2000 }
 
-        db.createQuery("select * from PRICES where id='id2'").should ==
+        db.query("select * from PRICES where id='id2'").should ==
                 ["ID" | "DESCRIPTION" | "PRICE"] {
                 __________________________________
                 "id2" | "another set" | 2000 }
@@ -82,7 +82,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
                    cell.guid | "nice set"    |                 true |                "card" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations
                    cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations
 
-        doc.capture('db-setup-permute-table', PRICES.query())
+        doc.capture('db-setup-permute-table', PRICES.query().tableData())
         PRICES.query().numberOfRows().should == 6
     }
 
@@ -93,7 +93,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         def PRICES = db.table("PRICES")
         PRICES << data.csv.table('prices-db.csv')
 
-        doc.capture('db-setup-csv-table', PRICES.query())
+        doc.capture('db-setup-csv-table', PRICES.query().tableData())
         PRICES.should == [ "*ID" | "DESCRIPTION"  | "AVAILABLE" | "TYPE" | "PRICE"] {
                           __________________________________________________________
                            "id1" | "description1" |        true | "card" | 200
@@ -118,7 +118,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         setupPrices()
 
         // query without where clause start
-        def prices = db.createQuery("select * from PRICES")
+        def prices = db.query("select * from PRICES")
         prices.should == ["ID" | "DESCRIPTION" | "PRICE"] {
                          ___________________________________
                          "id1" | "nice set"    | 1000
@@ -130,7 +130,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "query table with select statement and param"() {
         setupPrices()
         // query with where clause start
-        def prices = db.createQuery("select * from PRICES where id=:id", [id: "id1"])
+        def prices = db.query("select * from PRICES where id=:id", [id: "id1"])
         prices.should == ["ID" | "DESCRIPTION" | "PRICE"] {
                          ___________________________________
                          "id1" | "nice set"    | 1000     }
@@ -141,7 +141,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "create query is lazy"() {
         setupPrices()
         // query with where clause start
-        def prices = db.createQuery("select * from PRICES")
+        def prices = db.query("select * from PRICES")
 
         prices.shouldNot == []
         db.update("delete from PRICES")
@@ -154,7 +154,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         setupPrices()
         // query with where clause start
         def PRICES = db.table("PRICES")
-        def numberOfItems = PRICES.createCountQuery()
+        def numberOfItems = PRICES.queryCount()
 
         numberOfItems.shouldNot == 0
         db.update("delete from PRICES")
@@ -166,7 +166,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "query table to match one row and assert against map"() {
         setupPrices()
         // query with where clause start
-        def prices = db.createQuery("select * from PRICES where id=:id", [id: "id1"])
+        def prices = db.query("select * from PRICES where id=:id", [id: "id1"])
         prices.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
         // query with where clause end
     }
@@ -175,7 +175,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "query table to match one row using single param shortcut and assert against map"() {
         setupPrices()
         // query with where clause start
-        def prices = db.createQuery("select * from PRICES where id=:id or external_id=:id", "id1")
+        def prices = db.query("select * from PRICES where id=:id or external_id=:id", "id1")
         prices.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
         // query with where clause end
     }
@@ -183,7 +183,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     @Test
     void "query table to match multiple row and assert against map"() {
         setupPrices()
-        def prices = db.createQuery("select * from PRICES")
+        def prices = db.query("select * from PRICES")
 
         code {
             prices.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
@@ -194,7 +194,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "query table with select statement and array param"() {
         setupPrices()
         // query with where clause start
-        def prices = db.createQuery("select * from PRICES where id in (:ids)", [ids: ["id1", "id2"]])
+        def prices = db.query("select * from PRICES where id in (:ids)", [ids: ["id1", "id2"]])
         prices.should == ["ID" | "DESCRIPTION" | "PRICE"] {
                          ___________________________________
                          "id1" | "nice set"    | 1000
@@ -213,7 +213,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         }
 
         // query with where clause start
-        def count = db.createQuery("select count(*) from PRICES")
+        def count = db.query("select count(*) from PRICES")
         count.should == 2
 
         // event happen somewhere to increase the number of rows...
@@ -227,7 +227,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "should query single value"() {
         setupPrices()
 
-        def price = db.createQuery("select price from PRICES where id='id1'")
+        def price = db.query("select price from PRICES where id='id1'")
         price.should == 1000
         price.shouldNot == 2000
     }
@@ -237,7 +237,7 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
         setupPrices()
 
         // query single value params start
-        def price = db.createQuery("select price from PRICES where id=:id", [id: 'id1'])
+        def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
         price.should == 1000
         price.shouldNot == 2000
         // query single value params end
@@ -247,8 +247,8 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     void "value returned from query is a special wrapper value"() {
         setupPrices()
         // single value access start
-        def price = db.createQuery("select price from PRICES where id=:id", [id: 'id1'])
-        if (price.querySingleValue() > 100) {
+        def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
+        if (price.singleValue() > 100) {
             println("do something")
         }
         // single value access end
@@ -265,10 +265,10 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     @Test
     void "should run updates with params"() {
         def PRICES = setupPrices()
-        doc.capture('db-before-update', PRICES.query())
+        doc.capture('db-before-update', PRICES.query().tableData())
 
         db.update("update PRICES set price=:price where id=:id", [id: 'id2', price: 4000])
-        doc.capture('db-after-update', PRICES.query())
+        doc.capture('db-after-update', PRICES.query().tableData())
 
         PRICES.should == ["ID" | "DESCRIPTION" | "PRICE"] {
                          ___________________________________
