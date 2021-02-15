@@ -529,6 +529,18 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "list contain check level"() {
+        http.get("/end-point") {
+            list.should contain(2)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.None
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.None
+    }
+
+    @Test
     void "find on list"() {
         def found = http.get("/end-point") {
             return list.find { it > 1 }
