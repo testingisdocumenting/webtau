@@ -20,9 +20,14 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -39,19 +44,22 @@ class DatabaseTable {
 
     public void insert(TableData tableData) {
         createAndExecuteStep(
-                tokenizedMessage(action("inserting"), numberValue(tableData.numberOfRows()), action("row(s)"),
-                        INTO, createMessageId()),
-                () -> tokenizedMessage(action("inserted"), numberValue(tableData.numberOfRows()), action("row(s)"),
-                        INTO, createMessageId()),
+                insertingMessage(tableData.numberOfRows()),
+                () -> insertedMessage(tableData.numberOfRows()),
                 () -> insertTableStep(tableData));
+    }
+
+    public void insert(List<Map<String, Object>> rows) {
+        createAndExecuteStep(
+                insertingMessage(rows.size()),
+                () -> insertedMessage(rows.size()),
+                () -> insertTableStep(rows));
     }
 
     public void insert(Map<String, Object> row) {
         createAndExecuteStep(
-                tokenizedMessage(action("inserting"), numberValue(1), action("row"),
-                        INTO, createMessageId()),
-                () -> tokenizedMessage(action("inserted"), numberValue(1), action("row"),
-                        INTO, createMessageId()),
+                insertingMessage(1),
+                () -> insertedMessage(1),
                 () -> insertRowStep(row));
     }
 
@@ -63,19 +71,52 @@ class DatabaseTable {
         return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.fullTable(name));
     }
 
+
+    private TokenizedMessage insertingMessage(int numberOfRows) {
+        return insertMessageWithLabel("inserting", numberOfRows);
+    }
+
+    private TokenizedMessage insertedMessage(int numberOfRows) {
+        return insertMessageWithLabel("inserted", numberOfRows);
+    }
+
+    private TokenizedMessage insertMessageWithLabel(String actionLabel, int numberOfRows) {
+        return tokenizedMessage(action(actionLabel), numberValue(numberOfRows),
+                numberOfRows > 1 ? action("rows") : action("row"),
+                INTO, createMessageId());
+    }
+
     private void insertTableStep(TableData tableData) {
-        if (tableData.isEmpty()) {
+        insertMultipleRowsStep(tableData::isEmpty,
+                tableData::numberOfRows,
+                () -> tableData.getHeader().getNamesStream(),
+                (idx) -> tableData.row(idx).valuesStream());
+    }
+
+    private void insertTableStep(List<Map<String, Object>> rows) {
+        insertMultipleRowsStep(rows::isEmpty,
+                rows::size,
+                () -> rows.get(0).keySet().stream(),
+                (idx) -> rows.get(idx).values().stream());
+    }
+
+    private void insertMultipleRowsStep(Supplier<Boolean> isEmpty,
+                                        Supplier<Integer> size,
+                                        Supplier<Stream<String>> header,
+                                        Function<Integer, Stream<Object>> valuesByRowIdx) {
+        if (isEmpty.get()) {
             return;
         }
 
         QueryRunner run = new QueryRunner(dataSource.getDataSource());
         try {
-            Object[][] values = new Object[tableData.numberOfRows()][];
-            for (int idx = 0; idx < tableData.numberOfRows(); idx++) {
-                values[idx] = tableData.row(idx).valuesStream().toArray();
+            int numberOfRows = size.get();
+            Object[][] values = new Object[numberOfRows][];
+            for (int idx = 0; idx < numberOfRows; idx++) {
+                values[idx] = valuesByRowIdx.apply(idx).toArray();
             }
 
-            run.batch(SqlQueriesGenerator.insert(name, tableData.row(0)), values);
+            run.batch(SqlQueriesGenerator.insert(name, header.get(), valuesByRowIdx.apply(0)), values);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -101,5 +142,9 @@ class DatabaseTable {
 
     public void leftShift(Map<String, Object> row) {
         insert(row);
+    }
+
+    public void leftShift(List<Map<String, Object>> rows) {
+        insert(rows);
     }
 }
