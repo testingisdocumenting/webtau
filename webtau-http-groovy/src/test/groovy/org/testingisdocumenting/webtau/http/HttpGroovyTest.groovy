@@ -515,14 +515,14 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy each on simple list"() {
+    void "each on simple list"() {
         http.get("/end-point") {
             list.each { it.shouldBe > 0 }
         }
     }
 
     @Test
-    void "groovy each on complex list"() {
+    void "each on complex list"() {
         http.get("/end-point") {
             complexList.each { k2.shouldBe > 0 }
         }
@@ -541,7 +541,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy find on list"() {
+    void "find on list"() {
         def found = http.get("/end-point") {
             return list.find { it > 1 }
         }
@@ -551,7 +551,19 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy find on body that is not a list"() {
+    void "find should mark value as fuzzy checked"() {
+        http.get("/end-point") {
+            return list.find { it > 1 }
+        }
+
+        def listElements = http.lastValidationResult.bodyNode.get("list").elements()
+        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.None
+        listElements.get(1).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        listElements.get(2).traceableValue.checkLevel.should == CheckLevel.None
+    }
+
+    @Test
+    void "find on body that is not a list"() {
         def found = http.get("/end-point") {
             return body.find { it > 1 }
         }
@@ -560,7 +572,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy findAll on list"() {
+    void "findAll on list"() {
         def found = http.get("/end-point") {
             return list.findAll { it > 1 }
         }
@@ -570,7 +582,19 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy findAll on body that is not a list"() {
+    void "findAll on list should mark values as fuzzy checked"() {
+        def found = http.get("/end-point") {
+            return list.findAll { it > 1 }
+        }
+
+        def listElements = http.lastValidationResult.bodyNode.get("list").elements()
+        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.None
+        listElements.get(1).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        listElements.get(2).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+    }
+
+    @Test
+    void "findAll on body that is not a list"() {
         def found = http.get("/end-point") {
             return body.findAll { it > 1 }
         }
@@ -579,7 +603,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy find on list of objects"() {
+    void "find on list of objects"() {
         def id = http.get("/end-point") {
             def found = complexList.find {
                 assert k1.getClass() == String
@@ -594,7 +618,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy transform list"() {
+    void "transform list"() {
         def transformed = http.get("/end-point") {
             return list.collect { "world#${it}" }
         }
@@ -604,7 +628,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy transform list by referencing node"() {
+    void "transform list by referencing node"() {
         def ids = http.get("/end-point") {
             return complexList.collect { it.id }
         }
@@ -613,7 +637,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy transform on body that is not a list"() {
+    void "transform on body that is not a list"() {
         def transformed = http.get("/end-point") {
             return body.collect { "world#${it}" }
         }
@@ -622,7 +646,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy findAll, collect, and sum"() {
+    void "findAll, collect, and sum"() {
         def sum = http.get("/end-point") {
             return complexList
                     .findAll { k1.startsWith('v1') }
@@ -634,7 +658,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy children key shortcut"() {
+    void "children key shortcut"() {
         http.get("/end-point") {
             complexList.k2.should == [30, 40]
         }
