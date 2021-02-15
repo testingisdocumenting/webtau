@@ -58,7 +58,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAware {
     }
 
     public int numberOfRows() {
-        return queryTableDataNoStep().numberOfRows();
+        return tableData().numberOfRows();
     }
 
     public TableData tableData() {
