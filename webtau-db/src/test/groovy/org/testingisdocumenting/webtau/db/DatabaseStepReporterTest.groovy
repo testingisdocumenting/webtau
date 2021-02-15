@@ -83,7 +83,7 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
 
         def fullMessage = stepMessages.join('\n')
         fullMessage.should contain(
-                "running DB update delete from PRICES where price>:price on primary-db with {price1=1000, price2=2000}")
+                "running DB update delete from PRICES where price>:price1 or price>:price2 on primary-db with {price1=1000, price2=2000}")
     }
 
     @Test
