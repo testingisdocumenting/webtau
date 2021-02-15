@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +20,8 @@ package org.testingisdocumenting.webtau.data.traceable;
 import java.util.function.Supplier;
 
 public class TraceableValue {
-    private static ThreadLocal<Boolean> isTracingDisabled = ThreadLocal.withInitial(() -> Boolean.FALSE);
-    private static ThreadLocal<Boolean> isAlwaysFuzzyPassedTracing = ThreadLocal.withInitial(() -> Boolean.FALSE);
+    private static final ThreadLocal<Boolean> isTracingDisabled = ThreadLocal.withInitial(() -> Boolean.FALSE);
+    private static final ThreadLocal<Boolean> isAlwaysFuzzyPassedTracing = ThreadLocal.withInitial(() -> Boolean.FALSE);
 
     private CheckLevel checkLevel;
     private final Object value;
