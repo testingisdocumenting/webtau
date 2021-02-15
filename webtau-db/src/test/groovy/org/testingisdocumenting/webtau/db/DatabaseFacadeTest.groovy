@@ -72,6 +72,21 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "should insert list of maps into table"() {
+        db.update("delete from PRICES")
+
+        def PRICES = db.table("PRICES")
+        PRICES << [
+                [id: "id1", description: "nice set", price: 1000],
+                [id: "id2", description: "warm set", price: 2000]]
+
+        PRICES.should == ["*ID" | "DESCRIPTION" | "PRICE"] {
+                         ___________________________________
+                          "id1" | "nice set"    | 1000
+                          "id2" | "warm set"    | 2000 }
+    }
+
+    @Test
     void "use table data permute, above and guid to generate rows"() {
         db.update("delete from PRICES")
 

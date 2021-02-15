@@ -18,8 +18,7 @@ package org.testingisdocumenting.webtau.db.gen;
 
 import org.testingisdocumenting.webtau.data.table.Record;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +28,10 @@ public class SqlQueriesGenerator {
 
     public static String insert(String tableName, Record record) {
         return insert(tableName, record.getHeader().getNamesStream(), record.valuesStream());
+    }
+
+    public static String insert(String tableName, Map<String, Object> row) {
+        return insert(tableName, row.keySet().stream(), row.values().stream());
     }
 
     public static String insert(String tableName, Stream<String> columnNamesStream, Stream<Object> valuesStream) {
