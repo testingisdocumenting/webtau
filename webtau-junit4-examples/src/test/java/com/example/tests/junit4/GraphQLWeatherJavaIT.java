@@ -4,8 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.testingisdocumenting.webtau.junit4.WebTauRunner;
 
-import static org.testingisdocumenting.webtau.Matchers.lessThan;
-import static org.testingisdocumenting.webtau.WebTauDsl.graphql;
+import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @RunWith(WebTauRunner.class)
 public class GraphQLWeatherJavaIT {
