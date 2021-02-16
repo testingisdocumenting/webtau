@@ -36,7 +36,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 import static org.testingisdocumenting.webtau.http.Http.http
