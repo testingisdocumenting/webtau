@@ -59,7 +59,7 @@ public class WebDriverCreator {
         drivers.clear();
     }
 
-    public static void withDisabledBrowserClose(Runnable code) {
+    public static void withDisabledBrowserAutoClose(Runnable code) {
         try {
             disableBrowserClose.set(true);
             code.run();
