@@ -24,22 +24,13 @@ import org.testingisdocumenting.webtau.version.WebtauVersion
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 class ServerAutoStartListener implements TestListener {
-    CliBackgroundCommand server
-
     @Override
     void beforeFirstTest() {
         def jarName = "webtau-testapp-${WebtauVersion.version}-exec.jar"
-        server = cli.runInBackground("java -jar ../webtau-testapp/target/${jarName} --server.port=0 --spring.profiles.active=qa")
+        CliBackgroundCommand server = cli.runInBackground("java -jar ../webtau-testapp/target/${jarName} --server.port=0 --spring.profiles.active=qa")
         server.output.waitTo(contain("Tomcat started on port(s)"), 40_000)
 
         def port = RegexpUtils.extractByRegexp(server.output.get(), /Tomcat started on port\(s\): (\d+)/)
         cfg.baseUrl = "http://localhost:${port}"
-    }
-
-    @Override
-    void afterAllTests() {
-        if (server) {
-            server.stop()
-        }
     }
 }
