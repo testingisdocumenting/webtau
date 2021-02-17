@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.cleanup;
 
 import org.testingisdocumenting.webtau.reporter.TestListener;
-import org.testingisdocumenting.webtau.reporter.TestListeners;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.ArrayList;
