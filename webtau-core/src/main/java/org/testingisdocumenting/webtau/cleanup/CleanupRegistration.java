@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.cleanup;
 
 import org.testingisdocumenting.webtau.reporter.TestListener;
+import org.testingisdocumenting.webtau.reporter.TestListeners;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.ArrayList;
@@ -35,10 +36,6 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 public class CleanupRegistration implements TestListener {
     private static final List<CleanupEntry> registered = Collections.synchronizedList(new ArrayList<>());
 
-    static {
-        registerShutdownHook();
-    }
-
     @Override
     public void afterAllTests() {
         cleanup();
@@ -50,9 +47,13 @@ public class CleanupRegistration implements TestListener {
                                           Supplier<Boolean> isValid,
                                           Runnable cleanupCode) {
         registered.add(new CleanupEntry(action, actionCompleted, id, isValid, cleanupCode));
+
+        // lazy shutdown hook init to avoid nested shutdowns in case of
+        // JUnit4 runner that calls afterAllTests in shutdown hook
+        ShutdownHook.INSTANCE.noOp();
     }
 
-    public static synchronized void cleanup() {
+    private static void cleanup() {
         registered.stream()
                 .filter(CleanupEntry::isValid)
                 .forEach(CleanupRegistration::cleanup);
@@ -91,6 +92,17 @@ public class CleanupRegistration implements TestListener {
 
         boolean isValid() {
             return this.isValid.get();
+        }
+    }
+
+    private static class ShutdownHook {
+        final static ShutdownHook INSTANCE = new ShutdownHook();
+
+        private ShutdownHook() {
+            registerShutdownHook();
+        }
+
+        public void noOp() {
         }
     }
 }
