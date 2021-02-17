@@ -72,8 +72,8 @@ public class WebTauConfig implements PrettyPrintable {
             "By default webtau appends webtau and its version to the user-agent, this disables that part",
             () -> false);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
-    private final ConfigValue cachePath = declare("cachePath", "user driven cache file path",
-            () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
+    private final ConfigValue cachePath = declare("cachePath", "user driven cache base dir",
+            () -> workingDir.getAsPath().resolve(".webtau-cache"));
 
     private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));

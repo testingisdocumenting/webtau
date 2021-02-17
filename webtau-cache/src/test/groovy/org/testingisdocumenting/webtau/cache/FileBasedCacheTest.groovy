@@ -18,21 +18,14 @@
 package org.testingisdocumenting.webtau.cache
 
 import org.junit.After
-import org.junit.Assert
 import org.junit.Test
-import org.testingisdocumenting.webtau.time.DummyTimeProvider
 import org.testingisdocumenting.webtau.time.Time
-import org.testingisdocumenting.webtau.utils.JsonUtils
+import org.testingisdocumenting.webtau.utils.FileUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
-import java.util.concurrent.Executors
 
 class FileBasedCacheTest {
-
-    public static final int DELAY_AFTER_LARGE_THAN_CACHE_FLUSH = 31_000
-
     @After
     void cleanUp() {
         Time.setTimeProvider(null)
@@ -40,114 +33,39 @@ class FileBasedCacheTest {
 
     @Test
     void "should load cached values from a provided file"() {
-        def cache = [
-                url: [
-                        value: 'http://test',
-                        expirationTime: Long.MAX_VALUE
-                ],
-                cost: [
-                        value: 100,
-                        expirationTime: Long.MAX_VALUE
-                ],
-                expired: [
-                        value: 'expired',
-                        expirationTime: 100
-                ]
-        ]
+        def cacheDir = createTempCacheDir()
+        FileUtils.writeTextContent(cacheDir.resolve('url.json'), '"http://test"')
 
-        def cacheFile = createTempCacheFile(cache)
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-        assert fileBasedCache.get('url') == 'http://test'
-        assert fileBasedCache.get('cost') == 100
-        assert fileBasedCache.get('nonExisting') == null
-        assert fileBasedCache.get('expired') == null
+        def fileBasedCache = new FileBasedCache({ -> cacheDir })
+        fileBasedCache.get('url').should == 'http://test'
     }
 
     @Test
-    void "should persist values in the file as pretty print json if time passed since last put"() {
-        def cacheFile = createTempCacheFile([:])
+    void "should save cached value to a file within cache dir"() {
+        def cacheDir = createTempCacheDir()
 
-        Time.timeProvider = new DummyTimeProvider([0, DELAY_AFTER_LARGE_THAN_CACHE_FLUSH])
+        def fileBasedCache = new FileBasedCache({ -> cacheDir })
 
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-        fileBasedCache.put('accessToken', 'abc', 400)
+        fileBasedCache.put('number', 200)
+        fileBasedCache.get('number').should == 200
 
-        Assert.assertEquals(String.format('{%n' +
-                '  "accessToken" : {%n' +
-                '    "value" : "abc",%n' +
-                '    "expirationTime" : 400%n' +
-                '  }%n' +
-                '}'), cacheFile.text)
+        FileUtils.fileTextContent(cacheDir.resolve('number.json')).should == '200'
     }
 
     @Test
-    void "should not persist values in the file right away"() {
-        def cacheFile = createTempCacheFile([:])
+    void "should load cache values on demand without caching"() {
+        def cacheDir = createTempCacheDir()
 
-        Time.timeProvider = new DummyTimeProvider([0, 100])
+        def fileBasedCache = new FileBasedCache({ -> cacheDir })
 
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-        fileBasedCache.put('accessToken', 'abc', 400)
+        fileBasedCache.put('number', 200)
+        FileUtils.writeTextContent(cacheDir.resolve('number.json'), '300')
 
-        Assert.assertEquals("{ }", cacheFile.text)
+        fileBasedCache.get('number').should == 300
     }
 
-    @Test
-    void "should create non expiring values if no expiration time is provided"() {
-        def cacheFile = createTempCacheFile([:])
-
-        Time.timeProvider = new DummyTimeProvider([0, DELAY_AFTER_LARGE_THAN_CACHE_FLUSH])
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-        fileBasedCache.put('accessToken', 'abc')
-
-        Assert.assertEquals(String.format('{%n' +
-                '  "accessToken" : {%n' +
-                '    "value" : "abc",%n' +
-                '    "expirationTime" : 9223372036854775807%n' +
-                '  }%n' +
-                '}'), cacheFile.text)
-    }
-
-    @Test
-    void "should handle put from multiple threads"() {
-        def cacheFile = createTempCacheFile([:])
-        Time.timeProvider = new DummyTimeProvider(0)
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-
-        def executor = Executors.newFixedThreadPool(300)
-
-        def futures = []
-        300.times {idx ->
-            fileBasedCache.put("value" + idx, 0)
-
-            futures << executor.submit {
-                150.times {
-                    fileBasedCache.put("value" + idx, fileBasedCache.get("value" + idx) + 1)
-                }
-            }
-        }
-
-        futures*.get()
-        assert fileBasedCache.get("value0") == 150
-        assert fileBasedCache.get("value1") == 150
-        assert fileBasedCache.get("value9") == 150
-    }
-
-    @Test
-    void "should handle non existing file"() {
-        def cachePath = Paths.get('nonExisting.json')
-        cachePath.toFile().deleteOnExit()
-        def cache = new FileBasedCache({ -> cachePath })
-
-        assert cache.get('key') == null
-
-        cache.put('key', 'value')
-        assert cache.get('key') == 'value'
-    }
-
-    private static Path createTempCacheFile(Map<String, Object> content) {
-        def cachePath = Files.createTempFile('webtau.cache', '.json')
-        cachePath.text = JsonUtils.serializePrettyPrint(content)
+    private static Path createTempCacheDir() {
+        def cachePath = Files.createTempDirectory('webtau-cache')
         cachePath.toFile().deleteOnExit()
 
         return cachePath

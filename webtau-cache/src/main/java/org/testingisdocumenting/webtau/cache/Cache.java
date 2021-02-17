@@ -47,16 +47,12 @@ public class Cache {
         return step.execute(StepReportOptions.SKIP_START);
     }
 
-    public void put(String key, Object value, long expirationTime) {
+    public void put(String key, Object value) {
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("caching value"), AS, id(key), COLON, stringValue(value)),
                 () -> tokenizedMessage(action("cached value"), AS, id(key), COLON, stringValue(value)),
-                () -> fileBasedCache.put(key, value, expirationTime));
+                () -> fileBasedCache.put(key, value));
 
         step.execute(StepReportOptions.SKIP_START);
-    }
-
-    public void put(String key, Object value) {
-        put(key, value, Long.MAX_VALUE);
     }
 }
