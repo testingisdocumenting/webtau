@@ -17,112 +17,50 @@
 
 package org.testingisdocumenting.webtau.cache;
 
-import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Supplier;
 
 class FileBasedCache {
-    private static final String VALUE_KEY = "value";
-    private static final String EXPIRATION_TIME_KEY = "expirationTime";
-
-    private final AtomicBoolean isCacheLoaded;
-
     private final Supplier<Path> cachePathSupplier;
-    private final AtomicLong lastPutTime;
 
-    private final Map<String, Object> loadedCache;
-
+    /**
+     * @param cachePathSupplier path supplier, used instead of a direct value to avoid config trigger load
+     */
     public FileBasedCache(Supplier<Path> cachePathSupplier) {
         this.cachePathSupplier = cachePathSupplier;
-        this.isCacheLoaded = new AtomicBoolean(false);
-        this.lastPutTime = new AtomicLong(Time.currentTimeMillis());
-        this.loadedCache = new ConcurrentHashMap<>();
-
-        registerFlushCacheOnExit();
     }
 
     @SuppressWarnings("unchecked")
     public <E> E get(String key) {
-        loadCacheIfRequired();
-        Map<String, Object> valueWithMeta = (Map<String, Object>) loadedCache.get(key);
-        if (valueWithMeta == null) {
+        Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
+        if (!Files.exists(valuePath)) {
             return null;
         }
 
-        Number expirationTime = (Number) valueWithMeta.get(EXPIRATION_TIME_KEY);
-        if (Time.currentTimeMillis() >= expirationTime.longValue()) {
-            loadedCache.remove(key);
-            flushCacheToDiskIfRequired();
-            return null;
-        }
-
-        E result = (E) valueWithMeta.get(VALUE_KEY);
-        flushCacheToDiskIfRequired();
-
-        return result;
-    }
-
-    public void put(String key, Object value, long expirationTime) {
-        loadCacheIfRequired();
-        Map<String, Object> valueWithMeta = createValueWithMeta(value, expirationTime);
-        loadedCache.put(key, valueWithMeta);
-
-        flushCacheToDiskIfRequired();
+        return (E) JsonUtils.deserialize(FileUtils.fileTextContent(valuePath));
     }
 
     public void put(String key, Object value) {
-        put(key, value, Long.MAX_VALUE);
+        Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
+        try {
+            Files.write(valuePath, JsonUtils.serializePrettyPrint(value).getBytes());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
-    private Map<String, Object> createValueWithMeta(Object value, long expirationTime) {
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put(VALUE_KEY, value);
-        result.put(EXPIRATION_TIME_KEY, expirationTime);
-
-        return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void loadCacheIfRequired() {
-        if (isCacheLoaded.get()) {
-            return;
+    private Path valueFilePathByKeyAndCreateDirIfRequired(String key) {
+        Path root = cachePathSupplier.get();
+        if (!Files.exists(root)) {
+            FileUtils.createDirs(root);
         }
 
-        Path cachePath = cachePathSupplier.get();
-        if (!Files.exists(cachePath)) {
-            isCacheLoaded.set(true);
-            return;
-        }
-
-        loadedCache.putAll((Map<String, ?>) JsonUtils.deserialize(FileUtils.fileTextContent(cachePath)));
-        isCacheLoaded.set(true);
-    }
-
-    private void flushCacheToDiskIfRequired() {
-        long lastTime = lastPutTime.get();
-        long current = Time.currentTimeMillis();
-
-        if (current - lastTime > 10_000) {
-            flushCacheToDisk();
-        }
-
-        lastPutTime.set(current);
-    }
-
-    private synchronized void flushCacheToDisk() {
-        FileUtils.writeTextContent(cachePathSupplier.get(), JsonUtils.serializePrettyPrint(loadedCache));
-    }
-
-    private void registerFlushCacheOnExit() {
-        Runtime.getRuntime().addShutdownHook(new Thread(this::flushCacheToDisk));
+        return root.resolve(key + ".json");
     }
 }
