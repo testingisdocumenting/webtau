@@ -18,6 +18,8 @@
 package org.testingisdocumenting.webtau.featuretesting
 
 import org.eclipse.jetty.server.Handler
+import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
+import org.testingisdocumenting.webtau.cache.Cache
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cli.WebTauCliApp
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
@@ -80,8 +82,11 @@ class WebTauEndToEndTestRunner  {
 
         capturedStepsSummary = [:].withDefault { 0 }
 
-        cliApp.start(WebTauCliApp.WebDriverBehavior.KeepWebDriversOpen) { exitCode ->
-            testDetails.exitCode = exitCode
+        // this is for optimization so browsers stay open in between feature test runs
+        WebDriverCreator.withDisabledBrowserClose {
+            cliApp.start { exitCode ->
+                testDetails.exitCode = exitCode
+            }
         }
 
         testDetails.scenarioDetails = buildScenarioDetails(cliApp.runner.report)

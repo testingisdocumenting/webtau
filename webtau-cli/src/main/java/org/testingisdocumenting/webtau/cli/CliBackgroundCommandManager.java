@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 import org.testingisdocumenting.webtau.reporter.TestListener;
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
@@ -52,12 +53,6 @@ public class CliBackgroundCommandManager implements TestListener {
     }
 
     @Override
-    public void afterAllTests() {
-        destroyActiveProcesses();
-        runningCommands.clear();
-    }
-
-    @Override
     public void beforeTestRun(WebTauTest test) {
         localRunningCommands.get().clear();
         localRunningCommands.get().putAll(runningCommands);
@@ -78,10 +73,11 @@ public class CliBackgroundCommandManager implements TestListener {
         test.addTestResultPayload(new TestResultPayload("cliBackground", backgroundCommands));
     }
 
-    static void destroyActiveProcesses() {
+    static synchronized void destroyActiveProcesses() {
         runningCommands.values().stream()
                 .filter(CliBackgroundCommand::isActive)
                 .forEach(CliBackgroundCommand::stop);
+        runningCommands.clear();
     }
 
     private static void validateProcessActive(CliBackgroundCommand backgroundCommand) {
@@ -94,10 +90,9 @@ public class CliBackgroundCommandManager implements TestListener {
         private static final LazyShutdownHook INSTANCE = new LazyShutdownHook();
 
         private LazyShutdownHook() {
-            // afterAllTests may not be called if cli module is used outside of a test runner
-            // that's why we register clearing of background processed as hook
-            Runtime.getRuntime().addShutdownHook(
-                    new Thread(CliBackgroundCommandManager::destroyActiveProcesses));
+            CleanupRegistration.registerForCleanup("shutting down", "shut down", "cli background processes",
+                    () -> runningCommands.values().stream().anyMatch(CliBackgroundCommand::isActive),
+                    CliBackgroundCommandManager::destroyActiveProcesses);
         }
 
         // to trigger class loading and shutdown hook registration

@@ -61,7 +61,7 @@ class WebTauMaven {
         if (runRepl) {
             cli.startRepl()
         } else {
-            cli.start(WebTauCliApp.WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
+            cli.start { exitCode ->
                 if (exitCode > 0) {
                     throw new MojoFailureException("tests failure: check tests output")
                 }

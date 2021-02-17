@@ -1,5 +1,11 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "open",
     "shortContainerId" : "navigation.groovy",
     "stepsSummary" : {

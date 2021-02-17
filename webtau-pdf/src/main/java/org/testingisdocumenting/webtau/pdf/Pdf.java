@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.pdf;
 
+import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -29,6 +30,15 @@ import java.util.Set;
 public class Pdf {
     private static final Set<Pdf> openedPdfs = Collections.synchronizedSet(new HashSet<>());
     private final PDDocument document;
+
+    static {
+        registerCleanup();
+    }
+
+    private Pdf(byte[] content) throws IOException {
+        document = PDDocument.load(content);
+        openedPdfs.add(this);
+    }
 
     public static Pdf pdf(byte[] content) {
         try {
@@ -54,14 +64,9 @@ public class Pdf {
         }
     }
 
-    public static void closeAll() {
+    public static synchronized void closeAll() {
         openedPdfs.forEach(Pdf::closeWithoutRemove);
         openedPdfs.clear();
-    }
-
-    private Pdf(byte[] content) throws IOException {
-        document = PDDocument.load(content);
-        openedPdfs.add(this);
     }
 
     public PdfText pageText(int pageIdx) {
@@ -79,6 +84,12 @@ public class Pdf {
     public void close() {
         closeWithoutRemove();
         openedPdfs.remove(this);
+    }
+
+    private static void registerCleanup() {
+        CleanupRegistration.registerForCleanup("closing", "close", "pdfs",
+                () -> !openedPdfs.isEmpty(),
+                Pdf::closeAll);
     }
 
     private void closeWithoutRemove() {

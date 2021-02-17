@@ -30,6 +30,9 @@ import java.nio.file.Paths
 import java.util.concurrent.Executors
 
 class FileBasedCacheTest {
+
+    public static final int DELAY_AFTER_LARGE_THAN_CACHE_FLUSH = 31_000
+
     @After
     void cleanUp() {
         Time.setTimeProvider(null)
@@ -64,7 +67,7 @@ class FileBasedCacheTest {
     void "should persist values in the file as pretty print json if time passed since last put"() {
         def cacheFile = createTempCacheFile([:])
 
-        Time.timeProvider = new DummyTimeProvider([0, 11_000])
+        Time.timeProvider = new DummyTimeProvider([0, DELAY_AFTER_LARGE_THAN_CACHE_FLUSH])
 
         def fileBasedCache = new FileBasedCache({ -> cacheFile })
         fileBasedCache.put('accessToken', 'abc', 400)
@@ -93,7 +96,7 @@ class FileBasedCacheTest {
     void "should create non expiring values if no expiration time is provided"() {
         def cacheFile = createTempCacheFile([:])
 
-        Time.timeProvider = new DummyTimeProvider([0, 11_000])
+        Time.timeProvider = new DummyTimeProvider([0, DELAY_AFTER_LARGE_THAN_CACHE_FLUSH])
         def fileBasedCache = new FileBasedCache({ -> cacheFile })
         fileBasedCache.put('accessToken', 'abc')
 

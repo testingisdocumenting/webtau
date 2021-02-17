@@ -77,7 +77,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             cliApp.startRepl()
             System.exit(0)
         } else {
-            cliApp.start(WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
+            cliApp.start { exitCode ->
                 System.exit(exitCode)
             }
         }
@@ -87,8 +87,8 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         return runner
     }
 
-    void start(WebDriverBehavior webDriverBehavior, Consumer<Integer> exitHandler) {
-        prepareTestsAndRun(webDriverBehavior) {
+    void start(Consumer<Integer> exitHandler) {
+        prepareTestsAndRun() {
             runTests()
             ReportGenerators.generate(runner.report)
         }
@@ -102,13 +102,13 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     }
 
     void startRepl() {
-        prepareTestsAndRun(WebDriverBehavior.AutoCloseWebDrivers) {
+        prepareTestsAndRun() {
             def repl = new Repl(runner)
             repl.run()
         }
     }
 
-    private void prepareTestsAndRun(WebDriverBehavior webDriverBehavior, Closure code) {
+    private void prepareTestsAndRun(Closure code) {
         init()
 
         try {
@@ -128,12 +128,6 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             code()
         } finally {
             removeListenersAndHandlers()
-
-            Pdf.closeAll()
-
-            if (webDriverBehavior == WebDriverBehavior.AutoCloseWebDrivers) {
-                WebDriverCreator.quitAll()
-            }
         }
     }
 

@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.cache;
 
+import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -35,6 +36,7 @@ class FileBasedCache {
     private static final String EXPIRATION_TIME_KEY = "expirationTime";
 
     private final AtomicBoolean isCacheLoaded;
+    private final AtomicBoolean isCacheFlushed;
 
     private final Supplier<Path> cachePathSupplier;
     private final AtomicLong lastPutTime;
@@ -44,6 +46,7 @@ class FileBasedCache {
     public FileBasedCache(Supplier<Path> cachePathSupplier) {
         this.cachePathSupplier = cachePathSupplier;
         this.isCacheLoaded = new AtomicBoolean(false);
+        this.isCacheFlushed = new AtomicBoolean(false);
         this.lastPutTime = new AtomicLong(Time.currentTimeMillis());
         this.loadedCache = new ConcurrentHashMap<>();
 
@@ -111,8 +114,10 @@ class FileBasedCache {
         long lastTime = lastPutTime.get();
         long current = Time.currentTimeMillis();
 
-        if (current - lastTime > 10_000) {
+        if (current - lastTime > 30_000) {
             flushCacheToDisk();
+        } else {
+            isCacheFlushed.set(false);
         }
 
         lastPutTime.set(current);
@@ -120,9 +125,12 @@ class FileBasedCache {
 
     private synchronized void flushCacheToDisk() {
         FileUtils.writeTextContent(cachePathSupplier.get(), JsonUtils.serializePrettyPrint(loadedCache));
+        isCacheFlushed.set(true);
     }
 
     private void registerFlushCacheOnExit() {
-        Runtime.getRuntime().addShutdownHook(new Thread(this::flushCacheToDisk));
+        CleanupRegistration.registerForCleanup("flushing", "flushed", "cached values",
+                () -> !isCacheFlushed.get(),
+                this::flushCacheToDisk);
     }
 }
