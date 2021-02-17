@@ -66,7 +66,14 @@
 
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
-            <artifactId>webtau-core</artifactId>
+            <artifactId>webtau-core-groovy</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-core-groovy</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
             <type>test-jar</type>
