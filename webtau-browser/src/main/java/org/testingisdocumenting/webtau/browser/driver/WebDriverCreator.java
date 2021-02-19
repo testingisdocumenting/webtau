@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.browser.driver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testingisdocumenting.webtau.browser.BrowserConfig;
+import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -38,6 +39,8 @@ public class WebDriverCreator {
 
     private static final List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
 
+    private static final ThreadLocal<Boolean> disableBrowserClose = ThreadLocal.withInitial(() -> false);
+
     static {
         registerCleanup();
     }
@@ -49,6 +52,20 @@ public class WebDriverCreator {
         initState(driver);
 
         return register(driver);
+    }
+
+    public static void quitAll() {
+        drivers.forEach(WebDriverCreator::quitWithoutRemove);
+        drivers.clear();
+    }
+
+    public static void withDisabledBrowserAutoClose(Runnable code) {
+        try {
+            disableBrowserClose.set(true);
+            code.run();
+        } finally {
+            disableBrowserClose.set(false);
+        }
     }
 
     static void quit(WebDriver driver) {
@@ -147,11 +164,6 @@ public class WebDriverCreator {
         System.setProperty("wdm.forceCache", "true");
     }
 
-    public static void quitAll() {
-        drivers.forEach(WebDriverCreator::quitWithoutRemove);
-        drivers.clear();
-    }
-
     private static WebDriver register(WebDriver driver) {
         drivers.add(driver);
         WebDriverCreatorListeners.afterDriverCreation(driver);
@@ -170,6 +182,8 @@ public class WebDriverCreator {
     }
 
     private static void registerCleanup() {
-        Runtime.getRuntime().addShutdownHook(new Thread(WebDriverCreator::quitAll));
+        CleanupRegistration.registerForCleanup("closing", "closed", "browsers",
+                () -> !disableBrowserClose.get() && !drivers.isEmpty(),
+                WebDriverCreator::quitAll);
     }
 }

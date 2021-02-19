@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.fs;
 
 import org.apache.commons.io.FileUtils;
 import org.testingisdocumenting.webtau.ant.UnzipTask;
+import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
@@ -235,7 +236,9 @@ public class FileSystem {
             Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
                     Files.createTempDirectory(prefix);
 
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> FileUtils.deleteQuietly(path.toFile())));
+            CleanupRegistration.registerForCleanup("deleting", "deleted", "temp dir " + path,
+                    () -> true,
+                    () -> FileUtils.deleteQuietly(path.toFile()));
 
             return path.toAbsolutePath();
         } catch (IOException e) {
