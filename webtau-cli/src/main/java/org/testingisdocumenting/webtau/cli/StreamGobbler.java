@@ -29,16 +29,18 @@ import java.util.List;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
-public class StreamGobbler implements Runnable {
+class StreamGobbler implements Runnable {
     private final InputStream stream;
+    private final boolean isSilent;
 
     private final List<String> lines;
     private final boolean renderOutput;
 
     private IOException exception;
 
-    public StreamGobbler(InputStream stream) {
+    public StreamGobbler(InputStream stream, boolean isSilent) {
         this.stream = stream;
+        this.isSilent = isSilent;
         this.lines = new ArrayList<>();
         this.renderOutput = shouldRenderOutput();
     }
@@ -107,6 +109,10 @@ public class StreamGobbler implements Runnable {
     }
 
     private boolean shouldRenderOutput() {
+        if (isSilent) {
+            return false;
+        }
+
         WebTauStep currentStep = WebTauStep.getCurrentStep();
         int numberOfParents = currentStep == null ? 0 : currentStep.getNumberOfParents();
 

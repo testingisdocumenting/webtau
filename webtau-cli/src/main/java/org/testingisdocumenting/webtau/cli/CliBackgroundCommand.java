@@ -39,6 +39,8 @@ public class CliBackgroundCommand implements WebTauStepPayload {
     private final ThreadLocal<Integer> localOutputNextLineIdxMarker = ThreadLocal.withInitial(() -> 0);
     private final ThreadLocal<Integer> localErrorNextLineIdxMarker = ThreadLocal.withInitial(() -> 0);
 
+    private Thread waitToStopThread;
+
     CliBackgroundCommand(String command, CliProcessConfig processConfig) {
         this.command = command;
         this.processConfig = processConfig;
@@ -54,28 +56,35 @@ public class CliBackgroundCommand implements WebTauStepPayload {
                 () -> tokenizedMessage(action("ran cli command in background"), stringValue(command)),
                 this::startBackgroundProcess);
 
-        waitForProcessToFinishInBackground();
+        waitToStopThread = waitForProcessToFinishInBackground();
     }
 
     public void stop() {
-        synchronized (this) {
-            WebTauStep.createAndExecuteStep(
-                    null,
-                    tokenizedMessage(action("stopping cli command in background"), stringValue(command)),
-                    (wasRunning) -> (Boolean) wasRunning ?
-                            tokenizedMessage(action("stopped cli command in background"), stringValue(command)) :
-                            tokenizedMessage(action("command has already finished"), stringValue(command)),
-                    () -> {
-                        boolean wasRunning = backgroundProcess.isActive();
-                        if (wasRunning) {
+        WebTauStep.createAndExecuteStep(
+                null,
+                tokenizedMessage(action("stopping cli command in background"),
+                        classifier("pid"), id(String.valueOf(backgroundProcess.getPid())), COLON, stringValue(command)),
+                (wasRunning) -> (Boolean) wasRunning ?
+                        tokenizedMessage(action("stopped cli command in background"), stringValue(command)) :
+                        tokenizedMessage(action("command has already finished"), stringValue(command)),
+                () -> {
+                    boolean wasRunning = backgroundProcess.isActive();
+                    if (wasRunning) {
+                        synchronized (this) {
                             backgroundProcess.destroy();
-                            CliBackgroundCommandManager.remove(this);
                         }
 
-                        return wasRunning;
-                    },
-                    StepReportOptions.REPORT_ALL);
-        }
+                        try {
+                            waitToStopThread.join();
+                        } catch (InterruptedException ignored) {
+                        }
+
+                        CliBackgroundCommandManager.remove(this);
+                    }
+
+                    return wasRunning;
+                },
+                StepReportOptions.REPORT_ALL);
     }
 
     CliBackgroundProcess getBackgroundProcess() {
@@ -140,30 +149,34 @@ public class CliBackgroundCommand implements WebTauStepPayload {
         }
     }
 
-    private void waitForProcessToFinishInBackground() {
-        new Thread(() -> {
+    private Thread waitForProcessToFinishInBackground() {
+        Thread thread = new Thread(() -> {
             try {
                 backgroundProcess.getProcess().waitFor();
 
-                synchronized (this) {
-                    WebTauStep step = WebTauStep.createStep(null,
-                            startTime,
-                            tokenizedMessage(),
-                            (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
-                                    action("finished with exit code"), numberValue(exitCode)),
-                            () -> {
-                                CliBackgroundCommandManager.remove(this);
+                WebTauStep step = WebTauStep.createStep(null,
+                        startTime,
+                        tokenizedMessage(),
+                        (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
+                                action("finished with exit code"), numberValue(exitCode)),
+                        () -> {
+                            synchronized (this) {
                                 backgroundProcess.setAsInactive();
+                                CliBackgroundCommandManager.remove(this);
+                            }
 
-                                return backgroundProcess.exitCode();
-                            });
+                            return backgroundProcess.exitCode();
+                        });
 
-                    step.execute(StepReportOptions.SKIP_START);
-                }
+                step.execute(StepReportOptions.SKIP_START);
             } catch (InterruptedException e) {
                 // ignore
             }
-        }).start();
+        });
+
+        thread.start();
+
+        return thread;
     }
 
     @Override
