@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Single Test Scenario Run</h1></header>
-<p>Selected test file has three scenarios package testscripts import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario scenario(&quot;clean data&quot;) { println &quot;cleaning...&quot; } scenario(&quot;download data&quot;) { println &quot;downloading...&quot; } scenario(&quot;validate data&quot;) { println &quot;validating...&quot; } To run scenario by index webtau:000&gt; r 0 before first test (Setup) [.] before first test (Setup) running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy) To run scenario by partial name match webtau:000&gt; r 'clean' running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy)</p>
+<p>Selected test file has three scenarios package testscripts import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario scenario(&quot;clean data&quot;) { println &quot;cleaning...&quot; } scenario(&quot;download data&quot;) { println &quot;downloading...&quot; } scenario(&quot;validate data&quot;) { println &quot;validating...&quot; } To run scenario by index webtau:000&gt; r 0 before first test (Setup) [.] before first test (Setup) running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy) Use negative index to select from the bottom, i.e. -1 will select the last scenario, -2 will select second from the end webtau:000&gt; r -1 running: testscripts/dataDownload.groovy validate data validate data (dataDownload.groovy) validating... [.] validate data (dataDownload.groovy) To run scenario by partial name match webtau:000&gt; r 'clean' running: testscripts/dataDownload.groovy clean data clean data (dataDownload.groovy) cleaning... [.] clean data (dataDownload.groovy)</p>
 </article>
 
 <article>
@@ -278,8 +278,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run test scenario by index",
+        "title" : "run test scenario by an index",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 0", "\u001B[34mbefore first test \u001B[35m(Setup)\u001B[0m", "\u001B[32m[.] \u001B[34mbefore first test \u001B[35m(Setup)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use negative index to select from the bottom, i.e. -1 will select the last scenario, -2 will select second from the end",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "run test scenario by a negative index",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r -1", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
         "type" : "CliOutput"
       }, {
         "type" : "Paragraph",
@@ -414,7 +424,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1612919654555,
+    "lastModifiedTime" : 1613786862460,
     "tocItem" : {
       "sectionTitle" : "REPL",
       "pageTitle" : "Test Runs",

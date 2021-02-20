@@ -84,13 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Handcrafted TableData</h1></header>
-<p>The simplest way to set up a DB state is to use handcrafted reference/table-data TableData. def PRICES = db.table(&quot;PRICES&quot;) // declare PRICES table PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;price&quot;] { // append two rows to PRICES ___________________________________ &quot;id1&quot; | &quot;nice set&quot; | 1000 &quot;id2&quot; | &quot;another set&quot; | 2000 } def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [id: &quot;id1&quot;, description: &quot;nice set&quot;, price: 1000]</p>
+<header><h1>Handcrafted Data</h1></header>
+<p>One way to set up a DB state is to use handcrafted reference/table-data TableData. def PRICES = db.table(&quot;PRICES&quot;) // declare PRICES table PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;price&quot;] { // append two rows to PRICES ___________________________________ &quot;id1&quot; | &quot;nice set&quot; | 1000 &quot;id2&quot; | &quot;another set&quot; | 2000 } Alternatively use list of maps as the parameter to perform multiple rows insertion def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ [id: &quot;id1&quot;, description: &quot;nice set&quot;, price: 1000], [id: &quot;id2&quot;, description: &quot;warm set&quot;, price: 2000]] Use map as the parameter to perform a single row insertion def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [id: &quot;id1&quot;, description: &quot;nice set&quot;, price: 1000]</p>
 </article>
 
 <article>
 <header><h1>Semi-Auto Generated TableData</h1></header>
-<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE 0a706ffa-44bd-47e9-8148-0fed9827606b nice set true card 1000 d96e15b8-d5b4-4651-9c3f-5213b6811d09 nice set true card 1010 b69838e0-2e36-4f43-8daa-b818cee52968 another set true rts 1030 e2d51be7-e707-4fda-8f89-3bcdd8014cd8 another set false rts 1050 ac6557b2-16be-4b08-9e74-ae57c24e817c another set true fps 1070 a201cbef-2fd8-472a-aadf-56e9702b34f0 another set false fps 1090</p>
+<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE 040f445c-5180-4e76-8f0f-043d83201a21 nice set true card 1000 11a76e26-e885-43da-87d6-438f0db85c78 nice set true card 1010 2d89f524-0b6c-40f6-bde9-e66cf39293ce another set true rts 1030 2a192dc0-0a2d-48ec-8515-6c4b734c48f9 another set false rts 1050 273958fe-c9a8-484b-b7f0-f1bc86c4f804 another set true fps 1070 a2c19e88-b0c8-4f80-a5c2-f25b43d19ec2 another set false fps 1090</p>
 </article>
 
 <article>
@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Cleaning Tables</h1></header>
-<p>db.update(&quot;delete from PRICES where price &gt; :price&quot;, [price: 950])</p>
+<p>db.update(&quot;delete from PRICES where price &gt; :price&quot;, [price: 950]) db.update(&quot;delete from PRICES where price &gt; :price&quot;, 950)</p>
 </article>
 
 <article>
@@ -132,13 +132,13 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Handcrafted TableData",
-      "id" : "handcrafted-tabledata",
+      "title" : "Handcrafted Data",
+      "id" : "handcrafted-data",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "The simplest way to set up a DB state is to use handcrafted ",
+          "text" : "One way to set up a DB state is to use handcrafted ",
           "type" : "SimpleText"
         }, {
           "url" : "/webtau/reference/table-data",
@@ -162,6 +162,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "endLine" : "2000 }",
         "commentsType" : "inline",
         "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Alternatively use list of maps as the parameter to perform multiple rows insertion",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [\n        [id: \"id1\", description: \"nice set\", price: 1000],\n        [id: \"id2\", description: \"warm set\", price: 2000]]",
+        "entry" : "should insert list of maps into table",
+        "title" : "inserting multiple rows using list",
+        "bodyOnly" : true,
+        "startLine" : "def PRICES",
+        "endLine" : "2000]",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use map as the parameter to perform a single row insertion",
+          "type" : "SimpleText"
+        } ]
       }, {
         "lang" : "groovy",
         "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [id: \"id1\", description: \"nice set\", price: 1000]",
@@ -271,7 +293,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "0a706ffa-44bd-47e9-8148-0fed9827606b",
+              "text" : "040f445c-5180-4e76-8f0f-043d83201a21",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -301,7 +323,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "d96e15b8-d5b4-4651-9c3f-5213b6811d09",
+              "text" : "11a76e26-e885-43da-87d6-438f0db85c78",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -331,7 +353,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "b69838e0-2e36-4f43-8daa-b818cee52968",
+              "text" : "2d89f524-0b6c-40f6-bde9-e66cf39293ce",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -361,7 +383,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "e2d51be7-e707-4fda-8f89-3bcdd8014cd8",
+              "text" : "2a192dc0-0a2d-48ec-8515-6c4b734c48f9",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -391,7 +413,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "ac6557b2-16be-4b08-9e74-ae57c24e817c",
+              "text" : "273958fe-c9a8-484b-b7f0-f1bc86c4f804",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -421,7 +443,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "a201cbef-2fd8-472a-aadf-56e9702b34f0",
+              "text" : "a2c19e88-b0c8-4f80-a5c2-f25b43d19ec2",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -564,6 +586,15 @@ ReactDOM.render(React.createElement(Documentation, {
         "includeRegexp" : "delete",
         "commentsType" : "inline",
         "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "db.update(\"delete from PRICES where price > :price\", 950)",
+        "entry" : "delete with single param shortcut",
+        "title" : "delete data with single param shortcut",
+        "bodyOnly" : true,
+        "includeRegexp" : "delete",
+        "commentsType" : "inline",
+        "type" : "Snippet"
       } ]
     }, {
       "title" : "Updating Tables",
@@ -690,7 +721,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Table"
       } ]
     } ],
-    "lastModifiedTime" : 1612919654559,
+    "lastModifiedTime" : 1613786862460,
     "tocItem" : {
       "sectionTitle" : "Database",
       "pageTitle" : "Data Setup",
@@ -699,8 +730,8 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "data-setup",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Handcrafted TableData",
-        "id" : "handcrafted-tabledata"
+        "title" : "Handcrafted Data",
+        "id" : "handcrafted-data"
       }, {
         "title" : "Semi-Auto Generated TableData",
         "id" : "semi-auto-generated-tabledata"

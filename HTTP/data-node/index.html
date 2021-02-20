@@ -278,7 +278,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\") {\n    complexList.k2.should == [30, 40]\n}",
-        "entry" : "groovy children key shortcut",
+        "entry" : "children key shortcut",
         "bodyOnly" : true,
         "type" : "Snippet"
       } ]
@@ -416,14 +416,14 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\") {\n    list.each { it.shouldBe > 0 }\n}",
-        "entry" : "groovy each on simple list",
+        "entry" : "each on simple list",
         "bodyOnly" : true,
         "title" : "List of simple values",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\") {\n    complexList.each { k2.shouldBe > 0 }\n}",
-        "entry" : "groovy each on complex list",
+        "entry" : "each on complex list",
         "bodyOnly" : true,
         "title" : "List of complex values",
         "type" : "Snippet"
@@ -444,7 +444,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "def found = http.get(\"/end-point\") {\n    return list.find { it > 1 }\n}\n\nassert found == 2\nassert found.getClass() == Integer",
-        "entry" : "groovy find on list",
+        "entry" : "find on list",
         "bodyOnly" : true,
         "type" : "Snippet"
       }, {
@@ -462,7 +462,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "def found = http.get(\"/end-point\") {\n    return list.findAll { it > 1 }\n}\n\nassert found == [2, 3]\nassert found[0].getClass() == Integer",
-        "entry" : "groovy findAll on list",
+        "entry" : "findAll on list",
         "bodyOnly" : true,
         "type" : "Snippet"
       }, {
@@ -489,7 +489,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "def id = http.get(\"/end-point\") {\n    def found = complexList.find {\n        assert k1.getClass() == String\n        k1 == 'v1'\n    }\n    assert found.getClass() == GroovyDataNode\n\n    return found.id\n}\n\nassert id.getClass() == String",
-        "entry" : "groovy find on list of objects",
+        "entry" : "find on list of objects",
         "bodyOnly" : true,
         "type" : "Snippet"
       } ]
@@ -512,7 +512,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "def transformed = http.get(\"/end-point\") {\n    return list.collect { \"world#${it}\" }\n}\n\nassert transformed == ['world#1', 'world#2', 'world#3']\nassert transformed[0] instanceof GString",
-        "entry" : "groovy transform list",
+        "entry" : "transform list",
         "bodyOnly" : true,
         "type" : "Snippet"
       } ]
@@ -541,12 +541,12 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "def sum = http.get(\"/end-point\") {\n    return complexList\n            .findAll { k1.startsWith('v1') }\n            .collect { k2 }\n            .sum()\n}\n\nassert sum == 70",
-        "entry" : "groovy findAll, collect, and sum",
+        "entry" : "findAll, collect, and sum",
         "bodyOnly" : true,
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1612919654555,
+    "lastModifiedTime" : 1613786862456,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Data Node",

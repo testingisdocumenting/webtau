@@ -739,8 +739,8 @@ toc = [ {
     "fileName" : "data-setup",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Handcrafted TableData",
-      "id" : "handcrafted-tabledata"
+      "title" : "Handcrafted Data",
+      "id" : "handcrafted-data"
     }, {
       "title" : "Semi-Auto Generated TableData",
       "id" : "semi-auto-generated-tabledata"
