@@ -48,6 +48,7 @@ public class ProcessUtils {
 
     public static void kill(int pid) throws IOException {
         run("pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
+        run("kill " + pid, CliProcessConfig.EMPTY);
     }
 
     public static CliBackgroundProcess runInBackground(String command, CliProcessConfig config) throws IOException {
