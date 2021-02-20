@@ -47,7 +47,6 @@ public class ProcessUtils {
     }
 
     public static void kill(int pid) throws IOException {
-        run("kill " + pid, CliProcessConfig.EMPTY);
         run("pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
     }
 
