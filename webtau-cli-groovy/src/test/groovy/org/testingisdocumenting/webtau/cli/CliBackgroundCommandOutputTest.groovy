@@ -51,7 +51,7 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
                     '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
-                    'scripts/long-sleep: line 1: <childpid> Terminated: 15          sleep 10000\n' +
+                    'Terminated\n' +
                     '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
@@ -66,7 +66,7 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
                     '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
-                    'scripts/long-sleep: line 1: <childpid> Terminated: 15          sleep 10000\n' +
+                    'Terminated\n' +
                     '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
@@ -86,10 +86,11 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
     }
 
     private static String normalizeOutput(String output) {
-        return output
-                .replaceAll(/\(\d+ms\)/, "(time)")
+        def lines = output.replaceAll(/\(\d+ms\)/, "(time)")
                 .replaceAll(/pid \d+/, "pid <id>")
-                .replaceAll(/\d+ Terminated: 15/, "<childpid> Terminated: 15")
+                .split("\n")
+
+        return lines.collect { it.contains("Terminated") ? "Terminated" : it }.join("\n") + "\n"
     }
 
     @Override
