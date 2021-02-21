@@ -27,9 +27,11 @@ import java.util.Map;
 
 class CliProcessConfig {
     public static final CliProcessConfig EMPTY = new CliProcessConfig();
+    public static final CliProcessConfig SILENT = new CliProcessConfig().silent();
 
     private Map<String, String> env;
     private File workingDir;
+    private boolean isSilent;
 
     public CliProcessConfig env(Map<String, CharSequence> env) {
         this.env = new HashMap<>();
@@ -48,12 +50,21 @@ class CliProcessConfig {
         return this;
     }
 
+    public CliProcessConfig silent() {
+        this.isSilent = true;
+        return this;
+    }
+
     public Map<String, String> getEnv() {
         return env;
     }
 
     public File getWorkingDir() {
         return workingDir;
+    }
+
+    public boolean isSilent() {
+        return isSilent;
     }
 
     void applyTo(ProcessBuilder processBuilder) {

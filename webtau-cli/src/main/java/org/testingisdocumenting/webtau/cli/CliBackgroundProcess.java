@@ -73,14 +73,13 @@ class CliBackgroundProcess {
     }
 
     public void destroy() {
-        outputGobbler.close();
-        errorGobbler.close();
-
         try {
             ProcessUtils.kill(pid);
             process.waitFor();
+            outputGobbler.close();
+            errorGobbler.close();
             isActive.set(false);
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

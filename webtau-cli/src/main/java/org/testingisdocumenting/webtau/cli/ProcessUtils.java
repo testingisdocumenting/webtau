@@ -18,20 +18,20 @@
 package org.testingisdocumenting.webtau.cli;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
-public class ProcessUtils {
+class ProcessUtils {
     private ProcessUtils() {
     }
 
-    public static ProcessRunResult run(String command, CliProcessConfig config) throws IOException {
+    static ProcessRunResult run(String command, CliProcessConfig config) throws IOException {
         CliBackgroundProcess backgroundRunResult = runInBackground(command, config);
 
         try {
@@ -46,12 +46,16 @@ public class ProcessUtils {
         }
     }
 
-    public static void kill(int pid) throws IOException {
-        run("kill " + pid, CliProcessConfig.EMPTY);
-        run("pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
+    static void kill(int pid) {
+        try {
+            run("pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
+            run("kill " + pid, CliProcessConfig.SILENT);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
-    public static CliBackgroundProcess runInBackground(String command, CliProcessConfig config) throws IOException {
+    static CliBackgroundProcess runInBackground(String command, CliProcessConfig config) throws IOException {
         String[] splitCommand = CommandParser.splitCommand(command);
         if (splitCommand.length == 0) {
             throw new IllegalArgumentException("command is not specified");
@@ -64,8 +68,8 @@ public class ProcessUtils {
 
         Process process = processBuilder.start();
 
-        StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream());
-        StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream());
+        StreamGobbler outputGobbler = new StreamGobbler(process.getInputStream(), config.isSilent());
+        StreamGobbler errorGobbler = new StreamGobbler(process.getErrorStream(), config.isSilent());
 
         Thread consumeErrorThread = new Thread(errorGobbler);
         Thread consumeOutThread = new Thread(outputGobbler);
