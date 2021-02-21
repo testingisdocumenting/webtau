@@ -158,7 +158,13 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "start server before first test and stop after"() {
-        runCli("springboot/startAndStopAsPartOfSuite.groovy", "springboot/webtau-auto-start.groovy")
+        runCli("springboot/startAndStopAsPartOfSuite.groovy", "springboot/webtau-auto-start.cfg.groovy")
+    }
+
+    @Test
+    void "use existing server before first test"() {
+        runCli("springboot/checkExistingServerIsStillUp.groovy", "springboot/webtau-auto-start.cfg.groovy",
+                "--url=$customersBaseUrl")
     }
 
     @Test

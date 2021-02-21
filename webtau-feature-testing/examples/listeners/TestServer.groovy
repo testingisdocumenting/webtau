@@ -17,20 +17,31 @@
 package listeners
 
 import org.testingisdocumenting.webtau.cli.CliBackgroundCommand
-import org.testingisdocumenting.webtau.reporter.TestListener
-import org.testingisdocumenting.webtau.utils.RegexpUtils
 import org.testingisdocumenting.webtau.version.WebtauVersion
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import static org.testingisdocumenting.webtau.Matchers.contain
+import static org.testingisdocumenting.webtau.WebTauDsl.cli
 
-class ServerAutoStartListener implements TestListener {
-    @Override
-    void beforeFirstTest() {
+class TestServer {
+    private String baseUrl
+    private CliBackgroundCommand server
+
+    void start() {
         def jarName = "webtau-testapp-${WebtauVersion.version}-exec.jar"
-        CliBackgroundCommand server = cli.runInBackground("java -jar ../webtau-testapp/target/${jarName} --server.port=0 --spring.profiles.active=qa")
+        server = cli.runInBackground("java -jar ../webtau-testapp/target/${jarName} " +
+                "--server.port=0 --spring.profiles.active=qa")
+
         server.output.waitTo(contain("Tomcat started on port(s)"), 40_000)
 
-        def port = RegexpUtils.extractByRegexp(server.output.get(), /Tomcat started on port\(s\): (\d+)/)
-        cfg.baseUrl = "http://localhost:${port}"
+        def port = server.output.extractByRegexp(/Tomcat started on port\(s\): (\d+)/)
+        baseUrl = "http://localhost:${port}"
+    }
+
+    void stop() {
+        server.stop()
+    }
+
+    String getBaseUrl() {
+        return baseUrl
     }
 }
