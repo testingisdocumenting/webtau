@@ -20,10 +20,7 @@ package org.testingisdocumenting.webtau.cli;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +70,7 @@ class StreamGobbler implements Runnable {
         try {
             stream.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 

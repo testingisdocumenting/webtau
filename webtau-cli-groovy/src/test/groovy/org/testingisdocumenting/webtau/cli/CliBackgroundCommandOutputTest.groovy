@@ -51,7 +51,8 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
                     '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
-                    '. background cli command : scripts/long-sleep finished with exit code 141 (time)\n' +
+                    'scripts/long-sleep: line 1: <childpid> Terminated: 15          sleep 10000\n' +
+                    '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
     }
@@ -65,7 +66,8 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
                     '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
-                    '. background cli command : scripts/long-sleep finished with exit code 141 (time)\n' +
+                    'scripts/long-sleep: line 1: <childpid> Terminated: 15          sleep 10000\n' +
+                    '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
     }
@@ -87,6 +89,7 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
         return output
                 .replaceAll(/\(\d+ms\)/, "(time)")
                 .replaceAll(/pid \d+/, "pid <id>")
+                .replaceAll(/\d+ Terminated: 15/, "<childpid> Terminated: 15")
     }
 
     @Override
