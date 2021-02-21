@@ -3,7 +3,8 @@
     "scenario" : "before first test",
     "shortContainerId" : "Setup",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3,
+      "numberOfFailed" : 2
     }
   }, {
     "scenario" : "after all tests",
