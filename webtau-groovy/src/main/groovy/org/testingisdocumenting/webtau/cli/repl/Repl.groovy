@@ -50,12 +50,16 @@ class Repl {
         initConfig()
         groovysh = createShell()
 
+        //https://issues.apache.org/jira/browse/GROOVY-9949
+//        groovysh.runner.reader.handleUserInterrupt = true
+
         resultRenderer = new ReplResultRenderer(groovysh)
     }
 
     static void main(String[] args) {
         def repl = new Repl()
         repl.run()
+        println "!@@@@"
     }
 
     void run() {
