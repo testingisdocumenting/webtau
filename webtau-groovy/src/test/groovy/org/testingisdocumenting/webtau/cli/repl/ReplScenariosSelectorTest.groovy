@@ -59,11 +59,32 @@ class ReplScenariosSelectorTest {
         results.scenario.should == [null]
     }
 
+
+    @Test
+    void "should select by negative index"() {
+        process(-1)
+        results.scenario.should == ['cleanup scenario two']
+
+        process(-2)
+        results.scenario.should == ['cleanup scenario one']
+
+        process(-20)
+        results.idx.should == [-1]
+        results.scenario.should == [null]
+    }
+
     @Test
     void "should select by index and string combo"() {
         process(1, 'cleanup')
 
         results.scenario.should == ['my scenario two', 'cleanup scenario one']
+    }
+
+    @Test
+    void "should select by negative index and string combo"() {
+        process(-1, 'cleanup')
+
+        results.scenario.should == ['cleanup scenario two', 'cleanup scenario one']
     }
 
     @Test
@@ -86,6 +107,12 @@ class ReplScenariosSelectorTest {
     }
 
     @Test
+    void "should select by index range using negative index"() {
+        process(1:-1)
+        results.scenario.should == ['my scenario two', 'cleanup scenario one', 'cleanup scenario two']
+    }
+
+    @Test
     void "should select by index range and single entry"() {
         process(0:1, 3)
         results.scenario.should == ['my scenario one', 'my scenario two', 'cleanup scenario two']
@@ -94,6 +121,12 @@ class ReplScenariosSelectorTest {
     @Test
     void "should select by regexp range"() {
         process('my.*one':'cleanup.*one')
+        results.scenario.should == ['my scenario one', 'my scenario two', 'cleanup scenario one']
+    }
+
+    @Test
+    void "should select by regexp and negative index range"() {
+        process('my.*one':-2)
         results.scenario.should == ['my scenario one', 'my scenario two', 'cleanup scenario one']
     }
 

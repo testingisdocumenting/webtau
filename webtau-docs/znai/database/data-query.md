@@ -55,7 +55,7 @@ If your query uses a single unique placeholder name, you can pass a regular valu
 
 # Lazy Declaration
 
-`createQuery` doesn't query database at the call time. It defines a query to be used later.
+`query` doesn't query database at the call time. It defines a query to be used later.
 
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
     entry: "create query is lazy",
@@ -102,7 +102,7 @@ Use `waitTo` on query result to continuously query database until condition is m
 
 # Query Result Value
 
-Value returned from `createQuery` methods is an instance of `DbQuery` type.
+Value returned from `query` methods is an instance of `DbQuery` type.
 No actual query is performed when `DbQuery` instance is created. It holds information about what query is, and what its parameters
 and only performs query when validation is triggered.
 

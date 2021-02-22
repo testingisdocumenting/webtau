@@ -59,6 +59,7 @@ class ReplScenariosSelector {
     }
 
     private SelectInputAndResult selectSingleScenarioByIdx(int idx) {
+        idx = IndexSelection.convertNegativeIdxToAbsolute(availableScenarios.size(), idx)
         def isInRange = idx >= 0 && idx < availableScenarios.size()
         def found = isInRange ? availableScenarios[idx] : null
 

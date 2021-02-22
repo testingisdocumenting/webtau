@@ -20,10 +20,14 @@ package org.testingisdocumenting.webtau.openapi;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue specUrl = declare("openApiSpecUrl",
@@ -32,15 +36,12 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue ignoreAdditionalProperties = declare("openApiIgnoreAdditionalProperties",
             "ignore additional OpenAPI properties ", () -> false);
 
-    private static String fullPathOrUrl;
-
-    static String getSpecFullPathOrUrl() {
-        return fullPathOrUrl;
+    static String determineSpecFullPathOrUrl() {
+        return resolveFullPathOrUrl();
     }
 
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        fullPathOrUrl = resolveFullPathOrUrl(cfg, specUrl.getAsString());
         OpenApi.reset();
     }
 
@@ -49,15 +50,25 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
         return Stream.of(specUrl, ignoreAdditionalProperties);
     }
 
-    private static String resolveFullPathOrUrl(WebTauConfig cfg, String configValue) {
+    private static String resolveFullPathOrUrl() {
+        String configValue = specUrl.getAsString();
+
         if (configValue.isEmpty()) {
             return "";
+        }
+
+        if (configValue.startsWith("/")) {
+            if (Files.exists(Paths.get(configValue))) {
+                return configValue;
+            }
+
+            return UrlUtils.concat(getCfg().getBaseUrl(), configValue);
         }
 
         if (configValue.startsWith("http:") || configValue.startsWith("https:")) {
             return configValue;
         }
 
-        return cfg.getWorkingDir().resolve(specUrl.getAsString()).toString();
+        return getCfg().getWorkingDir().resolve(specUrl.getAsString()).toString();
     }
 }

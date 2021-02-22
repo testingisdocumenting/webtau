@@ -44,7 +44,7 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     void "query result comparison step should capture query and params"() {
         setupPrices()
 
-        def price = db.createQuery("select price from PRICES where id=:id", [id: 'id1'])
+        def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
         price.should == 1000
         price.shouldNot == 2000
 
@@ -57,7 +57,7 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     void "query result comparison step should capture query and params in case of single param"() {
         setupPrices()
 
-        def price = db.createQuery("select price from PRICES where id=:id", 'id1')
+        def price = db.query("select price from PRICES where id=:id", 'id1')
         price.should == 1000
 
         def fullMessage = stepMessages.join('\n')
@@ -65,18 +65,41 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     }
 
     @Test
-    void "query result comparison step should not capture params when no params ara passed"() {
+    void "query result comparison step should not capture params when no params are passed"() {
         setupPrices()
 
-        def price = db.createQuery("select price from PRICES where id='id1'")
+        def price = db.query("select price from PRICES where id='id1'")
         price.should == 1000
 
         def fullMessage = stepMessages.join('\n')
         fullMessage.should contain("select price from PRICES where id='id1' equals 1000")
     }
 
+    @Test
+    void "update step should capture query and params in case of maps param"() {
+        setupPrices()
+
+        db.update("delete from PRICES where price>:price1 or price>:price2", [price1: 1000, price2: 2000])
+
+        def fullMessage = stepMessages.join('\n')
+        fullMessage.should contain(
+                "running DB update delete from PRICES where price>:price1 or price>:price2 on primary-db with {price1=1000, price2=2000}")
+    }
+
+    @Test
+    void "update step should capture query and params in case of single param"() {
+        setupPrices()
+
+        db.update("delete from PRICES where price>:price", 950)
+
+        def fullMessage = stepMessages.join('\n')
+        fullMessage.should contain(
+                "running DB update delete from PRICES where price>:price on primary-db with {price=950}")
+    }
+
     @Override
     void onStepStart(WebTauStep step) {
+        stepMessages << step.inProgressMessage.toString()
     }
 
     @Override

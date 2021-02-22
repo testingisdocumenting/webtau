@@ -51,8 +51,8 @@ class CliBackgroundProcess {
         this.errorGobbler = errorGobbler;
         this.consumeErrorThread = consumeErrorThread;
         this.consumeOutThread = consumeOutThread;
-        this.output = new CliOutput("process output", outputGobbler);
-        this.error = new CliOutput("process error output", errorGobbler);
+        this.output = new CliOutput(command, "process output", outputGobbler);
+        this.error = new CliOutput(command, "process error output", errorGobbler);
         this.isActive = new AtomicBoolean(true);
     }
 
@@ -73,14 +73,13 @@ class CliBackgroundProcess {
     }
 
     public void destroy() {
-        outputGobbler.close();
-        errorGobbler.close();
-
         try {
             ProcessUtils.kill(pid);
             process.waitFor();
+            outputGobbler.close();
+            errorGobbler.close();
             isActive.set(false);
-        } catch (InterruptedException | IOException e) {
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

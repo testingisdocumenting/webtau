@@ -18,18 +18,21 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
+import org.testingisdocumenting.webtau.reporter.*;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-public interface PageElement extends ActualValueExpectations, WithTokenizedDescription {
+import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out;
+
+public interface PageElement extends ActualValueExpectations, WithTokenizedDescription, PrettyPrintable {
     PageElementValue<Integer> getCount();
 
     WebElement findElement();
@@ -104,5 +107,28 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
         ValueMatcherExpectationSteps.waitNotStep(this, this, StepReportOptions.REPORT_ALL,
                 this.describe(), valueMatcher,
                 expectationTimer, tickMillis, timeOutMillis);
+    }
+
+    @Override
+    default void prettyPrint() {
+        TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
+
+        if (!isPresent()) {
+            out(Stream.concat(
+                    Stream.of(Color.RED, "element is not present: "),
+                    toAnsiConverter.convert(locationDescription()).stream()).toArray());
+            return;
+        }
+
+        out(Stream.concat(
+                Stream.of(Color.GREEN, "element is found: "),
+                toAnsiConverter.convert(locationDescription()).stream()).toArray());
+
+        out(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
+        out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
+        Integer count = getCount().get();
+        if (count > 1) {
+            out(Color.YELLOW, "               count: ", Color.GREEN, count);
+        }
     }
 }

@@ -297,7 +297,7 @@ class StandaloneTestRunnerTest {
 
             def afterAllTest = runner.webTauTestList.get(3)
             afterAllTest.scenario.should == 'after all tests'
-            afterAllTest.isSynthetic.should == true
+            afterAllTest.synthetic.should == true
             afterAllTest.shortContainerId.should == 'Teardown'
             afterAllTest.exception.message.should == 'test error message'
         }
@@ -323,11 +323,12 @@ class StandaloneTestRunnerTest {
 
     private static StandaloneTestRunner createRunner(String... scenarioFiles) {
         def workingDir = Paths.get("test-scripts")
-        def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir,
+        def runner = new StandaloneTestRunner(
+                GroovyStandaloneEngine.createWithoutDelegating(workingDir,
                 ["org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunnerTestStaticImport"]), workingDir)
 
         StandaloneTestRunnerTestStaticImport.runner = runner
-        scenarioFiles.each { runner.process(new TestFile(Paths.get(it)), this) }
+        scenarioFiles.each { runner.process(new TestFile(Paths.get(it))) }
 
         return runner
     }

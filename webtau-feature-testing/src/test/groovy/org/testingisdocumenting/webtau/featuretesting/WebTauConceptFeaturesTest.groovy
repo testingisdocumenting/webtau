@@ -117,6 +117,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "do not sleep as sync mechanism"() {
+        runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "runner should use deprecated config file name when no config file is available"() {
         runCliWithWorkingDir('deprecatedConfigCheck.groovy',
                 'examples/scenarios/concept/deprecatedconfig')

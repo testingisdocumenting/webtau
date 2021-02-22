@@ -1,6 +1,6 @@
-# Handcrafted TableData
+# Handcrafted Data
 
-The simplest way to set up a DB state is to use handcrafted [TableData](reference/table-data).
+One way to set up a DB state is to use handcrafted [TableData](reference/table-data).
 
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
     entry: "should use data source provider for primary database",
@@ -10,6 +10,19 @@ The simplest way to set up a DB state is to use handcrafted [TableData](referenc
     endLine: "2000 }",
     commentsType: "inline"
 }
+
+Alternatively use list of maps as the parameter to perform multiple rows insertion
+
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+  entry: "should insert list of maps into table",
+  title: "inserting multiple rows using list",
+  bodyOnly: true,
+  startLine: "def PRICES",
+  endLine: "2000]",
+  commentsType: "inline"
+}
+
+Use map as the parameter to perform a single row insertion
  
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
     entry: "should insert single row into table",
@@ -60,6 +73,14 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
 :include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
     entry: "delete with params",
     title: "delete data",
+    bodyOnly: true,
+    includeRegexp: "delete",
+    commentsType: "inline"
+}
+
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+    entry: "delete with single param shortcut",
+    title: "delete data with single param shortcut",
     bodyOnly: true,
     includeRegexp: "delete",
     commentsType: "inline"

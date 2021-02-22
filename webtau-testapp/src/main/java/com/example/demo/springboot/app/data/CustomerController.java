@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class CustomerController {
     private final CustomerRepository customerRepository;
@@ -66,7 +68,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers")
-    public Iterable<Customer> getAllCustomers(@RequestParam(value = "sortBy", required = false) String sortBy) {
+    public List<Customer> getAllCustomers(@RequestParam(value = "sortBy", required = false) String sortBy) {
         if (sortBy != null) {
             return customerRepository.findAll(new Sort(sortBy));
         } else {
@@ -75,12 +77,12 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/search/first-name")
-    public Iterable<Customer> searchByFirstName(@RequestParam("name") String name) {
+    public List<Customer> searchByFirstName(@RequestParam("name") String name) {
         return customerRepository.findByFirstName(name);
     }
 
     @GetMapping("/customers/search/last-name")
-    public Iterable<Customer> searchByLastName(@RequestParam("name") String name) {
+    public List<Customer> searchByLastName(@RequestParam("name") String name) {
         return customerRepository.findByLastName(name);
     }
 }

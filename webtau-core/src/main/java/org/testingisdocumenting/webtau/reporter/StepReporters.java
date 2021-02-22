@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -34,8 +35,13 @@ public class StepReporters {
 
     private static final ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);
 
+    // for ad-hoc groovy script runs from IDE we want to use console reporter as long
+    // as there were no explicit reporters added
+    private static final AtomicBoolean explicitlyAdded = new AtomicBoolean(false);
+
     public static void add(StepReporter reporter) {
         reporters.add(reporter);
+        explicitlyAdded.set(true);
     }
 
     public static void remove(StepReporter reporter) {
@@ -80,7 +86,7 @@ public class StepReporters {
     private static Stream<StepReporter> getReportersStream() {
         List<StepReporter> localReporters = StepReporters.localReporters.get();
 
-        if (reporters.isEmpty() && localReporters.isEmpty()) {
+        if (!explicitlyAdded.get() && localReporters.isEmpty()) {
             return Stream.of(defaultStepReporter);
         }
 

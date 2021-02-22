@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 
+import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.cli.Cli.cli
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 
@@ -49,7 +50,9 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
 
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
-                    '> stopping cli command in background scripts/long-sleep\n' +
+                    '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
+                    'Terminated\n' +
+                    '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
     }
@@ -62,14 +65,32 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
 
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
-                    '> stopping cli command in background scripts/long-sleep\n' +
+                    '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
+                    'Terminated\n' +
+                    '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
     }
 
+    @Test
+    void "extract text by regexp should be part of steps"() {
+        supportedPlatformOnly {
+            def backgroundCmd = cli.runInBackground("scripts/hello")
+            backgroundCmd.output.waitTo contain("more text")
+
+            def text = backgroundCmd.output.extractByRegexp("more (.*xt)")
+            text.should == "text"
+
+            output.should contain("extracted text by regexp more (.*xt) from scripts/hello process output : text")
+        }
+    }
+
     private static String normalizeOutput(String output) {
-        return output.replaceAll(/\(\d+ms\)/, "(time)")
-            .replace('. background cli command : scripts/long-sleep finished with exit code 143 (time)\n', '')
+        def lines = output.replaceAll(/\(\d+ms\)/, "(time)")
+                .replaceAll(/pid \d+/, "pid <id>")
+                .split("\n")
+
+        return lines.collect { it.contains("Terminated") ? "Terminated" : it }.join("\n") + "\n"
     }
 
     @Override

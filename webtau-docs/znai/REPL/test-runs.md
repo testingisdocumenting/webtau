@@ -36,7 +36,11 @@ Selected test file has three scenarios
 
 To run scenario by index
 
-:include-cli-output: cli-tests/repl-test-scenario-ran-by-idx/out.txt {title: "run test scenario by index"}
+:include-cli-output: cli-tests/repl-test-scenario-ran-by-idx/out.txt {title: "run test scenario by an index"}
+
+Use negative index to select from the bottom, i.e. -1 will select the last scenario, -2 will select second from the end
+
+:include-cli-output: cli-tests/repl-test-scenario-ran-by-negative-idx/out.txt {title: "run test scenario by a negative index"}
 
 To run scenario by partial name match
 

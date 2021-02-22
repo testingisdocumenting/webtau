@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.cfg;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
@@ -37,7 +38,7 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
 
-public class WebTauConfig {
+public class WebTauConfig implements PrettyPrintable {
     private static final String SOURCE_MANUAL = "manual";
 
     public static final String CONFIG_FILE_DEPRECATED_DEFAULT = "webtau.cfg";
@@ -71,8 +72,8 @@ public class WebTauConfig {
             "By default webtau appends webtau and its version to the user-agent, this disables that part",
             () -> false);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
-    private final ConfigValue cachePath = declare("cachePath", "user driven cache file path",
-            () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
+    private final ConfigValue cachePath = declare("cachePath", "user driven cache base dir",
+            () -> workingDir.getAsPath().resolve(".webtau-cache"));
 
     private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
@@ -309,11 +310,6 @@ public class WebTauConfig {
         printConfig(enumeratedCfgValues.values());
     }
 
-    public void printAll() {
-        printConfig(freeFormCfgValues);
-        printConfig(enumeratedCfgValues.values());
-    }
-
     private void printConfig(Collection<ConfigValue> configValues) {
         int maxKeyLength = configValues.stream()
                 .filter(ConfigValue::nonDefault)
@@ -408,6 +404,12 @@ public class WebTauConfig {
 
         return Stream.concat(standardConfigValues, additionalConfigValues)
                 .collect(Collectors.toMap(ConfigValue::getKey, v -> v, (o, n) -> n, LinkedHashMap::new));
+    }
+
+    @Override
+    public void prettyPrint() {
+        printConfig(freeFormCfgValues);
+        printConfig(enumeratedCfgValues.values());
     }
 
     private static class CfgInstanceHolder {

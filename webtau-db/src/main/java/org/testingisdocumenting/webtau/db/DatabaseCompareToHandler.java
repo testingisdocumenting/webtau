@@ -37,7 +37,7 @@ public class DatabaseCompareToHandler implements CompareToHandler {
 
     private Object extractActual(Object expected, Object actual) {
         if (actual instanceof DatabaseTable) {
-            return ((DatabaseTable) actual).createQuery().queryTableDataNoStep();
+            return ((DatabaseTable) actual).query().queryTableDataNoStep();
         }
 
         DbQuery actualResult = (DbQuery) actual;

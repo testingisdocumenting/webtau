@@ -22,13 +22,13 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.38-SNAPSHOT</version>
+        <version>1.39-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-open-api</artifactId>
 
     <properties>
-        <swagger.validator.version>2.11.0</swagger.validator.version>
+        <swagger.validator.version>2.15.1</swagger.validator.version>
     </properties>
 
     <dependencies>

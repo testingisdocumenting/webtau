@@ -20,25 +20,24 @@ package org.testingisdocumenting.webtau.cli;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
-public class StreamGobbler implements Runnable {
+class StreamGobbler implements Runnable {
     private final InputStream stream;
+    private final boolean isSilent;
 
     private final List<String> lines;
     private final boolean renderOutput;
 
     private IOException exception;
 
-    public StreamGobbler(InputStream stream) {
+    public StreamGobbler(InputStream stream, boolean isSilent) {
         this.stream = stream;
+        this.isSilent = isSilent;
         this.lines = new ArrayList<>();
         this.renderOutput = shouldRenderOutput();
     }
@@ -71,7 +70,7 @@ public class StreamGobbler implements Runnable {
         try {
             stream.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -107,6 +106,10 @@ public class StreamGobbler implements Runnable {
     }
 
     private boolean shouldRenderOutput() {
+        if (isSilent) {
+            return false;
+        }
+
         WebTauStep currentStep = WebTauStep.getCurrentStep();
         int numberOfParents = currentStep == null ? 0 : currentStep.getNumberOfParents();
 
