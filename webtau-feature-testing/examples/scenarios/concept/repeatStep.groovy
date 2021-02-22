@@ -18,15 +18,15 @@ package scenarios.concept
 
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
 import org.testingisdocumenting.webtau.reporter.StepReportOptions
+import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('multiple times') {
-    repeat(2) {
+    repeat(5) {
         step("custom step one") {
-
             step("nested step one") {
                 // http.put("for example")
             }
@@ -38,14 +38,11 @@ scenario('multiple times') {
 }
 
 static def repeat(int number, Closure code) {
-    def step = WebTauStep.createStep(null, 0,
+    def repeatStep = WebTauStep.createStep(null, 0,
             TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.action("do repeat")),
             () -> TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.action("do repeat")),
-            () -> {
-                code()
-            }
-    )
+            () -> code())
 
-    step.setTotalNumberOfAttempts(number)
-    step.execute(StepReportOptions.REPORT_ALL)
+    repeatStep.setTotalNumberOfAttempts(number)
+    repeatStep.execute(StepReportOptions.REPORT_ALL)
 }

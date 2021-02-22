@@ -20,15 +20,13 @@ package org.testingisdocumenting.webtau.reporter;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils.renderStackTrace;
 import static java.util.stream.Collectors.toList;
 
@@ -267,7 +265,6 @@ public class WebTauStep {
         return elapsedTime;
     }
 
-    @SuppressWarnings("unchecked")
     public <R> R execute(StepReportOptions stepReportOptions) {
         if (totalNumberOfAttempts == 1) {
             return executeSingleRun(stepReportOptions);
@@ -313,39 +310,56 @@ public class WebTauStep {
     }
 
     private <R> R executeMultipleRuns(StepReportOptions stepReportOptions) {
-        int remaining = totalNumberOfAttempts;
+        WebTauStep repeatRoot = getCurrentStep();
+        R result = executeSingleRunWithAction(stepReportOptions, multipleRunsActionWrapper(stepReportOptions));
 
-        WebTauStep repeatParent = getCurrentStep();
-
-        executeSingleRunWithAction(stepReportOptions, () -> multipleTimesRunActionWrapper(stepReportOptions));
-        while (remaining > 0) {
-            boolean reportStep = remaining == totalNumberOfAttempts || remaining == 1;
-
-//            if (reportStep) {
-//            } else {
-//                StepReporters.withoutReporters(() -> executeSingleRun(stepReportOptions));
-//            }
-
-            StepReporters.onStepRepeat(this, totalNumberOfAttempts - remaining + 1, totalNumberOfAttempts);
-            remaining--;
-        }
-
-        return null;
-    }
-
-    private Object multipleTimesRunActionWrapper(StepReportOptions stepReportOptions) {
-        Object result = null;
-        int remaining = totalNumberOfAttempts;
-        while (remaining > 0) {
-            boolean reportStep = remaining == totalNumberOfAttempts || remaining == 1;
-
-            result = executeSingleRun(stepReportOptions);
-
-            StepReporters.onStepRepeat(this, totalNumberOfAttempts - remaining + 1, totalNumberOfAttempts);
-            remaining--;
-        }
+        reduceRepeatedChildren(repeatRoot);
 
         return result;
+    }
+
+    private Supplier<Object> multipleRunsActionWrapper(StepReportOptions stepReportOptions) {
+        return () -> {
+            int attemptIdx = 0;
+            while (attemptIdx < totalNumberOfAttempts) {
+                boolean reportStep = shouldReportStepDuringRepeat(attemptIdx);
+
+                int finalAttemptIdx = attemptIdx;
+                Runnable actionWithStep = () -> {
+                    // TODO add out of total portion
+                    MessageToken repeatAction = action("repeat #" + finalAttemptIdx);
+                    WebTauStep.createAndExecuteStep(tokenizedMessage(repeatAction),
+                            () -> tokenizedMessage(classifier("completed"), repeatAction),
+                            this.action::get);
+                };
+
+                if (!reportStep) {
+                    StepReporters.withoutReporters(() -> { actionWithStep.run(); return null; });
+                } else {
+                    actionWithStep.run();
+                }
+
+                attemptIdx++;
+            }
+
+            return null;
+        };
+    }
+
+    private void reduceRepeatedChildren(WebTauStep repeatRoot) {
+        ListIterator<WebTauStep> it = repeatRoot.children.listIterator(repeatRoot.children.size());
+        int idx = repeatRoot.children.size();
+        while (it.hasPrevious()) {
+            it.previous();
+            idx--;
+            if (!shouldReportStepDuringRepeat(idx)) {
+                it.remove();
+            }
+        }
+    }
+
+    private boolean shouldReportStepDuringRepeat(int attemptIdx) {
+        return attemptIdx == 0 || attemptIdx == (totalNumberOfAttempts - 1);
     }
 
     private void startClock() {

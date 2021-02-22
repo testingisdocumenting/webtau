@@ -35,6 +35,8 @@ public class StepReporters {
 
     private static final ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);
 
+    private static final ThreadLocal<Boolean> disabled = ThreadLocal.withInitial(() -> false);
+
     // for ad-hoc groovy script runs from IDE we want to use console reporter as long
     // as there were no explicit reporters added
     private static final AtomicBoolean explicitlyAdded = new AtomicBoolean(false);
@@ -58,13 +60,12 @@ public class StepReporters {
     }
 
     public static <R> R withoutReporters(Supplier<R> code) {
-        // TODO
-//        try {
-//            addLocal(reporter);
+        try {
+            disabled.set(true);
             return code.get();
-//        } finally {
-//            removeLocal(reporter);
-//        }
+        } finally {
+            disabled.set(false);
+        }
     }
 
     public static void onStart(WebTauStep step) {
@@ -84,6 +85,10 @@ public class StepReporters {
     }
 
     private static Stream<StepReporter> getReportersStream() {
+        if (disabled.get()) {
+            return Stream.empty();
+        }
+
         List<StepReporter> localReporters = StepReporters.localReporters.get();
 
         if (!explicitlyAdded.get() && localReporters.isEmpty()) {
