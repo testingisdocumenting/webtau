@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +16,27 @@
 
 package org.testingisdocumenting.webtau.ant;
 
-import org.apache.ant.compress.taskdefs.Unzip;
+import org.apache.ant.compress.taskdefs.ExpandBase;
+import org.apache.tools.ant.Project;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class UnzipTask extends Unzip {
-    public UnzipTask(Path src, Path dest) {
-        UnArchiveTaskSetup.setup(this, src, dest);
+class UnArchiveTaskSetup {
+    static void setup(ExpandBase task, Path src, Path dest) {
+        task.setProject(new Project());
+        task.getProject().init();
+
+        try {
+            Files.createDirectories(dest);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        task.setSrc(src.toAbsolutePath().toFile());
+        task.setDest(dest.toAbsolutePath().toFile());
+        task.setOverwrite(true);
     }
 }

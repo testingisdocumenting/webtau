@@ -17,6 +17,8 @@
 package org.testingisdocumenting.webtau.fs;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.tools.ant.Task;
+import org.testingisdocumenting.webtau.ant.UntarTask;
 import org.testingisdocumenting.webtau.ant.UnzipTask;
 import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
@@ -29,6 +31,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -41,18 +45,7 @@ public class FileSystem {
     }
 
     public void unzip(Path src, Path dest) {
-        Path fullSrc = fullPath(src);
-        Path fullDest = fullPath(dest);
-
-        WebTauStep step = WebTauStep.createStep(null,
-                tokenizedMessage(action("unzipping "), urlValue(src.toString()), TO, urlValue(dest.toString())),
-                () -> tokenizedMessage(action("unzipped "), urlValue(fullSrc.toString()), TO, urlValue(fullDest.toString())),
-                () -> {
-                    UnzipTask unzipTask = new UnzipTask(fullSrc, fullDest);
-                    unzipTask.execute();
-                });
-
-        step.execute(StepReportOptions.REPORT_ALL);
+        unArchive("unzipping", "unzipped", UnzipTask::new, src, dest);
     }
 
     public void unzip(String src, Path dest) {
@@ -61,6 +54,18 @@ public class FileSystem {
 
     public void unzip(String src, String dest) {
         unzip(Paths.get(src), Paths.get(dest));
+    }
+
+    public void untar(Path src, Path dest) {
+        unArchive("untarring", "untarred", UntarTask::new, src, dest);
+    }
+
+    public void untar(String src, Path dest) {
+        untar(Paths.get(src), dest);
+    }
+
+    public void untar(String src, String dest) {
+        untar(Paths.get(src), Paths.get(dest));
     }
 
     public void copy(String src, Path dest) {
@@ -204,6 +209,20 @@ public class FileSystem {
 
         return getCfg().getWorkingDir().resolve(relativeOrFull).toAbsolutePath();
     }
+
+    private void unArchive(String action, String actionCompleted,
+                           BiFunction<Path, Path, Task> antTaskFactory, Path src, Path dest) {
+        Path fullSrc = fullPath(src);
+        Path fullDest = fullPath(dest);
+
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action(action), urlValue(src.toString()), TO, urlValue(dest.toString())),
+                () -> tokenizedMessage(action(actionCompleted), urlValue(fullSrc.toString()), TO, urlValue(fullDest.toString())),
+                () -> antTaskFactory.apply(fullSrc, fullDest).execute());
+
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
 
     private static CopyResult copyImpl(Path src, Path dest) {
         Path fullSrc = fs.fullPath(src);

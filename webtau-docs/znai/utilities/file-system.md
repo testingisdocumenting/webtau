@@ -58,12 +58,18 @@ Use `extractByRegexp` to extract content from a file by regular expression
   includeRegexp: ["fs\\.copy"]
 }
 
-# Unzip
+# Archive
 
-:include-file: doc-artifacts/snippets/fsArchive/unzip.groovy {
-  title: "unzip a file"
+:include-file: examples/scenarios/fs/archive.groovy {
+  title: "unzip a file",
+  startLine: "// unzip",
+  endLine: "// unzip",
+  excludeStartEnd: true
 }
 
-
-
-
+:include-file: examples/scenarios/fs/archive.groovy {
+  title: "untar a file",
+  startLine: "// untar",
+  endLine: "// untar",
+  excludeStartEnd: true
+}
