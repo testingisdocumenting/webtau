@@ -38,7 +38,9 @@ import java.util.stream.Collectors;
 
 /*
 There is no "standard" for handling GraphQL over HTTP but GraphQL provides some best practices for this which we follow here:
-https://graphql.org/learn/serving-over-http/
+https://graphql.org/learn/serving-over-http/.
+
+Note: In this handler, GraphQL endpoints must start with "/grapqhl".
  */
 public class GraphQLResponseHandler extends AbstractHandler {
     private final GraphQL graphQL;
@@ -56,6 +58,10 @@ public class GraphQLResponseHandler extends AbstractHandler {
         this.expectedAuthHeaderValue = Optional.empty();
     }
 
+  /**
+   * If the endpoint starts with "/graphql", treat it as a GraphQL request, otherwise delegate to
+   * the optional additionalHandler.
+   */
     @Override
     public void handle(String url, Request baseRequest, HttpServletRequest request,
                        HttpServletResponse response) throws IOException, ServletException {
