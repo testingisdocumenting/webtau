@@ -1,10 +1,29 @@
+/*
+ * Copyright 2021 webtau maintainers
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.testingisdocumenting.webtau;
 
 import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
+import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.*;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 /**
@@ -87,6 +106,54 @@ public class Matchers {
      */
     public static ContainMatcher containing(Object expected) {
         return new ContainMatcher(expected);
+    }
+
+    /**
+     * Contain all matcher
+     * <pre>
+     * actual(collection).should(containAll(list));
+     * </pre>
+     * @param expected collection of values to be contained in collection
+     * @return matcher instance
+     */
+    public static ContainAllMatcher containAll(Collection<Object> expected) {
+        return new ContainAllMatcher(expected);
+    }
+
+    /**
+     * Contain all matcher
+     * <pre>
+     * actual(collection).should(containAll(2, 3, "a"));
+     * </pre>
+     * @param expected var arg of expected values
+     * @return matcher instance
+     */
+    public static ContainAllMatcher containAll(Object... expected) {
+        return new ContainAllMatcher(Arrays.asList(expected));
+    }
+
+    /**
+     * Containing all matcher. Alias to containAll
+     * <pre>
+     * actual(collection).should(containAll(list));
+     * </pre>
+     * @param expected collection of values to be contained in collection
+     * @return matcher instance
+     */
+    public static ContainAllMatcher containingAll(Collection<Object> expected) {
+        return new ContainAllMatcher(expected);
+    }
+
+    /**
+     * Containing all matcher. Alias to containAll
+     * <pre>
+     * actual(collection).should(containAll(2, 3, "a"));
+     * </pre>
+     * @param expected collection of values to be contained in collection
+     * @return matcher instance
+     */
+    public static ContainAllMatcher containingAll(Object... expected) {
+        return new ContainAllMatcher(Arrays.asList(expected));
     }
 
     /**
