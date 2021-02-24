@@ -1,3 +1,20 @@
+/*
+ * Copyright 2021 webtau maintainers
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.testingisdocumenting.webtau.graphql;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
@@ -8,12 +25,12 @@ import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 public class ConfigBasedGraphQLHttpConfiguration implements GraphQLHttpConfiguration {
     @Override
     public String requestUrl(String url, final GraphQLRequest graphQLRequest) {
-        String endpoint = getCfg().get(GraphQLConfig.graphqlEndpoint.getKey());
+        String endpoint = getCfg().get(GraphQLConfig.graphQLEndpoint.getKey());
         return endpoint + buildOperationQuery(graphQLRequest);
     }
 
     private String buildOperationQuery(final GraphQLRequest graphQLRequest) {
-        if (getCfg().<Boolean>get(GraphQLConfig.showGraphqlOperationAsQueryParam.getKey())
+        if (getCfg().<Boolean>get(GraphQLConfig.graphQLShowOperationAsQueryParam.getKey())
             && null != graphQLRequest
             && null != graphQLRequest.getOperationName()
             && !graphQLRequest.getOperationName().isEmpty()) {

@@ -28,13 +28,13 @@ public class GraphQLConfig implements WebTauConfigHandler {
             "graphQLIgnoreIntrospectionFailures",
             "ignore graphQL introspection failures, introspection is required for coverage reporting",
             () -> true);
-    static final ConfigValue graphqlEndpoint = declare(
-            "graphqlEndpoint",
-            "override the default GraphQL endpoint",
+    static final ConfigValue graphQLEndpoint = declare(
+            "graphQLEndpoint",
+            "override the default graphQL endpoint",
             () -> GraphQL.GRAPHQL_URL);
-    static final ConfigValue showGraphqlOperationAsQueryParam = declare(
-            "showGraphqlOperationAsQueryParam",
-            "pass the GraphQL operation as operation=<operation> query parameter if present",
+    static final ConfigValue graphQLShowOperationAsQueryParam = declare(
+            "graphQLShowOperationAsQueryParam",
+            "pass the graphQL operation as operation=<operation> query parameter if present",
             () -> true);
 
     public static boolean ignoreIntrospectionFailures() {
@@ -49,7 +49,7 @@ public class GraphQLConfig implements WebTauConfigHandler {
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(ignoreIntrospectionFailures,
-            graphqlEndpoint,
-            showGraphqlOperationAsQueryParam);
+            graphQLEndpoint,
+            graphQLShowOperationAsQueryParam);
     }
 }
