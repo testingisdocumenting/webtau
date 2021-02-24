@@ -135,7 +135,7 @@ public class Matchers {
     /**
      * Containing all matcher. Alias to containAll
      * <pre>
-     * actual(collection).should(containAll(list));
+     * actual(listOfLists).should(contain(containAll(myList)));
      * </pre>
      * @param expected collection of values to be contained in collection
      * @return matcher instance
@@ -147,7 +147,7 @@ public class Matchers {
     /**
      * Containing all matcher. Alias to containAll
      * <pre>
-     * actual(collection).should(containAll(2, 3, "a"));
+     * actual(listOfLists).should(contain(containAll(2, 3, "a")));
      * </pre>
      * @param expected collection of values to be contained in collection
      * @return matcher instance

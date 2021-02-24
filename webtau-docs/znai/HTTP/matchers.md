@@ -100,6 +100,18 @@ Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.gro
 Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "containAllMatcher", bodyOnly: true, excludeRegexp: "doc.capture"}
 ```
 
+# Nested Contain All
+
+Use `containingAll` alias to make it easier to read `containAll` matcher nested inside `contain`.
+:include-empty-block: {rightSide: true}
+
+:include-json: prices.json {title: "response", pathsFile: "doc-artifacts/prices-contain-containing-all/paths.json"}
+
+```tabs {rightSide: true}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "contain containing all matcher", bodyOnly: true, excludeRegexp: "doc.capture"}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "containContainingAllMatcher", bodyOnly: true, excludeRegexp: "doc.capture"}
+```
+
 # Date and Time
 
 You can assert `actual` string against `LocalDate` and `ZonedDateTime`. String will be automatically converted 

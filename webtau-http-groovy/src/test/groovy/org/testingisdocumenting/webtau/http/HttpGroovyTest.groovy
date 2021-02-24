@@ -952,6 +952,15 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "contain containing all matcher"() {
+        http.get("/prices") {
+            body.prices.should contain(containingAll(10, 30))
+        }
+
+        http.doc.capture("prices-contain-containing-all")
+    }
+
+    @Test
     void "working with dates"() {
         http.get("/end-point-dates") {
             def expectedDate = LocalDate.of(2018, 6, 12)

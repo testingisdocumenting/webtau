@@ -22,10 +22,10 @@ import static org.testingisdocumenting.webtau.Matchers.*
 
 class ContainAllMatcherTest {
     @Test
-    void "should throw exception when value doesn't contain all expected value"() {
+    void "fails when not all values are present"() {
         code {
             actual(['a', 'b', 'd']).should(containAll('b', 'A'))
-        } should throwException('\n[value] expect to contain all [b, A]\n' +
+        } should throwException('\n[value] expects to contain all [b, A]\n' +
                 '[value]: mismatches:\n' +
                 '         \n' +
                 '         [value][0]:   actual: "a" <java.lang.String>\n' +
@@ -40,26 +40,31 @@ class ContainAllMatcherTest {
     }
 
     @Test
-    void "should pass when value contains all expected values"() {
+    void "passes when all values are present"() {
         actual(['a', 'b', 'd']).should(containAll('b', 'a'))
     }
 
     @Test
-    void "should throw exception when value contain all expected values, but should not"() {
+    void "negative matcher fails only when all the values are present "() {
         code {
             actual(['a', 'b', 'd']).shouldNot(containAll('b', 'a'))
-        } should throwException('\n[value] expect to not contain all [b, a]\n' +
+        } should throwException('\n[value] expects to not contain all [b, a]\n' +
                 '[value][1]: equals "b"\n' +
                 '[value][0]: equals "a"')
     }
 
     @Test
-    void "should pass when value contain only some expected values, but should not"() {
+    void "negative matcher passes when only some of values are present"() {
         actual(['a', 'b', 'd']).shouldNot(containAll('b', 'a', 'x'))
     }
 
     @Test
-    void "should pass when value not contains all expected values"() {
+    void "negative matcher passes when all the values are missing"() {
         actual(['a', 'b', 'd']).shouldNot(containAll('x', 'y'))
+    }
+
+    @Test
+    void "containing all alias"() {
+        actual([['a'], ['b'], ['c', 'd', 'e']]).should(contain(containingAll('d', 'e')))
     }
 }
