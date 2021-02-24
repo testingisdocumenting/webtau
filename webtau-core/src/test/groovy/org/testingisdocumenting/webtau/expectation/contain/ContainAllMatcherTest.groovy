@@ -45,12 +45,17 @@ class ContainAllMatcherTest {
     }
 
     @Test
-    void "should throw exception when value contain expected value, but should not"() {
+    void "should throw exception when value contain all expected values, but should not"() {
         code {
             actual(['a', 'b', 'd']).shouldNot(containAll('b', 'a'))
         } should throwException('\n[value] expect to not contain all [b, a]\n' +
                 '[value][1]: equals "b"\n' +
                 '[value][0]: equals "a"')
+    }
+
+    @Test
+    void "should pass when value contain only some expected values, but should not"() {
+        actual(['a', 'b', 'd']).shouldNot(containAll('b', 'a', 'x'))
     }
 
     @Test

@@ -82,11 +82,13 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = true;
 
+        boolean allContains = true;
         for (Object oneOfExpected : expectedList) {
-            containAnalyzer.notContains(actualPath, actual, oneOfExpected);
+            // we need !not as `contains` is not producing any report info at this moment
+            allContains = allContains && !containAnalyzer.notContains(actualPath, actual, oneOfExpected);
         }
 
-        return containAnalyzer.hasMismatches();
+        return !allContains;
     }
 
     @Override
