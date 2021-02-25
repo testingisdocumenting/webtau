@@ -7,6 +7,8 @@ node_modules
 webtau.*report*.html
 webtau-report-*.html
 *-webtau-report.html
+webtau.graphql-report.json
+run-details.actual.json
 .webtau.cache.json
 .vertx
 todo.md
