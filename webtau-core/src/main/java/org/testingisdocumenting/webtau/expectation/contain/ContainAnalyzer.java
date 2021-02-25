@@ -60,7 +60,7 @@ public class ContainAnalyzer {
             reports.add(mismatches.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
         }
 
-        return reports.stream().collect(joining("\n\n"));
+        return String.join("\n\n", reports);
     }
 
     public boolean hasMismatches() {

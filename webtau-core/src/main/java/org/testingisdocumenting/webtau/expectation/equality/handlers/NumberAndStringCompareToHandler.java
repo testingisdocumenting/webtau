@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,7 +67,6 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
                 return -1;
             case LESS_THAN:
             case LESS_THAN_OR_EQUAL:
-                return 1;
             case EQUAL:
                 return 1;
             case NOT_EQUAL:

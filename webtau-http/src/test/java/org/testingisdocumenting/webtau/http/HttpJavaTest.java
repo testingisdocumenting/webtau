@@ -134,6 +134,25 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void containAllMatcher() {
+        http.get("/end-point-list", (header, body) -> {
+            body.get(1).get("k2").should(containAll(10, 30));
+            body.get(1).get("k2").shouldNot(containAll(40, 60, 80));
+        });
+
+        http.doc.capture("end-point-list-contain-all-matchers");
+    }
+
+    @Test
+    public void containContainingAllMatcher() {
+        http.get("/prices", (header, body) -> {
+            body.get("prices").should(contain(containingAll(10, 30)));
+        });
+
+        http.doc.capture("prices-contain-containing-all");
+    }
+
+    @Test
     public void workingWithDates() {
         http.get("/end-point-dates", (header, body) -> {
             LocalDate expectedDate = LocalDate.of(2018, 6, 12);
