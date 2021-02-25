@@ -41,6 +41,14 @@ public class GraphQLConfig implements WebTauConfigHandler {
         return ignoreIntrospectionFailures.getAsBoolean();
     }
 
+    public static String graphQLEndpoint() {
+        return graphQLEndpoint.getAsString();
+    }
+
+    public static boolean graphQLShowOperationAsQueryParam() {
+        return graphQLShowOperationAsQueryParam.getAsBoolean();
+    }
+
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
         GraphQL.reset();

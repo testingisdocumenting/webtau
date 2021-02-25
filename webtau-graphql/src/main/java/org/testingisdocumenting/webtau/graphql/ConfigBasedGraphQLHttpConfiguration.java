@@ -17,20 +17,18 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-
 import org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfiguration;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 
 public class ConfigBasedGraphQLHttpConfiguration implements GraphQLHttpConfiguration {
     @Override
     public String requestUrl(String url, final GraphQLRequest graphQLRequest) {
-        String endpoint = getCfg().get(GraphQLConfig.graphQLEndpoint.getKey());
+        String endpoint = GraphQLConfig.graphQLEndpoint();
         return endpoint + buildOperationQuery(graphQLRequest);
     }
 
     private String buildOperationQuery(final GraphQLRequest graphQLRequest) {
-        if (getCfg().<Boolean>get(GraphQLConfig.graphQLShowOperationAsQueryParam.getKey())
+        if (GraphQLConfig.graphQLShowOperationAsQueryParam()
             && null != graphQLRequest
             && null != graphQLRequest.getOperationName()
             && !graphQLRequest.getOperationName().isEmpty()) {

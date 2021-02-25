@@ -56,13 +56,13 @@ class ConfigBasedGraphQLHttpConfigurationTest {
 
     @Test
     void "should use common graphql endpoint if not explicitly overridden"() {
-        getCfg().get(GraphQLConfig.graphQLEndpoint.getKey()).should == GraphQL.GRAPHQL_URL
+        GraphQLConfig.graphQLEndpoint().should == GraphQL.GRAPHQL_URL
         customConfig.requestUrl("/graphql", requestWithoutOperation).should == GraphQL.GRAPHQL_URL
     }
 
     @Test
     void "should handle null requests"() {
-        getCfg().get(GraphQLConfig.graphQLEndpoint.getKey()).should == GraphQL.GRAPHQL_URL
+        GraphQLConfig.graphQLEndpoint().should == GraphQL.GRAPHQL_URL
         customConfig.requestUrl("/graphql", null).should == GraphQL.GRAPHQL_URL
     }
 
@@ -75,7 +75,7 @@ class ConfigBasedGraphQLHttpConfigurationTest {
 
     @Test
     void "should add operation name to query params by default"() {
-        getCfg().get(GraphQLConfig.graphQLShowOperationAsQueryParam.getKey()).should == true
+        GraphQLConfig.graphQLShowOperationAsQueryParam().should == true
         customConfig.requestUrl("/graphql", requestWithOperation).should == "/graphql?operation=myOperation"
     }
 
