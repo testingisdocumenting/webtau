@@ -8,7 +8,7 @@ Tests will still appear as part of your report but will be marked as skipped.
 
 # Skipping Tests Based on Env
 
-Use `onlyForEnv` shortcut if you need to skip tests for certain environment.
+Use the `skipForEnv` and `onlyForEnv` shortcuts if you need to skip or enable tests for a certain environment.
 
 :include-file: scenarios/concept/conditionalEnvRegistrationSkip.groovy {title: "Environment specific tests"}
 
