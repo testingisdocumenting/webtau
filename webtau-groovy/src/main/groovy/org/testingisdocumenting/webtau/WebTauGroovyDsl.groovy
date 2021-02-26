@@ -101,6 +101,12 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
+    static void skipForEnv(String env, Closure registrationCode) {
+        onlyWhen("skip for <$env> environment",
+                { -> getCfg().getEnv() != env },
+                registrationCode)
+    }
+
     static void terminateAll(String reason) {
         throw new TestsRunTerminateException(reason)
     }
