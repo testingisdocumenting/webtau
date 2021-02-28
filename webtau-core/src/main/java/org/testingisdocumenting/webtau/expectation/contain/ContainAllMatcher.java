@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,30 +21,31 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
+import java.util.Collection;
 import java.util.stream.Stream;
 
-public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
+public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
     private ContainAnalyzer containAnalyzer;
-    private final Object expected;
+    private final Collection<Object> expectedList;
     private Boolean isNegative;
 
-    public ContainMatcher(Object expected) {
-        this.expected = expected;
+    public ContainAllMatcher(Collection<Object> expected) {
+        this.expectedList = expected;
     }
 
     @Override
     public String matchingMessage() {
-        return "to contain " + DataRenderers.render(expected);
+        return "to contain all " + DataRenderers.render(expectedList);
     }
 
     @Override
     public String matchedMessage(ActualPath actualPath, Object actual) {
-        return "contains " + DataRenderers.render(expected);
+        return "contains all " + DataRenderers.render(expectedList);
     }
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " expects to contain " + DataRenderers.render(expected) + "\n" +
+        return actualPath + " expects to contain all " + DataRenderers.render(expectedList) + "\n" +
                 containAnalyzer.generateMismatchReport();
     }
 
@@ -53,23 +54,26 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = false;
 
-        containAnalyzer.contains(actualPath, actual, expected);
+        for (Object oneOfExpected : expectedList) {
+            containAnalyzer.contains(actualPath, actual, oneOfExpected);
+        }
+
         return containAnalyzer.hasMismatches();
     }
 
     @Override
     public String negativeMatchingMessage() {
-        return "to not contain " + DataRenderers.render(expected);
+        return "to not contain all " + DataRenderers.render(expectedList);
     }
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-        return "does not contain " + DataRenderers.render(expected);
+        return "does not contain all " + DataRenderers.render(expectedList);
     }
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-        return actualPath + " expects to not contain " + DataRenderers.render(expected) + "\n" +
+        return actualPath + " expects to not contain all " + DataRenderers.render(expectedList) + "\n" +
                 containAnalyzer.generateMismatchReport();
     }
 
@@ -78,25 +82,30 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = true;
 
-        containAnalyzer.notContains(actualPath, actual, expected);
-        return containAnalyzer.hasMismatches();
+        boolean allContains = true;
+        for (Object oneOfExpected : expectedList) {
+            // we need !not as `contains` is not producing any report info at this moment
+            allContains = allContains && !containAnalyzer.notContains(actualPath, actual, oneOfExpected);
+        }
+
+        return !allContains;
     }
 
     @Override
     public String toString() {
-        String renderedExpected = DataRenderers.render(expected);
+        String renderedExpected = DataRenderers.render(expectedList);
 
         if (isNegative == null) {
             return this.getClass().getCanonicalName() + " " + renderedExpected;
         } else if (isNegative) {
-            return "<not contain " + renderedExpected + ">";
+            return "<not contain all " + renderedExpected + ">";
         } else {
-            return "<contain " + renderedExpected + ">";
+            return "<contain all " + renderedExpected + ">";
         }
     }
 
     @Override
     public Stream<Object> expectedValues() {
-        return Stream.of(expected);
+        return expectedList.stream();
     }
 }

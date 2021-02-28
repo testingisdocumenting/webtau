@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +14,17 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.ant;
+package org.testingisdocumenting.webtau
 
-import org.apache.ant.compress.taskdefs.Unzip;
-
-import java.nio.file.Path;
-
-public class UnzipTask extends Unzip {
-    public UnzipTask(Path src, Path dest) {
-        UnArchiveTaskSetup.setup(this, src, dest);
+class WebTauCoreExtensions {
+    /**
+     * override groovy default extensions to call webtau version
+     * without extension, even though WebTauCore static import is present, sleep is still being called from default methods
+     *
+     * @param o ignored object
+     * @param millis millis to sleep
+     */
+    static void sleep(Object o, long millis) {
+        WebTauCore.sleep(millis)
     }
 }

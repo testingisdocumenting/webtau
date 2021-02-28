@@ -15,14 +15,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.ant;
+package org.testingisdocumenting.webtau.graphql.config;
 
-import org.apache.ant.compress.taskdefs.Unzip;
+import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 
-import java.nio.file.Path;
-
-public class UnzipTask extends Unzip {
-    public UnzipTask(Path src, Path dest) {
-        UnArchiveTaskSetup.setup(this, src, dest);
-    }
+public interface GraphQLHttpConfiguration {
+    String requestUrl(String url, GraphQLRequest graphQLRequest);
 }

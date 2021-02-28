@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -78,7 +79,7 @@ class ValueMatcherCompareToHandlerTest {
     void "should work in combination with contain matcher"() {
         code {
             actual([1, 3, 8]).shouldNot(contain(greaterThan(7)))
-        } should(throwException('\n[value] expect to not contain <greater than 7>\n' +
+        } should(throwException('\n[value] expects to not contain <greater than 7>\n' +
             '[value][2]: equals 8'))
     }
 
@@ -88,7 +89,7 @@ class ValueMatcherCompareToHandlerTest {
 
         code {
             actual(['hello', 'world', 'of matchers']).shouldNot(contain(containing('of')))
-        } should(throwException('\n[value] expect to not contain <contain "of">\n' +
+        } should(throwException('\n[value] expects to not contain <contain "of">\n' +
             '[value][2]: equals "of matchers"'))
     }
 

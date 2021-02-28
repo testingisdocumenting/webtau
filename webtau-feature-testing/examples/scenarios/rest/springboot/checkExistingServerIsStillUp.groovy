@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.ant;
+package scenarios.rest.springboot
 
-import org.apache.ant.compress.taskdefs.Unzip;
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-import java.nio.file.Path;
-
-public class UnzipTask extends Unzip {
-    public UnzipTask(Path src, Path dest) {
-        UnArchiveTaskSetup.setup(this, src, dest);
-    }
+scenario("list customers on started server as part of listeners") {
+    http.get("/customers")
 }

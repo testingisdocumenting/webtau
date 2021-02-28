@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +14,26 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.ant;
+package listeners
 
-import org.apache.ant.compress.taskdefs.Unzip;
+import org.testingisdocumenting.webtau.reporter.TestListener
 
-import java.nio.file.Path;
+import static org.testingisdocumenting.webtau.WebTauDsl.*
 
-public class UnzipTask extends Unzip {
-    public UnzipTask(Path src, Path dest) {
-        UnArchiveTaskSetup.setup(this, src, dest);
+class ServerAutoStartWhenRequiredListener implements TestListener {
+    @Override
+    void beforeFirstTest() {
+        if (http.ping("/")) {
+            return
+        }
+
+        cfg.baseUrl = startServerAndGetBaseUrl()
+    }
+
+    static String startServerAndGetBaseUrl() {
+        def server = new TestServer()
+        server.start()
+
+        return server.baseUrl
     }
 }

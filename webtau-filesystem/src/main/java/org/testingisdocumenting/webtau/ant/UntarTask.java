@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +16,12 @@
 
 package org.testingisdocumenting.webtau.ant;
 
-import org.apache.ant.compress.taskdefs.Unzip;
+import org.apache.ant.compress.taskdefs.Untar;
 
 import java.nio.file.Path;
 
-public class UnzipTask extends Unzip {
-    public UnzipTask(Path src, Path dest) {
+public class UntarTask extends Untar {
+    public UntarTask(Path src, Path dest) {
         UnArchiveTaskSetup.setup(this, src, dest);
     }
 }

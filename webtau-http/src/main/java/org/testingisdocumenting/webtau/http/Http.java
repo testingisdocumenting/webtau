@@ -113,7 +113,11 @@ public class Http {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
-                () -> http.get(url, header));
+                () -> HttpValidationHandlers.withDisabledHandlers(() -> {
+                    http.get(url, header);
+                    return null;
+                })
+        );
 
         try {
             step.execute(StepReportOptions.REPORT_ALL);

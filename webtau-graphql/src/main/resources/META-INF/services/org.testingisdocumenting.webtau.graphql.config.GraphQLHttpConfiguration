@@ -1,5 +1,5 @@
 #
-# Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+# Copyright 2021 webtau maintainers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,4 @@
 # limitations under the License.
 #
 
-moduleName=webtau-core-groovy
-moduleVersion=1.0
-extensionClasses=org.testingisdocumenting.webtau.data.expectation.ExpectationExtension,org.testingisdocumenting.webtau.data.table.TableDataExtension,org.testingisdocumenting.webtau.data.time.TestTimeExtension,org.testingisdocumenting.webtau.persona.PersonaExtensions,org.testingisdocumenting.webtau.WebTauCoreExtensions
-staticExtensionClasses=org.testingisdocumenting.webtau.data.expectation.DummyStaticExtension
+org.testingisdocumenting.webtau.graphql.ConfigBasedGraphQLHttpConfiguration

@@ -540,6 +540,30 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "list contain all check level"() {
+        http.get("/end-point") {
+            list.should containAll(2, 1)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.None
+    }
+
+    @Test
+    void "list not contain all check level"() {
+        http.get("/end-point") {
+            list.shouldNot containAll(5, 7, 12)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+    }
+
+    @Test
     void "find on list"() {
         def found = http.get("/end-point") {
             return list.find { it > 1 }
@@ -915,6 +939,25 @@ class HttpGroovyTest extends HttpTestBase {
         }
 
         http.doc.capture("end-point-list-contain-matchers")
+    }
+
+    @Test
+    void "contain all matcher"() {
+        http.get("/end-point-list") {
+            body[1].k2.should containAll(10, 30)
+            body[1].k2.shouldNot containAll(40, 60, 80)
+        }
+
+        http.doc.capture("end-point-list-contain-all-matchers")
+    }
+
+    @Test
+    void "contain containing all matcher"() {
+        http.get("/prices") {
+            body.prices.should contain(containingAll(10, 30))
+        }
+
+        http.doc.capture("prices-contain-containing-all")
     }
 
     @Test
