@@ -41,6 +41,8 @@ class Repl {
     Repl(StandaloneTestRunner runner) {
         runner.setIsReplMode(true)
 
+        Preferences.put('verbosity', IO.Verbosity.DEBUG.name)
+
         this.runner = runner
 
         interactiveTests = new InteractiveTests(runner)
