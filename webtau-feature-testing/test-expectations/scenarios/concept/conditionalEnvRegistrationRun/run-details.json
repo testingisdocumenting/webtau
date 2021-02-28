@@ -5,6 +5,10 @@
     "stepsSummary" : {
       "numberOfFailed" : 1
     }
+  }, {
+    "scenario" : "this scenario will not be executed in \"experimental\" env",
+    "shortContainerId" : "conditionalEnvRegistrationRun.groovy",
+    "stepsSummary" : { }
   } ],
   "exitCode" : 1
 }
