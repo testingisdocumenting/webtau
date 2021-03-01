@@ -78,8 +78,13 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
-    void "element actions"() {
-        runCli('elementActions.groovy', 'webtau.cfg.groovy')
+    void "basic element actions"() {
+        runCli('basicElementActions.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "drag and drop"() {
+        runCli('dragAndDrop.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -87,7 +92,7 @@ class WebTauBrowserFeaturesTestBase {
         def root = 'element-actions'
 
         extractCodeSnippets(
-                root, 'examples/scenarios/ui/elementActions.groovy', [
+                root, 'examples/scenarios/ui/basicElementActions.groovy', [
                 'click.groovy': 'click',
                 'shiftClick.groovy': 'shift click',
                 'altClick.groovy': 'alt click',

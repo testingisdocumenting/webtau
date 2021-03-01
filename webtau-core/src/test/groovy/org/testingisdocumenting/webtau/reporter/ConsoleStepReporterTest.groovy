@@ -67,13 +67,13 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         topLevelStep.execute(StepReportOptions.REPORT_ALL)
 
-        assertEquals('> top level action\n' +
+        actual('> top level action\n' +
                 '  . validated equals 100\n' +
                 '      matches:\n' +
                 '      \n' +
                 '      body.price:   actual: 100 <java.lang.Integer>\n' +
                 '                  expected: 100 <java.lang.Integer> (0ms)\n' +
-                '. top level action completed (0ms)', lines.join('\n'))
+                '. top level action completed (0ms)').should(equal(lines.join('\n')))
     }
 
     @Test
@@ -140,6 +140,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Override
     void out(Object... styleOrValues) {
+        println "@@@@" + styleOrValues
         lines.add(new IgnoreAnsiString(styleOrValues).toString())
     }
 

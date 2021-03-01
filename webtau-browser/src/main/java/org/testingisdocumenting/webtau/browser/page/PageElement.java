@@ -53,6 +53,8 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     void hover();
     void clear();
 
+    void dragAndDropOver(PageElement pageElement);
+
     /**
      * uses command on mac os x, and control on other OSes
      */
