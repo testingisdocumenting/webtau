@@ -34,13 +34,18 @@ import static org.junit.Assert.assertEquals
 
 class ConsoleStepReporterTest implements ConsoleOutput {
     private static ConsoleOutput ansiConsoleOutput = new AnsiConsoleOutput()
+    private static StepReporter consoleStepReporter =
+            new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter())
+
     List<String> lines
 
     @Before
     void init() {
         lines = new ArrayList<>()
+
         ConsoleOutputs.add(this)
         ConsoleOutputs.add(ansiConsoleOutput)
+        StepReporters.add(consoleStepReporter)
 
         Time.setTimeProvider(new DummyTimeProvider(0))
     }
@@ -49,6 +54,8 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     void cleanUp() {
         ConsoleOutputs.remove(this)
         ConsoleOutputs.remove(ansiConsoleOutput)
+        StepReporters.remove(consoleStepReporter)
+
         Time.setTimeProvider(null)
     }
 
