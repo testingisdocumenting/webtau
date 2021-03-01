@@ -1,0 +1,100 @@
+<!--
+  ~ Copyright 2021 webtau maintainers
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>drag and drop</title>
+    <style>
+        .draggable {
+            display: inline-block;
+            padding: 8px;
+            border: 1px solid #bbb;
+            width: 200px;
+        }
+
+        .draggable.dragging {
+            background-color: greenyellow;
+        }
+
+        .dropzone {
+            padding: 16px;
+            margin: 8px;
+            background-color: #bbdadb;
+            border: 1px solid #a0aabb;
+        }
+
+        .dropzone.enter {
+            background-color: yellow;
+        }
+    </style>
+</head>
+
+<body>
+<div class="parent">
+    <div id="draggable" class="draggable" draggable="true"
+         ondragstart="onDragStart(event);"
+         ondragend="onDragEnd(event);">
+        draggable
+    </div>
+
+    <div id="drop-zone" class="dropzone"
+         ondragover="onDragOver(event);"
+         ondragenter="onDragEnter(event);"
+         ondragleave="onDragLeave(event);"
+         ondrop="onDrop(event);">
+        dropzone
+    </div>
+</div>
+
+<script>
+    function onDragStart(event) {
+        event.dataTransfer.setData('text/plain', event.target.id);
+        event.currentTarget.className = 'draggable dragging';
+    }
+
+    function onDragEnd(event) {
+        event.preventDefault();
+        event.currentTarget.className = 'draggable';
+    }
+
+    function onDragOver(event) {
+        event.preventDefault();
+    }
+
+    function onDragEnter(event) {
+        event.preventDefault();
+        event.currentTarget.className = 'dropzone enter'
+    }
+
+    function onDragLeave(event) {
+        event.preventDefault();
+        event.currentTarget.className = 'dropzone'
+    }
+
+    function onDrop(event) {
+        event.preventDefault();
+        const id = event.dataTransfer.getData('text');
+        const draggableElement = document.getElementById(id);
+        const dropzone = event.target;
+        dropzone.appendChild(draggableElement);
+
+        event.dataTransfer.clearData();
+        console.log('drop', event);
+    }
+</script>
+</body>
+</html>

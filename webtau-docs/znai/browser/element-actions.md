@@ -26,8 +26,16 @@ Generic way to set a form element value. Will be covered more in [forms](browser
 
 :include-file: doc-artifacts/snippets/element-actions/setValue.groovy {title: "set value"}
 
-
 # Move over
 
 :include-file: doc-artifacts/snippets/element-actions/hover.groovy {title: "hover"}
+
+# Drag And Drop
+
+:include-file: scenarios/ui/dragAndDrop.groovy {
+  title: "drag element to other",
+  startLine: "// drag-and-drop",
+  endLine: "// drag-and-drop",
+  excludeStartEnd: true
+}
 
