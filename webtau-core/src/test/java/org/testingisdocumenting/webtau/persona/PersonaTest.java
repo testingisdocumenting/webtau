@@ -63,6 +63,13 @@ public class PersonaTest {
     }
 
     @Test
+    public void shouldAllowNestingSamePersona() {
+        Persona John = persona("John");
+
+        John.execute(() -> John.execute(() -> {}));
+    }
+
+    @Test
     public void cannotCreateAPersonWithSameNameAsDefaultPersona() {
         code(() -> persona("")).should(throwException("Persona id may not be null or empty"));
     }
