@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +29,28 @@ class IterableAndTableDataCompareToHandlerTest {
                      new SimpleBean(price: 2, lot: 2, symbol: "SB")]
 
         actual(beans).should(equal(table("symbol", "price", "lot").values(
-                                              "SA",      2,     2,
-                                              "SB",      2,     2)))
+                                             "SA",       2,     2,
+                                             "SB",       2,     2)))
+    }
+
+    @Test
+    void "should compare set of beans and table data"() {
+        def beans = [new SimpleBean(price: 2, lot: 2, symbol: "SA"),
+                     new SimpleBean(price: 2, lot: 2, symbol: "SB")] as LinkedHashSet
+
+        actual(beans).should(equal(table("symbol", "price", "lot").values(
+                                             "SA",       2,     2,
+                                             "SB",       2,     2)))
+    }
+
+    @Test
+    void "should compare set of beans and table data using key column"() {
+        def beans = [new SimpleBean(price: 2, lot: 2, symbol: "SA"),
+                     new SimpleBean(price: 2, lot: 2, symbol: "SB")] as HashSet
+
+        actual(beans).should(equal(table("*symbol", "price", "lot").values(
+                                              "SB",       2,     2,
+                                              "SA",       2,     2)))
     }
 
     @Test
