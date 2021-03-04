@@ -109,8 +109,16 @@ public class HttpValidationResult implements WebTauStepPayload {
         this.startTime = startTime;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
     public void setElapsedTime(long elapsedTime) {
         this.elapsedTime = elapsedTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
     }
 
     public String getRequestType() {
@@ -191,10 +199,6 @@ public class HttpValidationResult implements WebTauStepPayload {
 
     public DataNode getBodyNode() {
         return responseBodyNode;
-    }
-
-    public long getElapsedTime() {
-        return elapsedTime;
     }
 
     @Override
