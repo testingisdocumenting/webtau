@@ -30,4 +30,14 @@ public class Time {
     public static void setTimeProvider(TimeProvider replacement) {
         timeProvider.set(replacement != null ? replacement : systemTimeProvider);
     }
+
+    public static void withTimeProvider(TimeProvider replacement, Runnable code) {
+        TimeProvider current = Time.timeProvider.get();
+        try {
+            setTimeProvider(replacement);
+            code.run();
+        } finally {
+            setTimeProvider(current);
+        }
+    }
 }

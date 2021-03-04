@@ -919,6 +919,7 @@ public class Http {
             HttpResponse response = null;
             try {
                 long startTime = Time.currentTimeMillis();
+                validationResult.setStartTime(startTime);
 
                 BeforeFirstHttpCallListenerTrigger.trigger();
                 HttpListeners.beforeHttpCall(validationResult.getRequestMethod(),
@@ -933,10 +934,6 @@ public class Http {
                 response = followRedirects(validationResult.getRequestMethod(),
                         httpCall, validationResult.getRequestHeader(), response);
 
-                long endTime = Time.currentTimeMillis();
-
-                validationResult.setStartTime(startTime);
-                validationResult.setElapsedTime(endTime - startTime);
                 validationResult.setResponse(response);
 
                 R validationBlockReturnedValue = validateAndRecord(validationResult, validator);
@@ -953,6 +950,9 @@ public class Http {
                 throw new HttpException("error during http." + validationResult.getRequestMethod().toLowerCase() + "(" +
                         validationResult.getFullUrl() + "): " + StackTraceUtils.fullCauseMessage(e), e);
             } finally {
+                long endTime = Time.currentTimeMillis();
+                validationResult.setElapsedTime(endTime - validationResult.getStartTime());
+
                 HttpListeners.afterHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody(),

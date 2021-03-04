@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
-import org.testingisdocumenting.webtau.time.DummyTimeProvider
+import org.testingisdocumenting.webtau.time.ControlledTimeProvider
 import org.testingisdocumenting.webtau.time.Time
 import org.junit.After
 import org.junit.Before
@@ -47,7 +47,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         ConsoleOutputs.add(ansiConsoleOutput)
         StepReporters.add(consoleStepReporter)
 
-        Time.setTimeProvider(new DummyTimeProvider(0))
+        Time.setTimeProvider(new ControlledTimeProvider(0))
     }
 
     @After
@@ -113,7 +113,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should render time step took in milliseconds"() {
-        Time.setTimeProvider(new DummyTimeProvider([100, 350]))
+        Time.setTimeProvider(new ControlledTimeProvider([100, 350]))
         def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
                 { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
         }
@@ -126,7 +126,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should render long running step time in seconds"() {
-        Time.setTimeProvider(new DummyTimeProvider([100, 5350]))
+        Time.setTimeProvider(new ControlledTimeProvider([100, 5350]))
         def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
                 { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
         }
