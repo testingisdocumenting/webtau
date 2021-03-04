@@ -59,7 +59,7 @@ public class ConsoleStepReporter implements StepReporter {
                                         Stream.of(createIndentation(numberOfParents), Color.GREEN, ". "),
                                         personaStream(step)),
                                 toAnsiConverter.convert(completionMessageToUse).stream()),
-                        Stream.of(Color.YELLOW, " (", Color.GREEN, renderTimeTaken(step), Color.YELLOW, ')')).toArray());
+                        timeTakenTokenStream(step)).toArray());
     }
 
     @Override
@@ -69,9 +69,15 @@ public class ConsoleStepReporter implements StepReporter {
         ConsoleOutputs.out(
                 Stream.concat(
                         Stream.concat(
-                                Stream.of(createIndentation(step.getNumberOfParents()), Color.RED, "X "),
-                                personaStream(step)),
-                        toAnsiConverter.convert(completionMessageToUse).stream()).toArray());
+                                Stream.concat(
+                                        Stream.of(createIndentation(step.getNumberOfParents()), Color.RED, "X "),
+                                        personaStream(step)),
+                                toAnsiConverter.convert(completionMessageToUse).stream()),
+                        timeTakenTokenStream(step)).toArray());
+    }
+
+    public Stream<Object> timeTakenTokenStream(WebTauStep step) {
+        return Stream.of(Color.YELLOW, " (", Color.GREEN, renderTimeTaken(step), Color.YELLOW, ')');
     }
 
     private String renderTimeTaken(WebTauStep step) {
