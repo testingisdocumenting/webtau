@@ -17,6 +17,23 @@
 
 package org.testingisdocumenting.webtau.cfg;
 
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
+import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
@@ -26,17 +43,6 @@ import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 import org.testingisdocumenting.webtau.version.WebtauVersion;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
-import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
 
 public class WebTauConfig implements PrettyPrintable {
     private static final String SOURCE_MANUAL = "manual";
@@ -254,7 +260,7 @@ public class WebTauConfig implements PrettyPrintable {
     public ConfigValue getDocArtifactsPathConfigValue() {
         return docPath;
     }
-    
+
     public Path getDocArtifactsPath() {
         return getWorkingDir().resolve(docPath.getAsPath());
     }
@@ -389,6 +395,7 @@ public class WebTauConfig implements PrettyPrintable {
                 fullStackTrace,
                 workingDir,
                 waitTimeout,
+                httpTimeout,
                 disableFollowingRedirects,
                 maxRedirects,
                 userAgent,
