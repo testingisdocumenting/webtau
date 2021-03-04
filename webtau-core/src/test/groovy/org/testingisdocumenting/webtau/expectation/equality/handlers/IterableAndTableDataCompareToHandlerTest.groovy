@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
+import groovy.transform.Canonical
+import groovy.transform.Sortable
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
@@ -28,8 +31,28 @@ class IterableAndTableDataCompareToHandlerTest {
                      new SimpleBean(price: 2, lot: 2, symbol: "SB")]
 
         actual(beans).should(equal(table("symbol", "price", "lot").values(
-                                              "SA",      2,     2,
-                                              "SB",      2,     2)))
+                                             "SA",       2,     2,
+                                             "SB",       2,     2)))
+    }
+
+    @Test
+    void "should compare set of beans and table data"() {
+        def beans = [new SimpleBean(price: 2, lot: 2, symbol: "SA"),
+                     new SimpleBean(price: 2, lot: 2, symbol: "SB")] as LinkedHashSet
+
+        actual(beans).should(equal(table("symbol", "price", "lot").values(
+                                             "SA",       2,     2,
+                                             "SB",       2,     2)))
+    }
+
+    @Test
+    void "should compare tree set of beans and table data using key column"() {
+        def beans = [new SimpleBean(price: 2, lot: 2, symbol: "SA"),
+                     new SimpleBean(price: 2, lot: 2, symbol: "SB")] as TreeSet
+
+        actual(beans).should(equal(table("*symbol", "price", "lot").values(
+                                              "SB",       2,     2,
+                                              "SA",       2,     2)))
     }
 
     @Test
@@ -38,8 +61,8 @@ class IterableAndTableDataCompareToHandlerTest {
                      new SimpleBean(price: 1, lot: 2, symbol: "SB")]
 
         def expected = table("symbol", "price", "lot").values(
-                "SA", 2, 2,
-                "SB", 2, 2)
+                                 "SA",       2, 2,
+                                 "SB",       2, 2)
 
         def comparator = CompareToComparator.comparator()
         assert !comparator.compareIsEqual(createActualPath("beans"), beans, expected)
@@ -48,6 +71,8 @@ class IterableAndTableDataCompareToHandlerTest {
         assert report.contains("lot:   actual: 1.0")
     }
 
+    @Canonical
+    @Sortable
     static class SimpleBean {
         double price
         double lot
