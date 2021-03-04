@@ -107,8 +107,8 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                 '      mismatches:\n' +
                 '      \n' +
                 '      body.price:   actual: 100 <java.lang.Integer>\n' +
-                '                  expected: 100 <java.lang.Integer>\n' +
-                'X failed top level action', lines.join('\n'))
+                '                  expected: 100 <java.lang.Integer> (0ms)\n' +
+                'X failed top level action (0ms)', lines.join('\n'))
     }
 
     @Test
@@ -122,6 +122,22 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         assertEquals('> action\n' +
                 '. action completed (250ms)', lines.join('\n'))
+    }
+
+    @Test
+    void "should render failed step time took in milliseconds"() {
+        Time.setTimeProvider(new ControlledTimeProvider([100, 350]))
+        def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+                { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
+            throw new RuntimeException("error")
+        }
+
+        code {
+            action.execute(StepReportOptions.REPORT_ALL)
+        } should throwException(RuntimeException)
+
+        assertEquals('> action\n' +
+                'X failed action : error (250ms)', lines.join('\n'))
     }
 
     @Test
