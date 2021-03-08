@@ -137,6 +137,14 @@ public class WebTauCore extends Matchers {
         return step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    public static void fail(String message) {
+        throw new AssertionError(message);
+    }
+
+    public static void fail() {
+        throw new AssertionError();
+    }
+
     public static final TableDataUnderscore __ = UNDERSCORE;
     public static final TableDataUnderscore ___ = UNDERSCORE;
     public static final TableDataUnderscore ____ = UNDERSCORE;
