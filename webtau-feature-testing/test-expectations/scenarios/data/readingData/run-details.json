@@ -3,37 +3,37 @@
     "scenario" : "csv table data",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "csv table data auto converted",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "csv list of maps data",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "csv list of maps data auto converted",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "json list",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "json map",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "fail to read csv",

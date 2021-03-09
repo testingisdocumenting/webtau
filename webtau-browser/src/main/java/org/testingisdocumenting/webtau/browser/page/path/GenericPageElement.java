@@ -28,6 +28,7 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFi
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
@@ -39,6 +40,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
@@ -64,6 +66,11 @@ public class GenericPageElement implements PageElement {
     @Override
     public PageElementValue<Integer> getCount() {
         return countValue;
+    }
+
+    @Override
+    public ActualPath actualPath() {
+        return createActualPath("pageElement");
     }
 
     @Override
@@ -375,17 +382,6 @@ public class GenericPageElement implements PageElement {
         ensureNotNullElement(target, "drop target");
 
         Actions actions = new Actions(driver);
-//        actions.moveToElement(source)
-//                .clickAndHold(source)
-//                .moveByOffset(100, 101) // hack to fix chrome driver issue
-////                .pause(1000)
-////                .moveToElement(target)
-//                .pause(1000)
-////                .moveByOffset(-1, -1) // hack to fix chrome driver issue
-//                .release()
-//                .build()
-//                .perform();
-
         actions.dragAndDrop(source, target).build().perform();
     }
 

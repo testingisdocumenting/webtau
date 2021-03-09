@@ -20,11 +20,11 @@ import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
-import org.testingisdocumenting.webtau.expectation.ActualPathAware;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
-import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.reporter.*;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,8 +33,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
-import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 /**
  * <code>DbQuery</code> defines a query to be evaluated at later stage.
@@ -42,7 +42,7 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
  * <p>
  * To define a query use <code>db.query("select * from table where id=:id", [id: 'my-id'])</code>
  */
-public class DbQuery implements ActualValueExpectations, ActualPathAware {
+public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptionAware {
     private static final ActualPath ACTUAL_PATH = new ActualPath("query result");
 
     private final String dataSourceLabel;
@@ -75,29 +75,14 @@ public class DbQuery implements ActualValueExpectations, ActualPathAware {
     }
 
     @Override
-    public void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(null, this, StepReportOptions.SKIP_START,
-                assertionDescription(), valueMatcher);
+    public TokenizedMessage describe() {
+        return appendParamsIfRequired(tokenizedMessage(queryValue(query)));
     }
 
     @Override
-    public void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(null, this, StepReportOptions.SKIP_START,
-                assertionDescription(), valueMatcher);
+    public StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
-
-    @Override
-    public void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitStep(null, this, StepReportOptions.REPORT_ALL,
-                assertionDescription(), valueMatcher, expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    @Override
-    public void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitNotStep(null, this, StepReportOptions.REPORT_ALL,
-                assertionDescription(), valueMatcher, expectationTimer, tickMillis, timeOutMillis);
-    }
-
 
     boolean isSingleValue(TableData result) {
         return result.numberOfRows() == 1 && result.getHeader().size() == 1;
@@ -132,10 +117,6 @@ public class DbQuery implements ActualValueExpectations, ActualPathAware {
     private TokenizedMessage queryMessage(String actionLabel) {
         return appendParamsIfRequired(
                 tokenizedMessage(action(actionLabel), stringValue(query), ON, id(dataSourceLabel)));
-    }
-
-    private TokenizedMessage assertionDescription() {
-        return appendParamsIfRequired(tokenizedMessage(queryValue(query)));
     }
 
     private TokenizedMessage appendParamsIfRequired(TokenizedMessage message) {

@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.fs;
 
 import org.testingisdocumenting.webtau.expectation.ActualPath;
-import org.testingisdocumenting.webtau.expectation.ActualPathAware;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class FileTextContent implements ActualValueExpectations, ActualPathAware {
+public class FileTextContent implements ActualValueExpectations, ActualPathAndDescriptionAware {
     private final ActualPath actualPath;
     private final Path path;
 
@@ -72,29 +72,8 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAware
     }
 
     @Override
-    public void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(null, this, StepReportOptions.REPORT_ALL,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher);
-    }
-
-    @Override
-    public void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(null, this, StepReportOptions.REPORT_ALL,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher);
-    }
-
-    @Override
-    public void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitStep(null, this, StepReportOptions.REPORT_ALL,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    @Override
-    public void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitNotStep(null, this, StepReportOptions.REPORT_ALL,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
+    public StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
 
     @Override
