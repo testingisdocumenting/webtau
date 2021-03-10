@@ -17,25 +17,25 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
-import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.OF;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
-public class PageElementValue<E> implements ActualValueExpectations {
-    private final WithTokenizedDescription parent;
+public class PageElementValue<E> implements ActualValueExpectations, ActualPathAndDescriptionAware {
+    private final ActualPathAndDescriptionAware parent;
     private final String name;
     private final PageElementValueFetcher<E> valueFetcher;
 
     private final TokenizedMessage description;
 
-    public PageElementValue(WithTokenizedDescription parent, String name, PageElementValueFetcher<E> valueFetcher) {
+    public PageElementValue(ActualPathAndDescriptionAware parent, String name, PageElementValueFetcher<E> valueFetcher) {
         this.parent = parent;
         this.name = name;
         this.valueFetcher = valueFetcher;
@@ -43,7 +43,7 @@ public class PageElementValue<E> implements ActualValueExpectations {
                 IntegrationTestsMessageBuilder.classifier(name)).add(OF).add(parent.describe());
     }
 
-    public WithTokenizedDescription getParent() {
+    public ActualPathAndDescriptionAware getParent() {
         return parent;
     }
 
@@ -55,33 +55,18 @@ public class PageElementValue<E> implements ActualValueExpectations {
         return valueFetcher.fetch();
     }
 
+    @Override
+    public ActualPath actualPath() {
+        return createActualPath("pageElementValue");
+    }
+
+    @Override
     public TokenizedMessage describe() {
         return this.description;
     }
 
     @Override
-    public void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(this.parent, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher);
-    }
-
-    @Override
-    public void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(this.parent, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher);
-    }
-
-    @Override
-    public void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitStep(this.parent, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    @Override
-    public void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitNotStep(this.parent, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
+    public StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
 }

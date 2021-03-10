@@ -38,7 +38,9 @@
   }, {
     "scenario" : "get all cookies",
     "shortContainerId" : "cookies.groovy",
-    "stepsSummary" : { }
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
   }, {
     "scenario" : "delete all cookies",
     "shortContainerId" : "cookies.groovy",

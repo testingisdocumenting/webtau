@@ -73,7 +73,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
 
         validationResult.mismatches.size().should == 3
 
-        stepMessages.should == ["failed validating request and response : " + expectedError]
+        stepMessages.should == ["failed validating request and response : " + expectedError, ~/equals 3/]
     }
 
     @Test
@@ -85,7 +85,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         }
 
         validationResult.mismatches.size().should == 0
-        stepMessages.should == []
+        stepMessages.should == [~/equals 0/]
     }
 
     @Test
@@ -103,7 +103,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         } should throwException(expectedError)
 
         validationResult.mismatches.size().should == 2
-        stepMessages.should == ["failed validating response : " + expectedError]
+        stepMessages.should == ["failed validating response : " + expectedError, ~/equals 2/]
     }
 
     @Test
@@ -119,7 +119,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         } should throwException(expectedError)
 
         validationResult.mismatches.size().should == 1
-        stepMessages.should == ["failed validating request : " + expectedError]
+        stepMessages.should == ["failed validating request : " + expectedError, ~/equals 1/]
     }
 
     private static HttpValidationResult createValidationResult() {

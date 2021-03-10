@@ -3,19 +3,19 @@
     "scenario" : "create and delete file",
     "shortContainerId" : "files.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 7
     }
   }, {
     "scenario" : "create file using string path",
     "shortContainerId" : "files.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "read file using string path",
     "shortContainerId" : "files.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 7
+      "numberOfSuccessful" : 8
     }
   } ],
   "exitCode" : 0
