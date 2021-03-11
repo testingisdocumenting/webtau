@@ -41,43 +41,37 @@ public class DocumentationArtifacts {
         usedArtifactNames.clear();
     }
 
-    static void capture(String artifactName, String text) {
+    static Path capture(String artifactName, String text) {
         registerName(artifactName);
 
         Path path = DocumentationArtifactsLocation.resolve(artifactName);
         FileUtils.writeTextContent(path, text);
+
+        return path;
     }
 
-    static void captureText(String artifactName, Object value) {
-        capture(artifactName + ".txt", Objects.toString(value));
+     static Path captureText(String artifactName, Object value) {
+        return capture(artifactName + ".txt", Objects.toString(value));
     }
 
-    static void captureTextOrJson(String artifactName, Object value) {
-        if (value instanceof String) {
-            captureText(artifactName, value);
-        } else {
-            captureJson(artifactName, value);
-        }
-    }
-
-    static void captureJson(String artifactName, Object value) {
+    static Path captureJson(String artifactName, Object value) {
         artifactName += ".json";
 
         if (value instanceof TableData) {
-            capture(artifactName, JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
+            return capture(artifactName, JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
         } else {
-            capture(artifactName, JsonUtils.serializePrettyPrint(value));
+            return capture(artifactName, JsonUtils.serializePrettyPrint(value));
         }
     }
 
-    static void captureCsv(String artifactName, Object value) {
+    static Path captureCsv(String artifactName, Object value) {
         if (!(value instanceof TableData)) {
             throw new IllegalArgumentException("only TableData is supported to be captured as CSV");
         }
 
         TableData tableData = (TableData) value;
 
-        capture(artifactName + ".csv", CsvUtils.serialize(
+        return capture(artifactName + ".csv", CsvUtils.serialize(
                 tableData.getHeader().getNamesStream(),
                 tableData.rowsStream().map(Record::getValues)));
     }
