@@ -18,6 +18,13 @@
 package org.testingisdocumenting.webtau.documentation;
 
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+
+import java.util.function.Supplier;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 /**
  * capture test artifacts for usage in documentation
@@ -42,7 +49,11 @@ public class CoreDocumentation {
      * @param value value to capture
      */
     public void capture(String artifactName, Object value) {
-        DocumentationArtifacts.captureTextOrJson(artifactName, value);
+        if (value instanceof String) {
+            captureText(artifactName, value);
+        } else {
+            captureJson(artifactName, value);
+        }
     }
 
     /**
@@ -52,7 +63,7 @@ public class CoreDocumentation {
      * @param value value to capture
      */
     public void captureText(String artifactName, Object value) {
-        DocumentationArtifacts.captureText(artifactName, value);
+        captureStep("text", artifactName, () -> DocumentationArtifacts.captureText(artifactName, value));
     }
 
     /**
@@ -62,7 +73,7 @@ public class CoreDocumentation {
      * @param value value to capture
      */
     public void captureJson(String artifactName, Object value) {
-        DocumentationArtifacts.captureJson(artifactName, value);
+        captureStep("json", artifactName, () -> DocumentationArtifacts.captureJson(artifactName, value));
     }
 
     /**
@@ -72,7 +83,7 @@ public class CoreDocumentation {
      * @param value value to capture
      */
     public void captureCsv(String artifactName, Object value) {
-        DocumentationArtifacts.captureCsv(artifactName, value);
+        captureStep("csv", artifactName, () -> DocumentationArtifacts.captureCsv(artifactName, value));
     }
 
     private static CoreDocumentationAssertion findHandlerInRegistered() {
@@ -80,5 +91,16 @@ public class CoreDocumentation {
                 .filter(handler -> handler instanceof CoreDocumentationAssertion)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("CoreDocumentationAssertion must be registered with META-INF/services"));
+    }
+
+    private static void captureStep(String type, String artifactName, Supplier<Object> code) {
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(action("capturing"), classifier(type),
+                        action("documentation artifact"), id(artifactName)),
+                (path) -> tokenizedMessage(action("captured"), classifier(type),
+                        action("documentation artifact"), id(artifactName), COLON, urlValue(path.toString())),
+                code);
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 }
