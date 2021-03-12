@@ -20,6 +20,8 @@ package org.testingisdocumenting.webtau.browser.page;
 import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
+import org.testingisdocumenting.webtau.expectation.ActualValue;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
@@ -30,9 +32,14 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static org.testingisdocumenting.webtau.Matchers.*;
 import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out;
 
-public interface PageElement extends ActualValueExpectations, WithTokenizedDescription, PrettyPrintable {
+public interface PageElement extends
+        ActualValueExpectations,
+        PrettyPrintable,
+        ActualPathAndDescriptionAware {
+
     PageElementValue<Integer> getCount();
 
     WebElement findElement();
@@ -86,29 +93,8 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     void highlight();
 
     @Override
-    default void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(this, this,  StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher);
-    }
-
-    @Override
-    default void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(this, this,  StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher);
-    }
-
-    @Override
-    default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitStep(this, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    @Override
-    default void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitNotStep(this, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
+    default StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
 
     @Override

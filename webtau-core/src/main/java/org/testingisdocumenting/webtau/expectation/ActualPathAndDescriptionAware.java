@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +15,15 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page;
+package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-public interface WithTokenizedDescription {
-    TokenizedMessage describe();
+public interface ActualPathAndDescriptionAware {
+    ActualPath actualPath();
+
+    default TokenizedMessage describe() {
+        return TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath()));
+    }
 }
