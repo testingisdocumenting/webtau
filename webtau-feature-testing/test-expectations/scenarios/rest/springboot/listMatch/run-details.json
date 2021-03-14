@@ -3,7 +3,7 @@
     "scenario" : "list Customers and assert with a Table Data",
     "shortContainerId" : "listMatch.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 9
+      "numberOfSuccessful" : 10
     }
   } ],
   "exitCode" : 0
