@@ -87,7 +87,6 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
     private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
-    private final ConfigValue envPath = declare("envPath", "path items to append to path used for cli runs", Collections::emptyList);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -297,14 +296,6 @@ public class WebTauConfig implements PrettyPrintable {
         return workingDir.getKey();
     }
 
-    public List<String> getEnvPath() {
-        return envPath.getAsList();
-    }
-
-    public ConfigValue getEnvPathConfigValue() {
-        return envPath;
-    }
-
     @Override
     public String toString() {
         return Stream.concat(enumeratedCfgValues.values().stream(), freeFormCfgValues.stream())
@@ -403,8 +394,7 @@ public class WebTauConfig implements PrettyPrintable {
                 docPath,
                 reportPath,
                 noColor,
-                staleElementRetry,
-                envPath);
+                staleElementRetry);
 
         Stream<ConfigValue> additionalConfigValues = handlers.stream()
                 .flatMap(WebTauConfigHandler::additionalConfigValues);

@@ -118,6 +118,21 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "run in background config"() {
+        runCli('cliBackgroundRunConfig.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "run in background config extract snippets"() {
+        extractCodeSnippets(
+                'background-cli-cfg', 'examples/scenarios/cli/cliBackgroundRunConfig.groovy', [
+                'workingDir.groovy': 'working dir',
+                'envVar.groovy': 'environment var',
+                'envVarAndWorkingDir.groovy': 'env var and working dir'
+        ])
+    }
+
+    @Test
     void "send input"() {
         runCli('sendInput.groovy', 'webtau.cfg.groovy')
     }

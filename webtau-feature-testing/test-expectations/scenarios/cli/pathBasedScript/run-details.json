@@ -1,15 +1,27 @@
 {
   "scenarioDetails" : [ {
-    "scenario" : "cli run using path",
+    "scenario" : "cli run foreground using path",
     "shortContainerId" : "pathBasedScript.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
   }, {
-    "scenario" : "cli run with args",
+    "scenario" : "cli run foreground with args",
     "shortContainerId" : "pathBasedScript.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "cli run background using path",
+    "shortContainerId" : "pathBasedScript.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "cli run background with args",
+    "shortContainerId" : "pathBasedScript.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

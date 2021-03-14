@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -138,8 +137,8 @@ public class CliJavaTest {
 
     @Test
     public void pathBasedLocation() {
-        ConfigValue envPathConfigValue = WebTauConfig.getCfg().getEnvPathConfigValue();
-        envPathConfigValue.set("test", Arrays.asList("my-path-one", "additional-scripts"));
+        ConfigValue pathConfigValue = CliConfig.getCliPathConfigValue();
+        pathConfigValue.set("test", Arrays.asList("my-path-one", "additional-scripts"));
 
         supportedPlatformOnly(() -> {
             cli.run("nested-dir/world", ((output, error) -> {

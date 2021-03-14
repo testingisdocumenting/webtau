@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "welcome sleeping script"
+echo "welcome sleeping script $NAME"
 sleep 1
 echo "line one"
 sleep 2
