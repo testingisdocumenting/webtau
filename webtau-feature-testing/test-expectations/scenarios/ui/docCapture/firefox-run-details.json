@@ -15,7 +15,7 @@
     "scenario" : "search and capture with badges placed in non center position",
     "shortContainerId" : "docCapture.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 7
+      "numberOfSuccessful" : 9
     }
   }, {
     "scenario" : "capture with highlight and cover",
