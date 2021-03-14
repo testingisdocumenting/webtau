@@ -403,7 +403,10 @@ public class WebTauConfig implements PrettyPrintable {
                 docPath,
                 reportPath,
                 noColor,
+                consolePayloadOutputLimit,
                 staleElementRetry,
+                staleElementRetryWait,
+                cachePath,
                 envPath);
 
         Stream<ConfigValue> additionalConfigValues = handlers.stream()
