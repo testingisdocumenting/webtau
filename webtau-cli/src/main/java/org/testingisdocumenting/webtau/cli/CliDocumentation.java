@@ -19,15 +19,31 @@ package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
 import java.util.List;
 
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+
 public class CliDocumentation {
     public void capture(String artifactName) {
-        Capture capture = new Capture(artifactName);
-        capture.capture();
+        WebTauStep step = WebTauStep.createStep(null,
+                tokenizedMessage(classifier("documentation"), action("capturing last"), classifier("cli"),
+                        action("call"), AS, urlValue(artifactName)),
+                (path) -> tokenizedMessage(classifier("documentation"), action("captured last"), classifier("cli"),
+                        action("call"), AS, urlValue(((Path) path).toAbsolutePath())),
+                () -> {
+                    Capture capture = new Capture(artifactName);
+                    capture.capture();
+
+                    return capture.path;
+                });
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     private static class Capture {
