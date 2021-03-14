@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
+import java.nio.file.Path;
 import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -98,7 +99,7 @@ public class CoreDocumentation {
                 tokenizedMessage(action("capturing"), classifier(type),
                         action("documentation artifact"), id(artifactName)),
                 (path) -> tokenizedMessage(action("captured"), classifier(type),
-                        action("documentation artifact"), id(artifactName), COLON, urlValue(path.toString())),
+                        action("documentation artifact"), id(artifactName), COLON, urlValue(((Path)path).toAbsolutePath())),
                 code);
 
         step.execute(StepReportOptions.REPORT_ALL);
