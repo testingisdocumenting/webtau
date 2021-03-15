@@ -87,3 +87,9 @@ Combine configs by using `cli.env(...).workingDir(...)` in any order to set both
   title: "set environment variable and working dir"
 }
 
+# Path
+
+To specify `PATH` to use for CLI commands lookup use
+
+:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.config.groovy"}
+

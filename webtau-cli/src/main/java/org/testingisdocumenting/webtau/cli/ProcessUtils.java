@@ -83,7 +83,7 @@ class ProcessUtils {
     }
 
     private static String findCommandIfRequiredUsingPath(String command) {
-        List<Path> paths = envPathWithWorkingDirPrefix();
+        List<Path> paths = cliPathWithWorkingDirPrefix();
         if (paths.isEmpty()) {
             return command;
         }
@@ -96,8 +96,8 @@ class ProcessUtils {
                 .orElse(command);
     }
 
-    private static List<Path> envPathWithWorkingDirPrefix() {
-        return getCfg().getEnvPath().stream()
+    private static List<Path> cliPathWithWorkingDirPrefix() {
+        return CliConfig.getPath().stream()
                 .map(ProcessUtils::prefixWithWorkingDir)
                 .collect(Collectors.toList());
     }
