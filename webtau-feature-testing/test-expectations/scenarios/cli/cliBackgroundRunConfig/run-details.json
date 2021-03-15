@@ -3,19 +3,19 @@
     "scenario" : "working dir",
     "shortContainerId" : "cliBackgroundRunConfig.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   }, {
     "scenario" : "environment var",
     "shortContainerId" : "cliBackgroundRunConfig.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "env var and working dir",
     "shortContainerId" : "cliBackgroundRunConfig.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   } ],
   "exitCode" : 0
