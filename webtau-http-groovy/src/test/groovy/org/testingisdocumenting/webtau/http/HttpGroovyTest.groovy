@@ -1223,6 +1223,16 @@ class HttpGroovyTest extends HttpTestBase {
         }
     }
 
+    @Test
+    void "empty list"() {
+        List things = http.get("/empty-list") {
+            return things
+        }
+
+        things.shouldNot == null
+        things.should == []
+    }
+
     private static void assertStatusCodeMismatchRegistered() {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }

@@ -86,6 +86,7 @@ public class HttpTestDataServer {
         handler.registerGet("/params?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
         handler.registerGet("/integer", new TestServerJsonResponse("123"));
         handler.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
+        handler.registerGet("/empty-list", jsonResponse("emptyNestedListResponse.json"));
 
         handler.registerGet("/address", jsonResponse("addressResponse.json"));
         registerRedirects();
