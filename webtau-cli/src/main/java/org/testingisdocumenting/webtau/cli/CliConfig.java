@@ -29,6 +29,9 @@ public class CliConfig implements WebTauConfigHandler {
     private static final ConfigValue cliPath = declare("cliPath", "path items to append to path used for cli runs",
             Collections::emptyList);
 
+    private static final ConfigValue cliTimeout = declare("cliTimeout", "cli foreground command run timeout (ms)",
+            () -> 30000L);
+
     public static List<String> getPath() {
         return cliPath.getAsList();
     }
@@ -37,8 +40,16 @@ public class CliConfig implements WebTauConfigHandler {
         return cliPath;
     }
 
+    public static long getCliTimeoutMs() {
+        return cliTimeout.getAsLong();
+    }
+
+    public static ConfigValue getCliTimeoutConfigValue() {
+        return cliTimeout;
+    }
+
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(cliPath);
+        return Stream.of(cliPath, cliTimeout);
     }
 }

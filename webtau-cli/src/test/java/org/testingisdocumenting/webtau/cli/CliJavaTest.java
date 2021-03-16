@@ -146,4 +146,17 @@ public class CliJavaTest {
             }));
         });
     }
+
+    @Test
+    public void timeOut() {
+        supportedPlatformOnly(() -> {
+            ConfigValue timeoutConfigValue = CliConfig.getCliTimeoutConfigValue();
+            try {
+                timeoutConfigValue.set("manual", 20);
+                code(() -> cli.run("sleep 2")).should(throwException("process timed-out"));
+            } finally {
+                timeoutConfigValue.reset();
+            }
+        });
+    }
 }

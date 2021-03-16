@@ -146,6 +146,11 @@ class WebTauCliFeaturesTest {
         runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg.groovy')
     }
 
+    @Test
+    void "timeout config"() {
+        runCli('cliTimeout.groovy', 'webtau-cli-timeout.cfg.groovy')
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         supportedPlatformOnly {
             testRunner.runCli("scenarios/cli/$restTestName",
