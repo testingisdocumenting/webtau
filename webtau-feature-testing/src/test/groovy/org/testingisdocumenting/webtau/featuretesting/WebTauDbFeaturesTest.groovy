@@ -45,6 +45,11 @@ class WebTauDbFeaturesTest {
         runCli('dbPrimaryConfig.groovy', 'webtau-db-primary.cfg.groovy', "--url=${SpringBootDemoAppUrl.baseUrl}")
     }
 
+    @Test
+    void "db wrong config lazy query should not trigger driver load"() {
+        runCli('lazyQuery.groovy', 'webtau-wrong-db-primary.cfg.groovy')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/db/$testName",
                 "scenarios/db/$configFileName", additionalArgs)

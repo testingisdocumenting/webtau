@@ -29,26 +29,26 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Database {
-    private final LabeledDataSource dataSource;
+    private final LabeledDataSourceProvider dataSourceProvider;
 
-    Database(LabeledDataSource dataSource) {
-        this.dataSource = dataSource;
+    Database(LabeledDataSourceProvider dataSourceProvider) {
+        this.dataSourceProvider = dataSourceProvider;
     }
 
     public DatabaseTable table(String name) {
-        return new DatabaseTable(dataSource, name);
+        return new DatabaseTable(dataSourceProvider, name);
     }
 
     public DbQuery query(String query) {
-        return QueryRunnerUtils.createQuery(dataSource, query);
+        return QueryRunnerUtils.createQuery(dataSourceProvider, query);
     }
 
     public DbQuery query(String query, Map<String, Object> params) {
-        return QueryRunnerUtils.createQuery(dataSource, query, params);
+        return QueryRunnerUtils.createQuery(dataSourceProvider, query, params);
     }
 
     public <E> DbQuery query(String query, E singleParam) {
-        return QueryRunnerUtils.createQuery(dataSource, query, DbNamedParamsQuery.singleNoNameParam(singleParam));
+        return QueryRunnerUtils.createQuery(dataSourceProvider, query, DbNamedParamsQuery.singleNoNameParam(singleParam));
     }
 
     public TableData queryTableData(String query) {
@@ -81,7 +81,7 @@ public class Database {
         WebTauStep step = createStep(null,
                 updateMessage("running DB update", query, namedParamsQuery.effectiveParams(), null),
                 (rows) -> updateMessage("ran DB update", query, Collections.emptyMap(), (Integer) rows),
-                () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query, namedParamsQuery));
+                () -> QueryRunnerUtils.runUpdate(dataSourceProvider.provide().getDataSource(), query, namedParamsQuery));
 
         step.execute(StepReportOptions.REPORT_ALL);
     }
@@ -91,7 +91,8 @@ public class Database {
                                            Map<String, Object> params,
                                            Integer numberOfRows) {
         return appendParamsAndAffectedIfRequired(
-                tokenizedMessage(action(actionLabel), stringValue(query), ON, id(dataSource.getLabel())),
+                tokenizedMessage(action(actionLabel), stringValue(query), ON,
+                        id(dataSourceProvider.provide().getLabel())),
                 params,
                 numberOfRows);
     }

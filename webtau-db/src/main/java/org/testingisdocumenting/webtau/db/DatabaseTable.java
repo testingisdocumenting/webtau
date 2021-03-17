@@ -34,11 +34,11 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 
 class DatabaseTable {
-    private final LabeledDataSource dataSource;
+    private final LabeledDataSourceProvider dataSourceProvider;
     private final String name;
 
-    public DatabaseTable(LabeledDataSource dataSource, String name) {
-        this.dataSource = dataSource;
+    public DatabaseTable(LabeledDataSourceProvider dataSourceProvider, String name) {
+        this.dataSourceProvider = dataSourceProvider;
         this.name = name;
     }
 
@@ -64,11 +64,11 @@ class DatabaseTable {
     }
 
     public DbQuery queryCount() {
-        return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.count(name));
+        return QueryRunnerUtils.createQuery(dataSourceProvider, SqlQueriesGenerator.count(name));
     }
 
     public DbQuery query() {
-        return QueryRunnerUtils.createQuery(dataSource, SqlQueriesGenerator.fullTable(name));
+        return QueryRunnerUtils.createQuery(dataSourceProvider, SqlQueriesGenerator.fullTable(name));
     }
 
 
@@ -108,7 +108,7 @@ class DatabaseTable {
             return;
         }
 
-        QueryRunner run = new QueryRunner(dataSource.getDataSource());
+        QueryRunner run = new QueryRunner(dataSourceProvider.provide().getDataSource());
         try {
             int numberOfRows = size.get();
             Object[][] values = new Object[numberOfRows][];
@@ -123,7 +123,7 @@ class DatabaseTable {
     }
 
     private void insertRowStep(Map<String, Object> row) {
-        QueryRunner run = new QueryRunner(dataSource.getDataSource());
+        QueryRunner run = new QueryRunner(dataSourceProvider.provide().getDataSource());
         try {
             run.update(SqlQueriesGenerator.insert(name, row.keySet().stream(), row.values().stream()),
                     row.values().toArray());
@@ -133,7 +133,7 @@ class DatabaseTable {
     }
 
     private MessageToken createMessageId() {
-        return id(dataSource.getLabel() + "." + name);
+        return id(dataSourceProvider.provide().getLabel() + "." + name);
     }
 
     public void leftShift(TableData tableData) {
