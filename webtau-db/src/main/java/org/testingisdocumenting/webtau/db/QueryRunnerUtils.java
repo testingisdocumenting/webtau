@@ -26,18 +26,15 @@ import java.util.List;
 import java.util.Map;
 
 class QueryRunnerUtils {
-    static DbQuery createQuery(LabeledDataSource dataSource, String query) {
-        return createQuery(dataSource, query, Collections.emptyMap());
+    static DbQuery createQuery(LabeledDataSourceProvider dataSourceProvider, String query) {
+        return createQuery(dataSourceProvider, query, Collections.emptyMap());
     }
 
-    static DbQuery createQuery(LabeledDataSource dataSource, String query, Map<String, Object> params) {
-        QueryRunner run = new QueryRunner(dataSource.getDataSource());
-        MapListHandler handler = new MapListHandler();
-
+    static DbQuery createQuery(LabeledDataSourceProvider dataSourceProvider, String query, Map<String, Object> params) {
         DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
 
-        return new DbQuery(dataSource.getLabel(),
-                () -> runQuery(run, handler, namedParamsQuery),
+        return new DbQuery(() -> dataSourceProvider.provide().getLabel(),
+                () -> runQuery(dataSourceProvider, namedParamsQuery),
                 query, namedParamsQuery.effectiveParams());
     }
 
@@ -64,9 +61,11 @@ class QueryRunnerUtils {
         }
     }
 
-    private static List<Map<String, Object>> runQuery(QueryRunner runner,
-                                                      MapListHandler handler,
+    private static List<Map<String, Object>> runQuery(LabeledDataSourceProvider dataSourceProvider,
                                                       DbNamedParamsQuery namedParamsQuery) {
+        QueryRunner runner = new QueryRunner(dataSourceProvider.provide().getDataSource());
+        MapListHandler handler = new MapListHandler();
+
         try {
             if (namedParamsQuery.isEmpty()) {
                 return runner.query(namedParamsQuery.getQuestionMarksQuery(), handler);

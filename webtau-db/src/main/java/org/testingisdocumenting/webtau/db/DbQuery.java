@@ -45,13 +45,13 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptionAware {
     private static final ActualPath ACTUAL_PATH = new ActualPath("query result");
 
-    private final String dataSourceLabel;
+    private final Supplier<String> dataSourceLabelSupplier;
     private final Supplier<List<Map<String, Object>>> dataFetcher;
     private final String query;
     private final Map<String, Object> params;
 
-    DbQuery(String dataSourceLabel, Supplier<List<Map<String, Object>>> dataFetcher, String query, Map<String, Object> params) {
-        this.dataSourceLabel = dataSourceLabel;
+    DbQuery(Supplier<String> dataSourceLabelSupplier, Supplier<List<Map<String, Object>>> dataFetcher, String query, Map<String, Object> params) {
+        this.dataSourceLabelSupplier = dataSourceLabelSupplier;
         this.dataFetcher = dataFetcher;
         this.query = query;
         this.params = params;
@@ -116,7 +116,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
 
     private TokenizedMessage queryMessage(String actionLabel) {
         return appendParamsIfRequired(
-                tokenizedMessage(action(actionLabel), stringValue(query), ON, id(dataSourceLabel)));
+                tokenizedMessage(action(actionLabel), stringValue(query), ON, id(dataSourceLabelSupplier.get())));
     }
 
     private TokenizedMessage appendParamsIfRequired(TokenizedMessage message) {
