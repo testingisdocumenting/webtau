@@ -15,13 +15,13 @@
     "scenario" : "cli run background using path",
     "shortContainerId" : "pathBasedScript.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "cli run background with args",
     "shortContainerId" : "pathBasedScript.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   } ],
   "exitCode" : 0
