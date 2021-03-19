@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.reporter
 
 import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.console.ConsoleOutput
 
 import java.util.function.Supplier
 
@@ -138,7 +139,7 @@ class WebTauStepTest {
         }
 
         @Override
-        void prettyPrint() {
+        void prettyPrint(ConsoleOutput console) {
         }
     }
 
@@ -151,7 +152,7 @@ class WebTauStepTest {
         }
 
         @Override
-        void prettyPrint() {
+        void prettyPrint(ConsoleOutput console) {
         }
     }
 
@@ -162,7 +163,7 @@ class WebTauStepTest {
         }
 
         @Override
-        void prettyPrint() {
+        void prettyPrint(ConsoleOutput console) {
         }
     }
 }

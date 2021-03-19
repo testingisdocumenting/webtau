@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
@@ -282,14 +282,14 @@ public class HttpValidationResult implements WebTauStepOutput {
     }
 
     @Override
-    public void prettyPrint() {
+    public void prettyPrint(ConsoleOutput console) {
         if (!hasResponseContent()) {
-            ConsoleOutputs.out(Color.YELLOW, "[no content]");
+            console.out(Color.YELLOW, "[no content]");
         } else if (response.isBinary()) {
-            ConsoleOutputs.out(Color.YELLOW, "[binary content]");
+            console.out(Color.YELLOW, "[binary content]");
         } else {
-            ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
-            new DataNodeAnsiPrinter().print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+            console.out(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
+            new DataNodeAnsiPrinter(console).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
         }
     }
 }

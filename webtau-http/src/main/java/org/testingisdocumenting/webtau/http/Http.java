@@ -1126,7 +1126,7 @@ public class Http {
     private void renderRequestBody(HttpRequestBody requestBody) {
         if (requestBody instanceof JsonRequestBody) {
             DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"), ((JsonRequestBody) requestBody).getOriginal());
-            new DataNodeAnsiPrinter().print(dataNode, getCfg().getConsolePayloadOutputLimit());
+            new DataNodeAnsiPrinter(ConsoleOutputs.asCombinedConsoleOutput()).print(dataNode, getCfg().getConsolePayloadOutputLimit());
         } else {
             ConsoleOutputs.out(requestBody.asString());
         }

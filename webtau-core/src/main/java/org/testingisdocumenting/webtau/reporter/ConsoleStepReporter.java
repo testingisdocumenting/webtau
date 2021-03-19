@@ -112,7 +112,7 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        step.getOutput().prettyPrint();
+        step.getOutput().prettyPrint(ConsoleOutputs.asCombinedConsoleOutput());
     }
 
     private boolean skipRenderRequestResponse() {
