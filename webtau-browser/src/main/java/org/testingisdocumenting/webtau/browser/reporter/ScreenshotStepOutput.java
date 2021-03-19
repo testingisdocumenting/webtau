@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.reporter;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
 import java.util.Collections;
@@ -39,6 +40,6 @@ public class ScreenshotStepOutput implements WebTauStepOutput {
     }
 
     @Override
-    public void prettyPrint() {
+    public void prettyPrint(ConsoleOutput console) {
     }
 }

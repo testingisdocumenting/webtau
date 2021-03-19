@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
 
@@ -125,6 +126,6 @@ public class CliValidationResult implements WebTauStepOutput {
     }
 
     @Override
-    public void prettyPrint() {
+    public void prettyPrint(ConsoleOutput console) {
     }
 }

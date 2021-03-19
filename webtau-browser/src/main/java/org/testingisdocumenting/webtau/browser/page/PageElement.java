@@ -18,22 +18,17 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
-import org.testingisdocumenting.webtau.expectation.ActualValue;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
-import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import static org.testingisdocumenting.webtau.Matchers.*;
-import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out;
 
 public interface PageElement extends
         ActualValueExpectations,
@@ -98,25 +93,25 @@ public interface PageElement extends
     }
 
     @Override
-    default void prettyPrint() {
+    default void prettyPrint(ConsoleOutput console) {
         TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
 
         if (!isPresent()) {
-            out(Stream.concat(
+            console.out(Stream.concat(
                     Stream.of(Color.RED, "element is not present: "),
                     toAnsiConverter.convert(locationDescription()).stream()).toArray());
             return;
         }
 
-        out(Stream.concat(
+        console.out(Stream.concat(
                 Stream.of(Color.GREEN, "element is found: "),
                 toAnsiConverter.convert(locationDescription()).stream()).toArray());
 
-        out(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
-        out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
+        console.out(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
+        console.out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
         Integer count = getCount().get();
         if (count > 1) {
-            out(Color.YELLOW, "               count: ", Color.GREEN, count);
+            console.out(Color.YELLOW, "               count: ", Color.GREEN, count);
         }
     }
 }
