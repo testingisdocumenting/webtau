@@ -19,6 +19,8 @@ scenario("cli run foreground with args") {
 scenario("cli run background using path") {
     def command = cli.runInBackground('path-simple')
     command.output.waitTo contain('version:')
+
+    command.stop()
 }
 
 scenario("cli run background with args") {
@@ -26,4 +28,6 @@ scenario("cli run background with args") {
     command.output.waitTo contain('version:')
     command.output.waitTo contain('foo')
     command.output.waitTo contain('hello world')
+
+    command.stop()
 }
