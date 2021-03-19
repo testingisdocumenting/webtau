@@ -151,7 +151,7 @@
         <slf4j.version>1.7.30</slf4j.version>
         <spring.version>4.3.25.RELEASE</spring.version>
         <maven.api.version>3.6.3</maven.api.version>
-        <tomcat.version>8.5.56</tomcat.version>
+        <tomcat.version>10.0.4</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
         <graphql.version>16.2</graphql.version>
         <jacoco.version>0.8.5</jacoco.version>
