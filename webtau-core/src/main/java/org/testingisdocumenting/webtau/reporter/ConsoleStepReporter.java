@@ -56,6 +56,8 @@ public class ConsoleStepReporter implements StepReporter {
                                 personaStream(step)),
                         toAnsiConverter.convert(step.getInProgressMessage()).stream()
                 ).toArray());
+
+        printStepInput(step);
     }
 
     private void printStepSuccess(WebTauStep step) {
@@ -105,6 +107,14 @@ public class ConsoleStepReporter implements StepReporter {
 
         return (seconds > 0 ? seconds + "s " : "") +
                 millisLeft + "ms";
+    }
+
+    private void printStepInput(WebTauStep step) {
+        if (skipRenderRequestResponse()) {
+            return;
+        }
+
+        step.getInput().prettyPrint(ConsoleOutputs.asCombinedConsoleOutput());
     }
 
     private void printStepOutput(WebTauStep step) {
