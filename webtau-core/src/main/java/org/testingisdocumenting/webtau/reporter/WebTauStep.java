@@ -48,7 +48,8 @@ public class WebTauStep {
     private WebTauStep parent;
     private String stackTrace;
 
-    private final List<WebTauStepPayload> payloads;
+    private WebTauStepInput input = WebTauStepInput.EMPTY;
+    private WebTauStepOutput output = WebTauStepOutput.EMPTY;
 
     private long startTime;
     private long elapsedTime;
@@ -175,33 +176,44 @@ public class WebTauStep {
         this.completionMessageFunc = completionMessageFunc;
         this.action = action;
         this.isInProgress = true;
-        this.payloads = new ArrayList<>();
     }
 
     public Stream<WebTauStep> children() {
         return children.stream();
     }
 
-    public Stream<WebTauStepPayload> getCombinedPayloads() {
-        Stream<WebTauStepPayload> result = payloads.stream();
-        Stream<WebTauStepPayload> childrenPayload = children.stream().flatMap(WebTauStep::getCombinedPayloads);
+    public void setInput(WebTauStepInput input) {
+        this.input = input;
+    }
 
-        return Stream.concat(result, childrenPayload);
+    public WebTauStepInput getInput() {
+        return input;
+    }
+
+    public void setOutput(WebTauStepOutput output) {
+        this.output = output;
+    }
+
+    public WebTauStepOutput getOutput() {
+        return output;
+    }
+
+    public Stream<WebTauStepOutput> collectOutputs() {
+        Stream<WebTauStepOutput> result = output.isEmpty() ? Stream.empty() : Stream.of(output);
+        Stream<WebTauStepOutput> childrenOutputs = children.stream().flatMap(WebTauStep::collectOutputs);
+
+        return Stream.concat(result, childrenOutputs);
     }
 
     @SuppressWarnings("unchecked")
-    public <V extends WebTauStepPayload> Stream<V> getCombinedPayloadsOfType(Class<V> type) {
-        return getCombinedPayloads()
+    public <V extends WebTauStepOutput> Stream<V> collectOutputsOfType(Class<V> type) {
+        return collectOutputs()
                 .filter(p -> p.getClass().isAssignableFrom(type))
                 .map(p -> (V) p);
     }
 
-    public void addPayload(WebTauStepPayload payload) {
-        payloads.add(payload);
-    }
-
-    public boolean hasPayload(Class<? extends WebTauStepPayload> type) {
-        return getCombinedPayloadsOfType(type).findAny().isPresent();
+    public boolean hasOutput(Class<? extends WebTauStepOutput> type) {
+        return collectOutputsOfType(type).findAny().isPresent();
     }
 
     public boolean hasFailedChildrenSteps() {

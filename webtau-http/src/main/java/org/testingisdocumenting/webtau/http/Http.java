@@ -904,11 +904,11 @@ public class Http {
                 requestMethod, url, fullUrl, fullHeader, requestBody);
 
         WebTauStep step = createHttpStep(validationResult, httpCall, validator);
+        step.setOutput(validationResult);
         try {
             return step.execute(StepReportOptions.REPORT_ALL);
         } finally {
             lastValidationResult.set(validationResult);
-            step.addPayload(validationResult);
         }
     }
 
@@ -1044,8 +1044,6 @@ public class Http {
             });
 
             throw e;
-        } finally {
-            renderResponse(validationResult);
         }
     }
 
@@ -1122,21 +1120,6 @@ public class Http {
         } else {
             ConsoleOutputs.out(Color.YELLOW, "request", Color.CYAN, " (", requestBody.type(), "):");
             renderRequestBody(requestBody);
-        }
-    }
-
-    private void renderResponse(HttpValidationResult result) {
-        if (skipRenderRequestResponse()) {
-            return;
-        }
-
-        if (result.getResponse().isBinary()) {
-            ConsoleOutputs.out(Color.YELLOW, "[binary content]");
-        } else if (!result.hasResponseContent()) {
-            ConsoleOutputs.out(Color.YELLOW, "[no content]");
-        } else {
-            ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", result.getResponse().getContentType(), "):");
-            new DataNodeAnsiPrinter().print(result.getBodyNode(), getCfg().getConsolePayloadOutputLimit());
         }
     }
 

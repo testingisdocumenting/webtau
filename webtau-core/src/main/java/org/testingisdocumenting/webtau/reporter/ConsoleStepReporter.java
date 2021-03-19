@@ -21,17 +21,34 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class ConsoleStepReporter implements StepReporter {
     private final TokenizedMessageToAnsiConverter toAnsiConverter;
+    private final Supplier<Integer> verboseLevelSupplier;
 
-    public ConsoleStepReporter(TokenizedMessageToAnsiConverter toAnsiConverter) {
+    public ConsoleStepReporter(TokenizedMessageToAnsiConverter toAnsiConverter, Supplier<Integer> verboseLevelSupplier) {
         this.toAnsiConverter = toAnsiConverter;
+        this.verboseLevelSupplier = verboseLevelSupplier;
     }
 
     @Override
     public void onStepStart(WebTauStep step) {
+        executeIfWithinVerboseLevel(step, () -> printStepStart(step));
+    }
+
+    @Override
+    public void onStepSuccess(WebTauStep step) {
+        executeIfWithinVerboseLevel(step, () -> printStepSuccess(step));
+    }
+
+    @Override
+    public void onStepFailure(WebTauStep step) {
+        executeIfWithinVerboseLevel(step, () -> printStepFailure(step));
+    }
+
+    private void printStepStart(WebTauStep step) {
         ConsoleOutputs.out(
                 Stream.concat(
                         Stream.concat(
@@ -41,8 +58,7 @@ public class ConsoleStepReporter implements StepReporter {
                 ).toArray());
     }
 
-    @Override
-    public void onStepSuccess(WebTauStep step) {
+    private void printStepSuccess(WebTauStep step) {
         TokenizedMessage completionMessage = step.getCompletionMessage();
 
         int numberOfParents = step.getNumberOfParents();
@@ -51,6 +67,8 @@ public class ConsoleStepReporter implements StepReporter {
                 completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
                         .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken())) :
                 completionMessage;
+
+        printStepOutput(step);
 
         ConsoleOutputs.out(
                 Stream.concat(
@@ -62,9 +80,10 @@ public class ConsoleStepReporter implements StepReporter {
                         timeTakenTokenStream(step)).toArray());
     }
 
-    @Override
-    public void onStepFailure(WebTauStep step) {
+    private void printStepFailure(WebTauStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
+
+        printStepOutput(step);
 
         ConsoleOutputs.out(
                 Stream.concat(
@@ -76,7 +95,7 @@ public class ConsoleStepReporter implements StepReporter {
                         timeTakenTokenStream(step)).toArray());
     }
 
-    public Stream<Object> timeTakenTokenStream(WebTauStep step) {
+    private Stream<Object> timeTakenTokenStream(WebTauStep step) {
         return Stream.of(Color.YELLOW, " (", Color.GREEN, renderTimeTaken(step), Color.YELLOW, ')');
     }
 
@@ -88,6 +107,18 @@ public class ConsoleStepReporter implements StepReporter {
                 millisLeft + "ms";
     }
 
+    private void printStepOutput(WebTauStep step) {
+        if (skipRenderRequestResponse()) {
+            return;
+        }
+
+        step.getOutput().prettyPrint();
+    }
+
+    private boolean skipRenderRequestResponse() {
+        return verboseLevelSupplier.get() <= WebTauStep.getCurrentStep().getNumberOfParents() + 1;
+    }
+
     private TokenizedMessage messageTokensForFailedStep(WebTauStep step) {
         TokenizedMessage completionMessage = step.getCompletionMessage();
         int numberOfParents = step.getNumberOfParents();
@@ -97,7 +128,7 @@ public class ConsoleStepReporter implements StepReporter {
             return completionMessage;
         }
 
-        if (step.hasFailedChildrenSteps()) {
+        if (step.hasFailedChildrenSteps() && !skipRenderRequestResponse()) {
             // we don't render children errors one more time in case this step has failed children steps
             // last two tokens of a message are delimiter and error tokens
             // so we remove them
@@ -139,5 +170,12 @@ public class ConsoleStepReporter implements StepReporter {
 
     private String createIndentation(int indentation) {
         return StringUtils.createIndentation(indentation * 2);
+    }
+
+    private void executeIfWithinVerboseLevel(WebTauStep step, Runnable code) {
+        int currentLevel = step.getNumberOfParents() + 1;
+        if (currentLevel <= verboseLevelSupplier.get()) {
+            code.run();
+        }
     }
 }

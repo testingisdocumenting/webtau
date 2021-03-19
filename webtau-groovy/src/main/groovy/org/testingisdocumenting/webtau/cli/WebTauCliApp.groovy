@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.cli
 
 import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
-import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
 import org.testingisdocumenting.webtau.cfg.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
@@ -32,7 +31,6 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
-import org.testingisdocumenting.webtau.pdf.Pdf
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
@@ -45,11 +43,6 @@ import java.util.function.Consumer
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class WebTauCliApp implements TestListener, ReportGenerator {
-    enum WebDriverBehavior {
-        AutoCloseWebDrivers,
-        KeepWebDriversOpen
-    }
-
     private static ConsoleTestListener consoleTestReporter = new ConsoleTestListener()
     private static ConsoleOutput consoleOutput
 
@@ -133,7 +126,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
     private void init() {
         consoleOutput = createConsoleOutput()
-        stepReporter = createStepReporter()
+        stepReporter = createConsoleStepReporter()
 
         registerListenersAndHandlers()
 
@@ -197,8 +190,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
                 new NoAnsiConsoleOutput()
     }
 
-    private static StepReporter createStepReporter() {
-        return new ScopeLimitingStepReporter(new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter),
-                cfg.getVerbosityLevel() - 1)
+    private static StepReporter createConsoleStepReporter() {
+        return new ConsoleStepReporter(IntegrationTestsMessageBuilder.converter, () -> cfg.getVerbosityLevel())
     }
 }

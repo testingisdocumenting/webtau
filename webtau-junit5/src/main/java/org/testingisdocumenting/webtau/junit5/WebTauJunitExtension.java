@@ -201,7 +201,7 @@ public class WebTauJunitExtension implements
 
         private static void actualRegister() {
             TestListeners.add(new ConsoleTestListener());
-            StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter()));
+            StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE));
         }
     }
 }

@@ -27,7 +27,7 @@ import static org.testingisdocumenting.webtau.reporter.StepReportOptions.REPORT_
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 import static java.util.stream.Collectors.toList
 
-class TestStepWebTau {
+class WebTauStepTest {
     static WebTauStep rootStep
     static WebTauStep childStep1
     static WebTauStep childStep2
@@ -36,18 +36,15 @@ class TestStepWebTau {
     static void init() {
         rootStep = createStep("step action") {
             childStep1 = createStep("c1 action")
-            childStep1.addPayload(new PayloadA(id: 'id2'))
-            childStep1.addPayload(new PayloadB(name: 'name2'))
+            childStep1.setOutput(new OutputA(id: 'id2'))
             childStep1.execute(REPORT_ALL)
 
             childStep2 = createStep("c2 action")
-            childStep2.addPayload(new PayloadA(id: 'id3'))
-            childStep2.addPayload(new PayloadB(name: 'name3'))
+            childStep2.setOutput(new OutputB(name: 'name3'))
             childStep2.execute(REPORT_ALL)
         }
 
-        rootStep.addPayload(new PayloadA(id: 'id1'))
-        rootStep.addPayload(new PayloadB(name: 'name1'))
+        rootStep.setOutput(new OutputA(id: 'id1'))
         rootStep.execute(REPORT_ALL)
     }
 
@@ -70,25 +67,25 @@ class TestStepWebTau {
     }
 
     @Test
-    void "should recursively return all the payloads from test step and nested test steps"() {
-        def payloads = rootStep.getCombinedPayloads().collect(toList())
-        assert payloads*.toMap() == [[id: 'id1'], [name: 'name1'], [id: 'id2'], [name: 'name2'], [id: 'id3'], [name: 'name3']]
+    void "should recursively return all the outputs from test step and nested test steps"() {
+        def outputs = rootStep.collectOutputs()
+        assert outputs*.toMap() == [[id: 'id1'], [id: 'id2'], [name: 'name3']]
     }
 
     @Test
-    void "should recursively return payloads of a given type"() {
-        def payloadsA = rootStep.getCombinedPayloadsOfType(PayloadA).collect(toList())
-        assert payloadsA*.toMap() == [[id: 'id1'], [id: 'id2'], [id: 'id3']]
+    void "should recursively return outputs of a given type"() {
+        def outputsA = rootStep.collectOutputsOfType(OutputA).collect(toList())
+        assert outputsA*.toMap() == [[id: 'id1'], [id: 'id2']]
 
-        def payloadsB = rootStep.getCombinedPayloadsOfType(PayloadB).collect(toList())
-        assert payloadsB*.toMap() == [[name: 'name1'], [name: 'name2'], [name: 'name3']]
+        def outputsB = rootStep.collectOutputsOfType(OutputB).collect(toList())
+        assert outputsB*.toMap() == [[name: 'name3']]
     }
 
     @Test
-    void "should know if a payload of a certain type is present"() {
-        assert rootStep.hasPayload(PayloadA)
-        assert rootStep.hasPayload(PayloadB)
-        assert ! rootStep.hasPayload(PayloadC)
+    void "should know if an output of a certain type is present"() {
+        assert rootStep.hasOutput(OutputA)
+        assert rootStep.hasOutput(OutputB)
+        assert ! rootStep.hasOutput(OutputC)
     }
 
     @Test
@@ -132,28 +129,40 @@ class TestStepWebTau {
         } as Supplier, stepCode)
     }
 
-    private static class PayloadA implements WebTauStepPayload {
+    private static class OutputA implements WebTauStepOutput {
         String id
 
         @Override
         Map<String, ?> toMap() {
             return [id: id]
         }
+
+        @Override
+        void prettyPrint() {
+        }
     }
 
-    private static class PayloadB implements WebTauStepPayload {
+    private static class OutputB implements WebTauStepOutput {
         String name
 
         @Override
         Map<String, ?> toMap() {
             return [name: name]
         }
+
+        @Override
+        void prettyPrint() {
+        }
     }
 
-    private static class PayloadC implements WebTauStepPayload {
+    private static class OutputC implements WebTauStepOutput {
         @Override
         Map<String, ?> toMap() {
             return [:]
+        }
+
+        @Override
+        void prettyPrint() {
         }
     }
 }
