@@ -143,6 +143,32 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     }
 
     @Test
+    void "should indent step input pretty print"() {
+        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+                { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
+
+            def secondLevelStepSuccess = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action")),
+                    { -> TokenizedMessage.tokenizedMessage(action("second level action completed")) }) {
+            }
+
+            secondLevelStepSuccess.setInput(new TestStepInput())
+            secondLevelStepSuccess.setOutput(new TestStepOutput())
+            secondLevelStepSuccess.execute(StepReportOptions.REPORT_ALL)
+        }
+
+        expectReport(Integer.MAX_VALUE, '> top level action\n' +
+                '  > second level action\n' +
+                '  hello input\n' +
+                '  world\n' +
+                '  hello output\n' +
+                '  world\n' +
+                '  . second level action completed (0ms)\n' +
+                '. top level action completed (0ms)') {
+            topLevelStep.execute(StepReportOptions.REPORT_ALL)
+        }
+    }
+
+    @Test
     void "should not render step if a nest level is greater than provided max"() {
         expectReport(0, '') {
             executeNestedSteps()
@@ -235,5 +261,31 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Override
     void err(Object... styleOrValues) {
         lines.add(new IgnoreAnsiString(styleOrValues).toString())
+    }
+
+    private static class TestStepInput implements WebTauStepInput {
+        @Override
+        void prettyPrint(ConsoleOutput console) {
+            console.out("hello input")
+            console.out("world")
+        }
+
+        @Override
+        Map<String, ?> toMap() {
+            return Collections.emptyMap()
+        }
+    }
+
+    private static class TestStepOutput implements WebTauStepOutput {
+        @Override
+        void prettyPrint(ConsoleOutput console) {
+            console.out("hello output")
+            console.out("world")
+        }
+
+        @Override
+        Map<String, ?> toMap() {
+            return Collections.emptyMap()
+        }
     }
 }

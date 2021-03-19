@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
@@ -114,7 +115,7 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        step.getInput().prettyPrint(ConsoleOutputs.asCombinedConsoleOutput());
+        step.getInput().prettyPrint(createIndentedConsoleOutput(step));
     }
 
     private void printStepOutput(WebTauStep step) {
@@ -122,7 +123,12 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        step.getOutput().prettyPrint(ConsoleOutputs.asCombinedConsoleOutput());
+        step.getOutput().prettyPrint(createIndentedConsoleOutput(step));
+    }
+
+    private IndentedConsoleOutput createIndentedConsoleOutput(WebTauStep step) {
+        return new IndentedConsoleOutput(ConsoleOutputs.asCombinedConsoleOutput(),
+                numberOfSpacedForIndentLevel(step.getNumberOfParents()));
     }
 
     private boolean skipRenderRequestResponse() {
@@ -178,8 +184,12 @@ public class ConsoleStepReporter implements StepReporter {
                 IntegrationTestsMessageBuilder.TokenTypes.ERROR.getType());
     }
 
-    private String createIndentation(int indentation) {
-        return StringUtils.createIndentation(indentation * 2);
+    private String createIndentation(int indentLevel) {
+        return StringUtils.createIndentation(numberOfSpacedForIndentLevel(indentLevel));
+    }
+
+    private int numberOfSpacedForIndentLevel(int indentLevel) {
+        return indentLevel * 2;
     }
 
     private void executeIfWithinVerboseLevel(WebTauStep step, Runnable code) {
