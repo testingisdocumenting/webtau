@@ -17,15 +17,18 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.persona.Persona;
-import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -35,7 +38,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-public class HttpValidationResult implements WebTauStepPayload {
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
+
+public class HttpValidationResult implements WebTauStepOutput {
     private static final AtomicInteger idCounter = new AtomicInteger();
     private static final String BINARY_CONTENT_PLACEHOLDER = "[binary content]";
 
@@ -150,7 +155,7 @@ public class HttpValidationResult implements WebTauStepPayload {
     }
 
     public boolean hasResponseContent() {
-        return response.hasContent();
+        return response != null && response.hasContent();
     }
 
     public int getResponseStatusCode() {
@@ -274,5 +279,17 @@ public class HttpValidationResult implements WebTauStepPayload {
 
     private String generateId() {
         return "httpCall-" + idCounter.incrementAndGet();
+    }
+
+    @Override
+    public void prettyPrint() {
+        if (!hasResponseContent()) {
+            ConsoleOutputs.out(Color.YELLOW, "[no content]");
+        } else if (response.isBinary()) {
+            ConsoleOutputs.out(Color.YELLOW, "[binary content]");
+        } else {
+            ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
+            new DataNodeAnsiPrinter().print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+        }
     }
 }

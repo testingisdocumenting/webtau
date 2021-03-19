@@ -40,7 +40,8 @@ import static org.testingisdocumenting.webtau.cli.repl.ReplCommands.*
 
 class ReplCommandsTest implements StepReporter, ConsoleOutput {
     AnsiConsoleOutput consoleOutput = new AnsiConsoleOutput()
-    ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter())
+    ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
+            () -> Integer.MAX_VALUE)
     StringBuilder out
     StringBuilder err
 

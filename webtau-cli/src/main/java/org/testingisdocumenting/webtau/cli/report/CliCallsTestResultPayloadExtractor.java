@@ -30,10 +30,10 @@ public class CliCallsTestResultPayloadExtractor implements TestResultPayloadExtr
 
     @Override
     public Stream<TestResultPayload> extract(Stream<WebTauStep> testSteps) {
-        Stream<CliValidationResult> payloads = testSteps
-                .flatMap(s -> s.getCombinedPayloadsOfType(CliValidationResult.class));
+        Stream<CliValidationResult> outputs = testSteps
+                .flatMap(s -> s.collectOutputsOfType(CliValidationResult.class));
 
         return Stream.of(new TestResultPayload(CLI_CALLS_PAYLOAD_NAME,
-                payloads.map(CliValidationResult::toMap).collect(Collectors.toList())));
+                outputs.map(CliValidationResult::toMap).collect(Collectors.toList())));
     }
 }

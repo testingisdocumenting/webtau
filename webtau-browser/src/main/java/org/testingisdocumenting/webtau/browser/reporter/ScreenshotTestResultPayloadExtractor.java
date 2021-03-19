@@ -27,12 +27,12 @@ import java.util.stream.Stream;
 public class ScreenshotTestResultPayloadExtractor implements TestResultPayloadExtractor {
     @Override
     public Stream<TestResultPayload> extract(Stream<WebTauStep> testSteps) {
-        Stream<ScreenshotStepPayload> payloads = testSteps
-                .flatMap(s -> s.getCombinedPayloadsOfType(ScreenshotStepPayload.class));
+        Stream<ScreenshotStepOutput> outputs = testSteps
+                .flatMap(s -> s.collectOutputsOfType(ScreenshotStepOutput.class));
 
-        Optional<ScreenshotStepPayload> first = payloads.findFirst();
-        return first.map(screenshotStepPayload -> Stream.of(
-                new TestResultPayload("screenshot", screenshotStepPayload.getBase64png())))
+        Optional<ScreenshotStepOutput> first = outputs.findFirst();
+        return first.map(screenshotStepOutput -> Stream.of(
+                new TestResultPayload("screenshot", screenshotStepOutput.getBase64png())))
                 .orElseGet(Stream::empty);
     }
 }

@@ -30,10 +30,10 @@ public class HttpCallsTestResultPayloadExtractor implements TestResultPayloadExt
 
     @Override
     public Stream<TestResultPayload> extract(Stream<WebTauStep> testSteps) {
-        Stream<HttpValidationResult> payloads = testSteps
-                .flatMap(s -> s.getCombinedPayloadsOfType(HttpValidationResult.class));
+        Stream<HttpValidationResult> httpValidationResults = testSteps
+                .flatMap(s -> s.collectOutputsOfType(HttpValidationResult.class));
 
         return Stream.of(new TestResultPayload(HTTP_CALLS_PAYLOAD_NAME,
-                payloads.map(HttpValidationResult::toMap).collect(Collectors.toList())));
+                httpValidationResults.map(HttpValidationResult::toMap).collect(Collectors.toList())));
     }
 }

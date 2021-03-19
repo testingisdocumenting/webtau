@@ -17,15 +17,15 @@
 
 package org.testingisdocumenting.webtau.browser.reporter;
 
-import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
 import java.util.Collections;
 import java.util.Map;
 
-public class ScreenshotStepPayload implements WebTauStepPayload {
-    private String base64png;
+public class ScreenshotStepOutput implements WebTauStepOutput {
+    private final String base64png;
 
-    ScreenshotStepPayload(String base64png) {
+    ScreenshotStepOutput(String base64png) {
         this.base64png = base64png;
     }
 
@@ -36,5 +36,9 @@ public class ScreenshotStepPayload implements WebTauStepPayload {
     @Override
     public Map<String, ?> toMap() {
         return Collections.singletonMap("base64png", base64png);
+    }
+
+    @Override
+    public void prettyPrint() {
     }
 }
