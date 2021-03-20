@@ -18,11 +18,11 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
-import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.openqa.selenium.WebElement;
 
@@ -30,9 +30,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out;
+public interface PageElement extends
+        ActualValueExpectations,
+        PrettyPrintable,
+        ActualPathAndDescriptionAware {
 
-public interface PageElement extends ActualValueExpectations, WithTokenizedDescription, PrettyPrintable {
     PageElementValue<Integer> getCount();
 
     WebElement findElement();
@@ -52,6 +54,8 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     void doubleClick();
     void hover();
     void clear();
+
+    void dragAndDropOver(PageElement pageElement);
 
     /**
      * uses command on mac os x, and control on other OSes
@@ -84,51 +88,30 @@ public interface PageElement extends ActualValueExpectations, WithTokenizedDescr
     void highlight();
 
     @Override
-    default void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(this, this,  StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher);
+    default StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
 
     @Override
-    default void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(this, this,  StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher);
-    }
-
-    @Override
-    default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitStep(this, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    @Override
-    default void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitNotStep(this, this, StepReportOptions.REPORT_ALL,
-                this.describe(), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    @Override
-    default void prettyPrint() {
+    default void prettyPrint(ConsoleOutput console) {
         TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
 
         if (!isPresent()) {
-            out(Stream.concat(
+            console.out(Stream.concat(
                     Stream.of(Color.RED, "element is not present: "),
                     toAnsiConverter.convert(locationDescription()).stream()).toArray());
             return;
         }
 
-        out(Stream.concat(
+        console.out(Stream.concat(
                 Stream.of(Color.GREEN, "element is found: "),
                 toAnsiConverter.convert(locationDescription()).stream()).toArray());
 
-        out(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
-        out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
+        console.out(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
+        console.out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
         Integer count = getCount().get();
         if (count > 1) {
-            out(Color.YELLOW, "               count: ", Color.GREEN, count);
+            console.out(Color.YELLOW, "               count: ", Color.GREEN, count);
         }
     }
 }

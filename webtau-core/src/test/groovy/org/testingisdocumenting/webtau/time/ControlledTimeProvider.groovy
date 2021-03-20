@@ -17,16 +17,16 @@
 
 package org.testingisdocumenting.webtau.time
 
-class DummyTimeProvider implements TimeProvider {
+class ControlledTimeProvider implements TimeProvider {
     private List<Long> timeSnapshots = []
     private Long constantTime = null
     private int currentSnapshotIdx = 0
 
-    DummyTimeProvider(List<Integer> timeSnapshots) {
+    ControlledTimeProvider(List<Long> timeSnapshots) {
         this.timeSnapshots.addAll(timeSnapshots)
     }
 
-    DummyTimeProvider(Long constantTime) {
+    ControlledTimeProvider(Long constantTime) {
         this.constantTime = constantTime
     }
 

@@ -20,7 +20,11 @@ package org.testingisdocumenting.webtau.reporter;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -46,7 +50,8 @@ public class WebTauStep {
     private WebTauStep parent;
     private String stackTrace;
 
-    private final List<WebTauStepPayload> payloads;
+    private WebTauStepInput input = WebTauStepInput.EMPTY;
+    private WebTauStepOutput output = WebTauStepOutput.EMPTY;
 
     private long startTime;
     private long elapsedTime;
@@ -175,7 +180,6 @@ public class WebTauStep {
         this.completionMessageFunc = completionMessageFunc;
         this.action = action;
         this.isInProgress = true;
-        this.payloads = new ArrayList<>();
         this.totalNumberOfAttempts = 1;
     }
 
@@ -197,16 +201,16 @@ public class WebTauStep {
                 .map(p -> (V) p);
     }
 
-    public void setTotalNumberOfAttempts(int totalNumberOfAttempts) {
-        this.totalNumberOfAttempts = totalNumberOfAttempts;
-    }
-
     public void addPayload(WebTauStepPayload payload) {
         payloads.add(payload);
     }
 
     public boolean hasPayload(Class<? extends WebTauStepPayload> type) {
         return getCombinedPayloadsOfType(type).findAny().isPresent();
+    }
+
+    public void setTotalNumberOfAttempts(int totalNumberOfAttempts) {
+        this.totalNumberOfAttempts = totalNumberOfAttempts;
     }
 
     public boolean hasFailedChildrenSteps() {

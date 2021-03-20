@@ -3,6 +3,12 @@
     "scenario" : "this scenario will only be executed in \"experimental\" env",
     "shortContainerId" : "conditionalEnvRegistrationSkip.groovy",
     "stepsSummary" : { }
+  }, {
+    "scenario" : "this scenario will not be executed in \"experimental\" env",
+    "shortContainerId" : "conditionalEnvRegistrationSkip.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
   } ],
-  "exitCode" : 0
+  "exitCode" : 1
 }

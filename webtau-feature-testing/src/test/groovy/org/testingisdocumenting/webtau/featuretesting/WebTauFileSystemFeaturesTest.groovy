@@ -63,11 +63,6 @@ class WebTauFileSystemFeaturesTest {
                 'createFile.groovy': 'create file using string path',
                 'readFile.groovy': 'read file using string path'
         ])
-
-        extractCodeSnippets(
-                'fsArchive', 'examples/scenarios/fs/archive.groovy', [
-                'unzip.groovy': 'unzip'
-        ])
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

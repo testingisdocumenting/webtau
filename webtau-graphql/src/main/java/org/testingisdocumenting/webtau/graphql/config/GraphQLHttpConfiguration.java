@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,26 +15,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.reporter;
+package org.testingisdocumenting.webtau.graphql.config;
 
-import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
+import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 
-import java.util.Collections;
-import java.util.Map;
-
-public class ScreenshotStepPayload implements WebTauStepPayload {
-    private String base64png;
-
-    ScreenshotStepPayload(String base64png) {
-        this.base64png = base64png;
-    }
-
-    public String getBase64png() {
-        return base64png;
-    }
-
-    @Override
-    public Map<String, ?> toMap() {
-        return Collections.singletonMap("base64png", base64png);
-    }
+public interface GraphQLHttpConfiguration {
+    String requestUrl(String url, GraphQLRequest graphQLRequest);
 }

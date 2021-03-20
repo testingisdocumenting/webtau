@@ -97,20 +97,4 @@ public class WebTauDsl extends WebTauCore {
     public static SchemaMatcher beCompliantWithSchema(String schemaFileName) {
         return complyWithSchema(schemaFileName);
     }
-
-    public static void step(String label, Runnable action) {
-        WebTauStep.createAndExecuteStep(tokenizedMessage(action(label)),
-                () -> tokenizedMessage(none("completed"), action(label)),
-                action);
-    }
-
-    public static <R> R step(String label, Supplier<Object> action) {
-        WebTauStep step = WebTauStep.createStep(
-                null,
-                tokenizedMessage(action(label)),
-                () -> tokenizedMessage(none("completed"), action(label)),
-                action);
-
-        return step.execute(StepReportOptions.REPORT_ALL);
-    }
 }

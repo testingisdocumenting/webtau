@@ -26,6 +26,8 @@ class WebTauBrowserFeaturesTestData {
         handler.registerGet("/special-forms", htmlResponse('special-forms.html'))
         handler.registerGet("/calculation", htmlResponse('calculation.html'))
         handler.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
+        handler.registerGet("/drag-and-drop-html5", htmlResponse('drag-and-drop-html5.html'))
+        handler.registerGet("/drag-and-drop-jquery", htmlResponse('drag-and-drop-jquery.html'))
         handler.registerGet("/element-actions", htmlResponse('element-actions.html'))
         handler.registerGet("/cookies", htmlResponse('cookies.html'))
         handler.registerGet("/matchers", htmlResponse('matchers.html'))

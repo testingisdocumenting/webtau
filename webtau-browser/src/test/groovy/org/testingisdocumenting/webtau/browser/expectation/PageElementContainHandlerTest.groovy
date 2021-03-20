@@ -60,6 +60,6 @@ class PageElementContainHandlerTest {
 
         code {
             pageElement.should contain("missing")
-        } should throwException(~/expect to contain "missing"/)
+        } should throwException(~/expects to contain "missing"/)
     }
 }

@@ -34,6 +34,7 @@ public class BadgeImageAnnotation extends ImageAnnotation {
 
         data.put("x", location.getX());
         data.put("y", location.getY());
+        data.put("align", position);
         data.put("r", 15);
     }
 }

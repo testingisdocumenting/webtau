@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page;
+package org.testingisdocumenting.webtau.ant;
 
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.apache.ant.compress.taskdefs.Untar;
 
-public interface WithTokenizedDescription {
-    TokenizedMessage describe();
+import java.nio.file.Path;
+
+public class UntarTask extends Untar {
+    public UntarTask(Path src, Path dest) {
+        UnArchiveTaskSetup.setup(this, src, dest);
+    }
 }

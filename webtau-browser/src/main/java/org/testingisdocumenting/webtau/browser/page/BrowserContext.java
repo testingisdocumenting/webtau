@@ -17,13 +17,13 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.WebTauCore;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.id;
-
-class BrowserContext implements WithTokenizedDescription {
+class BrowserContext implements ActualPathAndDescriptionAware {
     @Override
-    public TokenizedMessage describe() {
-        return TokenizedMessage.tokenizedMessage(id("browser"));
+    public ActualPath actualPath() {
+        return WebTauCore.createActualPath("browser");
     }
 }

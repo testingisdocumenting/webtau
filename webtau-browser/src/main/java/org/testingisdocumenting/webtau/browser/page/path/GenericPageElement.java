@@ -28,6 +28,7 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFi
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
@@ -39,10 +40,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.TO;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
@@ -66,6 +66,11 @@ public class GenericPageElement implements PageElement {
     @Override
     public PageElementValue<Integer> getCount() {
         return countValue;
+    }
+
+    @Override
+    public ActualPath actualPath() {
+        return createActualPath("pageElement");
     }
 
     @Override
@@ -167,6 +172,13 @@ public class GenericPageElement implements PageElement {
         execute(tokenizedMessage(action("clearing")).add(pathDescription),
                 () -> tokenizedMessage(action("cleared")).add(pathDescription),
                 () -> findElement().clear());
+    }
+
+    @Override
+    public void dragAndDropOver(PageElement pageElement) {
+        execute(tokenizedMessage(action("dragging")).add(pathDescription).add(OVER).add(pageElement.locationDescription()),
+                () -> tokenizedMessage(action("dropped")).add(pathDescription).add(OVER).add(pageElement.locationDescription()),
+                () -> dragAndDropOverStep(pageElement));
     }
 
     @Override
@@ -360,6 +372,17 @@ public class GenericPageElement implements PageElement {
 
         Action builtAction = actions.build();
         builtAction.perform();
+    }
+
+    private void dragAndDropOverStep(PageElement over) {
+        WebElement source = findElement();
+        ensureNotNullElement(source, "drag source");
+
+        WebElement target = over.findElement();
+        ensureNotNullElement(target, "drop target");
+
+        Actions actions = new Actions(driver);
+        actions.dragAndDrop(source, target).build().perform();
     }
 
     private void ensureNotNullElement(WebElement element, String actionLabel) {

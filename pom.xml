@@ -21,7 +21,7 @@
 
     <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.39-SNAPSHOT</version>
+    <version>1.40-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -153,7 +153,7 @@
         <maven.api.version>3.6.3</maven.api.version>
         <tomcat.version>8.5.56</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
-        <graphql.version>15.0</graphql.version>
+        <graphql.version>16.2</graphql.version>
         <jacoco.version>0.8.5</jacoco.version>
         <swagger.version>1.6.1</swagger.version>
     </properties>

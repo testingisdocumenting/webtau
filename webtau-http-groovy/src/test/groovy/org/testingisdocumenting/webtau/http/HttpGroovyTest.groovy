@@ -25,6 +25,8 @@ import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.time.ControlledTimeProvider
+import org.testingisdocumenting.webtau.time.Time
 import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 
@@ -540,6 +542,30 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "list contain all check level"() {
+        http.get("/end-point") {
+            list.should containAll(2, 1)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.None
+    }
+
+    @Test
+    void "list not contain all check level"() {
+        http.get("/end-point") {
+            list.shouldNot containAll(5, 7, 12)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+    }
+
+    @Test
     void "find on list"() {
         def found = http.get("/end-point") {
             return list.find { it > 1 }
@@ -918,6 +944,25 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "contain all matcher"() {
+        http.get("/end-point-list") {
+            body[1].k2.should containAll(10, 30)
+            body[1].k2.shouldNot containAll(40, 60, 80)
+        }
+
+        http.doc.capture("end-point-list-contain-all-matchers")
+    }
+
+    @Test
+    void "contain containing all matcher"() {
+        http.get("/prices") {
+            body.prices.should contain(containingAll(10, 30))
+        }
+
+        http.doc.capture("prices-contain-containing-all")
+    }
+
+    @Test
     void "working with dates"() {
         http.get("/end-point-dates") {
             def expectedDate = LocalDate.of(2018, 6, 12)
@@ -1032,12 +1077,24 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "captures failed http call"() {
-        code {
-            http.get('mailto://demo', [a: 1, b: 'text']) {
-            }
-        } should throwException(HttpException, ~/error during http\.get/)
+        def stepForcedStartTime = System.currentTimeMillis()
+        def httpCallForcedStartTime = stepForcedStartTime + 100
+        def httpElapsedTime = 500
 
-        http.lastValidationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+        Time.withTimeProvider(new ControlledTimeProvider([
+                stepForcedStartTime, httpCallForcedStartTime,
+                httpCallForcedStartTime + httpElapsedTime,
+                httpCallForcedStartTime + httpElapsedTime + 200])) {
+            code {
+                http.get('mailto://demo', [a: 1, b: 'text']) {
+                }
+            } should throwException(HttpException, ~/error during http\.get/)
+        }
+
+        def validationResult = http.lastValidationResult
+        validationResult.startTime.should == httpCallForcedStartTime
+        validationResult.elapsedTime.should == httpElapsedTime
+        validationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
     }
 
     @Test

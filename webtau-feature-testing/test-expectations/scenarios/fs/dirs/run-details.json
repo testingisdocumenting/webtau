@@ -3,13 +3,13 @@
     "scenario" : "create and delete directory",
     "shortContainerId" : "dirs.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 6
     }
   }, {
     "scenario" : "create the same dir again",
     "shortContainerId" : "dirs.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 2
     }
   } ],
   "exitCode" : 0

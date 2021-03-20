@@ -39,13 +39,13 @@
     "scenario" : "run result extract by regexp from output",
     "shortContainerId" : "foregroundExamples.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   }, {
     "scenario" : "run result extract by regexp from error",
     "shortContainerId" : "foregroundExamples.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

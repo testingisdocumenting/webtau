@@ -23,6 +23,7 @@ HTTP
 GraphQL
     introduction
     queries-and-mutations
+    customized-graphql-urls
     report
 browser
     introduction

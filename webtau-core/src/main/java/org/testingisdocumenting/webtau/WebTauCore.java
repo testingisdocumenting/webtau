@@ -25,11 +25,13 @@ import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.UNDERSCORE;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -117,6 +119,30 @@ public class WebTauCore extends Matchers {
 
     public static Persona getCurrentPersona() {
         return Persona.getCurrentPersona();
+    }
+
+    public static void step(String label, Runnable action) {
+        WebTauStep.createAndExecuteStep(tokenizedMessage(action(label)),
+                () -> tokenizedMessage(none("completed"), action(label)),
+                action);
+    }
+
+    public static <R> R step(String label, Supplier<Object> action) {
+        WebTauStep step = WebTauStep.createStep(
+                null,
+                tokenizedMessage(action(label)),
+                () -> tokenizedMessage(none("completed"), action(label)),
+                action);
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static void fail(String message) {
+        throw new AssertionError(message);
+    }
+
+    public static void fail() {
+        throw new AssertionError();
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;
