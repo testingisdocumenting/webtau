@@ -14,18 +14,27 @@
  * limitations under the License.
  */
 
-package scenarios.concept
+package org.testingisdocumenting.webtau.utils;
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-scenario('multiple times') {
-    repeatStep('my actions', 30) {
-        step("custom step one") {
-            step("nested step one") {
-            }
-        }
+public class FunctionUtils {
+    public static Supplier<Object> toSupplier(Runnable r) {
+        return () -> {
+            r.run();
+            return null;
+        };
+    }
 
-        step("custom step two") {
-        }
+    public static <P, R> Function<P, R> toFunction(Runnable r) {
+        return (ignored) -> {
+            r.run();
+            return null;
+        };
+    }
+
+    public static  <P, R> Function<P, R> toFunction(Supplier<R> s) {
+        return (ignored) -> s.get();
     }
 }

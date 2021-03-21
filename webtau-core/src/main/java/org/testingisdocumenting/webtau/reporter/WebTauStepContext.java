@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,17 +16,26 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-public interface StepReporter {
-    void onStepStart(WebTauStep step);
-    void onStepSuccess(WebTauStep step);
-    void onStepFailure(WebTauStep step);
+public class WebTauStepContext {
+    public static final WebTauStepContext SINGLE_RUN = new WebTauStepContext(0, 1);
 
-    default void onStepRepeatStart(WebTauStep step, int currentIdx, int total) {
+    private final int attemptIdx;
+    private final int totalNumberOfAttempts;
+
+    public WebTauStepContext(int attemptIdx, int totalNumberOfAttempts) {
+        this.attemptIdx = attemptIdx;
+        this.totalNumberOfAttempts = totalNumberOfAttempts;
     }
 
-    default void onStepRepeatSuccess(WebTauStep step, int currentIdx, int total) {
+    public int getAttemptIdx() {
+        return attemptIdx;
     }
 
-    default void onStepRepeatFailure(WebTauStep step, int currentIdx, int total) {
+    public int getAttemptNumber() {
+        return attemptIdx + 1;
+    }
+
+    public int getTotalNumberOfAttempts() {
+        return totalNumberOfAttempts;
     }
 }

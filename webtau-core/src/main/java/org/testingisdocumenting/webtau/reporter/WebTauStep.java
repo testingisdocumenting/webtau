@@ -20,11 +20,7 @@ package org.testingisdocumenting.webtau.reporter;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -33,6 +29,7 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils.renderStackTrace;
 import static java.util.stream.Collectors.toList;
+import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
 
 public class WebTauStep {
     private final Object context;
@@ -40,7 +37,7 @@ public class WebTauStep {
 
     private final TokenizedMessage inProgressMessage;
     private final Function<Object, TokenizedMessage> completionMessageFunc;
-    private final Supplier<Object> action;
+    private final Function<WebTauStepContext, Object> action;
     private TokenizedMessage completionMessage;
 
     private boolean isInProgress;
@@ -71,7 +68,7 @@ public class WebTauStep {
                                         TokenizedMessage inProgressMessage,
                                         Function<Object, TokenizedMessage> completionMessageFunc,
                                         Supplier<Object> action) {
-        return createStep(context, 0, inProgressMessage, completionMessageFunc, action);
+        return createStep(context, 0, inProgressMessage, completionMessageFunc, toFunction(action));
     }
 
     public static WebTauStep createStep(TokenizedMessage inProgressMessage,
@@ -94,7 +91,7 @@ public class WebTauStep {
                                         Supplier<Object> action) {
         return createStep(context, startTime, inProgressMessage,
                 (stepResult) -> completionMessageSupplier.get(),
-                action);
+                toFunction(action));
     }
 
     public static WebTauStep createStep(Object context,
@@ -104,14 +101,14 @@ public class WebTauStep {
                                         Runnable action) {
         return createStep(context, startTime, inProgressMessage,
                 (stepResult) -> completionMessageSupplier.get(),
-                toSupplier(action));
+                toFunction(action));
     }
 
     public static WebTauStep createStep(Object context,
                                         long startTime,
                                         TokenizedMessage inProgressMessage,
                                         Function<Object, TokenizedMessage> completionMessageFunc,
-                                        Supplier<Object> action) {
+                                        Function<WebTauStepContext, Object> action) {
         WebTauStep step = new WebTauStep(context, startTime, inProgressMessage, completionMessageFunc, action);
         WebTauStep localCurrentStep = WebTauStep.currentStep.get();
 
@@ -120,6 +117,16 @@ public class WebTauStep {
             localCurrentStep.children.add(step);
         }
         currentStep.set(step);
+
+        return step;
+    }
+
+    public static WebTauStep createRepeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
+        WebTauStep step = WebTauStep.createStep(null, 0,
+                tokenizedMessage(action("repeat " + label), numberValue(numberOfAttempts), classifier("times")),
+                (ignored) -> tokenizedMessage(action("repeated " + label), numberValue(numberOfAttempts), classifier("times")),
+                action);
+        step.setTotalNumberOfAttempts(numberOfAttempts);
 
         return step;
     }
@@ -171,7 +178,7 @@ public class WebTauStep {
                        long startTime,
                        TokenizedMessage inProgressMessage,
                        Function<Object, TokenizedMessage> completionMessageFunc,
-                       Supplier<Object> action) {
+                       Function<WebTauStepContext, Object> action) {
         this.context = context;
         this.personaId = Persona.getCurrentPersona().getId();
         this.startTime = startTime;
@@ -187,34 +194,46 @@ public class WebTauStep {
         return children.stream();
     }
 
-    public Stream<WebTauStepPayload> getCombinedPayloads() {
-        Stream<WebTauStepPayload> result = payloads.stream();
-        Stream<WebTauStepPayload> childrenPayload = children.stream().flatMap(WebTauStep::getCombinedPayloads);
+    public void setInput(WebTauStepInput input) {
+        this.input = input;
+    }
 
-        return Stream.concat(result, childrenPayload);
+    public WebTauStepInput getInput() {
+        return input;
+    }
+
+    public void setOutput(WebTauStepOutput output) {
+        this.output = output;
+    }
+
+    public WebTauStepOutput getOutput() {
+        return output;
+    }
+
+    public Stream<WebTauStepOutput> collectOutputs() {
+        Stream<WebTauStepOutput> result = output.isEmpty() ? Stream.empty() : Stream.of(output);
+        Stream<WebTauStepOutput> childrenOutputs = children.stream().flatMap(WebTauStep::collectOutputs);
+
+        return Stream.concat(result, childrenOutputs);
     }
 
     @SuppressWarnings("unchecked")
-    public <V extends WebTauStepPayload> Stream<V> getCombinedPayloadsOfType(Class<V> type) {
-        return getCombinedPayloads()
+    public <V extends WebTauStepOutput> Stream<V> collectOutputsOfType(Class<V> type) {
+        return collectOutputs()
                 .filter(p -> p.getClass().isAssignableFrom(type))
                 .map(p -> (V) p);
     }
 
-    public void addPayload(WebTauStepPayload payload) {
-        payloads.add(payload);
-    }
-
-    public boolean hasPayload(Class<? extends WebTauStepPayload> type) {
-        return getCombinedPayloadsOfType(type).findAny().isPresent();
-    }
-
-    public void setTotalNumberOfAttempts(int totalNumberOfAttempts) {
-        this.totalNumberOfAttempts = totalNumberOfAttempts;
+    public boolean hasOutput(Class<? extends WebTauStepOutput> type) {
+        return collectOutputsOfType(type).findAny().isPresent();
     }
 
     public boolean hasFailedChildrenSteps() {
         return children.stream().anyMatch(WebTauStep::isFailed);
+    }
+
+    public void setTotalNumberOfAttempts(int totalNumberOfAttempts) {
+        this.totalNumberOfAttempts = totalNumberOfAttempts;
     }
 
     public int calcNumberOfSuccessfulSteps() {
@@ -283,14 +302,14 @@ public class WebTauStep {
 
     @SuppressWarnings("unchecked")
     private <R> R executeSingleRunWithAction(StepReportOptions stepReportOptions,
-                                             Supplier<Object> actionToUse) {
+                                             Function<WebTauStepContext, Object> actionToUse) {
         try {
             if (stepReportOptions != StepReportOptions.SKIP_START && stepReportOptions != StepReportOptions.SKIP_ALL) {
                 StepReporters.onStart(this);
             }
 
             startClock();
-            Object result = actionToUse.get();
+            Object result = actionToUse.apply(WebTauStepContext.SINGLE_RUN);
             complete(completionMessageFunc.apply(result));
             stopClock();
 
@@ -322,25 +341,28 @@ public class WebTauStep {
         return result;
     }
 
-    private Supplier<Object> multipleRunsActionWrapper(StepReportOptions stepReportOptions) {
-        return () -> {
+    private Function<WebTauStepContext, Object> multipleRunsActionWrapper(StepReportOptions stepReportOptions) {
+        return (context) -> {
             int attemptIdx = 0;
             while (attemptIdx < totalNumberOfAttempts) {
-                boolean reportStep = shouldReportStepDuringRepeat(attemptIdx);
+                boolean reportStep = shouldReportStepAttemptDuringRepeat(attemptIdx);
 
                 int finalAttemptIdx = attemptIdx;
-                Runnable actionWithStep = () -> {
-                    // TODO add out of total portion
-                    MessageToken repeatAction = action("repeat #" + finalAttemptIdx);
-                    WebTauStep.createAndExecuteStep(tokenizedMessage(repeatAction),
-                            () -> tokenizedMessage(classifier("completed"), repeatAction),
-                            this.action::get);
-                };
+                MessageToken repeatAction = action("repeat #" + (finalAttemptIdx + 1));
+                WebTauStep repeatedStep = WebTauStep.createStep(tokenizedMessage(repeatAction),
+                        () -> tokenizedMessage(classifier("completed"), repeatAction),
+                        () -> action.apply(new WebTauStepContext(finalAttemptIdx, totalNumberOfAttempts)));
 
                 if (!reportStep) {
-                    StepReporters.withoutReporters(() -> { actionWithStep.run(); return null; });
+                    StepReporters.onStepRepeatStart(repeatedStep, attemptIdx, totalNumberOfAttempts);
+                    try {
+                        StepReporters.withoutReporters(() -> { repeatedStep.execute(stepReportOptions); return null; });
+                        StepReporters.onStepRepeatSuccess(repeatedStep, attemptIdx, totalNumberOfAttempts);
+                    } catch (Throwable e) {
+                        StepReporters.onStepRepeatFailure(repeatedStep, attemptIdx, totalNumberOfAttempts);
+                    }
                 } else {
-                    actionWithStep.run();
+                    repeatedStep.execute(stepReportOptions);
                 }
 
                 attemptIdx++;
@@ -354,15 +376,15 @@ public class WebTauStep {
         ListIterator<WebTauStep> it = repeatRoot.children.listIterator(repeatRoot.children.size());
         int idx = repeatRoot.children.size();
         while (it.hasPrevious()) {
-            it.previous();
+            WebTauStep step = it.previous();
             idx--;
-            if (!shouldReportStepDuringRepeat(idx)) {
+            if (step.isSuccessful && !shouldReportStepAttemptDuringRepeat(idx)) {
                 it.remove();
             }
         }
     }
 
-    private boolean shouldReportStepDuringRepeat(int attemptIdx) {
+    private boolean shouldReportStepAttemptDuringRepeat(int attemptIdx) {
         return attemptIdx == 0 || attemptIdx == (totalNumberOfAttempts - 1);
     }
 
@@ -413,12 +435,5 @@ public class WebTauStep {
         completionMessage = new TokenizedMessage();
         completionMessage.add("error", "failed").add(inProgressMessage).add("delimiter", ":")
                 .add("error", t.getMessage());
-    }
-
-    private static Supplier<Object> toSupplier(Runnable s) {
-        return () -> {
-            s.run();
-            return null;
-        };
     }
 }

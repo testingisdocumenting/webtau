@@ -76,8 +76,16 @@ public class StepReporters {
         getReportersStream().forEach(r -> r.onStepSuccess(step));
     }
 
-    public static void onStepRepeat(WebTauStep step, int current, int total) {
-        getReportersStream().forEach(r -> r.onStepRepeat(step, current, total));
+    public static void onStepRepeatStart(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatStart(step, currentIdx, total));
+    }
+
+    public static void onStepRepeatSuccess(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatSuccess(step, currentIdx, total));
+    }
+
+    public static void onStepRepeatFailure(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatFailure(step, currentIdx, total));
     }
 
     public static void onFailure(WebTauStep step) {

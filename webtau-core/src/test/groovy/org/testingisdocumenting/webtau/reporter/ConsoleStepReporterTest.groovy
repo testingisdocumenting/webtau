@@ -169,6 +169,67 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     }
 
     @Test
+    void "should render repeated step progress"() {
+        def repeatStep = WebTauStep.createRepeatStep("repeat", 5) {ctx ->
+            def step = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("repeat")),
+                    { -> TokenizedMessage.tokenizedMessage(action("completed repeat")) }) {
+            }
+            step.execute(StepReportOptions.REPORT_ALL)
+        }
+
+        expectReport(Integer.MAX_VALUE, '> repeat repeat 5 times\n' +
+                '  > repeat #1\n' +
+                '    > repeat\n' +
+                '    . completed repeat (0ms)\n' +
+                '  . completed repeat #1 (0ms)\n' +
+                '  > 2/5\n' +
+                '  . 2/5 (0ms)\n' +
+                '  > 3/5\n' +
+                '  . 3/5 (0ms)\n' +
+                '  > 4/5\n' +
+                '  . 4/5 (0ms)\n' +
+                '  > repeat #5\n' +
+                '    > repeat\n' +
+                '    . completed repeat (0ms)\n' +
+                '  . completed repeat #5 (0ms)\n' +
+                '. repeated repeat 5 times (0ms)') {
+            repeatStep.execute(StepReportOptions.REPORT_ALL)
+        }
+    }
+
+    @Test
+    void "should render failed step within repeated step progress"() {
+        def repeatStep = WebTauStep.createRepeatStep("repeat", 5) {ctx ->
+            def step = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("repeat")),
+                    { -> TokenizedMessage.tokenizedMessage(action("completed repeat")) }) {
+                if (ctx.attemptNumber == 2) {
+                    throw new RuntimeException("no file found")
+                }
+            }
+            step.execute(StepReportOptions.REPORT_ALL)
+        }
+
+        expectReport(Integer.MAX_VALUE, '> repeat repeat 5 times\n' +
+                '  > repeat #1\n' +
+                '    > repeat\n' +
+                '    . completed repeat (0ms)\n' +
+                '  . completed repeat #1 (0ms)\n' +
+                '  > 2/5\n' +
+                '  X failed repeat #2 (0ms)\n' +
+                '  > 3/5\n' +
+                '  . 3/5 (0ms)\n' +
+                '  > 4/5\n' +
+                '  . 4/5 (0ms)\n' +
+                '  > repeat #5\n' +
+                '    > repeat\n' +
+                '    . completed repeat (0ms)\n' +
+                '  . completed repeat #5 (0ms)\n' +
+                '. repeated repeat 5 times (0ms)') {
+            repeatStep.execute(StepReportOptions.REPORT_ALL)
+        }
+    }
+
+    @Test
     void "should not render step if a nest level is greater than provided max"() {
         expectReport(0, '') {
             executeNestedSteps()
