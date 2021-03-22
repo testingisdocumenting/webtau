@@ -117,6 +117,16 @@
 <header><h1>Chain Cli Run Config</h1></header>
 <p>Combine configs by using cli.env(...).workingDir(...) in any order to set both: cli.run('./hello-env-var', cli.workingDir('../scripts').env([my_var: 'webtau'])) { output.should == 'hello webtau' }</p>
 </article>
+
+<article>
+<header><h1>Path</h1></header>
+<p>To specify PATH to use for CLI commands lookup use cliPath = ['../scripts/more']</p>
+</article>
+
+<article>
+<header><h1>Timeout</h1></header>
+<p>cli.run command fails if it doesn't complete in 30 seconds.To override default timeout use cliTimeout config value: cliTimeout = 400 Note: Timeout value is specified in milliseconds</p>
+</article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
@@ -383,8 +393,67 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "set environment variable and working dir",
         "type" : "Snippet"
       } ]
+    }, {
+      "title" : "Path",
+      "id" : "path",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To specify ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PATH",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to use for CLI commands lookup use",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cliPath = ['../scripts/more']",
+        "title" : "webtau.config.groovy",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Timeout",
+      "id" : "timeout",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "cli.run",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " command fails if it doesn't complete in 30 seconds.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To override default timeout use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cliTimeout",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " config value:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cliTimeout = 400",
+        "title" : "webtau.config.groovy",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Timeout value is specified in milliseconds",
+          "type" : "SimpleText"
+        } ]
+      } ]
     } ],
-    "lastModifiedTime" : 1613786862460,
+    "lastModifiedTime" : 1616434529902,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Foreground Command",
@@ -413,6 +482,12 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Chain Cli Run Config",
         "id" : "chain-cli-run-config"
+      }, {
+        "title" : "Path",
+        "id" : "path"
+      }, {
+        "title" : "Timeout",
+        "id" : "timeout"
       } ]
     }
   },

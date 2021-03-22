@@ -97,6 +97,11 @@
 <header><h1>Move over</h1></header>
 <p>menu.hover()</p>
 </article>
+
+<article>
+<header><h1>Drag And Drop</h1></header>
+<p>def draggable = $(&quot;#draggable&quot;) def dropZone = $(&quot;#drop-zone&quot;) draggable.dragAndDropOver(dropZone)</p>
+</article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
@@ -210,8 +215,21 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "hover",
         "type" : "Snippet"
       } ]
+    }, {
+      "title" : "Drag And Drop",
+      "id" : "drag-and-drop",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def draggable = $(\"#draggable\")\ndef dropZone = $(\"#drop-zone\")\n\ndraggable.dragAndDropOver(dropZone)",
+        "title" : "drag element to other",
+        "startLine" : "// drag-and-drop",
+        "endLine" : "// drag-and-drop",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1613786862460,
+    "lastModifiedTime" : 1616434529902,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Element Actions",
@@ -228,6 +246,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Move over",
         "id" : "move-over"
+      }, {
+        "title" : "Drag And Drop",
+        "id" : "drag-and-drop"
       } ]
     }
   },

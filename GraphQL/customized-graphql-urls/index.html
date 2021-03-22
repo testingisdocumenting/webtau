@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Config</title>
+<title>WebTau: Customized Graphql Urls</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,8 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>JDBC</h1></header>
-<p>Webtau is JVM based API and it uses https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity. JDBC interface behind the scenes to connect to a database.You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how to build JDBC connection url to be able to connect to a database.</p>
-</article>
-
-<article>
-<header><h1>Primary Database</h1></header>
-<p>Primary DB config used when execute operations using db.update , db.query , etc, without specifying data source name. import groovy.grape.Grape Grape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db) classLoader: ClassLoader.getSystemClassLoader()) dbUrl = &quot;jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE&quot; // primary DB JDBC connection url dbDriverClassName = &quot;org.h2.Driver&quot; // JDBC driver class name dbUserName = &quot;sa&quot; dbPassword = &quot;password&quot;</p>
+<header><h1>Customizing the GraphQL Endpoint</h1></header>
+<p>By default, webtau assumes that all requests are made to a /graphql endpoint. The config value graphQLEndpoint can be set to use a non-standard endpoint, e.g. graphQLEndpoint=/api/graphql .Webtau also decorates the query with a (typically ignored) query parameter that contains the request's operationName , e.g. /graphql?operation=myOperation . This makes execution logs as well as webtau's step reports easier to read and debug, especially since the operation's name is part of the request's payload and is usually not logged by request loggers. If you want to turn this feature off, set the config value for graphQLShowOperationAsQueryParam to false .In order to customize the graphQL URL in different ways, you need to implement a GraphQLHttpConfiguration and ensure it gets loaded at runtime via the Java ServiceLoader.Here is an example in groovy: package org.testingisdocumenting.webtau.graphql import org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfiguration import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest class CustomGraphQLHttpConfiguration implements GraphQLHttpConfiguration { // Note: our test server requires the graphql endpoint to start with &quot;graphql&quot; public static final CUSTOM_GRAPHQL_ENDPOINT = 'graphql-custom' @Override String requestUrl(String url, GraphQLRequest graphQLRequest) { if (null != graphQLRequest.operationName &amp;&amp; !graphQLRequest.operationName.isEmpty()) { return &quot;${CUSTOM_GRAPHQL_ENDPOINT}?operation=${graphQLRequest.operationName}&quot; } return url } }</p>
 </article>
 </section>
 </div>
@@ -117,85 +112,104 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "JDBC",
-      "id" : "jdbc",
+      "title" : "Customizing the GraphQL Endpoint",
+      "id" : "customizing-the-graphql-endpoint",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau is JVM based API and it uses ",
+          "text" : "By default, webtau assumes that all requests are made to a ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity.",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "JDBC",
-            "type" : "SimpleText"
-          } ]
+          "code" : "/graphql",
+          "type" : "InlinedCode"
         }, {
-          "type" : "SoftLineBreak"
+          "text" : " endpoint. The config value ",
+          "type" : "SimpleText"
         }, {
-          "text" : "interface behind the scenes to connect to a database.",
+          "code" : "graphQLEndpoint",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " can be set to use a non-standard endpoint, e.g. ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "graphQLEndpoint=/api/graphql",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
           "type" : "SimpleText"
         } ]
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how",
+          "text" : "Webtau also decorates the query with a (typically ignored) query parameter that contains the request's ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "operationName",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", e.g. ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/graphql?operation=myOperation",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". This makes execution logs as well as webtau's step reports easier to read and debug, especially since the operation's name is part of the request's payload and is usually not logged by request loggers.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "to build JDBC connection url to be able to connect to a database.",
+          "text" : "If you want to turn this feature off, set the config value for ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "graphQLShowOperationAsQueryParam",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "false",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
           "type" : "SimpleText"
         } ]
-      } ]
-    }, {
-      "title" : "Primary Database",
-      "id" : "primary-database",
-      "type" : "Section",
-      "content" : [ {
+      }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Primary DB config used when execute operations using ",
+          "text" : "In order to customize the graphQL URL in different ways, you need to implement a ",
           "type" : "SimpleText"
         }, {
-          "code" : "db.update",
+          "code" : "GraphQLHttpConfiguration",
           "type" : "InlinedCode"
         }, {
-          "text" : ", ",
+          "text" : " and ensure it gets loaded at runtime via the Java ServiceLoader.",
           "type" : "SimpleText"
-        }, {
-          "code" : "db.query",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", etc, without specifying data source name.",
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Here is an example in groovy:",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
-        "title" : "Primary DB config",
-        "excludeRegexp" : "package",
-        "commentsType" : "inline",
+        "snippet" : "package org.testingisdocumenting.webtau.graphql\n\nimport org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfiguration\nimport org.testingisdocumenting.webtau.graphql.model.GraphQLRequest\n\nclass CustomGraphQLHttpConfiguration implements GraphQLHttpConfiguration {\n    // Note: our test server requires the graphql endpoint to start with \"graphql\"\n    public static final CUSTOM_GRAPHQL_ENDPOINT = 'graphql-custom'\n\n    @Override\n    String requestUrl(String url, GraphQLRequest graphQLRequest) {\n        if (null != graphQLRequest.operationName && !graphQLRequest.operationName.isEmpty()) {\n            return \"${CUSTOM_GRAPHQL_ENDPOINT}?operation=${graphQLRequest.operationName}\"\n        }\n        return url\n    }\n}",
+        "title" : "Customized GraphQLHttpConfiguration adding the operation to the URL",
         "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1616434529902,
     "tocItem" : {
-      "sectionTitle" : "Database",
-      "pageTitle" : "Config",
+      "sectionTitle" : "GraphQL",
+      "pageTitle" : "Customized Graphql Urls",
       "pageMeta" : { },
-      "dirName" : "database",
-      "fileName" : "config",
+      "dirName" : "GraphQL",
+      "fileName" : "customized-graphql-urls",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "JDBC",
-        "id" : "jdbc"
-      }, {
-        "title" : "Primary Database",
-        "id" : "primary-database"
+        "title" : "Customizing the GraphQL Endpoint",
+        "id" : "customizing-the-graphql-endpoint"
       } ]
     }
   },

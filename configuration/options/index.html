@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>CLI and configuration file options</h1></header>
-<p>name description default value browserDisableExtensions run browser without extensions false browserHeadless run browser in headless mode false browserHeight browser window height 0 browserId browser to use: chrome, firefox chrome browserUrl browser base url for application under test. It is being used instead of url when provided browserVersion browser version for automatic driver download browserWidth browser window width 0 chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary config config file path webtau.cfg.groovy dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts env environment id local envPath path items to append to path used for cli runs [] firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary fullStackTrace print full stack trace to console false graphQLIgnoreIntrospectionFailures ignore graphQL introspection failures, introspection is required for coverage reporting true jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 url base url for application under test userAgent User agent to send on HTTP requests webtau/1.38 verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 workingDir logical working dir</p>
+<p>name description default value browserDisableExtensions run browser without extensions false browserHeadless run browser in headless mode false browserHeight browser window height 0 browserId browser to use: chrome, firefox chrome browserUrl browser base url for application under test. It is being used instead of url when provided browserVersion browser version for automatic driver download browserWidth browser window width 0 cachePath user driven cache base dir ${workingDir}/.webtau-cache chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary cliPath path items to append to path used for cli runs [] cliTimeout cli foreground command run timeout (ms) 30000 config config file path webtau.cfg.groovy consolePayloadOutputLimit max number of lines to display in console for outputs (e.g. http response) 500 dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts env environment id local firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary fullStackTrace print full stack trace to console false graphQLEndpoint override the default graphQL endpoint /graphql graphQLIgnoreIntrospectionFailures ignore graphQL introspection failures, introspection is required for coverage reporting true graphQLShowOperationAsQueryParam pass the graphQL operation as operation=&lt;operation&gt; query parameter if present true httpTimeout http connect and read timeout in milliseconds 30000 jsonSchemasDir url of directory containing JSON schemas maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportPath report file path ${workingDir}/webtau.report.html staleElementRetry number of times to automatically retry for stale element actions 5 staleElementRetryWait wait time in between stale element retries 100 url base url for application under test userAgent User agent to send on HTTP requests webtau/1.40 verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 workingDir logical working dir</p>
 </article>
 
 <article>
 <header><h1>Environment variable options</h1></header>
-<p>environment variable description default value WEBTAU_BROWSER_DISABLE_EXTENSIONS run browser without extensions false WEBTAU_BROWSER_HEADLESS run browser in headless mode false WEBTAU_BROWSER_HEIGHT browser window height 0 WEBTAU_BROWSER_ID browser to use: chrome, firefox chrome WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_BROWSER_VERSION browser version for automatic driver download WEBTAU_BROWSER_WIDTH browser window width 0 WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CONFIG config file path webtau.cfg.groovy WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts WEBTAU_ENV environment id local WEBTAU_ENV_PATH path items to append to path used for cli runs [] WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_FULL_STACK_TRACE print full stack trace to console false WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES ignore graphQL introspection failures, introspection is required for coverage reporting true WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/1.38 WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WORKING_DIR logical working dir</p>
+<p>environment variable description default value WEBTAU_BROWSER_DISABLE_EXTENSIONS run browser without extensions false WEBTAU_BROWSER_HEADLESS run browser in headless mode false WEBTAU_BROWSER_HEIGHT browser window height 0 WEBTAU_BROWSER_ID browser to use: chrome, firefox chrome WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_BROWSER_VERSION browser version for automatic driver download WEBTAU_BROWSER_WIDTH browser window width 0 WEBTAU_CACHE_PATH user driven cache base dir ${workingDir}/.webtau-cache WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CLI_PATH path items to append to path used for cli runs [] WEBTAU_CLI_TIMEOUT cli foreground command run timeout (ms) 30000 WEBTAU_CONFIG config file path webtau.cfg.groovy WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT max number of lines to display in console for outputs (e.g. http response) 500 WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts WEBTAU_ENV environment id local WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_FULL_STACK_TRACE print full stack trace to console false WEBTAU_GRAPH_QLENDPOINT override the default graphQL endpoint /graphql WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES ignore graphQL introspection failures, introspection is required for coverage reporting true WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM pass the graphQL operation as operation=&lt;operation&gt; query parameter if present true WEBTAU_HTTP_TIMEOUT http connect and read timeout in milliseconds 30000 WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_PATH report file path ${workingDir}/webtau.report.html WEBTAU_STALE_ELEMENT_RETRY number of times to automatically retry for stale element actions 5 WEBTAU_STALE_ELEMENT_RETRY_WAIT wait time in between stale element retries 100 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/1.40 WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WORKING_DIR logical working dir</p>
 </article>
 </section>
 </div>
@@ -246,6 +246,24 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "cachePath",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "user driven cache base dir",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "${workingDir}/.webtau-cache",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "chromeBinPath",
               "type" : "SimpleText"
             } ]
@@ -270,6 +288,42 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], null ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "cliPath",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "path items to append to path used for cli runs",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "[]",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "cliTimeout",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "cli foreground command run timeout (ms)",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "30000",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "config",
               "type" : "SimpleText"
             } ]
@@ -283,6 +337,24 @@ ReactDOM.render(React.createElement(Documentation, {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "webtau.cfg.groovy",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "consolePayloadOutputLimit",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "max number of lines to display in console for outputs (e.g. http response)",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "500",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -390,24 +462,6 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "envPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "path items to append to path used for cli runs",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "[]",
-              "type" : "SimpleText"
-            } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
               "text" : "firefoxBinPath",
               "type" : "SimpleText"
             } ]
@@ -450,6 +504,24 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "graphQLEndpoint",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "override the default graphQL endpoint",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "/graphql",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "graphQLIgnoreIntrospectionFailures",
               "type" : "SimpleText"
             } ]
@@ -463,6 +535,45 @@ ReactDOM.render(React.createElement(Documentation, {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "graphQLShowOperationAsQueryParam",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "pass the graphQL operation as operation=",
+              "type" : "SimpleText"
+            }, {
+              "text" : " query parameter if present",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "httpTimeout",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "http connect and read timeout in milliseconds",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "30000",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -618,6 +729,24 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "staleElementRetryWait",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "wait time in between stale element retries",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "100",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "url",
               "type" : "SimpleText"
             } ]
@@ -642,7 +771,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau/1.38",
+              "text" : "webtau/1.40",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -827,6 +956,24 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "WEBTAU_CACHE_PATH",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "user driven cache base dir",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "${workingDir}/.webtau-cache",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "WEBTAU_CHROME_BIN_PATH",
               "type" : "SimpleText"
             } ]
@@ -851,6 +998,42 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], null ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "WEBTAU_CLI_PATH",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "path items to append to path used for cli runs",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "[]",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_CLI_TIMEOUT",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "cli foreground command run timeout (ms)",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "30000",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "WEBTAU_CONFIG",
               "type" : "SimpleText"
             } ]
@@ -864,6 +1047,24 @@ ReactDOM.render(React.createElement(Documentation, {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "webtau.cfg.groovy",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "max number of lines to display in console for outputs (e.g. http response)",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "500",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -971,24 +1172,6 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "WEBTAU_ENV_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "path items to append to path used for cli runs",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "[]",
-              "type" : "SimpleText"
-            } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
               "text" : "WEBTAU_FIREFOX_BIN_PATH",
               "type" : "SimpleText"
             } ]
@@ -1031,6 +1214,24 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "WEBTAU_GRAPH_QLENDPOINT",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "override the default graphQL endpoint",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "/graphql",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES",
               "type" : "SimpleText"
             } ]
@@ -1044,6 +1245,45 @@ ReactDOM.render(React.createElement(Documentation, {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "pass the graphQL operation as operation=",
+              "type" : "SimpleText"
+            }, {
+              "text" : " query parameter if present",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "true",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "WEBTAU_HTTP_TIMEOUT",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "http connect and read timeout in milliseconds",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "30000",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -1199,6 +1439,24 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "WEBTAU_STALE_ELEMENT_RETRY_WAIT",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "wait time in between stale element retries",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "100",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "WEBTAU_URL",
               "type" : "SimpleText"
             } ]
@@ -1223,7 +1481,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau/1.38",
+              "text" : "webtau/1.40",
               "type" : "SimpleText"
             } ]
           } ] ], [ [ {
@@ -1279,7 +1537,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Table"
       } ]
     } ],
-    "lastModifiedTime" : 1613786862460,
+    "lastModifiedTime" : 1616434529902,
     "tocItem" : {
       "sectionTitle" : "Configuration",
       "pageTitle" : "Options",

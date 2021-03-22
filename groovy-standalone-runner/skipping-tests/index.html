@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Skipping Tests Based on Env</h1></header>
-<p>Use onlyForEnv shortcut if you need to skip tests for certain environment. package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* onlyForEnv('experimental') { scenario('this scenario will only be executed in &quot;experimental&quot; env') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } } }</p>
+<p>Use the skipForEnv and onlyForEnv shortcuts if you need to skip or enable tests for a certain environment. package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* onlyForEnv('experimental') { scenario('this scenario will only be executed in &quot;experimental&quot; env') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } } } skipForEnv('experimental') { scenario('this scenario will not be executed in &quot;experimental&quot; env') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } } }</p>
 </article>
 
 <article>
@@ -161,18 +161,24 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Use ",
+          "text" : "Use the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "skipForEnv",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
           "type" : "SimpleText"
         }, {
           "code" : "onlyForEnv",
           "type" : "InlinedCode"
         }, {
-          "text" : " shortcut if you need to skip tests for certain environment.",
+          "text" : " shortcuts if you need to skip or enable tests for a certain environment.",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nonlyForEnv('experimental') {\n    scenario('this scenario will only be executed in \"experimental\" env') {\n        http.get('/new-endpoint') {\n            price.shouldBe > 0\n        }\n    }\n}",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nonlyForEnv('experimental') {\n    scenario('this scenario will only be executed in \"experimental\" env') {\n        http.get('/new-endpoint') {\n            price.shouldBe > 0\n        }\n    }\n}\n\nskipForEnv('experimental') {\n    scenario('this scenario will not be executed in \"experimental\" env') {\n        http.get('/new-endpoint') {\n            price.shouldBe > 0\n        }\n    }\n}",
         "title" : "Environment specific tests",
         "type" : "Snippet"
       } ]
@@ -256,7 +262,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1613786862460,
+    "lastModifiedTime" : 1616434529902,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Skipping Tests",

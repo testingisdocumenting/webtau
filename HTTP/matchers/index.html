@@ -100,27 +100,37 @@
 
 <article>
 <header><h1>Equality</h1></header>
-<p>Webtau defines its own set of equality rules to simplify testing. Groovy http.get(&quot;/end-point&quot;) { id.should != 0 amount.should == 30 list.should == [1, 2, 3] object.k1.should == ~/v\d/ // regular expression matching object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { // matching only specified fields, but number of entries must be exact ________________ &quot;v1&quot; | 30 &quot;v11&quot; | 40 } } http.doc.capture(&quot;end-point-object-equality-matchers&quot;) Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldNot(equal(0)); body.get(&quot;amount&quot;).should(equal(30)); body.get(&quot;list&quot;).should(equal(Arrays.asList(1, 2, 3))); body.get(&quot;object&quot;).get(&quot;k1&quot;).should(equal( Pattern.compile(&quot;v\\d&quot;))); // regular expression matching body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, &quot;v3&quot;))); // matching only specified fields and can be nested multiple times body.get(&quot;complexList&quot;).should(equal(table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________, &quot;v1&quot; , 30, &quot;v11&quot;, 40))); }); http.doc.capture(&quot;end-point-object-equality-matchers&quot;); Groovy http.get(&quot;/end-point&quot;) { complexList.should == [ &quot;*id&quot; | &quot;k1&quot; | &quot;k2&quot;] { // order agnostic key based match ________________________ &quot;id2&quot; | &quot;v11&quot; | 40 &quot;id1&quot; | &quot;v1&quot; | 30 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList&quot;).should(equal(table(&quot;*id&quot;, &quot;k1&quot; , &quot;k2&quot;, // order agnostic key based match ________________, &quot;id2&quot;, &quot;v11&quot;, 40, &quot;id1&quot;, &quot;v1&quot; , 30))); });</p>
+<p>Webtau defines its own set of equality rules to simplify testing. Groovy http.get(&quot;/end-point&quot;) { id.should != 0 amount.should == 30 list.should == [1, 2, 3] object.k1.should == ~/v\d/ // regular expression matching object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { // matching only specified fields, but number of entries must be exact ________________ &quot;v1&quot; | 30 &quot;v11&quot; | 40 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldNot(equal(0)); body.get(&quot;amount&quot;).should(equal(30)); body.get(&quot;list&quot;).should(equal(Arrays.asList(1, 2, 3))); body.get(&quot;object&quot;).get(&quot;k1&quot;).should(equal( Pattern.compile(&quot;v\\d&quot;))); // regular expression matching body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, &quot;v3&quot;))); // matching only specified fields and can be nested multiple times body.get(&quot;complexList&quot;).should(equal(table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________, &quot;v1&quot; , 30, &quot;v11&quot;, 40))); }); http.doc.capture(&quot;end-point-object-equality-matchers&quot;); Groovy http.get(&quot;/end-point&quot;) { complexList.should == [ &quot;*id&quot; | &quot;k1&quot; | &quot;k2&quot;] { // order agnostic key based match ________________________ &quot;id2&quot; | &quot;v11&quot; | 40 &quot;id1&quot; | &quot;v1&quot; | 30 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList&quot;).should(equal(table(&quot;*id&quot;, &quot;k1&quot; , &quot;k2&quot;, // order agnostic key based match ________________, &quot;id2&quot;, &quot;v11&quot;, 40, &quot;id1&quot;, &quot;v1&quot; , 30))); });</p>
 </article>
 
 <article>
 <header><h1>Greater/Less/Equal</h1></header>
-<p>Use greaterThan , greaterThanOrEqual , lessThan , and lessThanOrEqual to assert numeric values. Groovy http.get(&quot;/end-point-numbers&quot;) { id.shouldBe &gt; 0 price.shouldBe &gt;= 100 amount.shouldBe &lt; 150 list[1].shouldBe &lt;= 2 id.shouldNotBe &lt;= 0 price.shouldNotBe &lt; 100 amount.shouldNotBe &gt;= 150 list[1].shouldNotBe &gt; 2 } http.doc.capture(&quot;end-point-numbers-matchers&quot;) Note: Groovy can use shortcuts &gt; , &gt;= , &lt; , &lt;= . Java http.get(&quot;/end-point-numbers&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldBe(greaterThan(0)); body.get(&quot;price&quot;).shouldBe(greaterThanOrEqual(100)); body.get(&quot;amount&quot;).shouldBe(lessThan(150)); body.get(&quot;list&quot;).get(1).shouldBe(lessThanOrEqual(2)); body.get(&quot;id&quot;).shouldNotBe(lessThanOrEqual(0)); body.get(&quot;price&quot;).shouldNotBe(lessThan(100)); body.get(&quot;amount&quot;).shouldNotBe(greaterThanOrEqual(150)); body.get(&quot;list&quot;).get(1).shouldNotBe(greaterThan(2)); }); http.doc.capture(&quot;end-point-numbers-matchers&quot;);</p>
+<p>Use greaterThan , greaterThanOrEqual , lessThan , and lessThanOrEqual to assert numeric values. Groovy http.get(&quot;/end-point-numbers&quot;) { id.shouldBe &gt; 0 price.shouldBe &gt;= 100 amount.shouldBe &lt; 150 list[1].shouldBe &lt;= 2 id.shouldNotBe &lt;= 0 price.shouldNotBe &lt; 100 amount.shouldNotBe &gt;= 150 list[1].shouldNotBe &gt; 2 } Note: Groovy can use shortcuts &gt; , &gt;= , &lt; , &lt;= . Java http.get(&quot;/end-point-numbers&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldBe(greaterThan(0)); body.get(&quot;price&quot;).shouldBe(greaterThanOrEqual(100)); body.get(&quot;amount&quot;).shouldBe(lessThan(150)); body.get(&quot;list&quot;).get(1).shouldBe(lessThanOrEqual(2)); body.get(&quot;id&quot;).shouldNotBe(lessThanOrEqual(0)); body.get(&quot;price&quot;).shouldNotBe(lessThan(100)); body.get(&quot;amount&quot;).shouldNotBe(greaterThanOrEqual(150)); body.get(&quot;list&quot;).get(1).shouldNotBe(greaterThan(2)); }); http.doc.capture(&quot;end-point-numbers-matchers&quot;);</p>
 </article>
 
 <article>
 <header><h1>Contain</h1></header>
-<p>Use contain when you cannot rely on order of values in a response. Groovy http.get(&quot;/end-point-list&quot;) { body.should contain([k1: 'v1', k2: 'v2']) body[1].k2.shouldNot contain(22) } http.doc.capture(&quot;end-point-list-contain-matchers&quot;) Java http.get(&quot;/end-point-list&quot;, (header, body) -&gt; { body.should(contain(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;))); body.get(1).get(&quot;k2&quot;).shouldNot(contain(22)); }); http.doc.capture(&quot;end-point-list-contain-matchers&quot;);</p>
+<p>Use contain when you cannot rely on order of values in a response. Groovy http.get(&quot;/end-point-list&quot;) { body.should contain([k1: 'v1', k2: 'v2']) body[1].k2.shouldNot contain(22) } Java http.get(&quot;/end-point-list&quot;, (header, body) -&gt; { body.should(contain(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;))); body.get(1).get(&quot;k2&quot;).shouldNot(contain(22)); }); http.doc.capture(&quot;end-point-list-contain-matchers&quot;);</p>
+</article>
+
+<article>
+<header><h1>Contain All</h1></header>
+<p>Use containAll when you cannot rely on order of values in a response and need to check more than one value. Groovy http.get(&quot;/end-point-list&quot;) { body[1].k2.should containAll(10, 30) body[1].k2.shouldNot containAll(40, 60, 80) } Java http.get(&quot;/end-point-list&quot;, (header, body) -&gt; { body.get(1).get(&quot;k2&quot;).should(containAll(10, 30)); body.get(1).get(&quot;k2&quot;).shouldNot(containAll(40, 60, 80)); }); http.doc.capture(&quot;end-point-list-contain-all-matchers&quot;);</p>
+</article>
+
+<article>
+<header><h1>Nested Contain All</h1></header>
+<p>Use containingAll alias to make it easier to read containAll matcher nested inside contain . Groovy http.get(&quot;/prices&quot;) { body.prices.should contain(containingAll(10, 30)) } Java http.get(&quot;/prices&quot;, (header, body) -&gt; { body.get(&quot;prices&quot;).should(contain(containingAll(10, 30))); }); http.doc.capture(&quot;prices-contain-containing-all&quot;);</p>
 </article>
 
 <article>
 <header><h1>Date and Time</h1></header>
-<p>You can assert actual string against LocalDate and ZonedDateTime . String will be automatically converted using ISO formatter. Groovy http.get(&quot;/end-point-dates&quot;) { def expectedDate = LocalDate.of(2018, 6, 12) def expectedTime = ZonedDateTime.of(expectedDate, LocalTime.of(9, 0, 0), ZoneId.of(&quot;UTC&quot;)) tradeDate.should == expectedDate transactionTime.should == expectedTime transactionTime.shouldBe &gt;= expectedDate paymentSchedule.should contain(expectedDate) } http.doc.capture(&quot;end-point-dates-matchers&quot;) Java http.get(&quot;/end-point-dates&quot;, (header, body) -&gt; { LocalDate expectedDate = LocalDate.of(2018, 6, 12); ZonedDateTime expectedTime = ZonedDateTime.of(expectedDate, LocalTime.of(9, 0, 0), ZoneId.of(&quot;UTC&quot;)); body.get(&quot;tradeDate&quot;).should(equal(expectedDate)); body.get(&quot;transactionTime&quot;).should(equal(expectedTime)); body.get(&quot;transactionTime&quot;).shouldBe(greaterThanOrEqual(expectedDate)); body.get(&quot;paymentSchedule&quot;).should(contain(expectedDate)); }); http.doc.capture(&quot;end-point-dates-matchers&quot;);</p>
+<p>You can assert actual string against LocalDate and ZonedDateTime . String will be automatically converted using ISO formatter. Groovy http.get(&quot;/end-point-dates&quot;) { def expectedDate = LocalDate.of(2018, 6, 12) def expectedTime = ZonedDateTime.of(expectedDate, LocalTime.of(9, 0, 0), ZoneId.of(&quot;UTC&quot;)) tradeDate.should == expectedDate transactionTime.should == expectedTime transactionTime.shouldBe &gt;= expectedDate paymentSchedule.should contain(expectedDate) } Java http.get(&quot;/end-point-dates&quot;, (header, body) -&gt; { LocalDate expectedDate = LocalDate.of(2018, 6, 12); ZonedDateTime expectedTime = ZonedDateTime.of(expectedDate, LocalTime.of(9, 0, 0), ZoneId.of(&quot;UTC&quot;)); body.get(&quot;tradeDate&quot;).should(equal(expectedDate)); body.get(&quot;transactionTime&quot;).should(equal(expectedTime)); body.get(&quot;transactionTime&quot;).shouldBe(greaterThanOrEqual(expectedDate)); body.get(&quot;paymentSchedule&quot;).should(contain(expectedDate)); }); http.doc.capture(&quot;end-point-dates-matchers&quot;);</p>
 </article>
 
 <article>
 <header><h1>Mixing Matchers</h1></header>
-<p>You can use matchers in place of expected values to build a more complex expectation. Groovy http.get(&quot;/end-point-mixed&quot;) { list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value object.should == [k1: 'v1', k3: ~/v\d/] // regular expression match against k3 complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2 complexList[1].should == [ k1: notEqual('v1'), // any value but v1 k2: greaterThanOrEqual(120)] complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { ___________________________ ~/v\d/ | lessThan(120) &quot;v11&quot; | greaterThan(150) } // using matchers as cell values } http.doc.capture(&quot;end-point-mixing-matchers&quot;) Java Pattern withNumber = Pattern.compile(&quot;v\\d&quot;); http.get(&quot;/end-point-mixed&quot;, (header, body) -&gt; { body.get(&quot;list&quot;).should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, withNumber))); // regular expression match against k3 body.get(&quot;complexList&quot;).get(0).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, lessThan(120)))); // lessThen match against k2 body.get(&quot;complexList&quot;).get(1).should(equal(aMapOf( &quot;k1&quot;, notEqual(&quot;v1&quot;), // any value but v1 &quot;k2&quot;, greaterThanOrEqual(120)))); TableData expected = table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________________________, withNumber , lessThan(120), &quot;v11&quot; , greaterThan(150)); body.get(&quot;complexList&quot;).should(equal(expected)); }); http.doc.capture(&quot;end-point-mixing-matchers&quot;);</p>
+<p>You can use matchers in place of expected values to build a more complex expectation. Groovy http.get(&quot;/end-point-mixed&quot;) { list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value object.should == [k1: 'v1', k3: ~/v\d/] // regular expression match against k3 complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2 complexList[1].should == [ k1: notEqual('v1'), // any value but v1 k2: greaterThanOrEqual(120)] complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { ___________________________ ~/v\d/ | lessThan(120) &quot;v11&quot; | greaterThan(150) } // using matchers as cell values } Java Pattern withNumber = Pattern.compile(&quot;v\\d&quot;); http.get(&quot;/end-point-mixed&quot;, (header, body) -&gt; { body.get(&quot;list&quot;).should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, withNumber))); // regular expression match against k3 body.get(&quot;complexList&quot;).get(0).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, lessThan(120)))); // lessThen match against k2 body.get(&quot;complexList&quot;).get(1).should(equal(aMapOf( &quot;k1&quot;, notEqual(&quot;v1&quot;), // any value but v1 &quot;k2&quot;, greaterThanOrEqual(120)))); TableData expected = table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________________________, withNumber , lessThan(120), &quot;v11&quot; , greaterThan(150)); body.get(&quot;complexList&quot;).should(equal(expected)); }); http.doc.capture(&quot;end-point-mixing-matchers&quot;);</p>
 </article>
 </section>
 </div>
@@ -195,6 +205,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-object\") {\n    k1.should == 'v1'\n}",
             "entry" : "simple object mapping example",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -204,6 +215,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-object\", (header, body) -> {\n    body.get(\"k1\").should(equal(\"v1\"));\n});",
             "entry" : "simpleObjectMappingExample",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -239,6 +251,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-list\") {\n    body[0].k1.should == 'v1'\n}",
             "entry" : "simple list mapping example",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -266,6 +279,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-list\", (header, body) -> {\n    body.get(0).get(\"k1\").should(equal(\"v1\"));\n});",
             "entry" : "simpleListMappingExample",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -321,6 +335,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/example\") {\n    year.shouldNot == 2000\n    year.should != 2000  // alternative shortcut\n    genres.should contain('RPG')\n    rating.shouldBe > 7\n}",
             "entry" : "matchers basic example",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -330,6 +345,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/example\", (header, body) -> {\n    body.get(\"year\").shouldNot(equal(2000));\n    body.get(\"genres\").should(contain(\"RPG\"));\n    body.get(\"rating\").shouldBe(greaterThan(7));\n});",
             "entry" : "matchersBasicExample",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -383,10 +399,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "http.get(\"/end-point\") {\n    id.should != 0\n    amount.should == 30\n\n    list.should == [1, 2, 3]\n\n    object.k1.should == ~/v\\d/ // regular expression matching\n\n    object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times\n\n    complexList.should == [\"k1\"   | \"k2\"] { // matching only specified fields, but number of entries must be exact\n                           ________________\n                            \"v1\"  | 30\n                            \"v11\" | 40 }\n}\n\nhttp.doc.capture(\"end-point-object-equality-matchers\")",
+            "snippet" : "http.get(\"/end-point\") {\n    id.should != 0\n    amount.should == 30\n\n    list.should == [1, 2, 3]\n\n    object.k1.should == ~/v\\d/ // regular expression matching\n\n    object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times\n\n    complexList.should == [\"k1\"   | \"k2\"] { // matching only specified fields, but number of entries must be exact\n                           ________________\n                            \"v1\"  | 30\n                            \"v11\" | 40 }\n}",
             "entry" : "equality matcher",
             "bodyOnly" : true,
             "commentsType" : "inline",
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -397,6 +414,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "equalityMatcher",
             "bodyOnly" : true,
             "commentsType" : "inline",
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -413,6 +431,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "equality matcher table keys",
             "bodyOnly" : true,
             "commentsType" : "inline",
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -423,6 +442,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "equalityMatcherTableKey",
             "bodyOnly" : true,
             "commentsType" : "inline",
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -486,9 +506,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "http.get(\"/end-point-numbers\") {\n    id.shouldBe > 0\n    price.shouldBe >= 100\n    amount.shouldBe < 150\n    list[1].shouldBe <= 2\n\n    id.shouldNotBe <= 0\n    price.shouldNotBe < 100\n    amount.shouldNotBe >= 150\n    list[1].shouldNotBe > 2\n}\n\nhttp.doc.capture(\"end-point-numbers-matchers\")",
+            "snippet" : "http.get(\"/end-point-numbers\") {\n    id.shouldBe > 0\n    price.shouldBe >= 100\n    amount.shouldBe < 150\n    list[1].shouldBe <= 2\n\n    id.shouldNotBe <= 0\n    price.shouldNotBe < 100\n    amount.shouldNotBe >= 150\n    list[1].shouldNotBe > 2\n}",
             "entry" : "compare numbers with greater less matchers",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -534,6 +555,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-numbers\", (header, body) -> {\n    body.get(\"id\").shouldBe(greaterThan(0));\n    body.get(\"price\").shouldBe(greaterThanOrEqual(100));\n    body.get(\"amount\").shouldBe(lessThan(150));\n    body.get(\"list\").get(1).shouldBe(lessThanOrEqual(2));\n\n    body.get(\"id\").shouldNotBe(lessThanOrEqual(0));\n    body.get(\"price\").shouldNotBe(lessThan(100));\n    body.get(\"amount\").shouldNotBe(greaterThanOrEqual(150));\n    body.get(\"list\").get(1).shouldNotBe(greaterThan(2));\n});\n\nhttp.doc.capture(\"end-point-numbers-matchers\");",
             "entry" : "compareNumbersWithGreaterLessMatchers",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -582,9 +604,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "http.get(\"/end-point-list\") {\n    body.should contain([k1: 'v1', k2: 'v2'])\n    body[1].k2.shouldNot contain(22)\n}\n\nhttp.doc.capture(\"end-point-list-contain-matchers\")",
+            "snippet" : "http.get(\"/end-point-list\") {\n    body.should contain([k1: 'v1', k2: 'v2'])\n    body[1].k2.shouldNot contain(22)\n}",
             "entry" : "contain matcher",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -594,6 +617,141 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-list\", (header, body) -> {\n    body.should(contain(aMapOf(\n            \"k1\", \"v1\",\n            \"k2\", \"v2\")));\n    body.get(1).get(\"k2\").shouldNot(contain(22));\n});\n\nhttp.doc.capture(\"end-point-list-contain-matchers\");",
             "entry" : "containMatcher",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Contain All",
+      "id" : "contain-all",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "containAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " when you cannot rely on order of values in a response and need to check more than one value.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "type" : "EmptyBlock"
+      }, {
+        "title" : "response",
+        "pathsFile" : "doc-artifacts/end-point-list-contain-all-matchers/paths.json",
+        "data" : [ {
+          "id" : "id1",
+          "k1" : "v1",
+          "k2" : "v2"
+        }, {
+          "id" : "id2",
+          "k1" : "v11",
+          "k2" : [ 10, 20, 30 ]
+        } ],
+        "paths" : [ "root[1].k2[0]", "root[1].k2[1]", "root[1].k2[2]" ],
+        "type" : "Json"
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "http.get(\"/end-point-list\") {\n    body[1].k2.should containAll(10, 30)\n    body[1].k2.shouldNot containAll(40, 60, 80)\n}",
+            "entry" : "contain all matcher",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "http.get(\"/end-point-list\", (header, body) -> {\n    body.get(1).get(\"k2\").should(containAll(10, 30));\n    body.get(1).get(\"k2\").shouldNot(containAll(40, 60, 80));\n});\n\nhttp.doc.capture(\"end-point-list-contain-all-matchers\");",
+            "entry" : "containAllMatcher",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "title" : "Nested Contain All",
+      "id" : "nested-contain-all",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "containingAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " alias to make it easier to read ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "containAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher nested inside ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "contain",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "type" : "EmptyBlock"
+      }, {
+        "title" : "response",
+        "pathsFile" : "doc-artifacts/prices-contain-containing-all/paths.json",
+        "data" : [ {
+          "id" : "game1",
+          "prices" : [ 15, 30, 40, 60 ]
+        }, {
+          "id" : "game2",
+          "prices" : [ 10, 30 ]
+        } ],
+        "paths" : [ ],
+        "type" : "Json"
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "http.get(\"/prices\") {\n    body.prices.should contain(containingAll(10, 30))\n}",
+            "entry" : "contain containing all matcher",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "http.get(\"/prices\", (header, body) -> {\n    body.get(\"prices\").should(contain(containingAll(10, 30)));\n});\n\nhttp.doc.capture(\"prices-contain-containing-all\");",
+            "entry" : "containContainingAllMatcher",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -656,9 +814,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "http.get(\"/end-point-dates\") {\n    def expectedDate = LocalDate.of(2018, 6, 12)\n    def expectedTime = ZonedDateTime.of(expectedDate,\n        LocalTime.of(9, 0, 0),\n        ZoneId.of(\"UTC\"))\n\n    tradeDate.should == expectedDate\n    transactionTime.should == expectedTime\n    transactionTime.shouldBe >= expectedDate\n\n    paymentSchedule.should contain(expectedDate)\n}\n\nhttp.doc.capture(\"end-point-dates-matchers\")",
+            "snippet" : "http.get(\"/end-point-dates\") {\n    def expectedDate = LocalDate.of(2018, 6, 12)\n    def expectedTime = ZonedDateTime.of(expectedDate,\n        LocalTime.of(9, 0, 0),\n        ZoneId.of(\"UTC\"))\n\n    tradeDate.should == expectedDate\n    transactionTime.should == expectedTime\n    transactionTime.shouldBe >= expectedDate\n\n    paymentSchedule.should contain(expectedDate)\n}",
             "entry" : "working with dates",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -668,6 +827,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-dates\", (header, body) -> {\n    LocalDate expectedDate = LocalDate.of(2018, 6, 12);\n    ZonedDateTime expectedTime = ZonedDateTime.of(expectedDate,\n            LocalTime.of(9, 0, 0),\n            ZoneId.of(\"UTC\"));\n\n    body.get(\"tradeDate\").should(equal(expectedDate));\n    body.get(\"transactionTime\").should(equal(expectedTime));\n    body.get(\"transactionTime\").shouldBe(greaterThanOrEqual(expectedDate));\n\n    body.get(\"paymentSchedule\").should(contain(expectedDate));\n});\n\nhttp.doc.capture(\"end-point-dates-matchers\");",
             "entry" : "workingWithDates",
             "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -718,10 +878,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "http.get(\"/end-point-mixed\") {\n    list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value\n\n    object.should == [k1: 'v1', k3: ~/v\\d/] // regular expression match against k3\n\n    complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2\n\n    complexList[1].should == [\n        k1: notEqual('v1'), // any value but v1\n        k2: greaterThanOrEqual(120)]\n\n    complexList.should == [\"k1\"   | \"k2\"] {\n                          ___________________________\n                           ~/v\\d/ | lessThan(120)\n                            \"v11\" | greaterThan(150) } // using matchers as cell values\n}\n\nhttp.doc.capture(\"end-point-mixing-matchers\")",
+            "snippet" : "http.get(\"/end-point-mixed\") {\n    list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value\n\n    object.should == [k1: 'v1', k3: ~/v\\d/] // regular expression match against k3\n\n    complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2\n\n    complexList[1].should == [\n        k1: notEqual('v1'), // any value but v1\n        k2: greaterThanOrEqual(120)]\n\n    complexList.should == [\"k1\"   | \"k2\"] {\n                          ___________________________\n                           ~/v\\d/ | lessThan(120)\n                            \"v11\" | greaterThan(150) } // using matchers as cell values\n}",
             "entry" : "matchers combo",
             "bodyOnly" : true,
             "commentsType" : "inline",
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -732,13 +893,14 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "matchersCombo",
             "bodyOnly" : true,
             "commentsType" : "inline",
+            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1613786862456,
+    "lastModifiedTime" : 1616434529902,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Matchers",
@@ -766,6 +928,12 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Contain",
         "id" : "contain"
+      }, {
+        "title" : "Contain All",
+        "id" : "contain-all"
+      }, {
+        "title" : "Nested Contain All",
+        "id" : "nested-contain-all"
       }, {
         "title" : "Date and Time",
         "id" : "date-and-time"

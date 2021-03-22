@@ -94,8 +94,8 @@
 </article>
 
 <article>
-<header><h1>Unzip</h1></header>
-<p>def dir = fs.tempDir('for-unzip') fs.unzip('data/data.zip', dir)</p>
+<header><h1>Archive</h1></header>
+<p>def dir = fs.tempDir('for-unzip') fs.unzip('data/data.zip', dir) def dir = fs.tempDir('for-untar') fs.untar('data/data.tar', dir)</p>
 </article>
 </section>
 </div>
@@ -227,17 +227,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     }, {
-      "title" : "Unzip",
-      "id" : "unzip",
+      "title" : "Archive",
+      "id" : "archive",
       "type" : "Section",
       "content" : [ {
         "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir('for-unzip')\nfs.unzip('data/data.zip', dir)",
         "title" : "unzip a file",
+        "startLine" : "// unzip",
+        "endLine" : "// unzip",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def dir = fs.tempDir('for-untar')\nfs.untar('data/data.tar', dir)",
+        "title" : "untar a file",
+        "startLine" : "// untar",
+        "endLine" : "// untar",
+        "excludeStartEnd" : true,
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1613786862460,
+    "lastModifiedTime" : 1616434529906,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "File System",
@@ -252,8 +263,8 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Copy",
         "id" : "copy"
       }, {
-        "title" : "Unzip",
-        "id" : "unzip"
+        "title" : "Archive",
+        "id" : "archive"
       } ]
     }
   },

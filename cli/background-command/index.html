@@ -97,6 +97,26 @@
 <header><h1>Interacting With Command</h1></header>
 <p>We are going to test a &quot;hello world&quot; script that asks you for a name and greet you: #!/bin/bash echo &quot;enter your name&quot; read name echo &quot;hello $name&quot; Use .send to send input to a running command. Use .output.waitTo to wait for command to rich a certain state: def helloWorld = cli.runInBackground(&quot;scripts/hello-world&quot;) helloWorld.output.waitTo contain(&quot;enter your name&quot;) helloWorld.send(&quot;webtau\n&quot;) helloWorld.output.waitTo contain(&quot;hello webtau&quot;) helloWorld.stop() You can use &lt;&lt; instead of .send for extra syntax sugar: def helloWorld = cli.runInBackground(&quot;scripts/hello-world&quot;) helloWorld.output.waitTo contain(&quot;enter your name&quot;) helloWorld &lt;&lt; &quot;webtau\n&quot; helloWorld.output.waitTo contain(&quot;hello webtau&quot;) helloWorld.stop()</p>
 </article>
+
+<article>
+<header><h1>Working Dir</h1></header>
+<p>Use cli.workingDir as a second parameter to cli.runInBackground to set a working dir: def command = cli.runInBackground('./listing', cli.workingDir('../scripts')) command.output.waitTo contain('listing files') command.output.waitTo contain('sleeps') command.stop()</p>
+</article>
+
+<article>
+<header><h1>Environment Variables</h1></header>
+<p>Use cli.env as a second parameter to cli.runInBackground to set the environment variables: def command = cli.runInBackground('scripts/hello-env-var', cli.env([my_var: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</p>
+</article>
+
+<article>
+<header><h1>Chain Cli Run Config</h1></header>
+<p>Combine configs by using cli.env(...).workingDir(...) in any order to set both: def command = cli.runInBackground('./hello-env-var', cli.workingDir('../scripts').env([my_var: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</p>
+</article>
+
+<article>
+<header><h1>Path</h1></header>
+<p>To specify PATH to use for CLI commands lookup use cliPath = ['../scripts/more']</p>
+</article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/toc.js"></script>
@@ -261,8 +281,108 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "use << as .send",
         "type" : "Snippet"
       } ]
+    }, {
+      "title" : "Working Dir",
+      "id" : "working-dir",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.workingDir",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as a second parameter to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.runInBackground",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to set a working dir:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def command = cli.runInBackground('./listing', cli.workingDir('../scripts'))\ncommand.output.waitTo contain('listing files')\ncommand.output.waitTo contain('sleeps')\ncommand.stop()",
+        "title" : "set working dir",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Environment Variables",
+      "id" : "environment-variables",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.env",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as a second parameter to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.runInBackground",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to set the environment variables:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def command = cli.runInBackground('scripts/hello-env-var', cli.env([my_var: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
+        "title" : "set environment variable",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Chain Cli Run Config",
+      "id" : "chain-cli-run-config",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Combine configs by using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.env(...).workingDir(...)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " in any order to set both:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def command = cli.runInBackground('./hello-env-var',\n        cli.workingDir('../scripts').env([my_var: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
+        "title" : "set environment variable and working dir",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Path",
+      "id" : "path",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To specify ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PATH",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to use for CLI commands lookup use",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cliPath = ['../scripts/more']",
+        "title" : "webtau.config.groovy",
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1613786862460,
+    "lastModifiedTime" : 1616434529902,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Background Command",
@@ -279,6 +399,18 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Interacting With Command",
         "id" : "interacting-with-command"
+      }, {
+        "title" : "Working Dir",
+        "id" : "working-dir"
+      }, {
+        "title" : "Environment Variables",
+        "id" : "environment-variables"
+      }, {
+        "title" : "Chain Cli Run Config",
+        "id" : "chain-cli-run-config"
+      }, {
+        "title" : "Path",
+        "id" : "path"
       } ]
     }
   },
