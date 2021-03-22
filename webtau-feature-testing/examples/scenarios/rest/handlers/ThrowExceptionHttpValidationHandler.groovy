@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package scenarios.rest
+package scenarios.rest.handlers
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 
-scenario('ping') {
-    if (!http.ping("/weather")) {
-        http.post("/cluster-master", [restart: "weather"])
+class ThrowExceptionHttpValidationHandler implements HttpValidationHandler {
+    @Override
+    void validate(HttpValidationResult validationResult) {
+        throw new RuntimeException("custom validation: " + validationResult.getUrl())
     }
-}
-
-scenario('ping failed') {
-    http.ping("htp://non-existing-wrong-host/")
-}
-
-scenario('ping overloads') {
-    http.ping("/weather")
-    http.ping("/weather", ["query-param": "value"])
-    http.ping("/weather", ["query-param": "value"], http.header(["X-flag": "test"]))
 }

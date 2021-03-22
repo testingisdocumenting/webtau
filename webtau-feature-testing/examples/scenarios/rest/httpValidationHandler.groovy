@@ -18,18 +18,8 @@ package scenarios.rest
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-scenario('ping') {
-    if (!http.ping("/weather")) {
-        http.post("/cluster-master", [restart: "weather"])
+scenario('validation handler') {
+    http.get("/weather") {
+        temperature.shouldBe < 100
     }
-}
-
-scenario('ping failed') {
-    http.ping("htp://non-existing-wrong-host/")
-}
-
-scenario('ping overloads') {
-    http.ping("/weather")
-    http.ping("/weather", ["query-param": "value"])
-    http.ping("/weather", ["query-param": "value"], http.header(["X-flag": "test"]))
 }

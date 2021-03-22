@@ -31,6 +31,7 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
@@ -150,6 +151,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         ConsoleOutputs.remove(consoleOutput)
         TestListeners.clearAdded()
         ReportGenerators.clearAdded()
+        HttpValidationHandlers.clearAdded()
         GroovyConfigBasedHttpConfiguration.clear()
     }
 

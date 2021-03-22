@@ -26,15 +26,21 @@ import java.util.stream.Stream;
 
 public class HttpValidationHandlers {
     private static final List<HttpValidationHandler> globalHandlers = ServiceLoaderUtils.load(HttpValidationHandler.class);
+    private static final List<HttpValidationHandler> addedHandlers = new ArrayList<>();
+
     private static final ThreadLocal<List<HttpValidationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
     private static final ThreadLocal<Boolean> enabled = ThreadLocal.withInitial(() -> true);
 
     public static void add(HttpValidationHandler handler) {
-        globalHandlers.add(handler);
+        addedHandlers.add(handler);
     }
 
     public static void remove(HttpValidationHandler handler) {
-        globalHandlers.remove(handler);
+        addedHandlers.remove(handler);
+    }
+
+    public static void clearAdded() {
+        addedHandlers.clear();
     }
 
     public static <R> R withDisabledHandlers(Supplier<R> code) {
@@ -57,8 +63,9 @@ public class HttpValidationHandlers {
 
     public static void validate(HttpValidationResult validationResult) {
         if (enabled.get()) {
-            Stream.concat(localHandlers.get().stream(), globalHandlers.stream())
-                    .forEach(c -> c.validate(validationResult));
+            Stream.concat(addedHandlers.stream(),
+                    Stream.concat(localHandlers.get().stream(), globalHandlers.stream()))
+                            .forEach(c -> c.validate(validationResult));
         }
     }
 
