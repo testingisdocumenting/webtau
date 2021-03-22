@@ -23,10 +23,10 @@ import org.testingisdocumenting.webtau.console.ConsoleOutput
 
 import java.util.function.Supplier
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.StepReportOptions.REPORT_ALL
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
-import static java.util.stream.Collectors.toList
+import static java.util.stream.Collectors.*
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*
+import static org.testingisdocumenting.webtau.reporter.StepReportOptions.*
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*
 
 class WebTauStepTest {
     static WebTauStep rootStep
@@ -122,6 +122,32 @@ class WebTauStepTest {
 
         assert root.calcNumberOfFailedSteps() == 3
         assert root.calcNumberOfSuccessfulSteps() == 2
+    }
+
+    @Test
+    void "should remove repeated children steps inside repeatable step"() {
+        def repeatStep = WebTauStep.createRepeatStep("my task", 20) {
+            createStep("inside step ${it.attemptNumber}").execute(REPORT_ALL)
+        }
+        repeatStep.execute(REPORT_ALL)
+
+        def children = repeatStep.children().collect(toList())
+        assert children.completionMessage*.toString() == ['completed repeat #1', 'completed repeat #20']
+    }
+
+    @Test
+    void "should not remove repeated failed children steps inside repeatable step"() {
+        def repeatStep = WebTauStep.createRepeatStep("my task", 20) {ctx ->
+            createStep("inside step ${ctx.attemptNumber}") {
+                if (ctx.attemptNumber == 8) {
+                    throw new RuntimeException("unknown failure")
+                }
+            }.execute(REPORT_ALL)
+        }
+        repeatStep.execute(REPORT_ALL)
+
+        def children = repeatStep.children().collect(toList())
+        assert children.completionMessage*.toString() == ['completed repeat #1', 'failed repeat #8 : unknown failure', 'completed repeat #20']
     }
 
     private static WebTauStep createStep(String title, Supplier stepCode = { return null }) {

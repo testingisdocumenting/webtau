@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +14,18 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.reporter;
+package scenarios.concept
 
-public interface StepReporter {
-    void onStepStart(WebTauStep step);
-    void onStepSuccess(WebTauStep step);
-    void onStepFailure(WebTauStep step);
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-    default void onStepRepeatStart(WebTauStep step, int currentIdx, int total) {
-    }
+scenario('multiple times') {
+    repeatStep('my actions', 30) {
+        step("custom step one") {
+            step("nested step one") {
+            }
+        }
 
-    default void onStepRepeatSuccess(WebTauStep step, int currentIdx, int total) {
-    }
-
-    default void onStepRepeatFailure(WebTauStep step, int currentIdx, int total) {
+        step("custom step two") {
+        }
     }
 }

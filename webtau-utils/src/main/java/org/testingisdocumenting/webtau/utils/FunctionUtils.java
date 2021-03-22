@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +14,27 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.reporter;
+package org.testingisdocumenting.webtau.utils;
 
-public interface StepReporter {
-    void onStepStart(WebTauStep step);
-    void onStepSuccess(WebTauStep step);
-    void onStepFailure(WebTauStep step);
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-    default void onStepRepeatStart(WebTauStep step, int currentIdx, int total) {
+public class FunctionUtils {
+    public static Supplier<Object> toSupplier(Runnable r) {
+        return () -> {
+            r.run();
+            return null;
+        };
     }
 
-    default void onStepRepeatSuccess(WebTauStep step, int currentIdx, int total) {
+    public static <P, R> Function<P, R> toFunction(Runnable r) {
+        return (ignored) -> {
+            r.run();
+            return null;
+        };
     }
 
-    default void onStepRepeatFailure(WebTauStep step, int currentIdx, int total) {
+    public static  <P, R> Function<P, R> toFunction(Supplier<R> s) {
+        return (ignored) -> s.get();
     }
 }
