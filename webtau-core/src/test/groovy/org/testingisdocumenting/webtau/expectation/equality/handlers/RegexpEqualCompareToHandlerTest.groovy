@@ -34,6 +34,7 @@ class RegexpEqualCompareToHandlerTest {
     @Test
     void "uses regexp to compare values"() {
         actual("hello world").should(equal(~/wor.d/))
+        actual("hello ${'wo' + 'rld'}").should(equal(~/wor.d/))
     }
 
     @Test(expected = AssertionError)

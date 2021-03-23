@@ -23,7 +23,7 @@ public class NumberUtils {
     private NumberUtils() {
     }
 
-    public static Number convertStringToNumber(String text) throws ParseException {
-        return NumberFormat.getInstance().parse(text);
+    public static Number convertStringToNumber(CharSequence text) throws ParseException {
+        return NumberFormat.getInstance().parse(text.toString());
     }
 }

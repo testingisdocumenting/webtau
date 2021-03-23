@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.documentation;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;
@@ -50,7 +51,7 @@ public class CoreDocumentation {
      * @param value value to capture
      */
     public void capture(String artifactName, Object value) {
-        if (value instanceof String) {
+        if (TypeUtils.isString(value)) {
             captureText(artifactName, value);
         } else {
             captureJson(artifactName, value);

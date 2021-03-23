@@ -39,6 +39,12 @@ class DateAndStringCompareToHandlerTest {
     }
 
     @Test
+    void "actual local date gstring greater than expected local date instance"() {
+        def month = '06'
+        actual("2018-${month}-10").shouldBe(greaterThan(LocalDate.of(2018, 6, 9)))
+    }
+
+    @Test
     void "actual local date string equals expected local date instance"() {
         actual("2018-06-10").should(equal(LocalDate.of(2018, 6, 10)))
     }
