@@ -158,7 +158,7 @@ public class DataNodeAnsiPrinter {
         TraceableValue traceableValue = dataNode.getTraceableValue();
 
         Object value = traceableValue.getValue();
-        print(value instanceof String ? STRING_COLOR : NUMBER_COLOR);
+        print(isString(value) ? STRING_COLOR : NUMBER_COLOR);
 
         print(valueStyle(traceableValue));
         print(convertToString(traceableValue));
@@ -183,7 +183,7 @@ public class DataNodeAnsiPrinter {
             return "null";
         }
 
-        return value instanceof String ?
+        return isString(value) ?
                 "\"" + value + "\"" :
                 value.toString();
     }
@@ -261,6 +261,10 @@ public class DataNodeAnsiPrinter {
         }
 
         return StringUtils.leftPad(" ", nestLevel * 2);
+    }
+
+    private static boolean isString(Object value) {
+        return value instanceof CharSequence;
     }
 
     private static class Line {

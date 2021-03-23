@@ -87,6 +87,19 @@ class DataNodeAnsiPrinterTest {
     }
 
     @Test
+    void "should print gstring data node value"() {
+        def id = 'id'
+        def ansi = captureAnsiOutput {
+            new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromMap(new DataNodeId("root"),
+                    [key1: "value-${id}"]))
+        }
+
+        ansi.should == [Color.YELLOW, '{', '\n',
+                        '  ', Color.PURPLE, '"key1"', ': ', Color.GREEN, '"value-id"', '\n',
+                        Color.YELLOW, '}', '\n']
+    }
+
+    @Test
     void "should limit output to display a specified number of lines"() {
         def textOnly = captureTextOutput {
             new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
