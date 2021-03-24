@@ -46,7 +46,7 @@ class CoreDocumentationTest implements StepReporter {
 
     @Test
     void "captures Strings artifact into text file"() {
-        doc.capture("text-artifact-id", "hello world")
+        doc.capture("text-artifact-id", "hello ${'wor' + 'ld'}")
         actual(FileUtils.fileTextContent(Paths.get("doc-artifacts/text-artifact-id.txt"))).should(
                 equal("hello world"))
 

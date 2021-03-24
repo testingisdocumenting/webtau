@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +24,7 @@ public class NumberUtils {
     private NumberUtils() {
     }
 
-    public static Number convertStringToNumber(String text) throws ParseException {
-        return NumberFormat.getInstance().parse(text);
+    public static Number convertStringToNumber(CharSequence text) throws ParseException {
+        return NumberFormat.getInstance().parse(text.toString());
     }
 }

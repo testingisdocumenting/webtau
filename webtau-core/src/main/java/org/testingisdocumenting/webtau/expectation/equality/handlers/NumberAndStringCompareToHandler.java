@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.NumberUtils;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.text.ParseException;
 
@@ -78,14 +79,14 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
 
     private Number convertToNumber(Object actual) {
         try {
-            return NumberUtils.convertStringToNumber((String) actual);
+            return NumberUtils.convertStringToNumber((CharSequence) actual);
         } catch (ParseException e) {
             return null;
         }
     }
 
     private boolean handles(Object actual, Object expected) {
-        return actual instanceof String &&
+        return TypeUtils.isString(actual) &&
                 expected instanceof Number;
     }
 }

@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.commons.lang3.StringUtils;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.util.*;
 
@@ -158,7 +159,7 @@ public class DataNodeAnsiPrinter {
         TraceableValue traceableValue = dataNode.getTraceableValue();
 
         Object value = traceableValue.getValue();
-        print(isString(value) ? STRING_COLOR : NUMBER_COLOR);
+        print(TypeUtils.isString(value) ? STRING_COLOR : NUMBER_COLOR);
 
         print(valueStyle(traceableValue));
         print(convertToString(traceableValue));
@@ -183,7 +184,7 @@ public class DataNodeAnsiPrinter {
             return "null";
         }
 
-        return isString(value) ?
+        return TypeUtils.isString(value) ?
                 "\"" + value + "\"" :
                 value.toString();
     }
@@ -261,10 +262,6 @@ public class DataNodeAnsiPrinter {
         }
 
         return StringUtils.leftPad(" ", nestLevel * 2);
-    }
-
-    private static boolean isString(Object value) {
-        return value instanceof CharSequence;
     }
 
     private static class Line {

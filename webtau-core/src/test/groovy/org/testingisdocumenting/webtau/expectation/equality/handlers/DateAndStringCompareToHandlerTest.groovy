@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +37,12 @@ class DateAndStringCompareToHandlerTest {
     @Test
     void "actual local date string greater than expected local date instance"() {
         actual("2018-06-10").shouldBe(greaterThan(LocalDate.of(2018, 6, 9)))
+    }
+
+    @Test
+    void "actual local date gstring greater than expected local date instance"() {
+        def month = '06'
+        actual("2018-${month}-10").shouldBe(greaterThan(LocalDate.of(2018, 6, 9)))
     }
 
     @Test
