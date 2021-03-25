@@ -35,7 +35,7 @@ class WebTauDataFeaturesTest {
     }
 
     @Test
-    void "extract snippets"() {
+    void "reading data extract snippets"() {
         extractCodeSnippets(
                 'readingData', 'examples/scenarios/data/readingData.groovy', [
                 'csvTable.groovy': 'csv table data',
@@ -45,6 +45,11 @@ class WebTauDataFeaturesTest {
                 'jsonList.groovy': 'json list',
                 'jsonMap.groovy': 'json map'
         ])
+    }
+
+    @Test
+    void "writing data"() {
+        runCli('writingData.groovy', 'webtau.cfg.groovy')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

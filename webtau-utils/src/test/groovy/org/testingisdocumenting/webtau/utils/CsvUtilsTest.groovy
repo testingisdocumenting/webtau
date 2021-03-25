@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -70,5 +71,23 @@ class CsvUtilsTest {
         Assert.assertEquals('colA,colB,colC\r\n' +
                 '1,a,3\r\n' +
                 ',4,"hello ""name"""\r\n', csv)
+    }
+
+    @Test
+    void "generates csv content from a list of maps"() {
+        def csv = CsvUtils.serialize([
+                [colA: 1, colB: 'a', colC: 3],
+                [colA: null, colB: 4, colC: 'hello "name"'],
+        ])
+
+        Assert.assertEquals('colA,colB,colC\r\n' +
+                '1,a,3\r\n' +
+                ',4,"hello ""name"""\r\n', csv)
+    }
+
+    @Test
+    void "generates empty csv content from an empty list"() {
+        def csv = CsvUtils.serialize([])
+        Assert.assertEquals('', csv)
     }
 }
