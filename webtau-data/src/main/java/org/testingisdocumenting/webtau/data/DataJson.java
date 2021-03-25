@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static org.testingisdocumenting.webtau.data.DataContentUtils.handleDataTextContent;
+import static org.testingisdocumenting.webtau.data.DataContentUtils.readAndConvertTextContentAsStep;
 
 public class DataJson {
     /**
@@ -50,6 +50,6 @@ public class DataJson {
     }
 
     private static <R> R handleTextContent(String fileOrResourcePath, Function<String, R> convertor) {
-        return handleDataTextContent("json", fileOrResourcePath, convertor);
+        return readAndConvertTextContentAsStep("json", fileOrResourcePath, convertor);
     }
 }
