@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-package scenarios.concept
+package org.testingisdocumenting.webtau
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import org.junit.Test
 
-scenario('multiple times') {
-    repeatStep('my actions', 30) {
-        step("custom step one") {
-            step("nested step one") {
-            }
+class WebTauCoreTest {
+    @Test
+    void "repeatStep should accept Closures"() {
+        def result = []
+
+        repeatStep("test step", 5) { ctx ->
+            println ctx.attemptNumber
+            result << ctx.attemptNumber
         }
 
-        step("custom step two") {
-        }
+        result.should == [1, 2, 3, 4, 5]
     }
-}
-
-scenario('multiple times with context') {
-    def result = []
-
-    repeatStep("step with context", 5) { ctx ->
-        println ctx.attemptNumber
-        result << ctx.attemptNumber
-    }
-
-    result.should == [1, 2, 3, 4, 5]
 }

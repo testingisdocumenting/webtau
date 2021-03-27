@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.utils;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -30,6 +31,13 @@ public class FunctionUtils {
     public static <P, R> Function<P, R> toFunction(Runnable r) {
         return (ignored) -> {
             r.run();
+            return null;
+        };
+    }
+
+    public static <P, R> Function<P, R> toFunction(Consumer<P> c) {
+        return (ctx) -> {
+            c.accept(ctx);
             return null;
         };
     }
