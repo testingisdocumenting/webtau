@@ -32,6 +32,7 @@ import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -140,6 +141,11 @@ public class WebTauCore extends Matchers {
 
     public static void repeatStep(String label, int numberOfAttempts, Runnable action) {
         repeatStep(label, numberOfAttempts, toFunction(action));
+    }
+
+    public static void repeatStep(String label, int numberOfAttempts, Consumer<WebTauStepContext> action) {
+        Function<WebTauStepContext, Object> asFunc = toFunction(action);
+        repeatStep(label, numberOfAttempts, asFunc);
     }
 
     public static void repeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {

@@ -14,29 +14,26 @@
  * limitations under the License.
  */
 
-package scenarios.concept
+package org.testingisdocumenting.webtau;
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import org.junit.Test;
 
-scenario('multiple times') {
-    repeatStep('my actions', 30) {
-        step("custom step one") {
-            step("nested step one") {
-            }
-        }
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-        step("custom step two") {
-        }
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
+public class WebTauCoreJavaTest {
+    @Test
+    public void repeatStepShouldAcceptContext() {
+        List<Integer> captured = new ArrayList<>();
+
+        repeatStep("repeat", 5, (ctx) -> {
+            System.out.println(ctx.getAttemptNumber());
+            captured.add(ctx.getAttemptNumber());
+        });
+
+        actual(captured).should(equal(Arrays.asList(1, 2, 3, 4, 5)));
     }
-}
-
-scenario('multiple times with context') {
-    def result = []
-
-    repeatStep("step with context", 5) { ctx ->
-        println ctx.attemptNumber
-        result << ctx.attemptNumber
-    }
-
-    result.should == [1, 2, 3, 4, 5]
 }
