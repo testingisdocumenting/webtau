@@ -9,7 +9,7 @@
     "scenario" : "list customers on started server as part of listeners",
     "shortContainerId" : "checkExistingServerIsStillUp.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 6
     }
   } ],
   "exitCode" : 0

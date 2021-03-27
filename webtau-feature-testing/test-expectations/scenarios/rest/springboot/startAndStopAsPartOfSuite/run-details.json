@@ -16,7 +16,7 @@
     "scenario" : "list customers on started server as part of listeners",
     "shortContainerId" : "startAndStopAsPartOfSuite.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 7
     }
   } ],
   "exitCode" : 0

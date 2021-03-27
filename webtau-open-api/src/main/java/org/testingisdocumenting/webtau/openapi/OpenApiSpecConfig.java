@@ -36,7 +36,7 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue ignoreAdditionalProperties = declare("openApiIgnoreAdditionalProperties",
             "ignore additional OpenAPI properties ", () -> false);
 
-    static String determineSpecFullPathOrUrl() {
+    static OpenApiSpecLocation determineSpecFullPathOrUrl() {
         return resolveFullPathOrUrl();
     }
 
@@ -50,25 +50,25 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
         return Stream.of(specUrl, ignoreAdditionalProperties);
     }
 
-    private static String resolveFullPathOrUrl() {
+    private static OpenApiSpecLocation resolveFullPathOrUrl() {
         String configValue = specUrl.getAsString();
 
         if (configValue.isEmpty()) {
-            return "";
+            return OpenApiSpecLocation.undefined();
         }
 
         if (configValue.startsWith("/")) {
             if (Files.exists(Paths.get(configValue))) {
-                return configValue;
+                return OpenApiSpecLocation.fromFs(Paths.get(configValue));
             }
 
-            return UrlUtils.concat(getCfg().getBaseUrl(), configValue);
+            return OpenApiSpecLocation.fromUrl(UrlUtils.concat(getCfg().getBaseUrl(), configValue));
         }
 
-        if (configValue.startsWith("http:") || configValue.startsWith("https:")) {
-            return configValue;
+        if (UrlUtils.isFull(configValue)) {
+            return OpenApiSpecLocation.fromUrl(configValue);
         }
 
-        return getCfg().getWorkingDir().resolve(specUrl.getAsString()).toString();
+        return OpenApiSpecLocation.fromFs(getCfg().getWorkingDir().resolve(specUrl.getAsString()));
     }
 }

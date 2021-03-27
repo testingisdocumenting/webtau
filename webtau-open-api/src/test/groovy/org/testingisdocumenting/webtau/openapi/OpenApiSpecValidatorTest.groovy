@@ -20,9 +20,10 @@ package org.testingisdocumenting.webtau.openapi
 import org.testingisdocumenting.webtau.http.HttpResponse
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.persona.Persona
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
 import org.junit.Test
+
+import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
@@ -31,11 +32,12 @@ class OpenApiSpecValidatorTest {
     private final static String URL = "http://myhost.com:1234/"
 
     private OpenApiSpecValidator validator
-    private static def specUrl = ResourceUtils.resourceUrl("test-spec.json")
+    private static def specLocation = OpenApiSpecLocation.fromFs(Paths.get("src/test/resources/test-spec.json"))
 
     @Before
     void setUp() {
-        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()), new OpenApiValidationConfig())
+
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specLocation), new OpenApiValidationConfig())
     }
 
     @Test
@@ -68,7 +70,7 @@ class OpenApiSpecValidatorTest {
     void "should ignore additional properties when specified in a config"() {
         def config = new OpenApiValidationConfig()
         config.setIgnoreAdditionalProperties(true)
-        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()), config)
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specLocation), config)
 
         def testResponse = '{"mandatoryField": "foo", "extraField": "value"}'
         def result = validationResult(GET, URL, ok(testResponse))
