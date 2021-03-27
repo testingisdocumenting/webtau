@@ -163,7 +163,7 @@ public class ConsoleStepReporter implements StepReporter {
 
     private IndentedConsoleOutput createIndentedConsoleOutput(WebTauStep step) {
         return new IndentedConsoleOutput(ConsoleOutputs.asCombinedConsoleOutput(),
-                numberOfSpacedForIndentLevel(step.getNumberOfParents()));
+                numberOfSpacedForIndentLevel(step.getNumberOfParents() + 1));
     }
 
     private boolean skipRenderRequestResponse() {

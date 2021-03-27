@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.http.render;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;

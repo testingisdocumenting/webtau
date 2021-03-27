@@ -158,10 +158,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
                 '  > second level action\n' +
-                '  hello input\n' +
-                '  world\n' +
-                '  hello output\n' +
-                '  world\n' +
+                '    hello input\n' +
+                '    world\n' +
+                '    hello output\n' +
+                '    world\n' +
                 '  . second level action completed (0ms)\n' +
                 '. top level action completed (0ms)') {
             topLevelStep.execute(StepReportOptions.REPORT_ALL)
