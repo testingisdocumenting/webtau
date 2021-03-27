@@ -52,6 +52,11 @@ class WebTauDataFeaturesTest {
         runCli('writingData.groovy', 'webtau.cfg.groovy')
     }
 
+    @Test
+    void "generating data"() {
+        runCli('generateData.groovy', 'webtau.cfg.groovy')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/data/$testName",
                 configFileName.isEmpty() ? "" : "scenarios/data/$configFileName", additionalArgs)

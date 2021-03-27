@@ -53,3 +53,11 @@ Note: by default numeric values are read as strings, to auto convert numeric val
 :include-json: data/root-map.json {paths: ["root.payload.info"], title: "data/root-map.json"}
 
 :include-file: doc-artifacts/snippets/readingData/jsonMap.groovy {title: "read json as map"}
+
+# GUID
+
+## Generate
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataGuid.java {entry: "generate"}
+
+:include-file: scenarios/data/generateData.groovy { includeRegexp: "data.guid.generate" } 

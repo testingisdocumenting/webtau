@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +16,12 @@
 
 package org.testingisdocumenting.webtau.data;
 
-public class Data {
-    public static final Data data = new Data();
-
-    public final DataCsv csv = new DataCsv();
-    public final DataJson json = new DataJson();
-
-    public final DataGuid guid = new DataGuid();
-
-    private Data() {
+class DataGuid {
+    /**
+     * Use <code>data.guid.generate</code> to generate unique identifier.
+     * @return new GUID
+     */
+    public String generate() {
+        return java.util.UUID.randomUUID().toString();
     }
 }
