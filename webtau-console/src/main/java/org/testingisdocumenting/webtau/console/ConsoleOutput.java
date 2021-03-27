@@ -33,7 +33,7 @@ public interface ConsoleOutput {
      * @param <E> type of a line
      */
     default <E> void outLines(List<E> lines, Function<E, Object[]> styleOrValueExtractor) {
-        lines.forEach(l -> ConsoleOutputs.out(styleOrValueExtractor.apply(l)));
+        lines.forEach(l -> out(styleOrValueExtractor.apply(l)));
     }
 
     /**

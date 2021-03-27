@@ -42,30 +42,30 @@ class HttpOutputTest extends HttpTestBase implements ConsoleOutput {
     @Test
     void "should print json request body"() {
         http.post("/echo", [hello: "world", id: "generated-id"])
-        output.should contain("""request (application/json):
-{
-  "hello": "world",
-  "id": "generated-id"
-}""")
+        output.should contain("""  request (application/json):
+  {
+    "hello": "world",
+    "id": "generated-id"
+  }""")
     }
 
     @Test
     void "should print empty request body"() {
         http.post("/echo")
-        output.should contain("[no request body]")
+        output.should contain("  [no request body]")
     }
 
     @Test
     void "should print binary request body"() {
         http.post("/echo", http.application.octetStream([1, 2, 3] as byte[]))
-        output.should contain("[binary request]")
+        output.should contain("  [binary request]")
     }
 
     @Test
     void "should print text request body"() {
         http.post("/echo", http.text.plain("hello world"))
-        output.should contain("request (text/plain):\n" +
-                "hello world")
+        output.should contain("  request (text/plain):\n" +
+                "  hello world")
     }
 
     @Override
