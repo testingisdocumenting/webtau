@@ -28,6 +28,14 @@ Note: by default numeric values are read as strings, to auto convert numeric val
 
 :include-file: doc-artifacts/snippets/readingData/listOfMapsAutoConverted.groovy {title: "read list of maps from csv with auto conversion"}
 
+## Specify Header
+
+:include-file: examples/data/table-no-header.csv {title: "data/table-no-header.csv"}
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataCsv.java {entry: "listOfMapsAutoConverted(List,String)"}
+
+:include-file: doc-artifacts/snippets/readingData/listOfMapsAutoConvertedHeader.groovy {title: "read list of maps from csv with auto conversion"}
+
 # CSV Write
 
 :include-java-doc: org/testingisdocumenting/webtau/data/DataCsv.java {entry: "write"}

@@ -42,6 +42,7 @@ class WebTauDataFeaturesTest {
                 'csvTableAutoConverted.groovy': 'csv table data auto converted',
                 'listOfMaps.groovy': 'csv list of maps data',
                 'listOfMapsAutoConverted.groovy': 'csv list of maps data auto converted',
+                'listOfMapsAutoConvertedHeader.groovy': 'csv list of maps data with header auto converted',
                 'jsonList.groovy': 'json list',
                 'jsonMap.groovy': 'json map'
         ])

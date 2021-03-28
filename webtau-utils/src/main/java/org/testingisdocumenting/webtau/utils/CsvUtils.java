@@ -42,7 +42,7 @@ public class CsvUtils {
         return convertValues(parse(content));
     }
 
-    public static List<Map<String, String>> parse(List<String> header, String content) {
+    public static List<Map<String, String>> parse(Collection<String> header, String content) {
         List<Map<String, String>> tableData = new ArrayList<>();
 
         CSVParser csvRecords = readCsvRecords(header, content);
@@ -88,7 +88,7 @@ public class CsvUtils {
         }
     }
 
-    private static CSVParser readCsvRecords(List<String> header, String content) {
+    private static CSVParser readCsvRecords(Collection<String> header, String content) {
         try {
             CSVFormat csvFormat = CSVFormat.RFC4180;
             if (header.isEmpty()) {

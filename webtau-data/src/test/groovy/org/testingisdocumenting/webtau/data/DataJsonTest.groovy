@@ -24,6 +24,8 @@ import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 import org.testingisdocumenting.webtau.utils.JsonParseException
 
+import java.nio.file.Paths
+
 import static org.testingisdocumenting.webtau.Matchers.code
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.throwException
@@ -43,8 +45,20 @@ class DataJsonTest implements StepReporter {
     }
 
     @Test
-    void "parse json as map"() {
+    void "parse json as map from resource"() {
         Map map = new DataJson().map("map.json")
+        map.should == [key: 'value', another: 2]
+    }
+
+    @Test
+    void "parse json as map from path as string"() {
+        Map map = new DataJson().map("src/test/resources/map.json")
+        map.should == [key: 'value', another: 2]
+    }
+
+    @Test
+    void "parse json as map from path as Path"() {
+        Map map = new DataJson().map(Paths.get("src/test/resources/map.json"))
         map.should == [key: 'value', another: 2]
     }
 
@@ -70,6 +84,13 @@ class DataJsonTest implements StepReporter {
         } should throwException(JsonParseException)
 
         failedSteps[0].completionMessage.toString().should contain("failed reading json from file or resource broken.json : Unexpected character")
+    }
+
+    @Test
+    void "non existing resource should be reported"() {
+        code {
+            new DataJson().map("map.ajson")
+        } should throwException(~/Can't find resource "map\.ajson" or file ".*webtau-data\/map\.ajson"/)
     }
 
     @Override
