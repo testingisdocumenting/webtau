@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl.win
+package org.testingisdocumenting.webtau.app.repl.win
 
-class WindowsOsReplFixes {
+import groovy.transform.PackageScope
+import sun.util.logging.PlatformLogger
+
+@PackageScope
+class WindowsPreferenceFix {
     static void apply() {
-        if (!System.getProperty('os.name').toLowerCase().contains('windows')) {
-            return
-        }
-
-        WindowsTerminalFix.registerIfRequired()
-        WindowsPreferenceFix.apply()
+        // to prevent WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs warning message appearing
+        PlatformLogger logger = PlatformLogger.getLogger("java.util.prefs")
+        logger.setLevel(PlatformLogger.Level.SEVERE)
     }
 }

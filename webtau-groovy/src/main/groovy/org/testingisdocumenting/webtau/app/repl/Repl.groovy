@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl
+package org.testingisdocumenting.webtau.app.repl
 
 import groovy.transform.PackageScope
 import org.apache.groovy.groovysh.Groovysh
 import org.codehaus.groovy.tools.shell.IO
 import org.codehaus.groovy.tools.shell.util.Preferences
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
-import org.testingisdocumenting.webtau.cli.repl.win.WindowsOsReplFixes
+import org.testingisdocumenting.webtau.app.repl.win.WindowsOsReplFixes
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
@@ -78,8 +78,8 @@ class Repl {
 
         def shell = new Groovysh(new IO())
         shell.imports << "static org.testingisdocumenting.webtau.WebTauGroovyDsl.*"
-        shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplCommands.*"
-        shell.imports << "static org.testingisdocumenting.webtau.cli.repl.ReplHttpLastValidationCapture.*"
+        shell.imports << "static org.testingisdocumenting.webtau.app.repl.ReplCommands.*"
+        shell.imports << "static org.testingisdocumenting.webtau.app.repl.ReplHttpLastValidationCapture.*"
         shell.errorHook = this.&errorHook
 
         shell.resultHook = { Object result ->

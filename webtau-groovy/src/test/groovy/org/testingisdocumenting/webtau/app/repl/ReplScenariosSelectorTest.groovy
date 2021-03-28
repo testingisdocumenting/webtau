@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl
+package org.testingisdocumenting.webtau.app.repl
 
 import org.junit.Before
 import org.junit.Test

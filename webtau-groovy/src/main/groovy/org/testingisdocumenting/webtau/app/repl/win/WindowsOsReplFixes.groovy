@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl
+package org.testingisdocumenting.webtau.app.repl.win
 
-import java.nio.file.Path
+class WindowsOsReplFixes {
+    static void apply() {
+        if (!System.getProperty('os.name').toLowerCase().contains('windows')) {
+            return
+        }
 
-interface OnFileChangeHandler {
-    void onChange(Path path)
+        WindowsTerminalFix.registerIfRequired()
+        WindowsPreferenceFix.apply()
+    }
 }

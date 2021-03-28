@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +15,12 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli
+package org.testingisdocumenting.webtau.app.repl
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput
+import groovy.transform.PackageScope
 
-class SilentConsoleOutput implements ConsoleOutput {
-    @Override
-    void out(Object... styleOrValues) {
-    }
-
-    @Override
-    void err(Object... styleOrValues) {
-    }
+@PackageScope
+class TestsSelection {
+    String testFilePath
+    List<String> scenarios
 }
