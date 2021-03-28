@@ -158,7 +158,7 @@ public class OpenApiSpec {
         WebTauStep step = WebTauStep.createStep(
                 null,
                 tokenizedMessage(action("reading"), openApiToken,
-                        FROM, typeToken, urlValue(specLocation.getAsString())),
+                        FROM, typeToken, urlValue(specLocation.getOriginalValue())),
                         () -> tokenizedMessage(action("read"), openApiToken,
                                 FROM, typeToken, urlValue(specLocation.getAsString())),
                         () -> specLocation.isFileSystem() ?

@@ -23,8 +23,6 @@ import org.testingisdocumenting.webtau.persona.Persona
 import org.junit.Before
 import org.junit.Test
 
-import java.nio.file.Paths
-
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class OpenApiSpecValidatorTest {
@@ -32,7 +30,7 @@ class OpenApiSpecValidatorTest {
     private final static String URL = "http://myhost.com:1234/"
 
     private OpenApiSpecValidator validator
-    private static def specLocation = OpenApiSpecLocation.fromFs(Paths.get("src/test/resources/test-spec.json"))
+    private static def specLocation = OpenApiSpecLocation.fromStringValue('src/test/resources/test-spec.json')
 
     @Before
     void setUp() {

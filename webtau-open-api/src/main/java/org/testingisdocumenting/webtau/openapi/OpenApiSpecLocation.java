@@ -16,27 +16,55 @@
 
 package org.testingisdocumenting.webtau.openapi;
 
+import org.testingisdocumenting.webtau.utils.UrlUtils;
+
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
 
 class OpenApiSpecLocation {
+    private final String originalValue;
     private final Path path;
     private final String url;
 
-    private OpenApiSpecLocation(Path path, String url) {
+    private OpenApiSpecLocation(String originalValue, Path path, String url) {
+        this.originalValue = originalValue;
         this.path = path;
         this.url = url;
     }
 
-    public static OpenApiSpecLocation fromFs(Path path) {
-        return new OpenApiSpecLocation(path, null);
+    public static OpenApiSpecLocation fromStringValue(String value) {
+        if (value.isEmpty()) {
+            return OpenApiSpecLocation.undefined();
+        }
+
+        if (value.startsWith("/")) {
+            if (Files.exists(Paths.get(value))) {
+                return OpenApiSpecLocation.fromFs(value, Paths.get(value));
+            }
+
+            return OpenApiSpecLocation.fromUrl(value, UrlUtils.concat(getCfg().getBaseUrl(), value));
+        }
+
+        if (UrlUtils.isFull(value)) {
+            return OpenApiSpecLocation.fromUrl(value, value);
+        }
+
+        return OpenApiSpecLocation.fromFs(value, getCfg().getWorkingDir().resolve(value));
     }
 
-    public static OpenApiSpecLocation fromUrl(String url) {
-        return new OpenApiSpecLocation(null, url);
+    static OpenApiSpecLocation fromFs(String originalValue, Path path) {
+        return new OpenApiSpecLocation(originalValue, path.toAbsolutePath(), null);
     }
 
-    public static OpenApiSpecLocation undefined() {
-        return new OpenApiSpecLocation(null, null);
+    static OpenApiSpecLocation fromUrl(String originalValue, String url) {
+        return new OpenApiSpecLocation(originalValue, null, url);
+    }
+
+    static OpenApiSpecLocation undefined() {
+        return new OpenApiSpecLocation(null, null, null);
     }
 
     public Path getPath() {
@@ -45,6 +73,10 @@ class OpenApiSpecLocation {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getOriginalValue() {
+        return originalValue;
     }
 
     public String getAsString() {
