@@ -24,6 +24,8 @@ import org.testingisdocumenting.webtau.expectation.CodeBlock;
 import org.testingisdocumenting.webtau.expectation.CodeMatcher;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
+
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -35,6 +37,7 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     private String thrownMessage;
     private Class<?> thrownClass;
     private CompareToComparator comparator;
+    private String thrownExceptionStackTrace;
 
     public ThrowExceptionMatcher(String expectedMessage) {
         this.expectedMessage = expectedMessage;
@@ -70,7 +73,8 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
     @Override
     public String mismatchedMessage(CodeBlock codeBlock) {
-        return comparator.generateEqualMismatchReport();
+        return comparator.generateEqualMismatchReport() +
+                (thrownExceptionStackTrace != null ? "\nstack trace:\n" + thrownExceptionStackTrace : "");
     }
 
     @Override
@@ -103,6 +107,8 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     }
 
     private void extractExceptionDetails(Throwable t) {
+        thrownExceptionStackTrace = StackTraceUtils.renderStackTrace(t);
+
         if (t instanceof UndeclaredThrowableException) {
             Throwable undeclaredCheckedException = t.getCause();
             thrownMessage = undeclaredCheckedException.getMessage();

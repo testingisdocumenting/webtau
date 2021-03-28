@@ -107,6 +107,29 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
+    void "should add exception stack trace when mismatched"() {
+        thrown.expectMessage('stack trace:\n' +
+                'java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed\n')
+
+        code {
+            businessLogicStart()
+        } should throwException(NullPointerException, 'error message1')
+    }
+
+    @Test
+    void "should not add exception stack trace when mismatched but no exception"() {
+        code {
+            code {
+            } should throwException(NullPointerException, 'error message1')
+        } should throwException("\nmismatches:\n" +
+                "\n" +
+                "expected exception message:   actual: null\n" +
+                "                            expected: \"error message1\" <java.lang.String>\n" +
+                "expected exception class:   actual: null\n" +
+                "                          expected: class java.lang.NullPointerException <java.lang.Class>")
+    }
+
+    @Test
     void examples() {
         code {
             businessLogic(-10)
@@ -127,8 +150,15 @@ class ThrowExceptionMatcherGroovyTest {
                 .should(throwException(IOException, 'catch me if you can'))
     }
 
+    private static void businessLogicStart() {
+        try {
+            businessLogic(-10)
+        } catch (Throwable e) {
+            throw new RuntimeException(e)
+        }
+    }
 
-    private static businessLogic(num) {
+    private static void businessLogic(num) {
         if (num < 0) {
             throw new IllegalArgumentException('negative not allowed')
         }
