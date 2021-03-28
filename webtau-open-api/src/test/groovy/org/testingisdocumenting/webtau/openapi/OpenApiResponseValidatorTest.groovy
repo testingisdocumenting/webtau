@@ -42,8 +42,9 @@ class OpenApiResponseValidatorTest implements StepReporter {
 
     @BeforeClass
     static void init() {
-        OpenApiSpecConfig.specUrl.set('test-manual', Paths.get(
-                ResourceUtils.resourceUrl("test-spec.json").toURI()))
+        def specLocation = OpenApiSpecLocation.fromStringValue('src/test/resources/test-spec.json')
+
+        OpenApiSpecConfig.specUrl.set('test-manual', specLocation.getAsString())
         WebTauConfig.cfg.get('openApiSpecUrl').toString().should contain('test-spec.json')
     }
 
@@ -73,7 +74,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
 
         validationResult.mismatches.size().should == 3
 
-        stepMessages.should == ["failed validating request and response : " + expectedError, ~/equals 3/]
+        stepMessages.should contain("failed validating request and response : " + expectedError)
     }
 
     @Test
@@ -103,7 +104,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         } should throwException(expectedError)
 
         validationResult.mismatches.size().should == 2
-        stepMessages.should == ["failed validating response : " + expectedError, ~/equals 2/]
+        stepMessages.should contain("failed validating response : " + expectedError)
     }
 
     @Test
@@ -119,7 +120,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         } should throwException(expectedError)
 
         validationResult.mismatches.size().should == 1
-        stepMessages.should == ["failed validating request : " + expectedError, ~/equals 1/]
+        stepMessages.should  contain("failed validating request : " + expectedError)
     }
 
     private static HttpValidationResult createValidationResult() {
