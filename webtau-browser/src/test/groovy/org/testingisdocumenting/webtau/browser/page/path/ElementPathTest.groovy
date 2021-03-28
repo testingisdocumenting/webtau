@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +31,7 @@ class ElementPathTest {
         path.addFilter(new ByNumberElementsFilter(2))
         path.addFinder(new ByCssFinder(".child"))
 
-        path.toString().should == 'by css #cssid , element(s) with text about , element number 2 , nested find by css .child'
+        path.toString().should == 'by css #cssid , element(s) with text "about" , element number 2 , nested find by css .child'
     }
 
     @Test
