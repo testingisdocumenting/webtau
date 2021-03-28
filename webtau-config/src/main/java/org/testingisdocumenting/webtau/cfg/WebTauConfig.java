@@ -26,7 +26,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +33,8 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
@@ -87,7 +88,6 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
     private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
-    private final ConfigValue envPath = declare("envPath", "path items to append to path used for cli runs", Collections::emptyList);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -281,6 +281,22 @@ public class WebTauConfig implements PrettyPrintable {
         return workingDir.getAsPath();
     }
 
+    public Path fullPath(String relativeOrFull) {
+        return fullPath(Paths.get(relativeOrFull));
+    }
+
+    public Path fullPath(Path relativeOrFull) {
+        if (relativeOrFull == null) {
+            return null;
+        }
+
+        if (relativeOrFull.isAbsolute()) {
+            return relativeOrFull;
+        }
+
+        return getWorkingDir().resolve(relativeOrFull).toAbsolutePath();
+    }
+
     public Path getCachePath() {
         return cachePath.getAsPath();
     }
@@ -297,14 +313,6 @@ public class WebTauConfig implements PrettyPrintable {
         return workingDir.getKey();
     }
 
-    public List<String> getEnvPath() {
-        return envPath.getAsList();
-    }
-
-    public ConfigValue getEnvPathConfigValue() {
-        return envPath;
-    }
-
     @Override
     public String toString() {
         return Stream.concat(enumeratedCfgValues.values().stream(), freeFormCfgValues.stream())
@@ -313,10 +321,10 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public void printEnumerated() {
-        printConfig(enumeratedCfgValues.values());
+        printConfig(ConsoleOutputs.asCombinedConsoleOutput(), enumeratedCfgValues.values());
     }
 
-    private void printConfig(Collection<ConfigValue> configValues) {
+    private void printConfig(ConsoleOutput console, Collection<ConfigValue> configValues) {
         int maxKeyLength = configValues.stream()
                 .filter(ConfigValue::nonDefault)
                 .map(v -> v.getKey().length()).max(Integer::compareTo).orElse(0);
@@ -326,13 +334,13 @@ public class WebTauConfig implements PrettyPrintable {
                 .map(v -> v.getAsString().length()).max(Integer::compareTo).orElse(0);
 
         configValues.stream().filter(ConfigValue::nonDefault).forEach(v -> {
-                    String valueAsText = v.getAsString();
-                    int valuePadding = maxValueLength - valueAsText.length();
+            String valueAsText = v.getAsString();
+            int valuePadding = maxValueLength - valueAsText.length();
 
-                    ConsoleOutputs.out(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
-                            Color.YELLOW, valueAsText,
-                            StringUtils.createIndentation(valuePadding),
-                            FontStyle.NORMAL, " // from ", v.getSource());
+            console.out(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
+                    Color.YELLOW, valueAsText,
+                    StringUtils.createIndentation(valuePadding),
+                    FontStyle.NORMAL, " // from ", v.getSource());
                 }
         );
     }
@@ -403,8 +411,10 @@ public class WebTauConfig implements PrettyPrintable {
                 docPath,
                 reportPath,
                 noColor,
+                consolePayloadOutputLimit,
                 staleElementRetry,
-                envPath);
+                staleElementRetryWait,
+                cachePath);
 
         Stream<ConfigValue> additionalConfigValues = handlers.stream()
                 .flatMap(WebTauConfigHandler::additionalConfigValues);
@@ -414,9 +424,9 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     @Override
-    public void prettyPrint() {
-        printConfig(freeFormCfgValues);
-        printConfig(enumeratedCfgValues.values());
+    public void prettyPrint(ConsoleOutput console) {
+        printConfig(console, freeFormCfgValues);
+        printConfig(console, enumeratedCfgValues.values());
     }
 
     private static class CfgInstanceHolder {

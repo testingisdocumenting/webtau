@@ -17,7 +17,6 @@
 package scenarios.rest
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
-import static org.testingisdocumenting.webtau.http.Http.http
 
 scenario('ping') {
     if (!http.ping("/weather")) {

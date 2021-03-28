@@ -23,6 +23,8 @@ public class Data {
     public final DataCsv csv = new DataCsv();
     public final DataJson json = new DataJson();
 
+    public final DataGuid guid = new DataGuid();
+
     private Data() {
     }
 }

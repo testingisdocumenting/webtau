@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
@@ -87,7 +88,7 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
     }
 
     @Override
-    default void prettyPrint() {
-        new DataNodeAnsiPrinter().print(this);
+    default void prettyPrint(ConsoleOutput console) {
+        new DataNodeAnsiPrinter(console).print(this);
     }
 }

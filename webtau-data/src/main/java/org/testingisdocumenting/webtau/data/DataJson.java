@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import static org.testingisdocumenting.webtau.data.DataContentUtils.handleDataTextContent;
+import static org.testingisdocumenting.webtau.data.DataContentUtils.readAndConvertTextContentAsStep;
 
-public class DataJson {
+class DataJson {
     /**
      * Use <code>data.json.map</code> to read data as {@link java.util.Map} from JSON file.
      * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
@@ -50,6 +50,6 @@ public class DataJson {
     }
 
     private static <R> R handleTextContent(String fileOrResourcePath, Function<String, R> convertor) {
-        return handleDataTextContent("json", fileOrResourcePath, convertor);
+        return readAndConvertTextContentAsStep("json", fileOrResourcePath, convertor);
     }
 }

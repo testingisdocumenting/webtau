@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
 import org.testingisdocumenting.webtau.utils.FileUtils
 import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.junit.Test

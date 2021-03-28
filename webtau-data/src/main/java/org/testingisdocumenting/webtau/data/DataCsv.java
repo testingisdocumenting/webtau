@@ -19,14 +19,16 @@ package org.testingisdocumenting.webtau.data;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.CsvUtils;
 
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.data.DataContentUtils.handleDataTextContent;
+import static org.testingisdocumenting.webtau.data.DataContentUtils.*;
 
-public class DataCsv {
+class DataCsv {
     /**
      * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file.
      * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
@@ -34,7 +36,7 @@ public class DataCsv {
      * @return table data with CSV content
      */
     public TableData table(String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, (text) -> tableFromListOfMaps(CsvUtils.parse(text)));
+        return parseCsvTextAsStep(fileOrResourcePath, (text) -> tableFromListOfMaps(CsvUtils.parse(text)));
     }
 
     /**
@@ -45,7 +47,7 @@ public class DataCsv {
      * @return table data with CSV content
      */
     public TableData tableAutoConverted(String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, (text) -> tableFromListOfMaps(CsvUtils.parseWithAutoConversion(text)));
+        return parseCsvTextAsStep(fileOrResourcePath, (text) -> tableFromListOfMaps(CsvUtils.parseWithAutoConversion(text)));
     }
 
     /**
@@ -56,7 +58,7 @@ public class DataCsv {
      * @return list of maps
      */
     public List<Map<String, String>> listOfMaps(String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, CsvUtils::parse);
+        return parseCsvTextAsStep(fileOrResourcePath, CsvUtils::parse);
     }
 
     /**
@@ -68,19 +70,33 @@ public class DataCsv {
      * @return list of maps
      */
     public List<Map<String, Object>> listOfMapsAutoConverted(String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, CsvUtils::parseWithAutoConversion);
+        return parseCsvTextAsStep(fileOrResourcePath, CsvUtils::parseWithAutoConversion);
     }
 
     public List<Map<String, String>> listOfMaps(List<String> header, String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, (text) -> CsvUtils.parse(header, text));
+        return parseCsvTextAsStep(fileOrResourcePath, (text) -> CsvUtils.parse(header, text));
     }
 
     public List<Map<String, Object>> listOfMapsAutoConverted(List<String> header, String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, (text) -> CsvUtils.parseWithAutoConversion(header, text));
+        return parseCsvTextAsStep(fileOrResourcePath, (text) -> CsvUtils.parseWithAutoConversion(header, text));
     }
 
-    private static <R> R handleTextContent(String fileOrResourcePath, Function<String, R> convertor) {
-        return handleDataTextContent("csv", fileOrResourcePath, convertor);
+    /**
+     * Use <code>data.csv.write</code> to write data to CSV file.
+     * @param relativeOrFullPath relative path, absolute path or classpath resource path
+     * @param rows list of maps to write as CSV
+     * @return full path to a newly created file
+     */
+    public Path write(String relativeOrFullPath, List<Map<String, Object>> rows) {
+        return writeCsvContentAsStep(relativeOrFullPath, () -> CsvUtils.serialize(rows));
+    }
+
+    private static <R> R parseCsvTextAsStep(String fileOrResourcePath, Function<String, R> convertor) {
+        return readAndConvertTextContentAsStep("csv", fileOrResourcePath, convertor);
+    }
+
+    private static Path writeCsvContentAsStep(String fileOrResourcePath, Supplier<String> convertor) {
+        return writeTextContentAsStep("csv", fileOrResourcePath, convertor);
     }
 
     @SuppressWarnings("unchecked")

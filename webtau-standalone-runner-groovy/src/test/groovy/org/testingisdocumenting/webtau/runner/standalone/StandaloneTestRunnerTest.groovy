@@ -36,7 +36,8 @@ import static org.testingisdocumenting.webtau.WebTauCore.contain
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
 
 class StandaloneTestRunnerTest {
-    final StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter())
+    final StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
+            () -> Integer.MAX_VALUE)
 
     @Before
     void init() {

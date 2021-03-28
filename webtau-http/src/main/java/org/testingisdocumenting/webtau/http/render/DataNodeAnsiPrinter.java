@@ -17,12 +17,13 @@
 
 package org.testingisdocumenting.webtau.http.render;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.commons.lang3.StringUtils;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.util.*;
 
@@ -35,10 +36,15 @@ public class DataNodeAnsiPrinter {
     private static final Object[] PASS_STYLE = new Object[]{FontStyle.BOLD, Color.GREEN};
     private static final Object[] FAIL_STYLE = new Object[]{FontStyle.BOLD, Color.RED};
     private static final Object[] NO_STYLE = new Object[]{};
+    private final ConsoleOutput console;
 
     private List<Line> lines;
     private Line currentLine;
     private int indentation;
+
+    public DataNodeAnsiPrinter(ConsoleOutput console) {
+        this.console = console;
+    }
 
     public void print(DataNode dataNode) {
         print(dataNode, -1);
@@ -51,7 +57,7 @@ public class DataNodeAnsiPrinter {
 
         printNode(dataNode, false);
 
-        ConsoleOutputs.outLinesWithLimit(lines, maxNumberOfLInes,
+        console.outLinesWithLimit(lines, maxNumberOfLInes,
                 (line) -> line.getStyleAndValues().toArray());
     }
 
@@ -152,7 +158,7 @@ public class DataNodeAnsiPrinter {
         TraceableValue traceableValue = dataNode.getTraceableValue();
 
         Object value = traceableValue.getValue();
-        print(value instanceof String ? STRING_COLOR : NUMBER_COLOR);
+        print(TypeUtils.isString(value) ? STRING_COLOR : NUMBER_COLOR);
 
         print(valueStyle(traceableValue));
         print(convertToString(traceableValue));
@@ -177,7 +183,7 @@ public class DataNodeAnsiPrinter {
             return "null";
         }
 
-        return value instanceof String ?
+        return TypeUtils.isString(value) ?
                 "\"" + value + "\"" :
                 value.toString();
     }

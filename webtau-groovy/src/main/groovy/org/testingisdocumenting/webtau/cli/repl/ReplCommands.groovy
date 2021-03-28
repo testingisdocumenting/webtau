@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.cli.repl
 
 import groovy.transform.PackageScope
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
@@ -294,7 +295,7 @@ class ReplCommands {
         }
 
         @Override
-        void prettyPrint() {
+        void prettyPrint(ConsoleOutput console) {
             displaySelectedScenarios()
         }
     }
@@ -306,7 +307,7 @@ class ReplCommands {
         }
 
         @Override
-        void prettyPrint() {
+        void prettyPrint(ConsoleOutput console) {
             runSelected()
         }
     }

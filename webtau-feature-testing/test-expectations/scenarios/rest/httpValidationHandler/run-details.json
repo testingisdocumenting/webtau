@@ -1,0 +1,11 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "validation handler",
+    "shortContainerId" : "httpValidationHandler.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2,
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

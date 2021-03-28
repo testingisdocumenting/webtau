@@ -76,7 +76,6 @@ class WebTauCliFeaturesTest {
         ])
     }
 
-
     @Test
     void "simple script run"() {
         runCli('simpleRun.groovy', 'webtau.cfg.groovy')
@@ -118,6 +117,21 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "run in background config"() {
+        runCli('cliBackgroundRunConfig.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "run in background config extract snippets"() {
+        extractCodeSnippets(
+                'background-cli-cfg', 'examples/scenarios/cli/cliBackgroundRunConfig.groovy', [
+                'workingDir.groovy': 'working dir',
+                'envVar.groovy': 'environment var',
+                'envVarAndWorkingDir.groovy': 'env var and working dir'
+        ])
+    }
+
+    @Test
     void "send input"() {
         runCli('sendInput.groovy', 'webtau.cfg.groovy')
     }
@@ -130,6 +144,11 @@ class WebTauCliFeaturesTest {
     @Test
     void "background command auto kill"() {
         runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg.groovy')
+    }
+
+    @Test
+    void "timeout config"() {
+        runCli('cliTimeout.groovy', 'webtau-cli-timeout.cfg.groovy')
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

@@ -91,7 +91,7 @@ public class FileSystem {
     }
 
     public boolean exists(Path path) {
-        return Files.exists(fullPath(path));
+        return Files.exists(getCfg().fullPath(path));
     }
 
     public boolean exists(String path) {
@@ -103,7 +103,7 @@ public class FileSystem {
     }
 
     public Path createDir(Path dir) {
-        Path fullDirPath = fullPath(dir);
+        Path fullDirPath = getCfg().fullPath(dir);
 
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("creating"), classifier("dir"), urlValue(dir.toString())),
@@ -133,7 +133,7 @@ public class FileSystem {
      * @param fileOrDir path to delete
      */
     public void delete(Path fileOrDir) {
-        Path fullFileOrDirPath = fullPath(fileOrDir);
+        Path fullFileOrDirPath = getCfg().fullPath(fileOrDir);
 
         MessageToken classifier = classifier(classifierByPath(fullFileOrDirPath));
         WebTauStep step = WebTauStep.createStep(null,
@@ -150,7 +150,7 @@ public class FileSystem {
     }
 
     public FileTextContent textContent(Path path) {
-        return new FileTextContent(fullPath(path));
+        return new FileTextContent(getCfg().fullPath(path));
     }
 
     public Path writeText(String path, String content) {
@@ -158,7 +158,7 @@ public class FileSystem {
     }
 
     public Path writeText(Path path, String content) {
-        Path fullPath = fullPath(path);
+        Path fullPath = getCfg().fullPath(path);
 
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("writing text content"), OF, classifier("size"),
@@ -189,31 +189,15 @@ public class FileSystem {
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
                 (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
-                () -> createTempDir(fullPath(dir), prefix));
+                () -> createTempDir(getCfg().fullPath(dir), prefix));
 
         return step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    public Path fullPath(String relativeOrFull) {
-        return fullPath(Paths.get(relativeOrFull));
-    }
-
-    public Path fullPath(Path relativeOrFull) {
-        if (relativeOrFull == null) {
-            return null;
-        }
-
-        if (relativeOrFull.isAbsolute()) {
-            return relativeOrFull;
-        }
-
-        return getCfg().getWorkingDir().resolve(relativeOrFull).toAbsolutePath();
-    }
-
     private void unArchive(String action, String actionCompleted,
                            BiFunction<Path, Path, Task> antTaskFactory, Path src, Path dest) {
-        Path fullSrc = fullPath(src);
-        Path fullDest = fullPath(dest);
+        Path fullSrc = getCfg().fullPath(src);
+        Path fullDest = getCfg().fullPath(dest);
 
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action(action), urlValue(src.toString()), TO, urlValue(dest.toString())),
@@ -225,8 +209,8 @@ public class FileSystem {
 
 
     private static CopyResult copyImpl(Path src, Path dest) {
-        Path fullSrc = fs.fullPath(src);
-        Path fullDest = fs.fullPath(dest);
+        Path fullSrc = getCfg().fullPath(src);
+        Path fullDest = getCfg().fullPath(dest);
 
         try {
             if (Files.isDirectory(fullSrc) && Files.isDirectory(fullDest)) {

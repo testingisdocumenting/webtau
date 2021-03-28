@@ -17,11 +17,13 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
 
 import java.util.*;
 
-public class CliValidationResult implements WebTauStepPayload {
+public class CliValidationResult implements WebTauStepOutput {
     private final String command;
     private final List<String> mismatches;
 
@@ -121,5 +123,9 @@ public class CliValidationResult implements WebTauStepPayload {
         result.put("errorMessage", errorMessage);
 
         return result;
+    }
+
+    @Override
+    public void prettyPrint(ConsoleOutput console) {
     }
 }

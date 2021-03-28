@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +35,7 @@ class RegexpEqualCompareToHandlerTest {
     @Test
     void "uses regexp to compare values"() {
         actual("hello world").should(equal(~/wor.d/))
+        actual("hello ${'wo' + 'rld'}").should(equal(~/wor.d/))
     }
 
     @Test(expected = AssertionError)

@@ -282,7 +282,7 @@ class HttpExtensions {
         return http.delete(url, closureToHttpResponseValidator(validation))
     }
 
-    private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(validation) {
+    private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(Closure validation) {
         return new HttpResponseValidatorWithReturn() {
             @Override
             def validate(final HeaderDataNode header, final DataNode body) {

@@ -159,7 +159,7 @@ public class CliBackgroundCommand implements WebTauStepPayload {
                         tokenizedMessage(),
                         (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
                                 action("finished with exit code"), numberValue(exitCode)),
-                        () -> {
+                        (context) -> {
                             synchronized (this) {
                                 backgroundProcess.setAsInactive();
                                 CliBackgroundCommandManager.remove(this);

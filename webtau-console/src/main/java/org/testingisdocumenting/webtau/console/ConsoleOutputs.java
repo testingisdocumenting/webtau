@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +27,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ConsoleOutputs {
+    private static final ConsoleOutput combined = new CombinedConsoleOutput();
     private static final ConsoleOutput defaultOutput = new AnsiConsoleOutput();
 
     private static final List<ConsoleOutput> outputs = ServiceLoaderUtils.load(ConsoleOutput.class);
@@ -38,27 +40,33 @@ public class ConsoleOutputs {
         getOutputsStream().forEach(o -> o.err(styleOrValues));
     }
 
+    public static ConsoleOutput asCombinedConsoleOutput() {
+        return combined;
+    }
+
     /**
-     * prints lines limiting output to a given value. Prints values from the start and from the end, omitting middle.
-     *
-     * @param lines lines to print and limit
-     * @param limit max number of lines to print, -1 to print all
-     * @param styleOrValueExtractor function to extract valueOrStyle from given list
+     * output multiple lines, where line is defined by converting function
+     * @param lines list of lines to print
+     * @param styleOrValueExtractor function to convert a line to a style and values
+     * @param <E> type of a line
+     */
+    public static <E> void outLines(List<E> lines, Function<E, Object[]> styleOrValueExtractor) {
+        getOutputsStream().forEach(o -> o.outLines(lines, styleOrValueExtractor));
+
+    }
+
+    /**
+     * output multiple lines by limiting the number of lines printed,
+     * where line is defined by converting function
+     * @param lines list of lines to print
+     * @param limit max number of lines to print
+     * @param styleOrValueExtractor function to convert a line to a style and values
+     * @param <E> type of a line
      */
     public static <E> void outLinesWithLimit(List<E> lines,
                                              int limit,
                                              Function<E, Object[]> styleOrValueExtractor) {
-        if (limit == -1 || lines.size() <= limit) {
-            outLines(lines, styleOrValueExtractor);
-            return;
-        }
-
-        int firstHalfNumberOfLines = limit / 2;
-        int secondHalfNumberOfLines = firstHalfNumberOfLines + limit % 2;
-
-        outLines(lines.subList(0, firstHalfNumberOfLines), styleOrValueExtractor);
-        ConsoleOutputs.out(Color.YELLOW, "...");
-        outLines(lines.subList(lines.size() - secondHalfNumberOfLines, lines.size()), styleOrValueExtractor);
+        getOutputsStream().forEach(o -> o.outLinesWithLimit(lines, limit, styleOrValueExtractor));
     }
 
     public static void add(ConsoleOutput consoleOutput) {
@@ -77,7 +85,15 @@ public class ConsoleOutputs {
         return outputs.stream();
     }
 
-    private static <E> void outLines(List<E> lines, Function<E, Object[]> styleOrValueExtractor) {
-        lines.forEach(l -> ConsoleOutputs.out(styleOrValueExtractor.apply(l)));
+    private static class CombinedConsoleOutput implements ConsoleOutput {
+        @Override
+        public void out(Object... styleOrValues) {
+            ConsoleOutputs.out((styleOrValues));
+        }
+
+        @Override
+        public void err(Object... styleOrValues) {
+            ConsoleOutputs.err((styleOrValues));
+        }
     }
 }

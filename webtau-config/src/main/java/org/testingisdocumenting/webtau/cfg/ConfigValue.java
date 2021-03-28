@@ -139,6 +139,17 @@ public class ConfigValue {
                 Integer.parseInt(first.toString());
     }
 
+    public long getAsLong() {
+        if (isDefault()) {
+           return (long) defaultValueSupplier.get();
+        }
+
+        Object first = getAsObject();
+        return first instanceof Long ?
+                (long) first :
+                Long.parseLong(first.toString());
+    }
+
     public boolean getAsBoolean() {
         if (isDefault()) {
             return (boolean) defaultValueSupplier.get();

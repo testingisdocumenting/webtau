@@ -36,3 +36,34 @@ You can use `<<` instead of `.send` for extra syntax sugar:
 :include-file: doc-artifacts/snippets/background-send-cli/sendInputShiftLeft.groovy {
   title: "use << as .send"
 }
+
+# Working Dir
+
+Use `cli.workingDir` as a second parameter to `cli.runInBackground` to set a working dir:
+
+:include-file: doc-artifacts/snippets/background-cli-cfg/workingDir.groovy {
+  title: "set working dir"
+}
+
+# Environment Variables
+
+Use `cli.env` as a second parameter to `cli.runInBackground` to set the environment variables:
+
+:include-file: doc-artifacts/snippets/background-cli-cfg/envVar.groovy {
+  title: "set environment variable"
+}
+
+# Chain Cli Run Config
+
+Combine configs by using `cli.env(...).workingDir(...)` in any order to set both:
+
+:include-file: doc-artifacts/snippets/background-cli-cfg/envVarAndWorkingDir.groovy {
+  title: "set environment variable and working dir"
+}
+
+# Path
+
+To specify `PATH` to use for CLI commands lookup use
+
+:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.config.groovy"}
+

@@ -20,7 +20,9 @@ package org.testingisdocumenting.webtau.documentation;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
+import java.nio.file.Path;
 import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -49,7 +51,7 @@ public class CoreDocumentation {
      * @param value value to capture
      */
     public void capture(String artifactName, Object value) {
-        if (value instanceof String) {
+        if (TypeUtils.isString(value)) {
             captureText(artifactName, value);
         } else {
             captureJson(artifactName, value);
@@ -98,7 +100,7 @@ public class CoreDocumentation {
                 tokenizedMessage(action("capturing"), classifier(type),
                         action("documentation artifact"), id(artifactName)),
                 (path) -> tokenizedMessage(action("captured"), classifier(type),
-                        action("documentation artifact"), id(artifactName), COLON, urlValue(path.toString())),
+                        action("documentation artifact"), id(artifactName), COLON, urlValue(((Path)path).toAbsolutePath())),
                 code);
 
         step.execute(StepReportOptions.REPORT_ALL);

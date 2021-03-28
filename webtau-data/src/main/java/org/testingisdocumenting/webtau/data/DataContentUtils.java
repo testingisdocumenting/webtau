@@ -25,7 +25,9 @@ import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -35,15 +37,15 @@ class DataContentUtils {
     }
 
     @SuppressWarnings("unchecked")
-    static <R> R handleDataTextContent(String dataType, String fileOrResourcePath, Function<String, R> convertor) {
+    static <R> R readAndConvertTextContentAsStep(String dataType, String fileOrResourcePath, Function<String, R> convertor) {
         WebTauStep step = WebTauStep.createStep(
                 null,
-                tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"), stringValue(fileOrResourcePath)),
+                tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"), urlValue(fileOrResourcePath)),
                 (result) -> {
                     ContentResult contentResult = (ContentResult) result;
                     return tokenizedMessage(action("read"), numberValue(contentResult.numberOfLines),
                             classifier("lines of " + dataType), FROM, classifier(contentResult.source),
-                            stringValue(contentResult.path));
+                            urlValue(contentResult.path));
                 },
                 () -> {
                     ContentResult contentResult = dataTextContentImpl(fileOrResourcePath);
@@ -57,8 +59,33 @@ class DataContentUtils {
         return (R) stepResult.parseResult;
     }
 
+    static Path writeTextContentAsStep(String dataType, String fileOrResourcePath, Supplier<String> convertor) {
+        WebTauStep step = WebTauStep.createStep(
+                null,
+                tokenizedMessage(action("writing"), classifier(dataType), TO, classifier("file"), urlValue(fileOrResourcePath)),
+                (result) -> {
+                    ContentResult contentResult = (ContentResult) result;
+
+                    return tokenizedMessage(action("wrote"), numberValue(contentResult.numberOfLines),
+                            classifier("lines"), TO, classifier(dataType),
+                            urlValue(contentResult.path));
+                },
+                () -> {
+                    Path fullPath = WebTauConfig.getCfg().fullPath(fileOrResourcePath);
+
+                    String content = convertor.get();
+                    FileUtils.writeTextContent(fullPath, content);
+
+                    return new ContentResult("file", fullPath.toString(), content);
+                }
+        );
+
+        ContentResult stepResult = step.execute(StepReportOptions.REPORT_ALL);
+        return Paths.get(stepResult.path);
+    }
+
     static ContentResult dataTextContentImpl(String fileOrResourcePath) {
-        Path filePath = WebTauConfig.getCfg().getWorkingDir().resolve(fileOrResourcePath);
+        Path filePath = WebTauConfig.getCfg().fullPath(fileOrResourcePath);
 
         boolean hasResource = ResourceUtils.hasResource(fileOrResourcePath);
         boolean hasFile = Files.exists(filePath);
