@@ -60,7 +60,7 @@ public class Cli {
     }
 
     public CliCommand command(Path commandBase) {
-        return new CliCommand(commandBase.toString());
+        return new CliCommand(commandBase);
     }
 
     public CliCommand command(Supplier<Object> commandBaseSupplier) {
