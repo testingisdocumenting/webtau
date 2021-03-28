@@ -76,7 +76,7 @@
 
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
-            <artifactId>webtau-core-groovy</artifactId>
+            <artifactId>webtau-groovy</artifactId>
             <version>${project.version}</version>
         </dependency>
 

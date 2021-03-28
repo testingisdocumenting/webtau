@@ -16,21 +16,14 @@
 
 package org.testingisdocumenting.webtau.repl
 
-import org.apache.groovy.groovysh.Groovysh
-import org.codehaus.groovy.tools.shell.IO
 import org.jline.script.GroovyEngine
 
 class WebtauGroovyEngine extends GroovyEngine {
-    private Groovysh shell
-
     WebtauGroovyEngine() {
-        shell = new Groovysh(new IO())
     }
 
     @Override
     Object execute(String statement) throws Exception {
-//        super.execute(statement)
-        println "@@@ "
-        return shell.execute(statement)
+        return super.execute(statement)
     }
 }
