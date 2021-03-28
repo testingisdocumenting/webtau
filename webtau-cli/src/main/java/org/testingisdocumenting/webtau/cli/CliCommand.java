@@ -20,6 +20,7 @@ import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutp
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
 import org.testingisdocumenting.webtau.data.ResourceNameAware;
 
+import java.nio.file.Path;
 import java.util.function.Supplier;
 
 public class CliCommand implements ResourceNameAware {
@@ -28,6 +29,10 @@ public class CliCommand implements ResourceNameAware {
 
     CliCommand(String commandBase) {
         this.commandBase = commandBase;
+    }
+
+    CliCommand(Path commandBase) {
+        this.commandBase = commandBase.toString();
     }
 
     CliCommand(Supplier<Object> commandBaseSupplier) {
@@ -50,12 +55,24 @@ public class CliCommand implements ResourceNameAware {
         return run(args, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
     }
 
+    public CliRunResult run(Path args) {
+        return run(args.toString(), CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+    }
+
     public CliRunResult run(String args, CliValidationOutputOnlyHandler handler) {
         return run(args, CliProcessConfig.EMPTY, handler);
     }
 
+    public CliRunResult run(Path arg, CliValidationOutputOnlyHandler handler) {
+        return run(arg.toString(), CliProcessConfig.EMPTY, handler);
+    }
+
     public CliRunResult run(String args, CliValidationExitCodeOutputHandler handler) {
         return run(args, CliProcessConfig.EMPTY, handler);
+    }
+
+    public CliRunResult run(Path arg, CliValidationExitCodeOutputHandler handler) {
+        return run(arg.toString(), CliProcessConfig.EMPTY, handler);
     }
 
     public CliRunResult run(CliProcessConfig config) {
@@ -74,12 +91,24 @@ public class CliCommand implements ResourceNameAware {
         return run(args, config, CliValidationOutputOnlyHandler.NO_OP);
     }
 
+    public CliRunResult run(Path arg, CliProcessConfig config) {
+        return run(arg.toString(), config, CliValidationOutputOnlyHandler.NO_OP);
+    }
+
     public CliRunResult run(String args, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
         return new CliForegroundCommand().run(fullCommand(args), config, handler);
     }
 
+    public CliRunResult run(Path arg, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
+        return run(arg.toString(), config, handler);
+    }
+
     public CliRunResult run(String args, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
         return new CliForegroundCommand().run(fullCommand(args), config, handler);
+    }
+
+    public CliRunResult run(Path arg, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
+        return run(arg.toString(), config, handler);
     }
 
     public CliBackgroundCommand runInBackground() {
@@ -88,6 +117,14 @@ public class CliCommand implements ResourceNameAware {
 
     public CliBackgroundCommand runInBackground(String args) {
         return runInBackground(args, CliProcessConfig.EMPTY);
+    }
+
+    public CliBackgroundCommand runInBackground(Path arg) {
+        return runInBackground(arg.toString(), CliProcessConfig.EMPTY);
+    }
+
+    public CliBackgroundCommand runInBackground(Path arg, CliProcessConfig config) {
+        return runInBackground(arg.toString(), config);
     }
 
     public CliBackgroundCommand runInBackground(String args, CliProcessConfig config) {

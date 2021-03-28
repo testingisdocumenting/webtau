@@ -28,6 +28,7 @@ public class CliCommandJavaTest {
     private static final CliCommand ls = cli.command("ls -l");
     private static final CliCommand script = cli.command("scripts/hello");
     private static final CliCommand scriptAsPath = cli.command(Paths.get("scripts/hello"));
+    private static final CliCommand scriptAsPathWithZeroExit = cli.command(Paths.get("scripts/hello-with-zero-exit"));
     private static final CliCommand scriptAsSupplier = cli.command(() -> Paths.get("scripts/hello"));
 
     @Test
@@ -56,6 +57,20 @@ public class CliCommandJavaTest {
     public void runCommandAsPath() {
         supportedPlatformOnly(() -> {
             scriptAsPath.run(((exitCode, output, error) -> exitCode.should(equal(5))));
+        });
+    }
+
+    @Test
+    public void runCommandAsPathWithArgAsPath() {
+        supportedPlatformOnly(() -> {
+            scriptAsPath.run(Paths.get("path"), ((exitCode, output, error) -> exitCode.should(equal(5))));
+        });
+    }
+
+    @Test
+    public void runCommandAsPathWithArgAsPathAndDifferentValidationParams() {
+        supportedPlatformOnly(() -> {
+            scriptAsPathWithZeroExit.run(Paths.get("path"), ((output, error) -> output.should(contain("hello world path"))));
         });
     }
 
