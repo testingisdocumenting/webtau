@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl.tabledata
+package org.testingisdocumenting.webtau.app.repl.tabledata
 
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.table.render.TableRenderStyle

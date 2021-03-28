@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli
+package org.testingisdocumenting.webtau.app
 
 import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
@@ -25,7 +25,7 @@ import org.testingisdocumenting.webtau.cfg.WebTauCliArgsConfig
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyCliArgsConfigHandler
 
-import org.testingisdocumenting.webtau.cli.repl.Repl
+import org.testingisdocumenting.webtau.app.repl.Repl
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput

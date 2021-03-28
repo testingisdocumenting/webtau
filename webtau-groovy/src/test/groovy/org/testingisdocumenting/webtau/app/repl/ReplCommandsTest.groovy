@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl
+package org.testingisdocumenting.webtau.app.repl
 
 import org.junit.After
 import org.junit.Before
@@ -36,7 +36,7 @@ import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.Matchers.contain
-import static org.testingisdocumenting.webtau.cli.repl.ReplCommands.*
+import static org.testingisdocumenting.webtau.app.repl.ReplCommands.*
 
 class ReplCommandsTest implements StepReporter, ConsoleOutput {
     AnsiConsoleOutput consoleOutput = new AnsiConsoleOutput()

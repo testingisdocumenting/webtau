@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2020 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl
+package org.testingisdocumenting.webtau.app.repl
 
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler

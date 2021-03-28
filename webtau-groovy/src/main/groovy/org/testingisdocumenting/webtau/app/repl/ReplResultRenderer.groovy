@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl
+package org.testingisdocumenting.webtau.app.repl
 
 import org.apache.groovy.groovysh.Groovysh
 import org.testingisdocumenting.webtau.browser.page.PageElement
-import org.testingisdocumenting.webtau.cli.repl.tabledata.ReplTableRenderer
+import org.testingisdocumenting.webtau.app.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.db.DbQuery
