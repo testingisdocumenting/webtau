@@ -6,6 +6,12 @@
       "numberOfSuccessful" : 3
     }
   }, {
+    "scenario" : "csv table data using path",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
     "scenario" : "csv table data auto converted",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
@@ -19,6 +25,18 @@
     }
   }, {
     "scenario" : "csv list of maps data auto converted",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "csv list of maps with header data",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "csv list of maps data with header auto converted",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3

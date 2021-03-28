@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.data;
 
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,28 +29,54 @@ class DataJson {
     /**
      * Use <code>data.json.map</code> to read data as {@link java.util.Map} from JSON file.
      * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
-     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of primitive values or maps/list
      */
     public Map<String, ?> map(String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, JsonUtils::deserializeAsMap);
+        return handleTextContent(DataPath.fromFileOrResourcePath(fileOrResourcePath), JsonUtils::deserializeAsMap);
+    }
+
+    /**
+     * Use <code>data.json.map</code> to read data as {@link java.util.Map} from JSON file.
+     * Passed path is either relative based on working dir or absolute file path
+     * @param filePath relative file path or absolute file path
+     * @return list of primitive values or maps/list
+     */
+    public Map<String, ?> map(Path filePath) {
+        return handleTextContent(DataPath.fromFilePath(filePath), JsonUtils::deserializeAsMap);
     }
 
     /**
      * Use <code>data.json.list</code> to read data as {@link java.util.List} from JSON file.
-     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
-     * @param fileOrResourcePath relative path, absolute path or classpath resource path
+     * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of primitive values or maps/list
      */
     public List<?> list(String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, JsonUtils::deserializeAsList);
+        return handleTextContent(DataPath.fromFileOrResourcePath(fileOrResourcePath), JsonUtils::deserializeAsList);
     }
 
+    /**
+     * Use <code>data.json.object</code> to read data as either {@link java.util.List} or  {@link java.util.Map} from JSON file.
+     * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
+     * @return list of primitive values or maps/list
+     */
     public Object object(String fileOrResourcePath) {
-        return handleTextContent(fileOrResourcePath, JsonUtils::deserialize);
+        return handleTextContent(DataPath.fromFileOrResourcePath(fileOrResourcePath), JsonUtils::deserialize);
     }
 
-    private static <R> R handleTextContent(String fileOrResourcePath, Function<String, R> convertor) {
-        return readAndConvertTextContentAsStep("json", fileOrResourcePath, convertor);
+    /**
+     * Use <code>data.json.object</code> to read data as either {@link java.util.List} or  {@link java.util.Map} from JSON file.
+     * Passed path is either relative based on working dir or absolute file path.
+     * @param filePath relative file path or absolute file path
+     * @return list of primitive values or maps/list
+     */
+    public Object object(Path filePath) {
+        return handleTextContent(DataPath.fromFilePath(filePath), JsonUtils::deserialize);
+    }
+
+    private static <R> R handleTextContent(DataPath path, Function<String, R> convertor) {
+        return readAndConvertTextContentAsStep("json", path, convertor);
     }
 }

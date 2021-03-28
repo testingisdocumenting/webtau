@@ -278,7 +278,7 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public Path getWorkingDir() {
-        return workingDir.getAsPath();
+        return workingDir.getAsPath().toAbsolutePath();
     }
 
     public Path fullPath(String relativeOrFull) {
