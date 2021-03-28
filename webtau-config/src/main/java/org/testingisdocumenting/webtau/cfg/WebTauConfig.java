@@ -86,8 +86,6 @@ public class WebTauConfig implements PrettyPrintable {
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
-    private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
-    private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -269,14 +267,6 @@ public class WebTauConfig implements PrettyPrintable {
         return !noColor.getAsBoolean();
     }
 
-    public int getStaleElementRetry() {
-        return staleElementRetry.getAsInt();
-    }
-
-    public int getStaleElementRetryWait() {
-        return staleElementRetryWait.getAsInt();
-    }
-
     public Path getWorkingDir() {
         return workingDir.getAsPath();
     }
@@ -412,8 +402,6 @@ public class WebTauConfig implements PrettyPrintable {
                 reportPath,
                 noColor,
                 consolePayloadOutputLimit,
-                staleElementRetry,
-                staleElementRetryWait,
                 cachePath);
 
         Stream<ConfigValue> additionalConfigValues = handlers.stream()

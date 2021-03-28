@@ -21,6 +21,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
+import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpElementsFilter;
@@ -404,7 +405,7 @@ public class GenericPageElement implements PageElement {
     }
 
     private static Object repeatForStaleElement(Supplier<Object> code) {
-        int numberOfAttemptsLeft = getCfg().getStaleElementRetry();
+        int numberOfAttemptsLeft = BrowserConfig.getStaleElementRetry();
 
         for (; numberOfAttemptsLeft >= 1; numberOfAttemptsLeft--) {
             try {
@@ -415,7 +416,7 @@ public class GenericPageElement implements PageElement {
                             "consider using waitTo beVisible matcher to make sure component fully appeared");
                 }
 
-                sleep(getCfg().getStaleElementRetryWait());
+                sleep(BrowserConfig.getStaleElementRetryWait());
             }
         }
 
