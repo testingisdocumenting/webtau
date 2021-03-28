@@ -1,5 +1,6 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2021 webtau maintainers
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +15,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl.win
+package org.testingisdocumenting.webtau.app.repl
 
-import groovy.transform.PackageScope
-import sun.util.logging.PlatformLogger
+import java.nio.file.Path
 
-@PackageScope
-class WindowsPreferenceFix {
-    static void apply() {
-        // to prevent WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs warning message appearing
-        PlatformLogger logger = PlatformLogger.getLogger("java.util.prefs")
-        logger.setLevel(PlatformLogger.Level.SEVERE)
-    }
+interface OnFileChangeHandler {
+    void onChange(Path path)
 }

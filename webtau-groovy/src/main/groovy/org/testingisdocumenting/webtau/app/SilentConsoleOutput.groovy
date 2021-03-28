@@ -1,5 +1,6 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2021 webtau maintainers
+ * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +15,16 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl.tabledata
+package org.testingisdocumenting.webtau.app
 
-import org.testingisdocumenting.webtau.data.table.TableData
-import org.testingisdocumenting.webtau.data.table.render.TableRenderer
+import org.testingisdocumenting.webtau.console.ConsoleOutput
 
-class ReplTableRenderer {
-    static String render(TableData tableData) {
-        return TableRenderer.render(tableData, new ReplTableCellDataRenderer(), new ReplTableRenderStyle())
+class SilentConsoleOutput implements ConsoleOutput {
+    @Override
+    void out(Object... styleOrValues) {
+    }
+
+    @Override
+    void err(Object... styleOrValues) {
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl.win
+package org.testingisdocumenting.webtau.app.repl.win
 
 import groovy.transform.InheritConstructors
 import jline.TerminalFactory

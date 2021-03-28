@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.cli.CliReportGenerator
+org.testingisdocumenting.webtau.app.CliReportGenerator

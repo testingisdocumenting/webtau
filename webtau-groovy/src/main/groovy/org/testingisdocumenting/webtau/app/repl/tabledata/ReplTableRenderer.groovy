@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cli.repl
+package org.testingisdocumenting.webtau.app.repl.tabledata
 
-import groovy.transform.PackageScope
+import org.testingisdocumenting.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.data.table.render.TableRenderer
 
-@PackageScope
-class IndexSelection {
-    @PackageScope
-    static int convertNegativeIdxToAbsolute(int size, int idx) {
-        //  0  1  2  3  4  5  6
-        // -7 -6 -5 -4 -3 -2 -1
-        // size = 7
-
-        if (idx >= 0) {
-            return idx
-        }
-
-        return size + idx
+class ReplTableRenderer {
+    static String render(TableData tableData) {
+        return TableRenderer.render(tableData, new ReplTableCellDataRenderer(), new ReplTableRenderStyle())
     }
 }
