@@ -33,7 +33,7 @@
     <dependencies>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
-            <artifactId>webtau-groovy</artifactId>
+            <artifactId>webtau-groovy-app</artifactId>
             <version>${project.version}</version>
         </dependency>
 

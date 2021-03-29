@@ -38,7 +38,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.testingisdocumenting.webtau</groupId>
-                    <artifactId>webtau-groovy</artifactId>
+                    <artifactId>webtau-groovy-app</artifactId>
                 </exclusion>
 
                 <exclusion>
