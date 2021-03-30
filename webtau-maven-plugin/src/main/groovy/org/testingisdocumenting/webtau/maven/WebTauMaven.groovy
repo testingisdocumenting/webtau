@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.maven
 
+import org.testingisdocumenting.webtau.app.WebTauCliApp
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
-import org.testingisdocumenting.webtau.cli.WebTauCliApp
 import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugin.logging.Log
 import org.apache.maven.shared.model.fileset.FileSet

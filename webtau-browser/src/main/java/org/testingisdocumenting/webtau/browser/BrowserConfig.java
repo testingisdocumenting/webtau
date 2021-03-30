@@ -44,6 +44,9 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     private static final ConfigValue disableExtensions = declare("browserDisableExtensions", "run browser without extensions", () -> false);
 
+    private static final ConfigValue staleElementRetry = declare("browserStaleElementRetry", "number of times to automatically retry for browser stale element actions", () -> 5);
+    private static final ConfigValue staleElementRetryWait = declare("browserStaleElementRetryWait", "wait time in between browser stale element retries", () -> 100);
+
     private static final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NULL_DEFAULT);
     private static final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NULL_DEFAULT);
 
@@ -76,6 +79,14 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     public static int getBrowserHeight() {
         return browserHeight.getAsInt();
+    }
+
+    public static int getStaleElementRetry() {
+        return staleElementRetry.getAsInt();
+    }
+
+    public static int getStaleElementRetryWait() {
+        return staleElementRetryWait.getAsInt();
     }
 
     public static boolean isHeadless() {
@@ -115,6 +126,8 @@ public class BrowserConfig implements WebTauConfigHandler {
                 browserWidth,
                 browserHeight,
                 browserHeadless,
+                staleElementRetry,
+                staleElementRetryWait,
                 disableExtensions,
                 chromeDriverPath,
                 chromeBinPath,

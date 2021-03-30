@@ -17,20 +17,19 @@
 
 package org.testingisdocumenting.webtau.openapi
 
+import org.junit.Before
+import org.junit.Test
 import org.testingisdocumenting.webtau.http.HttpResponse
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.persona.Persona
-import org.testingisdocumenting.webtau.utils.ResourceUtils
-import org.junit.Before
-import org.junit.Test
 
 class OpenApiCoverageTest {
     private OpenApiCoverage coverage
 
     @Before
     void setUp() {
-        def specUrl = ResourceUtils.resourceUrl('test-spec.json')
-        coverage = new OpenApiCoverage(new OpenApiSpec(specUrl.toString()))
+        def specLocation = OpenApiSpecLocation.fromStringValue('src/test/resources/test-spec.json')
+        coverage = new OpenApiCoverage(new OpenApiSpec(specLocation))
     }
 
     @Test

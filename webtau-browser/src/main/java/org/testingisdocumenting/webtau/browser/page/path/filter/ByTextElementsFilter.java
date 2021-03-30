@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +30,7 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 
 public class ByTextElementsFilter implements ElementsFilter {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
-    private String text;
+    private final String text;
 
     public ByTextElementsFilter(AdditionalBrowserInteractions additionalBrowserInteractions, String text) {
         this.additionalBrowserInteractions = additionalBrowserInteractions;
@@ -43,6 +44,6 @@ public class ByTextElementsFilter implements ElementsFilter {
 
     @Override
     public TokenizedMessage description() {
-        return tokenizedMessage(selectorType("element(s) with text"), selectorValue(text));
+        return tokenizedMessage(selectorType("element(s) with text"), selectorValue("\"" + text + "\""));
     }
 }

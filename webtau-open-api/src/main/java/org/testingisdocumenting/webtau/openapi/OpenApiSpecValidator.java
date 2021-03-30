@@ -40,7 +40,7 @@ public class OpenApiSpecValidator {
         this.openAPISpec = openApiSpec;
         this.openApiValidator = openApiSpec.isSpecDefined() ?
                 OpenApiInteractionValidator
-                        .createForSpecificationUrl(openApiSpec.getSpecUrl())
+                        .createForInlineApiSpecification(openApiSpec.getSpecContent())
                         .withLevelResolver(createLevelResolver(validationConfig))
                         .build() :
                 null;

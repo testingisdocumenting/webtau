@@ -25,23 +25,36 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import org.testingisdocumenting.webtau.reporter.MessageToken;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
+import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
-import static java.lang.String.format;
+import static java.lang.String.*;
+import static org.testingisdocumenting.webtau.http.Http.*;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class OpenApiSpec {
     private final OpenAPI api;
     private final ApiOperationResolver apiOperationResolver;
-    private final String specUrl;
+    private final OpenApiSpecLocation specLocation;
+    private final String specContent;
     private final boolean isSpecDefined;
     private final Map<OpenApiOperation, Set<String>> operationsAndResponses;
 
-    public OpenApiSpec(String specUrl) {
-        this.specUrl = specUrl;
-        isSpecDefined = !specUrl.isEmpty();
+    public OpenApiSpec(OpenApiSpecLocation specLocation) {
+        this.specLocation = specLocation;
+
+        isSpecDefined = specLocation.isDefined();
+        specContent = isSpecDefined ? readSpecContent() : "";
 
         api = createOpenAPI();
         apiOperationResolver = api != null ? new ApiOperationResolver(api, null) : null;
@@ -53,8 +66,8 @@ public class OpenApiSpec {
         return isSpecDefined;
     }
 
-    public String getSpecUrl() {
-        return specUrl;
+    public String getSpecContent() {
+        return specContent;
     }
 
     public Stream<OpenApiOperation> availableOperationsStream() {
@@ -116,14 +129,14 @@ public class OpenApiSpec {
         ParseOptions parseOptions = new ParseOptions();
         parseOptions.setResolve(true);
 
-        SwaggerParseResult swaggerParseResult = new OpenAPIParser().readLocation(
-                specUrl, Collections.emptyList(), parseOptions);
+        SwaggerParseResult swaggerParseResult = new OpenAPIParser().readContents(
+                specContent, Collections.emptyList(), parseOptions);
 
         OpenAPI openAPI = swaggerParseResult.getOpenAPI();
 
         if (openAPI == null) {
             throw new IllegalArgumentException(
-                    format("Unable to load API descriptor from provided %s: %s", specUrl,
+                    format("Unable to load API descriptor from provided %s: %s", specLocation.getAsString(),
                             parseResultMessage(swaggerParseResult)));
         }
 
@@ -137,5 +150,35 @@ public class OpenApiSpec {
         }
 
         return "\n    " + String.join("\n    ", messages);
+    }
+
+    private String readSpecContent() {
+        MessageToken openApiToken = classifier("open API spec");
+        MessageToken typeToken = classifier(specLocation.isFileSystem() ? "file system" : "http url");
+        WebTauStep step = WebTauStep.createStep(
+                null,
+                tokenizedMessage(action("reading"), openApiToken,
+                        FROM, typeToken, urlValue(specLocation.getOriginalValue())),
+                        () -> tokenizedMessage(action("read"), openApiToken,
+                                FROM, typeToken, urlValue(specLocation.getAsString())),
+                        () -> specLocation.isFileSystem() ?
+                                readSpecContentFromFs() :
+                                readSpecContentFromUrl()
+                        );
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private String readSpecContentFromUrl() {
+        // we use http.get method here to get all the report tracing
+        AtomicReference<Object> specBody = new AtomicReference<>();
+        OpenApi.withoutValidation(() -> specBody.set(http.get(specLocation.getUrl(), (header, body) -> body)));
+
+        return JsonUtils.serialize(specBody.get());
+    }
+
+    private String readSpecContentFromFs() {
+        Path path = specLocation.getPath();
+        return FileUtils.fileTextContent(path);
     }
 }

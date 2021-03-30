@@ -3,7 +3,7 @@
     "scenario" : "customer create",
     "shortContainerId" : "customerCrudSeparatedMissingMethod.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "customer read",
