@@ -19,19 +19,20 @@ package org.testingisdocumenting.webtau.app
 
 import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
-import org.testingisdocumenting.webtau.app.cfg.GroovyConfigBasedHttpConfiguration
-import org.testingisdocumenting.webtau.app.cfg.GroovyRunner
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
+import org.testingisdocumenting.webtau.GroovyRunner
 import org.testingisdocumenting.webtau.app.cfg.WebTauCliArgsConfig
 import org.testingisdocumenting.webtau.app.cfg.WebTauGroovyCliArgsConfigHandler
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 
-import org.testingisdocumenting.webtau.app.repl.Repl
+import org.testingisdocumenting.webtau.repl.Repl
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.repl.WebtauRepl
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
@@ -70,6 +71,9 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         if (WebTauCliArgsConfig.isReplMode(args)) {
             cliApp.startRepl()
             System.exit(0)
+        } else if(WebTauCliArgsConfig.isExperimentalReplMode(args)) {
+            cliApp.startReplExperimental()
+            System.exit(0)
         } else {
             cliApp.start { exitCode ->
                 System.exit(exitCode)
@@ -98,6 +102,13 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     void startRepl() {
         prepareTestsAndRun() {
             def repl = new Repl(runner)
+            repl.run()
+        }
+    }
+
+    void startReplExperimental() {
+        prepareTestsAndRun() {
+            def repl = new WebtauRepl(runner)
             repl.run()
         }
     }

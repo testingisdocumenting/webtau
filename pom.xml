@@ -116,6 +116,7 @@
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
         <module>webtau-groovy-app</module>
+        <module>webtau-repl</module>
         <module>webtau-reactjs</module>
         <module>webtau-report</module>
         <module>webtau-java-runner</module>
@@ -183,6 +184,12 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-groovysh</artifactId>
                 <version>${groovy.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jline</groupId>
+                        <artifactId>jline</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -705,7 +712,35 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.0.0-M2</version>
+                    <configuration>
+                        <rules>
+                            <dependencyConvergence />
+                            <banDuplicateClasses>
+                                <findAllDuplicates>true</findAllDuplicates>
+                                <ignoreWhenIdentical>true</ignoreWhenIdentical>
+                                <ignoreClasses>
+                                    org.fusesource.jansi.*
+                                </ignoreClasses>
+                            </banDuplicateClasses>
+                        </rules>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>extra-enforcer-rules</artifactId>
+                            <version>1.0-beta-9</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
+
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -751,35 +786,6 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <dependencyConvergence />
-                        <banDuplicateClasses>
-                            <findAllDuplicates>true</findAllDuplicates>
-                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
-                        </banDuplicateClasses>
-                    </rules>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>extra-enforcer-rules</artifactId>
-                        <version>1.0-beta-9</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>

@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.app.cfg.GroovyConfigBasedBrowserPageNavigationHandler
+org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
