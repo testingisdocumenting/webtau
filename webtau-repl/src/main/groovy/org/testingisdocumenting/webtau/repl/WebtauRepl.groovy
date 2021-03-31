@@ -35,6 +35,7 @@ import org.jline.terminal.Terminal
 import org.jline.terminal.TerminalBuilder
 import org.jline.utils.OSUtils
 import org.jline.widget.TailTipWidgets
+import org.testingisdocumenting.webtau.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
@@ -185,8 +186,9 @@ class WebtauRepl {
 
     private void run() {
         try {
+            boolean terminated
             while (true) {
-                def terminated = readAndHandleLineTrueIfTerminated()
+                terminated = readAndHandleLineTrueIfTerminated()
                 if (terminated) {
                     println "<< terminated"
                     break
@@ -195,6 +197,8 @@ class WebtauRepl {
 
             systemRegistry.close()
             shutdownGroovyUiIfAny()
+
+            System.exit(terminated ? 1 :0)
         }
         catch (Throwable t) {
             t.printStackTrace()
@@ -249,7 +253,11 @@ class WebtauRepl {
     }
 
     static void main(String[] args) {
-        def repl = new WebtauRepl()
+        def runner = new StandaloneTestRunner(
+                GroovyRunner.createWithoutDelegating(cfg.workingDir),
+                cfg.getWorkingDir())
+
+        def repl = new WebtauRepl(runner)
         repl.run()
     }
 
