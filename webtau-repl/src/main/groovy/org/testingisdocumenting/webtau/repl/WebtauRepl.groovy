@@ -16,23 +16,16 @@
 
 package org.testingisdocumenting.webtau.repl
 
-import org.apache.groovy.groovysh.Groovysh
-import org.codehaus.groovy.tools.shell.IO
 import org.jline.builtins.ConfigurationPath
-import org.jline.builtins.Nano
 import org.jline.console.ConsoleEngine
 import org.jline.console.Printer
 import org.jline.console.impl.Builtins
 import org.jline.console.impl.ConsoleEngineImpl
 import org.jline.console.impl.DefaultPrinter
-import org.jline.console.impl.SystemHighlighter
 import org.jline.console.impl.SystemRegistryImpl
-import org.jline.keymap.KeyMap
-import org.jline.reader.Binding
 import org.jline.reader.EndOfFileException
 import org.jline.reader.LineReader
 import org.jline.reader.LineReaderBuilder
-import org.jline.reader.Reference
 import org.jline.reader.UserInterruptException
 import org.jline.reader.impl.DefaultParser
 import org.jline.script.GroovyCommand
@@ -42,140 +35,239 @@ import org.jline.terminal.Terminal
 import org.jline.terminal.TerminalBuilder
 import org.jline.utils.OSUtils
 import org.jline.widget.TailTipWidgets
-import org.jline.widget.Widgets
-import org.testingisdocumenting.webtau.utils.ResourceUtils
+import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
+import java.util.concurrent.atomic.AtomicReference
+
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*
 
 class WebtauRepl {
+    private ExecutorService replExecutorService = Executors.newSingleThreadExecutor()
+    private AtomicReference<Future> lastSubmittedCommand = new AtomicReference<>()
+
+    private final InteractiveTests interactiveTests
+
+    private String replRoot
+    private ConfigurationPath configPath
+
+    private DefaultParser parser
+    private Terminal terminal
+    private GroovyEngine scriptEngine
+    private Printer printer
+    private ConsoleEngineImpl consoleEngine
+    private SystemRegistryImpl systemRegistry
+    private Builtins builtins
+    private LineReader reader
+
+    WebtauRepl(StandaloneTestRunner runner) {
+        runner.setIsReplMode(true)
+        interactiveTests = new InteractiveTests(runner)
+        ReplCommands.interactiveTests = interactiveTests
+
+        initHandlers()
+        initConfig()
+
+        prepareJLineRepl()
+    }
+
+    private void prepareJLineRepl() {
+        createConfigPath()
+        createParser()
+        createTerminal()
+        createPrinter()
+        createScriptEngine()
+        createConsoleEngine()
+        createBuiltins()
+        createSystemRegistry()
+        createLineReader()
+        createWidgets()
+    }
+
+    private void createConfigPath() {
+        replRoot = Paths.get("").toAbsolutePath().toString()
+        configPath = new ConfigurationPath(Paths.get(replRoot), Paths.get(replRoot))
+    }
+
+    private void createParser() {
+        parser = new DefaultParser()
+        parser.setEofOnUnclosedBracket(DefaultParser.Bracket.CURLY, DefaultParser.Bracket.ROUND, DefaultParser.Bracket.SQUARE)
+        parser.setEofOnUnclosedQuote(true)
+        parser.setEscapeChars(null)
+        parser.setRegexCommand("[:]{0,1}[a-zA-Z!]{1,}\\S*")    // change default regex to support shell commands
+    }
+
+    private void createTerminal() {
+        terminal = TerminalBuilder.builder().build()
+        if (terminal.getWidth() == 0 || terminal.getHeight() == 0) {
+            terminal.setSize(new Size(120, 40))   // hard coded terminal size when redirecting
+        }
+        terminal.handle(Terminal.Signal.INT,
+                signal -> {
+                    def command = lastSubmittedCommand.get()
+                    if (command != null) {
+                        command.cancel(true)
+                    }
+                })
+    }
+
+    private void createPrinter() {
+        printer = new DefaultPrinter(scriptEngine, configPath)
+    }
+
+    private void createScriptEngine() {
+        String root = Paths.get("").toAbsolutePath().toString()
+
+        scriptEngine = new WebtauGroovyEngine()
+        scriptEngine.put("ROOT", root)
+        scriptEngine.execute("import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*")
+        scriptEngine.execute("import static org.testingisdocumenting.webtau.repl.ReplCommands.*")
+        scriptEngine.execute("import static org.testingisdocumenting.webtau.repl.ReplHttpLastValidationCapture.*")
+    }
+
+    private void createConsoleEngine() {
+        consoleEngine = new ConsoleEngineImpl(scriptEngine, printer,
+                WebtauRepl::workDir,
+                configPath)
+    }
+
+    private void createBuiltins() {
+        builtins = new Builtins(WebtauRepl::workDir,
+                configPath,
+                (String fun) -> new ConsoleEngine.WidgetCreator(consoleEngine, fun))
+    }
+
+    private void createSystemRegistry() {
+        systemRegistry = new SystemRegistryImpl(parser, terminal, WebtauRepl::workDir, configPath)
+        systemRegistry.register("groovy", new GroovyCommand(scriptEngine, printer))
+        systemRegistry.setCommandRegistries(consoleEngine, builtins)
+        systemRegistry.addCompleter(scriptEngine.getScriptCompleter())
+        systemRegistry.setScriptDescription(scriptEngine::scriptDescription)
+    }
+
+    private void createLineReader() {
+        reader = LineReaderBuilder.builder()
+                .terminal(terminal)
+                .completer(systemRegistry.completer())
+                .parser(parser)
+                .variable(LineReader.SECONDARY_PROMPT_PATTERN, "%M%P > ")
+                .variable(LineReader.INDENTATION, 2)
+                .variable(LineReader.LIST_MAX, 100)
+                .variable(LineReader.HISTORY_FILE, Paths.get(replRoot, "history"))
+                .option(LineReader.Option.INSERT_BRACKET, true)
+                .option(LineReader.Option.EMPTY_WORD_OPTIONS, false)
+                .option(LineReader.Option.USE_FORWARD_SLASH, true)
+                .option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
+                .build()
+
+        if (OSUtils.IS_WINDOWS) {
+            reader.setVariable(LineReader.BLINK_MATCHING_PAREN, 0)
+        }
+
+        consoleEngine.setLineReader(reader)
+        builtins.setLineReader(reader)
+    }
+
+    private void createWidgets() {
+        new TailTipWidgets(reader, systemRegistry::commandDescription, 5, TailTipWidgets.TipType.COMBINED)
+    }
+
     private static Path workDir() {
         return Paths.get(System.getProperty("user.dir"))
     }
 
-    static void main(String[] args) {
-        startRepl()
-    }
-
-
-    static void startRepl() {
-        // based on examples and wiki in https://github.com/jline/jline3
+    private void run() {
         try {
-            //
-            // Parser & Terminal
-            //
-            DefaultParser parser = new DefaultParser()
-            parser.setEofOnUnclosedBracket(DefaultParser.Bracket.CURLY, DefaultParser.Bracket.ROUND, DefaultParser.Bracket.SQUARE)
-            parser.setEofOnUnclosedQuote(true)
-            parser.setEscapeChars(null)
-            parser.setRegexCommand("[:]{0,1}[a-zA-Z!]{1,}\\S*")    // change default regex to support shell commands
-
-            Terminal terminal = TerminalBuilder.builder().build()
-            if (terminal.getWidth() == 0 || terminal.getHeight() == 0) {
-                terminal.setSize(new Size(120, 40))   // hard coded terminal size when redirecting
-            }
-            Thread executeThread = Thread.currentThread()
-            terminal.handle(Terminal.Signal.INT, signal -> executeThread.interrupt())
-
-            String root = Paths.get("").toAbsolutePath().toString()
-
-            GroovyEngine scriptEngine = new WebtauGroovyEngine()
-
-            scriptEngine.put("ROOT", root)
-            ConfigurationPath configPath = new ConfigurationPath(Paths.get(root), Paths.get(root))
-            Printer printer = new DefaultPrinter(scriptEngine, configPath)
-            ConsoleEngineImpl consoleEngine = new ConsoleEngineImpl(scriptEngine, printer, 
-                    WebtauRepl::workDir,
-                    configPath)
-            
-            Builtins builtins = new Builtins(WebtauRepl::workDir, 
-                    configPath, 
-                    (String fun) -> new ConsoleEngine.WidgetCreator(consoleEngine, fun))
-            
-            SystemRegistryImpl systemRegistry = new SystemRegistryImpl(parser, terminal, WebtauRepl::workDir, configPath)
-            systemRegistry.register("groovy", new GroovyCommand(scriptEngine, printer))
-            systemRegistry.setCommandRegistries(consoleEngine, builtins)
-            systemRegistry.addCompleter(scriptEngine.getScriptCompleter())
-            systemRegistry.setScriptDescription(scriptEngine::scriptDescription)
-
-            LineReader reader = LineReaderBuilder.builder()
-                    .terminal(terminal)
-                    .completer(systemRegistry.completer())
-                    .parser(parser)
-                    .variable(LineReader.SECONDARY_PROMPT_PATTERN, "%M%P > ")
-                    .variable(LineReader.INDENTATION, 2)
-                    .variable(LineReader.LIST_MAX, 100)
-                    .variable(LineReader.HISTORY_FILE, Paths.get(root, "history"))
-                    .option(LineReader.Option.INSERT_BRACKET, true)
-                    .option(LineReader.Option.EMPTY_WORD_OPTIONS, false)
-                    .option(LineReader.Option.USE_FORWARD_SLASH, true)             // use forward slash in directory separator
-                    .option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
-                    .build()
-
-            if (OSUtils.IS_WINDOWS) {
-                reader.setVariable(LineReader.BLINK_MATCHING_PAREN, 0)
-                // if enabled cursor remains in begin parenthesis (gitbash)
-            }
-
-            //
-            // complete command registries
-            //
-            consoleEngine.setLineReader(reader)
-            builtins.setLineReader(reader)
-
-            //
-            // widgets and console initialization
-            //
-            new TailTipWidgets(reader, systemRegistry::commandDescription, 5, TailTipWidgets.TipType.COMBINED)
-
-            // imports
-            scriptEngine.execute("import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*")
-
-            //
-            // REPL-loop
-            //
             while (true) {
-                try {
-                    systemRegistry.cleanUp()         // delete temporary variables and reset output streams
-                    String line = reader.readLine("webtau> ")
-                    line = parser.getCommand(line).startsWith("!") ? line.replaceFirst("!", "! ") : line
-                    Object result = systemRegistry.execute(line)
-                    consoleEngine.println(result)
-                }
-                catch (UserInterruptException e) {
-                    // Ignore
-                }
-                catch (EndOfFileException e) {
-                    String pl = e.getPartialLine()
-                    if (pl != null) {                 // execute last line from redirected file (required for Windows)
-                        try {
-                            consoleEngine.println(systemRegistry.execute(pl))
-                        } catch (Exception e2) {
-                            systemRegistry.trace(e2)
-                        }
-                    }
+                def terminated = readAndHandleLineTrueIfTerminated()
+                if (terminated) {
+                    println "<< terminated"
                     break
                 }
-                catch (Exception e) {
-                    systemRegistry.trace(e)          // print exception and save it to console variable
-                }
             }
-            systemRegistry.close()                   // persist pipeline completer names etc
 
-            Set<Thread> threadSet = Thread.getAllStackTraces().keySet()
-            boolean groovyRunning = false              // check Groovy GUI apps
-            for (Thread t : threadSet) {
-                if (t.getName().startsWith("AWT-Shut")) {
-                    groovyRunning = true
-                    break
-                }
-            }
-            if (groovyRunning) {
-                consoleEngine.println("Please, close Groovy Consoles/Object Browsers!")
-            }
+            systemRegistry.close()
+            shutdownGroovyUiIfAny()
         }
         catch (Throwable t) {
             t.printStackTrace()
         }
+    }
+
+    private boolean readAndHandleLineTrueIfTerminated() {
+        // based on examples and wiki in https://github.com/jline/jline3
+        try {
+            systemRegistry.cleanUp()
+            String line = reader.readLine("webtau> ")
+            line = parser.getCommand(line).startsWith("!") ? line.replaceFirst("!", "! ") : line
+
+            def future = replExecutorService.submit((() -> systemRegistry.execute(line)) as Callable)
+            lastSubmittedCommand.set(future)
+
+            consoleEngine.println(future.get())
+        }
+        catch (UserInterruptException ignored) {
+            // Ignore
+        }
+        catch (EndOfFileException e) {
+            String pl = e.getPartialLine()
+            if (pl != null) {                 // execute last line from redirected file (required for Windows)
+                try {
+                    consoleEngine.println(systemRegistry.execute(pl))
+                } catch (Exception e2) {
+                    systemRegistry.trace(e2)
+                }
+            }
+            return true
+        }
+        catch (Exception e) {
+            systemRegistry.trace(e)          // print exception and save it to console variable
+        }
+
+        return false
+    }
+
+    void shutdownGroovyUiIfAny() {
+        Set<Thread> threadSet = Thread.getAllStackTraces().keySet()
+        boolean groovyRunning = false              // check Groovy GUI apps
+        for (Thread t : threadSet) {
+            if (t.getName().startsWith("AWT-Shut")) {
+                groovyRunning = true
+                break
+            }
+        }
+        if (groovyRunning) {
+            consoleEngine.println("Please, close Groovy Consoles/Object Browsers!")
+        }
+    }
+
+    static void main(String[] args) {
+        def repl = new WebtauRepl()
+        repl.run()
+    }
+
+    private static void initHandlers() {
+        HttpValidationHandlers.add(new ReplHttpLastValidationCapture())
+    }
+
+    private static void initConfig() {
+        WebTauGroovyFileConfigHandler.forceIgnoreErrors()
+        setDefaultReportPath()
+    }
+
+    private static void setDefaultReportPath() {
+        if (!cfg.reportPathConfigValue.isDefault()) {
+            return
+        }
+
+        cfg.reportPathConfigValue.set('repl',
+                cfg.reportPath.toAbsolutePath().parent.resolve('webtau.repl.report.html'))
     }
 }

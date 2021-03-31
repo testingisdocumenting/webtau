@@ -184,6 +184,12 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-groovysh</artifactId>
                 <version>${groovy.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jline</groupId>
+                        <artifactId>jline</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>

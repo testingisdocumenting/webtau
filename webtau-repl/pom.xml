@@ -23,12 +23,14 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.40-SNAPSHOT</version>
+        <version>1.41-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-repl</artifactId>
+
     <properties>
         <jline.version>3.19.0</jline.version>
+        <enforcer.skip>true</enforcer.skip>
     </properties>
 
     <dependencies>
@@ -83,6 +85,12 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-groovysh</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -21,7 +21,7 @@ import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import org.testingisdocumenting.webtau.app.cfg.GroovyConfigBasedBrowserPageNavigationHandler
+import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
