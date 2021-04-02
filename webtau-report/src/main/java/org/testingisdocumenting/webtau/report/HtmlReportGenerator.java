@@ -39,14 +39,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HtmlReportGenerator implements ReportGenerator {
-    private final String css;
-    private final String bundleJavaScript;
+    private final ReactJsBundle reactJsBundle;
 
     public HtmlReportGenerator() {
-        Map<String, Object> manifest = loadManifest();
-
-        css = ResourceUtils.textContent(manifest.get("main.css").toString());
-        bundleJavaScript = ResourceUtils.textContent(manifest.get("main.js").toString());
+        reactJsBundle = new ReactJsBundle();
     }
 
     @Override
@@ -86,7 +82,7 @@ public class HtmlReportGenerator implements ReportGenerator {
                 "<meta charset=\"UTF-8\"/>\n" +
                 "<head>\n" +
                 "<style>\n" +
-                css + "\n" +
+                reactJsBundle.getCss() + "\n" +
                 "</style>" +
                 genFavIconBase64() + "\n" +
                 "<title>WebTau Report</title>" +
@@ -94,7 +90,7 @@ public class HtmlReportGenerator implements ReportGenerator {
                 "<body><div id=\"root\"/>\n" +
                 "<script>\n" +
                 reportAssignmentJavaScript + "\n" +
-                bundleJavaScript + "\n" +
+                reactJsBundle.getJavaScript() + "\n" +
                 "</script>\n" +
                 "</body>\n" +
                 "</html>\n";
