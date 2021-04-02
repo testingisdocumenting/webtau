@@ -79,7 +79,7 @@ class ReactJsBundle {
             return entrypoints.stream()
                     .filter(predicate)
                     .map(ResourceUtils::textContent)
-                    .collect(Collectors.joining(""));
+                    .collect(Collectors.joining("\n"));
         }
     }
 }
