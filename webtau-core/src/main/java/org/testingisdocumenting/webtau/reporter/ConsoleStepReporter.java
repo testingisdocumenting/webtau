@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.utils.TimeUtils;
 
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -138,11 +139,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private String renderTimeTaken(WebTauStep step) {
-        long seconds = step.getElapsedTime() / 1000;
-        long millisLeft = step.getElapsedTime() % 1000;
-
-        return (seconds > 0 ? seconds + "s " : "") +
-                millisLeft + "ms";
+        return TimeUtils.renderMillisHumanReadable(step.getElapsedTime());
     }
 
     private void printStepInput(WebTauStep step) {

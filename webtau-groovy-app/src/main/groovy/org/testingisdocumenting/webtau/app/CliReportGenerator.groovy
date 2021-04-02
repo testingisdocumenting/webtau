@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,12 +24,14 @@ import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.testingisdocumenting.webtau.reporter.TestStatus
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
+import org.testingisdocumenting.webtau.utils.TimeUtils
 
 class CliReportGenerator implements ReportGenerator {
     @Override
     void generate(WebTauReport report) {
         printTestsWithStatus(report, TestStatus.Errored)
         printTestsWithStatus(report, TestStatus.Failed)
+        printTimeTaken(report)
         printTotals(report)
     }
 
@@ -52,6 +53,11 @@ class CliReportGenerator implements ReportGenerator {
         ConsoleOutputs.out(WebTauConfig.getCfg().getFullStackTrace() ?
                 StackTraceUtils.renderStackTrace(testEntry.exception) :
                 StackTraceUtils.renderStackTraceWithoutLibCalls(testEntry.exception), '\n')
+    }
+
+    private static void printTimeTaken(WebTauReport report) {
+        ConsoleOutputs.out(Color.BLUE, 'Total time: ', Color.PURPLE,
+                TimeUtils.renderMillisHumanReadable(report.getDuration()))
     }
 
     private static void printTotals(WebTauReport report) {
