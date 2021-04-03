@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,88 +15,90 @@
  * limitations under the License.
  */
 
-export default {
-    person: {
-        firstName: {
-            firstNamePartOne: {
-                nestedSubPartOne: {
+const data = {
+  person: {
+    firstName: {
+      firstNamePartOne: {
+        nestedSubPartOne: {
+          nestedNestedSubPartOne: {
+            subNested: {
+              firstName: {
+                firstNamePartOne: {
+                  nestedSubPartOne: {
                     nestedNestedSubPartOne: {
-                        subNested: {
-                            firstName: {
-                                firstNamePartOne: {
-                                    nestedSubPartOne: {
+                      subNested: {
+                        firstName: {
+                          firstNamePartOne: {
+                            nestedSubPartOne: {
+                              nestedNestedSubPartOne: {
+                                subNested: {
+                                  firstName: {
+                                    firstNamePartOne: {
+                                      nestedSubPartOne: {
                                         nestedNestedSubPartOne: {
-                                            subNested: {
-                                                firstName: {
-                                                    firstNamePartOne: {
-                                                        nestedSubPartOne: {
-                                                            nestedNestedSubPartOne: {
+                                          subNested: {
+                                            person: {
+                                              firstName: {
+                                                firstNamePartOne: {
+                                                  nestedSubPartOne: {
+                                                    nestedNestedSubPartOne: {
+                                                      subNested: {
+                                                        firstName: {
+                                                          firstNamePartOne: {
+                                                            nestedSubPartOne: {
+                                                              nestedNestedSubPartOne: {
                                                                 subNested: {
-                                                                    firstName: {
-                                                                        firstNamePartOne: {
-                                                                            nestedSubPartOne: {
-                                                                                nestedNestedSubPartOne: {
-                                                                                    subNested: {
-                                                                                        person: {
-                                                                                            firstName: {
-                                                                                                firstNamePartOne: {
-                                                                                                    nestedSubPartOne: {
-                                                                                                        nestedNestedSubPartOne: {
-                                                                                                            subNested: {
-                                                                                                                firstName: {
-                                                                                                                    firstNamePartOne: {
-                                                                                                                        nestedSubPartOne: {
-                                                                                                                            nestedNestedSubPartOne: {
-                                                                                                                                subNested: {
-                                                                                                                                    firstName: {
-                                                                                                                                        firstNamePartOne: {
-                                                                                                                                            nestedSubPartOne: {
-                                                                                                                                                nestedNestedSubPartOne: {
-                                                                                                                                                    subNested: {
-                                                                                                                                                        firstName: {
-                                                                                                                                                            firstNamePartOne: {
-                                                                                                                                                                nestedSubPartOne: {
-                                                                                                                                                                    nestedNestedSubPartOne: {
-                                                                                                                                                                        subNested: {}
-                                                                                                                                                                    }
-                                                                                                                                                                }
-                                                                                                                                                            }
-                                                                                                                                                        }
-                                                                                                                                                    }
-                                                                                                                                                }
-                                                                                                                                            }
-                                                                                                                                        }
-                                                                                                                                    }
-                                                                                                                                }
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                    }
-                                                                                                                }
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+                                                                  firstName: {
+                                                                    firstNamePartOne: {
+                                                                      nestedSubPartOne: {
+                                                                        nestedNestedSubPartOne: {
+                                                                          subNested: {
+                                                                            firstName: {
+                                                                              firstNamePartOne: {
+                                                                                nestedSubPartOne: {
+                                                                                  nestedNestedSubPartOne: {
+                                                                                    subNested: {},
+                                                                                  },
+                                                                                },
+                                                                              },
+                                                                            },
+                                                                          },
+                                                                        },
+                                                                      },
+                                                                    },
+                                                                  },
+                                                                },
+                                                              },
+                                                            },
+                                                          },
+                                                        },
+                                                      },
+                                                    },
+                                                  },
+                                                },
+                                              },
+                                            },
+                                          },
+                                        },
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export default data;
