@@ -29,6 +29,7 @@ import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
+import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -59,7 +60,10 @@ public class HttpValidationResult implements WebTauStepOutput {
     private HeaderDataNode responseHeaderNode;
     private DataNode responseBodyNode;
     private long startTime;
+
+    private boolean elapsedTimeCalculated = false;
     private long elapsedTime;
+
     private String errorMessage;
 
     public HttpValidationResult(String personaId,
@@ -116,6 +120,21 @@ public class HttpValidationResult implements WebTauStepOutput {
 
     public long getStartTime() {
         return startTime;
+    }
+
+    /**
+     * we want to calculate elapsed time as soon as http call is finished
+     * but we also need to calculate it when something goes wrong
+     */
+    public void calcElapsedTimeIfNotCalculated() {
+        if (elapsedTimeCalculated) {
+            return;
+        }
+
+        long endTime = Time.currentTimeMillis();
+        elapsedTime = endTime - startTime;
+
+        elapsedTimeCalculated = true;
     }
 
     public void setElapsedTime(long elapsedTime) {

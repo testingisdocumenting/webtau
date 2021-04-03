@@ -1077,7 +1077,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "captures failed http call"() {
-        def stepForcedStartTime = System.currentTimeMillis()
+        def stepForcedStartTime = 0
         def httpCallForcedStartTime = stepForcedStartTime + 100
         def httpElapsedTime = 500
 
@@ -1095,6 +1095,29 @@ class HttpGroovyTest extends HttpTestBase {
         validationResult.startTime.should == httpCallForcedStartTime
         validationResult.elapsedTime.should == httpElapsedTime
         validationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+    }
+
+    @Test
+    void "http validation captures http elapsed time only once"() {
+        def stepForcedStartTime = 0
+        def httpCallForcedStartTime = stepForcedStartTime + 100
+        def httpElapsedTime = 500
+        def statusCodeValidationStartTime = 2000
+        def stepEndTime = 3000
+
+        Time.withTimeProvider(new ControlledTimeProvider([
+                stepForcedStartTime, httpCallForcedStartTime,
+                httpCallForcedStartTime + httpElapsedTime,
+                statusCodeValidationStartTime,
+                statusCodeValidationStartTime + 20,
+                stepEndTime
+        ])) {
+            http.get('/end-point') {
+            }
+        }
+
+        def validationResult = http.lastValidationResult
+        validationResult.elapsedTime.should == httpElapsedTime
     }
 
     @Test
