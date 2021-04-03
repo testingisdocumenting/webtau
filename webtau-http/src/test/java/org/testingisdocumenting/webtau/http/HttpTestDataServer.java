@@ -42,6 +42,7 @@ public class HttpTestDataServer {
                         "Location", "http://www.example.org/url/23")));
 
         handler.registerGet("/example", jsonResponse("matcherExampleResponse.json"));
+        handler.registerGet("/customer/123", objectTestResponse);
 
         handler.registerPut("/end-point", objectTestResponse);
         handler.registerPatch("/end-point", objectTestResponse);

@@ -50,7 +50,7 @@ public class OpenApiSpecValidator {
         return openAPISpec.isSpecDefined();
     }
 
-    public void validateApiSpec(HttpValidationResult result, ValidationMode validationMode) {
+    public void validateApiSpec(HttpValidationResult result, OpenApiValidationMode openApiValidationMode) {
         Optional<OpenApiOperation> apiOperation = openAPISpec.findApiOperation(result.getRequestMethod(), result.getFullUrl());
         if (!apiOperation.isPresent()) {
             ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " not found in OpenAPI spec");
@@ -60,7 +60,7 @@ public class OpenApiSpecValidator {
         SimpleRequest request = buildRequest(result);
         SimpleResponse response = buildResponse(result);
 
-        ValidationReport validationReport = validate(validationMode, request, response);
+        ValidationReport validationReport = validate(openApiValidationMode, request, response);
         validationReport.getMessages().forEach(message ->
                 result.addMismatch("API spec validation failure: " + renderMessage(message)));
 
@@ -72,8 +72,8 @@ public class OpenApiSpecValidator {
         }
     }
 
-    private ValidationReport validate(ValidationMode validationMode, SimpleRequest request, SimpleResponse response) {
-        switch (validationMode) {
+    private ValidationReport validate(OpenApiValidationMode openApiValidationMode, SimpleRequest request, SimpleResponse response) {
+        switch (openApiValidationMode) {
             case RESPONSE_ONLY:
                 return openApiValidator.validateResponse(request.getPath(), request.getMethod(), response);
             case REQUEST_ONLY:
