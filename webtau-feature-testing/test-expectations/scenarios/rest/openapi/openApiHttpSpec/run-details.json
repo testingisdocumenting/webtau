@@ -3,7 +3,7 @@
     "scenario" : "open api validation",
     "shortContainerId" : "openApiHttpSpec.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 6
+      "numberOfSuccessful" : 7
     }
   } ],
   "exitCode" : 0

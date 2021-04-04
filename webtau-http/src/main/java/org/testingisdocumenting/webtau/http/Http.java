@@ -107,7 +107,11 @@ public class Http {
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
                 () -> HttpValidationHandlers.withDisabledHandlers(() -> {
-                    http.get(url, header);
+                    HttpOperationIdProviders.withDisabledProviders(() -> {
+                        http.get(url, header);
+                        return null;
+                    });
+
                     return null;
                 })
         );

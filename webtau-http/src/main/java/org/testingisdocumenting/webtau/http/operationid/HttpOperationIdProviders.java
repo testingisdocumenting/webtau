@@ -25,6 +25,7 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
@@ -35,6 +36,8 @@ public class HttpOperationIdProviders {
     private static final List<HttpOperationIdProvider> globalProviders =
             ServiceLoaderUtils.load(HttpOperationIdProvider.class);
 
+    private static final ThreadLocal<Boolean> enabled = ThreadLocal.withInitial(() -> true);
+
     private HttpOperationIdProviders() {
     }
 
@@ -43,6 +46,10 @@ public class HttpOperationIdProviders {
                                      String fullUrl,
                                      HttpHeader requestHeader,
                                      HttpRequestBody requestBody) {
+        if (!enabled.get()) {
+            return "";
+        }
+
         if (globalProviders.isEmpty()) {
             return "";
         }
@@ -59,6 +66,15 @@ public class HttpOperationIdProviders {
                 () -> extractOperationId(requestMethod, passedUrl, fullUrl, requestHeader, requestBody));
 
         return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static <R> R withDisabledProviders(Supplier<R> code) {
+        enabled.set(false);
+        try {
+            return code.get();
+        } finally {
+            enabled.set(true);
+        }
     }
 
     private static String extractOperationId(String requestMethod,

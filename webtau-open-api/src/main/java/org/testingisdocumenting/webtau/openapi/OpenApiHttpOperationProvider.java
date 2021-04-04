@@ -38,6 +38,6 @@ public class OpenApiHttpOperationProvider implements HttpOperationIdProvider {
     @Override
     public boolean isEnabled() {
         OpenApiSpec apiSpec = OpenApi.getSpec();
-        return apiSpec.isSpecDefined();
+        return apiSpec != null && apiSpec.isSpecDefined();
     }
 }
