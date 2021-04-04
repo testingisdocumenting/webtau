@@ -27,14 +27,17 @@ public class OpenApiHttpOperationProvider implements HttpOperationIdProvider {
     public String operationId(String requestMethod, String passedUrl, String fullUrl,
                               HttpHeader requestHeader, HttpRequestBody requestBody) {
         OpenApiSpec apiSpec = OpenApi.getSpec();
-        if (!apiSpec.isSpecDefined()) {
-            return "";
-        }
 
         Optional<OpenApiOperation> operation = apiSpec.findApiOperation(requestMethod, fullUrl);
 
         return operation
                 .map(OpenApiOperation::getId)
                 .orElse("");
+    }
+
+    @Override
+    public boolean isEnabled() {
+        OpenApiSpec apiSpec = OpenApi.getSpec();
+        return apiSpec.isSpecDefined();
     }
 }

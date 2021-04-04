@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
@@ -46,6 +47,10 @@ public class HttpOperationIdProviders {
             return "";
         }
 
+        if (globalProviders.stream().noneMatch(HttpOperationIdProvider::isEnabled)) {
+            return "";
+        }
+
         WebTauStep step = WebTauStep.createStep(null,
                 TokenizedMessage.tokenizedMessage(
                 action("mapping"), classifier("operation id")),
@@ -62,8 +67,9 @@ public class HttpOperationIdProviders {
                                              HttpHeader requestHeader,
                                              HttpRequestBody requestBody) {
         return globalProviders.stream()
+                .filter(HttpOperationIdProvider::isEnabled)
                 .map((provider) -> provider.operationId(requestMethod, passedUrl, fullUrl, requestHeader, requestBody))
-                .filter(id -> id != null && !id.isEmpty())
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse("");
     }
