@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.db.cfg.DbConfig
+org.testingisdocumenting.webtau.db.DbConfig
