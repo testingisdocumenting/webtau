@@ -913,13 +913,13 @@ public class Http {
         Supplier<Object> httpCallSupplier = () -> {
             HttpResponse response = null;
             try {
-                long startTime = Time.currentTimeMillis();
-                validationResult.setStartTime(startTime);
-
                 BeforeFirstHttpCallListenerTrigger.trigger();
                 HttpListeners.beforeHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody());
+
+                long startTime = Time.currentTimeMillis();
+                validationResult.setStartTime(startTime);
 
                 response = httpCall.execute(validationResult.getFullUrl(),
                         validationResult.getRequestHeader());
@@ -927,6 +927,7 @@ public class Http {
                 response = followRedirects(validationResult.getRequestMethod(),
                         httpCall, validationResult.getRequestHeader(), response);
 
+                validationResult.calcElapsedTimeIfNotCalculated();
                 validationResult.setResponse(response);
                 
                 validationResult.setOperationId(HttpOperationIdProviders.operationId(
@@ -950,8 +951,7 @@ public class Http {
                 throw new HttpException("error during http." + validationResult.getRequestMethod().toLowerCase() + "(" +
                         validationResult.getFullUrl() + "): " + StackTraceUtils.fullCauseMessage(e), e);
             } finally {
-                long endTime = Time.currentTimeMillis();
-                validationResult.setElapsedTime(endTime - validationResult.getStartTime());
+                validationResult.calcElapsedTimeIfNotCalculated();
 
                 HttpListeners.afterHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
