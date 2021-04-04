@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.db.cfg;
+package org.testingisdocumenting.webtau.db;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 
 import java.util.stream.Stream;
@@ -43,7 +44,17 @@ public class DbConfig implements WebTauConfigHandler {
         return Stream.of(dbPrimaryUrl, dbPrimaryDriverClassName, dbPrimaryUserName, dbPrimaryPassword);
     }
 
-    public static void reset() {
+    @Override
+    public void onBeforeCreate(WebTauConfig cfg) {
+        reset();
+    }
+
+    @Override
+    public void onAfterCreate(WebTauConfig cfg) {
+        DatabaseFacade.reset();
+    }
+
+    static void reset() {
         dbPrimaryUrl.reset();
         dbPrimaryDriverClassName.reset();
         dbPrimaryUserName.reset();

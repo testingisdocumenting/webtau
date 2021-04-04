@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.db.cfg;
+package org.testingisdocumenting.webtau.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.testingisdocumenting.webtau.db.DbDataSourceProvider;
 
 import javax.sql.DataSource;
 

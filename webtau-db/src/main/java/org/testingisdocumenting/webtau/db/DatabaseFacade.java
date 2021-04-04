@@ -22,14 +22,14 @@ import javax.sql.DataSource;
 import java.util.Map;
 
 public class DatabaseFacade {
-    private static final LabeledDataSourceProvider primaryDataSourceProvider =
+    private static final LabeledDataSourceCachedProvider primaryDataSourceProvider =
             new LabeledDataSourceCachedProvider(
                     () -> new LabeledDataSource(DbDataSourceProviders.provideByName("primary"), "primary-db"));
 
     public static final DatabaseFacade db = new DatabaseFacade();
 
-
-    private DatabaseFacade() {
+    static void reset() {
+        primaryDataSourceProvider.reset();
     }
 
     public Database from(DataSource dataSource, String label) {
