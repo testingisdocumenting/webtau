@@ -38,24 +38,28 @@ public class TokenizedMessageToAnsiConverter {
     public List<Object> convert(TokenizedMessage tokenizedMessage) {
         List<Object> valuesAndStyles = new ArrayList<>();
 
-        int i = 0;
         int len = tokenizedMessage.getNumberOfTokens();
-        for (MessageToken messageToken : tokenizedMessage) {
+        for (int idx = 0; idx < len; idx++) {
+            MessageToken messageToken = tokenizedMessage.getTokenAtIdx(idx);
             TokenRenderDetails renderDetails = this.tokenRenderDetails.get(messageToken.getType());
 
             if (renderDetails == null) {
                 throw new RuntimeException("no render details found for token: " + messageToken);
             }
 
-            boolean isLast = (i == len - 1);
-            boolean addSpace = renderDetails.isSpaceAfterRequired && !isLast;
+            boolean isNextDelimiter = ((idx + 1) < len) && isDelimiter(tokenizedMessage.getTokenAtIdx(idx + 1));
+            boolean isLast = (idx == len - 1);
+            boolean addSpace = renderDetails.isSpaceAfterRequired && !isLast && !isNextDelimiter;
             Stream<?> ansiSequence = convertToAnsiSequence(renderDetails, messageToken, addSpace);
 
             ansiSequence.forEach(valuesAndStyles::add);
-            i++;
         }
 
         return valuesAndStyles;
+    }
+
+    private boolean isDelimiter(MessageToken token) {
+        return token.getType().equals(IntegrationTestsMessageBuilder.TokenTypes.DELIMITER.getType());
     }
 
     private Stream<?> convertToAnsiSequence(TokenRenderDetails renderDetails, MessageToken messageToken, boolean addSpace) {

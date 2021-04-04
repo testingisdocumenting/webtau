@@ -92,7 +92,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         }
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
-                '  X failed validation : equals 100\n' +
+                '  X failed validation: equals 100\n' +
                 '      mismatches:\n' +
                 '      \n' +
                 '      body.price:   actual: 100 <java.lang.Integer>\n' +
@@ -124,7 +124,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         }
 
         expectReport(Integer.MAX_VALUE, '> action\n' +
-                'X failed action : error (250ms)') {
+                'X failed action: error (250ms)') {
             action.execute(StepReportOptions.REPORT_ALL)
         }
     }
@@ -237,7 +237,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         expectReport(1,
                 '> top level action\n' +
-                'X failed top level action : dummy out of memory (0ms)') {
+                'X failed top level action: dummy out of memory (0ms)') {
             executeNestedSteps()
         }
 
@@ -246,7 +246,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                         '  > second level action\n' +
                         '  . second level action completed (0ms)\n' +
                         '  > second level action with error\n' +
-                        '  X failed second level action with error : dummy out of memory (0ms)\n' +
+                        '  X failed second level action with error: dummy out of memory (0ms)\n' +
                         'X failed top level action (0ms)') {
             executeNestedSteps()
         }
@@ -256,7 +256,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                 '  . second level action completed (0ms)\n' +
                 '  > second level action with error\n' +
                 '    > third level action\n' +
-                '    X failed third level action : dummy out of memory (0ms)\n' +
+                '    X failed third level action: dummy out of memory (0ms)\n' +
                 '  X failed second level action with error (0ms)\n' +
                 'X failed top level action (0ms)') {
             executeNestedSteps()
