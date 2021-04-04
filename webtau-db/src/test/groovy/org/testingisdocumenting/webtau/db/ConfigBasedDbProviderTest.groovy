@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.db.cfg
+package org.testingisdocumenting.webtau.db
 
 import org.junit.AfterClass
 import org.junit.Test

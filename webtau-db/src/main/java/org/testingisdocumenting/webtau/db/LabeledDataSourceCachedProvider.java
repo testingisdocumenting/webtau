@@ -26,6 +26,10 @@ public class LabeledDataSourceCachedProvider implements LabeledDataSourceProvide
         this.provider = provider;
     }
 
+    public void reset() {
+        initialized = false;
+    }
+
     @Override
     public LabeledDataSource provide() {
         if (!initialized) {
