@@ -42,6 +42,7 @@ import org.testingisdocumenting.webtau.http.listener.HttpListeners;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFile;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormData;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormField;
+import org.testingisdocumenting.webtau.http.operationid.HttpOperationIdProviders;
 import org.testingisdocumenting.webtau.http.request.EmptyRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
@@ -106,7 +107,11 @@ public class Http {
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
                 () -> HttpValidationHandlers.withDisabledHandlers(() -> {
-                    http.get(url, header);
+                    HttpOperationIdProviders.withDisabledProviders(() -> {
+                        http.get(url, header);
+                        return null;
+                    });
+
                     return null;
                 })
         );
@@ -928,6 +933,13 @@ public class Http {
 
                 validationResult.calcElapsedTimeIfNotCalculated();
                 validationResult.setResponse(response);
+                
+                validationResult.setOperationId(HttpOperationIdProviders.operationId(
+                        validationResult.getRequestMethod(),
+                        validationResult.getUrl(),
+                        validationResult.getFullUrl(),
+                        validationResult.getRequestHeader(),
+                        validationResult.getRequestBody()));
 
                 R validationBlockReturnedValue = validateAndRecord(validationResult, validator);
 

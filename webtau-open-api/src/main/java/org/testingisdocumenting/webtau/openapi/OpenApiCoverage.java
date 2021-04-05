@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,9 +26,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class OpenApiCoverage {
-    private OpenApiSpec spec;
-
-    private OpenApiCoveredOperations coveredOperations = new OpenApiCoveredOperations();
+    private final OpenApiSpec spec;
+    private final OpenApiCoveredOperations coveredOperations = new OpenApiCoveredOperations();
 
     public OpenApiCoverage(OpenApiSpec spec) {
         this.spec = spec;

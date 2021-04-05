@@ -33,6 +33,7 @@ class HttpValidationResultTest {
             id: ~/httpCall-\d+/,
             method: 'POST',
             url: 'http://site/test/url',
+            operationId: '',
             requestHeader: [],
             responseHeader: [],
             errorMessage: null,

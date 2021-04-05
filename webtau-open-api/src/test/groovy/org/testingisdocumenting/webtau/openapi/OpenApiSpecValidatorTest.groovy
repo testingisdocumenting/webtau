@@ -46,7 +46,7 @@ class OpenApiSpecValidatorTest {
         def result = validationResult(GET, URL, ok(testResponse))
 
         code {
-            validator.validateApiSpec(result, ValidationMode.ALL)
+            validator.validateApiSpec(result, OpenApiValidationMode.ALL)
         } should throwException(~/Object has missing required properties/)
 
         result.mismatches.size().should == 2
@@ -59,7 +59,7 @@ class OpenApiSpecValidatorTest {
         def testResponse = '{"mandatoryField": "foo"}'
         def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(result, ValidationMode.ALL)
+        validator.validateApiSpec(result, OpenApiValidationMode.ALL)
 
         result.mismatches.size().should == 0
     }
@@ -73,7 +73,7 @@ class OpenApiSpecValidatorTest {
         def testResponse = '{"mandatoryField": "foo", "extraField": "value"}'
         def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(result, ValidationMode.ALL)
+        validator.validateApiSpec(result, OpenApiValidationMode.ALL)
 
         result.mismatches.size().should == 0
     }

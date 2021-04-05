@@ -66,6 +66,8 @@ public class HttpValidationResult implements WebTauStepOutput {
 
     private String errorMessage;
 
+    private String operationId;
+
     public HttpValidationResult(String personaId,
                                 String requestMethod,
                                 String url,
@@ -80,6 +82,7 @@ public class HttpValidationResult implements WebTauStepOutput {
         this.requestHeader = requestHeader;
         this.requestBody = requestBody;
         this.mismatches = new ArrayList<>();
+        this.operationId = "";
     }
 
     public String getId() {
@@ -225,6 +228,14 @@ public class HttpValidationResult implements WebTauStepOutput {
         return responseBodyNode;
     }
 
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
+    }
+
     @Override
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
@@ -237,6 +248,7 @@ public class HttpValidationResult implements WebTauStepOutput {
 
         result.put("method", requestMethod);
         result.put("url", fullUrl);
+        result.put("operationId", operationId);
 
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);

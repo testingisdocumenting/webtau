@@ -37,6 +37,10 @@ public class OpenApiOperation {
         return url;
     }
 
+    public String getId() {
+        return method + " " + url;
+    }
+
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("method", method);
