@@ -39,6 +39,7 @@ import org.testingisdocumenting.webtau.GroovyRunner
 import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
+import org.testingisdocumenting.webtau.utils.FileUtils
 
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -93,7 +94,10 @@ class WebtauRepl {
     }
 
     private void createConfigPath() {
-        replRoot = Paths.get("").toAbsolutePath().toString()
+        def webtauHomeDir = Paths.get(System.getProperty("user.home")).resolve(".webtau").toAbsolutePath()
+        FileUtils.createDirs(webtauHomeDir)
+
+        replRoot = webtauHomeDir.toString()
         configPath = new ConfigurationPath(Paths.get(replRoot), Paths.get(replRoot))
     }
 
