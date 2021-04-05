@@ -50,9 +50,9 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
 
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
-                    '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
+                    '> stopping cli command in background pid <id>: scripts/long-sleep\n' +
                     'Terminated\n' +
-                    '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
+                    '. background cli command: scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
     }
@@ -65,9 +65,9 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
 
             normalizeOutput(output.toString()).should == '> running cli command in background scripts/long-sleep\n' +
                     '. ran cli command in background scripts/long-sleep (time)\n' +
-                    '> stopping cli command in background pid <id> : scripts/long-sleep\n' +
+                    '> stopping cli command in background pid <id>: scripts/long-sleep\n' +
                     'Terminated\n' +
-                    '. background cli command : scripts/long-sleep finished with exit code 143 (time)\n' +
+                    '. background cli command: scripts/long-sleep finished with exit code 143 (time)\n' +
                     '. stopped cli command in background scripts/long-sleep (time)\n'
         }
     }
@@ -81,7 +81,7 @@ class CliBackgroundCommandOutputTest implements ConsoleOutput {
             def text = backgroundCmd.output.extractByRegexp("more (.*xt)")
             text.should == "text"
 
-            output.should contain("extracted text by regexp more (.*xt) from scripts/hello process output : text")
+            output.should contain("extracted text by regexp more (.*xt) from scripts/hello process output: text")
         }
     }
 
