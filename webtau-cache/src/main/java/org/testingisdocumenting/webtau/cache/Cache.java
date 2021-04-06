@@ -42,7 +42,14 @@ public class Cache {
         WebTauStep step = WebTauStep.createStep(null,
                 tokenizedMessage(action("getting cached value"), FROM, id(key)),
                 (r) -> tokenizedMessage(action("got cached value"), FROM, id(key), COLON, stringValue(r)),
-                () -> fileBasedCache.get(key));
+                () -> {
+                    Object value = fileBasedCache.get(key);
+                    if (value == null) {
+                        throw new AssertionError("can't find cached value by key: " + key);
+                    }
+
+                    return value;
+                });
 
         return step.execute(StepReportOptions.SKIP_START);
     }
