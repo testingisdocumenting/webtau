@@ -68,6 +68,7 @@ class WebtauRepl {
     private SystemRegistryImpl systemRegistry
     private Builtins builtins
     private LineReader reader
+    private WebtauReplResultRenderer resultRenderer
 
     WebtauRepl(StandaloneTestRunner runner) {
         runner.setIsReplMode(true)
@@ -91,6 +92,7 @@ class WebtauRepl {
         createSystemRegistry()
         createLineReader()
         createWidgets()
+        createResultRenderer()
     }
 
     private void createConfigPath() {
@@ -184,6 +186,10 @@ class WebtauRepl {
         new TailTipWidgets(reader, systemRegistry::commandDescription, 5, TailTipWidgets.TipType.COMBINED)
     }
 
+    private void createResultRenderer() {
+        resultRenderer = new WebtauReplResultRenderer(consoleEngine)
+    }
+
     private static Path workDir() {
         return Paths.get(System.getProperty("user.dir"))
     }
@@ -216,10 +222,13 @@ class WebtauRepl {
             String line = reader.readLine("webtau> ")
             line = parser.getCommand(line).startsWith("!") ? line.replaceFirst("!", "! ") : line
 
-            def future = replExecutorService.submit((() -> systemRegistry.execute(line)) as Callable)
-            lastSubmittedCommand.set(future)
+            def calcResultFuture = replExecutorService.submit(
+                    (() -> systemRegistry.execute(line)) as Callable)
+            lastSubmittedCommand.set(calcResultFuture)
 
-            consoleEngine.println(future.get())
+            def renderResultFuture = replExecutorService.submit(
+                    () -> resultRenderer.renderResult(calcResultFuture.get()))
+            renderResultFuture.get()
         }
         catch (UserInterruptException ignored) {
             // Ignore
