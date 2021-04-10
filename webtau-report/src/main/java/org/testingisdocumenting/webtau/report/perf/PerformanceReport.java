@@ -17,6 +17,8 @@
 package org.testingisdocumenting.webtau.report.perf;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
+import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,33 +27,48 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PerformanceReport {
-    private String label;
+    private final String id;
     private final List<OperationPerformance> operations;
     private final List<OperationAggregatedPerformance> aggregatedOperations;
 
-    public PerformanceReport(String label) {
-        this.label = label;
+    public PerformanceReport(String id) {
+        this.id = id;
         this.operations = new ArrayList<>();
         this.aggregatedOperations = new ArrayList<>();
     }
 
-    public String getLabel() {
-        return label;
+    public synchronized void reset() {
+        operations.clear();
+        aggregatedOperations.clear();
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public String getId() {
+        return id;
     }
 
-    public void addOperation(OperationPerformance operation) {
-        this.operations.add(operation);
+    public synchronized void addOperation(String groupId, String operationId, long startTime, long elapsedMs) {
+        this.operations.add(new OperationPerformance(groupId, operationId, startTime, elapsedMs));
+    }
+
+    public List<OperationPerformance> getOperations() {
+        return operations;
     }
 
     public List<OperationAggregatedPerformance> getAggregatedOperations() {
         return aggregatedOperations;
     }
 
-    public void aggregate() {
+    public ReportCustomData build() {
+        aggregate();
+
+        List<Map<String, Object>> aggregated = aggregatedOperations.stream()
+                .map(OperationAggregatedPerformance::toMap)
+                .collect(Collectors.toList());
+
+        return new ReportCustomData(id, CollectionUtils.aMapOf("aggregated", aggregated));
+    }
+
+    synchronized void aggregate() {
         Map<String, List<OperationPerformance>> byGroupId = operations.stream()
                 .collect(Collectors.groupingBy(OperationPerformance::getGroupId));
 

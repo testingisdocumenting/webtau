@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
+import org.testingisdocumenting.webtau.http.perf.HttpPerformanceValidationHandler;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class HttpValidationHandlers {
-    private static final List<HttpValidationHandler> globalHandlers = ServiceLoaderUtils.load(HttpValidationHandler.class);
+    private static final List<HttpValidationHandler> globalHandlers = globalHandlers();
     private static final List<HttpValidationHandler> addedHandlers = new ArrayList<>();
 
     private static final ThreadLocal<List<HttpValidationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
@@ -75,5 +76,13 @@ public class HttpValidationHandlers {
 
     private static void removeLocal(HttpValidationHandler handler) {
         localHandlers.get().remove(handler);
+    }
+
+    private static List<HttpValidationHandler> globalHandlers() {
+        ArrayList<HttpValidationHandler> result = new ArrayList<>();
+        result.add(new HttpPerformanceValidationHandler());
+        result.addAll(ServiceLoaderUtils.load(HttpValidationHandler.class));
+
+        return result;
     }
 }
