@@ -16,6 +16,9 @@
 
 package org.testingisdocumenting.webtau.report.perf;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OperationAggregatedPerformance {
     private String groupId;
     private long count;
@@ -23,8 +26,8 @@ public class OperationAggregatedPerformance {
     private double averageMs;
     private long minMs;
     private long maxMs;
-    private double p50ms;
     private double p20ms;
+    private double p50ms;
     private double p80ms;
     private double p95ms;
     private double p99ms;
@@ -107,5 +110,21 @@ public class OperationAggregatedPerformance {
 
     void setP99ms(double p99ms) {
         this.p99ms = p99ms;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("groupId", groupId);
+        result.put("count", count);
+        result.put("averageMs", averageMs);
+        result.put("minMs", minMs);
+        result.put("maxMs", maxMs);
+        result.put("p20ms", p20ms);
+        result.put("p50ms", p50ms);
+        result.put("p80ms", p80ms);
+        result.put("p95ms", p95ms);
+        result.put("p99ms", p99ms);
+
+        return result;
     }
 }
