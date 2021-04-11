@@ -35,7 +35,12 @@ public class HttpPerformanceValidationHandler implements HttpValidationHandler, 
 
     @Override
     public void validate(HttpValidationResult validationResult) {
-        performanceReport.addOperation(validationResult.getOperationId(),
+        String operationId = validationResult.getOperationId();
+        if (operationId.isEmpty()) {
+            return;
+        }
+
+        performanceReport.addOperation(operationId,
                 validationResult.getRequestMethod() + " " + validationResult.getFullUrl(),
                 validationResult.getStartTime(),
                 validationResult.getElapsedTime());

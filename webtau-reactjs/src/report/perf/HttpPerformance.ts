@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,8 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import SortableTable from './SortableTable'
+import { AggregatedOperationPerformance } from './AggregatedOperationPerformance';
 
-export function sortableTableDemo(registry) {
-    registry.add('no title', () => <SortableTable header={header()} data={data()}/>)
-}
-
-function header() {
-    return [
-        'Column A',
-        'Column B',
-        'Column C'
-    ]
-}
-
-function data() {
-    return [
-        ['value a1', 20, 40],
-        ['value a2', 30, 50]
-    ]
+export interface HttpPerformance {
+  aggregated: AggregatedOperationPerformance[];
 }

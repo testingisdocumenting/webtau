@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +14,16 @@
  * limitations under the License.
  */
 
-.webtau-sortable-table th {
-    cursor: pointer;
-    user-select: none;
-}
+export interface AggregatedOperationPerformance {
+  groupId: string;
+  count: number;
 
-.webtau-sortable-table .sort-indicator {
-    width: 8px;
-}
-
-.webtau-sortable-table .sort-indicator {
-    margin-right: 8px;
-}
-
-.webtau-sortable-table .sort-indicator.ascending {
-    transform: rotate(180deg);
-}
-
-.webtau-sortable-table .column-with-indicator {
-    display: flex;
+  averageMs: number;
+  minMs: number;
+  maxMs: number;
+  p20ms: number;
+  p50ms: number;
+  p80ms: number;
+  p95ms: number;
+  p99ms: number;
 }

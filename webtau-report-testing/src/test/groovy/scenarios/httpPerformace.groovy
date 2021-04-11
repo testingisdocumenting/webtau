@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +14,20 @@
  * limitations under the License.
  */
 
-.webtau-sortable-table th {
-    cursor: pointer;
-    user-select: none;
+package scenarios
+
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
+
+scenario('open report') {
+    report.openGroovyStandaloneReport('rest/springboot/customerCrudSeparatedMissingMethod-webtau-report.html')
 }
 
-.webtau-sortable-table .sort-indicator {
-    width: 8px;
-}
+scenario('navigate to performance tab and validate size') {
+    httpPerformance.selectOperationsPerformance()
 
-.webtau-sortable-table .sort-indicator {
-    margin-right: 8px;
-}
+    httpPerformance.operationsTableRows.count.waitTo == 3
 
-.webtau-sortable-table .sort-indicator.ascending {
-    transform: rotate(180deg);
-}
-
-.webtau-sortable-table .column-with-indicator {
-    display: flex;
+    browser.doc.withAnnotations(browser.doc.badge(httpPerformance.operationsPerformanceTab))
+            .capture('http-operations-performance-report')
 }
