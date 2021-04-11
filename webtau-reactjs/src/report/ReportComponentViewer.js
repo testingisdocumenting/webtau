@@ -15,59 +15,59 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import './WebTauReport.css'
+import './WebTauReport.css';
 
-import {ComponentViewer, Registries, DropDowns} from 'react-component-viewer'
-import {sortableTableDemo} from './widgets/SortableTable.demo'
-import {webTauReportsDemo} from './WebTauReports.demo'
-import {stepsDemo} from './details/steps/Steps.demo'
-import {cardWithElapsedTimeDemo} from './widgets/CardWithElapsedTime.demo'
-import {cardListDemo} from './widgets/CardList.demo'
-import {httpHeaderDemo} from './details/http-header/HttpHeader.demo'
-import {testErrorMessageDemo} from './widgets/TestErrorMessage.demo'
-import {cliBuildingBlocksDemo} from "./details/cli/CliBuildingBlocksDemo"
-import {testCliCallsDemo} from "./details/cli/TestCliCalls.demo"
-import {collapsibleHttpHeaderDemo} from "./details/http-header/CollapsibleHttpHeader.demo"
-import {testMetadataDemo} from './details/metadata/TestMetadata.demo'
-import Loading from './loading/Loading'
-import {testSummaryDemo} from './details/TestSummary.demo'
-import {testCliBackgroundCallsDemo} from './details/cli/TestCliBackgroundCalls.demo'
+import { ComponentViewer, Registries, DropDowns } from 'react-component-viewer';
+import { sortableTableDemo } from './widgets/SortableTable.demo';
+import { webTauReportsDemo } from './WebTauReports.demo';
+import { stepsDemo } from './details/steps/Steps.demo';
+import { cardWithElapsedTimeDemo } from './widgets/CardWithElapsedTime.demo';
+import { cardListDemo } from './widgets/CardList.demo';
+import { httpHeaderDemo } from './details/http-header/HttpHeader.demo';
+import { testErrorMessageDemo } from './widgets/TestErrorMessage.demo';
+import { cliBuildingBlocksDemo } from './details/cli/CliBuildingBlocksDemo';
+import { testCliCallsDemo } from './details/cli/TestCliCalls.demo';
+import { collapsibleHttpHeaderDemo } from './details/http-header/CollapsibleHttpHeader.demo';
+import { testMetadataDemo } from './details/metadata/TestMetadata.demo';
+import Loading from './loading/Loading';
+import { testSummaryDemo } from './details/TestSummary.demo';
+import { testCliBackgroundCallsDemo } from './details/cli/TestCliBackgroundCalls.demo';
+import { aggregatedOperationsPerformanceTableDemo } from './perf/AggregatedOperationsPerformanceTable.demo';
 
-const registries = new Registries()
+const registries = new Registries();
 
-registries.add('widgets')
-    .registerAsRows('table', sortableTableDemo)
-    .registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
-    .registerAsRows('card list', cardListDemo)
-    .registerAsRows('test error message', testErrorMessageDemo)
+registries
+  .add('widgets')
+  .registerAsRows('table', sortableTableDemo)
+  .registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
+  .registerAsRows('card list', cardListDemo)
+  .registerAsRows('test error message', testErrorMessageDemo);
 
-registries.add('core')
-    .registerAsGrid('steps', 0, stepsDemo)
-    .registerAsGrid('test metadata', 0, testMetadataDemo)
+registries.add('core').registerAsGrid('steps', 0, stepsDemo).registerAsGrid('test metadata', 0, testMetadataDemo);
 
-registries.add('http')
-    .registerAsRows('http header', httpHeaderDemo)
-    .registerAsRows('collapsible http header', collapsibleHttpHeaderDemo)
+registries
+  .add('http')
+  .registerAsRows('http header', httpHeaderDemo)
+  .registerAsRows('collapsible http header', collapsibleHttpHeaderDemo)
+  .registerAsRows('performance', aggregatedOperationsPerformanceTableDemo);
 
-registries.add('cli')
-    .registerAsRows('cli building blocks', cliBuildingBlocksDemo)
-    .registerAsTabs('cli calls', testCliCallsDemo)
-    .registerAsTabs('cli background calls', testCliBackgroundCallsDemo)
+registries
+  .add('cli')
+  .registerAsRows('cli building blocks', cliBuildingBlocksDemo)
+  .registerAsTabs('cli calls', testCliCallsDemo)
+  .registerAsTabs('cli background calls', testCliBackgroundCallsDemo);
 
-registries.add('panels')
-    .registerAsTabs('test summary', testSummaryDemo)
+registries.add('panels').registerAsTabs('test summary', testSummaryDemo);
 
-registries.add('full reports')
-    .registerAsTabs('demo reports', webTauReportsDemo)
-    .registerSingle('loading', () => <Loading/>)
+registries
+  .add('full reports')
+  .registerAsTabs('demo reports', webTauReportsDemo)
+  .registerSingle('loading', () => <Loading />);
 
-
-const dropDowns = new DropDowns()
+const dropDowns = new DropDowns();
 
 export function ReportComponentViewer() {
-    return (
-        <ComponentViewer registries={registries} dropDowns={dropDowns}/>
-    )
+  return <ComponentViewer registries={registries} dropDowns={dropDowns} />;
 }

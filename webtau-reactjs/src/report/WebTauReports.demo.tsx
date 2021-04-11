@@ -15,23 +15,15 @@
  * limitations under the License.
  */
 
-.webtau-sortable-table th {
-    cursor: pointer;
-    user-select: none;
-}
+import React from 'react';
+import WebTauReport from './WebTauReport';
+import Report from './Report';
 
-.webtau-sortable-table .sort-indicator {
-    width: 8px;
-}
+import { basicReport, withCliDataReport, withRestDataReport } from '../test-data/testData';
+import { Registry } from 'react-component-viewer';
 
-.webtau-sortable-table .sort-indicator {
-    margin-right: 8px;
-}
-
-.webtau-sortable-table .sort-indicator.ascending {
-    transform: rotate(180deg);
-}
-
-.webtau-sortable-table .column-with-indicator {
-    display: flex;
+export function webTauReportsDemo(registry: Registry) {
+  registry.add('basic', () => <WebTauReport report={new Report(basicReport)} />);
+  registry.add('with REST', () => <WebTauReport report={new Report(withRestDataReport)} />);
+  registry.add('with CLI', () => <WebTauReport report={new Report(withCliDataReport)} />);
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +15,21 @@
  * limitations under the License.
  */
 
-.operations-performance {
+import React from 'react';
+import { SortableTable } from './SortableTable';
+import { Registry } from 'react-component-viewer';
 
+export function sortableTableDemo(registry: Registry) {
+  registry.add('no title', () => <SortableTable header={header()} data={data()} />);
+}
+
+function header() {
+  return ['Column A', 'Column B', 'Column C'];
+}
+
+function data() {
+  return [
+    ['value a1', 20, 40],
+    ['value a2', 30, 50],
+  ];
 }

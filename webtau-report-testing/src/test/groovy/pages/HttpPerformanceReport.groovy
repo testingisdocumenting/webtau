@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import WebTauReport from './WebTauReport'
-import Report from './Report'
+package pages
 
-import {basicReport, withCliDataReport, withRestDataReport} from '../test-data/testData'
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-export function webTauReportsDemo(registry) {
-    registry.add('basic', () => <WebTauReport  report={new Report(basicReport)}/>)
-    registry.add('with REST', () => <WebTauReport  report={new Report(withRestDataReport)}/>)
-    registry.add('with CLI', () => <WebTauReport  report={new Report(withCliDataReport)}/>)
+class HttpPerformanceReport {
+    def operationsPerformanceTab = $(".tab-name").get("HTTP Operations Performance")
+
+    def operationsTableRows = $(".webtau-sortable-table tbody tr")
+
+    void selectOperationsPerformance() {
+        operationsPerformanceTab.click()
+    }
 }
