@@ -187,7 +187,7 @@ class WebtauRepl {
     }
 
     private void createResultRenderer() {
-        resultRenderer = new WebtauReplResultRenderer(consoleEngine)
+        resultRenderer = new WebtauReplResultRenderer()
     }
 
     private static Path workDir() {
