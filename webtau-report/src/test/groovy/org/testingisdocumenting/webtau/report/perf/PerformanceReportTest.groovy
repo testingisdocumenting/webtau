@@ -33,7 +33,7 @@ class PerformanceReportTest {
         report.addOperation("g2", "o4", 0, 10)
         report.addOperation("g2", "o5", 0, 20)
 
-        report.aggregate()
+        report.calc()
 
         assert report.aggregatedOperations.size() == 2
 
@@ -110,7 +110,7 @@ class PerformanceReportTest {
         def report = new PerformanceReport("my ops")
         report.addOperation("g1", "o1", 0, 5)
         report.addOperation("g2", "o2", 0, 20)
-        report.aggregate()
+        report.calc()
 
         report.operations.size().shouldNot == 0
         report.aggregatedOperations.size().shouldNot == 0
