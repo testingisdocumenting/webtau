@@ -31,7 +31,7 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class CliDocumentation {
     public void capture(String artifactName) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(classifier("documentation"), action("capturing last"), classifier("cli"),
                         action("call"), AS, urlValue(artifactName)),
                 (path) -> tokenizedMessage(classifier("documentation"), action("captured last"), classifier("cli"),

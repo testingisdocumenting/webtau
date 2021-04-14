@@ -53,7 +53,7 @@ public class CliForegroundCommand {
     private CliRunResult cliStep(String command, CliProcessConfig config, Consumer<CliValidationResult> validationCode) {
         CliValidationResult validationResult = new CliValidationResult(command);
 
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("running cli command "), stringValue(command)),
                 () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
                 () -> runAndValidate(validationResult, command, config, validationCode));

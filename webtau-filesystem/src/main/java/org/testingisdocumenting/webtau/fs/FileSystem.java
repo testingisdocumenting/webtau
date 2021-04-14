@@ -32,7 +32,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -77,7 +76,7 @@ public class FileSystem {
     }
 
     public void copy(Path src, Path dest) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("copying"), urlValue(src.toString()), TO, urlValue(dest.toString())),
                 (Object r) -> {
                     CopyResult result = (CopyResult) r;
@@ -105,7 +104,7 @@ public class FileSystem {
     public Path createDir(Path dir) {
         Path fullDirPath = getCfg().fullPath(dir);
 
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("creating"), classifier("dir"), urlValue(dir.toString())),
                 () -> tokenizedMessage(action("created"), classifier("dir"), urlValue(fullDirPath.toAbsolutePath().toString())),
                 () -> {
@@ -136,7 +135,7 @@ public class FileSystem {
         Path fullFileOrDirPath = getCfg().fullPath(fileOrDir);
 
         MessageToken classifier = classifier(classifierByPath(fullFileOrDirPath));
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("deleting"), classifier, urlValue(fileOrDir.toString())),
                 () -> tokenizedMessage(action("deleted"), classifier,
                         urlValue(fullFileOrDirPath.toAbsolutePath().toString())),
@@ -160,7 +159,7 @@ public class FileSystem {
     public Path writeText(Path path, String content) {
         Path fullPath = getCfg().fullPath(path);
 
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("writing text content"), OF, classifier("size"),
                         numberValue(content.length()), TO, urlValue(path.toString())),
                 () -> tokenizedMessage(action("wrote text content"), OF, classifier("size"),
@@ -186,7 +185,7 @@ public class FileSystem {
     }
 
     public Path tempDir(Path dir, String prefix) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
                 (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
                 () -> createTempDir(getCfg().fullPath(dir), prefix));
@@ -199,7 +198,7 @@ public class FileSystem {
         Path fullSrc = getCfg().fullPath(src);
         Path fullDest = getCfg().fullPath(dest);
 
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action(action), urlValue(src.toString()), TO, urlValue(dest.toString())),
                 () -> tokenizedMessage(action(actionCompleted), urlValue(fullSrc.toString()), TO, urlValue(fullDest.toString())),
                 () -> antTaskFactory.apply(fullSrc, fullDest).execute());

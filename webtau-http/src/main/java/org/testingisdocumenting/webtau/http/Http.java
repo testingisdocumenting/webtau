@@ -964,8 +964,8 @@ public class Http {
             }
         };
 
-        return WebTauStep.createStep(null, tokenizedMessage(
-                action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
+        return WebTauStep.createStep(
+                tokenizedMessage(action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 httpCallSupplier);
     }
@@ -983,7 +983,7 @@ public class Http {
                                           HttpHeader fullRequestHeader) {
         Supplier<Object> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
 
-        return WebTauStep.createStep(null, tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
+        return WebTauStep.createStep(tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 httpCallSupplier);
     }

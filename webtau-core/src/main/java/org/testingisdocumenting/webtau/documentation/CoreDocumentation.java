@@ -96,7 +96,7 @@ public class CoreDocumentation {
     }
 
     private static void captureStep(String type, String artifactName, Supplier<Object> code) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("capturing"), classifier(type),
                         action("documentation artifact"), id(artifactName)),
                 (path) -> tokenizedMessage(action("captured"), classifier(type),

@@ -39,7 +39,7 @@ public class Cache {
     }
 
     public <E> E get(String key) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("getting cached value"), FROM, id(key)),
                 (r) -> tokenizedMessage(action("got cached value"), FROM, id(key), COLON, stringValue(r)),
                 () -> {
@@ -55,7 +55,7 @@ public class Cache {
     }
 
     public void put(String key, Object value) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("caching value"), AS, id(key), COLON, stringValue(value)),
                 () -> tokenizedMessage(action("cached value"), AS, id(key), COLON, stringValue(value)),
                 () -> fileBasedCache.put(key, value));

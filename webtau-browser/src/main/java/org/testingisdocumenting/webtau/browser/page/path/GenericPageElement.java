@@ -42,7 +42,6 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -327,7 +326,7 @@ public class GenericPageElement implements PageElement {
     private void execute(TokenizedMessage inProgressMessage,
                          Supplier<TokenizedMessage> completionMessageSupplier,
                          Runnable action) {
-        createAndExecuteStep(this, inProgressMessage, completionMessageSupplier,
+        createAndExecuteStep(inProgressMessage, completionMessageSupplier,
                 () -> repeatForStaleElement(() -> {
                     action.run();
                     return null;
@@ -337,7 +336,7 @@ public class GenericPageElement implements PageElement {
     private void execute(TokenizedMessage inProgressMessage,
                          Function<Object, TokenizedMessage> completionMessageFunc,
                          Supplier<Object> action) {
-        createAndExecuteStep(this, inProgressMessage, completionMessageFunc,
+        createAndExecuteStep(inProgressMessage, completionMessageFunc,
                 () -> repeatForStaleElement(action), StepReportOptions.REPORT_ALL);
     }
 

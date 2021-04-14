@@ -57,7 +57,7 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAndDe
     }
 
     public String extractByRegexp(Pattern regexp) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
                         FROM, urlValue(path)),
                 (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"), stringValue(regexp),
