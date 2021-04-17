@@ -40,7 +40,8 @@ public class HttpPerformanceValidationHandler implements HttpValidationHandler, 
             return;
         }
 
-        performanceReport.addOperation(operationId,
+        performanceReport.addOperation(validationResult.getId(),
+                operationId,
                 validationResult.getRequestMethod() + " " + validationResult.getFullUrl(),
                 validationResult.getStartTime(),
                 validationResult.getElapsedTime());

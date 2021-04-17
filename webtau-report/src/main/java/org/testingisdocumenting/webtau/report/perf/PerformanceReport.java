@@ -49,8 +49,12 @@ public class PerformanceReport {
         return id;
     }
 
-    public synchronized void addOperation(String groupId, String operationId, long startTime, long elapsedMs) {
-        OperationPerformance operation = new OperationPerformance(groupId, operationId, startTime, elapsedMs);
+    public synchronized void addOperation(String uniqueId,
+                                          String groupId,
+                                          String operationId,
+                                          long startTime,
+                                          long elapsedMs) {
+        OperationPerformance operation = new OperationPerformance(uniqueId, groupId, operationId, startTime, elapsedMs);
         operations.add(operation);
         performanceHistogram.addOperation(operation);
     }
@@ -83,7 +87,7 @@ public class PerformanceReport {
         Map<String, List<OperationPerformance>> byGroupId = operations.stream()
                 .collect(Collectors.groupingBy(OperationPerformance::getGroupId));
 
-        overallSummary = aggregateGroup("allHttpOperations", operations);
+        overallSummary = aggregateGroup("allOperations", operations);
 
         aggregatedOperations.clear();
         aggregatedOperations.addAll(

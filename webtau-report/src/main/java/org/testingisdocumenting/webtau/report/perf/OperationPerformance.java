@@ -18,7 +18,6 @@ package org.testingisdocumenting.webtau.report.perf;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * single operation performance, e.g. HTTP call
@@ -30,8 +29,8 @@ public class OperationPerformance {
     private final long startTime;
     private final long elapsedMs;
 
-    public OperationPerformance(String groupId, String operationId, long startTime, long elapsedMs) {
-        this.uniqueId = UUID.randomUUID().toString();
+    public OperationPerformance(String uniqueId, String groupId, String operationId, long startTime, long elapsedMs) {
+        this.uniqueId = uniqueId;
         this.groupId = groupId;
         this.operationId = operationId;
         this.startTime = startTime;
