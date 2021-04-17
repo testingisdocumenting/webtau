@@ -32,6 +32,7 @@ public class ConfigBasedDbProvider implements DbDataSourceProvider {
         hikariConfig.setJdbcUrl(DbConfig.getDbPrimaryUrl());
         hikariConfig.setUsername(DbConfig.getDbPrimaryUserName());
         hikariConfig.setPassword(DbConfig.getDbPrimaryPassword());
+        hikariConfig.setConnectionTimeout(20_000);
 
         if (!DbConfig.getDbPrimaryDriverClassName().isEmpty()) {
             hikariConfig.setDriverClassName(DbConfig.getDbPrimaryDriverClassName());
