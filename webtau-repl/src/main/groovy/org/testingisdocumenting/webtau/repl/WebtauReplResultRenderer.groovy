@@ -16,23 +16,17 @@
 
 package org.testingisdocumenting.webtau.repl
 
-import org.jline.console.ConsoleEngine
 import org.testingisdocumenting.webtau.browser.page.PageElement
+import org.testingisdocumenting.webtau.data.render.DataRenderers
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.db.DbQuery
 import org.testingisdocumenting.webtau.fs.FileTextContent
 import org.testingisdocumenting.webtau.repl.tabledata.ReplTableRenderer
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*
-import static org.testingisdocumenting.webtau.console.ConsoleOutputs.*
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
 
 class WebtauReplResultRenderer {
-    private final ConsoleEngine consoleEngine
-
-    WebtauReplResultRenderer(ConsoleEngine consoleEngine) {
-        this.consoleEngine = consoleEngine
-    }
-
     void renderResult(Object result) {
         if (result instanceof PageElement) {
             renderPageElementAndHighlight(result)
@@ -41,24 +35,24 @@ class WebtauReplResultRenderer {
         } else if (result instanceof FileTextContent) {
             renderTextLimitingSize(result.data)
         } else if (result instanceof PrettyPrintable) {
-            result.prettyPrint(asCombinedConsoleOutput())
-        } else {
-            consoleEngine.println(result)
+            result.prettyPrint(ConsoleOutputs.asCombinedConsoleOutput())
+        } else if (result != null) {
+            ConsoleOutputs.out(DataRenderers.render(result))
         }
     }
 
     private static void renderTextLimitingSize(String text) {
-        outLinesWithLimit(
+        ConsoleOutputs.outLinesWithLimit(
                 Arrays.asList(text.split("\n")),
                 cfg.consolePayloadOutputLimit) {[it] as Object[]}
     }
 
     private static void renderDbQueryResult(DbQuery queryResult) {
-        out(ReplTableRenderer.render(queryResult.tableData()))
+        ConsoleOutputs.out(ReplTableRenderer.render(queryResult.tableData()))
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {
-        pageElement.prettyPrint(asCombinedConsoleOutput())
+        pageElement.prettyPrint(ConsoleOutputs.asCombinedConsoleOutput())
         pageElement.highlight()
     }
 }
