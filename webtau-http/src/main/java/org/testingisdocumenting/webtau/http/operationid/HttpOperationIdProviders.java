@@ -58,7 +58,7 @@ public class HttpOperationIdProviders {
             return "";
         }
 
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 TokenizedMessage.tokenizedMessage(
                 action("mapping"), classifier("operation id")),
                 (id) -> TokenizedMessage.tokenizedMessage(

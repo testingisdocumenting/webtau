@@ -151,7 +151,7 @@ class WebTauStepTest {
     }
 
     private static WebTauStep createStep(String title, Supplier stepCode = { return null }) {
-        return WebTauStep.createStep(null, tokenizedMessage(action(title)), {
+        return WebTauStep.createStep(tokenizedMessage(action(title)), {
             tokenizedMessage(action('done ' + title))
         } as Supplier, stepCode)
     }

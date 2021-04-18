@@ -59,7 +59,7 @@ public class CliOutput implements CliResultExpectations {
     }
 
     public String extractByRegexp(Pattern regexp) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
                         FROM, urlValue(command), classifier(id)),
                 (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"), stringValue(regexp),

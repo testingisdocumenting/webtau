@@ -131,7 +131,6 @@ public class WebTauCore extends Matchers {
 
     public static <R> R step(String label, Supplier<Object> action) {
         WebTauStep step = WebTauStep.createStep(
-                null,
                 tokenizedMessage(action(label)),
                 () -> tokenizedMessage(none("completed"), action(label)),
                 action);

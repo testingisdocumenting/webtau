@@ -156,7 +156,6 @@ public class OpenApiSpec {
         MessageToken openApiToken = classifier("open API spec");
         MessageToken typeToken = classifier(specLocation.isFileSystem() ? "file system" : "http url");
         WebTauStep step = WebTauStep.createStep(
-                null,
                 tokenizedMessage(action("reading"), openApiToken,
                         FROM, typeToken, urlValue(specLocation.getOriginalValue())),
                         () -> tokenizedMessage(action("read"), openApiToken,

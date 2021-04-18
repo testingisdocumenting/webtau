@@ -54,10 +54,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should indent multiline assertion message at the end of a step message"() {
-        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def validationStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
+            def validationStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("validation")),
                     { -> TokenizedMessage.tokenizedMessage(action("validated"),
                             matcher(multilineMatcherMessage('matches'))) }) {
             }
@@ -78,10 +78,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should indent multiline error message at the end of a step message"() {
-        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def validationStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("validation")),
+            def validationStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("validation")),
                     { -> TokenizedMessage.tokenizedMessage(action("validation"),
                             matcher(multilineMatcherMessage('matches'))) }) {
 
@@ -105,7 +105,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render time step took in milliseconds"() {
         Time.setTimeProvider(new ControlledTimeProvider([100, 350]))
-        def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+        def action = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("action")),
                 { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
         }
 
@@ -118,7 +118,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render failed step time took in milliseconds"() {
         Time.setTimeProvider(new ControlledTimeProvider([100, 350]))
-        def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+        def action = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("action")),
                 { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
             throw new RuntimeException("error")
         }
@@ -132,7 +132,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render long running step time in seconds"() {
         Time.setTimeProvider(new ControlledTimeProvider([100, 5350]))
-        def action = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("action")),
+        def action = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("action")),
                 { -> TokenizedMessage.tokenizedMessage(action("action completed")) }) {
         }
 
@@ -144,10 +144,10 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should indent step input pretty print"() {
-        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def secondLevelStepSuccess = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action")),
+            def secondLevelStepSuccess = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("second level action")),
                     { -> TokenizedMessage.tokenizedMessage(action("second level action completed")) }) {
             }
 
@@ -171,7 +171,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render repeated step progress"() {
         def repeatStep = WebTauStep.createRepeatStep("repeat", 5) {ctx ->
-            def step = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("repeat")),
+            def step = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("repeat")),
                     { -> TokenizedMessage.tokenizedMessage(action("completed repeat")) }) {
             }
             step.execute(StepReportOptions.REPORT_ALL)
@@ -200,7 +200,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render failed step within repeated step progress"() {
         def repeatStep = WebTauStep.createRepeatStep("repeat", 5) {ctx ->
-            def step = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("repeat")),
+            def step = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("repeat")),
                     { -> TokenizedMessage.tokenizedMessage(action("completed repeat")) }) {
                 if (ctx.attemptNumber == 2) {
                     throw new RuntimeException("no file found")
@@ -264,19 +264,19 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     }
 
     private static void executeNestedSteps() {
-        def topLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("top level action")),
+        def topLevelStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
 
-            def secondLevelStepSuccess = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action")),
+            def secondLevelStepSuccess = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("second level action")),
                     { -> TokenizedMessage.tokenizedMessage(action("second level action completed")) }) {
             }
 
             secondLevelStepSuccess.execute(StepReportOptions.REPORT_ALL)
 
-            def secondLevelStepFailure = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("second level action with error")),
+            def secondLevelStepFailure = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("second level action with error")),
                     { -> TokenizedMessage.tokenizedMessage(action("second level action with error completed")) }) {
 
-                def thirdLevelStep = WebTauStep.createStep(null, TokenizedMessage.tokenizedMessage(action("third level action")),
+                def thirdLevelStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("third level action")),
                         { -> TokenizedMessage.tokenizedMessage(action("third level action completed")) }) {
                     throw new RuntimeException('dummy out of memory')
                 }
