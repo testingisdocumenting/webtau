@@ -18,10 +18,22 @@ package scenarios.db
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-scenario('create customer using http') {
-    http.post("/customers", [firstName: 'FN', lastName: 'LN'])
+scenario('create table and add values') {
+    db.update("""
+CREATE TABLE IF NOT EXISTS TEST_TABLE (
+    id varchar(255),
+    available bool
+)
+"""
+    )
+
+    db.table("TEST_TABLE") << [id: 'id1', available: true]
 }
 
-scenario('validate db using primary config') {
-    db.update('delete from CUSTOMER')
+scenario('read from table using primary db') {
+    db.query("select * from TEST_TABLE").numberOfRows().shouldBe > 0
+}
+
+scenario('drop table') {
+    db.update('DROP TABLE TEST_TABLE')
 }
