@@ -158,7 +158,7 @@ public class ActualValue implements ActualValueExpectations {
                                     ValueMatcher valueMatcher, boolean isNegative,
                                     TokenizedMessage messageStart, Runnable expectationValidation,
                                     StepReportOptions stepReportOptions) {
-        WebTauStep step = createStep(null,
+        WebTauStep step = createStep(
                 messageStart.add(elementDescription)
                         .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
                 () -> tokenizedMessage(elementDescription)

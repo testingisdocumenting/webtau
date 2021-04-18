@@ -78,7 +78,7 @@ public class Database {
     public void update(String query, Map<String, Object> params) {
         DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
 
-        WebTauStep step = createStep(null,
+        WebTauStep step = createStep(
                 updateMessage("running DB update", query, namedParamsQuery.effectiveParams(), null),
                 (rows) -> updateMessage("ran DB update", query, Collections.emptyMap(), (Integer) rows),
                 () -> QueryRunnerUtils.runUpdate(dataSourceProvider.provide().getDataSource(), query, namedParamsQuery));

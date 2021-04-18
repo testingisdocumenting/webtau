@@ -61,7 +61,6 @@ public class CliBackgroundCommand implements WebTauStepPayload {
 
     public void stop() {
         WebTauStep.createAndExecuteStep(
-                null,
                 tokenizedMessage(action("stopping cli command in background"),
                         classifier("pid"), id(String.valueOf(backgroundProcess.getPid())), COLON, stringValue(command)),
                 (wasRunning) -> (Boolean) wasRunning ?
@@ -154,7 +153,7 @@ public class CliBackgroundCommand implements WebTauStepPayload {
             try {
                 backgroundProcess.getProcess().waitFor();
 
-                WebTauStep step = WebTauStep.createStep(null,
+                WebTauStep step = WebTauStep.createStep(
                         startTime,
                         tokenizedMessage(),
                         (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),

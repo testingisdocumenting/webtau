@@ -35,7 +35,7 @@ public class HttpDocumentation {
     public void capture(String artifactName) {
         DocumentationArtifacts.registerName(artifactName);
 
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(classifier("documentation"), action("capturing last"), classifier("http"),
                         action("call"), AS, urlValue(artifactName)),
                 (path) -> tokenizedMessage(classifier("documentation"), action("captured last"), classifier("http"),

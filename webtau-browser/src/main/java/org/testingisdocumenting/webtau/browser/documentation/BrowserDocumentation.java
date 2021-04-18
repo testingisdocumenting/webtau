@@ -77,7 +77,7 @@ public class BrowserDocumentation {
     }
 
     public void capture(String screenshotName) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(classifier("documentation"), action("capturing"), classifier("screenshot"),
                         AS, urlValue(screenshotName)),
                 (path) -> tokenizedMessage(classifier("documentation"), action("captured"), classifier("screenshot")

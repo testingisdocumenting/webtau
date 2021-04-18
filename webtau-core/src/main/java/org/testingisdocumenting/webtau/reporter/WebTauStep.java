@@ -32,7 +32,6 @@ import static java.util.stream.Collectors.toList;
 import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
 
 public class WebTauStep {
-    private final Object context;
     private final String personaId;
 
     private final TokenizedMessage inProgressMessage;
@@ -57,59 +56,47 @@ public class WebTauStep {
 
     private static final ThreadLocal<WebTauStep> currentStep = new ThreadLocal<>();
 
-    public static WebTauStep createStep(Object context,
-                                        TokenizedMessage inProgressMessage,
+    public static WebTauStep createStep(TokenizedMessage inProgressMessage,
                                         Supplier<TokenizedMessage> completionMessageSupplier,
                                         Runnable action) {
-        return createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
+        return createStep(inProgressMessage, completionMessageSupplier, toSupplier(action));
     }
 
-    public static WebTauStep createStep(Object context,
-                                        TokenizedMessage inProgressMessage,
+    public static WebTauStep createStep(TokenizedMessage inProgressMessage,
                                         Function<Object, TokenizedMessage> completionMessageFunc,
                                         Supplier<Object> action) {
-        return createStep(context, 0, inProgressMessage, completionMessageFunc, toFunction(action));
+        return createStep(0, inProgressMessage, completionMessageFunc, toFunction(action));
     }
 
     public static WebTauStep createStep(TokenizedMessage inProgressMessage,
                                         Supplier<TokenizedMessage> completionMessageSupplier,
-                                        Runnable action) {
-        return createStep(null, inProgressMessage, completionMessageSupplier, toSupplier(action));
+                                        Supplier<Object> action) {
+        return createStep(0, inProgressMessage, completionMessageSupplier, action);
     }
 
-    public static WebTauStep createStep(Object context,
+    public static WebTauStep createStep(long startTime,
                                         TokenizedMessage inProgressMessage,
                                         Supplier<TokenizedMessage> completionMessageSupplier,
                                         Supplier<Object> action) {
-        return createStep(context, 0, inProgressMessage, completionMessageSupplier, action);
-    }
-
-    public static WebTauStep createStep(Object context,
-                                        long startTime,
-                                        TokenizedMessage inProgressMessage,
-                                        Supplier<TokenizedMessage> completionMessageSupplier,
-                                        Supplier<Object> action) {
-        return createStep(context, startTime, inProgressMessage,
+        return createStep(startTime, inProgressMessage,
                 (stepResult) -> completionMessageSupplier.get(),
                 toFunction(action));
     }
 
-    public static WebTauStep createStep(Object context,
-                                        long startTime,
+    public static WebTauStep createStep(long startTime,
                                         TokenizedMessage inProgressMessage,
                                         Supplier<TokenizedMessage> completionMessageSupplier,
                                         Runnable action) {
-        return createStep(context, startTime, inProgressMessage,
+        return createStep(startTime, inProgressMessage,
                 (stepResult) -> completionMessageSupplier.get(),
                 toFunction(action));
     }
 
-    public static WebTauStep createStep(Object context,
-                                        long startTime,
+    public static WebTauStep createStep(long startTime,
                                         TokenizedMessage inProgressMessage,
                                         Function<Object, TokenizedMessage> completionMessageFunc,
                                         Function<WebTauStepContext, Object> action) {
-        WebTauStep step = new WebTauStep(context, startTime, inProgressMessage, completionMessageFunc, action);
+        WebTauStep step = new WebTauStep(startTime, inProgressMessage, completionMessageFunc, action);
         WebTauStep localCurrentStep = WebTauStep.currentStep.get();
 
         step.parent = localCurrentStep;
@@ -122,7 +109,7 @@ public class WebTauStep {
     }
 
     public static WebTauStep createRepeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
-        WebTauStep step = WebTauStep.createStep(null, 0,
+        WebTauStep step = WebTauStep.createStep(0,
                 tokenizedMessage(action("repeat " + label), numberValue(numberOfAttempts), classifier("times")),
                 (ignored) -> tokenizedMessage(action("repeated " + label), numberValue(numberOfAttempts), classifier("times")),
                 action);
@@ -131,42 +118,32 @@ public class WebTauStep {
         return step;
     }
 
-    public static void createAndExecuteStep(Object context,
-                                            TokenizedMessage inProgressMessage,
+    public static void createAndExecuteStep(TokenizedMessage inProgressMessage,
                                             Function<Object, TokenizedMessage> completionMessageFunc,
                                             Supplier<Object> action,
                                             StepReportOptions stepReportOptions) {
-        WebTauStep step = createStep(context, inProgressMessage, completionMessageFunc, action);
+        WebTauStep step = createStep(inProgressMessage, completionMessageFunc, action);
         step.execute(stepReportOptions);
     }
 
-    public static void createAndExecuteStep(Object context,
-                                            TokenizedMessage inProgressMessage,
+    public static void createAndExecuteStep(TokenizedMessage inProgressMessage,
                                             Supplier<TokenizedMessage> completionMessageSupplier,
                                             Runnable action,
                                             StepReportOptions stepReportOptions) {
-        WebTauStep step = createStep(context, inProgressMessage, completionMessageSupplier, toSupplier(action));
+        WebTauStep step = createStep(inProgressMessage, completionMessageSupplier, toSupplier(action));
         step.execute(stepReportOptions);
-    }
-
-    public static void createAndExecuteStep(Object context,
-                                            TokenizedMessage inProgressMessage,
-                                            Supplier<TokenizedMessage> completionMessageSupplier,
-                                            Runnable action) {
-        createAndExecuteStep(context,
-                inProgressMessage, completionMessageSupplier,
-                action, StepReportOptions.REPORT_ALL);
     }
 
     public static void createAndExecuteStep(TokenizedMessage inProgressMessage,
                                             Supplier<TokenizedMessage> completionMessageSupplier,
                                             Runnable action) {
-        createAndExecuteStep(null, inProgressMessage, completionMessageSupplier, action);
+        createAndExecuteStep(inProgressMessage, completionMessageSupplier,
+                action, StepReportOptions.REPORT_ALL);
     }
 
     public static void createAndExecuteStep(Supplier<TokenizedMessage> completionMessageSupplier,
                                             Runnable action) {
-        createAndExecuteStep(null, TokenizedMessage.tokenizedMessage(), completionMessageSupplier,
+        createAndExecuteStep(TokenizedMessage.tokenizedMessage(), completionMessageSupplier,
                 action, StepReportOptions.SKIP_START);
     }
 
@@ -174,12 +151,10 @@ public class WebTauStep {
         return currentStep.get();
     }
 
-    private WebTauStep(Object context,
-                       long startTime,
+    private WebTauStep(long startTime,
                        TokenizedMessage inProgressMessage,
                        Function<Object, TokenizedMessage> completionMessageFunc,
                        Function<WebTauStepContext, Object> action) {
-        this.context = context;
         this.personaId = Persona.getCurrentPersona().getId();
         this.startTime = startTime;
         this.children = new ArrayList<>();
@@ -244,17 +219,6 @@ public class WebTauStep {
     public int calcNumberOfFailedSteps() {
         return ((isFailed() ? 1 : 0) +
                 children.stream().map(WebTauStep::calcNumberOfFailedSteps).reduce(0, Integer::sum));
-    }
-
-    public Object getFirstAvailableContext() {
-        if (context != null) {
-            return context;
-        }
-
-        return children.stream()
-                .map(WebTauStep::getFirstAvailableContext)
-                .filter(Objects::nonNull)
-                .findFirst().orElse(null);
     }
 
     public int getNumberOfParents() {

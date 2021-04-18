@@ -106,7 +106,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
     }
 
     private <E> E fetchValueAsStep(Supplier<Object> supplier) {
-        WebTauStep step = createStep(null,
+        WebTauStep step = createStep(
                 queryMessage("running DB query"),
                 () -> queryMessage("ran DB query"),
                 supplier);

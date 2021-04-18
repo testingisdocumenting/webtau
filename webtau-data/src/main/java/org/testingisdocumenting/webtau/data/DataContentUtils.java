@@ -38,7 +38,6 @@ class DataContentUtils {
     @SuppressWarnings("unchecked")
     static <R> R readAndConvertTextContentAsStep(String dataType, DataPath dataPath, Function<String, R> convertor) {
         WebTauStep step = WebTauStep.createStep(
-                null,
                 tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"),
                         urlValue(dataPath.getGivenPathAsString())),
                 (result) -> {
@@ -61,7 +60,6 @@ class DataContentUtils {
 
     static Path writeTextContentAsStep(String dataType, Path path, Supplier<String> convertor) {
         WebTauStep step = WebTauStep.createStep(
-                null,
                 tokenizedMessage(action("writing"), classifier(dataType), TO, classifier("file"), urlValue(path)),
                 (result) -> {
                     ContentResult contentResult = (ContentResult) result;
