@@ -19,6 +19,10 @@ package org.testingisdocumenting.webtau.report.perf;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * aggregated performance of operations belonging to the same group (e.g. Open API operation)
+ * does not hold the actual operations
+ */
 public class OperationAggregatedPerformance {
     private String groupId;
     private long count;
@@ -32,6 +36,10 @@ public class OperationAggregatedPerformance {
     private double p95ms;
     private double p99ms;
 
+    /**
+     * group id for aggregation, e.g. Open API operation to group by
+     * @return operation group id
+     */
     public String getGroupId() {
         return groupId;
     }

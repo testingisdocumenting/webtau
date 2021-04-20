@@ -24,93 +24,109 @@ class PerformanceReportTest {
         def report = new PerformanceReport("myOps")
 
         101.times {
-            report.addOperation("g1", "o${it + 1}", 0, it)
+            report.addOperation("uniqueId${it}", "g1", "o${it + 1}", 0, it)
         }
 
-        report.addOperation("g2", "o1", 0, 10)
-        report.addOperation("g2", "o2", 0, 20)
-        report.addOperation("g2", "o3", 0, 30)
-        report.addOperation("g2", "o4", 0, 10)
-        report.addOperation("g2", "o5", 0, 20)
+        report.addOperation("uid1", "g2", "o1", 0, 10)
+        report.addOperation("uid2", "g2", "o2", 0, 20)
+        report.addOperation("uid3", "g2", "o3", 0, 30)
+        report.addOperation("uid4", "g2", "o4", 0, 10)
+        report.addOperation("uid5", "g2", "o5", 0, 20)
 
-        report.aggregate()
+        report.calc()
 
         assert report.aggregatedOperations.size() == 2
 
         def g1 = report.aggregatedOperations[0]
         g1.should == [
-                groupId: "g1",
-                count: 101,
+                groupId  : "g1",
+                count    : 101,
                 averageMs: 50.0,
-                maxMs: 100,
-                minMs: 0,
-                p20ms: 19.4,
-                p50ms: 50.0,
-                p80ms: 80.6,
-                p95ms: 95.9,
-                p99ms: 99.98]
+                maxMs    : 100,
+                minMs    : 0,
+                p20ms    : 19.4,
+                p50ms    : 50.0,
+                p80ms    : 80.6,
+                p95ms    : 95.9,
+                p99ms    : 99.98]
 
         def g2 = report.aggregatedOperations[1]
         g2.should == [
-                groupId: "g2",
-                count: 5,
+                groupId  : "g2",
+                count    : 5,
                 averageMs: 18.0,
-                maxMs: 30,
-                minMs: 10,
-                p20ms: 10.0,
-                p50ms: 20.0,
-                p80ms: 28.0,
-                p95ms: 30.0,
-                p99ms: 30.0]
+                maxMs    : 30,
+                minMs    : 10,
+                p20ms    : 10.0,
+                p50ms    : 20.0,
+                p80ms    : 28.0,
+                p95ms    : 30.0,
+                p99ms    : 30.0]
     }
 
     @Test
     void "should generate custom report data"() {
         def report = new PerformanceReport("myOps")
-        report.addOperation("g1", "o1", 0, 5)
-        report.addOperation("g1", "o2", 0, 10)
-        report.addOperation("g2", "o1", 0, 10)
-        report.addOperation("g2", "o2", 0, 20)
+        report.addOperation("uid1", "g1", "o1", 0, 5)
+        report.addOperation("uid2", "g1", "o2", 0, 10)
+        report.addOperation("uid3", "g2", "o1", 0, 10)
+        report.addOperation("uid4", "g2", "o2", 0, 20)
 
         def reportData = report.build()
-        println reportData.toMap()
 
         reportData.toMap().should == [
-                "myOps": ["aggregated": [
-                        [
-                                groupId: "g1",
-                                count: 2,
-                                p20ms: 5.0,
-                                p50ms: 7.5,
-                                p80ms: 10.0,
-                                p95ms: 10.0,
-                                p99ms: 10.0,
-                                minMs: 5,
-                                maxMs: 10,
-                                averageMs: 7.5
-                        ],
-                        [
-                                groupId: "g2",
-                                count: 2,
-                                p20ms: 10.0,
-                                p50ms: 15.0,
-                                p80ms: 20.0,
-                                p95ms: 20.0,
-                                p99ms: 20.0,
-                                minMs: 10,
-                                maxMs: 20,
-                                averageMs: 15.0
-                        ],
+                myOps: [
+                        aggregated    : [[
+                                                 groupId  : "g1",
+                                                 count    : 2,
+                                                 p20ms    : 5.0,
+                                                 p50ms    : 7.5,
+                                                 p80ms    : 10.0,
+                                                 p95ms    : 10.0,
+                                                 p99ms    : 10.0,
+                                                 minMs    : 5,
+                                                 maxMs    : 10,
+                                                 averageMs: 7.5
+                                         ],
+                                         [
+                                                 groupId  : "g2",
+                                                 count    : 2,
+                                                 p20ms    : 10.0,
+                                                 p50ms    : 15.0,
+                                                 p80ms    : 20.0,
+                                                 p95ms    : 20.0,
+                                                 p99ms    : 20.0,
+                                                 minMs    : 10,
+                                                 maxMs    : 20,
+                                                 averageMs: 15.0
+                                         ]],
+                        histogram     : [buckets: [[minMsInclusive: 0, operationUniqueIds: ["uid1", "uid2", "uid3", "uid4"],
+                                                    maxMsExclusive: 50]], stepMs: 50],
+                        summary       : [
+                                count    : 4,
+                                minMs    : 5,
+                                maxMs    : 20,
+                                p20ms    : 5.0,
+                                p50ms    : 10.0,
+                                p95ms    : 20.0,
+                                p80ms    : 20.0,
+                                p99ms    : 20.0,
+                                averageMs: 11.25,
+                                groupId  : "allOperations"],
+                        operationsById: [
+                                uid1: [groupId: 'g1', operationId: 'o1', startTime: 0, elapsedMs: 5],
+                                uid2: [groupId: 'g1', operationId: 'o2', startTime: 0, elapsedMs: 10],
+                                uid3: [groupId: 'g2', operationId: 'o1', startTime: 0, elapsedMs: 10],
+                                uid4: [groupId: 'g2', operationId: 'o2', startTime: 0, elapsedMs: 20]]
                 ]]
-        ]
     }
 
     @Test
     void "reset should clear up internal collections"() {
         def report = new PerformanceReport("my ops")
-        report.addOperation("g1", "o1", 0, 5)
-        report.addOperation("g2", "o2", 0, 20)
-        report.aggregate()
+        report.addOperation("uid1", "g1", "o1", 0, 5)
+        report.addOperation("uid2", "g2", "o2", 0, 20)
+        report.calc()
 
         report.operations.size().shouldNot == 0
         report.aggregatedOperations.size().shouldNot == 0

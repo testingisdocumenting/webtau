@@ -30,11 +30,14 @@ public class PerformanceReport {
     private final String id;
     private final List<OperationPerformance> operations;
     private final List<OperationAggregatedPerformance> aggregatedOperations;
+    private final OperationsPerformanceHistogram performanceHistogram;
+    private OperationAggregatedPerformance overallSummary;
 
     public PerformanceReport(String id) {
         this.id = id;
         this.operations = new ArrayList<>();
         this.aggregatedOperations = new ArrayList<>();
+        this.performanceHistogram = new OperationsPerformanceHistogram(50);
     }
 
     public synchronized void reset() {
@@ -46,8 +49,14 @@ public class PerformanceReport {
         return id;
     }
 
-    public synchronized void addOperation(String groupId, String operationId, long startTime, long elapsedMs) {
-        this.operations.add(new OperationPerformance(groupId, operationId, startTime, elapsedMs));
+    public synchronized void addOperation(String uniqueId,
+                                          String groupId,
+                                          String operationId,
+                                          long startTime,
+                                          long elapsedMs) {
+        OperationPerformance operation = new OperationPerformance(uniqueId, groupId, operationId, startTime, elapsedMs);
+        operations.add(operation);
+        performanceHistogram.addOperation(operation);
     }
 
     public List<OperationPerformance> getOperations() {
@@ -59,28 +68,37 @@ public class PerformanceReport {
     }
 
     public ReportCustomData build() {
-        aggregate();
+        calc();
 
         List<Map<String, Object>> aggregated = aggregatedOperations.stream()
                 .map(OperationAggregatedPerformance::toMap)
                 .collect(Collectors.toList());
 
-        return new ReportCustomData(id, CollectionUtils.aMapOf("aggregated", aggregated));
+        return new ReportCustomData(id, CollectionUtils.aMapOf(
+                "aggregated", aggregated,
+                "operationsById", operations.stream()
+                        .collect(Collectors.toMap(OperationPerformance::getUniqueId, OperationPerformance::toMap)),
+                "histogram", performanceHistogram.toMap(),
+                "summary", overallSummary.toMap()
+        ));
     }
 
-    synchronized void aggregate() {
+    synchronized void calc() {
         Map<String, List<OperationPerformance>> byGroupId = operations.stream()
                 .collect(Collectors.groupingBy(OperationPerformance::getGroupId));
 
+        overallSummary = aggregateGroup("allOperations", operations);
+
         aggregatedOperations.clear();
-        aggregatedOperations.addAll(byGroupId.values().stream()
-            .map(this::aggregateSingleGroup)
-                .collect(Collectors.toList()));
+        aggregatedOperations.addAll(
+                byGroupId.values().stream()
+                        .map(operations -> aggregateGroup(operations.get(0).getGroupId(), operations))
+                        .collect(Collectors.toList()));
     }
 
-    private OperationAggregatedPerformance aggregateSingleGroup(List<OperationPerformance> operations) {
+    private OperationAggregatedPerformance aggregateGroup(String groupIdToUse, List<OperationPerformance> operations) {
         OperationAggregatedPerformance result = new OperationAggregatedPerformance();
-        result.setGroupId(operations.get(0).getGroupId());
+        result.setGroupId(groupIdToUse);
 
         LongSummaryStatistics summaryStatistics = operations
                 .stream()
