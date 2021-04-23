@@ -16,9 +16,12 @@
 
 package testscripts
 
+import java.nio.file.Paths
+
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('open browser and perform validation') {
-    browser.open('https://jsonplaceholder.typicode.com')
-    $("h1").should == "JSONPlaceholder"
+    def basicHtmlPath = Paths.get("data/basic.html").toAbsolutePath()
+    browser.open("file://${basicHtmlPath.toAbsolutePath()}")
+    $("p").should == "hello web page"
 }
