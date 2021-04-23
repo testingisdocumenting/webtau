@@ -17,24 +17,25 @@
 package org.testingisdocumenting.webtau.browser.handlers;
 
 import org.openqa.selenium.WebElement;
-import org.testingisdocumenting.webtau.browser.page.HtmlNode;
-import org.testingisdocumenting.webtau.browser.page.NullWebElement;
-import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
+import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler {
     @Override
-    public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
-        return htmlNode.getAttributes().getOrDefault("type", "").toLowerCase().equals("checkbox");
+    public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
+        HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
+        return htmlNode.getType().equalsIgnoreCase("checkbox");
     }
 
     @Override
-    public void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) {
+    public void setValue(PageElementStepExecutor stepExecutor,
+                         TokenizedMessage pathDescription,
+                         HtmlNodeAndWebElementList htmlNodeAndWebElements,
+                         PageElement pageElement,
+                         Object value) {
         if (!(value instanceof Boolean)) {
             throw new IllegalArgumentException("setValue arg for checkbox must be true or false");
         }
@@ -63,7 +64,7 @@ public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler
     }
 
     @Override
-    public Boolean getValue(HtmlNode htmlNode, PageElement pageElement) {
+    public Boolean getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
         WebElement webElement = pageElement.findElement();
         if (webElement instanceof NullWebElement) {
             return null;

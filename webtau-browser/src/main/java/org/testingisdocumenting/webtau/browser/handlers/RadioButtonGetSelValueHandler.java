@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,22 +16,21 @@
 
 package org.testingisdocumenting.webtau.browser.handlers;
 
+import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
-public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
+public class RadioButtonGetSelValueHandler implements PageElementGetSetValueHandler {
     @Override
     public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
         HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
-        return htmlNode.getTagName().equalsIgnoreCase("select");
+        return htmlNode.getType().equalsIgnoreCase("radio");
     }
 
     @Override
@@ -41,23 +39,30 @@ public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
                          HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
                          Object value) {
-
-        stepExecutor.execute(tokenizedMessage(action("selecting drop down option"), stringValue(value)).add(pathDescription),
-                () -> tokenizedMessage(action("selected drop down option"), stringValue(value)).add(pathDescription),
+        stepExecutor.execute(tokenizedMessage(action("setting radio button value to"), stringValue(value)).add(pathDescription),
+                () -> tokenizedMessage(action("set radio button value to"), stringValue(value)).add(pathDescription),
                 () -> {
-                    Select select = new Select(pageElement.findElement());
-                    select.selectByValue(value.toString());
+                    List<String> values = htmlNodeAndWebElements.n
+                            .map(nw -> nw.getHtmlNode().getValue())
+                            .collect(Collectors.toList());
+                    int idx = values.indexOf(value.toString());
+                    if (idx == -1) {
+                        throw new RuntimeException("no value found \"" + value + "\", available values: " +
+                                String.join(", ", values));
+                    }
+
+//                    pageElement.
+//                    return willClick;
                 });
     }
 
     @Override
-    public Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
+    public Boolean getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
         WebElement webElement = pageElement.findElement();
         if (webElement instanceof NullWebElement) {
             return null;
         }
 
-        Select select = new Select(webElement);
-        return select.getFirstSelectedOption().getText();
+        return webElement.isSelected();
     }
 }

@@ -18,20 +18,23 @@
 package org.testingisdocumenting.webtau.browser.handlers;
 
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
+import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import java.util.List;
+
 public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler {
     @Override
-    public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
+    public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
         return true;
     }
 
     @Override
     public void setValue(PageElementStepExecutor stepExecutor,
                          TokenizedMessage pathDescription,
-                         HtmlNode htmlNode,
+                         HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
                          Object value) {
 
@@ -40,8 +43,9 @@ public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler 
     }
 
     @Override
-    public Object getValue(HtmlNode htmlNode, PageElement pageElement) {
-        return htmlNode.getTagName().equals("input") || htmlNode.getTagName().equals("textarea") ?
+    public Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
+        HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
+        return htmlNode.getTagName().equalsIgnoreCase("input") || htmlNode.getTagName().equalsIgnoreCase("textarea") ?
                 htmlNode.getValue():
                 pageElement.getText();
     }

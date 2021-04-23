@@ -17,3 +17,4 @@
 org.testingisdocumenting.webtau.browser.handlers.SelectGetSetValueHandler
 org.testingisdocumenting.webtau.browser.handlers.DateInputGetSetValueHandler
 org.testingisdocumenting.webtau.browser.handlers.CheckBoxGetSelValueHandler
+org.testingisdocumenting.webtau.browser.handlers.RadioButtonGetSelValueHandler

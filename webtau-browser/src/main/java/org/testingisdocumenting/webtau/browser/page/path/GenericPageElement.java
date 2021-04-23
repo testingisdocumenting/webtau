@@ -40,6 +40,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -282,15 +284,9 @@ public class GenericPageElement implements PageElement {
     }
 
     private List<Object> extractValues() {
-        List<WebElement> elements = path.find(driver);
-        return extractValues(elements);
-    }
+        HtmlNodeAndWebElementList htmlNodeAndWebElements = findHtmlNodesAndWebElements();
 
-    private List<Object> extractValues(List<WebElement> elements) {
-        List<Map<String, ?>> elementsMeta = handleStaleElement(() -> additionalBrowserInteractions.extractElementsMeta(elements),
-                Collections.emptyList());
-
-        if (elementsMeta.isEmpty()) {
+        if (htmlNodeAndWebElements.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -315,10 +311,10 @@ public class GenericPageElement implements PageElement {
     }
 
     private void setValueBasedOnType(Object value) {
-        HtmlNode htmlNode = findHtmlNode();
+        HtmlNodeAndWebElementList htmlNodeAndWebElements = findHtmlNodesAndWebElements();
         PageElementGetSetValueHandlers.setValue(this::execute,
                 pathDescription,
-                htmlNode,
+                htmlNodeAndWebElements,
                 this,
                 value);
     }
@@ -354,13 +350,23 @@ public class GenericPageElement implements PageElement {
         return new GenericPageElement(driver, additionalBrowserInteractions, newPath);
     }
 
-    private HtmlNode findHtmlNode() {
+    private HtmlNodeAndWebElementList findHtmlNodesAndWebElements() {
         List<WebElement> elements = path.find(driver);
-        List<Map<String, ?>> elementsMeta = elements.isEmpty() ?
-                Collections.emptyList():
-                additionalBrowserInteractions.extractElementsMeta(elements);
 
-        return elementsMeta.isEmpty() ? HtmlNode.NULL : new HtmlNode(elementsMeta.get(0));
+        if (elements.isEmpty()) {
+            return HtmlNodeAndWebElementList.empty();
+        }
+
+        List<Map<String, ?>> elementsMeta = handleStaleElement(
+                () -> additionalBrowserInteractions.extractElementsMeta(elements),
+                Collections.emptyList());
+
+        List<HtmlNodeAndWebElement> htmlNodeAndWebElements =
+                IntStream.range(0, Math.min(elements.size(), elementsMeta.size()))
+                        .mapToObj((idx) -> new HtmlNodeAndWebElement(new HtmlNode(elementsMeta.get(idx)), elements.get(idx)))
+                        .collect(Collectors.toList());
+
+        return new HtmlNodeAndWebElementList(htmlNodeAndWebElements);
     }
 
     private void performActions(String actionLabel, ActionsProvider actionsProvider) {
