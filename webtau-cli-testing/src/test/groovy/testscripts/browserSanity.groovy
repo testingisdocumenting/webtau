@@ -16,12 +16,11 @@
 
 package testscripts
 
-import java.nio.file.Paths
-
+import static org.testingisdocumenting.webtau.WebTauDsl.*
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('open browser and perform validation') {
-    def basicHtmlPath = Paths.get("data/basic.html").toAbsolutePath()
+    def basicHtmlPath = cfg.fullPath("data/basic.html").toAbsolutePath()
     browser.open("file://${basicHtmlPath.toAbsolutePath()}")
     $("p").should == "hello web page"
 }
