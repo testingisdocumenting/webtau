@@ -84,15 +84,18 @@ scenario('set config value') {
 scenario('browser context') {
     repl.with {
         clearOutput()
-        send('browser.open("https://jsonplaceholder.typicode.com")\n')
+
+        def basicHtmlPath = cfg.fullPath("data/basic.html").toAbsolutePath()
+        def browserOpenCmd = "browser.open(\"file://${basicHtmlPath.toAbsolutePath()}\")\n"
+        send(browserOpenCmd)
         output.waitTo contain('opened')
     }
     cli.doc.capture('browser-repl-open')
 
     repl.with {
         clearOutput()
-        send('$("ul li a")\n')
-        output.waitTo contain('count:')
+        send('$("p")\n')
+        output.waitTo contain('element is found')
     }
 
     cli.doc.capture('browser-repl-select')
