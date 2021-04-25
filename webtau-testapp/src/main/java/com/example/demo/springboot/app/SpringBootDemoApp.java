@@ -18,12 +18,10 @@ package com.example.demo.springboot.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-@SpringBootApplication(exclude = HypermediaAutoConfiguration.class)
-@EnableJpaRepositories
-public class SpringBootDemoApp {
+@SpringBootApplication
+public class SpringBootDemoApp extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootDemoApp.class, args);
     }
