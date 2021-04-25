@@ -32,7 +32,7 @@ public class HtmlNode {
         attributes = (Map<String, String>) meta.get("attributes");
         innerHtml = (String) meta.get("innerHtml");
 
-        value = (String) meta.getOrDefault("value", null);
+        value = extractValue(meta);
         type = attributes.getOrDefault("type", "");
     }
 
@@ -65,5 +65,10 @@ public class HtmlNode {
                 ", attributes=" + attributes +
                 ", innerHtml='" + innerHtml + '\'' +
                 '}';
+    }
+
+    private String extractValue(Map<String, ?> meta) {
+        Object metaValue = meta.getOrDefault("value", null);
+        return metaValue != null ? metaValue.toString() : null;
     }
 }
