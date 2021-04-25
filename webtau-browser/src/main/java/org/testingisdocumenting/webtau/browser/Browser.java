@@ -22,8 +22,8 @@ import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageUrl;
-import org.testingisdocumenting.webtau.browser.page.path.ElementPath;
-import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
+import org.testingisdocumenting.webtau.browser.page.GenericPageElement;
 import org.testingisdocumenting.webtau.cache.Cache;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 import org.openqa.selenium.OutputType;
@@ -127,7 +127,7 @@ public class Browser {
     }
 
     public PageElement $(String css) {
-        return new GenericPageElement(driver, additionalBrowserInteractions, ElementPath.css(css));
+        return new GenericPageElement(driver, additionalBrowserInteractions, PageElementPath.css(css));
     }
 
     public boolean wasUsed() {

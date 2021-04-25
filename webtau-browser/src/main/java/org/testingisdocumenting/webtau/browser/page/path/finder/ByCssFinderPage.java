@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page.path.finder;
 
-import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -28,10 +29,10 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class ByCssFinder implements ElementsFinder {
-    private String css;
+public class ByCssFinderPage implements PageElementsFinder {
+    private final String css;
 
-    public ByCssFinder(String css) {
+    public ByCssFinderPage(String css) {
         this.css = css;
     }
 

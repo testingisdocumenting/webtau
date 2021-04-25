@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.browser.page.path.ElementsFinder;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
@@ -69,7 +69,7 @@ public interface PageElement extends
     }
 
     PageElement find(String css);
-    PageElement find(ElementsFinder finder);
+    PageElement find(PageElementsFinder finder);
     PageElement get(String text);
     PageElement get(int number);
     PageElement get(Pattern regexp);

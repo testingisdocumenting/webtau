@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page.path;
 
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -29,19 +30,19 @@ import java.util.List;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.COMMA;
 import static java.util.stream.Collectors.toList;
 
-public class ElementPath {
-    private List<ElementPathEntry> entries;
+public class PageElementPath {
+    private List<PageElementPathEntry> entries;
 
-    public ElementPath() {
+    public PageElementPath() {
         entries = new ArrayList<>();
     }
 
-    public void addFinder(ElementsFinder finder) {
-        ElementPathEntry entry = new ElementPathEntry(finder);
+    public void addFinder(PageElementsFinder finder) {
+        PageElementPathEntry entry = new PageElementPathEntry(finder);
         entries.add(entry);
     }
 
-    public void addFilter(ElementsFilter filter) {
+    public void addFilter(PageElementsFilter filter) {
         if (entries.isEmpty()) {
             throw new RuntimeException("add a finder first");
         }
@@ -49,16 +50,16 @@ public class ElementPath {
         entries.get(entries.size() - 1).addFilter(filter);
     }
 
-    public ElementPath copy() {
-        ElementPath copy = new ElementPath();
-        copy.entries = entries.stream().map(ElementPathEntry::copy).collect(toList());
+    public PageElementPath copy() {
+        PageElementPath copy = new PageElementPath();
+        copy.entries = entries.stream().map(PageElementPathEntry::copy).collect(toList());
 
         return copy;
     }
 
-    public static ElementPath css(String cssSelector) {
-        ElementPath path = new ElementPath();
-        path.addFinder(new ByCssFinder(cssSelector));
+    public static PageElementPath css(String cssSelector) {
+        PageElementPath path = new PageElementPath();
+        path.addFinder(new ByCssFinderPage(cssSelector));
 
         return path;
     }
@@ -67,7 +68,7 @@ public class ElementPath {
         SearchContext root = driver;
 
         List<WebElement> webElements = Collections.emptyList();
-        for (ElementPathEntry entry : entries) {
+        for (PageElementPathEntry entry : entries) {
             webElements = entry.find(root);
             if (webElements.isEmpty()) {
                 return webElements;
@@ -84,7 +85,7 @@ public class ElementPath {
 
         int i = 0;
         int lastIdx = entries.size() - 1;
-        for (ElementPathEntry entry : entries) {
+        for (PageElementPathEntry entry : entries) {
             message.add(entry.description(i == 0));
             if (i != lastIdx) {
                 message.add(COMMA);

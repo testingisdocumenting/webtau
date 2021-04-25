@@ -19,9 +19,9 @@ package org.testingisdocumenting.webtau.browser.expectation
 import org.testingisdocumenting.webtau.FakeAdditionalBrowserInteractions
 import org.testingisdocumenting.webtau.FakeWebDriver
 import org.testingisdocumenting.webtau.FakeWebElement
-import org.testingisdocumenting.webtau.browser.page.path.ElementPath
-import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder
+import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
+import org.testingisdocumenting.webtau.browser.page.GenericPageElement
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
 import org.junit.Before
 import org.junit.Test
 
@@ -38,7 +38,7 @@ class PageElementContainHandlerTest {
 
     @Test
     void "handles page element and any other value"() {
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), new ElementPath())
+        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), new PageElementPath())
 
         handler.handleEquality(pageElement, "hello").should == true
         handler.handleEquality(pageElement, 100).should == true
@@ -48,8 +48,8 @@ class PageElementContainHandlerTest {
 
     @Test
     void "delegates to contain handler of array of page element values"() {
-        def path = new ElementPath()
-        path.addFinder(new ByCssFinder(".element"))
+        def path = new PageElementPath()
+        path.addFinder(new ByCssFinderPage(".element"))
 
         driver.registerFakeElement(".element", new FakeWebElement("div", "test" , [:]))
 

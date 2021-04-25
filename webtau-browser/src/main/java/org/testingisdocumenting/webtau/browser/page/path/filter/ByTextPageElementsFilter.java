@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.browser.page.path.filter;
 
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
-import org.testingisdocumenting.webtau.browser.page.path.ElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementsFilter;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
 
@@ -28,11 +28,11 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class ByTextElementsFilter implements ElementsFilter {
+public class ByTextPageElementsFilter implements PageElementsFilter {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final String text;
 
-    public ByTextElementsFilter(AdditionalBrowserInteractions additionalBrowserInteractions, String text) {
+    public ByTextPageElementsFilter(AdditionalBrowserInteractions additionalBrowserInteractions, String text) {
         this.additionalBrowserInteractions = additionalBrowserInteractions;
         this.text = text;
     }

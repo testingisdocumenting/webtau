@@ -35,11 +35,19 @@ public class HtmlNodeAndWebElementList {
         return nodeAndWebElements.isEmpty();
     }
 
+    public int size() {
+        return nodeAndWebElements.size();
+    }
+
     public HtmlNode firstHtmlNode() {
         return nodeAndWebElements.get(0).getHtmlNode();
     }
 
     public Stream<HtmlNode> nodesStream() {
         return nodeAndWebElements.stream().map(HtmlNodeAndWebElement::getHtmlNode);
+    }
+
+    public HtmlNodeAndWebElement get(int idx) {
+        return nodeAndWebElements.get(idx);
     }
 }

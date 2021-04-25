@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,21 +26,21 @@ import java.util.List;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.COMMA;
 
-class ElementPathEntry {
-    private ElementsFinder finder;
-    private List<ElementsFilter> filters;
+class PageElementPathEntry {
+    private final PageElementsFinder finder;
+    private List<PageElementsFilter> filters;
 
-    ElementPathEntry(ElementsFinder finder) {
+    PageElementPathEntry(PageElementsFinder finder) {
         this.finder = finder;
         this.filters = new ArrayList<>();
     }
 
-    void addFilter(ElementsFilter filter) {
+    void addFilter(PageElementsFilter filter) {
         filters.add(filter);
     }
 
-    ElementPathEntry copy() {
-        ElementPathEntry copy = new ElementPathEntry(finder);
+    PageElementPathEntry copy() {
+        PageElementPathEntry copy = new PageElementPathEntry(finder);
         copy.filters = new ArrayList<>(filters);
 
         return copy;
@@ -52,7 +53,7 @@ class ElementPathEntry {
         }
 
         List<WebElement> filtered = elements;
-        for (ElementsFilter filter : filters) {
+        for (PageElementsFilter filter : filters) {
             filtered = filter.filter(filtered);
             if (filtered.isEmpty()) {
                 return filtered;

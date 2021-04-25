@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.path;
+package org.testingisdocumenting.webtau.browser.page;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
-import org.testingisdocumenting.webtau.browser.BrowserConfig;
-import org.testingisdocumenting.webtau.browser.page.*;
-import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElementsFilter;
-import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpElementsFilter;
-import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFilter;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder;
-import org.testingisdocumenting.webtau.browser.page.PageElementValue;
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSkipValue;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberPageElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
@@ -44,6 +45,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.browser.page.stale.StaleElementHandler.*;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -51,12 +53,12 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 public class GenericPageElement implements PageElement {
     private final WebDriver driver;
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
-    private final ElementPath path;
+    private final PageElementPath path;
     private final TokenizedMessage pathDescription;
     private final PageElementValue<Object> elementValue;
     private final PageElementValue<Integer> countValue;
 
-    public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, ElementPath path) {
+    public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, PageElementPath path) {
         this.driver = driver;
         this.additionalBrowserInteractions = additionalBrowserInteractions;
         this.path = path;
@@ -185,37 +187,37 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public PageElement find(String css) {
-        return find(new ByCssFinder(css));
+        return find(new ByCssFinderPage(css));
     }
 
     @Override
-    public PageElement find(ElementsFinder finder) {
+    public PageElement find(PageElementsFinder finder) {
         return withFinder(finder);
     }
 
     @Override
     public PageElement get(String text) {
-        return withFilter(new ByTextElementsFilter(additionalBrowserInteractions, text));
+        return withFilter(new ByTextPageElementsFilter(additionalBrowserInteractions, text));
     }
 
     @Override
     public PageElement get(int number) {
-        return withFilter(new ByNumberElementsFilter(number));
+        return withFilter(new ByNumberPageElementsFilter(number));
     }
 
     @Override
     public PageElement get(Pattern regexp) {
-        return withFilter(new ByRegexpElementsFilter(additionalBrowserInteractions, regexp));
+        return withFilter(new ByRegexpPageElementsFilter(additionalBrowserInteractions, regexp));
     }
 
     @Override
     public boolean isVisible() {
-        return handleStaleElement(() -> findElement().isDisplayed(), false);
+        return getValueForStaleElement(() -> findElement().isDisplayed(), false);
     }
 
     @Override
     public boolean isEnabled() {
-        return handleStaleElement(() -> findElement().isEnabled(), false);
+        return getValueForStaleElement(() -> findElement().isEnabled(), false);
     }
 
     @Override
@@ -246,7 +248,7 @@ public class GenericPageElement implements PageElement {
             return null;
         }
 
-        List<Object> values = extractValues(Collections.singletonList(elements.get(0)));
+        List<Object> values = extractValues();
         return values.isEmpty() ? null : values.get(0);
     }
 
@@ -292,14 +294,19 @@ public class GenericPageElement implements PageElement {
 
         List<Object> result = new ArrayList<>();
 
-        for (int idx = 0; idx < elements.size(); idx++) {
-            HtmlNode htmlNode = new HtmlNode(elementsMeta.get(idx));
+        for (int idx = 0; idx < htmlNodeAndWebElements.size(); idx++) {
             PageElement pageElementByIdx = get(idx + 1);
 
-            result.add(handleStaleElement(() ->
+            int finalIdx = idx;
+            Object value = getValueForStaleElement(() ->
                     PageElementGetSetValueHandlers.getValue(
-                            htmlNode,
-                            pageElementByIdx), null));
+                            htmlNodeAndWebElements,
+                            pageElementByIdx,
+                            finalIdx), null);
+
+            if (value != PageElementGetSkipValue.INSTANCE) {
+                result.add(value);
+            }
         }
 
         return result;
@@ -336,15 +343,15 @@ public class GenericPageElement implements PageElement {
                 () -> repeatForStaleElement(action), StepReportOptions.REPORT_ALL);
     }
 
-    private PageElement withFilter(ElementsFilter filter) {
-        ElementPath newPath = path.copy();
+    private PageElement withFilter(PageElementsFilter filter) {
+        PageElementPath newPath = path.copy();
         newPath.addFilter(filter);
 
         return new GenericPageElement(driver, additionalBrowserInteractions, newPath);
     }
 
-    private PageElement withFinder(ElementsFinder finder) {
-        ElementPath newPath = path.copy();
+    private PageElement withFinder(PageElementsFinder finder) {
+        PageElementPath newPath = path.copy();
         newPath.addFinder(finder);
 
         return new GenericPageElement(driver, additionalBrowserInteractions, newPath);
@@ -357,7 +364,7 @@ public class GenericPageElement implements PageElement {
             return HtmlNodeAndWebElementList.empty();
         }
 
-        List<Map<String, ?>> elementsMeta = handleStaleElement(
+        List<Map<String, ?>> elementsMeta = getValueForStaleElement(
                 () -> additionalBrowserInteractions.extractElementsMeta(elements),
                 Collections.emptyList());
 
@@ -399,33 +406,6 @@ public class GenericPageElement implements PageElement {
 
     private NullWebElement createNullElement() {
         return new NullWebElement(path.toString());
-    }
-
-    private static <R> R handleStaleElement(Supplier<R> code, R valueInCaseOfStale) {
-        try {
-            return code.get();
-        } catch (StaleElementReferenceException e) {
-            return valueInCaseOfStale;
-        }
-    }
-
-    private static Object repeatForStaleElement(Supplier<Object> code) {
-        int numberOfAttemptsLeft = BrowserConfig.getStaleElementRetry();
-
-        for (; numberOfAttemptsLeft >= 1; numberOfAttemptsLeft--) {
-            try {
-                return code.get();
-            } catch (StaleElementReferenceException e) {
-                if (numberOfAttemptsLeft == 1) {
-                    throw new RuntimeException("element is stale, " +
-                            "consider using waitTo beVisible matcher to make sure component fully appeared");
-                }
-
-                sleep(BrowserConfig.getStaleElementRetryWait());
-            }
-        }
-
-        throw new IllegalStateException("shouldn't reach this point");
     }
 
     private static void sleep(int millis) {

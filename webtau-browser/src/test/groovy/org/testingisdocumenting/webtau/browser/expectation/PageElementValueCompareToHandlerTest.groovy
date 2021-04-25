@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,12 +18,12 @@
 package org.testingisdocumenting.webtau.browser.expectation
 
 import org.testingisdocumenting.webtau.browser.page.PageElementValue
-import org.testingisdocumenting.webtau.browser.page.path.ElementPath
-import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement
+import org.testingisdocumenting.webtau.browser.page.GenericPageElement
 import org.junit.Test
+import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
 
 class PageElementValueCompareToHandlerTest {
-    def pageElement = new GenericPageElement(null, null, ElementPath.css("#id"))
+    def pageElement = new GenericPageElement(null, null, PageElementPath.css("#id"))
 
     @Test
     void "automatically converts text to a number if the expected value is a number"() {
