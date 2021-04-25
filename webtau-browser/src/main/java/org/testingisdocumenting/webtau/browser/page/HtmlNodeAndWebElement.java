@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.path;
+package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
-import java.util.List;
+public class HtmlNodeAndWebElement {
+    private final HtmlNode htmlNode;
+    private final WebElement webElement;
 
-public interface ElementsFinder {
-    List<WebElement> find(SearchContext parent);
+    public HtmlNodeAndWebElement(HtmlNode htmlNode, WebElement webElement) {
+        this.htmlNode = htmlNode;
+        this.webElement = webElement;
+    }
 
-    /**
-     * @param isFirst isFirst is this the first entry in the path
-     * @return tokenized message
-     */
-    TokenizedMessage description(boolean isFirst);
+    public HtmlNode getHtmlNode() {
+        return htmlNode;
+    }
+
+    public WebElement getWebElement() {
+        return webElement;
+    }
 }

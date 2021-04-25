@@ -17,13 +17,12 @@
 
 package org.testingisdocumenting.webtau.browser.handlers;
 
-import org.testingisdocumenting.webtau.browser.page.HtmlNode;
-import org.testingisdocumenting.webtau.browser.page.NullWebElement;
-import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
+import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
+import java.util.List;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
@@ -31,14 +30,15 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 
 public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
     @Override
-    public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
-        return htmlNode.getTagName().equals("select");
+    public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
+        HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
+        return htmlNode.getTagName().equalsIgnoreCase("select");
     }
 
     @Override
     public void setValue(PageElementStepExecutor stepExecutor,
                          TokenizedMessage pathDescription,
-                         HtmlNode htmlNode,
+                         HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
                          Object value) {
 
@@ -51,7 +51,7 @@ public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
     }
 
     @Override
-    public Object getValue(HtmlNode htmlNode, PageElement pageElement) {
+    public Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
         WebElement webElement = pageElement.findElement();
         if (webElement instanceof NullWebElement) {
             return null;

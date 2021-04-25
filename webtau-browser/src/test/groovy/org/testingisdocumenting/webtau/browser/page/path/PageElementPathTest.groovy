@@ -17,34 +17,34 @@
 
 package org.testingisdocumenting.webtau.browser.page.path
 
-import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberElementsFilter
-import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextElementsFilter
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberPageElementsFilter
+import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
 import org.junit.Test
 
-class ElementPathTest {
+class PageElementPathTest {
     @Test
     void "should render full path description"() {
-        def path = new ElementPath()
-        path.addFinder(new ByCssFinder("#cssid"))
-        path.addFilter(new ByTextElementsFilter(null, "about"))
-        path.addFilter(new ByNumberElementsFilter(2))
-        path.addFinder(new ByCssFinder(".child"))
+        def path = new PageElementPath()
+        path.addFinder(new ByCssFinderPage("#cssid"))
+        path.addFilter(new ByTextPageElementsFilter(null, "about"))
+        path.addFilter(new ByNumberPageElementsFilter(2))
+        path.addFinder(new ByCssFinderPage(".child"))
 
         path.toString().should == 'by css #cssid , element(s) with text "about" , element number 2 , nested find by css .child'
     }
 
     @Test
     void "should create a copy to be modified later"() {
-        def path = new ElementPath()
-        path.addFinder(new ByCssFinder("#cssid"))
+        def path = new PageElementPath()
+        path.addFinder(new ByCssFinderPage("#cssid"))
 
         def copy = path.copy()
-        copy.addFilter(new ByNumberElementsFilter(2))
+        copy.addFilter(new ByNumberPageElementsFilter(2))
         copy.toString().should == "by css #cssid , element number 2"
 
         def anotherCopy = path.copy()
-        anotherCopy.addFilter(new ByNumberElementsFilter(3))
+        anotherCopy.addFilter(new ByNumberPageElementsFilter(3))
         anotherCopy.toString().should == "by css #cssid , element number 3"
     }
 }

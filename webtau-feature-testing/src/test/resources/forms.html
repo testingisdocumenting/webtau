@@ -1,17 +1,31 @@
 <html>
 <body>
 <div id="form">
-    <input id="name"/>
-    <input id="startDate" type="date"/>
-    <input id="confirmation" type="checkbox"/>
-    <select id="rank">
-        <option/>
-        <option value="A">A</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="D">D</option>
-        <option value="E">E</option>
-    </select>
+  <input id="name" />
+  <input id="startDate" type="date" />
+  <input id="confirmation" type="checkbox" />
+  <div id="choice-group" class="radio-group">
+    <div>
+      <input type="radio" id="one" name="choice" value="value-one"/>
+      <label for="one">one</label>
+    </div>
+    <div>
+      <input type="radio" id="two" name="choice" value="value-two"/>
+      <label for="two">two</label>
+    </div>
+    <div>
+      <input type="radio" id="three" name="choice" value="value-three"/>
+      <label for="three">three</label>
+    </div>
+  </div>
+  <select id="rank">
+    <option />
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="C">C</option>
+    <option value="D">D</option>
+    <option value="E">E</option>
+  </select>
 </div>
 </body>
 </html>

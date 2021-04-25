@@ -17,17 +17,17 @@
 
 package org.testingisdocumenting.webtau.browser.handlers;
 
-import org.testingisdocumenting.webtau.browser.page.HtmlNode;
+import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 public interface PageElementGetSetValueHandler {
-    boolean handles(HtmlNode htmlNode, PageElement pageElement);
+    boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement);
     void setValue(PageElementStepExecutor stepExecutor,
                   TokenizedMessage pathDescription,
-                  HtmlNode htmlNode,
+                  HtmlNodeAndWebElementList htmlNodeAndWebElements,
                   PageElement pageElement,
                   Object value);
-    Object getValue(HtmlNode htmlNode, PageElement pageElement);
+    Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx);
 }

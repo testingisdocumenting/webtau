@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +22,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public interface ElementsFilter {
+public interface PageElementsFilter {
     List<WebElement> filter(List<WebElement> original);
     TokenizedMessage description();
 }

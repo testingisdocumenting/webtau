@@ -202,6 +202,7 @@ class WebTauBrowserFeaturesTestBase {
                 'inputDefault.groovy': 'input type default',
                 'inputDate.groovy': 'input type date',
                 'checkBox.groovy': 'select checkbox',
+                'radioButton.groovy': 'select radio button',
                 'selectOptions.groovy': 'select options',
                 'validation.groovy': 'values validation',
         ])

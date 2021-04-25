@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.browser.handlers;
 
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
+import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -25,6 +26,7 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PageElementGetSetValueHandlers {
@@ -44,26 +46,31 @@ public class PageElementGetSetValueHandlers {
 
     public static void setValue(PageElementStepExecutor stepExecutor,
                                 TokenizedMessage pathDescription,
-                                HtmlNode htmlNode,
+                                HtmlNodeAndWebElementList htmlNodeAndWebElements,
                                 PageElement pageElement,
                                 Object value) {
-        PageElementGetSetValueHandler handler = findHandler(htmlNode, pageElement);
-        handler.setValue(stepExecutor, pathDescription, htmlNode, pageElement, value);
+        PageElementGetSetValueHandler handler = findHandler(htmlNodeAndWebElements, pageElement);
+        handler.setValue(stepExecutor, pathDescription, htmlNodeAndWebElements, pageElement, value);
     }
 
-    public static Object getValue(HtmlNode htmlNode, PageElement pageElement) {
-        PageElementGetSetValueHandler handler = findHandler(htmlNode, pageElement);
-        return handler.getValue(htmlNode, pageElement);
+    public static Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
+        PageElementGetSetValueHandler handler = findHandler(htmlNodeAndWebElements, pageElement);
+        return handler.getValue(htmlNodeAndWebElements, pageElement, idx);
     }
 
-    private static PageElementGetSetValueHandler findHandler(HtmlNode htmlNode, PageElement pageElement) {
+    private static PageElementGetSetValueHandler findHandler(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
+        if (htmlNodeAndWebElements.isEmpty()) {
+            throw new RuntimeException("no elements found");
+        }
+
         return discoverHandlers().
-                filter(h -> h.handles(htmlNode, pageElement)).findFirst().
-                orElseThrow(() -> noHandlerFound(htmlNode));
+                filter(h -> h.handles(htmlNodeAndWebElements, pageElement)).findFirst().
+                orElseThrow(() -> noHandlerFound(htmlNodeAndWebElements));
     }
 
-    private static RuntimeException noHandlerFound(HtmlNode htmlNode) {
-        return new RuntimeException("no PageElementGetSetValueHandler handler found for " + htmlNode);
+    private static RuntimeException noHandlerFound(HtmlNodeAndWebElementList htmlNodeAndWebElements) {
+        return new RuntimeException("no PageElementGetSetValueHandler handler found for:\n" +
+                htmlNodeAndWebElements.nodesStream().map(HtmlNode::toString).collect(Collectors.joining("\n")));
     }
 
     private static Stream<PageElementGetSetValueHandler> discoverHandlers() {
