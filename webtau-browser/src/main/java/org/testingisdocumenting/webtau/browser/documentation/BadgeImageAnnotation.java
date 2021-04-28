@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class BadgeImageAnnotation extends ImageAnnotation {
     public BadgeImageAnnotation(PageElement pageElement, String text) {
-        super(pageElement, "circle", text);
+        super(pageElement, "badge", text);
     }
 
     @Override
@@ -35,6 +35,5 @@ public class BadgeImageAnnotation extends ImageAnnotation {
         data.put("x", location.getX());
         data.put("y", location.getY());
         data.put("align", position);
-        data.put("r", 15);
     }
 }
