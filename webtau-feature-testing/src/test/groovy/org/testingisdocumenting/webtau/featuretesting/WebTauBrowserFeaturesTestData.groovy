@@ -36,6 +36,7 @@ class WebTauBrowserFeaturesTestData {
         handler.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
         handler.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
         handler.registerGet("/ag-grid-multi-select", htmlResponse('ag-grid-multi-select.html'))
+        handler.registerGet("/scrolls", htmlResponse('scrolls.html'))
     }
 
     private static TestServerHtmlResponse htmlResponse(String resourceName) {
