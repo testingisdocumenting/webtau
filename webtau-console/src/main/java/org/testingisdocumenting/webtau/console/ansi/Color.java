@@ -26,6 +26,10 @@ public enum Color {
     PURPLE("\u001B[35m"),
     CYAN("\u001B[36m"),
     WHITE("\u001B[37m"),
+
+    BACKGROUND_YELLOW("\u001b[43;1m"),
+    BACKGROUND_BLUE("\u001b[44m"),
+
     RESET("\u001B[0m");
 
     private final String code;
