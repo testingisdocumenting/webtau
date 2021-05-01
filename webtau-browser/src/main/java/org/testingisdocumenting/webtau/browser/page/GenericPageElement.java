@@ -57,6 +57,7 @@ public class GenericPageElement implements PageElement {
     private final TokenizedMessage pathDescription;
     private final PageElementValue<Object> elementValue;
     private final PageElementValue<Integer> countValue;
+    private final PageElementValue<Integer> scrollTopValue;
 
     public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, PageElementPath path) {
         this.driver = driver;
@@ -65,11 +66,17 @@ public class GenericPageElement implements PageElement {
         this.pathDescription = path.describe();
         this.elementValue = new PageElementValue<>(this, "value", this::getUnderlyingValue);
         this.countValue = new PageElementValue<>(this, "count", this::getNumberOfElements);
+        this.scrollTopValue = new PageElementValue<>(this, "scrollTop", this::fetchScrollTopValue);
     }
 
     @Override
     public PageElementValue<Integer> getCount() {
         return countValue;
+    }
+
+    @Override
+    public PageElementValue<Integer> getScrollTop() {
+        return scrollTopValue;
     }
 
     @Override
@@ -315,6 +322,18 @@ public class GenericPageElement implements PageElement {
     private Integer getNumberOfElements() {
         List<WebElement> webElements = path.find(driver);
         return webElements.size();
+    }
+
+    private Integer fetchScrollTopValue() {
+        List<WebElement> elements = findElements();
+        if (elements.isEmpty()) {
+            return null;
+        }
+
+        Long scrollTop = (Long) ((JavascriptExecutor) driver).executeScript(
+                "return arguments[0].scrollTop;", elements.get(0));
+
+        return Math.toIntExact(scrollTop);
     }
 
     private void setValueBasedOnType(Object value) {
