@@ -36,6 +36,7 @@ public interface PageElement extends
         ActualPathAndDescriptionAware {
 
     PageElementValue<Integer> getCount();
+    PageElementValue<Integer> getScrollTop();
 
     WebElement findElement();
     List<WebElement> findElements();
