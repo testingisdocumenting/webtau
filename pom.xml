@@ -110,6 +110,7 @@
         <module>webtau-data</module>
         <module>webtau-filesystem</module>
         <module>webtau-cache</module>
+        <module>webtau-server</module>
         <module>webtau-test-server</module>
         <module>webtau-cli</module>
         <module>webtau-cli-groovy</module>
@@ -158,6 +159,7 @@
         <graphql.version>16.2</graphql.version>
         <jacoco.version>0.8.5</jacoco.version>
         <swagger.version>1.6.1</swagger.version>
+        <jetty.version>9.4.35.v20201120</jetty.version>
     </properties>
 
     <dependencyManagement>
@@ -232,6 +234,18 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>1.13</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-webapp</artifactId>
+                <version>${jetty.version}</version>
             </dependency>
 
             <dependency>

@@ -34,15 +34,8 @@ import org.testingisdocumenting.webtau.graphql.GraphQL;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
-
-import java.util.function.Supplier;
-
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import org.testingisdocumenting.webtau.server.WebtauServerFacade;
 
 /*
 Convenient class for static * import
@@ -57,6 +50,7 @@ public class WebTauDsl extends WebTauCore {
     public static final Cli cli = Cli.cli;
     public static final DatabaseFacade db = DatabaseFacade.db;
     public static final GraphQL graphql = GraphQL.graphql;
+    public static final WebtauServerFacade server = WebtauServerFacade.server;
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();
