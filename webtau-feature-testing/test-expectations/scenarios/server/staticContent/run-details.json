@@ -7,7 +7,7 @@
     }
   }, {
     "scenario" : "static content server",
-    "shortContainerId" : "staticServer.groovy",
+    "shortContainerId" : "staticContent.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 4
     }
