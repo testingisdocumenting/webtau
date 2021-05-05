@@ -72,6 +72,12 @@
 
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-browser</artifactId>
             <version>${project.version}</version>
         </dependency>
