@@ -16,12 +16,19 @@
 
 package org.testingisdocumenting.webtau.server;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+
 public interface WebtauServer {
     String getId();
     String getType();
     int getPort();
+    String getBaseUrl();
     boolean isRunning();
 
     void start();
     void stop();
+
+    default void setAsBaseUrl() {
+        WebTauConfig.getCfg().setBaseUrl("server-" + getId(), getBaseUrl());
+    }
 }
