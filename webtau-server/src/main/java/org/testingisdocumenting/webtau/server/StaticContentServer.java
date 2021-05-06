@@ -22,6 +22,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -70,6 +71,11 @@ class StaticContentServer implements WebtauServer {
     @Override
     public int getPort() {
         return server.getURI().getPort();
+    }
+
+    @Override
+    public String getBaseUrl() {
+        return UrlUtils.removeTrailingSlash(server.getURI().toASCIIString());
     }
 
     @Override

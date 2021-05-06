@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -95,6 +96,14 @@ public class UrlUtils {
         }
 
         return left + "/" + right;
+    }
+
+    public static String removeTrailingSlash(String url) {
+        if (url.endsWith("/")) {
+            return url.substring(0, url.length() - 1);
+        }
+
+        return url;
     }
 
     private static String extractQueryParamsFromRelativeUrl(String url) {

@@ -20,9 +20,21 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("static content server") {
     def server = server.serve("my-server", "data/staticcontent")
+
+    def expected = "<body>\n" +
+            "<p>hello</p>\n" +
+            "</body>"
+
     http.get("http://localhost:${server.port}/hello.html") {
-        body.should == "<body>\n" +
-                "<p>hello</p>\n" +
-                "</body>"
+        body.should == expected
+    }
+
+    http.get("${server.baseUrl}/hello.html") {
+        body.should == expected
+    }
+
+    server.setAsBaseUrl()
+    http.get("/hello.html") {
+        body.should == expected
     }
 }

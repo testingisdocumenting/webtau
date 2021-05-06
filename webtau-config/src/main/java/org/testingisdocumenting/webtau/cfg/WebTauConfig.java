@@ -20,6 +20,8 @@ package org.testingisdocumenting.webtau.cfg;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,6 +43,7 @@ import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 import org.testingisdocumenting.webtau.version.WebtauVersion;
@@ -182,7 +185,14 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public void setBaseUrl(String url) {
-        this.url.set(SOURCE_MANUAL, url);
+        setBaseUrl(SOURCE_MANUAL, url);
+    }
+
+    public void setBaseUrl(String source, String url) {
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("setting"), id("url"), TO, urlValue(url)),
+                () -> tokenizedMessage(action("set"), id("url"), TO, urlValue(url)),
+                () -> this.url.set(source, url));
     }
 
     public String getBaseUrl() {

@@ -9,7 +9,7 @@
     "scenario" : "static content server",
     "shortContainerId" : "staticContent.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 11
     }
   } ],
   "exitCode" : 0
