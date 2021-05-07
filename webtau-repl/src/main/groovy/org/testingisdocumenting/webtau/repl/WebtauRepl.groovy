@@ -195,6 +195,8 @@ class WebtauRepl {
     }
 
     private void run() {
+        printPrompts()
+
         try {
             boolean terminated
             while (true) {
@@ -212,6 +214,12 @@ class WebtauRepl {
         }
         catch (Throwable t) {
             t.printStackTrace()
+        }
+    }
+
+    private void printPrompts() {
+        if (!interactiveTests.testFilePaths.isEmpty()) {
+            ReplCommands.getList()
         }
     }
 
