@@ -77,6 +77,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "title and url"() {
+        runCli('titleAndUrl.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "basic element actions"() {
         runCli('basicElementActions.groovy', 'webtau.cfg.groovy')
     }
