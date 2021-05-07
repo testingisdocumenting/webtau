@@ -53,3 +53,10 @@ and iterate on a second part by opening a page using saved URL.
 :include-file: doc-artifacts/snippets/navigation/loadUrl.groovy
 
 Note: url is stored in a local cache file and will survive tests restart.
+
+# Assert Title
+
+:include-groovy: scenarios/ui/titleAndUrl.groovy {title: "asserting title", includeRegexp: "title.should"}
+
+:include-groovy: scenarios/ui/titleAndUrl.groovy {title: "waiting on title", includeRegexp: "title.waitTo"}
+ 

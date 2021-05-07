@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
+import org.testingisdocumenting.webtau.browser.BrowserContext;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
@@ -26,7 +27,7 @@ import java.net.URL;
 import java.util.function.Supplier;
 
 public class PageUrl implements PrettyPrintable {
-    private static final BrowserContext browserContext = new BrowserContext();
+    private static final BrowserContext browserContext = BrowserContext.INSTANCE;
     private final Supplier<String> currentUrlSupplier;
 
     public PageUrl(Supplier<String> currentUrlSupplier) {
