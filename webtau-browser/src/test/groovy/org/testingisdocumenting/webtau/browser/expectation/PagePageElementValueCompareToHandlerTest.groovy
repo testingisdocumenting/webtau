@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.browser.page.GenericPageElement
 import org.junit.Test
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
 
-class PageElementValueCompareToHandlerTest {
+class PagePageElementValueCompareToHandlerTest {
     def pageElement = new GenericPageElement(null, null, PageElementPath.css("#id"))
 
     @Test
