@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page;
+package org.testingisdocumenting.webtau.browser;
 
 import org.testingisdocumenting.webtau.WebTauCore;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 
-class BrowserContext implements ActualPathAndDescriptionAware {
+public class BrowserContext implements ActualPathAndDescriptionAware {
+    public static final BrowserContext INSTANCE = new BrowserContext();
+
     @Override
     public ActualPath actualPath() {
         return WebTauCore.createActualPath("browser");

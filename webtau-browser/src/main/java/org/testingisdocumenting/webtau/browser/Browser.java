@@ -20,10 +20,8 @@ package org.testingisdocumenting.webtau.browser;
 import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentation;
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
-import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.browser.page.PageUrl;
+import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
-import org.testingisdocumenting.webtau.browser.page.GenericPageElement;
 import org.testingisdocumenting.webtau.cache.Cache;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 import org.openqa.selenium.OutputType;
@@ -48,6 +46,9 @@ public class Browser {
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
 
     public final BrowserKeys keys = new BrowserKeys();
+
+    public final PageElementValue<String> title = new PageElementValue<>(BrowserContext.INSTANCE,
+            "title", this::extractPageTitle);
 
     private Browser() {
         additionalBrowserInteractions = new BrowserInjectedJavaScript(driver);
@@ -136,6 +137,10 @@ public class Browser {
 
     public String takeScreenshotAsBase64() {
         return driver.getScreenshotAs(OutputType.BASE64);
+    }
+
+    public String extractPageTitle() {
+        return driver.getTitle();
     }
 
     private String createFullUrl(String url) {

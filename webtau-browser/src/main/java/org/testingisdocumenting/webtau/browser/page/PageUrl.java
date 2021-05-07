@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
+import org.testingisdocumenting.webtau.browser.BrowserContext;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
@@ -32,8 +33,9 @@ import java.util.function.Supplier;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class PageUrl implements PrettyPrintable, ActualValueExpectations, ActualPathAndDescriptionAware {
-    private static final BrowserContext browserContext = new BrowserContext();
-    private final Supplier<String> currentUrlSupplier;
+    private static final BrowserContext browserContext = BrowserContext.INSTANCE;
+
+  private final Supplier<String> currentUrlSupplier;
 
     public PageUrl(Supplier<String> currentUrlSupplier) {
         this.currentUrlSupplier = currentUrlSupplier;
