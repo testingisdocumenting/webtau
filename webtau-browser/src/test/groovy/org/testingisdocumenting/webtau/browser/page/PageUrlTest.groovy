@@ -32,6 +32,7 @@ class PageUrlTest {
     @Test
     void "should expose url parts with should"() {
         browser.url.path.should == '/resource/id'
+        browser.url.path.should contain('/id')
         browser.url.query.should == 'type=full&debug=true'
         browser.url.ref.should == 'subId'
     }
@@ -51,6 +52,13 @@ class PageUrlTest {
     @Test
     void "full part should be optional and default during assertion"() {
         browser.url.should == 'http://example.com/resource/id?type=full&debug=true#subId'
+        browser.url.should contain('resource/id?type=')
+    }
+
+    @Test
+    void "shouldNot should work with url and its parts"() {
+        browser.url.full.shouldNot contain('resource-a/id?type=')
+        browser.url.shouldNot contain('resource-a/id?type=')
     }
 
     @Test

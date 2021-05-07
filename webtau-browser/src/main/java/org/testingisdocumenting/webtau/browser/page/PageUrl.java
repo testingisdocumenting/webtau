@@ -20,12 +20,18 @@ package org.testingisdocumenting.webtau.browser.page;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
+import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.function.Supplier;
 
-public class PageUrl implements PrettyPrintable {
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
+public class PageUrl implements PrettyPrintable, ActualValueExpectations, ActualPathAndDescriptionAware {
     private static final BrowserContext browserContext = new BrowserContext();
     private final Supplier<String> currentUrlSupplier;
 
@@ -91,5 +97,15 @@ public class PageUrl implements PrettyPrintable {
         console.out(Color.YELLOW, " path: ", Color.GREEN, path.get());
         console.out(Color.YELLOW, "query: ", Color.GREEN, query.get());
         console.out(Color.YELLOW, "  ref: ", Color.GREEN, ref.get());
+    }
+
+    @Override
+    public ActualPath actualPath() {
+        return createActualPath("url");
+    }
+
+    @Override
+    public StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
 }

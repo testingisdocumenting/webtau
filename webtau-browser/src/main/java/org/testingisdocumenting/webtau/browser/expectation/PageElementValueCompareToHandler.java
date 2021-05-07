@@ -24,7 +24,7 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-public class ElementValueCompareToHandler implements CompareToHandler {
+public class PageElementValueCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
         return handles(actual);
