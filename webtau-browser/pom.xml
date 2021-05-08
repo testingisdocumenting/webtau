@@ -29,7 +29,7 @@
     <version>1.41-SNAPSHOT</version>
 
     <properties>
-        <selenium.version>4.0.0-beta-1</selenium.version>
+        <selenium.version>4.0.0-beta-3</selenium.version>
     </properties>
 
     <dependencies>
