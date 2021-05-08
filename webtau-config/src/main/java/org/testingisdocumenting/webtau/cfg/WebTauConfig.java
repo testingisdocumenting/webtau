@@ -22,6 +22,7 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -190,8 +191,10 @@ public class WebTauConfig implements PrettyPrintable {
 
     public void setBaseUrl(String source, String url) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("setting"), id("url"), TO, urlValue(url)),
-                () -> tokenizedMessage(action("set"), id("url"), TO, urlValue(url)),
+                tokenizedMessage(action("setting"), id("url")),
+                stepInput("source", source,
+                        "url", url),
+                () -> tokenizedMessage(action("set"), id("url")),
                 () -> this.url.set(source, url));
     }
 

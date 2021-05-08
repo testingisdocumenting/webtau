@@ -141,6 +141,15 @@ public class WebTauStep {
                 action, StepReportOptions.REPORT_ALL);
     }
 
+    public static void createAndExecuteStep(TokenizedMessage inProgressMessage,
+                                            WebTauStepInput input,
+                                            Supplier<TokenizedMessage> completionMessageSupplier,
+                                            Runnable action) {
+        WebTauStep step = createStep(inProgressMessage, completionMessageSupplier, toSupplier(action));
+        step.setInput(input);
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
     public static void createAndExecuteStep(Supplier<TokenizedMessage> completionMessageSupplier,
                                             Runnable action) {
         createAndExecuteStep(TokenizedMessage.tokenizedMessage(), completionMessageSupplier,
