@@ -18,32 +18,20 @@ package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
-import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Map;
 
-public class WebTauStepInputKeyValue implements WebTauStepInput {
-    private final Map<String, Object> data;
-
-    private WebTauStepInputKeyValue(Map<String, Object> data) {
-        this.data = data;
+class WebTauStepKeyValue {
+    static void prettyPrint(ConsoleOutput console, Map<String, Object> data) {
+        data.forEach((key, value) -> console.out(Color.PURPLE, key, Color.WHITE, ": ",
+                valueColor(value), value));
     }
 
-    public static WebTauStepInput stepInput(Map<String, Object> data) {
-        return new WebTauStepInputKeyValue(data);
-    }
+    private static Color valueColor(Object value) {
+        if (value instanceof CharSequence) {
+            return Color.GREEN;
+        }
 
-    public static WebTauStepInput stepInput(Object... keyValues) {
-        return new WebTauStepInputKeyValue(CollectionUtils.aMapOf(keyValues));
-    }
-
-    @Override
-    public void prettyPrint(ConsoleOutput console) {
-        WebTauStepKeyValue.prettyPrint(console, data);
-    }
-
-    @Override
-    public Map<String, ?> toMap() {
-        return data;
+        return Color.CYAN;
     }
 }

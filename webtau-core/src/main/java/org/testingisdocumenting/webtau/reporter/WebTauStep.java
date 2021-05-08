@@ -49,6 +49,8 @@ public class WebTauStep {
     private WebTauStepInput input = WebTauStepInput.EMPTY;
     private WebTauStepOutput output = WebTauStepOutput.EMPTY;
 
+    private Supplier<WebTauStepOutput> outputSupplier = () -> WebTauStepOutput.EMPTY;
+
     private long startTime;
     private long elapsedTime;
 
@@ -150,6 +152,17 @@ public class WebTauStep {
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    public static void createAndExecuteStep(TokenizedMessage inProgressMessage,
+                                            WebTauStepInput input,
+                                            Supplier<TokenizedMessage> completionMessageSupplier,
+                                            Supplier<WebTauStepOutput> output,
+                                            Runnable action) {
+        WebTauStep step = createStep(inProgressMessage, completionMessageSupplier, toSupplier(action));
+        step.setInput(input);
+        step.setOutputSupplier(output);
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
     public static void createAndExecuteStep(Supplier<TokenizedMessage> completionMessageSupplier,
                                             Runnable action) {
         createAndExecuteStep(TokenizedMessage.tokenizedMessage(), completionMessageSupplier,
@@ -186,8 +199,8 @@ public class WebTauStep {
         return input;
     }
 
-    public void setOutput(WebTauStepOutput output) {
-        this.output = output;
+    public void setOutputSupplier(Supplier<WebTauStepOutput> outputSupplier) {
+        this.outputSupplier = outputSupplier;
     }
 
     public WebTauStepOutput getOutput() {
@@ -284,6 +297,7 @@ public class WebTauStep {
             startClock();
             Object result = actionToUse.apply(WebTauStepContext.SINGLE_RUN);
             complete(completionMessageFunc.apply(result));
+            output = outputSupplier.get();
             stopClock();
 
             if (stepReportOptions != StepReportOptions.SKIP_ALL) {

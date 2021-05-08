@@ -41,6 +41,6 @@ public class ScreenshotStepReporter implements StepReporter {
             return;
         }
 
-        step.setOutput(new ScreenshotStepOutput(browser.takeScreenshotAsBase64()));
+        step.setOutputSupplier(() -> new ScreenshotStepOutput(browser.takeScreenshotAsBase64()));
     }
 }

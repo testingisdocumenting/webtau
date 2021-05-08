@@ -65,7 +65,7 @@ public class CliForegroundCommand {
                     validationResult.getOut().get(),
                     validationResult.getErr().get());
         } finally {
-            step.setOutput(validationResult);
+            step.setOutputSupplier(() -> validationResult);
             Cli.cli.setLastDocumentationArtifact(validationResult.createDocumentationArtifact());
         }
     }

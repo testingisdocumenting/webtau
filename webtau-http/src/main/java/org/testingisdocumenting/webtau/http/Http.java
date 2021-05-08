@@ -902,7 +902,7 @@ public class Http {
 
         WebTauStep step = createHttpStep(validationResult, httpCall, validator);
         step.setInput(new HttpStepInput(validationResult));
-        step.setOutput(validationResult);
+        step.setOutputSupplier(() -> validationResult);
 
         try {
             return step.execute(StepReportOptions.REPORT_ALL);
