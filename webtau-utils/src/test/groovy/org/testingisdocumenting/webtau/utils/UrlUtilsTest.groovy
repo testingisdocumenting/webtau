@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,7 @@ import org.junit.rules.ExpectedException
 
 class UrlUtilsTest {
     @Rule
-    public final ExpectedException exception = ExpectedException.none();
+    public final ExpectedException exception = ExpectedException.none()
 
     @Test
     void "detects if url is a full url"() {
@@ -115,6 +116,12 @@ class UrlUtilsTest {
         exception.expect(IllegalArgumentException)
         exception.expectMessage('invalid url: garbage://localhost:8080/relative/path')
 
-        UrlUtils.extractQueryParams('garbage://localhost:8080/relative/path').should == '/relative/path'
+        assert UrlUtils.extractQueryParams('garbage://localhost:8080/relative/path') == '/relative/path'
+    }
+
+    @Test
+    void "removed trailing slash"() {
+        assert UrlUtils.removeTrailingSlash("http://a/") == "http://a"
+        assert UrlUtils.removeTrailingSlash("http://a") == "http://a"
     }
 }

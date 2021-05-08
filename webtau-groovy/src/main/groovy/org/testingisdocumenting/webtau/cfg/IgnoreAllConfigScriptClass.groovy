@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +16,8 @@
  */
 
 package org.testingisdocumenting.webtau.cfg
+
+import groovy.transform.PackageScope
 
 class IgnoreAllConfigScriptClass extends Script {
     def propertyMissing(String name) { null }

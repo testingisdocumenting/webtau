@@ -21,11 +21,10 @@ import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
+import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractHtmlSnippets
@@ -78,8 +77,18 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
-    void "element actions"() {
-        runCli('elementActions.groovy', 'webtau.cfg.groovy')
+    void "title and url"() {
+        runCli('titleAndUrl.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "basic element actions"() {
+        runCli('basicElementActions.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "drag and drop"() {
+        runCli('dragAndDrop.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -87,7 +96,7 @@ class WebTauBrowserFeaturesTestBase {
         def root = 'element-actions'
 
         extractCodeSnippets(
-                root, 'examples/scenarios/ui/elementActions.groovy', [
+                root, 'examples/scenarios/ui/basicElementActions.groovy', [
                 'click.groovy': 'click',
                 'shiftClick.groovy': 'shift click',
                 'altClick.groovy': 'alt click',
@@ -198,6 +207,7 @@ class WebTauBrowserFeaturesTestBase {
                 'inputDefault.groovy': 'input type default',
                 'inputDate.groovy': 'input type date',
                 'checkBox.groovy': 'select checkbox',
+                'radioButton.groovy': 'select radio button',
                 'selectOptions.groovy': 'select options',
                 'validation.groovy': 'values validation',
         ])
@@ -299,6 +309,11 @@ class WebTauBrowserFeaturesTestBase {
                 'captureHighlightCover.groovy': 'capture with highlight and cover',
                 'captureArrow.groovy': 'capture with arrow',
         ])
+    }
+
+    @Test
+    void "scroll top position"() {
+        runCli('scrolls.groovy', 'webtau.cfg.groovy')
     }
 
     @Test

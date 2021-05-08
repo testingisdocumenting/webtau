@@ -39,16 +39,23 @@ public class Cache {
     }
 
     public <E> E get(String key) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("getting cached value"), FROM, id(key)),
                 (r) -> tokenizedMessage(action("got cached value"), FROM, id(key), COLON, stringValue(r)),
-                () -> fileBasedCache.get(key));
+                () -> {
+                    Object value = fileBasedCache.get(key);
+                    if (value == null) {
+                        throw new AssertionError("can't find cached value by key: " + key);
+                    }
+
+                    return value;
+                });
 
         return step.execute(StepReportOptions.SKIP_START);
     }
 
     public void put(String key, Object value) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("caching value"), AS, id(key), COLON, stringValue(value)),
                 () -> tokenizedMessage(action("cached value"), AS, id(key), COLON, stringValue(value)),
                 () -> fileBasedCache.put(key, value));

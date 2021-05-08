@@ -1,4 +1,4 @@
-# CSV
+# CSV Read 
 
 ## Table Data 
 
@@ -28,10 +28,25 @@ Note: by default numeric values are read as strings, to auto convert numeric val
 
 :include-file: doc-artifacts/snippets/readingData/listOfMapsAutoConverted.groovy {title: "read list of maps from csv with auto conversion"}
 
+## Specify Header
 
-# JSON
+:include-file: examples/data/table-no-header.csv {title: "data/table-no-header.csv"}
 
-## List 
+:include-java-doc: org/testingisdocumenting/webtau/data/DataCsv.java {entry: "listOfMapsAutoConverted(List,String)"}
+
+:include-file: doc-artifacts/snippets/readingData/listOfMapsAutoConvertedHeader.groovy {title: "read list of maps from csv with auto conversion"}
+
+# CSV Write
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataCsv.java {entry: "write"}
+
+:include-file: scenarios/data/writingData.groovy {includeRegexp: "data.csv.write", title: "write list of maps"}
+
+:include-file: generated/from-list-maps.csv { title: "result" }
+
+# JSON Read
+
+## Read List 
 
 :include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "list"}
 
@@ -39,10 +54,18 @@ Note: by default numeric values are read as strings, to auto convert numeric val
 
 :include-file: doc-artifacts/snippets/readingData/jsonList.groovy {title: "read json as list"}
 
-## Map
+## Read Map
 
 :include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "map"}
 
 :include-json: data/root-map.json {paths: ["root.payload.info"], title: "data/root-map.json"}
 
 :include-file: doc-artifacts/snippets/readingData/jsonMap.groovy {title: "read json as map"}
+
+# GUID
+
+## Generate
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataGuid.java {entry: "generate"}
+
+:include-file: scenarios/data/generateData.groovy { includeRegexp: "data.guid.generate" } 

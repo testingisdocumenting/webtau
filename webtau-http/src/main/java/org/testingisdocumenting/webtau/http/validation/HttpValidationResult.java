@@ -17,15 +17,19 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.persona.Persona;
-import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
+import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -35,7 +39,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-public class HttpValidationResult implements WebTauStepPayload {
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
+
+public class HttpValidationResult implements WebTauStepOutput {
     private static final AtomicInteger idCounter = new AtomicInteger();
     private static final String BINARY_CONTENT_PLACEHOLDER = "[binary content]";
 
@@ -54,8 +60,13 @@ public class HttpValidationResult implements WebTauStepPayload {
     private HeaderDataNode responseHeaderNode;
     private DataNode responseBodyNode;
     private long startTime;
+
+    private boolean elapsedTimeCalculated = false;
     private long elapsedTime;
+
     private String errorMessage;
+
+    private String operationId;
 
     public HttpValidationResult(String personaId,
                                 String requestMethod,
@@ -71,6 +82,7 @@ public class HttpValidationResult implements WebTauStepPayload {
         this.requestHeader = requestHeader;
         this.requestBody = requestBody;
         this.mismatches = new ArrayList<>();
+        this.operationId = "";
     }
 
     public String getId() {
@@ -109,8 +121,31 @@ public class HttpValidationResult implements WebTauStepPayload {
         this.startTime = startTime;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * we want to calculate elapsed time as soon as http call is finished
+     * but we also need to calculate it when something goes wrong
+     */
+    public void calcElapsedTimeIfNotCalculated() {
+        if (elapsedTimeCalculated) {
+            return;
+        }
+
+        long endTime = Time.currentTimeMillis();
+        elapsedTime = endTime - startTime;
+
+        elapsedTimeCalculated = true;
+    }
+
     public void setElapsedTime(long elapsedTime) {
         this.elapsedTime = elapsedTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
     }
 
     public String getRequestType() {
@@ -142,7 +177,7 @@ public class HttpValidationResult implements WebTauStepPayload {
     }
 
     public boolean hasResponseContent() {
-        return response.hasContent();
+        return response != null && response.hasContent();
     }
 
     public int getResponseStatusCode() {
@@ -193,8 +228,12 @@ public class HttpValidationResult implements WebTauStepPayload {
         return responseBodyNode;
     }
 
-    public long getElapsedTime() {
-        return elapsedTime;
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
     }
 
     @Override
@@ -209,6 +248,7 @@ public class HttpValidationResult implements WebTauStepPayload {
 
         result.put("method", requestMethod);
         result.put("url", fullUrl);
+        result.put("operationId", operationId);
 
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
@@ -270,5 +310,17 @@ public class HttpValidationResult implements WebTauStepPayload {
 
     private String generateId() {
         return "httpCall-" + idCounter.incrementAndGet();
+    }
+
+    @Override
+    public void prettyPrint(ConsoleOutput console) {
+        if (!hasResponseContent()) {
+            console.out(Color.YELLOW, "[no content]");
+        } else if (response.isBinary()) {
+            console.out(Color.YELLOW, "[binary content]");
+        } else {
+            console.out(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
+            new DataNodeAnsiPrinter(console).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+        }
     }
 }

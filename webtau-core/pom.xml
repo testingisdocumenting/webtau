@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.39-SNAPSHOT</version>
+        <version>1.41-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-core</artifactId>
@@ -42,6 +42,11 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math</artifactId>
         </dependency>
 
         <dependency>

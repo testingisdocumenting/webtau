@@ -87,3 +87,17 @@ Combine configs by using `cli.env(...).workingDir(...)` in any order to set both
   title: "set environment variable and working dir"
 }
 
+# Path
+
+To specify `PATH` to use for CLI commands lookup use
+
+:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.config.groovy"}
+
+# Timeout
+
+`cli.run` command fails if it doesn't complete in 30 seconds. 
+
+To override default timeout use `cliTimeout` config value: 
+:include-file: scenarios/cli/webtau-cli-timeout.cfg.groovy {title: "webtau.config.groovy"}
+
+Note: Timeout value is specified in milliseconds 

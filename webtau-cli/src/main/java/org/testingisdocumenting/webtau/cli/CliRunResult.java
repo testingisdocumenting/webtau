@@ -68,7 +68,7 @@ public class CliRunResult {
     }
 
     private String extractFromSourceByRegexp(String sourceLabel, String source, Pattern regexp) {
-        WebTauStep step = WebTauStep.createStep(null,
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
                         FROM, urlValue(command), classifier(sourceLabel)),
                 (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"), stringValue(regexp),

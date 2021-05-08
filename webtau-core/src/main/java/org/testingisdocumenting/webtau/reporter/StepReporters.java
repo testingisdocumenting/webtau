@@ -28,12 +28,14 @@ import java.util.stream.Stream;
 
 public class StepReporters {
     private static final StepReporter defaultStepReporter =
-            new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter());
+            new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE);
 
     private static final List<StepReporter> reporters = Collections.synchronizedList(
             ServiceLoaderUtils.load(StepReporter.class));
 
     private static final ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);
+
+    private static final ThreadLocal<Boolean> disabled = ThreadLocal.withInitial(() -> false);
 
     // for ad-hoc groovy script runs from IDE we want to use console reporter as long
     // as there were no explicit reporters added
@@ -57,6 +59,15 @@ public class StepReporters {
         }
     }
 
+    public static <R> R withoutReporters(Supplier<R> code) {
+        try {
+            disabled.set(true);
+            return code.get();
+        } finally {
+            disabled.set(false);
+        }
+    }
+
     public static void onStart(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepStart(step));
     }
@@ -65,11 +76,27 @@ public class StepReporters {
         getReportersStream().forEach(r -> r.onStepSuccess(step));
     }
 
+    public static void onStepRepeatStart(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatStart(step, currentIdx, total));
+    }
+
+    public static void onStepRepeatSuccess(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatSuccess(step, currentIdx, total));
+    }
+
+    public static void onStepRepeatFailure(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatFailure(step, currentIdx, total));
+    }
+
     public static void onFailure(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepFailure(step));
     }
 
     private static Stream<StepReporter> getReportersStream() {
+        if (disabled.get()) {
+            return Stream.empty();
+        }
+
         List<StepReporter> localReporters = StepReporters.localReporters.get();
 
         if (!explicitlyAdded.get() && localReporters.isEmpty()) {

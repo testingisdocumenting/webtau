@@ -22,14 +22,10 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.39-SNAPSHOT</version>
+        <version>1.41-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-test-server</artifactId>
-
-    <properties>
-        <jetty.version>9.4.35.v20201120</jetty.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -46,13 +42,11 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>${jetty.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-webapp</artifactId>
-            <version>${jetty.version}</version>
         </dependency>
 
         <dependency>

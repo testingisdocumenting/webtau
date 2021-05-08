@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.data.table;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.TableDataRenderer;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
@@ -243,7 +243,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     }
 
     @Override
-    public void prettyPrint() {
-        ConsoleOutputs.out(PrettyPrintTableRenderer.render(this));
+    public void prettyPrint(ConsoleOutput console) {
+        console.out(PrettyPrintTableRenderer.render(this));
     }
 }

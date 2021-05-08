@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,146 +15,138 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import HttpPayload from './HttpPayload'
-import TestName from '../TestName'
+import HttpPayload from './HttpPayload';
+import TestName from '../TestName';
 
-import Card from '../../widgets/Card'
-import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
-import CardWithTime from '../../widgets/CardWithTime'
+import Card from '../../widgets/Card';
+import CardLabelAndNumber from '../../widgets/CardLabelAndNumber';
+import CardWithTime from '../../widgets/CardWithTime';
 
-import HttpCallHeaders from './HttpCallHeaders'
+import HttpCallHeaders from './HttpCallHeaders';
 
-import './HttpCallDetails.css'
+import './HttpCallDetails.css';
 
-function HttpCallDetails({httpCall, reportNavigation}) {
-    if (! httpCall.test) {
-        return <HttpCallSkippedDetails httpCall={httpCall}/>
-    }
+function HttpCallDetails({ httpCall, reportNavigation }) {
+  if (!httpCall.test) {
+    return <HttpCallSkippedDetails httpCall={httpCall} />;
+  }
 
-    return (
-        <div className="http-call-details">
-            <div className="http-call-time-and-name">
-                <CardWithTime label="Start Time (Local)"
-                              time={httpCall.startTime}/>
+  return (
+    <div className="http-call-details">
+      <div className="http-call-time-and-name">
+        <CardWithTime label="Start Time (Local)" time={httpCall.startTime} />
 
-                <CardWithTime label="Start Time (UTC)"
-                              utc={true}
-                              time={httpCall.startTime}/>
+        <CardWithTime label="Start Time (UTC)" utc={true} time={httpCall.startTime} />
 
-                <CardLabelAndNumber label="Latency (ms)"
-                                    number={httpCall.elapsedTime}/>
+        <CardLabelAndNumber label="Latency (ms)" number={httpCall.elapsedTime} />
 
-                <UrlAndTestNameCard httpCall={httpCall} onTestSelect={reportNavigation.selectTest}/>
-            </div>
+        <UrlAndTestNameCard httpCall={httpCall} onTestSelect={reportNavigation.selectTest} />
+      </div>
 
-            <Mismatches httpCall={httpCall}/>
-            <ErrorMessage httpCall={httpCall}/>
+      <Mismatches httpCall={httpCall} />
+      <ErrorMessage httpCall={httpCall} />
 
-            <HttpCallHeaders useCards="true"
-                             request={httpCall.requestHeader}
-                             response={httpCall.responseHeader}/>
+      <HttpCallHeaders useCards="true" request={httpCall.requestHeader} response={httpCall.responseHeader} />
 
-            <div className="body-request-response">
-                <Request httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload}/>
-                <Response httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload}/>
-            </div>
-        </div>
-    )
+      <div className="body-request-response">
+        <Request httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload} />
+        <Response httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload} />
+      </div>
+    </div>
+  );
 }
 
-function HttpCallSkippedDetails({httpCall}) {
-    return (
-        <div className="http-call-details">
-            <Card className="http-call-no-details">
-                {httpCall.label} was not exercised
-            </Card>
-        </div>
-    )
+function HttpCallSkippedDetails({ httpCall }) {
+  return (
+    <div className="http-call-details">
+      <Card className="http-call-no-details">{httpCall.label} was not exercised</Card>
+    </div>
+  );
 }
 
-function Mismatches({httpCall}) {
-    if (httpCall.mismatches.length === 0) {
-        return null
-    }
+function Mismatches({ httpCall }) {
+  if (httpCall.mismatches.length === 0) {
+    return null;
+  }
 
-    const mismatches = httpCall.mismatches.map((m, idx) => <div key={idx} className="mismatch">
-        <pre>{m}</pre>
-    </div>)
+  const mismatches = httpCall.mismatches.map((m, idx) => (
+    <div key={idx} className="mismatch">
+      <pre>{m}</pre>
+    </div>
+  ));
 
-    return (
-        <Card className="http-call-details-mismatches">
-            {mismatches}
-        </Card>
-    )
+  return <Card className="http-call-details-mismatches">{mismatches}</Card>;
 }
 
-function ErrorMessage({httpCall}) {
-    if (!httpCall.errorMessage) {
-        return null
-    }
+function ErrorMessage({ httpCall }) {
+  if (!httpCall.errorMessage) {
+    return null;
+  }
 
-    return (
-        <Card className="http-call-details-error-message">
-            {httpCall.errorMessage}
-        </Card>
-    )
+  return <Card className="http-call-details-error-message">{httpCall.errorMessage}</Card>;
 }
 
-function Request({httpCall, onHttpPayloadZoomIn}) {
-    if (! httpCall.requestBody) {
-        return <div/>
-    }
+function Request({ httpCall, onHttpPayloadZoomIn }) {
+  if (!httpCall.requestBody) {
+    return <div />;
+  }
 
-    return (
-        <Card className="http-call-details-request-details">
-            <HttpPayload caption="Request"
-                         type={httpCall.requestType}
-                         data={httpCall.requestBody}
-                         httpCallId={httpCall.id}
-                         payloadType='request'
-                         onZoom={onHttpPayloadZoomIn}/>
-        </Card>
-    )
+  return (
+    <Card className="http-call-details-request-details">
+      <HttpPayload
+        caption="Request"
+        type={httpCall.requestType}
+        data={httpCall.requestBody}
+        httpCallId={httpCall.id}
+        payloadType="request"
+        onZoom={onHttpPayloadZoomIn}
+      />
+    </Card>
+  );
 }
 
-function Response({httpCall, onHttpPayloadZoomIn}) {
-    if (! httpCall.responseBody) {
-        return <div/>
-    }
+function Response({ httpCall, onHttpPayloadZoomIn }) {
+  if (!httpCall.responseBody) {
+    return <div />;
+  }
 
-    return (
-        <Card className="http-call-details-response-details">
-            <HttpPayload caption="Response"
-                         type={httpCall.responseType}
-                         data={httpCall.responseBody}
-                         checks={httpCall.responseBodyChecks}
-                         httpCallId={httpCall.id}
-                         payloadType='response'
-                         onZoom={onHttpPayloadZoomIn}/>
-        </Card>
-    )
+  return (
+    <Card className="http-call-details-response-details">
+      <HttpPayload
+        caption="Response"
+        type={httpCall.responseType}
+        data={httpCall.responseBody}
+        checks={httpCall.responseBodyChecks}
+        httpCallId={httpCall.id}
+        payloadType="response"
+        onZoom={onHttpPayloadZoomIn}
+      />
+    </Card>
+  );
 }
 
-function UrlAndTestNameCard({httpCall, onTestSelect}) {
-    return (
-        <Card>
-            <Url httpCall={httpCall}/>
-            <TestName test={httpCall.test} onTestClick={onTestSelect}/>
-        </Card>
-    )
+function UrlAndTestNameCard({ httpCall, onTestSelect }) {
+  return (
+    <Card>
+      <Url httpCall={httpCall} />
+      <TestName test={httpCall.test} onTestClick={onTestSelect} />
+    </Card>
+  );
 }
 
-function Url({httpCall}) {
-    return (
-        <div className="http-call-details-url">
-            <div className="method">{httpCall.method}</div>
-            <div className="url">
-                <a href={httpCall.url} target="_blank">{httpCall.url}</a>
-            </div>
-        </div>
-    )
+function Url({ httpCall }) {
+  return (
+    <div className="http-call-details-url">
+      <div className="method">{httpCall.method}</div>
+      <div className="url">
+        <a href={httpCall.url} target="_blank" rel="noreferrer">
+          {httpCall.url}
+        </a>
+      </div>
+    </div>
+  );
 }
 
-export default HttpCallDetails
+export default HttpCallDetails;

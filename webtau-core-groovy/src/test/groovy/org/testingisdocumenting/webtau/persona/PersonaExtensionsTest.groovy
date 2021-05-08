@@ -67,4 +67,14 @@ class PersonaExtensionsTest {
         } should throwException("nesting personas is not allowed, active persona id: John, " +
                 "attempted to nest persona id: Bob")
     }
+
+    @Test
+    void "nesting of same persona is allowed"() {
+        def John = Persona.persona("John")
+        John {
+            John {
+                Persona.currentPersona.id.should == "John"
+            }
+        }
+    }
 }

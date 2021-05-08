@@ -25,8 +25,6 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
@@ -44,19 +42,14 @@ import org.testingisdocumenting.webtau.http.listener.HttpListeners;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFile;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormData;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormField;
-import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
+import org.testingisdocumenting.webtau.http.operationid.HttpOperationIdProviders;
 import org.testingisdocumenting.webtau.http.request.EmptyRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpTextMime;
 import org.testingisdocumenting.webtau.http.text.TextRequestBody;
-import org.testingisdocumenting.webtau.http.validation.HeaderDataNode;
-import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
-import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
-import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
-import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers;
-import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.http.validation.*;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
@@ -114,7 +107,11 @@ public class Http {
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
                 () -> HttpValidationHandlers.withDisabledHandlers(() -> {
-                    http.get(url, header);
+                    HttpOperationIdProviders.withDisabledProviders(() -> {
+                        http.get(url, header);
+                        return null;
+                    });
+
                     return null;
                 })
         );
@@ -904,11 +901,13 @@ public class Http {
                 requestMethod, url, fullUrl, fullHeader, requestBody);
 
         WebTauStep step = createHttpStep(validationResult, httpCall, validator);
+        step.setInput(new HttpStepInput(validationResult));
+        step.setOutput(validationResult);
+
         try {
             return step.execute(StepReportOptions.REPORT_ALL);
         } finally {
             lastValidationResult.set(validationResult);
-            step.addPayload(validationResult);
         }
     }
 
@@ -918,14 +917,13 @@ public class Http {
         Supplier<Object> httpCallSupplier = () -> {
             HttpResponse response = null;
             try {
-                long startTime = Time.currentTimeMillis();
-
                 BeforeFirstHttpCallListenerTrigger.trigger();
                 HttpListeners.beforeHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody());
 
-                renderRequest(validationResult.getRequestBody());
+                long startTime = Time.currentTimeMillis();
+                validationResult.setStartTime(startTime);
 
                 response = httpCall.execute(validationResult.getFullUrl(),
                         validationResult.getRequestHeader());
@@ -933,11 +931,15 @@ public class Http {
                 response = followRedirects(validationResult.getRequestMethod(),
                         httpCall, validationResult.getRequestHeader(), response);
 
-                long endTime = Time.currentTimeMillis();
-
-                validationResult.setStartTime(startTime);
-                validationResult.setElapsedTime(endTime - startTime);
+                validationResult.calcElapsedTimeIfNotCalculated();
                 validationResult.setResponse(response);
+                
+                validationResult.setOperationId(HttpOperationIdProviders.operationId(
+                        validationResult.getRequestMethod(),
+                        validationResult.getUrl(),
+                        validationResult.getFullUrl(),
+                        validationResult.getRequestHeader(),
+                        validationResult.getRequestBody()));
 
                 R validationBlockReturnedValue = validateAndRecord(validationResult, validator);
 
@@ -953,6 +955,8 @@ public class Http {
                 throw new HttpException("error during http." + validationResult.getRequestMethod().toLowerCase() + "(" +
                         validationResult.getFullUrl() + "): " + StackTraceUtils.fullCauseMessage(e), e);
             } finally {
+                validationResult.calcElapsedTimeIfNotCalculated();
+
                 HttpListeners.afterHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody(),
@@ -960,8 +964,8 @@ public class Http {
             }
         };
 
-        return WebTauStep.createStep(null, tokenizedMessage(
-                action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
+        return WebTauStep.createStep(
+                tokenizedMessage(action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 httpCallSupplier);
     }
@@ -979,7 +983,7 @@ public class Http {
                                           HttpHeader fullRequestHeader) {
         Supplier<Object> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
 
-        return WebTauStep.createStep(null, tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
+        return WebTauStep.createStep(tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 httpCallSupplier);
     }
@@ -1044,8 +1048,6 @@ public class Http {
             });
 
             throw e;
-        } finally {
-            renderResponse(validationResult);
         }
     }
 
@@ -1097,60 +1099,16 @@ public class Http {
 
     private Integer defaultExpectedStatusCodeByRequest(HttpValidationResult validationResult) {
         switch (validationResult.getRequestMethod()) {
-            case "GET":
-                return 200;
             case "POST":
                 return 201;
             case "PUT":
             case "DELETE":
             case "PATCH":
                 return validationResult.hasResponseContent() ? 200 : 204;
+            case "GET":
             default:
                 return 200;
         }
-    }
-
-    private void renderRequest(HttpRequestBody requestBody) {
-        if (skipRenderRequestResponse() || requestBody == null) {
-            return;
-        }
-
-        if (requestBody.isEmpty()) {
-            ConsoleOutputs.out(Color.YELLOW, "[no request body]");
-        } else if (requestBody.isBinary()) {
-            ConsoleOutputs.out(Color.YELLOW, "[binary request]");
-        } else {
-            ConsoleOutputs.out(Color.YELLOW, "request", Color.CYAN, " (", requestBody.type(), "):");
-            renderRequestBody(requestBody);
-        }
-    }
-
-    private void renderResponse(HttpValidationResult result) {
-        if (skipRenderRequestResponse()) {
-            return;
-        }
-
-        if (result.getResponse().isBinary()) {
-            ConsoleOutputs.out(Color.YELLOW, "[binary content]");
-        } else if (!result.hasResponseContent()) {
-            ConsoleOutputs.out(Color.YELLOW, "[no content]");
-        } else {
-            ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", result.getResponse().getContentType(), "):");
-            new DataNodeAnsiPrinter().print(result.getBodyNode(), getCfg().getConsolePayloadOutputLimit());
-        }
-    }
-
-    private void renderRequestBody(HttpRequestBody requestBody) {
-        if (requestBody instanceof JsonRequestBody) {
-            DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"), ((JsonRequestBody) requestBody).getOriginal());
-            new DataNodeAnsiPrinter().print(dataNode, getCfg().getConsolePayloadOutputLimit());
-        } else {
-            ConsoleOutputs.out(requestBody.asString());
-        }
-    }
-
-    private boolean skipRenderRequestResponse() {
-        return getCfg().getVerbosityLevel() <= WebTauStep.getCurrentStep().getNumberOfParents() + 1;
     }
 
     private HttpResponse request(String method, String fullUrl,

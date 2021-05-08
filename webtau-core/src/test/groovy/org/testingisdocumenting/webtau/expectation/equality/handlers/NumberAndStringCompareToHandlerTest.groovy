@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +26,7 @@ class NumberAndStringCompareToHandlerTest {
     void "handles string as actual and number as expected"() {
         def handler = new NumberAndStringCompareToHandler()
         assert handler.handleEquality("100", 43)
+        assert handler.handleEquality("${100 + 10}", 43)
         assert !handler.handleEquality(100, 43)
 
         assert handler.handleGreaterLessEqual("100", 43)
@@ -34,11 +36,13 @@ class NumberAndStringCompareToHandlerTest {
     @Test
     void "automatically convert string to a number for equality comparison"() {
         actual("100.54").should(equal(100.54))
+        actual("${100}.54").should(equal(100.54))
     }
 
     @Test
     void "automatically convert string to a number for greater-less comparison"() {
         actual("100.54").shouldBe(greaterThan(30))
+        actual("${100}.54").should(equal(100.54))
     }
 
     @Test

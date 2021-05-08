@@ -21,11 +21,11 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.39-SNAPSHOT</version>
+        <version>1.41-SNAPSHOT</version>
     </parent>
 
     <properties>
-        <spring.boot.version>1.5.7.RELEASE</spring.boot.version>
+        <spring.boot.version>2.4.5</spring.boot.version>
         <h2.version>1.4.200</h2.version>
         <jaxb.version>2.3.0</jaxb.version>
         <enforcer.skip>true</enforcer.skip>
@@ -85,6 +85,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
             <version>${spring.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.hateoas</groupId>
+            <artifactId>spring-hateoas</artifactId>
         </dependency>
 
         <dependency>

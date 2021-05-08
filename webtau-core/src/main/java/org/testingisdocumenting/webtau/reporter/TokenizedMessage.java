@@ -78,6 +78,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         return tokens.size();
     }
 
+    public MessageToken getTokenAtIdx(int idx) {
+        return tokens.get(idx);
+    }
+
     public MessageToken getLastToken() {
         return tokens.get(tokens.size() - 1);
     }

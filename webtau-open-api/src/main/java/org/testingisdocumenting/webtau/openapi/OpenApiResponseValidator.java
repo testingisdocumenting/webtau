@@ -28,8 +28,8 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 public class OpenApiResponseValidator implements HttpValidationHandler {
     @Override
     public void validate(HttpValidationResult validationResult) {
-        ValidationMode mode = OpenApi.validationMode.get();
-        if (mode.equals(ValidationMode.NONE)) {
+        OpenApiValidationMode mode = OpenApi.validationMode.get();
+        if (mode.equals(OpenApiValidationMode.NONE)) {
             return;
         }
 
@@ -46,7 +46,7 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
                 () -> validator.validateApiSpec(validationResult, mode));
     }
 
-    private static String validationModeLabel(ValidationMode mode) {
+    private static String validationModeLabel(OpenApiValidationMode mode) {
         switch (mode) {
             case ALL:
                 return "request and response";

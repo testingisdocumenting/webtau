@@ -22,6 +22,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.gzip.GzipHandler;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 public class TestServer {
     private Server server;
@@ -58,8 +59,11 @@ public class TestServer {
     }
 
     public URI getUri() {
-        return server.getURI();
+        try {
+            // forcing localhost as I seen different IP being listed when ran on github actions
+            return new URI("http://localhost:" + server.getURI().getPort());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-
 }

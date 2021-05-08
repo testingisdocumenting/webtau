@@ -37,10 +37,10 @@ public class ScreenshotStepReporter implements StepReporter {
             return;
         }
 
-        if (step.hasPayload(ScreenshotStepPayload.class)) {
+        if (step.hasOutput(ScreenshotStepOutput.class)) {
             return;
         }
 
-        step.addPayload(new ScreenshotStepPayload(browser.takeScreenshotAsBase64()));
+        step.setOutput(new ScreenshotStepOutput(browser.takeScreenshotAsBase64()));
     }
 }

@@ -20,6 +20,8 @@ package org.testingisdocumenting.webtau.browser.documentation;
 import org.testingisdocumenting.webtau.browser.expectation.VisibleValueMatcher;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -32,6 +34,8 @@ import java.util.*;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class BrowserDocumentation {
     private final TakesScreenshot screenshotTaker;
@@ -73,11 +77,22 @@ public class BrowserDocumentation {
     }
 
     public void capture(String screenshotName) {
-        createScreenshot(screenshotName);
-        createAnnotations(screenshotName);
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(classifier("documentation"), action("capturing"), classifier("screenshot"),
+                        AS, urlValue(screenshotName)),
+                (path) -> tokenizedMessage(classifier("documentation"), action("captured"), classifier("screenshot")
+                        , AS, urlValue(((Path) path).toAbsolutePath())),
+                () -> {
+                    Path screenshot = createScreenshot(screenshotName);
+                    createAnnotations(screenshotName);
+
+                    return screenshot;
+                });
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    private void createScreenshot(String screenshotName) {
+    private Path createScreenshot(String screenshotName) {
         DocumentationArtifacts.registerName(screenshotName);
 
         Screenshot screenshot = new Screenshot(screenshotTaker);
@@ -87,6 +102,8 @@ public class BrowserDocumentation {
         Path screenShotPath = getCfg().getDocArtifactsPath().resolve(artifactName);
         FileUtils.createDirsForFile(screenShotPath);
         screenshot.save(screenShotPath);
+
+        return screenShotPath;
     }
 
     private void createAnnotations(String screenshotName) {

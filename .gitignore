@@ -12,3 +12,4 @@ webtau.graphql-report.json
 .vertx
 todo.md
 doc-artifacts
+.webtau-cache

@@ -30,10 +30,16 @@
       "numberOfSuccessful" : 2
     }
   }, {
+    "scenario" : "select radio button",
+    "shortContainerId" : "forms.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
     "scenario" : "values validation",
     "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "select checkbox multiple times",

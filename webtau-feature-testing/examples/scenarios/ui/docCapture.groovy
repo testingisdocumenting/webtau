@@ -21,6 +21,9 @@ scenario('search and capture with badges placed in non center position') {
     browser.doc.withAnnotations(
             browser.doc.badge(search.box).toTheRight(),
             browser.doc.badge(search.results).above()).capture('search-diff-placement')
+
+    data.json.map('doc-artifacts/search-diff-placement.json'.toString())
+            .shapes.align.should == ['ToTheRight', 'Above']
 }
 
 scenario('capture with highlight and cover') {

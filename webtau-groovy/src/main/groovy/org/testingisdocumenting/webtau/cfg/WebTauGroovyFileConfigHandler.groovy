@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.cfg
 
+import org.testingisdocumenting.webtau.GroovyRunner
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
@@ -26,6 +27,8 @@ import org.testingisdocumenting.webtau.graphql.listener.GraphQLListener
 import org.testingisdocumenting.webtau.graphql.listener.GraphQLListeners
 import org.testingisdocumenting.webtau.http.listener.HttpListener
 import org.testingisdocumenting.webtau.http.listener.HttpListeners
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.TestListener
@@ -84,6 +87,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         setupTestListeners(parsedConfig)
         setupGraphQLListeners(parsedConfig)
         setupHttpListeners(parsedConfig)
+        setupHttpValidationHandlers(parsedConfig)
         setupDbDataSourceProviders(parsedConfig)
     }
 
@@ -180,6 +184,11 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     private static void setupHttpListeners(ConfigObject config) {
         List<HttpListener> listenerInstances = instancesFromConfig(config, 'httpListeners')
         listenerInstances.each { HttpListeners.add(it) }
+    }
+
+    private static void setupHttpValidationHandlers(ConfigObject config) {
+        List<HttpValidationHandler> handlerInstances = instancesFromConfig(config, 'httpValidationHandlers')
+        handlerInstances.each { HttpValidationHandlers.add(it) }
     }
 
     private static void setupDbDataSourceProviders(ConfigObject config) {

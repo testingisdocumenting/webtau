@@ -25,6 +25,8 @@ import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.time.ControlledTimeProvider
+import org.testingisdocumenting.webtau.time.Time
 import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 
@@ -1075,12 +1077,47 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "captures failed http call"() {
-        code {
-            http.get('mailto://demo', [a: 1, b: 'text']) {
-            }
-        } should throwException(HttpException, ~/error during http\.get/)
+        def stepForcedStartTime = 0
+        def httpCallForcedStartTime = stepForcedStartTime + 100
+        def httpElapsedTime = 500
 
-        http.lastValidationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+        Time.withTimeProvider(new ControlledTimeProvider([
+                stepForcedStartTime, httpCallForcedStartTime,
+                httpCallForcedStartTime + httpElapsedTime,
+                httpCallForcedStartTime + httpElapsedTime + 200])) {
+            code {
+                http.get('mailto://demo', [a: 1, b: 'text']) {
+                }
+            } should throwException(HttpException, ~/error during http\.get/)
+        }
+
+        def validationResult = http.lastValidationResult
+        validationResult.startTime.should == httpCallForcedStartTime
+        validationResult.elapsedTime.should == httpElapsedTime
+        validationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+    }
+
+    @Test
+    void "http validation captures http elapsed time only once"() {
+        def stepForcedStartTime = 0
+        def httpCallForcedStartTime = stepForcedStartTime + 100
+        def httpElapsedTime = 500
+        def statusCodeValidationStartTime = 2000
+        def stepEndTime = 3000
+
+        Time.withTimeProvider(new ControlledTimeProvider([
+                stepForcedStartTime, httpCallForcedStartTime,
+                httpCallForcedStartTime + httpElapsedTime,
+                statusCodeValidationStartTime,
+                statusCodeValidationStartTime + 20,
+                stepEndTime
+        ])) {
+            http.get('/end-point') {
+            }
+        }
+
+        def validationResult = http.lastValidationResult
+        validationResult.elapsedTime.should == httpElapsedTime
     }
 
     @Test

@@ -26,6 +26,8 @@ class WebTauBrowserFeaturesTestData {
         handler.registerGet("/special-forms", htmlResponse('special-forms.html'))
         handler.registerGet("/calculation", htmlResponse('calculation.html'))
         handler.registerGet("/finders-and-filters", htmlResponse('finders-and-filters.html'))
+        handler.registerGet("/drag-and-drop-html5", htmlResponse('drag-and-drop-html5.html'))
+        handler.registerGet("/drag-and-drop-jquery", htmlResponse('drag-and-drop-jquery.html'))
         handler.registerGet("/element-actions", htmlResponse('element-actions.html'))
         handler.registerGet("/cookies", htmlResponse('cookies.html'))
         handler.registerGet("/matchers", htmlResponse('matchers.html'))
@@ -34,6 +36,7 @@ class WebTauBrowserFeaturesTestData {
         handler.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
         handler.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
         handler.registerGet("/ag-grid-multi-select", htmlResponse('ag-grid-multi-select.html'))
+        handler.registerGet("/scrolls", htmlResponse('scrolls.html'))
     }
 
     private static TestServerHtmlResponse htmlResponse(String resourceName) {

@@ -16,10 +16,12 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+
 /**
  * Print value to the console using ANSI colors
- * Used in e.g. REPL
+ * Used in e.g. REPL, {@link org.testingisdocumenting.webtau.reporter.ConsoleStepReporter}
  */
 public interface PrettyPrintable {
-    void prettyPrint();
+    void prettyPrint(ConsoleOutput console);
 }

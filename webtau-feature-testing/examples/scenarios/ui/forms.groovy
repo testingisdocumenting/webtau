@@ -23,10 +23,15 @@ scenario('select checkbox') {
     form.confirmation.setValue(true)
 }
 
+scenario('select radio button') {
+    form.choice.setValue('value-two')
+}
+
 scenario('values validation') {
     form.name.should == 'Full Automation'
     form.rank.should == 'B'
     form.confirmation.should == true
+    form.choice.should == 'value-two'
     form.startDate.should == '2016-06-21'
 }
 

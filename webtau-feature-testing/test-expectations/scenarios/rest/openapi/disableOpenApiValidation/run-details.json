@@ -9,13 +9,13 @@
     "scenario" : "disable request validation",
     "shortContainerId" : "disableOpenApiValidation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "disable response validation",
     "shortContainerId" : "disableOpenApiValidation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

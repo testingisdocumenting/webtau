@@ -67,7 +67,7 @@ public class Persona {
 
     public <R> R execute(Supplier<R> code) {
         Persona current = currentPersona.get();
-        if (current != defaultPersona) {
+        if (current != defaultPersona && current != this) {
             throw new IllegalStateException("nesting personas is not allowed, active persona id: " + current.id +
                     ", attempted to nest persona id: " + id);
         }

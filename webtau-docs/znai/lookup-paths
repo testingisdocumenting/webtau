@@ -5,10 +5,11 @@
 ../../webtau-core/src/test/java
 ../../webtau-core-groovy/src/test/groovy
 ../../webtau-core/target/test-classes
-../../webtau-groovy/
 ../../webtau-groovy/src/main/groovy
-../../webtau-groovy/src/main/resources
-../../webtau-groovy/target/test-classes
+../../webtau-groovy-app/
+../../webtau-groovy-app/src/main/groovy
+../../webtau-groovy-app/src/main/resources
+../../webtau-groovy-app/target/test-classes
 ../../webtau-feature-testing
 ../../webtau-feature-testing/examples
 ../../webtau-feature-testing/target/classes

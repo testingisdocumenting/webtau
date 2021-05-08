@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.openapi
 
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
 
 class OpenApiSpecTest {
@@ -42,8 +41,7 @@ class OpenApiSpecTest {
     }
 
     private static OpenApiSpec createSpec(String specPath) {
-        def specUrl = ResourceUtils.resourceUrl(specPath)
-        def apiSpec = new OpenApiSpec(specUrl.toString())
-        apiSpec
+        def specLocation = OpenApiSpecLocation.fromStringValue("src/test/resources/${specPath}")
+        return new OpenApiSpec(specLocation)
     }
 }

@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
@@ -35,7 +36,12 @@ class ProcessUtils {
         CliBackgroundProcess backgroundRunResult = runInBackground(command, config);
 
         try {
-            backgroundRunResult.getProcess().waitFor();
+            boolean onTime = backgroundRunResult.getProcess().waitFor(CliConfig.getCliTimeoutMs(), TimeUnit.MILLISECONDS);
+
+            if (!onTime) {
+                backgroundRunResult.closeGlobbers();
+                throw new RuntimeException("process timed-out");
+            }
 
             backgroundRunResult.getConsumeErrorThread().join();
             backgroundRunResult.getConsumeOutThread().join();
@@ -83,7 +89,7 @@ class ProcessUtils {
     }
 
     private static String findCommandIfRequiredUsingPath(String command) {
-        List<Path> paths = envPathWithWorkingDirPrefix();
+        List<Path> paths = cliPathWithWorkingDirPrefix();
         if (paths.isEmpty()) {
             return command;
         }
@@ -96,8 +102,8 @@ class ProcessUtils {
                 .orElse(command);
     }
 
-    private static List<Path> envPathWithWorkingDirPrefix() {
-        return getCfg().getEnvPath().stream()
+    private static List<Path> cliPathWithWorkingDirPrefix() {
+        return CliConfig.getPath().stream()
                 .map(ProcessUtils::prefixWithWorkingDir)
                 .collect(Collectors.toList());
     }

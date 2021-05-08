@@ -17,18 +17,25 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
+import org.testingisdocumenting.webtau.browser.BrowserContext;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
+import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class PageUrl implements PrettyPrintable {
-    private static final BrowserContext browserContext = new BrowserContext();
-    private final Supplier<String> currentUrlSupplier;
+public class PageUrl implements PrettyPrintable, ActualValueExpectations, ActualPathAndDescriptionAware {
+    private static final BrowserContext browserContext = BrowserContext.INSTANCE;
+
+  private final Supplier<String> currentUrlSupplier;
 
     public PageUrl(Supplier<String> currentUrlSupplier) {
         this.currentUrlSupplier = currentUrlSupplier;
@@ -87,10 +94,20 @@ public class PageUrl implements PrettyPrintable {
     }
 
     @Override
-    public void prettyPrint() {
-        out(Color.YELLOW, " full: ", Color.GREEN, full.get());
-        out(Color.YELLOW, " path: ", Color.GREEN, path.get());
-        out(Color.YELLOW, "query: ", Color.GREEN, query.get());
-        out(Color.YELLOW, "  ref: ", Color.GREEN, ref.get());
+    public void prettyPrint(ConsoleOutput console) {
+        console.out(Color.YELLOW, " full: ", Color.GREEN, full.get());
+        console.out(Color.YELLOW, " path: ", Color.GREEN, path.get());
+        console.out(Color.YELLOW, "query: ", Color.GREEN, query.get());
+        console.out(Color.YELLOW, "  ref: ", Color.GREEN, ref.get());
+    }
+
+    @Override
+    public ActualPath actualPath() {
+        return createActualPath("url");
+    }
+
+    @Override
+    public StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +21,7 @@ import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigationH
 
 import java.util.concurrent.atomic.AtomicReference
 
-class GroovyConfigBasedBrowserPageNavigationHandler implements BrowserPageNavigationHandler{
+class GroovyConfigBasedBrowserPageNavigationHandler implements BrowserPageNavigationHandler {
     private static AtomicReference<Closure> handler = new AtomicReference<>()
 
     GroovyConfigBasedBrowserPageNavigationHandler() {

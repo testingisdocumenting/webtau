@@ -21,7 +21,7 @@
 
     <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.39-SNAPSHOT</version>
+    <version>1.41-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -110,11 +110,14 @@
         <module>webtau-data</module>
         <module>webtau-filesystem</module>
         <module>webtau-cache</module>
+        <module>webtau-server</module>
         <module>webtau-test-server</module>
         <module>webtau-cli</module>
         <module>webtau-cli-groovy</module>
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
+        <module>webtau-groovy-app</module>
+        <module>webtau-repl</module>
         <module>webtau-reactjs</module>
         <module>webtau-report</module>
         <module>webtau-java-runner</module>
@@ -149,13 +152,14 @@
         <jackson.version>2.11.3</jackson.version>
         <jackson.databind.version>2.11.3</jackson.databind.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>4.3.25.RELEASE</spring.version>
+        <spring.version>5.3.6</spring.version>
         <maven.api.version>3.6.3</maven.api.version>
-        <tomcat.version>8.5.56</tomcat.version>
+        <tomcat.version>9.0.45</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
         <graphql.version>16.2</graphql.version>
         <jacoco.version>0.8.5</jacoco.version>
         <swagger.version>1.6.1</swagger.version>
+        <jetty.version>9.4.35.v20201120</jetty.version>
     </properties>
 
     <dependencyManagement>
@@ -182,6 +186,12 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy-groovysh</artifactId>
                 <version>${groovy.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jline</groupId>
+                        <artifactId>jline</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -224,6 +234,18 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>1.13</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-webapp</artifactId>
+                <version>${jetty.version}</version>
             </dependency>
 
             <dependency>
@@ -289,7 +311,7 @@
             <dependency>
                 <groupId>org.springframework.hateoas</groupId>
                 <artifactId>spring-hateoas</artifactId>
-                <version>0.24.0.RELEASE</version>
+                <version>1.3.0</version>
             </dependency>
 
             <dependency>
@@ -337,7 +359,7 @@
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-rest-webmvc</artifactId>
-                <version>2.6.7.RELEASE</version>
+                <version>3.5.0</version>
             </dependency>
 
             <dependency>
@@ -392,6 +414,12 @@
                         <artifactId>hibernate-jpa-2.1-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>1.0.2.Final</version>
             </dependency>
 
             <dependency>
@@ -541,13 +569,19 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>5.3.6.Final</version>
+                <version>6.2.0.Final</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.validation</groupId>
                         <artifactId>validation-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.4.30.Final</version>
             </dependency>
 
             <dependency>
@@ -566,6 +600,12 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-csv</artifactId>
                 <version>1.8</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-math</artifactId>
+                <version>2.2</version>
             </dependency>
 
             <dependency>
@@ -643,7 +683,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>2.0.3.RELEASE</version>
+                    <version>2.1.5.RELEASE</version>
                 </plugin>
 
                 <plugin>
@@ -704,7 +744,35 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.0.0-M2</version>
+                    <configuration>
+                        <rules>
+                            <dependencyConvergence />
+                            <banDuplicateClasses>
+                                <findAllDuplicates>true</findAllDuplicates>
+                                <ignoreWhenIdentical>true</ignoreWhenIdentical>
+                                <ignoreClasses>
+                                    org.fusesource.jansi.*
+                                </ignoreClasses>
+                            </banDuplicateClasses>
+                        </rules>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>extra-enforcer-rules</artifactId>
+                            <version>1.0-beta-9</version>
+                        </dependency>
+                    </dependencies>
                 </plugin>
+
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -750,35 +818,6 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                     <keepStagingRepositoryOnCloseRuleFailure>true</keepStagingRepositoryOnCloseRuleFailure>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <dependencyConvergence />
-                        <banDuplicateClasses>
-                            <findAllDuplicates>true</findAllDuplicates>
-                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
-                        </banDuplicateClasses>
-                    </rules>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>extra-enforcer-rules</artifactId>
-                        <version>1.0-beta-9</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>

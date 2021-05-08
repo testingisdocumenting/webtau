@@ -67,6 +67,7 @@ public class IntegrationTestsMessageBuilder {
     public static final MessageToken OF = TokenTypes.PREPOSITION.token("of");
     public static final MessageToken FOR = TokenTypes.PREPOSITION.token("for");
     public static final MessageToken FROM = TokenTypes.PREPOSITION.token("from");
+    public static final MessageToken OVER = TokenTypes.PREPOSITION.token("over");
     public static final MessageToken AS = TokenTypes.PREPOSITION.token("as");
     public static final MessageToken USING = TokenTypes.PREPOSITION.token("using");
     public static final MessageToken INTO = TokenTypes.PREPOSITION.token("into");

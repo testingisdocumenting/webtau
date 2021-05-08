@@ -3,7 +3,7 @@
     "scenario" : "example of ls run",
     "shortContainerId" : "basicLs.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

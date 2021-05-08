@@ -20,25 +20,28 @@ package org.testingisdocumenting.webtau.browser.handlers;
 import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
+import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class DateInputGetSetValueHandler implements PageElementGetSetValueHandler {
     private final CurrentWebDriver driver = CurrentWebDriver.INSTANCE;
 
     @Override
-    public boolean handles(HtmlNode htmlNode, PageElement pageElement) {
-        return htmlNode.getTagName().equals("input") &&
-                htmlNode.getAttributes().getOrDefault("type", "").toLowerCase().equals("date");
+    public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
+        HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
+        return htmlNode.getTagName().equalsIgnoreCase("input") &&
+                htmlNode.getType().equalsIgnoreCase("date");
     }
 
     @Override
     public void setValue(PageElementStepExecutor stepExecutor,
                          TokenizedMessage pathDescription,
-                         HtmlNode htmlNode,
+                         HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
                          Object value) {
         LocalDate localDate = LocalDate.parse(value.toString());
@@ -52,7 +55,8 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
     }
 
     @Override
-    public Object getValue(HtmlNode htmlNode, PageElement pageElement) {
+    public Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
+        HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
         return htmlNode.getValue();
     }
 

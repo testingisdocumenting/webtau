@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,23 +15,23 @@
  * limitations under the License.
  */
 
-.sortable-table th {
+.webtau-sortable-table th {
     cursor: pointer;
     user-select: none;
 }
 
-.sortable-table .sort-indicator {
+.webtau-sortable-table .sort-indicator {
     width: 8px;
 }
 
-.sortable-table .sort-indicator {
+.webtau-sortable-table .sort-indicator {
     margin-right: 8px;
 }
 
-.sortable-table .sort-indicator.ascending {
+.webtau-sortable-table .sort-indicator.ascending {
     transform: rotate(180deg);
 }
 
-.sortable-table .column-with-indicator {
+.webtau-sortable-table .column-with-indicator {
     display: flex;
 }

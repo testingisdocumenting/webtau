@@ -25,28 +25,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DbDataSourceProviders {
     private static final List<DbDataSourceProvider> providers = ServiceLoaderUtils.load(DbDataSourceProvider.class);
-    private static final ConcurrentHashMap<String, DataSource> dataSourcesByName = new ConcurrentHashMap<>();
 
     public static DataSource provideByName(String name) {
-        DataSource existing = dataSourcesByName.get(name);
-        if (existing != null) {
-            return existing;
-        }
-
-        DataSource created = createDataSource(name);
-        dataSourcesByName.put(name, created);
-
-        return created;
+        return createDataSource(name);
     }
 
     public static void add(DbDataSourceProvider provider) {
         providers.add(provider);
-        dataSourcesByName.clear();
     }
 
     public static void remove(DbDataSourceProvider provider) {
         providers.remove(provider);
-        dataSourcesByName.clear();
     }
 
     private static DataSource createDataSource(String name) {

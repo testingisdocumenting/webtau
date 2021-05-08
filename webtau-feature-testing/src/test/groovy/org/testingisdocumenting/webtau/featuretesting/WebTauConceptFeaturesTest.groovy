@@ -112,6 +112,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "repeat step"() {
+        runCli('repeatStep.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "do not sleep as sync mechanism"() {
         runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
     }

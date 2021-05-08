@@ -20,7 +20,6 @@ package org.testingisdocumenting.webtau.openapi
 import org.testingisdocumenting.webtau.http.HttpResponse
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.persona.Persona
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Before
 import org.junit.Test
 
@@ -31,11 +30,12 @@ class OpenApiSpecValidatorTest {
     private final static String URL = "http://myhost.com:1234/"
 
     private OpenApiSpecValidator validator
-    private static def specUrl = ResourceUtils.resourceUrl("test-spec.json")
+    private static def specLocation = OpenApiSpecLocation.fromStringValue('src/test/resources/test-spec.json')
 
     @Before
     void setUp() {
-        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()), new OpenApiValidationConfig())
+
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specLocation), new OpenApiValidationConfig())
     }
 
     @Test
@@ -46,7 +46,7 @@ class OpenApiSpecValidatorTest {
         def result = validationResult(GET, URL, ok(testResponse))
 
         code {
-            validator.validateApiSpec(result, ValidationMode.ALL)
+            validator.validateApiSpec(result, OpenApiValidationMode.ALL)
         } should throwException(~/Object has missing required properties/)
 
         result.mismatches.size().should == 2
@@ -59,7 +59,7 @@ class OpenApiSpecValidatorTest {
         def testResponse = '{"mandatoryField": "foo"}'
         def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(result, ValidationMode.ALL)
+        validator.validateApiSpec(result, OpenApiValidationMode.ALL)
 
         result.mismatches.size().should == 0
     }
@@ -68,12 +68,12 @@ class OpenApiSpecValidatorTest {
     void "should ignore additional properties when specified in a config"() {
         def config = new OpenApiValidationConfig()
         config.setIgnoreAdditionalProperties(true)
-        validator = new OpenApiSpecValidator(new OpenApiSpec(specUrl.toString()), config)
+        validator = new OpenApiSpecValidator(new OpenApiSpec(specLocation), config)
 
         def testResponse = '{"mandatoryField": "foo", "extraField": "value"}'
         def result = validationResult(GET, URL, ok(testResponse))
 
-        validator.validateApiSpec(result, ValidationMode.ALL)
+        validator.validateApiSpec(result, OpenApiValidationMode.ALL)
 
         result.mismatches.size().should == 0
     }

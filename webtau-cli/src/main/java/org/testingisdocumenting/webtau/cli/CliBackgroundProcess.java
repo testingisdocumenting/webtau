@@ -76,8 +76,7 @@ class CliBackgroundProcess {
         try {
             ProcessUtils.kill(pid);
             process.waitFor();
-            outputGobbler.close();
-            errorGobbler.close();
+            closeGlobbers();
             isActive.set(false);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -125,6 +124,11 @@ class CliBackgroundProcess {
 
     public ProcessRunResult createRunResult() {
         return new ProcessRunResult(process.exitValue(), output, error);
+    }
+
+    void closeGlobbers() {
+        outputGobbler.close();
+        errorGobbler.close();
     }
 
     List<String> getOutputStartingAtIdx(int idx) {

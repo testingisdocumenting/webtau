@@ -16,6 +16,10 @@
 
 package org.testingisdocumenting.webtau
 
+import org.testingisdocumenting.webtau.reporter.WebTauStepContext
+
+import java.util.function.Function
+
 class WebTauCoreExtensions {
     /**
      * override groovy default extensions to call webtau version
@@ -26,5 +30,15 @@ class WebTauCoreExtensions {
      */
     static void sleep(Object o, long millis) {
         WebTauCore.sleep(millis)
+    }
+
+    static void step(Object o, String label, Closure action) {
+        WebTauCore.step(label, action)
+    }
+
+    static void repeatStep(Object o, String label, int numberOfAttempts, Closure action) {
+        WebTauCore.repeatStep(label, numberOfAttempts, (ctx) -> {
+            return action(ctx)
+        } as Function<WebTauStepContext, Object>)
     }
 }

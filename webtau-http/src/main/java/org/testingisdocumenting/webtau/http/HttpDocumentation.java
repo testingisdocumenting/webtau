@@ -20,18 +20,34 @@ package org.testingisdocumenting.webtau.http;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.nio.file.Path;
 
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+
 public class HttpDocumentation {
     public void capture(String artifactName) {
         DocumentationArtifacts.registerName(artifactName);
 
-        Capture capture = new Capture(artifactName);
-        capture.capture();
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(classifier("documentation"), action("capturing last"), classifier("http"),
+                        action("call"), AS, urlValue(artifactName)),
+                (path) -> tokenizedMessage(classifier("documentation"), action("captured last"), classifier("http"),
+                        action("call"), AS, urlValue(((Path) path).toAbsolutePath())),
+                () -> {
+                    Capture capture = new Capture(artifactName);
+                    capture.capture();
+
+                    return capture.path;
+                });
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     private static class Capture {

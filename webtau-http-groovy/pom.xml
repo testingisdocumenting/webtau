@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.39-SNAPSHOT</version>
+        <version>1.41-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-http-groovy</artifactId>
@@ -55,6 +55,14 @@
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-test-server</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-core</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
             <scope>test</scope>
         </dependency>
 

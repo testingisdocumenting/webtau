@@ -25,15 +25,21 @@ import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStepContext;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.UNDERSCORE;
+import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.*;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
 
 /**
  * Convenient class for a single static * imports to have matchers and helper functions available for your test
@@ -117,6 +123,41 @@ public class WebTauCore extends Matchers {
 
     public static Persona getCurrentPersona() {
         return Persona.getCurrentPersona();
+    }
+
+    public static void step(String label, Runnable action) {
+        step(label, toSupplier(action));
+    }
+
+    public static <R> R step(String label, Supplier<Object> action) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action(label)),
+                () -> tokenizedMessage(none("completed"), action(label)),
+                action);
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static void repeatStep(String label, int numberOfAttempts, Runnable action) {
+        repeatStep(label, numberOfAttempts, toFunction(action));
+    }
+
+    public static void repeatStep(String label, int numberOfAttempts, Consumer<WebTauStepContext> action) {
+        Function<WebTauStepContext, Object> asFunc = toFunction(action);
+        repeatStep(label, numberOfAttempts, asFunc);
+    }
+
+    public static void repeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
+        WebTauStep step = WebTauStep.createRepeatStep(label, numberOfAttempts, action);
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static void fail(String message) {
+        throw new AssertionError(message);
+    }
+
+    public static void fail() {
+        throw new AssertionError();
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;
