@@ -31,6 +31,7 @@ import java.nio.file.Paths
 class WebTauCliArgsConfig {
     private static final String REPL = "repl"
     private static final String REPL_EXPERIMENTAL = "replexp"
+    private static final String BROWSER_HUB = "browserhub"
 
     private static final String CLI_SOURCE = "command line argument"
     private static final String HELP_OPTION = "help"
@@ -65,6 +66,10 @@ class WebTauCliArgsConfig {
         return args.any { it == REPL_EXPERIMENTAL }
     }
 
+    static boolean isBrowserHubMode(String[] args) {
+        return args.any { it == BROWSER_HUB }
+    }
+
     void setConfigFileRelatedCfgIfPresent() {
         setValueFromCliIfPresent(cfg.workingDirConfigValue)
         setValueFromCliIfPresent(cfg.configFileNameValue)
@@ -85,13 +90,16 @@ class WebTauCliArgsConfig {
 
         if (commandLine.hasOption(EXAMPLE_OPTION)) {
             scaffoldExamples()
-        } else if (commandLine.hasOption(HELP_OPTION) ||
-                commandLine.argList.isEmpty() &&
-                !isReplMode(args) && !isExperimentalReplMode(args)) {
+        } else if (commandLine.hasOption(HELP_OPTION) || commandLine.argList.isEmpty() &&
+                !isCustomCommand(args)) {
             printHelp(options)
         } else {
             testFiles = new ArrayList<>(commandLine.argList.findAll { !COMMANDS.contains(it) })
         }
+    }
+
+    private static boolean isCustomCommand(String[] args) {
+        return isReplMode(args) || isExperimentalReplMode(args) || isBrowserHubMode(args)
     }
 
     private void scaffoldExamples() {

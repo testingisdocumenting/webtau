@@ -71,8 +71,11 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         if (WebTauCliArgsConfig.isReplMode(args)) {
             cliApp.startRepl()
             System.exit(0)
-        } else if(WebTauCliArgsConfig.isExperimentalReplMode(args)) {
+        } else if (WebTauCliArgsConfig.isExperimentalReplMode(args)) {
             cliApp.startReplExperimental()
+            System.exit(0)
+        } else if (WebTauCliArgsConfig.isBrowserHubMode(args)) {
+            cliApp.startSeleniumHub()
             System.exit(0)
         } else {
             cliApp.start { exitCode ->
@@ -97,6 +100,9 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         } else {
             exitHandler.accept(problemCount > 0 ? 1 : 0)
         }
+    }
+
+    void startSeleniumHub() {
     }
 
     void startRepl() {
