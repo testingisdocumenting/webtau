@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.TestListener;
+
 /**
  * Extracts {@link WebTauStep} payloads from all test steps at the end of the test and re-attaches it as a test payload.
  */

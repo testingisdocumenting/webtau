@@ -17,8 +17,7 @@
 
 package org.testingisdocumenting.webtau.runner.standalone
 
-import org.testingisdocumenting.webtau.reporter.TestListener
-import org.testingisdocumenting.webtau.reporter.WebTauReport
+import org.testingisdocumenting.webtau.TestListener
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 
 class TracingTestListener implements TestListener {

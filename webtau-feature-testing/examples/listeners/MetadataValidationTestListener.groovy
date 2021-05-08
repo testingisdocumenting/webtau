@@ -1,6 +1,6 @@
 package listeners
 
-import org.testingisdocumenting.webtau.reporter.TestListener
+import org.testingisdocumenting.webtau.TestListener
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 
 class MetadataValidationTestListener implements TestListener {

@@ -1,5 +1,6 @@
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.TestListener;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 

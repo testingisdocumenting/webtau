@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.javarunner.report;
 
 import org.testingisdocumenting.webtau.report.ReportGenerators;
-import org.testingisdocumenting.webtau.reporter.TestListeners;
+import org.testingisdocumenting.webtau.TestListeners;
 
 public class JavaShutdownHook {
     public final static JavaShutdownHook INSTANCE = new JavaShutdownHook();

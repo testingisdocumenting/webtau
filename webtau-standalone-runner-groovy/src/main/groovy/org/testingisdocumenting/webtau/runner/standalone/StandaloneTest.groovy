@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.runner.standalone
 
-import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters

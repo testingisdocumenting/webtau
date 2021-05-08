@@ -31,8 +31,8 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
-import org.testingisdocumenting.webtau.reporter.TestListener
-import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.TestListener
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 
 import java.nio.file.Files

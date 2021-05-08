@@ -24,8 +24,8 @@ import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.testingisdocumenting.webtau.reporter.TestListener
-import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.TestListener
+import org.testingisdocumenting.webtau.TestListeners
 import org.junit.Test
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 import org.testingisdocumenting.webtau.reporter.WebTauStep

@@ -2,8 +2,8 @@ package org.testingisdocumenting.webtau.junit5
 
 
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport
-import org.testingisdocumenting.webtau.reporter.TestListener
-import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.TestListener
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.junit.jupiter.api.Test
 import org.junit.platform.engine.discovery.DiscoverySelectors
