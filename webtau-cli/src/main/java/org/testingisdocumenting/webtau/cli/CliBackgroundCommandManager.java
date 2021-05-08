@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
-import org.testingisdocumenting.webtau.reporter.TestListener;
+import org.testingisdocumenting.webtau.TestListener;
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 

@@ -16,7 +16,7 @@
 
 package listeners
 
-import org.testingisdocumenting.webtau.reporter.TestListener
+import org.testingisdocumenting.webtau.TestListener
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 

@@ -18,6 +18,8 @@
 package org.testingisdocumenting.webtau.app
 
 import org.fusesource.jansi.AnsiConsole
+import org.testingisdocumenting.webtau.TestListener
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
 import org.testingisdocumenting.webtau.GroovyRunner

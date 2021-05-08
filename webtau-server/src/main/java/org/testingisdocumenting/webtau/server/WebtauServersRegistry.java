@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.testingisdocumenting.webtau.reporter.TestListener;
+import org.testingisdocumenting.webtau.TestListener;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

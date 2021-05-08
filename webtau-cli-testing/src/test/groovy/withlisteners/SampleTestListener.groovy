@@ -17,7 +17,7 @@
 package withlisteners
 
 
-import org.testingisdocumenting.webtau.reporter.TestListener
+import org.testingisdocumenting.webtau.TestListener
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files

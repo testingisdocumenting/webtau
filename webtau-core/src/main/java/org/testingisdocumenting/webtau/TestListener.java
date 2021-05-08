@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.reporter;
+package org.testingisdocumenting.webtau;
+
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
 
 /**
  * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5
