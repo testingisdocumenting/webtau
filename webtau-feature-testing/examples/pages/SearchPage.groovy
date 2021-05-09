@@ -3,6 +3,7 @@ package pages
 import static org.testingisdocumenting.webtau.WebTauDsl.*
 
 class SearchPage {
+    def header = $("#header")
     def welcomeMessage = $("#welcome")
     def searchMessage = $("#message")
     def box = $("#search-box")
