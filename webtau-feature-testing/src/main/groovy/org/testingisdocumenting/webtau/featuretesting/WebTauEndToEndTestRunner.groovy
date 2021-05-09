@@ -80,11 +80,8 @@ class WebTauEndToEndTestRunner  {
 
         capturedStepsSummary = [:].withDefault { 0 }
 
-        // this is for optimization so browsers stay open in between feature test runs
-        WebDriverCreator.withDisabledBrowserAutoClose {
-            cliApp.start { exitCode ->
-                testDetails.exitCode = exitCode
-            }
+        cliApp.start { exitCode ->
+            testDetails.exitCode = exitCode
         }
 
         testDetails.scenarioDetails = buildScenarioDetails(cliApp.runner.report)
