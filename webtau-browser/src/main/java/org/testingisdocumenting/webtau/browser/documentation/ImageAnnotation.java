@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.browser.documentation;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 
 import java.util.Map;
@@ -42,6 +43,8 @@ public abstract class ImageAnnotation {
     private String color = "a";
     private final PageElement pageElement;
     protected Position position;
+
+    private boolean isDarkFriendly = BrowserConfig.isAnnotationsDarkFriendly();
 
     public ImageAnnotation(PageElement pageElement, String type, String text) {
         this.id = type + idGen.incrementAndGet();
@@ -75,6 +78,10 @@ public abstract class ImageAnnotation {
         return color;
     }
 
+    public boolean isDarkFriendly() {
+        return isDarkFriendly;
+    }
+
     public ImageAnnotation above() {
         position = Position.Above;
         return this;
@@ -92,6 +99,11 @@ public abstract class ImageAnnotation {
 
     public ImageAnnotation toTheRight() {
         position = Position.ToTheRight;
+        return this;
+    }
+
+    public ImageAnnotation invertedColors() {
+        isDarkFriendly = !isDarkFriendly;
         return this;
     }
 

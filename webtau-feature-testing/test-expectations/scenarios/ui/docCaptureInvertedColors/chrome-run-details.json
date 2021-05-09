@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "badge with inverted colors from config",
+    "shortContainerId" : "docCaptureInvertedColors.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 10
+    }
+  } ],
+  "exitCode" : 0
+}

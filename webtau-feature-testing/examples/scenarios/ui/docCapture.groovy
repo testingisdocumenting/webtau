@@ -21,9 +21,20 @@ scenario('search and capture with badges placed in non center position') {
     browser.doc.withAnnotations(
             browser.doc.badge(search.box).toTheRight(),
             browser.doc.badge(search.results).above()).capture('search-diff-placement')
-
-    data.json.map('doc-artifacts/search-diff-placement.json'.toString())
+    // example-end
+    data.json.map('doc-artifacts/search-diff-placement.json')
             .shapes.align.should == ['ToTheRight', 'Above']
+}
+
+scenario('badge with inverted colors') {
+    search.submit("search this")
+
+    browser.doc.withAnnotations(
+            browser.doc.badge(search.header).invertedColors(),
+            browser.doc.badge(search.box)).capture('search-inverted-colors')
+    // example-end
+    data.json.map('doc-artifacts/search-inverted-colors.json')
+            .shapes.darkFriendly.should == [true, false]
 }
 
 scenario('capture with highlight and cover') {

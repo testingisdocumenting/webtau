@@ -33,7 +33,7 @@ browser
     element-actions
     forms
     asynchronous-page
-    documentation
+    documentation-artifacts
     advanced-configuration
     local-storage
     cookies
