@@ -13,3 +13,8 @@ webtau.graphql-report.json
 todo.md
 doc-artifacts
 .webtau-cache
+.gradle
+out
+pom.xml.releaseBackup
+release.out
+release.properties

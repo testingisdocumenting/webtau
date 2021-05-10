@@ -70,6 +70,10 @@ public class WebDriverCreator {
         drivers.clear();
     }
 
+    public static boolean hasActiveBrowsers() {
+        return !drivers.isEmpty();
+    }
+
     static void quit(WebDriver driver) {
         quitWithoutRemove(driver);
         drivers.remove(driver);
