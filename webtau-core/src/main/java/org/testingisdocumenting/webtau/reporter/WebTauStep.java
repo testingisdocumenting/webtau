@@ -299,6 +299,7 @@ public class WebTauStep {
             complete(completionMessageFunc.apply(result));
             stopClock();
 
+            output = outputSupplier.get();
             if (stepReportOptions != StepReportOptions.SKIP_ALL) {
                 StepReporters.onSuccess(this);
             }
@@ -308,10 +309,10 @@ public class WebTauStep {
             stopClock();
 
             fail(e);
+            output = outputSupplier.get();
             StepReporters.onFailure(this);
             throw e;
         } finally {
-            output = outputSupplier.get();
             WebTauStep localCurrentStep = WebTauStep.currentStep.get();
             if (localCurrentStep != null) {
                 currentStep.set(localCurrentStep.parent);
