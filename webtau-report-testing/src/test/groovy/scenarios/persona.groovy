@@ -27,7 +27,7 @@ scenario('select steps tab and check persona') {
     report.selectTest('multiple browsers for search')
     report.selectSteps()
 
-    report.steps.count.should == 15
+    report.steps.count.should == 18
     report.personaId.count.should == 9
 
     report.personaId.should == 'John'
