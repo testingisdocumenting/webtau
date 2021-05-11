@@ -17,24 +17,23 @@
 package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
-import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Map;
 
-public class WebTauStepInputKeyValue implements WebTauStepInput {
+public class WebTauStepOutputKeyValue implements WebTauStepOutput {
     private final Map<String, Object> data;
 
-    private WebTauStepInputKeyValue(Map<String, Object> data) {
+    private WebTauStepOutputKeyValue(Map<String, Object> data) {
         this.data = data;
     }
 
-    public static WebTauStepInput stepInput(Map<String, Object> data) {
-        return new WebTauStepInputKeyValue(data);
+    public static WebTauStepOutput stepOutput(Map<String, Object> data) {
+        return new WebTauStepOutputKeyValue(data);
     }
 
-    public static WebTauStepInput stepInput(Object... keyValues) {
-        return new WebTauStepInputKeyValue(CollectionUtils.aMapOf(keyValues));
+    public static WebTauStepOutput stepOutput(Object... keyValues) {
+        return new WebTauStepOutputKeyValue(CollectionUtils.aMapOf(keyValues));
     }
 
     @Override

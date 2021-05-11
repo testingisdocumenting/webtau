@@ -152,7 +152,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
             }
 
             secondLevelStepSuccess.setInput(new TestStepInput())
-            secondLevelStepSuccess.setOutput(new TestStepOutput())
+            secondLevelStepSuccess.setOutputSupplier(() -> new TestStepOutput())
             secondLevelStepSuccess.execute(StepReportOptions.REPORT_ALL)
         }
 
