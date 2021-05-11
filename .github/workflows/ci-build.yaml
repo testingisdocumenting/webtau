@@ -28,3 +28,13 @@ jobs:
         uses: GabrielBB/xvfb-action@v1.0
         with:
           run: mvn -B verify
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: report-testing-report
+          path: webtau-report-testing/src/test/groovy/webtau.report.html
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: features-testing
+          path: webtau-feature-testing/**/webtau*.report.html
