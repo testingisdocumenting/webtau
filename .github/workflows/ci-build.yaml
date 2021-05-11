@@ -33,8 +33,3 @@ jobs:
         with:
           name: report-testing-report
           path: webtau-report-testing/src/test/groovy/webtau.report.html
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: features-testing
-          path: webtau-feature-testing/**/webtau*.report.html
