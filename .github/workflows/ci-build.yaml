@@ -31,5 +31,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: report-testing-report
-          path: webtau-report-testing/src/test/groovy/webtau.report.html
+          name: webtau-reports
+          path: '*/**/webtau*.report.html'
+          retention-days: 3
+          if-no-files-found: error
