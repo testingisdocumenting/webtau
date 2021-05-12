@@ -29,10 +29,10 @@ jobs:
         with:
           run: mvn -B verify
 
-      - name: Upload test reports
+      - name: Upload failed test reports
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
-          if: always()
           name: failed-webtau-reports
-          path: "*/**/*.html"
+          path: "*/**/*-failed*.html"
           retention-days: 3
