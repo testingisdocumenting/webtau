@@ -31,19 +31,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: feature-tests-webtau-failed-reports
-          path: webtau-feature-testing/**/*-failed*.report.html
-          retention-days: 3
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: report-testing-report
-          path: webtau-report-testing/src/test/groovy/webtau.report.html
-          retention-days: 3
-          if-no-files-found: error
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: cli-sanity-test
-          path: webtau-cli-testing/**/*-failed*.html
+          if: failure()
+          name: failed-webtau-reports
+          path: "**/*-failed*.html"
           retention-days: 3
