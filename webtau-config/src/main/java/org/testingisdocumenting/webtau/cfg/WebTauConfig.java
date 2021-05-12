@@ -90,6 +90,7 @@ public class WebTauConfig implements PrettyPrintable {
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
+    private final ConfigValue failedReportPath = declare("failedReportPath", "failed report file path", () -> null);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -308,6 +309,14 @@ public class WebTauConfig implements PrettyPrintable {
         return reportPath.getAsPath();
     }
 
+    public Path getFailedReportPath() {
+        if (failedReportPath.isDefault()) {
+            return null;
+        }
+
+        return failedReportPath.getAsPath();
+    }
+
     public ConfigValue getReportPathConfigValue() {
         return reportPath;
     }
@@ -413,6 +422,7 @@ public class WebTauConfig implements PrettyPrintable {
                 removeWebtauFromUserAgent,
                 docPath,
                 reportPath,
+                failedReportPath,
                 noColor,
                 consolePayloadOutputLimit,
                 cachePath);

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,6 +41,10 @@ public class WebTauReport {
         failed = tests.countWithStatus(TestStatus.Failed);
         skipped = tests.countWithStatus(TestStatus.Skipped);
         errored = tests.countWithStatus(TestStatus.Errored);
+    }
+
+    public boolean isFailed() {
+        return failed > 0 || errored > 0;
     }
 
     public WebTauTestList getTests() {

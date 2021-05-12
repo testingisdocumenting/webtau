@@ -64,7 +64,10 @@ class WebTauEndToEndTestRunner  {
             args.add('--config=' + configFileName)
         }
         args.add('--docPath=' + Paths.get('doc-artifacts'))
-        args.add('--reportPath=' + buildReportPath(testFileName, Paths.get('webtau-reports')))
+
+        def reportsRoot = Paths.get('webtau-reports')
+        args.add('--reportPath=' + buildReportPath(testFileName, '', reportsRoot))
+        args.add('--failedReportPath=' + buildReportPath(testFileName, 'failed', reportsRoot))
 
         args.addAll(Arrays.asList(additionalArgs))
         args.add(testPath.toString())
@@ -92,9 +95,10 @@ class WebTauEndToEndTestRunner  {
         validateAndSaveTestDetails(testFileName, testDetails)
     }
 
-    private Path buildReportPath(String testFileName, Path reportsRoot) {
+    private Path buildReportPath(String testFileName, String passedPrefix, Path reportsRoot) {
         if (testFileName.endsWith('.groovy')) {
-            def reportPrefix = classifier.isEmpty() ? '' : "-${classifier}"
+            def reportPrefix = (classifier.isEmpty() ? '' : "-${classifier}") +
+                    (passedPrefix.isEmpty() ? '' :  "-${passedPrefix}")
             return reportsRoot.resolve(
                     testFileName.replace('.groovy', reportPrefix + '-webtau-report.html'))
         }
