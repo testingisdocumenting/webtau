@@ -22,5 +22,7 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 scenario('open browser and perform validation') {
     def basicHtmlPath = cfg.fullPath("data/basic.html").toAbsolutePath()
     browser.open("file://${basicHtmlPath.toAbsolutePath()}")
-    $("p").should == "hello web page"
+
+    // TODO revert
+    $("p").should == "hello web page222"
 }

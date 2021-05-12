@@ -6,6 +6,7 @@ import static webtau.CliCommands.getWebtauCli
 
 def repl = createLazyResource {
     def command = webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
+            "--failedReportPath=webtau.repl-test-selection-failed.report.html " +
             "testscripts/dataDownload.groovy " +
             "testscripts/downstreamValidation.groovy " +
             "testscripts/resourceCreation.groovy")
