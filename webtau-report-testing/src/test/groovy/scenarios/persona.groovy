@@ -28,7 +28,7 @@ scenario('select steps tab and check persona') {
     report.selectSteps()
 
     report.steps.count.should == 18
-    report.personaId.count.should == 9
+    report.personaId.count.should == 11
 
     report.personaId.should == 'John'
 }
