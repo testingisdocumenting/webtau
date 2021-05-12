@@ -30,7 +30,7 @@ jobs:
           run: mvn -B verify
 
       - name: Upload test reports
-      - uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           if: failure()
           name: failed-webtau-reports
