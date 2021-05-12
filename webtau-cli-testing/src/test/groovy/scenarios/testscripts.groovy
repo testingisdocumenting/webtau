@@ -22,5 +22,5 @@ import static webtau.CliCommands.*
 scenario('browserSanity') {
     webtauCli.run("testscripts/browserSanity.groovy " +
             "--workingDir=${cfg.workingDir} " +
-            "--failedReportPath=webtau.browser-sanity.failed.report.html")
+            "--failedReportPath=webtau.browser-sanity-failed.report.html")
 }
