@@ -28,18 +28,21 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class WebDriverCreator {
     private static final String CHROME_DRIVER_PATH_KEY = "webdriver.chrome.driver";
     private static final String FIREFOX_DRIVER_PATH_KEY = "webdriver.gecko.driver";
 
     private static final List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
-
-    private static final ThreadLocal<Boolean> disableBrowserClose = ThreadLocal.withInitial(() -> false);
 
     static {
         registerCleanup();
@@ -48,10 +51,18 @@ public class WebDriverCreator {
     public static WebDriver create() {
         WebDriverCreatorListeners.beforeDriverCreation();
 
-        WebDriver driver = createDriver();
-        initState(driver);
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("initializing"), classifier("webdriver"), FOR, id(BrowserConfig.getBrowserId())),
+                () -> tokenizedMessage(action("initialized"), classifier("webdriver"), FOR, id(BrowserConfig.getBrowserId())),
+                () -> {
+                    WebDriver driver = createDriver();
+                    initState(driver);
+                    register(driver);
 
-        return register(driver);
+                    return driver;
+                });
+
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public static void quitAll() {
@@ -59,13 +70,8 @@ public class WebDriverCreator {
         drivers.clear();
     }
 
-    public static void withDisabledBrowserAutoClose(Runnable code) {
-        try {
-            disableBrowserClose.set(true);
-            code.run();
-        } finally {
-            disableBrowserClose.set(false);
-        }
+    public static boolean hasActiveBrowsers() {
+        return !drivers.isEmpty();
     }
 
     static void quit(WebDriver driver) {
@@ -119,7 +125,6 @@ public class WebDriverCreator {
 
         if (System.getProperty(CHROME_DRIVER_PATH_KEY) == null) {
             setupDriverManagerConfig();
-            downloadDriverMessage("chrome");
 
             WebDriverManager driverManager = WebDriverManager.chromedriver();
             if (!BrowserConfig.getBrowserVersion().isEmpty()) {
@@ -149,26 +154,19 @@ public class WebDriverCreator {
 
         if (System.getProperty(FIREFOX_DRIVER_PATH_KEY) == null) {
             setupDriverManagerConfig();
-            downloadDriverMessage("firefox");
             WebDriverManager.firefoxdriver().setup();
         }
 
         return new FirefoxDriver(options);
     }
 
-    private static void downloadDriverMessage(String browser) {
-        ConsoleOutputs.out(Color.BLUE, "preparing ", Color.YELLOW, browser, Color.BLUE, " WebDriver");
-    }
-
     private static void setupDriverManagerConfig() {
         System.setProperty("wdm.forceCache", "true");
     }
 
-    private static WebDriver register(WebDriver driver) {
+    private static void register(WebDriver driver) {
         drivers.add(driver);
         WebDriverCreatorListeners.afterDriverCreation(driver);
-
-        return driver;
     }
 
     private static void initState(WebDriver driver) {
@@ -183,7 +181,7 @@ public class WebDriverCreator {
 
     private static void registerCleanup() {
         CleanupRegistration.registerForCleanup("closing", "closed", "browsers",
-                () -> !disableBrowserClose.get() && !drivers.isEmpty(),
+                () -> !drivers.isEmpty(),
                 WebDriverCreator::quitAll);
     }
 }

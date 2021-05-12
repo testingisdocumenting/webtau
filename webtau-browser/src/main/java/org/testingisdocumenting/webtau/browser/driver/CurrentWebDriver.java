@@ -43,11 +43,9 @@ public class CurrentWebDriver implements
         WebDriverCreatorListener {
     public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
 
-    private final AtomicBoolean wasUsed;
     private final ThreadLocal<Map<String, WebDriver>> local;
 
     private CurrentWebDriver() {
-        wasUsed = new AtomicBoolean(false);
         local = ThreadLocal.withInitial(HashMap::new);
         WebDriverCreatorListeners.add(this);
     }
@@ -132,13 +130,7 @@ public class CurrentWebDriver implements
         return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
     }
 
-    public boolean wasUsed() {
-        return wasUsed.get();
-    }
-
     private WebDriver getDriver() {
-        wasUsed.set(true);
-
         Map<String, WebDriver> driverByPersonaId = local.get();
 
         Persona currentPersona = Persona.getCurrentPersona();

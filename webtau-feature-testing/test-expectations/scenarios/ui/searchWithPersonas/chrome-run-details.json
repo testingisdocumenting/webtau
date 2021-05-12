@@ -1,9 +1,15 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "multiple browsers for search",
     "shortContainerId" : "searchWithPersonas.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 21
+      "numberOfSuccessful" : 24
     }
   } ],
   "exitCode" : 0
