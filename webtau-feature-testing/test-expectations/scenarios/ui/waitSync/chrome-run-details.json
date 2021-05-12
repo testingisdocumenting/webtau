@@ -1,9 +1,15 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "wait for element to appear",
     "shortContainerId" : "waitSync.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "wait for match",

@@ -24,6 +24,7 @@ import org.junit.platform.launcher.TestIdentifier
 import org.junit.platform.launcher.TestPlan
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder
 import org.junit.platform.launcher.core.LauncherFactory
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.featuretesting.WebTauEndToEndTestValidator
 import org.testingisdocumenting.webtau.reporter.StepReporter
@@ -53,6 +54,7 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
             launcher.execute(request)
         }
 
+        TestListeners.afterAllTests()
         WebTauEndToEndTestValidator.validateAndSaveTestDetails(testClass.simpleName, scenariosDetails)
     }
 
