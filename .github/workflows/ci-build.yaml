@@ -34,5 +34,5 @@ jobs:
         with:
           if: always()
           name: failed-webtau-reports
-          path: "*/**/*-failed*.html"
+          path: "*/**/*.html"
           retention-days: 3
