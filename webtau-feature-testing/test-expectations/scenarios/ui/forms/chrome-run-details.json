@@ -1,9 +1,15 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "open forms",
     "shortContainerId" : "forms.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "input type default",

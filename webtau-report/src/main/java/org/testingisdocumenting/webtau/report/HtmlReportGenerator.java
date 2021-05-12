@@ -47,10 +47,19 @@ public class HtmlReportGenerator implements ReportGenerator {
 
     @Override
     public void generate(WebTauReport report) {
-        Path reportPath = getCfg().getReportPath().toAbsolutePath();
+        Path reportPath = reportPath(report);
 
         FileUtils.writeTextContent(reportPath, generateHtml(report));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
+    }
+
+    private Path reportPath(WebTauReport report) {
+        if (report.isFailed()) {
+            Path failedReportPath = getCfg().getFailedReportPath();
+            return failedReportPath != null ? failedReportPath : getCfg().getReportPath();
+        }
+
+        return getCfg().getReportPath();
     }
 
     private String generateHtml(WebTauReport report) {

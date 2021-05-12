@@ -1,9 +1,15 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "restart browser to use a config size",
     "shortContainerId" : "docCapture.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "search and capture with badges",

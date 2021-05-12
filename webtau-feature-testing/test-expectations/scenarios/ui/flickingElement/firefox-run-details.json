@@ -1,9 +1,15 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "flicking element text handling",
     "shortContainerId" : "flickingElement.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "flicking element visible handling",
