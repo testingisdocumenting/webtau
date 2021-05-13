@@ -41,6 +41,7 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     private static final ConfigValue browserId = declare("browserId", "browser to use: chrome, firefox", () -> CHROME);
     private static final ConfigValue browserVersion = declare("browserVersion", "browser version for automatic driver download", () -> "");
+    private static final ConfigValue browserRemoteDriverUrl = declare("browserRemoteDriverUrl", "browser remote driver url", () -> "");
 
     private static final ConfigValue browserAnnotationsDarkFriendly = declare("browserAnnotationsDarkFriendly",
             "browser doc capture to use light colors annotations by default (for dark theme UI)", () -> false);
@@ -96,6 +97,14 @@ public class BrowserConfig implements WebTauConfigHandler {
         return browserHeadless.getAsBoolean();
     }
 
+    public static boolean isRemoteDriver() {
+        return !getRemoteDriverUrl().isEmpty();
+    }
+
+    public static String getRemoteDriverUrl() {
+        return browserRemoteDriverUrl.getAsString();
+    }
+
     public static boolean areExtensionsDisabled() {
         return disableExtensions.getAsBoolean();
     }
@@ -129,6 +138,7 @@ public class BrowserConfig implements WebTauConfigHandler {
         return Stream.of(
                 browserId,
                 browserVersion,
+                browserRemoteDriverUrl,
                 browserUrl,
                 browserWidth,
                 browserHeight,
