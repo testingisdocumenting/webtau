@@ -42,5 +42,5 @@ jobs:
         if: failure()
         with:
           name: cli-sanity-test
-          path: "webtau-cli-testing/src/test/groovy/*-failed*.html"
+          path: "webtau-cli-testing/src/test/groovy/*failed*.html"
           retention-days: 3
