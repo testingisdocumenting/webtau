@@ -306,7 +306,7 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public Path getReportPath() {
-        return reportPath.getAsPath();
+        return fullPath(reportPath.getAsPath());
     }
 
     public Path getFailedReportPath() {
@@ -314,7 +314,7 @@ public class WebTauConfig implements PrettyPrintable {
             return null;
         }
 
-        return failedReportPath.getAsPath();
+        return fullPath(failedReportPath.getAsPath());
     }
 
     public ConfigValue getReportPathConfigValue() {
