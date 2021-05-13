@@ -36,3 +36,10 @@ jobs:
           name: failed-webtau-reports
           path: "*/**/*-failed*.html"
           retention-days: 3
+
+      - name: Upload CLI sanity test reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: cli-sanity-test
+          path: "webtau-cli-testing/src/test/groovy/*-failed*.html"
+          retention-days: 3
