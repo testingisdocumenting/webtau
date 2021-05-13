@@ -97,7 +97,7 @@ class WebTauEndToEndTestRunner  {
             def reportPrefix = (classifier.isEmpty() ? '' : "-${classifier}") +
                     (passedPrefix.isEmpty() ? '' :  "-${passedPrefix}")
             return reportsRoot.resolve(
-                    testFileName.replace('.groovy', reportPrefix + '-webtau-report.html'))
+                    testFileName.replace('.groovy', reportPrefix + '-webtau-report.html')).toAbsolutePath()
         }
 
         def reportPrefix = classifier.isEmpty() ? '' : "${classifier}-"
