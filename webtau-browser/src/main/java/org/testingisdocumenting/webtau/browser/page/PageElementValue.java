@@ -35,6 +35,10 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
+/**
+ * Live element value that can be matched or waited against
+ * @param <E> element value type
+ */
 public class PageElementValue<E> implements ActualValueExpectations, ActualPathAndDescriptionAware, PrettyPrintable {
     private final ActualPathAndDescriptionAware parent;
     private final String name;

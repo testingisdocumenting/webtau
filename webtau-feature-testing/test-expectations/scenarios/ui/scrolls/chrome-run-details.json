@@ -6,10 +6,28 @@
       "numberOfSuccessful" : 1
     }
   }, {
-    "scenario" : "scroll top",
+    "scenario" : "scroll top property",
     "shortContainerId" : "scrolls.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "scroll to bottom and top",
+    "shortContainerId" : "scrolls.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  }, {
+    "scenario" : "scroll to left and right",
+    "shortContainerId" : "scrolls.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  }, {
+    "scenario" : "scroll to x and y",
+    "shortContainerId" : "scrolls.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

@@ -36,7 +36,6 @@ public interface PageElement extends
         ActualPathAndDescriptionAware {
 
     PageElementValue<Integer> getCount();
-    PageElementValue<Integer> getScrollTop();
 
     WebElement findElement();
     List<WebElement> findElements();
@@ -86,6 +85,68 @@ public interface PageElement extends
     TokenizedMessage locationDescription();
 
     void scrollIntoView();
+    void scrollToTop();
+    void scrollToBottom();
+    void scrollToLeft();
+    void scrollToRight();
+    void scrollTo(int x, int y);
+
+    /**
+     * element scroll from the top
+     * @return scrollTop element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getScrollTop();
+
+    /**
+     * element scroll from the left
+     * @return scrollLeft element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getScrollLeft();
+
+    /**
+     * element overall height that can be scrolled
+     * @return scrollHeight element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getScrollHeight();
+
+    /**
+     * element overall width that can be scrolled
+     * @return scrollWidth element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getScrollWidth();
+
+    /**
+     * element offset height
+     * @return offsetHeight element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getOffsetHeight();
+
+    /**
+     * element offset width
+     * @return offsetWidth element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getOffsetWidth();
+
+    /**
+     * element client height
+     * @return clientHeight element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getClientHeight();
+
+    /**
+     * element client width
+     * @return clientWidth element value
+     * @see PageElementValue
+     */
+    PageElementValue<Integer> getClientWidth();
+
     void highlight();
 
     @Override

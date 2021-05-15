@@ -58,6 +58,13 @@ public class GenericPageElement implements PageElement {
     private final PageElementValue<Object> elementValue;
     private final PageElementValue<Integer> countValue;
     private final PageElementValue<Integer> scrollTopValue;
+    private final PageElementValue<Integer> scrollLeftValue;
+    private final PageElementValue<Integer> scrollHeight;
+    private final PageElementValue<Integer> scrollWidth;
+    private final PageElementValue<Integer> offsetHeight;
+    private final PageElementValue<Integer> offsetWidth;
+    private final PageElementValue<Integer> clientHeight;
+    private final PageElementValue<Integer> clientWidth;
 
     public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, PageElementPath path) {
         this.driver = driver;
@@ -66,7 +73,14 @@ public class GenericPageElement implements PageElement {
         this.pathDescription = path.describe();
         this.elementValue = new PageElementValue<>(this, "value", this::getUnderlyingValue);
         this.countValue = new PageElementValue<>(this, "count", this::getNumberOfElements);
-        this.scrollTopValue = new PageElementValue<>(this, "scrollTop", this::fetchScrollTopValue);
+        this.scrollTopValue = new PageElementValue<>(this, "scrollTop", fetchIntElementPropertyFunc("scrollTop"));
+        this.scrollLeftValue = new PageElementValue<>(this, "scrollLeft", fetchIntElementPropertyFunc("scrollLeft"));
+        this.scrollHeight = new PageElementValue<>(this, "scrollHeight", fetchIntElementPropertyFunc("scrollHeight"));
+        this.scrollWidth = new PageElementValue<>(this, "scrollWidth", fetchIntElementPropertyFunc("scrollWidth"));
+        this.offsetHeight = new PageElementValue<>(this, "offsetHeight", fetchIntElementPropertyFunc("offsetHeight"));
+        this.offsetWidth = new PageElementValue<>(this, "offsetWidth", fetchIntElementPropertyFunc("offsetWidth"));
+        this.clientHeight = new PageElementValue<>(this, "clientHeight", fetchIntElementPropertyFunc("clientHeight"));
+        this.clientWidth = new PageElementValue<>(this, "clientWidth", fetchIntElementPropertyFunc("clientWidth"));
     }
 
     @Override
@@ -77,6 +91,41 @@ public class GenericPageElement implements PageElement {
     @Override
     public PageElementValue<Integer> getScrollTop() {
         return scrollTopValue;
+    }
+
+    @Override
+    public PageElementValue<Integer> getScrollLeft() {
+        return scrollLeftValue;
+    }
+
+    @Override
+    public PageElementValue<Integer> getScrollHeight() {
+        return scrollHeight;
+    }
+
+    @Override
+    public PageElementValue<Integer> getScrollWidth() {
+        return scrollWidth;
+    }
+
+    @Override
+    public PageElementValue<Integer> getOffsetHeight() {
+        return offsetHeight;
+    }
+
+    @Override
+    public PageElementValue<Integer> getOffsetWidth() {
+        return offsetWidth;
+    }
+
+    @Override
+    public PageElementValue<Integer> getClientHeight() {
+        return clientHeight;
+    }
+
+    @Override
+    public PageElementValue<Integer> getClientWidth() {
+        return clientWidth;
     }
 
     @Override
@@ -143,15 +192,12 @@ public class GenericPageElement implements PageElement {
 
     public WebElement findElement() {
         List<WebElement> webElements = findElements();
-        return webElements.get(0);
+        return webElements.isEmpty() ? createNullElement() : webElements.get(0);
     }
 
     @Override
     public List<WebElement> findElements() {
-        List<WebElement> webElements = path.find(driver);
-        return webElements.isEmpty() ?
-                Collections.singletonList(createNullElement()) :
-                webElements;
+        return path.find(driver);
     }
 
     @Override
@@ -273,6 +319,51 @@ public class GenericPageElement implements PageElement {
         );
     }
 
+    @Override
+    public void scrollToTop() {
+        execute(tokenizedMessage(action("scrolling to top"), OF).add(pathDescription),
+                () -> tokenizedMessage(action("scrolled to top"), OF).add(pathDescription),
+                () -> ((JavascriptExecutor)driver).executeScript(
+                        "arguments[0].scrollTo(arguments[0].scrollLeft, 0);", findElement())
+        );
+    }
+
+    @Override
+    public void scrollToBottom() {
+        execute(tokenizedMessage(action("scrolling to bottom"), OF).add(pathDescription),
+                () -> tokenizedMessage(action("scrolled to bottom"), OF).add(pathDescription),
+                () -> ((JavascriptExecutor)driver).executeScript(
+                        "arguments[0].scrollTo(arguments[0].scrollLeft, arguments[0].scrollHeight);", findElement())
+        );
+    }
+
+    @Override
+    public void scrollToLeft() {
+        execute(tokenizedMessage(action("scrolling to left"), OF).add(pathDescription),
+                () -> tokenizedMessage(action("scrolled to left"), OF).add(pathDescription),
+                () -> ((JavascriptExecutor)driver).executeScript(
+                        "arguments[0].scrollTo(0, arguments[0].scrollTop);", findElement())
+        );
+    }
+
+    @Override
+    public void scrollToRight() {
+        execute(tokenizedMessage(action("scrolling to right"), OF).add(pathDescription),
+                () -> tokenizedMessage(action("scrolled to right"), OF).add(pathDescription),
+                () -> ((JavascriptExecutor)driver).executeScript(
+                        "arguments[0].scrollTo(arguments[0].scrollWidth, arguments[0].scrollTop);", findElement())
+        );
+    }
+
+    @Override
+    public void scrollTo(int x, int y) {
+        execute(tokenizedMessage(action("scrolling to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
+                () -> tokenizedMessage(action("scrolled to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
+                () -> ((JavascriptExecutor)driver).executeScript(
+                        "arguments[0].scrollTo(arguments[1], arguments[2]);", findElement(), x, y)
+        );
+    }
+
     private void clickWithKey(String label, CharSequence key) {
         execute(tokenizedMessage(action(label + " clicking")).add(pathDescription),
                 () -> tokenizedMessage(action(label + " clicked")).add(pathDescription),
@@ -324,14 +415,18 @@ public class GenericPageElement implements PageElement {
         return webElements.size();
     }
 
-    private Integer fetchScrollTopValue() {
+    private PageElementValueFetcher<Integer> fetchIntElementPropertyFunc(String prop) {
+        return () -> fetchIntElementProperty(prop);
+    }
+
+    private Integer fetchIntElementProperty(String prop) {
         List<WebElement> elements = findElements();
         if (elements.isEmpty()) {
             return null;
         }
 
         Long scrollTop = (Long) ((JavascriptExecutor) driver).executeScript(
-                "return arguments[0].scrollTop;", elements.get(0));
+                "return arguments[0]." + prop + ";", elements.get(0));
 
         return Math.toIntExact(scrollTop);
     }
@@ -425,14 +520,6 @@ public class GenericPageElement implements PageElement {
 
     private NullWebElement createNullElement() {
         return new NullWebElement(path.toString());
-    }
-
-    private static void sleep(int millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private interface ActionsProvider {
