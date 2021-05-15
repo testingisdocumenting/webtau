@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>CSV</h1></header>
-<p>Use utilities/data#csv data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+<p>Use utilities/data#csv-read data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
 </article>
 
 <article>
@@ -158,7 +158,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/utilities/data#csv",
+          "url" : "/webtau/utilities/data#csv-read",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
@@ -209,7 +209,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1616434529902,
+    "lastModifiedTime" : 1621036321256,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Data Driven Scenarios",

@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Primary Database</h1></header>
-<p>Primary DB config used when execute operations using db.update , db.query , etc, without specifying data source name. import groovy.grape.Grape Grape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db) classLoader: ClassLoader.getSystemClassLoader()) dbUrl = &quot;jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE&quot; // primary DB JDBC connection url dbDriverClassName = &quot;org.h2.Driver&quot; // JDBC driver class name dbUserName = &quot;sa&quot; dbPassword = &quot;password&quot;</p>
+<p>Primary DB config used when execute operations using db.update , db.query , etc, without specifying data source name. import groovy.grape.Grape Grape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db) classLoader: ClassLoader.getSystemClassLoader()) dbUrl = &quot;jdbc:h2:file:~/h2db/test-db&quot; // primary DB JDBC connection url dbDriverClassName = &quot;org.h2.Driver&quot; // JDBC driver class name dbUserName = &quot;sa&quot; dbPassword = &quot;password&quot;</p>
 </article>
 </section>
 </div>
@@ -175,14 +175,14 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/customerdb/h2-db;AUTO_SERVER=TRUE\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
+        "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/h2db/test-db\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
         "title" : "Primary DB config",
         "excludeRegexp" : "package",
         "commentsType" : "inline",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1616434529902,
+    "lastModifiedTime" : 1621036321256,
     "tocItem" : {
       "sectionTitle" : "Database",
       "pageTitle" : "Config",

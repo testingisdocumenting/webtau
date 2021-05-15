@@ -84,13 +84,23 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>CSV</h1></header>
-<p>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. A B C 1 2 3 a b c def table = data.csv.table('data/table.csv') table.row(0).B.should == '2' table.row(0).B.class.canonicalName.should == 'java.lang.String' Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.tableAutoConverted to read data as TableData from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def table = data.csv.tableAutoConverted('data/table.csv') table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == 'java.lang.Long' A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def table = data.csv.listOfMaps('data/table.csv') table.get(0).B.should == '2' table.get(0).B.class.canonicalName.should == 'java.lang.String' Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def table = data.csv.listOfMapsAutoConverted('data/table.csv') table.get(0).B.should == 2 table.get(0).B.class.canonicalName.should == 'java.lang.Long'</p>
+<header><h1>CSV Read</h1></header>
+<p>Table Data Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c def table = data.csv.table('data/table.csv') table.row(0).B.should == '2' table.row(0).B.class.canonicalName.should == 'java.lang.String' Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.tableAutoConverted to read data as TableData from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def table = data.csv.tableAutoConverted('data/table.csv') table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == 'java.lang.Long' List Of Map A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMaps('data/table.csv') list.get(0).B.should == '2' list.get(0).B.class.canonicalName.should == 'java.lang.String' Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMapsAutoConverted to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted('data/table.csv') list.get(0).B.should == 2 list.get(0).B.class.canonicalName.should == 'java.lang.Long' Specify Header 1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted(['C1', 'C2', 'C3'],'data/table-no-header.csv') list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == 'java.lang.Long'</p>
 </article>
 
 <article>
-<header><h1>JSON</h1></header>
-<p>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def list = data.json.list('data/flat-list.json') list[0].name.should == 'hello' list[1].payload.info.should == ~/id2 payload/ Use data.json.map to read data as java.util.Map from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def map = data.json.map('data/root-map.json') map.payload.info.should == &quot;additional id1 payload&quot;</p>
+<header><h1>CSV Write</h1></header>
+<p>Use data.csv.write to write data to CSV file. def path = data.csv.write('generated/from-list-maps.csv', list) colA,colB 1,R1 2,R2</p>
+</article>
+
+<article>
+<header><h1>JSON Read</h1></header>
+<p>Read List Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.json.list('data/flat-list.json') list[0].name.should == 'hello' list[1].payload.info.should == ~/id2 payload/ Read Map Use data.json.map to read data as java.util.Map from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def map = data.json.map('data/root-map.json') map.payload.info.should == &quot;additional id1 payload&quot;</p>
+</article>
+
+<article>
+<header><h1>GUID</h1></header>
+<p>Generate Use data.guid.generate to generate unique identifier. def id = data.guid.generate()</p>
 </article>
 </section>
 </div>
@@ -117,13 +127,13 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "CSV",
-      "id" : "csv",
+      "title" : "CSV Read",
+      "id" : "csv-read",
       "type" : "Section",
       "content" : [ {
         "level" : 2,
         "title" : "Table Data",
-        "id" : "csv-table-data",
+        "id" : "csv-read-table-data",
         "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
@@ -140,7 +150,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "TableData",
           "type" : "InlinedCode"
         }, {
-          "text" : " from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "text" : " from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -224,7 +234,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "TableData",
           "type" : "InlinedCode"
         }, {
-          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -235,7 +245,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "level" : 2,
         "title" : "List Of Map",
-        "id" : "csv-list-of-map",
+        "id" : "csv-read-list-of-map",
         "type" : "SubHeading"
       }, {
         "table" : {
@@ -307,12 +317,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "java.util.Map",
           "type" : "InlinedCode"
         }, {
-          "text" : " from CSV file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "text" : " from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def table = data.csv.listOfMaps('data/table.csv')\ntable.get(0).B.should == '2'\ntable.get(0).B.class.canonicalName.should == 'java.lang.String'",
+        "snippet" : "def list = data.csv.listOfMaps('data/table.csv')\nlist.get(0).B.should == '2'\nlist.get(0).B.class.canonicalName.should == 'java.lang.String'",
         "title" : "read list of maps from csv",
         "type" : "Snippet"
       }, {
@@ -333,7 +343,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
-          "code" : "data.csv.listOfMaps",
+          "code" : "data.csv.listOfMapsAutoConverted",
           "type" : "InlinedCode"
         }, {
           "text" : " to read data as ",
@@ -348,23 +358,90 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "java.util.Map",
           "type" : "InlinedCode"
         }, {
-          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def table = data.csv.listOfMapsAutoConverted('data/table.csv')\ntable.get(0).B.should == 2\ntable.get(0).B.class.canonicalName.should == 'java.lang.Long'",
+        "snippet" : "def list = data.csv.listOfMapsAutoConverted('data/table.csv')\nlist.get(0).B.should == 2\nlist.get(0).B.class.canonicalName.should == 'java.lang.Long'",
+        "title" : "read list of maps from csv with auto conversion",
+        "type" : "Snippet"
+      }, {
+        "level" : 2,
+        "title" : "Specify Header",
+        "id" : "csv-read-specify-header",
+        "type" : "SubHeading"
+      }, {
+        "lang" : "csv",
+        "snippet" : "1, 2, 3\na, b, c",
+        "title" : "data/table-no-header.csv",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.listOfMapsAutoConverted(header, path)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def list = data.csv.listOfMapsAutoConverted(['C1', 'C2', 'C3'],'data/table-no-header.csv')\nlist.get(0).C2.should == 2\nlist.get(0).C2.class.canonicalName.should == 'java.lang.Long'",
         "title" : "read list of maps from csv with auto conversion",
         "type" : "Snippet"
       } ]
     }, {
-      "title" : "JSON",
-      "id" : "json",
+      "title" : "CSV Write",
+      "id" : "csv-write",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.write",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to write data to CSV file.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def path = data.csv.write('generated/from-list-maps.csv', list)",
+        "includeRegexp" : "data.csv.write",
+        "title" : "write list of maps",
+        "type" : "Snippet"
+      }, {
+        "lang" : "csv",
+        "snippet" : "colA,colB\n1,R1\n2,R2",
+        "title" : "result",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "JSON Read",
+      "id" : "json-read",
       "type" : "Section",
       "content" : [ {
         "level" : 2,
-        "title" : "List",
-        "id" : "json-list",
+        "title" : "Read List",
+        "id" : "json-read-read-list",
         "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
@@ -381,7 +458,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "java.util.List",
           "type" : "InlinedCode"
         }, {
-          "text" : " from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "text" : " from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -408,8 +485,8 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "level" : 2,
-        "title" : "Map",
-        "id" : "json-map",
+        "title" : "Read Map",
+        "id" : "json-read-read-map",
         "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
@@ -446,8 +523,35 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "read json as map",
         "type" : "Snippet"
       } ]
+    }, {
+      "title" : "GUID",
+      "id" : "guid",
+      "type" : "Section",
+      "content" : [ {
+        "level" : 2,
+        "title" : "Generate",
+        "id" : "guid-generate",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.guid.generate",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to generate unique identifier.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def id = data.guid.generate()",
+        "includeRegexp" : "data.guid.generate",
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1616434529906,
+    "lastModifiedTime" : 1621036321260,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "Data",
@@ -456,11 +560,17 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "data",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "CSV",
-        "id" : "csv"
+        "title" : "CSV Read",
+        "id" : "csv-read"
       }, {
-        "title" : "JSON",
-        "id" : "json"
+        "title" : "CSV Write",
+        "id" : "csv-write"
+      }, {
+        "title" : "JSON Read",
+        "id" : "json-read"
+      }, {
+        "title" : "GUID",
+        "id" : "guid"
       } ]
     }
   },

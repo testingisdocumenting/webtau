@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Overrides</h1></header>
-<p>Webtau has a list of options you can specify using config file: configuration/options url, browserId, etc.. You can override any value using configuration/options#environment-variable-options environment variables: export WEBTAU_URL=http://another-server export WEBTAU_CHROME_DRIVER_PATH=/path/to/chrome/driver In addition to environment variables, you can use a runner specific way to override:In case of Groovy standalone runner, pass --&lt;option&gt;=&lt;value&gt; : webtau --waitTimeout=25000 --url=http://another-server Pass system property via java -D option: -Durl=http://another-server</p>
+<p>Webtau has a list of options you can specify using config file: configuration/options url, browserId, etc.. You can override any value using configuration/options#environment-variable-options environment variables: export WEBTAU_URL=http://another-server export WEBTAU_CHROME_DRIVER_PATH=/path/to/chrome/driver In addition to environment variables, you can use a runner specific way to override: Groovy Standalone Runner In case of Groovy standalone runner, pass --&lt;option&gt;=&lt;value&gt; : webtau --waitTimeout=25000 --url=http://another-server JUnit Like Runners Pass system property via java -D option: -Durl=http://another-server</p>
 </article>
 </section>
 </div>
@@ -415,7 +415,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1616434529902,
+    "lastModifiedTime" : 1621036321256,
     "tocItem" : {
       "sectionTitle" : "Getting Started",
       "pageTitle" : "Configuration",

@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Universal Set Value</h1></header>
-<p>Use setValue on a declared page element to set its value. It will work on all the standard input types out of the box.Define all the input fields inside a page object. In combination with universal setValue it will make your tests robust.Given a html snippet &lt;html&gt; &lt;body&gt; &lt;div id=&quot;form&quot;&gt; &lt;input id=&quot;name&quot;/&gt; &lt;input id=&quot;startDate&quot; type=&quot;date&quot;/&gt; &lt;input id=&quot;confirmation&quot; type=&quot;checkbox&quot;/&gt; &lt;select id=&quot;rank&quot;&gt; &lt;option/&gt; &lt;option value=&quot;A&quot;&gt;A&lt;/option&gt; &lt;option value=&quot;B&quot;&gt;B&lt;/option&gt; &lt;option value=&quot;C&quot;&gt;C&lt;/option&gt; &lt;option value=&quot;D&quot;&gt;D&lt;/option&gt; &lt;option value=&quot;E&quot;&gt;E&lt;/option&gt; &lt;/select&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt; Page object can be defined as package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class FormPage { def name = $('#name') def rank = $('#rank') def confirmation = $('#confirmation') def startDate = $('#startDate') }</p>
+<p>Use setValue on a declared page element to set its value. It will work on all the standard input types out of the box.Define all the input fields inside a page object. In combination with universal setValue it will make your tests robust.Given a html snippet &lt;html&gt; &lt;body&gt; &lt;div id=&quot;form&quot;&gt; &lt;input id=&quot;name&quot; /&gt; &lt;input id=&quot;startDate&quot; type=&quot;date&quot; /&gt; &lt;input id=&quot;confirmation&quot; type=&quot;checkbox&quot; /&gt; &lt;div id=&quot;choice-group&quot; class=&quot;radio-group&quot;&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;one&quot; name=&quot;choice&quot; value=&quot;value-one&quot;/&gt; &lt;label for=&quot;one&quot;&gt;one&lt;/label&gt; &lt;/div&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;two&quot; name=&quot;choice&quot; value=&quot;value-two&quot;/&gt; &lt;label for=&quot;two&quot;&gt;two&lt;/label&gt; &lt;/div&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;three&quot; name=&quot;choice&quot; value=&quot;value-three&quot;/&gt; &lt;label for=&quot;three&quot;&gt;three&lt;/label&gt; &lt;/div&gt; &lt;/div&gt; &lt;select id=&quot;rank&quot;&gt; &lt;option /&gt; &lt;option value=&quot;A&quot;&gt;A&lt;/option&gt; &lt;option value=&quot;B&quot;&gt;B&lt;/option&gt; &lt;option value=&quot;C&quot;&gt;C&lt;/option&gt; &lt;option value=&quot;D&quot;&gt;D&lt;/option&gt; &lt;option value=&quot;E&quot;&gt;E&lt;/option&gt; &lt;/select&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt; Page object can be defined as package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class FormPage { def name = $('#name') def rank = $('#rank') def confirmation = $('#confirmation') def choice = $('[name=&quot;choice&quot;]') def startDate = $('#startDate') }</p>
 </article>
 
 <article>
@@ -109,13 +109,18 @@
 </article>
 
 <article>
+<header><h1>Radio Button</h1></header>
+<p>form.choice.setValue('value-two')</p>
+</article>
+
+<article>
 <header><h1>Universal Assert</h1></header>
-<p>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'B' form.confirmation.should == true form.startDate.should == '2016-06-21'</p>
+<p>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'B' form.confirmation.should == true form.choice.should == 'value-two' form.startDate.should == '2016-06-21'</p>
 </article>
 
 <article>
 <header><h1>Custom Form Elements</h1></header>
-<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('open forms') { browser.open('/special-forms') } scenario('get set custom based on registered handler') { def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' } package formHandlers import org.openqa.selenium.Keys import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNode htmlNode, PageElement pageElement) { return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNode htmlNode, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}&quot; + Keys.TAB) } @Override Object getValue(HtmlNode htmlNode, PageElement pageElement) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
+<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('open forms') { browser.open('/special-forms') } scenario('get set custom based on registered handler') { def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' } package formHandlers import org.openqa.selenium.Keys import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) { def htmlNode = htmlNodeAndWebElements.firstHtmlNode() return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}&quot; + Keys.TAB) } @Override Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
 </article>
 </section>
 </div>
@@ -182,7 +187,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "html",
-        "snippet" : "<html>\n<body>\n<div id=\"form\">\n    <input id=\"name\"/>\n    <input id=\"startDate\" type=\"date\"/>\n    <input id=\"confirmation\" type=\"checkbox\"/>\n    <select id=\"rank\">\n        <option/>\n        <option value=\"A\">A</option>\n        <option value=\"B\">B</option>\n        <option value=\"C\">C</option>\n        <option value=\"D\">D</option>\n        <option value=\"E\">E</option>\n    </select>\n</div>\n</body>\n</html>",
+        "snippet" : "<html>\n<body>\n<div id=\"form\">\n  <input id=\"name\" />\n  <input id=\"startDate\" type=\"date\" />\n  <input id=\"confirmation\" type=\"checkbox\" />\n  <div id=\"choice-group\" class=\"radio-group\">\n    <div>\n      <input type=\"radio\" id=\"one\" name=\"choice\" value=\"value-one\"/>\n      <label for=\"one\">one</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"two\" name=\"choice\" value=\"value-two\"/>\n      <label for=\"two\">two</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"three\" name=\"choice\" value=\"value-three\"/>\n      <label for=\"three\">three</label>\n    </div>\n  </div>\n  <select id=\"rank\">\n    <option />\n    <option value=\"A\">A</option>\n    <option value=\"B\">B</option>\n    <option value=\"C\">C</option>\n    <option value=\"D\">D</option>\n    <option value=\"E\">E</option>\n  </select>\n</div>\n</body>\n</html>",
         "title" : "HTML form",
         "type" : "Snippet"
       }, {
@@ -193,7 +198,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass FormPage {\n    def name = $('#name')\n    def rank = $('#rank')\n    def confirmation = $('#confirmation')\n    def startDate = $('#startDate')\n}",
+        "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass FormPage {\n    def name = $('#name')\n    def rank = $('#rank')\n    def confirmation = $('#confirmation')\n    def choice = $('[name=\"choice\"]')\n    def startDate = $('#startDate')\n}",
         "title" : "Form page object",
         "type" : "Snippet"
       } ]
@@ -238,6 +243,16 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     }, {
+      "title" : "Radio Button",
+      "id" : "radio-button",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "form.choice.setValue('value-two')",
+        "title" : "set value to radio button",
+        "type" : "Snippet"
+      } ]
+    }, {
       "title" : "Universal Assert",
       "id" : "universal-assert",
       "type" : "Section",
@@ -254,7 +269,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "form.name.should == 'Full Automation'\nform.rank.should == 'B'\nform.confirmation.should == true\nform.startDate.should == '2016-06-21'",
+        "snippet" : "form.name.should == 'Full Automation'\nform.rank.should == 'B'\nform.confirmation.should == true\nform.choice.should == 'value-two'\nform.startDate.should == '2016-06-21'",
         "title" : "universal assert",
         "type" : "Snippet"
       } ]
@@ -331,12 +346,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "package formHandlers\n\nimport org.openqa.selenium.Keys\nimport org.testingisdocumenting.webtau.browser.page.HtmlNode\nimport org.testingisdocumenting.webtau.browser.page.PageElement\nimport org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor\nimport org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler\nimport org.testingisdocumenting.webtau.reporter.TokenizedMessage\n\nclass CustomInput implements PageElementGetSetValueHandler {\n    @Override\n    boolean handles(HtmlNode htmlNode, PageElement pageElement) {\n        return htmlNode.attributes.class =~ /special-selector/\n    }\n\n    @Override\n    void setValue(PageElementStepExecutor stepExecutor,\n                  TokenizedMessage pathDescription,\n                  HtmlNode htmlNode,\n                  PageElement pageElement,\n                  Object value) {\n        pageElement.click()\n        pageElement.find('input').sendKeys(\"${value}\" + Keys.TAB)\n    }\n\n    @Override\n    Object getValue(HtmlNode htmlNode, PageElement pageElement) {\n        return pageElement.find('.current-value').getUnderlyingValue()\n    }\n}",
+        "snippet" : "package formHandlers\n\nimport org.openqa.selenium.Keys\nimport org.testingisdocumenting.webtau.browser.page.HtmlNode\nimport org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList\nimport org.testingisdocumenting.webtau.browser.page.PageElement\nimport org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor\nimport org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler\nimport org.testingisdocumenting.webtau.reporter.TokenizedMessage\n\nclass CustomInput implements PageElementGetSetValueHandler {\n    @Override\n    boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {\n        def htmlNode = htmlNodeAndWebElements.firstHtmlNode()\n        return htmlNode.attributes.class =~ /special-selector/\n    }\n\n    @Override\n    void setValue(PageElementStepExecutor stepExecutor,\n                  TokenizedMessage pathDescription,\n                  HtmlNodeAndWebElementList htmlNodeAndWebElements,\n                  PageElement pageElement,\n                  Object value) {\n        pageElement.click()\n        pageElement.find('input').sendKeys(\"${value}\" + Keys.TAB)\n    }\n\n    @Override\n    Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {\n        return pageElement.find('.current-value').getUnderlyingValue()\n    }\n}",
         "title" : "Custom input handler",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1616434529902,
+    "lastModifiedTime" : 1621036321256,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Forms",
@@ -359,6 +374,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "CheckBox",
         "id" : "checkbox"
+      }, {
+        "title" : "Radio Button",
+        "id" : "radio-button"
       }, {
         "title" : "Universal Assert",
         "id" : "universal-assert"

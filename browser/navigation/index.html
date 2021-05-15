@@ -105,12 +105,17 @@
 
 <article>
 <header><h1>Assert URL</h1></header>
-<p>Use browser.url to assert on or wait for url changes. http://example.com/resource/id?type=full&amp;debug=true#subId browser.url.path.should == '/resource/id' browser.url.query.should == 'type=full&amp;debug=true' browser.url.ref.should == 'subId' browser.url.should == 'http://example.com/resource/id?type=full&amp;debug=true#subId' browser.url.path.waitTo == '/resource/id' browser.url.query.waitTo == 'type=full&amp;debug=true' browser.url.ref.waitTo == 'subId'</p>
+<p>Use browser.url to assert on or wait for url changes. http://example.com/resource/id?type=full&amp;debug=true#subId browser.url.path.should == '/resource/id' browser.url.path.should contain('/id') browser.url.query.should == 'type=full&amp;debug=true' browser.url.ref.should == 'subId' browser.url.should == 'http://example.com/resource/id?type=full&amp;debug=true#subId' browser.url.should contain('resource/id?type=') browser.url.path.waitTo == '/resource/id' browser.url.query.waitTo == 'type=full&amp;debug=true' browser.url.ref.waitTo == 'subId'</p>
 </article>
 
 <article>
 <header><h1>Persist URL</h1></header>
 <p>Use browser.saveCurrentUrl to save url in a local cache and browser.openSavedUrl to open a page later.It can be handy in multipart tests where first part creates an entity and the second part updates the created entity. browser.open('/resource-creation') $('#new').click() browser.saveCurrentUrl() In order to simplify tests development of a second part you can run first part once, save URL, and iterate on a second part by opening a page using saved URL. browser.openSavedUrl() // continue resource related manipulations Note: url is stored in a local cache file and will survive tests restart.</p>
+</article>
+
+<article>
+<header><h1>Assert Title</h1></header>
+<p>browser.title.should == &quot;Super Search&quot; browser.title.waitTo == &quot;Super Search&quot;</p>
 </article>
 </section>
 </div>
@@ -266,14 +271,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "browser.url.path.should == '/resource/id'\nbrowser.url.query.should == 'type=full&debug=true'\nbrowser.url.ref.should == 'subId'",
+        "snippet" : "browser.url.path.should == '/resource/id'\nbrowser.url.path.should contain('/id')\nbrowser.url.query.should == 'type=full&debug=true'\nbrowser.url.ref.should == 'subId'",
         "title" : "asserting url parts",
         "entry" : "should expose url parts with should",
         "bodyOnly" : true,
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "browser.url.should == 'http://example.com/resource/id?type=full&debug=true#subId'",
+        "snippet" : "browser.url.should == 'http://example.com/resource/id?type=full&debug=true#subId'\nbrowser.url.should contain('resource/id?type=')",
         "title" : "asserting full url",
         "entry" : "full part should be optional and default during assertion",
         "bodyOnly" : true,
@@ -345,8 +350,25 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       } ]
+    }, {
+      "title" : "Assert Title",
+      "id" : "assert-title",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "browser.title.should == \"Super Search\"",
+        "title" : "asserting title",
+        "includeRegexp" : "title.should",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.title.waitTo == \"Super Search\"",
+        "title" : "waiting on title",
+        "includeRegexp" : "title.waitTo",
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1616434529902,
+    "lastModifiedTime" : 1621036321256,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Navigation",
@@ -372,6 +394,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Persist URL",
         "id" : "persist-url"
+      }, {
+        "title" : "Assert Title",
+        "id" : "assert-title"
       } ]
     }
   },
