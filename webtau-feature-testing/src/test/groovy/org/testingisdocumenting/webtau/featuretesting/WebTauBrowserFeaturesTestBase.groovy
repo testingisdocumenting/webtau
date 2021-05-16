@@ -318,7 +318,7 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
-    void "scroll top position"() {
+    void "scrolling"() {
         runCli('scrolls.groovy', 'webtau.cfg.groovy')
     }
 

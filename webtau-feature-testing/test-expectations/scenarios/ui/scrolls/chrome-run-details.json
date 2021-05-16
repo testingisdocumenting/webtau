@@ -9,7 +9,13 @@
     "scenario" : "scroll top property",
     "shortContainerId" : "scrolls.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 5
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "scroll into view",
+    "shortContainerId" : "scrolls.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "scroll to bottom and top",
