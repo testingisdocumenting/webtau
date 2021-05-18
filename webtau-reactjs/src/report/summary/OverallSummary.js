@@ -19,16 +19,19 @@ import React from 'react';
 
 import TabSelection from '../widgets/TabSelection';
 
-import ConfigTable from './ConfigTable';
+import { ConfigTable } from './ConfigTable';
 import OverallInfo from './OverallInfo';
 import OverallPerformance from './OverallPerformance';
 
 import { AggregatedOperationsPerformanceTable } from '../perf/AggregatedOperationsPerformanceTable';
 
+import { EnvVarsTable } from './EnvVarsTable';
+
 import './OverallSummary.css';
 
 const summaryTabName = 'Summary';
 const configurationTabName = 'Configuration';
+const envVarsTabName = 'Environment Variables';
 const overallHttpPerformanceTabName = 'Overall HTTP Performance';
 const httpOperationsPerformanceTabName = 'HTTP Operations Performance';
 
@@ -67,6 +70,8 @@ export default class OverallSummary extends React.Component {
       return <AggregatedOperationsPerformanceTable operations={report.httpPerformance.aggregated} />;
     } else if (selectedTabName === configurationTabName) {
       return <ConfigTable report={report} />;
+    } else if (selectedTabName === envVarsTabName) {
+      return <EnvVarsTable report={report} />;
     } else {
       return null;
     }
@@ -74,7 +79,7 @@ export default class OverallSummary extends React.Component {
 }
 
 function availableTabNames(report) {
-  const tabNames = [summaryTabName, configurationTabName];
+  const tabNames = [summaryTabName, configurationTabName, envVarsTabName];
   if (report.hasHttpCalls()) {
     tabNames.push(overallHttpPerformanceTabName);
   }

@@ -17,6 +17,98 @@
 
 import deepNestedJson from './deepNestedJson';
 
+const envVars = [
+  {
+    value:
+      '/Users/mykolagolubyev/.sdkman/candidates/webtau/current:/Users/mykolagolubyev/.sdkman/candidates/java/current/bin:/Users/mykolagolubyev/work/apache-maven-3.6.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/mykolagolubyev/work/webtau-binary/dist:/usr/local/MacGPG2/bin:/Library/Apple/usr/bin',
+    key: 'PATH',
+  },
+  {
+    value: '5.11.0+644',
+    key: 'SDKMAN_VERSION',
+  },
+  {
+    value: '/Users/mykolagolubyev/.sdkman/candidates/webtau/current',
+    key: 'WEBTAU_HOME',
+  },
+  {
+    value: 'unix2003',
+    key: 'COMMAND_MODE',
+  },
+  {
+    value: '2.7',
+    key: 'VERSIONER_PYTHON_VERSION',
+  },
+  {
+    value: '/Users/mykolagolubyev/work/testingisdocumenting/webtau/webtau-feature-testing',
+    key: 'PWD',
+  },
+  {
+    value: '/Users/mykolagolubyev/.sdkman/candidates',
+    key: 'SDKMAN_CANDIDATES_DIR',
+  },
+  {
+    value: '/bin/zsh',
+    key: 'SHELL',
+  },
+  {
+    value: 'less',
+    key: 'PAGER',
+  },
+  {
+    value: 'Gxfxcxdxbxegedabagacad',
+    key: 'LSCOLORS',
+  },
+  {
+    value: 'https://api.sdkman.io/2',
+    key: 'SDKMAN_CANDIDATES_API',
+  },
+  {
+    value: '/',
+    key: 'OLDPWD',
+  },
+  {
+    value: 'DarwinX64',
+    key: 'SDKMAN_PLATFORM',
+  },
+  {
+    value: 'mykolagolubyev',
+    key: 'USER',
+  },
+  {
+    value: '/Users/mykolagolubyev/.oh-my-zsh',
+    key: 'ZSH',
+  },
+  {
+    value: '/var/folders/h1/w1phy75n6rn1w4hbjfwbw6vc0000gn/T/',
+    key: 'TMPDIR',
+  },
+  {
+    value: '/private/tmp/com.apple.launchd.ZYQWzSUbhE/Listeners',
+    key: 'SSH_AUTH_SOCK',
+  },
+  {
+    value: '0x0',
+    key: 'XPC_FLAGS',
+  },
+  {
+    value: '0x1F5:0x0:0x0',
+    key: '__CF_USER_TEXT_ENCODING',
+  },
+  {
+    value: '-R',
+    key: 'LESS',
+  },
+  {
+    value: 'en_US.UTF-8',
+    key: 'LC_CTYPE',
+  },
+  {
+    value: '/Users/mykolagolubyev',
+    key: 'HOME',
+  },
+];
+
 export const basicReport = {
   version: '1.40',
   summary: {
@@ -33,6 +125,7 @@ export const basicReport = {
     { key: 'env', value: 'dev', source: 'command line' },
     { key: 'url', value: 'https://base', source: 'config file' },
   ],
+  envVars: envVars,
   tests: [
     {
       id: 'another.groovy-1',
@@ -90,6 +183,7 @@ export const withCliDataReport = {
     duration: 300,
   },
   config: [{ key: 'env', value: 'dev', source: 'command line' }],
+  envVars: envVars,
   tests: [
     {
       id: 'simpleRun.groovy-2',
@@ -354,6 +448,7 @@ export const withRestDataReport = {
     { key: 'env', value: 'dev', source: 'command line' },
     { key: 'url', value: 'https://blahlong-url-maybe-need-shortening.com/v1', source: 'config file' },
   ],
+  envVars: envVars,
   tests: [
     {
       id: 'another.groovy-1',
