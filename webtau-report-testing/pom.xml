@@ -11,6 +11,8 @@
     <packaging>pom</packaging>
     <artifactId>webtau-report-testing</artifactId>
 
+    <description>UI e2e tests of webtau generated reports</description>
+
     <dependencies>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>

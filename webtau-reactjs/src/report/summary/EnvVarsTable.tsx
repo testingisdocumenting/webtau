@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,37 +17,40 @@
 import React from 'react';
 
 import '../widgets/Table.css';
-import './ConfigTable.css';
+import './EnvVarsTable.css';
 
 interface Props {
   report: any;
 }
 
-export function ConfigTable({ report }: Props) {
+export function EnvVarsTable({ report }: Props) {
   return (
-    <table className="config-table table">
+    <table className="env-vars-table table">
       <thead>
         <tr>
           <th>Key</th>
           <th>Value</th>
-          <th>Source</th>
         </tr>
       </thead>
       <tbody>
-        {report.config.map((e: any) => (
-          <ConfigEntry key={e.key} entry={e} />
+        {report.envVars.map((e: any) => (
+          <EnvVarEntry key={e.key} label={e.key} value={e.value} />
         ))}
       </tbody>
     </table>
   );
 }
 
-function ConfigEntry({ entry }: { entry: any }) {
+interface EnvVarProp {
+  label: string;
+  value: string;
+}
+
+function EnvVarEntry({ label, value }: EnvVarProp) {
   return (
     <tr>
-      <td>{entry.key}</td>
-      <td>{entry.value}</td>
-      <td>{entry.source}</td>
+      <td>{label}</td>
+      <td>{value}</td>
     </tr>
   );
 }
