@@ -20,7 +20,8 @@ import org.testingisdocumenting.webtau.reporter.WebTauReport
 
 class TestReport {
     static void generateReport(WebTauReport report) {
-        def additionalData = report.customDataStream.collect { it.toMap() }
+        def additionalData = [:]
+        report.customDataStream.each { additionalData.putAll(it.toMap()) }
 
         validateSkippedQueries(additionalData.graphQLSkippedQueries as Set)
         validateCoveredQueries(additionalData.graphQLCoveredQueries as Set)
