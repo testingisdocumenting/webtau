@@ -20,9 +20,10 @@ import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
-import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
 import org.testingisdocumenting.webtau.report.perf.PerformanceReport;
+import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
 import java.util.stream.Stream;
@@ -54,7 +55,7 @@ public class HttpPerformanceValidationHandler implements HttpValidationHandler, 
     }
 
     @Override
-    public Stream<ReportCustomData> provide(WebTauTestList tests) {
+    public Stream<WebTauReportCustomData> provide(WebTauTestList tests, WebTauReportLog log) {
         return Stream.of(performanceReport.build());
     }
 }

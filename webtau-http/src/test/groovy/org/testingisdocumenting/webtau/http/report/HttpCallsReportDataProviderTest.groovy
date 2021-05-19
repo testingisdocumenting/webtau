@@ -43,7 +43,7 @@ class HttpCallsReportDataProviderTest {
         tests.add(testA)
         tests.add(testB)
 
-        def httpCalls = ReportDataProviders.provide(tests).find { it.id == 'httpCalls'}
+        def httpCalls = ReportDataProviders.provide(tests, report.getReportLog()).find { it.id == 'httpCalls'}
         httpCalls.data.should == ['method' | 'url'   | 'elapsedTime'] {
                                   ___________________________________
                                    'GET'   | '/url'  | 200

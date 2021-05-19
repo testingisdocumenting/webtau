@@ -12,7 +12,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.cfg
 class Report {
     static void generateReport(WebTauReport report) {
         def additionalData = [:]
-        ReportDataProviders.provide(report.tests)
+        ReportDataProviders.provide(report.tests, report.getReportLog())
             .map { it.toMap() }
             .forEach { additionalData.putAll(it) }
 

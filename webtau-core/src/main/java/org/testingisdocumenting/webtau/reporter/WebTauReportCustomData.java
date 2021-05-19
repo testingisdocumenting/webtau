@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.report;
+package org.testingisdocumenting.webtau.reporter;
 
 import java.util.Collections;
 import java.util.Map;
 
-public class ReportCustomData {
+public class WebTauReportCustomData {
     private final String id;
     private final Object data;
 
-    public ReportCustomData(String id, Object data) {
+    public WebTauReportCustomData(String id, Object data) {
         this.id = id;
         this.data = data;
     }
