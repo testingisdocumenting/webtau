@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "badge with inverted colors from config",
+    "shortContainerId" : "docCaptureInvertedColors.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 11
+    }
+  } ],
+  "exitCode" : 0
+}

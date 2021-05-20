@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +17,9 @@
 
 package org.testingisdocumenting.webtau.http.report;
 
-import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
+import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 
@@ -31,12 +33,12 @@ import static org.testingisdocumenting.webtau.http.report.HttpCallsTestResultPay
 
 public class HttpCallsReportDataProvider implements ReportDataProvider {
     @Override
-    public Stream<ReportCustomData> provide(WebTauTestList tests) {
+    public Stream<WebTauReportCustomData> provide(WebTauTestList tests, WebTauReportLog log) {
         List<Map<String, ?>> reportData = tests.stream()
                 .flatMap(HttpCallsReportDataProvider::callsFromTest)
                 .collect(Collectors.toList());
 
-        return Stream.of(new ReportCustomData(HTTP_CALLS_PAYLOAD_NAME, reportData));
+        return Stream.of(new WebTauReportCustomData(HTTP_CALLS_PAYLOAD_NAME, reportData));
     }
 
     @SuppressWarnings("unchecked")

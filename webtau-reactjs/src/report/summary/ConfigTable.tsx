@@ -24,7 +24,7 @@ interface Props {
   report: any;
 }
 
-export default function ConfigTable({ report }: Props) {
+export function ConfigTable({ report }: Props) {
   return (
     <table className="config-table table">
       <thead>

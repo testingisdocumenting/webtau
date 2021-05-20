@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.browser;
 
 import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentation;
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
+import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
 import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
@@ -131,8 +132,8 @@ public class Browser {
         return new GenericPageElement(driver, additionalBrowserInteractions, PageElementPath.css(css));
     }
 
-    public boolean wasUsed() {
-        return driver.wasUsed();
+    public boolean hasActiveBrowsers() {
+        return WebDriverCreator.hasActiveBrowsers();
     }
 
     public String takeScreenshotAsBase64() {

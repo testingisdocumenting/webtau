@@ -124,6 +124,7 @@ public class BrowserDocumentation {
         data.put("type", annotation.getType());
         data.put("text", annotation.getText());
         data.put("color", annotation.getColor());
+        data.put("darkFriendly", annotation.isDarkFriendly());
 
         PageElement pageElement = annotation.getPageElement();
 

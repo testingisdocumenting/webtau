@@ -306,13 +306,19 @@ class WebTauBrowserFeaturesTestBase {
                 'examples/scenarios/ui/docCapture.groovy', [
                 'captureBadges.groovy': 'search and capture with badges',
                 'captureBadgesPlacement.groovy': 'search and capture with badges placed in non center position',
+                'captureBadgesInvertedColors.groovy': 'badge with inverted colors',
                 'captureHighlightCover.groovy': 'capture with highlight and cover',
                 'captureArrow.groovy': 'capture with arrow',
         ])
     }
 
     @Test
-    void "scroll top position"() {
+    void "doc capture inverted colors from config"() {
+        runCli('docCaptureInvertedColors.groovy', 'docCaptureInvertedColors.cfg.groovy')
+    }
+
+    @Test
+    void "scrolling"() {
         runCli('scrolls.groovy', 'webtau.cfg.groovy')
     }
 

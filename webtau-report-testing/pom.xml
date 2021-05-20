@@ -5,11 +5,13 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.41-SNAPSHOT</version>
+        <version>1.42-SNAPSHOT</version>
     </parent>
 
     <packaging>pom</packaging>
     <artifactId>webtau-report-testing</artifactId>
+
+    <description>UI e2e tests of webtau generated reports</description>
 
     <dependencies>
         <dependency>

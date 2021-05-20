@@ -50,6 +50,7 @@ class Report {
     this.report = report;
     this.version = report.version;
     this.config = report.config;
+    this.envVars = report.envVars;
     this.summary = expandSummary(report.summary);
     this.tests = enrichTestsData(report.tests);
     this.httpCalls = extractHttpCalls(this.tests);

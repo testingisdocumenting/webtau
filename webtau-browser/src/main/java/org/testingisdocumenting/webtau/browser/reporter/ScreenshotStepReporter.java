@@ -33,7 +33,7 @@ public class ScreenshotStepReporter implements StepReporter {
 
     @Override
     public void onStepFailure(WebTauStep step) {
-        if (! browser.wasUsed()) {
+        if (!browser.hasActiveBrowsers()) {
             return;
         }
 
@@ -41,6 +41,6 @@ public class ScreenshotStepReporter implements StepReporter {
             return;
         }
 
-        step.setOutput(new ScreenshotStepOutput(browser.takeScreenshotAsBase64()));
+        step.setOutputSupplier(() -> new ScreenshotStepOutput(browser.takeScreenshotAsBase64()));
     }
 }

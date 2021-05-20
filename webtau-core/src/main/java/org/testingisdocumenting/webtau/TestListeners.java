@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.reporter;
+package org.testingisdocumenting.webtau;
 
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;

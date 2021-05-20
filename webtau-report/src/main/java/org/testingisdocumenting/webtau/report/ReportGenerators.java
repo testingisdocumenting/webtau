@@ -29,6 +29,9 @@ public class ReportGenerators {
     private static final List<ReportGenerator> addedGenerators = new ArrayList<>();
 
     public static void generate(WebTauReport report) {
+        ReportDataProviders.provide(report.getTests(), report.getReportLog())
+                .forEach(report::addCustomData);
+
         Stream.concat(discoveredGenerators.stream(), addedGenerators.stream()).forEach(g -> g.generate(report));
     }
 

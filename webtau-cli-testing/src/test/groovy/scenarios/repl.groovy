@@ -26,6 +26,7 @@ import static webtau.CliCommands.*
 
 def repl = createLazyResource {
     def command = webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
+            "--failedReportPath=webtau.repl-failed.report.html " +
         "testscripts/browserSanity.groovy testscripts/downstreamValidation.groovy")
 
     command.output.waitTo contain('browserSanity.groovy')

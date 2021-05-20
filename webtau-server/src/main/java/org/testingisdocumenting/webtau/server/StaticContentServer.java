@@ -29,6 +29,8 @@ import java.nio.file.Path;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.stepInput;
+import static org.testingisdocumenting.webtau.reporter.WebTauStepOutputKeyValue.stepOutput;
 
 class StaticContentServer implements WebtauServer {
     private final String id;
@@ -45,8 +47,11 @@ class StaticContentServer implements WebtauServer {
     public void start() {
         WebTauStep.createAndExecuteStep(
                 tokenizedMessage(action("starting"), classifier("static server"),
-                        IntegrationTestsMessageBuilder.id(id), COLON, urlValue(path)),
-                () -> tokenizedMessage(action("started"), classifier("static server"), ON, numberValue(getPort())),
+                        IntegrationTestsMessageBuilder.id(id)),
+                stepInput("path", path.toString(),
+                        "passed port", passedPort == 0 ? "random" : passedPort),
+                () -> tokenizedMessage(action("started"), classifier("static server")),
+                () -> stepOutput("running port", getPort()),
                 this::startStep);
     }
 

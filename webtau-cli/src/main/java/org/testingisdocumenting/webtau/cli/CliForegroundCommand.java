@@ -59,13 +59,13 @@ public class CliForegroundCommand {
                 () -> runAndValidate(validationResult, command, config, validationCode));
 
         try {
+            step.setOutputSupplier(() -> validationResult);
             step.execute(StepReportOptions.REPORT_ALL);
             return new CliRunResult(command,
                     validationResult.getExitCode().get(),
                     validationResult.getOut().get(),
                     validationResult.getErr().get());
         } finally {
-            step.setOutput(validationResult);
             Cli.cli.setLastDocumentationArtifact(validationResult.createDocumentationArtifact());
         }
     }

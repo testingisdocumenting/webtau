@@ -22,6 +22,7 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -89,6 +90,7 @@ public class WebTauConfig implements PrettyPrintable {
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
+    private final ConfigValue failedReportPath = declare("failedReportPath", "failed report file path", () -> null);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -190,8 +192,10 @@ public class WebTauConfig implements PrettyPrintable {
 
     public void setBaseUrl(String source, String url) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("setting"), id("url"), TO, urlValue(url)),
-                () -> tokenizedMessage(action("set"), id("url"), TO, urlValue(url)),
+                tokenizedMessage(action("setting"), id("url")),
+                stepInput("source", source,
+                        "url", url),
+                () -> tokenizedMessage(action("set"), id("url")),
                 () -> this.url.set(source, url));
     }
 
@@ -302,7 +306,15 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public Path getReportPath() {
-        return reportPath.getAsPath();
+        return fullPath(reportPath.getAsPath());
+    }
+
+    public Path getFailedReportPath() {
+        if (failedReportPath.isDefault()) {
+            return null;
+        }
+
+        return fullPath(failedReportPath.getAsPath());
     }
 
     public ConfigValue getReportPathConfigValue() {
@@ -410,6 +422,7 @@ public class WebTauConfig implements PrettyPrintable {
                 removeWebtauFromUserAgent,
                 docPath,
                 reportPath,
+                failedReportPath,
                 noColor,
                 consolePayloadOutputLimit,
                 cachePath);

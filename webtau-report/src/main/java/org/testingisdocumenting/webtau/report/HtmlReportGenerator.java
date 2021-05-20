@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.reporter.WebTauReport;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.utils.FileUtils;
@@ -31,10 +32,7 @@ import org.testingisdocumenting.webtau.utils.ResourceUtils;
 import org.testingisdocumenting.webtau.version.WebtauVersion;
 
 import java.nio.file.Path;
-import java.util.Base64;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,22 +45,34 @@ public class HtmlReportGenerator implements ReportGenerator {
 
     @Override
     public void generate(WebTauReport report) {
-        Path reportPath = getCfg().getReportPath().toAbsolutePath();
+        Path reportPath = reportPath(report);
 
         FileUtils.writeTextContent(reportPath, generateHtml(report));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
     }
 
+    private Path reportPath(WebTauReport report) {
+        if (report.isFailed()) {
+            Path failedReportPath = getCfg().getFailedReportPath();
+            return failedReportPath != null ? failedReportPath : getCfg().getReportPath();
+        }
+
+        return getCfg().getReportPath();
+    }
+
     private String generateHtml(WebTauReport report) {
         Map<String, Object> reportAsMap = new LinkedHashMap<>();
         reportAsMap.put("config", configAsListOfMaps(getCfg().getEnumeratedCfgValuesStream()));
+        reportAsMap.put("envVars", envVarsAsListOfMaps());
         reportAsMap.put("summary", reportSummaryToMap(report));
         reportAsMap.put("version", WebtauVersion.getVersion());
         reportAsMap.put("tests", report.getTests().stream()
                 .map(WebTauTest::toMap).collect(Collectors.toList()));
 
-        ReportDataProviders.provide(report.getTests())
-                .map(ReportCustomData::toMap)
+        reportAsMap.put("log", report.getReportLog().toMap());
+
+        report.getCustomDataStream()
+                .map(WebTauReportCustomData::toMap)
                 .forEach(reportAsMap::putAll);
 
         return generateHtml(reportAsMap);
@@ -102,10 +112,16 @@ public class HtmlReportGenerator implements ReportGenerator {
                 .map(ConfigValue::toMap).collect(toList());
     }
 
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> loadManifest() {
-        String assetManifest = ResourceUtils.textContent("asset-manifest.json");
-        return (Map<String, Object>) JsonUtils.deserialize(assetManifest);
+    private List<Map<String, String>> envVarsAsListOfMaps() {
+        return System.getenv().entrySet().stream()
+                .map(e -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("key", e.getKey());
+                    map.put("value", e.getValue());
+
+                    return map;
+                })
+                .collect(toList());
     }
 
     private String genFavIconBase64() {

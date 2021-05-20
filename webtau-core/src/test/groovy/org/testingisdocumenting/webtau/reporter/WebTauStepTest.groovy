@@ -37,15 +37,15 @@ class WebTauStepTest {
     static void init() {
         rootStep = createStep("step action") {
             childStep1 = createStep("c1 action")
-            childStep1.setOutput(new OutputA(id: 'id2'))
+            childStep1.setOutputSupplier(() -> new OutputA(id: 'id2'))
             childStep1.execute(REPORT_ALL)
 
             childStep2 = createStep("c2 action")
-            childStep2.setOutput(new OutputB(name: 'name3'))
+            childStep2.setOutputSupplier(() -> new OutputB(name: 'name3'))
             childStep2.execute(REPORT_ALL)
         }
 
-        rootStep.setOutput(new OutputA(id: 'id1'))
+        rootStep.setOutputSupplier(() -> new OutputA(id: 'id1'))
         rootStep.execute(REPORT_ALL)
     }
 

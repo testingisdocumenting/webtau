@@ -1,9 +1,15 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "open",
     "shortContainerId" : "navigation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 7
+      "numberOfSuccessful" : 8
     }
   }, {
     "scenario" : "reopen",
@@ -21,7 +27,7 @@
     "scenario" : "restart",
     "shortContainerId" : "navigation.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 8
+      "numberOfSuccessful" : 9
     }
   }, {
     "scenario" : "save url",
