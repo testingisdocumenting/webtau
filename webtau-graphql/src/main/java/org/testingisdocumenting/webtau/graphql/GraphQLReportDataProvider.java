@@ -17,8 +17,9 @@
 package org.testingisdocumenting.webtau.graphql;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
-import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
+import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
 import java.util.Collections;
@@ -44,7 +45,7 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
     }
 
     @Override
-    public Stream<ReportCustomData> provide(WebTauTestList tests) {
+    public Stream<WebTauReportCustomData> provide(WebTauTestList tests, WebTauReportLog log) {
         List<? extends Map<String, ?>> nonCoveredQueries = formatGraphQLQueries(coverageSupplier.get().nonCoveredQueries());
         List<? extends Map<String, ?>> coveredQueries = formatGraphQLQueries(coverageSupplier.get().coveredQueries());
         List<? extends Map<String, ?>> successBranches = formatGraphQLQueries(coverageSupplier.get().coveredSuccessBranches());
@@ -55,14 +56,14 @@ public class GraphQLReportDataProvider implements ReportDataProvider {
         Map<String, ?> coverageSummary = computeCoverageSummary();
 
         return Stream.of(
-            new ReportCustomData("graphQLSkippedQueries", nonCoveredQueries),
-            new ReportCustomData("graphQLCoveredQueries", coveredQueries),
-            new ReportCustomData("graphQLSkippedSuccessBranches", nonCoveredSuccessBranches),
-            new ReportCustomData("graphQLCoveredSuccessBranches", successBranches),
-            new ReportCustomData("graphQLSkippedErrorBranches", nonCoveredErrorBranches),
-            new ReportCustomData("graphQLCoveredErrorBranches", errorBranches),
-            new ReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
-            new ReportCustomData("graphQLCoverageSummary", coverageSummary));
+            new WebTauReportCustomData("graphQLSkippedQueries", nonCoveredQueries),
+            new WebTauReportCustomData("graphQLCoveredQueries", coveredQueries),
+            new WebTauReportCustomData("graphQLSkippedSuccessBranches", nonCoveredSuccessBranches),
+            new WebTauReportCustomData("graphQLCoveredSuccessBranches", successBranches),
+            new WebTauReportCustomData("graphQLSkippedErrorBranches", nonCoveredErrorBranches),
+            new WebTauReportCustomData("graphQLCoveredErrorBranches", errorBranches),
+            new WebTauReportCustomData("graphQLQueryTimeStatistics", timingByQuery),
+            new WebTauReportCustomData("graphQLCoverageSummary", coverageSummary));
     }
 
     private List<? extends Map<String, ?>> formatGraphQLQueries(Stream<GraphQLQuery> queryStream) {

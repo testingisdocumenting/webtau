@@ -42,7 +42,7 @@ class GraphQLReportDataProviderTest {
 
     @Test
     void "computes timing per query"() {
-        def timeStats = reportDataProvider.provide(null)
+        def timeStats = reportDataProvider.provide(null, null)
             .find {it.getId() == "graphQLQueryTimeStatistics" }
             .getData() as Set
         def expectedStats = [
@@ -88,7 +88,7 @@ class GraphQLReportDataProviderTest {
 
     @Test
     void "computes coverage summary"() {
-        def summary = reportDataProvider.provide(null)
+        def summary = reportDataProvider.provide(null, null)
         .find { it.getId() == "graphQLCoverageSummary" }
         .getData()
 

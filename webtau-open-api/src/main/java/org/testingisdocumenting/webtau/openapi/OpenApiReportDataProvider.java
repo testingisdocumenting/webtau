@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +17,9 @@
 
 package org.testingisdocumenting.webtau.openapi;
 
-import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
+import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
 import java.util.HashMap;
@@ -29,7 +31,7 @@ import java.util.stream.Stream;
 
 public class OpenApiReportDataProvider implements ReportDataProvider {
     @Override
-    public Stream<ReportCustomData> provide(WebTauTestList tests) {
+    public Stream<WebTauReportCustomData> provide(WebTauTestList tests, WebTauReportLog log) {
         List<? extends Map<String, ?>> nonCoveredOperations = OpenApi.getCoverage().nonCoveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
@@ -42,14 +44,14 @@ public class OpenApiReportDataProvider implements ReportDataProvider {
         List<? extends Map<String, ?>> nonCoveredResponses = convertResponses(OpenApi.getCoverage().nonCoveredResponses());
 
         return Stream.of(
-                new ReportCustomData("openApiSkippedOperations", nonCoveredOperations),
-                new ReportCustomData("openApiCoveredOperations", coveredOperations),
-                new ReportCustomData("openApiHttpCallIdsPerOperation",
+                new WebTauReportCustomData("openApiSkippedOperations", nonCoveredOperations),
+                new WebTauReportCustomData("openApiCoveredOperations", coveredOperations),
+                new WebTauReportCustomData("openApiHttpCallIdsPerOperation",
                         OpenApi.getCoverage().httpCallIdsByOperationAsMap()),
-                new ReportCustomData("openApiHttpCallsPerOperation",
+                new WebTauReportCustomData("openApiHttpCallsPerOperation",
                         OpenApi.getCoverage().httpCallsByOperationAsMap()),
-                new ReportCustomData("openApiCoveredResponses", coveredResponses),
-                new ReportCustomData("openApiSkippedResponses", nonCoveredResponses));
+                new WebTauReportCustomData("openApiCoveredResponses", coveredResponses),
+                new WebTauReportCustomData("openApiSkippedResponses", nonCoveredResponses));
     }
 
     private static List<? extends Map<String, ?>> convertResponses(Map<OpenApiOperation, Set<String>> responses) {

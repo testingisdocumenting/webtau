@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.http.report
 
 import org.testingisdocumenting.webtau.report.ReportDataProviders
+import org.testingisdocumenting.webtau.reporter.WebTauReportLog
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.testingisdocumenting.webtau.reporter.TestResultPayload
@@ -43,7 +44,7 @@ class HttpCallsReportDataProviderTest {
         tests.add(testA)
         tests.add(testB)
 
-        def httpCalls = ReportDataProviders.provide(tests).find { it.id == 'httpCalls'}
+        def httpCalls = ReportDataProviders.provide(tests, new WebTauReportLog()).find { it.id == 'httpCalls'}
         httpCalls.data.should == ['method' | 'url'   | 'elapsedTime'] {
                                   ___________________________________
                                    'GET'   | '/url'  | 200

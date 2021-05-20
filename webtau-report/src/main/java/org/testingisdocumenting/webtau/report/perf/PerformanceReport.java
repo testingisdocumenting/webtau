@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.report.perf;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
-import org.testingisdocumenting.webtau.report.ReportCustomData;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.ArrayList;
@@ -67,14 +67,14 @@ public class PerformanceReport {
         return aggregatedOperations;
     }
 
-    public ReportCustomData build() {
+    public WebTauReportCustomData build() {
         calc();
 
         List<Map<String, Object>> aggregated = aggregatedOperations.stream()
                 .map(OperationAggregatedPerformance::toMap)
                 .collect(Collectors.toList());
 
-        return new ReportCustomData(id, CollectionUtils.aMapOf(
+        return new WebTauReportCustomData(id, CollectionUtils.aMapOf(
                 "aggregated", aggregated,
                 "operationsById", operations.stream()
                         .collect(Collectors.toMap(OperationPerformance::getUniqueId, OperationPerformance::toMap)),

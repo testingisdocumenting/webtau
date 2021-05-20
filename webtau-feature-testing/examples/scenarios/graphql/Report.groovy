@@ -12,9 +12,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.cfg
 class Report {
     static void generateReport(WebTauReport report) {
         def additionalData = [:]
-        ReportDataProviders.provide(report.tests)
-            .map { it.toMap() }
-            .forEach { additionalData.putAll(it) }
+        report.customDataStream.each { additionalData.putAll(it.toMap()) }
 
         def reportData = [:]
         reportData.graphQLSkippedQueries = additionalData.graphQLSkippedQueries // All queries present in the GraphQL schema but not tested

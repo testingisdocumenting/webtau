@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.report;
 
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
+import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
@@ -25,7 +28,7 @@ import java.util.stream.Stream;
 public class ReportDataProviders {
     private static final List<ReportDataProvider> providers = ServiceLoaderUtils.load(ReportDataProvider.class);
 
-    public static Stream<ReportCustomData> provide(WebTauTestList tests) {
-        return providers.stream().flatMap(e -> e.provide(tests));
+    public static Stream<WebTauReportCustomData> provide(WebTauTestList tests, WebTauReportLog reportLog) {
+        return providers.stream().flatMap(e -> e.provide(tests, reportLog));
     }
 }

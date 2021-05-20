@@ -16,15 +16,12 @@
 
 package scenarios.graphql
 
-import org.testingisdocumenting.webtau.report.ReportDataProviders
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 
 class TestReport {
     static void generateReport(WebTauReport report) {
         def additionalData = [:]
-        ReportDataProviders.provide(report.tests)
-            .map { it.toMap() }
-            .forEach { additionalData.putAll(it) }
+        report.customDataStream.each { additionalData.putAll(it.toMap()) }
 
         validateSkippedQueries(additionalData.graphQLSkippedQueries as Set)
         validateCoveredQueries(additionalData.graphQLCoveredQueries as Set)

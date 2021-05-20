@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.reporter.WebTauReport;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.utils.FileUtils;
@@ -68,8 +69,10 @@ public class HtmlReportGenerator implements ReportGenerator {
         reportAsMap.put("tests", report.getTests().stream()
                 .map(WebTauTest::toMap).collect(Collectors.toList()));
 
-        ReportDataProviders.provide(report.getTests())
-                .map(ReportCustomData::toMap)
+        reportAsMap.put("log", report.getReportLog().toMap());
+
+        report.getCustomDataStream()
+                .map(WebTauReportCustomData::toMap)
                 .forEach(reportAsMap::putAll);
 
         return generateHtml(reportAsMap);

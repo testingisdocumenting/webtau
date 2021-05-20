@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +14,29 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.report;
+package org.testingisdocumenting.webtau.reporter;
 
-import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
-import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
-import org.testingisdocumenting.webtau.reporter.WebTauTestList;
+import java.util.*;
 
-import java.util.stream.Stream;
+public class WebTauReportLog {
+    private final List<String> errors;
 
-public interface ReportDataProvider {
-    Stream<WebTauReportCustomData> provide(WebTauTestList tests, WebTauReportLog log);
+    public WebTauReportLog() {
+        this.errors = new ArrayList<>();
+    }
+
+    public void addError(String error) {
+        errors.add(error);
+    }
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public Map<String, ?> toMap() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("errors", errors);
+
+        return result;
+    }
 }
