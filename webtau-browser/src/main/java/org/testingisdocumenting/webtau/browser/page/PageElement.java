@@ -43,6 +43,19 @@ public interface PageElement extends
     PageElementValue<Object> elementValue();
     PageElementValue<List<Object>> elementValues();
 
+    /**
+     * mark this element as to be treated as list of elements when otherwise it will be ambiguous,
+     * e.g.
+     * <pre>
+     *     $("button").should contain("sub text")
+     *     $("ul li a").all().should contain("concrete item")
+     * </pre>
+     * @return PageElement marked as all
+     */
+    PageElement all();
+
+    boolean isMarkedAsAll();
+
     void setValue(Object value);
     void sendKeys(CharSequence keys);
     void click();

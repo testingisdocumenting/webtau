@@ -66,11 +66,17 @@ public class GenericPageElement implements PageElement {
     private final PageElementValue<Integer> clientHeight;
     private final PageElementValue<Integer> clientWidth;
 
-    public GenericPageElement(WebDriver driver, AdditionalBrowserInteractions additionalBrowserInteractions, PageElementPath path) {
+    private final boolean isMarkedAsAll;
+
+    public GenericPageElement(WebDriver driver,
+                              AdditionalBrowserInteractions additionalBrowserInteractions,
+                              PageElementPath path,
+                              boolean isMarkedAsAll) {
         this.driver = driver;
         this.additionalBrowserInteractions = additionalBrowserInteractions;
         this.path = path;
         this.pathDescription = path.describe();
+        this.isMarkedAsAll = isMarkedAsAll;
         this.elementValue = new PageElementValue<>(this, "value", this::getUnderlyingValue);
         this.countValue = new PageElementValue<>(this, "count", this::getNumberOfElements);
         this.scrollTopValue = new PageElementValue<>(this, "scrollTop", fetchIntElementPropertyFunc("scrollTop"));
@@ -208,6 +214,16 @@ public class GenericPageElement implements PageElement {
     @Override
     public PageElementValue<List<Object>> elementValues() {
         return new PageElementValue<>(this, "all values", this::extractValues);
+    }
+
+    @Override
+    public PageElement all() {
+        return new GenericPageElement(driver, additionalBrowserInteractions, path, true);
+    }
+
+    @Override
+    public boolean isMarkedAsAll() {
+        return isMarkedAsAll;
     }
 
     @Override
@@ -461,14 +477,14 @@ public class GenericPageElement implements PageElement {
         PageElementPath newPath = path.copy();
         newPath.addFilter(filter);
 
-        return new GenericPageElement(driver, additionalBrowserInteractions, newPath);
+        return new GenericPageElement(driver, additionalBrowserInteractions, newPath, false);
     }
 
     private PageElement withFinder(PageElementsFinder finder) {
         PageElementPath newPath = path.copy();
         newPath.addFinder(finder);
 
-        return new GenericPageElement(driver, additionalBrowserInteractions, newPath);
+        return new GenericPageElement(driver, additionalBrowserInteractions, newPath, false);
     }
 
     private HtmlNodeAndWebElementList findHtmlNodesAndWebElements() {
