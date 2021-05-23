@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,304 +15,309 @@
  * limitations under the License.
  */
 
-import React, {Component} from 'react'
-import {DebounceInput} from 'react-debounce-input'
+import React, { Component } from 'react';
+import { DebounceInput } from 'react-debounce-input';
 
-import Report from './Report'
+import Report from './Report';
 
-import ListOfTests from './navigation/ListOfTests'
-import StatusFilter from './navigation/StatusFilter'
-import TestDetails from './details/TestDetails'
-import WebTauReportStateCreator from './WebTauReportStateCreator'
-import OverallSummary from './summary/OverallSummary'
+import ListOfTests from './navigation/ListOfTests';
+import StatusFilter from './navigation/StatusFilter';
+import TestDetails from './details/TestDetails';
+import WebTauReportStateCreator from './WebTauReportStateCreator';
+import OverallSummary from './summary/OverallSummary';
 
-import EntriesTypeSelection from './navigation/EntriesTypeSelection'
+import EntriesTypeSelection from './navigation/EntriesTypeSelection';
 
-import ListOfHttpCalls from './navigation/ListOfHttpCalls'
-import NavigationEntriesType from './navigation/NavigationEntriesType'
+import ListOfHttpCalls from './navigation/ListOfHttpCalls';
+import NavigationEntriesType from './navigation/NavigationEntriesType';
 
-import HttpCallDetails from './details/http/HttpCallDetails'
-import StatusEnum from './StatusEnum'
+import HttpCallDetails from './details/http/HttpCallDetails';
+import StatusEnum from './StatusEnum';
 
-import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload'
+import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload';
 
-import './WebTauReport.css'
+import './WebTauReport.css';
 
 class WebTauReport extends Component {
-    constructor(props) {
-        super(props)
+  constructor(props) {
+    super(props);
 
-        this._stateCreator = new WebTauReportStateCreator(props.report)
+    this._stateCreator = new WebTauReportStateCreator(props.report);
 
-        this.state = this.stateFromUrl()
+    this.state = this.stateFromUrl();
 
-        this.reportNavigation = {
-            zoomInHttpPayload: this.onHttpPayloadZoomIn,
-            selectTest: this.onTestSelect
-        }
+    this.reportNavigation = {
+      zoomInHttpPayload: this.onHttpPayloadZoomIn,
+      selectTest: this.onTestSelect,
+    };
+  }
+
+  render() {
+    const { report } = this.props;
+    const { entriesType, statusFilter, filterText } = this.state;
+
+    return (
+      <div className="report">
+        <div className="report-name-area">
+          <EntriesTypeSelection
+            selectedType={entriesType}
+            onSelect={this.onEntriesTypeSelection}
+            webtauVersion={report.version}
+          />
+        </div>
+
+        <div className="search-area">
+          <DebounceInput
+            value={filterText}
+            onChange={this.onFilterTextChange}
+            placeholder="filter text"
+            minLength={3}
+            debounceTimeout={300}
+          />
+        </div>
+
+        <div className="items-lists-area">{this.renderListOEntries()}</div>
+
+        <div className="test-details-area">{this.renderDetailsArea()}</div>
+
+        <div className="status-filter-area">
+          <StatusFilter
+            summary={this.summary}
+            onTitleClick={this.onHeaderTitleClick}
+            selectedStatusFilter={statusFilter}
+            onStatusSelect={this.onEntriesStatusSelect}
+          />
+        </div>
+
+        {this.renderPayloadPopup()}
+      </div>
+    );
+  }
+
+  renderPayloadPopup() {
+    const { report } = this.props;
+    const { payloadType, payloadHttpCallId } = this.state;
+
+    if (!payloadType) {
+      return null;
     }
 
-    render() {
-        const {report} = this.props
-        const {entriesType, statusFilter, filterText} = this.state
+    return (
+      <FullScreenHttpPayload
+        report={report}
+        payloadType={payloadType}
+        payloadHttpCallId={payloadHttpCallId}
+        onClose={this.onHttpPayloadZoomOut}
+      />
+    );
+  }
 
-        return (
-            <div className="report">
-                <div className="report-name-area">
-                    <EntriesTypeSelection selectedType={entriesType}
-                                          onSelect={this.onEntriesTypeSelection}
-                                          webtauVersion={report.version}/>
-                </div>
+  renderListOEntries() {
+    const { testId, httpCallId } = this.state;
 
-                <div className="search-area">
-                    <DebounceInput value={filterText}
-                                   onChange={this.onFilterTextChange}
-                                   placeholder="filter text"
-                                   minLength={3}
-                                   debounceTimeout={300}/>
-                </div>
+    if (this.isTestsView) {
+      return (
+        <ListOfTests
+          testGroups={this.filteredTestGroups}
+          selectedId={testId}
+          onTestGroupSelect={this.onTestGroupSelect}
+          onTestSelect={this.onTestSelect}
+        />
+      );
+    } else {
+      return (
+        <ListOfHttpCalls httpCalls={this.filteredHttpCalls} selectedId={httpCallId} onSelect={this.onHttpCallSelect} />
+      );
+    }
+  }
 
-                <div className="items-lists-area">
-                    {this.renderListOEntries()}
-                </div>
+  renderDetailsArea() {
+    const { report } = this.props;
+    const { summaryTabName, detailTabName } = this.state;
 
-                <div className="test-details-area">
-                    {this.renderDetailsArea()}
-                </div>
+    const selectedEntity = this.selectedEntity;
 
-                <div className="status-filter-area">
-                    <StatusFilter summary={this.summary}
-                                  onTitleClick={this.onHeaderTitleClick}
-                                  selectedStatusFilter={statusFilter}
-                                  onStatusSelect={this.onEntriesStatusSelect}/>
-                </div>
-
-                {this.renderPayloadPopup()}
-            </div>
-        )
+    if (selectedEntity === null) {
+      return (
+        <OverallSummary
+          report={report}
+          onSwitchToHttpCalls={this.onHttpCallsEntriesTypeSelection}
+          onSwitchToSkippedHttpCalls={this.onHttpSkippedCallsSelection}
+          selectedTabName={summaryTabName}
+          onTabSelection={this.onSummaryTabSelection}
+        />
+      );
     }
 
-    renderPayloadPopup() {
-        const {report} = this.props
-        const {payloadType, payloadHttpCallId} = this.state
-
-        if (!payloadType) {
-            return null
-        }
-
-        return (
-            <FullScreenHttpPayload report={report}
-                                   payloadType={payloadType}
-                                   payloadHttpCallId={payloadHttpCallId}
-                                   onClose={this.onHttpPayloadZoomOut}/>
-        )
+    if (this.isTestsView) {
+      return (
+        <TestDetails
+          test={selectedEntity}
+          selectedDetailTabName={detailTabName}
+          onDetailsTabSelection={this.onDetailsTabSelection}
+          detailTabs={selectedEntity.details}
+          urlState={this.state}
+          onInternalStateUpdate={this.onDetailsStateUpdate}
+          reportNavigation={this.reportNavigation}
+        />
+      );
     }
 
-    renderListOEntries() {
-        const {testId, httpCallId} = this.state
+    return <HttpCallDetails httpCall={selectedEntity} reportNavigation={this.reportNavigation} />;
+  }
 
-        if (this.isTestsView) {
-            return (
-                <ListOfTests testGroups={this.filteredTestGroups}
-                             selectedId={testId}
-                             onTestGroupSelect={this.onTestGroupSelect}
-                             onTestSelect={this.onTestSelect}/>
-            )
-        } else {
-            return (
-                <ListOfHttpCalls httpCalls={this.filteredHttpCalls}
-                                 selectedId={httpCallId}
-                                 onSelect={this.onHttpCallSelect}/>
-            )
-        }
+  get summary() {
+    const { report } = this.props;
+    return this.isTestsView ? report.testsSummary : report.httpCallsSummary;
+  }
+
+  get isTestsView() {
+    return this.state.entriesType === NavigationEntriesType.TESTS;
+  }
+
+  get selectedEntity() {
+    const { report } = this.props;
+    const { httpCallId, testId } = this.state;
+
+    if (this.isTestsView) {
+      return testId ? report.findTestById(testId) : null;
     }
 
-    renderDetailsArea() {
-        const {report} = this.props
-        const {summaryTabName, detailTabName} = this.state
+    return httpCallId === undefined ? null : report.findHttpCallById(httpCallId);
+  }
 
-        const selectedEntity = this.selectedEntity
+  get filteredTests() {
+    const { report } = this.props;
+    const { statusFilter, filterText } = this.state;
 
-        if (selectedEntity === null) {
-            return (
-                <OverallSummary report={report}
-                                onSwitchToHttpCalls={this.onHttpCallsEntriesTypeSelection}
-                                onSwitchToSkippedHttpCalls={this.onHttpSkippedCallsSelection}
-                                selectedTabName={summaryTabName}
-                                onTabSelection={this.onSummaryTabSelection}/>
-            )
-        }
+    return report.testsWithStatusAndFilteredByText(statusFilter, filterText);
+  }
 
-        if (this.isTestsView) {
-            return (
-                <TestDetails test={selectedEntity}
-                             selectedDetailTabName={detailTabName}
-                             onDetailsTabSelection={this.onDetailsTabSelection}
-                             detailTabs={selectedEntity.details}
-                             urlState={this.state}
-                             onInternalStateUpdate={this.onDetailsStateUpdate}
-                             reportNavigation={this.reportNavigation}/>
-            )
-        }
+  get filteredTestGroups() {
+    return Report.groupTestsByContainerWithFailedAtTheTop(this.filteredTests);
+  }
 
-        return (
-            <HttpCallDetails httpCall={selectedEntity}
-                             reportNavigation={this.reportNavigation}/>
-        )
+  get filteredHttpCalls() {
+    const { report } = this.props;
+    const { statusFilter, filterText } = this.state;
+
+    return report.httpCallsWithStatusAndFilteredByText(statusFilter, filterText);
+  }
+
+  onDetailsStateUpdate = (newState) => this.pushPartialUrlState(newState);
+
+  onHeaderTitleClick = () => this.pushPartialUrlState({ selectedId: null });
+
+  onTestSelect = (id) => {
+    const currentTestId = this.state.testId;
+    if (id === currentTestId) {
+      return;
     }
 
-    get summary() {
-        const {report} = this.props
-        return this.isTestsView ? report.testsSummary : report.httpCallsSummary
+    this.pushFullUrlState({
+      detailTabName: this.state.detailTabName,
+      statusFilter: this.state.statusFilter,
+      filterText: this.state.filterText,
+      testId: id,
+    });
+  };
+
+  onTestGroupSelect = (groupId) => {
+    this.pushPartialUrlState({ filterText: groupId });
+  };
+
+  onHttpCallSelect = (id) => {
+    const currentCallId = this.state.httpCallId;
+    if (id === currentCallId) {
+      return;
     }
 
-    get isTestsView() {
-        return this.state.entriesType === NavigationEntriesType.TESTS
+    this.pushFullUrlState({
+      entriesType: NavigationEntriesType.HTTP_CALLS,
+      statusFilter: this.state.statusFilter,
+      filterText: this.state.filterText,
+      httpCallId: id,
+    });
+  };
+
+  onEntriesStatusSelect = (status) => {
+    this.pushFullUrlState({
+      entriesType: this.state.entriesType,
+      statusFilter: status,
+      filterText: this.state.filterText,
+    });
+  };
+
+  onDetailsTabSelection = (tabName) => this.pushPartialUrlState({ detailTabName: tabName });
+
+  onEntriesTypeSelection = (type) => {
+    this.pushFullUrlState({ entriesType: type });
+  };
+
+  onHttpCallsEntriesTypeSelection = () => {
+    this.pushFullUrlState({ entriesType: NavigationEntriesType.HTTP_CALLS, httpCallId: undefined });
+  };
+
+  onHttpSkippedCallsSelection = () => {
+    this.pushFullUrlState({
+      entriesType: NavigationEntriesType.HTTP_CALLS,
+      httpCallId: undefined,
+      statusFilter: StatusEnum.SKIPPED,
+    });
+  };
+
+  onFilterTextChange = (e) => {
+    this.pushPartialUrlState({ filterText: e.target.value });
+  };
+
+  onHttpPayloadZoomIn = ({ httpCallId, payloadType }) => {
+    this.pushPartialUrlState({ payloadHttpCallId: httpCallId, payloadType });
+  };
+
+  onHttpPayloadZoomOut = () => {
+    this.pushPartialUrlState({ payloadHttpCallId: undefined, payloadType: undefined });
+  };
+
+  onSummaryTabSelection = (tabName) => {
+    this.pushPartialUrlState({ summaryTabName: tabName });
+  };
+
+  componentDidMount() {
+    this.subscribeToUrlChanges();
+    this.updateStateFromUrl();
+  }
+
+  subscribeToUrlChanges() {
+    window.addEventListener('popstate', () => {
+      this.updateStateFromUrl();
+    });
+  }
+
+  stateFromUrl() {
+    return this._stateCreator.stateFromUrl(document.location.search);
+  }
+
+  updateStateFromUrl() {
+    this.setState(this.stateFromUrl());
+  }
+
+  pushPartialUrlState(partialNewState) {
+    this.pushFullUrlState({ ...this.state, ...partialNewState });
+  }
+
+  pushFullUrlState(fullState) {
+    const searchParams = this._stateCreator.buildUrlSearchParams(fullState);
+
+    const currentUrl = document.location.search;
+    const newUrl = '?' + searchParams;
+
+    if (currentUrl === newUrl) {
+      return;
     }
 
-    get selectedEntity() {
-        const {report} = this.props
-        const {httpCallId, testId} = this.state
-
-        if (this.isTestsView) {
-            return testId ? report.findTestById(testId) : null
-        }
-
-        return httpCallId === undefined ? null : report.findHttpCallById(httpCallId)
-    }
-
-    get filteredTests() {
-        const {report} = this.props
-        const {statusFilter, filterText} = this.state
-
-        return report.testsWithStatusAndFilteredByText(statusFilter, filterText)
-    }
-
-    get filteredTestGroups() {
-        return Report.groupTestsByContainer(this.filteredTests)
-    }
-
-    get filteredHttpCalls() {
-        const {report} = this.props
-        const {statusFilter, filterText} = this.state
-
-        return report.httpCallsWithStatusAndFilteredByText(statusFilter, filterText)
-    }
-
-    onDetailsStateUpdate = (newState) => this.pushPartialUrlState(newState)
-
-    onHeaderTitleClick = () => this.pushPartialUrlState({selectedId: null})
-
-    onTestSelect = (id) => {
-        const currentTestId = this.state.testId
-        if (id === currentTestId) {
-            return
-        }
-
-        this.pushFullUrlState({
-            detailTabName: this.state.detailTabName,
-            statusFilter: this.state.statusFilter,
-            filterText: this.state.filterText,
-            testId: id
-        })
-    }
-
-    onTestGroupSelect = (groupId) => {
-        this.pushPartialUrlState({filterText: groupId})
-    }
-
-    onHttpCallSelect = (id) => {
-        const currentCallId = this.state.httpCallId
-        if (id === currentCallId) {
-            return
-        }
-
-        this.pushFullUrlState({
-            entriesType: NavigationEntriesType.HTTP_CALLS,
-            statusFilter: this.state.statusFilter,
-            filterText: this.state.filterText,
-            httpCallId: id
-        })
-    }
-
-    onEntriesStatusSelect = (status) => {
-        this.pushFullUrlState({
-            entriesType: this.state.entriesType,
-            statusFilter: status,
-            filterText: this.state.filterText,
-        })
-    }
-
-    onDetailsTabSelection = (tabName) => this.pushPartialUrlState({detailTabName: tabName})
-
-    onEntriesTypeSelection = (type) => {
-        this.pushFullUrlState({entriesType: type})
-    }
-
-    onHttpCallsEntriesTypeSelection = () => {
-        this.pushFullUrlState({entriesType: NavigationEntriesType.HTTP_CALLS, httpCallId: undefined})
-    }
-
-    onHttpSkippedCallsSelection = () => {
-        this.pushFullUrlState({
-            entriesType: NavigationEntriesType.HTTP_CALLS,
-            httpCallId: undefined,
-            statusFilter: StatusEnum.SKIPPED
-        })
-    }
-
-    onFilterTextChange = (e) => {
-        this.pushPartialUrlState({filterText: e.target.value})
-    }
-
-    onHttpPayloadZoomIn = ({httpCallId, payloadType}) => {
-        this.pushPartialUrlState({payloadHttpCallId: httpCallId, payloadType})
-    }
-
-    onHttpPayloadZoomOut = () => {
-        this.pushPartialUrlState({payloadHttpCallId: undefined, payloadType: undefined})
-    }
-
-    onSummaryTabSelection = (tabName) => {
-        this.pushPartialUrlState({summaryTabName: tabName})
-    }
-
-    componentDidMount() {
-        this.subscribeToUrlChanges()
-        this.updateStateFromUrl()
-    }
-
-    subscribeToUrlChanges() {
-        window.addEventListener('popstate', () => {
-            this.updateStateFromUrl();
-        });
-    }
-
-    stateFromUrl() {
-        return this._stateCreator.stateFromUrl(document.location.search)
-    }
-
-    updateStateFromUrl() {
-        this.setState(this.stateFromUrl())
-    }
-
-    pushPartialUrlState(partialNewState) {
-        this.pushFullUrlState({...this.state, ...partialNewState})
-    }
-
-    pushFullUrlState(fullState) {
-        const searchParams = this._stateCreator.buildUrlSearchParams(fullState)
-
-        const currentUrl = document.location.search
-        const newUrl = '?' + searchParams
-
-        if (currentUrl === newUrl) {
-            return
-        }
-
-        window.history.pushState({}, '', newUrl)
-        this.updateStateFromUrl()
-    }
+    window.history.pushState({}, '', newUrl);
+    this.updateStateFromUrl();
+  }
 }
 
-export default WebTauReport
+export default WebTauReport;

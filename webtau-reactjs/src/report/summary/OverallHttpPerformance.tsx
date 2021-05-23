@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,16 +15,17 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import PercentilePerformanceTable from './PercentilePerformanceTable'
-import PercentilePerformanceDiagram from './PercentilePerformanceDiagram'
+import PercentilePerformanceTable from './PercentilePerformanceTable';
+import PercentilePerformanceDiagram from './PercentilePerformanceDiagram';
+import Report from '../Report';
 
-export default function OverallPerformance({report}) {
-    return (
-        <div className="overall-summary-performance-grid">
-            <PercentilePerformanceTable report={report}/>
-            <PercentilePerformanceDiagram report={report}/>
-        </div>
-    )
+export default function OverallHttpPerformance({ report }: { report: Report }) {
+  return (
+    <div className="overall-summary-performance-grid">
+      <PercentilePerformanceTable report={report} />
+      <PercentilePerformanceDiagram report={report} />
+    </div>
+  );
 }

@@ -42,6 +42,10 @@ class Report {
     return overallTime / test.httpCalls.length;
   }
 
+  static groupTestsByContainerWithFailedAtTheTop(tests) {
+    return groupTestsByContainerWithFailedAtTheTop(tests);
+  }
+
   static groupTestsByContainer(tests) {
     return groupTestsByContainer(tests);
   }
@@ -236,11 +240,16 @@ function lowerCaseIndexOf(text, part) {
 function enrichTestsData(tests) {
   return tests.map((test) => ({
     ...test,
-    containerId: fullContainerId(test),
+    containerId: shortContainerId(test),
     shortContainerId: shortContainerId(test),
     details: additionalDetails(test),
     httpCalls: enrichHttpCallsData(test, test.httpCalls),
   }));
+}
+
+function groupTestsByContainerWithFailedAtTheTop(tests) {
+  const groups = groupTestsByContainer(tests);
+  return groupWithFailedTestsAtTheTop(groups);
 }
 
 function groupTestsByContainer(tests) {
@@ -248,7 +257,7 @@ function groupTestsByContainer(tests) {
   const groupById = {};
 
   tests.forEach((t) => {
-    const groupId = fullContainerId(t);
+    const groupId = t.containerId;
 
     let group = groupById[groupId];
     if (!group) {
@@ -260,11 +269,7 @@ function groupTestsByContainer(tests) {
     group.tests.push(t);
   });
 
-  return groupWithFailedTestsAtTheTop(groups);
-}
-
-function fullContainerId(test) {
-  return test.className ? test.className : test.fileName;
+  return groups;
 }
 
 function shortContainerId(test) {
