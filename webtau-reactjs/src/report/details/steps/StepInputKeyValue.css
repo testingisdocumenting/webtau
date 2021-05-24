@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-import React from 'react'
+.webtau-step-input-key-value {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 2px 8px;
 
-import {Step} from './Step'
-
-import './Steps.css'
-
-function Steps({test}) {
-    const {id, steps} = test
-    return (
-        <div className="steps">
-            {steps.map((step, idx) => <Step key={id + idx} step={step} isTopLevel={true}/>)}
-        </div>
-    )
+    margin-left: 8px;
 }
 
-export default Steps
+.webtau-step-input-key {
+    text-align: right;
+    color: var(--webtau-property-key-color);
+}
+
+.webtau-step-input-value.webtau-value-string {
+    color: var(--webtau-property-value-string-color);
+}
+
+.webtau-step-input-value.webtau-value-number {
+    color: var(--webtau-property-value-number-color);
+}

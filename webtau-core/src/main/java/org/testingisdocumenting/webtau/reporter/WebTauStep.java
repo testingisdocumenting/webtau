@@ -409,6 +409,13 @@ public class WebTauStep {
             result.put("children", children.stream().map(WebTauStep::toMap).collect(toList()));
         }
 
+        if (input != WebTauStepInput.EMPTY) {
+            Map<String, Object> inputMap = new LinkedHashMap<>();
+            inputMap.put("type", input.getClass().getSimpleName());
+            inputMap.put("data", input.toMap());
+            result.put("input", inputMap);
+        }
+
         return result;
     }
 
