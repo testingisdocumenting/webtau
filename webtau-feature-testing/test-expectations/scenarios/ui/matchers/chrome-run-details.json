@@ -36,7 +36,13 @@
       "numberOfSuccessful" : 1
     }
   }, {
-    "scenario" : "contain text in list",
+    "scenario" : "contain full text in list",
+    "shortContainerId" : "matchers.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "contain text in first matching element",
     "shortContainerId" : "matchers.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 1

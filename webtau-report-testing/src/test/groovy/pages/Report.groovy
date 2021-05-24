@@ -32,7 +32,7 @@ class Report {
 
     def tabNames = $(".tab-selection .tab-name")
 
-    def cellValues = $("td")
+    def cellValues = $("td").all()
 
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")

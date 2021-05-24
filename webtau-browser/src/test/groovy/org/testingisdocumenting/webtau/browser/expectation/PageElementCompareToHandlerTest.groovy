@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +34,7 @@ class PageElementCompareToHandlerTest {
 
     @Test
     void "handles page element and any other value"() {
-        def pageElement = new GenericPageElement(driver, null, new PageElementPath())
+        def pageElement = new GenericPageElement(driver, null, new PageElementPath(), false)
 
         handler.handleEquality(pageElement, "hello").should == true
         handler.handleEquality(pageElement, 100).should == true
