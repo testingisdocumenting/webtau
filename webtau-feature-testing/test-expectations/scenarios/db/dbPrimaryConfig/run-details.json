@@ -3,7 +3,7 @@
     "scenario" : "create table and add values",
     "shortContainerId" : "dbPrimaryConfig.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   }, {
     "scenario" : "read from table using primary db",
