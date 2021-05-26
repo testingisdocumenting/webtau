@@ -58,4 +58,3 @@ public class DbDataSourceProviders {
         return new RuntimeException("no DbDataSourceProvider found for " + name + " database");
     }
 }
-
