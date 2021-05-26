@@ -16,18 +16,26 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
 public class DbDataSourceProviders {
     private static final List<DbDataSourceProvider> providers = ServiceLoaderUtils.load(DbDataSourceProvider.class);
 
     public static DataSource provideByName(String name) {
-        return createDataSource(name);
+        WebTauStep step = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("creating"), classifier("db datasource"), id(name)),
+                () -> TokenizedMessage.tokenizedMessage(action("created"), classifier("db datasource"), id(name)),
+                () -> createDataSource(name));
+
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public static void add(DbDataSourceProvider provider) {
