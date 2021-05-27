@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,19 +15,19 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import Card from '../widgets/Card'
-import TestName from './TestName'
+import { Card } from '../widgets/Card';
+import TestName from './TestName';
 
-import './TestNameCard.css'
+import './TestNameCard.css';
 
-const TestNameCard = ({test, onTestSelect}) => {
-    return (
-        <Card className="test-name-card">
-            <TestName test={test} onTestSelect={onTestSelect}/>
-        </Card>
-    )
-}
+const TestNameCard = ({ test, onTestSelect }) => {
+  return (
+    <Card className="test-name-card">
+      <TestName test={test} onTestSelect={onTestSelect} />
+    </Card>
+  );
+};
 
-export default TestNameCard
+export default TestNameCard;

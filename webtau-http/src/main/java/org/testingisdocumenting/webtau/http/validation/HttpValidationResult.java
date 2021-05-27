@@ -55,6 +55,7 @@ public class HttpValidationResult implements WebTauStepOutput {
     private final String personaId;
 
     private final List<String> mismatches;
+    private final List<String> warnings;
 
     private HttpResponse response;
     private HeaderDataNode responseHeaderNode;
@@ -82,6 +83,7 @@ public class HttpValidationResult implements WebTauStepOutput {
         this.requestHeader = requestHeader;
         this.requestBody = requestBody;
         this.mismatches = new ArrayList<>();
+        this.warnings = new ArrayList<>();
         this.operationId = "";
     }
 
@@ -200,6 +202,10 @@ public class HttpValidationResult implements WebTauStepOutput {
         return String.join("\n", mismatches);
     }
 
+    public void addWarning(String warning) {
+        warnings.add(warning);
+    }
+
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
@@ -254,6 +260,7 @@ public class HttpValidationResult implements WebTauStepOutput {
         result.put("elapsedTime", elapsedTime);
         result.put("errorMessage", errorMessage);
         result.put("mismatches", mismatches);
+        result.put("warnings", warnings);
 
         result.put("requestHeader", requestHeader.redactSecrets().toListOfMaps());
 

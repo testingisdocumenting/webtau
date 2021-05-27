@@ -467,6 +467,7 @@ export const withRestDataReport = {
           elapsedTime: 22,
           errorMessage: null,
           mismatches: [],
+          warnings: ['path http://localhost:8080/customers is not found in OpenAPI spec'],
           responseType: 'application/json;charset=UTF-8',
           responseStatusCode: 200,
           requestHeader: [],

@@ -17,19 +17,23 @@
 
 import React from 'react';
 
-import { Card } from './Card';
-import './CardLabelAndNumber.css';
+import './Card.css';
 
-function CardLabelAndNumber({ label, secondaryLabel, number, unit }) {
+interface Pros {
+  className?: string;
+  onClick?(): void;
+  width?: number;
+  children: React.ReactNode;
+  warning?: boolean;
+}
+
+export function Card({ className, onClick, width, children, warning }: Pros) {
+  const fullClassName = 'webtau-card' + (className ? ' ' + className : '') + (warning ? ' warning' : '');
   return (
-    <Card className="card-label-and-number">
-      <div className="card-number">
-        {number} {unit}
-      </div>
-      <div className="card-label">{label}</div>
-      <div className="card-secondary-label">{secondaryLabel}</div>
-    </Card>
+    <div className={fullClassName} onClick={onClick} style={{ width }}>
+      {children}
+    </div>
   );
 }
 
-export default CardLabelAndNumber;
+export default Card;

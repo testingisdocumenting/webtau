@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,18 +15,18 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import Card from './Card'
+import { Card } from './Card';
 
-import './CardWithPadding.css'
+import './CardWithPadding.css';
 
-function CardWithPadding({onClick, width, children}) {
-    return (
-        <Card className="card-with-padding" onClick={onClick} width={width}>
-            {children}
-        </Card>
-    )
+function CardWithPadding({ onClick, width, children }) {
+  return (
+    <Card className="card-with-padding" onClick={onClick} width={width}>
+      {children}
+    </Card>
+  );
 }
 
-export default CardWithPadding
+export default CardWithPadding;

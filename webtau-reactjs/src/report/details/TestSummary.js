@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,112 +15,122 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import SourceCode from './SourceCode'
+import React from 'react';
+import SourceCode from './SourceCode';
 
-import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
-import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls'
+import CardLabelAndNumber from '../widgets/CardLabelAndNumber';
+import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls';
 
-import Report from '../Report'
+import Report from '../Report';
 
-import TestNameCard from './TestNameCard'
-import Card from '../widgets/Card'
-import CardWithTime from '../widgets/CardWithTime'
+import TestNameCard from './TestNameCard';
+import { Card } from '../widgets/Card';
+import CardWithTime from '../widgets/CardWithTime';
 
-import CardWithElapsedTime from '../widgets/CardWithElapsedTime'
+import CardWithElapsedTime from '../widgets/CardWithElapsedTime';
 
-import TestErrorMessage from '../widgets/TestErrorMessage'
+import TestErrorMessage from '../widgets/TestErrorMessage';
 
-import {TestMetadata} from './metadata/TestMetadata'
+import { TestMetadata } from './metadata/TestMetadata';
 
-import './TestSummary.css'
+import './TestSummary.css';
 
-const OptionalPreBlock = ({className, message}) => {
-    if (!message) {
-        return null
-    }
+const OptionalPreBlock = ({ className, message }) => {
+  if (!message) {
+    return null;
+  }
 
-    return (
-        <div className={className}>
-            <pre>
-                {message}
-            </pre>
+  return (
+    <div className={className}>
+      <pre>{message}</pre>
+    </div>
+  );
+};
+
+const TestSummary = ({ test }) => {
+  const numberOfHttpCalls = test.httpCalls ? test.httpCalls.length : 0;
+
+  return (
+    <div className="test-summary">
+      <TestNameCard test={test} />
+
+      <HttpCallsWarning test={test} />
+
+      <div className="test-summary-metadata">
+        <TestMetadata metadata={test.metadata} />
+      </div>
+
+      <div className="test-summary-timing">
+        <CardWithTime label="Start Time (Local)" time={test.startTime} />
+
+        <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
+
+        <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
+      </div>
+
+      {numberOfHttpCalls > 0 ? (
+        <div className="test-summary-http-dashboard">
+          <NumberOfHttpCalls number={numberOfHttpCalls} />
+          <AverageHttpCallsTime test={test} />
+          <OverallHttpCallsTime test={test} />
         </div>
-    )
-}
+      ) : null}
 
-const TestSummary = ({test}) => {
-    const numberOfHttpCalls = test.httpCalls ? test.httpCalls.length : 0
+      <OptionalPreBlock className="context-description" message={test.contextDescription} />
+      <CardPreMessage message={test.exceptionMessage} />
 
-    return (
-        <div className="test-summary">
-            <TestNameCard test={test}/>
+      {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs} />)}
+    </div>
+  );
+};
 
-            <div className="test-summary-metadata">
-                <TestMetadata metadata={test.metadata}/>
-            </div>
+function HttpCallsWarning({ test }) {
+  const warnings = collectWarnings();
+  if (!warnings) {
+    return null;
+  }
 
-            <div className="test-summary-timing">
-                <CardWithTime label="Start Time (Local)"
-                              time={test.startTime}/>
-
-                <CardWithTime label="Start Time (UTC)"
-                              utc={true}
-                              time={test.startTime}/>
-
-                <CardWithElapsedTime label="Execution time"
-                                     millis={test.elapsedTime}/>
-            </div>
-
-            {numberOfHttpCalls > 0 ?
-                (
-                    <div className="test-summary-http-dashboard">
-                        <NumberOfHttpCalls number={numberOfHttpCalls}/>
-                        <AverageHttpCallsTime test={test}/>
-                        <OverallHttpCallsTime test={test}/>
-                    </div>
-                ) : null }
-
-            <OptionalPreBlock className="context-description" message={test.contextDescription}/>
-            <CardPreMessage message={test.exceptionMessage}/>
-
-            {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs}/>)}
+  return (
+    <Card className="webtau-http-calls-warning" warning={true}>
+      {warnings.map((warning, idx) => (
+        <div key={idx} className="http-call-warning">
+          {warning}
         </div>
-    )
+      ))}
+    </Card>
+  );
+
+  function collectWarnings() {
+    return test.httpCalls.flatMap((httpCall) => httpCall.warnings || []);
+  }
 }
 
-function OverallHttpCallsTime({test}) {
-    if (!test.httpCalls) {
-        return null
-    }
+function OverallHttpCallsTime({ test }) {
+  if (!test.httpCalls) {
+    return null;
+  }
 
-    return (
-        <CardLabelAndNumber label="Overall Time (ms)"
-                            number={Report.overallHttpCallTimeForTest(test)}/>
-    )
+  return <CardLabelAndNumber label="Overall Time (ms)" number={Report.overallHttpCallTimeForTest(test)} />;
 }
 
-function AverageHttpCallsTime({test}) {
-    if (!test.httpCalls) {
-        return null
-    }
+function AverageHttpCallsTime({ test }) {
+  if (!test.httpCalls) {
+    return null;
+  }
 
-    return (
-        <CardLabelAndNumber label="Average Time (ms)"
-                            number={Report.averageHttpCallTimeForTest(test).toFixed(2)}/>
-    )
+  return <CardLabelAndNumber label="Average Time (ms)" number={Report.averageHttpCallTimeForTest(test).toFixed(2)} />;
 }
 
-function CardPreMessage({message}) {
-    if (!message) {
-        return null
-    }
+function CardPreMessage({ message }) {
+  if (!message) {
+    return null;
+  }
 
-    return (
-        <Card className="card-pre-message">
-            <TestErrorMessage message={message.trim()}/>
-        </Card>
-    )
+  return (
+    <Card className="card-pre-message">
+      <TestErrorMessage message={message.trim()} />
+    </Card>
+  );
 }
 
-export default TestSummary
+export default TestSummary;

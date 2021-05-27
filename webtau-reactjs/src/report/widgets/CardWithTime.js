@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,24 +15,22 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import moment from 'moment'
+import React from 'react';
+import moment from 'moment';
 
-import Card from './Card'
-import './CardWithTime.css'
+import { Card } from './Card';
+import './CardWithTime.css';
 
-function CardWithTime({label, time, utc}) {
-    const local = utc ?
-        moment(time).utc():
-        moment(time).local()
+function CardWithTime({ label, time, utc }) {
+  const local = utc ? moment(time).utc() : moment(time).local();
 
-    return (
-        <Card className="card-with-time">
-            <div className="card-date">{local.format('MMM DD ddd')}</div>
-            <div className="card-time">{local.format('HH:mm:ss.SSS')}</div>
-            <div className="card-label">{label}</div>
-        </Card>
-    )
+  return (
+    <Card className="card-with-time">
+      <div className="card-date">{local.format('MMM DD ddd')}</div>
+      <div className="card-time">{local.format('HH:mm:ss.SSS')}</div>
+      <div className="card-label">{label}</div>
+    </Card>
+  );
 }
 
-export default CardWithTime
+export default CardWithTime;

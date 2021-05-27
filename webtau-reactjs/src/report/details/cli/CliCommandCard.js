@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +15,12 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import Card from "../../widgets/Card"
+import { Card } from '../../widgets/Card';
 
 import './CliCommandCard.css';
 
-export default function CliCommandCard({command}) {
-    return (
-        <Card className="cli-command">
-            {command}
-        </Card>
-    )
+export default function CliCommandCard({ command }) {
+  return <Card className="cli-command">{command}</Card>;
 }
-
