@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "unspecified operation warning",
+    "shortContainerId" : "unspecifiedUrl.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  } ],
+  "exitCode" : 0
+}
