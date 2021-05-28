@@ -59,6 +59,7 @@ class HttpValidationResultTest {
                 *: commonExpectation,
                 responseType: 'application/json',
                 responseBody: responseAsJson,
+                warnings: [],
                 responseBodyChecks: [failedPaths: ['root.childA'], passedPaths:['root.childB']]]
     }
 
@@ -78,6 +79,7 @@ class HttpValidationResultTest {
                 requestBody: '[binary content]',
                 responseType: 'application/octet-stream',
                 responseBody: '[binary content]',
+                warnings: [],
                 responseBodyChecks: [failedPaths: [], passedPaths: []]]
     }
 
