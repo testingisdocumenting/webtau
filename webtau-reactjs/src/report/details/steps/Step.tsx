@@ -17,7 +17,7 @@
 
 import React, { useState } from 'react';
 
-import Card from '../../widgets/Card';
+import { Card } from '../../widgets/Card';
 
 import { StepMessage } from './StepMessage';
 import { StepTime } from './StepTime';

@@ -41,8 +41,9 @@ class OpenApiSpecLocation {
         }
 
         if (value.startsWith("/")) {
-            if (Files.exists(Paths.get(value))) {
-                return OpenApiSpecLocation.fromFs(value, Paths.get(value));
+            Path fullSpecPath = getCfg().fullPath(value);
+            if (Files.exists(fullSpecPath)) {
+                return OpenApiSpecLocation.fromFs(value, fullSpecPath);
             }
 
             return OpenApiSpecLocation.fromUrl(value, UrlUtils.concat(getCfg().getBaseUrl(), value));
@@ -52,7 +53,7 @@ class OpenApiSpecLocation {
             return OpenApiSpecLocation.fromUrl(value, value);
         }
 
-        return OpenApiSpecLocation.fromFs(value, getCfg().getWorkingDir().resolve(value));
+        return OpenApiSpecLocation.fromFs(value, getCfg().fullPath(value));
     }
 
     static OpenApiSpecLocation fromFs(String originalValue, Path path) {

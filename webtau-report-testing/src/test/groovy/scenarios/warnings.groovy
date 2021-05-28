@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-import React from 'react'
+package scenarios
 
-import './Card.css'
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import static pages.Pages.*
 
-function Card({className, onClick, width, children}) {
-    const fullClassName = "card" + (className ? (' ' + className) : '')
-    return (
-        <div className={fullClassName} onClick={onClick} style={{width}}>
-            {children}
-        </div>
-    )
+scenario('test summary http warning') {
+    report.openGroovyStandaloneReport('rest/openapi/unspecifiedUrl-webtau-report.html')
+    report.selectTest('unspecified operation warning')
+
+    report.testSummaryHttpCallWarnings.should == ~/customers is not found in OpenAPI spec/
+    browser.doc.capture('http-open-api-warning')
 }
-
-export default Card
