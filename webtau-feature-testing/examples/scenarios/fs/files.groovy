@@ -52,3 +52,19 @@ scenario('read file using string path') {
 
     fs.delete(path)
 }
+
+scenario('replace file content using regexp') {
+    def content = 'a=1\nb=2'
+    def path = fs.writeText('to-replace.txt', content)
+
+    doc.capture('fs-content-to-replace', content)
+    // replace-text
+    fs.replaceText(path, ~/(\d+)/, '"$1"')
+    // replace-text
+
+    def contentAfter = 'a="1"\nb="2"'
+    fs.textContent(path).should == contentAfter
+    doc.capture('fs-content-after-replace-text', contentAfter)
+
+    fs.delete(path)
+}
