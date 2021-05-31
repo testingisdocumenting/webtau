@@ -17,6 +17,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 8
     }
+  }, {
+    "scenario" : "replace file content using regexp",
+    "shortContainerId" : "files.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
   } ],
   "exitCode" : 0
 }
