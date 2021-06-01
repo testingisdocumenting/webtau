@@ -28,9 +28,11 @@ import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.WebTauStepContext;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -130,10 +132,22 @@ public class WebTauCore extends Matchers {
     }
 
     public static <R> R step(String label, Supplier<Object> action) {
+        return step(label, Collections.emptyMap(), action);
+    }
+
+    public static void step(String label, Map<String, Object> stepInput, Runnable action) {
+        step(label, stepInput, toSupplier(action));
+    }
+
+    public static <R> R step(String label, Map<String, Object> stepInput, Supplier<Object> action) {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action(label)),
                 () -> tokenizedMessage(none("completed"), action(label)),
                 action);
+
+        if (!stepInput.isEmpty()) {
+            step.setInput(WebTauStepInputKeyValue.stepInput(stepInput));
+        }
 
         return step.execute(StepReportOptions.REPORT_ALL);
     }
