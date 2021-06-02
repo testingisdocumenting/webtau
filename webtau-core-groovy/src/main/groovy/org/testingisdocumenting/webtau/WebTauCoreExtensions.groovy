@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau
 import org.testingisdocumenting.webtau.reporter.WebTauStepContext
 
 import java.util.function.Function
+import java.util.function.Supplier
 
 class WebTauCoreExtensions {
     /**
@@ -32,8 +33,12 @@ class WebTauCoreExtensions {
         WebTauCore.sleep(millis)
     }
 
-    static void step(Object o, String label, Closure action) {
-        WebTauCore.step(label, action)
+    static <R> R step(Object o, String label, Closure action) {
+        return WebTauCore.step(label, action)
+    }
+
+    static <R> R step(Object o, String label, Map<String, Object> inputs, Closure action) {
+        return WebTauCore.step(label, inputs, action as Supplier)
     }
 
     static void repeatStep(Object o, String label, int numberOfAttempts, Closure action) {
