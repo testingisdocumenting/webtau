@@ -179,11 +179,6 @@ class WebTauRestFeaturesTest {
                 "--url=$customersBaseUrl")
     }
 
-    @Test
-    void "recursive scenario discovery"() {
-        testRunner.runCli("recursive/scenarios", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
-    }
-
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/rest/$restTestName",
             "scenarios/rest/$configFileName", additionalArgs)

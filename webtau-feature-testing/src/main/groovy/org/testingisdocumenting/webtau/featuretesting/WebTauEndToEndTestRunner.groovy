@@ -101,7 +101,7 @@ class WebTauEndToEndTestRunner  {
         }
 
         def reportPrefix = classifier.isEmpty() ? '' : "${classifier}-"
-        return reportsRoot.resolve(testFileName + '/' + reportPrefix + '-webtau-report.html').toAbsolutePath()
+        return reportsRoot.resolve(testFileName + '/' + reportPrefix + 'webtau-report.html').toAbsolutePath()
     }
 
     private void validateAndSaveTestDetails(String testFileName, Map testDetails) {
