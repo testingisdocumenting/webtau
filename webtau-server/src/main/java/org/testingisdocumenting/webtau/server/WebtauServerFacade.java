@@ -40,17 +40,9 @@ public class WebtauServerFacade {
     }
 
     public WebtauServer serve(String serverId, Path path, int port) {
-        validateId(serverId);
-
         StaticContentServer server = new StaticContentServer(serverId, WebTauConfig.getCfg().fullPath(path), port);
         server.start();
 
         return server;
-    }
-
-    private void validateId(String id) {
-        if (WebtauServersRegistry.hasServerWithId(id)) {
-            throw new IllegalArgumentException("server with <" + id + "> already exists");
-        }
     }
 }

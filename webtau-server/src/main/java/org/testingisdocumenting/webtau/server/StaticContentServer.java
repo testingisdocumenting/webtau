@@ -22,6 +22,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.nio.file.Files;
@@ -37,6 +38,7 @@ class StaticContentServer implements WebtauServer {
     private final Path path;
     private final int passedPort;
     private Server server;
+    private boolean started;
 
     public StaticContentServer(String id, Path path, int port) {
         this.id = id;
@@ -51,7 +53,7 @@ class StaticContentServer implements WebtauServer {
                 stepInput("path", path.toString(),
                         "passed port", passedPort == 0 ? "random" : passedPort),
                 () -> tokenizedMessage(action("started"), classifier("static server")),
-                () -> stepOutput("running port", getPort()),
+                () -> isStarted() ? stepOutput("running port", getPort()) : WebTauStepOutput.EMPTY,
                 this::startStep);
     }
 
@@ -65,6 +67,10 @@ class StaticContentServer implements WebtauServer {
         return "static server";
     }
 
+    public boolean isStarted() {
+        return started;
+    }
+
     @Override
     public void stop() {
         WebTauStep.createAndExecuteStep(
@@ -75,17 +81,19 @@ class StaticContentServer implements WebtauServer {
 
     @Override
     public int getPort() {
+        validateStarted();
         return server.getURI().getPort();
     }
 
     @Override
     public String getBaseUrl() {
+        validateStarted();
         return UrlUtils.removeTrailingSlash(server.getURI().toASCIIString());
     }
 
     @Override
     public boolean isRunning() {
-        return false;
+        return isStarted();
     }
 
     private void validatePath() {
@@ -95,6 +103,7 @@ class StaticContentServer implements WebtauServer {
     }
 
     private void startStep() {
+        validateId(id);
         validatePath();
         server = new Server();
 
@@ -111,6 +120,7 @@ class StaticContentServer implements WebtauServer {
         try {
             server.start();
             WebtauServersRegistry.register(this);
+            started = true;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -122,6 +132,18 @@ class StaticContentServer implements WebtauServer {
             WebtauServersRegistry.unregister(this);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void validateStarted() {
+        if (!isStarted()) {
+            throw new IllegalStateException("server is not started");
+        }
+    }
+
+    private void validateId(String id) {
+        if (WebtauServersRegistry.hasServerWithId(id)) {
+            throw new IllegalArgumentException("server with <" + id + "> already exists");
         }
     }
 }

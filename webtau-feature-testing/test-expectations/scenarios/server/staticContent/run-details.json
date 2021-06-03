@@ -11,6 +11,18 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 11
     }
+  }, {
+    "scenario" : "same server id re-use is not allowed",
+    "shortContainerId" : "staticContent.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "non existing path",
+    "shortContainerId" : "staticContent.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
   } ],
-  "exitCode" : 0
+  "exitCode" : 1
 }
