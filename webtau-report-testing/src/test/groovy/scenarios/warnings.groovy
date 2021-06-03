@@ -19,6 +19,13 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
+scenario('no warning') {
+    report.openGroovyStandaloneReport('rest/ping-webtau-report.html')
+    report.selectTest('ping')
+
+    report.testSummaryHttpCallWarnings.shouldNot beVisible
+}
+
 scenario('test summary http warning') {
     report.openGroovyStandaloneReport('rest/openapi/unspecifiedUrl-webtau-report.html')
     report.selectTest('unspecified operation warning')

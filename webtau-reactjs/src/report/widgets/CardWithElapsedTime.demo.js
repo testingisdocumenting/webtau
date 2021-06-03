@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,20 +15,20 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CardWithElapsedTime from './CardWithElapsedTime'
-import CardWithTime from './CardWithTime'
+import CardWithElapsedTime from './CardWithElapsedTime';
+import { CardWithTime } from './CardWithTime';
 
 export function cardWithElapsedTimeDemo(registry) {
-    registry.add('with minutes', () => <CardWithElapsedTime millis={66321} label="Total time"/>)
-    registry.add('with seconds', () => <CardWithElapsedTime millis={8321} label="Total time"/>)
-    registry.add('with milliseconds', () => <CardWithElapsedTime millis={321} label="Total time"/>)
-    registry.add('with decimals', () => <CardWithElapsedTime millis={1966321.23} label="Total time"/>)
-    registry.add('with next card next to it', () => (
-        <div style={{display: 'flex'}}>
-            <CardWithTime millis={1547139662469} label="Start time"/>
-            <CardWithElapsedTime millis={321} label="Total time"/>
-        </div>
-    ))
+  registry.add('with minutes', () => <CardWithElapsedTime millis={66321} label="Total time" />);
+  registry.add('with seconds', () => <CardWithElapsedTime millis={8321} label="Total time" />);
+  registry.add('with milliseconds', () => <CardWithElapsedTime millis={321} label="Total time" />);
+  registry.add('with decimals', () => <CardWithElapsedTime millis={1966321.23} label="Total time" />);
+  registry.add('with next card next to it', () => (
+    <div style={{ display: 'flex' }}>
+      <CardWithTime time={1547139662469} label="Start time" />
+      <CardWithElapsedTime millis={321} label="Total time" />
+    </div>
+  ));
 }

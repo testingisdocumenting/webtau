@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,29 +15,29 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
-import CardList from '../../widgets/CardList'
+import { CardLabelAndNumber } from '../../widgets/CardLabelAndNumber';
+import CardList from '../../widgets/CardList';
 
-export default function HttpOperationCoverageSummary({report, onSwitchToSkippedHttpCalls}) {
-    if (! report.hasHttpOperationCoverage()) {
-        return null
-    }
+export default function HttpOperationCoverageSummary({ report, onSwitchToSkippedHttpCalls }) {
+  if (!report.hasHttpOperationCoverage()) {
+    return null;
+  }
 
-    const operationCoveragePercentage = (report.openApiOperationsCoverage() * 100).toFixed(2) + ' %'
-    return (
-        <CardList label="HTTP Coverage">
-            <CardLabelAndNumber label="Operations coverage"
-                                number={operationCoveragePercentage}/>
-            <CardLabelAndNumber label="Covered operations"
-                                number={report.numberOfOpenApiCoveredOperations()}/>
+  const operationCoveragePercentage = (report.openApiOperationsCoverage() * 100).toFixed(2) + ' %';
+  return (
+    <CardList label="HTTP Coverage">
+      <CardLabelAndNumber label="Operations coverage" number={operationCoveragePercentage} />
+      <CardLabelAndNumber label="Covered operations" number={report.numberOfOpenApiCoveredOperations()} />
 
-            <div className="overall-number-of-skipped" onClick={onSwitchToSkippedHttpCalls}>
-                <CardLabelAndNumber label="Skipped operations"
-                                    number={report.numberOfOpenApiSkippedOperations()}
-                                    onClick={onSwitchToSkippedHttpCalls}/>
-            </div>
-        </CardList>
-    )
+      <div className="overall-number-of-skipped" onClick={onSwitchToSkippedHttpCalls}>
+        <CardLabelAndNumber
+          label="Skipped operations"
+          number={report.numberOfOpenApiSkippedOperations()}
+          onClick={onSwitchToSkippedHttpCalls}
+        />
+      </div>
+    </CardList>
+  );
 }

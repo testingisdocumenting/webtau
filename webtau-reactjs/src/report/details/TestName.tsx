@@ -17,17 +17,24 @@
 
 import React from 'react';
 
-import { Card } from '../widgets/Card';
-import TestName from './TestName';
+import './TestName.css';
 
-import './TestNameCard.css';
+import { WebTauTest } from '../WebTauTest';
 
-const TestNameCard = ({ test, onTestSelect }) => {
+interface Props {
+  test: WebTauTest;
+  onTestClick?(id: string): void;
+}
+
+export function TestName({ test, onTestClick }: Props) {
+  const onClick = onTestClick ? () => onTestClick(test.id) : undefined;
+  const className = 'test-name' + (onClick ? ' clickable' : '');
+
   return (
-    <Card className="test-name-card">
-      <TestName test={test} onTestSelect={onTestSelect} />
-    </Card>
-  );
-};
+    <div className={className} onClick={onClick}>
+      <div className="container-id">{test.containerId}</div>
 
-export default TestNameCard;
+      <div className="scenario">{test.scenario}</div>
+    </div>
+  );
+}

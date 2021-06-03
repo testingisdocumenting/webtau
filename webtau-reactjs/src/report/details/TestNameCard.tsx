@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,25 +15,24 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import './TestName.css'
+import { Card } from '../widgets/Card';
+import { TestName } from './TestName';
 
-const TestName = ({test, onTestClick}) => {
-    const onClick = onTestClick ? () => onTestClick(test.id) : null
-    const className = 'test-name' + (onClick ? ' clickable' : '')
+import { WebTauTest } from '../WebTauTest';
 
-    return (
-        <div className={className} onClick={onClick}>
-            <div className="container-id">
-                {test.containerId}
-            </div>
+import './TestNameCard.css';
 
-            <div className="scenario">
-                {test.scenario}
-            </div>
-        </div>
-    )
+interface Props {
+  test: WebTauTest;
+  onTestSelect?(id: string): void;
 }
 
-export default TestName
+export function TestNameCard({ test, onTestSelect }: Props) {
+  return (
+    <Card className="test-name-card">
+      <TestName test={test} onTestClick={onTestSelect} />
+    </Card>
+  );
+}

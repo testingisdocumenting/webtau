@@ -21,7 +21,13 @@ import moment from 'moment';
 import { Card } from './Card';
 import './CardWithTime.css';
 
-function CardWithTime({ label, time, utc }) {
+interface Props {
+  label: string;
+  time: number;
+  utc?: boolean;
+}
+
+export function CardWithTime({ label, time, utc }: Props) {
   const local = utc ? moment(time).utc() : moment(time).local();
 
   return (
@@ -32,5 +38,3 @@ function CardWithTime({ label, time, utc }) {
     </Card>
   );
 }
-
-export default CardWithTime;

@@ -18,11 +18,11 @@
 import React from 'react';
 
 import HttpPayload from './HttpPayload';
-import TestName from '../TestName';
+import { TestName } from '../TestName';
 
 import { Card } from '../../widgets/Card';
-import CardLabelAndNumber from '../../widgets/CardLabelAndNumber';
-import CardWithTime from '../../widgets/CardWithTime';
+import { CardLabelAndNumber } from '../../widgets/CardLabelAndNumber';
+import { CardWithTime } from '../../widgets/CardWithTime';
 
 import HttpCallHeaders from './HttpCallHeaders';
 
