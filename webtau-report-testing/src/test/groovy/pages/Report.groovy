@@ -21,7 +21,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*
 class Report {
     def fullScreenIcon = $(".fullscreen-icon")
     def collapsedHeader = $(".collapsed-http-header")
-    def groupNames = $(".group-of-tests .navigation-entry-group-label")
+    def groupNames = $(".group-of-tests .navigation-entry-group-label").all()
     def testNames = $(".navigation-entry .label")
     def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
 
