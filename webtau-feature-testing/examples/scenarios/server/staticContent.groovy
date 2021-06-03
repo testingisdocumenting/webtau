@@ -38,3 +38,11 @@ scenario("static content server") {
         body.should == expected
     }
 }
+
+scenario("same server id re-use is not allowed") {
+    server.serve("my-server", "data/staticcontent")
+}
+
+scenario("non existing path") {
+    server.serve("wrong-server", "wrong-path/staticcontent")
+}
