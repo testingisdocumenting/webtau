@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +15,17 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CardList from '../../widgets/CardList'
-import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
+import CardList from '../../widgets/CardList';
+import { CardLabelAndNumber } from '../../widgets/CardLabelAndNumber';
 
-export default function TestsRanRatio({report}) {
-    return (
-        <CardList label="Tests run ratio">
-            <CardLabelAndNumber label="Ran" number={report.summary.percentageRan} unit="%"/>
-            <CardLabelAndNumber label="Tests total" number={report.summary.total}/>
-            <CardLabelAndNumber label="Skipped" number={report.summary.skipped}/>
-        </CardList>
-    )
+export default function TestsRanRatio({ report }) {
+  return (
+    <CardList label="Tests run ratio">
+      <CardLabelAndNumber label="Ran" number={report.summary.percentageRan} unit="%" />
+      <CardLabelAndNumber label="Tests total" number={report.summary.total} />
+      <CardLabelAndNumber label="Skipped" number={report.summary.skipped} />
+    </CardList>
+  );
 }

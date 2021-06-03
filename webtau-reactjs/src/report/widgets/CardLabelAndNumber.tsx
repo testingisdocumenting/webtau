@@ -18,9 +18,17 @@
 import React from 'react';
 
 import { Card } from './Card';
+
 import './CardLabelAndNumber.css';
 
-function CardLabelAndNumber({ label, secondaryLabel, number, unit }) {
+interface Props {
+  label: string;
+  secondaryLabel?: string;
+  number: string;
+  unit?: string;
+}
+
+export function CardLabelAndNumber({ label, secondaryLabel, number, unit }: Props) {
   return (
     <Card className="card-label-and-number">
       <div className="card-number">
@@ -31,5 +39,3 @@ function CardLabelAndNumber({ label, secondaryLabel, number, unit }) {
     </Card>
   );
 }
-
-export default CardLabelAndNumber;

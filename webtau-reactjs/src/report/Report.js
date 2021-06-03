@@ -20,7 +20,7 @@ import TestHttpCalls from './details/http/TestHttpCalls';
 import ShortStackTrace from './details/ShortStackTrace';
 import Screenshot from './details/Screenshot';
 import FullStackTrace from './details/FullStackTrace';
-import TestSummary from './details/TestSummary';
+import { TestSummary } from './details/TestSummary';
 import StatusEnum from './StatusEnum';
 import PerformanceReport from './PerformanceReport';
 import TestCliCalls from './details/cli/TestCliCalls';

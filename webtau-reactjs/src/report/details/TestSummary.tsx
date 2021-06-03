@@ -18,36 +18,29 @@
 import React from 'react';
 import SourceCode from './SourceCode';
 
-import CardLabelAndNumber from '../widgets/CardLabelAndNumber';
+import { CardLabelAndNumber } from '../widgets/CardLabelAndNumber';
 import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls';
 
 import Report from '../Report';
 
-import TestNameCard from './TestNameCard';
+import { TestNameCard } from './TestNameCard';
 import { Card } from '../widgets/Card';
-import CardWithTime from '../widgets/CardWithTime';
+import { CardWithTime } from '../widgets/CardWithTime';
 
 import CardWithElapsedTime from '../widgets/CardWithElapsedTime';
 
 import TestErrorMessage from '../widgets/TestErrorMessage';
 
 import { TestMetadata } from './metadata/TestMetadata';
+import { WebTauTest } from '../WebTauTest';
 
 import './TestSummary.css';
 
-const OptionalPreBlock = ({ className, message }) => {
-  if (!message) {
-    return null;
-  }
+interface TestProps {
+  test: WebTauTest;
+}
 
-  return (
-    <div className={className}>
-      <pre>{message}</pre>
-    </div>
-  );
-};
-
-const TestSummary = ({ test }) => {
+export function TestSummary({ test }: TestProps) {
   const numberOfHttpCalls = test.httpCalls ? test.httpCalls.length : 0;
 
   return (
@@ -82,11 +75,11 @@ const TestSummary = ({ test }) => {
       {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs} />)}
     </div>
   );
-};
+}
 
-function HttpCallsWarning({ test }) {
+function HttpCallsWarning({ test }: TestProps) {
   const warnings = collectWarnings();
-  if (!warnings) {
+  if (warnings.length === 0) {
     return null;
   }
 
@@ -101,11 +94,15 @@ function HttpCallsWarning({ test }) {
   );
 
   function collectWarnings() {
+    if (!test.httpCalls) {
+      return [];
+    }
+
     return test.httpCalls.flatMap((httpCall) => httpCall.warnings || []);
   }
 }
 
-function OverallHttpCallsTime({ test }) {
+function OverallHttpCallsTime({ test }: TestProps) {
   if (!test.httpCalls) {
     return null;
   }
@@ -113,7 +110,7 @@ function OverallHttpCallsTime({ test }) {
   return <CardLabelAndNumber label="Overall Time (ms)" number={Report.overallHttpCallTimeForTest(test)} />;
 }
 
-function AverageHttpCallsTime({ test }) {
+function AverageHttpCallsTime({ test }: TestProps) {
   if (!test.httpCalls) {
     return null;
   }
@@ -121,7 +118,7 @@ function AverageHttpCallsTime({ test }) {
   return <CardLabelAndNumber label="Average Time (ms)" number={Report.averageHttpCallTimeForTest(test).toFixed(2)} />;
 }
 
-function CardPreMessage({ message }) {
+function CardPreMessage({ message }: { message?: string }) {
   if (!message) {
     return null;
   }
@@ -133,4 +130,14 @@ function CardPreMessage({ message }) {
   );
 }
 
-export default TestSummary;
+function OptionalPreBlock({ className, message }: { className: string; message?: string }) {
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <div className={className}>
+      <pre>{message}</pre>
+    </div>
+  );
+}

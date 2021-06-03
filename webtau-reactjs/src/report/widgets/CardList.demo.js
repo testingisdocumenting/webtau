@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,24 +15,24 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CardWithElapsedTime from './CardWithElapsedTime'
-import CardWithTime from './CardWithTime'
-import CardList from './CardList'
+import CardWithElapsedTime from './CardWithElapsedTime';
+import { CardWithTime } from './CardWithTime';
+import CardList from './CardList';
 
 export function cardListDemo(registry) {
-    registry.add('with label', () => (
-        <CardList label="Overall Performance">
-            <CardWithTime millis={1547139662469} label="Start time"/>
-            <CardWithElapsedTime millis={8321} label="Total time"/>
-        </CardList>
-    ))
+  registry.add('with label', () => (
+    <CardList label="Overall Performance">
+      <CardWithTime time={1547139662469} label="Start time" />
+      <CardWithElapsedTime millis={8321} label="Total time" />
+    </CardList>
+  ));
 
-    registry.add('without label', () => (
-        <CardList>
-            <CardWithTime millis={1547139662469} label="Start time"/>
-            <CardWithElapsedTime millis={8321} label="Total time"/>
-        </CardList>
-    ))
+  registry.add('without label', () => (
+    <CardList>
+      <CardWithTime time={1547139662469} label="Start time" />
+      <CardWithElapsedTime millis={8321} label="Total time" />
+    </CardList>
+  ));
 }
