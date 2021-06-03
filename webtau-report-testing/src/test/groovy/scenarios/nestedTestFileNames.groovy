@@ -24,5 +24,7 @@ scenario('open report') {
 }
 
 scenario('validate test file names') {
-    report.groupNames.should == ['operation.groovy', 'base/operation.groovy', 'base/nested/operation.groovy']
+    report.groupNames.should containAll('operation.groovy',
+            'base/operation.groovy',
+            'base/nested/operation.groovy')
 }
