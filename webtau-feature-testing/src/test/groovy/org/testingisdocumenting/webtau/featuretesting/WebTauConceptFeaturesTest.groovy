@@ -131,6 +131,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "recursive scenario discovery"() {
+        runCli("recursive", "recursive.webtau.cfg.groovy")
+    }
+
+    @Test
     void "should generate failed report using failed report path when provided"() {
         def failedReportPath = Paths.get("webtau-reports/scenarios/concept/failingTest-failed-webtau-report.html")
         Files.deleteIfExists(failedReportPath)
