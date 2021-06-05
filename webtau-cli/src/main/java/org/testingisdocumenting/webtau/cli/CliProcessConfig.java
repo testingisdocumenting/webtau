@@ -33,10 +33,19 @@ class CliProcessConfig {
     private File workingDir;
     private boolean isSilent;
 
+    private long timeoutMs;
+    private boolean timeoutSpecified;
+
     public CliProcessConfig env(Map<String, CharSequence> env) {
         this.env = new HashMap<>();
         env.forEach((k, v) -> this.env.put(k, v.toString()));
 
+        return this;
+    }
+
+    public CliProcessConfig timeout(long millis) {
+        this.timeoutMs = millis;
+        this.timeoutSpecified = true;
         return this;
     }
 
@@ -65,6 +74,14 @@ class CliProcessConfig {
 
     public boolean isSilent() {
         return isSilent;
+    }
+
+    public long getTimeoutMs() {
+        return timeoutMs;
+    }
+
+    public boolean isTimeoutSpecified() {
+        return timeoutSpecified;
     }
 
     void applyTo(ProcessBuilder processBuilder) {

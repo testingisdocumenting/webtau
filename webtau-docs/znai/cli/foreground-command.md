@@ -100,4 +100,8 @@ To specify `PATH` to use for CLI commands lookup use
 To override default timeout use `cliTimeout` config value: 
 :include-file: scenarios/cli/webtau-cli-timeout.cfg.groovy {title: "webtau.config.groovy"}
 
+To override timeout for a specific `cli.run` use
+
+:include-file: scenarios/cli/cliTimeoutLocalOverride.groovy {title: "local override", includeRegexp: "cli.timeout"}
+
 Note: Timeout value is specified in milliseconds 

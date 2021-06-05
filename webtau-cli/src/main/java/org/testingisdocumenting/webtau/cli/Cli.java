@@ -43,6 +43,10 @@ public class Cli {
         return new CliProcessConfig().env(CollectionUtils.aMapOf((Object[]) keyValue));
     }
 
+    public CliProcessConfig timeout(long millis) {
+        return new CliProcessConfig().timeout(millis);
+    }
+
     public CliProcessConfig workingDir(String workingDir) {
         return new CliProcessConfig().workingDir(workingDir);
     }
