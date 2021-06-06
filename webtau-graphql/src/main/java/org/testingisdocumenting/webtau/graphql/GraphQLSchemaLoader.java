@@ -29,6 +29,8 @@ import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -39,9 +41,19 @@ import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.graphql.GraphQL.GRAPHQL_URL;
 import static org.testingisdocumenting.webtau.http.Http.http;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class GraphQLSchemaLoader {
     public static Optional<Set<GraphQLQuery>> fetchSchemaDeclaredQueries() {
+        WebTauStep step = WebTauStep.createStep(tokenizedMessage(action("fetching"), id("graphQL"), classifier("schema")),
+                () -> tokenizedMessage(action("fetched"), id("graphQL"), classifier("schema")),
+                GraphQLSchemaLoader::fetchSchemaDeclaredQueriesStep);
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private static Optional<Set<GraphQLQuery>> fetchSchemaDeclaredQueriesStep() {
         HttpResponse httpResponse;
         try {
             httpResponse = sendIntrospectionQuery();

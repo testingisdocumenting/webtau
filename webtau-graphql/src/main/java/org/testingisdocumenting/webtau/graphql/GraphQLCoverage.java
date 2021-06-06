@@ -18,12 +18,10 @@ package org.testingisdocumenting.webtau.graphql;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
@@ -77,7 +75,7 @@ public class GraphQLCoverage {
     }
 
     Stream<GraphQLQuery> nonCoveredErrorBranches() {
-        List<GraphQLQuery> coveredErrorBranches = coveredQueries.coveredErrorBranches().collect(Collectors.toList());;
+        List<GraphQLQuery> coveredErrorBranches = coveredQueries.coveredErrorBranches().collect(Collectors.toList());
         return schema.getSchemaDeclaredQueries().filter(o -> coveredErrorBranches.stream().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
 
