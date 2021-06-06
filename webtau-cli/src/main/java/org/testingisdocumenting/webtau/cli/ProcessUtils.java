@@ -36,7 +36,8 @@ class ProcessUtils {
         CliBackgroundProcess backgroundRunResult = runInBackground(command, config);
 
         try {
-            boolean onTime = backgroundRunResult.getProcess().waitFor(CliConfig.getCliTimeoutMs(), TimeUnit.MILLISECONDS);
+            long timeoutMs = config.isTimeoutSpecified() ? config.getTimeoutMs() : CliConfig.getCliTimeoutMs();
+            boolean onTime = backgroundRunResult.getProcess().waitFor(timeoutMs, TimeUnit.MILLISECONDS);
 
             if (!onTime) {
                 backgroundRunResult.closeGlobbers();

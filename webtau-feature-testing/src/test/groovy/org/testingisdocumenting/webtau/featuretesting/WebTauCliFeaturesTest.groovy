@@ -151,6 +151,11 @@ class WebTauCliFeaturesTest {
         runCli('cliTimeout.groovy', 'webtau-cli-timeout.cfg.groovy')
     }
 
+    @Test
+    void "timeout config override"() {
+        runCli('cliTimeoutLocalOverride.groovy', 'webtau-cli-timeout-large.cfg.groovy')
+    }
+
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         supportedPlatformOnly {
             testRunner.runCli("scenarios/cli/$restTestName",
