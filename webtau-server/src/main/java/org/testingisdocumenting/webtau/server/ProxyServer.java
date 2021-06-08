@@ -17,44 +17,41 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.eclipse.jetty.server.handler.HandlerWrapper;
-import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 
-class StaticContentServer extends JettyServer {
-    private final Path path;
+public class ProxyServer extends JettyServer {
+    private final String urlToProxy;
 
-    public StaticContentServer(String id, Path path, int port) {
-        super(id, port);
-        this.path = path;
-    }
-
-    @Override
-    protected Map<String, Object> provideStepInput() {
-        return Collections.singletonMap("path", path);
-    }
-
-    @Override
-    protected void validateParams() {
-        if (!Files.exists(path)) {
-            throw new IllegalArgumentException("can't find path: " + path);
-        }
-    }
-
-    @Override
-    protected HandlerWrapper createJettyHandler() {
-        ResourceHandler handler = new ResourceHandler();
-        handler.setBaseResource(Resource.newResource(path));
-
-        return handler;
+    public ProxyServer(String id, String urlToProxy, int passedPort) {
+        super(id, passedPort);
+        this.urlToProxy = urlToProxy;
     }
 
     @Override
     public String getType() {
-        return "static server";
+        return "proxy";
+    }
+
+
+    @Override
+    protected Map<String, Object> provideStepInput() {
+        return Collections.singletonMap("url to proxy", urlToProxy);
+    }
+
+    @Override
+    protected void validateParams() {
+    }
+
+    @Override
+    protected HandlerWrapper createJettyHandler() {
+        ServletHandler handler = new ServletHandler();
+        ServletHolder servletHolder = handler.addServletWithMapping(WebtauProxyServlet.class, "/*");
+        servletHolder.setInitParameter("urlToProxy", urlToProxy);
+
+        return handler;
     }
 }

@@ -32,6 +32,12 @@ public class WebtauServersRegistry implements TestListener {
         serverById.put(server.getId(), server);
     }
 
+    public static void validateId(String id) {
+        if (WebtauServersRegistry.hasServerWithId(id)) {
+            throw new IllegalArgumentException("server with <" + id + "> already exists");
+        }
+    }
+
     public static void unregister(WebtauServer server) {
         serverById.remove(server.getId());
     }

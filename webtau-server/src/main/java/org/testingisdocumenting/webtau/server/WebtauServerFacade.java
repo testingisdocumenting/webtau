@@ -45,4 +45,11 @@ public class WebtauServerFacade {
 
         return server;
     }
+
+    public WebtauServer proxy(String serverId, String urlToProxy, int port) {
+        ProxyServer server = new ProxyServer(serverId, urlToProxy, port);
+        server.start();
+
+        return server;
+    }
 }
