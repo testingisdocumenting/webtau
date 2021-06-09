@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.repl
 
 import groovy.transform.PackageScope
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
@@ -135,6 +136,14 @@ class ReplCommands {
 
     static void getB() {
         getBack()
+    }
+
+    static void getBeforeAll() {
+        TestListeners.beforeFirstTest()
+    }
+
+    static void getAfterAll() {
+        TestListeners.afterAllTests()
     }
 
     private static void runSelected() {
