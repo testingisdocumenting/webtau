@@ -16,27 +16,23 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
-public interface WebtauServer {
-    String getId();
-    String getType();
-    int getPort();
-    String getBaseUrl();
-    boolean isRunning();
+public interface WebtauServerOverride {
+    boolean matchesUri(String uri);
 
-    void start();
-    void stop();
+    byte[] responseBody(HttpServletRequest request) throws IOException, ServletException;
+    String responseType(HttpServletRequest request);
 
-    void markUnreachable();
-    void markReachable();
+    default Map<String, String> responseHeader(HttpServletRequest request) {
+        return Collections.emptyMap();
+    }
 
-    void markBroken();
-
-    void addOverride(String overrideId, WebtauServerOverride override);
-    void removeOverride(String overrideId);
-
-    default void setAsBaseUrl() {
-        WebTauConfig.getCfg().setBaseUrl("server-" + getId(), getBaseUrl());
+    default int responseStatusCode() {
+        return 200;
     }
 }

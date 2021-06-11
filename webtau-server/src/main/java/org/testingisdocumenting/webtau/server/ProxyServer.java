@@ -36,6 +36,15 @@ public class ProxyServer extends JettyServer {
         return "proxy";
     }
 
+    @Override
+    public void markUnreachable() {
+        WebtauServerOverrides.addOverride(serverId, "unreachable", new WebtauServerOverrideNoResponse(serverId));
+    }
+
+    @Override
+    public void markReachable() {
+        WebtauServerOverrides.removeOverride(serverId, "unreachable");
+    }
 
     @Override
     protected Map<String, Object> provideStepInput() {
@@ -51,6 +60,8 @@ public class ProxyServer extends JettyServer {
         ServletHandler handler = new ServletHandler();
         ServletHolder servletHolder = handler.addServletWithMapping(WebtauProxyServlet.class, "/*");
         servletHolder.setInitParameter("urlToProxy", urlToProxy);
+        servletHolder.setInitParameter("maxThreads", "16");
+        servletHolder.setInitParameter("serverId", serverId);
 
         return handler;
     }

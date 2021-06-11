@@ -23,19 +23,34 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 public class WebtauProxyServlet extends ProxyServlet {
     private String urlToProxy;
+    private String serverId;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         urlToProxy = config.getInitParameter("urlToProxy");
+        serverId = config.getInitParameter("serverId");
+    }
+
+    @Override
+    protected String rewriteTarget(HttpServletRequest clientRequest) {
+        System.out.println("rewrite target " + clientRequest.getRequestURI());
+        return urlToProxy + clientRequest.getRequestURI();
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("got request need to proxy to " + urlToProxy);
-        super.service(request, response);
+        Optional<WebtauServerOverride> override = WebtauServerOverrides.findOverride(serverId, request.getRequestURI());
+        if (override.isPresent()) {
+            // TODO full response set including headers
+            // right now it is just for timeout
+            override.get().responseBody(request);
+        } else {
+            super.service(request, response);
+        }
     }
 }

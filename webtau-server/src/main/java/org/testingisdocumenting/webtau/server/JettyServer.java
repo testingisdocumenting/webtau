@@ -91,6 +91,31 @@ abstract public class JettyServer implements WebtauServer {
         WebtauServer.super.setAsBaseUrl();
     }
 
+    @Override
+    public void markUnreachable() {
+        throw new UnsupportedOperationException("markUnreachable is not implemented for type: " + getType());
+    }
+
+    @Override
+    public void markBroken() {
+        throw new UnsupportedOperationException("markBroken is not implemented for type: " + getType());
+    }
+
+    @Override
+    public void markReachable() {
+        throw new UnsupportedOperationException("markReachable is not implemented for type: " + getType());
+    }
+
+    @Override
+    public void addOverride(String overrideId, WebtauServerOverride override) {
+        throw new UnsupportedOperationException("addOverride is not implemented for type: " + getType());
+    }
+
+    @Override
+    public void removeOverride(String overrideId) {
+        throw new UnsupportedOperationException("removeOverride is not implemented for type: " + getType());
+    }
+
     abstract protected Map<String, Object> provideStepInput();
     abstract protected void validateParams();
 
@@ -119,6 +144,7 @@ abstract public class JettyServer implements WebtauServer {
 
     private void stopStep() {
         try {
+            TimerLocks.releaseLock(serverId);
             server.stop();
             WebtauServersRegistry.unregister(this);
         } catch (Exception e) {

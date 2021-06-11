@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package scenarios.server
+package org.testingisdocumenting.webtau.server;
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-scenario("proxy server") {
-    def staticServer = server.serve("content-to-proxy", "data/staticcontent")
-    def proxyServer = server.proxy("test-proxy-server", staticServer.baseUrl, 0)
+class TimerLocks {
+    private static Map<String, Object> timerLockByServerId = new ConcurrentHashMap<>();
 
-    def expected = "<body>\n" +
-            "<p>hello</p>\n" +
-            "</body>"
-
-    try {
-        http.get("${proxyServer.baseUrl}/hello.html") {
-            body.should == expected
-        }
-    } finally {
-        proxyServer.stop() // todo remove
+    static Object grabTimerLockByServerId(String serverId) {
+        return timerLockByServerId.computeIfAbsent(serverId, (id) -> new Object());
     }
+
+    static void releaseLock(String serverId) {
+        Object lock = timerLockByServerId.get(serverId);
+        if (lock == null) {
+            return;
+        }
+
+        lock.notify();
+    }
+
 }
