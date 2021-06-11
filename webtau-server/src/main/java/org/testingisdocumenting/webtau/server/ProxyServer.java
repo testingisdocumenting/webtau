@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.Map;
 
 public class ProxyServer extends JettyServer {
+    private static final String UNRESPONSIVE_OVERRIDE_ID = "unresponsive";
+
     private final String urlToProxy;
 
     public ProxyServer(String id, String urlToProxy, int passedPort) {
@@ -37,13 +39,14 @@ public class ProxyServer extends JettyServer {
     }
 
     @Override
-    public void markUnreachable() {
-        WebtauServerOverrides.addOverride(serverId, "unreachable", new WebtauServerOverrideNoResponse(serverId));
+    public void markUnresponsive() {
+        WebtauServerOverrides.addOverride(serverId, UNRESPONSIVE_OVERRIDE_ID, new WebtauServerOverrideNoResponse(serverId));
     }
 
     @Override
-    public void markReachable() {
-        WebtauServerOverrides.removeOverride(serverId, "unreachable");
+    public void markResponsive() {
+        WebtauServerOverrides.removeOverride(serverId, UNRESPONSIVE_OVERRIDE_ID);
+        ServerResponseWaitLocks.releaseLock(serverId);
     }
 
     @Override

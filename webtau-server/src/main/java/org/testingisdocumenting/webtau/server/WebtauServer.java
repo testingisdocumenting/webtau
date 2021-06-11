@@ -28,8 +28,8 @@ public interface WebtauServer {
     void start();
     void stop();
 
-    void markUnreachable();
-    void markReachable();
+    void markUnresponsive();
+    void markResponsive();
 
     void markBroken();
 

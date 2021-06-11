@@ -19,8 +19,11 @@ package org.testingisdocumenting.webtau.server;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-class TimerLocks {
-    private static Map<String, Object> timerLockByServerId = new ConcurrentHashMap<>();
+/**
+ * manages response sleeps and release on server shutdown
+ */
+class ServerResponseWaitLocks {
+    private static final Map<String, Object> timerLockByServerId = new ConcurrentHashMap<>();
 
     static Object grabTimerLockByServerId(String serverId) {
         return timerLockByServerId.computeIfAbsent(serverId, (id) -> new Object());
@@ -32,7 +35,8 @@ class TimerLocks {
             return;
         }
 
-        lock.notify();
+        synchronized (lock) {
+            lock.notify();
+        }
     }
-
 }

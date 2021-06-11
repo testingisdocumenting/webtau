@@ -22,9 +22,11 @@ import java.io.IOException;
 
 class WebtauServerOverrideNoResponse implements WebtauServerOverride {
     private final String serverId;
+    private final Object sleepLock;
 
     WebtauServerOverrideNoResponse(String serverId) {
         this.serverId = serverId;
+        this.sleepLock = ServerResponseWaitLocks.grabTimerLockByServerId(serverId);
     }
 
     @Override
@@ -35,7 +37,9 @@ class WebtauServerOverrideNoResponse implements WebtauServerOverride {
     @Override
     public byte[] responseBody(HttpServletRequest request) throws IOException, ServletException {
         try {
-            TimerLocks.grabTimerLockByServerId(serverId).wait();
+            synchronized (sleepLock) {
+                sleepLock.wait();
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

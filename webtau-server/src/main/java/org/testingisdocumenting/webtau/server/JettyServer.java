@@ -92,18 +92,18 @@ abstract public class JettyServer implements WebtauServer {
     }
 
     @Override
-    public void markUnreachable() {
+    public void markUnresponsive() {
         throw new UnsupportedOperationException("markUnreachable is not implemented for type: " + getType());
+    }
+
+    @Override
+    public void markResponsive() {
+        throw new UnsupportedOperationException("markReachable is not implemented for type: " + getType());
     }
 
     @Override
     public void markBroken() {
         throw new UnsupportedOperationException("markBroken is not implemented for type: " + getType());
-    }
-
-    @Override
-    public void markReachable() {
-        throw new UnsupportedOperationException("markReachable is not implemented for type: " + getType());
     }
 
     @Override
@@ -144,7 +144,7 @@ abstract public class JettyServer implements WebtauServer {
 
     private void stopStep() {
         try {
-            TimerLocks.releaseLock(serverId);
+            ServerResponseWaitLocks.releaseLock(serverId);
             server.stop();
             WebtauServersRegistry.unregister(this);
         } catch (Exception e) {

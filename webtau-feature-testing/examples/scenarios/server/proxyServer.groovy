@@ -18,19 +18,33 @@ package scenarios.server
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
+def staticServer = server.serve("content-to-proxy", "data/staticcontent")
+
+def expected = "<body>\n" +
+        "<p>hello</p>\n" +
+        "</body>"
+
 scenario("proxy server") {
-    def staticServer = server.serve("content-to-proxy", "data/staticcontent")
     def proxyServer = server.proxy("test-proxy-server", staticServer.baseUrl, 0)
 
-    def expected = "<body>\n" +
-            "<p>hello</p>\n" +
-            "</body>"
+    http.get("${proxyServer.baseUrl}/hello.html") {
+        body.should == expected
+    }
+}
 
-    try {
-        http.get("${proxyServer.baseUrl}/hello.html") {
+scenario("slowed down proxy") {
+    def slowDownServer = server.proxy("slow-proxy-server", staticServer.baseUrl, 0)
+    slowDownServer.markUnresponsive()
+
+    code {
+        http.get("${slowDownServer.baseUrl}/hello.html") {
             body.should == expected
         }
-    } finally {
-        proxyServer.stop() // todo remove
+    } should throwException(~/Read timed out/)
+
+    slowDownServer.markResponsive()
+
+    http.get("${slowDownServer.baseUrl}/hello.html") {
+        body.should == expected
     }
 }
