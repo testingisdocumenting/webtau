@@ -3,7 +3,7 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 2
     }
   }, {
     "scenario" : "static content server",
