@@ -16,27 +16,27 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-public interface WebtauServer {
-    String getId();
-    String getType();
-    int getPort();
-    String getBaseUrl();
-    boolean isRunning();
+/**
+ * manages response sleeps and release on server shutdown
+ */
+class ServerResponseWaitLocks {
+    private static final Map<String, Object> timerLockByServerId = new ConcurrentHashMap<>();
 
-    void start();
-    void stop();
+    static Object grabTimerLockByServerId(String serverId) {
+        return timerLockByServerId.computeIfAbsent(serverId, (id) -> new Object());
+    }
 
-    void markUnresponsive();
-    void markResponsive();
+    static void releaseLock(String serverId) {
+        Object lock = timerLockByServerId.get(serverId);
+        if (lock == null) {
+            return;
+        }
 
-    void markBroken();
-
-    void addOverride(String overrideId, WebtauServerOverride override);
-    void removeOverride(String overrideId);
-
-    default void setAsBaseUrl() {
-        WebTauConfig.getCfg().setBaseUrl("server-" + getId(), getBaseUrl());
+        synchronized (lock) {
+            lock.notify();
+        }
     }
 }

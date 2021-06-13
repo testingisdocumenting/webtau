@@ -16,134 +16,45 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.HandlerWrapper;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
-import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Map;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
-import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.stepInput;
-import static org.testingisdocumenting.webtau.reporter.WebTauStepOutputKeyValue.stepOutput;
-
-class StaticContentServer implements WebtauServer {
-    private final String id;
+class StaticContentServer extends JettyServer {
     private final Path path;
-    private final int passedPort;
-    private Server server;
-    private boolean started;
 
     public StaticContentServer(String id, Path path, int port) {
-        this.id = id;
+        super(id, port);
         this.path = path;
-        this.passedPort = port;
-    }
-
-    public void start() {
-        WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("starting"), classifier("static server"),
-                        IntegrationTestsMessageBuilder.id(id)),
-                stepInput("path", path.toString(),
-                        "passed port", passedPort == 0 ? "random" : passedPort),
-                () -> tokenizedMessage(action("started"), classifier("static server")),
-                () -> isStarted() ? stepOutput("running port", getPort()) : WebTauStepOutput.EMPTY,
-                this::startStep);
     }
 
     @Override
-    public String getId() {
-        return id;
+    protected Map<String, Object> provideStepInput() {
+        return Collections.singletonMap("path", path);
     }
 
     @Override
-    public String getType() {
-        return "static server";
-    }
-
-    public boolean isStarted() {
-        return started;
-    }
-
-    @Override
-    public void stop() {
-        WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("stopping"), classifier("server"), id(id)),
-                () -> tokenizedMessage(action("stopped"), classifier("server"), id(id)),
-                this::stopStep);
-    }
-
-    @Override
-    public int getPort() {
-        validateStarted();
-        return server.getURI().getPort();
-    }
-
-    @Override
-    public String getBaseUrl() {
-        validateStarted();
-        return UrlUtils.removeTrailingSlash(server.getURI().toASCIIString());
-    }
-
-    @Override
-    public boolean isRunning() {
-        return isStarted();
-    }
-
-    private void validatePath() {
+    protected void validateParams() {
         if (!Files.exists(path)) {
             throw new IllegalArgumentException("can't find path: " + path);
         }
     }
 
-    private void startStep() {
-        validateId(id);
-        validatePath();
-        server = new Server();
-
-        ServerConnector connector = new ServerConnector(server);
-        connector.setPort(passedPort);
-        connector.setHost("127.0.0.1");
-        server.addConnector(connector);
-
+    @Override
+    protected HandlerWrapper createJettyHandler() {
         ResourceHandler handler = new ResourceHandler();
         handler.setBaseResource(Resource.newResource(path));
 
-        server.setHandler(handler);
-
-        try {
-            server.start();
-            WebtauServersRegistry.register(this);
-            started = true;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return handler;
     }
 
-    private void stopStep() {
-        try {
-            server.stop();
-            WebtauServersRegistry.unregister(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void validateStarted() {
-        if (!isStarted()) {
-            throw new IllegalStateException("server is not started");
-        }
-    }
-
-    private void validateId(String id) {
-        if (WebtauServersRegistry.hasServerWithId(id)) {
-            throw new IllegalArgumentException("server with <" + id + "> already exists");
-        }
+    @Override
+    public String getType() {
+        return "static server";
     }
 }
