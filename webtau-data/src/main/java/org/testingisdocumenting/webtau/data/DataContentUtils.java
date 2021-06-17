@@ -16,31 +16,101 @@
 
 package org.testingisdocumenting.webtau.data;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-public class DataContentUtils {
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+
+class DataContentUtils {
     private DataContentUtils() {
     }
 
-    public static String dataTextContent(String fileOrResourcePath) {
-        Path filePath = WebTauConfig.getCfg().getWorkingDir().resolve(fileOrResourcePath);
+    @SuppressWarnings("unchecked")
+    static <R> R readAndConvertTextContentAsStep(String dataType, DataPath dataPath, Function<String, R> convertor) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"),
+                        urlValue(dataPath.getGivenPathAsString())),
+                (result) -> {
+                    ContentResult contentResult = (ContentResult) result;
+                    return tokenizedMessage(action("read"), numberValue(contentResult.numberOfLines),
+                            classifier("lines of " + dataType), FROM, classifier(contentResult.source),
+                            urlValue(contentResult.path));
+                },
+                () -> {
+                    ContentResult contentResult = dataTextContentImpl(dataPath);
+                    contentResult.parseResult = convertor.apply(contentResult.textContent);
 
-        boolean hasResource = ResourceUtils.hasResource(fileOrResourcePath);
-        boolean hasFile = Files.exists(filePath);
+                    return contentResult;
+                }
+        );
 
-        if (!hasResource && !hasFile) {
-            throw new IllegalArgumentException("Can't find resource \"" + fileOrResourcePath + "\" or " +
-                    "file \"" + filePath.toAbsolutePath() + "\"");
-        }
-
-        return hasResource ?
-                ResourceUtils.textContent(fileOrResourcePath) :
-                FileUtils.fileTextContent(filePath);
+        ContentResult stepResult = step.execute(StepReportOptions.REPORT_ALL);
+        return (R) stepResult.parseResult;
     }
 
+    static Path writeTextContentAsStep(String dataType, Path path, Supplier<String> convertor) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("writing"), classifier(dataType), TO, classifier("file"), urlValue(path)),
+                (result) -> {
+                    ContentResult contentResult = (ContentResult) result;
+
+                    return tokenizedMessage(action("wrote"), numberValue(contentResult.numberOfLines),
+                            classifier("lines"), TO, classifier(dataType),
+                            urlValue(contentResult.path));
+                },
+                () -> {
+                    Path fullPath = WebTauConfig.getCfg().fullPath(path);
+
+                    String content = convertor.get();
+                    FileUtils.writeTextContent(fullPath, content);
+
+                    return new ContentResult("file", fullPath.toString(), content);
+                }
+        );
+
+        ContentResult stepResult = step.execute(StepReportOptions.REPORT_ALL);
+        return Paths.get(stepResult.path);
+    }
+
+    static ContentResult dataTextContentImpl(DataPath path) {
+        if (!path.isResource() && !path.isFile()) {
+            if (path.isResourceSpecified()) {
+                throw new IllegalArgumentException("Can't find resource \"" + path.getFileOrResourcePath() + "\" or " +
+                        "file \"" + path.getFullFilePath() + "\"");
+            } else {
+                throw new IllegalArgumentException("Can't find file \"" + path.getFullFilePath() + "\"");
+            }
+        }
+
+        return path.isResource() ?
+                new ContentResult("classpath resource", path.getFileOrResourcePath(),
+                        ResourceUtils.textContent(path.getFileOrResourcePath())) :
+                new ContentResult("file", path.getFullFilePath().toString(),
+                        FileUtils.fileTextContent(path.getFullFilePath()));
+    }
+
+    static class ContentResult {
+        final String source;
+        final String path;
+        final String textContent;
+        final int numberOfLines;
+        Object parseResult;
+
+        public ContentResult(String source, String path, String textContent) {
+            this.source = source;
+            this.path = path;
+            this.textContent = textContent;
+            this.numberOfLines = StringUtils.countMatches(textContent, '\n');
+        }
+    }
 }

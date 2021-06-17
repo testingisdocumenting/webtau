@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,39 +17,76 @@
 
 package org.testingisdocumenting.webtau.openapi;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class OpenApi {
-    private static OpenApiSpec spec;
-    private static OpenApiSpecValidator validator;
-    private static OpenApiCoverage coverage;
+    private static final OpenApiValidationMode DEFAULT_MODE = OpenApiValidationMode.ALL;
 
-    static OpenApiSpec getSpec() {
-        return spec;
+    private static final AtomicReference<OpenApiSpec> spec = new AtomicReference<>();
+    private static final AtomicReference<OpenApiSpecValidator> validator = new AtomicReference<>();
+    private static final AtomicReference<OpenApiCoverage> coverage = new AtomicReference<>();
+
+    static final ThreadLocal<OpenApiValidationMode> validationMode = ThreadLocal.withInitial(() -> DEFAULT_MODE);
+
+    synchronized static OpenApiSpecValidator getValidator() {
+        if (validator.get() == null) {
+            initialize();
+        }
+
+        return validator.get();
     }
 
-    static OpenApiSpecValidator getValidator() {
-        return validator;
+    synchronized static OpenApiCoverage getCoverage() {
+        if (coverage.get() == null) {
+            initialize();
+        }
+
+        return coverage.get();
     }
 
-    static OpenApiCoverage getCoverage() {
-        return coverage;
+    synchronized static OpenApiSpec getSpec() {
+        if (spec.get() == null) {
+            initialize();
+        }
+
+        return spec.get();
     }
 
     public static void withoutValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.NONE, code);
+        withMode(OpenApiValidationMode.NONE, code);
     }
 
     public static void responseOnlyValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.RESPONSE_ONLY, code);
+        withMode(OpenApiValidationMode.RESPONSE_ONLY, code);
     }
 
     public static void requestOnlyValidation(Runnable code) {
-        OpenApiResponseValidator.withMode(ValidationMode.REQUEST_ONLY, code);
+        withMode(OpenApiValidationMode.REQUEST_ONLY, code);
+    }
+
+    static void withMode(OpenApiValidationMode mode, Runnable code) {
+        validationMode.set(mode);
+        try {
+            code.run();
+        } finally {
+            validationMode.set(DEFAULT_MODE);
+        }
     }
 
     static void reset() {
-        spec = new OpenApiSpec(OpenApiSpecConfig.specFullPath());
-        validator = new OpenApiSpecValidator(spec, validationConfig());
-        coverage = new OpenApiCoverage(spec);
+        spec.set(null);
+        validator.set(null);
+        coverage.set(null);
+    }
+
+    static void initialize() {
+        if (validationMode.get() == OpenApiValidationMode.NONE) {
+            return;
+        }
+
+        spec.set(new OpenApiSpec(OpenApiSpecConfig.determineSpecFullPathOrUrl()));
+        validator.set(new OpenApiSpecValidator(spec.get(), validationConfig()));
+        coverage.set(new OpenApiCoverage(spec.get()));
     }
 
     private static OpenApiValidationConfig validationConfig() {
@@ -57,5 +95,4 @@ public class OpenApi {
 
         return config;
     }
-
 }

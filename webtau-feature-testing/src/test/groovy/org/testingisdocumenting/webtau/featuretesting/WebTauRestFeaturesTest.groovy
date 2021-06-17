@@ -17,18 +17,17 @@
 
 package org.testingisdocumenting.webtau.featuretesting
 
-
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
+import org.testingisdocumenting.webtau.openapi.OpenApi
 
 import static org.testingisdocumenting.webtau.WebTauDsl.http
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauRestFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
-
 
     @BeforeClass
     static void init() {
@@ -99,6 +98,20 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "open api http spec"() {
+        runCli('openapi/openApiHttpSpec.groovy', 'openapi/webtau.httpspec.cfg.groovy',
+                "--url=${customersBaseUrl}",
+                "--openApiSpecUrl=/v3/api-docs")
+    }
+
+    @Test
+    void "open api unspecified url"() {
+        runCli('openapi/unspecifiedUrl.groovy', 'openapi/webtau.httpspec.cfg.groovy',
+                "--url=${customersBaseUrl}",
+                "--openApiSpecUrl=scenarios/rest/openapi/not-full-spec.json")
+    }
+
+    @Test
     void "open api disable"() {
         runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
@@ -131,7 +144,10 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "list contain"() {
-        http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
+        OpenApi.withoutValidation {
+            http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
+        }
+
         runCli('springboot/listContain.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
     }
 
@@ -153,8 +169,14 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
-    void "recursive scenario discovery"() {
-        testRunner.runCli("recursive/scenarios", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
+    void "start server before first test and stop after"() {
+        runCli("springboot/startAndStopAsPartOfSuite.groovy", "springboot/webtau-auto-start.cfg.groovy")
+    }
+
+    @Test
+    void "use existing server before first test"() {
+        runCli("springboot/checkExistingServerIsStillUp.groovy", "springboot/webtau-auto-start.cfg.groovy",
+                "--url=$customersBaseUrl")
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
@@ -163,22 +185,19 @@ class WebTauRestFeaturesTest {
     }
 
     private void deleteCustomers() {
-        def ids = http.get(customersUrl()) {
-            return body.id
-        }
+        OpenApi.withoutValidation {
+            def ids = http.get(customersUrl()) {
+                return body.id
+            }
 
-        ids.each {
-            http.delete(customerUrl("$it"))
+            ids.each {
+                http.delete(customerUrl("$it"))
+            }
         }
     }
 
     private static String getCustomersBaseUrl() {
-        String port = System.getProperty('springboot.http.port')
-        if (!port || port.isEmpty()) {
-            port = '8080'
-        }
-
-        return "http://localhost:$port"
+        return SpringBootDemoAppUrl.baseUrl
     }
 
     private static customersUrl() {

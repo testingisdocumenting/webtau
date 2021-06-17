@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,15 +21,27 @@ import org.testingisdocumenting.webtau.data.MultiValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenFunctions;
+import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStepContext;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.UNDERSCORE;
+import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.*;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
 
 /**
  * Convenient class for a single static * imports to have matchers and helper functions available for your test
@@ -46,24 +59,119 @@ public class WebTauCore extends Matchers {
         return new TableData(Arrays.stream(columnNames));
     }
 
+    public static CompositeKey key(Object... values) {
+        return new CompositeKey(Arrays.stream(values));
+    }
+
     public static MultiValue permute(Object atLeastOneValue, Object... values) {
         return new MultiValue(atLeastOneValue, values);
     }
 
+    /**
+     * creates a map from var args key value
+     * @param kvs key value pairs
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return map with preserved order
+     */
     public static <K, V> Map<K, V> aMapOf(Object... kvs) {
         return CollectionUtils.aMapOf(kvs);
+    }
+
+    /**
+     * creates a map from original map and var args key value overrides
+     * @param original original map
+     * @param kvs key value pairs
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return map with preserved order
+     */
+    public static <K, V> Map<K, V> aMapOf(Map<K, V> original, Object... kvs) {
+        return CollectionUtils.aMapOf(original, kvs);
     }
 
     public static ActualPath createActualPath(String path) {
         return new ActualPath(path);
     }
 
+    /**
+     * sleep for a provided time. This is a bad practice and must be used as a workaround for
+     * some of the hardest weird cases.
+     *
+     * consider using waitTo approach on various layers: wait for UI to change, wait for HTTP resource to be updated,
+     * wait for file to change, DB result to be different, etc.
+     * @param millis number of milliseconds to wait
+     */
+    public static void sleep(long millis) {
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("sleeping"), FOR, numberValue(millis), classifier("milliseconds")),
+                () -> tokenizedMessage(action("slept"), FOR, numberValue(millis), classifier("milliseconds")),
+                () -> {
+                    try {
+                        Thread.sleep(millis);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+    }
+
     public static Persona persona(String id) {
-        return new Persona(id);
+        return Persona.persona(id);
     }
 
     public static Persona persona(String id, Map<String, Object> payload) {
-        return new Persona(id, payload);
+        return Persona.persona(id, payload);
+    }
+
+    public static Persona getCurrentPersona() {
+        return Persona.getCurrentPersona();
+    }
+
+    public static void step(String label, Runnable action) {
+        step(label, toSupplier(action));
+    }
+
+    public static <R> R step(String label, Supplier<Object> action) {
+        return step(label, Collections.emptyMap(), action);
+    }
+
+    public static void step(String label, Map<String, Object> stepInput, Runnable action) {
+        step(label, stepInput, toSupplier(action));
+    }
+
+    public static <R> R step(String label, Map<String, Object> stepInput, Supplier<Object> action) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action(label)),
+                () -> tokenizedMessage(none("completed"), action(label)),
+                action);
+
+        if (!stepInput.isEmpty()) {
+            step.setInput(WebTauStepInputKeyValue.stepInput(stepInput));
+        }
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static void repeatStep(String label, int numberOfAttempts, Runnable action) {
+        repeatStep(label, numberOfAttempts, toFunction(action));
+    }
+
+    public static void repeatStep(String label, int numberOfAttempts, Consumer<WebTauStepContext> action) {
+        Function<WebTauStepContext, Object> asFunc = toFunction(action);
+        repeatStep(label, numberOfAttempts, asFunc);
+    }
+
+    public static void repeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
+        WebTauStep step = WebTauStep.createRepeatStep(label, numberOfAttempts, action);
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static void fail(String message) {
+        throw new AssertionError(message);
+    }
+
+    public static void fail() {
+        throw new AssertionError();
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;

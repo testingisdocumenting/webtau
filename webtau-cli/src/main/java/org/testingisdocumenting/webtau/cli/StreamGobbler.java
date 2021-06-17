@@ -18,29 +18,27 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
-public class StreamGobbler implements Runnable {
+class StreamGobbler implements Runnable {
     private final InputStream stream;
+    private final boolean isSilent;
 
     private final List<String> lines;
     private final boolean renderOutput;
 
     private IOException exception;
 
-    public StreamGobbler(InputStream stream) {
+    public StreamGobbler(InputStream stream, boolean isSilent) {
         this.stream = stream;
-        this.lines = Collections.synchronizedList(new ArrayList<>());
+        this.isSilent = isSilent;
+        this.lines = new ArrayList<>();
         this.renderOutput = shouldRenderOutput();
     }
 
@@ -52,8 +50,8 @@ public class StreamGobbler implements Runnable {
         return lines.size();
     }
 
-    public List<String> getLinesStartingAt(int idx) {
-        return lines.subList(idx, lines.size());
+    synchronized public List<String> copyLinesStartingAt(int idx) {
+        return new ArrayList<>(lines.subList(idx, lines.size()));
     }
 
     public String joinLines() {
@@ -61,7 +59,7 @@ public class StreamGobbler implements Runnable {
     }
 
     public String joinLinesStartingAt(int idx) {
-        return String.join("\n", getLinesStartingAt(idx));
+        return String.join("\n", copyLinesStartingAt(idx));
     }
 
     public IOException getException() {
@@ -72,7 +70,7 @@ public class StreamGobbler implements Runnable {
         try {
             stream.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -99,12 +97,20 @@ public class StreamGobbler implements Runnable {
                 ConsoleOutputs.out(line);
             }
 
-            lines.add(line);
+            addLine(line);
         }
     }
 
+    synchronized private void addLine(String line) {
+        lines.add(line);
+    }
+
     private boolean shouldRenderOutput() {
-        TestStep currentStep = TestStep.getCurrentStep();
+        if (isSilent) {
+            return false;
+        }
+
+        WebTauStep currentStep = WebTauStep.getCurrentStep();
         int numberOfParents = currentStep == null ? 0 : currentStep.getNumberOfParents();
 
         return getCfg().getVerbosityLevel() > numberOfParents + 1;

@@ -1,0 +1,54 @@
+name: Build webtau
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [1.8,  11]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Set up grahpviz
+        run: sudo apt-get install graphviz
+
+      - name: Build with xvfb enabled
+        uses: GabrielBB/xvfb-action@v1.0
+        with:
+          run: mvn -B verify
+
+      - name: Upload failed test reports
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: failed-webtau-reports
+          path: "*/**/*-failed*.html"
+          retention-days: 2
+
+      - name: Upload CLI sanity test reports
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: failed-cli-sanity-test
+          path: "webtau-cli-testing/src/test/groovy/*failed*.html"
+          retention-days: 2
+
+      - name: Upload reports testing reports
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: failed-reports-testing-tests
+          path: "webtau-report-testing/src/test/groovy/webtau.report.html"
+          retention-days: 2

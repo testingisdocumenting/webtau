@@ -1,0 +1,4 @@
+#!/bin/bash
+echo generating id
+echo id=4321254
+>&2 echo can not create entity with id=123457

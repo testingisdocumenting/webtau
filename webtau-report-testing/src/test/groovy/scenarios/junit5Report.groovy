@@ -22,6 +22,6 @@ import static pages.Pages.*
 scenario('test lists') {
     report.openJunit5ExampleReport()
 
-    report.groupNames.should contain('customer query')
-    report.selectTest('update customer')
+    report.groupNames.should contain('WeatherJavaTest')
+    report.selectTest('checkWeather')
 }

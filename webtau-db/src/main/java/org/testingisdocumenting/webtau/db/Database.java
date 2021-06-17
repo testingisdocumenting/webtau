@@ -18,39 +18,96 @@ package org.testingisdocumenting.webtau.db;
 
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+
+import java.util.Collections;
+import java.util.Map;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Database {
-    private final LabeledDataSource dataSource;
+    private final LabeledDataSourceProvider dataSourceProvider;
 
-    Database(LabeledDataSource dataSource) {
-        this.dataSource = dataSource;
+    Database(LabeledDataSourceProvider dataSourceProvider) {
+        this.dataSourceProvider = dataSourceProvider;
     }
 
     public DatabaseTable table(String name) {
-        return new DatabaseTable(dataSource, name);
+        return new DatabaseTable(dataSourceProvider, name);
     }
 
-    public TableData query(String query) {
-        TestStep step = createStep(null,
-                tokenizedMessage(action("running DB query"), stringValue(query), ON, id(dataSource.getLabel())),
-                () -> tokenizedMessage(action("ran DB query"), stringValue(query), ON, id(dataSource.getLabel())),
-                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), query));
+    public DbQuery query(String query) {
+        return QueryRunnerUtils.createQuery(dataSourceProvider, query);
+    }
 
-        return (TableData) step.execute(StepReportOptions.REPORT_ALL);
+    public DbQuery query(String query, Map<String, Object> params) {
+        return QueryRunnerUtils.createQuery(dataSourceProvider, query, params);
+    }
+
+    public <E> DbQuery query(String query, E singleParam) {
+        return QueryRunnerUtils.createQuery(dataSourceProvider, query, DbNamedParamsQuery.singleNoNameParam(singleParam));
+    }
+
+    public TableData queryTableData(String query) {
+        return queryTableData(query, Collections.emptyMap());
+    }
+
+    public TableData queryTableData(String query, Map<String, Object> params) {
+        return query(query, params).tableData();
+    }
+
+    public <E> E querySingleValue(String query) {
+        return querySingleValue(query, Collections.emptyMap());
+    }
+
+    public <E> E querySingleValue(String query, Map<String, Object> params) {
+        return query(query, params).singleValue();
     }
 
     public void update(String query) {
-        TestStep step = createStep(null,
-                tokenizedMessage(action("running DB update"), stringValue(query), ON, id(dataSource.getLabel())),
-                (rows) -> tokenizedMessage(action("ran DB update"), stringValue(query), ON, id(dataSource.getLabel()),
-                        action("affected"), numberValue(rows), classifier("rows")),
-                () -> QueryRunnerUtils.runUpdate(dataSource.getDataSource(), query));
+        update(query, Collections.emptyMap());
+    }
+
+    public <E> void update(String query, E singleParam) {
+        update(query, DbNamedParamsQuery.singleNoNameParam(singleParam));
+    }
+
+    public void update(String query, Map<String, Object> params) {
+        DbNamedParamsQuery namedParamsQuery = new DbNamedParamsQuery(query, params);
+
+        WebTauStep step = createStep(
+                updateMessage("running DB update", query, namedParamsQuery.effectiveParams(), null),
+                (rows) -> updateMessage("ran DB update", query, Collections.emptyMap(), (Integer) rows),
+                () -> QueryRunnerUtils.runUpdate(dataSourceProvider.provide().getDataSource(), query, namedParamsQuery));
 
         step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private TokenizedMessage updateMessage(String actionLabel,
+                                           String query,
+                                           Map<String, Object> params,
+                                           Integer numberOfRows) {
+        return appendParamsAndAffectedIfRequired(
+                tokenizedMessage(action(actionLabel), stringValue(query), ON,
+                        id(dataSourceProvider.provide().getLabel())),
+                params,
+                numberOfRows);
+    }
+
+    private TokenizedMessage appendParamsAndAffectedIfRequired(TokenizedMessage message,
+                                                               Map<String, Object> params,
+                                                               Integer numberOfRows) {
+        if (!params.isEmpty()) {
+            message.add(WITH, stringValue(params));
+        }
+
+        if (numberOfRows != null) {
+            message.add(action("affected"), numberValue(numberOfRows), classifier("rows"));
+        }
+
+        return message;
     }
 }

@@ -9,3 +9,11 @@ onlyForEnv('experimental') {
         }
     }
 }
+
+skipForEnv('experimental') {
+    scenario('this scenario will not be executed in "experimental" env') {
+        http.get('/new-endpoint') {
+            price.shouldBe > 0
+        }
+    }
+}

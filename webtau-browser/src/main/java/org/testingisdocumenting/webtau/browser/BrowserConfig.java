@@ -27,18 +27,29 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
 
 public class BrowserConfig implements WebTauConfigHandler {
+    public static final String CHROME = "chrome";
+    public static final String FIREFOX = "firefox";
+
     private static final Supplier<Object> NULL_DEFAULT = () -> null;
 
     private static final ConfigValue browserUrl = declare("browserUrl", "browser base url for application under test. It is being used" +
             " instead of url when provided", () -> "");
 
-    private static final ConfigValue windowWidth = declare("windowWidth", "browser window width", () -> 1000);
-    private static final ConfigValue windowHeight = declare("windowHeight", "browser window height", () -> 800);
-    private static final ConfigValue headless = declareBoolean("headless", "run headless mode");
+    private static final ConfigValue browserWidth = declare("browserWidth", "browser window width", () -> 0);
+    private static final ConfigValue browserHeight = declare("browserHeight", "browser window height", () -> 0);
+    private static final ConfigValue browserHeadless = declareBoolean("browserHeadless", "run browser in headless mode", false);
 
-    private static final ConfigValue browser = declare("browser", "browser name: chrome, firefox", () -> "chrome");
+    private static final ConfigValue browserId = declare("browserId", "browser to use: chrome, firefox", () -> CHROME);
+    private static final ConfigValue browserVersion = declare("browserVersion", "browser version for automatic driver download", () -> "");
+    private static final ConfigValue browserRemoteDriverUrl = declare("browserRemoteDriverUrl", "browser remote driver url", () -> "");
 
-    private static final ConfigValue disableExtensions = declare("disableExtensions", "run without extensions", () -> false);
+    private static final ConfigValue browserAnnotationsDarkFriendly = declare("browserAnnotationsDarkFriendly",
+            "browser doc capture to use light colors annotations by default (for dark theme UI)", () -> false);
+
+    private static final ConfigValue disableExtensions = declare("browserDisableExtensions", "run browser without extensions", () -> false);
+
+    private static final ConfigValue staleElementRetry = declare("browserStaleElementRetry", "number of times to automatically retry for browser stale element actions", () -> 5);
+    private static final ConfigValue staleElementRetryWait = declare("browserStaleElementRetryWait", "wait time in between browser stale element retries", () -> 100);
 
     private static final ConfigValue chromeBinPath = declare("chromeBinPath", "path to chrome binary", NULL_DEFAULT);
     private static final ConfigValue chromeDriverPath = declare("chromeDriverPath", "path to chrome driver binary", NULL_DEFAULT);
@@ -46,24 +57,52 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue firefoxBinPath = declare("firefoxBinPath", "path to firefox binary", NULL_DEFAULT);
     private static final ConfigValue firefoxDriverPath = declare("firefoxDriverPath", "path to firefox driver binary", NULL_DEFAULT);
 
-    public static String getBrowser() {
-        return browser.getAsString();
+    public static String getBrowserId() {
+        return browserId.getAsString();
+    }
+
+    public static String getBrowserVersion() {
+        return browserVersion.getAsString();
+    }
+
+    public static boolean isChrome() {
+        return CHROME.equals(browserId.getAsString());
+    }
+
+    public static boolean isFirefox() {
+        return FIREFOX.equals(browserId.getAsString());
     }
 
     public static String getBrowserUrl() {
         return browserUrl.getAsString();
     }
 
-    public static int getWindowWidth() {
-        return windowWidth.getAsInt();
+    public static int getBrowserWidth() {
+        return browserWidth.getAsInt();
     }
 
-    public static int getWindowHeight() {
-        return windowHeight.getAsInt();
+    public static int getBrowserHeight() {
+        return browserHeight.getAsInt();
+    }
+
+    public static int getStaleElementRetry() {
+        return staleElementRetry.getAsInt();
+    }
+
+    public static int getStaleElementRetryWait() {
+        return staleElementRetryWait.getAsInt();
     }
 
     public static boolean isHeadless() {
-        return headless.getAsBoolean();
+        return browserHeadless.getAsBoolean();
+    }
+
+    public static boolean isRemoteDriver() {
+        return !getRemoteDriverUrl().isEmpty();
+    }
+
+    public static String getRemoteDriverUrl() {
+        return browserRemoteDriverUrl.getAsString();
     }
 
     public static boolean areExtensionsDisabled() {
@@ -71,7 +110,11 @@ public class BrowserConfig implements WebTauConfigHandler {
     }
 
     public static void setHeadless(boolean isHeadless) {
-        headless.set("manual", isHeadless);
+        browserHeadless.set("manual", isHeadless);
+    }
+
+    public static boolean isAnnotationsDarkFriendly() {
+        return browserAnnotationsDarkFriendly.getAsBoolean();
     }
 
     public static Path getChromeBinPath() {
@@ -93,11 +136,16 @@ public class BrowserConfig implements WebTauConfigHandler {
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(
-                browser,
+                browserId,
+                browserVersion,
+                browserRemoteDriverUrl,
                 browserUrl,
-                windowWidth,
-                windowHeight,
-                headless,
+                browserWidth,
+                browserHeight,
+                browserHeadless,
+                browserAnnotationsDarkFriendly,
+                staleElementRetry,
+                staleElementRetryWait,
                 disableExtensions,
                 chromeDriverPath,
                 chromeBinPath,

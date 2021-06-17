@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +20,9 @@ package org.testingisdocumenting.webtau.browser.expectation
 import org.testingisdocumenting.webtau.FakeAdditionalBrowserInteractions
 import org.testingisdocumenting.webtau.FakeWebDriver
 import org.testingisdocumenting.webtau.FakeWebElement
-import org.testingisdocumenting.webtau.browser.page.path.ElementPath
-import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinder
+import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
+import org.testingisdocumenting.webtau.browser.page.GenericPageElement
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
 import org.junit.Before
 import org.junit.Test
 
@@ -38,7 +39,7 @@ class PageElementContainHandlerTest {
 
     @Test
     void "handles page element and any other value"() {
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), new ElementPath())
+        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), new PageElementPath(), false)
 
         handler.handleEquality(pageElement, "hello").should == true
         handler.handleEquality(pageElement, 100).should == true
@@ -47,19 +48,40 @@ class PageElementContainHandlerTest {
     }
 
     @Test
-    void "delegates to contain handler of array of page element values"() {
-        def path = new ElementPath()
-        path.addFinder(new ByCssFinder(".element"))
+    void "delegates to contain handler of first element value of page element by default"() {
+        def path = new PageElementPath()
+        path.addFinder(new ByCssFinderPage(".element"))
 
+        driver.registerFakeElement(".element", new FakeWebElement("div", "abcdefgh" , [:]))
         driver.registerFakeElement(".element", new FakeWebElement("div", "test" , [:]))
 
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), path)
+        def pageElement = new GenericPageElement(driver,
+                new FakeAdditionalBrowserInteractions(), path, false)
+
+        pageElement.should contain("cde")
+        pageElement.shouldNot contain("fff")
+
+        code {
+            pageElement.should contain("bbb")
+        } should throwException(~/expects to contain "bbb"/)
+    }
+
+    @Test
+    void "delegates to contain handler of array of page element values when element marked as all"() {
+        def path = new PageElementPath()
+        path.addFinder(new ByCssFinderPage(".element"))
+
+        driver.registerFakeElement(".element", new FakeWebElement("div", "abc" , [:]))
+        driver.registerFakeElement(".element", new FakeWebElement("div", "test" , [:]))
+
+        def pageElement = new GenericPageElement(driver,
+                new FakeAdditionalBrowserInteractions(), path, false).all()
 
         pageElement.should contain("test")
         pageElement.shouldNot contain("test2")
 
         code {
             pageElement.should contain("missing")
-        } should throwException(~/expect to contain "missing"/)
+        } should throwException(~/expects to contain "missing"/)
     }
 }

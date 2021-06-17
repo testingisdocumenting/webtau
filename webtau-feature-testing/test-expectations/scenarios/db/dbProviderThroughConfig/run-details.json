@@ -3,7 +3,7 @@
     "scenario" : "access db using provider from config",
     "shortContainerId" : "dbProviderThroughConfig.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +15,11 @@
  * limitations under the License.
  */
 
-export default {
-    PASSED: 'Passed',
-    FAILED: 'Failed',
-    ERRORED: 'Errored',
-    SKIPPED: 'Skipped',
-}
+const statusEnum = {
+  PASSED: 'Passed',
+  FAILED: 'Failed',
+  ERRORED: 'Errored',
+  SKIPPED: 'Skipped',
+};
+
+export default statusEnum;

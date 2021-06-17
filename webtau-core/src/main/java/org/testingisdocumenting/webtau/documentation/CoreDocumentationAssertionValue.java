@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +19,8 @@ package org.testingisdocumenting.webtau.documentation;
 
 import java.util.function.Supplier;
 
+import static org.testingisdocumenting.webtau.WebTauCore.doc;
+
 public class CoreDocumentationAssertionValue {
     private final Supplier<Object> valueSupplier;
 
@@ -26,12 +29,38 @@ public class CoreDocumentationAssertionValue {
     }
 
     /**
-     * capture value to a file using passed test class to determine the root location of the file.
-     * In maven like build systems it will most likely be <code>target/test-classes</code> of a module containing the class
-     * @param testClass test class to determine the root location
+     * Captures value to a text or JSON file (based on the content) in parent location defined by {@link DocumentationArtifactsLocation}
+     *
      * @param artifactName artifact name (file name without extension)
      */
-    public void capture(Class<?> testClass, String artifactName) {
-        DocumentationArtifacts.createAsJson(testClass, artifactName, valueSupplier.get());
+    public void capture(String artifactName) {
+        doc.capture(artifactName, valueSupplier.get());
+    }
+
+    /**
+     * Captures value to a text file in parent location defined by {@link DocumentationArtifactsLocation}
+
+     * @param artifactName artifact name (file name without extension)
+     */
+    public void captureText(String artifactName) {
+        doc.captureText(artifactName, valueSupplier.get());
+    }
+
+    /**
+     * Captures value to a JSON file in parent location defined by {@link DocumentationArtifactsLocation}
+
+     * @param artifactName artifact name (file name without extension)
+     */
+    public void captureJson(String artifactName) {
+        doc.captureJson(artifactName, valueSupplier.get());
+    }
+
+    /**
+     * Captures value to a CSV file in parent location defined by {@link DocumentationArtifactsLocation}
+
+     * @param artifactName artifact name (file name without extension)
+     */
+    public void captureCsv(String artifactName) {
+        doc.captureCsv(artifactName, valueSupplier.get());
     }
 }

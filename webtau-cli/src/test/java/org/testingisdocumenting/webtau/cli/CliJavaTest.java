@@ -17,14 +17,15 @@
 
 package org.testingisdocumenting.webtau.cli;
 
+import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
-import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -38,7 +39,7 @@ public class CliJavaTest {
     public static void init() {
         existingDocRoot = DocumentationArtifactsLocation.getRoot();
         DocumentationArtifactsLocation.setRoot(
-                DocumentationArtifactsLocation.classBasedLocation(CliJavaTest.class).resolve("doc-artifacts"));
+                Paths.get("cli-doc-artifacts"));
     }
 
     @AfterClass
@@ -69,11 +70,11 @@ public class CliJavaTest {
     @Test
     public void runResultWhenFailToRun() {
         supportedPlatformOnly(() -> {
-            CliRunResult result = cli.run("a_ls -l", ((exitCode, output, error) -> exitCode.should(equal(127))));
+            CliRunResult result = cli.run("scripts/hello", ((exitCode, output, error) -> exitCode.should(equal(5))));
 
-            actual(result.getExitCode()).should(equal(127));
-            actual(result.getError()).should(contain("not found"));
-            actual(result.getOutput()).should(equal(""));
+            actual(result.getExitCode()).should(equal(5));
+            actual(result.getError()).should(contain("error line two"));
+            actual(result.getOutput()).should(contain("more text"));
         });
     }
 
@@ -131,6 +132,31 @@ public class CliJavaTest {
                     output.shouldNot(contain("line"));
                 }));
             }).should(throwException(Pattern.compile("output\\[1]: equals \"line in the middle\"")));
+        });
+    }
+
+    @Test
+    public void pathBasedLocation() {
+        ConfigValue pathConfigValue = CliConfig.getCliPathConfigValue();
+        pathConfigValue.set("test", Arrays.asList("my-path-one", "additional-scripts"));
+
+        supportedPlatformOnly(() -> {
+            cli.run("nested-dir/world", ((output, error) -> {
+                output.should(contain("hello world path detection"));
+            }));
+        });
+    }
+
+    @Test
+    public void timeOut() {
+        supportedPlatformOnly(() -> {
+            ConfigValue timeoutConfigValue = CliConfig.getCliTimeoutConfigValue();
+            try {
+                timeoutConfigValue.set("manual", 20);
+                code(() -> cli.run("sleep 2")).should(throwException("process timed-out"));
+            } finally {
+                timeoutConfigValue.reset();
+            }
         });
     }
 }

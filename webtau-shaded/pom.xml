@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.30-SNAPSHOT</version>
+        <version>1.42-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-shaded</artifactId>
@@ -30,7 +30,7 @@
     <dependencies>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
-            <artifactId>webtau-groovy</artifactId>
+            <artifactId>webtau-groovy-app</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -65,7 +65,7 @@
                         </goals>
                         <configuration>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>shaded</shadedClassifierName>
+                            <shadedClassifierName>all</shadedClassifierName>
 
                             <relocations>
                                 <relocation>
@@ -74,9 +74,11 @@
                                     <excludes>
                                         <exclude>org.testingisdocumenting.**</exclude>
                                         <exclude>org.codehaus.groovy.**</exclude>
+                                        <exclude>org.apache.groovy.**</exclude>
                                         <exclude>org.w3c.**</exclude>
                                         <exclude>org.fusesource.**</exclude>
                                         <exclude>org.apache.ivy.**</exclude>
+                                        <exclude>org.openqa.selenium.**</exclude>
                                         <exclude>org.mozilla.**</exclude>
                                         <exclude>org.xml.sax.**</exclude>
                                     </excludes>

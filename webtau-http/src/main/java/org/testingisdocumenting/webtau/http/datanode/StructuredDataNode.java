@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +20,7 @@ package org.testingisdocumenting.webtau.http.datanode;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -102,7 +100,7 @@ public class StructuredDataNode implements DataNode {
 
         String indexStr = name.substring(openBraceIdx + 1, closeBraceIdx);
         try {
-            int idx = Integer.valueOf(indexStr);
+            int idx = Integer.parseInt(indexStr);
             String nameWithoutIndex = name.substring(0, openBraceIdx);
             DataNode node = get(nameWithoutIndex);
 
@@ -165,6 +163,13 @@ public class StructuredDataNode implements DataNode {
     }
 
     @Override
+    public Collection<DataNode> children() {
+        return children == null ?
+                Collections.emptyList():
+                Collections.unmodifiableCollection(children.values());
+    }
+
+    @Override
     public Iterator<DataNode> iterator() {
         return elements().iterator();
     }
@@ -179,11 +184,6 @@ public class StructuredDataNode implements DataNode {
     @Override
     public int numberOfElements() {
         return isList() ? values.size() : 0;
-    }
-
-    @Override
-    public Map<String, DataNode> asMap() {
-        return children != null ? Collections.unmodifiableMap(children) : Collections.emptyMap();
     }
 
     @Override

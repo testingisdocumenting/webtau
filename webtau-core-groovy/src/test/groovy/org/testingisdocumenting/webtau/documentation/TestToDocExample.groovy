@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +20,8 @@ package org.testingisdocumenting.webtau.documentation
 import org.testingisdocumenting.webtau.data.table.TableData
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.WebTauCore.doc
+
 class TestToDocExample {
     @Test
     void shouldRestrictAccountsActivity() {
@@ -32,7 +35,7 @@ class TestToDocExample {
     }
 
     private static void validateRules(TableData rules) {
-        DocumentationArtifacts.createAsJson(TestToDocExample, "account-rules", rules)
-        DocumentationArtifacts.createAsCsv(TestToDocExample, "account-rules", rules)
+        doc.captureJson("account-rules", rules)
+        doc.captureCsv("account-rules", rules)
     }
 }

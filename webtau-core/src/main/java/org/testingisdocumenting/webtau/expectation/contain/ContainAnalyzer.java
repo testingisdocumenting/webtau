@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +19,7 @@ package org.testingisdocumenting.webtau.expectation.contain;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
@@ -30,7 +32,7 @@ import java.util.function.Consumer;
 import static java.util.stream.Collectors.joining;
 
 public class ContainAnalyzer {
-    private static List<ContainHandler> handlers = discoverHandlers();
+    private static final List<ContainHandler> handlers = discoverHandlers();
 
     private final List<ActualPathMessage> mismatches;
 
@@ -58,7 +60,7 @@ public class ContainAnalyzer {
             reports.add(mismatches.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
         }
 
-        return reports.stream().collect(joining("\n\n"));
+        return String.join("\n\n", reports);
     }
 
     public boolean hasMismatches() {
@@ -85,6 +87,7 @@ public class ContainAnalyzer {
         List<ContainHandler> result = new ArrayList<>();
         result.add(new NullContainHandler());
         result.addAll(ServiceLoaderUtils.load(ContainHandler.class));
+        result.add(new IterableContainHandler());
 
         return result;
     }

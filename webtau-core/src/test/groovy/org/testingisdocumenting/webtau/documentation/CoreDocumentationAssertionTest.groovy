@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +30,7 @@ class CoreDocumentationAssertionTest {
 
         actual(score).shouldBe(lessThan(150))
 
-        doc.expected.capture(CoreDocumentationAssertionTest, "score")
+        doc.expected.capture("score")
         validateArtifactContent("score", "150")
     }
 
@@ -39,7 +40,7 @@ class CoreDocumentationAssertionTest {
 
         actual(level).shouldBe(greaterThan(3))
 
-        doc.actual.capture(CoreDocumentationAssertionTest, "level")
+        doc.actual.capture("level")
         validateArtifactContent("level", "10")
     }
 
@@ -54,7 +55,7 @@ class CoreDocumentationAssertionTest {
                                             ________________,
                                             "a1" , "w1",
                                             "a2" , "w2")))
-        doc.expected.capture(CoreDocumentationAssertionTest, "accounts")
+        doc.expected.capture("accounts")
         validateArtifactContent("accounts", '[ {\n' +
                 '  "id" : "a1",\n' +
                 '  "walletId" : "w1"\n' +
@@ -64,10 +65,34 @@ class CoreDocumentationAssertionTest {
                 '} ]')
     }
 
-    private static void validateArtifactContent(String artifactName, String expectedFileContent) {
-        def path = DocumentationArtifactsLocation.classBasedLocation(CoreDocumentationAssertionTest)
-                .resolve(artifactName + ".json")
+    @Test
+    void "should capture actual exception"() {
+        code {
+            throw new RuntimeException("actual full\nexception")
+        } should throwException(~/actual/)
 
+        doc.actual.capture("actual-exception")
+        validateArtifactContent("actual-exception", "txt",
+                "actual full\nexception")
+    }
+
+    @Test
+    void "should capture expected exception"() {
+        code {
+            throw new RuntimeException("actual full\nexception")
+        } should throwException(RuntimeException)
+
+        doc.expected.capture("expected-exception")
+        validateArtifactContent("expected-exception", "json",
+                '"java.lang.RuntimeException"')
+    }
+
+    private static void validateArtifactContent(String artifactName, String expectedFileContent) {
+        validateArtifactContent(artifactName, "json", expectedFileContent)
+    }
+
+    private static void validateArtifactContent(String artifactName, String extension, String expectedFileContent) {
+        def path = DocumentationArtifactsLocation.resolve(artifactName + "." + extension)
         actual(FileUtils.fileTextContent(path)).should(equal(expectedFileContent))
     }
 }

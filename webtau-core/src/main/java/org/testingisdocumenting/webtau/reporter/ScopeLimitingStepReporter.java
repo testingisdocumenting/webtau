@@ -27,21 +27,21 @@ public class ScopeLimitingStepReporter implements StepReporter {
     }
 
     @Override
-    public void onStepStart(TestStep step) {
+    public void onStepStart(WebTauStep step) {
         checkAndDelegate(step, () -> stepReporter.onStepStart(step));
     }
 
     @Override
-    public void onStepSuccess(TestStep step) {
+    public void onStepSuccess(WebTauStep step) {
         checkAndDelegate(step, () -> stepReporter.onStepSuccess(step));
     }
 
     @Override
-    public void onStepFailure(TestStep step) {
+    public void onStepFailure(WebTauStep step) {
         checkAndDelegate(step, () -> stepReporter.onStepFailure(step));
     }
 
-    private void checkAndDelegate(TestStep step, Runnable code) {
+    private void checkAndDelegate(WebTauStep step, Runnable code) {
         int currentLevel = step.getNumberOfParents() + 1;
         if (currentLevel <= maxLevel) {
             code.run();

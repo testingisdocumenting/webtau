@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.cfg
 
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.WebTauCore.persona
+
 class ConfigValueTest {
     @Test
     void "takes the most recently set value"() {
@@ -49,5 +51,42 @@ class ConfigValueTest {
 
         configValue.accept("command line", [dummy: 1, pathToThat: "path2"])
         configValue.getAsString().should == "path2"
+    }
+
+    @Test
+    void "set and get the value based current persona"() {
+        def John = persona('John')
+        def Bob = persona('Bob')
+
+        def configValue = ConfigValue.declare("vk", "description", { -> "dv" })
+
+        configValue.isDefault().should == true
+        configValue.getAsString().should == 'dv'
+
+        John {
+            configValue.isDefault().should == true
+            configValue.getAsString().should == 'dv'
+        }
+
+        configValue.set("manual", "new-value")
+
+        John {
+            configValue.isDefault().should == false
+            configValue.getAsString().should == 'new-value'
+        }
+
+        Bob {
+            configValue.isDefault().should == false
+            configValue.getAsString().should == 'new-value'
+
+            configValue.set("manual", "new-Bob-value")
+        }
+
+        configValue.getAsString().should == 'new-value'
+
+        Bob {
+            configValue.isDefault().should == false
+            configValue.getAsString().should == 'new-Bob-value'
+        }
     }
 }

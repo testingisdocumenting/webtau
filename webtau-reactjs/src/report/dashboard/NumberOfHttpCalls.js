@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,21 +15,18 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CardLabelAndNumber from '../widgets/CardLabelAndNumber'
+import { CardLabelAndNumber } from '../widgets/CardLabelAndNumber';
 
-function NumberOfHttpCalls({number}) {
-    if (typeof number === 'undefined') {
-        return null
-    }
+function NumberOfHttpCalls({ number }) {
+  if (typeof number === 'undefined') {
+    return null;
+  }
 
-    const label = number === 1 ? 'HTTP call' : 'HTTP calls'
+  const label = number === 1 ? 'HTTP call' : 'HTTP calls';
 
-    return (
-        <CardLabelAndNumber label={label} number={number}/>
-    )
+  return <CardLabelAndNumber label={label} number={number} />;
 }
 
-export default NumberOfHttpCalls
-
+export default NumberOfHttpCalls;

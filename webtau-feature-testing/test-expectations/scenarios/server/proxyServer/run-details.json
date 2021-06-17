@@ -1,0 +1,29 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "parse/init",
+    "shortContainerId" : "proxyServer.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "proxy server",
+    "shortContainerId" : "proxyServer.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "slowed down proxy",
+    "shortContainerId" : "proxyServer.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4,
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 0
+}

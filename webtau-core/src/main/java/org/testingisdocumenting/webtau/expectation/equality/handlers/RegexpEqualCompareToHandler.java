@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +20,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.util.regex.Pattern;
 
@@ -27,7 +29,7 @@ import static org.testingisdocumenting.webtau.expectation.equality.handlers.Hand
 public class RegexpEqualCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof String && expected instanceof Pattern;
+        return TypeUtils.isString(actual) && expected instanceof Pattern;
     }
 
     @Override

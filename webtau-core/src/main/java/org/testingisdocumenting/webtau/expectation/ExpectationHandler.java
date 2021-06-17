@@ -27,4 +27,10 @@ public interface ExpectationHandler {
     }
 
     default void onValueMatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue) {}
+
+    default Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
+        return Flow.PassToNext;
+    }
+
+    default void onCodeMatch(CodeMatcher codeMatcher) {}
 }

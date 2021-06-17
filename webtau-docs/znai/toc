@@ -1,5 +1,10 @@
-REST
-    getting-started
+getting-started
+    what-is-this
+    why
+    installation
+    configuration
+HTTP
+    introduction
     CRUD
     CRUD-separated
     data-node
@@ -16,19 +21,20 @@ REST
     report
     maven
     matchers
-    test-execution
 GraphQL
-    getting-started
-    queries
+    introduction
+    queries-and-mutations
+    customized-graphql-urls
     report
-UI
-    getting-started
+browser
+    introduction
     basic-configuration
     page-element-and-value
     page-object
+    element-actions
     forms
     asynchronous-page
-    documentation
+    documentation-artifacts
     advanced-configuration
     local-storage
     cookies
@@ -36,13 +42,35 @@ UI
     page-open-handlers
     finders-and-filters
     matchers
-groovy-specific-runner
+database
+    introduction
+    data-setup
+    data-query
+    config
+cli
+    introduction
+    foreground-command
+    background-command
+REPL
+    experiments
+    test-runs
+utilities
+    introduction
+    data
+    file-system
+    cache
+groovy-standalone-runner
+    introduction
     data-driven-scenarios
     tests-hard-stops
     selective-run
     skipping-tests
     test-metadata
     test-listeners
+    test-execution
+configuration
+    environments
+    options
 generic-runners
     JUnit-4
     JUnit-5
@@ -51,7 +79,3 @@ JVM-business-logic
     documentation-artifacts
 reference
     table-data
-configuration
-    cli
-    environments
-    options

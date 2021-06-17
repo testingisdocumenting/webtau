@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "open and validate title and url",
+    "shortContainerId" : "titleAndUrl.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  } ],
+  "exitCode" : 0
+}

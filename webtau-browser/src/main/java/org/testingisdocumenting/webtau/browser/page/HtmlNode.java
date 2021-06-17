@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,83 +17,58 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import java.util.Collections;
 import java.util.Map;
 
 public class HtmlNode {
-    public static final HtmlNode NULL = nullNode();
-
-    private boolean present;
-    private String tagName;
-    private String value;
-    private Map<String, String> attributes;
-    private String innerHtml;
-
-    private HtmlNode() {
-        present = false;
-        tagName = "";
-        value = "";
-        attributes = Collections.emptyMap();
-        innerHtml = "";
-    }
+    private final String tagName;
+    private final String value;
+    private final String type;
+    private final Map<String, String> attributes;
+    private final String innerHtml;
 
     @SuppressWarnings("unchecked")
     public HtmlNode(Map<String, ?> meta) {
-        present = true;
         tagName = (String) meta.get("tagName");
         attributes = (Map<String, String>) meta.get("attributes");
         innerHtml = (String) meta.get("innerHtml");
 
-        Object metaValue = meta.get("value");
-        this.value = metaValue != null ? metaValue.toString() : null;
+        value = extractValue(meta);
+        type = attributes.getOrDefault("type", "");
     }
 
     public String getTagName() {
         return tagName;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public String getType() {
+        return type;
     }
 
     public Map<String, String> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
     public String getInnerHtml() {
         return innerHtml;
-    }
-
-    public void setInnerHtml(String innerHtml) {
-        this.innerHtml = innerHtml;
     }
 
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     @Override
     public String toString() {
         return "HtmlNode{" +
-                "present=" + present +
-                ", tagName='" + tagName + '\'' +
+                "tagName='" + tagName + '\'' +
                 ", value='" + value + '\'' +
+                ", type='" + type + '\'' +
                 ", attributes=" + attributes +
                 ", innerHtml='" + innerHtml + '\'' +
                 '}';
     }
 
-    private static HtmlNode nullNode() {
-        HtmlNode htmlNode = new HtmlNode();
-        htmlNode.present = false;
-        return htmlNode;
+    private String extractValue(Map<String, ?> meta) {
+        Object metaValue = meta.getOrDefault("value", null);
+        return metaValue != null ? metaValue.toString() : null;
     }
 }

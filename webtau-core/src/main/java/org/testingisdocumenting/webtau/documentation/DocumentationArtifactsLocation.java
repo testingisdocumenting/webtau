@@ -17,11 +17,17 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
-import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Captured test artifacts core location.
+ * By default the location is "doc-artifacts" dir in the working dir.
+ *
+ * Can be changed using system property <code>documentation.artifacts.root</code>, via
+ * <code>setRoot</code> method, or via config file when webtau-config module is present (using any of modules like http/browser/etc)
+ */
 public class DocumentationArtifactsLocation {
     public static final String DEFAULT_DOC_ARTIFACTS_DIR_NAME = "doc-artifacts";
 
@@ -37,14 +43,6 @@ public class DocumentationArtifactsLocation {
 
     public static Path resolve(String artifactName) {
         return root.get().resolve(artifactName);
-    }
-
-    public static Path classBasedLocation(Class<?> testClass) {
-        try {
-            return Paths.get(testClass.getProtectionDomain().getCodeSource().getLocation().toURI());
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private static Path getInitialRoot() {

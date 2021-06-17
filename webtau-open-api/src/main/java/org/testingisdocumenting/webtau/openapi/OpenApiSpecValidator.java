@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.openapi;
 
-import com.atlassian.oai.validator.SwaggerRequestResponseValidator;
+import com.atlassian.oai.validator.OpenApiInteractionValidator;
 import com.atlassian.oai.validator.model.SimpleRequest;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.LevelResolver;
@@ -27,21 +28,21 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
 import java.util.Optional;
 
+import static java.util.stream.Collectors.joining;
 import static org.testingisdocumenting.webtau.utils.UrlUtils.extractPath;
 import static org.testingisdocumenting.webtau.utils.UrlUtils.extractQueryParams;
-import static java.util.stream.Collectors.joining;
 
 public class OpenApiSpecValidator {
-    private final SwaggerRequestResponseValidator openApiValidator;
+    private final OpenApiInteractionValidator openApiValidator;
     private final OpenApiSpec openAPISpec;
 
     public OpenApiSpecValidator(OpenApiSpec openApiSpec, OpenApiValidationConfig validationConfig) {
         this.openAPISpec = openApiSpec;
         this.openApiValidator = openApiSpec.isSpecDefined() ?
-                SwaggerRequestResponseValidator
-                        .createFor(openApiSpec.getSpecUrl())
+                OpenApiInteractionValidator
+                        .createForInlineApiSpecification(openApiSpec.getSpecContent())
                         .withLevelResolver(createLevelResolver(validationConfig))
-                        .build():
+                        .build() :
                 null;
     }
 
@@ -49,29 +50,32 @@ public class OpenApiSpecValidator {
         return openAPISpec.isSpecDefined();
     }
 
-    public void validateApiSpec(HttpValidationResult result, ValidationMode validationMode) {
+    public void validateApiSpec(HttpValidationResult result, OpenApiValidationMode openApiValidationMode) {
         Optional<OpenApiOperation> apiOperation = openAPISpec.findApiOperation(result.getRequestMethod(), result.getFullUrl());
-        if (! apiOperation.isPresent()) {
-            ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " not found in OpenAPI spec");
+        if (!apiOperation.isPresent()) {
+            ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " is not found in OpenAPI spec");
+            result.addWarning("path " + result.getFullUrl() + " is not found in OpenAPI spec");
+
             return;
         }
 
         SimpleRequest request = buildRequest(result);
         SimpleResponse response = buildResponse(result);
 
-        ValidationReport validationReport = validate(validationMode, request, response);
-        validationReport.getMessages().forEach(message -> result.addMismatch("API spec validation failure: " + message.toString()));
+        ValidationReport validationReport = validate(openApiValidationMode, request, response);
+        validationReport.getMessages().forEach(message ->
+                result.addMismatch("API spec validation failure: " + renderMessage(message)));
 
         if (!validationReport.getMessages().isEmpty()) {
             throw new AssertionError("schema is not valid:\n" + validationReport
                     .getMessages().stream()
-                    .map(Object::toString)
+                    .map(OpenApiSpecValidator::renderMessage)
                     .collect(joining("\n")));
         }
     }
 
-    private ValidationReport validate(ValidationMode validationMode, SimpleRequest request, SimpleResponse response) {
-        switch (validationMode) {
+    private ValidationReport validate(OpenApiValidationMode openApiValidationMode, SimpleRequest request, SimpleResponse response) {
+        switch (openApiValidationMode) {
             case RESPONSE_ONLY:
                 return openApiValidator.validateResponse(request.getPath(), request.getMethod(), response);
             case REQUEST_ONLY:
@@ -84,9 +88,22 @@ public class OpenApiSpecValidator {
         }
     }
 
+    private static String renderMessage(ValidationReport.Message message) {
+        return message.getContext().map(c ->
+                (c.getRequestPath().isPresent() && c.getRequestMethod().isPresent() ?
+                        (c.getRequestMethod().get() + " " + c.getRequestPath().get() + ": ") : "") +
+                        message.getMessage()).orElse("");
+    }
+
     private SimpleResponse buildResponse(HttpValidationResult result) {
-        return SimpleResponse.Builder
-                .status(result.getResponseStatusCode())
+        SimpleResponse.Builder builder = SimpleResponse.Builder
+                .status(result.getResponseStatusCode());
+
+        if (!result.getResponseType().isEmpty()) {
+            builder.withContentType(result.getResponseType());
+        }
+
+        return builder
                 .withBody(result.getResponseTextContent())
                 .build();
     }
@@ -109,6 +126,7 @@ public class OpenApiSpecValidator {
 
     private LevelResolver createLevelResolver(OpenApiValidationConfig validationConfig) {
         LevelResolver.Builder builder = LevelResolver.create();
+
         if (validationConfig.isIgnoreAdditionalProperties()) {
             builder.withLevel("validation.schema.additionalProperties", ValidationReport.Level.IGNORE);
         }

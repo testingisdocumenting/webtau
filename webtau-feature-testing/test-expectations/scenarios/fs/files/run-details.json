@@ -1,0 +1,28 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "create and delete file",
+    "shortContainerId" : "files.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "create file using string path",
+    "shortContainerId" : "files.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "read file using string path",
+    "shortContainerId" : "files.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
+  }, {
+    "scenario" : "replace file content using regexp",
+    "shortContainerId" : "files.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
+  } ],
+  "exitCode" : 0
+}

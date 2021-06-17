@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,10 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 public class WebTauReport {
     private final long startTime;
     private final long stopTime;
@@ -27,6 +32,9 @@ public class WebTauReport {
     private final long skipped;
     private final long errored;
     private final long duration;
+
+    private final List<WebTauReportCustomData> customDataList;
+    private final WebTauReportLog reportLog;
 
     public WebTauReport(WebTauTestList tests, long startTime, long stopTime) {
         this.startTime = startTime;
@@ -40,6 +48,16 @@ public class WebTauReport {
         failed = tests.countWithStatus(TestStatus.Failed);
         skipped = tests.countWithStatus(TestStatus.Skipped);
         errored = tests.countWithStatus(TestStatus.Errored);
+        customDataList = new ArrayList<>();
+        reportLog = new WebTauReportLog();
+    }
+
+    public void addCustomData(WebTauReportCustomData customData) {
+        customDataList.add(customData);
+    }
+
+    public boolean isFailed() {
+        return failed > 0 || errored > 0;
     }
 
     public WebTauTestList getTests() {
@@ -76,5 +94,13 @@ public class WebTauReport {
 
     public long getErrored() {
         return errored;
+    }
+
+    public Stream<WebTauReportCustomData> getCustomDataStream() {
+        return customDataList.stream();
+    }
+
+    public WebTauReportLog getReportLog() {
+        return reportLog;
     }
 }

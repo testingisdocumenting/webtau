@@ -1,0 +1,22 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "page open handlers",
+    "shortContainerId" : "openHandler.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "page open handlers during re-open",
+    "shortContainerId" : "openHandler.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  } ],
+  "exitCode" : 0
+}

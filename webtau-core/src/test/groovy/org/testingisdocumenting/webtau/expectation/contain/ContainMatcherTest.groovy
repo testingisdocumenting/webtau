@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +26,7 @@ class ContainMatcherTest {
     void "should throw exception when value doesn't contain expected value"() {
         code {
             actual('hello world').should(contain('world!'))
-        } should throwException('\n[value] expect to contain "world!"\n' +
+        } should throwException('\n[value] expects to contain "world!"\n' +
             '[value]: hello world')
     }
 
@@ -33,7 +34,7 @@ class ContainMatcherTest {
     void "should throw exception when value contain expected value, but should not"() {
         code {
             actual('hello world').shouldNot(contain('world'))
-        } should throwException('\n[value] expect to not contain "world"\n' +
+        } should throwException('\n[value] expects to not contain "world"\n' +
             '[value]: hello world')
     }
 

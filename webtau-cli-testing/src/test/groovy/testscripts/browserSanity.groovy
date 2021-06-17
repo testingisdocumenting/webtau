@@ -16,9 +16,12 @@
 
 package testscripts
 
+import static org.testingisdocumenting.webtau.WebTauDsl.*
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('open browser and perform validation') {
-    browser.open('https://jsonplaceholder.typicode.com')
-    $("h1").should == "JSONPlaceholder"
+    def basicHtmlPath = cfg.fullPath("data/basic.html").toAbsolutePath()
+    browser.open("file://${basicHtmlPath.toAbsolutePath()}")
+
+    $("p").should == "hello web page"
 }

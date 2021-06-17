@@ -17,12 +17,18 @@
 
 package org.testingisdocumenting.webtau.runner.standalone
 
+import org.junit.After
+import org.junit.Before
 import org.testingisdocumenting.webtau.TestFile
-import org.testingisdocumenting.webtau.reporter.TestListener
-import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
+import org.testingisdocumenting.webtau.reporter.StepReporter
+import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.TestListener
+import org.testingisdocumenting.webtau.TestListeners
 import org.junit.Test
-import org.testingisdocumenting.webtau.reporter.TestStep
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import java.nio.file.Paths
 
@@ -30,6 +36,19 @@ import static org.testingisdocumenting.webtau.WebTauCore.contain
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
 
 class StandaloneTestRunnerTest {
+    final StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
+            () -> Integer.MAX_VALUE)
+
+    @Before
+    void init() {
+        StepReporters.add(stepReporter)
+    }
+
+    @After
+    void cleanup() {
+        StepReporters.remove(stepReporter)
+    }
+
     @Test
     void "should register tests with scenario keyword"() {
         def runner = createRunner("StandaloneTest.groovy")
@@ -117,10 +136,13 @@ class StandaloneTestRunnerTest {
     }
 
     @Test
-    void "should forbid test steps outside of scenario"() {
+    void "should register steps outside of scenario as separate parse-init test"() {
         def runner = createRunner("withTestStepOutsideScenario.groovy")
+
+        runner.tests.scenario.should == ["parse/init", "scenario one", "scenario two", "scenario three"]
+        runner.tests[0].steps.completionMessage.join(",").should == "ran errand"
+
         runner.runTests()
-        assertInitFailed(runner, 'executing <running errand> outside of scenario is not supported')
     }
 
     @Test
@@ -157,7 +179,7 @@ class StandaloneTestRunnerTest {
         def listener = new TestListener() {
             @Override
             void beforeFirstTest() {
-                TestStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
+                WebTauStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
                         { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
                     println "dummy step"
                 }
@@ -173,6 +195,7 @@ class StandaloneTestRunnerTest {
             def beforeFirstTest = runner.webTauTestList.get(0)
             beforeFirstTest.scenario.should == 'before first test'
             beforeFirstTest.shortContainerId.should == 'Setup'
+            beforeFirstTest.isSynthetic.should == true
         }
     }
 
@@ -210,6 +233,7 @@ class StandaloneTestRunnerTest {
 
             def beforeFirstTest = runner.webTauTestList.get(0)
             beforeFirstTest.scenario.should == 'before first test'
+            beforeFirstTest.isSynthetic.should == true
             beforeFirstTest.shortContainerId.should == 'Setup'
             beforeFirstTest.exception.message.should == 'test error message'
         }
@@ -220,7 +244,7 @@ class StandaloneTestRunnerTest {
         def listener = new TestListener() {
             @Override
             void afterAllTests() {
-                TestStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
+                WebTauStep.createAndExecuteStep(TokenizedMessage.tokenizedMessage(none("test step")),
                         { -> TokenizedMessage.tokenizedMessage(none("complete test step")) }) {
                     println "dummy step"
                 }
@@ -233,9 +257,10 @@ class StandaloneTestRunnerTest {
 
             runner.webTauTestList.size().should == 4
 
-            def beforeFirstTest = runner.webTauTestList.get(3)
-            beforeFirstTest.scenario.should == 'after all tests'
-            beforeFirstTest.shortContainerId.should == 'Teardown'
+            def afterAllTest = runner.webTauTestList.get(3)
+            afterAllTest.scenario.should == 'after all tests'
+            afterAllTest.shortContainerId.should == 'Teardown'
+            afterAllTest.isSynthetic.should == true
         }
     }
 
@@ -271,10 +296,11 @@ class StandaloneTestRunnerTest {
 
             runner.webTauTestList.size().should == 4
 
-            def beforeFirstTest = runner.webTauTestList.get(3)
-            beforeFirstTest.scenario.should == 'after all tests'
-            beforeFirstTest.shortContainerId.should == 'Teardown'
-            beforeFirstTest.exception.message.should == 'test error message'
+            def afterAllTest = runner.webTauTestList.get(3)
+            afterAllTest.scenario.should == 'after all tests'
+            afterAllTest.synthetic.should == true
+            afterAllTest.shortContainerId.should == 'Teardown'
+            afterAllTest.exception.message.should == 'test error message'
         }
     }
 
@@ -298,8 +324,12 @@ class StandaloneTestRunnerTest {
 
     private static StandaloneTestRunner createRunner(String... scenarioFiles) {
         def workingDir = Paths.get("test-scripts")
-        def runner = new StandaloneTestRunner(GroovyStandaloneEngine.createWithDelegatingEnabled(workingDir, []), workingDir)
-        scenarioFiles.each { runner.process(new TestFile(Paths.get(it)), this) }
+        def runner = new StandaloneTestRunner(
+                GroovyStandaloneEngine.createWithoutDelegating(workingDir,
+                ["org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunnerTestStaticImport"]), workingDir)
+
+        StandaloneTestRunnerTestStaticImport.runner = runner
+        scenarioFiles.each { runner.process(new TestFile(Paths.get(it))) }
 
         return runner
     }

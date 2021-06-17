@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +42,7 @@ public class CsvUtils {
         return convertValues(parse(content));
     }
 
-    public static List<Map<String, String>> parse(List<String> header, String content) {
+    public static List<Map<String, String>> parse(Collection<String> header, String content) {
         List<Map<String, String>> tableData = new ArrayList<>();
 
         CSVParser csvRecords = readCsvRecords(header, content);
@@ -61,12 +62,22 @@ public class CsvUtils {
         return convertValues(parse(header, content));
     }
 
-    public static String serialize(Stream<String> header, Stream<List<Object>> rows) {
+    public static String serialize(List<Map<String, Object>> rows) {
+        if (rows.isEmpty()) {
+            return "";
+        }
+
+        return CsvUtils.serialize(
+                rows.get(0).keySet().stream(),
+                rows.stream().map(Map::values));
+    }
+
+    public static String serialize(Stream<String> header, Stream<Collection<Object>> rows) {
         try {
             StringWriter out = new StringWriter();
             CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(header.toArray(String[]::new)));
 
-            Iterator<List<Object>> it = rows.iterator();
+            Iterator<Collection<Object>> it = rows.iterator();
             while (it.hasNext()) {
                 csvPrinter.printRecord(it.next());
             }
@@ -77,7 +88,7 @@ public class CsvUtils {
         }
     }
 
-    private static CSVParser readCsvRecords(List<String> header, String content) {
+    private static CSVParser readCsvRecords(Collection<String> header, String content) {
         try {
             CSVFormat csvFormat = CSVFormat.RFC4180;
             if (header.isEmpty()) {

@@ -24,6 +24,40 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataSeparateValues", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
+# Key Columns
+
+Use `*` in front of a column to specify it as a key column
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableWithKeyColumns", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableWithKeyColumns", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+To access a value by key column
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "findByKeyAndValidate", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "findByKeyAndValidate", bodyOnly: true}
+```
+
+To change key columns of an existing table
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "changeKeyColumns", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "changeKeyColumns", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+Note: `withNewKeyColumns` creates new table and validates new key column uniqueness
+
 # Permutations
 
 Use `permute(v1, v2)` to automatically generate multiple rows.
@@ -36,7 +70,21 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithPermute", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-with-permute.json
+:include-table: doc-artifacts/table-with-permute.json
+
+# GUID
+
+Use `cell.guid` to automatically generate unique ids.
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableDataWithPermuteAndGuid", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithPermuteAndGuid", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+```
+
+:include-table: doc-artifacts/table-with-permute-and-guid.json
 
 # Replace
 
@@ -54,7 +102,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "replaceValue", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-after-replace.json
+:include-table: doc-artifacts/table-after-replace.json
 
 # Cell Above Value Reference
 
@@ -68,7 +116,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithAboveRef", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-with-cell-above.json
+:include-table: doc-artifacts/table-with-cell-above.json
 
 # Cell Above Math
 
@@ -82,7 +130,7 @@ Java:
 :include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableDataWithAboveRefAndMath", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
-:include-table: table-with-cell-above-math.json
+:include-table: doc-artifacts/table-with-cell-above-math.json
 
 Extract `cell.above.operation` to make your intentions clearer
 

@@ -43,9 +43,43 @@ class GraphQLCoverageTest {
 
     @Test
     void "ignores non-graphql queries"() {
-        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 0, 'GET'))
-        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 0, 'POST', '/not-graphql'))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '', 0, 'GET'))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '', 0, 'POST', '/not-graphql'))
 
         coverage.coveredQueries().should == []
+    }
+
+    @Test
+    void "should provide queries covering success outcomes and skipped success outcomes"() {
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION))
+
+        coverage.coveredSuccessBranches().should == ['*name'      | '*type'    ] {
+                                                     _______________________________________
+                                                      'allTasks' | GraphQLQueryType.QUERY
+                                                      'complete' | GraphQLQueryType.MUTATION }
+        coverage.coveredErrorBranches().should == []
+        coverage.nonCoveredSuccessBranches().should == ['*name'      | '*type'    ] {
+                                                        _______________________________________
+                                                        'taskById'   | GraphQLQueryType.QUERY
+                                                        'uncomplete' | GraphQLQueryType.MUTATION }
+    }
+
+    @Test
+    void "should provide queries covering error outcomes and skipped error outcomes"() {
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION,
+                '{ "dataAndError": {}, "errors": { "message": "error some place" }}'))
+        coverage.recordQuery(validationResult('taskById', GraphQLQueryType.QUERY,
+                '{ "errors": { "message": "error some place" }}'))
+        coverage.coveredErrorBranches().should == ['*name'      | '*type'    ] {
+                                                   _______________________________________
+                                                   'complete'   | GraphQLQueryType.MUTATION
+                                                   'taskById'   | GraphQLQueryType.QUERY }
+
+        coverage.nonCoveredErrorBranches().should == ['*name'     | '*type'    ] {
+                                                      _______________________________________
+                                                     'uncomplete' | GraphQLQueryType.MUTATION
+                                                     'allTasks'   | GraphQLQueryType.QUERY }
+        coverage.coveredSuccessBranches().should == []
     }
 }

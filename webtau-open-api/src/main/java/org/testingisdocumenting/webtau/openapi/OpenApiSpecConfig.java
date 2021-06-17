@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +20,10 @@ package org.testingisdocumenting.webtau.openapi;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
@@ -32,16 +36,12 @@ public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue ignoreAdditionalProperties = declare("openApiIgnoreAdditionalProperties",
             "ignore additional OpenAPI properties ", () -> false);
 
-    private static String fullPath;
-
-    static String specFullPath() {
-        return fullPath;
+    static OpenApiSpecLocation determineSpecFullPathOrUrl() {
+        return OpenApiSpecLocation.fromStringValue(specUrl.getAsString());
     }
 
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        fullPath = specUrl.getAsString().isEmpty() ? "" :
-                cfg.getWorkingDir().resolve(specUrl.getAsString()).toString();
         OpenApi.reset();
     }
 

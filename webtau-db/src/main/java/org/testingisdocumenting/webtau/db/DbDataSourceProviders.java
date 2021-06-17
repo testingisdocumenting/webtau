@@ -16,37 +16,34 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 
 public class DbDataSourceProviders {
     private static final List<DbDataSourceProvider> providers = ServiceLoaderUtils.load(DbDataSourceProvider.class);
-    private static final ConcurrentHashMap<String, DataSource> dataSourcesByName = new ConcurrentHashMap<>();
 
     public static DataSource provideByName(String name) {
-        DataSource existing = dataSourcesByName.get(name);
-        if (existing != null) {
-            return existing;
-        }
+        WebTauStep step = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("creating"), classifier("db datasource"), id(name)),
+                () -> TokenizedMessage.tokenizedMessage(action("created"), classifier("db datasource"), id(name)),
+                () -> createDataSource(name));
 
-        DataSource created = createDataSource(name);
-        dataSourcesByName.put(name, created);
-
-        return created;
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public static void add(DbDataSourceProvider provider) {
         providers.add(provider);
-        dataSourcesByName.clear();
     }
 
     public static void remove(DbDataSourceProvider provider) {
         providers.remove(provider);
-        dataSourcesByName.clear();
     }
 
     private static DataSource createDataSource(String name) {

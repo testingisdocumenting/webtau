@@ -142,7 +142,7 @@ public class Record {
     }
 
     private static class MultiValuesUnwrapper {
-        private List<Record> result;
+        private final List<Record> result;
 
         MultiValuesUnwrapper() {
             this.result = new ArrayList<>();
@@ -173,7 +173,7 @@ public class Record {
     private static class RecordFromStream {
         private boolean hasMultiValues;
         private boolean hasValueGenerators;
-        private List<Object> values;
+        private final List<Object> values;
 
         public RecordFromStream(Stream<Object> valuesStream) {
             values = new ArrayList<>();

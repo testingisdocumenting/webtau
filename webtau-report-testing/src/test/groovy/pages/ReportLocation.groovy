@@ -7,8 +7,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.getCfg
 class ReportLocation {
     static String groovyFeatureTestingFullUrl(String reportName) {
         return toUrl(modulePath('webtau-feature-testing')
-                .resolve('target')
-                .resolve('classes')
+                .resolve('webtau-reports')
                 .resolve('scenarios')
                 .resolve(reportName))
     }

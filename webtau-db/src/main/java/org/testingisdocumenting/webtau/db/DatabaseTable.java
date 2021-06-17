@@ -20,66 +20,131 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 
 class DatabaseTable {
-    private final LabeledDataSource dataSource;
+    private final LabeledDataSourceProvider dataSourceProvider;
     private final String name;
 
-    public DatabaseTable(LabeledDataSource dataSource, String name) {
-        this.dataSource = dataSource;
+    public DatabaseTable(LabeledDataSourceProvider dataSourceProvider, String name) {
+        this.dataSourceProvider = dataSourceProvider;
         this.name = name;
     }
 
     public void insert(TableData tableData) {
         createAndExecuteStep(
-                tokenizedMessage(action("inserting"), numberValue(tableData.numberOfRows()), action("row(s)"),
-                        INTO, createMessageId()),
-                () -> tokenizedMessage(action("inserted"), numberValue(tableData.numberOfRows()), action("row(s)"),
-                        INTO, createMessageId()),
-                () -> insertStep(tableData));
+                insertingMessage(tableData.numberOfRows()),
+                () -> insertedMessage(tableData.numberOfRows()),
+                () -> insertTableStep(tableData));
     }
 
-    public TableData query() {
-        TestStep step = createStep(null,
-                tokenizedMessage(action("querying"), createMessageId()),
-                () -> tokenizedMessage(action("queried"), createMessageId()),
-                () -> QueryRunnerUtils.runQuery(dataSource.getDataSource(), SqlQueriesGenerator.query(name)));
-
-        return (TableData) step.execute(StepReportOptions.REPORT_ALL);
+    public void insert(List<Map<String, Object>> rows) {
+        createAndExecuteStep(
+                insertingMessage(rows.size()),
+                () -> insertedMessage(rows.size()),
+                () -> insertTableStep(rows));
     }
 
-    private void insertStep(TableData tableData) {
-        if (tableData.isEmpty()) {
+    public void insert(Map<String, Object> row) {
+        createAndExecuteStep(
+                insertingMessage(1),
+                () -> insertedMessage(1),
+                () -> insertRowStep(row));
+    }
+
+    public DbQuery queryCount() {
+        return QueryRunnerUtils.createQuery(dataSourceProvider, SqlQueriesGenerator.count(name));
+    }
+
+    public DbQuery query() {
+        return QueryRunnerUtils.createQuery(dataSourceProvider, SqlQueriesGenerator.fullTable(name));
+    }
+
+
+    private TokenizedMessage insertingMessage(int numberOfRows) {
+        return insertMessageWithLabel("inserting", numberOfRows);
+    }
+
+    private TokenizedMessage insertedMessage(int numberOfRows) {
+        return insertMessageWithLabel("inserted", numberOfRows);
+    }
+
+    private TokenizedMessage insertMessageWithLabel(String actionLabel, int numberOfRows) {
+        return tokenizedMessage(action(actionLabel), numberValue(numberOfRows),
+                numberOfRows > 1 ? action("rows") : action("row"),
+                INTO, createMessageId());
+    }
+
+    private void insertTableStep(TableData tableData) {
+        insertMultipleRowsStep(tableData::isEmpty,
+                tableData::numberOfRows,
+                () -> tableData.getHeader().getNamesStream(),
+                (idx) -> tableData.row(idx).valuesStream());
+    }
+
+    private void insertTableStep(List<Map<String, Object>> rows) {
+        insertMultipleRowsStep(rows::isEmpty,
+                rows::size,
+                () -> rows.get(0).keySet().stream(),
+                (idx) -> rows.get(idx).values().stream());
+    }
+
+    private void insertMultipleRowsStep(Supplier<Boolean> isEmpty,
+                                        Supplier<Integer> size,
+                                        Supplier<Stream<String>> header,
+                                        Function<Integer, Stream<Object>> valuesByRowIdx) {
+        if (isEmpty.get()) {
             return;
         }
 
-        QueryRunner run = new QueryRunner(dataSource.getDataSource());
+        QueryRunner run = new QueryRunner(dataSourceProvider.provide().getDataSource());
         try {
-            Object[][] values = new Object[tableData.numberOfRows()][];
-            for (int idx = 0; idx < tableData.numberOfRows(); idx++) {
-                values[idx] = tableData.row(idx).valuesStream().toArray();
+            int numberOfRows = size.get();
+            Object[][] values = new Object[numberOfRows][];
+            for (int idx = 0; idx < numberOfRows; idx++) {
+                values[idx] = valuesByRowIdx.apply(idx).toArray();
             }
 
-            run.batch(SqlQueriesGenerator.insert(name, tableData.row(0)), values);
+            run.batch(SqlQueriesGenerator.insert(name, header.get(), valuesByRowIdx.apply(0)), values);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void insertRowStep(Map<String, Object> row) {
+        QueryRunner run = new QueryRunner(dataSourceProvider.provide().getDataSource());
+        try {
+            run.update(SqlQueriesGenerator.insert(name, row.keySet().stream(), row.values().stream()),
+                    row.values().toArray());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     private MessageToken createMessageId() {
-        return id(dataSource.getLabel() + "." + name);
+        return id(dataSourceProvider.provide().getLabel() + "." + name);
     }
 
     public void leftShift(TableData tableData) {
         insert(tableData);
+    }
+
+    public void leftShift(Map<String, Object> row) {
+        insert(row);
+    }
+
+    public void leftShift(List<Map<String, Object>> rows) {
+        insert(rows);
     }
 }

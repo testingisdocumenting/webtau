@@ -16,12 +16,11 @@
  */
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 createAndExecuteStep(tokenizedMessage(action("running errand")),
         { -> tokenizedMessage(action("ran errand"))}) {
-    throw new RuntimeException("this should not happen")
 }
 
 scenario('scenario one') {

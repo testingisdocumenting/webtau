@@ -136,7 +136,7 @@ class HttpDocCaptureTest extends HttpTestBase {
         http.doc.capture(artifactName)
 
         readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/params?a=1&b=text')
-        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}params?a=1&b=text")
+        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}/params?a=1&b=text")
     }
 
     @Test
@@ -147,7 +147,7 @@ class HttpDocCaptureTest extends HttpTestBase {
         http.doc.capture(artifactName)
 
         readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/params?a=1&b=text')
-        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}params?a=1&b=text")
+        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}/params?a=1&b=text")
     }
 
     @Test

@@ -19,34 +19,68 @@ package org.testingisdocumenting.webtau.db;
 import org.testingisdocumenting.webtau.data.table.TableData;
 
 import javax.sql.DataSource;
+import java.util.Map;
 
 public class DatabaseFacade {
+    private static final LabeledDataSourceCachedProvider primaryDataSourceProvider =
+            new LabeledDataSourceCachedProvider(
+                    () -> new LabeledDataSource(DbDataSourceProviders.provideByName("primary"), "primary-db"));
+
     public static final DatabaseFacade db = new DatabaseFacade();
 
-    private DatabaseFacade() {
+    static void reset() {
+        primaryDataSourceProvider.reset();
     }
 
     public Database from(DataSource dataSource, String label) {
-        return new Database(new LabeledDataSource(dataSource, label));
+        return from(new LabeledDataSourceCachedProvider(() -> new LabeledDataSource(dataSource, label)));
     }
 
-    public Database from(LabeledDataSource labeledDataSource) {
-        return new Database(labeledDataSource);
+    public Database from(LabeledDataSourceProvider labeledDataSourceProvider) {
+        return new Database(labeledDataSourceProvider);
     }
 
     public DatabaseTable table(String tableName) {
-        return from(getPrimaryDataSource()).table(tableName);
+        return from(primaryDataSourceProvider).table(tableName);
     }
 
-    public TableData query(String query) {
-        return from(getPrimaryDataSource()).query(query);
+    public DbQuery query(String query) {
+        return from(primaryDataSourceProvider).query(query);
+    }
+
+    public DbQuery query(String query, Map<String, Object> params) {
+        return from(primaryDataSourceProvider).query(query, params);
+    }
+
+    public <E> DbQuery query(String query, E singleParam) {
+        return from(primaryDataSourceProvider).query(query, singleParam);
+    }
+
+    public TableData queryTableData(String query) {
+        return from(primaryDataSourceProvider).queryTableData(query);
+    }
+
+    public TableData queryTableData(String query, Map<String, Object> params) {
+        return from(primaryDataSourceProvider).queryTableData(query, params);
+    }
+
+    public <E> E querySingleValue(String query) {
+        return from(primaryDataSourceProvider).querySingleValue(query);
+    }
+
+    public <E> E querySingleValue(String query, Map<String, Object> params) {
+        return from(primaryDataSourceProvider).querySingleValue(query, params);
     }
 
     public void update(String query) {
-        from(getPrimaryDataSource()).update(query);
+        from(primaryDataSourceProvider).update(query);
     }
 
-    private static LabeledDataSource getPrimaryDataSource() {
-        return new LabeledDataSource(DbDataSourceProviders.provideByName("primary"), "primary-db");
+    public void update(String query, Map<String, Object> params) {
+        from(primaryDataSourceProvider).update(query, params);
+    }
+
+    public <E> void update(String query, E singleParam) {
+        from(primaryDataSourceProvider).update(query, singleParam);
     }
 }

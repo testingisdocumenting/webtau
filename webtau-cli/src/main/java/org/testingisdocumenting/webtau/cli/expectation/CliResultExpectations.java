@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,40 +17,8 @@
 
 package org.testingisdocumenting.webtau.cli.expectation;
 
-import org.testingisdocumenting.webtau.expectation.ActualPathAware;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
-import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.ValueMatcherExpectationSteps;
 
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
-
-public interface CliResultExpectations extends ActualValueExpectations, ActualPathAware {
-    @Override
-    default void should(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldStep(null, this, StepReportOptions.SKIP_START,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher);
-    }
-
-    @Override
-    default void shouldNot(ValueMatcher valueMatcher) {
-        ValueMatcherExpectationSteps.shouldNotStep(null, this, StepReportOptions.SKIP_START,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher);
-    }
-
-    @Override
-    default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitStep(null, this, StepReportOptions.REPORT_ALL,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
-    }
-
-    @Override
-    default void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        ValueMatcherExpectationSteps.waitNotStep(null, this, StepReportOptions.REPORT_ALL,
-                tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath())), valueMatcher,
-                expectationTimer, tickMillis, timeOutMillis);
-    }
+public interface CliResultExpectations extends ActualValueExpectations, ActualPathAndDescriptionAware {
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +21,7 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.NumberUtils;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.text.ParseException;
 
@@ -66,7 +68,6 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
                 return -1;
             case LESS_THAN:
             case LESS_THAN_OR_EQUAL:
-                return 1;
             case EQUAL:
                 return 1;
             case NOT_EQUAL:
@@ -78,14 +79,14 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
 
     private Number convertToNumber(Object actual) {
         try {
-            return NumberUtils.convertStringToNumber((String) actual);
+            return NumberUtils.convertStringToNumber((CharSequence) actual);
         } catch (ParseException e) {
             return null;
         }
     }
 
     private boolean handles(Object actual, Object expected) {
-        return actual instanceof String &&
+        return TypeUtils.isString(actual) &&
                 expected instanceof Number;
     }
 }

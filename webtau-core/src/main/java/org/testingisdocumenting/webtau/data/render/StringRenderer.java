@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +17,12 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import org.testingisdocumenting.webtau.utils.TypeUtils;
+
 public class StringRenderer implements DataRenderer {
     @Override
     public String render(Object data) {
-        return data instanceof String ?
+        return TypeUtils.isString(data) ?
                 "\"" + data + "\"" :
                 null;
     }

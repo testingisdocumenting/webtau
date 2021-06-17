@@ -3,7 +3,6 @@ package com.example.tests.junit5;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.*;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
@@ -12,8 +11,13 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order
 @DisplayName("customer CRUD")
 public class CustomerCrudSeparatedJavaTest {
-    private static final Map<String, Object> customerPayload = createCustomerPayload();
-    private static final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
+    private static final Map<String, ?> customerPayload = aMapOf(
+            "firstName", "FN",
+            "lastName", "LN" );
+
+    private static final Map<String, ?> changedCustomerPayload = aMapOf(
+            customerPayload,
+            "lastName", "NLN");
 
     private static int id;
 
@@ -71,20 +75,5 @@ public class CustomerCrudSeparatedJavaTest {
         }
 
         http.delete("/customers/" + id);
-    }
-
-    private static Map<String, Object> createCustomerPayload() {
-        Map<String, Object> payload = new LinkedHashMap<>();
-        payload.put("firstName", "FN");
-        payload.put("lastName", "LN");
-
-        return payload;
-    }
-
-    private static Map<String, Object> createChangedCustomerPayload() {
-        Map<String, Object> payload = createCustomerPayload();
-        payload.put("lastName", "NLN");
-
-        return payload;
     }
 }

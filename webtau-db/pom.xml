@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.30-SNAPSHOT</version>
+        <version>1.42-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-db</artifactId>
@@ -64,6 +64,13 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>webtau-data</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>webtau-core-groovy</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -86,7 +93,7 @@
                     <execution>
                         <goals>
                             <goal>addTestSources</goal>
-                            <goal>testCompile</goal>
+                            <goal>compileTests</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -21,6 +21,9 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
+import java.nio.file.Files
+import java.nio.file.Paths
+
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 
 class WebTauConceptFeaturesTest {
@@ -112,9 +115,36 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "repeat step"() {
+        runCli('repeatStep.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "do not sleep as sync mechanism"() {
+        runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "runner should use deprecated config file name when no config file is available"() {
         runCliWithWorkingDir('deprecatedConfigCheck.groovy',
                 'examples/scenarios/concept/deprecatedconfig')
+    }
+
+    @Test
+    void "recursive scenario discovery"() {
+        runCli("recursive", "recursive.webtau.cfg.groovy")
+    }
+
+    @Test
+    void "should generate failed report using failed report path when provided"() {
+        def failedReportPath = Paths.get("webtau-reports/scenarios/concept/failingTest-failed-webtau-report.html")
+        Files.deleteIfExists(failedReportPath)
+
+        runCli('failingTest.groovy', 'webtau.cfg.groovy')
+
+        if (!Files.exists(failedReportPath)) {
+            throw new AssertionError("failed report should be generated at $failedReportPath")
+        }
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

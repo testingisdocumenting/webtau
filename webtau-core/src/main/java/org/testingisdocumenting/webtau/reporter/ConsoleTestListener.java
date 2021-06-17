@@ -1,12 +1,14 @@
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.TestListener;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 
 public class ConsoleTestListener implements TestListener {
     @Override
     public void beforeTestRun(WebTauTest test) {
-        ConsoleOutputs.out(Color.BLUE, test.getScenario().trim(), " ",
+        ConsoleOutputs.out(Color.BACKGROUND_YELLOW, Color.BLACK, "scenario", Color.RESET,
+                Color.BLUE, " ", test.getScenario().trim(), " ",
                 Color.PURPLE, "(" + test.getShortContainerId() + ")");
     }
 

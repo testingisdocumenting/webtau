@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 public class TokenizedMessage implements Iterable<MessageToken> {
-    private List<MessageToken> tokens;
+    private final List<MessageToken> tokens;
 
     public TokenizedMessage() {
         tokens = new ArrayList<>();
@@ -75,6 +76,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     public int getNumberOfTokens() {
         return tokens.size();
+    }
+
+    public MessageToken getTokenAtIdx(int idx) {
+        return tokens.get(idx);
     }
 
     public MessageToken getLastToken() {

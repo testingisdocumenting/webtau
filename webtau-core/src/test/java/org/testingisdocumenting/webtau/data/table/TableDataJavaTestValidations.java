@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,6 +52,28 @@ public class TableDataJavaTestValidations {
                 aMapOf("Col A", "v2a", "Col B", 10, "Col C", "v2c")));
         actual(tableData.row(5).toMap()).should(equal(
                 aMapOf("Col A", "v2a", "Col B", 20, "Col C", "v2c")));
+    }
+
+    public static void validatePermuteAndGuid(TableData tableData) {
+        actual(tableData.numberOfRows()).should(equal(6));
+        actual(tableData.row(0).toMap()).should(equal(
+                aMapOf("ID", notEqual(""), "Col A", true, "Col B", "v1b", "Col C", "a")));
+        actual(tableData.row(1).toMap()).should(equal(
+                aMapOf("ID", notEqual(""), "Col A", false, "Col B", "v1b", "Col C", "a")));
+        actual(tableData.row(2).toMap()).should(equal(
+                aMapOf("ID", notEqual(""), "Col A", true, "Col B", "v1b", "Col C", "b")));
+        actual(tableData.row(3).toMap()).should(equal(
+                aMapOf("ID", notEqual(""), "Col A", false, "Col B", "v1b", "Col C", "b")));
+        actual(tableData.row(4).toMap()).should(equal(
+                aMapOf("ID", notEqual(""), "Col A", "v2a", "Col B", 10, "Col C", "v2c")));
+        actual(tableData.row(5).toMap()).should(equal(
+                aMapOf("ID", notEqual(""), "Col A", "v2a", "Col B", 20, "Col C", "v2c")));
+
+        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(1).get("ID")));
+        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(2).get("ID")));
+        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(3).get("ID")));
+        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(4).get("ID")));
+        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(5).get("ID")));
     }
 
     public static void validateAboveValue(TableData tableData) {

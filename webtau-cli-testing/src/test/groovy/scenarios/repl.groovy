@@ -24,8 +24,15 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static webtau.CliCommands.*
 
-def repl = createLazyResource { webtauCli.runInBackground("repl --noColor --workingDir=${cfg.workingDir} " +
-        "testscripts/browserSanity.groovy testscripts/scriptWithSyntaxError.groovy") }
+def repl = createLazyResource {
+    def command = webtauCli.runInBackground("repl --workingDir=${cfg.workingDir} " +
+            "--failedReportPath=webtau.repl-failed.report.html " +
+        "testscripts/browserSanity.groovy testscripts/downstreamValidation.groovy")
+
+    command.output.waitTo contain('browserSanity.groovy')
+
+    return command
+}
 
 scenario('should list test files on start') {
     repl.output.waitTo contain('browserSanity.groovy')
@@ -36,13 +43,20 @@ scenario('simple groovy repl') {
     repl << "2 + 2\n"
 
     repl.output.waitTo contain("4")
+    repl << "a = 5\n"
+    repl << "a + 3\n"
 
-    repl.output.should contain("4")
+    repl.output.waitTo contain("8")
+    cli.doc.capture('repl-context')
+
     repl.clearOutput()
     repl.output.shouldNot contain("4")
 
     repl << "cfg\n"
     repl.output.waitTo contain("url:")
+
+    repl << "'stop line' + '!'\n" // sync point for all the output from config to finish
+    repl.output.waitTo contain("stop line!")
 }
 
 scenario('http call') {
@@ -54,22 +68,38 @@ scenario('http call') {
 
     cli.doc.capture('http-repl-output')
     fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
-            'header.statusCode equals 200')
+            'header.statusCode:   actual: 200')
 }
 
-scenario('test listing') {
-    repl.clearOutput()
-    repl << "ls\n"
-    repl.output.waitTo contain('browserSanity.groovy')
+scenario('set config value') {
+    repl.with {
+        clearOutput()
+        send('cfg.url = "https://jsonplaceholder.typicode.com"\n')
+        send('http.get("/todos/1")\n')
+        output.waitTo contain('executed')
+    }
 
-    cli.doc.capture('repl-tests-listing')
+    cli.doc.capture('http-repl-cfg')
 }
 
-scenario('report syntax error during test file parse') {
-    repl.clearOutput()
-    repl << "s 'scriptWith'\n"
+scenario('browser context') {
+    repl.with {
+        clearOutput()
 
-    repl.output.waitTo contain('groovy.lang.MissingPropertyException: No such property: aaa')
+        def basicHtmlPath = cfg.fullPath("data/basic.html").toAbsolutePath()
+        def browserOpenCmd = "browser.open(\"file://${basicHtmlPath.toAbsolutePath()}\")\n"
+        send(browserOpenCmd)
+        output.waitTo contain('opened')
+    }
+    cli.doc.capture('browser-repl-open')
+
+    repl.with {
+        clearOutput()
+        send('$("p")\n')
+        output.waitTo contain('element is found')
+    }
+
+    cli.doc.capture('browser-repl-select')
 }
 
 scenario('before all must be called only once and after all listener should not be called at all') {

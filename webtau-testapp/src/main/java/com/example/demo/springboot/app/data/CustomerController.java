@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 public class CustomerController {
     private final CustomerRepository customerRepository;
@@ -15,10 +18,10 @@ public class CustomerController {
 
     @RequestMapping("/customers/{id}")
     public ResponseEntity<Customer> findCustomer(@PathVariable long id) {
-        Customer customer = customerRepository.findOne(id);
-        return customer == null ?
-                ResponseEntity.notFound().build():
-                ResponseEntity.status(HttpStatus.OK).body(customer);
+        Optional<Customer> customer = customerRepository.findById(id);
+        return customer
+                .map(value -> ResponseEntity.status(HttpStatus.OK).body(value))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/customers")
@@ -28,9 +31,9 @@ public class CustomerController {
 
     @PutMapping("/customers/{id}")
     public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable long id) {
-        Customer existing = customerRepository.findOne(id);
+        Optional<Customer> existing = customerRepository.findById(id);
 
-        if (existing == null) {
+        if (!existing.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -42,17 +45,17 @@ public class CustomerController {
 
     @PatchMapping("/customers/{id}")
     public ResponseEntity<Customer> patchCustomer(@RequestBody Customer customer, @PathVariable long id) {
-        Customer existing = customerRepository.findOne(id);
+        Optional<Customer> existing = customerRepository.findById(id);
 
-        if (existing == null) {
+        if (!existing.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
         if (null != customer.getFirstName()) {
-            existing.setFirstName(customer.getFirstName());
+            existing.get().setFirstName(customer.getFirstName());
         }
         if (null != customer.getLastName()) {
-            existing.setLastName(customer.getLastName());
+            existing.get().setLastName(customer.getLastName());
         }
         customerRepository.save(customer);
 
@@ -61,26 +64,26 @@ public class CustomerController {
 
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<Object> deleteCustomer(@PathVariable long id) {
-        customerRepository.delete(id);
+        customerRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/customers")
-    public Iterable<Customer> getAllCustomers(@RequestParam(value = "sortBy", required = false) String sortBy) {
+    public List<Customer> getAllCustomers(@RequestParam(value = "sortBy", required = false) String sortBy) {
         if (sortBy != null) {
-            return customerRepository.findAll(new Sort(sortBy));
+            return customerRepository.findAll(Sort.by(sortBy));
         } else {
             return customerRepository.findAll();
         }
     }
 
     @GetMapping("/customers/search/first-name")
-    public Iterable<Customer> searchByFirstName(@RequestParam("name") String name) {
+    public List<Customer> searchByFirstName(@RequestParam("name") String name) {
         return customerRepository.findByFirstName(name);
     }
 
     @GetMapping("/customers/search/last-name")
-    public Iterable<Customer> searchByLastName(@RequestParam("name") String name) {
+    public List<Customer> searchByLastName(@RequestParam("name") String name) {
         return customerRepository.findByLastName(name);
     }
 }

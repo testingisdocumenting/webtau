@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,49 +17,64 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
+import org.testingisdocumenting.webtau.browser.BrowserContext;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
+import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.function.Supplier;
 
-public class PageUrl {
-    private final Supplier<String> currentUrlSupplier;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
+public class PageUrl implements PrettyPrintable, ActualValueExpectations, ActualPathAndDescriptionAware {
+    private static final BrowserContext browserContext = BrowserContext.INSTANCE;
+
+  private final Supplier<String> currentUrlSupplier;
 
     public PageUrl(Supplier<String> currentUrlSupplier) {
         this.currentUrlSupplier = currentUrlSupplier;
     }
 
-    public final ElementValue<String, BrowserContext> full =
-            new ElementValue<>(new BrowserContext(), "full page url", this::fetchUrl);
+    public final PageElementValue<String> full =
+            new PageElementValue<>(browserContext, "full page url", this::fetchUrl);
 
-    public final ElementValue<String, BrowserContext> path =
-            new ElementValue<>(new BrowserContext(), "page url path", this::fetchPath);
+    public final PageElementValue<String> path =
+            new PageElementValue<>(browserContext, "page url path", this::fetchPath);
 
-    public final ElementValue<String, BrowserContext> query =
-            new ElementValue<>(new BrowserContext(), "page url query", this::fetchQuery);
+    public final PageElementValue<String> query =
+            new PageElementValue<>(browserContext, "page url query", this::fetchQuery);
 
-    public final ElementValue<String, BrowserContext> ref =
-            new ElementValue<>(new BrowserContext(), "page url ref", this::fetchRef);
+    public final PageElementValue<String> ref =
+            new PageElementValue<>(browserContext, "page url ref", this::fetchRef);
 
     public String get() {
         return fetchUrl();
     }
 
     private String fetchUrl() {
-        return currentUrlSupplier.get();
+        return emptyAsNull(currentUrlSupplier.get());
     }
 
     private String fetchPath() {
-        return fetchAsUrl().getPath();
+        return emptyAsNull(fetchAsUrl().getPath());
     }
 
     private String fetchQuery() {
-        return fetchAsUrl().getQuery();
+        return emptyAsNull(fetchAsUrl().getQuery());
     }
 
     private String fetchRef() {
-        return fetchAsUrl().getRef();
+        return emptyAsNull(fetchAsUrl().getRef());
+    }
+
+    private String emptyAsNull(String value) {
+        return value == null ? "" : value;
     }
 
     private URL fetchAsUrl() {
@@ -67,5 +83,31 @@ public class PageUrl {
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "full: " + full +
+                ", path: " + path +
+                ", query: " + query +
+                ", ref: " + ref;
+    }
+
+    @Override
+    public void prettyPrint(ConsoleOutput console) {
+        console.out(Color.YELLOW, " full: ", Color.GREEN, full.get());
+        console.out(Color.YELLOW, " path: ", Color.GREEN, path.get());
+        console.out(Color.YELLOW, "query: ", Color.GREEN, query.get());
+        console.out(Color.YELLOW, "  ref: ", Color.GREEN, ref.get());
+    }
+
+    @Override
+    public ActualPath actualPath() {
+        return createActualPath("url");
+    }
+
+    @Override
+    public StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
     }
 }

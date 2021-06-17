@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +29,7 @@ import java.util.function.Supplier
 import java.util.regex.Pattern
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 class WebTauGroovyDsl extends WebTauDsl {
@@ -100,8 +101,18 @@ class WebTauGroovyDsl extends WebTauDsl {
         }
     }
 
+    static void skipForEnv(String env, Closure registrationCode) {
+        onlyWhen("skip for <$env> environment",
+                { -> getCfg().getEnv() != env },
+                registrationCode)
+    }
+
     static void terminateAll(String reason) {
         throw new TestsRunTerminateException(reason)
+    }
+
+    static void terminateAll(String reason, Throwable cause) {
+        throw new TestsRunTerminateException(reason, cause)
     }
 
     /**

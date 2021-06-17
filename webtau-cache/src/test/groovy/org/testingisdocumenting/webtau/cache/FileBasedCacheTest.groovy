@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,83 +17,55 @@
 
 package org.testingisdocumenting.webtau.cache
 
-import org.testingisdocumenting.webtau.utils.JsonUtils
-import org.junit.Assert
+import org.junit.After
 import org.junit.Test
+import org.testingisdocumenting.webtau.time.Time
+import org.testingisdocumenting.webtau.utils.FileUtils
 
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 
 class FileBasedCacheTest {
+    @After
+    void cleanUp() {
+        Time.setTimeProvider(null)
+    }
+
     @Test
     void "should load cached values from a provided file"() {
-        def cache = [
-                url: [
-                        value: 'http://test',
-                        expirationTime: Long.MAX_VALUE
-                ],
-                cost: [
-                        value: 100,
-                        expirationTime: Long.MAX_VALUE
-                ],
-                expired: [
-                        value: 'expired',
-                        expirationTime: 100
-                ]
-        ]
+        def cacheDir = createTempCacheDir()
+        FileUtils.writeTextContent(cacheDir.resolve('url.json'), '"http://test"')
 
-        def cacheFile = createTempCacheFile(cache)
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-        assert fileBasedCache.get('url') == 'http://test'
-        assert fileBasedCache.get('cost') == 100
-        assert fileBasedCache.get('nonExisting') == null
-        assert fileBasedCache.get('expired') == null
+        def fileBasedCache = new FileBasedCache({ -> cacheDir })
+        fileBasedCache.get('url').should == 'http://test'
     }
 
     @Test
-    void "should persist values in the file as pretty print json"() {
-        def cacheFile = createTempCacheFile([:])
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-        fileBasedCache.put('accessToken', 'abc', 400)
+    void "should save cached value to a file within cache dir"() {
+        def cacheDir = createTempCacheDir()
 
-        Assert.assertEquals(String.format('{%n' +
-                '  "accessToken" : {%n' +
-                '    "value" : "abc",%n' +
-                '    "expirationTime" : 400%n' +
-                '  }%n' +
-                '}'), cacheFile.text)
+        def fileBasedCache = new FileBasedCache({ -> cacheDir })
+
+        fileBasedCache.put('number', 200)
+        fileBasedCache.get('number').should == 200
+
+        FileUtils.fileTextContent(cacheDir.resolve('number.json')).should == '200'
     }
 
     @Test
-    void "should create non expiring values if no expiration time is provided"() {
-        def cacheFile = createTempCacheFile([:])
-        def fileBasedCache = new FileBasedCache({ -> cacheFile })
-        fileBasedCache.put('accessToken', 'abc')
+    void "should load cache values on demand without caching"() {
+        def cacheDir = createTempCacheDir()
 
-        Assert.assertEquals(String.format('{%n' +
-                '  "accessToken" : {%n' +
-                '    "value" : "abc",%n' +
-                '    "expirationTime" : 9223372036854775807%n' +
-                '  }%n' +
-                '}'), cacheFile.text)
+        def fileBasedCache = new FileBasedCache({ -> cacheDir })
+
+        fileBasedCache.put('number', 200)
+        FileUtils.writeTextContent(cacheDir.resolve('number.json'), '300')
+
+        fileBasedCache.get('number').should == 300
     }
 
-    @Test
-    void "should handle non existing file"() {
-        def cachePath = Paths.get('nonExisting.json')
-        cachePath.toFile().deleteOnExit()
-        def cache = new FileBasedCache({ -> cachePath })
-
-        assert cache.get('key') == null
-
-        cache.put('key', 'value')
-        assert cache.get('key') == 'value'
-    }
-
-    private static Path createTempCacheFile(Map<String, Object> content) {
-        def cachePath = Files.createTempFile('webtau.cache', '.json')
-        cachePath.text = JsonUtils.serializePrettyPrint(content)
+    private static Path createTempCacheDir() {
+        def cachePath = Files.createTempDirectory('webtau-cache')
         cachePath.toFile().deleteOnExit()
 
         return cachePath

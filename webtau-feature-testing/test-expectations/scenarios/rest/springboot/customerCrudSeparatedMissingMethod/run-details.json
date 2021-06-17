@@ -3,19 +3,19 @@
     "scenario" : "customer create",
     "shortContainerId" : "customerCrudSeparatedMissingMethod.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 6
     }
   }, {
     "scenario" : "customer read",
     "shortContainerId" : "customerCrudSeparatedMissingMethod.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "customer update",
     "shortContainerId" : "customerCrudSeparatedMissingMethod.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 8
+      "numberOfSuccessful" : 10
     }
   } ],
   "exitCode" : 0

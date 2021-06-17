@@ -22,21 +22,28 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class StepReporters {
     private static final StepReporter defaultStepReporter =
-            new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter());
+            new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE);
 
     private static final List<StepReporter> reporters = Collections.synchronizedList(
             ServiceLoaderUtils.load(StepReporter.class));
 
     private static final ThreadLocal<List<StepReporter>> localReporters = ThreadLocal.withInitial(ArrayList::new);
 
+    private static final ThreadLocal<Boolean> disabled = ThreadLocal.withInitial(() -> false);
+
+    // for ad-hoc groovy script runs from IDE we want to use console reporter as long
+    // as there were no explicit reporters added
+    private static final AtomicBoolean explicitlyAdded = new AtomicBoolean(false);
+
     public static void add(StepReporter reporter) {
         reporters.add(reporter);
+        explicitlyAdded.set(true);
     }
 
     public static void remove(StepReporter reporter) {
@@ -52,22 +59,47 @@ public class StepReporters {
         }
     }
 
-    public static void onStart(TestStep step) {
+    public static <R> R withoutReporters(Supplier<R> code) {
+        try {
+            disabled.set(true);
+            return code.get();
+        } finally {
+            disabled.set(false);
+        }
+    }
+
+    public static void onStart(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepStart(step));
     }
 
-    public static void onSuccess(TestStep step) {
+    public static void onSuccess(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepSuccess(step));
     }
 
-    public static void onFailure(TestStep step) {
+    public static void onStepRepeatStart(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatStart(step, currentIdx, total));
+    }
+
+    public static void onStepRepeatSuccess(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatSuccess(step, currentIdx, total));
+    }
+
+    public static void onStepRepeatFailure(WebTauStep step, int currentIdx, int total) {
+        getReportersStream().forEach(r -> r.onStepRepeatFailure(step, currentIdx, total));
+    }
+
+    public static void onFailure(WebTauStep step) {
         getReportersStream().forEach(r -> r.onStepFailure(step));
     }
 
     private static Stream<StepReporter> getReportersStream() {
+        if (disabled.get()) {
+            return Stream.empty();
+        }
+
         List<StepReporter> localReporters = StepReporters.localReporters.get();
 
-        if (reporters.isEmpty() && localReporters.isEmpty()) {
+        if (!explicitlyAdded.get() && localReporters.isEmpty()) {
             return Stream.of(defaultStepReporter);
         }
 

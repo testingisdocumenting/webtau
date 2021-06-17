@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,51 +21,58 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static java.util.stream.Collectors.toList;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
-import org.testingisdocumenting.webtau.cfg.WebTauMeta;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.reporter.WebTauReport;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
+import org.testingisdocumenting.webtau.version.WebtauVersion;
+
 import java.nio.file.Path;
-import java.util.Base64;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HtmlReportGenerator implements ReportGenerator {
-    private String css;
-    private String bundleJavaScript;
+    private final ReactJsBundle reactJsBundle;
 
     public HtmlReportGenerator() {
-        Map<String, Object> manifest = loadManifest();
-
-        css = ResourceUtils.textContent(manifest.get("main.css").toString());
-        bundleJavaScript = ResourceUtils.textContent(manifest.get("main.js").toString());
+        reactJsBundle = new ReactJsBundle();
     }
 
     @Override
     public void generate(WebTauReport report) {
-        Path reportPath = getCfg().getReportPath().toAbsolutePath();
+        Path reportPath = reportPath(report);
 
         FileUtils.writeTextContent(reportPath, generateHtml(report));
         ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, " ", reportPath);
     }
 
+    private Path reportPath(WebTauReport report) {
+        if (report.isFailed()) {
+            Path failedReportPath = getCfg().getFailedReportPath();
+            return failedReportPath != null ? failedReportPath : getCfg().getReportPath();
+        }
+
+        return getCfg().getReportPath();
+    }
+
     private String generateHtml(WebTauReport report) {
         Map<String, Object> reportAsMap = new LinkedHashMap<>();
         reportAsMap.put("config", configAsListOfMaps(getCfg().getEnumeratedCfgValuesStream()));
+        reportAsMap.put("envVars", envVarsAsListOfMaps());
         reportAsMap.put("summary", reportSummaryToMap(report));
-        reportAsMap.put("version", WebTauMeta.getVersion());
+        reportAsMap.put("version", WebtauVersion.getVersion());
         reportAsMap.put("tests", report.getTests().stream()
                 .map(WebTauTest::toMap).collect(Collectors.toList()));
 
-        ReportDataProviders.provide(report.getTests())
-                .map(ReportCustomData::toMap)
+        reportAsMap.put("log", report.getReportLog().toMap());
+
+        report.getCustomDataStream()
+                .map(WebTauReportCustomData::toMap)
                 .forEach(reportAsMap::putAll);
 
         return generateHtml(reportAsMap);
@@ -84,7 +92,7 @@ public class HtmlReportGenerator implements ReportGenerator {
                 "<meta charset=\"UTF-8\"/>\n" +
                 "<head>\n" +
                 "<style>\n" +
-                css + "\n" +
+                reactJsBundle.getCss() + "\n" +
                 "</style>" +
                 genFavIconBase64() + "\n" +
                 "<title>WebTau Report</title>" +
@@ -92,7 +100,7 @@ public class HtmlReportGenerator implements ReportGenerator {
                 "<body><div id=\"root\"/>\n" +
                 "<script>\n" +
                 reportAssignmentJavaScript + "\n" +
-                bundleJavaScript + "\n" +
+                reactJsBundle.getJavaScript() + "\n" +
                 "</script>\n" +
                 "</body>\n" +
                 "</html>\n";
@@ -104,10 +112,16 @@ public class HtmlReportGenerator implements ReportGenerator {
                 .map(ConfigValue::toMap).collect(toList());
     }
 
-    @SuppressWarnings("unchecked")
-    private Map<String, Object> loadManifest() {
-        String assetManifest = ResourceUtils.textContent("asset-manifest.json");
-        return (Map<String, Object>) JsonUtils.deserialize(assetManifest);
+    private List<Map<String, String>> envVarsAsListOfMaps() {
+        return System.getenv().entrySet().stream()
+                .map(e -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("key", e.getKey());
+                    map.put("value", e.getValue());
+
+                    return map;
+                })
+                .collect(toList());
     }
 
     private String genFavIconBase64() {

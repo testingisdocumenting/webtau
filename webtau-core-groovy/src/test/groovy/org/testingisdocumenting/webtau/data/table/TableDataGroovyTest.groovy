@@ -17,7 +17,11 @@
 
 package org.testingisdocumenting.webtau.data.table
 
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
 
 import java.time.LocalDate
 
@@ -25,10 +29,24 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermute
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermuteAndGuid
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableDataAfterReplace
 
-class TableDataGroovyTest {
+class TableDataGroovyTest implements ConsoleOutput {
+    private List<String> capturedOutLines = []
+
+    @Before
+    void init() {
+        capturedOutLines = []
+        ConsoleOutputs.add(this)
+    }
+
+    @After
+    void clean() {
+        ConsoleOutputs.remove(this)
+    }
+
     @Test
     void "should register header and values using pipes"() {
         def tableData = createTableWithUnderscore()
@@ -60,6 +78,12 @@ class TableDataGroovyTest {
     }
 
     @Test
+    void "should generate ids for multiple rows from multi-values"() {
+        def tableData = createTableDataWithPermuteAndGuid()
+        validatePermuteAndGuid(tableData)
+    }
+
+    @Test
     void "cell above should be substituted with value from a previous row"() {
         def tableData = createTableDataWithAboveRef()
         validateAboveValue(tableData)
@@ -86,8 +110,49 @@ class TableDataGroovyTest {
         validateSimpleTableDataAfterReplace(newTableData)
     }
 
+    @Test
+    void "access by key column"() {
+        TableData tableData = createTableWithKeyColumns()
+        findByKeyAndValidate(tableData)
+    }
+
+    @Test
+    void "should change key columns and validate uniqueness"() {
+        def tableData = createTableWithKeyColumns()
+        code {
+            changeKeyColumns(tableData)
+        } should throwException("duplicate entry found with key: [N, T]\n" +
+                "{id=id1, Name=N, Type=T}\n" +
+                "{id=id3, Name=N, Type=T}")
+    }
+
+    @Test
+    void "should pretty print"() {
+        def table = ["column A" | "column B"] {
+                    ____________________________
+                        10      | "hello"
+                        20      | "world"
+                        30      | null    }
+
+        table.prettyPrint(ConsoleOutputs.asCombinedConsoleOutput())
+
+        capturedOutLines.join("\n").should == "\u001B[33mcolumn A\u001B[33m, \u001B[0m\u001B[33mcolumn B\u001B[0m\n" +
+                "\u001B[36m      10\u001B[0m\u001B[33m, \u001B[0m\"hello\" \n" +
+                "\u001B[36m      20\u001B[0m\u001B[33m, \u001B[0m\"world\" \n" +
+                "\u001B[36m      30\u001B[0m\u001B[33m, \u001B[0m\u001B[33m[null]  \u001B[0m\n"
+    }
+
     private static TableData replaceValue(TableData tableData) {
         tableData.replace("v1b", "v1b_")
+    }
+
+    private static TableData changeKeyColumns(TableData tableData) {
+        tableData.withNewKeyColumns("Name", "Type")
+    }
+
+    private static void findByKeyAndValidate(TableData tableData) {
+        def found = tableData.find(key("id2"))
+        found.Name.should == "N2"
     }
 
     @Test
@@ -119,6 +184,13 @@ class TableDataGroovyTest {
          "v2a"                | permute(10, 20) | "v2c" }
     }
 
+    static TableData createTableDataWithPermuteAndGuid() {
+        ["ID"      | "Col A"              | "Col B"         | "Col C"] {
+        ________________________________________________________________________
+         cell.guid | permute(true, false) | "v1b"           | permute('a', 'b')
+         cell.guid | "v2a"                | permute(10, 20) | "v2c" }
+    }
+
     static TableData createTableDataWithAboveRef() {
         ["Name" | "Start Date"              | "Games To Play" ] {
          ______________________________________________________
@@ -147,5 +219,23 @@ class TableDataGroovyTest {
          "John" | LocalDate.of(2016, 6, 20) | 10
          "Bob"  | cell.above                | increment
          "Mike" | cell.above                | increment }
+    }
+
+    static TableData createTableWithKeyColumns() {
+        ["*id" | "Name" | "Type"] {
+        ___________________________
+         "id1" | "N"    | "T"
+         "id2" | "N2"   | "T2"
+         "id3" | "N"    | "T" }
+    }
+
+    @Override
+    void out(Object... styleOrValues) {
+        capturedOutLines << styleOrValues.join("")
+    }
+
+    @Override
+    void err(Object... styleOrValues) {
+
     }
 }

@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "create and delete directory",
+    "shortContainerId" : "dirs.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
+  }, {
+    "scenario" : "create the same dir again",
+    "shortContainerId" : "dirs.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  } ],
+  "exitCode" : 0
+}

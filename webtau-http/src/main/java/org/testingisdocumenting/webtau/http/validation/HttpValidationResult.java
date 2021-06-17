@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +17,19 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
-import org.testingisdocumenting.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
+import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -32,9 +38,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
-public class HttpValidationResult implements TestStepPayload {
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
+
+public class HttpValidationResult implements WebTauStepOutput {
     private static final AtomicInteger idCounter = new AtomicInteger();
     private static final String BINARY_CONTENT_PLACEHOLDER = "[binary content]";
 
@@ -42,30 +49,42 @@ public class HttpValidationResult implements TestStepPayload {
     private final String url;
     private final String fullUrl;
     private final String requestMethod;
-    private HttpHeader requestHeader;
+    private final HttpHeader requestHeader;
     private final HttpRequestBody requestBody;
 
+    private final String personaId;
+
     private final List<String> mismatches;
+    private final List<String> warnings;
 
     private HttpResponse response;
     private HeaderDataNode responseHeaderNode;
     private DataNode responseBodyNode;
     private long startTime;
+
+    private boolean elapsedTimeCalculated = false;
     private long elapsedTime;
+
     private String errorMessage;
 
-    public HttpValidationResult(String requestMethod,
+    private String operationId;
+
+    public HttpValidationResult(String personaId,
+                                String requestMethod,
                                 String url,
                                 String fullUrl,
                                 HttpHeader requestHeader,
                                 HttpRequestBody requestBody) {
         this.id = generateId();
+        this.personaId = personaId;
         this.requestMethod = requestMethod;
         this.url = url;
         this.fullUrl = fullUrl;
         this.requestHeader = requestHeader;
         this.requestBody = requestBody;
         this.mismatches = new ArrayList<>();
+        this.warnings = new ArrayList<>();
+        this.operationId = "";
     }
 
     public String getId() {
@@ -104,8 +123,31 @@ public class HttpValidationResult implements TestStepPayload {
         this.startTime = startTime;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * we want to calculate elapsed time as soon as http call is finished
+     * but we also need to calculate it when something goes wrong
+     */
+    public void calcElapsedTimeIfNotCalculated() {
+        if (elapsedTimeCalculated) {
+            return;
+        }
+
+        long endTime = Time.currentTimeMillis();
+        elapsedTime = endTime - startTime;
+
+        elapsedTimeCalculated = true;
+    }
+
     public void setElapsedTime(long elapsedTime) {
         this.elapsedTime = elapsedTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
     }
 
     public String getRequestType() {
@@ -137,7 +179,7 @@ public class HttpValidationResult implements TestStepPayload {
     }
 
     public boolean hasResponseContent() {
-        return response.hasContent();
+        return response != null && response.hasContent();
     }
 
     public int getResponseStatusCode() {
@@ -158,6 +200,10 @@ public class HttpValidationResult implements TestStepPayload {
 
     public String renderMismatches() {
         return String.join("\n", mismatches);
+    }
+
+    public void addWarning(String warning) {
+        warnings.add(warning);
     }
 
     public void setErrorMessage(String errorMessage) {
@@ -188,8 +234,12 @@ public class HttpValidationResult implements TestStepPayload {
         return responseBodyNode;
     }
 
-    public long getElapsedTime() {
-        return elapsedTime;
+    public String getOperationId() {
+        return operationId;
+    }
+
+    public void setOperationId(String operationId) {
+        this.operationId = operationId;
     }
 
     @Override
@@ -197,13 +247,20 @@ public class HttpValidationResult implements TestStepPayload {
         Map<String, Object> result = new LinkedHashMap<>();
 
         result.put("id", id);
+
+        if (!Persona.DEFAULT_PERSONA_ID.equals(personaId)) {
+            result.put("personaId", personaId);
+        }
+
         result.put("method", requestMethod);
         result.put("url", fullUrl);
+        result.put("operationId", operationId);
 
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
         result.put("errorMessage", errorMessage);
         result.put("mismatches", mismatches);
+        result.put("warnings", warnings);
 
         result.put("requestHeader", requestHeader.redactSecrets().toListOfMaps());
 
@@ -260,5 +317,17 @@ public class HttpValidationResult implements TestStepPayload {
 
     private String generateId() {
         return "httpCall-" + idCounter.incrementAndGet();
+    }
+
+    @Override
+    public void prettyPrint(ConsoleOutput console) {
+        if (!hasResponseContent()) {
+            console.out(Color.YELLOW, "[no content]");
+        } else if (response.isBinary()) {
+            console.out(Color.YELLOW, "[binary content]");
+        } else {
+            console.out(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
+            new DataNodeAnsiPrinter(console).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+        }
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +35,7 @@
 
     --webtau-card-border-color: rgba(91, 91, 91, 0.12);
     --webtau-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
     --webtau-card-label-color: #969ba7;
     --webtau-card-width: 170px;
     --webtau-card-padding: var(--webtau-spacing-double);
@@ -41,6 +43,10 @@
 
     --webtau-match-color: rgba(57, 215, 40, 0.2);
     --webtau-table-row-problem-background-color: rgba(239, 94, 99, 0.08);
+
+    --webtau-property-key-color: #660e7a;
+    --webtau-property-value-string-color: #078744;
+    --webtau-property-value-number-color: #2822ad;
 
     --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
 }
@@ -107,7 +113,7 @@ body {
 
 .report > .test-details-area {
     grid-area: details;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .report > .status-filter-area {

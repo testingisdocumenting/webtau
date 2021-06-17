@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,15 +26,32 @@ import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.FuzzyPas
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
 
 class DataNodeListContainHandlerTest {
-    def listOfNames = [
+    def listOfFirstNames = ['FN0', 'FN1', 'FN2', 'FN3']
+
+    def listOfFullNames = [
         [firstName: 'FN0', lastName: 'LN0'],
         [firstName: 'FN1', lastName: 'LN1'],
         [firstName: 'FN2', lastName: 'LN2'],
         [firstName: 'FN3', lastName: 'LN3']]
 
+
+    @Test
+    void "should mark single containing items with passed status and not change other item statuses"() {
+        def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFirstNames)
+
+        dataNode.get(0).getTraceableValue().updateCheckLevel(FuzzyPassed)
+
+        dataNode.should contain('FN2')
+
+        dataNode.get(0).getTraceableValue().checkLevel.should == FuzzyPassed
+        dataNode.get(1).getTraceableValue().checkLevel.should == None
+        dataNode.get(2).getTraceableValue().checkLevel.should == ExplicitPassed
+        dataNode.get(3).getTraceableValue().checkLevel.should == None
+    }
+
     @Test
     void "should mark containing items with passed status and not change other item statuses"() {
-        def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), listOfNames)
+        def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
         dataNode.get(0).get('firstName').getTraceableValue().updateCheckLevel(FuzzyPassed)
 
@@ -50,12 +68,30 @@ class DataNodeListContainHandlerTest {
     }
 
     @Test
+    void "should mark containing items with passed status and not change other item statuses when compare derived items"() {
+        def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
+
+        dataNode.get(0).get('firstName').getTraceableValue().updateCheckLevel(FuzzyPassed)
+
+        dataNode.get("firstName").should contain('FN3')
+
+        dataNode.get(0).get('firstName').getTraceableValue().checkLevel.should == FuzzyPassed
+        dataNode.get(0).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(1).get('firstName').getTraceableValue().checkLevel.should == None
+        dataNode.get(1).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(2).get('firstName').getTraceableValue().checkLevel.should == None
+        dataNode.get(2).get('lastName').getTraceableValue().checkLevel.should == None
+        dataNode.get(3).get('firstName').getTraceableValue().checkLevel.should == ExplicitPassed
+        dataNode.get(3).get('lastName').getTraceableValue().checkLevel.should == None
+    }
+
+    @Test
     void "should mark all items as failed when item is not present"() {
-        def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), listOfNames)
+        def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
         code {
             dataNode.should contain([firstName: 'FN8', lastName: 'LN8'])
-        } should throwException(~/body expect to contain \{firstName=FN8, lastName=LN8}/)
+        } should throwException(~/body expects to contain \{firstName=FN8, lastName=LN8}/)
 
         dataNode.elements().collect { it.get('firstName').getTraceableValue().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
         dataNode.elements().collect { it.get('lastName').getTraceableValue().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
@@ -63,7 +99,7 @@ class DataNodeListContainHandlerTest {
 
     @Test
     void "should mark all items as fuzzy passed when item is not present and should not be present"() {
-        def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), [1, 2, 3])
+        def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), [1, 2, 3])
         dataNode.shouldNot contain(8)
 
         dataNode.elements().collect { it.getTraceableValue().checkLevel }.should == [FuzzyPassed, FuzzyPassed, FuzzyPassed]
@@ -71,11 +107,11 @@ class DataNodeListContainHandlerTest {
 
     @Test
     void "should mark containing items as failed when when they should not be present"() {
-        def dataNode = DataNodeBuilder.fromList(new DataNodeId("body"), listOfNames)
+        def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
         code {
             dataNode.shouldNot contain([firstName: 'FN2', lastName: 'LN2'])
-        } should throwException(~/body expect to not contain \{firstName=FN2, lastName=LN2}/)
+        } should throwException(~/body expects to not contain \{firstName=FN2, lastName=LN2}/)
 
         dataNode.get(0).get('firstName').getTraceableValue().checkLevel.should == None
         dataNode.get(0).get('lastName').getTraceableValue().checkLevel.should == None

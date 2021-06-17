@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.reporter;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 
 public class IntegrationTestsMessageBuilder {
@@ -31,6 +32,7 @@ public class IntegrationTestsMessageBuilder {
         CLASSIFIER("classifier", Color.CYAN),
         MATCHER("matcher", Color.GREEN),
         STRING_VALUE("stringValue", Color.GREEN),
+        QUERY_VALUE("queryValue", Color.YELLOW),
         NUMBER_VALUE("numberValue", Color.BLUE),
         URL("url", Color.PURPLE),
         SELECTOR_TYPE("selectorType", Color.PURPLE),
@@ -63,8 +65,14 @@ public class IntegrationTestsMessageBuilder {
 
     public static final MessageToken TO = TokenTypes.PREPOSITION.token("to");
     public static final MessageToken OF = TokenTypes.PREPOSITION.token("of");
+    public static final MessageToken FOR = TokenTypes.PREPOSITION.token("for");
+    public static final MessageToken FROM = TokenTypes.PREPOSITION.token("from");
+    public static final MessageToken OVER = TokenTypes.PREPOSITION.token("over");
+    public static final MessageToken AS = TokenTypes.PREPOSITION.token("as");
+    public static final MessageToken USING = TokenTypes.PREPOSITION.token("using");
     public static final MessageToken INTO = TokenTypes.PREPOSITION.token("into");
     public static final MessageToken ON = TokenTypes.PREPOSITION.token("on");
+    public static final MessageToken WITH = TokenTypes.PREPOSITION.token("with");
     public static final MessageToken COMMA = TokenTypes.DELIMITER.token(",");
     public static final MessageToken COLON = TokenTypes.DELIMITER.token(":");
 
@@ -82,12 +90,20 @@ public class IntegrationTestsMessageBuilder {
         return TokenTypes.STRING_VALUE.token(escapeSpecialChars(value.toString()));
     }
 
+    public static MessageToken queryValue(Object value) {
+        return TokenTypes.QUERY_VALUE.token(escapeSpecialChars(value.toString()));
+    }
+
     public static MessageToken numberValue(Object value) {
-        return TokenTypes.NUMBER_VALUE.token(escapeSpecialChars(value.toString()));
+        return TokenTypes.NUMBER_VALUE.token(value.toString());
     }
 
     public static MessageToken urlValue(String url) {
         return TokenTypes.URL.token(url);
+    }
+
+    public static MessageToken urlValue(Path url) {
+        return TokenTypes.URL.token(url.toString());
     }
 
     public static MessageToken action(String action) {

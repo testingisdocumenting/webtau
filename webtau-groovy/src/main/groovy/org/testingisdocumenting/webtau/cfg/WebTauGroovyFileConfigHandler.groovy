@@ -17,15 +17,22 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
-import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandlers
+import org.testingisdocumenting.webtau.GroovyRunner
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.db.DbDataSourceProvider
 import org.testingisdocumenting.webtau.db.DbDataSourceProviders
+import org.testingisdocumenting.webtau.graphql.listener.GraphQLListener
+import org.testingisdocumenting.webtau.graphql.listener.GraphQLListeners
+import org.testingisdocumenting.webtau.http.listener.HttpListener
+import org.testingisdocumenting.webtau.http.listener.HttpListeners
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
+import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
-import org.testingisdocumenting.webtau.reporter.TestListener
-import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.TestListener
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 
 import java.nio.file.Files
@@ -33,6 +40,9 @@ import java.nio.file.Path
 import java.util.concurrent.atomic.AtomicBoolean
 
 class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
+    private static final String SOURCE = 'config file'
+    private static final String PERSONAS_KEY = 'personas'
+
     private static final AtomicBoolean ignoreConfigErrors = new AtomicBoolean(false)
 
     static void forceIgnoreErrors() {
@@ -65,14 +75,33 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             return
         }
 
-        cfg.acceptConfigValues("config file", convertConfigToMap(parsedConfig))
+        Map<String, ?> configAsMap = convertConfigToMap(parsedConfig)
+        handlePersonas(cfg, configAsMap)
+
+        cfg.acceptConfigValues(SOURCE, configAsMap)
 
         setupHttpHeaderProvider(parsedConfig)
         setupBrowserPageNavigationHandler(parsedConfig)
         setupReportGenerator(parsedConfig)
         setupPageElementGetSetValueHandlers(parsedConfig)
         setupTestListeners(parsedConfig)
+        setupGraphQLListeners(parsedConfig)
+        setupHttpListeners(parsedConfig)
+        setupHttpValidationHandlers(parsedConfig)
         setupDbDataSourceProviders(parsedConfig)
+    }
+
+    private static void handlePersonas(WebTauConfig cfg, Map<String, ?> personasConfig) {
+        def personas = personasConfig.get(PERSONAS_KEY)
+        if (!personas) {
+            return
+        }
+
+        personas.each { String personaId, personaConfig ->
+            cfg.acceptConfigValues(SOURCE, personaId, personaConfig)
+        }
+
+        personasConfig.remove(PERSONAS_KEY)
     }
 
     private static ConfigObject parseConfig(WebTauConfig cfg, Path configPath) {
@@ -145,6 +174,21 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
     private static void setupTestListeners(ConfigObject config) {
         List<TestListener> listenerInstances = instancesFromConfig(config, 'testListeners')
         listenerInstances.each { TestListeners.add(it) }
+    }
+
+    private static void setupGraphQLListeners(ConfigObject config) {
+        List<GraphQLListener> listenerInstances = instancesFromConfig(config, 'graphqlListeners')
+        listenerInstances.each { GraphQLListeners.add(it) }
+    }
+
+    private static void setupHttpListeners(ConfigObject config) {
+        List<HttpListener> listenerInstances = instancesFromConfig(config, 'httpListeners')
+        listenerInstances.each { HttpListeners.add(it) }
+    }
+
+    private static void setupHttpValidationHandlers(ConfigObject config) {
+        List<HttpValidationHandler> handlerInstances = instancesFromConfig(config, 'httpValidationHandlers')
+        handlerInstances.each { HttpValidationHandlers.add(it) }
     }
 
     private static void setupDbDataSourceProviders(ConfigObject config) {

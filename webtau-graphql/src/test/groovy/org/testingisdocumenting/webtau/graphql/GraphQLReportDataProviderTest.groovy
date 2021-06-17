@@ -28,20 +28,23 @@ class GraphQLReportDataProviderTest {
 
     @Before
     void injectDummyData() {
-        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 1))
-        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 2))
-        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, 3))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '',1))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '',2))
+        coverage.recordQuery(validationResult('allTasks', GraphQLQueryType.QUERY, '',3))
 
-        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, 2))
-        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, 4))
-        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, 6))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, '',2))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, '',4))
+        coverage.recordQuery(validationResult('complete', GraphQLQueryType.MUTATION, '',6))
+
+        coverage.recordQuery(validationResult('taskById', GraphQLQueryType.QUERY,
+                '{ "errors": { "message": "error some place" }}',10))
     }
 
     @Test
     void "computes timing per query"() {
-        def timeStats = reportDataProvider.provide(null)
+        def timeStats = reportDataProvider.provide(null, null)
             .find {it.getId() == "graphQLQueryTimeStatistics" }
-            .getData()
+            .getData() as Set
         def expectedStats = [
             [
                 name: 'allTasks',
@@ -66,33 +69,48 @@ class GraphQLReportDataProviderTest {
                     p95: 6,
                     p99: 6
                 ]
+            ],
+            [
+                name: 'taskById',
+                type: 'query',
+                statistics: [
+                    mean: 10,
+                    min: 10,
+                    max: 10,
+                    count: 1,
+                    p95: 10,
+                    p99: 10
+                ]
             ]
-        ]
+        ] as Set
         timeStats.should == expectedStats
     }
 
     @Test
     void "computes coverage summary"() {
-        def summary = reportDataProvider.provide(null)
+        def summary = reportDataProvider.provide(null, null)
         .find { it.getId() == "graphQLCoverageSummary" }
         .getData()
 
         summary.should == [
-            types: [
-                mutation: [
-                    declaredQueries: 2,
-                    coveredQueries: 1,
-                    coverage: 0.5
+                types: [
+                        mutation: [
+                                declaredQueries: 2,
+                                coveredQueries: 1,
+                                coverage: 0.5
+                        ],
+                        query: [
+                                declaredQueries: 2,
+                                coveredQueries: 2,
+                                coverage: 1.0
+                        ]
                 ],
-                query: [
-                    declaredQueries: 2,
-                    coveredQueries: 1,
-                    coverage: 0.5
-                ]
-            ],
-            totalDeclaredQueries: 4,
-            totalCoveredQueries: 2,
-            coverage: 0.5
+                totalDeclaredQueries: 4,
+                totalCoveredQueries: 3,
+                coverage: 0.75,
+                successBranchCoverage: 0.5,
+                errorBranchCoverage: 0.25,
+                branchCoverage: 0.375,
         ]
     }
 }

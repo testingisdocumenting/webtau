@@ -1,0 +1,5 @@
+package scenarios.rest
+
+import scenarios.rest.handlers.ThrowExceptionHttpValidationHandler
+
+httpValidationHandlers = [ThrowExceptionHttpValidationHandler]

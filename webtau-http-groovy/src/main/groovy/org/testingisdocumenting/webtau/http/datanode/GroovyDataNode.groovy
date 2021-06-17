@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.datanode
 
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.testingisdocumenting.webtau.expectation.ActualPath
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
@@ -92,6 +94,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
+    Collection<DataNode> children() {
+        return node.children()
+    }
+
+    @Override
     Iterator<DataNode> iterator() {
         return elements().iterator()
     }
@@ -106,24 +113,32 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
         return node.numberOfElements()
     }
 
-    @Override
-    Map<String, DataNode> asMap() {
-        return node.asMap().entrySet().collectEntries { [it.key, new GroovyDataNode(it.value)] }
-    }
-
     void each(Closure consumer) {
         node.elements().each(delegateToDataNodeClosure(consumer))
     }
 
     DataNode find(Closure predicate) {
         def result = node.elements().find(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
-        return (result instanceof DataNode) ?
-                new GroovyDataNode(result) :
-                result
+
+        if (result instanceof DataNode) {
+            if (result.singleValue) {
+                result.traceableValue.updateCheckLevel(CheckLevel.FuzzyPassed)
+            }
+            return new GroovyDataNode(result)
+        }
+
+        return result
     }
 
     DataNode findAll(Closure predicate) {
         def list = node.elements().findAll(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
+
+        list.each {
+            if (it.isSingleValue()) {
+                it.traceableValue.updateCheckLevel(CheckLevel.FuzzyPassed)
+            }
+        }
+
         return wrapIntoDataNode('findAll', list)
     }
 

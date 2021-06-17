@@ -35,7 +35,7 @@ import java.nio.file.Path;
 public class WebTauCoreConfigHandler implements WebTauConfigHandler {
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        SystemTimerConfig.setWaitTimeout(cfg.waitTimeout());
+        SystemTimerConfig.setWaitTimeout(cfg.getWaitTimeout());
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath());
 
         setProxy(cfg);

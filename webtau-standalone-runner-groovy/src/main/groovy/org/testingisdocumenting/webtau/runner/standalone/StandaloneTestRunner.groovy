@@ -18,8 +18,7 @@
 package org.testingisdocumenting.webtau.runner.standalone
 
 import org.testingisdocumenting.webtau.TestFile
-import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.testingisdocumenting.webtau.reporter.TestListeners
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
 import org.testingisdocumenting.webtau.reporter.WebTauTestMetadata
@@ -63,7 +62,7 @@ class StandaloneTestRunner {
         this.isTerminated = new AtomicBoolean(false)
     }
 
-    void process(TestFile testFile, delegate) {
+    void process(TestFile testFile) {
         Path scriptPath = testFile.path
         currentTestPath = scriptPath.isAbsolute() ? scriptPath : workingDir.resolve(scriptPath)
         currentTestMetadata.set(new WebTauTestMetadata())
@@ -71,27 +70,18 @@ class StandaloneTestRunner {
 
         def relativeToWorkDirPath = workingDir.relativize(currentTestPath)
 
-        def scriptParse = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, "parse/init", { ->
+        def scriptParseTest = new StandaloneTest(workingDir, currentTestPath, currentShortContainerId, "parse/init", { ->
             def script = groovy.createScript(relativeToWorkDirPath.toString(), new Binding())
-
-            script.setDelegate(delegate)
-            script.setProperty("scenario", this.&scenario)
-            script.setProperty("dscenario", this.&dscenario)
-            script.setProperty("sscenario", this.&sscenario)
-            script.setProperty("onlyWhen", this.&onlyWhen)
-
-            StepReporters.withAdditionalReporter(new ForbidStepsOutsideScenarioStepListener()) {
-                script.run()
-            }
+            script.run()
         })
 
         TestListeners.withDisabledListeners {
-            scriptParse.run()
+            scriptParseTest.run()
         }
 
-        if (scriptParse.hasError()) {
-            scriptParse.test.metadata.add(currentTestMetadata.get())
-            registeredTests.add(scriptParse)
+        if (scriptParseTest.hasError() || scriptParseTest.hasSteps()) {
+            scriptParseTest.test.metadata.add(currentTestMetadata.get())
+            registeredTests.addAsFirstTestWithinFile(scriptParseTest)
         }
     }
 
@@ -271,7 +261,7 @@ class StandaloneTestRunner {
     private void runTestIfNotTerminated(StandaloneTest standaloneTest) {
         if (!isTerminated.get()) {
             currentTestMetadata.set(standaloneTest.test.metadata)
-            standaloneTest.run()
+            standaloneTest.runIfNotRan()
         }
 
         if (standaloneTest.test.exception instanceof TestsRunTerminateException) {
@@ -298,17 +288,15 @@ class StandaloneTestRunner {
     private StandaloneTest createBeforeFirstTestListenersAsTest() {
         return new StandaloneTest(workingDir, workingDir.resolve("setup-listeners"),
                 'Setup', 'before first test', { ->
-
             TestListeners.beforeFirstTest()
-        })
+        }).asSynthetic()
     }
 
     private StandaloneTest createAfterAllTestListenersAsTest() {
         return new StandaloneTest(workingDir, workingDir.resolve("teardown-listeners"),
                 'Teardown', 'after all tests', { ->
-
             TestListeners.afterAllTests()
-        })
+        }).asSynthetic()
     }
 
     private static void handleTestAndNotifyListeners(StandaloneTest standaloneTest, Closure testHandler) {

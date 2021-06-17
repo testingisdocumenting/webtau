@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class PeopleDaoWithDocTest {
-    private PeopleDao dao = new PeopleDao();
+    private final PeopleDao dao = new PeopleDao();
 
     @Test
     public void providesAccessToNewJoiners() {
@@ -26,7 +26,7 @@ public class PeopleDaoWithDocTest {
                                           "cat",       4,   0);
         addEmployees(allEmployees);
 
-        doc.capture(PeopleDaoWithDocTest.class, "all-employees", allEmployees); // capture all employees for documentation purposes
+        doc.capture("all-employees", allEmployees); // capture all employees for documentation purposes
     }
 
     // this method is separated for documentation extraction purposes
@@ -36,7 +36,7 @@ public class PeopleDaoWithDocTest {
                                                             "bob",       3,   0,
                                                             "cat",       4,   0)));
 
-        doc.expected.capture(PeopleDaoWithDocTest.class, "new-joiners"); // capture expected new joiners for documentation purposes
+        doc.expected.capture("new-joiners"); // capture expected new joiners for documentation purposes
     }
 
     private void addEmployees(TableData allEmployees) {

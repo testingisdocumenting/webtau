@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +18,12 @@
 package org.testingisdocumenting.webtau.cache;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Cache {
     public static final Cache cache = new Cache();
@@ -27,15 +34,32 @@ public class Cache {
         fileBasedCache = new FileBasedCache(() -> WebTauConfig.getCfg().getCachePath());
     }
 
-    public <E> E get(String key) {
-        return fileBasedCache.get(key);
+    public <E> CachedValue<E> value(String id) {
+        return new CachedValue<>(cache, id);
     }
 
-    public void put(String key, Object value, long expirationTime) {
-        fileBasedCache.put(key, value, expirationTime);
+    public <E> E get(String key) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("getting cached value"), FROM, id(key)),
+                (r) -> tokenizedMessage(action("got cached value"), FROM, id(key), COLON, stringValue(r)),
+                () -> {
+                    Object value = fileBasedCache.get(key);
+                    if (value == null) {
+                        throw new AssertionError("can't find cached value by key: " + key);
+                    }
+
+                    return value;
+                });
+
+        return step.execute(StepReportOptions.SKIP_START);
     }
 
     public void put(String key, Object value) {
-        fileBasedCache.put(key, value);
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("caching value"), AS, id(key), COLON, stringValue(value)),
+                () -> tokenizedMessage(action("cached value"), AS, id(key), COLON, stringValue(value)),
+                () -> fileBasedCache.put(key, value));
+
+        step.execute(StepReportOptions.SKIP_START);
     }
 }

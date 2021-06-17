@@ -17,14 +17,13 @@
 
 package org.testingisdocumenting.webtau.data;
 
-import org.testingisdocumenting.webtau.data.csv.DataCsv;
-import org.testingisdocumenting.webtau.data.json.DataJson;
-
 public class Data {
     public static final Data data = new Data();
 
     public final DataCsv csv = new DataCsv();
     public final DataJson json = new DataJson();
+
+    public final DataGuid guid = new DataGuid();
 
     private Data() {
     }

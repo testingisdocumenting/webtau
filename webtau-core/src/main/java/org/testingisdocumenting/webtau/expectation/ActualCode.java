@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.expectation;
 
 public class ActualCode implements ActualCodeExpectations {
-    private CodeBlock actual;
+    private final CodeBlock actual;
 
     public ActualCode(CodeBlock actual) {
         this.actual = actual;
@@ -26,8 +27,23 @@ public class ActualCode implements ActualCodeExpectations {
     @Override
     public void should(CodeMatcher codeMatcher) {
         boolean matches = codeMatcher.matches(actual);
-        if (! matches) {
-            throw new AssertionError("\n" + codeMatcher.mismatchedMessage(actual));
+
+        if (matches) {
+            handleMatch(codeMatcher);
+        } else {
+            handleMismatch(codeMatcher, codeMatcher.mismatchedMessage(actual));
+        }
+    }
+
+    private void handleMatch(CodeMatcher codeMatcher) {
+        ExpectationHandlers.onCodeMatch(codeMatcher);
+    }
+
+    private void handleMismatch(CodeMatcher codeMatcher, String message) {
+        final ExpectationHandler.Flow flow = ExpectationHandlers.onCodeMismatch(codeMatcher, message);
+
+        if (flow != ExpectationHandler.Flow.Terminate) {
+            throw new AssertionError("\n" + message);
         }
     }
 }

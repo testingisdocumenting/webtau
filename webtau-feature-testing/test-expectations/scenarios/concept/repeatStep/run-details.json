@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "multiple times",
+    "shortContainerId" : "repeatStep.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  }, {
+    "scenario" : "multiple times with context",
+    "shortContainerId" : "repeatStep.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  } ],
+  "exitCode" : 0
+}

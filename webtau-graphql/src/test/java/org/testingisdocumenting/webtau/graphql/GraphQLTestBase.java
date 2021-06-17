@@ -50,6 +50,8 @@ public class GraphQLTestBase implements HttpConfiguration {
     protected final static String MULTI_OP_QUERY_WITH_VARS = "query task($id: ID!) { taskById(id: $id) { id } } " +
             "query openTasks { allTasks(uncompletedOnly: true) { id } }";
 
+    protected final static String ERROR_QUERY = "query error($msg: String!) { error(msg: $msg) { msg } }";
+
     protected final static HttpResponseValidator VALIDATOR = (header, body) -> body.get("data.taskById.id").should(equal("a"));
     protected final static HttpResponseValidatorWithReturn VALIDATOR_WITH_RETURN = (header, body) -> {
         body.get("data.taskById.id").should(equal("a"));

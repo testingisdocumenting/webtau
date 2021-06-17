@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.junit5;
 
+import org.testingisdocumenting.webtau.TestListeners;
 import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
 import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
@@ -201,7 +202,7 @@ public class WebTauJunitExtension implements
 
         private static void actualRegister() {
             TestListeners.add(new ConsoleTestListener());
-            StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter()));
+            StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE));
         }
     }
 }

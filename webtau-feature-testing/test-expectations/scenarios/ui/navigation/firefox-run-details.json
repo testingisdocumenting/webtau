@@ -1,0 +1,58 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "open",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
+  }, {
+    "scenario" : "reopen",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "refresh",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "restart",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 9
+    }
+  }, {
+    "scenario" : "save url",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "change url in between save and load",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "load url",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "wait on url",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 0
+}

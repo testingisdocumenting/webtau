@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.maven
 
+import org.testingisdocumenting.webtau.app.WebTauCliApp
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
-import org.testingisdocumenting.webtau.cli.WebTauCliApp
 import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugin.logging.Log
 import org.apache.maven.shared.model.fileset.FileSet
@@ -32,8 +32,8 @@ class WebTauMaven {
     static void runTests(Log log, FileSet tests, Map options) {
         def fileSetManager = new FileSetManager()
         def files = tests != null ?
-                fileSetManager.getIncludedFiles(tests) as List:
-                []
+            (fileSetManager.getIncludedFiles(tests) as List).sort() :
+            []
 
         log.info("test files:\n    " + files.join("\n    "))
 
@@ -61,7 +61,7 @@ class WebTauMaven {
         if (runRepl) {
             cli.startRepl()
         } else {
-            cli.start(WebTauCliApp.WebDriverBehavior.AutoCloseWebDrivers) { exitCode ->
+            cli.start { exitCode ->
                 if (exitCode > 0) {
                     throw new MojoFailureException("tests failure: check tests output")
                 }

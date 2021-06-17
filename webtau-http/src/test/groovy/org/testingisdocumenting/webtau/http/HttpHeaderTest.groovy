@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -88,4 +89,31 @@ class HttpHeaderTest {
         def newHeader = header.with('foo', 'bar')
         newHeader.should == new HttpHeader(['foo': 'bar'])
     }
+
+    @Test
+    void "build from existing header with a single new value"() {
+        def header = new HttpHeader([k: 'v'])
+        def newHeader = header.with('foo', 'bar')
+        newHeader.should == new HttpHeader([k: 'v', 'foo': 'bar'])
+    }
+
+    @Test
+    void "build from existing header with a new map"() {
+        def header = new HttpHeader([k: 'v'])
+        def newHeader = header.with([k1: 'v1', k2: 'v2'])
+        newHeader.should == new HttpHeader([k: 'v', k1: 'v1', k2: 'v2'])
+    }
+
+    @Test
+    void "get returns null if the key is not in the map"() {
+        def header = new HttpHeader([:])
+        header.get('noSuchKey').should == null
+    }
+
+    @Test
+    void "caseInsensitiveGet returns null if the key is not in the map"() {
+        def header = new HttpHeader([:])
+        header.caseInsensitiveGet('noSUchKey').should == null
+    }
+
 }

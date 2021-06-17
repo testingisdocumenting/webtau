@@ -17,6 +17,9 @@
 
 package org.testingisdocumenting.webtau.data.table;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.TableDataRenderer;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -31,7 +34,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * Represents a set of rows with named columns to be used as part of test input preparation and/or test output validation
  */
-public class TableData implements Iterable<Record> {
+public class TableData implements Iterable<Record>, PrettyPrintable {
     private final List<Record> rows;
     private final Map<CompositeKey, Record> rowsByKey;
     private final Map<CompositeKey, Integer> rowIdxByKey;
@@ -67,6 +70,23 @@ public class TableData implements Iterable<Record> {
 
     public Integer findRowIdxByKey(CompositeKey key) {
         return rowIdxByKey.get(key);
+    }
+
+    /**
+     * create new table data with the data of a current one but with new key columns.
+     * can be used to validate new key columns uniqueness
+     * @param keyColumns new key columns
+     * @return new table data with updated key columns
+     */
+    public TableData withNewKeyColumns(String... keyColumns) {
+        TableDataHeader newHeader = new TableDataHeader(header.getNamesStream(), Arrays.stream(keyColumns));
+        TableData withNewHeader = new TableData(newHeader);
+
+        for (Record originalRow : rows) {
+            withNewHeader.addRow(newHeader.createRecord(originalRow.valuesStream()));
+        }
+
+        return withNewHeader;
     }
 
     /**
@@ -201,6 +221,11 @@ public class TableData implements Iterable<Record> {
         values(columnNameAndValues.skip(header.size() + 1).toArray());
     }
 
+    @Override
+    public String toString() {
+        return TableDataRenderer.renderTable(this);
+    }
+
     private static List<String> extractColumnNames(Stream<?> columnNameAndValues) {
         List<String> result = new ArrayList<>();
 
@@ -215,5 +240,10 @@ public class TableData implements Iterable<Record> {
         }
 
         return result;
+    }
+
+    @Override
+    public void prettyPrint(ConsoleOutput console) {
+        console.out(PrettyPrintTableRenderer.render(this));
     }
 }

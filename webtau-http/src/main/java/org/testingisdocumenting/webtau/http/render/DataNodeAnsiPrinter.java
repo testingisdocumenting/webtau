@@ -17,17 +17,15 @@
 
 package org.testingisdocumenting.webtau.http.render;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.apache.commons.lang3.StringUtils;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataNodeAnsiPrinter {
     private static final Color DELIMITER_COLOR = Color.YELLOW;
@@ -38,12 +36,14 @@ public class DataNodeAnsiPrinter {
     private static final Object[] PASS_STYLE = new Object[]{FontStyle.BOLD, Color.GREEN};
     private static final Object[] FAIL_STYLE = new Object[]{FontStyle.BOLD, Color.RED};
     private static final Object[] NO_STYLE = new Object[]{};
+    private final ConsoleOutput console;
 
     private List<Line> lines;
     private Line currentLine;
     private int indentation;
 
-    public DataNodeAnsiPrinter() {
+    public DataNodeAnsiPrinter(ConsoleOutput console) {
+        this.console = console;
     }
 
     public void print(DataNode dataNode) {
@@ -57,28 +57,8 @@ public class DataNodeAnsiPrinter {
 
         printNode(dataNode, false);
 
-        if (maxNumberOfLInes == -1 || lines.size() <= maxNumberOfLInes) {
-            consoleOutputWithoutLimit();
-        } else {
-            consoleOutputWithLimit(maxNumberOfLInes);
-        }
-    }
-
-    private void consoleOutputWithoutLimit() {
-        consoleOutputLines(lines);
-    }
-
-    private void consoleOutputWithLimit(int limit) {
-        int firstHalfNumberOfLines = limit / 2;
-        int secondHalfNumberOfLines = firstHalfNumberOfLines + limit % 2;
-
-        consoleOutputLines(lines.subList(0, firstHalfNumberOfLines));
-        ConsoleOutputs.out(Color.YELLOW, "...");
-        consoleOutputLines(lines.subList(lines.size() - secondHalfNumberOfLines, lines.size()));
-    }
-
-    private void consoleOutputLines(List<Line> lines) {
-        lines.forEach(l -> ConsoleOutputs.out(l.getStyleAndValues().toArray()));
+        console.outLinesWithLimit(lines, maxNumberOfLInes,
+                (line) -> line.getStyleAndValues().toArray());
     }
 
     private void printNode(DataNode dataNode, boolean skipIndent) {
@@ -113,14 +93,12 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printNotEmptyObject(DataNode dataNode, boolean skipIndent) {
-        Map<String, DataNode> children = dataNode.asMap();
-
         openScope("{", skipIndent);
 
+        Collection<DataNode> children = dataNode.children();
         int idx = 0;
-        for (Map.Entry<String, DataNode> entry : children.entrySet()) {
-            String k = entry.getKey();
-            DataNode v = entry.getValue();
+        for (DataNode v : children) {
+            String k = v.id().getName();
 
             boolean isLast = idx == children.size() - 1;
 
@@ -180,7 +158,7 @@ public class DataNodeAnsiPrinter {
         TraceableValue traceableValue = dataNode.getTraceableValue();
 
         Object value = traceableValue.getValue();
-        print(value instanceof String ? STRING_COLOR : NUMBER_COLOR);
+        print(TypeUtils.isString(value) ? STRING_COLOR : NUMBER_COLOR);
 
         print(valueStyle(traceableValue));
         print(convertToString(traceableValue));
@@ -205,7 +183,7 @@ public class DataNodeAnsiPrinter {
             return "null";
         }
 
-        return value instanceof String ?
+        return TypeUtils.isString(value) ?
                 "\"" + value + "\"" :
                 value.toString();
     }

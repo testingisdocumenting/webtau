@@ -20,7 +20,7 @@ package org.testingisdocumenting.webtau.cli.report;
 import org.testingisdocumenting.webtau.cli.CliValidationResult;
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractor;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -29,11 +29,11 @@ public class CliCallsTestResultPayloadExtractor implements TestResultPayloadExtr
     private static final String CLI_CALLS_PAYLOAD_NAME = "cliCalls";
 
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
-        Stream<CliValidationResult> payloads = testSteps
-                .flatMap(s -> s.getCombinedPayloadsOfType(CliValidationResult.class));
+    public Stream<TestResultPayload> extract(Stream<WebTauStep> testSteps) {
+        Stream<CliValidationResult> outputs = testSteps
+                .flatMap(s -> s.collectOutputsOfType(CliValidationResult.class));
 
         return Stream.of(new TestResultPayload(CLI_CALLS_PAYLOAD_NAME,
-                payloads.map(CliValidationResult::toMap).collect(Collectors.toList())));
+                outputs.map(CliValidationResult::toMap).collect(Collectors.toList())));
     }
 }

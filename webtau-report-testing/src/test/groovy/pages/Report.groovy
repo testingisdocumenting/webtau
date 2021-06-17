@@ -21,7 +21,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*
 class Report {
     def fullScreenIcon = $(".fullscreen-icon")
     def collapsedHeader = $(".collapsed-http-header")
-    def groupNames = $(".group-of-tests .navigation-entry-group-label")
+    def groupNames = $(".group-of-tests .navigation-entry-group-label").all()
     def testNames = $(".navigation-entry .label")
     def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
 
@@ -30,8 +30,14 @@ class Report {
     def steps = $(".step")
     def personaId = $(".step .persona-id")
 
+    def tabNames = $(".tab-selection .tab-name")
+
+    def cellValues = $("td").all()
+
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
+
+    def testSummaryHttpCallWarnings = $(".webtau-http-calls-warning")
 
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
@@ -48,19 +54,27 @@ class Report {
     }
 
     def selectHttpCalls() {
-        selectDetailsTab('HTTP calls')
+        selectTab('HTTP calls')
     }
 
     def selectCliCalls() {
-        selectDetailsTab('CLI calls')
+        selectTab('CLI calls')
     }
 
     def selectSteps() {
-        selectDetailsTab('Steps')
+        selectTab('Steps')
     }
 
-    def selectDetailsTab(String tabName) {
-        $(".tab-selection .tab-name").get(tabName).click()
+    def selectConfiguration() {
+        selectTab('Configuration')
+    }
+
+    def selectEnvVars() {
+        selectTab('Environment Variables')
+    }
+
+    def selectTab(String tabName) {
+        tabNames.get(tabName).click()
     }
 
     def expandHttpCall(callNumber) {

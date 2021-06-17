@@ -19,20 +19,20 @@ package org.testingisdocumenting.webtau.browser.reporter;
 
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractor;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
 public class ScreenshotTestResultPayloadExtractor implements TestResultPayloadExtractor {
     @Override
-    public Stream<TestResultPayload> extract(Stream<TestStep> testSteps) {
-        Stream<ScreenshotStepPayload> payloads = testSteps
-                .flatMap(s -> s.getCombinedPayloadsOfType(ScreenshotStepPayload.class));
+    public Stream<TestResultPayload> extract(Stream<WebTauStep> testSteps) {
+        Stream<ScreenshotStepOutput> outputs = testSteps
+                .flatMap(s -> s.collectOutputsOfType(ScreenshotStepOutput.class));
 
-        Optional<ScreenshotStepPayload> first = payloads.findFirst();
-        return first.map(screenshotStepPayload -> Stream.of(
-                new TestResultPayload("screenshot", screenshotStepPayload.getBase64png())))
+        Optional<ScreenshotStepOutput> first = outputs.findFirst();
+        return first.map(screenshotStepOutput -> Stream.of(
+                new TestResultPayload("screenshot", screenshotStepOutput.getBase64png())))
                 .orElseGet(Stream::empty);
     }
 }

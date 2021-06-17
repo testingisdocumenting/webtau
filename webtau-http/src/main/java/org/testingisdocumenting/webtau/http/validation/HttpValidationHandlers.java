@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
+import org.testingisdocumenting.webtau.http.perf.HttpPerformanceValidationHandler;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
@@ -25,16 +26,22 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class HttpValidationHandlers {
-    private static final List<HttpValidationHandler> globalHandlers = ServiceLoaderUtils.load(HttpValidationHandler.class);
+    private static final List<HttpValidationHandler> globalHandlers = globalHandlers();
+    private static final List<HttpValidationHandler> addedHandlers = new ArrayList<>();
+
     private static final ThreadLocal<List<HttpValidationHandler>> localHandlers = ThreadLocal.withInitial(ArrayList::new);
     private static final ThreadLocal<Boolean> enabled = ThreadLocal.withInitial(() -> true);
 
     public static void add(HttpValidationHandler handler) {
-        globalHandlers.add(handler);
+        addedHandlers.add(handler);
     }
 
     public static void remove(HttpValidationHandler handler) {
-        globalHandlers.remove(handler);
+        addedHandlers.remove(handler);
+    }
+
+    public static void clearAdded() {
+        addedHandlers.clear();
     }
 
     public static <R> R withDisabledHandlers(Supplier<R> code) {
@@ -57,8 +64,9 @@ public class HttpValidationHandlers {
 
     public static void validate(HttpValidationResult validationResult) {
         if (enabled.get()) {
-            Stream.concat(localHandlers.get().stream(), globalHandlers.stream())
-                    .forEach(c -> c.validate(validationResult));
+            Stream.concat(addedHandlers.stream(),
+                    Stream.concat(localHandlers.get().stream(), globalHandlers.stream()))
+                            .forEach(c -> c.validate(validationResult));
         }
     }
 
@@ -68,5 +76,13 @@ public class HttpValidationHandlers {
 
     private static void removeLocal(HttpValidationHandler handler) {
         localHandlers.get().remove(handler);
+    }
+
+    private static List<HttpValidationHandler> globalHandlers() {
+        ArrayList<HttpValidationHandler> result = new ArrayList<>();
+        result.add(new HttpPerformanceValidationHandler());
+        result.addAll(ServiceLoaderUtils.load(HttpValidationHandler.class));
+
+        return result;
     }
 }

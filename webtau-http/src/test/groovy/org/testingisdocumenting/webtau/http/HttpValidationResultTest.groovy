@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.http.datanode.DataNodeId
 import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.persona.Persona
 import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.junit.Test
 
@@ -32,6 +33,7 @@ class HttpValidationResultTest {
             id: ~/httpCall-\d+/,
             method: 'POST',
             url: 'http://site/test/url',
+            operationId: '',
             requestHeader: [],
             responseHeader: [],
             errorMessage: null,
@@ -57,6 +59,7 @@ class HttpValidationResultTest {
                 *: commonExpectation,
                 responseType: 'application/json',
                 responseBody: responseAsJson,
+                warnings: [],
                 responseBodyChecks: [failedPaths: ['root.childA'], passedPaths:['root.childB']]]
     }
 
@@ -76,11 +79,12 @@ class HttpValidationResultTest {
                 requestBody: '[binary content]',
                 responseType: 'application/octet-stream',
                 responseBody: '[binary content]',
+                warnings: [],
                 responseBodyChecks: [failedPaths: [], passedPaths: []]]
     }
 
     private static HttpValidationResult createValidationResult(requestBody) {
-        def validationResult = new HttpValidationResult('POST', '/test/url', 'http://site/test/url',
+        def validationResult = new HttpValidationResult(Persona.DEFAULT_PERSONA_ID, 'POST', '/test/url', 'http://site/test/url',
                 new HttpHeader([:]), requestBody)
 
         validationResult.setStartTime(12345678)

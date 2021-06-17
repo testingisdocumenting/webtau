@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,17 +17,20 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
+import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode> {
+public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode>, PrettyPrintable {
     DataNodeId id();
 
     DataNode get(String pathOrName);
@@ -45,11 +49,11 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
 
     List<DataNode> elements();
 
+    Collection<DataNode> children();
+
     int numberOfChildren();
 
     int numberOfElements();
-
-    Map<String, DataNode> asMap();
 
     default boolean isNull() {
         return false;
@@ -81,5 +85,10 @@ public interface DataNode extends DataNodeExpectations, Comparable, Iterable<Dat
         } else {
             return 0;
         }
+    }
+
+    @Override
+    default void prettyPrint(ConsoleOutput console) {
+        new DataNodeAnsiPrinter(console).print(this);
     }
 }

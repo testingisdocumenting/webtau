@@ -32,9 +32,10 @@ class WebTauRestFeaturesTestData {
         handler.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP,
                 testServer, "/weather"))
         handler.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
-        handler.registerPost("/employee", json([id: 'id-generated-2'], 201))
-        handler.registerGet("/employee/id-generated-2", json([firstName: 'FN', lastName: 'LN']))
-        handler.registerGet('/text-message', new TestServerTextResponse('hello world'))
+        handler.registerPost("/employee", json([id: "id-generated-2"], 201))
+        handler.registerGet("/employee/id-generated-2", json([firstName: "FN", lastName: "LN"]))
+        handler.registerGet("/text-message", new TestServerTextResponse("hello world"))
+        handler.registerGet("/resource/generated-id-123", json([message: "hello"]))
     }
 
     private static TestServerResponse json(Map response, statusCode = 200) {

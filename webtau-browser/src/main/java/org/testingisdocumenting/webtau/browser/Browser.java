@@ -19,18 +19,17 @@ package org.testingisdocumenting.webtau.browser;
 
 import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentation;
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
+import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
-import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.browser.page.PageUrl;
-import org.testingisdocumenting.webtau.browser.page.path.ElementPath;
-import org.testingisdocumenting.webtau.browser.page.path.GenericPageElement;
+import org.testingisdocumenting.webtau.browser.page.*;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
 import org.testingisdocumenting.webtau.cache.Cache;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 import org.openqa.selenium.OutputType;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TestStep.createAndExecuteStep;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Browser {
@@ -41,11 +40,16 @@ public class Browser {
     public static final Browser browser = new Browser();
     public final CurrentWebDriver driver = CurrentWebDriver.INSTANCE;
 
-    public final Cookies cookies = new Cookies(driver);
-    public final LocalStorage localStorage = new LocalStorage(driver);
+    public final BrowserCookies cookies = new BrowserCookies(driver);
+    public final BrowserLocalStorage localStorage = new BrowserLocalStorage(driver);
     public final BrowserDocumentation doc = new BrowserDocumentation(driver);
 
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
+
+    public final BrowserKeys keys = new BrowserKeys();
+
+    public final PageElementValue<String> title = new PageElementValue<>(BrowserContext.INSTANCE,
+            "title", this::extractPageTitle);
 
     private Browser() {
         additionalBrowserInteractions = new BrowserInjectedJavaScript(driver);
@@ -104,9 +108,7 @@ public class Browser {
     public void saveCurrentUrl(String key) {
         createAndExecuteStep(tokenizedMessage(action("saving current url as"), stringValue(key)),
                 () -> tokenizedMessage(action("saved current url as"), stringValue(key)),
-                () -> {
-                    Cache.cache.put(makeCacheKey(key), driver.getCurrentUrl());
-                });
+                () -> Cache.cache.put(makeCacheKey(key), driver.getCurrentUrl()));
     }
 
     public void openSavedUrl() {
@@ -127,15 +129,19 @@ public class Browser {
     }
 
     public PageElement $(String css) {
-        return new GenericPageElement(driver, additionalBrowserInteractions, ElementPath.css(css));
+        return new GenericPageElement(driver, additionalBrowserInteractions, PageElementPath.css(css), false);
     }
 
-    public boolean wasUsed() {
-        return driver.wasUsed();
+    public boolean hasActiveBrowsers() {
+        return WebDriverCreator.hasActiveBrowsers();
     }
 
     public String takeScreenshotAsBase64() {
         return driver.getScreenshotAs(OutputType.BASE64);
+    }
+
+    public String extractPageTitle() {
+        return driver.getTitle();
     }
 
     private String createFullUrl(String url) {

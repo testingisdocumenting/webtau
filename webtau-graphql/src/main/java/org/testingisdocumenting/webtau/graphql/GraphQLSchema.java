@@ -22,14 +22,11 @@ import graphql.ParseAndValidate;
 import graphql.ParseAndValidateResult;
 import graphql.language.Field;
 import graphql.language.OperationDefinition;
-import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
-import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
-import org.testingisdocumenting.webtau.utils.JsonParseException;
-import org.testingisdocumenting.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
+import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -39,18 +36,10 @@ import java.util.stream.Stream;
 import static java.util.Collections.emptySet;
 
 public class GraphQLSchema {
-    private static final Supplier<Optional<Set<GraphQLQuery>>> NO_QUERIES_SUPPLIER = Optional::empty;
-
     private final Supplier<Optional<Set<GraphQLQuery>>> schemaDeclaredQueriesSupplier;
 
-    public GraphQLSchema(boolean isEnabled) {
-        if (!isEnabled) {
-            this.schemaDeclaredQueriesSupplier = NO_QUERIES_SUPPLIER;
-            return;
-        }
-
-        this.schemaDeclaredQueriesSupplier = Suppliers.memoize(() ->
-                Optional.of(GraphQLSchemaLoader.fetchSchemaDeclaredQueries()));
+    public GraphQLSchema() {
+        this.schemaDeclaredQueriesSupplier = Suppliers.memoize(GraphQLSchemaLoader::fetchSchemaDeclaredQueries);
     }
 
     public GraphQLSchema(Set<GraphQLQuery> schemaDeclaredQueries) {
@@ -65,35 +54,10 @@ public class GraphQLSchema {
         return schemaDeclaredQueriesSupplier.get().map(Set::stream).orElseGet(Stream::empty);
     }
 
-    public Set<GraphQLQuery> findQueries(HttpRequestBody requestBody) {
-        if (!(requestBody instanceof JsonRequestBody)) {
-            return emptySet();
-        }
-
-        Map<String, ?> request;
-        try {
-            request = JsonUtils.deserializeAsMap(requestBody.asString());
-        } catch (JsonParseException ignore) {
-            // Ignoring as it's not a graphql request
-            return emptySet();
-        }
-
-        if (!request.containsKey("query")) {
-            // Ignoring as it's not a graphql request
-            return emptySet();
-        }
-
-        Object queryObj = request.get("query");
-        if (!(queryObj instanceof String)) {
-            // Ignoring as it's not a graphql request
-            return emptySet();
-        }
-
-        String query = (String) queryObj;
-
-        String operationName = (String) request.get("operationName");
-
-        return findQueries(query, operationName);
+    public Set<GraphQLQuery> findQueries(HttpValidationResult validationResult) {
+        Optional<GraphQLRequest> graphQLRequest = GraphQLRequest.fromHttpRequest(
+                validationResult.getRequestMethod(), validationResult.getUrl(), validationResult.getRequestBody());
+        return graphQLRequest.map(r -> findQueries(r.getQuery(), r.getOperationName())).orElseGet(Collections::emptySet);
     }
 
     Set<GraphQLQuery> findQueries(String query, String operationName) {

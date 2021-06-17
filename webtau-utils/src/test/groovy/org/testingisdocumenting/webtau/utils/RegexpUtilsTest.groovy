@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,5 +25,31 @@ class RegexpUtilsTest {
     void "replace matches with a callback result"() {
         def replaced = RegexpUtils.replaceAll("hello 10 world of 42 numbers", ~/(\d)\d*/, { m -> '"' + m.group(1) + '"' })
         Assert.assertEquals('hello "1" world of "4" numbers', replaced)
+    }
+
+    @Test
+    void "replace matches with a callback result and count"() {
+        def result = RegexpUtils.replaceAllAndCount("hello 10 world of 42 20 numbers", ~/(\d)\d*/, { m -> '"' + m.group(1) + '"' })
+        Assert.assertEquals('hello "1" world of "4" "2" numbers', result.result)
+        Assert.assertEquals(3, result.numberOfMatches)
+    }
+
+    @Test
+    void "replace matches with captured groups and count"() {
+        def result = RegexpUtils.replaceAllAndCount("hello 10 world of 42 20 numbers", ~/(\d)\d*/, '<$1>')
+        Assert.assertEquals('hello <1> world of <4> <2> numbers', result.result)
+        Assert.assertEquals(3, result.numberOfMatches)
+    }
+
+    @Test
+    void "extract value by regexp"() {
+        Assert.assertEquals("123",
+                RegexpUtils.extractByRegexp("line 1\nline 2\nhello id=123 ere\n", "id=(\\d+)"))
+
+        Assert.assertEquals("123",
+                RegexpUtils.extractByRegexp("line 1\nline 2\nhello id=123 ere\n", ~/id=(\d+)/))
+
+        Assert.assertEquals(null,
+                RegexpUtils.extractByRegexp("line 1\nline 2\nhello id=123 ere\n", "bid=(\\d+)"))
     }
 }

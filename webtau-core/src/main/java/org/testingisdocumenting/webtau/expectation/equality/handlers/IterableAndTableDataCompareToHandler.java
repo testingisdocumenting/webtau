@@ -41,7 +41,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
     @SuppressWarnings("unchecked")
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         TableData expectedTable = (TableData) expected;
-        TableData actualTable = createTableFromList(expectedTable.getHeader(), (List<Object>) actual);
+        TableData actualTable = createTableFromIterable(expectedTable.getHeader(), (Iterable<Object>) actual);
 
         TableDataComparisonResult result = TableDataComparison.compare(actualTable, expectedTable);
         if (! result.areEqual()) {
@@ -49,7 +49,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
         }
     }
 
-    private static TableData createTableFromList(TableDataHeader expectedHeader, List<Object> actualList) {
+    private static TableData createTableFromIterable(TableDataHeader expectedHeader, Iterable<Object> actualList) {
         TableData actualTable = new TableData(expectedHeader.getNamesStream());
         for (Object actualRecord : actualList) {
             Map<String, ?> actualMap = ToMapConverters.convert(actualRecord);

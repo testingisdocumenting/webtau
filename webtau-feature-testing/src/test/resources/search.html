@@ -16,9 +16,10 @@
 
 <html>
 <head>
+    <title>Super Search</title>
     <style>
         body {
-            margin: 24px;
+            margin: 0;
         }
 
         #search-box {
@@ -32,16 +33,31 @@
             border-radius: 4px;
         }
 
+        #header {
+            background-color: #11113d;
+            color: #fff;
+            padding: 16px;
+        }
+
+        #body {
+            margin: 16px;
+        }
+
         #message {
             color: #888;
         }
     </style>
 </head>
 <body>
+<div id="header">
+    super search
+</div>
+<div id="body">
 <input id="search-box" onchange="handleChange(this)"/>
 <div id="welcome">welcome to super search</div>
 <div id="message"></div>
 <div id="results">
+</div>
 </div>
 <script>
     function handleChange(input) {

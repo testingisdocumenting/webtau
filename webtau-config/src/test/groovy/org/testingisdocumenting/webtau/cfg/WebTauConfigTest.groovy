@@ -17,9 +17,27 @@
 
 package org.testingisdocumenting.webtau.cfg
 
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 
-class WebTauConfigTest {
+class WebTauConfigTest implements ConsoleOutput {
+    List<String> consoleOut = []
+
+    @Before
+    void initiateStepReporter() {
+        consoleOut.clear()
+        ConsoleOutputs.add(this)
+    }
+
+    @After
+    void unregisterStepReporter() {
+        ConsoleOutputs.remove(this)
+    }
+
     @Test
     void "inits config values from env vars and overrides them from system properties"() {
         System.setProperty('url', 'test-base-url')
@@ -56,5 +74,29 @@ class WebTauConfigTest {
     void "convert uppercase underscore to property name"() {
         WebTauConfig.convertToCamelCase('WEBTAU_NAME').should == 'name'
         WebTauConfig.convertToCamelCase('WEBTAU_PROP_NAME').should == 'propName'
+    }
+
+    @Test
+    void "setting url should have step report url and source"() {
+        WebTauConfig cfg = new WebTauConfig()
+        cfg.setBaseUrl("test-source", "http://test")
+
+        def output = consoleOut.join("\n")
+        output = output.replaceAll("\\(\\d+ms\\)", "(Xms)")
+
+        output.should == "> setting url\n" +
+                "  source: test-source\n" +
+                "  url: http://test\n" +
+                ". set url (Xms)"
+    }
+
+    @Override
+    void out(Object... styleOrValues) {
+        consoleOut.add(new IgnoreAnsiString(styleOrValues).toString())
+    }
+
+    @Override
+    void err(Object... styleOrValues) {
+
     }
 }

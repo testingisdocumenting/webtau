@@ -25,8 +25,6 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
@@ -44,21 +42,17 @@ import org.testingisdocumenting.webtau.http.listener.HttpListeners;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFile;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormData;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormField;
-import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
+import org.testingisdocumenting.webtau.http.operationid.HttpOperationIdProviders;
 import org.testingisdocumenting.webtau.http.request.EmptyRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpTextMime;
 import org.testingisdocumenting.webtau.http.text.TextRequestBody;
-import org.testingisdocumenting.webtau.http.validation.HeaderDataNode;
-import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
-import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
-import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
-import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers;
-import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
+import org.testingisdocumenting.webtau.http.validation.*;
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
@@ -80,6 +74,7 @@ import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.HttpsURLConnection;
 import org.apache.commons.io.IOUtils;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 
 public class Http {
@@ -108,10 +103,18 @@ public class Http {
 
     public boolean ping(String url, HttpQueryParams queryParams, HttpHeader header) {
         String fullUrl = HttpConfigurations.fullUrl(queryParams.attachToUrl(url));
-        TestStep step = TestStep.createStep(
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
-                () -> http.get(url, header));
+                () -> HttpValidationHandlers.withDisabledHandlers(() -> {
+                    HttpOperationIdProviders.withDisabledProviders(() -> {
+                        http.get(url, header);
+                        return null;
+                    });
+
+                    return null;
+                })
+        );
 
         try {
             step.execute(StepReportOptions.REPORT_ALL);
@@ -120,6 +123,10 @@ public class Http {
         }
 
         return true;
+    }
+
+    public String concatUrl(String baseUrl, String relativeUrl) {
+        return UrlUtils.concat(baseUrl, relativeUrl);
     }
 
     public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
@@ -226,7 +233,7 @@ public class Http {
         patch(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public <E> E patch(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody,
+    public <E> E patch(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody,
         HttpResponseValidatorWithReturn validator) {
         return patch(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
@@ -236,7 +243,7 @@ public class Http {
         return patch(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
-    public <E> E patch(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E patch(String url, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return patch(url, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -244,7 +251,7 @@ public class Http {
         return patch(url, header, new JsonRequestBody(requestBody), validator);
     }
 
-    public void patch(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody,
+    public void patch(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody,
         HttpResponseValidator validator) {
         patch(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
@@ -254,7 +261,7 @@ public class Http {
         patch(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void patch(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void patch(String url, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidator validator) {
         patch(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -262,7 +269,7 @@ public class Http {
         patch(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public <E> E patch(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E patch(String url, HttpQueryParams queryParams, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -270,7 +277,7 @@ public class Http {
         return patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
-    public <E> E patch(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E patch(String url, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -278,7 +285,7 @@ public class Http {
         return patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
-    public void patch(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void patch(String url, HttpQueryParams queryParams, Map<String, ?> requestBody, HttpResponseValidator validator) {
         patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -286,7 +293,7 @@ public class Http {
         patch(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void patch(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void patch(String url, Map<String, ?> requestBody, HttpResponseValidator validator) {
         patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -294,7 +301,7 @@ public class Http {
         patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void patch(String url, Map<String, Object> requestBody) {
+    public void patch(String url, Map<String, ?> requestBody) {
         patch(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -402,7 +409,7 @@ public class Http {
         post(url, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -410,7 +417,7 @@ public class Http {
         return post(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
-    public <E> E post(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E post(String url, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -418,7 +425,7 @@ public class Http {
         return post(url, header, new JsonRequestBody(requestBody), validator);
     }
 
-    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidator validator) {
         post(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -426,7 +433,7 @@ public class Http {
         post(url, queryParams, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody) {
+    public void post(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody) {
         post(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -434,7 +441,7 @@ public class Http {
         post(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public void post(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void post(String url, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidator validator) {
         post(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -442,7 +449,7 @@ public class Http {
         post(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void post(String url, HttpHeader header, Map<String, Object> requestBody) {
+    public void post(String url, HttpHeader header, Map<String, ?> requestBody) {
         post(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -450,7 +457,7 @@ public class Http {
         post(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public <E> E post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E post(String url, HttpQueryParams queryParams, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -458,7 +465,7 @@ public class Http {
         return post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
-    public <E> E post(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E post(String url, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -466,7 +473,7 @@ public class Http {
         return post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
-    public void post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void post(String url, HttpQueryParams queryParams, Map<String, ?> requestBody, HttpResponseValidator validator) {
         post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -474,7 +481,7 @@ public class Http {
         post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void post(String url, HttpQueryParams queryParams, Map<String, Object> requestBody) {
+    public void post(String url, HttpQueryParams queryParams, Map<String, ?> requestBody) {
         post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -482,7 +489,7 @@ public class Http {
         post(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public void post(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void post(String url, Map<String, ?> requestBody, HttpResponseValidator validator) {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -490,7 +497,7 @@ public class Http {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void post(String url, Map<String, Object> requestBody) {
+    public void post(String url, Map<String, ?> requestBody) {
         post(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -550,7 +557,7 @@ public class Http {
         put(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidator validator) {
         put(url, queryParams, header, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -578,7 +585,7 @@ public class Http {
         return put(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
     }
 
-    public <E> E put(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E put(String url, HttpQueryParams queryParams, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, queryParams, HttpHeader.EMPTY, requestBody, validator);
     }
 
@@ -590,7 +597,7 @@ public class Http {
         put(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void put(String url, HttpQueryParams queryParams, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void put(String url, HttpQueryParams queryParams, Map<String, ?> requestBody, HttpResponseValidator validator) {
         put(url, queryParams, requestBody, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -638,7 +645,7 @@ public class Http {
         put(url, HttpHeader.EMPTY, EmptyRequestBody.INSTANCE, EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public <E> E put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -646,7 +653,7 @@ public class Http {
         return put(url, queryParams, header, new JsonRequestBody(requestBody), validator);
     }
 
-    public <E> E put(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E put(String url, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, header, new JsonRequestBody(requestBody), validator);
     }
 
@@ -654,7 +661,7 @@ public class Http {
         return put(url, header, new JsonRequestBody(requestBody), validator);
     }
 
-    public void put(String url, HttpHeader header, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void put(String url, HttpHeader header, Map<String, ?> requestBody, HttpResponseValidator validator) {
         put(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -662,7 +669,7 @@ public class Http {
         put(url, header, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void put(String url, HttpHeader header, Map<String, Object> requestBody) {
+    public void put(String url, HttpHeader header, Map<String, ?> requestBody) {
         put(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -670,7 +677,7 @@ public class Http {
         put(url, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, Object> requestBody) {
+    public void put(String url, HttpQueryParams queryParams, HttpHeader header, Map<String, ?> requestBody) {
         put(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -678,7 +685,7 @@ public class Http {
         put(url, queryParams, header, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public <E> E put(String url, Map<String, Object> requestBody, HttpResponseValidatorWithReturn validator) {
+    public <E> E put(String url, Map<String, ?> requestBody, HttpResponseValidatorWithReturn validator) {
         return put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
@@ -686,7 +693,7 @@ public class Http {
         return put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), validator);
     }
 
-    public void put(String url, Map<String, Object> requestBody, HttpResponseValidator validator) {
+    public void put(String url, Map<String, ?> requestBody, HttpResponseValidator validator) {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -694,7 +701,7 @@ public class Http {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), new HttpResponseValidatorIgnoringReturn(validator));
     }
 
-    public void put(String url, Map<String, Object> requestBody) {
+    public void put(String url, Map<String, ?> requestBody) {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -702,7 +709,7 @@ public class Http {
         put(url, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public void put(String url, HttpQueryParams queryParams, Map<String, Object> requestBody) {
+    public void put(String url, HttpQueryParams queryParams, Map<String, ?> requestBody) {
         put(url, queryParams, HttpHeader.EMPTY, new JsonRequestBody(requestBody), EMPTY_RESPONSE_VALIDATOR);
     }
 
@@ -817,7 +824,7 @@ public class Http {
         return formData;
     }
 
-    public MultiPartFormData formData(Map<String, Object> fields) {
+    public MultiPartFormData formData(Map<String, ?> fields) {
         return new MultiPartFormData(fields);
     }
 
@@ -881,7 +888,6 @@ public class Http {
         return request("PUT", fullUrl, requestHeader, requestBody);
     }
 
-    @SuppressWarnings("unchecked")
     private <R> R executeAndValidateHttpCall(String requestMethod,
                                              String url,
                                              HttpCall httpCall,
@@ -891,31 +897,33 @@ public class Http {
         String fullUrl = HttpConfigurations.fullUrl(url);
         HttpHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
 
-        HttpValidationResult validationResult = new HttpValidationResult(requestMethod, url, fullUrl, fullHeader, requestBody);
+        HttpValidationResult validationResult = new HttpValidationResult(Persona.getCurrentPersona().getId(),
+                requestMethod, url, fullUrl, fullHeader, requestBody);
 
-        TestStep step = createHttpStep(validationResult, httpCall, validator);
+        WebTauStep step = createHttpStep(validationResult, httpCall, validator);
+        step.setInput(new HttpStepInput(validationResult));
+        step.setOutputSupplier(() -> validationResult);
+
         try {
-            return (R) step.execute(StepReportOptions.REPORT_ALL);
+            return step.execute(StepReportOptions.REPORT_ALL);
         } finally {
             lastValidationResult.set(validationResult);
-            step.addPayload(validationResult);
         }
     }
 
-    private <R> TestStep createHttpStep(HttpValidationResult validationResult,
-                                        HttpCall httpCall,
-                                        HttpResponseValidatorWithReturn validator) {
+    private <R> WebTauStep createHttpStep(HttpValidationResult validationResult,
+                                          HttpCall httpCall,
+                                          HttpResponseValidatorWithReturn validator) {
         Supplier<Object> httpCallSupplier = () -> {
             HttpResponse response = null;
             try {
-                long startTime = Time.currentTimeMillis();
-
                 BeforeFirstHttpCallListenerTrigger.trigger();
                 HttpListeners.beforeHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody());
 
-                renderRequest(validationResult.getRequestBody());
+                long startTime = Time.currentTimeMillis();
+                validationResult.setStartTime(startTime);
 
                 response = httpCall.execute(validationResult.getFullUrl(),
                         validationResult.getRequestHeader());
@@ -923,11 +931,15 @@ public class Http {
                 response = followRedirects(validationResult.getRequestMethod(),
                         httpCall, validationResult.getRequestHeader(), response);
 
-                long endTime = Time.currentTimeMillis();
-
-                validationResult.setStartTime(startTime);
-                validationResult.setElapsedTime(endTime - startTime);
+                validationResult.calcElapsedTimeIfNotCalculated();
                 validationResult.setResponse(response);
+                
+                validationResult.setOperationId(HttpOperationIdProviders.operationId(
+                        validationResult.getRequestMethod(),
+                        validationResult.getUrl(),
+                        validationResult.getFullUrl(),
+                        validationResult.getRequestHeader(),
+                        validationResult.getRequestBody()));
 
                 R validationBlockReturnedValue = validateAndRecord(validationResult, validator);
 
@@ -943,6 +955,8 @@ public class Http {
                 throw new HttpException("error during http." + validationResult.getRequestMethod().toLowerCase() + "(" +
                         validationResult.getFullUrl() + "): " + StackTraceUtils.fullCauseMessage(e), e);
             } finally {
+                validationResult.calcElapsedTimeIfNotCalculated();
+
                 HttpListeners.afterHttpCall(validationResult.getRequestMethod(),
                         validationResult.getUrl(), validationResult.getFullUrl(),
                         validationResult.getRequestHeader(), validationResult.getRequestBody(),
@@ -950,8 +964,8 @@ public class Http {
             }
         };
 
-        return TestStep.createStep(null, tokenizedMessage(
-                action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
+        return WebTauStep.createStep(
+                tokenizedMessage(action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 httpCallSupplier);
     }
@@ -959,17 +973,17 @@ public class Http {
     private HttpResponse followRedirects(String requestMethod, HttpCall httpCall, HttpHeader fullRequestHeader, HttpResponse response) {
         int retryCount = 0;
         while (response.isRedirect() && getCfg().shouldFollowRedirects() && retryCount++ < getCfg().maxRedirects()) {
-            TestStep httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
-            response = (HttpResponse) httpStep.execute(StepReportOptions.REPORT_ALL);
+            WebTauStep httpStep = createRedirectStep(requestMethod, response.locationHeader(), httpCall, fullRequestHeader);
+            response = httpStep.execute(StepReportOptions.REPORT_ALL);
         }
         return response;
     }
 
-    private TestStep createRedirectStep(String requestMethod, String fullUrl, HttpCall httpCall,
-                                        HttpHeader fullRequestHeader) {
+    private WebTauStep createRedirectStep(String requestMethod, String fullUrl, HttpCall httpCall,
+                                          HttpHeader fullRequestHeader) {
         Supplier<Object> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
 
-        return TestStep.createStep(null, tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
+        return WebTauStep.createStep(tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
                 httpCallSupplier);
     }
@@ -1034,8 +1048,6 @@ public class Http {
             });
 
             throw e;
-        } finally {
-            renderResponse(validationResult);
         }
     }
 
@@ -1087,60 +1099,16 @@ public class Http {
 
     private Integer defaultExpectedStatusCodeByRequest(HttpValidationResult validationResult) {
         switch (validationResult.getRequestMethod()) {
-            case "GET":
-                return 200;
             case "POST":
                 return 201;
             case "PUT":
             case "DELETE":
             case "PATCH":
                 return validationResult.hasResponseContent() ? 200 : 204;
+            case "GET":
             default:
                 return 200;
         }
-    }
-
-    private void renderRequest(HttpRequestBody requestBody) {
-        if (skipRenderRequestResponse() || requestBody == null) {
-            return;
-        }
-
-        if (requestBody.isEmpty()) {
-            ConsoleOutputs.out(Color.YELLOW, "[no request body]");
-        } else if (requestBody.isBinary()) {
-            ConsoleOutputs.out(Color.YELLOW, "[binary request]");
-        } else {
-            ConsoleOutputs.out(Color.YELLOW, "request", Color.CYAN, " (", requestBody.type(), "):");
-            renderRequestBody(requestBody);
-        }
-    }
-
-    private void renderResponse(HttpValidationResult result) {
-        if (skipRenderRequestResponse()) {
-            return;
-        }
-
-        if (result.getResponse().isBinary()) {
-            ConsoleOutputs.out(Color.YELLOW, "[binary content]");
-        } else if (!result.hasResponseContent()) {
-            ConsoleOutputs.out(Color.YELLOW, "[no content]");
-        } else {
-            ConsoleOutputs.out(Color.YELLOW, "response", Color.CYAN, " (", result.getResponse().getContentType(), "):");
-            new DataNodeAnsiPrinter().print(result.getBodyNode(), getCfg().getConsolePayloadOutputLimit());
-        }
-    }
-
-    private void renderRequestBody(HttpRequestBody requestBody) {
-        if (requestBody instanceof JsonRequestBody) {
-            DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"), ((JsonRequestBody) requestBody).getOriginal());
-            new DataNodeAnsiPrinter().print(dataNode, getCfg().getConsolePayloadOutputLimit());
-        } else {
-            ConsoleOutputs.out(requestBody.asString());
-        }
-    }
-
-    private boolean skipRenderRequestResponse() {
-        return getCfg().getVerbosityLevel() <= TestStep.getCurrentStep().getNumberOfParents() + 1;
     }
 
     private HttpResponse request(String method, String fullUrl,
@@ -1154,6 +1122,8 @@ public class Http {
             HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
             connection.setInstanceFollowRedirects(false);
             setRequestMethod(method, connection);
+            connection.setConnectTimeout(getCfg().getHttpTimeout());
+            connection.setReadTimeout(getCfg().getHttpTimeout());
             connection.setRequestProperty("Content-Type", requestBody.type());
             connection.setRequestProperty("Accept", requestBody.type());
             connection.setRequestProperty("User-Agent", getCfg().getUserAgent());

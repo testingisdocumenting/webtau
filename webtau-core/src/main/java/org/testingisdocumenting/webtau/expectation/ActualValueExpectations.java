@@ -18,13 +18,28 @@ package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimerConfigProvider;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 
 public interface ActualValueExpectations {
-    void should(ValueMatcher valueMatcher);
-    void shouldNot(ValueMatcher valueMatcher);
+    default StepReportOptions shouldReportOption() {
+        return StepReportOptions.SKIP_START;
+    }
 
-    void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis);
-    void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis);
+    default void should(ValueMatcher valueMatcher) {
+        new ActualValue(this, shouldReportOption()).should(valueMatcher);
+    }
+
+    default void shouldNot(ValueMatcher valueMatcher) {
+        new ActualValue(this, shouldReportOption()).shouldNot(valueMatcher);
+    }
+
+    default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
+        new ActualValue(this).waitTo(valueMatcher, expectationTimer, tickMillis, timeOutMillis);
+    }
+
+    default void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
+        new ActualValue(this).waitToNot(valueMatcher, expectationTimer, tickMillis, timeOutMillis);
+    }
 
     default void shouldBe(ValueMatcher valueMatcher) {
         should(valueMatcher);

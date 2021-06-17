@@ -24,7 +24,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.http
 
 class HeaderProvider {
     static provide(String fullUrl, String url, HttpHeader httpHeaders) {
-        String token = http.get("${getCfg().baseUrl}auth") {
+        String token = http.get("${getCfg().baseUrl}/auth") {
             statusCode.should == 200
             token.shouldNot == null
             return token

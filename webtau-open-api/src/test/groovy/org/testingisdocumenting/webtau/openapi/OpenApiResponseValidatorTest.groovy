@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +23,10 @@ import org.testingisdocumenting.webtau.http.HttpResponse
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
+import org.testingisdocumenting.webtau.persona.Persona
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.testingisdocumenting.webtau.reporter.TestStep
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.After
 import org.junit.Before
@@ -40,8 +42,9 @@ class OpenApiResponseValidatorTest implements StepReporter {
 
     @BeforeClass
     static void init() {
-        OpenApiSpecConfig.specUrl.set('test-manual', Paths.get(
-                ResourceUtils.resourceUrl("test-spec.json").toURI()))
+        def specLocation = OpenApiSpecLocation.fromStringValue('src/test/resources/test-spec.json')
+
+        OpenApiSpecConfig.specUrl.set('test-manual', specLocation.getAsString())
         WebTauConfig.cfg.get('openApiSpecUrl').toString().should contain('test-spec.json')
     }
 
@@ -61,9 +64,9 @@ class OpenApiResponseValidatorTest implements StepReporter {
         HttpValidationResult validationResult = createValidationResult()
 
         def expectedError = "schema is not valid:\n" +
-                "ERROR - No request body is expected for GET on path '/customer/{id}'.: []\n" +
-                "ERROR - Object instance has properties which are not allowed by the schema: [\"key\"]: []\n" +
-                "ERROR - Object has missing required properties ([\"mandatoryField\"]): []"
+                "GET /customer/2: No request body is expected but one was found.\n" +
+                "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]\n" +
+                "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
 
         code {
             HttpValidationHandlers.validate(validationResult)
@@ -71,7 +74,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
 
         validationResult.mismatches.size().should == 3
 
-        stepMessages.should == ["failed validating request and response : " + expectedError]
+        stepMessages.should contain("failed validating request and response : " + expectedError)
     }
 
     @Test
@@ -83,7 +86,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         }
 
         validationResult.mismatches.size().should == 0
-        stepMessages.should == []
+        stepMessages.should == [~/equals 0/]
     }
 
     @Test
@@ -91,8 +94,8 @@ class OpenApiResponseValidatorTest implements StepReporter {
         HttpValidationResult validationResult = createValidationResult()
 
         def expectedError = "schema is not valid:\n" +
-                "ERROR - Object instance has properties which are not allowed by the schema: [\"key\"]: []\n" +
-                "ERROR - Object has missing required properties ([\"mandatoryField\"]): []"
+                "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]\n" +
+                "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
 
         code {
             OpenApi.responseOnlyValidation {
@@ -101,7 +104,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         } should throwException(expectedError)
 
         validationResult.mismatches.size().should == 2
-        stepMessages.should == ["failed validating response : " + expectedError]
+        stepMessages.should contain("failed validating response : " + expectedError)
     }
 
     @Test
@@ -109,7 +112,7 @@ class OpenApiResponseValidatorTest implements StepReporter {
         HttpValidationResult validationResult = createValidationResult()
 
         def expectedError = "schema is not valid:\n" +
-                "ERROR - No request body is expected for GET on path '/customer/{id}'.: []"
+                "GET /customer/2: No request body is expected but one was found."
         code {
             OpenApi.requestOnlyValidation() {
                 HttpValidationHandlers.validate(validationResult)
@@ -117,11 +120,12 @@ class OpenApiResponseValidatorTest implements StepReporter {
         } should throwException(expectedError)
 
         validationResult.mismatches.size().should == 1
-        stepMessages.should == ["failed validating request : " + expectedError]
+        stepMessages.should  contain("failed validating request : " + expectedError)
     }
 
     private static HttpValidationResult createValidationResult() {
-        def validationResult = new HttpValidationResult('GET', '/customer/2', '/customer/2',
+        def validationResult = new HttpValidationResult(Persona.DEFAULT_PERSONA_ID,
+                'GET', '/customer/2', '/customer/2',
                 new HttpHeader([:]), new JsonRequestBody([:]))
         validationResult.setResponse(response())
         validationResult
@@ -130,21 +134,22 @@ class OpenApiResponseValidatorTest implements StepReporter {
     private static HttpResponse response() {
         def response = new HttpResponse()
         response.setTextContent('{"key": "value"}')
+        response.setContentType('application/json')
         response.setStatusCode(200)
         response
     }
 
     @Override
-    void onStepStart(TestStep step) {
+    void onStepStart(WebTauStep step) {
     }
 
     @Override
-    void onStepSuccess(TestStep step) {
+    void onStepSuccess(WebTauStep step) {
         stepMessages << step.completionMessage.toString()
     }
 
     @Override
-    void onStepFailure(TestStep step) {
+    void onStepFailure(WebTauStep step) {
         stepMessages << step.completionMessage.toString()
     }
 }

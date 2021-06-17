@@ -1,29 +1,32 @@
 package formHandlers
 
+import org.openqa.selenium.Keys
 import org.testingisdocumenting.webtau.browser.page.HtmlNode
+import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor
-import org.testingisdocumenting.webtau.browser.page.value.handlers.PageElementGetSetValueHandler
+import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 class CustomInput implements PageElementGetSetValueHandler {
     @Override
-    boolean handles(HtmlNode htmlNode, PageElement pageElement) {
+    boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
+        def htmlNode = htmlNodeAndWebElements.firstHtmlNode()
         return htmlNode.attributes.class =~ /special-selector/
     }
 
     @Override
     void setValue(PageElementStepExecutor stepExecutor,
                   TokenizedMessage pathDescription,
-                  HtmlNode htmlNode,
+                  HtmlNodeAndWebElementList htmlNodeAndWebElements,
                   PageElement pageElement,
                   Object value) {
         pageElement.click()
-        pageElement.find('input').sendKeys("${value}\t")
+        pageElement.find('input').sendKeys("${value}" + Keys.TAB)
     }
 
     @Override
-    Object getValue(HtmlNode htmlNode, PageElement pageElement) {
+    Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
         return pageElement.find('.current-value').getUnderlyingValue()
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,10 +24,10 @@ import org.openqa.selenium.WebElement;
 import java.util.*;
 
 public class FakeWebDriver implements WebDriver {
-    private Map<String, WebElement> fakesByCss = new HashMap<>();
+    private final Map<String, List<WebElement>> fakesByCss = new HashMap<>();
 
     public void registerFakeElement(String css, WebElement webElement) {
-        fakesByCss.put(css, webElement);
+        fakesByCss.computeIfAbsent(css, (key) -> new ArrayList<>()).add(webElement);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class FakeWebDriver implements WebDriver {
             String rendered = by.toString();
             int idxOfColon = rendered.indexOf(":");
             String css = rendered.substring(idxOfColon + 1).trim();
-            return fakesByCss.containsKey(css) ? Collections.singletonList(fakesByCss.get(css)) : Collections.emptyList();
+            return fakesByCss.getOrDefault(css, Collections.emptyList());
         }
 
         return Collections.emptyList();

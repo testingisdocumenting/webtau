@@ -1,59 +1,46 @@
-# webtau
+![build](https://github.com/testingisdocumenting/webtau/workflows/Build%20webtau/badge.svg)
+
+# Webtau
+
 Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 
 ![logo](webtau-docs/znai/webtau-logo.png)
 
-## Simple REST tests
+Webtau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
-### JUnit 4 and JUnit 5
+Test your application across multiple layers:
+* REST API
+* GraphQL API
+* Web UI
+* CLI
+* Database
+* Business Logic (JVM only)
 
-*Groovy*
+Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
+to validate GraphQL API.
+
+Use REPL to tighten test feedback loop and speed up test writing
 ```groovy
-@RunWith(WebTauRunner.class)
-class WeatherIT {
-    @Test
-    void checkWeather() {
-        http.get("/weather") {
-            temperature.shouldBe < 100
-        }
-    }
-}
+webtau:000> $("ul li a")
+element is found: by css ul li a
+           getText(): Guide
+getUnderlyingValue(): Guide
+               count: 3
 ```
 
-*Java*
-```java
-@RunWith(WebTauRunner.class)
-public class WeatherIT {
-    @Test
-    public void checkWeather() {
-        http.get("/weather", (header, body) -> {
-            body.get("temperature").shouldBe(lessThan(100));
-        });
-    }
-}
-```
+Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.
 
-*JUnit5*
-```groovy
-@WebTau
-class WeatherIT {
-    @Test
-    void checkWeather() {
-        http.get("/weather") {
-            temperature.shouldBe < 100
-        }
-    }
-}
-```
+Leverage out of the box rich reporting:
+![report example](https://testingisdocumenting.org/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png)
 
-### Groovy command line
+Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
-Support for command line friendly automation and exploration with Groovy specific simplified runner
+* [Full User Guide](https://testingisdocumenting.org/webtau/)
+* [Multiple layers testing example blog](https://testingisdocumenting.org/blog/entry/ultimate-end-to-end-test)
 
-```
-webtau weather.groovy
-```
+--------
 
+[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```groovy
 scenario("check weather") {
     http.get("/weather") {
@@ -61,101 +48,62 @@ scenario("check weather") {
     }
 }
 ```
-```json
-{
-  "temperature": 88
-}
-```
 
-## Simple GraphQL tests
-
-### JUnit 4 and JUnit 5
-
-*Groovy*
-```groovy
-@RunWith(WebTauRunner.class)
-class WeatherIT {
+[Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
+```java
+@WebTau
+public class WebSearchTest {
     @Test
-    void checkWeather() {
-        graphql.execute("{ weather { temperature } }") {
-            weather.temperature.shouldBe < 100
-        }
+    public void searchByQuery() {
+        search.submit("search this");
+        search.numberOfResults.waitToBe(greaterThan(1));
+    }
+}
+
+public class SearchPage {
+    private final PageElement box = $("#search-box");
+    private final PageElement results = $("#results .result");
+    public final ElementValue<Integer> numberOfResults = results.getCount();
+
+    public void submit(String query) {
+        browser.open("/search");
+
+        box.setValue(query);
+        box.sendKeys(browser.keys.enter);
     }
 }
 ```
 
-*Java*
-```java
-@RunWith(WebTauRunner.class)
-public class WeatherIT {
+[GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
+```groovy
+@Webtau
+public class GraphQLWeatherJavaIT {
     @Test
     public void checkWeather() {
-        graphql.execute("{ weather { temperature } }", (header, body) -> {
+        String query = "{ weather { temperature } }";
+        graphql.execute(query, (header, body) -> {
             body.get("data.weather.temperature").shouldBe(lessThan(100));
         });
     }
 }
 ```
 
-*JUnit5*
+[Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
 ```groovy
-@WebTau
-class WeatherIT {
-    @Test
-    void checkWeather() {
-        graphql.execute("{ weather { temperature } }") {
-            weather.temperature.shouldBe < 100
-        }
-    }
-}
+def PRICES = db.table("PRICES")
+PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
+           _____________________________________________________________________________________________
+           cell.guid | "nice set"    |                 true |                "card" |            1000
+           cell.guid | "nice set"    |                 true |                "card" | cell.above + 10
+           cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 }
 ```
 
-### Groovy command line
-
-Support for command line friendly automation and exploration with Groovy specific simplified runner
-
-```
-webtau weather.groovy
-```
-
+[CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
 ```groovy
-scenario("check weather") {
-    graphql.execute("{ weather { temperature } }") {
-        weather.temperature.shouldBe < 100
-    }
+cli.run('echo hello world') {
+    output.should contain('hello')
+    output.should contain('world')
 }
 ```
 
-For single query requests, you may also omit the query name while validating the response:
-```groovy
-scenario("check weather") {
-    graphql.execute("{ weather { temperature } }") {
-        temperature.shouldBe < 100
-    }
-}
-```
-
-```json
-{
-  "data": {
-    "weather": {
-      "temperature": 88
-    }
-  }
-}
-```
-
-## Robust UI tests
-
-```groovy
-scenario("search by specific query") {
-    search.submit("search this")
-    search.numberOfResults.should == 2
-}
-```
-
-## Precise Reporting
-
-![report-image](report-crud-separated-http-calls.png)
-
-[Full Documentation](https://testingisdocumenting.org/webtau/)
+[Learn More](https://testingisdocumenting.org/webtau/)

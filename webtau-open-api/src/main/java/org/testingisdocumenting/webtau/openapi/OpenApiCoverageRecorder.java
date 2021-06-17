@@ -22,6 +22,11 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 public class OpenApiCoverageRecorder implements HttpValidationHandler {
     @Override
     public void validate(HttpValidationResult validationResult) {
-        OpenApi.getCoverage().recordOperation(validationResult);
+        OpenApiCoverage coverage = OpenApi.getCoverage();
+        if (coverage == null) {
+            return;
+        }
+
+        coverage.recordOperation(validationResult);
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +19,25 @@ package org.testingisdocumenting.webtau.expectation.code;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
+import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.CodeBlock;
 import org.testingisdocumenting.webtau.expectation.CodeMatcher;
+import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
+
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-public class ThrowExceptionMatcher implements CodeMatcher {
+public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, ActualValueAware {
     private String expectedMessage;
     private Pattern expectedMessageRegexp;
-    private Class expectedClass;
+    private Class<?> expectedClass;
     private String thrownMessage;
-    private Class thrownClass;
+    private Class<?> thrownClass;
     private CompareToComparator comparator;
+    private String thrownExceptionStackTrace;
 
     public ThrowExceptionMatcher(String expectedMessage) {
         this.expectedMessage = expectedMessage;
@@ -40,16 +47,16 @@ public class ThrowExceptionMatcher implements CodeMatcher {
         this.expectedMessageRegexp = expectedMessageRegexp;
     }
 
-    public ThrowExceptionMatcher(Class expectedClass) {
+    public ThrowExceptionMatcher(Class<?> expectedClass) {
         this.expectedClass = expectedClass;
     }
 
-    public ThrowExceptionMatcher(Class expectedClass, Pattern expectedMessageRegexp) {
+    public ThrowExceptionMatcher(Class<?> expectedClass, Pattern expectedMessageRegexp) {
         this.expectedClass = expectedClass;
         this.expectedMessageRegexp = expectedMessageRegexp;
     }
 
-    public ThrowExceptionMatcher(Class expectedClass, String expectedMessage) {
+    public ThrowExceptionMatcher(Class<?> expectedClass, String expectedMessage) {
         this.expectedClass = expectedClass;
         this.expectedMessage = expectedMessage;
     }
@@ -66,7 +73,8 @@ public class ThrowExceptionMatcher implements CodeMatcher {
 
     @Override
     public String mismatchedMessage(CodeBlock codeBlock) {
-        return comparator.generateEqualMismatchReport();
+        return comparator.generateEqualMismatchReport() +
+                (thrownExceptionStackTrace != null ? "\nstack trace:\n" + thrownExceptionStackTrace : "");
     }
 
     @Override
@@ -99,13 +107,37 @@ public class ThrowExceptionMatcher implements CodeMatcher {
     }
 
     private void extractExceptionDetails(Throwable t) {
+        thrownExceptionStackTrace = StackTraceUtils.renderStackTrace(t);
+
         if (t instanceof UndeclaredThrowableException) {
             Throwable undeclaredCheckedException = t.getCause();
             thrownMessage = undeclaredCheckedException.getMessage();
             thrownClass = undeclaredCheckedException.getClass();
+        } else if (t instanceof ExceptionInInitializerError) {
+            Throwable exception = ((ExceptionInInitializerError) t).getException();
+            thrownMessage = exception.getMessage();
+            thrownClass = exception.getClass();
         } else {
             thrownMessage = t.getMessage();
             thrownClass = t.getClass();
         }
+    }
+
+    @Override
+    public Stream<Object> expectedValues() {
+        if (expectedMessage != null) {
+            return Stream.of(expectedMessage);
+        }
+
+        if (expectedClass != null) {
+            return Stream.of(expectedClass);
+        }
+
+        return Stream.empty();
+    }
+
+    @Override
+    public Object actualValue() {
+        return thrownMessage;
     }
 }

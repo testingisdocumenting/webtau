@@ -21,6 +21,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauCliFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
@@ -28,6 +29,51 @@ class WebTauCliFeaturesTest {
     @BeforeClass
     static void init() {
         testRunner = new WebTauEndToEndTestRunner()
+    }
+
+    @Test
+    void "ls example"() {
+        runCli('basicLs.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "foreground examples"() {
+        runCli('foregroundExamples.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "foreground examples extract snippets"() {
+        extractCodeSnippets(
+                'foreground-cli', 'examples/scenarios/cli/foregroundExamples.groovy', [
+                'withoutValidation.groovy': 'command without validation',
+                'withOutputValidation.groovy': 'command with output validation',
+                'withErrorValidation.groovy': 'command with error validation',
+                'withExitCodeValidation.groovy': 'command with exit code validation',
+                'implicitExitCodeBehindScenes.groovy': 'command implicit exit code check explicitly',
+                'runResult.groovy': 'command run result',
+                'runResultExtractOutput.groovy': 'run result extract by regexp from output',
+                'runResultExtractError.groovy': 'run result extract by regexp from error'
+        ])
+    }
+
+    @Test
+    void "background examples"() {
+        runCli('backgroundExamples.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "background examples extract snippets"() {
+        extractCodeSnippets(
+                'background-cli', 'examples/scenarios/cli/backgroundExamples.groovy', [
+                'run.groovy': 'run in background',
+                'runAndStop.groovy': 'run and stop'
+        ])
+
+        extractCodeSnippets(
+                'background-send-cli', 'examples/scenarios/cli/sendInput.groovy', [
+                'sendInput.groovy': 'send input',
+                'sendInputShiftLeft.groovy': 'send input with shift left'
+        ])
     }
 
     @Test
@@ -56,8 +102,33 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
-    void "working dir"() {
-        runCli('workingDir.groovy', 'webtau.cfg.groovy')
+    void "run config"() {
+        runCli('cliRunConfig.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "run config extract snippets"() {
+        extractCodeSnippets(
+                'foreground-cli-cfg', 'examples/scenarios/cli/cliRunConfig.groovy', [
+                'workingDir.groovy': 'working dir',
+                'envVar.groovy': 'environment var',
+                'envVarAndWorkingDir.groovy': 'env var and working dir'
+        ])
+    }
+
+    @Test
+    void "run in background config"() {
+        runCli('cliBackgroundRunConfig.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "run in background config extract snippets"() {
+        extractCodeSnippets(
+                'background-cli-cfg', 'examples/scenarios/cli/cliBackgroundRunConfig.groovy', [
+                'workingDir.groovy': 'working dir',
+                'envVar.groovy': 'environment var',
+                'envVarAndWorkingDir.groovy': 'env var and working dir'
+        ])
     }
 
     @Test
@@ -73,6 +144,16 @@ class WebTauCliFeaturesTest {
     @Test
     void "background command auto kill"() {
         runCli('backgroundCommandAutoKill.groovy', 'webtau-cli-before-first-test.cfg.groovy')
+    }
+
+    @Test
+    void "timeout config"() {
+        runCli('cliTimeout.groovy', 'webtau-cli-timeout.cfg.groovy')
+    }
+
+    @Test
+    void "timeout config override"() {
+        runCli('cliTimeoutLocalOverride.groovy', 'webtau-cli-timeout-large.cfg.groovy')
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

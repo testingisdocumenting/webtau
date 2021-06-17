@@ -16,20 +16,37 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
+
+import java.util.stream.Stream;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 
-import java.util.stream.Stream;
-
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
-
 public class GraphQLConfig implements WebTauConfigHandler {
-    static final ConfigValue graphQLEnabled = declare("graphQLEnabled",
-            "enable graphQL coverage and timing capture", () -> false);
+    static final ConfigValue ignoreIntrospectionFailures = declare(
+            "graphQLIgnoreIntrospectionFailures",
+            "ignore graphQL introspection failures, introspection is required for coverage reporting",
+            () -> true);
+    static final ConfigValue graphQLEndpoint = declare(
+            "graphQLEndpoint",
+            "override the default graphQL endpoint",
+            () -> GraphQL.GRAPHQL_URL);
+    static final ConfigValue graphQLShowOperationAsQueryParam = declare(
+            "graphQLShowOperationAsQueryParam",
+            "pass the graphQL operation as operation=<operation> query parameter if present",
+            () -> true);
 
-    static boolean isEnabled() {
-        return graphQLEnabled.getAsBoolean();
+    public static boolean ignoreIntrospectionFailures() {
+        return ignoreIntrospectionFailures.getAsBoolean();
+    }
+
+    public static String graphQLEndpoint() {
+        return graphQLEndpoint.getAsString();
+    }
+
+    public static boolean graphQLShowOperationAsQueryParam() {
+        return graphQLShowOperationAsQueryParam.getAsBoolean();
     }
 
     @Override
@@ -39,6 +56,8 @@ public class GraphQLConfig implements WebTauConfigHandler {
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(graphQLEnabled);
+        return Stream.of(ignoreIntrospectionFailures,
+            graphQLEndpoint,
+            graphQLShowOperationAsQueryParam);
     }
 }

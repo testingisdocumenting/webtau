@@ -16,7 +16,8 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.reporter.TestListener;
+import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
+import org.testingisdocumenting.webtau.TestListener;
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 
@@ -37,11 +38,9 @@ public class CliBackgroundCommandManager implements TestListener {
     private static final ThreadLocal<Map<Integer, CliBackgroundCommand>> localRunningCommands =
             ThreadLocal.withInitial(LinkedHashMap::new);
 
-    static {
-        registerShutdown();
-    }
-
     static void register(CliBackgroundCommand backgroundCommand) {
+        LazyShutdownHook.INSTANCE.noOp();
+
         validateProcessActive(backgroundCommand);
         int pid = backgroundCommand.getBackgroundProcess().getPid();
         runningCommands.put(pid, backgroundCommand);
@@ -51,12 +50,6 @@ public class CliBackgroundCommandManager implements TestListener {
     static void remove(CliBackgroundCommand backgroundCommand) {
         validateProcessActive(backgroundCommand);
         runningCommands.remove(backgroundCommand.getBackgroundProcess().getPid());
-    }
-
-    @Override
-    public void afterAllTests() {
-        destroyActiveProcesses();
-        runningCommands.clear();
     }
 
     @Override
@@ -80,10 +73,11 @@ public class CliBackgroundCommandManager implements TestListener {
         test.addTestResultPayload(new TestResultPayload("cliBackground", backgroundCommands));
     }
 
-    static void destroyActiveProcesses() {
+    static synchronized void destroyActiveProcesses() {
         runningCommands.values().stream()
                 .filter(CliBackgroundCommand::isActive)
                 .forEach(CliBackgroundCommand::stop);
+        runningCommands.clear();
     }
 
     private static void validateProcessActive(CliBackgroundCommand backgroundCommand) {
@@ -92,9 +86,17 @@ public class CliBackgroundCommandManager implements TestListener {
         }
     }
 
-    // afterAllTests may not be called if this is used outside of test runner
-    private static void registerShutdown() {
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(CliBackgroundCommandManager::destroyActiveProcesses));
+    private static class LazyShutdownHook {
+        private static final LazyShutdownHook INSTANCE = new LazyShutdownHook();
+
+        private LazyShutdownHook() {
+            CleanupRegistration.registerForCleanup("shutting down", "shut down", "cli background processes",
+                    () -> runningCommands.values().stream().anyMatch(CliBackgroundCommand::isActive),
+                    CliBackgroundCommandManager::destroyActiveProcesses);
+        }
+
+        // to trigger class loading and shutdown hook registration
+        private void noOp() {
+        }
     }
 }

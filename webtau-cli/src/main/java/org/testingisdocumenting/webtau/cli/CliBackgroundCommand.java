@@ -17,8 +17,8 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TestStep;
-import org.testingisdocumenting.webtau.reporter.TestStepPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
 import org.testingisdocumenting.webtau.time.Time;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.util.Map;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-public class CliBackgroundCommand implements TestStepPayload {
+public class CliBackgroundCommand implements WebTauStepPayload {
     private final String command;
 
     private final CliProcessConfig processConfig;
@@ -38,6 +38,8 @@ public class CliBackgroundCommand implements TestStepPayload {
 
     private final ThreadLocal<Integer> localOutputNextLineIdxMarker = ThreadLocal.withInitial(() -> 0);
     private final ThreadLocal<Integer> localErrorNextLineIdxMarker = ThreadLocal.withInitial(() -> 0);
+
+    private Thread waitToStopThread;
 
     CliBackgroundCommand(String command, CliProcessConfig processConfig) {
         this.command = command;
@@ -49,33 +51,39 @@ public class CliBackgroundCommand implements TestStepPayload {
             return;
         }
 
-        TestStep.createAndExecuteStep(
+        WebTauStep.createAndExecuteStep(
                 tokenizedMessage(action("running cli command in background"), stringValue(command)),
                 () -> tokenizedMessage(action("ran cli command in background"), stringValue(command)),
                 this::startBackgroundProcess);
 
-        waitForProcessToFinishInBackground();
+        waitToStopThread = waitForProcessToFinishInBackground();
     }
 
     public void stop() {
-        synchronized (this) {
-            TestStep.createAndExecuteStep(
-                    null,
-                    tokenizedMessage(action("stopping cli command in background"), stringValue(command)),
-                    (wasRunning) -> (Boolean) wasRunning ?
-                            tokenizedMessage(action("stopped cli command in background"), stringValue(command)) :
-                            tokenizedMessage(action("command has already finished"), stringValue(command)),
-                    () -> {
-                        boolean wasRunning = backgroundProcess.isActive();
-                        if (wasRunning) {
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("stopping cli command in background"),
+                        classifier("pid"), id(String.valueOf(backgroundProcess.getPid())), COLON, stringValue(command)),
+                (wasRunning) -> (Boolean) wasRunning ?
+                        tokenizedMessage(action("stopped cli command in background"), stringValue(command)) :
+                        tokenizedMessage(action("command has already finished"), stringValue(command)),
+                () -> {
+                    boolean wasRunning = backgroundProcess.isActive();
+                    if (wasRunning) {
+                        synchronized (this) {
                             backgroundProcess.destroy();
-                            CliBackgroundCommandManager.remove(this);
                         }
 
-                        return wasRunning;
-                    },
-                    StepReportOptions.REPORT_ALL);
-        }
+                        try {
+                            waitToStopThread.join();
+                        } catch (InterruptedException ignored) {
+                        }
+
+                        CliBackgroundCommandManager.remove(this);
+                    }
+
+                    return wasRunning;
+                },
+                StepReportOptions.REPORT_ALL);
     }
 
     CliBackgroundProcess getBackgroundProcess() {
@@ -100,14 +108,14 @@ public class CliBackgroundCommand implements TestStepPayload {
     }
 
     public void send(String line) {
-        TestStep.createAndExecuteStep(
+        WebTauStep.createAndExecuteStep(
                 tokenizedMessage(action("sending"), stringValue(line), TO, classifier("running"), stringValue(command)),
                 () -> tokenizedMessage(action("sent"), stringValue(line), TO, classifier("running"), stringValue(command)),
                 () -> backgroundProcess.send(line));
     }
 
     public void clearOutput() {
-        TestStep.createAndExecuteStep(
+        WebTauStep.createAndExecuteStep(
                 () -> tokenizedMessage(action("cleared output"), OF, classifier("running"), stringValue(command)),
                 () -> backgroundProcess.clearOutput());
     }
@@ -140,30 +148,34 @@ public class CliBackgroundCommand implements TestStepPayload {
         }
     }
 
-    private void waitForProcessToFinishInBackground() {
-        new Thread(() -> {
+    private Thread waitForProcessToFinishInBackground() {
+        Thread thread = new Thread(() -> {
             try {
                 backgroundProcess.getProcess().waitFor();
 
-                synchronized (this) {
-                    TestStep step = TestStep.createStep(null,
-                            startTime,
-                            tokenizedMessage(),
-                            (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
-                                    action("finished with exit code"), numberValue(exitCode)),
-                            () -> {
-                                CliBackgroundCommandManager.remove(this);
+                WebTauStep step = WebTauStep.createStep(
+                        startTime,
+                        tokenizedMessage(),
+                        (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
+                                action("finished with exit code"), numberValue(exitCode)),
+                        (context) -> {
+                            synchronized (this) {
                                 backgroundProcess.setAsInactive();
+                                CliBackgroundCommandManager.remove(this);
+                            }
 
-                                return backgroundProcess.exitCode();
-                            });
+                            return backgroundProcess.exitCode();
+                        });
 
-                    step.execute(StepReportOptions.SKIP_START);
-                }
+                step.execute(StepReportOptions.SKIP_START);
             } catch (InterruptedException e) {
                 // ignore
             }
-        }).start();
+        });
+
+        thread.start();
+
+        return thread;
     }
 
     @Override

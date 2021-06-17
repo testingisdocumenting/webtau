@@ -18,12 +18,13 @@
 package org.testingisdocumenting.webtau.featuretesting
 
 import org.eclipse.jetty.server.Handler
+import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
-import org.testingisdocumenting.webtau.cli.WebTauCliApp
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
+import org.testingisdocumenting.webtau.app.WebTauCliApp
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.reporter.*
 
+import java.nio.file.Path
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
@@ -32,9 +33,14 @@ class WebTauEndToEndTestRunner  {
     private Map capturedStepsSummary
 
     TestServer testServer
+    private String classifier = ""
 
     WebTauEndToEndTestRunner(Handler handler) {
         this.testServer = new TestServer(handler)
+    }
+
+    void setClassifier(String classifier) {
+        this.classifier = classifier
     }
 
     void startTestServer() {
@@ -52,19 +58,16 @@ class WebTauEndToEndTestRunner  {
     void runCliWithWorkingDir(String testFileName, String workingDir, String configFileName, String... additionalArgs) {
         def testPath = Paths.get(testFileName)
 
-        def targetClassesLocation = DocumentationArtifactsLocation.classBasedLocation(WebTauEndToEndTestRunner)
-        def reportPath = targetClassesLocation
-                .resolve(testFileName.endsWith('.groovy') ?
-                        testFileName.replace('.groovy', '-webtau-report.html'):
-                        testFileName + '/webtau-report.html')
-
         def args = ['--workingDir=' + workingDir]
 
         if (!configFileName.isEmpty()) {
             args.add('--config=' + configFileName)
         }
-        args.add('--docPath=' + targetClassesLocation.resolve('doc-artifacts'))
-        args.add('--reportPath=' + reportPath)
+        args.add('--docPath=' + Paths.get('doc-artifacts'))
+
+        def reportsRoot = Paths.get('webtau-reports')
+        args.add('--reportPath=' + buildReportPath(testFileName, '', reportsRoot))
+        args.add('--failedReportPath=' + buildReportPath(testFileName, 'failed', reportsRoot))
 
         args.addAll(Arrays.asList(additionalArgs))
         args.add(testPath.toString())
@@ -80,7 +83,7 @@ class WebTauEndToEndTestRunner  {
 
         capturedStepsSummary = [:].withDefault { 0 }
 
-        cliApp.start(WebTauCliApp.WebDriverBehavior.KeepWebDriversOpen) { exitCode ->
+        cliApp.start { exitCode ->
             testDetails.exitCode = exitCode
         }
 
@@ -89,8 +92,20 @@ class WebTauEndToEndTestRunner  {
         validateAndSaveTestDetails(testFileName, testDetails)
     }
 
-    private static void validateAndSaveTestDetails(String testFileName, Map testDetails) {
-        WebTauEndToEndTestValidator.validateAndSaveTestDetails(removeExtension(testFileName), testDetails,
+    private Path buildReportPath(String testFileName, String passedPrefix, Path reportsRoot) {
+        if (testFileName.endsWith('.groovy')) {
+            def reportPrefix = (classifier.isEmpty() ? '' : "-${classifier}") +
+                    (passedPrefix.isEmpty() ? '' :  "-${passedPrefix}")
+            return reportsRoot.resolve(
+                    testFileName.replace('.groovy', reportPrefix + '-webtau-report.html')).toAbsolutePath()
+        }
+
+        def reportPrefix = classifier.isEmpty() ? '' : "${classifier}-"
+        return reportsRoot.resolve(testFileName + '/' + reportPrefix + 'webtau-report.html').toAbsolutePath()
+    }
+
+    private void validateAndSaveTestDetails(String testFileName, Map testDetails) {
+        WebTauEndToEndTestValidator.validateAndSaveTestDetails(removeExtension(testFileName), classifier, testDetails,
                 this.&sortTestDetailsByContainerId)
     }
 

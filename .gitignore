@@ -7,7 +7,14 @@ node_modules
 webtau.*report*.html
 webtau-report-*.html
 *-webtau-report.html
+webtau.graphql-report.json
 .webtau.cache.json
 .vertx
 todo.md
 doc-artifacts
+.webtau-cache
+.gradle
+out
+pom.xml.releaseBackup
+release.out
+release.properties

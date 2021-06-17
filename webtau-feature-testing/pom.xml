@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright 2020 webtau maintainers
   ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,15 +22,19 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.30-SNAPSHOT</version>
+        <version>1.42-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-feature-testing</artifactId>
 
+    <properties>
+        <enforcer.skip>true</enforcer.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
-            <artifactId>webtau-groovy</artifactId>
+            <artifactId>webtau-groovy-app</artifactId>
             <version>${project.version}</version>
             <exclusions>
                 <exclusion>
@@ -101,32 +106,12 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-groovydoc</artifactId>
-            <scope>provided</scope>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <dependencyConvergence />
-                        <banDuplicateClasses>
-                            <findAllDuplicates>true</findAllDuplicates>
-                            <ignoreWhenIdentical>true</ignoreWhenIdentical>
-                            <ignoreClasses>
-                                <!--tomcat embedded ships javax annotations internally-->
-                                <ignoreClass>javax.persistence.*</ignoreClass>
-                                <ignoreClass>javax.servlet.*</ignoreClass>
-                                <ignoreClass>org.apache.commons.*</ignoreClass>
-                            </ignoreClasses>
-                        </banDuplicateClasses>
-                    </rules>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -151,6 +136,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>com.example.demo.springboot.app.SpringBootDemoApp</mainClass>
+                    <wait>40000</wait>
                 </configuration>
                 <executions>
                     <execution>

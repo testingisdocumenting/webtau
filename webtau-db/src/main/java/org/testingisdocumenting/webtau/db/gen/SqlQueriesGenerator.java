@@ -18,23 +18,34 @@ package org.testingisdocumenting.webtau.db.gen;
 
 import org.testingisdocumenting.webtau.data.table.Record;
 
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SqlQueriesGenerator {
     private SqlQueriesGenerator() {
     }
 
     public static String insert(String tableName, Record record) {
-        String columnNames = record.getHeader().getNamesStream().collect(Collectors.joining(", "));
-
-        List<Object> values = record.getValues();
-        String questionMarks = values.stream().map(v -> "?").collect(Collectors.joining(", "));
-
-        return "INSERT INTO " + tableName + " (" + columnNames + ") VALUES (" + questionMarks + ")";
+        return insert(tableName, record.getHeader().getNamesStream(), record.valuesStream());
     }
 
-    public static String query(String tableName) {
+    public static String insert(String tableName, Map<String, Object> row) {
+        return insert(tableName, row.keySet().stream(), row.values().stream());
+    }
+
+    public static String insert(String tableName, Stream<String> columnNamesStream, Stream<Object> valuesStream) {
+        String enumeratedColumnNames = columnNamesStream.collect(Collectors.joining(", "));
+        String questionMarks = valuesStream.map(v -> "?").collect(Collectors.joining(", "));
+
+        return "INSERT INTO " + tableName + " (" + enumeratedColumnNames + ") VALUES (" + questionMarks + ")";
+    }
+
+    public static String fullTable(String tableName) {
         return "SELECT * FROM " + tableName;
+    }
+
+    public static String count(String tableName) {
+        return "SELECT count(*) FROM " + tableName;
     }
 }

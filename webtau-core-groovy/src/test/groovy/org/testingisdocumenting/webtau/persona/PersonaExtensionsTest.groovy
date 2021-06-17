@@ -25,8 +25,8 @@ class PersonaExtensionsTest {
     @Test
     void "should support implicit closure call"() {
         def traces = []
-        def Bob = new Persona("Bob")
-        def John = new Persona("John")
+        def Bob = Persona.persona("Bob")
+        def John = Persona.persona("John")
 
         John {
             Persona.currentPersona.id.should == "John"
@@ -37,13 +37,13 @@ class PersonaExtensionsTest {
             Persona.currentPersona.id.should == "Bob"
             traces.add(Persona.currentPersona.id)
         }
-        
+
         traces.should == ["John", "Bob"]
     }
 
     @Test
     void "should let return value from persona context"() {
-        def John = new Persona("John")
+        def John = Persona.persona("John")
 
         String message = John {
             Persona.currentPersona.id.should == "John"
@@ -55,8 +55,8 @@ class PersonaExtensionsTest {
 
     @Test
     void "nesting of personas should not be allowed"() {
-        def Bob = new Persona("Bob")
-        def John = new Persona("John")
+        def Bob = Persona.persona("Bob")
+        def John = Persona.persona("John")
 
         code {
             John {
@@ -66,5 +66,15 @@ class PersonaExtensionsTest {
             }
         } should throwException("nesting personas is not allowed, active persona id: John, " +
                 "attempted to nest persona id: Bob")
+    }
+
+    @Test
+    void "nesting of same persona is allowed"() {
+        def John = Persona.persona("John")
+        John {
+            John {
+                Persona.currentPersona.id.should == "John"
+            }
+        }
     }
 }

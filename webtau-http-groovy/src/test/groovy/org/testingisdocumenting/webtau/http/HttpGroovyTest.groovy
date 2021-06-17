@@ -18,12 +18,15 @@
 package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
+import org.testingisdocumenting.webtau.time.ControlledTimeProvider
+import org.testingisdocumenting.webtau.time.Time
 import org.testingisdocumenting.webtau.utils.JsonUtils
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 
@@ -35,7 +38,6 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 import static org.testingisdocumenting.webtau.http.Http.http
@@ -514,21 +516,57 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy each on simple list"() {
+    void "each on simple list"() {
         http.get("/end-point") {
             list.each { it.shouldBe > 0 }
         }
     }
 
     @Test
-    void "groovy each on complex list"() {
+    void "each on complex list"() {
         http.get("/end-point") {
             complexList.each { k2.shouldBe > 0 }
         }
     }
 
     @Test
-    void "groovy find on list"() {
+    void "list contain check level"() {
+        http.get("/end-point") {
+            list.should contain(2)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.None
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.None
+    }
+
+    @Test
+    void "list contain all check level"() {
+        http.get("/end-point") {
+            list.should containAll(2, 1)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.None
+    }
+
+    @Test
+    void "list not contain all check level"() {
+        http.get("/end-point") {
+            list.shouldNot containAll(5, 7, 12)
+        }
+
+        def body = http.lastValidationResult.bodyNode
+        body.get("list[0]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        body.get("list[1]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        body.get("list[2]").traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+    }
+
+    @Test
+    void "find on list"() {
         def found = http.get("/end-point") {
             return list.find { it > 1 }
         }
@@ -538,7 +576,19 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy find on body that is not a list"() {
+    void "find should mark value as fuzzy checked"() {
+        http.get("/end-point") {
+            return list.find { it > 1 }
+        }
+
+        def listElements = http.lastValidationResult.bodyNode.get("list").elements()
+        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.None
+        listElements.get(1).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        listElements.get(2).traceableValue.checkLevel.should == CheckLevel.None
+    }
+
+    @Test
+    void "find on body that is not a list"() {
         def found = http.get("/end-point") {
             return body.find { it > 1 }
         }
@@ -547,7 +597,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy findAll on list"() {
+    void "findAll on list"() {
         def found = http.get("/end-point") {
             return list.findAll { it > 1 }
         }
@@ -557,7 +607,19 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy findAll on body that is not a list"() {
+    void "findAll on list should mark values as fuzzy checked"() {
+        def found = http.get("/end-point") {
+            return list.findAll { it > 1 }
+        }
+
+        def listElements = http.lastValidationResult.bodyNode.get("list").elements()
+        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.None
+        listElements.get(1).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+        listElements.get(2).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
+    }
+
+    @Test
+    void "findAll on body that is not a list"() {
         def found = http.get("/end-point") {
             return body.findAll { it > 1 }
         }
@@ -566,7 +628,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy find on list of objects"() {
+    void "find on list of objects"() {
         def id = http.get("/end-point") {
             def found = complexList.find {
                 assert k1.getClass() == String
@@ -581,7 +643,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy transform list"() {
+    void "transform list"() {
         def transformed = http.get("/end-point") {
             return list.collect { "world#${it}" }
         }
@@ -591,7 +653,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy transform list by referencing node"() {
+    void "transform list by referencing node"() {
         def ids = http.get("/end-point") {
             return complexList.collect { it.id }
         }
@@ -600,7 +662,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy transform on body that is not a list"() {
+    void "transform on body that is not a list"() {
         def transformed = http.get("/end-point") {
             return body.collect { "world#${it}" }
         }
@@ -609,7 +671,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy findAll, collect, and sum"() {
+    void "findAll, collect, and sum"() {
         def sum = http.get("/end-point") {
             return complexList
                     .findAll { k1.startsWith('v1') }
@@ -621,7 +683,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "groovy children key shortcut"() {
+    void "children key shortcut"() {
         http.get("/end-point") {
             complexList.k2.should == [30, 40]
         }
@@ -882,6 +944,25 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "contain all matcher"() {
+        http.get("/end-point-list") {
+            body[1].k2.should containAll(10, 30)
+            body[1].k2.shouldNot containAll(40, 60, 80)
+        }
+
+        http.doc.capture("end-point-list-contain-all-matchers")
+    }
+
+    @Test
+    void "contain containing all matcher"() {
+        http.get("/prices") {
+            body.prices.should contain(containingAll(10, 30))
+        }
+
+        http.doc.capture("prices-contain-containing-all")
+    }
+
+    @Test
     void "working with dates"() {
         http.get("/end-point-dates") {
             def expectedDate = LocalDate.of(2018, 6, 12)
@@ -996,12 +1077,47 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "captures failed http call"() {
-        code {
-            http.get('mailto://demo', [a: 1, b: 'text']) {
-            }
-        } should throwException(HttpException, ~/error during http\.get/)
+        def stepForcedStartTime = 0
+        def httpCallForcedStartTime = stepForcedStartTime + 100
+        def httpElapsedTime = 500
 
-        http.lastValidationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+        Time.withTimeProvider(new ControlledTimeProvider([
+                stepForcedStartTime, httpCallForcedStartTime,
+                httpCallForcedStartTime + httpElapsedTime,
+                httpCallForcedStartTime + httpElapsedTime + 200])) {
+            code {
+                http.get('mailto://demo', [a: 1, b: 'text']) {
+                }
+            } should throwException(HttpException, ~/error during http\.get/)
+        }
+
+        def validationResult = http.lastValidationResult
+        validationResult.startTime.should == httpCallForcedStartTime
+        validationResult.elapsedTime.should == httpElapsedTime
+        validationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+    }
+
+    @Test
+    void "http validation captures http elapsed time only once"() {
+        def stepForcedStartTime = 0
+        def httpCallForcedStartTime = stepForcedStartTime + 100
+        def httpElapsedTime = 500
+        def statusCodeValidationStartTime = 2000
+        def stepEndTime = 3000
+
+        Time.withTimeProvider(new ControlledTimeProvider([
+                stepForcedStartTime, httpCallForcedStartTime,
+                httpCallForcedStartTime + httpElapsedTime,
+                statusCodeValidationStartTime,
+                statusCodeValidationStartTime + 20,
+                stepEndTime
+        ])) {
+            http.get('/end-point') {
+            }
+        }
+
+        def validationResult = http.lastValidationResult
+        validationResult.elapsedTime.should == httpElapsedTime
     }
 
     @Test

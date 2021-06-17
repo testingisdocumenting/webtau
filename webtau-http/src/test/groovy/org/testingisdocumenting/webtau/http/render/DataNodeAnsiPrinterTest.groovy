@@ -32,6 +32,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.equal
 
 class DataNodeAnsiPrinterTest {
     private static def ansiConsoleOutput = new AnsiConsoleOutput()
+    private static def console = ConsoleOutputs.asCombinedConsoleOutput()
 
     @BeforeClass
     static void init() {
@@ -46,7 +47,7 @@ class DataNodeAnsiPrinterTest {
     @Test
     void "should print list data node with indentation and using different colors"() {
         def ansi = captureAnsiOutput {
-            new DataNodeAnsiPrinter().print(DataNodeBuilder.fromList(new DataNodeId("root"), [1, 2, 3, 4]))
+            new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromList(new DataNodeId("root"), [1, 2, 3, 4]))
         }
 
         ansi.should == [Color.YELLOW, '[', '\n',
@@ -60,7 +61,7 @@ class DataNodeAnsiPrinterTest {
     @Test
     void "should print object data node"() {
         def textOnly = captureTextOutput {
-            new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
+            new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
                     key1: 'value1',
                     key2: 'value2',
                     key3: [key31: 'value31', key32: [5, 6, 8]],
@@ -86,9 +87,22 @@ class DataNodeAnsiPrinterTest {
     }
 
     @Test
+    void "should print gstring data node value"() {
+        def id = 'id'
+        def ansi = captureAnsiOutput {
+            new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromMap(new DataNodeId("root"),
+                    [key1: "value-${id}"]))
+        }
+
+        ansi.should == [Color.YELLOW, '{', '\n',
+                        '  ', Color.PURPLE, '"key1"', ': ', Color.GREEN, '"value-id"', '\n',
+                        Color.YELLOW, '}', '\n']
+    }
+
+    @Test
     void "should limit output to display a specified number of lines"() {
         def textOnly = captureTextOutput {
-            new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
+            new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
                     key1: 'value1',
                     key2: 'value2',
                     key3: [key31: 'value31', key32: [5, 6, 8]],
@@ -106,7 +120,7 @@ class DataNodeAnsiPrinterTest {
     @Test
     void "should print all the lines if specified number of lines greater than or equal actual"() {
         def textOnly = captureTextOutput {
-            new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
+            new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
                     key1: 'value1',
                     key2: 'value2',
                     key3: [key31: 'value31', key32: [5, 6, 8]],
@@ -152,7 +166,7 @@ class DataNodeAnsiPrinterTest {
         }
 
         def textOnly = captureTextOutput {
-            new DataNodeAnsiPrinter().print(dataNode)
+            new DataNodeAnsiPrinter(console).print(dataNode)
         }
 
         textOnly.should == '[\n' +
@@ -178,7 +192,7 @@ class DataNodeAnsiPrinterTest {
     @Test
     void "should collapse empty list and object"() {
         def textOnly = captureTextOutput {
-            new DataNodeAnsiPrinter().print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
+            new DataNodeAnsiPrinter(console).print(DataNodeBuilder.fromMap(new DataNodeId("root"), [
                     key1: 'value1',
                     key2: 'value2',
                     key3: [],

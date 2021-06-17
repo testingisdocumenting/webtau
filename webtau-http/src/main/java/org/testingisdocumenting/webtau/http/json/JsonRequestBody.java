@@ -27,7 +27,7 @@ public class JsonRequestBody implements HttpRequestBody {
     private final String asString;
     private final Object original;
 
-    public JsonRequestBody(Map<String, Object> data) {
+    public JsonRequestBody(Map<String, ?> data) {
         this.asString = JsonUtils.serialize(data);
         this.original = data;
     }

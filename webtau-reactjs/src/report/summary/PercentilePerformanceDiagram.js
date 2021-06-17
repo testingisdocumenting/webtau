@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,53 +15,55 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import {scaleLinear} from 'd3-scale'
+import React from 'react';
+import { scaleLinear } from 'd3-scale';
 
-import './PercentilePerformanceDiagram.css'
-import Card from '../widgets/Card'
+import './PercentilePerformanceDiagram.css';
+import { Card } from '../widgets/Card';
 
-const width = 800
-const height = 600
+const width = 800;
+const height = 600;
 
 export default class PercentilePerformanceDiagram extends React.Component {
-    render() {
-        const {report} = this.props
+  render() {
+    const { report } = this.props;
 
-        const performance = report.performance
-        const httpCalls = performance.sortedNotFailedHttpCalls
+    const performance = report.performance;
+    const httpCalls = performance.sortedNotFailedHttpCalls;
 
-        if (httpCalls.length === 0) {
-            return null
-        }
-
-        const percentile = performance.percentile[75]
-        const latencyAxis = scaleLinear().domain([httpCalls[0].elapsedTime, percentile.value]).range([httpCalls[0].elapsedTime, height])
-        const callIdxAxis = scaleLinear().domain([0, percentile.idx]).range([0, width])
-
-        const reducedHttpCalls = httpCalls.slice(0, percentile.idx)
-        return (
-            <div>
-                <Card width={width}>
-                    <Diagram maxX={httpCalls.length} maxY={performance.maxLatency}>
-                        {reducedHttpCalls.map((httpCall, idx) => <Point key={idx}
-                                                                         x={callIdxAxis(idx)}
-                                                                         y={latencyAxis(httpCall.elapsedTime)}/>)}
-                    </Diagram>
-                </Card>
-            </div>
-        )
+    if (httpCalls.length === 0) {
+      return null;
     }
-}
 
-function Diagram({maxX, maxY, children}) {
+    const percentile = performance.percentile[75];
+    const latencyAxis = scaleLinear()
+      .domain([httpCalls[0].elapsedTime, percentile.value])
+      .range([httpCalls[0].elapsedTime, height]);
+    const callIdxAxis = scaleLinear().domain([0, percentile.idx]).range([0, width]);
+
+    const reducedHttpCalls = httpCalls.slice(0, percentile.idx);
     return (
-        <svg width={width} height={height}>
-            {children}
-        </svg>
-    )
+      <div>
+        <Card width={width}>
+          <Diagram maxX={httpCalls.length} maxY={performance.maxLatency}>
+            {reducedHttpCalls.map((httpCall, idx) => (
+              <Point key={idx} x={callIdxAxis(idx)} y={latencyAxis(httpCall.elapsedTime)} />
+            ))}
+          </Diagram>
+        </Card>
+      </div>
+    );
+  }
 }
 
-function Point({x, y}) {
-    return <rect width={5} height={5} x={x - 2} y={height - y - 2} stroke="#333" strokeWidth={1} fill="#888"/>
+function Diagram({ maxX, maxY, children }) {
+  return (
+    <svg width={width} height={height}>
+      {children}
+    </svg>
+  );
+}
+
+function Point({ x, y }) {
+  return <rect width={5} height={5} x={x - 2} y={height - y - 2} stroke="#333" strokeWidth={1} fill="#888" />;
 }

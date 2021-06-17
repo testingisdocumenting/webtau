@@ -55,28 +55,32 @@ public class WebTauConfig {
 
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
+    private final ConfigValue fullStackTrace = declare("fullStackTrace", "print full stack trace to console",
+            () -> false);
+
     private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
 
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
-    private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls");
+
+    private final ConfigValue httpTimeout = declare("httpTimeout", "http connect and read timeout in milliseconds", () -> 30000);
+
+    private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls", false);
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
-            () -> "webtau/" + WebTauMeta.getVersion());
+            () -> "webtau/" + WebtauVersion.getVersion());
     private final ConfigValue removeWebtauFromUserAgent = declare("removeWebtauFromUserAgent",
             "By default webtau appends webtau and its version to the user-agent, this disables that part",
             () -> false);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
-    private final ConfigValue cachePath = declare("cachePath", "user driven cache file path",
-            () -> workingDir.getAsPath().resolve(".webtau.cache.json"));
+    private final ConfigValue cachePath = declare("cachePath", "user driven cache base dir",
+            () -> workingDir.getAsPath().resolve(".webtau-cache"));
 
     private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
             "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
-    private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors");
+    private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
-    private final ConfigValue staleElementRetry = declare("staleElementRetry", "number of times to automatically retry for stale element actions", () -> 5);
-    private final ConfigValue staleElementRetryWait = declare("staleElementRetryWait", "wait time in between stale element retries", () -> 100);
-    private final ConfigValue envPath = declare("envPath", "path items to append to path used for cli tests", Collections::emptyList);
+    private final ConfigValue failedReportPath = declare("failedReportPath", "failed report file path", () -> null);
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -148,15 +152,23 @@ public class WebTauConfig {
         return verbosityLevel.getAsInt();
     }
 
+    public boolean getFullStackTrace() {
+        return fullStackTrace.getAsBoolean();
+    }
+
     public int getConsolePayloadOutputLimit() {
         return consolePayloadOutputLimit.getAsInt();
     }
 
     public void acceptConfigValues(String source, Map<String, ?> values) {
-        enumeratedCfgValues.values().forEach(v -> v.accept(source, values));
+        acceptConfigValues(source, Persona.DEFAULT_PERSONA_ID, values);
+    }
+
+    public void acceptConfigValues(String source, String personaId, Map<String, ?> values) {
+        enumeratedCfgValues.values().forEach(v -> v.accept(source, personaId, values));
 
         registerFreeFormCfgValues(values);
-        freeFormCfgValues.forEach(v -> v.accept(source, values));
+        freeFormCfgValues.forEach(v -> v.accept(source, personaId, values));
     }
 
     // for REPL convenience
@@ -165,7 +177,16 @@ public class WebTauConfig {
     }
 
     public void setBaseUrl(String url) {
-        this.url.set(SOURCE_MANUAL, url);
+        setBaseUrl(SOURCE_MANUAL, url);
+    }
+
+    public void setBaseUrl(String source, String url) {
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("setting"), id("url")),
+                stepInput("source", source,
+                        "url", url),
+                () -> tokenizedMessage(action("set"), id("url")),
+                () -> this.url.set(source, url));
     }
 
     public String getBaseUrl() {
@@ -204,8 +225,12 @@ public class WebTauConfig {
         return noProxy;
     }
 
-    public int waitTimeout() {
+    public int getWaitTimeout() {
         return waitTimeout.getAsInt();
+    }
+
+    public int getHttpTimeout() {
+        return httpTimeout.getAsInt();
     }
 
     public boolean shouldFollowRedirects() {
@@ -249,7 +274,7 @@ public class WebTauConfig {
     public ConfigValue getDocArtifactsPathConfigValue() {
         return docPath;
     }
-    
+
     public Path getDocArtifactsPath() {
         return getWorkingDir().resolve(docPath.getAsPath());
     }
@@ -258,16 +283,24 @@ public class WebTauConfig {
         return !noColor.getAsBoolean();
     }
 
-    public int getStaleElementRetry() {
-        return staleElementRetry.getAsInt();
-    }
-
-    public int getStaleElementRetryWait() {
-        return staleElementRetryWait.getAsInt();
-    }
-
     public Path getWorkingDir() {
-        return workingDir.getAsPath();
+        return workingDir.getAsPath().toAbsolutePath();
+    }
+
+    public Path fullPath(String relativeOrFull) {
+        return fullPath(Paths.get(relativeOrFull));
+    }
+
+    public Path fullPath(Path relativeOrFull) {
+        if (relativeOrFull == null) {
+            return null;
+        }
+
+        if (relativeOrFull.isAbsolute()) {
+            return relativeOrFull;
+        }
+
+        return getWorkingDir().resolve(relativeOrFull).toAbsolutePath();
     }
 
     public Path getCachePath() {
@@ -275,7 +308,15 @@ public class WebTauConfig {
     }
 
     public Path getReportPath() {
-        return reportPath.getAsPath();
+        return fullPath(reportPath.getAsPath());
+    }
+
+    public Path getFailedReportPath() {
+        if (failedReportPath.isDefault()) {
+            return null;
+        }
+
+        return fullPath(failedReportPath.getAsPath());
     }
 
     public ConfigValue getReportPathConfigValue() {
@@ -286,10 +327,6 @@ public class WebTauConfig {
         return workingDir.getKey();
     }
 
-    public List<String> getEnvPath() {
-        return envPath.getAsList();
-    }
-
     @Override
     public String toString() {
         return Stream.concat(enumeratedCfgValues.values().stream(), freeFormCfgValues.stream())
@@ -298,15 +335,10 @@ public class WebTauConfig {
     }
 
     public void printEnumerated() {
-        printConfig(enumeratedCfgValues.values());
+        printConfig(ConsoleOutputs.asCombinedConsoleOutput(), enumeratedCfgValues.values());
     }
 
-    public void printAll() {
-        printConfig(freeFormCfgValues);
-        printConfig(enumeratedCfgValues.values());
-    }
-
-    private void printConfig(Collection<ConfigValue> configValues) {
+    private void printConfig(ConsoleOutput console, Collection<ConfigValue> configValues) {
         int maxKeyLength = configValues.stream()
                 .filter(ConfigValue::nonDefault)
                 .map(v -> v.getKey().length()).max(Integer::compareTo).orElse(0);
@@ -316,13 +348,13 @@ public class WebTauConfig {
                 .map(v -> v.getAsString().length()).max(Integer::compareTo).orElse(0);
 
         configValues.stream().filter(ConfigValue::nonDefault).forEach(v -> {
-                    String valueAsText = v.getAsString();
-                    int valuePadding = maxValueLength - valueAsText.length();
+            String valueAsText = v.getAsString();
+            int valuePadding = maxValueLength - valueAsText.length();
 
-                    ConsoleOutputs.out(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
-                            Color.YELLOW, valueAsText,
-                            StringUtils.createIndentation(valuePadding),
-                            FontStyle.NORMAL, " // from ", v.getSource());
+            console.out(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
+                    Color.YELLOW, valueAsText,
+                    StringUtils.createIndentation(valuePadding),
+                    FontStyle.NORMAL, " // from ", v.getSource());
                 }
         );
     }
@@ -385,23 +417,32 @@ public class WebTauConfig {
                 httpsProxy,
                 noProxy,
                 verbosityLevel,
+                fullStackTrace,
                 workingDir,
                 waitTimeout,
+                httpTimeout,
                 disableFollowingRedirects,
                 maxRedirects,
                 userAgent,
                 removeWebtauFromUserAgent,
                 docPath,
                 reportPath,
+                failedReportPath,
                 noColor,
-                staleElementRetry,
-                envPath);
+                consolePayloadOutputLimit,
+                cachePath);
 
         Stream<ConfigValue> additionalConfigValues = handlers.stream()
                 .flatMap(WebTauConfigHandler::additionalConfigValues);
 
         return Stream.concat(standardConfigValues, additionalConfigValues)
                 .collect(Collectors.toMap(ConfigValue::getKey, v -> v, (o, n) -> n, LinkedHashMap::new));
+    }
+
+    @Override
+    public void prettyPrint(ConsoleOutput console) {
+        printConfig(console, freeFormCfgValues);
+        printConfig(console, enumeratedCfgValues.values());
     }
 
     private static class CfgInstanceHolder {

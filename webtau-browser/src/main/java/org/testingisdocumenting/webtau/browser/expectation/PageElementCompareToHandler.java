@@ -1,4 +1,5 @@
 /*
+ * Copyright 2020 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.expectation;
 
-import org.testingisdocumenting.webtau.browser.page.value.ElementValue;
+import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
@@ -39,21 +40,21 @@ public class PageElementCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        ElementValue<?, ?> elementValue = extractElementValue(actual, expected);
+        PageElementValue<?> elementValue = extractElementValue(actual, expected);
         comparator.compareUsingEqualOnly(createPath(elementValue), elementValue, expected);
     }
 
     @Override
     public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
-        ElementValue<?, ?> elementValue = extractElementValue(actual, expected);
+        PageElementValue<?> elementValue = extractElementValue(actual, expected);
         comparator.compareUsingCompareTo(createPath(elementValue), elementValue, expected);
     }
 
-    private ActualPath createPath(ElementValue<?, ?> elementValue) {
+    private ActualPath createPath(PageElementValue<?> elementValue) {
         return createActualPath(elementValue.getName());
     }
 
-    private ElementValue<?, ?> extractElementValue(Object actual, Object expected) {
+    private PageElementValue<?> extractElementValue(Object actual, Object expected) {
         PageElement actualPageElement = (PageElement) actual;
         return expected instanceof List ?
                 actualPageElement.elementValues():

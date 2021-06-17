@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,75 +17,50 @@
 
 package org.testingisdocumenting.webtau.cache;
 
-import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
-public class FileBasedCache {
-    private static final String VALUE_KEY = "value";
-    private static final String EXPIRATION_TIME_KEY = "expirationTime";
-
+class FileBasedCache {
     private final Supplier<Path> cachePathSupplier;
-    private Map<String, Object> loadedCache;
 
+    /**
+     * @param cachePathSupplier path supplier, used instead of a direct value to avoid config trigger load
+     */
     public FileBasedCache(Supplier<Path> cachePathSupplier) {
         this.cachePathSupplier = cachePathSupplier;
     }
 
     @SuppressWarnings("unchecked")
     public <E> E get(String key) {
-        loadCacheIfRequired();
-        Map<String, Object> valueWithMeta = (Map<String, Object>) loadedCache.get(key);
-        if (valueWithMeta == null) {
+        Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
+        if (!Files.exists(valuePath)) {
             return null;
         }
 
-        Number expirationTime = (Number) valueWithMeta.get(EXPIRATION_TIME_KEY);
-        if (Time.currentTimeMillis() >= expirationTime.longValue()) {
-            return null;
-        }
-
-        return (E) valueWithMeta.get(VALUE_KEY);
-    }
-
-    public void put(String key, Object value, long expirationTime) {
-        loadCacheIfRequired();
-        Map<String, Object> valueWithMeta = createValueWithMeta(value, expirationTime);
-        loadedCache.put(key, valueWithMeta);
-
-        FileUtils.writeTextContent(cachePathSupplier.get(), JsonUtils.serializePrettyPrint(loadedCache));
+        return (E) JsonUtils.deserialize(FileUtils.fileTextContent(valuePath));
     }
 
     public void put(String key, Object value) {
-        put(key, value, Long.MAX_VALUE);
+        Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
+        try {
+            Files.write(valuePath, JsonUtils.serializePrettyPrint(value).getBytes());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
-    private Map<String, Object> createValueWithMeta(Object value, long expirationTime) {
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put(VALUE_KEY, value);
-        result.put(EXPIRATION_TIME_KEY, expirationTime);
-
-        return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void loadCacheIfRequired() {
-        if (loadedCache != null) {
-            return;
+    private Path valueFilePathByKeyAndCreateDirIfRequired(String key) {
+        Path root = cachePathSupplier.get();
+        if (!Files.exists(root)) {
+            FileUtils.createDirs(root);
         }
 
-        Path cachePath = cachePathSupplier.get();
-        if (!Files.exists(cachePath)) {
-            loadedCache = new LinkedHashMap<>();
-            return;
-        }
-
-        loadedCache = (Map<String, Object>) JsonUtils.deserialize(FileUtils.fileTextContent(cachePath));
+        return root.resolve(key + ".json");
     }
 }

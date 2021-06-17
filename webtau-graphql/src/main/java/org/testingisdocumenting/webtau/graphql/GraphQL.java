@@ -16,17 +16,18 @@
 
 package org.testingisdocumenting.webtau.graphql;
 
+import static org.testingisdocumenting.webtau.Matchers.equal;
+import static org.testingisdocumenting.webtau.http.Http.http;
+
+import java.util.Map;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
+import org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfigurations;
+import org.testingisdocumenting.webtau.graphql.listener.GraphQLListeners;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorIgnoringReturn;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
-
-import java.util.Map;
-
-import static org.testingisdocumenting.webtau.Matchers.equal;
-import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class GraphQL {
     public static final GraphQL graphql = new GraphQL();
@@ -47,7 +48,7 @@ public class GraphQL {
     }
 
     static void reset() {
-        schema = new GraphQLSchema(GraphQLConfig.isEnabled());
+        schema = new GraphQLSchema();
         coverage = new GraphQLCoverage(schema);
     }
 
@@ -144,7 +145,11 @@ public class GraphQL {
     }
 
     public <E> E execute(String query, Map<String, Object> variables, String operationName, HttpHeader header, HttpResponseValidatorWithReturn validator) {
-        return http.post(GRAPHQL_URL, header, GraphQLRequest.body(query, variables, operationName), (headerDataNode, body) -> {
+        BeforeFirstGraphQLQueryListenerTrigger.trigger();
+        GraphQLListeners.beforeGraphQLQuery(query, variables, operationName, header);
+        GraphQLRequest graphQLRequest = new GraphQLRequest(query, variables, operationName);
+        String url = GraphQLHttpConfigurations.requestUrl(GRAPHQL_URL, graphQLRequest);
+        return http.post(url, header, graphQLRequest.toHttpRequestBody(), (headerDataNode, body) -> {
             Object validatorReturnValue = validator.validate(headerDataNode, body);
 
             if (headerDataNode.statusCode().getTraceableValue().getCheckLevel() == CheckLevel.None) {
@@ -153,5 +158,17 @@ public class GraphQL {
 
             return validatorReturnValue;
         });
+    }
+
+    private static class BeforeFirstGraphQLQueryListenerTrigger {
+        static {
+            GraphQLListeners.beforeFirstGraphQLQuery();
+        }
+
+        /**
+         * no-op to force class loading
+         */
+        private static void trigger() {
+        }
     }
 }

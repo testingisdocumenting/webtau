@@ -14,3 +14,5 @@
 # limitations under the License.
 #
 org.testingisdocumenting.webtau.browser.expectation.PageElementContainHandler
+org.testingisdocumenting.webtau.browser.expectation.PageElementValueContainHandler
+org.testingisdocumenting.webtau.browser.expectation.PageUrlContainHandler

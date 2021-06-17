@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,12 +31,18 @@ public class PageElementContainHandler implements ContainHandler {
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
         PageElement actualPageElement = (PageElement) actual;
-        containAnalyzer.contains(actualPath, actualPageElement.elementValues().get(), expected);
+        containAnalyzer.contains(actualPath, extractActualValue(actualPageElement), expected);
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
         PageElement actualPageElement = (PageElement) actual;
-        containAnalyzer.notContains(actualPath, actualPageElement.elementValues().get(), expected);
+        containAnalyzer.notContains(actualPath, extractActualValue(actualPageElement), expected);
+    }
+
+    public static Object extractActualValue(PageElement pageElement) {
+        return pageElement.isMarkedAsAll() ?
+                pageElement.elementValues().get() :
+                pageElement.elementValue();
     }
 }

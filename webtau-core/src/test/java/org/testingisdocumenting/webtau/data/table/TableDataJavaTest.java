@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.data.table;
 
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenerator;
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -54,7 +53,15 @@ public class TableDataJavaTest {
         TableData tableData = createTableDataWithPermute();
 
         validatePermute(tableData);
-        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, "table-with-permute", tableData);
+        doc.captureJson("table-with-permute", tableData);
+    }
+
+    @Test
+    public void shouldGenerateIdsForMultipleRowsFromMultiValues() {
+        TableData tableData = createTableDataWithPermuteAndGuid();
+
+        validatePermuteAndGuid(tableData);
+        doc.captureJson("table-with-permute-and-guid", tableData);
     }
 
     @Test
@@ -90,8 +97,34 @@ public class TableDataJavaTest {
         saveTableWithDate(newTableData, "table-after-replace");
     }
 
+    @Test
+    public void accessByKeyColumn() {
+        TableData tableData = createTableWithKeyColumns();
+        findByKeyAndValidate(tableData);
+    }
+
+    @Test
+    public void shouldChangeKeyColumnsAndValidateUniqueness() {
+        TableData tableData = createTableWithKeyColumns();
+
+        code(() ->
+            changeKeyColumns(tableData)
+        ).should(throwException("duplicate entry found with key: [N, T]\n" +
+                "{id=id1, Name=N, Type=T}\n" +
+                "{id=id3, Name=N, Type=T}"));
+    }
+
     private static TableData replaceValue(TableData tableData) {
         return tableData.replace("v1b", "v1b_");
+    }
+
+    private static TableData changeKeyColumns(TableData tableData) {
+        return tableData.withNewKeyColumns("Name", "Type");
+    }
+
+    private static void findByKeyAndValidate(TableData tableData) {
+        Record found = tableData.find(key("id2"));
+        actual(found.get("Name")).should(equal("N2"));
     }
 
     private static TableData createTableDataSeparateValues() {
@@ -114,9 +147,16 @@ public class TableDataJavaTest {
                       "v2a"               , permute(10, 20) , "v2c");
     }
 
+    private static TableData createTableDataWithPermuteAndGuid() {
+        return table("ID"      , "Col A"              , "Col B"         , "Col C",
+                     ______________________________________________________________________,
+                      cell.guid, permute(true, false), "v1b"           , permute('a', 'b'),
+                      cell.guid, "v2a"               , permute(10, 20) , "v2c");
+    }
+
     private static TableData createTableDataWithAboveRef() {
         return table("Name", "Start Date"             , "Games To Play",
-                     ________________________________________________,
+                     __________________________________________________,
                      "John", LocalDate.of(2016, 6, 20), 10,
                      "Bob" , cell.above               ,  8,
                      "Mike", cell.above               , 14,
@@ -146,8 +186,16 @@ public class TableDataJavaTest {
                      "Mike", cell.above               , increment);
     }
 
+    static TableData createTableWithKeyColumns() {
+        return table("*id" , "Name" , "Type",
+                     _______________________,
+                     "id1" , "N"    , "T",
+                     "id2" , "N2"   , "T2",
+                     "id3" , "N"    , "T");
+    }
+
     private void saveTableWithDate(TableData tableData, String artifactName) {
-        DocumentationArtifacts.createAsJson(TableDataJavaTest.class, artifactName,
+        doc.captureJson(artifactName,
                 tableData
                         .map((rowIdx, colIdx, columnName, v) ->
                                 columnName.equals("Start Date") ?
