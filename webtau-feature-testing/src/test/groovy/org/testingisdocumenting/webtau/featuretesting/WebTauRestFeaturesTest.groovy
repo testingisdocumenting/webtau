@@ -74,11 +74,6 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
-    void "validation handler"() {
-        runCli('httpValidationHandler.groovy', 'webtau.validation-handler.cfg.groovy', "--url=${testRunner.testServer.uri}")
-    }
-
-    @Test
     void "schema validation"() {
         runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
@@ -166,6 +161,11 @@ class WebTauRestFeaturesTest {
     void "list match by key"() {
         deleteCustomers()
         runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
+    }
+
+    @Test
+    void "proxy config validate"() {
+        runCli("proxy/validateProxy.groovy", "proxy/webtau.proxy.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test

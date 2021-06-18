@@ -57,11 +57,13 @@ public class WebTauConfig implements PrettyPrintable {
 
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
 
-    private static final Supplier<Object> NO_DEFAULT = () -> null;
+    private static final Supplier<Object> NULL_DEFAULT = () -> null;
 
     private final ConfigValue config = declare("config", "config file path", () -> CONFIG_FILE_NAME_DEFAULT);
     private final ConfigValue env = declare("env", "environment id", () -> "local");
-    private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
+    private final ConfigValue url = declare("url", "base url for application under test", NULL_DEFAULT);
+
+    private final ConfigValue httpProxy = declare("httpProxy", "http proxy host:port", NULL_DEFAULT);
 
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
@@ -221,6 +223,14 @@ public class WebTauConfig implements PrettyPrintable {
 
     public ConfigValue getBaseUrlConfigValue() {
         return url;
+    }
+
+    public ConfigValue getHttpProxyConfigValue() {
+        return httpProxy;
+    }
+
+    public boolean isHttpProxySet() {
+        return !httpProxy.isDefault();
     }
 
     public int getWaitTimeout() {
@@ -411,6 +421,7 @@ public class WebTauConfig implements PrettyPrintable {
                 config,
                 env,
                 url,
+                httpProxy,
                 verbosityLevel,
                 fullStackTrace,
                 workingDir,

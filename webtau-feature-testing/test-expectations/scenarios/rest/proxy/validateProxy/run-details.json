@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "use proxy value",
+    "shortContainerId" : "validateProxy.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 2
+    }
+  } ],
+  "exitCode" : 0
+}
