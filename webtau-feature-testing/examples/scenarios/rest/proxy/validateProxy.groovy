@@ -18,18 +18,14 @@ package scenarios.rest.proxy
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-scenario("using proxy") {
-    step('check http proxy') {
-        System.getProperty('http.proxyHost').should == '1.2.3.4'
-        System.getProperty('http.proxyPort').should == '1234'
-    }
+scenario("use proxy value") {
+    code {
+        http.get("http://localhost:8080/hello.html") {
+        }
+    } should throwException(~/Caused by: java.net.UnknownHostException: my_proxy_server_to_use.com/)
 
-    step('check https proxy') {
-        System.getProperty('https.proxyHost').should == '5.6.7.8'
-        System.getProperty('https.proxyPort').should == '5678'
-    }
-
-    step('check no proxy') {
-        System.getProperty('http.nonProxyHosts').should == '*.host1|host2.*'
-    }
+    code {
+        http.get("https://localhost:8080/hello.html") {
+        }
+    } should throwException(~/Caused by: java.net.UnknownHostException: my_proxy_server_to_use.com/)
 }

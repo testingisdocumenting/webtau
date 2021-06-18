@@ -164,8 +164,8 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
-    void "proxy config"() {
-        runCli("proxy/passingProxy.groovy", "proxy/webtau.proxy.cfg.groovy", "--url=${testRunner.testServer.uri}")
+    void "proxy config validate"() {
+        runCli("proxy/validateProxy.groovy", "proxy/webtau.proxy.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test

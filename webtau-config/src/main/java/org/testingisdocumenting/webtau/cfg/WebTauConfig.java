@@ -17,25 +17,39 @@
 
 package org.testingisdocumenting.webtau.cfg;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.console.ansi.Color;
-import org.testingisdocumenting.webtau.console.ansi.FontStyle;
-import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
-import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
-import org.testingisdocumenting.webtau.utils.StringUtils;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
+import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
-import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
+import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.version.WebtauVersion;
 
-public class WebTauConfig {
+public class WebTauConfig implements PrettyPrintable {
     private static final String SOURCE_MANUAL = "manual";
 
     public static final String CONFIG_FILE_DEPRECATED_DEFAULT = "webtau.cfg";
@@ -43,15 +57,13 @@ public class WebTauConfig {
 
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
 
-    private static final Supplier<Object> NO_DEFAULT = () -> null;
+    private static final Supplier<Object> NULL_DEFAULT = () -> null;
 
     private final ConfigValue config = declare("config", "config file path", () -> CONFIG_FILE_NAME_DEFAULT);
     private final ConfigValue env = declare("env", "environment id", () -> "local");
-    private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
+    private final ConfigValue url = declare("url", "base url for application under test", NULL_DEFAULT);
 
-    private final ConfigValue httpProxy = declare("httpProxy", "http proxy host:port", NO_DEFAULT);
-    private final ConfigValue httpsProxy = declare("httpsProxy", "https proxy host:port", NO_DEFAULT);
-    private final ConfigValue noProxy = declare("noProxy", "list of hosts to exclude from proxy host1|*.host2|host3.*", NO_DEFAULT);
+    private final ConfigValue httpProxy = declare("httpProxy", "http proxy host:port", NULL_DEFAULT);
 
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
@@ -217,12 +229,8 @@ public class WebTauConfig {
         return httpProxy;
     }
 
-    public ConfigValue getHttpsProxyConfigValue() {
-        return httpsProxy;
-    }
-
-    public ConfigValue getNoProxyConfigValue() {
-        return noProxy;
+    public boolean isHttpProxySet() {
+        return !httpProxy.isDefault();
     }
 
     public int getWaitTimeout() {
@@ -414,8 +422,6 @@ public class WebTauConfig {
                 env,
                 url,
                 httpProxy,
-                httpsProxy,
-                noProxy,
                 verbosityLevel,
                 fullStackTrace,
                 workingDir,

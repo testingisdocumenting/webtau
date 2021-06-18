@@ -37,47 +37,5 @@ public class WebTauCoreConfigHandler implements WebTauConfigHandler {
     public void onAfterCreate(WebTauConfig cfg) {
         SystemTimerConfig.setWaitTimeout(cfg.getWaitTimeout());
         DocumentationArtifactsLocation.setRoot(cfg.getDocArtifactsPath());
-
-        setProxy(cfg);
-    }
-
-    private void setProxy(WebTauConfig cfg) {
-        setProxy("http", cfg.getHttpProxyConfigValue());
-        setProxy("https", cfg.getHttpsProxyConfigValue());
-        setNoProxy(cfg);
-    }
-
-    private void setProxy(String httpPrefix, ConfigValue configValue) {
-        if (configValue.isDefault()) {
-            return;
-        }
-
-        HostPort hostPort = new HostPort(configValue.getAsString());
-        System.setProperty(httpPrefix + "." + "proxyHost", hostPort.host);
-        System.setProperty(httpPrefix + "." + "proxyPort", hostPort.port);
-    }
-
-    private void setNoProxy(WebTauConfig cfg) {
-        ConfigValue value = cfg.getNoProxyConfigValue();
-        if (value.isDefault()) {
-            return;
-        }
-
-        System.setProperty("http.nonProxyHosts", value.getAsString());
-    }
-
-    static class HostPort {
-        private final String host;
-        private final String port;
-
-        private HostPort(String hostPort) {
-            String[] parts = hostPort.split(":");
-            if (parts.length != 2) {
-                throw new IllegalArgumentException("expect host:port format for proxy, given: " + hostPort);
-            }
-
-            host = parts[0];
-            port = parts[1];
-        }
     }
 }
