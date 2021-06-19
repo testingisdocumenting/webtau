@@ -1,0 +1,2 @@
+echo $PROCESS_NAME
+echo $VERSION

@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.BeforeClass
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.cli.CliTestUtils.linuxOnly
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
@@ -154,6 +155,13 @@ class WebTauCliFeaturesTest {
     @Test
     void "timeout config override"() {
         runCli('cliTimeoutLocalOverride.groovy', 'webtau-cli-timeout-large.cfg.groovy')
+    }
+
+    @Test
+    void "linux shell source"() {
+        linuxOnly {
+            runCli('linuxShell.groovy', 'webtau.cfg.groovy')
+        }
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
