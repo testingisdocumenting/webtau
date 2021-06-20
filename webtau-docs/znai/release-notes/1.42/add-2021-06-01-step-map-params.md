@@ -1,0 +1,1 @@
+* `step` accepts `map` as params for additional reporting

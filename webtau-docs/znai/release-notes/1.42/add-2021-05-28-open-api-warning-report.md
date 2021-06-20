@@ -1,0 +1,1 @@
+* capture open api warnings in web report

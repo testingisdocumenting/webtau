@@ -1,0 +1,1 @@
+* Add browser [scroll actions](browser/element-actions#scrolling)
