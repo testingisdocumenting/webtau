@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.42-SNAPSHOT</version>
+        <version>1.42</version>
     </parent>
 
     <artifactId>webtau-cli-groovy</artifactId>
