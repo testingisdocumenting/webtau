@@ -64,7 +64,11 @@ class CommandParser {
             return;
         }
 
-        parts.add(currentPart);
+        if (currentPart.startsWith("\"") && currentPart.endsWith("\"")) {
+            parts.add(currentPart.substring(1, currentPart.length() - 1));
+        } else {
+            parts.add(currentPart);
+        }
         current.setLength(0);
     }
 }

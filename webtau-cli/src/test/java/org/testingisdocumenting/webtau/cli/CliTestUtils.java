@@ -18,9 +18,18 @@ package org.testingisdocumenting.webtau.cli;
 
 public class CliTestUtils {
     private static final String OS = System.getProperty("os.name");
+    private static final boolean IS_WINDOWS = OS.toLowerCase().contains("win");
 
     public static void supportedPlatformOnly(Runnable code) {
-        if (OS.toLowerCase().contains("win")) {
+        if (IS_WINDOWS) {
+            return;
+        }
+
+        code.run();
+    }
+
+    public static void linuxOnly(Runnable code) {
+        if (IS_WINDOWS) {
             return;
         }
 
