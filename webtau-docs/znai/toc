@@ -12,8 +12,7 @@ HTTP
     query-parameters
     ping
     proxy
-    files-upload
-    PDF
+    files
     documentation
     complex-types
     openAPI-spec
