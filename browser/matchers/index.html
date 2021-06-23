@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Text</h1></header>
-<p>def message = $('#message') message.should == 'Select option' def message = $('#message') message.should == ~/option/ def menu = $('#menu ul li') menu.should == ['Hello', 'Text', 'World'] def menu = $('#menu ul li') menu.should contain('Text') def menu = $('#menu ul li') menu.should == ['Hello', ~/T..t/, 'World']</p>
+<p>def message = $(&quot;#message&quot;) message.should == &quot;Select option&quot; def message = $(&quot;#message&quot;) message.should == ~/option/ def menu = $(&quot;#menu ul li&quot;) menu.should == [&quot;Hello&quot;, &quot;Text&quot;, &quot;World&quot;] def message = $(&quot;#message&quot;) message.should contain(&quot;option&quot;) def menu = $(&quot;#menu ul li&quot;).all() menu.should contain(&quot;Text&quot;) Note: all() is used at element declaration time to disambiguate between contain text in the first element and in the list of elements. It is not required when you do an explicit comparison with the list on the right, since then webtau can deduce the desired outcome. def menu = $(&quot;#menu ul li&quot;) menu.should == [&quot;Hello&quot;, ~/T..t/, &quot;World&quot;]</p>
 </article>
 
 <article>
 <header><h1>Numbers</h1></header>
-<p>def total = $('#total') total.should == 300.6 def total = $('#total') total.shouldBe &gt; 200 def total = $('#total') total.shouldBe &gt;= 300 def split = $('#split ul li') split.should == [100, 28, 172.6] def split = $('#split ul li') split.should == [100, lessThan(100), greaterThanOrEqual(150)]</p>
+<p>def total = $(&quot;#total&quot;) total.should == 300.6 def total = $(&quot;#total&quot;) total.shouldBe &gt; 200 def total = $(&quot;#total&quot;) total.shouldBe &gt;= 300 def split = $(&quot;#split ul li&quot;) split.should == [100, 28, 172.6] def split = $(&quot;#split ul li&quot;) split.should == [100, lessThan(100), greaterThanOrEqual(150)]</p>
 </article>
 
 <article>
@@ -127,27 +127,49 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "content" : [ {
         "lang" : "groovy",
-        "snippet" : "def message = $('#message')\nmessage.should == 'Select option'",
+        "snippet" : "def message = $(\"#message\")\nmessage.should == \"Select option\"",
         "title" : "exact text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def message = $('#message')\nmessage.should == ~/option/",
+        "snippet" : "def message = $(\"#message\")\nmessage.should == ~/option/",
         "title" : "regexp text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def menu = $('#menu ul li')\nmenu.should == ['Hello', 'Text', 'World']",
+        "snippet" : "def menu = $(\"#menu ul li\")\nmenu.should == [\"Hello\", \"Text\", \"World\"]",
         "title" : "list of text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def menu = $('#menu ul li')\nmenu.should contain('Text')",
-        "title" : "contain text in list",
+        "snippet" : "def message = $(\"#message\")\nmessage.should contain(\"option\")",
+        "title" : "contain text in the first matched element",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def menu = $('#menu ul li')\nmenu.should == ['Hello', ~/T..t/, 'World']",
+        "snippet" : "def menu = $(\"#menu ul li\").all()\nmenu.should contain(\"Text\")",
+        "title" : "contain exact text in list of elements",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "all()",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is used at element declaration time to disambiguate between contain text in the first element and in the list of elements.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "It is not required when you do an explicit comparison with the list on the right, since then webtau can deduce the desired outcome.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def menu = $(\"#menu ul li\")\nmenu.should == [\"Hello\", ~/T..t/, \"World\"]",
         "title" : "list of text and regexp",
         "type" : "Snippet"
       }, {
@@ -210,27 +232,27 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "content" : [ {
         "lang" : "groovy",
-        "snippet" : "def total = $('#total')\ntotal.should == 300.6",
+        "snippet" : "def total = $(\"#total\")\ntotal.should == 300.6",
         "title" : "exact number",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def total = $('#total')\ntotal.shouldBe > 200",
+        "snippet" : "def total = $(\"#total\")\ntotal.shouldBe > 200",
         "title" : "greater than",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def total = $('#total')\ntotal.shouldBe >= 300",
+        "snippet" : "def total = $(\"#total\")\ntotal.shouldBe >= 300",
         "title" : "greater than or equal",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def split = $('#split ul li')\nsplit.should == [100, 28, 172.6]",
+        "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, 28, 172.6]",
         "title" : "list of numbers",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def split = $('#split ul li')\nsplit.should == [100, lessThan(100), greaterThanOrEqual(150)]",
+        "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, lessThan(100), greaterThanOrEqual(150)]",
         "title" : "list of exact and greater/less",
         "type" : "Snippet"
       }, {
@@ -310,7 +332,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1621036321256,
+    "lastModifiedTime" : 1624490057661,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Matchers",

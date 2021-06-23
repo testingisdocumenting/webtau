@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>File Content</h1></header>
-<p>def path = fs.writeText('my-test-file.txt', 'hello world') fs.textContent('my-test-file.txt').should == 'hello world\nid=15' fs.textContent declares file content, but doesn't access it right away. Webtau reads file content when validation happens. Here is an example of waiting on file content: def fileTextContent = fs.textContent('my-test-file.txt') fileTextContent.waitTo contain('id=15') Use .data to access actual file content for further processing def actualFileContent = fileTextContent.data Use extractByRegexp to extract content from a file by regular expression def id = fileTextContent.extractByRegexp(&quot;id=(\\d+)&quot;) http.get(&quot;/customers/${id}&quot;) { // ... }</p>
+<p>def path = fs.writeText('my-test-file.txt', 'hello world') fs.textContent('my-test-file.txt').should == 'hello world\nid=15' fs.textContent declares file content, but doesn't access it right away. Webtau reads file content when validation happens. Here is an example of waiting on file content: def fileTextContent = fs.textContent('my-test-file.txt') fileTextContent.waitTo contain('id=15') Use .data to access actual file content for further processing def actualFileContent = fileTextContent.data Use extractByRegexp to extract content from a file by regular expression def id = fileTextContent.extractByRegexp(&quot;id=(\\d+)&quot;) http.get(&quot;/customers/${id}&quot;) { // ... } Use replaceText to replace text in place fs.replaceText(path, ~/(\d+)/, '&quot;$1&quot;') a=1 b=2 a=&quot;1&quot; b=&quot;2&quot;</p>
 </article>
 
 <article>
@@ -202,6 +202,44 @@ ReactDOM.render(React.createElement(Documentation, {
         "excludeStartEnd" : true,
         "excludeRegexp" : "statusCode",
         "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "replaceText",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to replace text in place",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "fs.replaceText(path, ~/(\\d+)/, '\"$1\"')",
+        "title" : "replace file content",
+        "startLine" : "replace-text",
+        "endLine" : "replace-text",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      }, {
+        "columns" : [ {
+          "content" : [ {
+            "lang" : "txt",
+            "snippet" : "a=1\nb=2",
+            "title" : "file to replace",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "content" : [ {
+            "lang" : "txt",
+            "snippet" : "a=\"1\"\nb=\"2\"",
+            "title" : "result of replace",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "config" : { },
+        "type" : "Columns"
       } ]
     }, {
       "title" : "Copy",
@@ -248,7 +286,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1621036321260,
+    "lastModifiedTime" : 1624490057665,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "File System",

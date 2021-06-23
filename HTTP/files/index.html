@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Files Upload</title>
+<title>WebTau: Files</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,18 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>File System Content</h1></header>
-<p>In following examples backend expects a file passed as multipart/form-data . File content is expected to be stored in file field. Backend responds with received file name and file description.To POST form data, you need to use the same http.post statement as you saw in previous examples. Second parameter should be http.formData instead of a map payload we used for JSON . def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath)) { fileName.should == 'image.png' } Use http.formFile to override file name that is being sent to the backend. def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: http.formFile('myFileName.png', imagePath))) { fileName.should == 'myFileName.png' } Multiple form fields can be specified like in the example below. def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath, fileDescription: 'new report')) { fileName.should == 'image.png' description.should == 'new report' }</p>
+<header><h1>Upload File</h1></header>
+<p>Consider example where backend expects a file as multipart/form-data . Field file defines content. Backend responds with file name and file description it received.To POST form data, use the http.post . Pass http.formData as second parameter. In previous examples, second parameter was JSON payload. def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath)) { fileName.should == 'image.png' } Use http.formFile to override file name. def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: http.formFile('myFileName.png', imagePath))) { fileName.should == 'myFileName.png' } Multiple form fields can be specified: def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath, fileDescription: 'new report')) { fileName.should == 'image.png' description.should == 'new report' }</p>
 </article>
 
 <article>
-<header><h1>In-Memory Content</h1></header>
-<p>If your test already has content, you can explicitly pass it as is. byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData(file: fileContent)) { fileName.should == 'backend-generated-name-as-no-name-provided' } Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData( file: http.formFile('myFileName.dat', fileContent))) { fileName.should == 'myFileName.dat' }</p>
+<header><h1>Upload In-Memory Content</h1></header>
+<p>To pass file content from memory use byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData(file: fileContent)) { fileName.should == 'backend-generated-name-as-no-name-provided' } Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData( file: http.formFile('myFileName.dat', fileContent))) { fileName.should == 'myFileName.dat' }</p>
+</article>
+
+<article>
+<header><h1>Download PDF</h1></header>
+<p>Assert PDF content using pdf(body) function. http.get(&quot;/report&quot;) { pdf(body).pageText(0).should contain('Quarterly earnings:') } If neem more than one assertion, assign pdf result to a local variable. http.get(&quot;/report&quot;) { def pdf = pdf(body) pdf.pageText(0).should contain('Quarterly earnings:') pdf.pageText(1).should == 'Intentional blank page\n' } Note: Use pdf assertions for sanity checks: presence of correct client names or account numbers. Implement comprehensive PDF generation logic tests in unit tests.</p>
 </article>
 </section>
 </div>
@@ -117,30 +122,35 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "File System Content",
-      "id" : "file-system-content",
+      "title" : "Upload File",
+      "id" : "upload-file",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "In following examples backend expects a file passed as ",
+          "text" : "Consider example where backend expects a file as ",
           "type" : "SimpleText"
         }, {
           "code" : "multipart/form-data",
           "type" : "InlinedCode"
         }, {
-          "text" : ". File content is expected to be stored in ",
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Field ",
           "type" : "SimpleText"
         }, {
           "code" : "file",
           "type" : "InlinedCode"
         }, {
-          "text" : " field.",
+          "text" : " defines content.",
           "type" : "SimpleText"
         }, {
           "type" : "HardLineBreak"
         }, {
-          "text" : "Backend responds with received file name and file description.",
+          "text" : "Backend responds with file name and file description it received.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -152,30 +162,30 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "POST",
           "type" : "InlinedCode"
         }, {
-          "text" : " form data, you need to use the same ",
+          "text" : " form data, use the ",
           "type" : "SimpleText"
         }, {
           "code" : "http.post",
           "type" : "InlinedCode"
         }, {
-          "text" : " statement as you saw in previous examples.",
+          "text" : ".",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "Second parameter should be ",
+          "text" : "Pass ",
           "type" : "SimpleText"
         }, {
           "code" : "http.formData",
           "type" : "InlinedCode"
         }, {
-          "text" : " instead of a map payload we used for ",
+          "text" : " as second parameter. In previous examples, second parameter was ",
           "type" : "SimpleText"
         }, {
           "code" : "JSON",
           "type" : "InlinedCode"
         }, {
-          "text" : ".",
+          "text" : " payload.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -193,7 +203,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "http.formFile",
           "type" : "InlinedCode"
         }, {
-          "text" : " to override file name that is being sent to the backend.",
+          "text" : " to override file name.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -205,7 +215,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Multiple form fields can be specified like in the example below.",
+          "text" : "Multiple form fields can be specified:",
           "type" : "SimpleText"
         } ]
       }, {
@@ -216,13 +226,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     }, {
-      "title" : "In-Memory Content",
-      "id" : "in-memory-content",
+      "title" : "Upload In-Memory Content",
+      "id" : "upload-in-memory-content",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "If your test already has content, you can explicitly pass it as is.",
+          "text" : "To pass file content from memory use",
           "type" : "SimpleText"
         } ]
       }, {
@@ -256,21 +266,71 @@ ReactDOM.render(React.createElement(Documentation, {
         "bodyOnly" : true,
         "type" : "Snippet"
       } ]
+    }, {
+      "title" : "Download PDF",
+      "id" : "download-pdf",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Assert PDF content using ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "pdf(body)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " function.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "http.get(\"/report\") {\n    pdf(body).pageText(0).should contain('Quarterly earnings:')\n}",
+        "entry" : "download pdf and assert page text using contains",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If neem more than one assertion, assign ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "pdf",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " result to a local variable.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "http.get(\"/report\") {\n    def pdf = pdf(body)\n    pdf.pageText(0).should contain('Quarterly earnings:')\n    pdf.pageText(1).should == 'Intentional blank page\\n'\n}",
+        "entry" : "download pdf and assert page text using equal and contains",
+        "bodyOnly" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Use pdf assertions for sanity checks: presence of correct client names or account numbers. Implement comprehensive PDF generation logic tests in unit tests.",
+          "type" : "SimpleText"
+        } ]
+      } ]
     } ],
-    "lastModifiedTime" : 1621036321256,
+    "lastModifiedTime" : 1624490057661,
     "tocItem" : {
       "sectionTitle" : "HTTP",
-      "pageTitle" : "Files Upload",
+      "pageTitle" : "Files",
       "pageMeta" : { },
       "dirName" : "HTTP",
-      "fileName" : "files-upload",
+      "fileName" : "files",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "File System Content",
-        "id" : "file-system-content"
+        "title" : "Upload File",
+        "id" : "upload-file"
       }, {
-        "title" : "In-Memory Content",
-        "id" : "in-memory-content"
+        "title" : "Upload In-Memory Content",
+        "id" : "upload-in-memory-content"
+      }, {
+        "title" : "Download PDF",
+        "id" : "download-pdf"
       } ]
     }
   },
