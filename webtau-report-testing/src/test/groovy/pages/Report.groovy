@@ -39,6 +39,9 @@ class Report {
 
     def testSummaryHttpCallWarnings = $(".webtau-http-calls-warning")
 
+    def stdCliOutput = $(".cli-output.standard")
+    def errCliOutput = $(".cli-output.error")
+
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
     }
@@ -85,10 +88,6 @@ class Report {
     def expandCliCall(callNumber) {
         cliCalls.waitTo beVisible()
         cliCalls.get(callNumber).find(".collapse-toggle").click()
-    }
-
-    def standardCliOutput() {
-        return $(".cli-output.standard")
     }
 
     private static def openReportFile(String fileName) {

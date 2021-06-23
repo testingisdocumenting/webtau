@@ -30,9 +30,21 @@ scenario('cli calls') {
     report.selectCliCalls()
     report.expandCliCall(1)
 
-    report.standardCliOutput().should == ~/welcome to my script/
+    report.stdCliOutput.should == ~/welcome to my script/
 
     browser.doc.capture('cli-calls')
+}
+
+scenario('timeout cli should have output captured') {
+    if (isWindows()) {
+        return
+    }
+
+    report.openGroovyStandaloneReport('cli/cliTimeout-failed-webtau-report.html')
+    report.selectTest('sleep timeout')
+    report.selectCliCalls()
+    report.expandCliCall(1)
+    report.stdCliOutput.should contain("welcome sleeping script")
 }
 
 static boolean isWindows() {
