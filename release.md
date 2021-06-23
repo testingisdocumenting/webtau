@@ -52,8 +52,7 @@ Please note some of these git operations are performed against master, you there
 # Perform the release
 
 ```
-export GPG_TTY=$(tty)
-mvn release:perform
+export GPG_TTY=$(tty) mvn release:perform
 ```
 
 This will prompt you for the GPG passphrase.  It will then build and test webtau and publish all artifacts to Maven Central.
