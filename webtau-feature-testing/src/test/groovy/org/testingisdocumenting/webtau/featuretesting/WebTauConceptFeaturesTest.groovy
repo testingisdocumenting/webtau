@@ -25,6 +25,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauConceptFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
@@ -122,6 +123,19 @@ class WebTauConceptFeaturesTest {
     @Test
     void "do not sleep as sync mechanism"() {
         runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "persona context"() {
+        runCli('personaContext.groovy', 'webtau.persona.cfg.groovy')
+    }
+
+    @Test
+    void "persona context snippets"() {
+        extractCodeSnippets(
+                'persona-context', 'examples/scenarios/concept/personaContext.groovy', [
+                'contextExample.groovy': 'context example',
+        ])
     }
 
     @Test

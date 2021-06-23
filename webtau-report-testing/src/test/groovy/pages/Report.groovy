@@ -34,6 +34,8 @@ class Report {
 
     def cellValues = $("td").all()
 
+    def stepsShowChildren = $(".show-children")
+
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
 

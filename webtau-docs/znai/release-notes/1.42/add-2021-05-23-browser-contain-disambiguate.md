@@ -1,1 +1,1 @@
-* disambiguate element.should contain for browser assertions
+* add PageElement.all() to disambiguate element.should contain for browser assertions

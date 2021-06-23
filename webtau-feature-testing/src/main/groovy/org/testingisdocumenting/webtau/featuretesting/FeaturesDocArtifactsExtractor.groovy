@@ -46,13 +46,16 @@ class FeaturesDocArtifactsExtractor {
     }
 
     static void extractCodeSnippets(String artifactName, String inputName, Map<String, String> scenarioToOutputFile) {
+        println "extracting snippets <$artifactName> from $inputName"
         def artifactsRoot = artifactsRoot(artifactName)
 
         def script = FileUtils.fileTextContent(Paths.get(inputName))
 
         scenarioToOutputFile.each { outputFileName, scenario ->
             def extracted = extractScenarioBody(script, scenario)
-            FileUtils.writeTextContent(artifactsRoot.resolve(outputFileName), extracted)
+            def path = artifactsRoot.resolve(outputFileName)
+            println "creating $path"
+            FileUtils.writeTextContent(path, extracted)
         }
     }
 

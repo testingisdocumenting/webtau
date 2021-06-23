@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "context example",
+    "shortContainerId" : "personaContext.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  } ],
+  "exitCode" : 0
+}

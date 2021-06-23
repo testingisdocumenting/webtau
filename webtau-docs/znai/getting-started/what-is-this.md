@@ -19,7 +19,7 @@ Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end 
 
 :include-cli-output: cli-tests/browser-repl-select/out.txt {title: "trying css selectors"}
 
-Use Persona concept to test API Authorization and collaboration Web Apps like chats and editors. 
+Use [Persona](persona/introduction) concept to test API Authorization and collaboration Web Apps like chats and editors. 
 
 Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.
 
