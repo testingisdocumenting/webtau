@@ -41,6 +41,8 @@ browser
     page-open-handlers
     finders-and-filters
     matchers
+persona
+    introduction
 database
     introduction
     data-setup

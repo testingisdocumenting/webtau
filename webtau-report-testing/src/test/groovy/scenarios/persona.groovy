@@ -19,16 +19,25 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
-scenario('open report') {
-    report.openGroovyStandaloneReport('ui/searchWithPersonas-chrome-webtau-report.html')
+scenario('check concept persona steps') {
+    report.openGroovyStandaloneReport('concept/personaContext-webtau-report.html')
+
+    report.selectTest('context example')
+    report.selectSteps()
+
+    report.stepsShowChildren.click()
+
+    browser.doc.capture('persona-concept-steps')
 }
 
-scenario('select steps tab and check persona') {
+scenario('check browser persona steps') {
+    report.openGroovyStandaloneReport('ui/searchWithPersonas-chrome-webtau-report.html')
+
     report.selectTest('multiple browsers for search')
     report.selectSteps()
 
     report.steps.count.should == 18
     report.personaId.count.should == 11
 
-    report.personaId.should == 'John'
+    report.personaId.should == 'Alice'
 }
