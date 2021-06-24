@@ -79,6 +79,19 @@ public class CliForegroundCommand {
             ProcessRunResult runResult = ProcessUtils.run(command, config);
             long endTime = System.currentTimeMillis();
 
+            if (!runResult.isTimeOut()) {
+                validationResult.setExitCode(exitCode(runResult.getExitCode()));
+            }
+
+            validationResult.setOut(runResult.getOutput());
+            validationResult.setErr(runResult.getError());
+            validationResult.setStartTime(startTime);
+            validationResult.setElapsedTime(endTime - startTime);
+
+            if (runResult.isTimeOut()) {
+                throw new RuntimeException("process timed-out");
+            }
+
             if (runResult.getErrorReadingException() != null) {
                 throw runResult.getErrorReadingException();
             }
@@ -86,12 +99,6 @@ public class CliForegroundCommand {
             if (runResult.getOutputReadingException() != null) {
                 throw runResult.getOutputReadingException();
             }
-
-            validationResult.setExitCode(exitCode(runResult.getExitCode()));
-            validationResult.setOut(runResult.getOutput());
-            validationResult.setErr(runResult.getError());
-            validationResult.setStartTime(startTime);
-            validationResult.setElapsedTime(endTime - startTime);
 
             ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
                 @Override

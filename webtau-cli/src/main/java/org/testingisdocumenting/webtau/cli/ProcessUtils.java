@@ -41,13 +41,12 @@ class ProcessUtils {
 
             if (!onTime) {
                 backgroundRunResult.closeGlobbers();
-                throw new RuntimeException("process timed-out");
             }
 
             backgroundRunResult.getConsumeErrorThread().join();
             backgroundRunResult.getConsumeOutThread().join();
 
-            return backgroundRunResult.createRunResult();
+            return backgroundRunResult.createRunResult(!onTime);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
