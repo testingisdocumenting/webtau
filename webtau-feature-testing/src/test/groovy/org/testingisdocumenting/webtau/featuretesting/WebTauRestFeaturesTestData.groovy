@@ -25,10 +25,14 @@ import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.http.testserver.TestServerTextResponse
 import org.testingisdocumenting.webtau.utils.JsonUtils
 
+import javax.servlet.ServletException
+import javax.servlet.http.HttpServletRequest
+
 class WebTauRestFeaturesTestData {
     static void registerEndPoints(TestServer testServer, FixedResponsesHandler handler) {
         def temperature = [temperature: 88]
         handler.registerGet("/weather", json(temperature))
+        handler.registerGet("/statement", new BalancePerPersonaResponse())
         handler.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP,
                 testServer, "/weather"))
         handler.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
@@ -40,5 +44,21 @@ class WebTauRestFeaturesTestData {
 
     private static TestServerResponse json(Map response, statusCode = 200) {
         return new TestServerJsonResponse(JsonUtils.serialize(response), statusCode)
+    }
+
+    static class BalancePerPersonaResponse implements TestServerResponse {
+        @Override
+        byte[] responseBody(HttpServletRequest request) throws IOException, ServletException {
+            def authz = request.getHeader("Authorization")
+            def balance = authz.contains('alice') ? 150 : 30
+
+            def response = JsonUtils.serialize([balance: balance])
+            return response.getBytes()
+        }
+
+        @Override
+        String responseType(HttpServletRequest request) {
+            return "application/json"
+        }
     }
 }

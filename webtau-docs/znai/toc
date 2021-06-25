@@ -43,6 +43,7 @@ browser
     matchers
 persona
     introduction
+    HTTP-persona
 database
     introduction
     data-setup

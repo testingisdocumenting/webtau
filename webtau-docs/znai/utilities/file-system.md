@@ -74,14 +74,14 @@ right: :include-file: doc-artifacts/fs-content-after-replace-text.txt {title: "r
 
 # Archive
 
-:include-file: examples/scenarios/fs/archive.groovy {
+:include-file: scenarios/fs/archive.groovy {
   title: "unzip a file",
   startLine: "// unzip",
   endLine: "// unzip",
   excludeStartEnd: true
 }
 
-:include-file: examples/scenarios/fs/archive.groovy {
+:include-file: scenarios/fs/archive.groovy {
   title: "untar a file",
   startLine: "// untar",
   endLine: "// untar",

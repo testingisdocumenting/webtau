@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "my bank balance",
+    "shortContainerId" : "personaGet.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
+  } ],
+  "exitCode" : 0
+}
