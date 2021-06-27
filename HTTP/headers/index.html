@@ -89,8 +89,8 @@
 </article>
 
 <article>
-<header><h1>Common Header</h1></header>
-<p>If each http request requires the same header you can specify that header using httpHeaderProvider . Common example is specifying authentication header. package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { ConsoleOutputs.out('auth header injection point') return original.merge([Authorization: 'Bearer &lt;token&gt;']) } } This removes implementation details from your tests and makes them less brittle.</p>
+<header><h1>Implicit Header</h1></header>
+<p>If each http request requires the same header you can specify that header using httpHeaderProvider . Common example is specifying authentication header. package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = step(&quot;generate auth token&quot;) { return &quot;jwt-token&quot; } return original.merge([Authorization: &quot;Bearer $token&quot;]) } } Implicit headers help to clean up tests from implementation details</p>
 </article>
 
 <article>
@@ -171,8 +171,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Common Header",
-      "id" : "common-header",
+      "title" : "Implicit Header",
+      "id" : "implicit-header",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
@@ -210,13 +210,13 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.console.ConsoleOutputs\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        ConsoleOutputs.out('auth header injection point')\n        return original.merge([Authorization: 'Bearer <token>'])\n    }\n}",
+        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = step(\"generate auth token\") {\n            return \"jwt-token\"\n        }\n\n        return original.merge([Authorization: \"Bearer $token\"])\n    }\n}",
         "title" : "scenarios/rest/headers/auth/Auth.groovy",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "This removes implementation details from your tests and makes them less brittle.",
+          "text" : "Implicit headers help to clean up tests from implementation details",
           "type" : "SimpleText"
         } ]
       } ]
@@ -370,7 +370,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1624490057661,
+    "lastModifiedTime" : 1624834582458,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Headers",
@@ -382,8 +382,8 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Standard Header",
         "id" : "standard-header"
       }, {
-        "title" : "Common Header",
-        "id" : "common-header"
+        "title" : "Implicit Header",
+        "id" : "implicit-header"
       }, {
         "title" : "Explicit Header",
         "id" : "explicit-header"

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: HTTP Persona</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Authorization</h1></header>
+<p>In HTTP/headers#implicit-header http headers section we defined how to use an implicit header provider to enable authentication/authorization package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = step(&quot;generate auth token&quot;) { return &quot;jwt-token&quot; } return original.merge([Authorization: &quot;Bearer $token&quot;]) } }</p>
+</article>
+
+<article>
+<header><h1>Persona Authorization</h1></header>
+<p>Let's define authorization based on persona context. persona/introduction#context-definition Previously we defined two personas package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Authorization test using persona concept looks like this package scenarios.rest.headers import static personas.Personas.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } To make this example work, let's update implicit header provider above to take into account persona context package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader import static org.testingisdocumenting.webtau.WebTauDsl.* class PersonaAuth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateTokenBasedOnPersona() return original.merge([Authorization: &quot;Bearer $token&quot;]) } static String generateTokenBasedOnPersona() { if (currentPersona.isDefault()) { // check if we are inside persona context or outside return generateDefaultToken() } return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token } static String generateTokenForSystemUserId(String systemUserId) { return &quot;dummy:$systemUserId&quot; // this is where you generate specific user auth token } static String generateDefaultToken() { return &quot;dummy:default-user&quot; // this is where you generate default user auth token } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Authorization",
+      "id" : "authorization",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/HTTP/headers#implicit-header",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "http headers",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " section we defined how to use",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "an implicit header provider to enable authentication/authorization",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
+        "title" : "webtau.cfg.groovy",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = step(\"generate auth token\") {\n            return \"jwt-token\"\n        }\n\n        return original.merge([Authorization: \"Bearer $token\"])\n    }\n}",
+        "title" : "scenarios/rest/headers/auth/Auth.groovy",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Persona Authorization",
+      "id" : "persona-authorization",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Let's define authorization based on persona context.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "url" : "/webtau/persona/introduction#context-definition",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Previously",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " we defined two personas",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package personas\n\nimport static org.testingisdocumenting.webtau.WebTauCore.persona\n\nclass Personas {\n    public static def Alice = persona(\"Alice\", [authId: \"alice-user-id\"])\n    public static def Bob = persona(\"Bob\", [authId: \"bob-user-id\"])\n}",
+        "title" : "Alice and Bob",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Authorization test using persona concept looks like this",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.headers\n\nimport static personas.Personas.*\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"my bank balance\") {\n    Alice {\n        http.get(\"/statement\") {\n            balance.shouldBe > 100\n        }\n    }\n\n    Bob {\n        http.get(\"/statement\") {\n            balance.shouldBe < 50\n        }\n    }\n}",
+        "title" : "persona http call",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To make this example work, let's update implicit header provider above to take into account persona context",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass PersonaAuth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateTokenBasedOnPersona()\n        return original.merge([Authorization: \"Bearer $token\"])\n    }\n\n    static String generateTokenBasedOnPersona() {\n        if (currentPersona.isDefault()) { // check if we are inside persona context or outside\n            return generateDefaultToken()\n        }\n\n        return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token\n    }\n\n    static String generateTokenForSystemUserId(String systemUserId) {\n        return \"dummy:$systemUserId\" // this is where you generate specific user auth token\n    }\n\n    static String generateDefaultToken() {\n        return \"dummy:default-user\" // this is where you generate default user auth token\n    }\n}",
+        "title" : "scenarios/rest/headers/auth/PersonaAuth.groovy",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1624834582458,
+    "tocItem" : {
+      "sectionTitle" : "Persona",
+      "pageTitle" : "HTTP Persona",
+      "pageMeta" : { },
+      "dirName" : "persona",
+      "fileName" : "HTTP-persona",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Authorization",
+        "id" : "authorization"
+      }, {
+        "title" : "Persona Authorization",
+        "id" : "persona-authorization"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

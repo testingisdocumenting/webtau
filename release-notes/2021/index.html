@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>1.43 (Future Release)</h1></header>
-<p>Doc: combined &quot;files upload&quot; and &quot;PDF&quot; section under HTTP/files files. Edited text.</p>
+<p>Doc: Add persona/HTTP-persona Persona HTTP authorization example Doc: Add persona/introduction Persona documentation Doc: combined &quot;files upload&quot; and &quot;PDF&quot; section under HTTP/files files. Edited text. Fix: cli/foreground-command#run cli.run now captures output in case of timeout</p>
 </article>
 
 <article>
 <header><h1>1.42</h1></header>
-<p>HTTP/proxy http proxy via config stop all servers is a separate logged step REPL beforeAll , afterAll commands to trigger setup and teardown on demand cli.run local cli/foreground-command#timeout timeout override step accepts map as params for additional reporting utilities/file-system#file-content replace text content by regexp capture open api warnings in web report db data source creation is a reported step web report support for step key-value input disambiguate element.should contain for browser assertions web report section with env vars Add browser browser/element-actions#scrolling scroll actions Fix: cli/introduction cli.run quoted params handling</p>
+<p>HTTP/proxy http proxy via config stop all servers is a separate logged step REPL beforeAll , afterAll commands to trigger setup and teardown on demand cli.run local cli/foreground-command#timeout timeout override step accepts map as params for additional reporting utilities/file-system#file-content replace text content by regexp capture open api warnings in web report db data source creation is a reported step web report support for step key-value input add PageElement.all() to disambiguate element.should contain for browser assertions web report section with env vars Add browser browser/element-actions#scrolling scroll actions Fix: cli/introduction cli.run quoted params handling</p>
 </article>
 
 <article>
@@ -144,6 +144,56 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "text" : "Doc: Add ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/persona/HTTP-persona",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Persona HTTP",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " authorization example",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: Add ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/persona/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Persona",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " documentation",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
               "text" : "Doc: combined \"files upload\" and \"PDF\" section under ",
               "type" : "SimpleText"
             }, {
@@ -156,6 +206,31 @@ ReactDOM.render(React.createElement(Documentation, {
               } ]
             }, {
               "text" : ". Edited text.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/foreground-command#run",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.run",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " now captures output in case of timeout",
               "type" : "SimpleText"
             } ]
           } ]
@@ -348,7 +423,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "disambiguate element.should contain for browser assertions",
+              "text" : "add PageElement.all() to disambiguate element.should contain for browser assertions",
               "type" : "SimpleText"
             } ]
           } ]
@@ -458,7 +533,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1624490057665,
+    "lastModifiedTime" : 1624834582458,
     "tocItem" : {
       "sectionTitle" : "Release Notes",
       "pageTitle" : "2021 Releases",

@@ -191,8 +191,8 @@ toc = [ {
       "title" : "Standard Header",
       "id" : "standard-header"
     }, {
-      "title" : "Common Header",
-      "id" : "common-header"
+      "title" : "Implicit Header",
+      "id" : "implicit-header"
     }, {
       "title" : "Explicit Header",
       "id" : "explicit-header"
@@ -753,6 +753,41 @@ toc = [ {
     }, {
       "title" : "State",
       "id" : "state"
+    } ]
+  } ]
+}, {
+  "sectionTitle" : "Persona",
+  "dirName" : "persona",
+  "items" : [ {
+    "sectionTitle" : "Persona",
+    "pageTitle" : "Introduction",
+    "pageMeta" : { },
+    "dirName" : "persona",
+    "fileName" : "introduction",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Persona Context",
+      "id" : "persona-context"
+    }, {
+      "title" : "Context Definition",
+      "id" : "context-definition"
+    }, {
+      "title" : "Report",
+      "id" : "report"
+    } ]
+  }, {
+    "sectionTitle" : "Persona",
+    "pageTitle" : "HTTP Persona",
+    "pageMeta" : { },
+    "dirName" : "persona",
+    "fileName" : "HTTP-persona",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Authorization",
+      "id" : "authorization"
+    }, {
+      "title" : "Persona Authorization",
+      "id" : "persona-authorization"
     } ]
   } ]
 }, {

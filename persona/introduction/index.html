@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Introduction</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Persona Context</h1></header>
+<p>Webtau persona defines a user of your system with a context associated with that user. Example of context: authentication credentials, browser, custom config parameters. Alice { step(&quot;do something in context of Alice&quot;) { customAction() } } Bob { step(&quot;do same thing in context of Bob&quot;) { customAction() } } } def customAction() { def id = Persona.currentPersona.id def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override step(&quot;custom action&quot;, [authId: authId, email: email]) { println &quot;authenticating $id&quot; } Alice and Bob execute the same action. Within the action we can access who is the current persona and what is the payload of the persona. def customAction() { def id = Persona.currentPersona.id def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override step(&quot;custom action&quot;, [authId: authId, email: email]) { println &quot;authenticating $id&quot; } }</p>
+</article>
+
+<article>
+<header><h1>Context Definition</h1></header>
+<p>Persona is defined with persona . Persona can be created in place or in centralized place package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Per persona config section let you define or override any config value, including timeouts, browser preferences, etc email = &quot;default@email.send&quot; personas { Alice { email = &quot;alice@email.send&quot; } Bob { email = &quot;bob@email.send&quot; } } Snippet from above example to show how to access config values and payload def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override</p>
+</article>
+
+<article>
+<header><h1>Report</h1></header>
+<p>Report captures what step was performed by what persona</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Persona Context",
+      "id" : "persona-context",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Webtau ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "persona",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " defines a user of your system with a context associated with that user.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Example of context: authentication credentials, browser, custom config parameters.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "    Alice {\n       step(\"do something in context of Alice\") {\n           customAction()\n       }\n    }\n\n    Bob {\n        step(\"do same thing in context of Bob\") {\n            customAction()\n        }\n    }\n}\n\ndef customAction() {\n    def id = Persona.currentPersona.id\n    def authId = Persona.currentPersona.payload.authId // from persona payload\n    def email = cfg.email // from persona associated config override\n    step(\"custom action\", [authId: authId, email: email]) {\n        println \"authenticating $id\"\n    }",
+        "title" : "context example",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Alice and Bob execute the same action. Within the action we can access who",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "is the current persona and what is the ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "payload",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " of the persona.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def customAction() {\n    def id = Persona.currentPersona.id\n    def authId = Persona.currentPersona.payload.authId // from persona payload\n    def email = cfg.email // from persona associated config override\n    step(\"custom action\", [authId: authId, email: email]) {\n        println \"authenticating $id\"\n    }\n}",
+        "title" : "same action performed by two personas",
+        "entry" : "customAction",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Context Definition",
+      "id" : "context-definition",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Persona is defined with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "persona",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Persona can be created in place or in centralized place",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "package personas\n\nimport static org.testingisdocumenting.webtau.WebTauCore.persona\n\nclass Personas {\n    public static def Alice = persona(\"Alice\", [authId: \"alice-user-id\"])\n    public static def Bob = persona(\"Bob\", [authId: \"bob-user-id\"])\n}",
+        "title" : "centralized persona definition with payload",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Per persona config section let you define or override any config value, including",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "timeouts, browser preferences, etc",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "email = \"default@email.send\"\n\npersonas {\n    Alice {\n        email = \"alice@email.send\"\n    }\n\n    Bob {\n        email = \"bob@email.send\"\n    }\n}",
+        "title" : "persona specific config",
+        "startLine" : "personas-cfg",
+        "endLine" : "personas-cfg",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Snippet from above example to show how to access config values and payload",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def authId = Persona.currentPersona.payload.authId // from persona payload\ndef email = cfg.email // from persona associated config override",
+        "title" : "access payload and config example",
+        "entry" : "customAction",
+        "commentsType" : "inline",
+        "includeRegexp" : [ "def authId", "def email" ],
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Report",
+      "id" : "report",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Report captures what step was performed by what persona",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/persona-concept-steps.png",
+        "timestamp" : 1624835231437,
+        "shapes" : [ ],
+        "width" : 1200.0,
+        "height" : 804.0,
+        "type" : "AnnotatedImage"
+      } ]
+    } ],
+    "lastModifiedTime" : 1624834582458,
+    "tocItem" : {
+      "sectionTitle" : "Persona",
+      "pageTitle" : "Introduction",
+      "pageMeta" : { },
+      "dirName" : "persona",
+      "fileName" : "introduction",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Persona Context",
+        "id" : "persona-context"
+      }, {
+        "title" : "Context Definition",
+        "id" : "context-definition"
+      }, {
+        "title" : "Report",
+        "id" : "report"
+      } ]
+    }
+  },
+  "footer" : {
+    "type" : "Footer",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://github.com/testingisdocumenting/webtau/issues",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "GitHub Issue",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Contributions are welcome",
+        "type" : "SimpleText"
+      } ]
+    } ]
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>
