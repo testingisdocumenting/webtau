@@ -74,6 +74,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "persona get"() {
+        runCli('headers/personaGet.groovy', 'headers/webtau.persona.cfg.groovy', "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "schema validation"() {
         runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }

@@ -11,7 +11,7 @@ Given a html snippet
 
 Page object can be defined as 
 
-:include-file: examples/pages/FormPage.groovy {title: "Form page object"}
+:include-file: pages/FormPage.groovy {title: "Form page object"}
 
 # Default Input
 
