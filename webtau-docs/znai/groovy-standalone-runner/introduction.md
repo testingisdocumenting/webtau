@@ -17,7 +17,7 @@ Navigate into `todo` example
 
 :include-cli-command: cd examples/todo
 
-:include-file: todo/todolist.groovy {title: "todolist.groovy"}
+:include-file: examples/todo/todolist.groovy {title: "todolist.groovy"}
 
 To run test
 
