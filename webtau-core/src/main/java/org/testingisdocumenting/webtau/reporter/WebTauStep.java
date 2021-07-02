@@ -203,6 +203,10 @@ public class WebTauStep {
         this.outputSupplier = outputSupplier;
     }
 
+    public void setOutput(WebTauStepOutput output) {
+        this.output = output;
+    }
+
     public WebTauStepOutput getOutput() {
         return output;
     }

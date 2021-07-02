@@ -333,6 +333,11 @@ class WebTauBrowserFeaturesTestBase {
         runCli('agGridMultiSelect.groovy', 'webtau.cfg.groovy')
     }
 
+    @Test
+    void "screenshot of currently failed page"() {
+        runCli('failedAssertion.groovy', 'webtau.cfg.groovy')
+    }
+
     private void runCli(String uiTestName, String configFileName) {
         runCliWithArgs(uiTestName, configFileName, "--url=${testRunner.testServer.uri}",
                 "--browserId=" + browser)
