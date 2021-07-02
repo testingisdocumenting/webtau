@@ -77,6 +77,8 @@ import org.testingisdocumenting.webtau.utils.UrlUtils;
 import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 
 public class Http {
+    protected static final String GET_METHOD = "GET";
+
     private static final HttpResponseValidatorWithReturn EMPTY_RESPONSE_VALIDATOR = (header, body) -> null;
 
     public static final Http http = new Http();
@@ -87,6 +89,10 @@ public class Http {
 
     public HttpApplicationMime application = new HttpApplicationMime();
     public HttpTextMime text = new HttpTextMime();
+
+    public HttpResource resource(String url) {
+        return new HttpResource(url);
+    }
 
     public boolean ping(String url) {
         return ping(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY);
@@ -129,7 +135,7 @@ public class Http {
     }
 
     public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
-        return executeAndValidateHttpCall("GET", queryParams.attachToUrl(url),
+        return executeAndValidateHttpCall(GET_METHOD, queryParams.attachToUrl(url),
                 this::getToFullUrl,
                 header, null, validator);
     }
@@ -868,7 +874,7 @@ public class Http {
     }
 
     public HttpResponse getToFullUrl(String fullUrl, HttpHeader requestHeader) {
-        return request("GET", fullUrl, requestHeader, EmptyRequestBody.INSTANCE);
+        return request(GET_METHOD, fullUrl, requestHeader, EmptyRequestBody.INSTANCE);
     }
 
     public HttpResponse deleteToFullUrl(String fullUrl, HttpHeader requestHeader) {
@@ -893,15 +899,8 @@ public class Http {
                                              HttpHeader requestHeader,
                                              HttpRequestBody requestBody,
                                              HttpResponseValidatorWithReturn validator) {
-        String fullUrl = HttpConfigurations.fullUrl(url);
-        HttpHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
-
-        HttpValidationResult validationResult = new HttpValidationResult(Persona.getCurrentPersona().getId(),
-                requestMethod, url, fullUrl, fullHeader, requestBody);
-
+        HttpValidationResult validationResult = createValidationResult(requestMethod, url, requestHeader, requestBody);
         WebTauStep step = createHttpStep(validationResult, httpCall, validator);
-        step.setInput(new HttpStepInput(validationResult));
-        step.setOutputSupplier(() -> validationResult);
 
         try {
             return step.execute(StepReportOptions.REPORT_ALL);
@@ -910,7 +909,15 @@ public class Http {
         }
     }
 
-    private <R> WebTauStep createHttpStep(HttpValidationResult validationResult,
+    protected HttpValidationResult createValidationResult(String requestMethod, String url, HttpHeader requestHeader, HttpRequestBody requestBody) {
+        String fullUrl = HttpConfigurations.fullUrl(url);
+        HttpHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
+
+        return new HttpValidationResult(Persona.getCurrentPersona().getId(),
+                requestMethod, url, fullUrl, fullHeader, requestBody);
+    }
+
+    protected <R> WebTauStep createHttpStep(HttpValidationResult validationResult,
                                           HttpCall httpCall,
                                           HttpResponseValidatorWithReturn validator) {
         Supplier<Object> httpCallSupplier = () -> {
@@ -963,10 +970,15 @@ public class Http {
             }
         };
 
-        return WebTauStep.createStep(
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 httpCallSupplier);
+
+        step.setInput(new HttpStepInput(validationResult));
+        step.setOutputSupplier(() -> validationResult);
+
+        return step;
     }
 
     private HttpResponse followRedirects(String requestMethod, HttpCall httpCall, HttpHeader fullRequestHeader, HttpResponse response) {
@@ -1104,7 +1116,7 @@ public class Http {
             case "DELETE":
             case "PATCH":
                 return validationResult.hasResponseContent() ? 200 : 204;
-            case "GET":
+            case GET_METHOD:
             default:
                 return 200;
         }
@@ -1240,7 +1252,7 @@ public class Http {
         return v;
     }
 
-    private interface HttpCall {
+    protected interface HttpCall {
         HttpResponse execute(String fullUrl, HttpHeader fullHeader);
     }
 
