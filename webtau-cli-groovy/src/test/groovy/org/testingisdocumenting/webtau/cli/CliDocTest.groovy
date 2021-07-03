@@ -65,7 +65,7 @@ class CliDocTest {
             CliBackgroundCommand running = command.runInBackground("test-param")
 
             running.getOutput().waitTo contain("more text")
-            running.getError().waitTo contain("error line on")
+            running.getError().waitTo contain("error line two")
 
             def artifactName = "background-hello-script"
             cli.doc.capture(artifactName)
@@ -78,7 +78,7 @@ class CliDocTest {
                     "error line two")
 
             validateCapturedDocs(artifactName, "out.matched.txt", "more text")
-            validateCapturedDocs(artifactName, "err.matched.txt", "error line one")
+            validateCapturedDocs(artifactName, "err.matched.txt", "error line two")
         }
     }
 
