@@ -44,6 +44,8 @@ class Report {
     def stdCliOutput = $(".cli-output.standard")
     def errCliOutput = $(".cli-output.error")
 
+    def screenshot = $(".image img")
+
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
     }
@@ -64,6 +66,10 @@ class Report {
 
     def selectCliCalls() {
         selectTab('CLI calls')
+    }
+
+    def selectScreenshot() {
+        selectTab('Screenshot')
     }
 
     def selectSteps() {
