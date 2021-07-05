@@ -33,13 +33,19 @@ scenario("command implicit exit code check explicitly") {
 }
 
 scenario("command run result") {
-    def result = cli.run('echo hello world')
+    def result = cli.run('scripts/my-script') {
+        exitCode.shouldNot == 0
+    }
 
     println result.output
     println result.error
     if (result.exitCode == 1) {
         // ...
     }
+
+    result.output.should == 'my script' // hide-docs
+    result.error.should == 'error-output' // hide-docs
+    result.exitCode.should == 2 // hide-docs
 }
 
 scenario("run result extract by regexp from output") {

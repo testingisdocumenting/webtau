@@ -44,7 +44,8 @@ Example above is equivalent to
 Use the result of `cli.run` if you need to process the output of the command.
 
 :include-file: doc-artifacts/snippets/foreground-cli/runResult.groovy {
-  title: "using run result"
+  title: "using run result",
+  excludeRegexp: "hide-docs"
 }
 
 Warning: Perform validation inside validation block so webtau can track what was checked.
