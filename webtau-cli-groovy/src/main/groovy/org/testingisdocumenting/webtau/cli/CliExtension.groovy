@@ -20,28 +20,28 @@ package org.testingisdocumenting.webtau.cli
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler
 
 class CliExtension {
-    static void run(Cli cli, String command, Closure handler) {
-        cli.run(command, closureToCliValidationHandler(handler))
+    static CliRunResult run(Cli cli, String command, Closure handler) {
+        return cli.run(command, closureToCliValidationHandler(handler))
     }
 
-    static void run(Cli cli, String command, CliProcessConfig config, Closure handler) {
-        cli.run(command, config, closureToCliValidationHandler(handler))
+    static CliRunResult run(Cli cli, String command, CliProcessConfig config, Closure handler) {
+        return cli.run(command, config, closureToCliValidationHandler(handler))
     }
 
-    static void run(CliCommand command, Closure handler) {
-        command.run(closureToCliValidationHandler(handler))
+    static CliRunResult run(CliCommand command, Closure handler) {
+        return command.run(closureToCliValidationHandler(handler))
     }
 
-    static void run(CliCommand command, String args, Closure handler) {
-        command.run(args, closureToCliValidationHandler(handler))
+    static CliRunResult run(CliCommand command, String args, Closure handler) {
+        return command.run(args, closureToCliValidationHandler(handler))
     }
 
-    static void run(CliCommand command, String args, CliProcessConfig config, Closure handler) {
-        command.run(args, config, closureToCliValidationHandler(handler))
+    static CliRunResult run(CliCommand command, String args, CliProcessConfig config, Closure handler) {
+        return command.run(args, config, closureToCliValidationHandler(handler))
     }
 
-    static void leftShift(CliBackgroundCommand backgroundCommand, String input) {
-        backgroundCommand.send(input)
+    static CliRunResult leftShift(CliBackgroundCommand backgroundCommand, String input) {
+        return backgroundCommand.send(input)
     }
 
     private static CliValidationExitCodeOutputHandler closureToCliValidationHandler(Closure validation) {

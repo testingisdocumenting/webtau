@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "my script"
+>&2 echo error-output
+exit 2
