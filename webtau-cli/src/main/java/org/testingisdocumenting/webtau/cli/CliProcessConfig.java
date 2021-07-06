@@ -18,11 +18,14 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 class CliProcessConfig {
@@ -82,6 +85,25 @@ class CliProcessConfig {
 
     public boolean isTimeoutSpecified() {
         return timeoutSpecified;
+    }
+
+    WebTauStepInput createStepInput() {
+        Map<String, Object> input = new LinkedHashMap<>();
+
+        if (workingDir != null) {
+            input.put("working dir", workingDir.toString());
+        }
+
+        if (timeoutSpecified) {
+            input.put("local timeout", timeoutMs);
+        }
+
+        if (env != null) {
+            env.forEach((k, v) -> input.put("$" + k, v));
+        }
+
+
+        return WebTauStepInputKeyValue.stepInput(input);
     }
 
     void applyTo(ProcessBuilder processBuilder) {

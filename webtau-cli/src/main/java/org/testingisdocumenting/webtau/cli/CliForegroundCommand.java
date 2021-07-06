@@ -59,6 +59,7 @@ public class CliForegroundCommand {
                 () -> runAndValidate(validationResult, command, config, validationCode));
 
         try {
+            step.setInput(config.createStepInput());
             step.setOutputSupplier(() -> validationResult);
             step.execute(StepReportOptions.REPORT_ALL);
             return new CliRunResult(command,
