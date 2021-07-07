@@ -47,7 +47,7 @@ export interface WebTauStepInput {
   data: any;
 }
 
-export type WebTauStepInputKeyValue = { [key: string]: string };
+export type WebTauStepInputKeyValue = { [key: string]: object };
 
 export interface HttpCall {
   warnings?: string[];

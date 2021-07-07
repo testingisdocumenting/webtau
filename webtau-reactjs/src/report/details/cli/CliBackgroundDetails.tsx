@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,24 @@
 
 import React from 'react';
 
-import { WebTauStepInputKeyValue } from '../../WebTauTest';
+import CliOutputCard from './CliOutputCard';
+
+import './CliCallDetails.css';
+import { CliBackgroundCall } from './CliForegroundCall';
 import { KeyValueGrid } from '../../widgets/KeyValueGrid';
 
 interface Props {
-  data: WebTauStepInputKeyValue;
+  cliBackground: CliBackgroundCall;
 }
-
-export function StepInputKeyValue({ data }: Props) {
-  return <KeyValueGrid data={data} />;
+export default function CliBackgroundDetails({ cliBackground }: Props) {
+  return (
+    <tr className="cli-command-details">
+      <td />
+      <td colSpan={2}>
+        <KeyValueGrid data={cliBackground.config} />
+        <CliOutputCard classifier="standard" output={cliBackground.out} matchedLines={[]} />
+        <CliOutputCard classifier="error" output={cliBackground.err} matchedLines={[]} />
+      </td>
+    </tr>
+  );
 }
