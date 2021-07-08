@@ -23,7 +23,9 @@ import java.util.Collections;
 import java.util.Map;
 
 public interface WebtauServerOverride {
-    boolean matchesUri(String uri);
+    boolean matchesUri(String method, String uri);
+
+    String overrideId();
 
     byte[] responseBody(HttpServletRequest request) throws IOException, ServletException;
     String responseType(HttpServletRequest request);

@@ -33,7 +33,7 @@ public interface WebtauServer {
 
     void markBroken();
 
-    void addOverride(String overrideId, WebtauServerOverride override);
+    void addOverride(WebtauServerOverride override);
     void removeOverride(String overrideId);
 
     default void setAsBaseUrl() {

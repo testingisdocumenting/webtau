@@ -44,7 +44,10 @@ public class WebtauProxyServlet extends ProxyServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Optional<WebtauServerOverride> override = WebtauServerOverrides.findOverride(serverId, request.getRequestURI());
+        Optional<WebtauServerOverride> override = WebtauServerOverrides.findOverride(serverId,
+                request.getMethod(),
+                request.getRequestURI());
+
         if (override.isPresent()) {
             // TODO full response set including headers
             // right now it is just for timeout

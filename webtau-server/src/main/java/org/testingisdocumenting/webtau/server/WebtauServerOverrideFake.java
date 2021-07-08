@@ -20,41 +20,37 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-class WebtauServerOverrideNoResponse implements WebtauServerOverride {
-    static final String OVERRIDE_ID = "unresponsive";
-    private final String serverId;
-    private final Object sleepLock;
+public class WebtauServerOverrideFake implements WebtauServerOverride {
+    private final String method;
+    private final String uri;
+    private final String responseType;
+    private final String response;
 
-    WebtauServerOverrideNoResponse(String serverId) {
-        this.serverId = serverId;
-        this.sleepLock = ServerResponseWaitLocks.grabTimerLockByServerId(serverId);
+    public WebtauServerOverrideFake(String method, String uri, String responseType, String response) {
+        this.method = method.toUpperCase();
+        this.uri = uri;
+        this.responseType = responseType;
+        this.response = response;
     }
 
     @Override
     public boolean matchesUri(String method, String uri) {
-        return true;
+        return this.method.equals(method.toUpperCase()) &&
+                this.uri.equals(uri);
     }
 
     @Override
     public String overrideId() {
-        return OVERRIDE_ID;
+        return method + "-" + uri;
     }
 
     @Override
     public byte[] responseBody(HttpServletRequest request) throws IOException, ServletException {
-        try {
-            synchronized (sleepLock) {
-                sleepLock.wait();
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        return new byte[0];
+        return response == null ? null : response.getBytes();
     }
 
     @Override
     public String responseType(HttpServletRequest request) {
-        return "NA";
+        return responseType;
     }
 }
