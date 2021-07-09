@@ -49,4 +49,8 @@ public class WebtauFakeRestServer extends WebtauJettyServer {
     public void addOverride(WebtauServerOverride override) {
         WebtauServerOverrides.addOverride(serverId, override);
     }
+
+    public void route(String urlWithParams) {
+
+    }
 }
