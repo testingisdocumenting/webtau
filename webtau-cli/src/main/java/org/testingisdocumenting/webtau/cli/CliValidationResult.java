@@ -126,7 +126,9 @@ public class CliValidationResult implements WebTauStepOutput {
         result.put("elapsedTime", elapsedTime);
         result.put("mismatches", mismatches);
         result.put("errorMessage", errorMessage);
-        result.put("config", config.createStepInput().toMap());
+        result.put("config", config != null ?
+                config.createStepInput().toMap():
+                Collections.emptyMap());
 
         return result;
     }
