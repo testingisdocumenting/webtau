@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.server;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.HandlerWrapper;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -23,12 +24,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import java.util.Collections;
 import java.util.Map;
 
-public class ProxyServer extends JettyServer {
-    private static final String UNRESPONSIVE_OVERRIDE_ID = "unresponsive";
-
+public class WebtauProxyServer extends WebtauJettyServer {
     private final String urlToProxy;
 
-    public ProxyServer(String id, String urlToProxy, int passedPort) {
+    public WebtauProxyServer(String id, String urlToProxy, int passedPort) {
         super(id, passedPort);
         this.urlToProxy = urlToProxy;
     }
@@ -40,12 +39,12 @@ public class ProxyServer extends JettyServer {
 
     @Override
     public void markUnresponsive() {
-        WebtauServerOverrides.addOverride(serverId, UNRESPONSIVE_OVERRIDE_ID, new WebtauServerOverrideNoResponse(serverId));
+        WebtauServerOverrides.addOverride(serverId, new WebtauServerOverrideNoResponse(serverId));
     }
 
     @Override
     public void markResponsive() {
-        WebtauServerOverrides.removeOverride(serverId, UNRESPONSIVE_OVERRIDE_ID);
+        WebtauServerOverrides.removeOverride(serverId, WebtauServerOverrideNoResponse.OVERRIDE_ID);
         ServerResponseWaitLocks.releaseLock(serverId);
     }
 
@@ -59,7 +58,7 @@ public class ProxyServer extends JettyServer {
     }
 
     @Override
-    protected HandlerWrapper createJettyHandler() {
+    protected Handler createJettyHandler() {
         ServletHandler handler = new ServletHandler();
         ServletHolder servletHolder = handler.addServletWithMapping(WebtauProxyServlet.class, "/*");
         servletHolder.setInitParameter("urlToProxy", urlToProxy);

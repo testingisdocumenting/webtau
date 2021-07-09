@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.server;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerWrapper;
@@ -32,13 +33,17 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*
 import static org.testingisdocumenting.webtau.reporter.WebTauStepOutputKeyValue.*;
 import static org.testingisdocumenting.webtau.server.WebtauServersRegistry.*;
 
-abstract public class JettyServer implements WebtauServer {
+/**
+ * base for defining jetty based servers
+ * handles start/stop and report steps
+ */
+abstract public class WebtauJettyServer implements WebtauServer {
     protected final String serverId;
     protected final int passedPort;
     protected Server server;
     protected boolean started;
 
-    public JettyServer(String id, int passedPort) {
+    public WebtauJettyServer(String id, int passedPort) {
         this.serverId = id;
         this.passedPort = passedPort;
     }
@@ -107,19 +112,19 @@ abstract public class JettyServer implements WebtauServer {
     }
 
     @Override
-    public void addOverride(String overrideId, WebtauServerOverride override) {
+    public void addOverride(WebtauServerOverride override) {
         throw new UnsupportedOperationException("addOverride is not implemented for type: " + getType());
     }
 
     @Override
     public void removeOverride(String overrideId) {
-        throw new UnsupportedOperationException("removeOverride is not implemented for type: " + getType());
+        WebtauServerOverrides.removeOverride(serverId, overrideId);
     }
 
     abstract protected Map<String, Object> provideStepInput();
     abstract protected void validateParams();
 
-    abstract protected HandlerWrapper createJettyHandler();
+    abstract protected Handler createJettyHandler();
 
     private void startStep() {
         validateId(serverId);

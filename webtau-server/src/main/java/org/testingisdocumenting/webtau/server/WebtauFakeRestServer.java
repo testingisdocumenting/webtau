@@ -16,45 +16,37 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.eclipse.jetty.server.handler.HandlerWrapper;
-import org.eclipse.jetty.server.handler.ResourceHandler;
-import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.server.Handler;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Map;
 
-class StaticContentServer extends JettyServer {
-    private final Path path;
-
-    public StaticContentServer(String id, Path path, int port) {
-        super(id, port);
-        this.path = path;
+public class WebtauFakeRestServer extends WebtauJettyServer {
+    public WebtauFakeRestServer(String id, int passedPort) {
+        super(id, passedPort);
     }
 
     @Override
     protected Map<String, Object> provideStepInput() {
-        return Collections.singletonMap("path", path);
+        return Collections.emptyMap();
     }
 
     @Override
     protected void validateParams() {
-        if (!Files.exists(path)) {
-            throw new IllegalArgumentException("can't find path: " + path);
-        }
     }
 
     @Override
-    protected HandlerWrapper createJettyHandler() {
-        ResourceHandler handler = new ResourceHandler();
-        handler.setBaseResource(Resource.newResource(path));
-
-        return handler;
+    protected Handler createJettyHandler() {
+        return new WebtauServerFakeJettyHandler(serverId);
     }
 
     @Override
     public String getType() {
-        return "static server";
+        return "fake-rest";
+    }
+
+    @Override
+    public void addOverride(WebtauServerOverride override) {
+        WebtauServerOverrides.addOverride(serverId, override);
     }
 }

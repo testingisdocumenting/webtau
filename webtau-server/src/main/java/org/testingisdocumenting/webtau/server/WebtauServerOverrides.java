@@ -23,18 +23,18 @@ import java.util.concurrent.ConcurrentHashMap;
 class WebtauServerOverrides {
     private static final Map<String, WebtauServerOverride> overrides = new ConcurrentHashMap<>();
 
-    static void addOverride(String serverId, String overrideId, WebtauServerOverride override) {
-        overrides.put(makeId(serverId, overrideId), override);
+    static void addOverride(String serverId, WebtauServerOverride override) {
+        overrides.put(makeId(serverId, override.overrideId()), override);
     }
 
     static void removeOverride(String serverId, String overrideId) {
         overrides.remove(makeId(serverId, overrideId));
     }
 
-    static Optional<WebtauServerOverride> findOverride(String serverId, String uri) {
+    static Optional<WebtauServerOverride> findOverride(String serverId, String method, String uri) {
         return overrides.entrySet().stream()
                 .filter(e -> e.getKey().startsWith(serverId + "."))
-                .filter(e -> e.getValue().matchesUri(uri))
+                .filter(e -> e.getValue().matchesUri(method, uri))
                 .map(Map.Entry::getValue)
                 .findFirst();
     }

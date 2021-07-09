@@ -40,14 +40,14 @@ public class WebtauServerFacade {
     }
 
     public WebtauServer serve(String serverId, Path path, int port) {
-        StaticContentServer server = new StaticContentServer(serverId, WebTauConfig.getCfg().fullPath(path), port);
+        WebtauStaticServer server = new WebtauStaticServer(serverId, WebTauConfig.getCfg().fullPath(path), port);
         server.start();
 
         return server;
     }
 
     public WebtauServer proxy(String serverId, String urlToProxy, int port) {
-        ProxyServer server = new ProxyServer(serverId, urlToProxy, port);
+        WebtauProxyServer server = new WebtauProxyServer(serverId, urlToProxy, port);
         server.start();
 
         return server;
