@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-.webtau-step-input-key-value {
+.webtau-key-value-grid {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 2px 8px;
@@ -22,15 +22,15 @@
     margin-left: 8px;
 }
 
-.webtau-step-input-key {
+.webtau-key-value-grid-key {
     text-align: right;
     color: var(--webtau-property-key-color);
 }
 
-.webtau-step-input-value.webtau-value-string {
+.webtau-key-value-grid-value {
     color: var(--webtau-property-value-string-color);
 }
 
-.webtau-step-input-value.webtau-value-number {
-    color: var(--webtau-property-value-number-color);
+.webtau-key-value-grid-value.number {
+    color: var(--webtau-property-value-number-color)
 }

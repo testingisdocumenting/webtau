@@ -80,6 +80,8 @@ public class CliForegroundCommand {
             ProcessRunResult runResult = ProcessUtils.run(command, config);
             long endTime = System.currentTimeMillis();
 
+            validationResult.setConfig(config);
+
             if (!runResult.isTimeOut()) {
                 validationResult.setExitCode(exitCode(runResult.getExitCode()));
             }
