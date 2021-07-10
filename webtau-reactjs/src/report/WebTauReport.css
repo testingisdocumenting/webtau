@@ -44,9 +44,9 @@
     --webtau-match-color: rgba(57, 215, 40, 0.2);
     --webtau-table-row-problem-background-color: rgba(239, 94, 99, 0.08);
 
-    --webtau-property-key-color: #660e7a;
-    --webtau-property-value-string-color: #078744;
-    --webtau-property-value-number-color: #2822ad;
+    --webtau-property-key-color: #673871;
+    --webtau-property-value-string-color: #222;
+    --webtau-property-value-number-color: #5c57db;
 
     --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
 }

@@ -186,6 +186,7 @@ public class CliBackgroundCommand implements WebTauStepPayload {
         result.put("out", String.join("\n", getThreadLocalOutput()));
         result.put("err", String.join("\n", getThreadLocalError()));
         result.put("startTime", startTime);
+        result.put("config", processConfig.createStepInput().toMap());
 
         return result;
     }

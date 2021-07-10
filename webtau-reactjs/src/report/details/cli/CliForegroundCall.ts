@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-import React from 'react'
+export interface CliForegroundCall {
+  command: string;
+  elapsedTime: number;
+  err: string;
+  errMatches: string[];
+  errorMessage: string;
+  exitCode: number;
+  mismatches: string[];
+  out: string;
+  outMatches: string[];
+  startTime: number;
+  config: { [key: string]: object };
+}
 
-import CliOutputCard from "./CliOutputCard"
-
-import './CliCallDetails.css';
-
-export default function CliBackgroundDetails({cliBackground}) {
-    return (
-        <tr className="cli-command-details">
-            <td/>
-            <td colSpan={2}>
-                <CliOutputCard classifier="standard" output={cliBackground.out} matchedLines={[]}/>
-                <CliOutputCard classifier="error" output={cliBackground.err} matchedLines={[]}/>
-            </td>
-        </tr>
-    )
+export interface CliBackgroundCall {
+  command: string;
+  err: string;
+  out: string;
+  startTime: number;
+  config: { [key: string]: object };
 }

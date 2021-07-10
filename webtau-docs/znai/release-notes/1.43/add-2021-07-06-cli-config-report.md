@@ -1,0 +1,1 @@
+* Add config info to web report for [cli.run](cli/foreground-command#working-dir) and [cli.rinInBackground](cli/background-command#working-dir)
