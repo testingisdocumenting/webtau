@@ -21,11 +21,12 @@ import org.junit.Test;
 import java.util.Collections;
 
 import static org.testingisdocumenting.webtau.Matchers.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.http.Http.*;
 
 public class WebtauFakeRestServerTest {
     @Test
-    public void pathBasedResponse() {
+    public void fixedUrlBasedResponse() {
         WebtauFakeRestServer restServer = new WebtauFakeRestServer("my-crud", 0);
         restServer.addOverride(new WebtauServerOverrideFake(
                 "GET", "/customers", "application/json",
@@ -44,5 +45,94 @@ public class WebtauFakeRestServerTest {
         } finally {
             restServer.stop();
         }
+    }
+
+    @Test
+    public void pathParamsBasedResponse() {
+        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud", 0);
+        restServer.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
+        restServer.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
+        restServer.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+        restServer.deleteJson("/customer/{id}", (params) -> aMapOf("deleteId", params.get("id")));
+        restServer.patchJson("/customer/{id}", (params) -> aMapOf("patchId", params.get("id")));
+
+        restServer.start();
+
+        try {
+            http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
+                body.get("getId").should(equal("11"));
+            });
+
+            http.post(restServer.getBaseUrl() + "/customer/22", (header, body) -> {
+                body.get("postId").should(equal("22"));
+            });
+
+            http.put(restServer.getBaseUrl() + "/customer/33", (header, body) -> {
+                body.get("putId").should(equal("33"));
+            });
+
+            http.delete(restServer.getBaseUrl() + "/customer/44", (header, body) -> {
+                body.get("deleteId").should(equal("44"));
+            });
+
+            http.patch(restServer.getBaseUrl() + "/customer/55", (header, body) -> {
+                body.get("patchId").should(equal("55"));
+            });
+        } finally {
+            restServer.stop();
+        }
+    }
+
+    @Test
+    public void pathParamsBasedResponseWithStatusCode() {
+        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-status-code", 0);
+        restServer.getJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("getId", params.get("id")));
+        restServer.postJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("postId", params.get("id")));
+        restServer.putJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("putId", params.get("id")));
+        restServer.deleteJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("deleteId", params.get("id")));
+        restServer.patchJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("patchId", params.get("id")));
+
+        restServer.start();
+
+        try {
+            http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
+                header.statusCode().should(equal(203));
+                body.get("getId").should(equal("11"));
+            });
+
+            http.post(restServer.getBaseUrl() + "/customer/22", (header, body) -> {
+                header.statusCode().should(equal(203));
+                body.get("postId").should(equal("22"));
+            });
+
+            http.put(restServer.getBaseUrl() + "/customer/33", (header, body) -> {
+                header.statusCode().should(equal(203));
+                body.get("putId").should(equal("33"));
+            });
+
+            http.delete(restServer.getBaseUrl() + "/customer/44", (header, body) -> {
+                header.statusCode().should(equal(203));
+                body.get("deleteId").should(equal("44"));
+            });
+
+            http.patch(restServer.getBaseUrl() + "/customer/55", (header, body) -> {
+                header.statusCode().should(equal(203));
+                body.get("patchId").should(equal("55"));
+            });
+        } finally {
+            restServer.stop();
+        }
+    }
+
+    @Test
+    public void shouldPreventFromRegisteringSamePath() {
+        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-duplicate-check", 0);
+        restServer.getJson("/customer/{id}", (params) -> aMapOf("id", params.get("id")));
+
+        code(() ->
+            restServer.getJson("/customer/{id}", (params) -> aMapOf("id", params.get("id")))
+        ).should(throwException("already found an override for server: route-crud-duplicate-check with override id: GET-/customer/{id}, " +
+                "existing override: WebtauServerOverrideRouteFake{method='GET', route=/customer/{id}, " +
+                "responseType='application/json'}"));
     }
 }

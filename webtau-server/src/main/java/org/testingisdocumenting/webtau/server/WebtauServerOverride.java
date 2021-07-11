@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
+/**
+ * Server can register a response based on low-level servlet request.
+ */
 public interface WebtauServerOverride {
     boolean matchesUri(String method, String uri);
 
@@ -34,7 +37,7 @@ public interface WebtauServerOverride {
         return Collections.emptyMap();
     }
 
-    default int responseStatusCode() {
+    default int responseStatusCode(HttpServletRequest request) {
         return 200;
     }
 }

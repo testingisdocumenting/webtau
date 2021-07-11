@@ -24,7 +24,11 @@ class WebtauServerOverrides {
     private static final Map<String, WebtauServerOverride> overrides = new ConcurrentHashMap<>();
 
     static void addOverride(String serverId, WebtauServerOverride override) {
-        overrides.put(makeId(serverId, override.overrideId()), override);
+        WebtauServerOverride existing = overrides.put(makeId(serverId, override.overrideId()), override);
+        if (existing != null) {
+            throw new RuntimeException("already found an override for server: " + serverId +
+                    " with override id: " + override.overrideId() + ", existing override: " + existing);
+        }
     }
 
     static void removeOverride(String serverId, String overrideId) {
