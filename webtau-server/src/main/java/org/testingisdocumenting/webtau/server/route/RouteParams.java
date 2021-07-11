@@ -16,5 +16,21 @@
 
 package org.testingisdocumenting.webtau.server.route;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class RouteParams {
+    private final Map<String, String> values;
+
+    public RouteParams() {
+        values = new LinkedHashMap<>();
+    }
+
+    void add(String name, String value) {
+        values.put(name, value);
+    }
+
+    public String get(String name) {
+        return values.get(name);
+    }
 }

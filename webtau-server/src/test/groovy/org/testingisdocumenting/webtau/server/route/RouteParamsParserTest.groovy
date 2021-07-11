@@ -18,17 +18,33 @@ package org.testingisdocumenting.webtau.server.route
 
 import org.junit.Test
 
-import java.util.regex.Pattern
+import static org.testingisdocumenting.webtau.Matchers.code
+import static org.testingisdocumenting.webtau.Matchers.throwException
 
 class RouteParamsParserTest {
     @Test
     void "match by path definition"() {
-//        def parser = new RouteParamsParser("/my/^super-path/{id}/hello/{name}")
-//        parser.matches("/my/su-per.path/3433/hello/name")
+        def parser = new RouteParamsParser("/my/^super-path/{id}/hello/{name}")
+        def url = "/my/^super-path/3433/hello/bob"
 
-        def pattern = Pattern.compile("/my/super-path/(<id>\\{\\w+\\\n})/hello/(<name>\\{\\w+\\})")
-        def found = pattern.matcher("/my/super-path/{id}/hello/{name}").find()
-        println found
+        parser.matches(url).should == true
+        parser.groupNames.should == ["id", "name"]
 
+        def params = parser.parse(url)
+        params.get("id").should == "3433"
+        params.get("name").should == "bob"
+    }
+
+    @Test
+    void "does not match path"() {
+        def parser = new RouteParamsParser("/my/^super-path/{id}/hello/{name}")
+        def url = "/my/^super-path/3433/hello"
+
+        parser.matches(url).should == false
+        parser.groupNames.should == ["id", "name"]
+
+        code {
+            parser.parse(url)
+        } should throwException("url </my/^super-path/3433/hello> does not match pattern </my/\\^super\\-path/(?<id>\\w+)/hello/(?<name>\\w+)>")
     }
 }

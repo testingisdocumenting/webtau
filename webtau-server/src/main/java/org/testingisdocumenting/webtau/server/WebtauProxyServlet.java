@@ -38,7 +38,6 @@ public class WebtauProxyServlet extends ProxyServlet {
 
     @Override
     protected String rewriteTarget(HttpServletRequest clientRequest) {
-        System.out.println("rewrite target " + clientRequest.getRequestURI());
         return urlToProxy + clientRequest.getRequestURI();
     }
 

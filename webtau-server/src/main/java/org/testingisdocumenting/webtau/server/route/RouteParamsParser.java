@@ -16,40 +16,65 @@
 
 package org.testingisdocumenting.webtau.server.route;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RouteParamsParser {
+    private final Pattern CHARS_TO_ESCAPE = Pattern.compile("([<(\\[^\\-=\\\\$!|\\])?*+.>])");
+    private final Pattern NAMED_PARAM_REGEXP = Pattern.compile("\\{(\\w+)}");
+
     private final String pathDefinition;
     private final Pattern pathDefinitionRegexp;
+    private final Set<String> groupNames;
 
     public RouteParamsParser(String pathDefinition) {
         this.pathDefinition = pathDefinition;
+        this.groupNames = new LinkedHashSet<>();
         this.pathDefinitionRegexp = buildRegexp();
     }
 
     public boolean matches(String url) {
-        return false;
+        return pathDefinitionRegexp.matcher(url).find();
+    }
+
+    public String getPathDefinition() {
+        return pathDefinition;
     }
 
     public RouteParams parse(String url) {
-        return null;
+        Matcher matcher = pathDefinitionRegexp.matcher(url);
+        if (!matcher.find()) {
+            throw new RuntimeException("url <" + url + "> does not match pattern <" +
+                    pathDefinitionRegexp.pattern() + ">");
+        }
+
+        RouteParams params = new RouteParams();
+        groupNames.forEach(name -> params.add(name, matcher.group(name)));
+
+        return params;
+    }
+
+    public Set<String> getGroupNames() {
+        return groupNames;
     }
 
     private Pattern buildRegexp() {
-        Pattern pattern = Pattern.compile("/my/\\^super\\-path/(<id>w+)/hello/(<name>w+)");
+        String escaped = RegexpUtils.replaceAll(pathDefinition, CHARS_TO_ESCAPE, (m) -> {
+            String name = m.group(1);
+            return "\\\\" + name;
+        });
 
-        Pattern charsToEscape = Pattern.compile("([<(\\[^\\-=\\\\$!|\\])?*+.>])");
-        String escaped = RegexpUtils.replaceAll(pathDefinition, charsToEscape, (m) -> "\\\\" + m.group(1));
+        String pathRegexp = RegexpUtils.replaceAll(escaped, NAMED_PARAM_REGEXP, (m) -> {
+            String name = m.group(1);
+            groupNames.add(name);
 
-        String namedParamRegexp = "\\{(\\w+)}";
+            return "(?<" + name + ">\\\\w+)";
+        });
 
-        String pathRegexp = escaped.replaceAll(namedParamRegexp, "(<$1>\\w+)");
-//        return Pattern.compile(pathRegexp);
-
-        return null;
+        return Pattern.compile(pathRegexp);
     }
 }

@@ -17,9 +17,12 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.eclipse.jetty.server.Handler;
+import org.testingisdocumenting.webtau.server.route.RouteParams;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Function;
 
 public class WebtauFakeRestServer extends WebtauJettyServer {
     public WebtauFakeRestServer(String id, int passedPort) {
@@ -50,7 +53,49 @@ public class WebtauFakeRestServer extends WebtauJettyServer {
         WebtauServerOverrides.addOverride(serverId, override);
     }
 
-    public void route(String urlWithParams) {
+    public void getJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        registerJson("GET", urlWithParams, statusCodeFunc, responseFunc);
+    }
 
+    public void getJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        getJson(urlWithParams, (params) -> 200, responseFunc);
+    }
+
+    public void postJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        registerJson("POST", urlWithParams, statusCodeFunc, responseFunc);
+    }
+
+    public void postJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        postJson(urlWithParams, (params) -> 201, responseFunc);
+    }
+
+    public void putJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        registerJson("PUT", urlWithParams, statusCodeFunc, responseFunc);
+    }
+
+    public void putJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        putJson(urlWithParams, (params) -> 200, responseFunc);
+    }
+
+    public void deleteJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        registerJson("DELETE", urlWithParams, statusCodeFunc, responseFunc);
+    }
+
+    public void deleteJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        deleteJson(urlWithParams, (params) -> 200, responseFunc);
+    }
+
+    public void patchJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        registerJson("PATCH", urlWithParams, statusCodeFunc, responseFunc);
+    }
+
+    public void patchJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        patchJson(urlWithParams, (params) -> 200, responseFunc);
+    }
+
+    private void registerJson(String method, String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        addOverride(new WebtauServerOverrideRouteFake(method, urlWithParams, "application/json",
+                statusCodeFunc,
+                (params) -> JsonUtils.serialize(responseFunc.apply(params))));
     }
 }
