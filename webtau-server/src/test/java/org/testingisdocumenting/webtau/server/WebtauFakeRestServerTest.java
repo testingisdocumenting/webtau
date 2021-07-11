@@ -49,7 +49,7 @@ public class WebtauFakeRestServerTest {
 
     @Test
     public void pathParamsBasedResponse() {
-        WebtauFakeRestServer restServer = new WebtauFakeRestServer("my-crud", 0);
+        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud", 0);
         restServer.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
         restServer.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
         restServer.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
@@ -85,7 +85,7 @@ public class WebtauFakeRestServerTest {
 
     @Test
     public void pathParamsBasedResponseWithStatusCode() {
-        WebtauFakeRestServer restServer = new WebtauFakeRestServer("my-crud", 0);
+        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-status-code", 0);
         restServer.getJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("getId", params.get("id")));
         restServer.postJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("postId", params.get("id")));
         restServer.putJson("/customer/{id}", (params) -> 203, (params) -> aMapOf("putId", params.get("id")));
@@ -126,12 +126,12 @@ public class WebtauFakeRestServerTest {
 
     @Test
     public void shouldPreventFromRegisteringSamePath() {
-        WebtauFakeRestServer restServer = new WebtauFakeRestServer("my-crud", 0);
+        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-duplicate-check", 0);
         restServer.getJson("/customer/{id}", (params) -> aMapOf("id", params.get("id")));
 
         code(() ->
             restServer.getJson("/customer/{id}", (params) -> aMapOf("id", params.get("id")))
-        ).should(throwException("already found an override for server: my-crud with override id: GET-/customer/{id}, " +
+        ).should(throwException("already found an override for server: route-crud-duplicate-check with override id: GET-/customer/{id}, " +
                 "existing override: WebtauServerOverrideRouteFake{method='GET', route=/customer/{id}, " +
                 "responseType='application/json'}"));
     }
