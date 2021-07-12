@@ -27,14 +27,13 @@ import static org.testingisdocumenting.webtau.http.Http.*;
 public class WebtauFakeRestServerTest {
     @Test
     public void fixedUrlBasedResponse() {
-        WebtauFakeRestServer restServer = new WebtauFakeRestServer("my-crud", 0);
-        restServer.addOverride(new WebtauServerOverrideFake(
-                "GET", "/customers", "application/json",
-                "{\"customers\": []}"));
+        try (WebtauFakeRestServer restServer = new WebtauFakeRestServer("my-crud", 0)) {
+            restServer.addOverride(new WebtauServerOverrideFake(
+                    "GET", "/customers", "application/json",
+                    "{\"customers\": []}"));
 
-        restServer.start();
+            restServer.start();
 
-        try {
             http.get(restServer.getBaseUrl() + "/customers", (header, body) -> {
                 body.get("customers").should(equal(Collections.emptyList()));
             });
@@ -42,23 +41,20 @@ public class WebtauFakeRestServerTest {
             http.get(restServer.getBaseUrl() + "/abcd", (header, body) -> {
                 header.statusCode().should(equal(404));
             });
-        } finally {
-            restServer.stop();
         }
     }
 
     @Test
     public void pathParamsBasedResponse() {
-        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud", 0);
-        restServer.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
-        restServer.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
-        restServer.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
-        restServer.deleteJson("/customer/{id}", (params) -> aMapOf("deleteId", params.get("id")));
-        restServer.patchJson("/customer/{id}", (params) -> aMapOf("patchId", params.get("id")));
+        try (WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud", 0)) {
+            restServer.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
+            restServer.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
+            restServer.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+            restServer.deleteJson("/customer/{id}", (params) -> aMapOf("deleteId", params.get("id")));
+            restServer.patchJson("/customer/{id}", (params) -> aMapOf("patchId", params.get("id")));
 
-        restServer.start();
+            restServer.start();
 
-        try {
             http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
                 body.get("getId").should(equal("11"));
             });
@@ -78,8 +74,6 @@ public class WebtauFakeRestServerTest {
             http.patch(restServer.getBaseUrl() + "/customer/55", (header, body) -> {
                 body.get("patchId").should(equal("55"));
             });
-        } finally {
-            restServer.stop();
         }
     }
 
