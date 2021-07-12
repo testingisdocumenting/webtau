@@ -18,7 +18,7 @@ package org.testingisdocumenting.webtau.server;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 
-public interface WebtauServer {
+public interface WebtauServer extends AutoCloseable {
     String getId();
     String getType();
     int getPort();
@@ -38,5 +38,10 @@ public interface WebtauServer {
 
     default void setAsBaseUrl() {
         WebTauConfig.getCfg().setBaseUrl("server-" + getId(), getBaseUrl());
+    }
+
+    @Override
+    default void close() {
+        stop();
     }
 }
