@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.server;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.handler.HandlerWrapper;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
@@ -118,7 +117,7 @@ abstract public class WebtauJettyServer implements WebtauServer {
 
     @Override
     public void removeOverride(String overrideId) {
-        WebtauServerOverrides.removeOverride(serverId, overrideId);
+        WebtauServerGlobalOverrides.removeOverride(serverId, overrideId);
     }
 
     abstract protected Map<String, Object> provideStepInput();

@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-class WebtauServerOverrides {
+class WebtauServerGlobalOverrides {
     private static final Map<String, WebtauServerOverride> overrides = new ConcurrentHashMap<>();
 
     static void addOverride(String serverId, WebtauServerOverride override) {

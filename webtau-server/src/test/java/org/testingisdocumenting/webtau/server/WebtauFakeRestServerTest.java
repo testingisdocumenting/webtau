@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.junit.Test;
+import org.testingisdocumenting.webtau.server.route.Router;
 
 import java.util.Collections;
 
@@ -119,6 +120,42 @@ public class WebtauFakeRestServerTest {
     }
 
     @Test
+    public void pathParamsRouterBasedResponse() {
+        Router router = new Router("customers");
+        router.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
+        router.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
+        router.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+
+        try (WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-using-router", 0)) {
+            restServer.addOverride(router);
+            restServer.start();
+
+            http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
+                body.get("getId").should(equal("11"));
+            });
+
+            http.post(restServer.getBaseUrl() + "/customer/22", (header, body) -> {
+                body.get("postId").should(equal("22"));
+            });
+
+            http.put(restServer.getBaseUrl() + "/customer/33", (header, body) -> {
+                body.get("putId").should(equal("33"));
+            });
+
+            router.deleteJson("/customer/{id}", (params) -> aMapOf("deleteId", params.get("id")));
+            router.patchJson("/customer/{id}", (params) -> aMapOf("patchId", params.get("id")));
+
+            http.delete(restServer.getBaseUrl() + "/customer/44", (header, body) -> {
+                body.get("deleteId").should(equal("44"));
+            });
+
+            http.patch(restServer.getBaseUrl() + "/customer/55", (header, body) -> {
+                body.get("patchId").should(equal("55"));
+            });
+        }
+    }
+
+    @Test
     public void shouldPreventFromRegisteringSamePath() {
         WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-duplicate-check", 0);
         restServer.getJson("/customer/{id}", (params) -> aMapOf("id", params.get("id")));
@@ -128,5 +165,21 @@ public class WebtauFakeRestServerTest {
         ).should(throwException("already found an override for server: route-crud-duplicate-check with override id: GET-/customer/{id}, " +
                 "existing override: WebtauServerOverrideRouteFake{method='GET', route=/customer/{id}, " +
                 "responseType='application/json'}"));
+    }
+
+    @Test
+    public void shouldPreventFromRegisteringSameRouter() {
+        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-duplicate-router-check", 0);
+        Router router = new Router("customers");
+        router.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
+        router.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+
+        restServer.addOverride(router);
+
+        code(() ->
+                restServer.addOverride(router)
+        ).should(throwException("already found an override for server: route-crud-duplicate-router-check with override id: customers, existing override: id:customers; list:\n" +
+                "POST-/customer/{id}\n" +
+                "PUT-/customer/{id}"));
     }
 }

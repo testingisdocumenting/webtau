@@ -19,9 +19,9 @@ package org.testingisdocumenting.webtau.server;
 import org.testingisdocumenting.webtau.server.route.RouteParams;
 import org.testingisdocumenting.webtau.server.route.RouteParamsParser;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -56,7 +56,7 @@ public class WebtauServerOverrideRouteFake implements WebtauServerOverride {
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) throws IOException, ServletException {
+    public byte[] responseBody(HttpServletRequest request) {
         String response = responseFunc.apply(routeParamsParser.parse(request.getRequestURI()));
         return response == null ? null : response.getBytes();
     }
@@ -64,6 +64,11 @@ public class WebtauServerOverrideRouteFake implements WebtauServerOverride {
     @Override
     public String responseType(HttpServletRequest request) {
         return responseType;
+    }
+
+    @Override
+    public Map<String, String> responseHeader(HttpServletRequest request) {
+        return Collections.emptyMap();
     }
 
     @Override

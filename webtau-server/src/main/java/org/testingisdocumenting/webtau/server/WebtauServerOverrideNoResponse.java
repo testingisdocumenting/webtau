@@ -16,9 +16,9 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
 class WebtauServerOverrideNoResponse implements WebtauServerOverride {
     static final String OVERRIDE_ID = "unresponsive";
@@ -41,7 +41,7 @@ class WebtauServerOverrideNoResponse implements WebtauServerOverride {
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) throws IOException, ServletException {
+    public byte[] responseBody(HttpServletRequest request) {
         try {
             synchronized (sleepLock) {
                 sleepLock.wait();
@@ -56,5 +56,15 @@ class WebtauServerOverrideNoResponse implements WebtauServerOverride {
     @Override
     public String responseType(HttpServletRequest request) {
         return "NA";
+    }
+
+    @Override
+    public Map<String, String> responseHeader(HttpServletRequest request) {
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public int responseStatusCode(HttpServletRequest request) {
+        return 200;
     }
 }
