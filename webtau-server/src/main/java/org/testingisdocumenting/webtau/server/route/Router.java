@@ -14,43 +14,58 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.server;
+package org.testingisdocumenting.webtau.server.route;
 
-import org.eclipse.jetty.server.Handler;
-import org.testingisdocumenting.webtau.server.route.RouteParams;
+import org.testingisdocumenting.webtau.server.WebtauServerOverride;
+import org.testingisdocumenting.webtau.server.WebtauServerOverrideList;
+import org.testingisdocumenting.webtau.server.WebtauServerOverrideRouteFake;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 
-public class WebtauFakeRestServer extends WebtauJettyServer {
-    public WebtauFakeRestServer(String id, int passedPort) {
-        super(id, passedPort);
+public class Router implements WebtauServerOverride {
+    private final WebtauServerOverrideList overrideList;
+
+    public Router(String id) {
+        this.overrideList = new WebtauServerOverrideList(id);
     }
 
     @Override
-    protected Map<String, Object> provideStepInput() {
+    public boolean matchesUri(String method, String uri) {
+        return overrideList.matchesUri(method, uri);
+    }
+
+    @Override
+    public String overrideId() {
+        return overrideList.overrideId();
+    }
+
+    @Override
+    public byte[] responseBody(HttpServletRequest request) {
+        return overrideList.responseBody(request);
+    }
+
+    @Override
+    public String responseType(HttpServletRequest request) {
+        return overrideList.responseType(request);
+    }
+
+    @Override
+    public Map<String, String> responseHeader(HttpServletRequest request) {
         return Collections.emptyMap();
     }
 
     @Override
-    protected void validateParams() {
+    public int responseStatusCode(HttpServletRequest request) {
+        return overrideList.responseStatusCode(request);
     }
 
     @Override
-    protected Handler createJettyHandler() {
-        return new WebtauServerFakeJettyHandler(serverId);
-    }
-
-    @Override
-    public String getType() {
-        return "fake-rest";
-    }
-
-    @Override
-    public void addOverride(WebtauServerOverride override) {
-        WebtauServerGlobalOverrides.addOverride(serverId, override);
+    public String toString() {
+        return overrideList.toString();
     }
 
     public void getJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
@@ -94,7 +109,7 @@ public class WebtauFakeRestServer extends WebtauJettyServer {
     }
 
     private void registerJson(String method, String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
-        addOverride(new WebtauServerOverrideRouteFake(method, urlWithParams, "application/json",
+        overrideList.addOverride(new WebtauServerOverrideRouteFake(method, urlWithParams, "application/json",
                 statusCodeFunc,
                 (params) -> JsonUtils.serialize(responseFunc.apply(params))));
     }

@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.handler.HandlerWrapper;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
@@ -39,12 +38,12 @@ public class WebtauProxyServer extends WebtauJettyServer {
 
     @Override
     public void markUnresponsive() {
-        WebtauServerOverrides.addOverride(serverId, new WebtauServerOverrideNoResponse(serverId));
+        WebtauServerGlobalOverrides.addOverride(serverId, new WebtauServerOverrideNoResponse(serverId));
     }
 
     @Override
     public void markResponsive() {
-        WebtauServerOverrides.removeOverride(serverId, WebtauServerOverrideNoResponse.OVERRIDE_ID);
+        WebtauServerGlobalOverrides.removeOverride(serverId, WebtauServerOverrideNoResponse.OVERRIDE_ID);
         ServerResponseWaitLocks.releaseLock(serverId);
     }
 

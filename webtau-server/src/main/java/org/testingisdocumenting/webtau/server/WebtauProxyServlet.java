@@ -43,7 +43,7 @@ public class WebtauProxyServlet extends ProxyServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Optional<WebtauServerOverride> override = WebtauServerOverrides.findOverride(serverId,
+        Optional<WebtauServerOverride> override = WebtauServerGlobalOverrides.findOverride(serverId,
                 request.getMethod(),
                 request.getRequestURI());
 

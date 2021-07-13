@@ -16,10 +16,7 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -30,14 +27,10 @@ public interface WebtauServerOverride {
 
     String overrideId();
 
-    byte[] responseBody(HttpServletRequest request) throws IOException, ServletException;
+    byte[] responseBody(HttpServletRequest request);
     String responseType(HttpServletRequest request);
 
-    default Map<String, String> responseHeader(HttpServletRequest request) {
-        return Collections.emptyMap();
-    }
+    Map<String, String> responseHeader(HttpServletRequest request);
 
-    default int responseStatusCode(HttpServletRequest request) {
-        return 200;
-    }
+    int responseStatusCode(HttpServletRequest request);
 }
