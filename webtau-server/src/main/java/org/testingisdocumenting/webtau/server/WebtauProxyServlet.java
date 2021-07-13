@@ -48,9 +48,7 @@ public class WebtauProxyServlet extends ProxyServlet {
                 request.getRequestURI());
 
         if (override.isPresent()) {
-            // TODO full response set including headers
-            // right now it is just for timeout
-            override.get().responseBody(request);
+            override.get().apply(request, response);
         } else {
             super.service(request, response);
         }

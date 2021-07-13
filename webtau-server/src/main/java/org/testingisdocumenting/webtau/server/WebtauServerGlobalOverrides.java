@@ -19,11 +19,29 @@ package org.testingisdocumenting.webtau.server;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 class WebtauServerGlobalOverrides {
-    private static final Map<String, WebtauServerOverride> overrides = new ConcurrentHashMap<>();
+    private static final Map<String, WebtauServerOverride> contentOverrides = new ConcurrentHashMap<>();
+    private static final Map<String, WebtauServerOverride> stateOverrides = new ConcurrentHashMap<>();
 
-    static void addOverride(String serverId, WebtauServerOverride override) {
+    static void addContentOverride(String serverId, WebtauServerOverride override) {
+        addOverride(contentOverrides, serverId, override);
+    }
+
+    static void addStateOverride(String serverId, WebtauServerOverride override) {
+        addOverride(stateOverrides, serverId, override);
+    }
+
+    static void removeOverride(String serverId, String overrideId) {
+        String id = makeId(serverId, overrideId);
+        contentOverrides.remove(id);
+        stateOverrides.remove(id);
+    }
+
+    private static void addOverride(Map<String, WebtauServerOverride> overrides,
+                                    String serverId,
+                                    WebtauServerOverride override) {
         WebtauServerOverride existing = overrides.put(makeId(serverId, override.overrideId()), override);
         if (existing != null) {
             throw new RuntimeException("already found an override for server: " + serverId +
@@ -31,12 +49,8 @@ class WebtauServerGlobalOverrides {
         }
     }
 
-    static void removeOverride(String serverId, String overrideId) {
-        overrides.remove(makeId(serverId, overrideId));
-    }
-
     static Optional<WebtauServerOverride> findOverride(String serverId, String method, String uri) {
-        return overrides.entrySet().stream()
+        return Stream.concat(stateOverrides.entrySet().stream(), contentOverrides.entrySet().stream())
                 .filter(e -> e.getKey().startsWith(serverId + "."))
                 .filter(e -> e.getValue().matchesUri(method, uri))
                 .map(Map.Entry::getValue)

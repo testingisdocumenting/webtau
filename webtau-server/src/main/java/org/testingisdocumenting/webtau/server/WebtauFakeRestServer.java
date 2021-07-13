@@ -50,7 +50,7 @@ public class WebtauFakeRestServer extends WebtauJettyServer {
 
     @Override
     public void addOverride(WebtauServerOverride override) {
-        WebtauServerGlobalOverrides.addOverride(serverId, override);
+        WebtauServerGlobalOverrides.addContentOverride(serverId, override);
     }
 
     public void getJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {

@@ -20,7 +20,7 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 def staticServer = server.serve("content-to-proxy", "data/staticcontent")
 
-def expected = "<body>\n" +
+def expectedHtml = "<body>\n" +
         "<p>hello</p>\n" +
         "</body>"
 
@@ -28,7 +28,7 @@ scenario("proxy server") {
     def proxyServer = server.proxy("test-proxy-server", staticServer.baseUrl, 0)
 
     http.get("${proxyServer.baseUrl}/hello.html") {
-        body.should == expected
+        body.should == expectedHtml
     }
 }
 
@@ -38,13 +38,64 @@ scenario("slowed down proxy") {
 
     code {
         http.get("${slowDownServer.baseUrl}/hello.html") {
-            body.should == expected
+            body.should == expectedHtml
         }
     } should throwException(~/Read timed out/)
 
     slowDownServer.markResponsive()
 
     http.get("${slowDownServer.baseUrl}/hello.html") {
-        body.should == expected
+        body.should == expectedHtml
+    }
+}
+
+scenario("proxy override") {
+    def proxyServer = server.proxy("proxy-server-with-override", staticServer.baseUrl, 0)
+
+    def router = server.router("overrides")
+    router.getJson("/another/{id}", (params) -> [anotherId: params.id])
+    proxyServer.addOverride(router)
+
+    http.get("${proxyServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+
+    http.get("${proxyServer.baseUrl}/another/hello") {
+        body.should == [anotherId: "hello"]
+    }
+
+    router.getJson("/hello.html", (params) -> [id: 'test'])
+
+    http.get("${proxyServer.baseUrl}/hello.html") {
+        body.should == [id: "test"]
+    }
+}
+
+scenario("proxy override and slow down") {
+    def proxyServer = server.proxy("proxy-server-with-override-and-slowdown", staticServer.baseUrl, 0)
+
+    def routerA = server.router("__overrides-a")
+    routerA.getJson("/another/{id}", (params) -> [anotherId: params.id])
+    def routerB = server.router("overrides-b")
+    routerB.getJson("/hello/{id}", (params) -> [hello: params.id])
+
+    proxyServer.addOverride(routerA)
+    proxyServer.markUnresponsive()
+    proxyServer.addOverride(routerB)
+
+    code {
+        http.get("${proxyServer.baseUrl}/another/hello") {
+            body.should == [anotherId: "hello"]
+        }
+    } should throwException(~/Read timed out/)
+
+    proxyServer.markResponsive()
+
+    http.get("${proxyServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+
+    http.get("${proxyServer.baseUrl}/another/hello") {
+        body.should == [anotherId: "hello"]
     }
 }

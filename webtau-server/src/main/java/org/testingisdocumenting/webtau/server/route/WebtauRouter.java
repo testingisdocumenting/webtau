@@ -26,10 +26,10 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 
-public class Router implements WebtauServerOverride {
+public class WebtauRouter implements WebtauServerOverride {
     private final WebtauServerOverrideList overrideList;
 
-    public Router(String id) {
+    public WebtauRouter(String id) {
         this.overrideList = new WebtauServerOverrideList(id);
     }
 

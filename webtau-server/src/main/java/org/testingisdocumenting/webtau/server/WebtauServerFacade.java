@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,5 +52,9 @@ public class WebtauServerFacade {
         server.start();
 
         return server;
+    }
+
+    public WebtauRouter router(String id) {
+        return new WebtauRouter(id);
     }
 }

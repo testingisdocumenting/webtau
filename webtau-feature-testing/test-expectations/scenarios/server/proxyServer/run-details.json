@@ -3,7 +3,7 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 6
     }
   }, {
     "scenario" : "parse/init",
@@ -22,6 +22,19 @@
     "shortContainerId" : "proxyServer.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 4,
+      "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "proxy override",
+    "shortContainerId" : "proxyServer.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 10
+    }
+  }, {
+    "scenario" : "proxy override and slow down",
+    "shortContainerId" : "proxyServer.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7,
       "numberOfFailed" : 1
     }
   } ],
