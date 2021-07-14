@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.junit.Test;
-import org.testingisdocumenting.webtau.server.route.Router;
+import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 
 import java.util.Collections;
 
@@ -121,7 +121,7 @@ public class WebtauFakeRestServerTest {
 
     @Test
     public void pathParamsRouterBasedResponse() {
-        Router router = new Router("customers");
+        WebtauRouter router = new WebtauRouter("customers");
         router.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
         router.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
         router.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
@@ -170,7 +170,7 @@ public class WebtauFakeRestServerTest {
     @Test
     public void shouldPreventFromRegisteringSameRouter() {
         WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-duplicate-router-check", 0);
-        Router router = new Router("customers");
+        WebtauRouter router = new WebtauRouter("customers");
         router.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
         router.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
 

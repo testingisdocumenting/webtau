@@ -37,8 +37,13 @@ public class WebtauProxyServer extends WebtauJettyServer {
     }
 
     @Override
+    public void addOverride(WebtauServerOverride override) {
+        WebtauServerGlobalOverrides.addContentOverride(serverId, override);
+    }
+
+    @Override
     public void markUnresponsive() {
-        WebtauServerGlobalOverrides.addOverride(serverId, new WebtauServerOverrideNoResponse(serverId));
+        WebtauServerGlobalOverrides.addStateOverride(serverId, new WebtauServerOverrideNoResponse(serverId));
     }
 
     @Override

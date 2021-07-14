@@ -33,24 +33,18 @@ public class WebtauServerFakeJettyHandler extends AbstractHandler {
     }
 
     @Override
-    public void handle(String url, Request baseRequest, HttpServletRequest servletRequest, HttpServletResponse response) throws IOException, ServletException {
+    public void handle(String url, Request baseRequest,
+                       HttpServletRequest servletRequest,
+                       HttpServletResponse servletResponse) throws IOException, ServletException {
         Optional<WebtauServerOverride> optionalOverride = WebtauServerGlobalOverrides.findOverride(serverId,
                 servletRequest.getMethod(),
                 servletRequest.getRequestURI());
 
         if (!optionalOverride.isPresent()) {
-            response.setStatus(404);
+            servletResponse.setStatus(404);
         } else {
             WebtauServerOverride override = optionalOverride.get();
-            override.responseHeader(servletRequest).forEach(response::addHeader);
-
-            byte[] responseBody = override.responseBody(servletRequest);
-            response.setStatus(override.responseStatusCode(servletRequest));
-            response.setContentType(override.responseType(servletRequest));
-
-            if (responseBody != null) {
-                response.getOutputStream().write(responseBody);
-            }
+            override.apply(servletRequest, servletResponse);
         }
 
         baseRequest.setHandled(true);

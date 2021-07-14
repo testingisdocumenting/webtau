@@ -1,1 +1,1 @@
-httpTimeout = 2000
+httpTimeout = 1000

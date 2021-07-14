@@ -17,6 +17,9 @@
 package org.testingisdocumenting.webtau.server;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Map;
 
 /**
@@ -33,4 +36,20 @@ public interface WebtauServerOverride {
     Map<String, String> responseHeader(HttpServletRequest request);
 
     int responseStatusCode(HttpServletRequest request);
+
+    default void apply(HttpServletRequest servletRequest, HttpServletResponse response) {
+        responseHeader(servletRequest).forEach(response::addHeader);
+
+        try {
+            byte[] responseBody = responseBody(servletRequest);
+            response.setStatus(responseStatusCode(servletRequest));
+            response.setContentType(responseType(servletRequest));
+
+            if (responseBody != null) {
+                response.getOutputStream().write(responseBody);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 }
