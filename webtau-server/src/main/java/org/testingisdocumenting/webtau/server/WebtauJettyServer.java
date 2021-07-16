@@ -16,11 +16,11 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.*;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
+import org.testingisdocumenting.webtau.server.journal.WebtauServerJournal;
+import org.testingisdocumenting.webtau.server.journal.WebtauServerJournalJettyHandler;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.util.LinkedHashMap;
@@ -39,12 +39,20 @@ import static org.testingisdocumenting.webtau.server.WebtauServersRegistry.*;
 abstract public class WebtauJettyServer implements WebtauServer {
     protected final String serverId;
     protected final int passedPort;
+    protected final WebtauServerJournal journal;
+
     protected Server server;
     protected boolean started;
 
     public WebtauJettyServer(String id, int passedPort) {
         this.serverId = id;
         this.passedPort = passedPort;
+        this.journal = new WebtauServerJournal(id);
+    }
+
+    @Override
+    public WebtauServerJournal getJournal() {
+        return journal;
     }
 
     @Override
@@ -135,7 +143,8 @@ abstract public class WebtauJettyServer implements WebtauServer {
         connector.setHost("127.0.0.1");
         server.addConnector(connector);
 
-        server.setHandler(createJettyHandler());
+        Handler jettyHandler = createJettyHandler();
+        server.setHandler(new WebtauServerJournalJettyHandler(journal, jettyHandler));
 
         try {
             server.start();
