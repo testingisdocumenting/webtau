@@ -31,12 +31,12 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 /**
  * convenient way to handle <code>waitTo</code> on calls
  */
-public class WebtauServerJournalHandledRequests {
-    public final HandledRequestsLiveValue GET;
-    public final HandledRequestsLiveValue POST;
-    public final HandledRequestsLiveValue PUT;
-    public final HandledRequestsLiveValue DELETE;
-    public final HandledRequestsLiveValue PATCH;
+class WebtauServerJournalHandledRequests {
+    final HandledRequestsLiveValue GET;
+    final HandledRequestsLiveValue POST;
+    final HandledRequestsLiveValue PUT;
+    final HandledRequestsLiveValue DELETE;
+    final HandledRequestsLiveValue PATCH;
 
     public WebtauServerJournalHandledRequests(WebtauServerJournal journal) {
         this.GET = new HandledRequestsLiveValue(journal, "GET");

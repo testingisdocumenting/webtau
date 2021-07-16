@@ -40,11 +40,11 @@ public class WebtauFakeRestServerHandledRequestsTest {
 
             thread.start();
 
-            restServer.getJournal().handledRequests.GET.waitTo(contain("/customer/id3"));
+            restServer.getJournal().GET.waitTo(contain("/customer/id3"));
 
             thread.join();
 
-            restServer.getJournal().handledRequests.GET.should(contain("/customer/id3"));
+            restServer.getJournal().GET.should(contain("/customer/id3"));
         }
     }
 }

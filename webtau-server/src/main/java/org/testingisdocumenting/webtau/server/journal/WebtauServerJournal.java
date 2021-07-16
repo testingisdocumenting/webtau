@@ -27,13 +27,23 @@ import java.util.stream.Collectors;
 public class WebtauServerJournal {
     private final List<WebtauServerHandledRequest> handledRequestList;
 
-    public final WebtauServerJournalHandledRequests handledRequests;
     private final String serverId;
+
+    public final WebtauServerJournalHandledRequests.HandledRequestsLiveValue GET;
+    public final WebtauServerJournalHandledRequests.HandledRequestsLiveValue POST;
+    public final WebtauServerJournalHandledRequests.HandledRequestsLiveValue PUT;
+    public final WebtauServerJournalHandledRequests.HandledRequestsLiveValue DELETE;
+    public final WebtauServerJournalHandledRequests.HandledRequestsLiveValue PATCH;
 
     public WebtauServerJournal(String serverId) {
         this.serverId = serverId;
-        this.handledRequests = new WebtauServerJournalHandledRequests(this);
-        this.handledRequestList = Collections.synchronizedList(new ArrayList<>());
+        WebtauServerJournalHandledRequests handledRequests = new WebtauServerJournalHandledRequests(this);
+        handledRequestList = Collections.synchronizedList(new ArrayList<>());
+        GET = handledRequests.GET;
+        POST = handledRequests.POST;
+        PUT = handledRequests.PUT;
+        DELETE = handledRequests.DELETE;
+        PATCH = handledRequests.PATCH;
     }
 
     public void registerCall(String method, String url, String contentType, long startTime, long elapsedTime) {
