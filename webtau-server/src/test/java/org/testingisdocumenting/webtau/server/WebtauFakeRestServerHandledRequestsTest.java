@@ -26,9 +26,9 @@ public class WebtauFakeRestServerHandledRequestsTest {
     @Test
     public void shouldWaitOnACall() throws InterruptedException {
         WebtauRouter router = new WebtauRouter("customers");
-        router.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
-        router.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
-        router.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+        router.get("/customer/{id}", (params) -> aMapOf("getId", params.get("id")))
+                .post("/customer/{id}", (params) -> aMapOf("postId", params.get("id")))
+                .put("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
 
         try (WebtauFakeRestServer restServer = new WebtauFakeRestServer("router-crud-journal", 0)) {
             restServer.addOverride(router);

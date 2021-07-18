@@ -21,8 +21,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class WebtauServerOverrideList implements WebtauServerOverride {
-    private final List<WebtauServerOverride> overrides = new ArrayList<>();
-    private final String listId;
+    private final List<WebtauServerOverride> overrides = Collections.synchronizedList(new ArrayList<>());
+    private String listId;
 
     public WebtauServerOverrideList(String listId) {
         this.listId = listId;
@@ -30,6 +30,14 @@ public class WebtauServerOverrideList implements WebtauServerOverride {
 
     public void addOverride(WebtauServerOverride override) {
         overrides.add(override);
+    }
+
+    public void setListId(String listId) {
+        if (this.listId != null && !this.listId.isEmpty()) {
+            throw new IllegalStateException("listId is already set");
+        }
+
+        this.listId = listId;
     }
 
     @Override
