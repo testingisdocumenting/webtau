@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.server;
 
 import org.eclipse.jetty.server.Handler;
 import org.testingisdocumenting.webtau.server.route.RouteParams;
+import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.Collections;
@@ -27,6 +28,11 @@ import java.util.function.Function;
 public class WebtauFakeRestServer extends WebtauJettyServer {
     public WebtauFakeRestServer(String id, int passedPort) {
         super(id, passedPort);
+    }
+
+    public WebtauFakeRestServer(String id, int passedPort, WebtauRouter router) {
+        super(id, passedPort);
+        addOverride(router);
     }
 
     @Override

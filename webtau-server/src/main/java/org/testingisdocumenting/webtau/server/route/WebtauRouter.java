@@ -27,10 +27,38 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class WebtauRouter implements WebtauServerOverride {
+    private static final String JSON_CONTENT_TYPE = "application/json";
+    private static final String TEXT_CONTENT_TYPE = "text/plain";
+    private static final String HTML_CONTENT_TYPE = "text/html";
+
     private final WebtauServerOverrideList overrideList;
+
+    private final String contentType;
 
     public WebtauRouter(String id) {
         this.overrideList = new WebtauServerOverrideList(id);
+        this.contentType = JSON_CONTENT_TYPE;
+    }
+
+    private WebtauRouter(String contentType, WebtauServerOverrideList overrideList) {
+        this.contentType = contentType;
+        this.overrideList = overrideList;
+    }
+
+    public WebtauRouter json() {
+        return new WebtauRouter(JSON_CONTENT_TYPE, overrideList);
+    }
+
+    public WebtauRouter text() {
+        return new WebtauRouter(TEXT_CONTENT_TYPE, overrideList);
+    }
+
+    public WebtauRouter html() {
+        return new WebtauRouter(HTML_CONTENT_TYPE, overrideList);
+    }
+
+    public void setId(String id) {
+        this.overrideList.setListId(id);
     }
 
     @Override
@@ -68,49 +96,50 @@ public class WebtauRouter implements WebtauServerOverride {
         return overrideList.toString();
     }
 
-    public void getJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
-        registerJson("GET", urlWithParams, statusCodeFunc, responseFunc);
+    public WebtauRouter get(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return registerJson("GET", urlWithParams, statusCodeFunc, responseFunc);
     }
 
-    public void getJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
-        getJson(urlWithParams, (params) -> 200, responseFunc);
+    public WebtauRouter get(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return get(urlWithParams, (params) -> 200, responseFunc);
     }
 
-    public void postJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
-        registerJson("POST", urlWithParams, statusCodeFunc, responseFunc);
+    public WebtauRouter post(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return registerJson("POST", urlWithParams, statusCodeFunc, responseFunc);
     }
 
-    public void postJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
-        postJson(urlWithParams, (params) -> 201, responseFunc);
+    public WebtauRouter post(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return post(urlWithParams, (params) -> 201, responseFunc);
     }
 
-    public void putJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
-        registerJson("PUT", urlWithParams, statusCodeFunc, responseFunc);
+    public WebtauRouter put(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return registerJson("PUT", urlWithParams, statusCodeFunc, responseFunc);
     }
 
-    public void putJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
-        putJson(urlWithParams, (params) -> 200, responseFunc);
+    public WebtauRouter put(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return put(urlWithParams, (params) -> 200, responseFunc);
     }
 
-    public void deleteJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
-        registerJson("DELETE", urlWithParams, statusCodeFunc, responseFunc);
+    public WebtauRouter delete(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return registerJson("DELETE", urlWithParams, statusCodeFunc, responseFunc);
     }
 
-    public void deleteJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
-        deleteJson(urlWithParams, (params) -> 200, responseFunc);
+    public WebtauRouter delete(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return delete(urlWithParams, (params) -> 200, responseFunc);
     }
 
-    public void patchJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
-        registerJson("PATCH", urlWithParams, statusCodeFunc, responseFunc);
+    public WebtauRouter patch(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return registerJson("PATCH", urlWithParams, statusCodeFunc, responseFunc);
     }
 
-    public void patchJson(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
-        patchJson(urlWithParams, (params) -> 200, responseFunc);
+    public WebtauRouter patch(String urlWithParams, Function<RouteParams, Map<String, Object>> responseFunc) {
+        return patch(urlWithParams, (params) -> 200, responseFunc);
     }
 
-    private void registerJson(String method, String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
-        overrideList.addOverride(new WebtauServerOverrideRouteFake(method, urlWithParams, "application/json",
+    private WebtauRouter registerJson(String method, String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
+        overrideList.addOverride(new WebtauServerOverrideRouteFake(method, urlWithParams, contentType,
                 statusCodeFunc,
                 (params) -> JsonUtils.serialize(responseFunc.apply(params))));
+        return this;
     }
 }

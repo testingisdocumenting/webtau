@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "fake rest server",
+    "shortContainerId" : "fakeRest.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  } ],
+  "exitCode" : 0
+}

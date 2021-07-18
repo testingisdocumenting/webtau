@@ -122,9 +122,9 @@ public class WebtauFakeRestServerTest {
     @Test
     public void pathParamsRouterBasedResponse() {
         WebtauRouter router = new WebtauRouter("customers");
-        router.getJson("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
-        router.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
-        router.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+        router.get("/customer/{id}", (params) -> aMapOf("getId", params.get("id")))
+                .post("/customer/{id}", (params) -> aMapOf("postId", params.get("id")))
+                .put("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
 
         try (WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-using-router", 0)) {
             restServer.addOverride(router);
@@ -142,8 +142,8 @@ public class WebtauFakeRestServerTest {
                 body.get("putId").should(equal("33"));
             });
 
-            router.deleteJson("/customer/{id}", (params) -> aMapOf("deleteId", params.get("id")));
-            router.patchJson("/customer/{id}", (params) -> aMapOf("patchId", params.get("id")));
+            router.delete("/customer/{id}", (params) -> aMapOf("deleteId", params.get("id")));
+            router.patch("/customer/{id}", (params) -> aMapOf("patchId", params.get("id")));
 
             http.delete(restServer.getBaseUrl() + "/customer/44", (header, body) -> {
                 body.get("deleteId").should(equal("44"));
@@ -171,8 +171,8 @@ public class WebtauFakeRestServerTest {
     public void shouldPreventFromRegisteringSameRouter() {
         WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-duplicate-router-check", 0);
         WebtauRouter router = new WebtauRouter("customers");
-        router.postJson("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
-        router.putJson("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+        router.post("/customer/{id}", (params) -> aMapOf("postId", params.get("id")));
+        router.put("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
 
         restServer.addOverride(router);
 

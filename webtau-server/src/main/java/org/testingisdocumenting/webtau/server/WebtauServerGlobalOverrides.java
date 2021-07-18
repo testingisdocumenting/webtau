@@ -42,10 +42,15 @@ class WebtauServerGlobalOverrides {
     private static void addOverride(Map<String, WebtauServerOverride> overrides,
                                     String serverId,
                                     WebtauServerOverride override) {
-        WebtauServerOverride existing = overrides.put(makeId(serverId, override.overrideId()), override);
+        String overrideId = override.overrideId();
+        if (overrideId == null || overrideId.isEmpty()) {
+            throw new IllegalArgumentException("overrideId can't be empty");
+        }
+
+        WebtauServerOverride existing = overrides.put(makeId(serverId, overrideId), override);
         if (existing != null) {
             throw new RuntimeException("already found an override for server: " + serverId +
-                    " with override id: " + override.overrideId() + ", existing override: " + existing);
+                    " with override id: " + overrideId + ", existing override: " + existing);
         }
     }
 
