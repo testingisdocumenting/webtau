@@ -23,8 +23,21 @@ import static org.testingisdocumenting.webtau.Matchers.throwException
 
 class RouteParamsParserTest {
     @Test
-    void "match by path definition"() {
+    void "match by path definition using curly bracers for params"() {
         def parser = new RouteParamsParser("/my/^super-path/{id}/hello/{name}")
+        def url = "/my/^super-path/3433/hello/bob"
+
+        parser.matches(url).should == true
+        parser.groupNames.should == ["id", "name"]
+
+        def params = parser.parse(url)
+        params.get("id").should == "3433"
+        params.get("name").should == "bob"
+    }
+
+    @Test
+    void "match by path definition using colon for params"() {
+        def parser = new RouteParamsParser("/my/^super-path/:id/hello/:name")
         def url = "/my/^super-path/3433/hello/bob"
 
         parser.matches(url).should == true

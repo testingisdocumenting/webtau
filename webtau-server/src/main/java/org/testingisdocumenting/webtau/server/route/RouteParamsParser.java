@@ -20,12 +20,14 @@ import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RouteParamsParser {
     private final Pattern CHARS_TO_ESCAPE = Pattern.compile("([<(\\[^\\-=\\\\$!|\\])?*+.>])");
-    private final Pattern NAMED_PARAM_REGEXP = Pattern.compile("\\{(\\w+)}");
+    private final Pattern NAMED_PARAM_REGEXP_CURLY = Pattern.compile("\\{(\\w+)}");
+    private final Pattern NAMED_PARAM_REGEXP_COLON = Pattern.compile(":(\\w+)");
 
     private final String pathDefinition;
     private final Pattern pathDefinitionRegexp;
@@ -68,13 +70,16 @@ public class RouteParamsParser {
             return "\\\\" + name;
         });
 
-        String pathRegexp = RegexpUtils.replaceAll(escaped, NAMED_PARAM_REGEXP, (m) -> {
+        Function<Matcher, String> matcherFunc = (m) -> {
             String name = m.group(1);
             groupNames.add(name);
 
             return "(?<" + name + ">\\\\w+)";
-        });
+        };
 
-        return Pattern.compile(pathRegexp);
+        String curlyReplaced = RegexpUtils.replaceAll(escaped, NAMED_PARAM_REGEXP_CURLY, matcherFunc);
+        String colonReplaced = RegexpUtils.replaceAll(curlyReplaced, NAMED_PARAM_REGEXP_COLON, matcherFunc);
+
+        return Pattern.compile(colonReplaced);
     }
 }
