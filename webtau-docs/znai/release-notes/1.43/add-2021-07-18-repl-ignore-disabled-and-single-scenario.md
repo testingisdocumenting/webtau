@@ -1,0 +1,2 @@
+* ignore [single scenario](groovy-standalone-runner/selective-run#sscenario) and [disabled scenario](groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests)
+  in [REPL mode](REPL/test-runs) 
