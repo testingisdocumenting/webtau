@@ -3,7 +3,7 @@
     "scenario" : "check weather",
     "shortContainerId" : "weatherQuery.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0
