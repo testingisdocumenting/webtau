@@ -48,7 +48,7 @@ class WebtauStaticServer extends WebtauJettyServer {
 
     @Override
     protected Handler createJettyHandler() {
-        ResourceHandler handler = new ResourceHandler();
+        ResourceHandler handler = new WebtauServerStaticJettyHandler(serverId);
         handler.setBaseResource(Resource.newResource(path));
 
         return handler;

@@ -37,22 +37,6 @@ public class WebtauProxyServer extends WebtauJettyServer {
     }
 
     @Override
-    public void addOverride(WebtauServerOverride override) {
-        WebtauServerGlobalOverrides.addContentOverride(serverId, override);
-    }
-
-    @Override
-    public void markUnresponsive() {
-        WebtauServerGlobalOverrides.addStateOverride(serverId, new WebtauServerOverrideNoResponse(serverId));
-    }
-
-    @Override
-    public void markResponsive() {
-        WebtauServerGlobalOverrides.removeOverride(serverId, WebtauServerOverrideNoResponse.OVERRIDE_ID);
-        ServerResponseWaitLocks.releaseLock(serverId);
-    }
-
-    @Override
     protected Map<String, Object> provideStepInput() {
         return Collections.singletonMap("url to proxy", urlToProxy);
     }
