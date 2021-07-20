@@ -54,11 +54,6 @@ public class WebtauFakeRestServer extends WebtauJettyServer {
         return "fake-rest";
     }
 
-    @Override
-    public void addOverride(WebtauServerOverride override) {
-        WebtauServerGlobalOverrides.addContentOverride(serverId, override);
-    }
-
     public void getJson(String urlWithParams, Function<RouteParams, Integer> statusCodeFunc, Function<RouteParams, Map<String, Object>> responseFunc) {
         registerJson("GET", urlWithParams, statusCodeFunc, responseFunc);
     }

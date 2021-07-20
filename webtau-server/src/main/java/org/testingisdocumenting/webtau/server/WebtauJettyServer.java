@@ -104,23 +104,24 @@ abstract public class WebtauJettyServer implements WebtauServer {
     }
 
     @Override
+    public void addOverride(WebtauServerOverride override) {
+        WebtauServerGlobalOverrides.addContentOverride(serverId, override);
+    }
+
+    @Override
     public void markUnresponsive() {
-        throw new UnsupportedOperationException("markUnreachable is not implemented for type: " + getType());
+        WebtauServerGlobalOverrides.addStateOverride(serverId, new WebtauServerOverrideNoResponse(serverId));
     }
 
     @Override
     public void markResponsive() {
-        throw new UnsupportedOperationException("markReachable is not implemented for type: " + getType());
+        WebtauServerGlobalOverrides.removeOverride(serverId, WebtauServerOverrideNoResponse.OVERRIDE_ID);
+        ServerResponseWaitLocks.releaseLock(serverId);
     }
 
     @Override
     public void markBroken() {
         throw new UnsupportedOperationException("markBroken is not implemented for type: " + getType());
-    }
-
-    @Override
-    public void addOverride(WebtauServerOverride override) {
-        throw new UnsupportedOperationException("addOverride is not implemented for type: " + getType());
     }
 
     @Override
