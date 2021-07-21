@@ -1,1 +1,1 @@
-package scenarios.server
+httpTimeout = 1000

@@ -30,9 +30,9 @@ public interface WebtauServer extends AutoCloseable {
     void stop();
 
     void markUnresponsive();
-    void markResponsive();
-
     void markBroken();
+
+    void fix();
 
     void addOverride(WebtauServerOverride override);
     void removeOverride(String overrideId);

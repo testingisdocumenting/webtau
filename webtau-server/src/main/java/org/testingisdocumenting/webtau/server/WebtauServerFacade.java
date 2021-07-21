@@ -88,6 +88,16 @@ public class WebtauServerFacade {
     }
 
     /**
+     * creates proxy server and starts it on a random part
+     * @param serverId unique server id
+     * @param urlToProxy url to proxy to
+     * @return server instance
+     */
+    public WebtauServer proxy(String serverId, String urlToProxy) {
+        return proxy(serverId, urlToProxy, 0);
+    }
+
+    /**
      * creates a fake server and starts it on the specified port
      * @param serverId unique server id
      * @param port server port

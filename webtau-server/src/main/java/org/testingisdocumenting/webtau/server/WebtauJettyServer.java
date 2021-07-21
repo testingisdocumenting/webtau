@@ -114,14 +114,15 @@ abstract public class WebtauJettyServer implements WebtauServer {
     }
 
     @Override
-    public void markResponsive() {
-        WebtauServerGlobalOverrides.removeOverride(serverId, WebtauServerOverrideNoResponse.OVERRIDE_ID);
-        ServerResponseWaitLocks.releaseLock(serverId);
+    public void markBroken() {
+        WebtauServerGlobalOverrides.addStateOverride(serverId, new WebtauServerOverrideFailedResponse());
     }
 
     @Override
-    public void markBroken() {
-        throw new UnsupportedOperationException("markBroken is not implemented for type: " + getType());
+    public void fix() {
+        WebtauServerGlobalOverrides.removeStateOverride(serverId, WebtauServerOverrideNoResponse.OVERRIDE_ID);
+        WebtauServerGlobalOverrides.removeStateOverride(serverId, WebtauServerOverrideFailedResponse.OVERRIDE_ID);
+        ServerResponseWaitLocks.releaseLock(serverId);
     }
 
     @Override

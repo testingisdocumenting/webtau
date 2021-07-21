@@ -33,7 +33,7 @@ scenario("proxy server") {
 }
 
 scenario("slowed down proxy") {
-    def slowDownServer = server.proxy("slow-proxy-server", staticServer.baseUrl, 0)
+    def slowDownServer = server.proxy("slow-proxy-server", staticServer.baseUrl)
     slowDownServer.markUnresponsive()
 
     code {
@@ -42,15 +42,27 @@ scenario("slowed down proxy") {
         }
     } should throwException(~/Read timed out/)
 
-    slowDownServer.markResponsive()
+    slowDownServer.fix()
 
     http.get("${slowDownServer.baseUrl}/hello.html") {
         body.should == expectedHtml
     }
 }
 
+scenario("broken proxy") {
+    def brokenServer = server.proxy("broken-proxy-server", staticServer.baseUrl)
+    brokenServer.markBroken()
+
+    http.get("${brokenServer.baseUrl}/hello.html") {
+        statusCode.should == 500
+        body.should == null
+    }
+
+    brokenServer.fix()
+}
+
 scenario("proxy override") {
-    def proxyServer = server.proxy("proxy-server-with-override", staticServer.baseUrl, 0)
+    def proxyServer = server.proxy("proxy-server-with-override", staticServer.baseUrl)
 
     def router = server.router("overrides")
     router.get("/another/{id}", (params) -> [anotherId: params.id])
@@ -72,7 +84,7 @@ scenario("proxy override") {
 }
 
 scenario("proxy override and slow down") {
-    def proxyServer = server.proxy("proxy-server-with-override-and-slowdown", staticServer.baseUrl, 0)
+    def proxyServer = server.proxy("proxy-server-with-override-and-slowdown", staticServer.baseUrl)
 
     def routerA = server.router("__overrides-a")
     routerA.get("/another/{id}", (params) -> [anotherId: params.id])
@@ -89,7 +101,7 @@ scenario("proxy override and slow down") {
         }
     } should throwException(~/Read timed out/)
 
-    proxyServer.markResponsive()
+    proxyServer.fix()
 
     http.get("${proxyServer.baseUrl}/hello.html") {
         body.should == expectedHtml
