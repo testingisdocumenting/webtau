@@ -3,7 +3,7 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "static content server",
@@ -17,6 +17,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 4,
       "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "broken",
+    "shortContainerId" : "staticContent.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
     }
   }, {
     "scenario" : "response override",

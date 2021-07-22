@@ -20,12 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
 
-class WebtauServerOverrideNoResponse implements WebtauServerOverride {
-    static final String OVERRIDE_ID = "unresponsive";
-    private final Object sleepLock;
+class WebtauServerOverrideFailedResponse implements WebtauServerOverride {
+    static final String OVERRIDE_ID = "failed-response";
 
-    WebtauServerOverrideNoResponse(String serverId) {
-        this.sleepLock = ServerResponseWaitLocks.grabTimerLockByServerId(serverId);
+    WebtauServerOverrideFailedResponse() {
     }
 
     @Override
@@ -40,20 +38,12 @@ class WebtauServerOverrideNoResponse implements WebtauServerOverride {
 
     @Override
     public byte[] responseBody(HttpServletRequest request) {
-        try {
-            synchronized (sleepLock) {
-                sleepLock.wait();
-            }
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
         return new byte[0];
     }
 
     @Override
     public String responseType(HttpServletRequest request) {
-        return "NA";
+        return "application/json";
     }
 
     @Override
@@ -63,6 +53,6 @@ class WebtauServerOverrideNoResponse implements WebtauServerOverride {
 
     @Override
     public int responseStatusCode(HttpServletRequest request) {
-        return 200;
+        return 500;
     }
 }

@@ -3,7 +3,7 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 6
+      "numberOfSuccessful" : 7
     }
   }, {
     "scenario" : "parse/init",
@@ -23,6 +23,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 4,
       "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "broken proxy",
+    "shortContainerId" : "proxyServer.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
     }
   }, {
     "scenario" : "proxy override",

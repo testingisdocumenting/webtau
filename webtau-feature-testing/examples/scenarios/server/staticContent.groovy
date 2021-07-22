@@ -47,7 +47,22 @@ scenario("slow down") {
         http.get("${staticServer.baseUrl}/hello.html")
     } should throwException(~/Read timed out/)
 
-    staticServer.markResponsive()
+    staticServer.fix()
+    http.get("${staticServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+}
+
+scenario("broken") {
+    def staticServer = server.serve("my-server-broken", "data/staticcontent")
+
+    staticServer.markBroken()
+    http.get("${staticServer.baseUrl}/hello.html") {
+        statusCode.should == 500
+        body.should == null
+    }
+
+    staticServer.fix()
     http.get("${staticServer.baseUrl}/hello.html") {
         body.should == expectedHtml
     }

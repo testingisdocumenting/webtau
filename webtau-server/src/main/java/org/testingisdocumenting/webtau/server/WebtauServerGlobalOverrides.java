@@ -36,7 +36,10 @@ class WebtauServerGlobalOverrides {
     static void removeOverride(String serverId, String overrideId) {
         String id = makeId(serverId, overrideId);
         contentOverrides.remove(id);
-        stateOverrides.remove(id);
+    }
+
+    static void removeStateOverride(String serverId, String overrideId) {
+        stateOverrides.remove(makeId(serverId, overrideId));
     }
 
     private static void addOverride(Map<String, WebtauServerOverride> overrides,
