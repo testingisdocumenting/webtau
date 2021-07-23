@@ -16,19 +16,41 @@
 
 package org.testingisdocumenting.webtau.server.journal;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public class WebtauServerHandledRequest {
+    public static final WebtauServerHandledRequest NULL = new WebtauServerHandledRequest();
+
     private final String method;
     private final String url;
-    private final String contentType;
+    private final String requestType;
+    private final String responseType;
+    private final String capturedResponse;
     private final long startTime;
     private final long elapsedTime;
 
-    public WebtauServerHandledRequest(String method, String url, String contentType, long startTime, long elapsedTime) {
-        this.method = method;
-        this.url = url;
-        this.contentType = contentType;
+    private WebtauServerHandledRequest() {
+        method = "";
+        url = "";
+        requestType = "";
+        responseType = "";
+        startTime = 0;
+        elapsedTime = 0;
+        capturedResponse = "[null handled request]";
+    }
+
+    public WebtauServerHandledRequest(HttpServletRequest request, HttpServletResponse response,
+                                      long startTime,
+                                      long endTime,
+                                      String capturedResponse) {
+        this.method = request.getMethod();
+        this.url = request.getRequestURI();
+        this.requestType = request.getContentType();
+        this.responseType = response.getContentType();
         this.startTime = startTime;
-        this.elapsedTime = elapsedTime;
+        this.elapsedTime = endTime - startTime;
+        this.capturedResponse = capturedResponse;
     }
 
     public String getMethod() {
@@ -39,8 +61,16 @@ public class WebtauServerHandledRequest {
         return url;
     }
 
-    public String getContentType() {
-        return contentType;
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public String getResponseType() {
+        return responseType;
+    }
+
+    public String getCapturedResponse() {
+        return capturedResponse;
     }
 
     public long getStartTime() {

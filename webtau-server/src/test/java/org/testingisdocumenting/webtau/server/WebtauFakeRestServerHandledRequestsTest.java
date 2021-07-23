@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.http.Http.*;
+import static org.testingisdocumenting.webtau.server.WebtauServerFacade.*;
 
 public class WebtauFakeRestServerHandledRequestsTest {
     @Test
@@ -30,12 +31,11 @@ public class WebtauFakeRestServerHandledRequestsTest {
                 .post("/customer/{id}", (params) -> aMapOf("postId", params.get("id")))
                 .put("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
 
-        try (WebtauFakeRestServer restServer = new WebtauFakeRestServer("router-crud-journal", 0)) {
-            restServer.addOverride(router);
-            restServer.start();
-
+        try (WebtauFakeRestServer restServer = server.fake("router-crud-journal", router)) {
             Thread thread = new Thread(() -> {
-                http.get(restServer.getBaseUrl() + "/customer/id3");
+                http.get(restServer.getBaseUrl() + "/customer/id3", (header, body) -> {
+                    body.get("getId").should(equal("id3"));
+                });
             });
 
             thread.start();
@@ -45,6 +45,18 @@ public class WebtauFakeRestServerHandledRequestsTest {
             thread.join();
 
             restServer.getJournal().GET.should(contain("/customer/id3"));
+        }
+    }
+
+    @Test
+    public void shouldCaptureResponse() {
+        WebtauRouter router = new WebtauRouter("customers");
+        router.get("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
+        try (WebtauFakeRestServer restServer = server.fake("router-crud-journal-response", router)) {
+            http.get(restServer.getBaseUrl() + "/customer/id3");
+
+            actual(restServer.getJournal().getLastHandledRequest()
+                    .getCapturedResponse()).should(equal("{\"getId\":\"id3\"}"));
         }
     }
 }

@@ -47,13 +47,15 @@ public class WebtauServersRegistry {
     }
 
     private static void stopServers() {
-        serverById.values().forEach(WebtauServer::stop);
+        serverById.values().stream()
+                .filter(WebtauServer::isRunning)
+                .forEach(WebtauServer::stop);
         serverById.clear();
     }
 
     private static void registerCleanup() {
         CleanupRegistration.registerForCleanup("stopping", "stopped", "servers",
-                () -> !serverById.isEmpty(),
+                () -> serverById.values().stream().anyMatch(WebtauServer::isRunning),
                 WebtauServersRegistry::stopServers);
     }
 }

@@ -42,7 +42,8 @@ abstract public class WebtauJettyServer implements WebtauServer {
     protected final WebtauServerJournal journal;
 
     protected Server server;
-    protected boolean started;
+    protected boolean isStarted;
+    protected boolean isRunning;
 
     public WebtauJettyServer(String id, int passedPort) {
         this.serverId = id;
@@ -74,7 +75,7 @@ abstract public class WebtauJettyServer implements WebtauServer {
 
     @Override
     public boolean isRunning() {
-        return started;
+        return isRunning;
     }
 
     @Override
@@ -151,7 +152,8 @@ abstract public class WebtauJettyServer implements WebtauServer {
         try {
             server.start();
             WebtauServersRegistry.register(this);
-            started = true;
+            isStarted = true;
+            isRunning = true;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -161,7 +163,7 @@ abstract public class WebtauJettyServer implements WebtauServer {
         try {
             ServerResponseWaitLocks.releaseLock(serverId);
             server.stop();
-            WebtauServersRegistry.unregister(this);
+            isRunning = false;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

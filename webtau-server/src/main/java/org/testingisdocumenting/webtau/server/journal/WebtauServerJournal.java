@@ -46,8 +46,16 @@ public class WebtauServerJournal {
         PATCH = handledRequests.PATCH;
     }
 
-    public void registerCall(String method, String url, String contentType, long startTime, long elapsedTime) {
-        handledRequestList.add(new WebtauServerHandledRequest(method.toUpperCase(), url, contentType, startTime, elapsedTime));
+    public void registerCall(WebtauServerHandledRequest handledRequest) {
+        handledRequestList.add(handledRequest);
+    }
+
+    public WebtauServerHandledRequest getLastHandledRequest() {
+        if (handledRequestList.isEmpty()) {
+            return WebtauServerHandledRequest.NULL;
+        }
+
+        return handledRequestList.get(handledRequestList.size() - 1);
     }
 
     public List<WebtauServerHandledRequest> handledRequestsByMethod(String method) {
