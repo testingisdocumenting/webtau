@@ -125,10 +125,10 @@ public class WebtauServerJournalJettyHandler implements Handler {
     }
 
     private static boolean isTextBasedResponse(String contentType) {
-        return contentType != null &&
+        return contentType != null && (
                 contentType.contains("text") ||
                 contentType.contains("html") ||
                 contentType.contains("json") ||
-                contentType.contains("xml");
+                contentType.contains("xml"));
     }
 }
