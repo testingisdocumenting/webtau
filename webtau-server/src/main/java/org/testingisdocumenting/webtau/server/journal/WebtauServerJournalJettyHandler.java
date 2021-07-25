@@ -40,11 +40,23 @@ public class WebtauServerJournalJettyHandler implements Handler {
     @Override
     public void handle(String uri, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         long startTime = Time.currentTimeMillis();
-        delegate.handle(uri, baseRequest, request, response);
-        long endTime = Time.currentTimeMillis();
+        ContentCaptureResponseWrapper captureResponseWrapper = new ContentCaptureResponseWrapper(response);
 
-        journal.registerCall(request.getMethod(), request.getRequestURI(), request.getContentType(),
-                startTime, (endTime - startTime));
+        try {
+            delegate.handle(uri, baseRequest, request, captureResponseWrapper);
+            long endTime = Time.currentTimeMillis();
+
+            String capturedResponse = isTextBasedResponse(response.getContentType()) ?
+                    captureResponseWrapper.getCaptureAsString():
+                    "[non text content]";
+
+            WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
+                    startTime, endTime,
+                    capturedResponse);
+            journal.registerCall(handledRequest);
+        } finally {
+            captureResponseWrapper.close();
+        }
     }
 
     @Override
@@ -53,25 +65,21 @@ public class WebtauServerJournalJettyHandler implements Handler {
     }
 
     @Override
-    @ManagedAttribute(value = "the jetty server for this handler", readonly = true)
     public Server getServer() {
         return delegate.getServer();
     }
 
     @Override
-    @ManagedOperation(value = "destroy associated resources", impact = "ACTION")
     public void destroy() {
         delegate.destroy();
     }
 
     @Override
-    @ManagedOperation(value = "Starts the instance", impact = "ACTION")
     public void start() throws Exception {
         delegate.start();
     }
 
     @Override
-    @ManagedOperation(value = "Stops the instance", impact = "ACTION")
     public void stop() throws Exception {
         delegate.stop();
     }
@@ -114,5 +122,13 @@ public class WebtauServerJournalJettyHandler implements Handler {
     @Override
     public void removeLifeCycleListener(Listener listener) {
         delegate.removeLifeCycleListener(listener);
+    }
+
+    private static boolean isTextBasedResponse(String contentType) {
+        return contentType != null && (
+                contentType.contains("text") ||
+                contentType.contains("html") ||
+                contentType.contains("json") ||
+                contentType.contains("xml"));
     }
 }
