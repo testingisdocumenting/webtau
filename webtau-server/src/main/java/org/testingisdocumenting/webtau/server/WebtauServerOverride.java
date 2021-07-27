@@ -30,23 +30,19 @@ public interface WebtauServerOverride {
 
     String overrideId();
 
-    byte[] responseBody(HttpServletRequest request);
-    String responseType(HttpServletRequest request);
+    WebtauServerResponse response(HttpServletRequest request);
 
-    Map<String, String> responseHeader(HttpServletRequest request);
-
-    int responseStatusCode(HttpServletRequest request);
-
-    default void apply(HttpServletRequest servletRequest, HttpServletResponse response) {
-        responseHeader(servletRequest).forEach(response::addHeader);
+    default void apply(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
+        WebtauServerResponse serverResponse = response(servletRequest);
+        serverResponse.getHeader().forEach((k, v) -> servletResponse.addHeader(k, v.toString()));
 
         try {
-            byte[] responseBody = responseBody(servletRequest);
-            response.setStatus(responseStatusCode(servletRequest));
-            response.setContentType(responseType(servletRequest));
+            byte[] responseBody = serverResponse.getContent();
+            servletResponse.setStatus(serverResponse.getStatusCode());
+            servletResponse.setContentType(serverResponse.getContentType());
 
             if (responseBody != null) {
-                response.getOutputStream().write(responseBody);
+                servletResponse.getOutputStream().write(responseBody);
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);

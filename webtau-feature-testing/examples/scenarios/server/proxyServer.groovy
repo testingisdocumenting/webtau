@@ -65,7 +65,7 @@ scenario("proxy override") {
     def proxyServer = server.proxy("proxy-server-with-override", staticServer.baseUrl)
 
     def router = server.router("overrides")
-    router.get("/another/{id}", (params) -> [anotherId: params.id])
+    router.get("/another/{id}", (request) -> server.response([anotherId: request.param("id")]))
     proxyServer.addOverride(router)
 
     http.get("${proxyServer.baseUrl}/hello.html") {
@@ -76,7 +76,7 @@ scenario("proxy override") {
         body.should == [anotherId: "hello"]
     }
 
-    router.get("/hello.html", (params) -> [id: 'test'])
+    router.get("/hello.html", (request) -> server.response([id: 'test']))
 
     http.get("${proxyServer.baseUrl}/hello.html") {
         body.should == [id: "test"]
@@ -87,9 +87,9 @@ scenario("proxy override and slow down") {
     def proxyServer = server.proxy("proxy-server-with-override-and-slowdown", staticServer.baseUrl)
 
     def routerA = server.router("__overrides-a")
-    routerA.get("/another/{id}", (params) -> [anotherId: params.id])
+    routerA.get("/another/{id}", (request) -> server.response([anotherId: request.param("id")]))
     def routerB = server.router("overrides-b")
-    routerB.get("/hello/{id}", (params) -> [hello: params.id])
+    routerB.get("/hello/{id}", (request) -> server.response([hello: request.param("id")]))
 
     proxyServer.addOverride(routerA)
     proxyServer.markUnresponsive()

@@ -22,10 +22,45 @@ import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.testingisdocumenting.webtau.server.WebtauServerResponseBuilder.*;
+
 public class WebtauServerFacade {
     public static final WebtauServerFacade server = new WebtauServerFacade();
 
     private WebtauServerFacade() {
+    }
+
+    public final WebtauServerResponseBuilder response = new WebtauServerResponseBuilder();
+
+    /**
+     * create response for a server based on the payload type. For String the response will be <code>plain/text</code> and for
+     * map/list/beans it will be application/json.
+     *
+     * @see WebtauServerFacade#response
+     * @see WebtauServerResponseBuilder#text
+     * @param body body to serialzie as response
+     * @return response instance
+     */
+    public WebtauServerResponse response(Object body) {
+        return response(USE_DEFAULT_STATUS_CODE, body);
+    }
+
+    /**
+     * create response for a server based on the payload type with a specified status code.
+     * For String the response will be <code>plain/text</code> and for
+     * map/list/beans it will be application/json.
+     *
+     * @see WebtauServerFacade#response
+     * @see WebtauServerResponseBuilder#text
+     * @param body body to serialzie as response
+     * @return response instance
+     */
+    public WebtauServerResponse response(int statusCode, Object body) {
+        if (body instanceof String) {
+            return response.text(statusCode, body.toString());
+        }
+
+        return response.json(statusCode, body);
     }
 
     /**

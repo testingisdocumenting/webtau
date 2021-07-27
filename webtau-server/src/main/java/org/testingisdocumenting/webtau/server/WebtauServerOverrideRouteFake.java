@@ -16,12 +16,9 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.testingisdocumenting.webtau.server.route.RouteParams;
 import org.testingisdocumenting.webtau.server.route.RouteParamsParser;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -30,17 +27,12 @@ import java.util.function.Function;
 public class WebtauServerOverrideRouteFake implements WebtauServerOverride {
     private final String method;
     private final RouteParamsParser routeParamsParser;
-    private final String responseType;
-    private final Function<RouteParams, Integer> statusCodeFunc;
-    private final Function<RouteParams, String> responseFunc;
+    private final Function<WebtauServerRequest, WebtauServerResponse> responseFunc;
 
-    public WebtauServerOverrideRouteFake(String method, String urlWithParams, String responseType,
-                                         Function<RouteParams, Integer> statusCodeFunc,
-                                         Function<RouteParams, String> responseFunc) {
+    public WebtauServerOverrideRouteFake(String method, String urlWithParams,
+                                         Function<WebtauServerRequest, WebtauServerResponse> responseFunc) {
         routeParamsParser = new RouteParamsParser(urlWithParams);
         this.method = method.toUpperCase();
-        this.responseType = responseType;
-        this.statusCodeFunc = statusCodeFunc;
         this.responseFunc = responseFunc;
     }
 
@@ -56,24 +48,10 @@ public class WebtauServerOverrideRouteFake implements WebtauServerOverride {
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        String response = responseFunc.apply(routeParamsParser.parse(request.getRequestURI()));
-        return response == null ? null : response.getBytes();
-    }
-
-    @Override
-    public String responseType(HttpServletRequest request) {
-        return responseType;
-    }
-
-    @Override
-    public Map<String, String> responseHeader(HttpServletRequest request) {
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public int responseStatusCode(HttpServletRequest request) {
-        return statusCodeFunc.apply(routeParamsParser.parse(request.getRequestURI()));
+    public WebtauServerResponse response(HttpServletRequest request) {
+        WebtauServerResponse serverResponse = responseFunc.apply(WebtauServerRequest.create(routeParamsParser,
+                request));
+        return serverResponse.newResponseWithUpdatedStatusCodeIfRequired(request.getMethod());
     }
 
     @Override
@@ -81,7 +59,6 @@ public class WebtauServerOverrideRouteFake implements WebtauServerOverride {
         return "WebtauServerOverrideRouteFake{" +
                 "method='" + method + '\'' +
                 ", route=" + routeParamsParser.getPathDefinition() +
-                ", responseType='" + responseType + '\'' +
                 '}';
     }
 }

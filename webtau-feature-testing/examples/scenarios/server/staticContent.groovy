@@ -71,7 +71,7 @@ scenario("broken") {
 scenario("response override") {
     def staticServer = server.serve("my-server-override", "data/staticcontent")
 
-    def router = server.router().get("/hello/:name") {[message: "hello $it.name"] }
+    def router = server.router().get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) }
     staticServer.addOverride(router)
 
     http.get("${staticServer.baseUrl}/hello/world") {

@@ -17,20 +17,16 @@
 package org.testingisdocumenting.webtau.server;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
-import java.util.Map;
 
 public class WebtauServerOverrideFake implements WebtauServerOverride {
     private final String method;
     private final String uri;
-    private final String responseType;
-    private final String response;
+    private final WebtauServerResponse fakeResponse;
 
-    public WebtauServerOverrideFake(String method, String uri, String responseType, String response) {
+    public WebtauServerOverrideFake(String method, String uri, WebtauServerResponse fakeResponse) {
         this.method = method.toUpperCase();
         this.uri = uri;
-        this.responseType = responseType;
-        this.response = response;
+        this.fakeResponse = fakeResponse;
     }
 
     @Override
@@ -45,22 +41,7 @@ public class WebtauServerOverrideFake implements WebtauServerOverride {
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        return response == null ? null : response.getBytes();
-    }
-
-    @Override
-    public String responseType(HttpServletRequest request) {
-        return responseType;
-    }
-
-    @Override
-    public Map<String, String> responseHeader(HttpServletRequest request) {
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public int responseStatusCode(HttpServletRequest request) {
-        return 200;
+    public WebtauServerResponse response(HttpServletRequest request) {
+        return fakeResponse;
     }
 }

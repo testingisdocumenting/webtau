@@ -27,9 +27,9 @@ public class WebtauFakeRestServerHandledRequestsTest {
     @Test
     public void shouldWaitOnACall() throws InterruptedException {
         WebtauRouter router = new WebtauRouter("customers");
-        router.get("/customer/{id}", (params) -> aMapOf("getId", params.get("id")))
-                .post("/customer/{id}", (params) -> aMapOf("postId", params.get("id")))
-                .put("/customer/{id}", (params) -> aMapOf("putId", params.get("id")));
+        router.get("/customer/{id}", (request) -> server.response(aMapOf("getId", request.param("id"))))
+                .post("/customer/{id}", (request) -> server.response(aMapOf("postId", request.param("id"))))
+                .put("/customer/{id}", (request) -> server.response(aMapOf("putId", request.param("id"))));
 
         try (WebtauFakeRestServer restServer = server.fake("router-crud-journal", router)) {
             Thread thread = new Thread(() -> {
@@ -51,7 +51,7 @@ public class WebtauFakeRestServerHandledRequestsTest {
     @Test
     public void shouldCaptureResponse() {
         WebtauRouter router = new WebtauRouter("customers");
-        router.get("/customer/{id}", (params) -> aMapOf("getId", params.get("id")));
+        router.get("/customer/{id}", (request) -> server.response(aMapOf("getId", request.param("id"))));
         try (WebtauFakeRestServer restServer = server.fake("router-crud-journal-response", router)) {
             http.get(restServer.getBaseUrl() + "/customer/id3");
 
