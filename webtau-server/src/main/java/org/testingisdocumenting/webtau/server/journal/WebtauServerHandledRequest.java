@@ -26,6 +26,7 @@ public class WebtauServerHandledRequest {
     private final String url;
     private final String requestType;
     private final String responseType;
+    private final String capturedRequest;
     private final String capturedResponse;
     private final long startTime;
     private final long elapsedTime;
@@ -37,12 +38,14 @@ public class WebtauServerHandledRequest {
         responseType = "";
         startTime = 0;
         elapsedTime = 0;
-        capturedResponse = "[null handled request]";
+        capturedRequest = "[null handled request: captured request]";
+        capturedResponse = "[null handled request: captured response]";
     }
 
     public WebtauServerHandledRequest(HttpServletRequest request, HttpServletResponse response,
                                       long startTime,
                                       long endTime,
+                                      String capturedRequest,
                                       String capturedResponse) {
         this.method = request.getMethod();
         this.url = request.getRequestURI();
@@ -50,6 +53,7 @@ public class WebtauServerHandledRequest {
         this.responseType = response.getContentType();
         this.startTime = startTime;
         this.elapsedTime = endTime - startTime;
+        this.capturedRequest = capturedRequest;
         this.capturedResponse = capturedResponse;
     }
 
@@ -67,6 +71,10 @@ public class WebtauServerHandledRequest {
 
     public String getResponseType() {
         return responseType;
+    }
+
+    public String getCapturedRequest() {
+        return capturedRequest;
     }
 
     public String getCapturedResponse() {

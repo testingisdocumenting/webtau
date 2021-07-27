@@ -49,6 +49,19 @@ public class WebtauFakeRestServerHandledRequestsTest {
     }
 
     @Test
+    public void shouldCaptureRequest() {
+        WebtauRouter router = new WebtauRouter("customers");
+        router.post("/customer", (request) -> server.response(null));
+
+        try (WebtauFakeRestServer restServer = server.fake("router-crud-journal-request", router)) {
+            http.post(restServer.getBaseUrl() + "/customer", aMapOf("name", "new name"));
+
+            actual(restServer.getJournal().getLastHandledRequest()
+                    .getCapturedRequest()).should(equal("{\"name\":\"new name\"}"));
+        }
+    }
+
+    @Test
     public void shouldCaptureResponse() {
         WebtauRouter router = new WebtauRouter("customers");
         router.get("/customer/{id}", (request) -> server.response(aMapOf("getId", request.param("id"))));
