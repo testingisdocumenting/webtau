@@ -19,8 +19,8 @@ package scenarios.server
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 def router = server.router()
-        .get("/hello/:name") { [message: "hello $it.name"]}
-        .get("/bye/:name") {[message: "bye $it.name"]}
+        .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) }
+        .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) }
 
 scenario("fake rest server") {
     def server = server.fake("my-rest-server", router)

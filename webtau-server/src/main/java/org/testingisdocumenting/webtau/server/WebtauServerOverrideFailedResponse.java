@@ -37,22 +37,7 @@ class WebtauServerOverrideFailedResponse implements WebtauServerOverride {
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        return new byte[0];
-    }
-
-    @Override
-    public String responseType(HttpServletRequest request) {
-        return "application/json";
-    }
-
-    @Override
-    public Map<String, String> responseHeader(HttpServletRequest request) {
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public int responseStatusCode(HttpServletRequest request) {
-        return 500;
+    public WebtauServerResponse response(HttpServletRequest request) {
+        return new WebtauServerResponse(500, "application/json", new byte[0], Collections.emptyMap());
     }
 }

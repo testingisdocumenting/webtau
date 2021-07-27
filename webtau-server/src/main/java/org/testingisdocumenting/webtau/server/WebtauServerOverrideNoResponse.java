@@ -39,7 +39,7 @@ class WebtauServerOverrideNoResponse implements WebtauServerOverride {
     }
 
     @Override
-    public byte[] responseBody(HttpServletRequest request) {
+    public WebtauServerResponse response(HttpServletRequest request) {
         try {
             synchronized (sleepLock) {
                 sleepLock.wait();
@@ -48,21 +48,6 @@ class WebtauServerOverrideNoResponse implements WebtauServerOverride {
             throw new RuntimeException(e);
         }
 
-        return new byte[0];
-    }
-
-    @Override
-    public String responseType(HttpServletRequest request) {
-        return "NA";
-    }
-
-    @Override
-    public Map<String, String> responseHeader(HttpServletRequest request) {
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public int responseStatusCode(HttpServletRequest request) {
-        return 200;
+        return new WebtauServerResponse(200, "text/plain", new byte[0], Collections.emptyMap());
     }
 }

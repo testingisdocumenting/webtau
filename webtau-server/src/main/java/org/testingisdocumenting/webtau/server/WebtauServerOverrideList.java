@@ -17,27 +17,27 @@
 package org.testingisdocumenting.webtau.server;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class WebtauServerOverrideList implements WebtauServerOverride {
-    private final List<WebtauServerOverride> overrides = Collections.synchronizedList(new ArrayList<>());
-    private String listId;
+    private final Map<String, WebtauServerOverride> overrides = new ConcurrentHashMap<>();
+    private final String listId;
 
     public WebtauServerOverrideList(String listId) {
         this.listId = listId;
     }
 
     public void addOverride(WebtauServerOverride override) {
-        overrides.add(override);
-    }
+        String overrideId = override.overrideId();
+        WebtauServerOverride existing = overrides.put(overrideId, override);
 
-    public void setListId(String listId) {
-        if (this.listId != null && !this.listId.isEmpty()) {
-            throw new IllegalStateException("listId is already set");
+        if (existing != null) {
+            throw new RuntimeException("already found an override for list id: " + listId +
+                    ", with override id: " + overrideId + ", existing override: " + existing);
         }
-
-        this.listId = listId;
     }
 
     @Override
@@ -51,36 +51,16 @@ public class WebtauServerOverrideList implements WebtauServerOverride {
     }
 
     @Override
+    public WebtauServerResponse response(HttpServletRequest request) {
+        Optional<WebtauServerOverride> found = findOverride(request);
+        return found.map(override -> override.response(request))
+                .orElseThrow(this::shouldNotHappen);
+    }
+
+    @Override
     public String toString() {
-        return "id:" + overrideId() + "; list:\n" + overrides.stream().map(WebtauServerOverride::overrideId).collect(Collectors.joining("\n"));
-    }
-
-    @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        Optional<WebtauServerOverride> found = findOverride(request);
-        return found.map(override -> override.responseBody(request))
-                .orElseThrow(this::shouldNotHappen);
-    }
-
-    @Override
-    public String responseType(HttpServletRequest request) {
-        Optional<WebtauServerOverride> found = findOverride(request);
-        return found.map(override -> override.responseType(request))
-                .orElseThrow(this::shouldNotHappen);
-    }
-
-    @Override
-    public Map<String, String> responseHeader(HttpServletRequest request) {
-        Optional<WebtauServerOverride> found = findOverride(request);
-        return found.map(override -> override.responseHeader(request))
-                .orElseThrow(this::shouldNotHappen);
-    }
-
-    @Override
-    public int responseStatusCode(HttpServletRequest request) {
-        Optional<WebtauServerOverride> found = findOverride(request);
-        return found.map(override -> override.responseStatusCode(request))
-                .orElseThrow(this::shouldNotHappen);
+        return "id:" + overrideId() + "; list:\n" + overrides.values().stream()
+                .map(WebtauServerOverride::overrideId).collect(Collectors.joining("\n"));
     }
 
     private Optional<WebtauServerOverride> findOverride(HttpServletRequest request) {
@@ -88,7 +68,7 @@ public class WebtauServerOverrideList implements WebtauServerOverride {
     }
 
     private Optional<WebtauServerOverride> findOverride(String method, String uri) {
-        return overrides.stream().filter(override -> override.matchesUri(method, uri)).findFirst();
+        return overrides.values().stream().filter(override -> override.matchesUri(method, uri)).findFirst();
     }
 
     private RuntimeException shouldNotHappen() {

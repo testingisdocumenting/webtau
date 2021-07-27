@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 class WebtauServerGlobalOverrides {
+
     private static final Map<String, WebtauServerOverride> contentOverrides = new ConcurrentHashMap<>();
     private static final Map<String, WebtauServerOverride> stateOverrides = new ConcurrentHashMap<>();
 
@@ -53,7 +54,7 @@ class WebtauServerGlobalOverrides {
         WebtauServerOverride existing = overrides.put(makeId(serverId, overrideId), override);
         if (existing != null) {
             throw new RuntimeException("already found an override for server: " + serverId +
-                    " with override id: " + overrideId + ", existing override: " + existing);
+                    ", with override id: " + overrideId + ", existing override: " + existing);
         }
     }
 
