@@ -17,8 +17,6 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig
-import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
