@@ -23,56 +23,59 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.*;
 
 class ContentCaptureResponseWrapper extends HttpServletResponseWrapper {
-    private final ByteArrayOutputStream capture;
     private final HttpServletResponse response;
+    private final ByteArrayOutputStream capture;
+
     private ServletOutputStream output;
 
     public ContentCaptureResponseWrapper(HttpServletResponse response) {
         super(response);
         this.response = response;
-        capture = new ByteArrayOutputStream(response.getBufferSize());
+        this.capture = new ByteArrayOutputStream(response.getBufferSize());
     }
 
     @Override
     public ServletOutputStream getOutputStream() {
-        if (output == null) {
-            ServletOutputStream originalOutputStream;
-            try {
-                originalOutputStream = response.getOutputStream();
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
+        if (output != null) {
+            return output;
+        }
+
+        ServletOutputStream originalOutputStream;
+        try {
+            originalOutputStream = response.getOutputStream();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        output = new ServletOutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+                originalOutputStream.write(b);
+                capture.write(b);
             }
 
-            output = new ServletOutputStream() {
-                @Override
-                public void write(int b) throws IOException {
-                    originalOutputStream.write(b);
-                    capture.write(b);
-                }
+            @Override
+            public void flush() throws IOException {
+                originalOutputStream.flush();
+                capture.flush();
+            }
 
-                @Override
-                public void flush() throws IOException {
-                    originalOutputStream.flush();
-                    capture.flush();
-                }
+            @Override
+            public void close() throws IOException {
+                originalOutputStream.close();
+                capture.close();
+            }
 
-                @Override
-                public void close() throws IOException {
-                    originalOutputStream.close();
-                    capture.close();
-                }
+            @Override
+            public boolean isReady() {
+                return originalOutputStream.isReady();
+            }
 
-                @Override
-                public boolean isReady() {
-                    return originalOutputStream.isReady();
-                }
-
-                @Override
-                public void setWriteListener(WriteListener listener) {
-                    originalOutputStream.setWriteListener(listener);
-                }
-            };
-        }
+            @Override
+            public void setWriteListener(WriteListener listener) {
+                originalOutputStream.setWriteListener(listener);
+            }
+        };
 
         return output;
     }
@@ -96,12 +99,14 @@ class ContentCaptureResponseWrapper extends HttpServletResponseWrapper {
     }
 
     public void close() {
-        if (output != null) {
-            try {
-                output.close();
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
+        if (output == null) {
+            return;
+        }
+
+        try {
+            output.close();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 

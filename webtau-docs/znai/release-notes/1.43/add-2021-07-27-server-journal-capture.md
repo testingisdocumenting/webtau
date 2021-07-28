@@ -1,0 +1,1 @@
+* Server journal capture request body and response body

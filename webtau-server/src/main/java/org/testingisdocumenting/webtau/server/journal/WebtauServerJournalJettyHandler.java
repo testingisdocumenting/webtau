@@ -19,8 +19,6 @@ package org.testingisdocumenting.webtau.server.journal;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.util.annotation.ManagedAttribute;
-import org.eclipse.jetty.util.annotation.ManagedOperation;
 import org.testingisdocumenting.webtau.time.Time;
 
 import javax.servlet.ServletException;
@@ -40,18 +38,24 @@ public class WebtauServerJournalJettyHandler implements Handler {
     @Override
     public void handle(String uri, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         long startTime = Time.currentTimeMillis();
+        ContentCaptureRequestWrapper captureRequestWrapper = new ContentCaptureRequestWrapper(request);
         ContentCaptureResponseWrapper captureResponseWrapper = new ContentCaptureResponseWrapper(response);
 
         try {
-            delegate.handle(uri, baseRequest, request, captureResponseWrapper);
+            delegate.handle(uri, baseRequest, captureRequestWrapper, captureResponseWrapper);
             long endTime = Time.currentTimeMillis();
 
-            String capturedResponse = isTextBasedResponse(response.getContentType()) ?
+            String capturedRequest = isTextBasedContent(request.getContentType()) ?
+                    captureRequestWrapper.getCaptureAsString():
+                    "[non text content]";
+
+            String capturedResponse = isTextBasedContent(response.getContentType()) ?
                     captureResponseWrapper.getCaptureAsString():
                     "[non text content]";
 
             WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
                     startTime, endTime,
+                    capturedRequest,
                     capturedResponse);
             journal.registerCall(handledRequest);
         } finally {
@@ -124,7 +128,7 @@ public class WebtauServerJournalJettyHandler implements Handler {
         delegate.removeLifeCycleListener(listener);
     }
 
-    private static boolean isTextBasedResponse(String contentType) {
+    private static boolean isTextBasedContent(String contentType) {
         return contentType != null && (
                 contentType.contains("text") ||
                 contentType.contains("html") ||
