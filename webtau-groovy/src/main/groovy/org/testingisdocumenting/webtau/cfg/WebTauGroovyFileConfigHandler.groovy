@@ -106,7 +106,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
 
     private static ConfigObject parseConfig(WebTauConfig cfg, Path configPath) {
         try {
-            def groovy = GroovyRunner.createWithoutDelegating(cfg.workingDir)
+            def groovy = GroovyRunner.createWithoutDelegatingAndWithoutStaticImports(cfg.workingDir)
 
             ConfigSlurper configSlurper = new ConfigSlurper(cfg.env)
             def configScript = groovy.createScript(configPath.toUri().toString(), new ConfigBinding())

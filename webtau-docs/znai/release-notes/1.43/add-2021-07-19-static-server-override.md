@@ -1,1 +1,1 @@
-* added overrides and slow down to static server
+* Added overrides and slow down to static server

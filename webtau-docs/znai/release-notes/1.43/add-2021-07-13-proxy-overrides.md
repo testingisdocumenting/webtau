@@ -1,1 +1,1 @@
-* server proxy - handle router overrides 
+* Handle router overrides in proxy server 

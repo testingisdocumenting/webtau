@@ -1,1 +1,1 @@
-* add server journal to track or wait on handled calls
+* Add server journal to track or wait on handled calls

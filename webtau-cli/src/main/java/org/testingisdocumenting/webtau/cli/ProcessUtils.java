@@ -33,7 +33,7 @@ class ProcessUtils {
     }
 
     static ProcessRunResult run(String command, CliProcessConfig config) throws IOException {
-        CliBackgroundProcess backgroundRunResult = runInBackground(command, config);
+        CliBackgroundProcess backgroundRunResult = runInBackground(command, config.env(CliConfig.getCliEnv()));
 
         try {
             long timeoutMs = config.isTimeoutSpecified() ? config.getTimeoutMs() : CliConfig.getCliTimeoutMs();

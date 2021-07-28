@@ -1,0 +1,1 @@
+* Add `cliEnv` config value to set common environment variables for [cli.run](cli/foreground-command#common-environment-variables) and [cli.runInBackground](cli/background-command#common-environment-variables)
