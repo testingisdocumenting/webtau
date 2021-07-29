@@ -42,8 +42,7 @@ All query parameters are encoded automatically.
     entry: "query params encoding",
     startLine: "query params encoding snippet start",
     endLine: "query params encoding snippet end",
-    excludeStartEnd: true,
-    excludeRegexp: "http.doc"
+    excludeStartEnd: true
 }
 
 :include-file: doc-artifacts/query-params-encoding/request.url.txt {title: "automatic encoding"}
