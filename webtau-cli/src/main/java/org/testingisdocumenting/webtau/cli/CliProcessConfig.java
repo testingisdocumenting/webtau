@@ -32,15 +32,18 @@ class CliProcessConfig {
     public static final CliProcessConfig EMPTY = new CliProcessConfig();
     public static final CliProcessConfig SILENT = new CliProcessConfig().silent();
 
-    private Map<String, String> env;
+    private final Map<String, String> env;
     private File workingDir;
     private boolean isSilent;
 
     private long timeoutMs;
     private boolean timeoutSpecified;
 
-    public CliProcessConfig env(Map<String, CharSequence> env) {
+    CliProcessConfig() {
         this.env = new HashMap<>();
+    }
+
+    public CliProcessConfig env(Map<String, CharSequence> env) {
         env.forEach((k, v) -> this.env.put(k, v.toString()));
 
         return this;
@@ -98,16 +101,13 @@ class CliProcessConfig {
             input.put("local timeout", timeoutMs);
         }
 
-        if (env != null) {
-            env.forEach((k, v) -> input.put("$" + k, v));
-        }
-
+        env.forEach((k, v) -> input.put("$" + k, v));
 
         return WebTauStepInputKeyValue.stepInput(input);
     }
 
     void applyTo(ProcessBuilder processBuilder) {
-        if (env != null) {
+        if (!env.isEmpty()) {
             processBuilder.environment().putAll(env);
         }
 

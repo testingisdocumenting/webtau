@@ -156,12 +156,17 @@ public class ConfigValue {
         }
 
         Object first = getAsObject();
-        return first.toString().toLowerCase().equals("true");
+        return first.toString().equalsIgnoreCase("true");
     }
 
     @SuppressWarnings("unchecked")
     public <T> List<T> getAsList() {
         return (List<T>) getAsObject();
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getAsMap() {
+        return (Map<String, Object>) getAsObject();
     }
 
     @Override

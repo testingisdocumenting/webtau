@@ -133,6 +133,20 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "common env vars"() {
+        runCli('cliCommonEnvVars.groovy', 'webtau-cli-env-vars.cfg.groovy')
+    }
+
+    @Test
+    void "common env vars extract code snippets"() {
+        extractCodeSnippets(
+                'common-env-vars', 'examples/scenarios/cli/cliCommonEnvVars.groovy', [
+                'foreground.groovy': 'foreground process var from config',
+                'background.groovy': 'background process var from config'
+        ])
+    }
+
+    @Test
     void "send input"() {
         runCli('sendInput.groovy', 'webtau.cfg.groovy')
     }
