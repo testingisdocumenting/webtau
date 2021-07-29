@@ -88,7 +88,7 @@ Set `cliEnv` config value with environment values that needs to be passed to eac
 
 :include-file: scenarios/cli/webtau-cli-env-vars.cfg.groovy {
   title: "webtau.config.groovy",
-  excludeRegexp: "package"
+  surroundedBy: "default-my-var"
 }
 
 :include-file: doc-artifacts/snippets/common-env-vars/foreground.groovy {
