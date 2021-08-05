@@ -16,22 +16,22 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
-    public final ConfigParserEnvironmentsDelegate environmentsDelegate
+class ConfigParserValueHolderDelegate {
+    protected final ConfigValueHolder root
 
-    ConfigParserDslDelegate() {
-        super(new ConfigValueHolder("cfg"))
-        environmentsDelegate = new ConfigParserEnvironmentsDelegate(this.@root)
+    ConfigParserValueHolderDelegate(ConfigValueHolder root) {
+        this.root = root
     }
 
-    void environments(Closure setup) {
-        def cloned = setup.clone() as Closure
-        cloned.delegate = environmentsDelegate
-        cloned.resolveStrategy = Closure.DELEGATE_FIRST
-        cloned.run()
+    void setProperty(String name, Object value) {
+        this.root.setProperty(name, value)
     }
 
-    Map<String, Object> envValuesToMap(String env) {
-       return this.@environmentsDelegate.@valuesPerEnv.get(env).toMap()
+    Object getProperty(String name) {
+        return this.root.getProperty(name)
+    }
+
+    Map<String, Object> toMap() {
+        return this.root.toMap()
     }
 }

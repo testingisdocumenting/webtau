@@ -18,6 +18,9 @@ package org.testingisdocumenting.webtau.cfg
 
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.Matchers.code
+import static org.testingisdocumenting.webtau.Matchers.throwException
+
 class ConfigParserDslDelegateTest {
     @Test
     void "delegate basic properties"() {
@@ -30,6 +33,81 @@ class ConfigParserDslDelegateTest {
         dslDelegate.toMap().should == [email: 'hello',
                                        cliEnv: [my_var: [nested: 'webtau']],
                                        cliPath: ['p1', 'p2']]
+    }
+
+    @Test
+    void "delegate environments"() {
+        def dslDelegate = runClosureWithDelegate {
+            email = 'hello'
+            environments {
+                dev {
+                    email = 'dev-hello'
+                }
+
+                beta {
+                    email = 'beta'
+                }
+            }
+        }
+
+        dslDelegate.envValuesToMap("dev").should == [email: "dev-hello"]
+        dslDelegate.envValuesToMap("beta").should == [email: "beta"]
+    }
+
+    @Test
+    void "environment partial value override"() {
+        def dslDelegate = runClosureWithDelegate {
+            perKey = [id1: 'value1', id2: 'value2']
+            environments {
+                dev {
+                    perKey.id1 = 'value1-dev' // get(perKey).set(id1, 'value1-dev')
+                    perKey.id3 = 'value3-dev'
+                }
+
+                beta {
+                    perKey.id3 = 'value3-beta'
+                }
+            }
+        }
+
+        println(dslDelegate.envValuesToMap("dev"))
+        println(dslDelegate.envValuesToMap("beta"))
+
+        dslDelegate.envValuesToMap("dev").should == [perKey: [id1: 'value1-dev', id2: 'value2', id3: 'value3-dev']]
+        dslDelegate.envValuesToMap("beta").should == [perKey: [id1: 'value1', id2: 'value2', id3: 'value3-beta']]
+    }
+
+    @Test
+    void "delegate environments should forbid config values outside specific env"() {
+        code {
+            runClosureWithDelegate {
+                email = 'hello'
+                environments {
+                    email = 'dev-hello'
+                }
+            }
+        } should throwException("config values must be defined within a specific environment\n" +
+                "usage for environments should look like this:\n" +
+                "environments {\n" +
+                "   dev {\n" +
+                "   }\n" +
+                "}\n")
+    }
+
+    @Test
+    void "delegate environments should validate environments is passed closure"() {
+        code {
+            runClosureWithDelegate {
+                email = 'hello'
+                environments {
+                    dev "hello"
+                }
+            }
+        } should throwException("usage for environments should look like this:\n" +
+                "environments {\n" +
+                "   dev {\n" +
+                "   }\n" +
+                "}\n")
     }
 
     private static ConfigParserDslDelegate runClosureWithDelegate(Closure closure) {
