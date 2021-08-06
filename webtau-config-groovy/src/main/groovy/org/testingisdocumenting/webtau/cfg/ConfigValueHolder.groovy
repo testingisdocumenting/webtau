@@ -20,11 +20,17 @@ package org.testingisdocumenting.webtau.cfg
  * holds a single value or a complex value (e.g. map)
  */
 class ConfigValueHolder {
+    static final ConfigValueHolder EMPTY = new ConfigValueHolder("__empty")
+
     private String holderName
     private Object value
     private Map<String, Object> map
 
+    // environment specific override will take a copy of values from here
+    private final ConfigValueHolder commonValueHolder
+
     ConfigValueHolder(String name, Object value) {
+        this.@commonValueHolder = EMPTY
         this.@holderName = name
 
         if (value instanceof Map) {
@@ -34,19 +40,39 @@ class ConfigValueHolder {
         }
     }
 
-    ConfigValueHolder(String name) {
+    ConfigValueHolder(String name, ConfigValueHolder commonValueHolder) {
         this.@holderName = name
         this.@map = new LinkedHashMap<>()
+        this.@commonValueHolder = commonValueHolder
+    }
+
+    ConfigValueHolder(String name) {
+        this(name, EMPTY)
+    }
+
+    def makeCopy() {
+        def copy = new ConfigValueHolder(this.@holderName, this.@commonValueHolder)
+        copy.@map = new LinkedHashMap<>(this.@map)
+
+        return copy
     }
 
     Object getProperty(String name) {
         def holder = this.@map.get(name)
-        if (holder == null) {
-            holder = new ConfigValueHolder(concatPath(this.@holderName, name))
-            this.@map.put(name, holder)
+        if (holder != null) {
+            return holder
         }
 
-        return holder
+        def fromCommon = findInCommon(name)
+        if (fromCommon != null) {
+            this.@map.put(name, fromCommon)
+            return fromCommon
+        }
+
+        def newHolder = new ConfigValueHolder(concatPath(this.@holderName, name))
+        this.@map.put(name, newHolder)
+
+        return newHolder
     }
 
     void setProperty(String name, Object value) {
@@ -61,21 +87,38 @@ class ConfigValueHolder {
         return convertMap(this.@map)
     }
 
+    private ConfigValueHolder findInCommon(String name) {
+        // in case of environment override we need the copy of common values that represent map like object
+        // so environment specific override can override a single value within a map or add a new value
+        //
+        def fromCommon = (this.@commonValueHolder.@map != null && !this.@commonValueHolder.@map.isEmpty()) ?
+                this.@commonValueHolder.getProperty(name) : null
+        if (fromCommon instanceof ConfigValueHolder) {
+            return fromCommon.makeCopy()
+        }
+
+        return null
+    }
+
     private static Map<String, Object> convertMap(Map<String, Object> toConvert) {
         Map<String, Object> result = new LinkedHashMap<>()
         toConvert.forEach((k, v) -> {
             result.put(k, convertValue(v))
         })
 
-        return result;
+        return result
     }
 
-    private static Object convertValue(ConfigValueHolder v) {
-        if (v.@value) {
-            return v.@value
-        }
+    private static Object convertValue(Object v) {
+        if (v instanceof ConfigValueHolder) {
+            if (v.@value) {
+                return v.@value
+            }
 
-        return v.toMap()
+            return v.toMap()
+        } else {
+            return v
+        }
     }
 
     private static String concatPath(String left, String right) {
