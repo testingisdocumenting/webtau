@@ -18,9 +18,11 @@ package org.testingisdocumenting.webtau.cfg
 
 class ConfigParserValueHolderDelegate {
     protected final ConfigValueHolder root
+    private final ConfigParserPersonasDelegate personasDelegate
 
     ConfigParserValueHolderDelegate(ConfigValueHolder root) {
         this.root = root
+        this.personasDelegate = new ConfigParserPersonasDelegate(this.@root)
     }
 
     void setProperty(String name, Object value) {
@@ -34,4 +36,25 @@ class ConfigParserValueHolderDelegate {
     Map<String, Object> toMap() {
         return this.root.toMap()
     }
+
+    void personas(Closure setup) {
+        def cloned = setup.clone() as Closure
+        cloned.delegate = personasDelegate
+        cloned.resolveStrategy = Closure.DELEGATE_FIRST
+        cloned.run()
+    }
 }
+
+/*
+
+email = 'email'
+cliEnv = [common: 'CMN']
+
+personas {
+  Alice {
+    email = 'new email' // needs to have root.set('Alice', 'email', 'new email')
+    cliEnv.SPECIFIC = 'alice specific' // root.get('cliEnv').set('Alice', 'SPECIFIC', 'alice specific')
+  }
+}
+
+ */

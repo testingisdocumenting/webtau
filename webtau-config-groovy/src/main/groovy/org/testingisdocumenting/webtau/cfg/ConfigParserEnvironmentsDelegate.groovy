@@ -37,7 +37,7 @@ class ConfigParserEnvironmentsDelegate {
         }
 
         Closure definitionClosure = args[0].clone() as Closure
-        ConfigValueHolder delegate = new ConfigValueHolder(name, commonValueHolder)
+        def delegate = new ConfigParserValueHolderDelegate(ConfigValueHolder.withCommonValueHolder(name, commonValueHolder))
         valuesPerEnv.put(name, delegate)
 
         definitionClosure.delegate = delegate
