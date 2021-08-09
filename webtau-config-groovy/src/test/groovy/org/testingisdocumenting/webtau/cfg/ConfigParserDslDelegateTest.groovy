@@ -149,9 +149,15 @@ class ConfigParserDslDelegateTest {
             }
         }
 
-        println dslDelegate.personaValuesToMap('Alice')
+        dslDelegate.personaValuesToMap('Alice').should == [COMMON: 'common value',
+                                                           ANOTHER_COMMON: 'another common value',
+                                                           CREDENTIALS: 'alice-token',
+                                                           EXTRA_ALICE: 'extra alice']
 
-        println dslDelegate
+        dslDelegate.personaValuesToMap('Bob').should == [COMMON: 'common value',
+                                                           ANOTHER_COMMON: 'another common value',
+                                                           CREDENTIALS: 'bob-token',
+                                                           EXTRA_BOB: 'extra bob']
     }
 
     private static ConfigParserDslDelegate runClosureWithDelegate(Closure closure) {

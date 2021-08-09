@@ -123,7 +123,7 @@ class ConfigValueHolder {
             return holder
         }
 
-        def fromCommon = findInCommon(name)
+        def fromCommon = findInCommonAndMakeCopy(name)
         if (fromCommon != null) {
             this.@value.map.put(name, fromCommon)
             return fromCommon
@@ -160,7 +160,7 @@ class ConfigValueHolder {
         return this.@value.convertToMap()
     }
 
-    private ConfigValueHolder findInCommon(String name) {
+    private ConfigValueHolder findInCommonAndMakeCopy(String name) {
         // in case of environment override we need the copy of common values that represent map like object
         // so environment specific override can override a single value within a map or add a new value
         //
@@ -168,7 +168,7 @@ class ConfigValueHolder {
                 this.@commonValueHolder.getProperty(name) : null
         if (fromCommon instanceof ConfigValueHolder) {
             def copy = fromCommon.makeCopy(this.@personaId)
-            this.@commonValueHolder.@valuePerPersona.put(this.@personaId, copy)
+            this.@commonValueHolder.@valuePerPersona.put(this.@personaId, copy.@value)
 
             return copy
         }
