@@ -16,30 +16,29 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-class ConfigParserEnvironmentsDelegate {
-    private static final String USAGE = "usage for environments should look like this:\n" +
-            "environments {\n" +
-            "   dev {\n" +
+class ConfigParserPersonasDelegate {
+    private static final String USAGE = "usage for personas should look like this:\n" +
+            "personas {\n" +
+            "   Alice {\n" +
+            "     email = \"alice-email\"\n" +
             "   }\n" +
             "}\n"
 
     private final ConfigValueHolder commonValueHolder
 
-    public final Map<String, ConfigValueHolder> valuesPerEnv = new LinkedHashMap<>()
-
-    ConfigParserEnvironmentsDelegate(ConfigValueHolder commonValueHolder) {
+    ConfigParserPersonasDelegate(ConfigValueHolder commonValueHolder) {
         this.commonValueHolder = commonValueHolder
     }
 
-    def invokeMethod(String name, args) {
+    def invokeMethod(String personaName, args) {
         if (args.length != 1 || !(args[0] instanceof Closure)) {
             throw new IllegalArgumentException(USAGE)
         }
 
-        Closure definitionClosure = args[0].clone() as Closure
-        def delegate = new ConfigParserValueHolderDelegate(ConfigValueHolder.withCommonValueHolder(name, commonValueHolder))
-        valuesPerEnv.put(name, delegate)
+        def personaValueHolder = ConfigValueHolder.withCommonValueHolderAndPersona(personaName, personaName, commonValueHolder)
+        def delegate = new ConfigParserValueHolderDelegate(personaValueHolder)
 
+        Closure definitionClosure = args[0].clone() as Closure
         definitionClosure.delegate = delegate
         definitionClosure.resolveStrategy = Closure.DELEGATE_FIRST
         definitionClosure.run()
@@ -54,6 +53,6 @@ class ConfigParserEnvironmentsDelegate {
     }
 
     private static void throwNoPropsOutsideEnvs() {
-        throw new IllegalArgumentException("config values must be defined within a specific environment\n" + USAGE)
+        throw new IllegalArgumentException("config values must be defined within a specific persona\n" + USAGE)
     }
 }

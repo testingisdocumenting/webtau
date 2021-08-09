@@ -20,7 +20,7 @@ class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
     public final ConfigParserEnvironmentsDelegate environmentsDelegate
 
     ConfigParserDslDelegate() {
-        super(new ConfigValueHolder("cfg"))
+        super(ConfigValueHolder.withNameOnly("cfg"))
         environmentsDelegate = new ConfigParserEnvironmentsDelegate(this.@root)
     }
 
@@ -33,5 +33,9 @@ class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
 
     Map<String, Object> envValuesToMap(String env) {
        return this.@environmentsDelegate.@valuesPerEnv.get(env).toMap()
+    }
+
+    Map<String, Object> personaValuesToMap(String personaId) {
+       return this.@root.@valuePerPersona.get(personaId).convertToMap()
     }
 }

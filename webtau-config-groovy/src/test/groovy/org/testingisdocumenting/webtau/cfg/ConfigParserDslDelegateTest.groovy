@@ -60,7 +60,7 @@ class ConfigParserDslDelegateTest {
             perKey = [id1: 'value1', id2: 'value2']
             environments {
                 dev {
-                    perKey.id1 = 'value1-dev' // get(perKey).set(id1, 'value1-dev')
+                    perKey.id1 = 'value1-dev'
                     perKey.id3 = 'value3-dev'
                 }
 
@@ -108,6 +108,56 @@ class ConfigParserDslDelegateTest {
                 "   dev {\n" +
                 "   }\n" +
                 "}\n")
+    }
+
+    @Test
+    void "delegate personas"() {
+        def dslDelegate = runClosureWithDelegate {
+            email = 'hello'
+            personas {
+                Alice {
+                    email = 'alice-email'
+                }
+
+                Bob {
+                    email = 'bob-email'
+                }
+            }
+        }
+
+        dslDelegate.personaValuesToMap('Alice').should == [email: 'alice-email']
+        dslDelegate.personaValuesToMap('Bob').should == [email: 'bob-email']
+    }
+
+    @Test
+    void "delegate personas complex object"() {
+        def dslDelegate = runClosureWithDelegate {
+            cliEnv = [
+                    COMMON: 'common value',
+                    ANOTHER_COMMON: 'another common value']
+
+            personas {
+                Alice {
+                    cliEnv.CREDENTIALS = 'alice-token'
+                    cliEnv.EXTRA_ALICE = 'extra alice'
+                }
+
+                Bob {
+                    cliEnv.CREDENTIALS = 'bob-token'
+                    cliEnv.EXTRA_BOB = 'extra bob'
+                }
+            }
+        }
+
+        dslDelegate.personaValuesToMap('Alice').should == [COMMON: 'common value',
+                                                           ANOTHER_COMMON: 'another common value',
+                                                           CREDENTIALS: 'alice-token',
+                                                           EXTRA_ALICE: 'extra alice']
+
+        dslDelegate.personaValuesToMap('Bob').should == [COMMON: 'common value',
+                                                           ANOTHER_COMMON: 'another common value',
+                                                           CREDENTIALS: 'bob-token',
+                                                           EXTRA_BOB: 'extra bob']
     }
 
     private static ConfigParserDslDelegate runClosureWithDelegate(Closure closure) {
