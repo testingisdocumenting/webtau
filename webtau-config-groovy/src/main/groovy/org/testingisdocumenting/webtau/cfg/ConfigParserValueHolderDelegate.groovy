@@ -44,17 +44,3 @@ class ConfigParserValueHolderDelegate {
         cloned.run()
     }
 }
-
-/*
-
-email = 'email'
-cliEnv = [common: 'CMN']
-
-personas {
-  Alice {
-    email = 'new email' // needs to have root.set('Alice', 'email', 'new email')
-    cliEnv.SPECIFIC = 'alice specific' // root.get('cliEnv').set('Alice', 'SPECIFIC', 'alice specific')
-  }
-}
-
- */

@@ -23,22 +23,23 @@ class ConfigParserEnvironmentsDelegate {
             "   }\n" +
             "}\n"
 
-    private final ConfigValueHolder commonValueHolder
+    private final ConfigValueHolder root
 
     public final Map<String, ConfigValueHolder> valuesPerEnv = new LinkedHashMap<>()
 
-    ConfigParserEnvironmentsDelegate(ConfigValueHolder commonValueHolder) {
-        this.commonValueHolder = commonValueHolder
+    ConfigParserEnvironmentsDelegate(ConfigValueHolder root) {
+        this.root = root
     }
 
-    def invokeMethod(String name, args) {
+    def invokeMethod(String envName, args) {
         if (args.length != 1 || !(args[0] instanceof Closure)) {
             throw new IllegalArgumentException(USAGE)
         }
 
         Closure definitionClosure = args[0].clone() as Closure
-        def delegate = new ConfigParserValueHolderDelegate(ConfigValueHolder.withCommonValueHolder(name, commonValueHolder))
-        valuesPerEnv.put(name, delegate)
+        def envRoot = ConfigValueHolder.withRoot(envName, root)
+        def delegate = new ConfigParserValueHolderDelegate(envRoot)
+        valuesPerEnv.put(envName, envRoot)
 
         definitionClosure.delegate = delegate
         definitionClosure.resolveStrategy = Closure.DELEGATE_FIRST

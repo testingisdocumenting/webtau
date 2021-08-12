@@ -38,4 +38,8 @@ class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
     Map<String, Object> personaValuesToMap(String personaId) {
        return this.@root.@valuePerPersona.get(personaId).convertToMap()
     }
+
+    Map<String, Object> envPersonaValuesToMap(String env, String personaId) {
+        return this.@environmentsDelegate.@valuesPerEnv.get(env).@valuePerPersona.get(personaId).toMap()
+    }
 }

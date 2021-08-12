@@ -24,10 +24,10 @@ class ConfigParserPersonasDelegate {
             "   }\n" +
             "}\n"
 
-    private final ConfigValueHolder commonValueHolder
+    private final ConfigValueHolder root
 
-    ConfigParserPersonasDelegate(ConfigValueHolder commonValueHolder) {
-        this.commonValueHolder = commonValueHolder
+    ConfigParserPersonasDelegate(ConfigValueHolder root) {
+        this.root = root
     }
 
     def invokeMethod(String personaName, args) {
@@ -35,7 +35,7 @@ class ConfigParserPersonasDelegate {
             throw new IllegalArgumentException(USAGE)
         }
 
-        def personaValueHolder = ConfigValueHolder.withCommonValueHolderAndPersona(personaName, personaName, commonValueHolder)
+        def personaValueHolder = ConfigValueHolder.withRootAndPersona(personaName, personaName, root)
         def delegate = new ConfigParserValueHolderDelegate(personaValueHolder)
 
         Closure definitionClosure = args[0].clone() as Closure

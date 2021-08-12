@@ -70,9 +70,6 @@ class ConfigParserDslDelegateTest {
             }
         }
 
-        println(dslDelegate.envValuesToMap("dev"))
-        println(dslDelegate.envValuesToMap("beta"))
-
         dslDelegate.envValuesToMap("dev").should == [perKey: [id1: 'value1-dev', id2: 'value2', id3: 'value3-dev']]
         dslDelegate.envValuesToMap("beta").should == [perKey: [id1: 'value1', id2: 'value2', id3: 'value3-beta']]
     }
@@ -158,6 +155,59 @@ class ConfigParserDslDelegateTest {
                                                            ANOTHER_COMMON: 'another common value',
                                                            CREDENTIALS: 'bob-token',
                                                            EXTRA_BOB: 'extra bob']
+    }
+
+    @Test
+    void "delegate personas complex object inside environment"() {
+        def dslDelegate = runClosureWithDelegate {
+            cliEnv = [
+                    COMMON: 'common value',
+                    ANOTHER_COMMON: 'another common value']
+
+            personas {
+                Alice {
+                    cliEnv.CREDENTIALS = 'alice-token'
+                    cliEnv.EXTRA_ALICE = 'extra alice'
+                }
+
+//                Bob {
+//                    cliEnv.CREDENTIALS = 'bob-token'
+//                    cliEnv.EXTRA_BOB = 'extra bob'
+//                }
+            }
+
+            environments {
+                dev {
+                    personas {
+                        Alice {
+                            cliEnv.CREDENTIALS = 'alice-dev-token'
+                            cliEnv.EXTRA_ALICE = 'extra dev alice'
+                        }
+
+//                        Bob {
+//                            cliEnv.CREDENTIALS = 'bob-dev-token'
+//                            cliEnv.EXTRA_BOB = 'extra dev bob'
+//                        }
+                    }
+                }
+
+//                beta {
+//                    personas {
+//                        Alice {
+//                            cliEnv.CREDENTIALS = 'alice-beta-token'
+//                            cliEnv.EXTRA_ALICE = 'extra beta alice'
+//                        }
+//
+//                        Bob {
+//                            cliEnv.CREDENTIALS = 'bob-beta-token'
+//                            cliEnv.EXTRA_BOB = 'extra beta bob'
+//                        }
+//                    }
+//                }
+            }
+        }
+
+        println dslDelegate.envPersonaValuesToMap('dev', 'Alice')
     }
 
     private static ConfigParserDslDelegate runClosureWithDelegate(Closure closure) {
