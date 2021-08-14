@@ -1,0 +1,1 @@
+* Add java.time.Instant and String compareTo handler rule
