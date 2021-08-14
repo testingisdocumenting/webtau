@@ -98,6 +98,35 @@ class DateAndStringCompareToHandlerTest {
     }
 
     @Test
+    void "actual zoned date time string equals expected instance"() {
+        def expectedInstance = ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC")).toInstant()
+        actual("2018-01-02T10:00:00+01:00:00").should(equal(expectedInstance))
+    }
+
+    @Test
+    void "actual zoned date time string greater than expected instance"() {
+        def expectedInstance = ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC")).toInstant()
+        actual("2018-01-02T11:00:00+01:00:00").shouldBe(greaterThan(expectedInstance))
+    }
+
+    @Test
+    void "actual zoned date time string less than expected instance"() {
+        def expectedInstance = ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC")).toInstant()
+        actual("2018-01-02T09:00:00+01:00:00").shouldBe(lessThan(expectedInstance))
+    }
+
+    @Test
+    void "actual zoned date time string equals expected instance when should not"() {
+        code {
+            def expectedInstance = ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC")).toInstant()
+            actual("2018-01-02T10:00:00+02:00:00").should(equal(expectedInstance))
+        } should throwException("\nmismatches:\n" +
+                "\n" +
+                "[value]:   actual: 2018-01-02T10:00+02:00 <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T08:00:00Z)\n" +
+                "         expected: 2018-01-02T09:00:00Z <java.time.Instant>(UTC normalized: 2018-01-02T09:00:00Z)")
+    }
+
+    @Test
     void "reports that given text cannot be parsed and lists currently supported formats"() {
         code {
             actual("xyz").should(equal(LocalDate.of(2018, 1, 1)))

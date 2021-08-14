@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.TypeUtils;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -67,9 +68,9 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
     }
 
     private boolean handle(Object actual, Object expected) {
-        return TypeUtils.isString(actual) && (
-                expected instanceof LocalDate ||
-                        expected instanceof ZonedDateTime);
+        return TypeUtils.isString(actual) && (expected instanceof LocalDate ||
+                expected instanceof ZonedDateTime ||
+                expected instanceof Instant) ;
     }
 
     private class Comparator {
@@ -91,6 +92,8 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
         void compare() {
             if (actual instanceof LocalDate && expected instanceof LocalDate) {
                 compareLocalDates((LocalDate) actual, (LocalDate) expected);
+            } else if (actual instanceof ZonedDateTime && expected instanceof Instant) {
+                compareZonedDateTimeAndInstant((ZonedDateTime) actual, (Instant) expected);
             } else if (actual instanceof ZonedDateTime && expected instanceof LocalDate) {
                 compareZonedDateTimeAndLocalDate((ZonedDateTime) actual, (LocalDate) expected);
             } else if (actual instanceof ZonedDateTime && expected instanceof ZonedDateTime) {
@@ -115,6 +118,12 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
 
         private void compareLocalDates(LocalDate actual, LocalDate expected) {
             report(actual.compareTo(expected), renderActualExpected(actual, expected));
+        }
+
+        private void compareZonedDateTimeAndInstant(ZonedDateTime actual, Instant expected) {
+            Instant actualInstant = actual.toInstant();
+            report(actualInstant.compareTo(expected), renderActualExpectedWithNormalized(actual, expected,
+                    actualInstant, expected));
         }
 
         private void report(int compareTo, String message) {
@@ -146,10 +155,13 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
                     expected(compareToComparator.getAssertionMode(), renderValueAndType(expected));
         }
 
-        private String renderActualExpectedWithNormalized(ZonedDateTime actual, ZonedDateTime expected,
-                                                          ZonedDateTime normalizedActual, ZonedDateTime normalizedExpected) {
+        private String renderActualExpectedWithNormalized(Temporal actual,
+                                                          Temporal expected,
+                                                          Temporal normalizedActual,
+                                                          Temporal normalizedExpected) {
             return "  actual: " + renderValueAndType(actual) + "(UTC normalized: " + normalizedActual + ")\n" +
-                    expected(compareToComparator.getAssertionMode(), renderValueAndType(expected) + "(UTC normalized: " + normalizedExpected + ")");
+                    expected(compareToComparator.getAssertionMode(),
+                            renderValueAndType(expected) + "(UTC normalized: " + normalizedExpected + ")");
         }
     }
 
