@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-class ConfigParserEnvironmentsDelegate {
+class ConfigParserEnvironmentSelectDelegate {
     private static final String USAGE = "usage for environments should look like this:\n" +
             "environments {\n" +
             "   dev {\n" +
@@ -25,10 +25,15 @@ class ConfigParserEnvironmentsDelegate {
 
     private final ConfigValueHolder root
 
-    public final Map<String, ConfigValueHolder> valuesPerEnv = new LinkedHashMap<>()
+    public final Map<String, ConfigValueHolder> valuesPerEnv
+    public final ConfigParserPersonaValues personaValues
 
-    ConfigParserEnvironmentsDelegate(ConfigValueHolder root) {
+    ConfigParserEnvironmentSelectDelegate(ConfigValueHolder root,
+                                          Map<String, ConfigValueHolder> valuesPerEnv,
+                                          ConfigParserPersonaValues personaValues) {
         this.root = root
+        this.valuesPerEnv = valuesPerEnv
+        this.personaValues = personaValues
     }
 
     def invokeMethod(String envName, args) {
@@ -36,13 +41,11 @@ class ConfigParserEnvironmentsDelegate {
             throw new IllegalArgumentException(USAGE)
         }
 
-        Closure definitionClosure = args[0].clone() as Closure
-        def envRoot = ConfigValueHolder.withRoot(envName, root)
-        def delegate = new ConfigParserValueHolderDelegate(envRoot)
+        def envRoot = ConfigValueHolder.withRoots(envName, [root])
+        def delegate = new ConfigParserEnvironmentDelegate(envName, envRoot, personaValues)
         valuesPerEnv.put(envName, envRoot)
 
-        definitionClosure.delegate = delegate
-        definitionClosure.resolveStrategy = Closure.DELEGATE_FIRST
+        Closure definitionClosure = DslUtils.closureCopyWithDelegate(args[0], delegate)
         definitionClosure.run()
     }
 

@@ -17,29 +17,58 @@
 package org.testingisdocumenting.webtau.cfg
 
 class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
-    public final ConfigParserEnvironmentsDelegate environmentsDelegate
+    public final Map<String, ConfigValueHolder> valuesPerEnv = new LinkedHashMap<>()
+    public final ConfigParserPersonaValues personaValues = new ConfigParserPersonaValues()
+
+    public final ConfigParserEnvironmentSelectDelegate environmentSelectDelegate
+    public final ConfigParserPersonaSelectDelegate personaSelectDelegate
 
     ConfigParserDslDelegate() {
         super(ConfigValueHolder.withNameOnly("cfg"))
-        environmentsDelegate = new ConfigParserEnvironmentsDelegate(this.@root)
+        environmentSelectDelegate = new ConfigParserEnvironmentSelectDelegate(this.@root, valuesPerEnv, personaValues)
+        personaSelectDelegate = new ConfigParserPersonaSelectDelegate(this.@root, personaValues.valuesPerPersona, new ValuesPerPersona())
     }
 
     void environments(Closure setup) {
-        def cloned = setup.clone() as Closure
-        cloned.delegate = environmentsDelegate
-        cloned.resolveStrategy = Closure.DELEGATE_FIRST
-        cloned.run()
+        def dslDefinition = DslUtils.closureCopyWithDelegate(setup, environmentSelectDelegate)
+        dslDefinition.run()
+    }
+
+    void personas(Closure setup) {
+        def dslDefinition = DslUtils.closureCopyWithDelegate(setup, personaSelectDelegate)
+        dslDefinition.run()
     }
 
     Map<String, Object> envValuesToMap(String env) {
-       return this.@environmentsDelegate.@valuesPerEnv.get(env).toMap()
+        return this.@environmentSelectDelegate.@valuesPerEnv.get(env).toMap()
+    }
+
+    Map<String, Object> combinedValuesForEnv(String env) {
+        def result = new LinkedHashMap<>(this.@root.toMap())
+        result.putAll(valuesPerEnv.get(env).toMap())
+
+        return result
     }
 
     Map<String, Object> personaValuesToMap(String personaId) {
-       return this.@root.@valuePerPersona.get(personaId).convertToMap()
+        return personaValues.valuesPerPersona.get(personaId).toMap()
     }
 
     Map<String, Object> envPersonaValuesToMap(String env, String personaId) {
-        return this.@environmentsDelegate.@valuesPerEnv.get(env).@valuePerPersona.get(personaId).toMap()
+        def result = combinedValuesForEnv(env)
+        def personaRootValue = this.@personaValues.valuesPerPersona.get(personaId)
+        if (personaRootValue) {
+            result.putAll(personaRootValue.toMap())
+        }
+
+        def personasEnvRootValue = this.@personaValues.valuesPerEnvPerPersona.get(env)
+        if (personasEnvRootValue) {
+            def personaEnvRootValue = personasEnvRootValue.get(personaId)
+            if (personaEnvRootValue) {
+                result.putAll(personaEnvRootValue.toMap())
+            }
+        }
+
+        return result
     }
 }
