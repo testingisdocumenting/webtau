@@ -16,22 +16,14 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-class ConfigParserValueHolderDelegate {
-    protected final ConfigValueHolder root
+import groovy.transform.PackageScope
 
-    ConfigParserValueHolderDelegate(ConfigValueHolder root) {
-        this.root = root
-    }
-
-    void setProperty(String name, Object value) {
-        this.root.setProperty(name, value)
-    }
-
-    Object getProperty(String name) {
-        return this.root.getProperty(name)
-    }
-
-    Map<String, Object> toMap() {
-        return this.root.toMap()
+@PackageScope
+class DslUtils {
+    static Closure closureCopyWithDelegate(Closure closure, Object delegate) {
+        def cloned = closure.clone() as Closure
+        cloned.delegate = delegate
+        cloned.resolveStrategy = Closure.DELEGATE_FIRST
+        return cloned
     }
 }

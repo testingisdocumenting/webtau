@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-class ConfigParserPersonasDelegate {
+class ConfigParserPersonaSelectDelegate {
     private static final String USAGE = "usage for personas should look like this:\n" +
             "personas {\n" +
             "   Alice {\n" +
@@ -24,10 +24,16 @@ class ConfigParserPersonasDelegate {
             "   }\n" +
             "}\n"
 
-    private final ConfigValueHolder commonValueHolder
+    private final ConfigValueHolder root
+    private final ValuesPerPersona valuesPerPersona
+    private final ValuesPerPersona valuesPerPersonaRoot
 
-    ConfigParserPersonasDelegate(ConfigValueHolder commonValueHolder) {
-        this.commonValueHolder = commonValueHolder
+    ConfigParserPersonaSelectDelegate(ConfigValueHolder root,
+                                      ValuesPerPersona valuesPerPersona,
+                                      ValuesPerPersona valuesPerPersonaRoot) {
+        this.root = root
+        this.valuesPerPersona = valuesPerPersona
+        this.valuesPerPersonaRoot = valuesPerPersonaRoot
     }
 
     def invokeMethod(String personaName, args) {
@@ -35,12 +41,24 @@ class ConfigParserPersonasDelegate {
             throw new IllegalArgumentException(USAGE)
         }
 
-        def personaValueHolder = ConfigValueHolder.withCommonValueHolderAndPersona(personaName, personaName, commonValueHolder)
+        // multiple roots scenario:
+        // one root is the actual config/env root
+        // another root is the persona values
+        // e.g.
+        //
+        // personas { Alice { email = 'alice-email' }}
+        // environments { dev { personas { Alice { email = 'alice-dev-email' } } } }
+        //
+        def roots = [root]
+        def personaRoot = valuesPerPersonaRoot.get(personaName)
+        if (personaRoot) {
+            roots.add(0, personaRoot)
+        }
+
+        def personaValueHolder = valuesPerPersona.createOrFindPersonaValueHolderById(personaName, roots)
         def delegate = new ConfigParserValueHolderDelegate(personaValueHolder)
 
-        Closure definitionClosure = args[0].clone() as Closure
-        definitionClosure.delegate = delegate
-        definitionClosure.resolveStrategy = Closure.DELEGATE_FIRST
+        Closure definitionClosure = DslUtils.closureCopyWithDelegate(args[0], delegate)
         definitionClosure.run()
     }
 

@@ -16,22 +16,18 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-class ConfigParserValueHolderDelegate {
-    protected final ConfigValueHolder root
+import groovy.transform.PackageScope
 
-    ConfigParserValueHolderDelegate(ConfigValueHolder root) {
-        this.root = root
+@PackageScope
+class ValuesPerPersona {
+    private final Map<String, ConfigValueHolder> valuesPerPersona = new LinkedHashMap<>()
+
+    ConfigValueHolder createOrFindPersonaValueHolderById(String personaId, List<ConfigValueHolder> roots) {
+        return valuesPerPersona.computeIfAbsent(personaId,
+                (id) -> ConfigValueHolder.withNameAndRoots(id, roots))
     }
 
-    void setProperty(String name, Object value) {
-        this.root.setProperty(name, value)
-    }
-
-    Object getProperty(String name) {
-        return this.root.getProperty(name)
-    }
-
-    Map<String, Object> toMap() {
-        return this.root.toMap()
+    ConfigValueHolder get(String personaId) {
+        return valuesPerPersona.get(personaId)
     }
 }

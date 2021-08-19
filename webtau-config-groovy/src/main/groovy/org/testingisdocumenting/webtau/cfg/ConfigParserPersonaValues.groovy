@@ -16,22 +16,12 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-class ConfigParserValueHolderDelegate {
-    protected final ConfigValueHolder root
+class ConfigParserPersonaValues {
+    public final ValuesPerPersona valuesPerPersona = new ValuesPerPersona()
+    public final Map<String, ValuesPerPersona> valuesPerEnvPerPersona = new LinkedHashMap<>()
 
-    ConfigParserValueHolderDelegate(ConfigValueHolder root) {
-        this.root = root
-    }
-
-    void setProperty(String name, Object value) {
-        this.root.setProperty(name, value)
-    }
-
-    Object getProperty(String name) {
-        return this.root.getProperty(name)
-    }
-
-    Map<String, Object> toMap() {
-        return this.root.toMap()
+    ValuesPerPersona createOrFindValuesPerPersonaForEnv(String env) {
+        return valuesPerEnvPerPersona.computeIfAbsent(env,
+                (id) -> new ValuesPerPersona())
     }
 }
