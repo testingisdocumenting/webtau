@@ -17,6 +17,11 @@
 package org.testingisdocumenting.webtau.cfg
 
 class ConfigParserValueHolderDelegate {
+    private static final String NESTED_PROP_USAGE = "usage for nested properties:\n" +
+            "myComplexConfigValue {\n" +
+            "   nestedName = \"value\"\n" +
+            "}\n"
+
     protected final ConfigValueHolder root
 
     ConfigParserValueHolderDelegate(ConfigValueHolder root) {
@@ -33,5 +38,20 @@ class ConfigParserValueHolderDelegate {
 
     Map<String, Object> toMap() {
         return this.root.toMap()
+    }
+
+    def invokeMethod(String parentProp, args) {
+        if (parentProp === "environments") {
+            // TODO
+        }
+
+        if (args.length != 1 || !(args[0] instanceof Closure)) {
+            throw new IllegalArgumentException(NESTED_PROP_USAGE)
+        }
+
+        def newRoot = this.root.getProperty(parentProp)
+        def delegate = new ConfigParserValueHolderDelegate(newRoot)
+        Closure definitionClosure = DslUtils.closureCopyWithDelegate(args[0], delegate)
+        definitionClosure.run()
     }
 }

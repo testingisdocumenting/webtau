@@ -27,6 +27,14 @@ class ValuesPerPersona {
                 (id) -> ConfigValueHolder.withNameAndRoots(id, roots))
     }
 
+    Set<String> getAvailablePersonas() {
+        return valuesPerPersona.keySet()
+    }
+
+    Map<String, ?> personaConfigAsMap(String personaId) {
+        return valuesPerPersona.get(personaId, Collections.emptyMap())
+    }
+
     ConfigValueHolder get(String personaId) {
         return valuesPerPersona.get(personaId)
     }

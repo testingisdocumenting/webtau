@@ -61,7 +61,7 @@ class WebTauGroovyFileConfigHandlerTest {
         ReportGenerators.generate(report)
 
         Files.exists(customReportPath).should == true
-        customReportPath.text.should == 'test report 0'
+        customReportPath.text.should == 'test report'
     }
 
     @Test
