@@ -3,8 +3,9 @@
 Webtau `persona` defines a user of your system with a context associated with that user.
 Example of context: authentication credentials, browser, custom config parameters.
 
-:include-file: doc-artifacts/snippets/persona-context/contextExample.groovy {
-    title: "context example"
+:include-file: scenarios/concept/personaContext.groovy {
+  title: "context example",
+  surroundedBy: "context-example-snippet"
 }
 
 Alice and Bob execute the same action. Within the action we can access who 

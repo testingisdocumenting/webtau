@@ -5,6 +5,7 @@ import org.testingisdocumenting.webtau.persona.Persona
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static personas.Personas.*
 
+// context-example-snippet
 scenario('context example') {
     Alice {
        step("do something in context of Alice") {
@@ -18,6 +19,7 @@ scenario('context example') {
         }
     }
 }
+// context-example-snippet
 
 def customAction() {
     def id = Persona.currentPersona.id
