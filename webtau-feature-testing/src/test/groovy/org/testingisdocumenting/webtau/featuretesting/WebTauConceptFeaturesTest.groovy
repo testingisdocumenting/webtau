@@ -131,14 +131,6 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
-    void "persona context snippets"() {
-        extractCodeSnippets(
-                'persona-context', 'examples/scenarios/concept/personaContext.groovy', [
-                'contextExample.groovy': 'context example',
-        ])
-    }
-
-    @Test
     void "runner should use deprecated config file name when no config file is available"() {
         runCliWithWorkingDir('deprecatedConfigCheck.groovy',
                 'examples/scenarios/concept/deprecatedconfig')
