@@ -25,20 +25,23 @@ class ConfigParserDslDelegateTest {
     @Test
     void "delegate basic properties"() {
         def dslDelegate = runClosureWithDelegate {
+            // basic-properties
             email = 'hello'
             cliPath = ['p1', 'p2']
-            cliEnv.my_var.nested = 'webtau'
+            // basic-properties
         }
 
         dslDelegate.toMap().should == [email: 'hello',
-                                       cliEnv: [my_var: [nested: 'webtau']],
                                        cliPath: ['p1', 'p2']]
     }
 
     @Test
     void "nested properties"() {
         def dslDelegate = runClosureWithDelegate {
-            complex {
+            // complex-properties
+            complex.my_var.nested = 'webtau' // direct nested assignment
+
+            complex { // scope definition for multiple assignment
                 abc = 'abc_value'
                 EDF = 'edf_value'
                 subNested {
@@ -46,17 +49,23 @@ class ConfigParserDslDelegateTest {
                 }
             }
 
+            anotherComplex = [nested: 'vn'] // map based assignment
+            anotherComplex.anotherNested = 'an'
+            // complex-properties
+
             email = 'hello'
         }
 
         dslDelegate.toMap().should == [email: 'hello',
-                                       complex: [abc: 'abc_value', EDF: 'edf_value',
-                                                 subNested: [nested: 'nested_nested']]]
+                                       complex: [my_var: [nested: 'webtau'], abc: 'abc_value', EDF: 'edf_value',
+                                                 subNested: [nested: 'nested_nested']],
+                                       anotherComplex: [nested: 'vn', anotherNested: 'an']]
     }
 
     @Test
     void "delegate environments"() {
         def dslDelegate = runClosureWithDelegate {
+            // environment-override
             email = 'hello'
             server = 'my-server'
             environments {
@@ -72,6 +81,7 @@ class ConfigParserDslDelegateTest {
                     server = 'prod-server'
                 }
             }
+            // environment-override
         }
 
         dslDelegate.toMap().should == [email: "hello", server: "my-server"]
@@ -117,21 +127,23 @@ class ConfigParserDslDelegateTest {
     @Test
     void "environment partial value override"() {
         def dslDelegate = runClosureWithDelegate {
-            perKey = [id1: 'value1', id2: 'value2']
+            // environment-complex-override
+            complex = [id1: 'value1', id2: 'value2']
             environments {
                 dev {
-                    perKey.id1 = 'value1-dev'
-                    perKey.id3 = 'value3-dev'
+                    complex.id1 = 'value1-dev'
+                    complex.id3 = 'value3-dev'
                 }
 
                 beta {
-                    perKey.id3 = 'value3-beta'
+                    complex.id3 = 'value3-beta'
                 }
             }
+            // environment-complex-override
         }
 
-        dslDelegate.envValuesToMap("dev").should == [perKey: [id1: 'value1-dev', id2: 'value2', id3: 'value3-dev']]
-        dslDelegate.envValuesToMap("beta").should == [perKey: [id1: 'value1', id2: 'value2', id3: 'value3-beta']]
+        dslDelegate.envValuesToMap("dev").should == [complex: [id1: 'value1-dev', id2: 'value2', id3: 'value3-dev']]
+        dslDelegate.envValuesToMap("beta").should == [complex: [id1: 'value1', id2: 'value2', id3: 'value3-beta']]
     }
 
     @Test
@@ -170,6 +182,7 @@ class ConfigParserDslDelegateTest {
     @Test
     void "delegate personas"() {
         def dslDelegate = runClosureWithDelegate {
+            // persona-overrides
             email = 'hello'
             personas {
                 Alice {
@@ -180,6 +193,7 @@ class ConfigParserDslDelegateTest {
                     email = 'bob-email'
                 }
             }
+            // persona-overrides
         }
 
         dslDelegate.personaValuesToMap('Alice').should == [email: 'alice-email']
@@ -193,6 +207,7 @@ class ConfigParserDslDelegateTest {
     @Test
     void "delegate personas complex object"() {
         def dslDelegate = runClosureWithDelegate {
+            // persona-complex-overrides
             cliEnv = [
                     COMMON: 'common value',
                     ANOTHER_COMMON: 'another common value']
@@ -208,6 +223,7 @@ class ConfigParserDslDelegateTest {
                     cliEnv.EXTRA_BOB = 'extra bob'
                 }
             }
+            // persona-complex-overrides
         }
 
         dslDelegate.personaValuesToMap('Alice').should == [cliEnv: [COMMON: 'common value',
@@ -224,13 +240,14 @@ class ConfigParserDslDelegateTest {
     @Test
     void "delegate personas complex object inside environment"() {
         def dslDelegate = runClosureWithDelegate {
+            // complex-environment-persona
             cliEnv = [
                     COMMON: 'common value',
                     ANOTHER_COMMON: 'another common value']
 
             personas {
                 Alice {
-                    cliEnv.CREDENTIALS = 'alice-token'
+                    cliEnv.CREDENTIALS = 'alice-token' // default Alice's specific values
                     cliEnv.EXTRA_ALICE = 'extra alice'
                 }
 
@@ -244,7 +261,7 @@ class ConfigParserDslDelegateTest {
                 dev {
                     personas {
                         Alice {
-                            cliEnv.CREDENTIALS = 'alice-dev-token'
+                            cliEnv.CREDENTIALS = 'alice-dev-token' // Alice's overrides for dev environment
                             cliEnv.EXTRA_ALICE = 'extra dev alice'
                             cliEnv.EXTRA_DEV_V = 'extra dev alice v'
                         }
@@ -271,6 +288,7 @@ class ConfigParserDslDelegateTest {
                     }
                 }
             }
+            // complex-environment-persona
         }
 
         dslDelegate.envPersonaValuesToMap('dev', 'Alice').should == [cliEnv: [

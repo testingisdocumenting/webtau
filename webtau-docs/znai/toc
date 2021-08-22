@@ -71,7 +71,7 @@ groovy-standalone-runner
     test-listeners
     test-execution
 configuration
-    environments
+    groovy-config-file
     options
 generic-runners
     JUnit-4
