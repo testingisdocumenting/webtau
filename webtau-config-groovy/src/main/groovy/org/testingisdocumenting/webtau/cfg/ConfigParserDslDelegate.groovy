@@ -25,8 +25,18 @@ class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
 
     ConfigParserDslDelegate() {
         super(ConfigValueHolder.withNameOnly("cfg"))
-        environmentSelectDelegate = new ConfigParserEnvironmentSelectDelegate(this.@root, valuesPerEnv, personaValues)
-        personaSelectDelegate = new ConfigParserPersonaSelectDelegate(this.@root, personaValues.valuesPerPersona, new ValuesPerPersona())
+        environmentSelectDelegate = new ConfigParserEnvironmentSelectDelegate(this.@root, this.@valuesPerEnv, this.@personaValues)
+        personaSelectDelegate = new ConfigParserPersonaSelectDelegate(this.@root, this.@personaValues.valuesPerPersona, new ValuesPerPersona())
+    }
+
+    def invokeMethod(String name, args) {
+        if (name === "environments") {
+            environments(args[0])
+        } else if (name === "personas") {
+            personas(args[0])
+        } else {
+            super.invokeMethod(name, args)
+        }
     }
 
     void environments(Closure setup) {
@@ -37,6 +47,23 @@ class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
     void personas(Closure setup) {
         def dslDefinition = DslUtils.closureCopyWithDelegate(setup, personaSelectDelegate)
         dslDefinition.run()
+    }
+
+    Set<String> getAvailableEnvironments() {
+        return this.@valuesPerEnv.keySet()
+    }
+
+    Set<String> getAvailablePersonas() {
+        return personaValues.valuesPerPersona.getAvailablePersonas()
+    }
+
+    Set<String> getAvailablePersonasForEnv(String env) {
+        def personasValues = personaValues.valuesPerEnvPerPersona.get(env)
+        if (!personasValues) {
+            return Collections.emptySet()
+        }
+
+        return personasValues.availablePersonas
     }
 
     Map<String, Object> envValuesToMap(String env) {
@@ -51,7 +78,12 @@ class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
     }
 
     Map<String, Object> personaValuesToMap(String personaId) {
-        return personaValues.valuesPerPersona.get(personaId).toMap()
+        def values = personaValues.valuesPerPersona.get(personaId)
+        if (!values) {
+            throw new RuntimeException("No person found: ${personaId}")
+        }
+
+        return values.toMap()
     }
 
     Map<String, Object> envPersonaValuesToMap(String env, String personaId) {
