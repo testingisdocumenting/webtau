@@ -40,39 +40,39 @@ public class CliCommand implements ResourceNameAware {
     }
 
     public CliRunResult run() {
-        return run("", CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+        return run("", CliProcessConfig.createEmpty(), CliValidationOutputOnlyHandler.NO_OP);
     }
 
     public CliRunResult run(CliValidationOutputOnlyHandler handler) {
-        return run("", CliProcessConfig.EMPTY, handler);
+        return run("", CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(CliValidationExitCodeOutputHandler handler) {
-        return run("", CliProcessConfig.EMPTY, handler);
+        return run("", CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(String args) {
-        return run(args, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+        return run(args, CliProcessConfig.createEmpty(), CliValidationOutputOnlyHandler.NO_OP);
     }
 
     public CliRunResult run(Path args) {
-        return run(args.toString(), CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+        return run(args.toString(), CliProcessConfig.createEmpty(), CliValidationOutputOnlyHandler.NO_OP);
     }
 
     public CliRunResult run(String args, CliValidationOutputOnlyHandler handler) {
-        return run(args, CliProcessConfig.EMPTY, handler);
+        return run(args, CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(Path arg, CliValidationOutputOnlyHandler handler) {
-        return run(arg.toString(), CliProcessConfig.EMPTY, handler);
+        return run(arg.toString(), CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(String args, CliValidationExitCodeOutputHandler handler) {
-        return run(args, CliProcessConfig.EMPTY, handler);
+        return run(args, CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(Path arg, CliValidationExitCodeOutputHandler handler) {
-        return run(arg.toString(), CliProcessConfig.EMPTY, handler);
+        return run(arg.toString(), CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(CliProcessConfig config) {
@@ -112,15 +112,15 @@ public class CliCommand implements ResourceNameAware {
     }
 
     public CliBackgroundCommand runInBackground() {
-        return runInBackground("", CliProcessConfig.EMPTY);
+        return runInBackground("", CliProcessConfig.createEmpty());
     }
 
     public CliBackgroundCommand runInBackground(String args) {
-        return runInBackground(args, CliProcessConfig.EMPTY);
+        return runInBackground(args, CliProcessConfig.createEmpty());
     }
 
     public CliBackgroundCommand runInBackground(Path arg) {
-        return runInBackground(arg.toString(), CliProcessConfig.EMPTY);
+        return runInBackground(arg.toString(), CliProcessConfig.createEmpty());
     }
 
     public CliBackgroundCommand runInBackground(Path arg, CliProcessConfig config) {

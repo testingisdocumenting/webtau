@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "hello $my_var"
+echo "hello $MY_VAR"

@@ -60,7 +60,7 @@ Use `cli.env` as a second parameter to `cli.runInBackground` to set the environm
 Set `cliEnv` config value with environment values that needs to be passed to each `cli.runInBackground`:
 
 :include-file: scenarios/cli/webtau-cli-env-vars.cfg.groovy {
-  title: "webtau.config.groovy",
+  title: "webtau.cfg.groovy",
   surroundedBy: "default-my-var"
 }
 
@@ -80,5 +80,5 @@ Combine configs by using `cli.env(...).workingDir(...)` in any order to set both
 
 To specify `PATH` to use for CLI commands lookup use
 
-:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.config.groovy"}
+:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.cfg.groovy"}
 

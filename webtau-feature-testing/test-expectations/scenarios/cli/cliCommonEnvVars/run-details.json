@@ -11,6 +11,18 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
+  }, {
+    "scenario" : "persona foreground process var from config",
+    "shortContainerId" : "cliCommonEnvVars.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
+  }, {
+    "scenario" : "persona background process var from config",
+    "shortContainerId" : "cliCommonEnvVars.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
   } ],
   "exitCode" : 0
 }

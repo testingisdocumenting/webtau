@@ -87,7 +87,7 @@ Use `cli.env` as a second parameter to `cli.run` to set the environment variable
 Set `cliEnv` config value with environment values that needs to be passed to each `cli.run`:
 
 :include-file: scenarios/cli/webtau-cli-env-vars.cfg.groovy {
-  title: "webtau.config.groovy",
+  title: "webtau.cfg.groovy",
   surroundedBy: "default-my-var"
 }
 
@@ -107,14 +107,14 @@ Combine configs by using `cli.env(...).workingDir(...)` in any order to set both
 
 To specify `PATH` to use for CLI commands lookup use
 
-:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.config.groovy"}
+:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.cfg.groovy"}
 
 # Timeout
 
 `cli.run` command fails if it doesn't complete in 30 seconds. 
 
 To override default timeout use `cliTimeout` config value: 
-:include-file: scenarios/cli/webtau-cli-timeout.cfg.groovy {title: "webtau.config.groovy"}
+:include-file: scenarios/cli/webtau-cli-timeout.cfg.groovy {title: "webtau.cfg.groovy"}
 
 To override timeout for a specific `cli.run` use
 

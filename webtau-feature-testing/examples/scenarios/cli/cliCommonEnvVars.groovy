@@ -16,7 +16,7 @@ scenario("background process var from config") {
 }
 
 
-sscenario("persona foreground process var from config") {
+scenario("persona foreground process var from config") {
     Alice {
         cli.run('scripts/hello-env-var') {
             output.should == 'hello Alice!'
