@@ -32,7 +32,12 @@ class ValuesPerPersona {
     }
 
     Map<String, ?> personaConfigAsMap(String personaId) {
-        return valuesPerPersona.get(personaId, Collections.emptyMap())
+        def configHolder = valuesPerPersona.get(personaId)
+        if (!configHolder) {
+            return Collections.emptyMap()
+        }
+
+        return configHolder.toMap()
     }
 
     ConfigValueHolder get(String personaId) {

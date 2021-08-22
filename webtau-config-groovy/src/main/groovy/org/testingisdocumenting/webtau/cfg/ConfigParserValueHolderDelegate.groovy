@@ -41,10 +41,6 @@ class ConfigParserValueHolderDelegate {
     }
 
     def invokeMethod(String parentProp, args) {
-        if (parentProp === "environments") {
-            // TODO
-        }
-
         if (args.length != 1 || !(args[0] instanceof Closure)) {
             throw new IllegalArgumentException(NESTED_PROP_USAGE)
         }

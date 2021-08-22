@@ -29,6 +29,16 @@ class ConfigParserDslDelegate extends ConfigParserValueHolderDelegate {
         personaSelectDelegate = new ConfigParserPersonaSelectDelegate(this.@root, this.@personaValues.valuesPerPersona, new ValuesPerPersona())
     }
 
+    def invokeMethod(String name, args) {
+        if (name === "environments") {
+            environments(args[0])
+        } else if (name === "personas") {
+            personas(args[0])
+        } else {
+            super.invokeMethod(name, args)
+        }
+    }
+
     void environments(Closure setup) {
         def dslDefinition = DslUtils.closureCopyWithDelegate(setup, environmentSelectDelegate)
         dslDefinition.run()
