@@ -129,6 +129,7 @@
         <module>webtau-junit-like-examples-common</module>
         <module>webtau-testapp</module>
         <module>webtau-config</module>
+        <module>webtau-config-groovy</module>
         <module>webtau-feature-testing</module>
         <module>webtau-report-testing</module>
         <module>webtau-maven-plugin</module>
@@ -227,7 +228,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
-                <version>1.20</version>
+                <version>1.21</version>
             </dependency>
 
             <dependency>

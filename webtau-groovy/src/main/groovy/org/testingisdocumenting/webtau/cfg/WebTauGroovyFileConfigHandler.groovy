@@ -67,52 +67,54 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             return
         }
 
-        validateEnv(cfg, workingDir, existingConfig)
+        ConfigParserDslDelegate parserDslDelegate = parseConfig(cfg, existingConfig)
 
-        ConfigObject parsedConfig = parseConfig(cfg, existingConfig)
-
-        if (!parsedConfig) {
+        if (!parserDslDelegate) {
             return
         }
 
-        Map<String, ?> configAsMap = convertConfigToMap(parsedConfig)
-        handlePersonas(cfg, configAsMap)
-
+        Map<String, ?> configAsMap = convertConfigToMap(existingConfig, cfg, parserDslDelegate)
         cfg.acceptConfigValues(SOURCE, configAsMap)
 
-        setupHttpHeaderProvider(parsedConfig)
-        setupBrowserPageNavigationHandler(parsedConfig)
-        setupReportGenerator(parsedConfig)
-        setupPageElementGetSetValueHandlers(parsedConfig)
-        setupTestListeners(parsedConfig)
-        setupGraphQLListeners(parsedConfig)
-        setupHttpListeners(parsedConfig)
-        setupHttpValidationHandlers(parsedConfig)
-        setupDbDataSourceProviders(parsedConfig)
+        handlePersonas(cfg, parserDslDelegate)
+
+        setupHttpHeaderProvider(configAsMap)
+        setupBrowserPageNavigationHandler(configAsMap)
+        setupReportGenerator(configAsMap)
+        setupPageElementGetSetValueHandlers(configAsMap)
+        setupTestListeners(configAsMap)
+        setupGraphQLListeners(configAsMap)
+        setupHttpListeners(configAsMap)
+        setupHttpValidationHandlers(configAsMap)
+        setupDbDataSourceProviders(configAsMap)
     }
 
-    private static void handlePersonas(WebTauConfig cfg, Map<String, ?> personasConfig) {
-        def personas = personasConfig.get(PERSONAS_KEY)
-        if (!personas) {
-            return
-        }
+    private static void handlePersonas(WebTauConfig cfg, ConfigParserDslDelegate parserDslDelegate) {
+        def envConfigValue = cfg.getEnvConfigValue()
 
-        personas.each { String personaId, personaConfig ->
-            cfg.acceptConfigValues(SOURCE, personaId, personaConfig)
-        }
+        def valuesPerPersona = envConfigValue.isDefault() ?
+                parserDslDelegate.@personaValues.valuesPerPersona:
+                parserDslDelegate.@personaValues.valuesPerEnvPerPersona.get(envConfigValue.getAsString())
 
-        personasConfig.remove(PERSONAS_KEY)
+        if (valuesPerPersona) {
+            valuesPerPersona.availablePersonas.each { personaId ->
+                def configAsMap = valuesPerPersona.personaConfigAsMap(personaId)
+                cfg.acceptConfigValues(SOURCE, personaId, configAsMap)
+            }
+        }
     }
 
-    private static ConfigObject parseConfig(WebTauConfig cfg, Path configPath) {
+    private static ConfigParserDslDelegate parseConfig(WebTauConfig cfg, Path configPath) {
         try {
-            def groovy = GroovyRunner.createWithoutDelegating(cfg.workingDir)
+            def groovy = GroovyRunner.createWithCustomScriptClass(cfg.workingDir, DelegatingScript.class)
 
-            ConfigSlurper configSlurper = new ConfigSlurper(cfg.env)
-            def configScript = groovy.createScript(configPath.toUri().toString(), new ConfigBinding())
+            def configParserDslDelegate = new ConfigParserDslDelegate()
+            DelegatingScript delegatingScript = groovy.createScript(configPath.toUri().toString(),
+                    new GroovyConfigDslBinding(configParserDslDelegate))
+            delegatingScript.setDelegate(configParserDslDelegate)
+            delegatingScript.run()
 
-            def parsedConfig = configSlurper.parse(configScript)
-            return parsedConfig
+            return configParserDslDelegate
         } catch (Exception e) {
             // main use case for this is during REPL mode
             // we don't want to crash the config class loading due to parsing error
@@ -127,18 +129,23 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         }
     }
 
-    private static Map<String, ?> convertConfigToMap(ConfigObject configObject) {
-        Map result = new LinkedHashMap()
-        configObject.each { k, v ->
-            result[k] = v instanceof ConfigObject ?
-                    convertConfigToMap(v) :
-                    v
+    private static Map<String, ?> convertConfigToMap(Path configPath,
+                                                     WebTauConfig cfg,
+                                                     ConfigParserDslDelegate parserDslDelegate) {
+        def envConfigValue = cfg.getEnvConfigValue()
+        if (envConfigValue.isDefault()) {
+            return parserDslDelegate.toMap()
         }
 
-        return result
+        def env = envConfigValue.getAsString()
+        if (!parserDslDelegate.getAvailableEnvironments().contains(env)) {
+            throw new IllegalArgumentException("environment <$env> is not defined in " + configPath)
+        }
+
+        return parserDslDelegate.combinedValuesForEnv(env)
     }
 
-    private static void setupHttpHeaderProvider(ConfigObject config) {
+    private static void setupHttpHeaderProvider(Map<String, ?> config) {
         def headerProvider = getClosure(config, 'httpHeaderProvider')
         if (headerProvider) {
             // we cannot add configuration here using HttpConfigurations.add since most likely config setup will be triggered
@@ -151,14 +158,14 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         }
     }
 
-    private static void setupBrowserPageNavigationHandler(ConfigObject config) {
+    private static void setupBrowserPageNavigationHandler(Map<String, ?> config) {
         def browserPageNavigationHandler = getClosure(config, 'browserPageNavigationHandler')
         if (browserPageNavigationHandler) {
             GroovyConfigBasedBrowserPageNavigationHandler.setHandler(browserPageNavigationHandler)
         }
     }
 
-    private static void setupReportGenerator(ConfigObject config) {
+    private static void setupReportGenerator(Map<String, ?> config) {
         def generator = config.get('reportGenerator')
         def reportGenerator = generator ? generator as ReportGenerator : null
         if (reportGenerator) {
@@ -166,37 +173,37 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         }
     }
 
-    private static void setupPageElementGetSetValueHandlers(ConfigObject config) {
+    private static void setupPageElementGetSetValueHandlers(Map<String, ?> config) {
         List<PageElementGetSetValueHandler> handlerInstances = instancesFromConfig(config, 'pageElementGetSetValueHandlers')
         handlerInstances.each { PageElementGetSetValueHandlers.add(it) }
     }
 
-    private static void setupTestListeners(ConfigObject config) {
+    private static void setupTestListeners(Map<String, ?> config) {
         List<TestListener> listenerInstances = instancesFromConfig(config, 'testListeners')
         listenerInstances.each { TestListeners.add(it) }
     }
 
-    private static void setupGraphQLListeners(ConfigObject config) {
+    private static void setupGraphQLListeners(Map<String, ?> config) {
         List<GraphQLListener> listenerInstances = instancesFromConfig(config, 'graphqlListeners')
         listenerInstances.each { GraphQLListeners.add(it) }
     }
 
-    private static void setupHttpListeners(ConfigObject config) {
+    private static void setupHttpListeners(Map<String, ?> config) {
         List<HttpListener> listenerInstances = instancesFromConfig(config, 'httpListeners')
         listenerInstances.each { HttpListeners.add(it) }
     }
 
-    private static void setupHttpValidationHandlers(ConfigObject config) {
+    private static void setupHttpValidationHandlers(Map<String, ?> config) {
         List<HttpValidationHandler> handlerInstances = instancesFromConfig(config, 'httpValidationHandlers')
         handlerInstances.each { HttpValidationHandlers.add(it) }
     }
 
-    private static void setupDbDataSourceProviders(ConfigObject config) {
+    private static void setupDbDataSourceProviders(Map<String, ?> config) {
         List<DbDataSourceProvider> providers = instancesFromConfig(config, 'dbDataSourceProviders')
         providers.each { DbDataSourceProviders.add(it) }
     }
 
-    private static <E> List<E> instancesFromConfig(ConfigObject config, String key) {
+    private static <E> List<E> instancesFromConfig(Map<String, ?> config, String key) {
         def classes = (List<Class<E>>) config.get(key)
         if (!classes) {
             return []
@@ -213,22 +220,40 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
         return defaultConstructor.newInstance()
     }
 
-    private static Closure getClosure(ConfigObject config, String key) {
+    private static Closure getClosure(Map<String, ?> config, String key) {
         return (Closure) config.get(key)
     }
 
-    private static void validateEnv(WebTauConfig cfg, Path workingDir, Path configPath) {
-        def envConfigValue = cfg.getEnvConfigValue()
-        if (envConfigValue.isDefault()) {
-            return
+    static class GroovyConfigDslBinding extends Binding {
+        private final ConfigParserDslDelegate parserDslDelegate
+
+        GroovyConfigDslBinding(ConfigParserDslDelegate parserDslDelegate) {
+            this.parserDslDelegate = parserDslDelegate
         }
 
-        def collector = new ConfigFileEnvironmentsCollector(workingDir, configPath)
-        def definedEnvs = collector.collectEnvironments()
+        @Override
+        Object getVariable(String name) {
+            return parserDslDelegate.getProperty(name)
+        }
 
-        def env = cfg.getEnv()
-        if (!definedEnvs.contains(env)) {
-            throw new IllegalArgumentException("environment <$env> is not defined in " + configPath)
+        @Override
+        void setVariable(String name, Object value) {
+            parserDslDelegate.setProperty(name, value)
+        }
+
+        @Override
+        void removeVariable(String name) {
+            throw new UnsupportedOperationException("remove: $name")
+        }
+
+        @Override
+        boolean hasVariable(String name) {
+            return parserDslDelegate.getProperty(name) != null
+        }
+
+        @Override
+        Map getVariables() {
+            return parserDslDelegate.toMap()
         }
     }
 }

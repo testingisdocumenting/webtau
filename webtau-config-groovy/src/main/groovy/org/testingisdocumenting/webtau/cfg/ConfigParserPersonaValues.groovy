@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,14 +16,12 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-import groovy.transform.PackageScope
+class ConfigParserPersonaValues {
+    public final ValuesPerPersona valuesPerPersona = new ValuesPerPersona()
+    public final Map<String, ValuesPerPersona> valuesPerEnvPerPersona = new LinkedHashMap<>()
 
-class IgnoreAllConfigScriptClass extends Script {
-    def propertyMissing(String name) { null }
-    def propertyMissing(String name, def arg) {}
-    def methodMissing(String name, def args) {}
-    void setProperty(String name, def value) {}
-    def getProperty(String name) { return [:] }
-
-    @Override Object run() { null }
+    ValuesPerPersona createOrFindValuesPerPersonaForEnv(String env) {
+        return valuesPerEnvPerPersona.computeIfAbsent(env,
+                (id) -> new ValuesPerPersona())
+    }
 }
