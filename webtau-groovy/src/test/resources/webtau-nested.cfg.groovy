@@ -25,7 +25,7 @@ environments {
         reportGenerator = { report ->
             def path = cfg.reportPath.toAbsolutePath().parent.resolve('custom-report.txt')
             println "custom report path: $path"
-            path.text = 'test report ' + entries.testEntries.size()
+            path.text = 'test report'
         }
     }
 }

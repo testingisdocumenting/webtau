@@ -36,6 +36,25 @@ class ConfigParserDslDelegateTest {
     }
 
     @Test
+    void "nested properties"() {
+        def dslDelegate = runClosureWithDelegate {
+            complex {
+                abc = 'abc_value'
+                EDF = 'edf_value'
+                subNested {
+                    nested = 'nested_nested'
+                }
+            }
+
+            email = 'hello'
+        }
+
+        dslDelegate.toMap().should == [email: 'hello',
+                                       complex: [abc: 'abc_value', EDF: 'edf_value',
+                                                 subNested: [nested: 'nested_nested']]]
+    }
+
+    @Test
     void "delegate environments"() {
         def dslDelegate = runClosureWithDelegate {
             email = 'hello'
@@ -55,9 +74,44 @@ class ConfigParserDslDelegateTest {
             }
         }
 
+        dslDelegate.toMap().should == [email: "hello", server: "my-server"]
         dslDelegate.combinedValuesForEnv("dev").should == [email: "dev-hello", server: "my-server"]
         dslDelegate.combinedValuesForEnv("beta").should == [email: "beta", server: "my-server"]
         dslDelegate.combinedValuesForEnv("prod").should == [email: "hello", server: "prod-server"]
+    }
+
+    @Test
+    void "delegate environments and complex object"() {
+        def dslDelegate = runClosureWithDelegate {
+            email = 'hello'
+            server = 'my-server'
+
+            myComplex {
+                nested = 'nested_value'
+            }
+
+            environments {
+                dev {
+                    email = 'dev-hello'
+                }
+
+                beta {
+                    email = 'beta'
+                }
+
+                prod {
+                    server = 'prod-server'
+                }
+            }
+        }
+
+        dslDelegate.toMap().should == [email: "hello", server: "my-server", myComplex: [nested: "nested_value"]]
+        dslDelegate.combinedValuesForEnv("dev").should == [email: "dev-hello", server: "my-server",
+                                                           myComplex: [nested: "nested_value"]]
+        dslDelegate.combinedValuesForEnv("beta").should == [email: "beta", server: "my-server",
+                                                            myComplex: [nested: "nested_value"]]
+        dslDelegate.combinedValuesForEnv("prod").should == [email: "hello", server: "prod-server",
+                                                            myComplex: [nested: "nested_value"]]
     }
 
     @Test
@@ -130,6 +184,10 @@ class ConfigParserDslDelegateTest {
 
         dslDelegate.personaValuesToMap('Alice').should == [email: 'alice-email']
         dslDelegate.personaValuesToMap('Bob').should == [email: 'bob-email']
+
+        code {
+            dslDelegate.personaValuesToMap('Unknown').should == [:]
+        } should throwException("No person found: Unknown")
     }
 
     @Test
@@ -224,6 +282,9 @@ class ConfigParserDslDelegateTest {
         dslDelegate.envPersonaValuesToMap('beta', 'Alice').should == [cliEnv: [
                 COMMON: 'common value', ANOTHER_COMMON: 'another common value',
                 CREDENTIALS: 'alice-beta-token', EXTRA_ALICE: 'extra beta alice', EXTRA_BETA_V: 'extra beta alice v']]
+
+        dslDelegate.envPersonaValuesToMap('dev', 'Unknown').should == [cliEnv: [
+                COMMON: 'common value', ANOTHER_COMMON: 'another common value']]
     }
 
     private static ConfigParserDslDelegate runClosureWithDelegate(Closure closure) {
