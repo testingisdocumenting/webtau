@@ -33,7 +33,7 @@ class ProcessUtils {
     }
 
     static ProcessRunResult run(String command, CliProcessConfig config) throws IOException {
-        CliBackgroundProcess backgroundRunResult = runInBackground(command, config.env(CliConfig.getCliEnv()));
+        CliBackgroundProcess backgroundRunResult = runInBackground(command, config);
 
         try {
             long timeoutMs = config.isTimeoutSpecified() ? config.getTimeoutMs() : CliConfig.getCliTimeoutMs();
@@ -54,7 +54,7 @@ class ProcessUtils {
 
     static void kill(int pid) {
         try {
-            run("pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
+            run("pkill -TERM -P " + pid, CliProcessConfig.createEmpty());
             run("kill " + pid, CliProcessConfig.SILENT);
         } catch (IOException e) {
             throw new UncheckedIOException(e);

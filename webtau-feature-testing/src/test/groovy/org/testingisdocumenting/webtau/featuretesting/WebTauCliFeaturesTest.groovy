@@ -142,7 +142,9 @@ class WebTauCliFeaturesTest {
         extractCodeSnippets(
                 'common-env-vars', 'examples/scenarios/cli/cliCommonEnvVars.groovy', [
                 'foreground.groovy': 'foreground process var from config',
-                'background.groovy': 'background process var from config'
+                'background.groovy': 'background process var from config',
+                'personaOverridesForeground.groovy': 'persona foreground process var from config',
+                'personaOverridesBackground.groovy': 'persona background process var from config',
         ])
     }
 

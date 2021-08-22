@@ -41,18 +41,19 @@ browser
     page-open-handlers
     finders-and-filters
     matchers
+cli
+    introduction
+    foreground-command
+    background-command
 persona
     introduction
     HTTP-persona
+    CLI-persona
 database
     introduction
     data-setup
     data-query
     config
-cli
-    introduction
-    foreground-command
-    background-command
 REPL
     experiments
     test-runs

@@ -10,14 +10,14 @@ scenario("working dir") {
 }
 
 scenario("environment var") {
-    def command = cli.runInBackground('scripts/hello-env-var', cli.env([my_var: 'webtau']))
+    def command = cli.runInBackground('scripts/hello-env-var', cli.env([MY_VAR: 'webtau']))
     command.output.waitTo contain('hello webtau')
     command.stop()
 }
 
 scenario("env var and working dir") {
     def command = cli.runInBackground('./hello-env-var',
-            cli.workingDir('../scripts').env([my_var: 'webtau']))
+            cli.workingDir('../scripts').env([MY_VAR: 'webtau']))
     command.output.waitTo contain('hello webtau')
     command.stop()
 }

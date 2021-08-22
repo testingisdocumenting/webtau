@@ -29,7 +29,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 class CliProcessConfig {
-    public static final CliProcessConfig EMPTY = new CliProcessConfig();
     public static final CliProcessConfig SILENT = new CliProcessConfig().silent();
 
     private final Map<String, String> env;
@@ -39,8 +38,13 @@ class CliProcessConfig {
     private long timeoutMs;
     private boolean timeoutSpecified;
 
+    public static CliProcessConfig createEmpty() {
+        return new CliProcessConfig();
+    }
+
     CliProcessConfig() {
-        this.env = new HashMap<>();
+        this.env = new LinkedHashMap<>();
+        CliConfig.getCliEnv().forEach((k, v) -> env.put(k, v.toString()));
     }
 
     public CliProcessConfig env(Map<String, CharSequence> env) {
