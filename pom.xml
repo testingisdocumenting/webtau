@@ -817,6 +817,7 @@
                     <releaseProfiles>release</releaseProfiles>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <goals>deploy</goals>
+                    <pushChanges>false</pushChanges>
                 </configuration>
             </plugin>
 
