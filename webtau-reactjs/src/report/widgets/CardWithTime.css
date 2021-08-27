@@ -28,13 +28,13 @@
 }
 
 .card-with-time > .card-date {
-    color: #5c636c;
+    color: var(--webtau-card-date-color);
     font-size: 12px;
     margin-top: -10px;
 }
 
 .card-with-time > .card-time {
-    color: #4a5158;
+    color: var(--webtau-card-time-color);
     font-size: 20px;
     font-weight: 500;
     padding-bottom: 10px;

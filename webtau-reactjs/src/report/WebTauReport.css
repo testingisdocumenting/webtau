@@ -23,6 +23,26 @@
     --webtau-spacing-tripple: calc(var(--webtau-spacing-half-as-number) * 6px);
     --webtau-spacing-quadruple: calc(var(--webtau-spacing-half-as-number) * 8px);
 
+    --webtau-text-color: #bbbbbb;
+    --webtau-background-color: #1e2529;
+    --webtau-selection-background-color: #272f33;
+
+    --webtau-table-body-background-color: #1e2529;
+    --webtau-table-header-background-color: #272f33;
+    --webtau-table-border-color: #474950;
+
+    --webtau-card-background-color: #232f36;
+    --webtau-card-border-color: #182126;
+    --webtau-card-shadow: 0 1px 2px 0 rgba(21, 22, 24, 0.84);
+    --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
+    --webtau-card-time-color: #a5a5a5;
+    --webtau-card-date-color: #909090;
+    --webtau-card-number-color: #ccc;
+    --webtau-card-label-color: #969ba7;
+    --webtau-card-width: 170px;
+    --webtau-card-padding: var(--webtau-spacing-double);
+    --webtau-card-height: 120px;
+
     --webtau-test-selection-background-color: #5b666c;
     --webtau-test-group-label-color: #bbb;
     --webtau-test-group-label-background-color: #3b4348;
@@ -32,14 +52,6 @@
     --webtau-list-item-separation-color: #6d7a81;
     --webtau-list-items-color: #ddd;
     --webtau-source-code-background-color: #fff;
-
-    --webtau-card-border-color: rgba(91, 91, 91, 0.12);
-    --webtau-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
-    --webtau-card-label-color: #969ba7;
-    --webtau-card-width: 170px;
-    --webtau-card-padding: var(--webtau-spacing-double);
-    --webtau-card-height: 120px;
 
     --webtau-match-color: rgba(57, 215, 40, 0.2);
     --webtau-table-row-problem-background-color: rgba(239, 94, 99, 0.08);
@@ -52,8 +64,8 @@
 }
 
 body {
-    color: #333;
-    background-color: #f2f2f5;
+    color: var(--webtau-text-color);
+    background-color: var(--webtau-background-color);
     font-size: 14px;
     font-family: Helvetica, sans-serif
 }
@@ -100,10 +112,10 @@ body {
     box-sizing: border-box;
 }
 
-.report > .items-lists-area {
+.webtau-items-lists-area {
     grid-area: list;
     color: var(--webtau-list-items-color);
-    background-color: var(--webtau-test-selection-background-color);
+    background-color: var(--webtau-selection-background-color);
 
     max-height: 100%;
     border-right: 1px solid var(--webtau-test-status-filter-background-color);

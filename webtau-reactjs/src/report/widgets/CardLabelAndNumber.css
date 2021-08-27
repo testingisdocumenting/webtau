@@ -33,7 +33,7 @@
 }
 
 .card-label-and-number > .card-number {
-    color: #4a5158;
+    color: var(--webtau-card-number-color);
     font-size: 30px;
     font-weight: 400;
     padding-bottom: 7px;
