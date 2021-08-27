@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>1.43 (Future Release)</h1></header>
-<p>Doc: Add persona/HTTP-persona Persona HTTP authorization example Doc: Add persona/introduction Persona documentation Doc: combined &quot;files upload&quot; and &quot;PDF&quot; section under HTTP/files files. Edited text. Fix: cli/foreground-command#run cli.run now captures output in case of timeout</p>
+<p>Doc: Fix persona/introduction Persona Intro example snippets Doc: Add configuration/groovy-config-file Groovy Config complex objects, persona and overrides examples Doc: Add persona/HTTP-persona Persona HTTP authorization example Doc: Add persona/introduction Persona documentation Doc: combined &quot;files upload&quot; and &quot;PDF&quot; section under HTTP/files files. Edited text. Parse Groovy config files using new internal DSL instead of GroovyConfig to better support Persona Add persona specific cliEnv config value to set persona/CLI-persona persona's common CLI environment variables Add java.time.Instant and String compareTo handler rule Add cliEnv config value to set common environment variables for cli/foreground-command#common-environment-variables cli.run and cli/background-command#common-environment-variables cli.runInBackground Server journal capture request body and response body Server support for other than application/json content type responses Implemented markBroken on static, proxy and fake servers Added overrides and slow down to static server Ignore groovy-standalone-runner/selective-run#sscenario single scenario and groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests disabled scenario in REPL/test-runs REPL mode Add server router fluent syntax Add server router definition support for :param syntax Add server journal to track or wait on handled calls Handle router overrides in proxy server Server router - collection of overrides that can be set up and re-used for multiple servers Server implements autocloseable for try-with-resources Server route parameters based fake setup Initial fake server support Add config info to web report for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Add config info to step output for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Fix: cli/foreground-command#run-result cli.run results are properly returned when validation block is present Fix: browser screenshot on failure is displayed again in the generated report Fix: cli/foreground-command#run cli.run now captures output in case of timeout</p>
 </article>
 
 <article>
@@ -109,6 +109,7 @@
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -136,6 +137,56 @@ ReactDOM.render(React.createElement(Documentation, {
       "id" : "143-future-release",
       "type" : "Section",
       "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: Fix ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/persona/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Persona Intro",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " example snippets",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: Add ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/configuration/groovy-config-file",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Config",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " complex objects, persona and overrides examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
         "bulletMarker" : "*",
         "tight" : true,
         "type" : "BulletList",
@@ -206,6 +257,435 @@ ReactDOM.render(React.createElement(Documentation, {
               } ]
             }, {
               "text" : ". Edited text.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Parse Groovy config files using new internal DSL instead of GroovyConfig to better support Persona",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add persona specific ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "cliEnv",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " config value to set ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/persona/CLI-persona",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "persona's common CLI environment variables",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add java.time.Instant and String compareTo handler rule",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "cliEnv",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " config value to set common environment variables for ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/foreground-command#common-environment-variables",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.run",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/background-command#common-environment-variables",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.runInBackground",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Server journal capture request body and response body",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Server support for other than ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "application/json",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " content type responses",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Implemented ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "markBroken",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " on static, proxy and fake servers",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Added overrides and slow down to static server",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Ignore ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/selective-run#sscenario",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "single scenario",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "disabled scenario",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "in ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/REPL/test-runs",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "REPL mode",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add server router fluent syntax",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add server router definition support for :param syntax",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add server journal to track or wait on handled calls",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Handle router overrides in proxy server",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Server router - collection of overrides that can be set up and re-used for multiple servers",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Server implements autocloseable for ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "try-with-resources",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Server route parameters based fake setup",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Initial fake server support",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add config info to web report for ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/foreground-command#working-dir",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.run",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/background-command#working-dir",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.rinInBackground",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add config info to step output for ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/foreground-command#working-dir",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.run",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/background-command#working-dir",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.rinInBackground",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/cli/foreground-command#run-result",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cli.run",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " results are properly returned when validation block is present",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: browser screenshot on failure is displayed again in the generated report",
               "type" : "SimpleText"
             } ]
           } ]
@@ -533,7 +1013,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1624834582458,
+    "lastModifiedTime" : 1630089937558,
     "tocItem" : {
       "sectionTitle" : "Release Notes",
       "pageTitle" : "2021 Releases",
@@ -560,30 +1040,6 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "139"
       } ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/

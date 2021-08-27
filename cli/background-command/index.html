@@ -105,12 +105,17 @@
 
 <article>
 <header><h1>Environment Variables</h1></header>
-<p>Use cli.env as a second parameter to cli.runInBackground to set the environment variables: def command = cli.runInBackground('scripts/hello-env-var', cli.env([my_var: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</p>
+<p>Use cli.env as a second parameter to cli.runInBackground to set the environment variables: #!/bin/bash echo &quot;hello $MY_VAR&quot; def command = cli.runInBackground('scripts/hello-env-var', cli.env([MY_VAR: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</p>
+</article>
+
+<article>
+<header><h1>Common Environment Variables</h1></header>
+<p>Set cliEnv config value with environment values that needs to be passed to each cli.runInBackground : cliEnv { MY_VAR = &quot;webtau&quot; PREFIX_VAR = &quot;__&quot; } def command = cli.runInBackground('scripts/hello-env-var') command.output.waitTo contain('hello webtau') command.stop()</p>
 </article>
 
 <article>
 <header><h1>Chain Cli Run Config</h1></header>
-<p>Combine configs by using cli.env(...).workingDir(...) in any order to set both: def command = cli.runInBackground('./hello-env-var', cli.workingDir('../scripts').env([my_var: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</p>
+<p>Combine configs by using cli.env(...).workingDir(...) in any order to set both: def command = cli.runInBackground('./hello-env-var', cli.workingDir('../scripts').env([MY_VAR: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</p>
 </article>
 
 <article>
@@ -119,6 +124,7 @@
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -332,9 +338,49 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "",
+        "snippet" : "#!/bin/bash\necho \"hello $MY_VAR\"",
+        "autoTitle" : true,
+        "title" : "scripts/hello-env-var",
+        "type" : "Snippet"
+      }, {
         "lang" : "groovy",
-        "snippet" : "def command = cli.runInBackground('scripts/hello-env-var', cli.env([my_var: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
+        "snippet" : "def command = cli.runInBackground('scripts/hello-env-var', cli.env([MY_VAR: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
         "title" : "set environment variable",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Common Environment Variables",
+      "id" : "common-environment-variables",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Set ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cliEnv",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " config value with environment values that needs to be passed to each ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.runInBackground",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ":",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cliEnv {\n    MY_VAR = \"webtau\"\n    PREFIX_VAR = \"__\"\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "default-my-var",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def command = cli.runInBackground('scripts/hello-env-var')\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
+        "title" : "use environment variable from config",
         "type" : "Snippet"
       } ]
     }, {
@@ -355,7 +401,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def command = cli.runInBackground('./hello-env-var',\n        cli.workingDir('../scripts').env([my_var: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
+        "snippet" : "def command = cli.runInBackground('./hello-env-var',\n        cli.workingDir('../scripts').env([MY_VAR: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
         "title" : "set environment variable and working dir",
         "type" : "Snippet"
       } ]
@@ -378,11 +424,11 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "cliPath = ['../scripts/more']",
-        "title" : "webtau.config.groovy",
+        "title" : "webtau.cfg.groovy",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1624834582458,
+    "lastModifiedTime" : 1630089937554,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Background Command",
@@ -406,6 +452,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Environment Variables",
         "id" : "environment-variables"
       }, {
+        "title" : "Common Environment Variables",
+        "id" : "common-environment-variables"
+      }, {
         "title" : "Chain Cli Run Config",
         "id" : "chain-cli-run-config"
       }, {
@@ -413,30 +462,6 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "path"
       } ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/

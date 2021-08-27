@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Groovy Config File</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Basic Properties</h1></header>
+<p>Use assignment to register a config value email = 'hello' cliPath = ['p1', 'p2']</p>
+</article>
+
+<article>
+<header><h1>Complex Properties</h1></header>
+<p>Multiple ways to register complex properties complex.my_var.nested = 'webtau' // direct nested assignment complex { // scope definition for multiple assignment abc = 'abc_value' EDF = 'edf_value' subNested { nested = 'nested_nested' } } anotherComplex = [nested: 'vn'] // map based assignment anotherComplex.anotherNested = 'an'</p>
+</article>
+
+<article>
+<header><h1>Environments</h1></header>
+<p>Use environments block to define environment specific values and overrides email = 'hello' server = 'my-server' environments { dev { email = 'dev-hello' } beta { email = 'beta' } prod { server = 'prod-server' } } Environment specific complex object overrides complex = [id1: 'value1', id2: 'value2'] environments { dev { complex.id1 = 'value1-dev' complex.id3 = 'value3-dev' } beta { complex.id3 = 'value3-beta' } } webtau --env=dev</p>
+</article>
+
+<article>
+<header><h1>Personas</h1></header>
+<p>Use personas block to define persona specific values and overrides email = 'hello' personas { Alice { email = 'alice-email' } Bob { email = 'bob-email' } } Persona specific complex object overrides cliEnv = [ COMMON: 'common value', ANOTHER_COMMON: 'another common value'] personas { Alice { cliEnv.CREDENTIALS = 'alice-token' cliEnv.EXTRA_ALICE = 'extra alice' } Bob { cliEnv.CREDENTIALS = 'bob-token' cliEnv.EXTRA_BOB = 'extra bob' } }</p>
+</article>
+
+<article>
+<header><h1>Persona Inside Environment</h1></header>
+<p>Use personas block inside specific environment within environments block to have persona override for an environment cliEnv = [ COMMON: 'common value', ANOTHER_COMMON: 'another common value'] personas { Alice { cliEnv.CREDENTIALS = 'alice-token' // default Alice's specific values cliEnv.EXTRA_ALICE = 'extra alice' } Bob { cliEnv.CREDENTIALS = 'bob-token' cliEnv.EXTRA_BOB = 'extra bob' } } environments { dev { personas { Alice { cliEnv.CREDENTIALS = 'alice-dev-token' // Alice's overrides for dev environment cliEnv.EXTRA_ALICE = 'extra dev alice' cliEnv.EXTRA_DEV_V = 'extra dev alice v' } Bob { cliEnv.CREDENTIALS = 'bob-dev-token' cliEnv.EXTRA_BOB = 'extra dev bob' } } } beta { personas { Alice { cliEnv.CREDENTIALS = 'alice-beta-token' cliEnv.EXTRA_ALICE = 'extra beta alice' cliEnv.EXTRA_BETA_V = 'extra beta alice v' } Bob { cliEnv.CREDENTIALS = 'bob-beta-token' cliEnv.EXTRA_BOB = 'extra beta bob' } } } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "title" : "Basic Properties",
+      "id" : "basic-properties",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use assignment to register a config value",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "email = 'hello'\ncliPath = ['p1', 'p2']",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "basic-properties",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Complex Properties",
+      "id" : "complex-properties",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Multiple ways to register complex properties",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "complex.my_var.nested = 'webtau' // direct nested assignment\n\ncomplex { // scope definition for multiple assignment\n    abc = 'abc_value'\n    EDF = 'edf_value'\n    subNested {\n        nested = 'nested_nested'\n    }\n}\n\nanotherComplex = [nested: 'vn'] // map based assignment\nanotherComplex.anotherNested = 'an'",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "complex-properties",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Environments",
+      "id" : "environments",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "environments",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " block to define environment specific values and overrides",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "email = 'hello'\nserver = 'my-server'\nenvironments {\n    dev {\n        email = 'dev-hello'\n    }\n\n    beta {\n        email = 'beta'\n    }\n\n    prod {\n        server = 'prod-server'\n    }\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "environment-override",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Environment specific complex object overrides",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "complex = [id1: 'value1', id2: 'value2']\nenvironments {\n    dev {\n        complex.id1 = 'value1-dev'\n        complex.id3 = 'value3-dev'\n    }\n\n    beta {\n        complex.id3 = 'value3-beta'\n    }\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "environment-complex-override",
+        "type" : "Snippet"
+      }, {
+        "command" : "webtau --env=dev",
+        "paramsToHighlight" : [ ],
+        "type" : "CliCommand"
+      } ]
+    }, {
+      "title" : "Personas",
+      "id" : "personas",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "personas",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " block to define persona specific values and overrides",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "email = 'hello'\npersonas {\n    Alice {\n        email = 'alice-email'\n    }\n\n    Bob {\n        email = 'bob-email'\n    }\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "persona-overrides",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Persona specific complex object overrides",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cliEnv = [\n        COMMON: 'common value',\n        ANOTHER_COMMON: 'another common value']\n\npersonas {\n    Alice {\n        cliEnv.CREDENTIALS = 'alice-token'\n        cliEnv.EXTRA_ALICE = 'extra alice'\n    }\n\n    Bob {\n        cliEnv.CREDENTIALS = 'bob-token'\n        cliEnv.EXTRA_BOB = 'extra bob'\n    }\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "persona-complex-overrides",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "title" : "Persona Inside Environment",
+      "id" : "persona-inside-environment",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "personas",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " block inside specific environment within ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "environments",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " block to have persona override for an environment",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cliEnv = [\n        COMMON: 'common value',\n        ANOTHER_COMMON: 'another common value']\n\npersonas {\n    Alice {\n        cliEnv.CREDENTIALS = 'alice-token' // default Alice's specific values\n        cliEnv.EXTRA_ALICE = 'extra alice'\n    }\n\n    Bob {\n        cliEnv.CREDENTIALS = 'bob-token'\n        cliEnv.EXTRA_BOB = 'extra bob'\n    }\n}\n\nenvironments {\n    dev {\n        personas {\n            Alice {\n                cliEnv.CREDENTIALS = 'alice-dev-token' // Alice's overrides for dev environment\n                cliEnv.EXTRA_ALICE = 'extra dev alice'\n                cliEnv.EXTRA_DEV_V = 'extra dev alice v'\n            }\n\n            Bob {\n                cliEnv.CREDENTIALS = 'bob-dev-token'\n                cliEnv.EXTRA_BOB = 'extra dev bob'\n            }\n        }\n    }\n\n    beta {\n        personas {\n            Alice {\n                cliEnv.CREDENTIALS = 'alice-beta-token'\n                cliEnv.EXTRA_ALICE = 'extra beta alice'\n                cliEnv.EXTRA_BETA_V = 'extra beta alice v'\n            }\n\n            Bob {\n                cliEnv.CREDENTIALS = 'bob-beta-token'\n                cliEnv.EXTRA_BOB = 'extra beta bob'\n            }\n        }\n    }\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "complex-environment-persona",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1630089937554,
+    "tocItem" : {
+      "sectionTitle" : "Configuration",
+      "pageTitle" : "Groovy Config File",
+      "pageMeta" : { },
+      "dirName" : "configuration",
+      "fileName" : "groovy-config-file",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Basic Properties",
+        "id" : "basic-properties"
+      }, {
+        "title" : "Complex Properties",
+        "id" : "complex-properties"
+      }, {
+        "title" : "Environments",
+        "id" : "environments"
+      }, {
+        "title" : "Personas",
+        "id" : "personas"
+      }, {
+        "title" : "Persona Inside Environment",
+        "id" : "persona-inside-environment"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

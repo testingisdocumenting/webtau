@@ -104,6 +104,7 @@
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -220,6 +221,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "EmptyBlock"
       }, {
+        "paths" : [ "div" ],
         "xmlAsJson" : {
           "tagName" : "div",
           "attributes" : [ {
@@ -231,10 +233,59 @@ ReactDOM.render(React.createElement(Documentation, {
             "text" : "hello"
           } ]
         },
-        "paths" : [ ],
         "type" : "Xml"
       }, {
-        "paths" : [ "div.div[0]", "div.div[1].ul.li[0].a" ],
+        "paths" : [ "ul.li[0].a" ],
+        "xmlAsJson" : {
+          "tagName" : "ul",
+          "attributes" : [ ],
+          "children" : [ {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
+              "attributes" : [ {
+                "name" : "href",
+                "value" : "\"/book\""
+              } ],
+              "children" : [ {
+                "tagName" : "",
+                "text" : "book"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
+              "attributes" : [ {
+                "name" : "href",
+                "value" : "\"/orders\""
+              } ],
+              "children" : [ {
+                "tagName" : "",
+                "text" : "orders"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
+              "attributes" : [ {
+                "name" : "href",
+                "value" : "\"/help\""
+              } ],
+              "children" : [ {
+                "tagName" : "",
+                "text" : "help"
+              } ]
+            } ]
+          } ]
+        },
+        "type" : "Xml"
+      }, {
+        "paths" : [ "ul.li[0].a", "ul.li[1].a", "ul.li[2].a" ],
         "xmlAsJson" : {
           "tagName" : "ul",
           "attributes" : [ ],
@@ -354,7 +405,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Regexp",
         "type" : "Snippet"
       }, {
-        "paths" : [ "div.div[1].ul.li[1].a" ],
+        "paths" : [ "ul.li[1].a" ],
         "meta" : {
           "rightSide" : true
         },
@@ -423,7 +474,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Nested css selector",
         "type" : "Snippet"
       }, {
-        "paths" : [ "div.div[1].ul.li[1].a" ],
+        "paths" : [ "ul.li[1].a" ],
         "meta" : {
           "rightSide" : true
         },
@@ -477,7 +528,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Xml"
       } ]
     } ],
-    "lastModifiedTime" : 1624834582458,
+    "lastModifiedTime" : 1630089937554,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Finders And Filters",
@@ -501,30 +552,6 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "chaining"
       } ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/

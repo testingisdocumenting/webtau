@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Persona Context</h1></header>
-<p>Webtau persona defines a user of your system with a context associated with that user. Example of context: authentication credentials, browser, custom config parameters. Alice { step(&quot;do something in context of Alice&quot;) { customAction() } } Bob { step(&quot;do same thing in context of Bob&quot;) { customAction() } } } def customAction() { def id = Persona.currentPersona.id def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override step(&quot;custom action&quot;, [authId: authId, email: email]) { println &quot;authenticating $id&quot; } Alice and Bob execute the same action. Within the action we can access who is the current persona and what is the payload of the persona. def customAction() { def id = Persona.currentPersona.id def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override step(&quot;custom action&quot;, [authId: authId, email: email]) { println &quot;authenticating $id&quot; } }</p>
+<p>Webtau persona defines a user of your system with a context associated with that user. Example of context: authentication credentials, browser, custom config parameters. scenario('context example') { Alice { step(&quot;do something in context of Alice&quot;) { customAction() } } Bob { step(&quot;do same thing in context of Bob&quot;) { customAction() } } } Alice and Bob execute the same action. Within the action we can access who is the current persona and what is the payload of the persona. def customAction() { def id = Persona.currentPersona.id def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override step(&quot;custom action&quot;, [authId: authId, email: email]) { println &quot;authenticating $id&quot; } }</p>
 </article>
 
 <article>
@@ -99,6 +99,7 @@
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -144,8 +145,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "    Alice {\n       step(\"do something in context of Alice\") {\n           customAction()\n       }\n    }\n\n    Bob {\n        step(\"do same thing in context of Bob\") {\n            customAction()\n        }\n    }\n}\n\ndef customAction() {\n    def id = Persona.currentPersona.id\n    def authId = Persona.currentPersona.payload.authId // from persona payload\n    def email = cfg.email // from persona associated config override\n    step(\"custom action\", [authId: authId, email: email]) {\n        println \"authenticating $id\"\n    }",
+        "snippet" : "scenario('context example') {\n    Alice {\n       step(\"do something in context of Alice\") {\n           customAction()\n       }\n    }\n\n    Bob {\n        step(\"do same thing in context of Bob\") {\n            customAction()\n        }\n    }\n}",
         "title" : "context example",
+        "surroundedBy" : "context-example-snippet",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -245,14 +247,14 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/persona-concept-steps.png",
-        "timestamp" : 1624835231437,
+        "timestamp" : 1630090594427,
         "shapes" : [ ],
         "width" : 1200.0,
         "height" : 804.0,
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1624834582458,
+    "lastModifiedTime" : 1630089937554,
     "tocItem" : {
       "sectionTitle" : "Persona",
       "pageTitle" : "Introduction",
@@ -271,30 +273,6 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "report"
       } ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/

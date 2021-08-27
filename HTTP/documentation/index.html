@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:39261/params?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:46005/params?a=1&amp;b=text</p>
 </article>
 
 <article>
@@ -109,6 +109,7 @@
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -422,7 +423,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "http://localhost:39261/params?a=1&b=text",
+        "snippet" : "http://localhost:46005/params?a=1&b=text",
         "title" : "request.fullurl.txt",
         "type" : "Snippet"
       } ]
@@ -462,7 +463,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1624834582454,
+    "lastModifiedTime" : 1630089937550,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Documentation",
@@ -487,30 +488,6 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "document-rest-calls"
       } ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/

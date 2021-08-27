@@ -84,10 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy examples pom.xml pom.xml.versionsBackup scripts src target test-expectations webtau-reports</p>
+<p>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy doc-artifacts examples pom.xml pom.xml.versionsBackup scripts src target test-expectations webtau-reports</p>
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -171,12 +172,12 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "CliCommand"
     }, {
       "lang" : "txt",
-      "snippet" : "examples\npom.xml\npom.xml.versionsBackup\nscripts\nsrc\ntarget\ntest-expectations\nwebtau-reports",
+      "snippet" : "doc-artifacts\nexamples\npom.xml\npom.xml.versionsBackup\nscripts\nsrc\ntarget\ntest-expectations\nwebtau-reports",
       "highlightPath" : "doc-artifacts/ls-run/out.matched.txt",
-      "highlight" : [ 3 ],
+      "highlight" : [ 4 ],
       "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1624834582458,
+    "lastModifiedTime" : 1630089937554,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Introduction",
@@ -186,30 +187,6 @@ ReactDOM.render(React.createElement(Documentation, {
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/

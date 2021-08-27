@@ -134,6 +134,7 @@
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -205,7 +206,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-object\") {\n    k1.should == 'v1'\n}",
             "entry" : "simple object mapping example",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -215,7 +215,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-object\", (header, body) -> {\n    body.get(\"k1\").should(equal(\"v1\"));\n});",
             "entry" : "simpleObjectMappingExample",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -251,7 +250,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-list\") {\n    body[0].k1.should == 'v1'\n}",
             "entry" : "simple list mapping example",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -279,7 +277,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/end-point-simple-list\", (header, body) -> {\n    body.get(0).get(\"k1\").should(equal(\"v1\"));\n});",
             "entry" : "simpleListMappingExample",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -335,7 +332,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/example\") {\n    year.shouldNot == 2000\n    year.should != 2000  // alternative shortcut\n    genres.should contain('RPG')\n    rating.shouldBe > 7\n}",
             "entry" : "matchers basic example",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -345,7 +341,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "http.get(\"/example\", (header, body) -> {\n    body.get(\"year\").shouldNot(equal(2000));\n    body.get(\"genres\").should(contain(\"RPG\"));\n    body.get(\"rating\").shouldBe(greaterThan(7));\n});",
             "entry" : "matchersBasicExample",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -431,7 +426,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "equality matcher table keys",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         }, {
@@ -442,7 +436,6 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "equalityMatcherTableKey",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "excludeRegexp" : "doc.capture",
             "type" : "Snippet"
           } ]
         } ],
@@ -900,7 +893,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1624834582458,
+    "lastModifiedTime" : 1630089937550,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Matchers",
@@ -942,30 +935,6 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "mixing-matchers"
       } ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/

@@ -756,6 +756,88 @@ toc = [ {
     } ]
   } ]
 }, {
+  "sectionTitle" : "Cli",
+  "dirName" : "cli",
+  "items" : [ {
+    "sectionTitle" : "Cli",
+    "pageTitle" : "Introduction",
+    "pageMeta" : { },
+    "dirName" : "cli",
+    "fileName" : "introduction",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ ]
+  }, {
+    "sectionTitle" : "Cli",
+    "pageTitle" : "Foreground Command",
+    "pageMeta" : { },
+    "dirName" : "cli",
+    "fileName" : "foreground-command",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Run",
+      "id" : "run"
+    }, {
+      "title" : "Run With Validation",
+      "id" : "run-with-validation"
+    }, {
+      "title" : "Implicit Exit Code Validation",
+      "id" : "implicit-exit-code-validation"
+    }, {
+      "title" : "Run Result",
+      "id" : "run-result"
+    }, {
+      "title" : "Working Dir",
+      "id" : "working-dir"
+    }, {
+      "title" : "Environment Variables",
+      "id" : "environment-variables"
+    }, {
+      "title" : "Common Environment Variables",
+      "id" : "common-environment-variables"
+    }, {
+      "title" : "Chain Cli Run Config",
+      "id" : "chain-cli-run-config"
+    }, {
+      "title" : "Path",
+      "id" : "path"
+    }, {
+      "title" : "Timeout",
+      "id" : "timeout"
+    } ]
+  }, {
+    "sectionTitle" : "Cli",
+    "pageTitle" : "Background Command",
+    "pageMeta" : { },
+    "dirName" : "cli",
+    "fileName" : "background-command",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Run In Background",
+      "id" : "run-in-background"
+    }, {
+      "title" : "Stop Command",
+      "id" : "stop-command"
+    }, {
+      "title" : "Interacting With Command",
+      "id" : "interacting-with-command"
+    }, {
+      "title" : "Working Dir",
+      "id" : "working-dir"
+    }, {
+      "title" : "Environment Variables",
+      "id" : "environment-variables"
+    }, {
+      "title" : "Common Environment Variables",
+      "id" : "common-environment-variables"
+    }, {
+      "title" : "Chain Cli Run Config",
+      "id" : "chain-cli-run-config"
+    }, {
+      "title" : "Path",
+      "id" : "path"
+    } ]
+  } ]
+}, {
   "sectionTitle" : "Persona",
   "dirName" : "persona",
   "items" : [ {
@@ -788,6 +870,17 @@ toc = [ {
     }, {
       "title" : "Persona Authorization",
       "id" : "persona-authorization"
+    } ]
+  }, {
+    "sectionTitle" : "Persona",
+    "pageTitle" : "CLI Persona",
+    "pageMeta" : { },
+    "dirName" : "persona",
+    "fileName" : "CLI-persona",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Environment Variables",
+      "id" : "environment-variables"
     } ]
   } ]
 }, {
@@ -866,82 +959,6 @@ toc = [ {
     }, {
       "title" : "Primary Database",
       "id" : "primary-database"
-    } ]
-  } ]
-}, {
-  "sectionTitle" : "Cli",
-  "dirName" : "cli",
-  "items" : [ {
-    "sectionTitle" : "Cli",
-    "pageTitle" : "Introduction",
-    "pageMeta" : { },
-    "dirName" : "cli",
-    "fileName" : "introduction",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ ]
-  }, {
-    "sectionTitle" : "Cli",
-    "pageTitle" : "Foreground Command",
-    "pageMeta" : { },
-    "dirName" : "cli",
-    "fileName" : "foreground-command",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Run",
-      "id" : "run"
-    }, {
-      "title" : "Run With Validation",
-      "id" : "run-with-validation"
-    }, {
-      "title" : "Implicit Exit Code Validation",
-      "id" : "implicit-exit-code-validation"
-    }, {
-      "title" : "Run Result",
-      "id" : "run-result"
-    }, {
-      "title" : "Working Dir",
-      "id" : "working-dir"
-    }, {
-      "title" : "Environment Variables",
-      "id" : "environment-variables"
-    }, {
-      "title" : "Chain Cli Run Config",
-      "id" : "chain-cli-run-config"
-    }, {
-      "title" : "Path",
-      "id" : "path"
-    }, {
-      "title" : "Timeout",
-      "id" : "timeout"
-    } ]
-  }, {
-    "sectionTitle" : "Cli",
-    "pageTitle" : "Background Command",
-    "pageMeta" : { },
-    "dirName" : "cli",
-    "fileName" : "background-command",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Run In Background",
-      "id" : "run-in-background"
-    }, {
-      "title" : "Stop Command",
-      "id" : "stop-command"
-    }, {
-      "title" : "Interacting With Command",
-      "id" : "interacting-with-command"
-    }, {
-      "title" : "Working Dir",
-      "id" : "working-dir"
-    }, {
-      "title" : "Environment Variables",
-      "id" : "environment-variables"
-    }, {
-      "title" : "Chain Cli Run Config",
-      "id" : "chain-cli-run-config"
-    }, {
-      "title" : "Path",
-      "id" : "path"
     } ]
   } ]
 }, {
@@ -1193,14 +1210,26 @@ toc = [ {
   "dirName" : "configuration",
   "items" : [ {
     "sectionTitle" : "Configuration",
-    "pageTitle" : "Environments",
+    "pageTitle" : "Groovy Config File",
     "pageMeta" : { },
     "dirName" : "configuration",
-    "fileName" : "environments",
+    "fileName" : "groovy-config-file",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Select",
-      "id" : "select"
+      "title" : "Basic Properties",
+      "id" : "basic-properties"
+    }, {
+      "title" : "Complex Properties",
+      "id" : "complex-properties"
+    }, {
+      "title" : "Environments",
+      "id" : "environments"
+    }, {
+      "title" : "Personas",
+      "id" : "personas"
+    }, {
+      "title" : "Persona Inside Environment",
+      "id" : "persona-inside-environment"
     } ]
   }, {
     "sectionTitle" : "Configuration",

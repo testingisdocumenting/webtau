@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Environments</title>
+<title>WebTau: CLI Persona</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,11 +84,12 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Select</h1></header>
-<p>cfg waitTimeout = 2500 url = http://my-server environments { dev { url = &quot;http://localhost:8080&quot; } } webtau --env=dev</p>
+<header><h1>Environment Variables</h1></header>
+<p>Each persona can have their own cli.run environment variable overridesCommon variables definition: cliEnv { MY_VAR = &quot;webtau&quot; PREFIX_VAR = &quot;__&quot; } Persona overrides personas { Alice { cliEnv.MY_VAR = &quot;Alice!&quot; } Bob { cliEnv.MY_VAR = &quot;Bob!&quot; } } Script that prints env variable value #!/bin/bash echo &quot;hello $MY_VAR&quot; Different value will be printed depending on the active persona Alice { cli.run('scripts/hello-env-var') { output.should == 'hello Alice!' } } Bob { cli.run('scripts/hello-env-var') { output.should == 'hello Bob!' } }</p>
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -112,58 +113,83 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Select",
-      "id" : "select",
+      "title" : "Environment Variables",
+      "id" : "environment-variables",
       "type" : "Section",
       "content" : [ {
-        "lang" : "cfg",
-        "snippet" : "waitTimeout = 2500\nurl = http://my-server\n\nenvironments {\n   dev {\n       url = \"http://localhost:8080\"\n   }\n}\n",
-        "lineNumber" : "",
-        "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
-      }, {
-        "command" : "webtau --env=dev",
-        "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
-      } ]
-    } ],
-    "lastModifiedTime" : 1624834582458,
-    "tocItem" : {
-      "sectionTitle" : "Configuration",
-      "pageTitle" : "Environments",
-      "pageMeta" : { },
-      "dirName" : "configuration",
-      "fileName" : "environments",
-      "viewOnRelativePath" : null,
-      "pageSectionIdTitles" : [ {
-        "title" : "Select",
-        "id" : "select"
-      } ]
-    }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
+        "type" : "Paragraph",
         "content" : [ {
-          "text" : "GitHub Issue",
+          "text" : "Each persona can have their own ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.run",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " environment variable overrides",
           "type" : "SimpleText"
         } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Common variables definition:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "cliEnv {\n    MY_VAR = \"webtau\"\n    PREFIX_VAR = \"__\"\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "default-my-var",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Persona overrides",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "personas {\n    Alice {\n        cliEnv.MY_VAR = \"Alice!\"\n    }\n\n    Bob {\n        cliEnv.MY_VAR = \"Bob!\"\n    }\n}",
+        "title" : "webtau.cfg.groovy",
+        "surroundedBy" : "personas-my-var",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Script that prints env variable value",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "",
+        "snippet" : "#!/bin/bash\necho \"hello $MY_VAR\"",
+        "autoTitle" : true,
+        "title" : "scripts/hello-env-var",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Different value will be printed depending on the active persona",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "Alice {\n    cli.run('scripts/hello-env-var') {\n        output.should == 'hello Alice!'\n    }\n}\n\nBob {\n    cli.run('scripts/hello-env-var') {\n        output.should == 'hello Bob!'\n    }\n}",
+        "title" : "use environment variable from persona config",
+        "type" : "Snippet"
       } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
+    } ],
+    "lastModifiedTime" : 1630089937554,
+    "tocItem" : {
+      "sectionTitle" : "Persona",
+      "pageTitle" : "CLI Persona",
+      "pageMeta" : { },
+      "dirName" : "persona",
+      "fileName" : "CLI-persona",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Environment Variables",
+        "id" : "environment-variables"
       } ]
-    } ]
+    }
   }
 }), document.getElementById("znai"));
 /*-->*/

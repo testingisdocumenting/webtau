@@ -383,6 +383,36 @@
 </article>
 
 <article>
+<a href="cli/introduction/">Introduction</a>
+</article>
+
+<article>
+<a href="cli/foreground-command/">Foreground Command</a>
+<a href="cli/foreground-command/#run">Foreground Command Run</a>
+<a href="cli/foreground-command/#run-with-validation">Foreground Command Run With Validation</a>
+<a href="cli/foreground-command/#implicit-exit-code-validation">Foreground Command Implicit Exit Code Validation</a>
+<a href="cli/foreground-command/#run-result">Foreground Command Run Result</a>
+<a href="cli/foreground-command/#working-dir">Foreground Command Working Dir</a>
+<a href="cli/foreground-command/#environment-variables">Foreground Command Environment Variables</a>
+<a href="cli/foreground-command/#common-environment-variables">Foreground Command Common Environment Variables</a>
+<a href="cli/foreground-command/#chain-cli-run-config">Foreground Command Chain Cli Run Config</a>
+<a href="cli/foreground-command/#path">Foreground Command Path</a>
+<a href="cli/foreground-command/#timeout">Foreground Command Timeout</a>
+</article>
+
+<article>
+<a href="cli/background-command/">Background Command</a>
+<a href="cli/background-command/#run-in-background">Background Command Run In Background</a>
+<a href="cli/background-command/#stop-command">Background Command Stop Command</a>
+<a href="cli/background-command/#interacting-with-command">Background Command Interacting With Command</a>
+<a href="cli/background-command/#working-dir">Background Command Working Dir</a>
+<a href="cli/background-command/#environment-variables">Background Command Environment Variables</a>
+<a href="cli/background-command/#common-environment-variables">Background Command Common Environment Variables</a>
+<a href="cli/background-command/#chain-cli-run-config">Background Command Chain Cli Run Config</a>
+<a href="cli/background-command/#path">Background Command Path</a>
+</article>
+
+<article>
 <a href="persona/introduction/">Introduction</a>
 <a href="persona/introduction/#persona-context">Introduction Persona Context</a>
 <a href="persona/introduction/#context-definition">Introduction Context Definition</a>
@@ -393,6 +423,11 @@
 <a href="persona/HTTP-persona/">HTTP Persona</a>
 <a href="persona/HTTP-persona/#authorization">HTTP Persona Authorization</a>
 <a href="persona/HTTP-persona/#persona-authorization">HTTP Persona Persona Authorization</a>
+</article>
+
+<article>
+<a href="persona/CLI-persona/">CLI Persona</a>
+<a href="persona/CLI-persona/#environment-variables">CLI Persona Environment Variables</a>
 </article>
 
 <article>
@@ -423,34 +458,6 @@
 <a href="database/config/">Config</a>
 <a href="database/config/#jdbc">Config JDBC</a>
 <a href="database/config/#primary-database">Config Primary Database</a>
-</article>
-
-<article>
-<a href="cli/introduction/">Introduction</a>
-</article>
-
-<article>
-<a href="cli/foreground-command/">Foreground Command</a>
-<a href="cli/foreground-command/#run">Foreground Command Run</a>
-<a href="cli/foreground-command/#run-with-validation">Foreground Command Run With Validation</a>
-<a href="cli/foreground-command/#implicit-exit-code-validation">Foreground Command Implicit Exit Code Validation</a>
-<a href="cli/foreground-command/#run-result">Foreground Command Run Result</a>
-<a href="cli/foreground-command/#working-dir">Foreground Command Working Dir</a>
-<a href="cli/foreground-command/#environment-variables">Foreground Command Environment Variables</a>
-<a href="cli/foreground-command/#chain-cli-run-config">Foreground Command Chain Cli Run Config</a>
-<a href="cli/foreground-command/#path">Foreground Command Path</a>
-<a href="cli/foreground-command/#timeout">Foreground Command Timeout</a>
-</article>
-
-<article>
-<a href="cli/background-command/">Background Command</a>
-<a href="cli/background-command/#run-in-background">Background Command Run In Background</a>
-<a href="cli/background-command/#stop-command">Background Command Stop Command</a>
-<a href="cli/background-command/#interacting-with-command">Background Command Interacting With Command</a>
-<a href="cli/background-command/#working-dir">Background Command Working Dir</a>
-<a href="cli/background-command/#environment-variables">Background Command Environment Variables</a>
-<a href="cli/background-command/#chain-cli-run-config">Background Command Chain Cli Run Config</a>
-<a href="cli/background-command/#path">Background Command Path</a>
 </article>
 
 <article>
@@ -550,8 +557,12 @@
 </article>
 
 <article>
-<a href="configuration/environments/">Environments</a>
-<a href="configuration/environments/#select">Environments Select</a>
+<a href="configuration/groovy-config-file/">Groovy Config File</a>
+<a href="configuration/groovy-config-file/#basic-properties">Groovy Config File Basic Properties</a>
+<a href="configuration/groovy-config-file/#complex-properties">Groovy Config File Complex Properties</a>
+<a href="configuration/groovy-config-file/#environments">Groovy Config File Environments</a>
+<a href="configuration/groovy-config-file/#personas">Groovy Config File Personas</a>
+<a href="configuration/groovy-config-file/#persona-inside-environment">Groovy Config File Persona Inside Environment</a>
 </article>
 
 <article>
@@ -612,6 +623,7 @@
 </article>
 </section>
 </div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
@@ -638,7 +650,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "url" : "getting-started/what-is-this",
       "type" : "Redirect"
     } ],
-    "lastModifiedTime" : 1624834582458,
+    "lastModifiedTime" : 1630089937554,
     "tocItem" : {
       "sectionTitle" : "",
       "pageTitle" : "WebTau",
@@ -648,30 +660,6 @@ ReactDOM.render(React.createElement(Documentation, {
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ ]
     }
-  },
-  "footer" : {
-    "type" : "Footer",
-    "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "If you have documentation suggestions, features or bugs to report, please create ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "https://github.com/testingisdocumenting/webtau/issues",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "GitHub Issue",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Contributions are welcome",
-        "type" : "SimpleText"
-      } ]
-    } ]
   }
 }), document.getElementById("znai"));
 /*-->*/
