@@ -55,7 +55,7 @@ class ConfigValueHolder {
 
         private static Object convertValue(Object v) {
             if (v instanceof ConfigValueHolder) {
-                if (v.@value.value) {
+                if (v.@value.value != null) {
                     return v.@value.value
                 }
 
@@ -63,6 +63,15 @@ class ConfigValueHolder {
             } else {
                 return v
             }
+        }
+
+        @Override
+        String toString() {
+            if (value != null) {
+                return value.toString()
+            }
+
+            return map.toString()
         }
     }
 
@@ -106,20 +115,20 @@ class ConfigValueHolder {
     Object getProperty(String name) {
         def holder = this.@value.map.get(name)
         if (holder != null) {
-            return holder
+            return simplePropertyOrHolder(holder)
         }
 
         def fromRoot = findInRootAndMakeCopy(name)
         if (fromRoot != null) {
             this.@value.map.put(name, fromRoot)
-            return fromRoot
+            return simplePropertyOrHolder(fromRoot)
         }
 
         def newHolder = new ConfigValueHolder(concatPath(this.@holderName, name),
                 Collections.emptyList(), null)
         this.@value.map.put(name, newHolder)
 
-        return newHolder
+        return simplePropertyOrHolder(newHolder)
     }
 
     void setProperty(String name, Object value) {
@@ -133,6 +142,11 @@ class ConfigValueHolder {
 
     Map<String, Object> toMap() {
         return this.@value.convertToMap()
+    }
+
+    @Override
+    String toString() {
+        return this.@value.toString()
     }
 
     private ConfigValueHolder findInRootAndMakeCopy(String name) {
@@ -157,6 +171,14 @@ class ConfigValueHolder {
         }
 
         return null
+    }
+
+    private static Object simplePropertyOrHolder(ConfigValueHolder valueHolder) {
+        if (valueHolder.@value.value != null) {
+            return valueHolder.@value.value
+        }
+
+        return valueHolder
     }
 
     private static String concatPath(String left, String right) {

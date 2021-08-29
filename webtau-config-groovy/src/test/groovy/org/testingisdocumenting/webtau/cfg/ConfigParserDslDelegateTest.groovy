@@ -36,6 +36,19 @@ class ConfigParserDslDelegateTest {
     }
 
     @Test
+    void "use basic properties in expressions"() {
+        def dslDelegate = runClosureWithDelegate {
+            // basic-properties
+            userId = 'user-a'
+            url = "https://${userId}.host"
+            // basic-properties
+        }
+
+        dslDelegate.toMap().should == [userId: 'user-a',
+                                       url: 'https://user-a.host']
+    }
+
+    @Test
     void "nested properties"() {
         def dslDelegate = runClosureWithDelegate {
             // complex-properties
@@ -91,7 +104,34 @@ class ConfigParserDslDelegateTest {
     }
 
     @Test
-    void "delegate environments and complex object"() {
+    void "delegate environments list objects"() {
+        def dslDelegate = runClosureWithDelegate {
+            // environment-override
+            email = 'hello'
+            list = [1, 2, 3, 4]
+            environments {
+                dev {
+                    list = []
+                }
+
+                beta {
+                    list = [2, 4]
+                }
+
+                prod {
+                }
+            }
+            // environment-override
+        }
+
+        dslDelegate.toMap().should == [email: "hello", list: [1, 2, 3, 4]]
+        dslDelegate.combinedValuesForEnv("dev").should == [email: "hello", list: []]
+        dslDelegate.combinedValuesForEnv("beta").should == [email: "hello", list: [2, 4]]
+        dslDelegate.combinedValuesForEnv("prod").should == [email: "hello", list: [1, 2, 3, 4]]
+    }
+
+    @Test
+    void "delegate environments and map object"() {
         def dslDelegate = runClosureWithDelegate {
             email = 'hello'
             server = 'my-server'
