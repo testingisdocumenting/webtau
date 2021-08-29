@@ -42,6 +42,7 @@ class WebTauGroovyFileConfigHandlerTest {
 
         handle(cfg)
 
+        cfg.list.should == []
         cfg.baseUrl.should == 'http://dev.host:8080'
     }
 
