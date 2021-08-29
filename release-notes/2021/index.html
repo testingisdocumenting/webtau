@@ -84,6 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>1.43.1</h1></header>
+<p>Fix: configuration/groovy-config-file groovy config parsing of empty lists and simple variables reference within config</p>
+</article>
+
+<article>
 <header><h1>1.43</h1></header>
 <p>Doc: Fix persona/introduction Persona Intro example snippets Doc: Add configuration/groovy-config-file Groovy Config complex objects, persona and overrides examples Doc: Add persona/HTTP-persona Persona HTTP authorization example Doc: Add persona/introduction Persona documentation Doc: combined &quot;files upload&quot; and &quot;PDF&quot; section under HTTP/files files. Edited text. Parse Groovy config files using new internal DSL instead of GroovyConfig to better support Persona Add persona specific cliEnv config value to set persona/CLI-persona persona's common CLI environment variables Add java.time.Instant and String compareTo handler rule Add cliEnv config value to set common environment variables for cli/foreground-command#common-environment-variables cli.run and cli/background-command#common-environment-variables cli.runInBackground Server journal capture request body and response body Server support for other than application/json content type responses Implemented markBroken on static, proxy and fake servers Added overrides and slow down to static server Ignore groovy-standalone-runner/selective-run#sscenario single scenario and groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests disabled scenario in REPL/test-runs REPL mode Add server router fluent syntax Add server router definition support for :param syntax Add server journal to track or wait on handled calls Handle router overrides in proxy server Server router - collection of overrides that can be set up and re-used for multiple servers Server implements autocloseable for try-with-resources Server route parameters based fake setup Initial fake server support Add config info to web report for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Add config info to step output for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Fix: cli/foreground-command#run-result cli.run results are properly returned when validation block is present Fix: browser screenshot on failure is displayed again in the generated report Fix: cli/foreground-command#run cli.run now captures output in case of timeout</p>
 </article>
@@ -133,6 +138,36 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "title" : "1.43.1",
+      "id" : "1431",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/configuration/groovy-config-file",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "groovy config",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " parsing of empty lists and simple variables reference within config",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "title" : "1.43",
       "id" : "143",
       "type" : "Section",
@@ -1013,7 +1048,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1630090921468,
+    "lastModifiedTime" : 1630279880923,
     "tocItem" : {
       "sectionTitle" : "Release Notes",
       "pageTitle" : "2021 Releases",
@@ -1024,6 +1059,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2021",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "1.43.1",
+        "id" : "1431"
+      }, {
         "title" : "1.43",
         "id" : "143"
       }, {
