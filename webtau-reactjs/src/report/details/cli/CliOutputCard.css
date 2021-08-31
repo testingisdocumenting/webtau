@@ -29,6 +29,6 @@
 }
 
 .cli-output-label {
-    color: #333;
+    color: var(--webtau-text-color);
     margin-bottom: 4px;
 }

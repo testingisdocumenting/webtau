@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,5 +51,5 @@
 .test-details > .detail-area {
     flex: 1;
     overflow: auto;
-    padding: var(--webtau-spacing-double);
+    padding: var(--webtau-spacing);
 }
