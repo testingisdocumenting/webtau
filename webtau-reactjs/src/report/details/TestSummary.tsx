@@ -23,7 +23,6 @@ import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls';
 
 import Report from '../Report';
 
-import { TestNameCard } from './TestNameCard';
 import { Card } from '../widgets/Card';
 import { CardWithTime } from '../widgets/CardWithTime';
 
@@ -35,6 +34,8 @@ import { TestMetadata } from './metadata/TestMetadata';
 import { WebTauTest } from '../WebTauTest';
 
 import './TestSummary.css';
+import CardList from '../widgets/CardList';
+import { TestName } from './TestName';
 
 interface TestProps {
   test: WebTauTest;
@@ -45,21 +46,17 @@ export function TestSummary({ test }: TestProps) {
 
   return (
     <div className="test-summary">
-      <TestNameCard test={test} />
-
-      <HttpCallsWarning test={test} />
-
-      <div className="test-summary-metadata">
-        <TestMetadata metadata={test.metadata} />
-      </div>
-
-      <div className="test-summary-timing">
+      <CardList label={<TestName test={test} />}>
         <CardWithTime label="Start Time (Local)" time={test.startTime} />
 
         <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
 
         <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
-      </div>
+      </CardList>
+
+      <HttpCallsWarning test={test} />
+
+      <TestMetadata metadata={test.metadata} />
 
       {numberOfHttpCalls > 0 ? (
         <div className="test-summary-http-dashboard">

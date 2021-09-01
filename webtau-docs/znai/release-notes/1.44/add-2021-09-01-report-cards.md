@@ -1,0 +1,1 @@
+* Web report card lists style change to make groupping more distinct and combined with title

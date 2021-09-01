@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +21,8 @@
 
     align-items: center;
     justify-content: center;
+
+    color: var(--webtau-text-color);
 
     width: var(--webtau-card-width);
     height: var(--webtau-card-height);

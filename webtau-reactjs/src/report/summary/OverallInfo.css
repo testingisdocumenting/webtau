@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,5 +17,5 @@
 
 .overall-info {
     display: grid;
-    grid-row-gap: 24px;
+    grid-row-gap: var(--webtau-spacing);
 }

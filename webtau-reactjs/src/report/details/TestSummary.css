@@ -21,7 +21,6 @@
     grid-row-gap: var(--webtau-spacing);
 }
 
-.test-summary-timing,
 .test-summary-http-dashboard {
     display: grid;
     grid-template-columns: repeat(auto-fill, 172px);
