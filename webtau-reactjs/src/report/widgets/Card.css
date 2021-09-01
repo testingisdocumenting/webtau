@@ -16,7 +16,7 @@
  */
 
 .webtau-card {
-    background-color: #fff;
+    background-color: var(--webtau-card-background-color);
     box-shadow: var(--webtau-card-shadow);
     border: 1px solid var(--webtau-card-border-color);
 }

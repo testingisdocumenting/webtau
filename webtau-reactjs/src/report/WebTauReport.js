@@ -76,7 +76,7 @@ class WebTauReport extends Component {
           />
         </div>
 
-        <div className="items-lists-area">{this.renderListOEntries()}</div>
+        <div className="webtau-items-lists-area">{this.renderListOEntries()}</div>
 
         <div className="test-details-area">{this.renderDetailsArea()}</div>
 

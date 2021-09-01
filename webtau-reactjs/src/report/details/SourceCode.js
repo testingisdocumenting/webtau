@@ -22,10 +22,9 @@ import Prism from 'prismjs';
 import 'prismjs/components/prism-groovy';
 import 'prismjs/plugins/line-highlight/prism-line-highlight';
 
-import 'prismjs/themes/prism.css';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
-
-import { Card } from '../widgets/Card';
+import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism-dark.css';
 
 import './SourceCode.css';
 
@@ -34,12 +33,12 @@ class SourceCode extends React.Component {
     const { filePath, lineNumbers, snippet } = this.props;
 
     return (
-      <Card className="source-code">
+      <div className="webtau-source-code">
         <div className="file-path">{filePath}</div>
         <pre data-line={lineNumbers.join(',')} className="language-groovy">
           <code>{snippet}</code>
         </pre>
-      </Card>
+      </div>
     );
   }
 
