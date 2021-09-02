@@ -23,7 +23,7 @@ class Report {
     def collapsedHeader = $(".collapsed-http-header")
     def groupNames = $(".group-of-tests .navigation-entry-group-label").all()
     def testNames = $(".navigation-entry .label")
-    def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
+    def testSummaryMetaKey = $(".test-metadata th").get("METADATA KEY")
 
     def responseData = $(".response .data")
 
