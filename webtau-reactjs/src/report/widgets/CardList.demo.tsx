@@ -17,22 +17,23 @@
 
 import React from 'react';
 
-import { Card } from '../widgets/Card';
-import { TestName } from './TestName';
+import CardWithElapsedTime from './CardWithElapsedTime';
+import { CardWithTime } from './CardWithTime';
+import CardList from './CardList';
+import { Registry } from 'react-component-viewer';
 
-import { WebTauTest } from '../WebTauTest';
+export function cardListDemo(registry: Registry) {
+  registry.add('with label', () => (
+    <CardList label="Overall Performance">
+      <CardWithTime time={1547139662469} label="Start time" />
+      <CardWithElapsedTime millis={8321} label="Total time" />
+    </CardList>
+  ));
 
-import './TestNameCard.css';
-
-interface Props {
-  test: WebTauTest;
-  onTestSelect?(id: string): void;
-}
-
-export function TestNameCard({ test, onTestSelect }: Props) {
-  return (
-    <Card className="test-name-card">
-      <TestName test={test} onTestClick={onTestSelect} />
-    </Card>
-  );
+  registry.add('without label', () => (
+    <CardList>
+      <CardWithTime time={1547139662469} label="Start time" />
+      <CardWithElapsedTime millis={8321} label="Total time" />
+    </CardList>
+  ));
 }

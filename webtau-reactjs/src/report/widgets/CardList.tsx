@@ -17,22 +17,18 @@
 
 import React from 'react';
 
-import CardWithElapsedTime from './CardWithElapsedTime';
-import { CardWithTime } from './CardWithTime';
-import CardList from './CardList';
+import './CardList.css';
 
-export function cardListDemo(registry) {
-  registry.add('with label', () => (
-    <CardList label="Overall Performance">
-      <CardWithTime time={1547139662469} label="Start time" />
-      <CardWithElapsedTime millis={8321} label="Total time" />
-    </CardList>
-  ));
+interface Props {
+  label?: React.ReactNode;
+  children: React.ReactNode;
+}
 
-  registry.add('without label', () => (
-    <CardList>
-      <CardWithTime time={1547139662469} label="Start time" />
-      <CardWithElapsedTime millis={8321} label="Total time" />
-    </CardList>
-  ));
+export default function CardList({ label, children }: Props) {
+  return (
+    <div className="webtau-card-list">
+      {label && <div className="label">{label}</div>}
+      <div className="list">{children}</div>
+    </div>
+  );
 }
