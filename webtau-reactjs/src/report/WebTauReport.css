@@ -23,7 +23,9 @@
     --webtau-spacing-tripple: calc(var(--webtau-spacing-half-as-number) * 6px);
     --webtau-spacing-quadruple: calc(var(--webtau-spacing-half-as-number) * 8px);
 
-    --webtau-text-color: #bbbbbb;
+    --webtau-text-color: #bbb;
+    --webtau-text-light-color: #888;
+    --webtau-inversed-text-color: #333;
     --webtau-background-color: #1e2529;
     --webtau-selection-background-color: #272f33;
 
@@ -40,10 +42,10 @@
     --webtau-tabs-selected-text-color: #aaa;
 
     --webtau-card-background-color: var(--webtau-selection-background-color);
-    /*--webtau-card-background-color: #283740;*/
     --webtau-card-border-color: none;
-    --webtau-card-list-border-color: #293c49;
+    --webtau-card-list-border-color: var(--webtau-background-color);
     --webtau-card-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+    --webtau-card-warning-background-color: #dcbe5a;
     --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
     --webtau-card-time-color: #a5a5a5;
     --webtau-card-date-color: #909090;
@@ -65,7 +67,8 @@
     --webtau-code-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     --webtau-source-code-background-color: #181e21;
 
-    --webtau-match-color: rgba(57, 215, 40, 0.2);
+    --webtau-match-color: #eee;
+    --webtau-match-background-color: rgba(57, 215, 40, 0.2);
     --webtau-table-row-problem-background-color: rgba(219, 17, 23, 0.2);
 
     --webtau-property-key-color: #673871;

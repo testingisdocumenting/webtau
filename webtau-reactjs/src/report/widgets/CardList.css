@@ -28,7 +28,7 @@
     border-right: 1px solid var(--webtau-card-list-border-color);
 }
 
-.webtau-card-list .webtau-card:last-child {
+.webtau-card-list .list > *:last-child {
     border-right: none;
 }
 
