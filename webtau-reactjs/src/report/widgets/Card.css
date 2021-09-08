@@ -22,6 +22,11 @@
 }
 
 .webtau-card.warning {
+    color: var(--webtau-inversed-text-color);
+    background-color: var(--webtau-card-warning-background-color);
     box-shadow: var(--webtau-card-warning-shadow);
-    background-color: #ffffd0;
+}
+
+.webtau-card.clickable {
+    cursor: pointer;
 }

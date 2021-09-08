@@ -20,12 +20,12 @@
 }
 
 .step-token.id {
-    color: #333;
+    color: var(--webtau-text-color);
     font-weight: bold;
 }
 
 .step-token.action {
-    color: #5d76e8;
+    color: #4a9aff;
 }
 
 .step-token.matcher {
@@ -59,4 +59,8 @@
 
 .step-token.selectorValue {
     color: #ab68ae;
+}
+
+.step-token.url {
+    color: #6297d5;
 }

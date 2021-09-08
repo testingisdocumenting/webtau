@@ -28,7 +28,8 @@ interface Pros {
 }
 
 export function Card({ className, onClick, width, children, warning }: Pros) {
-  const fullClassName = 'webtau-card' + (className ? ' ' + className : '') + (warning ? ' warning' : '');
+  const fullClassName =
+    'webtau-card' + (className ? ' ' + className : '') + (warning ? ' warning' : '') + (onClick ? ' clickable' : '');
   return (
     <div className={fullClassName} onClick={onClick} style={{ width }}>
       {children}

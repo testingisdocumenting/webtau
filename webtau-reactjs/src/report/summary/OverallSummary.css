@@ -26,8 +26,7 @@
     padding: var(--webtau-spacing);
 }
 
-.overall-number-of-http-calls,
-.overall-number-of-skipped {
+.overall-number-of-http-calls {
     cursor: pointer;
 }
 

@@ -45,29 +45,31 @@ export function TestSummary({ test }: TestProps) {
   const numberOfHttpCalls = test.httpCalls ? test.httpCalls.length : 0;
 
   return (
-    <div className="test-summary">
-      <CardList label={<TestName test={test} />}>
-        <CardWithTime label="Start Time (Local)" time={test.startTime} />
+    <div className="webtau-test-summary">
+      <div className="webtau-test-summary-cards">
+        <CardList label={<TestName test={test} />}>
+          <CardWithTime label="Start Time (Local)" time={test.startTime} />
 
-        <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
+          <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
 
-        <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
-      </CardList>
+          <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
+        </CardList>
 
-      <HttpCallsWarning test={test} />
+        <HttpCallsWarning test={test} />
 
-      <TestMetadata metadata={test.metadata} />
+        <TestMetadata metadata={test.metadata} />
 
-      {numberOfHttpCalls > 0 ? (
-        <div className="test-summary-http-dashboard">
-          <NumberOfHttpCalls number={numberOfHttpCalls} />
-          <AverageHttpCallsTime test={test} />
-          <OverallHttpCallsTime test={test} />
-        </div>
-      ) : null}
+        {numberOfHttpCalls > 0 ? (
+          <CardList label="HTTP Summary">
+            <NumberOfHttpCalls number={numberOfHttpCalls} />
+            <AverageHttpCallsTime test={test} />
+            <OverallHttpCallsTime test={test} />
+          </CardList>
+        ) : null}
 
-      <OptionalPreBlock className="context-description" message={test.contextDescription} />
-      <CardPreMessage message={test.exceptionMessage} />
+        <OptionalPreBlock className="context-description" message={test.contextDescription} />
+        <CardPreMessage message={test.exceptionMessage} />
+      </div>
 
       {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs} />)}
     </div>

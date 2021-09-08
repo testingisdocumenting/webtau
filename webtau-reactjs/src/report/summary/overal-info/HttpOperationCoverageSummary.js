@@ -31,13 +31,11 @@ export default function HttpOperationCoverageSummary({ report, onSwitchToSkipped
       <CardLabelAndNumber label="Operations coverage" number={operationCoveragePercentage} />
       <CardLabelAndNumber label="Covered operations" number={report.numberOfOpenApiCoveredOperations()} />
 
-      <div className="overall-number-of-skipped" onClick={onSwitchToSkippedHttpCalls}>
-        <CardLabelAndNumber
-          label="Skipped operations"
-          number={report.numberOfOpenApiSkippedOperations()}
-          onClick={onSwitchToSkippedHttpCalls}
-        />
-      </div>
+      <CardLabelAndNumber
+        label="Skipped operations"
+        number={report.numberOfOpenApiSkippedOperations()}
+        onClick={onSwitchToSkippedHttpCalls}
+      />
     </CardList>
   );
 }
