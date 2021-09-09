@@ -17,5 +17,9 @@
 
 .overall-info {
     display: grid;
-    grid-row-gap: var(--webtau-spacing);
+    grid-template-columns: auto 1fr;
+}
+
+.overall-info .webtau-card-list {
+    margin-bottom: var(--webtau-spacing);
 }

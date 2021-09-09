@@ -46,29 +46,31 @@ export function TestSummary({ test }: TestProps) {
 
   return (
     <div className="webtau-test-summary">
-      <div className="webtau-test-summary-cards">
-        <CardList label={<TestName test={test} />}>
-          <CardWithTime label="Start Time (Local)" time={test.startTime} />
+      <div className="webtau-test-summary-cards-area">
+        <div className="webtau-test-summary-cards">
+          <CardList label={<TestName test={test} />}>
+            <CardWithTime label="Start Time (Local)" time={test.startTime} />
 
-          <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
+            <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
 
-          <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
-        </CardList>
-
-        <HttpCallsWarning test={test} />
-
-        <TestMetadata metadata={test.metadata} />
-
-        {numberOfHttpCalls > 0 ? (
-          <CardList label="HTTP Summary">
-            <NumberOfHttpCalls number={numberOfHttpCalls} />
-            <AverageHttpCallsTime test={test} />
-            <OverallHttpCallsTime test={test} />
+            <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
           </CardList>
-        ) : null}
 
-        <OptionalPreBlock className="context-description" message={test.contextDescription} />
-        <CardPreMessage message={test.exceptionMessage} />
+          <HttpCallsWarning test={test} />
+
+          <TestMetadata metadata={test.metadata} />
+
+          {numberOfHttpCalls > 0 ? (
+            <CardList label="HTTP Summary">
+              <NumberOfHttpCalls number={numberOfHttpCalls} />
+              <AverageHttpCallsTime test={test} />
+              <OverallHttpCallsTime test={test} />
+            </CardList>
+          ) : null}
+
+          <OptionalPreBlock className="context-description" message={test.contextDescription} />
+          <CardPreMessage message={test.exceptionMessage} />
+        </div>
       </div>
 
       {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs} />)}
