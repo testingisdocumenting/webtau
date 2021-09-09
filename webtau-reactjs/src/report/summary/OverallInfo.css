@@ -16,8 +16,6 @@
  */
 
 .overall-info {
-    display: grid;
-    grid-template-columns: auto 1fr;
 }
 
 .overall-info .webtau-card-list {

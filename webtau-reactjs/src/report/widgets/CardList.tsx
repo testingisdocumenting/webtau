@@ -26,9 +26,12 @@ interface Props {
 
 export default function CardList({ label, children }: Props) {
   return (
-    <div className="webtau-card-list">
-      {label && <div className="label">{label}</div>}
-      <div className="list">{children}</div>
+    <div className="webtau-card-list-size-wrapper">
+      <div className="webtau-card-list">
+        {label && <div className="label">{label}</div>}
+        <div className="list">{children}</div>
+      </div>
+      <div />
     </div>
   );
 }

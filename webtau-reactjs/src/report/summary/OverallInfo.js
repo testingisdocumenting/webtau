@@ -29,13 +29,11 @@ import './OverallInfo.css';
 export default function OverallInfo({ report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls }) {
   return (
     <div className="overall-info">
-      <div className="cards">
-        <TestsOverallTiming report={report} />
-        <TestsSuccessRatio report={report} />
-        <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls} />
-        <TestsRanRatio report={report} />
-        <HttpCallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls} />
-      </div>
+      <TestsOverallTiming report={report} />
+      <TestsSuccessRatio report={report} />
+      <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls} />
+      <TestsRanRatio report={report} />
+      <HttpCallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls} />
     </div>
   );
 }

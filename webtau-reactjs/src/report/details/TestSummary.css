@@ -21,11 +21,6 @@
     grid-row-gap: var(--webtau-spacing);
 }
 
-.webtau-test-summary-cards-area {
-    display: grid;
-    grid-template-columns: auto 1fr;
-}
-
 .webtau-test-summary-cards {
     display: grid;
     grid-row-gap: var(--webtau-spacing);
