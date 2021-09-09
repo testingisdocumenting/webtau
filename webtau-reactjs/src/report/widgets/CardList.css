@@ -19,7 +19,12 @@
     background-color: var(--webtau-card-background-color);
     box-shadow: var(--webtau-card-shadow);
     border: 1px solid var(--webtau-card-border-color);
-    padding: var(--webtau-spacing);
+    padding: var(--webtau-spacing) var(--webtau-spacing-double);
+}
+
+.webtau-card-list-size-wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
 }
 
 .webtau-card-list .webtau-card {
@@ -40,7 +45,5 @@
 }
 
 .webtau-card-list > .list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, var(--webtau-card-width));
-    grid-gap: var(--webtau-spacing);
+    display: flex;
 }

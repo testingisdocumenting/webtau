@@ -16,6 +16,8 @@
  */
 
 .overall-info {
-    display: grid;
-    grid-row-gap: var(--webtau-spacing);
+}
+
+.overall-info .webtau-card-list {
+    margin-bottom: var(--webtau-spacing);
 }
