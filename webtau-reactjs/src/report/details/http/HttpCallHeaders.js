@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,49 +15,48 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CollapsibleHttpHeader from '../http-header/CollapsibleHttpHeader'
-import CardWithPadding from '../../widgets/CardWithPadding'
+import { CollapsibleHttpHeader } from '../http-header/CollapsibleHttpHeader';
+import CardWithPadding from '../../widgets/CardWithPadding';
 
-import './HttpCallHeaders.css'
+import './HttpCallHeaders.css';
 
 export default class HttpCallHeaders extends React.Component {
-    state = {
-        isCollapsed: true
-    }
+  state = {
+    isCollapsed: true,
+  };
 
-    render() {
-        const {request, response, useCards} = this.props
-        const {isCollapsed} = this.state
+  render() {
+    const { request, response, useCards } = this.props;
+    const { isCollapsed } = this.state;
 
-        const renderedRequest = <CollapsibleHttpHeader label="Request Header"
-                                                       header={request}
-                                                       isCollapsed={isCollapsed}
-                                                       onToggle={this.toggle}/>
+    const renderedRequest = (
+      <CollapsibleHttpHeader label="Request Header" header={request} isCollapsed={isCollapsed} onToggle={this.toggle} />
+    );
 
-        const renderedResponse = <CollapsibleHttpHeader label="Response Header"
-                                                        header={response}
-                                                        isCollapsed={isCollapsed}
-                                                        onToggle={this.toggle}/>
+    const renderedResponse = (
+      <CollapsibleHttpHeader
+        label="Response Header"
+        header={response}
+        isCollapsed={isCollapsed}
+        onToggle={this.toggle}
+      />
+    );
 
-        const wrappedRequest = useCards ?
-            <CardWithPadding>{renderedRequest}</CardWithPadding> :
-            renderedRequest
+    const wrappedRequest = useCards ? <CardWithPadding>{renderedRequest}</CardWithPadding> : renderedRequest;
 
-        const wrappedResponse = useCards ?
-            <CardWithPadding>{renderedResponse}</CardWithPadding> :
-            renderedResponse
+    const wrappedResponse = useCards ? <CardWithPadding>{renderedResponse}</CardWithPadding> : renderedResponse;
 
-        return (
-            <div className="http-call-headers">
-                {wrappedRequest}
-                {wrappedResponse}
-            </div>
-        )
-    }
+    return (
+      <div className="http-call-headers">
+        {wrappedRequest}
+        {wrappedResponse}
+      </div>
+    );
+  }
 
-    toggle = () => {
-        this.setState(prev => ({isCollapsed: !prev.isCollapsed}))
-    }
+  toggle = () => {
+    this.setState((prev) => ({ isCollapsed: !prev.isCollapsed }));
+  };
 }
