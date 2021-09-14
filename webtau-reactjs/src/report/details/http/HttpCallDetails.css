@@ -16,8 +16,10 @@
  */
 
 .http-call-details {
+    flex: 1;
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
     grid-gap: var(--webtau-spacing);
     padding: var(--webtau-spacing);
 }
@@ -55,11 +57,12 @@
 }
 
 .http-call-details-url {
+    padding-right: var(--webtau-spacing);
     display: flex;
 }
 
 .http-call-details-url-and-test-name-card-test-name {
-    padding: var(--webtau-spacing) 0;
+    padding: var(--webtau-spacing) var(--webtau-spacing) var(--webtau-spacing) 0;
 }
 
 .http-call-details-url > .method {
