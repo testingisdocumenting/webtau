@@ -140,6 +140,7 @@ body {
 }
 
 .report > .test-details-area {
+    display: flex;
     grid-area: details;
     overflow: auto;
 }
