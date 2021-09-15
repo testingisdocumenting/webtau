@@ -25,6 +25,7 @@
     color: var(--webtau-text-color);
 
     width: var(--webtau-card-width);
+    min-width: var(--webtau-card-width);
     height: var(--webtau-card-height);
 }
 

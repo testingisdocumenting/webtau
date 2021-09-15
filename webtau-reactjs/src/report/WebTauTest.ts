@@ -49,8 +49,33 @@ export interface WebTauStepInput {
 
 export type WebTauStepInputKeyValue = { [key: string]: object };
 
+export interface StringKeyValue {
+  key: string;
+  value: string;
+}
+
 export interface HttpCall {
+  id: string;
+  label: string;
+  method: string;
+  url: string;
+  startTime: number;
+  elapsedTime: number;
+  requestType: string;
+  requestBody: any;
+  requestHeader: StringKeyValue[];
+  responseHeader: StringKeyValue[];
+  responseType: string;
+  responseBody: any;
+  responseStatusCode: number;
+  errorMessage: string;
+  mismatches: string[];
   warnings?: string[];
+  responseBodyChecks: {
+    failedPaths: string[];
+    passedPaths: string[];
+  };
+  test?: WebTauTest;
 }
 
 export interface FailedCodeSnippet {

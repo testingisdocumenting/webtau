@@ -27,23 +27,31 @@ import { CardWithTime } from '../../widgets/CardWithTime';
 import HttpCallHeaders from './HttpCallHeaders';
 
 import './HttpCallDetails.css';
+import { WebtauReportNavigation } from '../../WebtauReportNavigation';
+import { HttpCall } from '../../WebTauTest';
+import CardList from '../../widgets/CardList';
 
-function HttpCallDetails({ httpCall, reportNavigation }) {
+interface HttpCallProps {
+  httpCall: HttpCall;
+}
+
+interface Props extends HttpCallProps {
+  reportNavigation: WebtauReportNavigation;
+}
+
+export function HttpCallDetails({ httpCall, reportNavigation }: Props) {
   if (!httpCall.test) {
     return <HttpCallSkippedDetails httpCall={httpCall} />;
   }
 
   return (
     <div className="http-call-details">
-      <div className="http-call-time-and-name">
+      <CardList>
+        <UrlAndTestNameCard httpCall={httpCall} reportNavigation={reportNavigation} />
         <CardWithTime label="Start Time (Local)" time={httpCall.startTime} />
-
         <CardWithTime label="Start Time (UTC)" utc={true} time={httpCall.startTime} />
-
         <CardLabelAndNumber label="Latency (ms)" number={httpCall.elapsedTime} />
-
-        <UrlAndTestNameCard httpCall={httpCall} onTestSelect={reportNavigation.selectTest} />
-      </div>
+      </CardList>
 
       <Mismatches httpCall={httpCall} />
       <ErrorMessage httpCall={httpCall} />
@@ -51,14 +59,14 @@ function HttpCallDetails({ httpCall, reportNavigation }) {
       <HttpCallHeaders useCards="true" request={httpCall.requestHeader} response={httpCall.responseHeader} />
 
       <div className="body-request-response">
-        <Request httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload} />
-        <Response httpCall={httpCall} onHttpPayloadZoomIn={reportNavigation.zoomInHttpPayload} />
+        <Request httpCall={httpCall} reportNavigation={reportNavigation} />
+        <Response httpCall={httpCall} reportNavigation={reportNavigation} />
       </div>
     </div>
   );
 }
 
-function HttpCallSkippedDetails({ httpCall }) {
+function HttpCallSkippedDetails({ httpCall }: HttpCallProps) {
   return (
     <div className="http-call-details">
       <Card className="http-call-no-details">{httpCall.label} was not exercised</Card>
@@ -66,7 +74,7 @@ function HttpCallSkippedDetails({ httpCall }) {
   );
 }
 
-function Mismatches({ httpCall }) {
+function Mismatches({ httpCall }: HttpCallProps) {
   if (httpCall.mismatches.length === 0) {
     return null;
   }
@@ -80,7 +88,7 @@ function Mismatches({ httpCall }) {
   return <Card className="http-call-details-mismatches">{mismatches}</Card>;
 }
 
-function ErrorMessage({ httpCall }) {
+function ErrorMessage({ httpCall }: HttpCallProps) {
   if (!httpCall.errorMessage) {
     return null;
   }
@@ -88,7 +96,7 @@ function ErrorMessage({ httpCall }) {
   return <Card className="http-call-details-error-message">{httpCall.errorMessage}</Card>;
 }
 
-function Request({ httpCall, onHttpPayloadZoomIn }) {
+function Request({ httpCall, reportNavigation }: Props) {
   if (!httpCall.requestBody) {
     return <div />;
   }
@@ -101,13 +109,14 @@ function Request({ httpCall, onHttpPayloadZoomIn }) {
         data={httpCall.requestBody}
         httpCallId={httpCall.id}
         payloadType="request"
-        onZoom={onHttpPayloadZoomIn}
+        checks={httpCall.responseBodyChecks}
+        onZoom={reportNavigation.zoomInHttpPayload}
       />
     </Card>
   );
 }
 
-function Response({ httpCall, onHttpPayloadZoomIn }) {
+function Response({ httpCall, reportNavigation }: Props) {
   if (!httpCall.responseBody) {
     return <div />;
   }
@@ -121,22 +130,26 @@ function Response({ httpCall, onHttpPayloadZoomIn }) {
         checks={httpCall.responseBodyChecks}
         httpCallId={httpCall.id}
         payloadType="response"
-        onZoom={onHttpPayloadZoomIn}
+        onZoom={reportNavigation.zoomInHttpPayload}
       />
     </Card>
   );
 }
 
-function UrlAndTestNameCard({ httpCall, onTestSelect }) {
+function UrlAndTestNameCard({ httpCall, reportNavigation }: Props) {
   return (
     <Card>
       <Url httpCall={httpCall} />
-      <TestName test={httpCall.test} onTestClick={onTestSelect} />
+      <TestName
+        className="http-call-details-url-and-test-name-card-test-name"
+        test={httpCall.test!}
+        onTestClick={reportNavigation.selectTest}
+      />
     </Card>
   );
 }
 
-function Url({ httpCall }) {
+function Url({ httpCall }: HttpCallProps) {
   return (
     <div className="http-call-details-url">
       <div className="method">{httpCall.method}</div>

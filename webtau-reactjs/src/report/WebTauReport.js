@@ -31,7 +31,7 @@ import EntriesTypeSelection from './navigation/EntriesTypeSelection';
 import ListOfHttpCalls from './navigation/ListOfHttpCalls';
 import NavigationEntriesType from './navigation/NavigationEntriesType';
 
-import HttpCallDetails from './details/http/HttpCallDetails';
+import { HttpCallDetails } from './details/http/HttpCallDetails';
 import StatusEnum from './StatusEnum';
 
 import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload';

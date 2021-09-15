@@ -1,0 +1,1 @@
+* Improvements on http call details page: proper vertical scroll and layout changes

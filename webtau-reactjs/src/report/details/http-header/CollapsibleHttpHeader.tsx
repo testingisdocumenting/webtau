@@ -16,27 +16,39 @@
  */
 
 import React from 'react';
-
-import { Card } from './Card';
-
-import './CardLabelAndNumber.css';
+import HttpHeader from './HttpHeader';
+import { StringKeyValue } from '../../WebTauTest';
 
 interface Props {
   label: string;
-  secondaryLabel?: string;
-  number: number | string;
-  unit?: string;
-  onClick?: () => void;
+  header?: StringKeyValue[];
+  isCollapsed: boolean;
+  onToggle(): void;
 }
 
-export function CardLabelAndNumber({ label, onClick, secondaryLabel, number, unit }: Props) {
-  return (
-    <Card className="card-label-and-number" onClick={onClick}>
-      <div className="card-number">
-        {number} {unit}
+export function CollapsibleHttpHeader({ label, header, isCollapsed, onToggle }: Props) {
+  if (!header) {
+    return (
+      <div className="empty-http-header" onClick={onToggle}>
+        empty header
       </div>
-      <div className="card-label">{label}</div>
-      <div className="card-secondary-label">{secondaryLabel}</div>
-    </Card>
+    );
+  }
+
+  if (isCollapsed) {
+    return (
+      <div className="collapsed-http-header" onClick={onToggle}>
+        {label} (click to expand)
+      </div>
+    );
+  }
+
+  return (
+    <div className="uncollapsed-http-header">
+      <div className="http-header-label" onClick={onToggle}>
+        {label}
+      </div>
+      <HttpHeader header={header} />
+    </div>
   );
 }
