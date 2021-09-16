@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.cfg
 
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.report.ReportGenerators
+import org.testingisdocumenting.webtau.reporter.WebTauReportName
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
 import org.junit.Test
 
@@ -58,7 +59,7 @@ class WebTauGroovyFileConfigHandlerTest {
         def customReportPath = cfg.reportPath.toAbsolutePath().parent.resolve('custom-report.txt')
         customReportPath.toFile().deleteOnExit()
 
-        def report = new WebTauReport(new WebTauTestList(), 0, 0)
+        def report = new WebTauReport(new WebTauReportName("my report", ""), new WebTauTestList(), 0, 0)
         ReportGenerators.generate(report)
 
         Files.exists(customReportPath).should == true

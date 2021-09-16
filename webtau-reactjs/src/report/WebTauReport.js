@@ -26,7 +26,7 @@ import TestDetails from './details/TestDetails';
 import WebTauReportStateCreator from './WebTauReportStateCreator';
 import OverallSummary from './summary/OverallSummary';
 
-import EntriesTypeSelection from './navigation/EntriesTypeSelection';
+import { EntriesTypeSelection } from './navigation/EntriesTypeSelection';
 
 import ListOfHttpCalls from './navigation/ListOfHttpCalls';
 import NavigationEntriesType from './navigation/NavigationEntriesType';
@@ -60,9 +60,10 @@ class WebTauReport extends Component {
       <div className="report">
         <div className="report-name-area">
           <EntriesTypeSelection
+            reportName={report.name}
+            reportNameUrl={report.nameUrl}
             selectedType={entriesType}
             onSelect={this.onEntriesTypeSelection}
-            webtauVersion={report.version}
           />
         </div>
 
@@ -285,6 +286,7 @@ class WebTauReport extends Component {
   componentDidMount() {
     this.subscribeToUrlChanges();
     this.updateStateFromUrl();
+    document.title = this.props.report.name;
   }
 
   subscribeToUrlChanges() {

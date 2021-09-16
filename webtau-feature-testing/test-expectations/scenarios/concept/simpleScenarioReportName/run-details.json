@@ -1,0 +1,8 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "no op",
+    "shortContainerId" : "simpleScenarioReportName.groovy",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 0
+}

@@ -25,9 +25,13 @@
     height: 100%;
 }
 
-.webtau-link a,
-.webtau-link a:visited {
-    color: #cdcdcd;
+.webtau-report-name {
+    color: var(--webtau-report-name-text-color)
+}
+
+.webtau-report-name a,
+.webtau-report-name a:visited {
+    color: var(--webtau-report-name-text-color);
     text-decoration: none;
 }
 
