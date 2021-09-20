@@ -111,6 +111,8 @@ const envVars = [
 
 export const basicReport = {
   version: '1.40',
+  name: 'my report name',
+  nameUrl: '',
   summary: {
     total: 1,
     passed: 1,
@@ -171,7 +173,9 @@ export const basicReport = {
 };
 
 export const withCliDataReport = {
-  version: '1.4',
+  version: '1.43',
+  name: 'my cli tool name',
+  nameUrl: 'http://github.com/testingisdocumenting/webtau',
   summary: {
     total: 1,
     passed: 0,

@@ -17,9 +17,12 @@
 package org.testingisdocumenting.webtau.javarunner.report;
 
 import org.testingisdocumenting.webtau.reporter.WebTauReport;
+import org.testingisdocumenting.webtau.reporter.WebTauReportName;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 import org.testingisdocumenting.webtau.time.Time;
+
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
 
 /**
  * Global storage of java based report.
@@ -53,6 +56,7 @@ public class JavaReport {
     }
 
     public WebTauReport create() {
-        return new WebTauReport(tests, startTime, stopTime);
+        return new WebTauReport(new WebTauReportName(getCfg().getReportName(), getCfg().getReportNameUrl()),
+                tests, startTime, stopTime);
     }
 }

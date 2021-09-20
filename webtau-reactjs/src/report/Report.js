@@ -52,6 +52,8 @@ class Report {
 
   constructor(report) {
     this.report = report;
+    this.name = report.name;
+    this.nameUrl = report.nameUrl;
     this.version = report.version;
     this.config = report.config;
     this.envVars = report.envVars;

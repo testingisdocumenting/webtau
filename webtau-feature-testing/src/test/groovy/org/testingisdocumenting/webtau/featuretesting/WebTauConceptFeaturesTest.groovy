@@ -153,6 +153,11 @@ class WebTauConceptFeaturesTest {
         }
     }
 
+    @Test
+    void "report name"() {
+        runCli('simpleScenarioReportName.groovy', 'webtau.reportname.cfg.groovy')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/concept/$testName",
                 configFileName.isEmpty() ? "" : "scenarios/concept/$configFileName", additionalArgs)
