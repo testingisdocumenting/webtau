@@ -23,6 +23,7 @@ import { WebTauStep } from '../../WebTauTest';
 export function stepsDemo(registry: Registry) {
   registry.add('no children', () => <Step step={noChildren()} isTopLevel={true} />);
   registry.add('with children', () => <Step step={withChildren()} isTopLevel={true} />);
+  registry.add('rainbow', () => <Step step={rainbow()} isTopLevel={true} />);
   registry.add('with key value input', () => <Step step={withKeyValueInput()} isTopLevel={true} />);
 }
 
@@ -38,6 +39,47 @@ function noChildren() {
       {
         type: 'url',
         value: 'http://localhost:8080/customers/1',
+      },
+    ],
+  };
+}
+
+function rainbow() {
+  return {
+    elapsedTime: 200,
+    startTime: 0,
+    message: [
+      {
+        type: 'action',
+        value: 'executed HTTP GET',
+      },
+      {
+        type: 'url',
+        value: 'http://localhost:8080/customers/1',
+      },
+      {
+        type: 'preposition',
+        value: ' of',
+      },
+      {
+        type: 'stringValue',
+        value: '"hello"',
+      },
+      {
+        type: 'delimiter',
+        value: '--',
+      },
+      {
+        type: 'error',
+        value: 'ops',
+      },
+      {
+        type: 'selectorType',
+        value: 'by css',
+      },
+      {
+        type: 'selectorValue',
+        value: '.classn',
       },
     ],
   };

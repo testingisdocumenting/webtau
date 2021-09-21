@@ -45,7 +45,7 @@
 }
 
 .step-token.stringValue {
-    color: #5e853c;
+    color: var(--webtau-property-value-string-color);
 }
 
 .step-token.preposition {
@@ -58,7 +58,7 @@
 }
 
 .step-token.selectorValue {
-    color: #ab68ae;
+    color: var(--webtau-property-key-color);
 }
 
 .step-token.url {
