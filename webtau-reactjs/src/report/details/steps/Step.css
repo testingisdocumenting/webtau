@@ -40,5 +40,6 @@
 }
 
 .step > .message-parts > .step-time {
+    color: var(--webtau-text-color);
     justify-self: end;
 }
