@@ -18,25 +18,44 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 class CliProcessConfig {
-    public static final CliProcessConfig EMPTY = new CliProcessConfig();
     public static final CliProcessConfig SILENT = new CliProcessConfig().silent();
 
-    private Map<String, String> env;
+    private final Map<String, String> env;
     private File workingDir;
     private boolean isSilent;
 
+    private long timeoutMs;
+    private boolean timeoutSpecified;
+
+    public static CliProcessConfig createEmpty() {
+        return new CliProcessConfig();
+    }
+
+    CliProcessConfig() {
+        this.env = new LinkedHashMap<>();
+        CliConfig.getCliEnv().forEach((k, v) -> env.put(k, v.toString()));
+    }
+
     public CliProcessConfig env(Map<String, CharSequence> env) {
-        this.env = new HashMap<>();
         env.forEach((k, v) -> this.env.put(k, v.toString()));
 
+        return this;
+    }
+
+    public CliProcessConfig timeout(long millis) {
+        this.timeoutMs = millis;
+        this.timeoutSpecified = true;
         return this;
     }
 
@@ -67,8 +86,32 @@ class CliProcessConfig {
         return isSilent;
     }
 
+    public long getTimeoutMs() {
+        return timeoutMs;
+    }
+
+    public boolean isTimeoutSpecified() {
+        return timeoutSpecified;
+    }
+
+    WebTauStepInput createStepInput() {
+        Map<String, Object> input = new LinkedHashMap<>();
+
+        if (workingDir != null) {
+            input.put("working dir", workingDir.toString());
+        }
+
+        if (timeoutSpecified) {
+            input.put("local timeout", timeoutMs);
+        }
+
+        env.forEach((k, v) -> input.put("$" + k, v));
+
+        return WebTauStepInputKeyValue.stepInput(input);
+    }
+
     void applyTo(ProcessBuilder processBuilder) {
-        if (env != null) {
+        if (!env.isEmpty()) {
             processBuilder.environment().putAll(env);
         }
 

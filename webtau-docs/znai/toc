@@ -11,8 +11,8 @@ HTTP
     headers
     query-parameters
     ping
-    files-upload
-    PDF
+    proxy
+    files
     documentation
     complex-types
     openAPI-spec
@@ -41,15 +41,19 @@ browser
     page-open-handlers
     finders-and-filters
     matchers
+cli
+    introduction
+    foreground-command
+    background-command
+persona
+    introduction
+    HTTP-persona
+    CLI-persona
 database
     introduction
     data-setup
     data-query
     config
-cli
-    introduction
-    foreground-command
-    background-command
 REPL
     experiments
     test-runs
@@ -68,7 +72,7 @@ groovy-standalone-runner
     test-listeners
     test-execution
 configuration
-    environments
+    groovy-config-file
     options
 generic-runners
     JUnit-4
@@ -78,3 +82,5 @@ JVM-business-logic
     documentation-artifacts
 reference
     table-data
+release-notes
+    2021

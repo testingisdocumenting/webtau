@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.runner.standalone
 import org.testingisdocumenting.webtau.TestFile
 import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.reporter.WebTauReport
+import org.testingisdocumenting.webtau.reporter.WebTauReportName
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
 import org.testingisdocumenting.webtau.reporter.WebTauTestMetadata
 import org.testingisdocumenting.webtau.time.Time
@@ -29,6 +30,8 @@ import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Function
 import java.util.stream.Stream
+
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class StandaloneTestRunner {
     private RegisteredTests registeredTests
@@ -117,6 +120,11 @@ class StandaloneTestRunner {
     }
 
     void sscenario(String description, Closure code) {
+        if (isReplMode) {
+            scenario(description, code)
+            return
+        }
+
         handleDisabledByCondition(description, code) { test ->
             registeredTests.addExclusive(test)
         }
@@ -127,6 +135,11 @@ class StandaloneTestRunner {
     }
 
     void dscenario(String scenarioDescription, String reason, Closure scenarioCode) {
+        if (isReplMode) {
+            scenario(scenarioDescription, scenarioCode)
+            return
+        }
+
         def test = createTest(scenarioDescription, scenarioCode)
         test.disable(reason)
         registeredTests.add(test)
@@ -183,7 +196,8 @@ class StandaloneTestRunner {
             endTime = Time.currentTimeMillis()
             runAfterAllTestListenersAsTest()
 
-            report = new WebTauReport(webTauTestList, startTime, endTime)
+            report = new WebTauReport(new WebTauReportName(cfg.getReportName(), cfg.getReportNameUrl()),
+                    webTauTestList, startTime, endTime)
         }
     }
 

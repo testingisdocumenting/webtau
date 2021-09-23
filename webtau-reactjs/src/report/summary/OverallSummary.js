@@ -21,17 +21,20 @@ import TabSelection from '../widgets/TabSelection';
 
 import { ConfigTable } from './ConfigTable';
 import OverallInfo from './OverallInfo';
-import OverallPerformance from './OverallPerformance';
+import OverallHttpPerformance from './OverallHttpPerformance';
 
 import { AggregatedOperationsPerformanceTable } from '../perf/AggregatedOperationsPerformanceTable';
 
 import { EnvVarsTable } from './EnvVarsTable';
+
+import { TestsPerformance } from './TestsPerformance';
 
 import './OverallSummary.css';
 
 const summaryTabName = 'Summary';
 const configurationTabName = 'Configuration';
 const envVarsTabName = 'Environment Variables';
+const testsPerformanceTabName = 'Tests Performance';
 const overallHttpPerformanceTabName = 'Overall HTTP Performance';
 const httpOperationsPerformanceTabName = 'HTTP Operations Performance';
 
@@ -64,8 +67,10 @@ export default class OverallSummary extends React.Component {
           onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}
         />
       );
+    } else if (selectedTabName === testsPerformanceTabName) {
+      return <TestsPerformance report={report} />;
     } else if (selectedTabName === overallHttpPerformanceTabName) {
-      return <OverallPerformance report={report} />;
+      return <OverallHttpPerformance report={report} />;
     } else if (selectedTabName === httpOperationsPerformanceTabName) {
       return <AggregatedOperationsPerformanceTable operations={report.httpPerformance.aggregated} />;
     } else if (selectedTabName === configurationTabName) {
@@ -79,7 +84,7 @@ export default class OverallSummary extends React.Component {
 }
 
 function availableTabNames(report) {
-  const tabNames = [summaryTabName, configurationTabName, envVarsTabName];
+  const tabNames = [summaryTabName, configurationTabName, envVarsTabName, testsPerformanceTabName];
   if (report.hasHttpCalls()) {
     tabNames.push(overallHttpPerformanceTabName);
   }

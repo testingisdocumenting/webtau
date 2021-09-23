@@ -1,0 +1,1 @@
+* Fix: [groovy config](configuration/groovy-config-file) parsing of empty lists and simple variables reference within config

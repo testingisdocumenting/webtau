@@ -55,13 +55,13 @@ Use `invertedColors()` to change an annotation color to be dark theme compatible
 
 To change all annotations to be dark theme compatible by default, use webtau config file
 
-:include-file: examples/scenarios/ui/docCaptureInvertedColors.cfg.groovy {
+:include-file: scenarios/ui/docCaptureInvertedColors.cfg.groovy {
   title: "webtau.cfg.groovy",
   includeRegexp: "browserAnnotations" }
 
 In this case `invertedColors` will flip from light annotations to dark one  
 
-:include-file: examples/scenarios/ui/docCaptureInvertedColors.groovy {
+:include-file: scenarios/ui/docCaptureInvertedColors.groovy {
   title: "dark theme friendly by default",
   startLine: "example-start",
   endLine: "example-end",

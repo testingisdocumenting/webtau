@@ -21,9 +21,10 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*
 class Report {
     def fullScreenIcon = $(".fullscreen-icon")
     def collapsedHeader = $(".collapsed-http-header")
-    def groupNames = $(".group-of-tests .navigation-entry-group-label")
+    def reportName = $(".webtau-report-name")
+    def groupNames = $(".group-of-tests .navigation-entry-group-label").all()
     def testNames = $(".navigation-entry .label")
-    def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
+    def testSummaryMetaKey = $(".test-metadata th").get("METADATA KEY")
 
     def responseData = $(".response .data")
 
@@ -32,10 +33,19 @@ class Report {
 
     def tabNames = $(".tab-selection .tab-name")
 
-    def cellValues = $("td")
+    def cellValues = $("td").all()
+
+    def stepsShowChildren = $(".show-children")
 
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
+
+    def testSummaryHttpCallWarnings = $(".webtau-http-calls-warning")
+
+    def stdCliOutput = $(".cli-output.standard")
+    def errCliOutput = $(".cli-output.error")
+
+    def screenshot = $(".image img")
 
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
@@ -57,6 +67,10 @@ class Report {
 
     def selectCliCalls() {
         selectTab('CLI calls')
+    }
+
+    def selectScreenshot() {
+        selectTab('Screenshot')
     }
 
     def selectSteps() {
@@ -83,10 +97,6 @@ class Report {
     def expandCliCall(callNumber) {
         cliCalls.waitTo beVisible()
         cliCalls.get(callNumber).find(".collapse-toggle").click()
-    }
-
-    def standardCliOutput() {
-        return $(".cli-output.standard")
     }
 
     private static def openReportFile(String fileName) {

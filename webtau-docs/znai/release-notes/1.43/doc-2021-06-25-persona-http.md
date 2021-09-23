@@ -1,0 +1,1 @@
+* Doc: Add [Persona HTTP](persona/HTTP-persona) authorization example

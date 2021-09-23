@@ -129,7 +129,7 @@ public class Browser {
     }
 
     public PageElement $(String css) {
-        return new GenericPageElement(driver, additionalBrowserInteractions, PageElementPath.css(css));
+        return new GenericPageElement(driver, additionalBrowserInteractions, PageElementPath.css(css), false);
     }
 
     public boolean hasActiveBrowsers() {

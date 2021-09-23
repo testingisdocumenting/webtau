@@ -21,3 +21,7 @@
 .cli-call-details-error-message {
     margin-bottom: 16px;
 }
+
+.cli-command-details .webtau-key-value-grid {
+    margin-bottom: 8px;
+}

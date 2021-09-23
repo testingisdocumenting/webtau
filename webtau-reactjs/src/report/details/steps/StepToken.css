@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +20,12 @@
 }
 
 .step-token.id {
-    color: #333;
+    color: var(--webtau-text-color);
     font-weight: bold;
 }
 
 .step-token.action {
-    color: #4862d7;
+    color: #4a9aff;
 }
 
 .step-token.matcher {
@@ -34,7 +35,7 @@
 }
 
 .step-token.error {
-    color: #b02f08;
+    color: #d25631;
     font-family: var(--webtau-monospace-font);
     white-space: pre;
 }
@@ -44,7 +45,7 @@
 }
 
 .step-token.stringValue {
-    color: #5e853c;
+    color: var(--webtau-property-value-string-color);
 }
 
 .step-token.preposition {
@@ -57,5 +58,9 @@
 }
 
 .step-token.selectorValue {
-    color: #ab68ae;
+    color: var(--webtau-property-key-color);
+}
+
+.step-token.url {
+    color: #6297d5;
 }

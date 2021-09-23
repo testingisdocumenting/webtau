@@ -111,6 +111,8 @@ const envVars = [
 
 export const basicReport = {
   version: '1.40',
+  name: 'my report name',
+  nameUrl: '',
   summary: {
     total: 1,
     passed: 1,
@@ -171,7 +173,9 @@ export const basicReport = {
 };
 
 export const withCliDataReport = {
-  version: '1.4',
+  version: '1.43',
+  name: 'my cli tool name',
+  nameUrl: 'http://github.com/testingisdocumenting/webtau',
   summary: {
     total: 1,
     passed: 0,
@@ -206,6 +210,7 @@ export const withCliDataReport = {
           elapsedTime: 25,
           mismatches: [],
           errorMessage: null,
+          config: {},
         },
       ],
       cliBackground: [
@@ -214,6 +219,7 @@ export const withCliDataReport = {
           out: 'server running',
           err: 'not something',
           startTime: 1593810461266,
+          config: {},
         },
       ],
       httpCalls: [],
@@ -301,6 +307,7 @@ export const withCliDataReport = {
             'process output expect to contain "versian:"\nprocess output: mismatches:\n                \n                process output[0]:    actual string: welcome to my script\n                                   expected pattern: \\Qversian:\\E\n                process output[1]:    actual string: version: 12.43.2\n                                   expected pattern: \\Qversian:\\E',
           ],
           errorMessage: null,
+          config: {},
         },
       ],
       httpCalls: [],
@@ -387,6 +394,7 @@ export const withCliDataReport = {
           elapsedTime: 0,
           mismatches: [],
           errorMessage: 'Cannot run program "scripts/simplo": error=2, No such file or directory',
+          config: {},
         },
       ],
       httpCalls: [],
@@ -467,6 +475,7 @@ export const withRestDataReport = {
           elapsedTime: 22,
           errorMessage: null,
           mismatches: [],
+          warnings: ['path http://localhost:8080/customers is not found in OpenAPI spec'],
           responseType: 'application/json;charset=UTF-8',
           responseStatusCode: 200,
           requestHeader: [],

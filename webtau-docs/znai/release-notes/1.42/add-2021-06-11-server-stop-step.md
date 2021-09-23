@@ -1,0 +1,1 @@
+* stop all servers is a separate logged step

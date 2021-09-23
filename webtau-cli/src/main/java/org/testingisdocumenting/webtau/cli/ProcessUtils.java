@@ -36,17 +36,17 @@ class ProcessUtils {
         CliBackgroundProcess backgroundRunResult = runInBackground(command, config);
 
         try {
-            boolean onTime = backgroundRunResult.getProcess().waitFor(CliConfig.getCliTimeoutMs(), TimeUnit.MILLISECONDS);
+            long timeoutMs = config.isTimeoutSpecified() ? config.getTimeoutMs() : CliConfig.getCliTimeoutMs();
+            boolean onTime = backgroundRunResult.getProcess().waitFor(timeoutMs, TimeUnit.MILLISECONDS);
 
             if (!onTime) {
                 backgroundRunResult.closeGlobbers();
-                throw new RuntimeException("process timed-out");
             }
 
             backgroundRunResult.getConsumeErrorThread().join();
             backgroundRunResult.getConsumeOutThread().join();
 
-            return backgroundRunResult.createRunResult();
+            return backgroundRunResult.createRunResult(!onTime);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -54,7 +54,7 @@ class ProcessUtils {
 
     static void kill(int pid) {
         try {
-            run("pkill -TERM -P " + pid, CliProcessConfig.EMPTY);
+            run("pkill -TERM -P " + pid, CliProcessConfig.createEmpty());
             run("kill " + pid, CliProcessConfig.SILENT);
         } catch (IOException e) {
             throw new UncheckedIOException(e);

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,30 +15,30 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import Card from './Card'
+import { Card } from './Card';
 
-import ElapsedTimeFragment from './ElapsedTimeFragment'
+import ElapsedTimeFragment from './ElapsedTimeFragment';
 
-import './CardWithElapsedTime.css'
+import './CardWithElapsedTime.css';
 
-function CardWithElapsedTime({millis, label}) {
-    const totalSeconds = (millis / 1000) | 0
-    const minutes = totalSeconds / 60 | 0
-    const seconds = totalSeconds % 60
-    const remainingMs = (millis % 1000) | 0
+function CardWithElapsedTime({ millis, label }) {
+  const totalSeconds = (millis / 1000) | 0;
+  const minutes = (totalSeconds / 60) | 0;
+  const seconds = totalSeconds % 60;
+  const remainingMs = millis % 1000 | 0;
 
-    return (
-        <Card className="card-with-elapsed-time">
-            <div className="card-time-part">
-                <ElapsedTimeFragment value={minutes} label="min"/>
-                <ElapsedTimeFragment value={seconds} label="s"/>
-                <ElapsedTimeFragment value={remainingMs} label="ms" allowZero={true}/>
-            </div>
-            <div className="card-label">{label}</div>
-        </Card>
-    )
+  return (
+    <Card className="card-with-elapsed-time">
+      <div className="card-time-part">
+        <ElapsedTimeFragment value={minutes} label="min" />
+        <ElapsedTimeFragment value={seconds} label="s" />
+        <ElapsedTimeFragment value={remainingMs} label="ms" allowZero={true} />
+      </div>
+      <div className="card-label">{label}</div>
+    </Card>
+  );
 }
 
-export default CardWithElapsedTime
+export default CardWithElapsedTime;

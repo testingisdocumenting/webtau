@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +15,17 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CardList from '../../widgets/CardList'
-import CardLabelAndNumber from '../../widgets/CardLabelAndNumber'
+import CardList from '../../widgets/CardList';
+import { CardLabelAndNumber } from '../../widgets/CardLabelAndNumber';
 
-export default function TestsSuccessRatio({report}) {
-    return (
-        <CardList label="Tests success ratio">
-            <CardLabelAndNumber label="Passed" number={report.summary.percentagePassed} unit="%"/>
-            <CardLabelAndNumber label="Passed total" number={report.summary.passed}/>
-            <CardLabelAndNumber label="Total with Problems" number={report.summary.totalWithProblems}/>
-        </CardList>
-    )
+export default function TestsSuccessRatio({ report }) {
+  return (
+    <CardList label="Tests success ratio">
+      <CardLabelAndNumber label="Passed" number={report.summary.percentagePassed} unit="%" />
+      <CardLabelAndNumber label="Passed total" number={report.summary.passed} />
+      <CardLabelAndNumber label="Total with Problems" number={report.summary.totalWithProblems} />
+    </CardList>
+  );
 }

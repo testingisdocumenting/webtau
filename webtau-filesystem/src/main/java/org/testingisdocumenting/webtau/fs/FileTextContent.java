@@ -47,6 +47,21 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAndDe
         return FileUtils.fileTextContent(path);
     }
 
+    /**
+     * reads data from a file, consequent calls may return a different data.
+     * Wraps reading in a reportable step. If you need to read data in a loop to wait for something use {@link #getData}
+     * @return current file text content
+     */
+    public String getDataWithReportedStep() {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("reading text"), FROM, urlValue(path)),
+                (r) -> tokenizedMessage(action("read text"), FROM, urlValue(path), OF, classifier("size"),
+                        numberValue(r.toString().length())),
+                this::getData);
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
     @Override
     public ActualPath actualPath() {
         return actualPath;

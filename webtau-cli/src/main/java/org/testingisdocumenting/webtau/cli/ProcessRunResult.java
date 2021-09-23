@@ -22,11 +22,13 @@ public class ProcessRunResult {
     private final int exitCode;
     private final CliOutput output;
     private final CliOutput error;
+    private final boolean isTimeOut;
 
-    public ProcessRunResult(int exitCode, CliOutput output, CliOutput error) {
+    public ProcessRunResult(int exitCode, CliOutput output, CliOutput error, boolean isTimeOut) {
         this.exitCode = exitCode;
         this.output = output;
         this.error = error;
+        this.isTimeOut = isTimeOut;
     }
 
     public IOException getOutputReadingException() {
@@ -47,5 +49,9 @@ public class ProcessRunResult {
 
     public CliOutput getError() {
         return error;
+    }
+
+    public boolean isTimeOut() {
+        return isTimeOut;
     }
 }

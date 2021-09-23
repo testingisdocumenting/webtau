@@ -42,7 +42,7 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     public ActualValue(Object actual, StepReportOptions shouldReportOptions) {
-        this.actual = actual;
+        this.actual = extractActualValue(actual);
         this.actualPath = extractPath(actual);
         this.valueDescription = extractDescription(actual, this.actualPath);
         this.shouldReportOptions = shouldReportOptions;
@@ -152,6 +152,14 @@ public class ActualValue implements ActualValueExpectations {
         return (actual instanceof ActualPathAndDescriptionAware) ?
                 (((ActualPathAndDescriptionAware) actual).describe()):
                 TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.id(path.getPath()));
+    }
+
+    private Object extractActualValue(Object actual) {
+        if (actual instanceof ActualValueAware) {
+            return ((ActualValueAware) actual).actualValue();
+        }
+
+        return actual;
     }
 
     private static void executeStep(Object value, TokenizedMessage elementDescription,

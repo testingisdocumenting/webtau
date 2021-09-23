@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,43 +15,40 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import Prism from 'prismjs'
+import Prism from 'prismjs';
 
-import 'prismjs/components/prism-groovy'
-import 'prismjs/plugins/line-highlight/prism-line-highlight'
+import 'prismjs/components/prism-groovy';
+import 'prismjs/plugins/line-highlight/prism-line-highlight';
 
-import 'prismjs/themes/prism.css'
-import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
+import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
+import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism-dark.css';
 
-import Card from '../widgets/Card'
-
-import './SourceCode.css'
+import './SourceCode.css';
 
 class SourceCode extends React.Component {
-    render() {
-        const {filePath, lineNumbers, snippet} = this.props
+  render() {
+    const { filePath, lineNumbers, snippet } = this.props;
 
-        return (
-            <Card className="source-code">
-                <div className="file-path">{filePath}</div>
-                <pre data-line={lineNumbers.join(',')} className="language-groovy">
-                    <code>
-                        {snippet}
-                    </code>
-                </pre>
-            </Card>
-        )
-    }
+    return (
+      <div className="webtau-source-code">
+        <div className="file-path">{filePath}</div>
+        <pre data-line={lineNumbers.join(',')} className="language-groovy">
+          <code>{snippet}</code>
+        </pre>
+      </div>
+    );
+  }
 
-    componentDidMount() {
-        Prism.highlightAll()
-    }
+  componentDidMount() {
+    Prism.highlightAll();
+  }
 
-    componentDidUpdate() {
-        Prism.highlightAll()
-    }
+  componentDidUpdate() {
+    Prism.highlightAll();
+  }
 }
 
-export default SourceCode
+export default SourceCode;

@@ -26,9 +26,11 @@ Note: declaring element this way will not trigger element search right away.
 
 :include-empty-block:
 
-:include-xml: doc-artifacts/snippets/finders-filters/welcome.html 
+:include-xml: doc-artifacts/snippets/finders-filters/welcome.html {paths: ["div"]}
 
-:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {paths: ["div.div[0]", "div.div[1].ul.li[0].a"]}
+:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {paths: ["ul.li[0].a"]}
+
+:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {paths: ["ul.li[0].a", "ul.li[1].a", "ul.li[2].a"]}
 
 # Filters
 
@@ -43,7 +45,7 @@ Filter comes in a way of `get` method. Parameter is one of the following
 :include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByText.groovy { title: "Text" }
 :include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByRegexp.groovy { title: "Regexp" }
 
-:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["div.div[1].ul.li[1].a"]}
+:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["ul.li[1].a"]}
 
 # Chaining
 
@@ -51,4 +53,4 @@ After you filtered, you can use finders again to find nested elements.
 
 :include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByNumberNestedFind.groovy { title: "Nested css selector" }
 
-:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["div.div[1].ul.li[1].a"]}
+:include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["ul.li[1].a"]}

@@ -24,6 +24,9 @@ import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.utils.RegexpUtils;
+import org.testingisdocumenting.webtau.utils.RegexpUtils.ReplaceResultWithMeta;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -32,6 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.BiFunction;
+import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -174,6 +178,59 @@ public class FileSystem {
 
         step.execute(StepReportOptions.REPORT_ALL);
         return fullPath;
+    }
+
+    /**
+     * replaces text in a file using regular expression
+     * @param path path to a file
+     * @param regexp regular expression
+     * @param replacement replacement string that can use captured groups e.g. $1, $2
+     */
+    public void replaceText(Path path, String regexp, String replacement) {
+        replaceText(path, Pattern.compile(regexp), replacement);
+    }
+
+    /**
+     * replaces text in a file using regular expression
+     * @param path path to a file
+     * @param regexp regular expression
+     * @param replacement replacement string that can use captured groups e.g. $1, $2
+     */
+    public void replaceText(String path, String regexp, String replacement) {
+        replaceText(Paths.get(path), Pattern.compile(regexp), replacement);
+    }
+
+    /**
+     * replaces text in a file using regular expression
+     * @param path path to a file
+     * @param regexp regular expression
+     * @param replacement replacement string that can use captured groups e.g. $1, $2
+     */
+    public void replaceText(Path path, Pattern regexp, String replacement) {
+        Path fullPath = getCfg().fullPath(path);
+
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("replacing text content")),
+                (r) -> {
+                    ReplaceResultWithMeta meta = (ReplaceResultWithMeta) r;
+                    return tokenizedMessage(action("replaced text content"), COLON, numberValue(meta.getNumberOfMatches()),
+                            classifier("matches"));
+                },
+                () -> {
+                    String text = textContent(fullPath).getDataWithReportedStep();
+                    ReplaceResultWithMeta resultWithMeta = RegexpUtils.replaceAllAndCount(text, regexp, replacement);
+
+                    writeText(fullPath, resultWithMeta.getResult());
+
+                    return resultWithMeta;
+                });
+
+        step.setInput(WebTauStepInputKeyValue.stepInput(
+                "path", path,
+                "regexp", regexp,
+                "replacement", replacement));
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public Path tempDir(String prefix) {

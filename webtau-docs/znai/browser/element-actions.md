@@ -41,30 +41,30 @@ Generic way to set a form element value. Will be covered more in [forms](browser
 
 # Scrolling
 
-:include-file: examples/scenarios/ui/scrolls.groovy {
+:include-file: scenarios/ui/scrolls.groovy {
   title: "scroll into view",
   startLine: "// scrollIntoView-example", endLine: "// scrollIntoView-example", excludeStartEnd: true }
 
-:include-file: examples/scenarios/ui/scrolls.groovy {
+:include-file: scenarios/ui/scrolls.groovy {
   title: "scroll to bottom",
   startLine: "// scrollToBottom-example", endLine: "// scrollToBottom-example", excludeStartEnd: true }  
 
-:include-file: examples/scenarios/ui/scrolls.groovy {
+:include-file: scenarios/ui/scrolls.groovy {
   title: "scroll to top",
   startLine: "// scrollToTop-example", endLine: "// scrollToTop-example", excludeStartEnd: true }  
 
-:include-file: examples/scenarios/ui/scrolls.groovy {
+:include-file: scenarios/ui/scrolls.groovy {
   title: "scroll to right",
   startLine: "// scrollToRight-example", endLine: "// scrollToRight-example", excludeStartEnd: true }  
 
-:include-file: examples/scenarios/ui/scrolls.groovy {
+:include-file: scenarios/ui/scrolls.groovy {
   title: "scroll to right",
   startLine: "// scrollToRight-example", endLine: "// scrollToRight-example", excludeStartEnd: true }  
 
-:include-file: examples/scenarios/ui/scrolls.groovy {
+:include-file: scenarios/ui/scrolls.groovy {
   title: "scroll to left",
   startLine: "// scrollToLeft-example", endLine: "// scrollToLeft-example", excludeStartEnd: true }  
 
-:include-file: examples/scenarios/ui/scrolls.groovy {
+:include-file: scenarios/ui/scrolls.groovy {
   title: "scroll to x, y",
   startLine: "// scrollTo-example", endLine: "// scrollTo-example", excludeStartEnd: true }  

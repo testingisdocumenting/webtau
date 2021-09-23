@@ -14,8 +14,8 @@ Identifiers inside validation closure are automatically mapped to a response bod
 :include-json: simpleObjectTestResponse.json {title: "object response", rightSide: false}
 
 ```tabs {rightSide: true}
-Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "simple object mapping example", bodyOnly: true, excludeRegexp: "doc.capture"}
-Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "simpleObjectMappingExample", bodyOnly: true, excludeRegexp: "doc.capture"}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "simple object mapping example", bodyOnly: true}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "simpleObjectMappingExample", bodyOnly: true}
 ```
 
 List responses are handled by using index chain
@@ -26,11 +26,11 @@ List responses are handled by using index chain
 ```tabs {rightSide: true}
 Groovy: 
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "simple list mapping example", bodyOnly: true, excludeRegexp: "doc.capture"}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "simple list mapping example", bodyOnly: true}
 
  Note: Groovy API implicitly assumes `body`, but if you need to deal with array response you need to access values using `body` explicitly.
 
-Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "simpleListMappingExample", bodyOnly: true, excludeRegexp: "doc.capture"}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "simpleListMappingExample", bodyOnly: true}
 ```
 
 # Should and Should Not
@@ -39,8 +39,8 @@ Matchers in webtau are triggered with `should` and `shouldNot` keywords.
 Additionally `shouldBe` and `shouldNotBe` alias keywords are available to make certain matcher combinations easier to read.
 
 ```tabs {rightSide: true}
-Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "matchers basic example", bodyOnly: true, excludeRegexp: "doc.capture"}
-Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "matchersBasicExample", bodyOnly: true, excludeRegexp: "doc.capture"}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "matchers basic example", bodyOnly: true}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "matchersBasicExample", bodyOnly: true}
 ```
 
 # Equality
@@ -56,8 +56,8 @@ Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {ent
 ```
 
 ```tabs {rightSide: true}
-Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "equality matcher table keys", bodyOnly: true, commentsType: "inline", excludeRegexp: "doc.capture"}
-Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "equalityMatcherTableKey", bodyOnly: true, commentsType: "inline", excludeRegexp: "doc.capture"}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "equality matcher table keys", bodyOnly: true, commentsType: "inline"}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "equalityMatcherTableKey", bodyOnly: true, commentsType: "inline"}
 ```
 
 

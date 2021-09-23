@@ -18,23 +18,75 @@ package scenarios.server
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
+def expectedHtml = "<body>\n" +
+        "<p>hello</p>\n" +
+        "</body>"
+
 scenario("static content server") {
-    def server = server.serve("my-server", "data/staticcontent")
+    def staticServer = server.serve("my-server", "data/staticcontent")
 
-    def expected = "<body>\n" +
-            "<p>hello</p>\n" +
-            "</body>"
-
-    http.get("http://localhost:${server.port}/hello.html") {
-        body.should == expected
+    http.get("http://localhost:${staticServer.port}/hello.html") {
+        body.should == expectedHtml
     }
 
-    http.get("${server.baseUrl}/hello.html") {
-        body.should == expected
+    http.get("${staticServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
     }
 
-    server.setAsBaseUrl()
+    staticServer.setAsBaseUrl()
     http.get("/hello.html") {
-        body.should == expected
+        body.should == expectedHtml
     }
+}
+
+scenario("slow down") {
+    def staticServer = server.serve("my-server-slown-down", "data/staticcontent")
+
+    staticServer.markUnresponsive()
+    code {
+        http.get("${staticServer.baseUrl}/hello.html")
+    } should throwException(~/Read timed out/)
+
+    staticServer.fix()
+    http.get("${staticServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+}
+
+scenario("broken") {
+    def staticServer = server.serve("my-server-broken", "data/staticcontent")
+
+    staticServer.markBroken()
+    http.get("${staticServer.baseUrl}/hello.html") {
+        statusCode.should == 500
+        body.should == null
+    }
+
+    staticServer.fix()
+    http.get("${staticServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+}
+
+scenario("response override") {
+    def staticServer = server.serve("my-server-override", "data/staticcontent")
+
+    def router = server.router().get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) }
+    staticServer.addOverride(router)
+
+    http.get("${staticServer.baseUrl}/hello/world") {
+        message.should == "hello world"
+    }
+
+    http.get("${staticServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+}
+
+scenario("same server id re-use is not allowed") {
+    server.serve("my-server", "data/staticcontent")
+}
+
+scenario("non existing path") {
+    server.serve("wrong-server", "wrong-path/staticcontent")
 }

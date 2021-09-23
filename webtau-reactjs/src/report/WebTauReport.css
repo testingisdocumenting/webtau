@@ -23,32 +23,64 @@
     --webtau-spacing-tripple: calc(var(--webtau-spacing-half-as-number) * 6px);
     --webtau-spacing-quadruple: calc(var(--webtau-spacing-half-as-number) * 8px);
 
-    --webtau-test-selection-background-color: #5b666c;
-    --webtau-test-group-label-color: #bbb;
-    --webtau-test-group-label-background-color: #3b4348;
-    --webtau-test-status-filter-background-color: #3e474b;
-    --webtau-selected-test-background: rgba(234, 211, 150, 0.2);
-    --webtau-selected-test-border-color: rgba(156, 186, 93, 0.78);
-    --webtau-list-item-separation-color: #6d7a81;
-    --webtau-list-items-color: #ddd;
-    --webtau-source-code-background-color: #fff;
+    --webtau-text-color: #bbb;
+    --webtau-text-light-color: #888;
+    --webtau-inversed-text-color: #333;
+    --webtau-background-color: #1e2529;
+    --webtau-selection-background-color: #272f33;
 
-    --webtau-card-border-color: rgba(91, 91, 91, 0.12);
-    --webtau-card-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --webtau-report-name-text-color: #8baac7;
+
+    --webtau-panels-border-color: #1c2023;
+
+    --webtau-search-background-color: #191f22;
+
+    --webtau-table-body-background-color: #1e2529;
+    --webtau-table-header-background-color: var(--webtau-selection-background-color);
+    --webtau-table-border-color: #474950;
+
+    --webtau-tabs-background-color: #24282a;
+    --webtau-tabs-text-color: #888;
+    --webtau-tabs-selected-text-color: #aaa;
+
+    --webtau-card-background-color: var(--webtau-selection-background-color);
+    --webtau-card-border-color: none;
+    --webtau-card-list-border-color: var(--webtau-background-color);
+    --webtau-card-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+    --webtau-card-warning-background-color: #dcbe5a;
+    --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
+    --webtau-card-time-color: #a5a5a5;
+    --webtau-card-date-color: #909090;
+    --webtau-card-number-color: #ccc;
     --webtau-card-label-color: #969ba7;
     --webtau-card-width: 170px;
     --webtau-card-padding: var(--webtau-spacing-double);
     --webtau-card-height: 120px;
 
-    --webtau-match-color: rgba(57, 215, 40, 0.2);
-    --webtau-table-row-problem-background-color: rgba(239, 94, 99, 0.08);
+    --webtau-test-group-label-color: #bbb;
+    --webtau-test-group-label-background-color: #3b4348;
+    --webtau-report-name-area-background-color: #272f33;
+    --webtau-test-status-filter-background-color: #3e474b;
+    --webtau-selected-test-background: #111;
+    --webtau-selected-test-border-color: #000;
+
+    --webtau-list-items-color: #ddd;
+
+    --webtau-code-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    --webtau-source-code-background-color: #181e21;
+
+    --webtau-match-color: #eee;
+    --webtau-match-background-color: rgba(57, 215, 40, 0.2);
+    --webtau-table-row-problem-background-color: rgba(219, 17, 23, 0.2);
+
+    --webtau-property-key-color: #8c4e99;
+    --webtau-property-value-string-color: #5e853c;
+    --webtau-property-value-number-color: #8984ef;
 
     --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
 }
 
 body {
-    color: #333;
-    background-color: #f2f2f5;
     font-size: 14px;
     font-family: Helvetica, sans-serif
 }
@@ -63,6 +95,9 @@ body {
                          "     list details"
                          "   status details";
 
+    color: var(--webtau-text-color);
+    background-color: var(--webtau-background-color);
+
     min-height: 100vh;
     height: 100vh;
 }
@@ -70,19 +105,19 @@ body {
 .report > .report-name-area {
     grid-area: selection;
 
-    background-color: var(--webtau-test-status-filter-background-color);
+    background-color: var(--webtau-report-name-area-background-color);
     padding: var(--webtau-spacing);
-    border-bottom: 1px solid #50595e;
+    border-bottom: 1px solid var(--webtau-panels-border-color);
 }
 
 .report > .search-area {
     grid-area: search;
-    background-color: var(--webtau-test-selection-background-color);
+    background-color: var(--webtau-selection-background-color);
 }
 
 .search-area input {
     font-size: 14px;
-    background-color: #333;
+    background-color: var(--webtau-search-background-color);
     color: #ddd;
 
     width: 100%;
@@ -95,18 +130,19 @@ body {
     box-sizing: border-box;
 }
 
-.report > .items-lists-area {
+.webtau-items-lists-area {
     grid-area: list;
     color: var(--webtau-list-items-color);
-    background-color: var(--webtau-test-selection-background-color);
+    background-color: var(--webtau-selection-background-color);
 
     max-height: 100%;
-    border-right: 1px solid var(--webtau-test-status-filter-background-color);
+    border-right: 1px solid var(--webtau-panels-border-color);
 
     overflow-y: auto;
 }
 
 .report > .test-details-area {
+    display: flex;
     grid-area: details;
     overflow: auto;
 }
@@ -115,5 +151,5 @@ body {
     grid-area: status;
     color: #eee;
     background-color: var(--webtau-test-status-filter-background-color);
-    border-right: 1px solid var(--webtau-test-status-filter-background-color);
+    border-right: 1px solid var(--webtau-panels-border-color);
 }

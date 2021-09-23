@@ -25,6 +25,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauConceptFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
@@ -125,9 +126,19 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "persona context"() {
+        runCli('personaContext.groovy', 'webtau.persona.cfg.groovy')
+    }
+
+    @Test
     void "runner should use deprecated config file name when no config file is available"() {
         runCliWithWorkingDir('deprecatedConfigCheck.groovy',
                 'examples/scenarios/concept/deprecatedconfig')
+    }
+
+    @Test
+    void "recursive scenario discovery"() {
+        runCli("recursive", "recursive.webtau.cfg.groovy")
     }
 
     @Test
@@ -140,6 +151,11 @@ class WebTauConceptFeaturesTest {
         if (!Files.exists(failedReportPath)) {
             throw new AssertionError("failed report should be generated at $failedReportPath")
         }
+    }
+
+    @Test
+    void "report name"() {
+        runCli('simpleScenarioReportName.groovy', 'webtau.reportname.cfg.groovy')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

@@ -41,6 +41,20 @@ Use `extractByRegexp` to extract content from a file by regular expression
   excludeRegexp: "statusCode"
 }
 
+Use `replaceText` to replace text in place
+
+:include-file: doc-artifacts/snippets/fsFileContent/replaceFile.groovy {
+  title: "replace file content",
+  startLine: "replace-text",
+  endLine: "replace-text",
+  excludeStartEnd: true
+}
+
+```columns
+left: :include-file: doc-artifacts/fs-content-to-replace.txt {title: "file to replace"}
+right: :include-file: doc-artifacts/fs-content-after-replace-text.txt {title: "result of replace"}
+```
+
 # Copy
 
 :include-file: doc-artifacts/snippets/fsCopy/copyFileToDir.groovy {
@@ -60,14 +74,14 @@ Use `extractByRegexp` to extract content from a file by regular expression
 
 # Archive
 
-:include-file: examples/scenarios/fs/archive.groovy {
+:include-file: scenarios/fs/archive.groovy {
   title: "unzip a file",
   startLine: "// unzip",
   endLine: "// unzip",
   excludeStartEnd: true
 }
 
-:include-file: examples/scenarios/fs/archive.groovy {
+:include-file: scenarios/fs/archive.groovy {
   title: "untar a file",
   startLine: "// untar",
   endLine: "// untar",

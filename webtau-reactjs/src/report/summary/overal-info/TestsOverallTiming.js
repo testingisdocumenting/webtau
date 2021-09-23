@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,24 +15,20 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import CardWithTime from '../../widgets/CardWithTime'
-import CardWithElapsedTime from '../../widgets/CardWithElapsedTime'
+import { CardWithTime } from '../../widgets/CardWithTime';
+import CardWithElapsedTime from '../../widgets/CardWithElapsedTime';
 
-import CardList from '../../widgets/CardList'
+import CardList from '../../widgets/CardList';
 
-export default function TestsOverallTiming({report}) {
-    return (
-        <CardList label="Tests run time">
-            <CardWithTime label="Start Time (Local)"
-                          time={report.summary.startTime}/>
+export default function TestsOverallTiming({ report }) {
+  return (
+    <CardList label="Tests run time">
+      <CardWithTime label="Start Time (Local)" time={report.summary.startTime} />
 
-            <CardWithTime label="Start Time (UTC)"
-                          utc={true}
-                          time={report.summary.startTime}/>
-            <CardWithElapsedTime label="Overal Time"
-                                 millis={report.summary.duration}/>
-        </CardList>
-    )
+      <CardWithTime label="Start Time (UTC)" utc={true} time={report.summary.startTime} />
+      <CardWithElapsedTime label="Overal Time" millis={report.summary.duration} />
+    </CardList>
+  );
 }

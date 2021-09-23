@@ -60,10 +60,9 @@ import org.testingisdocumenting.webtau.utils.JsonParseException;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -1119,7 +1118,7 @@ public class Http {
         }
 
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
+            HttpURLConnection connection = createConnection(fullUrl);
             connection.setInstanceFollowRedirects(false);
             setRequestMethod(method, connection);
             connection.setConnectTimeout(getCfg().getHttpTimeout());
@@ -1142,6 +1141,21 @@ public class Http {
             return extractHttpResponse(connection);
         } catch (IOException e) {
             throw new RuntimeException("couldn't " + method + ": " + fullUrl, e);
+        }
+    }
+
+    private HttpURLConnection createConnection(String fullUrl) {
+        try {
+            if (getCfg().isHttpProxySet()) {
+                HostPort hostPort = new HostPort(getCfg().getHttpProxyConfigValue().getAsString());
+
+                return (HttpURLConnection) new URL(fullUrl).openConnection(new Proxy(Proxy.Type.HTTP,
+                        new InetSocketAddress(hostPort.host, hostPort.port)));
+            }
+
+            return (HttpURLConnection) new URL(fullUrl).openConnection();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -1228,6 +1242,21 @@ public class Http {
 
     private interface HttpCall {
         HttpResponse execute(String fullUrl, HttpHeader fullHeader);
+    }
+
+    private static class HostPort {
+        private final String host;
+        private final int port;
+
+        private HostPort(String hostPort) {
+            String[] parts = hostPort.split(":");
+            if (parts.length != 2) {
+                throw new IllegalArgumentException("expect host:port format for proxy, given: " + hostPort);
+            }
+
+            host = parts[0];
+            port = Integer.parseInt(parts[1]);
+        }
     }
 
     private static class BeforeFirstHttpCallListenerTrigger {

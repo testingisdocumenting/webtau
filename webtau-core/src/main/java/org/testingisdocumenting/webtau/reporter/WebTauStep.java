@@ -203,6 +203,10 @@ public class WebTauStep {
         this.outputSupplier = outputSupplier;
     }
 
+    public void setOutput(WebTauStepOutput output) {
+        this.output = output;
+    }
+
     public WebTauStepOutput getOutput() {
         return output;
     }
@@ -407,6 +411,13 @@ public class WebTauStep {
 
         if (!children.isEmpty()) {
             result.put("children", children.stream().map(WebTauStep::toMap).collect(toList()));
+        }
+
+        if (input != WebTauStepInput.EMPTY) {
+            Map<String, Object> inputMap = new LinkedHashMap<>();
+            inputMap.put("type", input.getClass().getSimpleName());
+            inputMap.put("data", input.toMap());
+            result.put("input", inputMap);
         }
 
         return result;

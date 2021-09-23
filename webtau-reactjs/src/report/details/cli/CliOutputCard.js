@@ -15,29 +15,33 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import Card from "../../widgets/Card"
+import { Card } from '../../widgets/Card';
 
 import './CliOutputCard.css';
 
-export default function CliOutputCard({classifier, output, matchedLines}) {
-    const lines = output.split('\n')
+export default function CliOutputCard({ classifier, output, matchedLines }) {
+  const lines = output.split('\n');
 
-    const matchedAsSet = matchedLines.reduce((set, line) => {
-        set[line] = true;
-        return set;
-    }, {});
+  const matchedAsSet = matchedLines.reduce((set, line) => {
+    set[line] = true;
+    return set;
+  }, {});
 
-    return (
-        <React.Fragment>
-            <div className="cli-output-label">{classifier} output</div>
-            <Card className={"cli-output " + classifier}>
-                {lines.map((line, idx) => {
-                    const className = 'cli-output-line' + (matchedAsSet.hasOwnProperty(line) ? ' matched' : '');
-                    return <span className={className} key={idx}>{line + '\n'}</span>
-                })}
-            </Card>
-        </React.Fragment>
-    )
+  return (
+    <React.Fragment>
+      <div className="cli-output-label">{classifier} output</div>
+      <Card className={'cli-output ' + classifier}>
+        {lines.map((line, idx) => {
+          const className = 'cli-output-line' + (matchedAsSet.hasOwnProperty(line) ? ' matched' : '');
+          return (
+            <span className={className} key={idx}>
+              {line + '\n'}
+            </span>
+          );
+        })}
+      </Card>
+    </React.Fragment>
+  );
 }

@@ -33,7 +33,7 @@
     "scenario" : "command run result",
     "shortContainerId" : "foregroundExamples.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "run result extract by regexp from output",

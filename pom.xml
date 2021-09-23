@@ -21,7 +21,7 @@
 
     <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.42-SNAPSHOT</version>
+    <version>1.44-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -129,6 +129,7 @@
         <module>webtau-junit-like-examples-common</module>
         <module>webtau-testapp</module>
         <module>webtau-config</module>
+        <module>webtau-config-groovy</module>
         <module>webtau-feature-testing</module>
         <module>webtau-report-testing</module>
         <module>webtau-maven-plugin</module>
@@ -159,7 +160,7 @@
         <graphql.version>16.2</graphql.version>
         <jacoco.version>0.8.5</jacoco.version>
         <swagger.version>1.6.1</swagger.version>
-        <jetty.version>9.4.40.v20210413</jetty.version>
+        <jetty.version>9.4.43.v20210629</jetty.version>
     </properties>
 
     <dependencyManagement>
@@ -227,7 +228,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
-                <version>1.20</version>
+                <version>1.21</version>
             </dependency>
 
             <dependency>
@@ -244,14 +245,26 @@
 
             <dependency>
                 <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-webapp</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-proxy</artifactId>
                 <version>${jetty.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
-                <version>1.13.1</version>
+                <version>1.14.2</version>
             </dependency>
 
             <dependency>
@@ -804,6 +817,7 @@
                     <releaseProfiles>release</releaseProfiles>
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <goals>deploy</goals>
+                    <pushChanges>false</pushChanges>
                 </configuration>
             </plugin>
 

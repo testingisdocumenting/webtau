@@ -74,8 +74,8 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
-    void "validation handler"() {
-        runCli('httpValidationHandler.groovy', 'webtau.validation-handler.cfg.groovy', "--url=${testRunner.testServer.uri}")
+    void "persona get"() {
+        runCli('headers/personaGet.groovy', 'headers/webtau.persona.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
     @Test
@@ -107,6 +107,13 @@ class WebTauRestFeaturesTest {
         runCli('openapi/openApiHttpSpec.groovy', 'openapi/webtau.httpspec.cfg.groovy',
                 "--url=${customersBaseUrl}",
                 "--openApiSpecUrl=/v3/api-docs")
+    }
+
+    @Test
+    void "open api unspecified url"() {
+        runCli('openapi/unspecifiedUrl.groovy', 'openapi/webtau.httpspec.cfg.groovy',
+                "--url=${customersBaseUrl}",
+                "--openApiSpecUrl=scenarios/rest/openapi/not-full-spec.json")
     }
 
     @Test
@@ -162,6 +169,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "proxy config validate"() {
+        runCli("proxy/validateProxy.groovy", "proxy/webtau.proxy.cfg.groovy", "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "start server before first test and stop after"() {
         runCli("springboot/startAndStopAsPartOfSuite.groovy", "springboot/webtau-auto-start.cfg.groovy")
     }
@@ -170,11 +182,6 @@ class WebTauRestFeaturesTest {
     void "use existing server before first test"() {
         runCli("springboot/checkExistingServerIsStillUp.groovy", "springboot/webtau-auto-start.cfg.groovy",
                 "--url=$customersBaseUrl")
-    }
-
-    @Test
-    void "recursive scenario discovery"() {
-        testRunner.runCli("recursive/scenarios", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

@@ -20,7 +20,7 @@ import TestHttpCalls from './details/http/TestHttpCalls';
 import ShortStackTrace from './details/ShortStackTrace';
 import Screenshot from './details/Screenshot';
 import FullStackTrace from './details/FullStackTrace';
-import TestSummary from './details/TestSummary';
+import { TestSummary } from './details/TestSummary';
 import StatusEnum from './StatusEnum';
 import PerformanceReport from './PerformanceReport';
 import TestCliCalls from './details/cli/TestCliCalls';
@@ -42,12 +42,18 @@ class Report {
     return overallTime / test.httpCalls.length;
   }
 
+  static groupTestsByContainerWithFailedAtTheTop(tests) {
+    return groupTestsByContainerWithFailedAtTheTop(tests);
+  }
+
   static groupTestsByContainer(tests) {
     return groupTestsByContainer(tests);
   }
 
   constructor(report) {
     this.report = report;
+    this.name = report.name;
+    this.nameUrl = report.nameUrl;
     this.version = report.version;
     this.config = report.config;
     this.envVars = report.envVars;
@@ -236,11 +242,16 @@ function lowerCaseIndexOf(text, part) {
 function enrichTestsData(tests) {
   return tests.map((test) => ({
     ...test,
-    containerId: fullContainerId(test),
+    containerId: shortContainerId(test),
     shortContainerId: shortContainerId(test),
     details: additionalDetails(test),
     httpCalls: enrichHttpCallsData(test, test.httpCalls),
   }));
+}
+
+function groupTestsByContainerWithFailedAtTheTop(tests) {
+  const groups = groupTestsByContainer(tests);
+  return groupWithFailedTestsAtTheTop(groups);
 }
 
 function groupTestsByContainer(tests) {
@@ -248,7 +259,7 @@ function groupTestsByContainer(tests) {
   const groupById = {};
 
   tests.forEach((t) => {
-    const groupId = fullContainerId(t);
+    const groupId = t.containerId;
 
     let group = groupById[groupId];
     if (!group) {
@@ -260,11 +271,7 @@ function groupTestsByContainer(tests) {
     group.tests.push(t);
   });
 
-  return groupWithFailedTestsAtTheTop(groups);
-}
-
-function fullContainerId(test) {
-  return test.className ? test.className : test.fileName;
+  return groups;
 }
 
 function shortContainerId(test) {

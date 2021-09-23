@@ -172,7 +172,8 @@ class WebTauBrowserFeaturesTestBase {
                 'equalTextRegexp.groovy': 'equal text regexp',
                 'equalListOfText.groovy': 'equal list of text',
                 'equalListOfTextAndRegexp.groovy': 'equal list of text and regexp',
-                'containTextInList.groovy': 'contain text in list',
+                'containTextInList.groovy': 'contain full text in list',
+                'containTextInFirstElement.groovy': 'contain text in first matching element',
                 'equalNumber.groovy': 'equal number',
                 'equalListOfNumbers.groovy': 'equal list of numbers',
                 'greaterNumber.groovy': 'greater number',
@@ -330,6 +331,11 @@ class WebTauBrowserFeaturesTestBase {
     @Test
     void "ag grid multi select"() {
         runCli('agGridMultiSelect.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "screenshot of currently failed page"() {
+        runCli('failedAssertion.groovy', 'webtau.cfg.groovy')
     }
 
     private void runCli(String uiTestName, String configFileName) {

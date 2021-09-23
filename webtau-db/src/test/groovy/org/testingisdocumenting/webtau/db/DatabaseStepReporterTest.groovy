@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.db
 
 import org.junit.After
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
@@ -33,6 +34,8 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
     void initiateStepReporter() {
         stepMessages.clear()
         StepReporters.add(this)
+
+        setupPrices()
     }
 
     @After
@@ -42,8 +45,6 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
 
     @Test
     void "query result comparison step should capture query and params"() {
-        setupPrices()
-
         def price = db.query("select price from PRICES where id=:id", [id: 'id1'])
         price.should == 1000
         price.shouldNot == 2000
@@ -55,8 +56,6 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
 
     @Test
     void "query result comparison step should capture query and params in case of single param"() {
-        setupPrices()
-
         def price = db.query("select price from PRICES where id=:id", 'id1')
         price.should == 1000
 
@@ -66,8 +65,6 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
 
     @Test
     void "query result comparison step should not capture params when no params are passed"() {
-        setupPrices()
-
         def price = db.query("select price from PRICES where id='id1'")
         price.should == 1000
 
@@ -77,8 +74,6 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
 
     @Test
     void "update step should capture query and params in case of maps param"() {
-        setupPrices()
-
         db.update("delete from PRICES where price>:price1 or price>:price2", [price1: 1000, price2: 2000])
 
         def fullMessage = stepMessages.join('\n')
@@ -88,8 +83,6 @@ class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter 
 
     @Test
     void "update step should capture query and params in case of single param"() {
-        setupPrices()
-
         db.update("delete from PRICES where price>:price", 950)
 
         def fullMessage = stepMessages.join('\n')

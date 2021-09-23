@@ -22,19 +22,7 @@ import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 
-import static org.testingisdocumenting.webtau.Matchers.*;
-
 public interface DataNodeExpectations extends ActualValueExpectations, ActualPathAndDescriptionAware {
-    @Override
-    default void should(ValueMatcher valueMatcher) {
-        actual(this).should(valueMatcher);
-    }
-
-    @Override
-    default void shouldNot(ValueMatcher valueMatcher) {
-        actual(this).shouldNot(valueMatcher);
-    }
-
     @Override
     default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         throw new UnsupportedOperationException();

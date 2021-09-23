@@ -21,6 +21,7 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
+import org.testingisdocumenting.webtau.utils.FileUtils
 
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.fs.FileSystem.fs
@@ -42,10 +43,24 @@ class FileSystemTest implements ConsoleOutput {
     @Test
     void "creating temp dir has dir path in completion step"() {
         fs.tempDir("custom-prefix")
-        println output
 
         output.should contain("> creating temp directory with prefix custom-prefix")
         output.should == ~/\. created temp directory .*custom-prefix.+\s\(.+ms\)/
+    }
+
+    @Test
+    void "replacing text with regexp report number of matches"() {
+        def tempDir = fs.tempDir("custom-prefix")
+        def tempFile = fs.writeText(tempDir.resolve("text.txt"), "hello 200 world 300")
+
+        fs.replaceText(tempFile, ~/(\d+)/, '$1!')
+        FileUtils.fileTextContent(tempFile).should == "hello 200! world 300!"
+
+        output.should contain("> replacing text content")
+        output.should contain(" replacement: \$1!")
+        output.should contain("> reading text from")
+        output.should contain("> writing text content of size 21")
+        output.should contain(". replaced text content: 2 matches")
     }
 
     @Override

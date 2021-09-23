@@ -53,8 +53,9 @@ public class CliBackgroundCommand implements WebTauStepPayload {
 
         WebTauStep.createAndExecuteStep(
                 tokenizedMessage(action("running cli command in background"), stringValue(command)),
+                processConfig.createStepInput(),
                 () -> tokenizedMessage(action("ran cli command in background"), stringValue(command)),
-                this::startBackgroundProcess);
+                                this::startBackgroundProcess);
 
         waitToStopThread = waitForProcessToFinishInBackground();
     }
@@ -185,6 +186,7 @@ public class CliBackgroundCommand implements WebTauStepPayload {
         result.put("out", String.join("\n", getThreadLocalOutput()));
         result.put("err", String.join("\n", getThreadLocalError()));
         result.put("startTime", startTime);
+        result.put("config", processConfig.createStepInput().toMap());
 
         return result;
     }

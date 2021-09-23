@@ -7,7 +7,7 @@ Depending on [runner](getting-started/installation) you use webtau will read dat
 Groovy:
 When you use the Groovy runner, it will look for `webtau.cfg.groovy` file (default). 
 
-:include-file: examples/scenarios/rest/urlOnly.cfg.groovy {
+:include-file: scenarios/rest/urlOnly.cfg.groovy {
     title: "webtau.cfg.groovy",
     includeRegexp: "localhost"
 }
@@ -31,7 +31,7 @@ Webtau supports environment specific config values, and a way to select which en
 
 ```tabs
 Groovy:
-:include-file: examples/scenarios/rest/urlOnly.cfg.groovy {
+:include-file: scenarios/rest/urlOnly.cfg.groovy {
     title: "webtau.cfg.groovy",
     excludeRegexp: "package"
 }

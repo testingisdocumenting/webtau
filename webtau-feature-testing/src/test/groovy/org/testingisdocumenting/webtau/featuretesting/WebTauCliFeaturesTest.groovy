@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.BeforeClass
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.cli.CliTestUtils.linuxOnly
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
@@ -132,6 +133,22 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "common env vars"() {
+        runCli('cliCommonEnvVars.groovy', 'webtau-cli-env-vars.cfg.groovy')
+    }
+
+    @Test
+    void "common env vars extract code snippets"() {
+        extractCodeSnippets(
+                'common-env-vars', 'examples/scenarios/cli/cliCommonEnvVars.groovy', [
+                'foreground.groovy': 'foreground process var from config',
+                'background.groovy': 'background process var from config',
+                'personaOverridesForeground.groovy': 'persona foreground process var from config',
+                'personaOverridesBackground.groovy': 'persona background process var from config',
+        ])
+    }
+
+    @Test
     void "send input"() {
         runCli('sendInput.groovy', 'webtau.cfg.groovy')
     }
@@ -149,6 +166,18 @@ class WebTauCliFeaturesTest {
     @Test
     void "timeout config"() {
         runCli('cliTimeout.groovy', 'webtau-cli-timeout.cfg.groovy')
+    }
+
+    @Test
+    void "timeout config override"() {
+        runCli('cliTimeoutLocalOverride.groovy', 'webtau-cli-timeout-large.cfg.groovy')
+    }
+
+    @Test
+    void "linux shell source"() {
+        linuxOnly {
+            runCli('linuxShell.groovy', 'webtau.cfg.groovy')
+        }
     }
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {

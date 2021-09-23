@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "sleep timeout override",
+    "shortContainerId" : "cliTimeoutLocalOverride.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

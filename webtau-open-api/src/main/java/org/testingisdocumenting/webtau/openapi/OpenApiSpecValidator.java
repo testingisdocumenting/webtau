@@ -53,7 +53,9 @@ public class OpenApiSpecValidator {
     public void validateApiSpec(HttpValidationResult result, OpenApiValidationMode openApiValidationMode) {
         Optional<OpenApiOperation> apiOperation = openAPISpec.findApiOperation(result.getRequestMethod(), result.getFullUrl());
         if (!apiOperation.isPresent()) {
-            ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " not found in OpenAPI spec");
+            ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " is not found in OpenAPI spec");
+            result.addWarning("path " + result.getFullUrl() + " is not found in OpenAPI spec");
+
             return;
         }
 

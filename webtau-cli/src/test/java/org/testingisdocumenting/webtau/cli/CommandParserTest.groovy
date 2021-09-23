@@ -21,8 +21,8 @@ import org.junit.Test
 class CommandParserTest {
     @Test
     void "split command should respect quotes and quote escape"() {
-        CommandParser.splitCommand('hello "long param"').should == ['hello', '"long param"']
-        CommandParser.splitCommand('hello "long \\" param"').should == ['hello', '"long \\" param"']
+        CommandParser.splitCommand('hello "long param"').should == ['hello', 'long param']
+        CommandParser.splitCommand('hello "long \\" param"').should == ['hello', 'long \\" param']
         CommandParser.splitCommand('hello \\"long param"').should == ['hello', '\\"long',  'param"']
     }
 }

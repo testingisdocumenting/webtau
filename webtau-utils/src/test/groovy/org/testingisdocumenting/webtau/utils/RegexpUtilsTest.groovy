@@ -28,6 +28,20 @@ class RegexpUtilsTest {
     }
 
     @Test
+    void "replace matches with a callback result and count"() {
+        def result = RegexpUtils.replaceAllAndCount("hello 10 world of 42 20 numbers", ~/(\d)\d*/, { m -> '"' + m.group(1) + '"' })
+        Assert.assertEquals('hello "1" world of "4" "2" numbers', result.result)
+        Assert.assertEquals(3, result.numberOfMatches)
+    }
+
+    @Test
+    void "replace matches with captured groups and count"() {
+        def result = RegexpUtils.replaceAllAndCount("hello 10 world of 42 20 numbers", ~/(\d)\d*/, '<$1>')
+        Assert.assertEquals('hello <1> world of <4> <2> numbers', result.result)
+        Assert.assertEquals(3, result.numberOfMatches)
+    }
+
+    @Test
     void "extract value by regexp"() {
         Assert.assertEquals("123",
                 RegexpUtils.extractByRegexp("line 1\nline 2\nhello id=123 ere\n", "id=(\\d+)"))

@@ -16,13 +16,17 @@
 
 package org.testingisdocumenting.webtau.server;
 
-import org.testingisdocumenting.webtau.TestListener;
+import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class WebtauServersRegistry implements TestListener {
+public class WebtauServersRegistry {
     private static final Map<String, WebtauServer> serverById = new ConcurrentHashMap<>();
+
+    static {
+        registerCleanup();
+    }
 
     public static boolean hasServerWithId(String id) {
         return serverById.containsKey(id);
@@ -32,13 +36,26 @@ public class WebtauServersRegistry implements TestListener {
         serverById.put(server.getId(), server);
     }
 
+    public static void validateId(String id) {
+        if (WebtauServersRegistry.hasServerWithId(id)) {
+            throw new IllegalArgumentException("server with <" + id + "> already exists");
+        }
+    }
+
     public static void unregister(WebtauServer server) {
         serverById.remove(server.getId());
     }
 
-    @Override
-    public void afterAllTests() {
-        serverById.values().forEach(WebtauServer::stop);
+    private static void stopServers() {
+        serverById.values().stream()
+                .filter(WebtauServer::isRunning)
+                .forEach(WebtauServer::stop);
         serverById.clear();
+    }
+
+    private static void registerCleanup() {
+        CleanupRegistration.registerForCleanup("stopping", "stopped", "servers",
+                () -> serverById.values().stream().anyMatch(WebtauServer::isRunning),
+                WebtauServersRegistry::stopServers);
     }
 }

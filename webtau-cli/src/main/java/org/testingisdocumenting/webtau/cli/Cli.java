@@ -43,6 +43,10 @@ public class Cli {
         return new CliProcessConfig().env(CollectionUtils.aMapOf((Object[]) keyValue));
     }
 
+    public CliProcessConfig timeout(long millis) {
+        return new CliProcessConfig().timeout(millis);
+    }
+
     public CliProcessConfig workingDir(String workingDir) {
         return new CliProcessConfig().workingDir(workingDir);
     }
@@ -68,19 +72,19 @@ public class Cli {
     }
 
     public CliRunResult run(Path command, CliValidationOutputOnlyHandler handler) {
-        return run(command.toString(), CliProcessConfig.EMPTY, handler);
+        return run(command.toString(), CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(String command, CliValidationOutputOnlyHandler handler) {
-        return run(command, CliProcessConfig.EMPTY, handler);
+        return run(command, CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(Path command) {
-        return run(command.toString(), CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+        return run(command.toString(), CliProcessConfig.createEmpty(), CliValidationOutputOnlyHandler.NO_OP);
     }
 
     public CliRunResult run(String command) {
-        return run(command, CliProcessConfig.EMPTY, CliValidationOutputOnlyHandler.NO_OP);
+        return run(command, CliProcessConfig.createEmpty(), CliValidationOutputOnlyHandler.NO_OP);
     }
 
     public CliRunResult run(Path command, CliProcessConfig config, CliValidationOutputOnlyHandler handler) {
@@ -100,11 +104,11 @@ public class Cli {
     }
 
     public CliRunResult run(Path command, CliValidationExitCodeOutputHandler handler) {
-        return run(command.toString(), CliProcessConfig.EMPTY, handler);
+        return run(command.toString(), CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(String command, CliValidationExitCodeOutputHandler handler) {
-        return run(command, CliProcessConfig.EMPTY, handler);
+        return run(command, CliProcessConfig.createEmpty(), handler);
     }
 
     public CliRunResult run(Path command, CliProcessConfig config, CliValidationExitCodeOutputHandler handler) {
@@ -127,11 +131,11 @@ public class Cli {
     }
 
     public CliBackgroundCommand runInBackground(Path command) {
-        return runInBackground(command.toString(), CliProcessConfig.EMPTY);
+        return runInBackground(command.toString(), CliProcessConfig.createEmpty());
     }
 
     public CliBackgroundCommand runInBackground(String command) {
-        return runInBackground(command, CliProcessConfig.EMPTY);
+        return runInBackground(command, CliProcessConfig.createEmpty());
     }
 
     void setLastDocumentationArtifact(CliDocumentationArtifact documentationArtifact) {
