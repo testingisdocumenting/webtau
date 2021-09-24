@@ -16,14 +16,18 @@
  */
 
 .overall-summary {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
 }
 
 .overall-summary-tab-content {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: var(--webtau-spacing);
-
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: var(--webtau-spacing);
+    overflow: auto;
 }
 
 .overall-number-of-http-calls {
@@ -34,4 +38,14 @@
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: var(--webtau-spacing);
+}
+
+.overall-summary-tab-content-bottom-padding {
+    flex: 1;
+}
+
+.webtau-generated-by a,
+.webtau-generated-by a:visited {
+    color: var(--webtau-report-name-text-color);
+    padding-left: var(--webtau-spacing-half);
 }

@@ -442,6 +442,7 @@ export const withCliDataReport = {
 
 export const withRestDataReport = {
   version: '1.4',
+  name: 'my report name',
   summary: {
     total: 5,
     passed: 3,

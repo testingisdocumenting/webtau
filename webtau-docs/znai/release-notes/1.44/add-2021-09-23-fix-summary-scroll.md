@@ -1,0 +1,1 @@
+* Fix: Report summary vertical scroll preserves tab selection at the top
