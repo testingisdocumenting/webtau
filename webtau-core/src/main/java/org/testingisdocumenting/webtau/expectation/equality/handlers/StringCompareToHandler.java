@@ -129,12 +129,7 @@ public class StringCompareToHandler implements CompareToHandler {
             if (actualLines.length == 1 && expectedLines.length == 1) {
                 int indexOfFirstMismatch = indexOfFirstMismatch(actualString, expectedString);
 
-                // we need to pad actual string to match number of spaces from expected assertionMode rendered
-                // to make caret that shows first mismatch aligned
-                //   actual:     "hello"
-                // expected: not "help"
-                //                   ^
-                int assertionModePaddingSize = compareToComparator.getAssertionMode().getMessage().length() + 1 /* space */;
+                int assertionModePaddingSize = assertionModePaddingSize();
                 return ACTUAL_PREFIX + renderValueAndTypeWithPadding(
                         assertionModePaddingSize,
                         actualString) +
@@ -149,6 +144,16 @@ public class StringCompareToHandler implements CompareToHandler {
                                 additionalTypeInfo(expected, expectedString)) +
                         renderMultilineString(expectedString);
             }
+        }
+
+        // we need to pad actual string to match number of spaces from expected assertionMode rendered
+        // to make caret that shows first mismatch aligned
+        //   actual:     "hello"
+        // expected: not "help"
+        //                   ^
+        private int assertionModePaddingSize() {
+            int modeLength = compareToComparator.getAssertionMode().getMessage().length();
+            return modeLength > 0 ? modeLength + 1 /* space */: 0;
         }
 
         private String renderFirstLineMismatch() {
