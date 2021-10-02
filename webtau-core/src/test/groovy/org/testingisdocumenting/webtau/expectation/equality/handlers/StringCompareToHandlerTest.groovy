@@ -78,6 +78,19 @@ class StringCompareToHandlerTest {
     }
 
     @Test
+    void "shows caret indicator for first match of a one line strings"() {
+        def comparator = CompareToComparator.comparator()
+        comparator.compareIsNotEqual(createActualPath('text'), 'hello world', 'herlo world')
+
+        assertEquals('mismatches:\n' +
+                '\n' +
+                'text:   actual:     "hello world" <java.lang.String>\n' +
+                '      expected: not "herlo world" <java.lang.String>\n' +
+                '                       ^',
+                comparator.generateEqualMismatchReport())
+    }
+
+    @Test
     void "renders multiline strings in blocks"() {
         def comparator = CompareToComparator.comparator()
         comparator.compareIsEqual(createActualPath('text'),

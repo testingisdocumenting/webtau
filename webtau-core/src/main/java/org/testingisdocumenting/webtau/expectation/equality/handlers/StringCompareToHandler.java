@@ -27,8 +27,7 @@ import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.ACTUAL_PREFIX;
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderType;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
+import static org.testingisdocumenting.webtau.utils.TraceUtils.*;
 
 public class StringCompareToHandler implements CompareToHandler {
     @Override
@@ -129,10 +128,20 @@ public class StringCompareToHandler implements CompareToHandler {
         private String renderActualExpected() {
             if (actualLines.length == 1 && expectedLines.length == 1) {
                 int indexOfFirstMismatch = indexOfFirstMismatch(actualString, expectedString);
-                return ACTUAL_PREFIX + renderValueAndType(actualString) + additionalTypeInfo(actual, actualString) + "\n" +
+
+                // we need to pad actual string to match number of spaces from expected assertionMode rendered
+                // to make caret that shows first mismatch aligned
+                //   actual:     "hello"
+                // expected: not "help"
+                //                   ^
+                int assertionModePaddingSize = compareToComparator.getAssertionMode().getMessage().length() + 1 /* space */;
+                return ACTUAL_PREFIX + renderValueAndTypeWithPadding(
+                        assertionModePaddingSize,
+                        actualString) +
+                        additionalTypeInfo(actual, actualString) + "\n" +
                         expected(compareToComparator.getAssertionMode(), renderValueAndType(expectedString) +
                                 additionalTypeInfo(expected, expectedString)) +
-                        renderCaretIfRequired(ACTUAL_PREFIX, true, indexOfFirstMismatch);
+                        renderCaretIfRequired(ACTUAL_PREFIX, true, indexOfFirstMismatch + assertionModePaddingSize);
             } else {
                 return ACTUAL_PREFIX + renderType(actualString) + additionalTypeInfo(actual, actualString) + "\n" +
                         renderMultilineString(actualString) + "\n" +

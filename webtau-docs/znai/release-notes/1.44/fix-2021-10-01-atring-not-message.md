@@ -1,0 +1,1 @@
+* Fix: string compare to handler show proper caret position of a change in case of `not` equal
