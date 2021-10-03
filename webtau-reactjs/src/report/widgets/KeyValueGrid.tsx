@@ -19,7 +19,7 @@ import React from 'react';
 import './KeyValueGrid.css';
 
 interface Props {
-  data: { [key: string]: object };
+  data: { [key: string]: string | number };
   parentClassName?: string;
   keyClassName?: string;
   valueClassName?: string;

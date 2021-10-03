@@ -24,10 +24,7 @@ scenario('cli calls') {
         return
     }
 
-    report.openGroovyStandaloneReport('cli/simpleRun-webtau-report.html')
-    report.selectTest('simple cli run')
-
-    report.selectCliCalls()
+    selectTestAndCli('cli/simpleRun-webtau-report.html', 'simple cli run')
     report.expandCliCall(1)
 
     report.stdCliOutput.should == ~/welcome to my script/
@@ -40,11 +37,25 @@ scenario('timeout cli should have output captured') {
         return
     }
 
-    report.openGroovyStandaloneReport('cli/cliTimeout-failed-webtau-report.html')
-    report.selectTest('sleep timeout')
-    report.selectCliCalls()
+    selectTestAndCli('cli/cliTimeout-failed-webtau-report.html', 'sleep timeout')
     report.expandCliCall(1)
+
     report.stdCliOutput.should contain("welcome sleeping script")
+}
+
+scenario('cli calls persona column') {
+    if (isWindows()) {
+        return
+    }
+
+    selectTestAndCli('cli/cliCommonEnvVars-webtau-report.html', 'persona foreground process var from config')
+    report.cliPersonaIds.should == ['Alice', 'Bob']
+}
+
+static void selectTestAndCli(String reportName, String testName) {
+    report.openGroovyStandaloneReport(reportName)
+    report.selectTest(testName)
+    report.selectCliCalls()
 }
 
 static boolean isWindows() {

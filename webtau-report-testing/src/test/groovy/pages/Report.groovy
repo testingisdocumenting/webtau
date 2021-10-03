@@ -29,7 +29,7 @@ class Report {
     def responseData = $(".response .data")
 
     def steps = $(".step")
-    def personaId = $(".step .persona-id")
+    def stepPersonaId = $(".step .persona-id")
 
     def tabNames = $(".tab-selection .tab-name")
 
@@ -44,6 +44,8 @@ class Report {
 
     def stdCliOutput = $(".cli-output.standard")
     def errCliOutput = $(".cli-output.error")
+
+    def cliPersonaIds = $(".test-cli-call .persona")
 
     def screenshot = $(".image img")
 

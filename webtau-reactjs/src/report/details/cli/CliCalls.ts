@@ -15,23 +15,25 @@
  */
 
 export interface CliForegroundCall {
+  personaId?: string;
   command: string;
   elapsedTime: number;
   err: string;
   errMatches: string[];
   errorMessage: string;
-  exitCode: number;
+  exitCode?: number;
   mismatches: string[];
   out: string;
   outMatches: string[];
   startTime: number;
-  config: { [key: string]: object };
+  config: { [key: string]: string | number };
 }
 
 export interface CliBackgroundCall {
+  personaId?: string;
   command: string;
   err: string;
   out: string;
   startTime: number;
-  config: { [key: string]: object };
+  config: { [key: string]: string | number };
 }

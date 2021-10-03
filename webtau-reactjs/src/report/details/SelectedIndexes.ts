@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,25 +16,27 @@
  */
 
 export class SelectedIndexes {
-    constructor(indexesAsString) {
-        this.indexesMap = {}
-        const ids = indexesAsString ? indexesAsString.split('-') : []
-        ids.forEach(id => this.indexesMap[id] = true)
+  indexesMap: { [idx: string]: boolean } = {};
+
+  constructor(indexesAsString: string) {
+    this.indexesMap = {};
+    const ids = indexesAsString ? indexesAsString.split('-') : [];
+    ids.forEach((id) => (this.indexesMap[id] = true));
+  }
+
+  toggle(idx: number) {
+    const copy = { ...this.indexesMap };
+
+    if (copy.hasOwnProperty(idx)) {
+      delete copy[idx];
+    } else {
+      copy[idx] = true;
     }
 
-    toggle(idx) {
-        const copy = {...this.indexesMap}
+    return Object.keys(copy).join('-');
+  }
 
-        if (copy.hasOwnProperty(idx)) {
-            delete copy[idx]
-        } else {
-            copy[idx] = true
-        }
-
-        return Object.keys(copy).join('-')
-    }
-
-    isExpanded(idx) {
-        return this.indexesMap.hasOwnProperty(idx)
-    }
+  isExpanded(idx: number) {
+    return this.indexesMap.hasOwnProperty(idx);
+  }
 }

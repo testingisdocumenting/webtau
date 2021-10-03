@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
+import { CliBackgroundCall, CliForegroundCall } from './details/cli/CliCalls';
+
 export interface WebTauTest {
   id: string;
   containerId: string;
   scenario: string;
   steps: WebTauStep[];
   httpCalls?: HttpCall[];
+  cliCalls?: CliForegroundCall[];
+  cliBackground?: CliBackgroundCall[];
   metadata?: { [key: string]: string };
   startTime: number;
   elapsedTime: number;
@@ -47,7 +51,7 @@ export interface WebTauStepInput {
   data: any;
 }
 
-export type WebTauStepInputKeyValue = { [key: string]: object };
+export type WebTauStepInputKeyValue = { [key: string]: string | number };
 
 export interface StringKeyValue {
   key: string;
@@ -56,6 +60,7 @@ export interface StringKeyValue {
 
 export interface HttpCall {
   id: string;
+  personaId?: string;
   label: string;
   method: string;
   url: string;
@@ -68,7 +73,7 @@ export interface HttpCall {
   responseType: string;
   responseBody: any;
   responseStatusCode: number;
-  errorMessage: string;
+  errorMessage?: string;
   mismatches: string[];
   warnings?: string[];
   responseBodyChecks: {

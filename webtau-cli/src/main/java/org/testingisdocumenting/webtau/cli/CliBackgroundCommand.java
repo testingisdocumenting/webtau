@@ -182,6 +182,7 @@ public class CliBackgroundCommand implements WebTauStepPayload {
     @Override
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
+        result.put("personaId", processConfig.getPersonaId());
         result.put("command", command);
         result.put("out", String.join("\n", getThreadLocalOutput()));
         result.put("err", String.join("\n", getThreadLocalError()));
