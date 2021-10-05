@@ -19,17 +19,18 @@ import React from 'react';
 import CliOutputCard from './CliOutputCard';
 
 import './CliCallDetails.css';
-import { CliBackgroundCall } from './CliForegroundCall';
+import { CliBackgroundCall } from './CliCalls';
 import { KeyValueGrid } from '../../widgets/KeyValueGrid';
 
 interface Props {
   cliBackground: CliBackgroundCall;
 }
 export default function CliBackgroundDetails({ cliBackground }: Props) {
+  const colSpanAll = 10000; // arbitrary large number to span all
   return (
     <tr className="cli-command-details">
       <td />
-      <td colSpan={2}>
+      <td colSpan={colSpanAll}>
         <KeyValueGrid data={cliBackground.config} />
         <CliOutputCard classifier="standard" output={cliBackground.out} matchedLines={[]} />
         <CliOutputCard classifier="error" output={cliBackground.err} matchedLines={[]} />

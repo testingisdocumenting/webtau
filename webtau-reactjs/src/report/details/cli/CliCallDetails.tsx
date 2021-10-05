@@ -21,7 +21,7 @@ import CliOutputCard from './CliOutputCard';
 
 import TestErrorMessage from '../../widgets/TestErrorMessage';
 
-import { CliForegroundCall } from './CliForegroundCall';
+import { CliForegroundCall } from './CliCalls';
 
 import { KeyValueGrid } from '../../widgets/KeyValueGrid';
 
@@ -32,10 +32,12 @@ interface Props {
 }
 
 export default function CliCallDetails({ cliCall }: Props) {
+  const colSpanAll = 10000; // arbitrary large number to span all
+
   return (
     <tr className="cli-command-details">
       <td />
-      <td colSpan={4}>
+      <td colSpan={colSpanAll}>
         <Mismatches cliCall={cliCall} />
         <ErrorMessage cliCall={cliCall} />
 

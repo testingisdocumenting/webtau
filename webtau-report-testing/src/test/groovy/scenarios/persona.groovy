@@ -37,7 +37,7 @@ scenario('check browser persona steps') {
     report.selectSteps()
 
     report.steps.count.should == 18
-    report.personaId.count.should == 11
+    report.stepPersonaId.count.should == 11
 
-    report.personaId.should == 'Alice'
+    report.stepPersonaId.should == 'Alice'
 }

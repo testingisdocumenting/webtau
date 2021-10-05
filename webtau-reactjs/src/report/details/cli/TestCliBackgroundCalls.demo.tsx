@@ -18,6 +18,7 @@ import React from 'react';
 
 import { Registry, simulateState } from 'react-component-viewer';
 import TestCliBackground from './TestCliBackground';
+import { WebTauTest } from '../../WebTauTest';
 
 const [getUrlState, setUrlState] = simulateState({ cliBackgroundIdxs: '0-1-2' });
 
@@ -29,10 +30,23 @@ export function testCliBackgroundCallsDemo(registry: Registry) {
       onInternalStateUpdate={setUrlState}
     />
   ));
+  registry.add('with personas', () => (
+    <TestCliBackground
+      test={createTestWithCliBackground('Alice')}
+      urlState={getUrlState()}
+      onInternalStateUpdate={setUrlState}
+    />
+  ));
 }
 
-function createTestWithCliBackground() {
+function createTestWithCliBackground(personaId?: string): WebTauTest {
   return {
+    id: 'testid',
+    containerId: '',
+    elapsedTime: 0,
+    scenario: 'my scenario',
+    startTime: 1034343434,
+    steps: [],
     cliBackground: [
       {
         command: 'ls -l',
@@ -46,6 +60,7 @@ function createTestWithCliBackground() {
         },
       },
       {
+        personaId,
         command: 'ls2 -l',
         out: 'line 1\nline 2\nline 3',
         err: 'line 4\nline 5',
