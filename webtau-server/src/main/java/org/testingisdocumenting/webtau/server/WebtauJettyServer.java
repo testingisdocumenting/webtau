@@ -19,8 +19,9 @@ package org.testingisdocumenting.webtau.server;
 import org.eclipse.jetty.server.*;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
-import org.testingisdocumenting.webtau.server.journal.WebtauServerJournal;
-import org.testingisdocumenting.webtau.server.journal.WebtauServerJournalJettyHandler;
+import org.testingisdocumenting.webtau.server.registry.WebtauServerJournal;
+import org.testingisdocumenting.webtau.server.registry.WebtauServerJournalJettyHandler;
+import org.testingisdocumenting.webtau.server.registry.WebtauServersRegistry;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.util.LinkedHashMap;
@@ -30,7 +31,7 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStepOutputKeyValue.*;
-import static org.testingisdocumenting.webtau.server.WebtauServersRegistry.*;
+import static org.testingisdocumenting.webtau.server.registry.WebtauServersRegistry.*;
 
 /**
  * base for defining jetty based servers

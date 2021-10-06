@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.server.journal;
+package org.testingisdocumenting.webtau.server.registry;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;

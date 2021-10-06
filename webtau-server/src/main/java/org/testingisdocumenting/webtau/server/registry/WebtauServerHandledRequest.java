@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.server.journal;
+package org.testingisdocumenting.webtau.server.registry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class WebtauServerHandledRequest {
     public static final WebtauServerHandledRequest NULL = new WebtauServerHandledRequest();
@@ -87,5 +89,19 @@ public class WebtauServerHandledRequest {
 
     public long getElapsedTime() {
         return elapsedTime;
+    }
+
+    public Map<String, ?> toMap() {
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("method", method);
+        result.put("url", url);
+        result.put("requestType", requestType);
+        result.put("responseType", responseType);
+        result.put("capturedRequest", capturedRequest);
+        result.put("capturedResponse", capturedResponse);
+        result.put("startTime", startTime);
+        result.put("elapsedTime", elapsedTime);
+
+        return result;
     }
 }

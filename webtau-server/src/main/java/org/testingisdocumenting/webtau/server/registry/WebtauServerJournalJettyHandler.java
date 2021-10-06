@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.server.journal;
+package org.testingisdocumenting.webtau.server.registry;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
