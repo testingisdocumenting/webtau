@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.server.journal;
+package org.testingisdocumenting.webtau.server.registry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * collects server calls; waits on calls
  */
-public class WebtauServerJournal {
+public class WebtauServerJournal implements WebTauStepPayload {
     private final List<WebtauServerHandledRequest> handledRequestList;
+    private final ThreadLocal<Integer> testLocalRequestsStartIdx = ThreadLocal.withInitial(() -> 0);
 
     private final String serverId;
 
@@ -66,5 +67,25 @@ public class WebtauServerJournal {
 
     public String getServerId() {
         return serverId;
+    }
+
+    // each thread maintains a captured list
+    // so each individual test can capture the outputs related to the test
+    void resetTestLocalRequestsStartIdx() {
+        testLocalRequestsStartIdx.set(handledRequestList.size());
+    }
+
+    @Override
+    public Map<String, ?> toMap() {
+        List<? extends Map<String, ?>> testLocalCalls = handledRequestList.subList(testLocalRequestsStartIdx.get(), handledRequestList.size())
+                .stream()
+                .map(WebtauServerHandledRequest::toMap)
+                .collect(Collectors.toList());
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("serverId", serverId);
+        result.put("capturedCalls", testLocalCalls);
+
+        return result;
     }
 }

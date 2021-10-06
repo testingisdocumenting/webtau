@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.server.journal;
+package org.testingisdocumenting.webtau.server.registry;
 
 import org.testingisdocumenting.webtau.data.live.LiveValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;

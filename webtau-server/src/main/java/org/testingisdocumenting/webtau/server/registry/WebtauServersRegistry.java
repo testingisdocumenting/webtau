@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.server;
+package org.testingisdocumenting.webtau.server.registry;
 
+import org.testingisdocumenting.webtau.TestListener;
 import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
+import org.testingisdocumenting.webtau.reporter.TestResultPayload;
+import org.testingisdocumenting.webtau.reporter.WebTauTest;
+import org.testingisdocumenting.webtau.server.WebtauServer;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
-public class WebtauServersRegistry {
+public class WebtauServersRegistry implements TestListener {
     private static final Map<String, WebtauServer> serverById = new ConcurrentHashMap<>();
 
     static {
@@ -46,6 +53,21 @@ public class WebtauServersRegistry {
         serverById.remove(server.getId());
     }
 
+    @Override
+    public void beforeTestRun(WebTauTest test) {
+        serverById.values().forEach(server -> server.getJournal().resetTestLocalRequestsStartIdx());
+    }
+
+    @Override
+    public void afterTestRun(WebTauTest test) {
+        List<Map<String, ?>> serverJournals = serverById.values()
+                .stream()
+                .map(server -> server.getJournal().toMap())
+                .filter(journalMap -> !((List<?>) journalMap.get("capturedCalls")).isEmpty())
+                .collect(Collectors.toList());
+
+        test.addTestResultPayload(new TestResultPayload("servers", serverJournals));
+    }
     private static void stopServers() {
         serverById.values().stream()
                 .filter(WebtauServer::isRunning)
