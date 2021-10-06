@@ -35,6 +35,7 @@ import Loading from './loading/Loading';
 import { testSummaryDemo } from './details/TestSummary.demo';
 import { testCliBackgroundCallsDemo } from './details/cli/TestCliBackgroundCalls.demo';
 import { aggregatedOperationsPerformanceTableDemo } from './perf/AggregatedOperationsPerformanceTable.demo';
+import { testServerJournalsDemo } from './details/servers/TestServerJournals.demo';
 
 const registries = new Registries();
 
@@ -58,6 +59,8 @@ registries
   .registerAsRows('cli building blocks', cliBuildingBlocksDemo)
   .registerAsTabs('cli calls', testCliCallsDemo)
   .registerAsTabs('cli background calls', testCliBackgroundCallsDemo);
+
+registries.add('server').registerAsTabs('server calls', testServerJournalsDemo);
 
 registries.add('panels').registerAsTabs('test summary', testSummaryDemo);
 

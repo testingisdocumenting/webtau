@@ -24,7 +24,7 @@ def expectedHtml = "<body>\n" +
         "<p>hello</p>\n" +
         "</body>"
 
-scenario("proxy server") {
+sscenario("proxy server") {
     def proxyServer = server.proxy("test-proxy-server", staticServer.baseUrl, 0)
 
     http.get("${proxyServer.baseUrl}/hello.html") {

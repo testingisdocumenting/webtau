@@ -23,6 +23,7 @@ export interface WebTauTest {
   steps: WebTauStep[];
   httpCalls?: HttpCall[];
   cliCalls?: CliForegroundCall[];
+  servers?: WebTauServer[];
   cliBackground?: CliBackgroundCall[];
   metadata?: { [key: string]: string };
   startTime: number;
@@ -81,6 +82,23 @@ export interface HttpCall {
     passedPaths: string[];
   };
   test?: WebTauTest;
+}
+
+export interface WebTauServer {
+  serverId: string;
+  capturedCalls: WebTauServerCapturedCall[];
+}
+
+export interface WebTauServerCapturedCall {
+  method: string;
+  url: string;
+  requestType: string;
+  responseType: string;
+  capturedRequest: string;
+  capturedResponse: string;
+  startTime: number;
+  elapsedTime: number;
+  statusCode: number;
 }
 
 export interface FailedCodeSnippet {

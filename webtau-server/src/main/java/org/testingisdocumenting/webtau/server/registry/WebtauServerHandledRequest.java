@@ -32,6 +32,7 @@ public class WebtauServerHandledRequest {
     private final String capturedResponse;
     private final long startTime;
     private final long elapsedTime;
+    private final int statusCode;
 
     private WebtauServerHandledRequest() {
         method = "";
@@ -40,6 +41,7 @@ public class WebtauServerHandledRequest {
         responseType = "";
         startTime = 0;
         elapsedTime = 0;
+        statusCode = 0;
         capturedRequest = "[null handled request: captured request]";
         capturedResponse = "[null handled request: captured response]";
     }
@@ -51,6 +53,7 @@ public class WebtauServerHandledRequest {
                                       String capturedResponse) {
         this.method = request.getMethod();
         this.url = request.getRequestURI();
+        this.statusCode = response.getStatus();
         this.requestType = request.getContentType();
         this.responseType = response.getContentType();
         this.startTime = startTime;
@@ -96,12 +99,17 @@ public class WebtauServerHandledRequest {
         result.put("method", method);
         result.put("url", url);
         result.put("requestType", requestType);
-        result.put("responseType", responseType);
+        result.put("responseType", responseType != null ? responseType : "");
         result.put("capturedRequest", capturedRequest);
         result.put("capturedResponse", capturedResponse);
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
+        result.put("statusCode", 0);
 
         return result;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
     }
 }

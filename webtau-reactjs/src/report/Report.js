@@ -25,6 +25,7 @@ import StatusEnum from './StatusEnum';
 import PerformanceReport from './PerformanceReport';
 import TestCliCalls from './details/cli/TestCliCalls';
 import TestCliBackground from './details/cli/TestCliBackground';
+import { TestServerJournals } from './details/servers/TestServerJournals';
 
 class Report {
   static overallHttpCallTimeForTest(test) {
@@ -391,6 +392,10 @@ function additionalDetails(test) {
 
   if (test.hasOwnProperty('httpCalls') && test.httpCalls.length > 0) {
     details.push({ tabName: 'HTTP calls', component: TestHttpCalls });
+  }
+
+  if (test.hasOwnProperty('servers') && test.servers.length > 0) {
+    details.push({ tabName: 'Servers', component: TestServerJournals });
   }
 
   if (test.hasOwnProperty('cliCalls') && test.cliCalls.length > 0) {
