@@ -161,5 +161,3 @@ function Url({ httpCall }: HttpCallProps) {
     </div>
   );
 }
-
-export default HttpCallDetails;

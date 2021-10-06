@@ -41,38 +41,8 @@
     user-select: none;
 }
 
-.test-http-call > .method {
-    color: var(--webtau-text-light-color);
-    min-width: 50px;
-    text-align: right;
-    margin-right: 15px;
-    user-select: none;
-}
-
-.test-http-call > .status-code {
-    color: #867288;
-    margin-right: var(--webtau-spacing-double);
-    user-select: none;
-    text-align: right;
-}
-
 .test-http-call > .http-call-elapsed-time {
     user-select: none;
-}
-
-.test-http-call  > .url {
-    color: #6891ee;
-    max-width: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    margin-right: var(--webtau-spacing-double);
-    cursor: auto;
-}
-
-.test-http-call.expanded  > .url {
-    white-space: normal;
-    overflow: visible;
 }
 
 .test-http-call .http-payload {
