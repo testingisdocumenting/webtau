@@ -148,7 +148,7 @@ abstract public class WebtauJettyServer implements WebtauServer {
         server.addConnector(connector);
 
         Handler jettyHandler = createJettyHandler();
-        server.setHandler(new WebtauServerJournalJettyHandler(journal, jettyHandler));
+        server.setHandler(new WebtauServerJournalJettyHandler(journal, jettyHandler, autoAddToJournal()));
 
         try {
             server.start();

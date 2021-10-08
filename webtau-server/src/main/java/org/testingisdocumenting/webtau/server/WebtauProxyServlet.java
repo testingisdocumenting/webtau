@@ -16,24 +16,30 @@
 
 package org.testingisdocumenting.webtau.server;
 
+import org.eclipse.jetty.client.api.Response;
 import org.eclipse.jetty.proxy.ProxyServlet;
+import org.eclipse.jetty.util.Callback;
+import org.testingisdocumenting.webtau.server.registry.ContentCaptureRequestWrapper;
+import org.testingisdocumenting.webtau.server.registry.ContentCaptureResponseWrapper;
+import org.testingisdocumenting.webtau.server.registry.WebtauServerHandledRequest;
+import org.testingisdocumenting.webtau.server.registry.WebtauServerJournal;
+import org.testingisdocumenting.webtau.time.Time;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 
 public class WebtauProxyServlet extends ProxyServlet {
-    private String urlToProxy;
-    private String serverId;
+    private final WebtauServerJournal journal;
+    private final String urlToProxy;
+    private long startTime;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        urlToProxy = config.getInitParameter("urlToProxy");
-        serverId = config.getInitParameter("serverId");
+    public WebtauProxyServlet(WebtauServerJournal journal, String urlToProxy) {
+        this.journal = journal;
+        this.urlToProxy = urlToProxy;
     }
 
     @Override
@@ -42,11 +48,24 @@ public class WebtauProxyServlet extends ProxyServlet {
     }
 
     @Override
+    protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
+        super.onResponseContent(request, response, proxyResponse, buffer, offset, length, callback);
+        long endTime = Time.currentTimeMillis();
+
+        WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
+                startTime, endTime,
+                (ContentCaptureRequestWrapper) request,
+                (ContentCaptureResponseWrapper) response);
+        journal.registerCall(handledRequest);
+    }
+
+    @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Optional<WebtauServerOverride> override = WebtauServerGlobalOverrides.findOverride(serverId,
+        Optional<WebtauServerOverride> override = WebtauServerGlobalOverrides.findOverride(journal.getServerId(),
                 request.getMethod(),
                 request.getRequestURI());
 
+        startTime = Time.currentTimeMillis();
         if (override.isPresent()) {
             override.get().apply(request, response);
         } else {

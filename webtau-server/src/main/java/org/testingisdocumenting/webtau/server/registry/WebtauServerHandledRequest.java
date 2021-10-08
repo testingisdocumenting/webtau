@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.server.registry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -49,8 +50,8 @@ public class WebtauServerHandledRequest {
     public WebtauServerHandledRequest(HttpServletRequest request, HttpServletResponse response,
                                       long startTime,
                                       long endTime,
-                                      String capturedRequest,
-                                      String capturedResponse) {
+                                      ContentCaptureRequestWrapper requestWrapper,
+                                      ContentCaptureResponseWrapper responseWrapper) {
         this.method = request.getMethod();
         this.url = request.getRequestURI();
         this.statusCode = response.getStatus();
@@ -58,8 +59,9 @@ public class WebtauServerHandledRequest {
         this.responseType = response.getContentType();
         this.startTime = startTime;
         this.elapsedTime = endTime - startTime;
-        this.capturedRequest = capturedRequest;
-        this.capturedResponse = capturedResponse;
+
+        this.capturedRequest = extractContent(request.getContentType(), requestWrapper.getCaptureAsString());
+        this.capturedResponse = extractContent(response.getContentType(), responseWrapper.getCaptureAsString());
     }
 
     public String getMethod() {
@@ -104,12 +106,26 @@ public class WebtauServerHandledRequest {
         result.put("capturedResponse", capturedResponse);
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
-        result.put("statusCode", 0);
+        result.put("statusCode", statusCode);
 
         return result;
     }
 
     public int getStatusCode() {
         return statusCode;
+    }
+
+    private String extractContent(String contentType, String captureAsString) {
+        return isTextBasedContent(contentType) ?
+                captureAsString :
+                "[non text content]";
+    }
+
+    private static boolean isTextBasedContent(String contentType) {
+        return contentType != null && (
+                contentType.contains("text") ||
+                        contentType.contains("html") ||
+                        contentType.contains("json") ||
+                        contentType.contains("xml"));
     }
 }

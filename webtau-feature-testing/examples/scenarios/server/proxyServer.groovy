@@ -32,6 +32,19 @@ scenario("proxy server") {
     }
 }
 
+scenario("proxy server of fake server") {
+    def fakeServer = server.fake("fake-server",
+            server.router().put("/hello/:name", {request ->
+                server.response(200, [greeting: "hello ${request.param("name")}"])
+            }))
+
+    def proxyServer = server.proxy("test-proxy-fake-server", fakeServer.baseUrl, 0)
+
+    http.put("${proxyServer.baseUrl}/hello/world", [message: "welcome"]) {
+        greeting.should == "hello world"
+    }
+}
+
 scenario("slowed down proxy") {
     def slowDownServer = server.proxy("slow-proxy-server", staticServer.baseUrl)
     slowDownServer.markUnresponsive()
