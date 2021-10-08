@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.server;
 
+import org.eclipse.jetty.client.api.ContentProvider;
+import org.eclipse.jetty.client.api.Request;
 import org.eclipse.jetty.client.api.Response;
 import org.eclipse.jetty.proxy.ProxyServlet;
 import org.eclipse.jetty.util.Callback;
@@ -29,13 +31,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.Optional;
 
 public class WebtauProxyServlet extends ProxyServlet {
     private final WebtauServerJournal journal;
     private final String urlToProxy;
     private long startTime;
+    private ContentCaptureRequestWrapper requestWrapper;
 
     public WebtauProxyServlet(WebtauServerJournal journal, String urlToProxy) {
         this.journal = journal;
@@ -48,14 +50,22 @@ public class WebtauProxyServlet extends ProxyServlet {
     }
 
     @Override
+    protected ContentProvider proxyRequestContent(HttpServletRequest request, HttpServletResponse response, Request proxyRequest) throws IOException {
+        requestWrapper = new ContentCaptureRequestWrapper(request);
+        return super.proxyRequestContent(requestWrapper, response, proxyRequest);
+    }
+
+    @Override
     protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
-        super.onResponseContent(request, response, proxyResponse, buffer, offset, length, callback);
+        ContentCaptureResponseWrapper responseWrapper = new ContentCaptureResponseWrapper(response);
+
+        super.onResponseContent(requestWrapper, responseWrapper, proxyResponse, buffer, offset, length, callback);
         long endTime = Time.currentTimeMillis();
 
         WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
                 startTime, endTime,
-                (ContentCaptureRequestWrapper) request,
-                (ContentCaptureResponseWrapper) response);
+                requestWrapper,
+                responseWrapper);
         journal.registerCall(handledRequest);
     }
 
