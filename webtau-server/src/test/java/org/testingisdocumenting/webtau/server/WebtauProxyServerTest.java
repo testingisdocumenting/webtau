@@ -16,7 +16,9 @@
 
 package org.testingisdocumenting.webtau.server;
 
+import org.eclipse.jetty.util.log.Slf4jLog;
 import org.junit.Test;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.server.registry.WebtauServerHandledRequest;
 import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 
@@ -40,17 +42,17 @@ public class WebtauProxyServerTest {
                 });
 
                 WebtauServerHandledRequest handledRequest = proxyServer.getJournal().getLastHandledRequest();
-                actual(handledRequest.getUrl()).should(equal("/customer/id3"));
-                actual(handledRequest.getMethod()).should(equal("PUT"));
-                actual(handledRequest.getStatusCode()).should(equal(200));
+//                actual(handledRequest.getUrl()).should(equal("/customer/id3"));
+//                actual(handledRequest.getMethod()).should(equal("PUT"));
+//                actual(handledRequest.getStatusCode()).should(equal(200));
 
-                actual(handledRequest.getRequestType()).should(equal("application/json"));
-                actual(handledRequest.getCapturedRequest()).should(equal("{\"hello\":\"world\"}"));
+//                actual(handledRequest.getRequestType()).should(equal("application/json"));
+//                actual(handledRequest.getCapturedRequest()).should(equal("{\"hello\":\"world\"}"));
 
-                actual(handledRequest.getResponseType()).should(equal("application/json"));
+//                actual(handledRequest.getResponseType()).should(equal("application/json"));
                 actual(handledRequest.getCapturedResponse()).should(equal("{\"putId\":\"id3\"}"));
 
-                actual(handledRequest.getStartTime()).shouldBe(greaterThanOrEqual(0));
+//                actual(handledRequest.getStartTime()).shouldBe(greaterThanOrEqual(0));
             }
         }
     }
