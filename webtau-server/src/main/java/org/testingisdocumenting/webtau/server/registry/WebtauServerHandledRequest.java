@@ -116,9 +116,10 @@ public class WebtauServerHandledRequest {
     }
 
     private String extractContent(String contentType, String captureAsString) {
-        return isTextBasedContent(contentType) ?
-                captureAsString :
-                "[non text content]";
+        return captureAsString;
+//        return isTextBasedContent(contentType) ?
+//                captureAsString :
+//                "[non text content]";
     }
 
     private static boolean isTextBasedContent(String contentType) {
