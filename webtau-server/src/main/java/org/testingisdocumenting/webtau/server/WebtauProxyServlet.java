@@ -36,8 +36,7 @@ import java.util.Optional;
 public class WebtauProxyServlet extends ProxyServlet {
     private final WebtauServerJournal journal;
     private final String urlToProxy;
-    private long startTime;
-    private ContentCaptureRequestWrapper requestWrapper;
+    private final ThreadLocal<Long> startTime = new ThreadLocal<>();
 
     public WebtauProxyServlet(WebtauServerJournal journal, String urlToProxy) {
         this.journal = journal;
@@ -48,25 +47,29 @@ public class WebtauProxyServlet extends ProxyServlet {
     protected String rewriteTarget(HttpServletRequest clientRequest) {
         return urlToProxy + clientRequest.getRequestURI();
     }
+//
+//    @Override
+//    protected ContentProvider proxyRequestContent(HttpServletRequest request, HttpServletResponse response, Request proxyRequest) throws IOException {
+//        requestWrapper = new ContentCaptureRequestWrapper(request);
+//        return super.proxyRequestContent(requestWrapper, response, proxyRequest);
+//    }
+//
+//    @Override
+//    protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
+//        responseWrapper = new ContentCaptureResponseWrapper(response);
+//        super.onResponseContent(request, responseWrapper, proxyResponse, buffer, offset, length, callback);
+//    }
 
     @Override
-    protected ContentProvider proxyRequestContent(HttpServletRequest request, HttpServletResponse response, Request proxyRequest) throws IOException {
-        requestWrapper = new ContentCaptureRequestWrapper(request);
-        return super.proxyRequestContent(requestWrapper, response, proxyRequest);
-    }
-
-    @Override
-    protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
-        ContentCaptureResponseWrapper responseWrapper = new ContentCaptureResponseWrapper(response);
-
-        super.onResponseContent(requestWrapper, responseWrapper, proxyResponse, buffer, offset, length, callback);
+    protected void onProxyResponseSuccess(HttpServletRequest clientRequest, HttpServletResponse proxyResponse, Response serverResponse) {
         long endTime = Time.currentTimeMillis();
-
-        WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
-                startTime, endTime,
-                requestWrapper,
-                responseWrapper);
+        WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(clientRequest, proxyResponse,
+                0, endTime,
+                (ContentCaptureRequestWrapper) clientRequest,
+                (ContentCaptureResponseWrapper) proxyResponse);
         journal.registerCall(handledRequest);
+
+        super.onProxyResponseSuccess(clientRequest, proxyResponse, serverResponse);
     }
 
     @Override
@@ -75,11 +78,14 @@ public class WebtauProxyServlet extends ProxyServlet {
                 request.getMethod(),
                 request.getRequestURI());
 
-        startTime = Time.currentTimeMillis();
+        ContentCaptureRequestWrapper requestWrapper = new ContentCaptureRequestWrapper(request);
+        ContentCaptureResponseWrapper responseWrapper = new ContentCaptureResponseWrapper(response);
+
+        startTime.set(Time.currentTimeMillis());
         if (override.isPresent()) {
-            override.get().apply(request, response);
+            override.get().apply(requestWrapper, responseWrapper);
         } else {
-            super.service(request, response);
+            super.service(requestWrapper, responseWrapper);
         }
     }
 }
