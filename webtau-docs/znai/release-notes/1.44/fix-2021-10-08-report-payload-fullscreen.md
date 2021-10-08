@@ -1,0 +1,1 @@
+* Fix: HTTP JSON fullscreen payload alignment and colors

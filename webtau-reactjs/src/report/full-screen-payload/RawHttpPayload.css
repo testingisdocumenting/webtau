@@ -15,8 +15,10 @@
  */
 
 .raw-http-payload pre {
-    background-color: #fff;
+    background-color: var(--webtau-background-color);
     margin: 0;
+    border: none;
+    box-shadow: none;
     padding: 0;
 }
 
