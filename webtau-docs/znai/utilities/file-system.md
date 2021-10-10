@@ -7,9 +7,7 @@
 
 :include-file: doc-artifacts/snippets/fsFileContent/readFile.groovy {
   title: "validate file content",
-  startLine: "assert-file",
-  endLine: "assert-file",
-  excludeStartEnd: true
+  surroundedBy: "assert-file"
 }
 
 `fs.textContent` declares file content, but doesn't access it right away. 
@@ -17,27 +15,21 @@ Webtau reads file content when validation happens. Here is an example of waiting
 
 :include-file: doc-artifacts/snippets/fsFileContent/readFile.groovy {
   title: "wait for file content",
-  startLine: "wait-for-id",
-  endLine: "wait-for-id",
-  excludeStartEnd: true
+  surroundedBy: "wait-for-id"
 }
 
 Use `.data` to access actual file content for further processing  
 
 :include-file: doc-artifacts/snippets/fsFileContent/readFile.groovy {
   title: "access file content",
-  startLine: "actual-file-content",
-  endLine: "actual-file-content",
-  excludeStartEnd: true
+  surroundedBy: "actual-file-content"
 }
 
 Use `extractByRegexp` to extract content from a file by regular expression
 
 :include-file: doc-artifacts/snippets/fsFileContent/readFile.groovy {
   title: "extract file content",
-  startLine: "extract-id",
-  endLine: "extract-id",
-  excludeStartEnd: true,
+  surroundedBy: "extract-id",
   excludeRegexp: "statusCode"
 }
 
@@ -45,9 +37,7 @@ Use `replaceText` to replace text in place
 
 :include-file: doc-artifacts/snippets/fsFileContent/replaceFile.groovy {
   title: "replace file content",
-  startLine: "replace-text",
-  endLine: "replace-text",
-  excludeStartEnd: true
+  surroundedBy: "replace-text"
 }
 
 ```columns
@@ -75,15 +65,16 @@ right: :include-file: doc-artifacts/fs-content-after-replace-text.txt {title: "r
 # Archive
 
 :include-file: scenarios/fs/archive.groovy {
+  title: "zip a directory",
+  surroundedBy: "// zip",
+}
+
+:include-file: scenarios/fs/archive.groovy {
   title: "unzip a file",
-  startLine: "// unzip",
-  endLine: "// unzip",
-  excludeStartEnd: true
+  surroundedBy: "// unzip",
 }
 
 :include-file: scenarios/fs/archive.groovy {
   title: "untar a file",
-  startLine: "// untar",
-  endLine: "// untar",
-  excludeStartEnd: true
+  surroundedBy: "// untar",
 }
