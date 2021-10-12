@@ -317,6 +317,10 @@ public class WebTauConfig implements PrettyPrintable {
         return cachePath.getAsPath();
     }
 
+    public ConfigValue getCachePathValue() {
+        return cachePath;
+    }
+
     public Path getReportPath() {
         return fullPath(reportPath.getAsPath());
     }
