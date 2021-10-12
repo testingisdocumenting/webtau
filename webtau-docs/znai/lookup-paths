@@ -6,6 +6,7 @@
 ../../webtau-core-groovy/src/test/groovy
 ../../webtau-core/target/test-classes
 ../../webtau-groovy/src/main/groovy
+../../webtau-config/src/main/java
 ../../webtau-config-groovy/src/test/groovy
 ../../webtau-groovy-app/
 ../../webtau-groovy-app/src/main/groovy

@@ -1,0 +1,1 @@
+* Doc: document `cli` background command [wait timeout](cli/background-command#wait-timeout)

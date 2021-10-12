@@ -37,6 +37,22 @@ You can use `<<` instead of `.send` for extra syntax sugar:
   title: "use << as .send"
 }
 
+# Wait Timeout
+
+By default, webtau `waitTo` waits 5 seconds for a condition to become true.
+This value can be changed either globally by using `:identifier: waitTimeout {validationPath: "org/testingisdocumenting/webtau/cfg/WebTauConfig.java"}` config value
+
+```groovy {title: "webtau.cfg.groovy"}
+waitTimeout = 20000
+```
+
+To override wait timeout locally, use
+
+:include-file: scenarios/cli/outputWait.groovy {
+  title: "local timeout",
+  surroundedBy: "local-timeout"
+}
+
 # Working Dir
 
 Use `cli.workingDir` as a second parameter to `cli.runInBackground` to set a working dir:
