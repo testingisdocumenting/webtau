@@ -21,6 +21,10 @@ import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.Function;
+
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -39,27 +43,35 @@ public class Cache {
     }
 
     public <E> E get(String key) {
-        WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("getting cached value"), FROM, id(key)),
-                (r) -> tokenizedMessage(action("got cached value"), FROM, id(key), COLON, stringValue(r)),
-                () -> {
-                    Object value = fileBasedCache.get(key);
-                    if (value == null) {
-                        throw new AssertionError("can't find cached value by key: " + key);
-                    }
+        return getAsStep(key, Function.identity());
+    }
 
-                    return value;
-                });
-
-        return step.execute(StepReportOptions.SKIP_START);
+    public Path getAsPath(String key) {
+        return getAsStep(key, (v) -> Paths.get(v.toString()));
     }
 
     public void put(String key, Object value) {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("caching value"), AS, id(key), COLON, stringValue(value)),
                 () -> tokenizedMessage(action("cached value"), AS, id(key), COLON, stringValue(value)),
-                () -> fileBasedCache.put(key, value));
+                () -> fileBasedCache.put(key, CacheValueConverter.convertToCached(value)));
 
         step.execute(StepReportOptions.SKIP_START);
+    }
+
+    private <E, R> R getAsStep(String key, Function<E, R> converter) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("getting cached value"), FROM, id(key)),
+                (r) -> tokenizedMessage(action("got cached value"), FROM, id(key), COLON, stringValue(r)),
+                () -> {
+                    E value = fileBasedCache.get(key);
+                    if (value == null) {
+                        throw new AssertionError("can't find cached value by key: " + key);
+                    }
+
+                    return converter.apply(value);
+                });
+
+        return step.execute(StepReportOptions.SKIP_START);
     }
 }

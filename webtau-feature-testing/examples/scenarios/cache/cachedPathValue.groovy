@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cache;
+package scenarios.cache
 
-import java.nio.file.Path;
+// example
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-public class CachedValue<E> {
-    private final Cache cache;
-    private final String id;
+def deployDirCache = cache.value("deploy-dir")
 
-    public CachedValue(Cache cache, String id) {
-        this.cache = cache;
-        this.id = id;
-    }
-
-    public E get() {
-        return cache.get(id);
-    }
-
-    public Path getAsPath() {
-        return cache.getAsPath(id);
-    }
-
-    public void set(E value) {
-        cache.put(id, value);
-    }
+scenario("caching of path value") {
+    def path = fs.tempDir("my-dir")
+    deployDirCache.set(path)
 }
+
+scenario("accessing path value") {
+    def deployDir = deployDirCache.getAsPath()
+    fs.writeText(deployDir.resolve("file.txt"), "hello")
+}
+// example
