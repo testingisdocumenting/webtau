@@ -17,10 +17,11 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.handler.HandlerWrapper;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.util.resource.Resource;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -49,9 +50,12 @@ class WebtauStaticServer extends WebtauJettyServer {
     @Override
     protected Handler createJettyHandler() {
         ResourceHandler handler = new WebtauServerStaticJettyHandler(serverId);
-        handler.setBaseResource(Resource.newResource(path));
-
-        return handler;
+        try {
+            handler.setBaseResource(Resource.newResource(path.toRealPath()));
+            return handler;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     @Override

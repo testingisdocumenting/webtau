@@ -1,0 +1,1 @@
+* static server serves from symlink by resolving it first
