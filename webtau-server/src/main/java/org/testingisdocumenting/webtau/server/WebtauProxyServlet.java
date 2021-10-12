@@ -54,11 +54,12 @@ public class WebtauProxyServlet extends ProxyServlet {
 //        return super.proxyRequestContent(requestWrapper, response, proxyRequest);
 //    }
 //
-//    @Override
-//    protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
-//        responseWrapper = new ContentCaptureResponseWrapper(response);
-//        super.onResponseContent(request, responseWrapper, proxyResponse, buffer, offset, length, callback);
-//    }
+    @Override
+    protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
+        super.onResponseContent(request, response, proxyResponse, buffer, offset, length, callback);
+
+        System.out.println("@@@ response wrapper: " + ((ContentCaptureResponseWrapper)response).getCaptureAsString());
+    }
 
     @Override
     protected void onProxyResponseSuccess(HttpServletRequest clientRequest, HttpServletResponse proxyResponse, Response serverResponse) {
