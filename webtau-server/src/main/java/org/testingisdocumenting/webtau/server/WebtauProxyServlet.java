@@ -52,7 +52,6 @@ public class WebtauProxyServlet extends ProxyServlet {
     protected ContentProvider proxyRequestContent(HttpServletRequest request, HttpServletResponse response, Request proxyRequest) throws IOException {
         ContentProvider contentProvider = super.proxyRequestContent(request, response, proxyRequest);
         ContentCaptureRequestWrapper captureRequestWrapper = (ContentCaptureRequestWrapper) request;
-        System.out.println("### " + captureRequestWrapper.getCaptureAsString());
 
         return contentProvider;
     }
@@ -61,6 +60,7 @@ public class WebtauProxyServlet extends ProxyServlet {
     protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
         super.onResponseContent(request, response, proxyResponse, buffer, offset, length, callback);
 
+        System.out.println("### request wrapper: " + ((ContentCaptureRequestWrapper) request).getCaptureAsString());
         System.out.println("@@@ response wrapper: " + ((ContentCaptureResponseWrapper)response).getCaptureAsString());
     }
 
