@@ -61,7 +61,7 @@ public class WebtauProxyServerTest {
         WebtauRouter router = new WebtauRouter("customers-fail");
         router.put("/customer/{id}", (request) -> server.response(500, null));
 
-        try (WebtauServer restServer = server.fake("router-crud-for-proxy", router)) {
+        try (WebtauServer restServer = server.fake("router-crud-for-proxy-fail", router)) {
             try (WebtauServer proxyServer = server.proxy("proxy-for-journal", restServer.getBaseUrl())) {
                 http.put(proxyServer.getBaseUrl() + "/customer/id3", aMapOf("hello", "world"), (header, body) -> {
                     header.statusCode().should(equal(500));
