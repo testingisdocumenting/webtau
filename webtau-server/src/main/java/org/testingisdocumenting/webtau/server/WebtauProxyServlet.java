@@ -62,6 +62,8 @@ public class WebtauProxyServlet extends ProxyServlet {
 
         System.out.println("### request wrapper: " + ((ContentCaptureRequestWrapper) request).getCaptureAsString());
         System.out.println("@@@ response wrapper: " + ((ContentCaptureResponseWrapper)response).getCaptureAsString());
+        System.out.println("--- url: " + request.getRequestURI());
+        System.out.println("--- type: " + response.getContentType());
     }
 
     @Override
