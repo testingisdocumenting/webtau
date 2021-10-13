@@ -58,7 +58,7 @@ public class WebtauProxyServerTest {
 
     @Test
     public void shouldCaptureRequestResponseBrokenServer()  {
-        WebtauRouter router = new WebtauRouter("customers");
+        WebtauRouter router = new WebtauRouter("customers-fail");
         router.put("/customer/{id}", (request) -> server.response(500, null));
 
         try (WebtauServer restServer = server.fake("router-crud-for-proxy", router)) {
