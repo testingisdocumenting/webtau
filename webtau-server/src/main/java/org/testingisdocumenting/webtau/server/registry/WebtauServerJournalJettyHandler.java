@@ -29,12 +29,10 @@ import java.io.IOException;
 public class WebtauServerJournalJettyHandler implements Handler {
     private final WebtauServerJournal journal;
     private final Handler delegate;
-    private final boolean addEntriesToJournal;
 
-    public WebtauServerJournalJettyHandler(WebtauServerJournal journal, Handler delegate, boolean addEntriesToJournal) {
+    public WebtauServerJournalJettyHandler(WebtauServerJournal journal, Handler delegate) {
         this.journal = journal;
         this.delegate = delegate;
-        this.addEntriesToJournal = addEntriesToJournal;
     }
 
     @Override
@@ -45,20 +43,12 @@ public class WebtauServerJournalJettyHandler implements Handler {
 
         try {
             delegate.handle(uri, baseRequest, captureRequestWrapper, captureResponseWrapper);
-
-            // for proxy server captured response here is empty
-            // so we capture in the servlet handler
-            //
-            if (!addEntriesToJournal) {
-                return;
-            }
-
             long endTime = Time.currentTimeMillis();
 
             WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
                     startTime, endTime,
-                    captureRequestWrapper,
-                    captureResponseWrapper);
+                    captureRequestWrapper.getCaptureAsString(),
+                    captureResponseWrapper.getCaptureAsString());
             journal.registerCall(handledRequest);
         } finally {
             captureResponseWrapper.close();

@@ -50,8 +50,8 @@ public class WebtauServerHandledRequest {
     public WebtauServerHandledRequest(HttpServletRequest request, HttpServletResponse response,
                                       long startTime,
                                       long endTime,
-                                      ContentCaptureRequestWrapper requestWrapper,
-                                      ContentCaptureResponseWrapper responseWrapper) {
+                                      String capturedRequest,
+                                      String capturedResponse) {
         this.method = request.getMethod();
         this.url = request.getRequestURI();
         this.statusCode = response.getStatus();
@@ -60,8 +60,8 @@ public class WebtauServerHandledRequest {
         this.startTime = startTime;
         this.elapsedTime = endTime - startTime;
 
-        this.capturedRequest = extractContent(request.getContentType(), requestWrapper.getCaptureAsString());
-        this.capturedResponse = extractContent(response.getContentType(), responseWrapper.getCaptureAsString());
+        this.capturedRequest = extractContent(request.getContentType(), capturedRequest);
+        this.capturedResponse = extractContent(response.getContentType(), capturedResponse);
     }
 
     public String getMethod() {
@@ -116,10 +116,9 @@ public class WebtauServerHandledRequest {
     }
 
     private String extractContent(String contentType, String captureAsString) {
-        return captureAsString;
-//        return isTextBasedContent(contentType) ?
-//                captureAsString :
-//                "[non text content]";
+        return isTextBasedContent(contentType) ?
+                captureAsString :
+                "[non text content]";
     }
 
     private static boolean isTextBasedContent(String contentType) {
