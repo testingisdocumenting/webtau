@@ -42,14 +42,14 @@ public class WebtauProxyServerTest {
                 });
 
                 WebtauServerHandledRequest handledRequest = proxyServer.getJournal().getLastHandledRequest();
-//                actual(handledRequest.getUrl()).should(equal("/customer/id3"));
-//                actual(handledRequest.getMethod()).should(equal("PUT"));
-//                actual(handledRequest.getStatusCode()).should(equal(200));
+                actual(handledRequest.getUrl()).should(equal("/customer/id3"));
+                actual(handledRequest.getMethod()).should(equal("PUT"));
+                actual(handledRequest.getStatusCode()).should(equal(200));
 
-//                actual(handledRequest.getRequestType()).should(equal("application/json"));
-//                actual(handledRequest.getCapturedRequest()).should(equal("{\"hello\":\"world\"}"));
+                actual(handledRequest.getRequestType()).should(equal("application/json"));
+                actual(handledRequest.getCapturedRequest()).should(equal("{\"hello\":\"world\"}"));
 
-//                actual(handledRequest.getResponseType()).should(equal("application/json"));
+                actual(handledRequest.getResponseType()).should(equal("application/json"));
                 actual(handledRequest.getCapturedResponse()).should(equal("{\"putId\":\"id3\"}"));
 
 //                actual(handledRequest.getStartTime()).shouldBe(greaterThanOrEqual(0));

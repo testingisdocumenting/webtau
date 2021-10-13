@@ -64,16 +64,17 @@ public class WebtauProxyServlet extends ProxyServlet {
         System.out.println("@@@ response wrapper: " + ((ContentCaptureResponseWrapper)response).getCaptureAsString());
         System.out.println("--- url: " + request.getRequestURI());
         System.out.println("--- type: " + response.getContentType());
+
+        WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
+                0, 0, // TODO time
+                (ContentCaptureRequestWrapper) request,
+                (ContentCaptureResponseWrapper) response);
+        journal.registerCall(handledRequest);
     }
 
     @Override
     protected void onProxyResponseSuccess(HttpServletRequest clientRequest, HttpServletResponse proxyResponse, Response serverResponse) {
         long endTime = Time.currentTimeMillis();
-        WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(clientRequest, proxyResponse,
-                0, endTime,
-                (ContentCaptureRequestWrapper) clientRequest,
-                (ContentCaptureResponseWrapper) proxyResponse);
-        journal.registerCall(handledRequest);
 
         super.onProxyResponseSuccess(clientRequest, proxyResponse, serverResponse);
     }
