@@ -41,6 +41,12 @@ public class WebtauProxyServerTest {
                     body.get("putId").should(equal("id3"));
                 });
 
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
                 WebtauServerHandledRequest handledRequest = proxyServer.getJournal().getLastHandledRequest();
                 actual(handledRequest.getUrl()).should(equal("/customer/id3"));
                 actual(handledRequest.getMethod()).should(equal("PUT"));
