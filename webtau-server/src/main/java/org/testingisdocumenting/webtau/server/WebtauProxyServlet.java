@@ -47,13 +47,16 @@ public class WebtauProxyServlet extends ProxyServlet {
     protected String rewriteTarget(HttpServletRequest clientRequest) {
         return urlToProxy + clientRequest.getRequestURI();
     }
-//
-//    @Override
-//    protected ContentProvider proxyRequestContent(HttpServletRequest request, HttpServletResponse response, Request proxyRequest) throws IOException {
-//        requestWrapper = new ContentCaptureRequestWrapper(request);
-//        return super.proxyRequestContent(requestWrapper, response, proxyRequest);
-//    }
-//
+
+    @Override
+    protected ContentProvider proxyRequestContent(HttpServletRequest request, HttpServletResponse response, Request proxyRequest) throws IOException {
+        ContentProvider contentProvider = super.proxyRequestContent(request, response, proxyRequest);
+        ContentCaptureRequestWrapper captureRequestWrapper = (ContentCaptureRequestWrapper) request;
+        System.out.println("### " + captureRequestWrapper.getCaptureAsString());
+
+        return contentProvider;
+    }
+
     @Override
     protected void onResponseContent(HttpServletRequest request, HttpServletResponse response, Response proxyResponse, byte[] buffer, int offset, int length, Callback callback) {
         super.onResponseContent(request, response, proxyResponse, buffer, offset, length, callback);
