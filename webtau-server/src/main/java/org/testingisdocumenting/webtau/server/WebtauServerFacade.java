@@ -60,6 +60,10 @@ public class WebtauServerFacade {
             return response.text(statusCode, body.toString());
         }
 
+        if (body == null) {
+            return response.text(statusCode, "");
+        }
+
         return response.json(statusCode, body);
     }
 

@@ -17,8 +17,11 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.eclipse.jetty.client.api.Response;
+import org.eclipse.jetty.client.api.Result;
 import org.eclipse.jetty.proxy.AsyncMiddleManServlet;
+import org.eclipse.jetty.util.Callback;
 import org.testingisdocumenting.webtau.server.registry.ContentCaptureRequestWrapper;
+import org.testingisdocumenting.webtau.server.registry.ContentCaptureResponseWrapper;
 import org.testingisdocumenting.webtau.server.registry.WebtauServerHandledRequest;
 import org.testingisdocumenting.webtau.server.registry.WebtauServerJournal;
 import org.testingisdocumenting.webtau.time.Time;
@@ -50,29 +53,56 @@ public class WebtauProxyServlet extends AsyncMiddleManServlet {
     }
 
     @Override
-    protected ProxyWriter newProxyWriteListener(HttpServletRequest clientRequest, Response proxyResponse) {
-        return super.newProxyWriteListener(clientRequest, proxyResponse);
-    }
+    protected Response.CompleteListener newProxyResponseListener(HttpServletRequest clientRequest, HttpServletResponse proxyResponse) {
+        ProxyResponseListener original = (ProxyResponseListener) super.newProxyResponseListener(clientRequest, proxyResponse);
+        List<ByteBuffer> outputCopies = new ArrayList<>();
 
-    @Override
-    protected ContentTransformer newServerResponseContentTransformer(HttpServletRequest clientRequest, HttpServletResponse proxyResponse, Response serverResponse) {
-        List<ByteBuffer> copies = new ArrayList<>();
+        return new ProxyResponseListener(clientRequest, proxyResponse) {
+            @Override
+            public void onBegin(Response serverResponse) {
+                original.onBegin(serverResponse);
+            }
 
-        return (input, finished, output) -> {
-            ByteBuffer copy = ByteBuffer.allocate(input.remaining());
-            copy.put(input).flip();
-            input.rewind();
-            copies.add(copy);
+            @Override
+            public void onHeaders(Response serverResponse) {
+                original.onHeaders(serverResponse);
+            }
 
-            output.add(input);
+            @Override
+            public void onContent(Response serverResponse, ByteBuffer content, Callback callback) {
+                ByteBuffer copy = ByteBuffer.allocate(content.remaining());
+                copy.put(content).flip();
+                content.rewind();
+                outputCopies.add(copy);
 
-            if (finished) {
+                original.onContent(serverResponse, content, callback);
+            }
+
+            @Override
+            public void onSuccess(Response serverResponse) {
+                original.onSuccess(serverResponse);
+            }
+
+            @Override
+            public void onComplete(Result result) {
                 WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(clientRequest, proxyResponse,
                         (Long) clientRequest.getAttribute(START_TIME_ATTR_KEY),
                         Time.currentTimeMillis(),
                         ((ContentCaptureRequestWrapper) clientRequest).getCaptureAsString(),
-                        extractTextFromOutputs(copies));
+                        extractTextFromOutputs(outputCopies));
                 journal.registerCall(handledRequest);
+
+                original.onComplete(result);
+            }
+
+            @Override
+            public void succeeded() {
+                original.succeeded();
+            }
+
+            @Override
+            public void failed(Throwable failure) {
+                original.failed(failure);
             }
         };
     }
@@ -93,12 +123,13 @@ public class WebtauProxyServlet extends AsyncMiddleManServlet {
                 request.getRequestURI());
 
         ContentCaptureRequestWrapper requestWrapper = new ContentCaptureRequestWrapper(request);
-        request.setAttribute(START_TIME_ATTR_KEY, Time.currentTimeMillis());
+        ContentCaptureResponseWrapper responseWrapper = new ContentCaptureResponseWrapper(response);
+        requestWrapper.setAttribute(START_TIME_ATTR_KEY, Time.currentTimeMillis());
 
         if (override.isPresent()) {
-            override.get().apply(requestWrapper, response);
+            override.get().apply(requestWrapper, responseWrapper);
         } else {
-            super.service(requestWrapper, response);
+            super.service(requestWrapper, responseWrapper);
         }
     }
 }

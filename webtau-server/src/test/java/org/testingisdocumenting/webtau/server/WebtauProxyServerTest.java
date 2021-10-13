@@ -29,7 +29,7 @@ import static org.testingisdocumenting.webtau.server.WebtauServerFacade.*;
 
 public class WebtauProxyServerTest {
     @Test
-    public void shouldCaptureRequestResponse()  {
+    public void shouldCaptureRequestResponseSuccessful()  {
         WebtauRouter router = new WebtauRouter("customers");
         router.put("/customer/{id}", (request) -> server.response(aMapOf("putId", request.param("id"))));
 
@@ -49,6 +49,34 @@ public class WebtauProxyServerTest {
 
                 actual(handledRequest.getResponseType()).should(equal("application/json"));
                 actual(handledRequest.getCapturedResponse()).should(equal("{\"putId\":\"id3\"}"));
+
+                actual(handledRequest.getStartTime()).shouldBe(greaterThanOrEqual(0));
+                actual(handledRequest.getElapsedTime()).shouldBe(greaterThanOrEqual(0));
+            }
+        }
+    }
+
+    @Test
+    public void shouldCaptureRequestResponseBrokenServer()  {
+        WebtauRouter router = new WebtauRouter("customers");
+        router.put("/customer/{id}", (request) -> server.response(500, null));
+
+        try (WebtauServer restServer = server.fake("router-crud-for-proxy", router)) {
+            try (WebtauServer proxyServer = server.proxy("proxy-for-journal", restServer.getBaseUrl())) {
+                http.put(proxyServer.getBaseUrl() + "/customer/id3", aMapOf("hello", "world"), (header, body) -> {
+                    header.statusCode().should(equal(500));
+                });
+
+                WebtauServerHandledRequest handledRequest = proxyServer.getJournal().getLastHandledRequest();
+                actual(handledRequest.getUrl()).should(equal("/customer/id3"));
+                actual(handledRequest.getMethod()).should(equal("PUT"));
+                actual(handledRequest.getStatusCode()).should(equal(500));
+
+                actual(handledRequest.getRequestType()).should(equal("application/json"));
+                actual(handledRequest.getCapturedRequest()).should(equal("{\"hello\":\"world\"}"));
+
+                actual(handledRequest.getResponseType()).should(equal("text/plain"));
+                actual(handledRequest.getCapturedResponse()).should(equal(""));
 
                 actual(handledRequest.getStartTime()).shouldBe(greaterThanOrEqual(0));
                 actual(handledRequest.getElapsedTime()).shouldBe(greaterThanOrEqual(0));
