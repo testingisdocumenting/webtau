@@ -5,6 +5,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 4
     }
+  }, {
+    "scenario" : "wait for output with local timeout",
+    "shortContainerId" : "outputWait.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
   } ],
   "exitCode" : 0
 }
