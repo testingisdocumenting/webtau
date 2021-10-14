@@ -25,6 +25,11 @@ export function stepsDemo(registry: Registry) {
   registry.add('with children', () => <Step step={withChildren()} isTopLevel={true} />);
   registry.add('rainbow', () => <Step step={rainbow()} isTopLevel={true} />);
   registry.add('with key value input', () => <Step step={withKeyValueInput()} isTopLevel={true} />);
+  registry.add('with key value output', () => <Step step={withKeyValueOutput()} isTopLevel={true} />);
+  registry.add('with key value input output', () => <Step step={withKeyValueInputAndOutput()} isTopLevel={true} />);
+  registry.add('with key value empty input output', () => (
+    <Step step={withKeyValueEmptyInputAndOutput()} isTopLevel={true} />
+  ));
 }
 
 function noChildren() {
@@ -124,6 +129,32 @@ function withChildren(): WebTauStep {
   };
 }
 
+function withKeyValueInputAndOutput() {
+  return {
+    message: [
+      { type: 'action', value: 'set' },
+      { type: 'id', value: 'url' },
+    ],
+    startTime: 1621811973852,
+    elapsedTime: 0,
+    input: { type: 'WebTauStepInputKeyValue', data: { source: 'manual', url: 'http://localhost:64934', cost: 150 } },
+    output: { type: 'WebTauStepOutputKeyValue', data: { port: 3473 } },
+  };
+}
+
+function withKeyValueEmptyInputAndOutput() {
+  return {
+    message: [
+      { type: 'action', value: 'set' },
+      { type: 'id', value: 'url' },
+    ],
+    startTime: 1621811973852,
+    elapsedTime: 0,
+    input: { type: 'WebTauStepInputKeyValue', data: {} },
+    output: { type: 'WebTauStepOutputKeyValue', data: {} },
+  };
+}
+
 function withKeyValueInput() {
   return {
     message: [
@@ -133,5 +164,17 @@ function withKeyValueInput() {
     startTime: 1621811973852,
     elapsedTime: 0,
     input: { type: 'WebTauStepInputKeyValue', data: { source: 'manual', url: 'http://localhost:64934', cost: 150 } },
+  };
+}
+
+function withKeyValueOutput() {
+  return {
+    message: [
+      { type: 'action', value: 'set' },
+      { type: 'id', value: 'url' },
+    ],
+    startTime: 1621811973852,
+    elapsedTime: 0,
+    output: { type: 'WebTauStepOutputKeyValue', data: { port: 3473 } },
   };
 }

@@ -420,6 +420,13 @@ public class WebTauStep {
             result.put("input", inputMap);
         }
 
+        if (output != WebTauStepOutput.EMPTY) {
+            Map<String, Object> outputMap = new LinkedHashMap<>();
+            outputMap.put("type", output.getClass().getSimpleName());
+            outputMap.put("data", output.toMap());
+            result.put("output", outputMap);
+        }
+
         return result;
     }
 
