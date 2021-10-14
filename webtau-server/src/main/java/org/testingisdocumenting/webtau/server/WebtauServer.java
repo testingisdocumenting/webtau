@@ -43,6 +43,10 @@ public interface WebtauServer extends AutoCloseable {
         WebTauConfig.getCfg().setBaseUrl("server-" + getId(), getBaseUrl());
     }
 
+    default boolean autoAddToJournal() {
+        return true;
+    }
+
     @Override
     default void close() {
         if (isRunning()) {

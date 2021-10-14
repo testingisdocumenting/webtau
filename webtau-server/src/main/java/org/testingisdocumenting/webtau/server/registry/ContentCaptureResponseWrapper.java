@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import java.io.*;
 
-class ContentCaptureResponseWrapper extends HttpServletResponseWrapper {
+public class ContentCaptureResponseWrapper extends HttpServletResponseWrapper {
     private final HttpServletResponse response;
     private final ByteArrayOutputStream capture;
 
@@ -110,7 +110,11 @@ class ContentCaptureResponseWrapper extends HttpServletResponseWrapper {
         }
     }
 
-    public String getCaptureAsString() throws IOException {
-        return new String(getCaptureAsBytes(), getCharacterEncoding());
+    public String getCaptureAsString() {
+        try {
+            return new String(getCaptureAsBytes(), getCharacterEncoding());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

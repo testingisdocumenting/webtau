@@ -45,18 +45,10 @@ public class WebtauServerJournalJettyHandler implements Handler {
             delegate.handle(uri, baseRequest, captureRequestWrapper, captureResponseWrapper);
             long endTime = Time.currentTimeMillis();
 
-            String capturedRequest = isTextBasedContent(request.getContentType()) ?
-                    captureRequestWrapper.getCaptureAsString():
-                    "[non text content]";
-
-            String capturedResponse = isTextBasedContent(response.getContentType()) ?
-                    captureResponseWrapper.getCaptureAsString():
-                    "[non text content]";
-
             WebtauServerHandledRequest handledRequest = new WebtauServerHandledRequest(request, response,
                     startTime, endTime,
-                    capturedRequest,
-                    capturedResponse);
+                    captureRequestWrapper.getCaptureAsString(),
+                    captureResponseWrapper.getCaptureAsString());
             journal.registerCall(handledRequest);
         } finally {
             captureResponseWrapper.close();

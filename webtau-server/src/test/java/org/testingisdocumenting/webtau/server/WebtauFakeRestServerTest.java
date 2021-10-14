@@ -56,7 +56,7 @@ public class WebtauFakeRestServerTest {
                 .delete("/customer/{id}", (request) -> server.response(aMapOf("deleteId", request.param(("id")))))
                 .patch("/customer/{id}", (request) -> server.response(aMapOf("patchId", request.param(("id")))));
 
-        try (WebtauFakeRestServer restServer = server.fake("route-crud", router)) {
+        try (WebtauServer restServer = server.fake("route-crud", router)) {
             http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
                 body.get("getId").should(equal("11"));
             });
@@ -88,7 +88,7 @@ public class WebtauFakeRestServerTest {
                 .delete("/customer/{id}", (request) -> server.response(203, aMapOf("deleteId", request.param(("id")))))
                 .patch("/customer/{id}", (request) -> server.response(203, aMapOf("patchId", request.param(("id")))));
 
-        try (WebtauFakeRestServer restServer = server.fake("route-crud-status-code", router)) {
+        try (WebtauServer restServer = server.fake("route-crud-status-code", router)) {
             http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
                 header.statusCode().should(equal(203));
                 body.get("getId").should(equal("11"));
@@ -120,8 +120,6 @@ public class WebtauFakeRestServerTest {
     public void shouldPreventFromRegisteringSamePath() {
         WebtauRouter router = server.router("customers");
         router.get("/customer/{id}", (request) -> server.response(aMapOf("id", request.param("id"))));
-
-        WebtauFakeRestServer restServer = new WebtauFakeRestServer("route-crud-duplicate-check", 0, router);
 
         code(() ->
                 router.get("/customer/{id}", (request) -> server.response(aMapOf("id", request.param("id"))))
