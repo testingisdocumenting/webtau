@@ -60,6 +60,10 @@ public class WebtauServerFacade {
             return response.text(statusCode, body.toString());
         }
 
+        if (body == null) {
+            return response.text(statusCode, "");
+        }
+
         return response.json(statusCode, body);
     }
 
@@ -139,7 +143,7 @@ public class WebtauServerFacade {
      * @return server instance
      * @see WebtauRouter
      */
-    public WebtauFakeRestServer fake(String serverId, int port) {
+    public WebtauServer fake(String serverId, int port) {
         WebtauFakeRestServer server = new WebtauFakeRestServer(serverId, port);
         server.start();
 
@@ -152,7 +156,7 @@ public class WebtauServerFacade {
      * @return server instance
      * @see WebtauRouter
      */
-    public WebtauFakeRestServer fake(String serverId) {
+    public WebtauServer fake(String serverId) {
         return fake(serverId, 0);
     }
 
@@ -164,7 +168,7 @@ public class WebtauServerFacade {
      * @return server instance
      * @see WebtauRouter
      */
-    public WebtauFakeRestServer fake(String serverId, int port, WebtauRouter router) {
+    public WebtauServer fake(String serverId, int port, WebtauRouter router) {
         WebtauFakeRestServer server = new WebtauFakeRestServer(serverId, port, router);
         server.start();
 
@@ -178,7 +182,7 @@ public class WebtauServerFacade {
      * @return server instance
      * @see WebtauRouter
      */
-    public WebtauFakeRestServer fake(String serverId, WebtauRouter router) {
+    public WebtauServer fake(String serverId, WebtauRouter router) {
         return fake(serverId, 0, router);
     }
 

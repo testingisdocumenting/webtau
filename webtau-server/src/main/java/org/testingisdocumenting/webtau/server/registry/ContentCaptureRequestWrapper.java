@@ -24,7 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-class ContentCaptureRequestWrapper extends HttpServletRequestWrapper {
+public class ContentCaptureRequestWrapper extends HttpServletRequestWrapper {
     private final HttpServletRequest request;
     private final ByteArrayOutputStream capture;
 
@@ -37,7 +37,7 @@ class ContentCaptureRequestWrapper extends HttpServletRequestWrapper {
     }
 
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
         if (input != null) {
             return input;
         }
@@ -101,7 +101,11 @@ class ContentCaptureRequestWrapper extends HttpServletRequestWrapper {
         }
     }
 
-    public String getCaptureAsString() throws IOException {
-        return new String(getCaptureAsBytes(), getCharacterEncoding());
+    public String getCaptureAsString() {
+        try {
+            return new String(getCaptureAsBytes(), getCharacterEncoding());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

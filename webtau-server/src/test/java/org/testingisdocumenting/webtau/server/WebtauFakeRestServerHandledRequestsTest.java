@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.junit.Test;
+import org.testingisdocumenting.webtau.server.registry.WebtauServerHandledRequest;
 import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -31,7 +32,7 @@ public class WebtauFakeRestServerHandledRequestsTest {
                 .post("/customer/{id}", (request) -> server.response(aMapOf("postId", request.param("id"))))
                 .put("/customer/{id}", (request) -> server.response(aMapOf("putId", request.param("id"))));
 
-        try (WebtauFakeRestServer restServer = server.fake("router-crud-journal", router)) {
+        try (WebtauServer restServer = server.fake("router-crud-journal", router)) {
             Thread thread = new Thread(() -> {
                 http.get(restServer.getBaseUrl() + "/customer/id3", (header, body) -> {
                     body.get("getId").should(equal("id3"));
@@ -53,7 +54,7 @@ public class WebtauFakeRestServerHandledRequestsTest {
         WebtauRouter router = new WebtauRouter("customers");
         router.post("/customer", (request) -> server.response(null));
 
-        try (WebtauFakeRestServer restServer = server.fake("router-crud-journal-request", router)) {
+        try (WebtauServer restServer = server.fake("router-crud-journal-request", router)) {
             http.post(restServer.getBaseUrl() + "/customer", aMapOf("name", "new name"));
 
             actual(restServer.getJournal().getLastHandledRequest()
@@ -65,11 +66,12 @@ public class WebtauFakeRestServerHandledRequestsTest {
     public void shouldCaptureResponse() {
         WebtauRouter router = new WebtauRouter("customers");
         router.get("/customer/{id}", (request) -> server.response(aMapOf("getId", request.param("id"))));
-        try (WebtauFakeRestServer restServer = server.fake("router-crud-journal-response", router)) {
+        try (WebtauServer restServer = server.fake("router-crud-journal-response", router)) {
             http.get(restServer.getBaseUrl() + "/customer/id3");
 
-            actual(restServer.getJournal().getLastHandledRequest()
-                    .getCapturedResponse()).should(equal("{\"getId\":\"id3\"}"));
+            WebtauServerHandledRequest handledRequest = restServer.getJournal().getLastHandledRequest();
+            actual(handledRequest.getStatusCode()).should(equal(200));
+            actual(handledRequest.getCapturedResponse()).should(equal("{\"getId\":\"id3\"}"));
         }
     }
 }
