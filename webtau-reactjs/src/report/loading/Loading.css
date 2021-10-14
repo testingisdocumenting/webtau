@@ -15,7 +15,9 @@
  */
 
 .webtau-loading {
-    background-color: #EEE;
+    background-color: var(--webtau-background-color);
+    color: var(--webtau-text-color);
+
     display: flex;
     flex-direction: column;
     align-items: center;
