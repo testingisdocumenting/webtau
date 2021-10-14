@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Context Definition</h1></header>
-<p>Persona is defined with persona . Persona can be created in place or in centralized place package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Per persona config section let you define or override any config value, including timeouts, browser preferences, etc email = &quot;default@email.send&quot; personas { Alice { email = &quot;alice@email.send&quot; } Bob { email = &quot;bob@email.send&quot; } } Snippet from above example to show how to access config values and payload def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override</p>
+<p>Persona is defined with persona . Persona can be created in place or in centralized place package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Per persona config section let you define or override any config value, including timeouts, browser preferences, etc email = &quot;default@email.send&quot; customValue = 100 personas { Alice { email = &quot;alice@email.send&quot; customValue = 105 } Bob { email = &quot;bob@email.send&quot; customValue = 110 } } Snippet from above example to show how to access config values and payload def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override</p>
 </article>
 
 <article>
@@ -213,7 +213,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "email = \"default@email.send\"\n\npersonas {\n    Alice {\n        email = \"alice@email.send\"\n    }\n\n    Bob {\n        email = \"bob@email.send\"\n    }\n}",
+        "snippet" : "email = \"default@email.send\"\ncustomValue = 100\n\npersonas {\n    Alice {\n        email = \"alice@email.send\"\n        customValue = 105\n    }\n\n    Bob {\n        email = \"bob@email.send\"\n        customValue = 110\n    }\n}",
         "title" : "persona specific config",
         "startLine" : "personas-cfg",
         "endLine" : "personas-cfg",
@@ -247,14 +247,14 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/persona-concept-steps.png",
-        "timestamp" : 1630280454319,
+        "timestamp" : 1634231652767,
         "shapes" : [ ],
         "width" : 1200.0,
-        "height" : 804.0,
+        "height" : 802.0,
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1630279880923,
+    "lastModifiedTime" : 1634231042444,
     "tocItem" : {
       "sectionTitle" : "Persona",
       "pageTitle" : "Introduction",

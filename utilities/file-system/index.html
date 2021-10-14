@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Archive</h1></header>
-<p>def dir = fs.tempDir('for-unzip') fs.unzip('data/data.zip', dir) def dir = fs.tempDir('for-untar') fs.untar('data/data.tar', dir)</p>
+<p>def dest = fs.tempDir(&quot;for-zip&quot;).resolve(&quot;content.zip&quot;) fs.zip('data/staticcontent', dest) def dir = fs.tempDir('for-unzip') fs.unzip('data/data.zip', dir) def dir = fs.tempDir('for-untar') fs.untar('data/data.tar', dir)</p>
 </article>
 </section>
 </div>
@@ -136,9 +136,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "fs.textContent('my-test-file.txt').should == 'hello world\\nid=15'",
         "title" : "validate file content",
-        "startLine" : "assert-file",
-        "endLine" : "assert-file",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "assert-file",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -158,9 +156,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def fileTextContent = fs.textContent('my-test-file.txt')\nfileTextContent.waitTo contain('id=15')",
         "title" : "wait for file content",
-        "startLine" : "wait-for-id",
-        "endLine" : "wait-for-id",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "wait-for-id",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -178,9 +174,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def actualFileContent = fileTextContent.data",
         "title" : "access file content",
-        "startLine" : "actual-file-content",
-        "endLine" : "actual-file-content",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "actual-file-content",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -198,9 +192,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def id = fileTextContent.extractByRegexp(\"id=(\\\\d+)\")\nhttp.get(\"/customers/${id}\") {\n    // ...\n}",
         "title" : "extract file content",
-        "startLine" : "extract-id",
-        "endLine" : "extract-id",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "extract-id",
         "excludeRegexp" : "statusCode",
         "type" : "Snippet"
       }, {
@@ -219,9 +211,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "fs.replaceText(path, ~/(\\d+)/, '\"$1\"')",
         "title" : "replace file content",
-        "startLine" : "replace-text",
-        "endLine" : "replace-text",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "replace-text",
         "type" : "Snippet"
       }, {
         "columns" : [ {
@@ -271,23 +261,25 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "content" : [ {
         "lang" : "groovy",
+        "snippet" : "def dest = fs.tempDir(\"for-zip\").resolve(\"content.zip\")\nfs.zip('data/staticcontent', dest)",
+        "title" : "zip a directory",
+        "surroundedBy" : "// zip",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir('for-unzip')\nfs.unzip('data/data.zip', dir)",
         "title" : "unzip a file",
-        "startLine" : "// unzip",
-        "endLine" : "// unzip",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "// unzip",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir('for-untar')\nfs.untar('data/data.tar', dir)",
         "title" : "untar a file",
-        "startLine" : "// untar",
-        "endLine" : "// untar",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "// untar",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1630279880923,
+    "lastModifiedTime" : 1634231042444,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "File System",

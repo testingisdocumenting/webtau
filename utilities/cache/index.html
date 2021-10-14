@@ -85,7 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Cached Value</h1></header>
-<p>When you develop tests, you don't have to restart the whole flow from the beginning.Imagine you have a multi step test that includes running Command Line tool and then validating REST API response, and then opening a browser to assert UI values.Cache long steps results like created entities ids to speed up tests development.In the example below, you create first scenario that runs a heavy command line tool that generates an id. We then cache the value and you can write a second scenario and keep re-running it, without the need to re-run the first one. import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def createdId = cache.value(&quot;cli-heavy-created-id&quot;) // declare cached value with distinct id scenario(&quot;heavy setup operation&quot;) { def cliResult = cli.run(&quot;scripts/cli-heavy-process&quot;) // long running process that you don't want to re-run as you write your tests createdId.set(cliResult.extractFromOutputByRegexp(&quot;id=(\\S+)&quot;)) // caching the extracted id from CLI run } scenario(&quot;using previous setup id even after restart&quot;) { def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile http.get(&quot;/resource/${id}&quot;) { message.should == &quot;hello&quot; } } Note: Use groovy-standalone-runner/selective-run Selective Run or REPL/test-runs REPL mode to run one scenario at a time.</p>
+<p>When you develop tests, you don't have to restart the whole flow from the beginning.Imagine you have a multistep test that includes running Command Line tool and then validating REST API response, and then opening a browser to assert UI values.Cache long steps results like created entities ids to speed up tests development.In the example below, you create first scenario that runs a heavy command line tool that generates an id. We then cache the value and you can write a second scenario and keep re-running it, without the need to re-run the first one. import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def createdId = cache.value(&quot;cli-heavy-created-id&quot;) // declare cached value with distinct id scenario(&quot;heavy setup operation&quot;) { def cliResult = cli.run(&quot;scripts/cli-heavy-process&quot;) // long running process that you don't want to re-run as you write your tests createdId.set(cliResult.extractFromOutputByRegexp(&quot;id=(\\S+)&quot;)) // caching the extracted id from CLI run } scenario(&quot;using previous setup id even after restart&quot;) { def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile http.get(&quot;/resource/${id}&quot;) { message.should == &quot;hello&quot; } } Note: Use groovy-standalone-runner/selective-run Selective Run or REPL/test-runs REPL mode to run one scenario at a time.</p>
+</article>
+
+<article>
+<header><h1>FS Path type</h1></header>
+<p>utilities/file-system File System module return values of type Path . Webtau stores them as String . To retrieve as Path use import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def deployDirCache = cache.value(&quot;deploy-dir&quot;) scenario(&quot;caching of path value&quot;) { def path = fs.tempDir(&quot;my-dir&quot;) deployDirCache.set(path) } scenario(&quot;accessing path value&quot;) { def deployDir = deployDirCache.getAsPath() fs.writeText(deployDir.resolve(&quot;file.txt&quot;), &quot;hello&quot;) }</p>
 </article>
 </section>
 </div>
@@ -125,7 +130,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Imagine you have a multi step test that includes running Command Line tool and then validating REST API response, and",
+          "text" : "Imagine you have a multistep test that includes running Command Line tool and then validating REST API response, and",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
@@ -160,9 +165,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef createdId = cache.value(\"cli-heavy-created-id\") // declare cached value with distinct id\n\nscenario(\"heavy setup operation\") {\n    def cliResult = cli.run(\"scripts/cli-heavy-process\") // long running process that you don't want to re-run as you write your tests\n    createdId.set(cliResult.extractFromOutputByRegexp(\"id=(\\\\S+)\")) // caching the extracted id from CLI run\n}\n\nscenario(\"using previous setup id even after restart\") {\n    def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile\n    http.get(\"/resource/${id}\") {\n        message.should == \"hello\"\n    }\n}",
         "title" : "cached value",
-        "startLine" : "example",
-        "endLine" : "example",
-        "excludeStartEnd" : true,
+        "surroundedBy" : "example",
         "commentsType" : "inline",
         "type" : "Snippet"
       }, {
@@ -199,8 +202,60 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       } ]
+    }, {
+      "title" : "FS Path type",
+      "id" : "fs-path-type",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/webtau/utilities/file-system",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "File System module",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " return values of type ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Path",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". Webtau stores them as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "String",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "HardLineBreak"
+        }, {
+          "text" : "To retrieve as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "Path",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "getAsPath()",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef deployDirCache = cache.value(\"deploy-dir\")\n\nscenario(\"caching of path value\") {\n    def path = fs.tempDir(\"my-dir\")\n    deployDirCache.set(path)\n}\n\nscenario(\"accessing path value\") {\n    def deployDir = deployDirCache.getAsPath()\n    fs.writeText(deployDir.resolve(\"file.txt\"), \"hello\")\n}",
+        "title" : "cached path value",
+        "surroundedBy" : "example",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1630279880923,
+    "lastModifiedTime" : 1634231042444,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "Cache",
@@ -211,6 +266,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Cached Value",
         "id" : "cached-value"
+      }, {
+        "title" : "FS Path type",
+        "id" : "fs-path-type"
       } ]
     }
   }
