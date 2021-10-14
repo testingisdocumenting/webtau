@@ -40,6 +40,7 @@ export interface WebTauStep {
   startTime: number;
   personaId?: string;
   input?: WebTauStepInput;
+  output?: WebTauStepOutput;
 }
 
 export interface TokenizedMessageToken {
@@ -52,7 +53,12 @@ export interface WebTauStepInput {
   data: any;
 }
 
-export type WebTauStepInputKeyValue = { [key: string]: string | number };
+export interface WebTauStepOutput {
+  type: string;
+  data: any;
+}
+
+export type WebTauStepInputOutputKeyValue = { [key: string]: string | number };
 
 export interface StringKeyValue {
   key: string;

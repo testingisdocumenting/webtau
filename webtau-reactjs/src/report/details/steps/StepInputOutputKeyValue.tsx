@@ -15,14 +15,14 @@
  */
 
 import React from 'react';
-
-import { WebTauStepInputKeyValue } from '../../WebTauTest';
 import { KeyValueGrid } from '../../widgets/KeyValueGrid';
+import { WebTauStepInputOutputKeyValue } from '../../WebTauTest';
 
 interface Props {
-  data: WebTauStepInputKeyValue;
+  inputData?: WebTauStepInputOutputKeyValue;
+  outputData?: WebTauStepInputOutputKeyValue;
 }
 
-export function StepInputKeyValue({ data }: Props) {
-  return <KeyValueGrid data={data} />;
+export function StepInputOutputKeyValue({ inputData, outputData }: Props) {
+  return <KeyValueGrid data={{ ...inputData, ...outputData }} />;
 }
