@@ -1383,8 +1383,11 @@ toc = [ {
     "fileName" : "2021",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "1.44 (Future Release)",
-      "id" : "144-future-release"
+      "title" : "1.44.1",
+      "id" : "1441"
+    }, {
+      "title" : "1.44",
+      "id" : "144"
     }, {
       "title" : "1.43.1",
       "id" : "1431"
