@@ -18,3 +18,17 @@ body {
   margin: 0;
   padding: 0;
 }
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
