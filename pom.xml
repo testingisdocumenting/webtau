@@ -21,7 +21,7 @@
 
     <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.45-SNAPSHOT</version>
+    <version>1.44.1</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -76,7 +76,7 @@
         <url>https://github.com/testingisdocumenting/webtau</url>
         <connection>scm:git:https://github.com/testingisdocumenting/webtau.git</connection>
         <developerConnection>scm:git:https://github.com/testingisdocumenting/webtau.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>1.44.1</tag>
     </scm>
 
     <distributionManagement>
