@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+.tab-selection {
+    display: flex;
+}
+
 .tab-selection > .tab-names {
     display: flex;
     width: 100%;
