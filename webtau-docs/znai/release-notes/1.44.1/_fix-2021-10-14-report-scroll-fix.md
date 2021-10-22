@@ -1,1 +1,1 @@
-* Fix: report extra scroll bar
+* Fix: report extra scroll bar on test summary screen
