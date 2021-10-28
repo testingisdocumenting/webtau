@@ -59,3 +59,16 @@ scenario('wait on url') {
     $('#new').click()
     browser.url.ref.waitTo == 'created-id'
 }
+
+sscenario('back and forward') {
+    browser.open('/links')
+
+    $('#section-two').click()
+    $('body').scrollTop.shouldBe > 0
+
+    browser.back()
+    $('body').scrollTop.should == 0
+
+    browser.forward()
+    $('body').scrollTop.shouldBe > 0
+}
