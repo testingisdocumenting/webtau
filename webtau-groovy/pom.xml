@@ -98,8 +98,19 @@
         </dependency>
 
         <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>jline</groupId>
             <artifactId>jline</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.fusesource.jansi</groupId>
+                    <artifactId>jansi</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
