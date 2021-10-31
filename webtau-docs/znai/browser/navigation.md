@@ -63,3 +63,11 @@ Note: url is stored in a local cache file and will survive tests restart.
 
 # Back And Forward
 
+Use `:identifier: browser.back {validationPath: "doc-artifacts/snippets/navigation/backForward.groovy"}` and
+`:identifier: browser.forward {validationPath: "doc-artifacts/snippets/navigation/backForward.groovy"}` to simulate 
+browser history **Back** and **Forward** buttons
+
+:include-file: doc-artifacts/snippets/navigation/backForward.groovy {
+  title: "back and forward",
+  includeRegexp: ["back", "forward"]
+}

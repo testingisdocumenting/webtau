@@ -154,6 +154,7 @@ class WebTauBrowserFeaturesTestBase {
                 'saveUrl.groovy': 'save url',
                 'loadUrl.groovy': 'load url',
                 'waitOnUrl.groovy': 'wait on url',
+                'backForward.groovy': 'back and forward',
         ])
     }
 

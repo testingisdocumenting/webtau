@@ -60,7 +60,7 @@ scenario('wait on url') {
     browser.url.ref.waitTo == 'created-id'
 }
 
-sscenario('back and forward') {
+scenario('back and forward') {
     browser.open('/links')
 
     $('#section-two').click()
