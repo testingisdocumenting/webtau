@@ -42,6 +42,7 @@ public class Browser {
 
     public final BrowserCookies cookies = new BrowserCookies(driver);
     public final BrowserLocalStorage localStorage = new BrowserLocalStorage(driver);
+    public final BrowserNavigation navigation = new BrowserNavigation(driver);
     public final BrowserDocumentation doc = new BrowserDocumentation(driver);
 
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
@@ -88,6 +89,20 @@ public class Browser {
         createAndExecuteStep(tokenizedMessage(action("closing browser")),
                 () -> tokenizedMessage(action("browser is closed")),
                 driver::quit);
+    }
+
+    public void back() {
+        createAndExecuteStep(
+                tokenizedMessage(action("browser going"), classifier("back")),
+                () -> tokenizedMessage(action("browser went"), classifier("back")),
+                () -> driver.navigate().back());
+    }
+
+    public void forward() {
+        createAndExecuteStep(
+                tokenizedMessage(action("browser going"), classifier("forward")),
+                () -> tokenizedMessage(action("browser went"), classifier("forward")),
+                () -> driver.navigate().forward());
     }
 
     public void restart() {

@@ -53,6 +53,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
+  }, {
+    "scenario" : "back and forward",
+    "shortContainerId" : "navigation.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
   } ],
   "exitCode" : 0
 }
