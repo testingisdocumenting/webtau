@@ -33,3 +33,13 @@ scenario("using previous setup id even after restart") {
     }
 }
 // example
+
+scenario("cache value presence") {
+    // exists-example
+    def prevGenerated = cache.value("zip-unpacked-path")
+    // ...
+    if (!prevGenerated.exists()) {
+        // recreate content
+    }
+    // exists-example
+}

@@ -11,6 +11,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 4
     }
+  }, {
+    "scenario" : "cache value presence",
+    "shortContainerId" : "cachedValue.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
   } ],
   "exitCode" : 0
 }

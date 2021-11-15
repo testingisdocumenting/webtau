@@ -46,6 +46,16 @@ public class Cache {
         return getAsStep(key, Function.identity());
     }
 
+    public boolean exists(String key) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("check"), id(key), action("cache value presence")),
+                (result) -> tokenizedMessage(action("checked"), id(key), action("cache value presence"), COLON,
+                        classifier((boolean)result ? "exists" : "absent")),
+                () -> fileBasedCache.exists(key));
+
+        return step.execute(StepReportOptions.SKIP_START);
+    }
+
     public Path getAsPath(String key) {
         return getAsStep(key, (v) -> Paths.get(v.toString()));
     }

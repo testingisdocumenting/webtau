@@ -36,10 +36,15 @@ class FileBasedCache {
         this.cachePathSupplier = cachePathSupplier;
     }
 
+    public boolean exists(String key) {
+        Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
+        return Files.exists(valuePath);
+    }
+
     @SuppressWarnings("unchecked")
     public <E> E get(String key) {
         Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
-        if (!Files.exists(valuePath)) {
+        if (!exists(key)) {
             return null;
         }
 

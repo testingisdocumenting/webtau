@@ -1,0 +1,1 @@
+* Add [cache exists](utilities/cache#presence-check) method
