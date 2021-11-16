@@ -31,6 +31,10 @@ public class CachedValue<E> {
         return cache.get(id);
     }
 
+    public boolean exists() {
+        return cache.exists(id);
+    }
+
     public Path getAsPath() {
         return cache.getAsPath(id);
     }

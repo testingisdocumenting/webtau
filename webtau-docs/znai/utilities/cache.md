@@ -29,3 +29,16 @@ To retrieve as `Path` use `:identifier: getAsPath() {validationPath: "scenarios/
   surroundedBy: "example",
   commentsType: "inline"
 }
+
+# Presence Check
+
+Use `:identifier: exists {validationPath: "scenarios/cache/cachedValue.groovy"}` inside utilities methods 
+to check if a cache value was set. 
+
+:include-file: scenarios/cache/cachedValue.groovy {
+  title: "cached value",
+  surroundedBy: "exists-example"
+}
+
+Avoid: using cache check inside test methods to keep them clean
+ 
