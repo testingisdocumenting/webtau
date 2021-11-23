@@ -34,10 +34,7 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
@@ -328,56 +325,50 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public void scrollIntoView() {
-        execute(tokenizedMessage(action("scrolling into view ")).add(pathDescription),
+        execute(tokenizedMessage(action("scrolling into view")).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled into view")).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollIntoView(true);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll into view",
+                        "arguments[0].scrollIntoView(true);"));
     }
 
     @Override
     public void scrollToTop() {
         execute(tokenizedMessage(action("scrolling to top"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to top"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[0].scrollLeft, 0);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to top",
+                        "arguments[0].scrollTo(arguments[0].scrollLeft, 0);"));
     }
 
     @Override
     public void scrollToBottom() {
         execute(tokenizedMessage(action("scrolling to bottom"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to bottom"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[0].scrollLeft, arguments[0].scrollHeight);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to bottom",
+                        "arguments[0].scrollTo(arguments[0].scrollLeft, arguments[0].scrollHeight);"));
     }
 
     @Override
     public void scrollToLeft() {
         execute(tokenizedMessage(action("scrolling to left"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to left"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(0, arguments[0].scrollTop);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to left",
+                        "arguments[0].scrollTo(0, arguments[0].scrollTop);"));
     }
 
     @Override
     public void scrollToRight() {
         execute(tokenizedMessage(action("scrolling to right"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to right"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[0].scrollWidth, arguments[0].scrollTop);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to right",
+                        "arguments[0].scrollTo(arguments[0].scrollWidth, arguments[0].scrollTop);"));
     }
 
     @Override
     public void scrollTo(int x, int y) {
         execute(tokenizedMessage(action("scrolling to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[1], arguments[2]);", findElement(), x, y)
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to position",
+                        "arguments[0].scrollTo(arguments[1], arguments[2]);", x, y));
     }
 
     private void clickWithKey(String label, CharSequence key) {
@@ -536,6 +527,17 @@ public class GenericPageElement implements PageElement {
 
     private NullWebElement createNullElement() {
         return new NullWebElement(path.toString());
+    }
+
+    private void checkNotNullAndExecuteScriptOnElement(String actionLabel, String script, Object... args) {
+        WebElement element = findElement();
+        ensureNotNullElement(element, actionLabel);
+
+        ArrayList<Object> argsList = new ArrayList<>();
+        argsList.add(element);
+        argsList.addAll(Arrays.asList(args));
+
+        ((JavascriptExecutor) driver).executeScript(script, argsList.toArray(new Object[0]));
     }
 
     private interface ActionsProvider {
