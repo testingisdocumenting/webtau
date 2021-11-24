@@ -325,6 +325,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "scrolling no element"() {
+        runCli('scrollsNoElement.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "personas searching"() {
         runCli('searchWithPersonas.groovy', 'webtau.cfg.groovy')
     }
