@@ -19,17 +19,21 @@ import React from 'react';
 import { Step } from './Step';
 import { Registry } from 'react-component-viewer';
 import { WebTauStep } from '../../WebTauTest';
+import { wrapInLightTheme } from '../../demoUtils';
 
 export function stepsDemo(registry: Registry) {
-  registry.add('no children', () => <Step step={noChildren()} isTopLevel={true} />);
-  registry.add('with children', () => <Step step={withChildren()} isTopLevel={true} />);
-  registry.add('rainbow', () => <Step step={rainbow()} isTopLevel={true} />);
-  registry.add('with key value input', () => <Step step={withKeyValueInput()} isTopLevel={true} />);
-  registry.add('with key value output', () => <Step step={withKeyValueOutput()} isTopLevel={true} />);
-  registry.add('with key value input output', () => <Step step={withKeyValueInputAndOutput()} isTopLevel={true} />);
-  registry.add('with key value empty input output', () => (
-    <Step step={withKeyValueEmptyInputAndOutput()} isTopLevel={true} />
-  ));
+  add('no children', <Step step={noChildren()} isTopLevel={true} />);
+  add('with children', <Step step={withChildren()} isTopLevel={true} />);
+  add('rainbow', <Step step={rainbow()} isTopLevel={true} />);
+  add('with key value input', <Step step={withKeyValueInput()} isTopLevel={true} />);
+  add('with key value output', <Step step={withKeyValueOutput()} isTopLevel={true} />);
+  add('with key value input output', <Step step={withKeyValueInputAndOutput()} isTopLevel={true} />);
+  add('with key value empty input output', <Step step={withKeyValueEmptyInputAndOutput()} isTopLevel={true} />);
+
+  function add(label: string, element: JSX.Element) {
+    registry.add(label + ' [dark]', () => element);
+    registry.add(label + ' [light]', wrapInLightTheme(element));
+  }
 }
 
 function noChildren() {
@@ -65,6 +69,10 @@ function rainbow() {
       {
         type: 'preposition',
         value: ' of',
+      },
+      {
+        type: 'id',
+        value: 'identifier',
       },
       {
         type: 'stringValue',

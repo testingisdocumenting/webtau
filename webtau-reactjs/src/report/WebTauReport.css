@@ -29,19 +29,24 @@
     --webtau-background-color: #1e2529;
     --webtau-selection-background-color: #272f33;
 
+    --webtau-report-name-area-background-color: #272f33;
     --webtau-report-name-text-color: #8baac7;
+
+    --webtau-list-type-selection-color: #cdcdcd;
 
     --webtau-panels-border-color: #1c2023;
 
     --webtau-search-background-color: #191f22;
+    --webtau-search-text-color: #ddd;
 
-    --webtau-table-body-background-color: #1e2529;
+    --webtau-table-body-background-color: var(--webtau-background-color);
     --webtau-table-header-background-color: var(--webtau-selection-background-color);
     --webtau-table-border-color: #474950;
 
-    --webtau-tabs-background-color: #24282a;
+    --webtau-tabs-background-color: var(--webtau-report-name-area-background-color);
     --webtau-tabs-text-color: #888;
     --webtau-tabs-selected-text-color: #aaa;
+    --webtau-tabs-selected-border-color: #578293;
 
     --webtau-card-background-color: var(--webtau-selection-background-color);
     --webtau-card-border-color: none;
@@ -59,12 +64,17 @@
 
     --webtau-test-group-label-color: #bbb;
     --webtau-test-group-label-background-color: #3b4348;
-    --webtau-report-name-area-background-color: #272f33;
+    --webtau-test-status-filter-text-color: #aaa;
+    --webtau-test-status-filter-selected-text-color: #eee;
     --webtau-test-status-filter-background-color: #3e474b;
     --webtau-selected-test-background: #111;
     --webtau-selected-test-border-color: #000;
 
-    --webtau-url-color: #6891ee;
+    --webtau-navitation-entry-passed-color: #65bc0c;
+    --webtau-navitation-entry-errored-color: #f88c27;
+    --webtau-navitation-entry-skipped-color: #ddd;
+
+    --webtau-url-color: #6297d5;
 
     --webtau-list-items-color: #ddd;
 
@@ -78,6 +88,15 @@
     --webtau-property-key-color: #d4addd;
     --webtau-property-value-string-color: #aecb96;
     --webtau-property-value-number-color: #b7b4f1;
+
+    --webtau-step-id-color: var(--webtau-text-color);
+    --webtau-step-action-color: #91bef7;
+    --webtau-step-matcher-color: #62a84b;
+    --webtau-step-string-color: var(--webtau-property-value-string-color);
+    --webtau-step-error-color: #f98d6d;
+    --webtau-step-preposition-color: #9a999b;
+    --webtau-step-delimiter-color: var(--webtau-step-preposition-color);
+    --webtau-step-selector-type-color: #c88fcb;
 
     --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
 }
@@ -109,18 +128,20 @@ body {
 
     background-color: var(--webtau-report-name-area-background-color);
     padding: var(--webtau-spacing);
+    border-right: 1px solid var(--webtau-panels-border-color);
     border-bottom: 1px solid var(--webtau-panels-border-color);
 }
 
 .report > .search-area {
     grid-area: search;
     background-color: var(--webtau-selection-background-color);
+    border-right: 1px solid var(--webtau-panels-border-color);
 }
 
 .search-area input {
     font-size: 14px;
     background-color: var(--webtau-search-background-color);
-    color: #ddd;
+    color: var(--webtau-search-text-color);
 
     width: 100%;
     height: 100%;

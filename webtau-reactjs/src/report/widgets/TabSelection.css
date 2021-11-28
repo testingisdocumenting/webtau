@@ -24,7 +24,6 @@
     width: 100%;
     background-color: var(--webtau-tabs-background-color);
     border-bottom: 1px solid var(--webtau-panels-border-color);
-    border-left: 1px solid var(--webtau-panels-border-color);
 }
 
 .tab-selection > .tab-names > .tab-name {
@@ -39,6 +38,6 @@
 
 .tab-selection > .tab-names > .tab-name.selected {
     color: var(--webtau-tabs-selected-text-color);
-    border-bottom: 2px solid var(--webtau-test-status-filter-background-color);
+    border-bottom: 2px solid var(--webtau-tabs-selected-border-color);
     margin-bottom: -1px;
 }

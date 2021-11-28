@@ -847,6 +847,13 @@ export const withRestDataReport = {
       startTime: 1534456916784,
       elapsedTime: 32,
       exceptionMessage: 'error calling something',
+      failedCodeSnippets: [
+        {
+          filePath: 'scenarios/rest/jsonSchema/validateSchema.groovy',
+          lineNumbers: [1],
+          snippet: 'let a = 2\nlet b = 3',
+        },
+      ],
       httpCalls: [
         {
           id: '3',
