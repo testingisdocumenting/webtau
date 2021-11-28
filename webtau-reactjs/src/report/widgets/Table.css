@@ -51,7 +51,7 @@
 }
 
 .webtau-status-code-cell {
-    color: #867288;
+    color: var(--webtau-property-key-color);
     margin-right: var(--webtau-spacing-double);
     text-align: right;
 }

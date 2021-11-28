@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2021 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,24 +14,8 @@
  * limitations under the License.
  */
 
-.status-filter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+import React from 'react';
 
-    color: var(--webtau-test-status-filter-text-color);
-    font-size: 12px;
-
-    height: 100%;
-    padding-left: var(--webtau-spacing);
-    padding-right: var(--webtau-spacing);
-}
-
-.test-summary {
-    cursor: pointer;
-}
-
-.test-summary.selected {
-    color: var(--webtau-test-status-filter-selected-text-color);
-    font-weight: bold;
+export function wrapInLightTheme(component: JSX.Element) {
+  return () => <div className="webtau-light">{component}</div>;
 }

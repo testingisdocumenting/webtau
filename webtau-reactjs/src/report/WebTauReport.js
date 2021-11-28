@@ -37,6 +37,7 @@ import StatusEnum from './StatusEnum';
 import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload';
 
 import './WebTauReport.css';
+import './webtau-light.css';
 
 class WebTauReport extends Component {
   constructor(props) {

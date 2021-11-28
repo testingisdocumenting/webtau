@@ -23,7 +23,15 @@ import { basicReport, withCliDataReport, withRestDataReport } from '../test-data
 import { Registry } from 'react-component-viewer';
 
 export function webTauReportsDemo(registry: Registry) {
-  registry.add('basic', () => <WebTauReport report={new Report(basicReport)} />);
-  registry.add('with REST', () => <WebTauReport report={new Report(withRestDataReport)} />);
+  registry.add('basic', () => (
+    <div className="webtau-light">
+      <WebTauReport report={new Report(basicReport)} />
+    </div>
+  ));
+  registry.add('with REST', () => (
+    <div className="webtau-light">
+      <WebTauReport report={new Report(withRestDataReport)} />
+    </div>
+  ));
   registry.add('with CLI', () => <WebTauReport report={new Report(withCliDataReport)} />);
 }

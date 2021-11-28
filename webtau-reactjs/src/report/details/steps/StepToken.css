@@ -20,40 +20,40 @@
 }
 
 .step-token.id {
-    color: var(--webtau-text-color);
+    color: var(--webtau-step-id-color);
     font-weight: bold;
 }
 
 .step-token.action {
-    color: #91bef7;
+    color: var(--webtau-step-action-color);
 }
 
 .step-token.matcher {
-    color: #62a84b;
+    color: var(--webtau-step-matcher-color);
     font-family: var(--webtau-monospace-font);
     white-space: pre;
 }
 
 .step-token.error {
-    color: #d25631;
+    color: var(--webtau-step-error-color);
     font-family: var(--webtau-monospace-font);
     white-space: pre;
 }
 
 .step-token.delimiter {
-    color: #918693;
+    color: var(--webtau-step-delimiter-color);
 }
 
 .step-token.stringValue {
-    color: var(--webtau-property-value-string-color);
+    color: var(--webtau-step-string-color);
 }
 
 .step-token.preposition {
-    color: #7f7885;
+    color: var(--webtau-step-preposition-color);
 }
 
 .step-token.selectorType {
-    color: #ab68ae;
+    color: var(--webtau-step-selector-type-color);
     font-weight: bold;
 }
 
@@ -62,5 +62,5 @@
 }
 
 .step-token.url {
-    color: #6297d5;
+    color: var(--webtau-url-color);
 }
