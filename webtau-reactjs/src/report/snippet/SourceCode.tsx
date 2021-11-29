@@ -40,7 +40,7 @@ export function SourceCode({ filePath, lang, lineNumbers, snippet }: Props) {
       {filePath && <div className="file-path">{filePath}</div>}
       <pre>
         {lines.map((line, idx) => (
-          <LineOfTokens tokens={line} isHighlighted={lineNumbers && lineNumbers.indexOf(idx + 1) !== -1} />
+          <LineOfTokens key={idx} tokens={line} isHighlighted={lineNumbers && lineNumbers.indexOf(idx + 1) !== -1} />
         ))}
       </pre>
     </div>

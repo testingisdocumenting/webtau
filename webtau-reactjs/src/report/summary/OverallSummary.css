@@ -44,6 +44,11 @@
     flex: 1;
 }
 
+.webtau-summary-generated-by-and-theme-panel {
+    display: flex;
+    gap: var(--webtau-spacing-double);
+}
+
 .webtau-generated-by a,
 .webtau-generated-by a:visited {
     color: var(--webtau-report-name-text-color);
