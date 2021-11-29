@@ -79,7 +79,18 @@
     --webtau-list-items-color: #ddd;
 
     --webtau-code-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    --webtau-source-code-background-color: #181e21;
+    --webtau-default-code-block-color: #aaa;
+    --webtau-code-background-color: #181e21;
+    --webtau-code-line-highlighted-background-color: #000;
+    --webtau-code-function-color: #9473a6;
+    --webtau-code-keyword-color: #97afdf;
+    --webtau-code-directive-color: #97afdf;
+    --webtau-code-property-color: #9473a6;
+    --webtau-code-string-color: #678558;
+    --webtau-code-punctuation-color: #8f9aa7;
+    --webtau-code-number-color: #6998bc;
+    --webtau-code-boolean-color: var(--webtau-code-number-color);
+    --webtau-code-coord-color: var(--webtau-code-punctuation-color);
 
     --webtau-match-color: #eee;
     --webtau-match-background-color: rgba(57, 215, 40, 0.2);

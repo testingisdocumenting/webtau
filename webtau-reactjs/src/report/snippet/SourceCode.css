@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +15,15 @@
  */
 
 .webtau-source-code {
+    color: var(--webtau-default-code-block-color);
     overflow-x: auto;
 }
 
 .webtau-source-code pre {
     font-family: var(--webtau-code-font-family) !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    background-color: var(--webtau-source-code-background-color) !important;
-    margin: 0 !important;
-    text-shadow: none !important;
+    background-color: var(--webtau-code-background-color) !important;
+    margin: 0;
+    padding: var(--webtau-spacing);
 }
 
 .webtau-source-code > .file-path {
@@ -39,15 +36,15 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 
-    background-color: var(--webtau-source-code-background-color);
+    background-color: var(--webtau-code-background-color);
     padding: var(--webtau-spacing);
 }
 
 pre.language-groovy {
     margin: 0;
-    background-color: var(--webtau-source-code-background-color);
+    background-color: var(--webtau-code-background-color);
 }
 
 .token.operator {
-    background-color: var(--webtau-source-code-background-color);
+    background-color: var(--webtau-code-background-color);
 }

@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +14,15 @@
  * limitations under the License.
  */
 
-.raw-http-payload-copy-to-clipboard {
-    cursor: pointer;
-    color: #888;
-    margin-bottom: 10px;
+.webtau-code-line {
+    word-break: keep-all;
+    white-space: pre;
 }
 
-.raw-http-payload-copy-to-clipboard.copied,
-.raw-http-payload-copy-to-clipboard:hover {
-    color: #333;
+.webtau-code-line.highlight {
+    background: var(--webtau-code-line-highlighted-background-color);
+    margin-left: -16px;
+    padding: 4px 0 4px 16px;
+
+    display: block;
 }

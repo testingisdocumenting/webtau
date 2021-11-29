@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +14,25 @@
  * limitations under the License.
  */
 
-.raw-http-payload-copy-to-clipboard {
-    cursor: pointer;
-    color: #888;
-    margin-bottom: 10px;
-}
+import React from 'react';
 
-.raw-http-payload-copy-to-clipboard.copied,
-.raw-http-payload-copy-to-clipboard:hover {
-    color: #333;
+import { lineWithTokensTrimmedOnRight } from './codeUtils';
+
+import CodeToken from './CodeToken';
+
+import './LineOfTokens.css';
+
+export function LineOfTokens({ tokens, isHighlighted }) {
+  const className = 'webtau-code-line' + (isHighlighted ? ' highlight' : '');
+
+  const trimmedOnRight = lineWithTokensTrimmedOnRight(tokens);
+
+  return (
+    <span className={className}>
+      {trimmedOnRight.map((t, idx) => (
+        <CodeToken key={idx} token={t} />
+      ))}
+      <span>{'\n'}</span>
+    </span>
+  );
 }
