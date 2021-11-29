@@ -16,7 +16,7 @@
  */
 
 import React from 'react';
-import SourceCode from './SourceCode';
+import { SourceCode } from '../snippet/SourceCode';
 
 import { CardLabelAndNumber } from '../widgets/CardLabelAndNumber';
 import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls';
