@@ -1,0 +1,103 @@
+/*
+ * Copyright 2021 webtau maintainers
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.webtau-dark {
+    --webtau-text-color: #bbb;
+    --webtau-text-light-color: #888;
+    --webtau-inversed-text-color: #333;
+    --webtau-background-color: #1e2529;
+    --webtau-selection-background-color: #272f33;
+
+    --webtau-report-name-area-background-color: #272f33;
+    --webtau-report-name-text-color: #8baac7;
+
+    --webtau-list-type-selection-color: #cdcdcd;
+
+    --webtau-panels-border-color: #1c2023;
+
+    --webtau-search-background-color: #191f22;
+    --webtau-search-text-color: #ddd;
+
+    --webtau-table-body-background-color: var(--webtau-background-color);
+    --webtau-table-header-background-color: var(--webtau-selection-background-color);
+    --webtau-table-border-color: #474950;
+
+    --webtau-tabs-background-color: var(--webtau-report-name-area-background-color);
+    --webtau-tabs-text-color: #888;
+    --webtau-tabs-selected-text-color: #aaa;
+    --webtau-tabs-selected-border-color: #578293;
+
+    --webtau-card-background-color: var(--webtau-selection-background-color);
+    --webtau-card-border-color: none;
+    --webtau-card-list-border-color: var(--webtau-background-color);
+    --webtau-card-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+    --webtau-card-warning-background-color: #dcbe5a;
+    --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
+    --webtau-card-time-color: #a5a5a5;
+    --webtau-card-date-color: #909090;
+    --webtau-card-number-color: #ccc;
+    --webtau-card-label-color: #969ba7;
+    --webtau-card-width: 170px;
+    --webtau-card-padding: var(--webtau-spacing-double);
+    --webtau-card-height: 120px;
+
+    --webtau-test-group-label-color: #bbb;
+    --webtau-test-group-label-background-color: #3b4348;
+    --webtau-test-status-filter-text-color: #aaa;
+    --webtau-test-status-filter-selected-text-color: #eee;
+    --webtau-test-status-filter-background-color: #3e474b;
+    --webtau-selected-test-background: #111;
+    --webtau-selected-test-border-color: #000;
+
+    --webtau-navitation-entry-passed-color: #65bc0c;
+    --webtau-navitation-entry-errored-color: #f88c27;
+    --webtau-navitation-entry-skipped-color: #ddd;
+
+    --webtau-url-color: #6297d5;
+
+    --webtau-list-items-color: #ddd;
+
+    --webtau-code-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    --webtau-default-code-block-color: #aaa;
+    --webtau-code-background-color: #181e21;
+    --webtau-code-line-highlighted-background-color: #000;
+    --webtau-code-function-color: #9473a6;
+    --webtau-code-keyword-color: #97afdf;
+    --webtau-code-directive-color: #97afdf;
+    --webtau-code-property-color: #9473a6;
+    --webtau-code-string-color: #678558;
+    --webtau-code-punctuation-color: #8f9aa7;
+    --webtau-code-number-color: #6998bc;
+    --webtau-code-boolean-color: var(--webtau-code-number-color);
+    --webtau-code-coord-color: var(--webtau-code-punctuation-color);
+
+    --webtau-match-color: #eee;
+    --webtau-match-background-color: rgba(57, 215, 40, 0.2);
+    --webtau-table-row-problem-background-color: rgba(219, 17, 23, 0.2);
+
+    --webtau-property-key-color: #d4addd;
+    --webtau-property-value-string-color: #aecb96;
+    --webtau-property-value-number-color: #b7b4f1;
+
+    --webtau-step-id-color: var(--webtau-text-color);
+    --webtau-step-action-color: #91bef7;
+    --webtau-step-matcher-color: #62a84b;
+    --webtau-step-string-color: var(--webtau-property-value-string-color);
+    --webtau-step-error-color: #f98d6d;
+    --webtau-step-preposition-color: #9a999b;
+    --webtau-step-delimiter-color: var(--webtau-step-preposition-color);
+    --webtau-step-selector-type-color: #c88fcb;
+}

@@ -1,0 +1,1 @@
+* Report color theme toggle and auto OS dark/light detection

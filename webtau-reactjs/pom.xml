@@ -63,6 +63,8 @@
                         <copy verbose="true" todir="${project.build.outputDirectory}/">
                             <fileset refid="assets" />
                         </copy>
+
+                        <copy file="${project.basedir}/public/webtau-theme.js" toFile="${project.build.outputDirectory}/webtau-theme.js" />
                     </target>
                 </configuration>
             </plugin>

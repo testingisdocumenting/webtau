@@ -38,6 +38,7 @@ import java.util.stream.Stream;
 
 public class HtmlReportGenerator implements ReportGenerator {
     private final ReactJsBundle reactJsBundle;
+    private final String themeCode = ResourceUtils.textContent("webtau-theme.js");
 
     public HtmlReportGenerator() {
         reactJsBundle = new ReactJsBundle();
@@ -99,8 +100,9 @@ public class HtmlReportGenerator implements ReportGenerator {
                 genFavIconBase64() + "\n" +
                 "<title>WebTau Report</title>" +
                 "\n</head>\n" +
-                "<body><div id=\"root\"/>\n" +
+                "<body class=\"webtau-light\"><div id=\"root\"/>\n" +
                 "<script>\n" +
+                themeCode + "\n" +
                 reportAssignmentJavaScript + "\n" +
                 reactJsBundle.getJavaScript() + "\n" +
                 "</script>\n" +
