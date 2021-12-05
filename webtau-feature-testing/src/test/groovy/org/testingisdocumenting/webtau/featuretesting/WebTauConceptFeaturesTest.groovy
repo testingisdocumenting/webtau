@@ -121,6 +121,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "trace"() {
+        runCli('trace.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "do not sleep as sync mechanism"() {
         runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
     }

@@ -49,6 +49,8 @@ class Report {
 
     def screenshot = $(".image img")
 
+    def keyValuesKeys = $(".webtau-key-value-grid-key")
+
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
     }

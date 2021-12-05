@@ -49,7 +49,7 @@ public class WebTauStep {
     private WebTauStepInput input = WebTauStepInput.EMPTY;
     private WebTauStepOutput output = WebTauStepOutput.EMPTY;
 
-    private Supplier<WebTauStepOutput> outputSupplier = () -> WebTauStepOutput.EMPTY;
+    private Supplier<WebTauStepOutput> outputSupplier = null;
 
     private long startTime;
     private long elapsedTime;
@@ -303,7 +303,14 @@ public class WebTauStep {
             complete(completionMessageFunc.apply(result));
             stopClock();
 
-            output = outputSupplier.get();
+            if (output != null && outputSupplier != null) {
+                throw new IllegalStateException("output and outputSupplier is provided before test is executed, only one is allowed");
+            }
+
+            if (outputSupplier != null) {
+                output = outputSupplier.get();
+            }
+
             if (stepReportOptions != StepReportOptions.SKIP_ALL) {
                 StepReporters.onSuccess(this);
             }
@@ -313,7 +320,9 @@ public class WebTauStep {
             stopClock();
 
             fail(e);
-            output = outputSupplier.get();
+            if (outputSupplier != null) {
+                output = outputSupplier.get();
+            }
             StepReporters.onFailure(this);
             throw e;
         } finally {
