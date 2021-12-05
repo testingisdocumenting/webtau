@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +14,11 @@
  * limitations under the License.
  */
 
-package scenarios
+package scenarios.concept
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
-import static pages.Pages.*
 
-scenario('ui failed test screenshot') {
-    report.openGroovyStandaloneReport('ui/failedAssertion-chrome-failed-webtau-report.html')
-    report.selectTest('search and fail assertion')
-    report.selectScreenshot()
-    report.screenshot.should beVisible()
+scenario('trace key values') {
+    trace("trace label", [k1: "v1", k2: "v2"])
+    trace("another trace label", "k3", "v3", "k4", "v4")
 }

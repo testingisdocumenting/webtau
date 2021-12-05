@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +19,11 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
-scenario('ui failed test screenshot') {
-    report.openGroovyStandaloneReport('ui/failedAssertion-chrome-failed-webtau-report.html')
-    report.selectTest('search and fail assertion')
-    report.selectScreenshot()
-    report.screenshot.should beVisible()
+scenario('check steps after trace') {
+    report.openGroovyStandaloneReport('concept/trace-webtau-report.html')
+    report.selectTest("trace key values")
+    report.selectSteps()
+
+    report.keyValuesKeys.should == ["k1", "k2", "k3", "k4"]
 }
+

@@ -25,10 +25,7 @@ import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.persona.Persona;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepContext;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
@@ -163,6 +160,33 @@ public class WebTauCore extends Matchers {
 
     public static void repeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
         WebTauStep step = WebTauStep.createRepeatStep(label, numberOfAttempts, action);
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    /**
+     * outputs provided key-values to console and web report
+     * @param label label to print
+     * @param keyValues key-values as vararg
+     */
+    public static void trace(String label, Object... keyValues) {
+        trace(label, CollectionUtils.aMapOf(keyValues));
+    }
+
+    /**
+     * outputs provided key-values to console and web report
+     * @param label label to print
+     * @param info key-values as a map
+     */
+    public static void trace(String label, Map<String, Object> info) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action(label)),
+                () -> tokenizedMessage(action(label)),
+                () -> {});
+
+        if (!info.isEmpty()) {
+            step.setInput(WebTauStepInputKeyValue.stepInput(info));
+        }
+
         step.execute(StepReportOptions.REPORT_ALL);
     }
 

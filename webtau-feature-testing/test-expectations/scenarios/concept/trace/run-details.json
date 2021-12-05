@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "trace key values",
+    "shortContainerId" : "trace.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  } ],
+  "exitCode" : 0
+}
