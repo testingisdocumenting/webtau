@@ -303,7 +303,7 @@ public class WebTauStep {
             complete(completionMessageFunc.apply(result));
             stopClock();
 
-            if (output != null && outputSupplier != null) {
+            if (!output.isEmpty() && outputSupplier != null) {
                 throw new IllegalStateException("output and outputSupplier is provided before test is executed, only one is allowed");
             }
 
