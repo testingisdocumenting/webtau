@@ -18,11 +18,39 @@ package scenarios.concept
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-scenario('trace key values') {
-    // trace-map
-    trace("trace label", [k1: "v1", k2: "v2"])
-    // trace-map
-    // trace-vararg
-    trace("another trace label", "k3", "v3", "k4", "v4")
-    // trace-vararg
+scenario('wrap as step') {
+    // wrap-step
+    step("group of actions") {
+        actionOne()
+        actionTwo()
+    }
+    // wrap-step
+}
+
+scenario('wrap as step with input') {
+    def myPort = 8080
+    def baseUrl = "http://baseurl"
+    // wrap-step-key-value
+    step("group of actions", [url: baseUrl, port: myPort]) {
+        actionThree(myPort, baseUrl)
+    }
+    // wrap-step-key-value
+}
+
+def actionOne() {
+    step("action one") {
+        // ...
+    }
+}
+
+def actionTwo() {
+    step("action two") {
+        // ...
+    }
+}
+
+def actionThree(port, url) {
+    step("action three") {
+        // ...
+    }
 }

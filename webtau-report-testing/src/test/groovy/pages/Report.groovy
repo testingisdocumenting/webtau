@@ -32,6 +32,8 @@ class Report {
     def stepPersonaId = $(".step .persona-id")
 
     def tabNames = $(".tab-selection .tab-name")
+    def stepsTab = tabNames.get("Steps")
+    def httpCallsTab = tabNames.get("HTTP calls")
 
     def cellValues = $("td").all()
 
@@ -66,7 +68,7 @@ class Report {
     }
 
     def selectHttpCalls() {
-        selectTab('HTTP calls')
+        httpCallsTab.click()
     }
 
     def selectCliCalls() {
@@ -78,7 +80,7 @@ class Report {
     }
 
     def selectSteps() {
-        selectTab('Steps')
+        stepsTab.click()
     }
 
     def selectConfiguration() {
@@ -89,8 +91,12 @@ class Report {
         selectTab('Environment Variables')
     }
 
+    def tabByName(String tabName) {
+        return tabNames.get(tabName)
+    }
+
     def selectTab(String tabName) {
-        tabNames.get(tabName).click()
+        return tabByName(tabName).click()
     }
 
     def expandHttpCall(callNumber) {

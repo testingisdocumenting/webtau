@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "wrap as step",
+    "shortContainerId" : "stepGroup.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "wrap as step with input",
+    "shortContainerId" : "stepGroup.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  } ],
+  "exitCode" : 0
+}

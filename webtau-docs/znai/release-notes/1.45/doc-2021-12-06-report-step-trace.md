@@ -1,0 +1,1 @@
+* Doc: document report [step and trace](report/steps) core methods

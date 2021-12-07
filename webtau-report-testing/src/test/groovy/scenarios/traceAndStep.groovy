@@ -27,3 +27,13 @@ scenario('check steps after trace') {
     report.keyValuesKeys.should == ["k1", "k2", "k3", "k4"]
 }
 
+scenario('step with key values') {
+    report.openGroovyStandaloneReport('concept/stepGroup-webtau-report.html')
+    report.selectTest("wrap as step with input")
+    report.selectSteps()
+
+    report.keyValuesKeys.should == ["url", "port"]
+
+    browser.doc.capture('report-step-key-value')
+}
+

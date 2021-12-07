@@ -54,6 +54,9 @@ database
     data-setup
     data-query
     config
+report
+    introduction
+    steps
 REPL
     experiments
     test-runs
