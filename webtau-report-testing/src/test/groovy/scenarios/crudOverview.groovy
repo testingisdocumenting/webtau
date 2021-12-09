@@ -27,4 +27,11 @@ scenario('http calls') {
     report.expandHttpCall(2)
 
     browser.doc.capture('report-crud-http-calls')
+
+    report.selectSteps()
+    report.steps.count.shouldBe > 2
+    browser.doc.withAnnotations(
+            browser.doc.badge(report.httpCallsTab).invertedColors(),
+            browser.doc.badge(report.stepsTab).invertedColors())
+            .capture('report-crud-steps')
 }

@@ -126,6 +126,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "step group"() {
+        runCli('stepGroup.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "do not sleep as sync mechanism"() {
         runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
     }

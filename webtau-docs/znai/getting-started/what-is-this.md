@@ -23,7 +23,7 @@ Use [Persona](persona/introduction) concept to test API Authorization and collab
 
 Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.
 
-Leverage out of the box rich reporting
+Leverage out of the box [rich reporting](report/introduction)
 
 :include-image: doc-artifacts/reports/report-crud-separated-http-calls.png {fit: true}
 

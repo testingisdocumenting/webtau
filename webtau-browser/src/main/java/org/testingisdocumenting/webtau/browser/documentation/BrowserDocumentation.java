@@ -125,6 +125,8 @@ public class BrowserDocumentation {
         data.put("text", annotation.getText());
         data.put("color", annotation.getColor());
         data.put("darkFriendly", annotation.isDarkFriendly());
+        // TODO this is temporary for znai compatibility - remove after znai new version release
+        data.put("invertedColors", annotation.isDarkFriendly());
 
         PageElement pageElement = annotation.getPageElement();
 
