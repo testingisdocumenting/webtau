@@ -23,6 +23,7 @@ import { wrapInLightTheme } from '../../demoUtils';
 
 export function stepsDemo(registry: Registry) {
   add('no children', <Step step={noChildren()} isTopLevel={true} />);
+  add('zero elapsed time', <Step step={zeroElapsedTime()} isTopLevel={true} />);
   add('with children', <Step step={withChildren()} isTopLevel={true} />);
   add('rainbow', <Step step={rainbow()} isTopLevel={true} />);
   add('with key value input', <Step step={withKeyValueInput()} isTopLevel={true} />);
@@ -39,6 +40,23 @@ export function stepsDemo(registry: Registry) {
 function noChildren() {
   return {
     elapsedTime: 200,
+    startTime: 0,
+    message: [
+      {
+        type: 'action',
+        value: 'executed HTTP GET',
+      },
+      {
+        type: 'url',
+        value: 'http://localhost:8080/customers/1',
+      },
+    ],
+  };
+}
+
+function zeroElapsedTime() {
+  return {
+    elapsedTime: 0,
     startTime: 0,
     message: [
       {
