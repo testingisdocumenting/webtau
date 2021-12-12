@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,22 +15,26 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import ElapsedTimeFragment from './ElapsedTimeFragment'
+import ElapsedTimeFragment from './ElapsedTimeFragment';
 
-import './ElapsedTime.css'
+import './ElapsedTime.css';
 
-function ElapsedTime({millis}) {
-    const seconds = (millis / 1000) | 0
-    const remainingMs = millis % 1000
+function ElapsedTime({ millis }) {
+  const seconds = (millis / 1000) | 0;
+  const remainingMs = millis % 1000;
 
-    return (
-        <React.Fragment>
-            <ElapsedTimeFragment value={seconds} label="s"/>
-            <ElapsedTimeFragment value={remainingMs} label="ms"/>
-        </React.Fragment>
-    )
+  if (millis === 0) {
+    return <ElapsedTimeFragment value={remainingMs} label="ms" allowZero={true} />;
+  }
+
+  return (
+    <React.Fragment>
+      <ElapsedTimeFragment value={seconds} label="s" />
+      <ElapsedTimeFragment value={remainingMs} label="ms" />
+    </React.Fragment>
+  );
 }
 
-export default ElapsedTime
+export default ElapsedTime;
