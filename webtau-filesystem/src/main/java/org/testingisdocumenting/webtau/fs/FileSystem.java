@@ -34,6 +34,9 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
@@ -43,6 +46,8 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 
 public class FileSystem {
     public static final FileSystem fs = new FileSystem();
+
+    private final List<Path> filesToDelete = Collections.synchronizedList(new ArrayList<>());
 
     private FileSystem() {
     }
@@ -301,7 +306,7 @@ public class FileSystem {
         }
     }
 
-    private static Path createTempDir(Path dir, String prefix) {
+    private Path createTempDir(Path dir, String prefix) {
         try {
             if (dir != null) {
                 Files.createDirectories(dir);
@@ -310,9 +315,8 @@ public class FileSystem {
             Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
                     Files.createTempDirectory(prefix);
 
-            CleanupRegistration.registerForCleanup("deleting", "deleted", "temp dir " + path,
-                    () -> true,
-                    () -> FileUtils.deleteQuietly(path.toFile()));
+            filesToDelete.add(path);
+            LazyCleanupRegistration.INSTANCE.noOp();
 
             return path.toAbsolutePath();
         } catch (IOException e) {
@@ -332,6 +336,17 @@ public class FileSystem {
         return "file";
     }
 
+    private void removeTempFiles() {
+        filesToDelete.forEach(this::deletePathStep);
+        filesToDelete.clear();
+    }
+
+    private void deletePathStep(Path path) {
+        WebTauStep.createAndExecuteStep(tokenizedMessage(action("deleting"), classifier("path"), urlValue(path)),
+                () -> tokenizedMessage(action("deleted"), classifier("path"), urlValue(path)),
+                () -> FileUtils.deleteQuietly(path.toFile()));
+    }
+
     static class CopyResult {
         private final String type;
         private final Path fullSrc;
@@ -341,6 +356,20 @@ public class FileSystem {
             this.type = type;
             this.fullSrc = fullSrc;
             this.fullDest = fullDest;
+        }
+    }
+
+    private static class LazyCleanupRegistration {
+        private static final LazyCleanupRegistration INSTANCE = new LazyCleanupRegistration();
+
+        private LazyCleanupRegistration() {
+            CleanupRegistration.registerForCleanup("removing", "removed", "temp files/dirs",
+                    () -> !fs.filesToDelete.isEmpty(),
+                    fs::removeTempFiles);
+        }
+
+        // to trigger class loading and shutdown hook registration
+        private void noOp() {
         }
     }
 }
