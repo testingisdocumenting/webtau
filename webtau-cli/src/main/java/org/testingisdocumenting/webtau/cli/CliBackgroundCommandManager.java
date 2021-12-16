@@ -39,7 +39,7 @@ public class CliBackgroundCommandManager implements TestListener {
             ThreadLocal.withInitial(LinkedHashMap::new);
 
     static void register(CliBackgroundCommand backgroundCommand) {
-        LazyShutdownHook.INSTANCE.noOp();
+        LazyCleanupRegistration.INSTANCE.noOp();
 
         validateProcessActive(backgroundCommand);
         int pid = backgroundCommand.getBackgroundProcess().getPid();
@@ -86,10 +86,10 @@ public class CliBackgroundCommandManager implements TestListener {
         }
     }
 
-    private static class LazyShutdownHook {
-        private static final LazyShutdownHook INSTANCE = new LazyShutdownHook();
+    private static class LazyCleanupRegistration {
+        private static final LazyCleanupRegistration INSTANCE = new LazyCleanupRegistration();
 
-        private LazyShutdownHook() {
+        private LazyCleanupRegistration() {
             CleanupRegistration.registerForCleanup("shutting down", "shut down", "cli background processes",
                     () -> runningCommands.values().stream().anyMatch(CliBackgroundCommand::isActive),
                     CliBackgroundCommandManager::destroyActiveProcesses);
