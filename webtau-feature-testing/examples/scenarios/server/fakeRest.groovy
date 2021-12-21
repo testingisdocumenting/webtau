@@ -18,49 +18,62 @@ package scenarios.server
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-def router = server.router()
-        .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) }
-        .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) }
+def router = server.router() // router-example
+        .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) } // router-example
+        .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) } // router-example
 
 scenario("fake rest server") {
-    def server = server.fake("my-rest-server", router)
+// TODO indentation is for docs at the moment remove when znai releases `surroundedBy` as list
+// router-example
+def myServer = server.fake("my-rest-server", router) // router-example
 
-    http.get("${server.baseUrl}/hello/person") {
+    // fake-response-check
+    http.get("${myServer.baseUrl}/hello/person") {
         message.should == "hello person"
     }
 
-    http.get("${server.baseUrl}/bye/person") {
+    http.get("${myServer.baseUrl}/bye/person") {
         message.should == "bye person"
     }
+    // fake-response-check
 }
 
 scenario("slow down") {
-    def server = server.fake("my-rest-server-slowed-down", router)
+    def myServer = server.fake("my-rest-server-slowed-down", router)
 
-    server.markUnresponsive()
+    // mark-unresponsive
+    myServer.markUnresponsive()
+
     code {
-        http.get("${server.baseUrl}/hello/person") {
+        http.get("${myServer.baseUrl}/hello/person") {
             message.should == "hello person"
         }
     } should throwException(~/Read timed out/)
+    // mark-unresponsive
 
-    server.fix()
-    http.get("${server.baseUrl}/hello/person") {
+    myServer.fix()
+    http.get("${myServer.baseUrl}/hello/person") {
         message.should == "hello person"
     }
 }
 
 scenario("broken") {
-    def server = server.fake("my-rest-server-broken", router)
+    def myServer = server.fake("my-rest-server-broken", router)
 
-    server.markBroken()
-    http.get("${server.baseUrl}/hello/person") {
+    // mark-broken
+    myServer.markBroken()
+
+    http.get("${myServer.baseUrl}/hello/person") {
         statusCode.should == 500
         body.should == null
     }
+    // mark-broken
 
-    server.fix()
-    http.get("${server.baseUrl}/hello/person") {
+    // mark-fix
+    myServer.fix()
+
+    http.get("${myServer.baseUrl}/hello/person") {
         message.should == "hello person"
     }
+    // mark-fix
 }

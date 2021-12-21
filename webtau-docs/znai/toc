@@ -41,6 +41,11 @@ browser
     page-open-handlers
     finders-and-filters
     matchers
+servers
+    introduction
+    static-server
+    proxy-server
+    fake-server
 cli
     introduction
     foreground-command
