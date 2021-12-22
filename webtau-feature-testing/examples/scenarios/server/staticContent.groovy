@@ -23,17 +23,30 @@ def expectedHtml = "<body>\n" +
         "</body>"
 
 scenario("static content server") {
-    def staticServer = server.serve("my-server", "data/staticcontent")
+    // static-server-create
+    def myServer = server.serve("my-server", "data/staticcontent")
+    // static-server-create
 
-    http.get("http://localhost:${staticServer.port}/hello.html") {
+    http.get("http://localhost:${myServer.port}/hello.html") {
         body.should == expectedHtml
     }
 
-    http.get("${staticServer.baseUrl}/hello.html") {
+    http.get("${myServer.baseUrl}/hello.html") {
         body.should == expectedHtml
     }
 
-    staticServer.setAsBaseUrl()
+    // static-server-json
+    http.get("${myServer.baseUrl}/data.json") {
+        body.type == "person"
+    }
+    // static-server-json
+
+    // static-server-html
+    browser.open("${myServer.baseUrl}/hello.html")
+    $("p").should == "hello"
+    // static-server-html
+
+    myServer.setAsBaseUrl()
     http.get("/hello.html") {
         body.should == expectedHtml
     }
@@ -42,10 +55,13 @@ scenario("static content server") {
 scenario("slow down") {
     def staticServer = server.serve("my-server-slown-down", "data/staticcontent")
 
+    // mark-unresponsive
     staticServer.markUnresponsive()
+
     code {
         http.get("${staticServer.baseUrl}/hello.html")
     } should throwException(~/Read timed out/)
+    // mark-unresponsive
 
     staticServer.fix()
     http.get("${staticServer.baseUrl}/hello.html") {
@@ -56,29 +72,38 @@ scenario("slow down") {
 scenario("broken") {
     def staticServer = server.serve("my-server-broken", "data/staticcontent")
 
+    // mark-broken
     staticServer.markBroken()
+
     http.get("${staticServer.baseUrl}/hello.html") {
         statusCode.should == 500
         body.should == null
     }
+    // mark-broken
 
+    // mark-fix
     staticServer.fix()
+    // mark-fix
+
     http.get("${staticServer.baseUrl}/hello.html") {
         body.should == expectedHtml
     }
 }
 
 scenario("response override") {
-    def staticServer = server.serve("my-server-override", "data/staticcontent")
+    def myServer = server.serve("my-server-override", "data/staticcontent")
 
-    def router = server.router().get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) }
-    staticServer.addOverride(router)
+    // override-example
+    def router = server.router()
+            .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) }
+    myServer.addOverride(router)
+    // override-example
 
-    http.get("${staticServer.baseUrl}/hello/world") {
+    http.get("${myServer.baseUrl}/hello/world") {
         message.should == "hello world"
     }
 
-    http.get("${staticServer.baseUrl}/hello.html") {
+    http.get("${myServer.baseUrl}/hello.html") {
         body.should == expectedHtml
     }
 }
