@@ -68,6 +68,7 @@ public class WebtauServersRegistry implements TestListener {
 
         test.addTestResultPayload(new TestResultPayload("servers", serverJournals));
     }
+
     private static void stopServers() {
         serverById.values().stream()
                 .filter(WebtauServer::isRunning)
