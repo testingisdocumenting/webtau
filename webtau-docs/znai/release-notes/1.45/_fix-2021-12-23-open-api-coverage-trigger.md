@@ -1,0 +1,1 @@
+* Fix: remove call to open api schema end-point at the end of tests if no http calls were performed during tests 

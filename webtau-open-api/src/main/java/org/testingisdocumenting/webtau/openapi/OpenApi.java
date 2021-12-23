@@ -36,8 +36,12 @@ public class OpenApi {
         return validator.get();
     }
 
+    synchronized static boolean isCoverageUninitialized() {
+        return coverage.get() == null;
+    }
+
     synchronized static OpenApiCoverage getCoverage() {
-        if (coverage.get() == null) {
+        if (isCoverageUninitialized()) {
             initialize();
         }
 
