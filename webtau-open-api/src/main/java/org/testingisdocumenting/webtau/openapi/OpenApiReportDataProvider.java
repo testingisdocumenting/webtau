@@ -22,16 +22,17 @@ import org.testingisdocumenting.webtau.report.ReportDataProvider;
 import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class OpenApiReportDataProvider implements ReportDataProvider {
     @Override
     public Stream<WebTauReportCustomData> provide(WebTauTestList tests, WebTauReportLog log) {
+        if (OpenApi.isCoverageUninitialized()) {
+            return Stream.empty();
+        }
+
         List<? extends Map<String, ?>> nonCoveredOperations = OpenApi.getCoverage().nonCoveredOperations()
                 .map(OpenApiOperation::toMap)
                 .collect(Collectors.toList());
