@@ -125,7 +125,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             def testFiles = cliConfigHandler.testFilesWithFullPath()
             def missing = testFiles.findAll { testFile -> !Files.exists(testFile.path)}
             if (!missing.isEmpty()) {
-                throw new RuntimeException('Missing test files:\n  ' + missing.join('  \n'))
+                throw new RuntimeException('Missing test files:\n  ' + missing.path.join('  \n'))
             }
 
             testFiles.forEach {
