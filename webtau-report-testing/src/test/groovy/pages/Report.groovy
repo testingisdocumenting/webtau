@@ -34,6 +34,7 @@ class Report {
     def tabNames = $(".tab-selection .tab-name")
     def stepsTab = tabNames.get("Steps")
     def httpCallsTab = tabNames.get("HTTP calls")
+    def serversTab = tabNames.get("Servers")
 
     def cellValues = $("td").all()
 
@@ -53,6 +54,8 @@ class Report {
 
     def keyValuesKeys = $(".webtau-key-value-grid-key")
 
+    def tableUrlCells = $(".webtau-url-cell")
+
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
     }
@@ -69,6 +72,10 @@ class Report {
 
     def selectHttpCalls() {
         httpCallsTab.click()
+    }
+
+    def selectServers() {
+        serversTab.click()
     }
 
     def selectCliCalls() {

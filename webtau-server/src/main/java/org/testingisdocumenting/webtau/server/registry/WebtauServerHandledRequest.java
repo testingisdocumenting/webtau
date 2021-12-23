@@ -55,7 +55,7 @@ public class WebtauServerHandledRequest {
         this.method = request.getMethod();
         this.url = request.getRequestURI();
         this.statusCode = response.getStatus();
-        this.requestType = request.getContentType();
+        this.requestType = requestContentTypeOrEmpty(request);
         this.responseType = response.getContentType();
         this.startTime = startTime;
         this.elapsedTime = endTime - startTime;
@@ -127,5 +127,10 @@ public class WebtauServerHandledRequest {
                         contentType.contains("html") ||
                         contentType.contains("json") ||
                         contentType.contains("xml"));
+    }
+
+    private String requestContentTypeOrEmpty(HttpServletRequest request) {
+        String contentType = request.getContentType();
+        return contentType != null ? contentType : "";
     }
 }
