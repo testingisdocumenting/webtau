@@ -103,7 +103,11 @@ public class ContentCaptureRequestWrapper extends HttpServletRequestWrapper {
 
     public String getCaptureAsString() {
         try {
-            return new String(getCaptureAsBytes(), getCharacterEncoding());
+            String charsetName = getCharacterEncoding();
+
+            return charsetName != null ?
+                    new String(getCaptureAsBytes(), charsetName):
+                    new String(getCaptureAsBytes());
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

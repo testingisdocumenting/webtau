@@ -1,0 +1,1 @@
+* Fix: [static content server](servers/static-server) capture of browser page request  

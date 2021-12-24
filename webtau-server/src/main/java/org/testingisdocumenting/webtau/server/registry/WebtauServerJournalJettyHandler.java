@@ -119,12 +119,4 @@ public class WebtauServerJournalJettyHandler implements Handler {
     public void removeLifeCycleListener(Listener listener) {
         delegate.removeLifeCycleListener(listener);
     }
-
-    private static boolean isTextBasedContent(String contentType) {
-        return contentType != null && (
-                contentType.contains("text") ||
-                contentType.contains("html") ||
-                contentType.contains("json") ||
-                contentType.contains("xml"));
-    }
 }
