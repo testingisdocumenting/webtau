@@ -56,8 +56,12 @@ export function Step({ step, isTopLevel }: Props) {
   );
 
   function renderStepInputOutput(input?: WebTauStepInput, output?: WebTauStepOutput) {
-    if (input?.type === 'WebTauStepInputKeyValue' || output?.type === 'WebTauStepOutputKeyValue') {
-      return <StepInputOutputKeyValue inputData={input?.data} outputData={output?.data} />;
+    const isInputKeyValue = input?.type === 'WebTauStepInputKeyValue';
+    const isOutputKeyValue = output?.type === 'WebTauStepOutputKeyValue';
+    if (isInputKeyValue || isOutputKeyValue) {
+      const inputData = isInputKeyValue ? input?.data : {};
+      const outputData = isOutputKeyValue ? output?.data : {};
+      return <StepInputOutputKeyValue inputData={inputData} outputData={outputData} />;
     }
   }
 
