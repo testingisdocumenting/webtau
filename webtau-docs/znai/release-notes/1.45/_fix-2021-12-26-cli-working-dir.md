@@ -1,0 +1,1 @@
+* Fix: [CLI run](cli/foreground-command) working dir matches config working dir if none specified for the process   

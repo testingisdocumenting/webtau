@@ -124,6 +124,8 @@ class CliProcessConfig {
 
         if (workingDir != null) {
             processBuilder.directory(workingDir);
+        } else {
+            processBuilder.directory(WebTauConfig.getCfg().getWorkingDir().toFile());
         }
     }
 
@@ -136,8 +138,7 @@ class CliProcessConfig {
             return workingDir.toFile();
         }
 
-        return WebTauConfig.getCfg().getWorkingDir()
-                .resolve(workingDir)
+        return WebTauConfig.getCfg().fullPath(workingDir)
                 .normalize()
                 .toAbsolutePath().toFile();
     }
