@@ -108,6 +108,15 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "run config with global working dir "() {
+        supportedPlatformOnly {
+            testRunner.runCliWithWorkingDir("../../examples/scenarios/cli/cliRunConfigGlobalWorkingDir.groovy",
+                    'examples/scripts',
+                    "scenarios/cli/webtau.cfg.groovy")
+        }
+    }
+
+    @Test
     void "run config extract snippets"() {
         extractCodeSnippets(
                 'foreground-cli-cfg', 'examples/scenarios/cli/cliRunConfig.groovy', [
@@ -180,9 +189,9 @@ class WebTauCliFeaturesTest {
         }
     }
 
-    private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
+    private static void runCli(String cliTestName, String configFileName, String... additionalArgs) {
         supportedPlatformOnly {
-            testRunner.runCli("scenarios/cli/$restTestName",
+            testRunner.runCli("scenarios/cli/$cliTestName",
                     "scenarios/cli/$configFileName", additionalArgs)
         }
     }

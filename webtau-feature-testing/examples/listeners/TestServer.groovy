@@ -28,7 +28,7 @@ class TestServer {
 
     void start() {
         def jarName = "webtau-testapp-${WebtauVersion.version}-exec.jar"
-        server = cli.runInBackground("java -jar ../webtau-testapp/target/${jarName} " +
+        server = cli.runInBackground("java -jar ../../webtau-testapp/target/${jarName} " +
                 "--server.port=0 --spring.profiles.active=qa")
 
         server.output.waitTo(contain("Tomcat started on port(s)"), 40_000)
