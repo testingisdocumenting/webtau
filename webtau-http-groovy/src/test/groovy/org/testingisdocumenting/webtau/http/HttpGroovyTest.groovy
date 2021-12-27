@@ -1094,7 +1094,7 @@ class HttpGroovyTest extends HttpTestBase {
         def validationResult = http.lastValidationResult
         validationResult.startTime.should == httpCallForcedStartTime
         validationResult.elapsedTime.should == httpElapsedTime
-        validationResult.errorMessage.should == ~/java.lang.ClassCastException: .*cannot be cast to .*HttpURLConnection/
+        validationResult.errorMessage.should == ~/java.lang.ClassCastException: .*HttpURLConnection/
     }
 
     @Test

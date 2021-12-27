@@ -75,7 +75,7 @@ class FeaturesDocArtifactsExtractor {
     }
 
     private static Path artifactsRoot(String artifactName) {
-        DocumentationArtifactsLocation.resolve('snippets').resolve(artifactName)
+        return Paths.get("target/doc-artifacts/snippets").resolve(artifactName)
     }
 
     private static void extractAndSaveHtml(String resourceName, String css, Path outputPath) {

@@ -20,8 +20,6 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.BeforeClass
 import org.junit.Test
 
-import java.nio.file.Paths
-
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.linuxOnly
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
