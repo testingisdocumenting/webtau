@@ -59,6 +59,9 @@
     --webtau-test-status-filter-text-color: #aaa;
     --webtau-test-status-filter-selected-text-color: #eee;
     --webtau-test-status-filter-background-color: #3e474b;
+
+    --webtau-powered-by-background-color: #354148;
+
     --webtau-selected-test-background: #111;
     --webtau-selected-test-border-color: #000;
 

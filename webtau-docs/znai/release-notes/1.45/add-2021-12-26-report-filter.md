@@ -1,0 +1,1 @@
+* Move report tests status filter to the top and put theme switching to the bottom in its place 
