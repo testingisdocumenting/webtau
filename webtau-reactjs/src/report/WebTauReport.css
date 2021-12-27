@@ -34,12 +34,13 @@ body {
 .report {
     display: grid;
     grid-template-columns: 350px 1fr;
-    grid-template-rows: auto 37px 1fr 30px;
+    grid-template-rows: auto 30px 30px 1fr 24px;
 
     grid-template-areas: "selection details"
+                         "   status details"
                          "   search details"
                          "     list details"
-                         "   status details";
+                         "    theme details";
 
     color: var(--webtau-text-color);
     background-color: var(--webtau-background-color);
@@ -100,4 +101,8 @@ body {
     color: #eee;
     background-color: var(--webtau-test-status-filter-background-color);
     border-right: 1px solid var(--webtau-panels-border-color);
+}
+
+.report > .znai-powered-and-theme-area {
+    grid-area: theme;
 }

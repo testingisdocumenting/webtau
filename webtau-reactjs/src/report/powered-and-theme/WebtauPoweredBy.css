@@ -1,6 +1,5 @@
 /*
  * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,27 +14,20 @@
  * limitations under the License.
  */
 
-.overall-summary {
+.webtau-summary-generated-by-and-theme-panel {
     display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: auto;
+    height: 100%;
+    align-items: center;
+    gap: var(--webtau-spacing-double);
+
+    background-color: var(--webtau-powered-by-background-color);
+
+    padding: 0 var(--webtau-spacing);
+    border-right: 1px solid var(--webtau-panels-border-color);
 }
 
-.overall-summary-tab-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: var(--webtau-spacing);
-    overflow: auto;
-}
-
-.overall-number-of-http-calls {
-    cursor: pointer;
-}
-
-.overall-summary-performance-grid {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: var(--webtau-spacing);
+.webtau-generated-by a,
+.webtau-generated-by a:visited {
+    color: var(--webtau-report-name-text-color);
+    padding-left: var(--webtau-spacing-half);
 }

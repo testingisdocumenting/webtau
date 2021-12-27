@@ -32,7 +32,7 @@ export function WebtauThemeSwitcher() {
     const themeName = window.webtauTheme.name;
 
     const newThemeName = themeName === 'webtau-light' ? 'dark' : 'light';
-    return `click to switch to ${newThemeName} theme`;
+    return `switch to ${newThemeName} theme`;
   }
 
   function toggleTheme() {
