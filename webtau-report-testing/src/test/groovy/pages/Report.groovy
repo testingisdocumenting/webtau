@@ -54,7 +54,7 @@ class Report {
 
     def keyValuesKeys = $(".webtau-key-value-grid-key")
 
-    def tableUrlCells = $(".webtau-url-cell")
+    def tableUrlCells = $(".webtau-url-cell").all()
 
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))

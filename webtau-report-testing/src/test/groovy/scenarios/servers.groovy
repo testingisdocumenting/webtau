@@ -24,5 +24,5 @@ scenario('listing servers') {
     report.selectTest('static content server')
     report.selectServers()
 
-    report.tableUrlCells.all().should containAll("/hello.html", "/data.json")
+    report.tableUrlCells.should containAll("/hello.html", "/data.json")
 }
