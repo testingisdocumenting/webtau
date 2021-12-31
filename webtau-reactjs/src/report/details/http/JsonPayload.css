@@ -27,6 +27,6 @@
 }
 
 .json-value-highlight.failed {
-    background-color: rgba(215, 84, 80, 0.2);
-    color: #444;
+    background-color: var(--webtau-mismatch-background-color);
+    color: var(--webtau-mismatch-color);
 }

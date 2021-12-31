@@ -510,8 +510,8 @@ export const withRestDataReport = {
           responseBody:
             '{\n  "id" : 1,\n  "firstName" : "FN",\n  "lastName" : "LN",\n  "_links" : {\n    "self" : {\n      "href" : "http://localhost:8080/customers/1"\n    },\n    "customer" : {\n      "href" : "http://localhost:8080/customers/1"\n    }\n  }\n}',
           responseBodyChecks: {
-            failedPaths: [],
-            passedPaths: ['root.firstName', 'root.lastName'],
+            failedPaths: ['root.lastName'],
+            passedPaths: ['root.firstName'],
           },
         },
       ],

@@ -88,8 +88,11 @@
     --webtau-code-property-color: #660e7a;
     --webtau-code-punctuation-color: #888;
 
-    --webtau-match-color: #eee;
-    --webtau-match-background-color: rgba(57, 215, 40, 0.2);
+    --webtau-match-color: #0a0a0a;
+    --webtau-match-background-color: rgba(57, 215, 40, 0.5);
+    --webtau-mismatch-color: #0a0a0a;
+    --webtau-mismatch-background-color: rgba(215, 84, 80, 0.5);
+
     --webtau-table-row-problem-background-color: #fff0f0;
 
     --webtau-property-key-color: #784285;
