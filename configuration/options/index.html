@@ -96,6 +96,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -118,18 +119,12 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "CLI and configuration file options",
       "id" : "cli-and-configuration-file-options",
       "type" : "Section",
+      "title" : "CLI and configuration file options",
       "content" : [ {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "name"
-          }, {
-            "title" : "description"
-          }, {
-            "title" : "default value"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -931,23 +926,23 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "logical working dir",
               "type" : "SimpleText"
             } ]
-          } ], null ] ]
-        },
-        "type" : "Table"
-      } ]
-    }, {
-      "title" : "Environment variable options",
-      "id" : "environment-variable-options",
-      "type" : "Section",
-      "content" : [ {
-        "table" : {
+          } ], null ] ],
           "columns" : [ {
-            "title" : "environment variable"
+            "title" : "name"
           }, {
             "title" : "description"
           }, {
             "title" : "default value"
-          } ],
+          } ]
+        }
+      } ]
+    }, {
+      "id" : "environment-variable-options",
+      "type" : "Section",
+      "title" : "Environment variable options",
+      "content" : [ {
+        "type" : "Table",
+        "table" : {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1749,12 +1744,18 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "logical working dir",
               "type" : "SimpleText"
             } ]
-          } ], null ] ]
-        },
-        "type" : "Table"
+          } ], null ] ],
+          "columns" : [ {
+            "title" : "environment variable"
+          }, {
+            "title" : "description"
+          }, {
+            "title" : "default value"
+          } ]
+        }
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Configuration",
       "pageTitle" : "Options",

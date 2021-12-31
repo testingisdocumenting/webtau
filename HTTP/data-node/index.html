@@ -131,6 +131,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -153,15 +154,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Special Values",
       "id" : "special-values",
       "type" : "Section",
+      "title" : "Special Values",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\") {\n    price.should == 100\n    assert price instanceof DataNode\n}",
         "entry" : "use groovy closure as validation",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -187,32 +188,32 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Extracting Values",
       "id" : "extracting-values",
       "type" : "Section",
+      "title" : "Extracting Values",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "As you have seen in ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/HTTP/CRUD",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "CRUD example",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/HTTP/CRUD"
         }, {
           "text" : " you can return values back from a validation block.",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def id = http.get(\"/end-point\") {\n    return id\n}\n\nassert id == 10\nassert id.getClass() == Integer",
         "entry" : "can return simple value from get",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -232,29 +233,29 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Properties On Lists",
       "id" : "properties-on-lists",
       "type" : "Section",
+      "title" : "Properties On Lists",
       "content" : [ {
         "data" : {
-          "id" : 10,
-          "price" : 100,
           "amount" : 30,
+          "price" : 100,
+          "complexList" : [ {
+            "k1" : "v1",
+            "k2" : 30,
+            "id" : "id1"
+          }, {
+            "k1" : "v11",
+            "k2" : 40,
+            "id" : "id2"
+          } ],
+          "id" : 10,
           "list" : [ 1, 2, 3 ],
           "object" : {
             "k1" : "v1",
             "k2" : "v2",
             "k3" : "v3"
-          },
-          "complexList" : [ {
-            "id" : "id1",
-            "k1" : "v1",
-            "k2" : 30
-          }, {
-            "id" : "id2",
-            "k1" : "v11",
-            "k2" : 40
-          } ]
+          }
         },
         "paths" : [ ],
         "type" : "Json"
@@ -277,16 +278,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\") {\n    complexList.k2.should == [30, 40]\n}",
         "entry" : "children key shortcut",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Path based properties access",
       "id" : "path-based-properties-access",
       "type" : "Section",
+      "title" : "Path based properties access",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -308,11 +309,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "java",
         "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"object.k1\").should(equal(\"v1\"));\n});",
         "entry" : "canQueryNodeByPath",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "java"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -320,24 +321,24 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "java",
         "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"complexList[0].k1\").should(equal(\"v1\"));\n    body.get(\"complexList[-1].k1\").should(equal(\"v11\"));\n});",
         "entry" : "canQuerySpecificListElementByPath",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "java"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Similarly to the Groovy example in ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/HTTP/data-node#properties-on-lists",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Properties On Lists",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/HTTP/data-node#properties-on-lists"
         }, {
           "text" : ", it is possible to access",
           "type" : "SimpleText"
@@ -348,16 +349,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "java",
         "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"complexList.k1\").should(equal(Arrays.asList(\"v1\", \"v11\")));\n});",
         "entry" : "canQueryListByNodePath",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "java"
       } ]
     }, {
-      "title" : "If-Else Logic",
       "id" : "if-else-logic",
       "type" : "Section",
+      "title" : "If-Else Logic",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -382,12 +383,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def zipCode = http.get(\"/address\") {\n    return addressType == \"complex\" ? address.zipCode : \"NA\"\n}\n\nzipCode.should == \"12345\"",
         "entry" : "if-else logic",
         "bodyOnly" : true,
+        "type" : "Snippet",
         "title" : "simple if-else logic",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -396,9 +397,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Each",
       "id" : "each",
       "type" : "Section",
+      "title" : "Each",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -415,24 +416,24 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\") {\n    list.each { it.shouldBe > 0 }\n}",
         "entry" : "each on simple list",
         "bodyOnly" : true,
+        "type" : "Snippet",
         "title" : "List of simple values",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\") {\n    complexList.each { k2.shouldBe > 0 }\n}",
         "entry" : "each on complex list",
         "bodyOnly" : true,
+        "type" : "Snippet",
         "title" : "List of complex values",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Find",
       "id" : "find",
       "type" : "Section",
+      "title" : "Find",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -443,11 +444,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def found = http.get(\"/end-point\") {\n    return list.find { it > 1 }\n}\n\nassert found == 2\nassert found.getClass() == Integer",
         "entry" : "find on list",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -461,11 +462,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def found = http.get(\"/end-point\") {\n    return list.findAll { it > 1 }\n}\n\nassert found == [2, 3]\nassert found[0].getClass() == Integer",
         "entry" : "findAll on list",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -488,16 +489,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "InlinedCode"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def id = http.get(\"/end-point\") {\n    def found = complexList.find {\n        assert k1.getClass() == String\n        k1 == 'v1'\n    }\n    assert found.getClass() == GroovyDataNode\n\n    return found.id\n}\n\nassert id.getClass() == String",
         "entry" : "find on list of objects",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Collect",
       "id" : "collect",
       "type" : "Section",
+      "title" : "Collect",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -511,16 +512,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def transformed = http.get(\"/end-point\") {\n    return list.collect { \"world#${it}\" }\n}\n\nassert transformed == ['world#1', 'world#2', 'world#3']\nassert transformed[0] instanceof GString",
         "entry" : "transform list",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Combine",
       "id" : "combine",
       "type" : "Section",
+      "title" : "Combine",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -540,14 +541,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def sum = http.get(\"/end-point\") {\n    return complexList\n            .findAll { k1.startsWith('v1') }\n            .collect { k2 }\n            .sum()\n}\n\nassert sum == 70",
         "entry" : "findAll, collect, and sum",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Data Node",

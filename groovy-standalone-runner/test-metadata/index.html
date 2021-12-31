@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,9 +124,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Specifying Test Metadata",
       "id" : "specifying-test-metadata",
       "type" : "Section",
+      "title" : "Specifying Test Metadata",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -142,11 +143,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "InlinedCode"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nmetadata([owner: \"team A\"]) // setting owner for all the scenarios below\n\nscenario(\"one\") {\n}\n\nscenario(\"two\") {\n}\n\nscenario(\"three\") {\n    metadata([owner: \"team B\"]) // owner is overridden for scenario \"three\"\n}\n\nscenario(\"four\") {\n}",
-        "title" : "test metadata",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "test metadata",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -163,11 +164,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nmetadata([owner: \"team A\"]) // setting owner for scenarios \"one\" and \"two\"\n\nscenario(\"one\") {\n}\n\nscenario(\"two\") {\n}\n\nmetadata([owner: \"team B\"]) // setting owner for scenarios \"three\" and \"four\"\n\nscenario(\"three\") {\n}\n\nscenario(\"four\") {\n}",
-        "title" : "multiple top-level metadata",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "multiple top-level metadata",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -176,9 +177,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Metadata Encapsulation",
       "id" : "metadata-encapsulation",
       "type" : "Section",
+      "title" : "Metadata Encapsulation",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -186,20 +187,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nSupport.teamA()\n\nscenario(\"one\") {\n}\n\nscenario(\"two\") {\n}\n\nscenario(\"three\") {\n    Support.teamB()\n}\n\nscenario(\"four\") {\n}",
+        "type" : "Snippet",
         "title" : "encapsulated metadata",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nclass Support {\n    static void owner(String name) {\n        metadata([owner: name])\n    }\n\n    static void severity(int level) {\n        metadata([severity: level])\n    }\n\n    static void teamA() {\n        owner(\"team A\")\n    }\n\n    static void teamB() {\n        owner(\"team B\")\n    }\n\n    static void critical() {\n        severity(100)\n    }\n\n    static void low() {\n        severity(1)\n    }\n}",
+        "type" : "Snippet",
         "title" : "Support.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Report",
       "id" : "report",
       "type" : "Section",
+      "title" : "Report",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -208,24 +209,25 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "annotationsPath" : "doc-artifacts/reports/report-test-metadata.json",
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-metadata.png",
-        "timestamp" : 1634267913623,
         "shapes" : [ {
-          "id" : "badge2",
-          "type" : "badge",
-          "text" : "1",
-          "color" : "a",
           "darkFriendly" : false,
+          "invertedColors" : false,
+          "color" : "a",
           "x" : 628,
           "y" : 238,
-          "align" : "Center"
+          "text" : "1",
+          "id" : "badge4",
+          "align" : "Center",
+          "type" : "badge"
         } ],
         "width" : 1200.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-metadata.png",
+        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922741704
       }, {
-        "delimiter" : ".",
         "startNumber" : 1,
+        "delimiter" : ".",
         "type" : "OrderedList",
         "content" : [ {
           "type" : "ListItem",
@@ -239,7 +241,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Test Metadata",

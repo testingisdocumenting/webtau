@@ -117,10 +117,16 @@
 <header><h1>Assert Title</h1></header>
 <p>browser.title.should == &quot;Super Search&quot; browser.title.waitTo == &quot;Super Search&quot;</p>
 </article>
+
+<article>
+<header><h1>Back And Forward</h1></header>
+<p>Use and to simulate browser history Back and Forward buttons browser.back() browser.forward()</p>
+</article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -143,9 +149,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Open",
       "id" : "open",
       "type" : "Section",
+      "title" : "Open",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -159,29 +165,29 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "search.submit('query')\n\nbrowser.open(\"/search\") // page is not be ing refreshed\nsearch.searchMessage.should == 'searching for query'",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Note: relative url will be automatically expanded to the full url based on the ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/browser/basic-configuration",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "configuration",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/browser/basic-configuration"
         } ]
       } ]
     }, {
-      "title" : "Reopen",
       "id" : "reopen",
       "type" : "Section",
+      "title" : "Reopen",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -195,15 +201,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "search.submit('name')\n\nbrowser.reopen(\"/search\") // page is going to be refreshed\nsearch.searchMessage.should == ''",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Refresh",
       "id" : "refresh",
       "type" : "Section",
+      "title" : "Refresh",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -217,15 +223,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "search.submit('name')\n\nbrowser.reopen(\"/search\") // page is going to be refreshed\nsearch.searchMessage.should == ''",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Restart",
       "id" : "restart",
       "type" : "Section",
+      "title" : "Restart",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -239,9 +245,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "browser.open('/local-storage')\nbrowser.localStorage.setItem('favoriteColor', 'pretty')\n\nbrowser.refresh()\n$('#favorite-color').should == 'pretty'\n\nbrowser.restart()\n$('#favorite-color').should == ''",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -250,9 +256,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Assert URL",
       "id" : "assert-url",
       "type" : "Section",
+      "title" : "Assert URL",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -266,36 +272,36 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "txt",
         "snippet" : "http://example.com/resource/id?type=full&debug=true#subId",
+        "type" : "Snippet",
         "title" : "sample url",
-        "type" : "Snippet"
+        "lang" : "txt"
       }, {
-        "lang" : "groovy",
         "snippet" : "browser.url.path.should == '/resource/id'\nbrowser.url.path.should contain('/id')\nbrowser.url.query.should == 'type=full&debug=true'\nbrowser.url.ref.should == 'subId'",
-        "title" : "asserting url parts",
         "entry" : "should expose url parts with should",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "asserting url parts",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "browser.url.should == 'http://example.com/resource/id?type=full&debug=true#subId'\nbrowser.url.should contain('resource/id?type=')",
-        "title" : "asserting full url",
         "entry" : "full part should be optional and default during assertion",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "asserting full url",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "browser.url.path.waitTo == '/resource/id'\nbrowser.url.query.waitTo == 'type=full&debug=true'\nbrowser.url.ref.waitTo == 'subId'",
-        "title" : "waiting on url parts",
         "entry" : "should expose url parts with wait",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "waiting on url parts",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Persist URL",
       "id" : "persist-url",
       "type" : "Section",
+      "title" : "Persist URL",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -326,9 +332,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "browser.open('/resource-creation')\n\n$('#new').click()\nbrowser.saveCurrentUrl()",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -341,9 +347,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "browser.openSavedUrl()\n// continue resource related manipulations",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -352,24 +358,78 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Assert Title",
       "id" : "assert-title",
       "type" : "Section",
+      "title" : "Assert Title",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "browser.title.should == \"Super Search\"",
+        "type" : "Snippet",
         "title" : "asserting title",
-        "includeRegexp" : "title.should",
-        "type" : "Snippet"
-      }, {
         "lang" : "groovy",
+        "includeRegexp" : "title.should"
+      }, {
         "snippet" : "browser.title.waitTo == \"Super Search\"",
+        "type" : "Snippet",
         "title" : "waiting on title",
-        "includeRegexp" : "title.waitTo",
-        "type" : "Snippet"
+        "lang" : "groovy",
+        "includeRegexp" : "title.waitTo"
+      } ]
+    }, {
+      "id" : "back-and-forward",
+      "type" : "Section",
+      "title" : "Back And Forward",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.back",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "code" : "browser.forward",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to simulate",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "browser history ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Back",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Forward",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " buttons",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "browser.back()\nbrowser.forward()",
+        "type" : "Snippet",
+        "title" : "back and forward",
+        "lang" : "groovy",
+        "includeRegexp" : [ "back", "forward" ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Navigation",
@@ -398,6 +458,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Assert Title",
         "id" : "assert-title"
+      }, {
+        "title" : "Back And Forward",
+        "id" : "back-and-forward"
       } ]
     }
   }

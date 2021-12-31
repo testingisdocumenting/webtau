@@ -91,6 +91,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -113,9 +114,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Customizing the GraphQL Endpoint",
       "id" : "customizing-the-graphql-endpoint",
       "type" : "Section",
+      "title" : "Customizing the GraphQL Endpoint",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -194,13 +195,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package org.testingisdocumenting.webtau.graphql\n\nimport org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfiguration\nimport org.testingisdocumenting.webtau.graphql.model.GraphQLRequest\n\nclass CustomGraphQLHttpConfiguration implements GraphQLHttpConfiguration {\n    // Note: our test server requires the graphql endpoint to start with \"graphql\"\n    public static final CUSTOM_GRAPHQL_ENDPOINT = 'graphql-custom'\n\n    @Override\n    String requestUrl(String url, GraphQLRequest graphQLRequest) {\n        if (null != graphQLRequest.operationName && !graphQLRequest.operationName.isEmpty()) {\n            return \"${CUSTOM_GRAPHQL_ENDPOINT}?operation=${graphQLRequest.operationName}\"\n        }\n        return url\n    }\n}",
+        "type" : "Snippet",
         "title" : "Customized GraphQLHttpConfiguration adding the operation to the URL",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317640,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "GraphQL",
       "pageTitle" : "Customized Graphql Urls",

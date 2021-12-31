@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Static Server</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Serve Static Content</h1></header>
+<p>Use to start a server on random port that will host static content from the specified directory. def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) { &quot;id&quot;: &quot;user-one&quot;, &quot;type&quot;: &quot;person&quot; } http.get(&quot;${myServer.baseUrl}/data.json&quot;) { body.type == &quot;person&quot; }</p>
+</article>
+
+<article>
+<header><h1>Host Html For Browser</h1></header>
+<p>Use static server to host html files and then open them using a browser. &lt;body&gt; &lt;p&gt;hello&lt;/p&gt; &lt;/body&gt; browser.open(&quot;${myServer.baseUrl}/hello.html&quot;) $(&quot;p&quot;).should == &quot;hello&quot;</p>
+</article>
+
+<article>
+<header><h1>Override Response</h1></header>
+<p>Use to modify response of a proxied server def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
+</article>
+
+<article>
+<header><h1>Server Slowdown</h1></header>
+<p>Use to mark server as unresponsive staticServer.markUnresponsive() code { http.get(&quot;${staticServer.baseUrl}/hello.html&quot;) } should throwException(~/Read timed out/)</p>
+</article>
+
+<article>
+<header><h1>Server Break</h1></header>
+<p>Use to mark server as broken staticServer.markBroken() http.get(&quot;${staticServer.baseUrl}/hello.html&quot;) { statusCode.should == 500 body.should == null }</p>
+</article>
+
+<article>
+<header><h1>Server Fix</h1></header>
+<p>Use to remove broken and/or slowdown state staticServer.fix()</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "serve-static-content",
+      "type" : "Section",
+      "title" : "Serve Static Content",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "server.serve",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to start a server on random port",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "that will host static content from the specified directory.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def myServer = server.serve(\"my-server\", \"data/staticcontent\")",
+        "surroundedBy" : "static-server-create",
+        "type" : "Snippet",
+        "title" : "create and start server",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "{\n  \"id\": \"user-one\",\n  \"type\": \"person\"\n}",
+        "type" : "Snippet",
+        "title" : "data/staticcontent/data.json",
+        "autoTitle" : true,
+        "lang" : "json"
+      }, {
+        "snippet" : "http.get(\"${myServer.baseUrl}/data.json\") {\n    body.type == \"person\"\n}",
+        "surroundedBy" : "static-server-json",
+        "type" : "Snippet",
+        "title" : "testing response from a static server",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "host-html-for-browser",
+      "type" : "Section",
+      "title" : "Host Html For Browser",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use static server to host html files and then open them using a browser.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "<body>\n<p>hello</p>\n</body>",
+        "type" : "Snippet",
+        "title" : "data/staticcontent/hello.html",
+        "autoTitle" : true,
+        "lang" : "html"
+      }, {
+        "snippet" : "browser.open(\"${myServer.baseUrl}/hello.html\")\n$(\"p\").should == \"hello\"",
+        "surroundedBy" : "static-server-html",
+        "type" : "Snippet",
+        "title" : "open browser using static contet",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "override-response",
+      "type" : "Section",
+      "title" : "Override Response",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "addOverride",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to modify response of a proxied server",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") {request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\nmyServer.addOverride(router)",
+        "surroundedBy" : "override-example",
+        "type" : "Snippet",
+        "title" : "content override",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-slowdown",
+      "type" : "Section",
+      "title" : "Server Slowdown",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "markUnresponsive",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to mark server as unresponsive",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "staticServer.markUnresponsive()\n\ncode {\n    http.get(\"${staticServer.baseUrl}/hello.html\")\n} should throwException(~/Read timed out/)",
+        "surroundedBy" : "mark-unresponsive",
+        "type" : "Snippet",
+        "title" : "mark as unresponsive",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-break",
+      "type" : "Section",
+      "title" : "Server Break",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "markBroken",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to mark server as broken",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "staticServer.markBroken()\n\nhttp.get(\"${staticServer.baseUrl}/hello.html\") {\n    statusCode.should == 500\n    body.should == null\n}",
+        "surroundedBy" : "mark-broken",
+        "type" : "Snippet",
+        "title" : "mark as broken",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-fix",
+      "type" : "Section",
+      "title" : "Server Fix",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "fix",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to remove broken and/or slowdown state",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "staticServer.fix()",
+        "surroundedBy" : "mark-fix",
+        "type" : "Snippet",
+        "title" : "fix server",
+        "lang" : "groovy"
+      } ]
+    } ],
+    "lastModifiedTime" : 1640922026336,
+    "tocItem" : {
+      "sectionTitle" : "Servers",
+      "pageTitle" : "Static Server",
+      "pageMeta" : { },
+      "dirName" : "servers",
+      "fileName" : "static-server",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Serve Static Content",
+        "id" : "serve-static-content"
+      }, {
+        "title" : "Host Html For Browser",
+        "id" : "host-html-for-browser"
+      }, {
+        "title" : "Override Response",
+        "id" : "override-response"
+      }, {
+        "title" : "Server Slowdown",
+        "id" : "server-slowdown"
+      }, {
+        "title" : "Server Break",
+        "id" : "server-break"
+      }, {
+        "title" : "Server Fix",
+        "id" : "server-fix"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Proxy Server</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Proxy Servers Creation</h1></header>
+<p>Use to create a proxy server by specifying target url def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl)</p>
+</article>
+
+<article>
+<header><h1>Override Response</h1></header>
+<p>Use to modify response of a proxied server def router = server.router(&quot;router-id&quot;) router.get(&quot;/another/{id}&quot;, (request) -&gt; server.response([anotherId: request.param(&quot;id&quot;)])) proxyServer.addOverride(router)</p>
+</article>
+
+<article>
+<header><h1>Server Slowdown</h1></header>
+<p>Use to mark server as unresponsive proxyServer.markUnresponsive() code { http.get(&quot;${proxyServer.baseUrl}/another/hello&quot;) { body.should == [anotherId: &quot;hello&quot;] } } should throwException(~/Read timed out/)</p>
+</article>
+
+<article>
+<header><h1>Server Break</h1></header>
+<p>Use to mark server as broken proxyServer.markBroken() http.get(&quot;${proxyServer.baseUrl}/hello.html&quot;) { statusCode.should == 500 body.should == null }</p>
+</article>
+
+<article>
+<header><h1>Server Fix</h1></header>
+<p>Use to remove broken and/or slowdown state proxyServer.fix()</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "proxy-servers-creation",
+      "type" : "Section",
+      "title" : "Proxy Servers Creation",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "server.proxy",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to create a proxy server by specifying target url",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def proxyServer = server.proxy(\"test-proxy-server\", targetServer.baseUrl)",
+        "surroundedBy" : "proxy-server-creation",
+        "type" : "Snippet",
+        "title" : "proxy server creation example",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "override-response",
+      "type" : "Section",
+      "title" : "Override Response",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "addOverride",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to modify response of a proxied server",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def router = server.router(\"router-id\")\nrouter.get(\"/another/{id}\", (request) -> server.response([anotherId: request.param(\"id\")]))\n\nproxyServer.addOverride(router)",
+        "surroundedBy" : "proxy-add-override",
+        "type" : "Snippet",
+        "title" : "content override",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-slowdown",
+      "type" : "Section",
+      "title" : "Server Slowdown",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "markUnresponsive",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to mark server as unresponsive",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "proxyServer.markUnresponsive()",
+        "surroundedBy" : "mark-unresponsive",
+        "type" : "Snippet",
+        "title" : "mark as unresponsive",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "code {\n    http.get(\"${proxyServer.baseUrl}/another/hello\") {\n        body.should == [anotherId: \"hello\"]\n    }\n} should throwException(~/Read timed out/)",
+        "surroundedBy" : "unresponsive-time-out-throw",
+        "type" : "Snippet",
+        "title" : "unresponsive timeout",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-break",
+      "type" : "Section",
+      "title" : "Server Break",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "markBroken",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to mark server as broken",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "proxyServer.markBroken()",
+        "surroundedBy" : "mark-broken",
+        "type" : "Snippet",
+        "title" : "mark as broken",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "http.get(\"${proxyServer.baseUrl}/hello.html\") {\n    statusCode.should == 500\n    body.should == null\n}",
+        "surroundedBy" : "mark-broken-response",
+        "type" : "Snippet",
+        "title" : "broken server response",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-fix",
+      "type" : "Section",
+      "title" : "Server Fix",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "fix",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to remove broken and/or slowdown state",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "proxyServer.fix()",
+        "surroundedBy" : "mark-fix",
+        "type" : "Snippet",
+        "title" : "fix server",
+        "lang" : "groovy"
+      } ]
+    } ],
+    "lastModifiedTime" : 1640922026336,
+    "tocItem" : {
+      "sectionTitle" : "Servers",
+      "pageTitle" : "Proxy Server",
+      "pageMeta" : { },
+      "dirName" : "servers",
+      "fileName" : "proxy-server",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Proxy Servers Creation",
+        "id" : "proxy-servers-creation"
+      }, {
+        "title" : "Override Response",
+        "id" : "override-response"
+      }, {
+        "title" : "Server Slowdown",
+        "id" : "server-slowdown"
+      }, {
+        "title" : "Server Break",
+        "id" : "server-break"
+      }, {
+        "title" : "Server Fix",
+        "id" : "server-fix"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

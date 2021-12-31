@@ -105,7 +105,7 @@
 
 <article>
 <header><h1>Working Dir</h1></header>
-<p>Use cli.workingDir as a second parameter to cli.run to set a working dir: cli.run('./listing', cli.workingDir('../scripts')) { output.should contain('listing files') output.should contain('sleeps') }</p>
+<p>Use cli.workingDir as a second parameter to cli.run to set a working dir: cli.run('./listing', cli.workingDir('scripts')) { output.should contain('listing files') output.should contain('sleeps') }</p>
 </article>
 
 <article>
@@ -120,12 +120,12 @@
 
 <article>
 <header><h1>Chain Cli Run Config</h1></header>
-<p>Combine configs by using cli.env(...).workingDir(...) in any order to set both: cli.run('./hello-env-var', cli.workingDir('../scripts').env([MY_VAR: 'webtau'])) { output.should == 'hello webtau' }</p>
+<p>Combine configs by using cli.env(...).workingDir(...) in any order to set both: cli.run('./hello-env-var', cli.workingDir('scripts').env([MY_VAR: 'webtau'])) { output.should == 'hello webtau' }</p>
 </article>
 
 <article>
 <header><h1>Path</h1></header>
-<p>To specify PATH to use for CLI commands lookup use cliPath = ['../scripts/more']</p>
+<p>To specify PATH to use for CLI commands lookup use cliPath = ['scripts/more']</p>
 </article>
 
 <article>
@@ -136,6 +136,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -187,9 +188,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "SimpleText"
       } ]
     }, {
-      "title" : "Run",
       "id" : "run",
       "type" : "Section",
+      "title" : "Run",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -208,35 +209,35 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run('echo hello world')",
+        "type" : "Snippet",
         "title" : "run command",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Run With Validation",
       "id" : "run-with-validation",
       "type" : "Section",
+      "title" : "Run With Validation",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "cli.run('echo hello world') {\n    output.should contain('hello')\n    output.should contain('world')\n}",
+        "type" : "Snippet",
         "title" : "output validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run('scripts/error-output') {\n    error.should == 'error B892T'\n}",
+        "type" : "Snippet",
         "title" : "error validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run('scripts/exit-code 8') {\n    exitCode.should == 8\n    exitCode.shouldNot == 0\n}",
+        "type" : "Snippet",
         "title" : "exit code validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Implicit Exit Code Validation",
       "id" : "implicit-exit-code-validation",
       "type" : "Section",
+      "title" : "Implicit Exit Code Validation",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -261,10 +262,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run('echo hello world')",
+        "type" : "Snippet",
         "title" : "implicit exit validation happens here",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -272,15 +273,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run('echo hello world') {\n    exitCode.should == 0\n}",
+        "type" : "Snippet",
         "title" : "exit code check webtau performs if you don't write explicit validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Run Result",
       "id" : "run-result",
       "type" : "Section",
+      "title" : "Run Result",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -294,11 +295,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def result = cli.run('scripts/my-script') {\n    exitCode.shouldNot == 0\n}\n\nprintln result.output\nprintln result.error\nif (result.exitCode == 1) {\n    // ...\n}",
-        "title" : "using run result",
         "excludeRegexp" : "hide-docs",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "using run result",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -306,26 +307,26 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "example",
         "snippet" : "def result = cli.run('scripts/generate-id')\ndef id = result.extractFromOutputByRegexp(\"id=(\\\\d+)\")",
+        "excludeStartEnd" : true,
+        "startLine" : "example",
+        "type" : "Snippet",
         "title" : "extract from output by regexp",
-        "startLine" : "example",
-        "endLine" : "example",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
-        "snippet" : "def result = cli.run('scripts/generate-id')\ndef id = result.extractFromErrorByRegexp(\"id=(\\\\d+)\")",
-        "title" : "extract from error by regexp",
-        "startLine" : "example",
         "endLine" : "example",
+        "snippet" : "def result = cli.run('scripts/generate-id')\ndef id = result.extractFromErrorByRegexp(\"id=(\\\\d+)\")",
         "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "startLine" : "example",
+        "type" : "Snippet",
+        "title" : "extract from error by regexp",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Working Dir",
       "id" : "working-dir",
       "type" : "Section",
+      "title" : "Working Dir",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -345,15 +346,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "cli.run('./listing', cli.workingDir('../scripts')) {\n    output.should contain('listing files')\n    output.should contain('sleeps')\n}",
+        "snippet" : "cli.run('./listing', cli.workingDir('scripts')) {\n    output.should contain('listing files')\n    output.should contain('sleeps')\n}",
+        "type" : "Snippet",
         "title" : "set working dir",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Environment Variables",
       "id" : "environment-variables",
       "type" : "Section",
+      "title" : "Environment Variables",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -373,21 +374,21 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "",
         "snippet" : "#!/bin/bash\necho \"hello $MY_VAR\"",
-        "autoTitle" : true,
+        "type" : "Snippet",
         "title" : "scripts/hello-env-var",
-        "type" : "Snippet"
+        "autoTitle" : true,
+        "lang" : ""
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run('scripts/hello-env-var', cli.env([MY_VAR: 'webtau'])) {\n    output.should == 'hello webtau'\n}",
+        "type" : "Snippet",
         "title" : "set environment variable",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Common Environment Variables",
       "id" : "common-environment-variables",
       "type" : "Section",
+      "title" : "Common Environment Variables",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -407,21 +408,21 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cliEnv {\n    MY_VAR = \"webtau\"\n    PREFIX_VAR = \"__\"\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "default-my-var",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run('scripts/hello-env-var') {\n    output.should == 'hello webtau'\n}",
+        "type" : "Snippet",
         "title" : "use environment variable from config",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Chain Cli Run Config",
       "id" : "chain-cli-run-config",
       "type" : "Section",
+      "title" : "Chain Cli Run Config",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -435,15 +436,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "cli.run('./hello-env-var',\n        cli.workingDir('../scripts').env([MY_VAR: 'webtau'])) {\n    output.should == 'hello webtau'\n}",
+        "snippet" : "cli.run('./hello-env-var',\n        cli.workingDir('scripts').env([MY_VAR: 'webtau'])) {\n    output.should == 'hello webtau'\n}",
+        "type" : "Snippet",
         "title" : "set environment variable and working dir",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Path",
       "id" : "path",
       "type" : "Section",
+      "title" : "Path",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -457,15 +458,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "cliPath = ['../scripts/more']",
+        "snippet" : "cliPath = ['scripts/more']",
+        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Timeout",
       "id" : "timeout",
       "type" : "Section",
+      "title" : "Timeout",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -488,10 +489,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cliTimeout = 400",
+        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -505,11 +506,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cli.run(\"scripts/sleeps\", cli.timeout(300))",
+        "type" : "Snippet",
         "title" : "local override",
-        "includeRegexp" : "cli.timeout",
-        "type" : "Snippet"
+        "lang" : "groovy",
+        "includeRegexp" : "cli.timeout"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -518,7 +519,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Foreground Command",

@@ -3,7 +3,7 @@
     <url>/webtau/getting-started/what-is-this#webtau</url>
     <fullTitle>WebTau: What Is This, Webtau [Getting Started]</fullTitle>
     <text>
-      <text>Webtau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000> $("p") element is found: by css p getText(): hello web page Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors.Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</text>
+      <text>Webtau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000> $("p") element is found: by css p getText(): hello web page Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors.Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -395,7 +395,7 @@
     <url>/webtau/HTTP/documentation#test-artifacts</url>
     <fullTitle>WebTau: Documentation, Test Artifacts [HTTP]</fullTitle>
     <text>
-      <text>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:40837/params?a=1&amp;b=text</text>
+      <text>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:46733/params?a=1&amp;b=text</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -635,7 +635,7 @@
     <url>/webtau/GraphQL/introduction</url>
     <fullTitle>WebTau: Introduction,  [GraphQL]</fullTitle>
     <text>
-      <text>The Webtau graphql. module lets you exercise and validate a GraphQL API. It provides a simplified way to access the JSON response of an end-point and provides a DSL to execute queries and mutations. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("check weather") { def query = "{ weather { temperature } }"; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = "{ weather { temperature } }"; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } json { "data": { "weather": { "temperature": 88 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = "{ weather { temperature } }"; graphql.execute(query, (header, body) -> { body.get("data.weather.temperature").shouldBe(lessThan(100)); }); } } json { "data": { "weather": { "temperature": 88 } } } Before diving further into writing tests for your GraphQL server, please read through the HTTP testing documentation starting with the HTTP/data-node Data node page as much of the same core principles apply to GraphQL also.The main GraphQL specific features are covered in the subsequent pages: GraphQL/queries-and-mutations Queries and Mutations GraphQL/customized-graphql-urls Customized GraphQL URLs GraphQL/report Report</text>
+      <text>Webtau graphql. module lets you exercise and validate a GraphQL API. It provides a simplified way to access the JSON response of an end-point and provides a DSL to execute queries and mutations. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("check weather") { def query = "{ weather { temperature } }"; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = "{ weather { temperature } }"; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } json { "data": { "weather": { "temperature": 88 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = "{ weather { temperature } }"; graphql.execute(query, (header, body) -> { body.get("data.weather.temperature").shouldBe(lessThan(100)); }); } } json { "data": { "weather": { "temperature": 88 } } } Before diving further into writing tests for your GraphQL server, please read through the HTTP testing documentation starting with the HTTP/data-node Data node page as much of the same core principles apply to GraphQL also.The main GraphQL specific features are covered in the subsequent pages: GraphQL/queries-and-mutations Queries and Mutations GraphQL/customized-graphql-urls Customized GraphQL URLs GraphQL/report Report</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -667,7 +667,7 @@
     <url>/webtau/GraphQL/report#additional-reports</url>
     <fullTitle>WebTau: Report, Additional Reports [GraphQL]</fullTitle>
     <text>
-      <text>To generate custom reports or upload report data to your server, specify a reportGenerator config property. package scenarios.graphql url = "http://localhost:8180" graphQLIgnoreIntrospectionFailures = false reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as follows: package scenarios.graphql import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.console.ansi.Color import org.testingisdocumenting.webtau.report.ReportDataProviders import org.testingisdocumenting.webtau.reporter.WebTauReport import org.testingisdocumenting.webtau.utils.JsonUtils import static org.testingisdocumenting.webtau.WebTauDsl.cfg class Report { static void generateReport(WebTauReport report) { def additionalData = [:] report.customDataStream.each { additionalData.putAll(it.toMap()) } def reportData = [:] reportData.graphQLSkippedQueries = additionalData.graphQLSkippedQueries // All queries present in the GraphQL schema but not tested reportData.graphQLCoveredQueries = additionalData.graphQLCoveredQueries // All queries present in the GraphQL schema and tested reportData.graphQLCoverageSummary = additionalData.graphQLCoverageSummary // Summary of test coverage compared to the GraphQL schema reportData.graphQLQueryTimeStatistics = additionalData.graphQLQueryTimeStatistics // Summary of timing by query reportData.graphQLCoveredSuccessBranches = additionalData.graphQLCoveredSuccessBranches // All queries present in the GraphQL schema that were hit with a success result reportData.graphQLSkippedSuccessBranches = additionalData.graphQLSkippedSuccessBranches // All queries present in the GraphQL schema but not hit with a success result reportData.graphQLCoveredErrorBranches = additionalData.graphQLCoveredErrorBranches // All queries present in the GraphQL schema that were hit with an error result reportData.graphQLSkippedErrorBranches = additionalData.graphQLSkippedErrorBranches // All queries present in the GraphQL schema but not hit with an error result def reportPath = cfg.workingDir.resolve('webtau.graphql-report.json') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = JsonUtils.serializePrettyPrint(reportData) } } The output looks as follows: { "graphQLSkippedQueries" : [ { "name" : "complete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" }, { "name" : "uncomplete", "type" : "mutation" } ], "graphQLCoveredQueries" : [ { "name" : "weather", "type" : "query" } ], "graphQLCoverageSummary" : { "coverage" : 0.2, "branchCoverage" : 0.1, "types" : { "mutation" : { "coverage" : 0.0, "declaredQueries" : 2, "coveredQueries" : 0.0 }, "query" : { "coverage" : 0.3333333333333333, "declaredQueries" : 3, "coveredQueries" : 1.0 } }, "successBranchCoverage" : 0.2, "errorBranchCoverage" : 0.0, "totalDeclaredQueries" : 5.0, "totalCoveredQueries" : 1.0 }, "graphQLQueryTimeStatistics" : [ { "name" : "weather", "type" : "query", "statistics" : { "mean" : 3.0, "min" : 3, "max" : 3, "count" : 1, "p95" : 3.0, "p99" : 3.0 } } ], "graphQLCoveredSuccessBranches" : [ { "name" : "weather", "type" : "query" } ], "graphQLSkippedSuccessBranches" : [ { "name" : "complete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" }, { "name" : "uncomplete", "type" : "mutation" } ], "graphQLCoveredErrorBranches" : [ ], "graphQLSkippedErrorBranches" : [ { "name" : "complete", "type" : "mutation" }, { "name" : "weather", "type" : "query" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" }, { "name" : "uncomplete", "type" : "mutation" } ] } Coverage and Timing Statistics Webtau will implicitly invoke your GraphQL server's introspection queries in order to fetch a subset of the schema. It uses this schema in conjunction with the requests in tests to compute:query coverage - which queries were invoked by tests and which were not as well as an overall summary of coverage timing information - http call timing statistics by query</text>
+      <text>To generate custom reports or upload report data to your server, specify a reportGenerator config property. package scenarios.graphql url = "http://localhost:8180" graphQLIgnoreIntrospectionFailures = false reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as follows: package scenarios.graphql import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.console.ansi.Color import org.testingisdocumenting.webtau.report.ReportDataProviders import org.testingisdocumenting.webtau.reporter.WebTauReport import org.testingisdocumenting.webtau.utils.JsonUtils import static org.testingisdocumenting.webtau.WebTauDsl.cfg class Report { static void generateReport(WebTauReport report) { def additionalData = [:] report.customDataStream.each { additionalData.putAll(it.toMap()) } def reportData = [:] reportData.graphQLSkippedQueries = additionalData.graphQLSkippedQueries // All queries present in the GraphQL schema but not tested reportData.graphQLCoveredQueries = additionalData.graphQLCoveredQueries // All queries present in the GraphQL schema and tested reportData.graphQLCoverageSummary = additionalData.graphQLCoverageSummary // Summary of test coverage compared to the GraphQL schema reportData.graphQLQueryTimeStatistics = additionalData.graphQLQueryTimeStatistics // Summary of timing by query reportData.graphQLCoveredSuccessBranches = additionalData.graphQLCoveredSuccessBranches // All queries present in the GraphQL schema that were hit with a success result reportData.graphQLSkippedSuccessBranches = additionalData.graphQLSkippedSuccessBranches // All queries present in the GraphQL schema but not hit with a success result reportData.graphQLCoveredErrorBranches = additionalData.graphQLCoveredErrorBranches // All queries present in the GraphQL schema that were hit with an error result reportData.graphQLSkippedErrorBranches = additionalData.graphQLSkippedErrorBranches // All queries present in the GraphQL schema but not hit with an error result def reportPath = cfg.workingDir.resolve('webtau.graphql-report.json') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = JsonUtils.serializePrettyPrint(reportData) } } The output looks as follows: { "graphQLSkippedQueries" : [ { "name" : "complete", "type" : "mutation" }, { "name" : "uncomplete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" } ], "graphQLCoveredQueries" : [ { "name" : "weather", "type" : "query" } ], "graphQLCoverageSummary" : { "coverage" : 0.2, "branchCoverage" : 0.1, "types" : { "mutation" : { "coverage" : 0.0, "declaredQueries" : 2, "coveredQueries" : 0.0 }, "query" : { "coverage" : 0.3333333333333333, "declaredQueries" : 3, "coveredQueries" : 1.0 } }, "successBranchCoverage" : 0.2, "errorBranchCoverage" : 0.0, "totalDeclaredQueries" : 5.0, "totalCoveredQueries" : 1.0 }, "graphQLQueryTimeStatistics" : [ { "name" : "weather", "type" : "query", "statistics" : { "mean" : 4.0, "min" : 4, "max" : 4, "count" : 1, "p95" : 4.0, "p99" : 4.0 } } ], "graphQLCoveredSuccessBranches" : [ { "name" : "weather", "type" : "query" } ], "graphQLSkippedSuccessBranches" : [ { "name" : "complete", "type" : "mutation" }, { "name" : "uncomplete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" } ], "graphQLCoveredErrorBranches" : [ ], "graphQLSkippedErrorBranches" : [ { "name" : "complete", "type" : "mutation" }, { "name" : "uncomplete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" }, { "name" : "weather", "type" : "query" } ] } Coverage and Timing Statistics Webtau will implicitly invoke your GraphQL server's introspection queries in order to fetch a subset of the schema. It uses this schema in conjunction with the requests in tests to compute:query coverage - which queries were invoked by tests and which were not as well as an overall summary of coverage timing information - http call timing statistics by query</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -907,7 +907,7 @@
     <url>/webtau/browser/documentation-artifacts#capturing-screenshots-with-annotations</url>
     <fullTitle>WebTau: Documentation Artifacts, Capturing Screenshots With Annotations [Browser]</fullTitle>
     <text>
-      <text>To capture screenshots use browser.doc[.withAnnotations].capture : search.submit("search this") browser.doc.withAnnotations( browser.doc.badge(search.box), browser.doc.badge(search.results)).capture('search') The result of the capture command is two files: actual screenshot and search.json . { "shapes" : [ { "id" : "badge13", "type" : "badge", "text" : "1", "color" : "a", "darkFriendly" : false, "x" : 104, "y" : 76, "align" : "Center" }, { "id" : "badge14", "type" : "badge", "text" : "2", "color" : "a", "darkFriendly" : false, "x" : 492, "y" : 161, "align" : "Center" } ], "pixelRatio" : 1 } https://testingisdocumenting.org/webtau Webtau documentation site is generated using https://github.com/testingisdocumenting/znai Znai. It has include-image plugin that supports annotations format generated by capture command. :include-image: doc-artifacts/search.png {fit: true, annotationsPath: "doc-artifacts/search.json"}</text>
+      <text>To capture screenshots use browser.doc[.withAnnotations].capture : search.submit("search this") browser.doc.withAnnotations( browser.doc.badge(search.box), browser.doc.badge(search.results)).capture('search') The result of the capture command is two files: actual screenshot and search.json . { "shapes" : [ { "id" : "badge13", "type" : "badge", "text" : "1", "color" : "a", "darkFriendly" : false, "invertedColors" : false, "x" : 115, "y" : 78, "align" : "Center" }, { "id" : "badge14", "type" : "badge", "text" : "2", "color" : "a", "darkFriendly" : false, "invertedColors" : false, "x" : 494, "y" : 166, "align" : "Center" } ], "pixelRatio" : 1 } https://testingisdocumenting.org/webtau Webtau documentation site is generated using https://github.com/testingisdocumenting/znai Znai. It has include-image plugin that supports annotations format generated by capture command. :include-image: doc-artifacts/search.png {fit: true, annotationsPath: "doc-artifacts/search.json"}</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1048,6 +1048,14 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/browser/navigation#back-and-forward</url>
+    <fullTitle>WebTau: Navigation, Back And Forward [Browser]</fullTitle>
+    <text>
+      <text>Use and to simulate browser history Back and Forward buttons browser.back() browser.forward()</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/browser/page-open-handlers#implicit-page-open-logic</url>
     <fullTitle>WebTau: Page Open Handlers, Implicit Page Open Logic [Browser]</fullTitle>
     <text>
@@ -1120,10 +1128,138 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/servers/introduction</url>
+    <fullTitle>WebTau: Introduction,  [Servers]</fullTitle>
+    <text>
+      <text>Webtau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve("my-server", "data/staticcontent") def router = server.router() // router-example .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) } // router-example .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) } // router-example // router-example def myServer = server.fake("my-rest-server", router) // router-example def proxyServer = server.proxy("test-proxy-server", targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a "bad" state. proxyServer.markUnresponsive() def router = server.router() .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) } myServer.addOverride(router)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/static-server#serve-static-content</url>
+    <fullTitle>WebTau: Static Server, Serve Static Content [Servers]</fullTitle>
+    <text>
+      <text>Use to start a server on random port that will host static content from the specified directory. def myServer = server.serve("my-server", "data/staticcontent") { "id": "user-one", "type": "person" } http.get("${myServer.baseUrl}/data.json") { body.type == "person" }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/static-server#host-html-for-browser</url>
+    <fullTitle>WebTau: Static Server, Host Html For Browser [Servers]</fullTitle>
+    <text>
+      <text>Use static server to host html files and then open them using a browser. &lt;body> &lt;p>hello&lt;/p> &lt;/body> browser.open("${myServer.baseUrl}/hello.html") $("p").should == "hello"</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/static-server#override-response</url>
+    <fullTitle>WebTau: Static Server, Override Response [Servers]</fullTitle>
+    <text>
+      <text>Use to modify response of a proxied server def router = server.router() .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) } myServer.addOverride(router)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/static-server#server-slowdown</url>
+    <fullTitle>WebTau: Static Server, Server Slowdown [Servers]</fullTitle>
+    <text>
+      <text>Use to mark server as unresponsive staticServer.markUnresponsive() code { http.get("${staticServer.baseUrl}/hello.html") } should throwException(~/Read timed out/)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/static-server#server-break</url>
+    <fullTitle>WebTau: Static Server, Server Break [Servers]</fullTitle>
+    <text>
+      <text>Use to mark server as broken staticServer.markBroken() http.get("${staticServer.baseUrl}/hello.html") { statusCode.should == 500 body.should == null }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/static-server#server-fix</url>
+    <fullTitle>WebTau: Static Server, Server Fix [Servers]</fullTitle>
+    <text>
+      <text>Use to remove broken and/or slowdown state staticServer.fix()</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/proxy-server#proxy-servers-creation</url>
+    <fullTitle>WebTau: Proxy Server, Proxy Servers Creation [Servers]</fullTitle>
+    <text>
+      <text>Use to create a proxy server by specifying target url def proxyServer = server.proxy("test-proxy-server", targetServer.baseUrl)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/proxy-server#override-response</url>
+    <fullTitle>WebTau: Proxy Server, Override Response [Servers]</fullTitle>
+    <text>
+      <text>Use to modify response of a proxied server def router = server.router("router-id") router.get("/another/{id}", (request) -> server.response([anotherId: request.param("id")])) proxyServer.addOverride(router)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/proxy-server#server-slowdown</url>
+    <fullTitle>WebTau: Proxy Server, Server Slowdown [Servers]</fullTitle>
+    <text>
+      <text>Use to mark server as unresponsive proxyServer.markUnresponsive() code { http.get("${proxyServer.baseUrl}/another/hello") { body.should == [anotherId: "hello"] } } should throwException(~/Read timed out/)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/proxy-server#server-break</url>
+    <fullTitle>WebTau: Proxy Server, Server Break [Servers]</fullTitle>
+    <text>
+      <text>Use to mark server as broken proxyServer.markBroken() http.get("${proxyServer.baseUrl}/hello.html") { statusCode.should == 500 body.should == null }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/proxy-server#server-fix</url>
+    <fullTitle>WebTau: Proxy Server, Server Fix [Servers]</fullTitle>
+    <text>
+      <text>Use to remove broken and/or slowdown state proxyServer.fix()</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/fake-server#fake-server-creation</url>
+    <fullTitle>WebTau: Fake Server, Fake Server Creation [Servers]</fullTitle>
+    <text>
+      <text>Use to create a server with controlled responses def router = server.router() // router-example .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) } // router-example .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) } // router-example // router-example def myServer = server.fake("my-rest-server", router) // router-example http.get("${myServer.baseUrl}/hello/person") { message.should == "hello person" } http.get("${myServer.baseUrl}/bye/person") { message.should == "bye person" }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/fake-server#server-slowdown</url>
+    <fullTitle>WebTau: Fake Server, Server Slowdown [Servers]</fullTitle>
+    <text>
+      <text>Use to mark server as unresponsive myServer.markUnresponsive() code { http.get("${myServer.baseUrl}/hello/person") { message.should == "hello person" } } should throwException(~/Read timed out/)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/fake-server#server-break</url>
+    <fullTitle>WebTau: Fake Server, Server Break [Servers]</fullTitle>
+    <text>
+      <text>Use to mark server as broken myServer.markBroken() http.get("${myServer.baseUrl}/hello/person") { statusCode.should == 500 body.should == null }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/fake-server#server-fix</url>
+    <fullTitle>WebTau: Fake Server, Server Fix [Servers]</fullTitle>
+    <text>
+      <text>Use to remove broken and/or slowdown state myServer.fix() http.get("${myServer.baseUrl}/hello/person") { message.should == "hello person" }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/cli/introduction</url>
     <fullTitle>WebTau: Introduction,  [Cli]</fullTitle>
     <text>
-      <text>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario("example of ls run") { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy doc-artifacts examples pom.xml pom.xml.versionsBackup scripts src target test-expectations webtau-reports</text>
+      <text>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario("example of ls run") { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders doc-artifacts formHandlers listeners pages personas scenarios schemas scripts use-cases.csv</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1163,7 +1299,7 @@
     <url>/webtau/cli/foreground-command#working-dir</url>
     <fullTitle>WebTau: Foreground Command, Working Dir [Cli]</fullTitle>
     <text>
-      <text>Use cli.workingDir as a second parameter to cli.run to set a working dir: cli.run('./listing', cli.workingDir('../scripts')) { output.should contain('listing files') output.should contain('sleeps') }</text>
+      <text>Use cli.workingDir as a second parameter to cli.run to set a working dir: cli.run('./listing', cli.workingDir('scripts')) { output.should contain('listing files') output.should contain('sleeps') }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1187,7 +1323,7 @@
     <url>/webtau/cli/foreground-command#chain-cli-run-config</url>
     <fullTitle>WebTau: Foreground Command, Chain Cli Run Config [Cli]</fullTitle>
     <text>
-      <text>Combine configs by using cli.env(...).workingDir(...) in any order to set both: cli.run('./hello-env-var', cli.workingDir('../scripts').env([MY_VAR: 'webtau'])) { output.should == 'hello webtau' }</text>
+      <text>Combine configs by using cli.env(...).workingDir(...) in any order to set both: cli.run('./hello-env-var', cli.workingDir('scripts').env([MY_VAR: 'webtau'])) { output.should == 'hello webtau' }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1195,7 +1331,7 @@
     <url>/webtau/cli/foreground-command#path</url>
     <fullTitle>WebTau: Foreground Command, Path [Cli]</fullTitle>
     <text>
-      <text>To specify PATH to use for CLI commands lookup use cliPath = ['../scripts/more']</text>
+      <text>To specify PATH to use for CLI commands lookup use cliPath = ['scripts/more']</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1243,7 +1379,7 @@
     <url>/webtau/cli/background-command#working-dir</url>
     <fullTitle>WebTau: Background Command, Working Dir [Cli]</fullTitle>
     <text>
-      <text>Use cli.workingDir as a second parameter to cli.runInBackground to set a working dir: def command = cli.runInBackground('./listing', cli.workingDir('../scripts')) command.output.waitTo contain('listing files') command.output.waitTo contain('sleeps') command.stop()</text>
+      <text>Use cli.workingDir as a second parameter to cli.runInBackground to set a working dir: def command = cli.runInBackground('./listing', cli.workingDir('scripts')) command.output.waitTo contain('listing files') command.output.waitTo contain('sleeps') command.stop()</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1267,7 +1403,7 @@
     <url>/webtau/cli/background-command#chain-cli-run-config</url>
     <fullTitle>WebTau: Background Command, Chain Cli Run Config [Cli]</fullTitle>
     <text>
-      <text>Combine configs by using cli.env(...).workingDir(...) in any order to set both: def command = cli.runInBackground('./hello-env-var', cli.workingDir('../scripts').env([MY_VAR: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</text>
+      <text>Combine configs by using cli.env(...).workingDir(...) in any order to set both: def command = cli.runInBackground('./hello-env-var', cli.workingDir('scripts').env([MY_VAR: 'webtau'])) command.output.waitTo contain('hello webtau') command.stop()</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1275,7 +1411,7 @@
     <url>/webtau/cli/background-command#path</url>
     <fullTitle>WebTau: Background Command, Path [Cli]</fullTitle>
     <text>
-      <text>To specify PATH to use for CLI commands lookup use cliPath = ['../scripts/more']</text>
+      <text>To specify PATH to use for CLI commands lookup use cliPath = ['scripts/more']</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1347,7 +1483,7 @@
     <url>/webtau/database/data-setup#semi-auto-generated-tabledata</url>
     <fullTitle>WebTau: Data Setup, Semi-Auto Generated TableData [Database]</fullTitle>
     <text>
-      <text>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table("PRICES") PRICES &lt;&lt; [ "id" | "description" | "available" | "type" | "price" ] { _____________________________________________________________________________________________ cell.guid | "nice set" | true | "card" | 1000 // cell.guid generates random guid that can be used for ids cell.guid | "nice set" | true | "card" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE bcf6c67a-1dc1-4fd4-a26c-63eaccc632ee nice set true card 1000 401eec85-cd32-4376-967c-0d33dfacb1a1 nice set true card 1010 a97f4bb6-0180-495e-994a-cb49986daefa another set true rts 1030 25dbf2e4-ac7d-49cc-845a-bd6f379cb551 another set false rts 1050 f73ca104-c7df-4deb-9992-2e61df0e29e3 another set true fps 1070 70ed1df4-bd25-4c51-82e0-41d4ff38f590 another set false fps 1090</text>
+      <text>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table("PRICES") PRICES &lt;&lt; [ "id" | "description" | "available" | "type" | "price" ] { _____________________________________________________________________________________________ cell.guid | "nice set" | true | "card" | 1000 // cell.guid generates random guid that can be used for ids cell.guid | "nice set" | true | "card" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE d67154ac-0bbc-4837-b41c-19ccdd355b66 nice set true card 1000 5f9d6da0-2bf3-4994-9de2-88eda1a2a97c nice set true card 1010 ce25230a-863a-4aba-9b1e-68af7435bcc9 another set true rts 1030 e9c8dd42-05db-42af-bde6-f425b71d40fe another set false rts 1050 56657575-8660-45a4-a92d-735a287390b5 another set true fps 1070 7265b2a4-aec9-4ed6-8d6c-aa052107b147 another set false fps 1090</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1448,6 +1584,38 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/report/introduction</url>
+    <fullTitle>WebTau: Introduction,  [Report]</fullTitle>
+    <text>
+      <text>Webtau tracks all actions and assertions tests perform. Actions and assertions are printed to console as well as available in the generated HTML report.In a test details screen, there are multiple tabs.Layer specific details, e.g. HTTP, CLI, DB, Servers, etc Every action that was performed Every webtau standard action generates WebtauStep . You can use webtau API to wrap your repeating actions into webtau compatible steps.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/report/steps#grouping-actions</url>
+    <fullTitle>WebTau: Steps, Grouping Actions [Report]</fullTitle>
+    <text>
+      <text>Use step core method to wrap a set of actions into a group step("group of actions") { actionOne() actionTwo() } import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/report/steps#tracing-values</url>
+    <fullTitle>WebTau: Steps, Tracing Values [Report]</fullTitle>
+    <text>
+      <text>Use trace core method to render key, values pairs to console and to web report. From report point of view trace is an empty step. trace("trace label", [k1: "v1", k2: "v2"]) import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/report/steps#grouping-with-trace</url>
+    <fullTitle>WebTau: Steps, Grouping With Trace [Report]</fullTitle>
+    <text>
+      <text>Pass key values to step to combine step and `trace step("group of actions", [url: baseUrl, port: myPort]) { actionThree(myPort, baseUrl) }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/REPL/experiments#read-eval-print-loop</url>
     <fullTitle>WebTau: Experiments, Read Eval Print Loop [REPL]</fullTitle>
     <text>
@@ -1467,7 +1635,7 @@
     <url>/webtau/REPL/experiments#experiment-with-api</url>
     <fullTitle>WebTau: Experiments, Experiment With API [REPL]</fullTitle>
     <text>
-      <text>Use the REPL to try out various apis like http. , browser. , db. , cli. , etc. webtau:000> http.get("https://jsonplaceholder.typicode.com/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 matches: header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (26ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (543ms)</text>
+      <text>Use the REPL to try out various apis like http. , browser. , db. , cli. , etc. webtau:000> http.get("https://jsonplaceholder.typicode.com/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 matches: header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (36ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (720ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1475,7 +1643,7 @@
     <url>/webtau/REPL/experiments#setting-config-value</url>
     <fullTitle>WebTau: Experiments, Setting Config Value [REPL]</fullTitle>
     <text>
-      <text>Use cfg.url = "http://url" to set base url for experiments. webtau:000> cfg.url = "https://jsonplaceholder.typicode.com" > setting url source: manual url: https://jsonplaceholder.typicode.com . set url (0ms) ===> https://jsonplaceholder.typicode.com webtau:000> http.get("/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 matches: header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (1ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (11ms)</text>
+      <text>Use cfg.url = "http://url" to set base url for experiments. webtau:000> cfg.url = "https://jsonplaceholder.typicode.com" > setting url source: manual url: https://jsonplaceholder.typicode.com . set url (0ms) ===> https://jsonplaceholder.typicode.com webtau:000> http.get("/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 matches: header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (20ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1483,7 +1651,7 @@
     <url>/webtau/REPL/experiments#preserving-browser-context</url>
     <fullTitle>WebTau: Experiments, Preserving Browser Context [REPL]</fullTitle>
     <text>
-      <text>During browser testing the REPL preserves the context of an opened browser, so you can experiment with css selectors and element actions without re-opening the browser and setting the right web app state. webtau:000> browser.open("file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html") > initializing webdriver for chrome . initialized webdriver for chrome (794ms) > opening file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html . opened file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html (63ms) Using element selectors provides additional information in REPL mode to help with exploration webtau:000> $("p") element is found: by css p getText(): hello web page</text>
+      <text>During browser testing the REPL preserves the context of an opened browser, so you can experiment with css selectors and element actions without re-opening the browser and setting the right web app state. webtau:000> browser.open("file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html") > initializing webdriver for chrome . initialized webdriver for chrome (1s 154ms) > opening file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html . opened file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html (109ms) Using element selectors provides additional information in REPL mode to help with exploration webtau:000> $("p") element is found: by css p getText(): hello web page</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1620,6 +1788,14 @@
     <fullTitle>WebTau: Cache, FS Path type [Utilities]</fullTitle>
     <text>
       <text>utilities/file-system File System module return values of type Path . Webtau stores them as String . To retrieve as Path use import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def deployDirCache = cache.value("deploy-dir") scenario("caching of path value") { def path = fs.tempDir("my-dir") deployDirCache.set(path) } scenario("accessing path value") { def deployDir = deployDirCache.getAsPath() fs.writeText(deployDir.resolve("file.txt"), "hello") }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/utilities/cache#presence-check</url>
+    <fullTitle>WebTau: Cache, Presence Check [Utilities]</fullTitle>
+    <text>
+      <text>Use inside utilities methods to check if a cache value was set. def prevGenerated = cache.value("zip-unpacked-path") // ... if (!prevGenerated.exists()) { // recreate content } Avoid: using cache check inside test methods to keep them clean</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1987,7 +2163,7 @@
     <url>/webtau/reference/table-data#guid</url>
     <fullTitle>WebTau: Table Data, GUID [Reference]</fullTitle>
     <text>
-      <text>Use cell.guid to automatically generate unique ids. Groovy ["ID" | "Col A" | "Col B" | "Col C"] { ________________________________________________________________________ cell.guid | permute(true, false) | "v1b" | permute('a', 'b') cell.guid | "v2a" | permute(10, 20) | "v2c" } Java table("ID" , "Col A" , "Col B" , "Col C", ______________________________________________________________________, cell.guid, permute(true, false), "v1b" , permute('a', 'b'), cell.guid, "v2a" , permute(10, 20) , "v2c") ID Col A Col B Col C 9547b73a-258d-49ff-b85f-7f973f01a58c true v1b a 6aa0126b-6e1b-4035-9dae-f02c5efe398b false v1b a 82c1923e-97b2-4b7b-9c6c-02cddeb77cb3 true v1b b 7a99a95e-c283-4008-b211-786df1efeab1 false v1b b 86e05f75-a76e-4f44-8743-85efa4ec2911 v2a 10 v2c 52fe8e0e-0af0-4361-a387-d5a6713eafdf v2a 20 v2c</text>
+      <text>Use cell.guid to automatically generate unique ids. Groovy ["ID" | "Col A" | "Col B" | "Col C"] { ________________________________________________________________________ cell.guid | permute(true, false) | "v1b" | permute('a', 'b') cell.guid | "v2a" | permute(10, 20) | "v2c" } Java table("ID" , "Col A" , "Col B" , "Col C", ______________________________________________________________________, cell.guid, permute(true, false), "v1b" , permute('a', 'b'), cell.guid, "v2a" , permute(10, 20) , "v2c") ID Col A Col B Col C 1303234d-de15-4735-8352-ba30360a2f81 true v1b a cb57be1b-3851-40ee-ab84-ad918f0ef817 false v1b a ed2d419c-aa87-4ffd-a4c6-e86004631a68 true v1b b 6629e124-e512-42fb-828e-d59d6516bab0 false v1b b eac5e18e-4753-45ac-ba60-cca1bda58c82 v2a 10 v2c 2b7ff315-b385-4002-b8a0-2ef1baa30101 v2a 20 v2c</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2016,10 +2192,18 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/release-notes/2021#145-future-release</url>
+    <fullTitle>WebTau: 2021 Releases, 1.45 (future release) [Release Notes]</fullTitle>
+    <text>
+      <text>Doc: document servers/introduction Servers Wrap deletion of all utilities/file-system temp files in a parent step Doc: document report report/steps step and trace core methods Move report tests status filter to the top and put theme switching to the bottom in its place Add trace core method to report values to console and web report Report color theme toggle and auto OS dark/light detection Improved code snippet rendering in web report Check element presence before browser/element-actions#scrolling scroll to provide better error message Add utilities/cache#presence-check cache exists method Fix: cli/foreground-command CLI run working dir matches config working dir if none specified for the process Fix: remove internal info of cli/foreground-command CLI run from web report Fix: servers/static-server static content server capture of browser page request Fix: remove call to open api schema end-point at the end of tests if no http calls were performed during tests Fix: missing files message to use only path but not container id Fix: report step with 0ms now shows elapsed time Fix: utilities/file-system waiting for non-existing file content is not throwing error anymore Fix: jansi Mac M1 exception Fix: report key-value color contrast Fix: report extra scroll bar on overall summary screen</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/release-notes/2021#1441</url>
     <fullTitle>WebTau: 2021 Releases, 1.44.1 [Release Notes]</fullTitle>
     <text>
-      <text>Fix: report extra scroll bar</text>
+      <text>Fix: report extra scroll bar on test summary screen</text>
       <score>STANDARD</score>
     </text>
   </entry>

@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,22 +124,22 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Validation",
       "id" : "validation",
       "type" : "Section",
+      "title" : "Validation",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Webtau supports validation of objects against ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://json-schema.org/",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "JSON Schema",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "https://json-schema.org/"
         }, {
           "text" : ".  It is possible to validate either",
           "type" : "SimpleText"
@@ -155,15 +156,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/weather\") {\n    body.should complyWithSchema('valid-schema.json')\n}",
+        "type" : "Snippet",
         "title" : "Validate entire body against JSON schema",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/city/London\") {\n    weather.should complyWithSchema('valid-schema.json')\n}",
+        "type" : "Snippet",
         "title" : "Validate specific field against JSON schema",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -171,23 +172,23 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "Correct schema for the example above",
         "data" : {
           "type" : "object",
-          "required" : [ "temperature" ],
           "properties" : {
             "temperature" : {
               "type" : "integer"
             }
-          }
+          },
+          "required" : [ "temperature" ]
         },
         "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "Correct schema for the example above"
       } ]
     }, {
-      "title" : "Error messages",
       "id" : "error-messages",
       "type" : "Section",
+      "title" : "Error messages",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -195,10 +196,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "",
         "snippet" : "invalid schema (examples/scenarios/rest/jsonSchema/validateSchema.groovy)\n> executing HTTP GET http://localhost:8080/weather\n  X failed expecting body to comply with schema invalid-schema.json : \n      body expected to comply with schema invalid-schema.json\n      [#: required key [anotherField] not found, #/temperature: expected type: Boolean, found: Integer]\n{\n  \"temperature\": 88\n}\n",
+        "type" : "Snippet",
         "lineNumber" : "",
-        "type" : "Snippet"
+        "lang" : ""
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -206,26 +207,26 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "Incorrect schema for the example above",
         "data" : {
           "type" : "object",
-          "required" : [ "temperature", "anotherField" ],
           "properties" : {
-            "temperature" : {
-              "type" : "boolean"
-            },
             "anotherField" : {
               "type" : "string"
+            },
+            "temperature" : {
+              "type" : "boolean"
             }
-          }
+          },
+          "required" : [ "temperature", "anotherField" ]
         },
         "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "Incorrect schema for the example above"
       } ]
     }, {
-      "title" : "Configuration",
       "id" : "configuration",
       "type" : "Section",
+      "title" : "Configuration",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -255,14 +256,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8180\"\njsonSchemasDir = 'schemas'",
-        "title" : "Configuration",
         "excludeRegexp" : "package",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "Configuration",
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317640,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "JSON Schema",

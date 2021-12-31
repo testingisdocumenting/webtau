@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,9 +124,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Example",
       "id" : "example",
       "type" : "Section",
+      "title" : "Example",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -183,26 +184,26 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"CRUD operations for customer\") {\n    def customerPayload = [firstName: \"FN\", lastName: \"LN\"] // new customer data\n\n    def id = http.post(\"/customers\", customerPayload) {\n        return id // return id value from response body\n    }\n\n    http.get(\"/customers/${id}\") {\n        body.should == customerPayload // only specified properties will be asserted against\n    }\n\n    def changedLastName = \"NLN\"\n    http.put(\"/customers/${id}\", [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName // specifying body is optional\n    }\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == \"FN\"\n        lastName.should == changedLastName\n    }\n\n    def changedFirstName = \"NFN\"\n    http.patch(\"/customers/${id}\", [firstName: changedFirstName])\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == changedFirstName\n        lastName.should == changedLastName\n    }\n\n    http.delete(\"/customers/${id}\") {\n        statusCode.should == 204\n    }\n\n    http.get(\"/customers/${id}\") {\n        statusCode.should == 404\n    }\n}",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit5;\n\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport org.junit.jupiter.api.Test;\n\nimport java.util.Map;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class CustomerCrudJavaTest {\n    @Test\n    public void crud() {\n        Map<String, ?> customerPayload = aMapOf( // new customer data\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\" );\n\n        int id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\"); // return id value from response body\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload)); // only specified properties will be asserted against\n        }));\n\n        String changedLastName = \"NLN\";\n        Map<String, ?> changedCustomerPayload = aMapOf(\n                \"firstName\", \"FN\",\n                \"lastName\", changedLastName);\n\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.get(\"firstName\").should(equal(\"FN\"));\n            body.get(\"lastName\").should(equal(changedLastName));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(404));\n        }));\n    }\n}",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Implicit statusCode Check",
       "id" : "implicit-statuscode-check",
       "type" : "Section",
+      "title" : "Implicit statusCode Check",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -216,14 +217,8 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "Method",
-            "align" : "left"
-          }, {
-            "title" : "Expected Code",
-            "align" : "left"
-          } ],
           "data" : [ [ [ {
             "text" : "GET",
             "type" : "SimpleText"
@@ -272,14 +267,20 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], [ {
             "text" : "204",
             "type" : "SimpleText"
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "align" : "left",
+            "title" : "Method"
+          }, {
+            "align" : "left",
+            "title" : "Expected Code"
+          } ]
+        }
       } ]
     }, {
-      "title" : "Report",
       "id" : "report",
       "type" : "Section",
+      "title" : "Report",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -288,12 +289,13 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "fit" : true,
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
-        "timestamp" : 1634267897723,
         "shapes" : [ ],
         "width" : 1200.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
+        "annotate" : false,
+        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922720708
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -302,7 +304,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317640,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "CRUD",

@@ -90,6 +90,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -134,54 +135,54 @@ ReactDOM.render(React.createElement(Documentation, {
         "content" : [ {
           "columns" : [ {
             "content" : [ {
-              "lang" : "groovy",
               "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe < 100\n    }\n}",
+              "type" : "Snippet",
               "title" : "REST API test (Groovy specific runner)",
-              "type" : "Snippet"
+              "lang" : "groovy"
             }, {
-              "lang" : "groovy",
               "snippet" : "package com.example.tests.junit5\n\nimport org.junit.jupiter.api.Test\nimport org.testingisdocumenting.webtau.junit5.WebTau\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@WebTau\nclass WeatherGroovyTest {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
+              "type" : "Snippet",
               "title" : "REST API test (JUnit5)",
-              "type" : "Snippet"
+              "lang" : "groovy"
             } ]
           }, {
             "content" : [ {
-              "lang" : "json",
               "snippet" : "{\n  \"temperature\": 88\n}\n",
-              "lineNumber" : "",
+              "type" : "Snippet",
               "title" : "Server Response",
-              "type" : "Snippet"
+              "lineNumber" : "",
+              "lang" : "json"
             } ]
           } ],
-          "config" : { },
-          "type" : "Columns"
+          "type" : "Columns",
+          "config" : { }
         } ]
       }, {
         "name" : "Java",
         "content" : [ {
           "columns" : [ {
             "content" : [ {
-              "lang" : "java",
               "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class WeatherJavaTest {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+              "type" : "Snippet",
               "title" : "REST API test (JUnit5 Java)",
-              "type" : "Snippet"
+              "lang" : "java"
             } ]
           }, {
             "content" : [ {
-              "lang" : "json",
               "snippet" : "{\n  \"temperature\": 88\n}\n",
-              "lineNumber" : "",
+              "type" : "Snippet",
               "title" : "Server Response",
-              "type" : "Snippet"
+              "lineNumber" : "",
+              "lang" : "json"
             } ]
           } ],
-          "config" : { },
-          "type" : "Columns"
+          "type" : "Columns",
+          "config" : { }
         } ]
       } ],
       "type" : "Tabs"
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Introduction",

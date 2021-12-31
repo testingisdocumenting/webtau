@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,9 +124,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Upload File",
       "id" : "upload-file",
       "type" : "Section",
+      "title" : "Upload File",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -190,11 +191,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath)) {\n    fileName.should == 'image.png'\n}",
         "entry" : "file upload example simple",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -208,11 +209,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: http.formFile('myFileName.png', imagePath))) {\n    fileName.should == 'myFileName.png'\n}",
         "entry" : "file upload example with file name override",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -220,16 +221,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath, fileDescription: 'new report')) {\n    fileName.should == 'image.png'\n    description.should == 'new report'\n}",
         "entry" : "file upload example multiple fields",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Upload In-Memory Content",
       "id" : "upload-in-memory-content",
       "type" : "Section",
+      "title" : "Upload In-Memory Content",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -237,11 +238,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(file: fileContent)) {\n    fileName.should == 'backend-generated-name-as-no-name-provided'\n}",
         "entry" : "file upload example with in-memory content",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -261,16 +262,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(\n        file: http.formFile('myFileName.dat', fileContent))) {\n    fileName.should == 'myFileName.dat'\n}",
         "entry" : "file upload example with in-memory content and file name",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Download PDF",
       "id" : "download-pdf",
       "type" : "Section",
+      "title" : "Download PDF",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -284,11 +285,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/report\") {\n    pdf(body).pageText(0).should contain('Quarterly earnings:')\n}",
         "entry" : "download pdf and assert page text using contains",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -302,11 +303,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/report\") {\n    def pdf = pdf(body)\n    pdf.pageText(0).should contain('Quarterly earnings:')\n    pdf.pageText(1).should == 'Intentional blank page\\n'\n}",
         "entry" : "download pdf and assert page text using equal and contains",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -315,7 +316,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Files",

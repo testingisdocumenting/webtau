@@ -84,12 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>The Webtau graphql. module lets you exercise and validate a GraphQL API. It provides a simplified way to access the JSON response of an end-point and provides a DSL to execute queries and mutations. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = &quot;{ weather { temperature } }&quot;; graphql.execute(query, (header, body) -&gt; { body.get(&quot;data.weather.temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } } Before diving further into writing tests for your GraphQL server, please read through the HTTP testing documentation starting with the HTTP/data-node Data node page as much of the same core principles apply to GraphQL also.The main GraphQL specific features are covered in the subsequent pages: GraphQL/queries-and-mutations Queries and Mutations GraphQL/customized-graphql-urls Customized GraphQL URLs GraphQL/report Report</p>
+<p>Webtau graphql. module lets you exercise and validate a GraphQL API. It provides a simplified way to access the JSON response of an end-point and provides a DSL to execute queries and mutations. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = &quot;{ weather { temperature } }&quot;; graphql.execute(query, (header, body) -&gt; { body.get(&quot;data.weather.temperature&quot;).shouldBe(lessThan(100)); }); } } json { &quot;data&quot;: { &quot;weather&quot;: { &quot;temperature&quot;: 88 } } } Before diving further into writing tests for your GraphQL server, please read through the HTTP testing documentation starting with the HTTP/data-node Data node page as much of the same core principles apply to GraphQL also.The main GraphQL specific features are covered in the subsequent pages: GraphQL/queries-and-mutations Queries and Mutations GraphQL/customized-graphql-urls Customized GraphQL URLs GraphQL/report Report</p>
 </article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -114,7 +115,7 @@ ReactDOM.render(React.createElement(Documentation, {
     "content" : [ {
       "type" : "Paragraph",
       "content" : [ {
-        "text" : "The Webtau ",
+        "text" : "Webtau ",
         "type" : "SimpleText"
       }, {
         "code" : "graphql.",
@@ -134,49 +135,49 @@ ReactDOM.render(React.createElement(Documentation, {
         "content" : [ {
           "columns" : [ {
             "content" : [ {
-              "lang" : "groovy",
               "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    def query = \"{ weather { temperature } }\";\n    graphql.execute(query) {\n        weather.temperature.shouldBe < 100\n    }\n}",
+              "type" : "Snippet",
               "title" : "GraphQL API test (Groovy specific runner)",
-              "type" : "Snippet"
+              "lang" : "groovy"
             }, {
-              "lang" : "groovy",
               "snippet" : "package com.example.tests.junit4\n\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql\n\n@RunWith(WebTauRunner.class)\nclass GraphQLWeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        def query = \"{ weather { temperature } }\";\n        graphql.execute(query) {\n            weather.temperature.shouldBe < 100\n        }\n    }\n}",
+              "type" : "Snippet",
               "title" : "GraphQL API test (JUnit4)",
-              "type" : "Snippet"
+              "lang" : "groovy"
             } ]
           }, {
             "content" : [ {
-              "lang" : "json",
               "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
-              "lineNumber" : "",
+              "type" : "Snippet",
               "title" : "Server Response",
-              "type" : "Snippet"
+              "lineNumber" : "",
+              "lang" : "json"
             } ]
           } ],
-          "config" : { },
-          "type" : "Columns"
+          "type" : "Columns",
+          "config" : { }
         } ]
       }, {
         "name" : "Java",
         "content" : [ {
           "columns" : [ {
             "content" : [ {
-              "lang" : "java",
               "snippet" : "package com.example.tests.junit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class GraphQLWeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        String query = \"{ weather { temperature } }\";\n        graphql.execute(query, (header, body) -> {\n            body.get(\"data.weather.temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+              "type" : "Snippet",
               "title" : "GraphQL API test (JUnit4 Java)",
-              "type" : "Snippet"
+              "lang" : "java"
             } ]
           }, {
             "content" : [ {
-              "lang" : "json",
               "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
-              "lineNumber" : "",
+              "type" : "Snippet",
               "title" : "Server Response",
-              "type" : "Snippet"
+              "lineNumber" : "",
+              "lang" : "json"
             } ]
           } ],
-          "config" : { },
-          "type" : "Columns"
+          "type" : "Columns",
+          "config" : { }
         } ]
       } ],
       "type" : "Tabs"
@@ -191,13 +192,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "text" : "starting with the ",
         "type" : "SimpleText"
       }, {
-        "url" : "/webtau/HTTP/data-node",
         "isFile" : false,
         "type" : "Link",
         "content" : [ {
           "text" : "Data node page",
           "type" : "SimpleText"
-        } ]
+        } ],
+        "url" : "/webtau/HTTP/data-node"
       }, {
         "text" : " as much of the same core principles apply to GraphQL also.",
         "type" : "SimpleText"
@@ -210,20 +211,20 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "bulletMarker" : "*",
-      "tight" : true,
       "type" : "BulletList",
+      "tight" : true,
       "content" : [ {
         "type" : "ListItem",
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
-            "url" : "/webtau/GraphQL/queries-and-mutations",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "Queries and Mutations",
               "type" : "SimpleText"
-            } ]
+            } ],
+            "url" : "/webtau/GraphQL/queries-and-mutations"
           } ]
         } ]
       }, {
@@ -231,13 +232,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
-            "url" : "/webtau/GraphQL/customized-graphql-urls",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "Customized GraphQL URLs",
               "type" : "SimpleText"
-            } ]
+            } ],
+            "url" : "/webtau/GraphQL/customized-graphql-urls"
           } ]
         } ]
       }, {
@@ -245,18 +246,18 @@ ReactDOM.render(React.createElement(Documentation, {
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
-            "url" : "/webtau/GraphQL/report",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "Report",
               "type" : "SimpleText"
-            } ]
+            } ],
+            "url" : "/webtau/GraphQL/report"
           } ]
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317640,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "GraphQL",
       "pageTitle" : "Introduction",

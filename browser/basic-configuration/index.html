@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,9 +124,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Base URL",
       "id" : "base-url",
       "type" : "Section",
+      "title" : "Base URL",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -144,9 +145,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('simple open') {\n    browser.open(\"/search\")\n    $('#welcome').should == 'welcome to super search'\n}",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -160,9 +161,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8180\"",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -174,9 +175,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Browser Only Base URL",
       "id" : "browser-only-base-url",
       "type" : "Section",
+      "title" : "Browser Only Base URL",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -221,9 +222,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Browser Id",
       "id" : "browser-id",
       "type" : "Section",
+      "title" : "Browser Id",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -237,9 +238,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "webtau --browserId=firefox",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "type" : "CliCommand",
+        "command" : "webtau --browserId=firefox"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -257,7 +258,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Basic Configuration",

@@ -106,6 +106,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -128,9 +129,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Living Document",
       "id" : "living-document",
       "type" : "Section",
+      "title" : "Living Document",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -150,9 +151,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Capture Input",
       "id" : "capture-input",
       "type" : "Section",
+      "title" : "Capture Input",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -177,23 +178,23 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "java",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "includeRegexp" : "import.*Core",
-        "type" : "Snippet"
-      }, {
+        "type" : "Snippet",
         "lang" : "java",
+        "includeRegexp" : "import.*Core"
+      }, {
         "snippet" : "TableData allEmployees = table(    \"id\", \"level\", \"monthsAtCompany\",\n                               ____________________________________,\n                                \"alice\",       5,   1,\n                                  \"bob\",       3,   0,\n                                \"smith\",       4,   1,\n                                  \"cat\",       4,   0);\naddEmployees(allEmployees);\n\ndoc.capture(\"all-employees\", allEmployees); // capture all employees for documentation purposes",
-        "title" : "capturing a value",
         "entry" : "initEmployees",
-        "commentsType" : "inline",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "commentsType" : "inline",
+        "type" : "Snippet",
+        "title" : "capturing a value",
+        "lang" : "java"
       } ]
     }, {
-      "title" : "Capture Expected Output",
       "id" : "capture-expected-output",
       "type" : "Section",
+      "title" : "Capture Expected Output",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -207,44 +208,44 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "java",
         "snippet" : "actual(dao.thisWeekJoiners()).should(equal(table(   \"*id\", \"level\", \"monthsAtCompany\",\n                                                ____________________________________,\n                                                    \"bob\",       3,   0,\n                                                    \"cat\",       4,   0)));\n\ndoc.expected.capture(\"new-joiners\"); // capture expected new joiners for documentation purposes",
-        "title" : "capturing most recent expected",
         "entry" : "validateNewJoiners",
-        "commentsType" : "inline",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "commentsType" : "inline",
+        "type" : "Snippet",
+        "title" : "capturing most recent expected",
+        "lang" : "java"
       } ]
     }, {
-      "title" : "Znai Example",
       "id" : "znai-example",
       "type" : "Section",
+      "title" : "Znai Example",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Since this documentation is rendered using ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://github.org/testingisdocumenting/znai",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Znai",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "https://github.org/testingisdocumenting/znai"
         }, {
           "text" : " here is an example of how to use the captured artifacts.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "url" : "https://github.org/testingisdocumenting/znai",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Znai",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "https://github.org/testingisdocumenting/znai"
         }, {
           "text" : " has ",
           "type" : "SimpleText"
@@ -256,10 +257,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "text",
         "snippet" : ":include-table: doc-artifacts/all-employees.json\n:include-table: doc-artifacts/new-joiners.json\n",
+        "type" : "Snippet",
         "lineNumber" : "",
-        "type" : "Snippet"
+        "lang" : "text"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -280,14 +281,8 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "id"
-          }, {
-            "title" : "level"
-          }, {
-            "title" : "monthsAtCompany"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -360,9 +355,15 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "0",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "id"
+          }, {
+            "title" : "level"
+          }, {
+            "title" : "monthsAtCompany"
+          } ]
+        }
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -370,14 +371,8 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "id"
-          }, {
-            "title" : "level"
-          }, {
-            "title" : "monthsAtCompany"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -414,12 +409,18 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "0",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "id"
+          }, {
+            "title" : "level"
+          }, {
+            "title" : "monthsAtCompany"
+          } ]
+        }
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "JVM Business Logic",
       "pageTitle" : "Documentation Artifacts",

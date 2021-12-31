@@ -111,6 +111,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -133,9 +134,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Standard Header",
       "id" : "standard-header",
       "type" : "Section",
+      "title" : "Standard Header",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -172,9 +173,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Implicit Header",
       "id" : "implicit-header",
       "type" : "Section",
+      "title" : "Implicit Header",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -193,10 +194,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
+        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -210,10 +211,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = step(\"generate auth token\") {\n            return \"jwt-token\"\n        }\n\n        return original.merge([Authorization: \"Bearer $token\"])\n    }\n}",
+        "type" : "Snippet",
         "title" : "scenarios/rest/headers/auth/Auth.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -222,9 +223,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Explicit Header",
       "id" : "explicit-header",
       "type" : "Section",
+      "title" : "Explicit Header",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -238,11 +239,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"/end-point\", http.header('Accept', 'application/octet-stream')) {\n    // assertions go here\n}\n\nhttp.get(\"/end-point\", [queryParam1: 'queryParamValue1'],\n        http.header('Accept', 'application/octet-stream')) {\n    // assertions go here\n}\n\nhttp.patch(\"/end-point\", http.header('Accept', 'application/octet-stream'),\n        [fileId: 'myFile']) {\n    // assertions go here\n}\n\nhttp.post(\"/end-point\", http.header('Accept', 'application/octet-stream'),\n        [fileId: 'myFile']) {\n    // assertions go here\n}\n\nhttp.put(\"/end-point\", http.header('Accept', 'application/octet-stream'),\n        [fileId: 'myFile', file: sampleFile]) {\n    // assertions go here\n}\n\nhttp.delete(\"/end-point\", http.header('Custom-Header', 'special-value'))",
         "entry" : "explicit header passing example",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -256,16 +257,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def varArgHeader = http.header(\n        'My-Header1', 'Value1',\n        'My-Header2', 'Value2')\n\ndef mapBasedHeader = http.header([\n        'My-Header1': 'Value1',\n        'My-Header2': 'Value2'])\n\nassert varArgHeader == mapBasedHeader",
         "entry" : "header creation",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Mime Type Combined With Payload",
       "id" : "mime-type-combined-with-payload",
       "type" : "Section",
+      "title" : "Mime Type Combined With Payload",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -285,12 +286,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def content = binaryFile('path')\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content)) {\n    // assertions go here\n}",
-        "title" : "Combined type and payload",
         "entry" : "explicit binary mime types combined with request body",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "Combined type and payload",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -298,24 +299,24 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def content = binaryFile('path')\nhttp.post(\"/end-point\", http.application.octetStream(content)) {\n    // assertions go here\n}",
-        "title" : "Binary content shortuct",
         "entry" : "post implicit binary mime types combined with request body",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "Binary content shortuct",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def content = 'text content'\nhttp.post(\"/end-point\", http.text.plain(content)) {\n    // assertions go here\n}",
-        "title" : "Text content shortcut",
         "entry" : "implicit text mime types combined with request body",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "Text content shortcut",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Response Header",
       "id" : "response-header",
       "type" : "Section",
+      "title" : "Response Header",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -329,11 +330,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.post(\"/end-point\") {\n    header.location.should == 'http://www.example.org/url/23'\n    header['Location'].should == 'http://www.example.org/url/23'\n\n    header.contentLocation.should == '/url/23'\n    header['Content-Location'].should == '/url/23'\n\n    header.contentLength.shouldBe > 300\n    header['Content-Length'].shouldBe > 300\n}",
         "entry" : "header assertion with shortcut",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -371,7 +372,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Headers",

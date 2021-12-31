@@ -90,6 +90,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -137,44 +138,44 @@ ReactDOM.render(React.createElement(Documentation, {
       "tabsContent" : [ {
         "name" : "Groovy",
         "content" : [ {
-          "lang" : "groovy",
           "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.waitToBe > 1\n}",
+          "type" : "Snippet",
           "title" : "Browser test (Groovy runner)",
-          "type" : "Snippet"
+          "lang" : "groovy"
         }, {
-          "lang" : "groovy",
           "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def header = $(\"#header\")\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
+          "type" : "Snippet",
           "title" : "SearchPage.groovy",
-          "type" : "Snippet"
+          "lang" : "groovy"
         }, {
-          "lang" : "groovy",
           "snippet" : "package pages\n\nclass Pages {\n    static final def search = new SearchPage()\n}",
-          "title" : "Pages.groovy",
           "excludeRegexp" : [ "calculation", "form", "payments" ],
-          "type" : "Snippet"
+          "type" : "Snippet",
+          "title" : "Pages.groovy",
+          "lang" : "groovy"
         } ]
       }, {
         "name" : "Java",
         "content" : [ {
-          "lang" : "java",
           "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static com.example.tests.junit5.pages.Pages.*;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class WebSearchJavaTest {\n    @Test\n    public void searchByQuery() {\n        search.submit(\"search this\");\n        search.numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
+          "type" : "Snippet",
           "title" : "Browser test (JUnit 5)",
-          "type" : "Snippet"
+          "lang" : "java"
         }, {
-          "lang" : "java",
           "snippet" : "package com.example.tests.junit5.pages;\n\nimport org.testingisdocumenting.webtau.browser.page.PageElement;\nimport org.testingisdocumenting.webtau.browser.page.PageElementValue;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\npublic class SearchPage {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    public final PageElementValue<Integer> numberOfResults = results.getCount();\n\n    public void submit(String query) {\n        browser.open(\"/search\");\n\n        box.setValue(query);\n        box.sendKeys(browser.keys.enter);\n    }\n}",
+          "type" : "Snippet",
           "title" : "SearchPage.java",
-          "type" : "Snippet"
+          "lang" : "java"
         }, {
-          "lang" : "java",
           "snippet" : "package com.example.tests.junit5.pages;\n\npublic class Pages {\n    public static SearchPage search = new SearchPage();\n}",
+          "type" : "Snippet",
           "title" : "Pages.java",
-          "type" : "Snippet"
+          "lang" : "java"
         } ]
       } ],
       "type" : "Tabs"
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Introduction",

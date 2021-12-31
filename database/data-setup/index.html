@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Semi-Auto Generated TableData</h1></header>
-<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE bcf6c67a-1dc1-4fd4-a26c-63eaccc632ee nice set true card 1000 401eec85-cd32-4376-967c-0d33dfacb1a1 nice set true card 1010 a97f4bb6-0180-495e-994a-cb49986daefa another set true rts 1030 25dbf2e4-ac7d-49cc-845a-bd6f379cb551 another set false rts 1050 f73ca104-c7df-4deb-9992-2e61df0e29e3 another set true fps 1070 70ed1df4-bd25-4c51-82e0-41d4ff38f590 another set false fps 1090</p>
+<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE d67154ac-0bbc-4837-b41c-19ccdd355b66 nice set true card 1000 5f9d6da0-2bf3-4994-9de2-88eda1a2a97c nice set true card 1010 ce25230a-863a-4aba-9b1e-68af7435bcc9 another set true rts 1030 e9c8dd42-05db-42af-bde6-f425b71d40fe another set false rts 1050 56657575-8660-45a4-a92d-735a287390b5 another set true fps 1070 7265b2a4-aec9-4ed6-8d6c-aa052107b147 another set false fps 1090</p>
 </article>
 
 <article>
@@ -111,6 +111,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -133,36 +134,36 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Handcrafted Data",
       "id" : "handcrafted-data",
       "type" : "Section",
+      "title" : "Handcrafted Data",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "One way to set up a DB state is to use handcrafted ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/reference/table-data",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "TableData",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/reference/table-data"
         }, {
           "text" : ".",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "2000 }",
         "snippet" : "def PRICES = db.table(\"PRICES\") // declare PRICES table\nPRICES << [ \"id\" | \"description\" | \"price\"] { // append two rows to PRICES\n           ___________________________________\n           \"id1\" | \"nice set\"    | 1000\n           \"id2\" | \"another set\" | 2000 }",
         "entry" : "should use data source provider for primary database",
-        "title" : "data setup with hand crafted table data",
         "bodyOnly" : true,
         "startLine" : "def PRICES",
-        "endLine" : "2000 }",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "data setup with hand crafted table data",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -170,15 +171,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "2000]",
         "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [\n        [id: \"id1\", description: \"nice set\", price: 1000],\n        [id: \"id2\", description: \"warm set\", price: 2000]]",
         "entry" : "should insert list of maps into table",
-        "title" : "inserting multiple rows using list",
         "bodyOnly" : true,
         "startLine" : "def PRICES",
-        "endLine" : "2000]",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "inserting multiple rows using list",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -186,54 +187,54 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "1000]",
         "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [id: \"id1\", description: \"nice set\", price: 1000]",
         "entry" : "should insert single row into table",
-        "title" : "inserting single row",
         "bodyOnly" : true,
         "startLine" : "def PRICES",
-        "endLine" : "1000]",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "inserting single row",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Semi-Auto Generated TableData",
       "id" : "semi-auto-generated-tabledata",
       "type" : "Section",
+      "title" : "Semi-Auto Generated TableData",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "url" : "/webtau/reference/table-data",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "TableData",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/reference/table-data"
         }, {
           "text" : " has features like ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/reference/table-data#permutations",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "permute",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/reference/table-data#permutations"
         }, {
           "text" : " and",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "url" : "/webtau/reference/table-data#guid",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "cell.guid",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/reference/table-data#guid"
         }, {
           "text" : " among others.",
           "type" : "SimpleText"
@@ -244,15 +245,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "cell.above + 20",
         "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [     \"id\" | \"description\" |          \"available\" |                \"type\" |       \"price\" ] {\n           _____________________________________________________________________________________________\n           cell.guid | \"nice set\"    |                 true |                \"card\" |            1000 // cell.guid generates random guid that can be used for ids\n           cell.guid | \"nice set\"    |                 true |                \"card\" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations\n           cell.guid | \"another set\" | permute(true, false) | permute(\"rts\", \"fps\") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations",
         "entry" : "use table data permute, above and guid to generate rows",
-        "title" : "data setup with hand crafted table data",
         "bodyOnly" : true,
         "startLine" : "def PRICES",
-        "endLine" : "cell.above + 20",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "data setup with hand crafted table data",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -272,29 +273,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*",
-        "includeRegexp" : "import.*Core",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "groovy",
+        "includeRegexp" : "import.*Core"
       }, {
+        "type" : "Table",
+        "title" : "PRICES",
         "table" : {
-          "columns" : [ {
-            "title" : "ID"
-          }, {
-            "title" : "EXTERNAL_ID"
-          }, {
-            "title" : "DESCRIPTION"
-          }, {
-            "title" : "AVAILABLE"
-          }, {
-            "title" : "TYPE"
-          }, {
-            "title" : "PRICE"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "bcf6c67a-1dc1-4fd4-a26c-63eaccc632ee",
+              "text" : "d67154ac-0bbc-4837-b41c-19ccdd355b66",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -324,7 +314,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "401eec85-cd32-4376-967c-0d33dfacb1a1",
+              "text" : "5f9d6da0-2bf3-4994-9de2-88eda1a2a97c",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -354,7 +344,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "a97f4bb6-0180-495e-994a-cb49986daefa",
+              "text" : "ce25230a-863a-4aba-9b1e-68af7435bcc9",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -384,7 +374,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "25dbf2e4-ac7d-49cc-845a-bd6f379cb551",
+              "text" : "e9c8dd42-05db-42af-bde6-f425b71d40fe",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -414,7 +404,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "f73ca104-c7df-4deb-9992-2e61df0e29e3",
+              "text" : "56657575-8660-45a4-a92d-735a287390b5",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -444,7 +434,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "70ed1df4-bd25-4c51-82e0-41d4ff38f590",
+              "text" : "7265b2a4-aec9-4ed6-8d6c-aa052107b147",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -471,31 +461,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "1090",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "title" : "PRICES",
-        "type" : "Table"
-      } ]
-    }, {
-      "title" : "External File TableData",
-      "id" : "external-file-tabledata",
-      "type" : "Section",
-      "content" : [ {
-        "lang" : "groovy",
-        "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << data.csv.table('prices-db.csv')",
-        "entry" : "use csv read data",
-        "title" : "data setup with CSV data",
-        "bodyOnly" : true,
-        "startLine" : "def PRICES",
-        "endLine" : "data.csv.table",
-        "type" : "Snippet"
-      }, {
-        "lang" : "csv",
-        "snippet" : "id, description, available, type, price\nid1, description1, true, card, 200\nid2, description2, false, rts, 400",
-        "title" : "prices-db.csv",
-        "type" : "Snippet"
-      }, {
-        "table" : {
+          } ] ] ],
           "columns" : [ {
             "title" : "ID"
           }, {
@@ -508,7 +474,31 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "TYPE"
           }, {
             "title" : "PRICE"
-          } ],
+          } ]
+        }
+      } ]
+    }, {
+      "id" : "external-file-tabledata",
+      "type" : "Section",
+      "title" : "External File TableData",
+      "content" : [ {
+        "endLine" : "data.csv.table",
+        "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << data.csv.table('prices-db.csv')",
+        "entry" : "use csv read data",
+        "bodyOnly" : true,
+        "startLine" : "def PRICES",
+        "type" : "Snippet",
+        "title" : "data setup with CSV data",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "id, description, available, type, price\nid1, description1, true, card, 200\nid2, description2, false, rts, 400",
+        "type" : "Snippet",
+        "title" : "prices-db.csv",
+        "lang" : "csv"
+      }, {
+        "type" : "Table",
+        "title" : "PRICES",
+        "table" : {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -569,40 +559,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "400",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "title" : "PRICES",
-        "type" : "Table"
-      } ]
-    }, {
-      "title" : "Cleaning Tables",
-      "id" : "cleaning-tables",
-      "type" : "Section",
-      "content" : [ {
-        "lang" : "groovy",
-        "snippet" : "db.update(\"delete from PRICES where price > :price\", [price: 950])",
-        "entry" : "delete with params",
-        "title" : "delete data",
-        "bodyOnly" : true,
-        "includeRegexp" : "delete",
-        "commentsType" : "inline",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "db.update(\"delete from PRICES where price > :price\", 950)",
-        "entry" : "delete with single param shortcut",
-        "title" : "delete data with single param shortcut",
-        "bodyOnly" : true,
-        "includeRegexp" : "delete",
-        "commentsType" : "inline",
-        "type" : "Snippet"
-      } ]
-    }, {
-      "title" : "Updating Tables",
-      "id" : "updating-tables",
-      "type" : "Section",
-      "content" : [ {
-        "table" : {
+          } ] ] ],
           "columns" : [ {
             "title" : "ID"
           }, {
@@ -615,7 +572,40 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "TYPE"
           }, {
             "title" : "PRICE"
-          } ],
+          } ]
+        }
+      } ]
+    }, {
+      "id" : "cleaning-tables",
+      "type" : "Section",
+      "title" : "Cleaning Tables",
+      "content" : [ {
+        "snippet" : "db.update(\"delete from PRICES where price > :price\", [price: 950])",
+        "entry" : "delete with params",
+        "bodyOnly" : true,
+        "commentsType" : "inline",
+        "type" : "Snippet",
+        "title" : "delete data",
+        "lang" : "groovy",
+        "includeRegexp" : "delete"
+      }, {
+        "snippet" : "db.update(\"delete from PRICES where price > :price\", 950)",
+        "entry" : "delete with single param shortcut",
+        "bodyOnly" : true,
+        "commentsType" : "inline",
+        "type" : "Snippet",
+        "title" : "delete data with single param shortcut",
+        "lang" : "groovy",
+        "includeRegexp" : "delete"
+      } ]
+    }, {
+      "id" : "updating-tables",
+      "type" : "Section",
+      "title" : "Updating Tables",
+      "content" : [ {
+        "type" : "Table",
+        "title" : "PRICES",
+        "table" : {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -652,21 +642,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "2000",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "title" : "PRICES",
-        "type" : "Table"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "db.update(\"update PRICES set price=:price where id=:id\", [id: 'id2', price: 4000])",
-        "entry" : "should run updates with params",
-        "title" : "update data",
-        "bodyOnly" : true,
-        "includeRegexp" : "db.update",
-        "commentsType" : "inline",
-        "type" : "Snippet"
-      }, {
-        "table" : {
+          } ] ] ],
           "columns" : [ {
             "title" : "ID"
           }, {
@@ -679,7 +655,21 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "TYPE"
           }, {
             "title" : "PRICE"
-          } ],
+          } ]
+        }
+      }, {
+        "snippet" : "db.update(\"update PRICES set price=:price where id=:id\", [id: 'id2', price: 4000])",
+        "entry" : "should run updates with params",
+        "bodyOnly" : true,
+        "commentsType" : "inline",
+        "type" : "Snippet",
+        "title" : "update data",
+        "lang" : "groovy",
+        "includeRegexp" : "db.update"
+      }, {
+        "type" : "Table",
+        "title" : "PRICES after update",
+        "table" : {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -716,13 +706,24 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "4000",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "title" : "PRICES after update",
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "ID"
+          }, {
+            "title" : "EXTERNAL_ID"
+          }, {
+            "title" : "DESCRIPTION"
+          }, {
+            "title" : "AVAILABLE"
+          }, {
+            "title" : "TYPE"
+          }, {
+            "title" : "PRICE"
+          } ]
+        }
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Database",
       "pageTitle" : "Data Setup",

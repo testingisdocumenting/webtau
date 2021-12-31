@@ -106,6 +106,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -128,9 +129,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Skipping Tests on Condition",
       "id" : "skipping-tests-on-condition",
       "type" : "Section",
+      "title" : "Skipping Tests on Condition",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -144,10 +145,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nString emailHost = cfg.emailHost\n\nonlyWhen('email server is internal', { -> emailHost.contains('internal.server')}) {\n    scenario('confirmation emails should be sent') {\n        // ...\n        http.get(emailHost) {\n            subjects.should contain('my message')\n        }\n    }\n}",
+        "type" : "Snippet",
         "title" : "Conditional tests skip",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -156,9 +157,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Skipping Tests Based on Env",
       "id" : "skipping-tests-based-on-env",
       "type" : "Section",
+      "title" : "Skipping Tests Based on Env",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -178,15 +179,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nonlyForEnv('experimental') {\n    scenario('this scenario will only be executed in \"experimental\" env') {\n        http.get('/new-endpoint') {\n            price.shouldBe > 0\n        }\n    }\n}\n\nskipForEnv('experimental') {\n    scenario('this scenario will not be executed in \"experimental\" env') {\n        http.get('/new-endpoint') {\n            price.shouldBe > 0\n        }\n    }\n}",
+        "type" : "Snippet",
         "title" : "Environment specific tests",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Custom Shortcuts",
       "id" : "custom-shortcuts",
       "type" : "Section",
+      "title" : "Custom Shortcuts",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -205,16 +206,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "static void onlyForEnv(String env, Closure registrationCode) {\n    onlyWhen(\"only for <$env> environment\",\n            { -> getCfg().getEnv() == env },\n            registrationCode)\n}",
         "entry" : "onlyForEnv",
+        "type" : "Snippet",
         "title" : "Custom shortcut",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Unconditionally Skipping Tests",
       "id" : "unconditionally-skipping-tests",
       "type" : "Section",
+      "title" : "Unconditionally Skipping Tests",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -257,13 +258,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndscenario('do not execute this scenario') {\n    http.get('/new-endpoint') {\n        price.shouldBe > 0\n    }\n}\n\ndisabledScenario('do not execute this scenario either') {\n    http.get('/new-endpoint') {\n        price.shouldBe > 0\n    }\n}",
+        "type" : "Snippet",
         "title" : "Disable tests",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Skipping Tests",

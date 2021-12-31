@@ -91,6 +91,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -113,9 +114,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Terminate All",
       "id" : "terminate-all",
       "type" : "Section",
+      "title" : "Terminate All",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -134,10 +135,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"first test\") {\n    terminateAll('hard stop of the rest of the tests')\n}\n\nscenario(\"second test\") {\n    browser.open(\"/app\")\n}\n\nscenario(\"third test\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe < 100\n    }\n}",
+        "type" : "Snippet",
         "title" : "tests termination",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -146,7 +147,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Tests Hard Stops",

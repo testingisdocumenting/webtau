@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Introduction</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Webtau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) def router = server.router() // router-example .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } // router-example .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } // router-example // router-example def myServer = server.fake(&quot;my-rest-server&quot;, router) // router-example def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a &quot;bad&quot; state. proxyServer.markUnresponsive() def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Webtau ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "server.",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module lets you create and control static, fake and proxy servers:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "type" : "BulletList",
+      "tight" : true,
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "Static servers to quickly host HTML, JSON, and similar content",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "Fake servers to control response based request",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "Proxy servers to simulate outages and record interactions for failures investigation",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "snippet" : "def myServer = server.serve(\"my-server\", \"data/staticcontent\")",
+      "surroundedBy" : "static-server-create",
+      "type" : "Snippet",
+      "title" : "static server creation example",
+      "lang" : "groovy"
+    }, {
+      "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
+      "commentsType" : "remove",
+      "type" : "Snippet",
+      "title" : "fake server creation example",
+      "lang" : "groovy",
+      "includeRegexp" : "router-example"
+    }, {
+      "snippet" : "def proxyServer = server.proxy(\"test-proxy-server\", targetServer.baseUrl)",
+      "surroundedBy" : "proxy-server-creation",
+      "type" : "Snippet",
+      "title" : "proxy server creation example",
+      "lang" : "groovy"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "You can apply overrides to any created server. You can also put servers into a \"bad\" state.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "snippet" : "proxyServer.markUnresponsive()",
+      "surroundedBy" : "mark-unresponsive-example",
+      "type" : "Snippet",
+      "title" : "unresponsive server",
+      "lang" : "groovy"
+    }, {
+      "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") {request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\nmyServer.addOverride(router)",
+      "surroundedBy" : "override-example",
+      "type" : "Snippet",
+      "title" : "content override",
+      "lang" : "groovy"
+    } ],
+    "lastModifiedTime" : 1640922026336,
+    "tocItem" : {
+      "sectionTitle" : "Servers",
+      "pageTitle" : "Introduction",
+      "pageMeta" : { },
+      "dirName" : "servers",
+      "fileName" : "introduction",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -84,8 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>1.45 (future release)</h1></header>
+<p>Doc: document servers/introduction Servers Wrap deletion of all utilities/file-system temp files in a parent step Doc: document report report/steps step and trace core methods Move report tests status filter to the top and put theme switching to the bottom in its place Add trace core method to report values to console and web report Report color theme toggle and auto OS dark/light detection Improved code snippet rendering in web report Check element presence before browser/element-actions#scrolling scroll to provide better error message Add utilities/cache#presence-check cache exists method Fix: cli/foreground-command CLI run working dir matches config working dir if none specified for the process Fix: remove internal info of cli/foreground-command CLI run from web report Fix: servers/static-server static content server capture of browser page request Fix: remove call to open api schema end-point at the end of tests if no http calls were performed during tests Fix: missing files message to use only path but not container id Fix: report step with 0ms now shows elapsed time Fix: utilities/file-system waiting for non-existing file content is not throwing error anymore Fix: jansi Mac M1 exception Fix: report key-value color contrast Fix: report extra scroll bar on overall summary screen</p>
+</article>
+
+<article>
 <header><h1>1.44.1</h1></header>
-<p>Fix: report extra scroll bar</p>
+<p>Fix: report extra scroll bar on test summary screen</p>
 </article>
 
 <article>
@@ -126,6 +131,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -148,32 +154,414 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "1.44.1",
-      "id" : "1441",
+      "id" : "145-future-release",
       "type" : "Section",
+      "title" : "1.45 (future release)",
       "content" : [ {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "Fix: report extra scroll bar",
+              "text" : "Doc: document ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Servers",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/servers/introduction"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Wrap deletion of all ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "temp files",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/utilities/file-system"
+            }, {
+              "text" : " in a parent step",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: document report ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "step and trace",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/report/steps"
+            }, {
+              "text" : " core methods",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Move report tests status filter to the top and put theme switching to the bottom in its place",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "trace",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " core method to report values to console and web report",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Report color theme toggle and auto OS dark/light detection",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Improved code snippet rendering in web report",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check element presence before ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "scroll",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/browser/element-actions#scrolling"
+            }, {
+              "text" : " to provide better error message",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "cache exists",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/utilities/cache#presence-check"
+            }, {
+              "text" : " method",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "CLI run",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/cli/foreground-command"
+            }, {
+              "text" : " working dir matches config working dir if none specified for the process",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: remove internal info of ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "CLI run",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/cli/foreground-command"
+            }, {
+              "text" : " from web report",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "static content server",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/servers/static-server"
+            }, {
+              "text" : " capture of browser page request",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: remove call to open api schema end-point at the end of tests if no http calls were performed during tests",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: missing files message to use only path but not container id",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report step with 0ms now shows elapsed time",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "waiting",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/utilities/file-system"
+            }, {
+              "text" : " for non-existing file content is ",
+              "type" : "SimpleText"
+            }, {
+              "type" : "StrongEmphasis",
+              "content" : [ {
+                "text" : "not",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " throwing error anymore",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: jansi Mac M1 exception",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report key-value color contrast",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report extra scroll bar on overall summary screen",
               "type" : "SimpleText"
             } ]
           } ]
         } ]
       } ]
     }, {
-      "title" : "1.44",
-      "id" : "144",
+      "id" : "1441",
       "type" : "Section",
+      "title" : "1.44.1",
       "content" : [ {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report extra scroll bar on test summary screen",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "144",
+      "type" : "Section",
+      "title" : "1.44",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -186,8 +574,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -200,8 +588,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -220,8 +608,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -234,8 +622,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -250,20 +638,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " background command ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/background-command#wait-timeout",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "wait timeout",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/background-command#wait-timeout"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -276,8 +664,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -286,13 +674,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/utilities/cache",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cache",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/utilities/cache"
             }, {
               "text" : " stored values validation and conversion to Path",
               "type" : "SimpleText"
@@ -301,8 +689,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -315,8 +703,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -331,20 +719,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " command to ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/utilities/file-system#archive",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "zip files",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/utilities/file-system#archive"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -363,8 +751,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -383,8 +771,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -397,8 +785,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -411,8 +799,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -425,8 +813,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -439,8 +827,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -453,13 +841,13 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "1.43.1",
       "id" : "1431",
       "type" : "Section",
+      "title" : "1.43.1",
       "content" : [ {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -468,13 +856,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Fix: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/configuration/groovy-config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "groovy config",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/configuration/groovy-config-file"
             }, {
               "text" : " parsing of empty lists and simple variables reference within config",
               "type" : "SimpleText"
@@ -483,13 +871,13 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "1.43",
       "id" : "143",
       "type" : "Section",
+      "title" : "1.43",
       "content" : [ {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -498,13 +886,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Doc: Fix ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/persona/introduction",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Persona Intro",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/persona/introduction"
             }, {
               "text" : " example snippets",
               "type" : "SimpleText"
@@ -513,8 +901,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -523,13 +911,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Doc: Add ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/configuration/groovy-config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Groovy Config",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/configuration/groovy-config-file"
             }, {
               "text" : " complex objects, persona and overrides examples",
               "type" : "SimpleText"
@@ -538,8 +926,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -548,13 +936,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Doc: Add ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/persona/HTTP-persona",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Persona HTTP",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/persona/HTTP-persona"
             }, {
               "text" : " authorization example",
               "type" : "SimpleText"
@@ -563,8 +951,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -573,13 +961,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Doc: Add ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/persona/introduction",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Persona",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/persona/introduction"
             }, {
               "text" : " documentation",
               "type" : "SimpleText"
@@ -588,8 +976,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -598,13 +986,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Doc: combined \"files upload\" and \"PDF\" section under ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/HTTP/files",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "files",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/HTTP/files"
             }, {
               "text" : ". Edited text.",
               "type" : "SimpleText"
@@ -613,8 +1001,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -627,8 +1015,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -643,20 +1031,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " config value to set ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/persona/CLI-persona",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "persona's common CLI environment variables",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/persona/CLI-persona"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -669,8 +1057,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -685,31 +1073,31 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " config value to set common environment variables for ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/foreground-command#common-environment-variables",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.run",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/foreground-command#common-environment-variables"
             }, {
               "text" : " and ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/background-command#common-environment-variables",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.runInBackground",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/background-command#common-environment-variables"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -722,8 +1110,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -742,8 +1130,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -762,8 +1150,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -776,8 +1164,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -786,44 +1174,44 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Ignore ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/groovy-standalone-runner/selective-run#sscenario",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "single scenario",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/groovy-standalone-runner/selective-run#sscenario"
             }, {
               "text" : " and ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "disabled scenario",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests"
             }, {
               "type" : "SoftLineBreak"
             }, {
               "text" : "in ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/REPL/test-runs",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "REPL mode",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/REPL/test-runs"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -836,8 +1224,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -850,8 +1238,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -864,8 +1252,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -878,8 +1266,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -892,8 +1280,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -909,8 +1297,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -923,8 +1311,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -937,8 +1325,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -947,31 +1335,31 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add config info to web report for ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/foreground-command#working-dir",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.run",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/foreground-command#working-dir"
             }, {
               "text" : " and ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/background-command#working-dir",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.rinInBackground",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/background-command#working-dir"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -980,31 +1368,31 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add config info to step output for ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/foreground-command#working-dir",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.run",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/foreground-command#working-dir"
             }, {
               "text" : " and ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/background-command#working-dir",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.rinInBackground",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/background-command#working-dir"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1013,13 +1401,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Fix: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/foreground-command#run-result",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.run",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/foreground-command#run-result"
             }, {
               "text" : " results are properly returned when validation block is present",
               "type" : "SimpleText"
@@ -1028,8 +1416,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1042,8 +1430,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1052,13 +1440,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Fix: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/foreground-command#run",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.run",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/foreground-command#run"
             }, {
               "text" : " now captures output in case of timeout",
               "type" : "SimpleText"
@@ -1067,25 +1455,25 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "1.42",
       "id" : "142",
       "type" : "Section",
+      "title" : "1.42",
       "content" : [ {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/HTTP/proxy",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "http proxy",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/HTTP/proxy"
             }, {
               "text" : " via config",
               "type" : "SimpleText"
@@ -1094,8 +1482,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1108,8 +1496,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1134,8 +1522,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1147,20 +1535,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " local ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/foreground-command#timeout",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "timeout override",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/foreground-command#timeout"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1182,27 +1570,27 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/utilities/file-system#file-content",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "replace text content by regexp",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/utilities/file-system#file-content"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1215,8 +1603,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1232,8 +1620,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1246,8 +1634,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1260,8 +1648,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1274,8 +1662,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1284,20 +1672,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add browser ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/browser/element-actions#scrolling",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "scroll actions",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/browser/element-actions#scrolling"
             } ]
           } ]
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -1306,13 +1694,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Fix: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/cli/introduction",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "cli.run",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/cli/introduction"
             }, {
               "text" : " quoted params handling",
               "type" : "SimpleText"
@@ -1321,9 +1709,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "1.41",
       "id" : "141",
       "type" : "Section",
+      "title" : "1.41",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -1335,9 +1723,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "1.40",
       "id" : "140",
       "type" : "Section",
+      "title" : "1.40",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -1349,9 +1737,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "1.39",
       "id" : "139",
       "type" : "Section",
+      "title" : "1.39",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -1363,7 +1751,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317648,
+    "lastModifiedTime" : 1640922026336,
     "tocItem" : {
       "sectionTitle" : "Release Notes",
       "pageTitle" : "2021 Releases",
@@ -1374,6 +1762,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2021",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "1.45 (future release)",
+        "id" : "145-future-release"
+      }, {
         "title" : "1.44.1",
         "id" : "1441"
       }, {

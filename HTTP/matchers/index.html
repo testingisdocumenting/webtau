@@ -136,6 +136,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -158,20 +159,20 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Imports to use",
       "id" : "imports-to-use",
       "type" : "Section",
+      "title" : "Imports to use",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
-        "includeRegexp" : "import.*Dsl",
+        "type" : "Snippet",
         "title" : "Single import to use",
-        "type" : "Snippet"
+        "lang" : "groovy",
+        "includeRegexp" : "import.*Dsl"
       } ]
     }, {
-      "title" : "Response Mapping",
       "id" : "response-mapping",
       "type" : "Section",
+      "title" : "Response Mapping",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -184,40 +185,40 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "object response",
+        "data" : {
+          "k1" : "v1",
+          "k2" : "v2",
+          "id" : "id1"
+        },
+        "paths" : [ ],
         "meta" : {
           "rightSide" : false
         },
-        "data" : {
-          "id" : "id1",
-          "k1" : "v1",
-          "k2" : "v2"
-        },
-        "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "object response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point-simple-object\") {\n    k1.should == 'v1'\n}",
             "entry" : "simple object mapping example",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point-simple-object\", (header, body) -> {\n    body.get(\"k1\").should(equal(\"v1\"));\n});",
             "entry" : "simpleObjectMappingExample",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       }, {
         "type" : "Paragraph",
@@ -231,26 +232,23 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "list response",
         "data" : [ {
-          "id" : "id1",
           "k1" : "v1",
-          "k2" : "v2"
+          "k2" : "v2",
+          "id" : "id1"
         } ],
         "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "list response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point-simple-list\") {\n    body[0].k1.should == 'v1'\n}",
             "entry" : "simple list mapping example",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -273,19 +271,22 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point-simple-list\", (header, body) -> {\n    body.get(0).get(\"k1\").should(equal(\"v1\"));\n});",
             "entry" : "simpleListMappingExample",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Should and Should Not",
       "id" : "should-and-should-not",
       "type" : "Section",
+      "title" : "Should and Should Not",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -322,34 +323,34 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/example\") {\n    year.shouldNot == 2000\n    year.should != 2000  // alternative shortcut\n    genres.should contain('RPG')\n    rating.shouldBe > 7\n}",
             "entry" : "matchers basic example",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/example\", (header, body) -> {\n    body.get(\"year\").shouldNot(equal(2000));\n    body.get(\"genres\").should(contain(\"RPG\"));\n    body.get(\"rating\").shouldBe(greaterThan(7));\n});",
             "entry" : "matchersBasicExample",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Equality",
       "id" : "equality",
       "type" : "Section",
+      "title" : "Equality",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -362,89 +363,89 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "response",
-        "pathsFile" : "doc-artifacts/end-point-object-equality-matchers/paths.json",
         "data" : {
-          "id" : 10,
-          "price" : 100,
           "amount" : 30,
+          "price" : 100,
+          "complexList" : [ {
+            "k1" : "v1",
+            "k2" : 30,
+            "id" : "id1"
+          }, {
+            "k1" : "v11",
+            "k2" : 40,
+            "id" : "id2"
+          } ],
+          "id" : 10,
           "list" : [ 1, 2, 3 ],
           "object" : {
             "k1" : "v1",
             "k2" : "v2",
             "k3" : "v3"
-          },
-          "complexList" : [ {
-            "id" : "id1",
-            "k1" : "v1",
-            "k2" : 30
-          }, {
-            "id" : "id2",
-            "k1" : "v11",
-            "k2" : 40
-          } ]
+          }
         },
         "paths" : [ "root.id", "root.amount", "root.list[0]", "root.list[1]", "root.list[2]", "root.object.k1", "root.object.k3", "root.complexList[0].k1", "root.complexList[0].k2", "root.complexList[1].k1", "root.complexList[1].k2" ],
-        "type" : "Json"
+        "pathsFile" : "doc-artifacts/end-point-object-equality-matchers/paths.json",
+        "type" : "Json",
+        "title" : "response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point\") {\n    id.should != 0\n    amount.should == 30\n\n    list.should == [1, 2, 3]\n\n    object.k1.should == ~/v\\d/ // regular expression matching\n\n    object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times\n\n    complexList.should == [\"k1\"   | \"k2\"] { // matching only specified fields, but number of entries must be exact\n                           ________________\n                            \"v1\"  | 30\n                            \"v11\" | 40 }\n}",
+            "excludeRegexp" : "doc.capture",
             "entry" : "equality matcher",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"id\").shouldNot(equal(0));\n    body.get(\"amount\").should(equal(30));\n\n    body.get(\"list\").should(equal(Arrays.asList(1, 2, 3)));\n\n    body.get(\"object\").get(\"k1\").should(equal(\n            Pattern.compile(\"v\\\\d\"))); // regular expression matching\n\n    body.get(\"object\").should(equal(aMapOf(\n            \"k1\", \"v1\",\n            \"k3\", \"v3\"))); // matching only specified fields and can be nested multiple times\n\n    body.get(\"complexList\").should(equal(table(\"k1\" , \"k2\", // matching only specified fields, but number of entries must be exact\n                                              ________________,\n                                               \"v1\" ,  30,\n                                               \"v11\",  40)));\n});",
+            "excludeRegexp" : "doc.capture",
             "entry" : "equalityMatcher",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
-        "type" : "Tabs"
-      }, {
         "meta" : {
           "rightSide" : true
         },
+        "type" : "Tabs"
+      }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point\") {\n    complexList.should == [ \"*id\" | \"k1\"  | \"k2\"] { // order agnostic key based match\n                           ________________________\n                            \"id2\" | \"v11\" | 40\n                            \"id1\" | \"v1\"  | 30 }\n}",
             "entry" : "equality matcher table keys",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"complexList\").should(equal(table(\"*id\", \"k1\" , \"k2\", // order agnostic key based match\n                                               ________________,\n                                               \"id2\", \"v11\", 40,\n                                               \"id1\", \"v1\" , 30)));\n});",
             "entry" : "equalityMatcherTableKey",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Greater/Less/Equal",
       "id" : "greaterlessequal",
       "type" : "Section",
+      "title" : "Greater/Less/Equal",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -481,29 +482,26 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "response",
-        "pathsFile" : "doc-artifacts/end-point-numbers-matchers/paths.json",
         "data" : {
-          "id" : 10,
-          "price" : 100,
           "amount" : 30,
+          "price" : 100,
+          "id" : 10,
           "list" : [ 1, 2, 3 ]
         },
         "paths" : [ "root.id", "root.price", "root.amount", "root.list[1]" ],
-        "type" : "Json"
+        "pathsFile" : "doc-artifacts/end-point-numbers-matchers/paths.json",
+        "type" : "Json",
+        "title" : "response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point-numbers\") {\n    id.shouldBe > 0\n    price.shouldBe >= 100\n    amount.shouldBe < 150\n    list[1].shouldBe <= 2\n\n    id.shouldNotBe <= 0\n    price.shouldNotBe < 100\n    amount.shouldNotBe >= 150\n    list[1].shouldNotBe > 2\n}",
+            "excludeRegexp" : "doc.capture",
             "entry" : "compare numbers with greater less matchers",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -544,20 +542,23 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point-numbers\", (header, body) -> {\n    body.get(\"id\").shouldBe(greaterThan(0));\n    body.get(\"price\").shouldBe(greaterThanOrEqual(100));\n    body.get(\"amount\").shouldBe(lessThan(150));\n    body.get(\"list\").get(1).shouldBe(lessThanOrEqual(2));\n\n    body.get(\"id\").shouldNotBe(lessThanOrEqual(0));\n    body.get(\"price\").shouldNotBe(lessThan(100));\n    body.get(\"amount\").shouldNotBe(greaterThanOrEqual(150));\n    body.get(\"list\").get(1).shouldNotBe(greaterThan(2));\n});",
+            "excludeRegexp" : "doc.capture",
             "entry" : "compareNumbersWithGreaterLessMatchers",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Contain",
       "id" : "contain",
       "type" : "Section",
+      "title" : "Contain",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -576,50 +577,50 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "response",
-        "pathsFile" : "doc-artifacts/end-point-list-contain-matchers/paths.json",
         "data" : [ {
-          "id" : "id1",
           "k1" : "v1",
-          "k2" : "v2"
+          "k2" : "v2",
+          "id" : "id1"
         }, {
-          "id" : "id2",
           "k1" : "v11",
-          "k2" : [ 10, 20, 30 ]
+          "k2" : [ 10, 20, 30 ],
+          "id" : "id2"
         } ],
         "paths" : [ "root[0].k1", "root[0].k2", "root[1].k2[0]", "root[1].k2[1]", "root[1].k2[2]" ],
-        "type" : "Json"
+        "pathsFile" : "doc-artifacts/end-point-list-contain-matchers/paths.json",
+        "type" : "Json",
+        "title" : "response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point-list\") {\n    body.should contain([k1: 'v1', k2: 'v2'])\n    body[1].k2.shouldNot contain(22)\n}",
+            "excludeRegexp" : "doc.capture",
             "entry" : "contain matcher",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point-list\", (header, body) -> {\n    body.should(contain(aMapOf(\n            \"k1\", \"v1\",\n            \"k2\", \"v2\")));\n    body.get(1).get(\"k2\").shouldNot(contain(22));\n});",
+            "excludeRegexp" : "doc.capture",
             "entry" : "containMatcher",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Contain All",
       "id" : "contain-all",
       "type" : "Section",
+      "title" : "Contain All",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -638,50 +639,50 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "response",
-        "pathsFile" : "doc-artifacts/end-point-list-contain-all-matchers/paths.json",
         "data" : [ {
-          "id" : "id1",
           "k1" : "v1",
-          "k2" : "v2"
+          "k2" : "v2",
+          "id" : "id1"
         }, {
-          "id" : "id2",
           "k1" : "v11",
-          "k2" : [ 10, 20, 30 ]
+          "k2" : [ 10, 20, 30 ],
+          "id" : "id2"
         } ],
         "paths" : [ "root[1].k2[0]", "root[1].k2[1]", "root[1].k2[2]" ],
-        "type" : "Json"
+        "pathsFile" : "doc-artifacts/end-point-list-contain-all-matchers/paths.json",
+        "type" : "Json",
+        "title" : "response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point-list\") {\n    body[1].k2.should containAll(10, 30)\n    body[1].k2.shouldNot containAll(40, 60, 80)\n}",
+            "excludeRegexp" : "doc.capture",
             "entry" : "contain all matcher",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point-list\", (header, body) -> {\n    body.get(1).get(\"k2\").should(containAll(10, 30));\n    body.get(1).get(\"k2\").shouldNot(containAll(40, 60, 80));\n});",
+            "excludeRegexp" : "doc.capture",
             "entry" : "containAllMatcher",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Nested Contain All",
       "id" : "nested-contain-all",
       "type" : "Section",
+      "title" : "Nested Contain All",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -712,8 +713,6 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "response",
-        "pathsFile" : "doc-artifacts/prices-contain-containing-all/paths.json",
         "data" : [ {
           "id" : "game1",
           "prices" : [ 15, 30, 40, 60 ]
@@ -722,38 +721,40 @@ ReactDOM.render(React.createElement(Documentation, {
           "prices" : [ 10, 30 ]
         } ],
         "paths" : [ ],
-        "type" : "Json"
+        "pathsFile" : "doc-artifacts/prices-contain-containing-all/paths.json",
+        "type" : "Json",
+        "title" : "response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/prices\") {\n    body.prices.should contain(containingAll(10, 30))\n}",
+            "excludeRegexp" : "doc.capture",
             "entry" : "contain containing all matcher",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/prices\", (header, body) -> {\n    body.get(\"prices\").should(contain(containingAll(10, 30)));\n});",
+            "excludeRegexp" : "doc.capture",
             "entry" : "containContainingAllMatcher",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Date and Time",
       "id" : "date-and-time",
       "type" : "Section",
+      "title" : "Date and Time",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -789,47 +790,47 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "response",
-        "pathsFile" : "doc-artifacts/end-point-dates-matchers/paths.json",
         "data" : {
-          "id" : 54,
+          "paymentSchedule" : [ "2018-06-12", "2018-07-10", "2018-08-09", "2018-09-12" ],
           "tradeDate" : "2018-06-12",
-          "transactionTime" : "2018-06-12T10:00:00+01:00:00",
-          "paymentSchedule" : [ "2018-06-12", "2018-07-10", "2018-08-09", "2018-09-12" ]
+          "id" : 54,
+          "transactionTime" : "2018-06-12T10:00:00+01:00:00"
         },
         "paths" : [ "root.tradeDate", "root.transactionTime", "root.paymentSchedule[0]" ],
-        "type" : "Json"
+        "pathsFile" : "doc-artifacts/end-point-dates-matchers/paths.json",
+        "type" : "Json",
+        "title" : "response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point-dates\") {\n    def expectedDate = LocalDate.of(2018, 6, 12)\n    def expectedTime = ZonedDateTime.of(expectedDate,\n        LocalTime.of(9, 0, 0),\n        ZoneId.of(\"UTC\"))\n\n    tradeDate.should == expectedDate\n    transactionTime.should == expectedTime\n    transactionTime.shouldBe >= expectedDate\n\n    paymentSchedule.should contain(expectedDate)\n}",
+            "excludeRegexp" : "doc.capture",
             "entry" : "working with dates",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "http.get(\"/end-point-dates\", (header, body) -> {\n    LocalDate expectedDate = LocalDate.of(2018, 6, 12);\n    ZonedDateTime expectedTime = ZonedDateTime.of(expectedDate,\n            LocalTime.of(9, 0, 0),\n            ZoneId.of(\"UTC\"));\n\n    body.get(\"tradeDate\").should(equal(expectedDate));\n    body.get(\"transactionTime\").should(equal(expectedTime));\n    body.get(\"transactionTime\").shouldBe(greaterThanOrEqual(expectedDate));\n\n    body.get(\"paymentSchedule\").should(contain(expectedDate));\n});",
+            "excludeRegexp" : "doc.capture",
             "entry" : "workingWithDates",
             "bodyOnly" : true,
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Mixing Matchers",
       "id" : "mixing-matchers",
       "type" : "Section",
+      "title" : "Mixing Matchers",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -842,58 +843,58 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "EmptyBlock"
       }, {
-        "title" : "response",
-        "pathsFile" : "doc-artifacts/end-point-mixing-matchers/paths.json",
         "data" : {
+          "complexList" : [ {
+            "k1" : "v1",
+            "k2" : 100,
+            "id" : "id1"
+          }, {
+            "k1" : "v11",
+            "k2" : 200,
+            "id" : "id2"
+          } ],
           "list" : [ 1, 2, 3 ],
           "object" : {
             "k1" : "v1",
             "k2" : "v2",
             "k3" : "v3"
-          },
-          "complexList" : [ {
-            "id" : "id1",
-            "k1" : "v1",
-            "k2" : 100
-          }, {
-            "id" : "id2",
-            "k1" : "v11",
-            "k2" : 200
-          } ]
+          }
         },
         "paths" : [ "root.list[0]", "root.list[1]", "root.object.k1", "root.object.k3", "root.complexList[0].k1", "root.complexList[0].k2", "root.complexList[1].k1", "root.complexList[1].k2" ],
-        "type" : "Json"
+        "pathsFile" : "doc-artifacts/end-point-mixing-matchers/paths.json",
+        "type" : "Json",
+        "title" : "response"
       }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point-mixed\") {\n    list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value\n\n    object.should == [k1: 'v1', k3: ~/v\\d/] // regular expression match against k3\n\n    complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2\n\n    complexList[1].should == [\n        k1: notEqual('v1'), // any value but v1\n        k2: greaterThanOrEqual(120)]\n\n    complexList.should == [\"k1\"   | \"k2\"] {\n                          ___________________________\n                           ~/v\\d/ | lessThan(120)\n                            \"v11\" | greaterThan(150) } // using matchers as cell values\n}",
+            "excludeRegexp" : "doc.capture",
             "entry" : "matchers combo",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "Pattern withNumber = Pattern.compile(\"v\\\\d\");\n\nhttp.get(\"/end-point-mixed\", (header, body) -> {\n    body.get(\"list\").should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value\n\n    body.get(\"object\").should(equal(aMapOf(\n            \"k1\", \"v1\",\n            \"k3\", withNumber))); // regular expression match against k3\n\n    body.get(\"complexList\").get(0).should(equal(aMapOf(\n            \"k1\", \"v1\",\n            \"k2\", lessThan(120)))); // lessThen match against k2\n\n    body.get(\"complexList\").get(1).should(equal(aMapOf(\n            \"k1\", notEqual(\"v1\"), // any value but v1\n            \"k2\", greaterThanOrEqual(120))));\n\n    TableData expected = table(\"k1\"        , \"k2\", // matching only specified fields, but number of entries must be exact\n                               ________________________________,\n                                withNumber , lessThan(120),\n                                \"v11\"      , greaterThan(150));\n\n    body.get(\"complexList\").should(equal(expected));\n});",
+            "excludeRegexp" : "doc.capture",
             "entry" : "matchersCombo",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "excludeRegexp" : "doc.capture",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
+        "meta" : {
+          "rightSide" : true
+        },
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Matchers",

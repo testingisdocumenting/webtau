@@ -91,6 +91,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -113,9 +114,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Access Local Storage",
       "id" : "access-local-storage",
       "type" : "Section",
+      "title" : "Access Local Storage",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -135,25 +136,25 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "html",
         "snippet" : "<div id=\"favorite-color\"> \n</div> \n<script>\n    const element = document.getElementById('favorite-color');\n    element.innerHTML = localStorage.getItem('favoriteColor');\n</script>",
+        "type" : "Snippet",
         "title" : "Sample web page",
-        "type" : "Snippet"
+        "lang" : "html"
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"local storage api\") {\n    browser.open('/local-storage')\n    browser.localStorage.setItem('favoriteColor', 'clean')\n\n    def color = $('#favorite-color')\n\n    browser.reopen('/local-storage')\n    color.should == 'clean'\n\n    browser.localStorage.clear()\n    browser.reopen('/local-storage')\n    color.should == ''\n}",
+        "type" : "Snippet",
         "title" : "Setting storage after opening page",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "java",
         "snippet" : "public String getItem(String key)\npublic void setItem(String key, String value)\npublic void removeItem(String key)\npublic void clear()\npublic int size()",
         "entries" : [ "getItem", "setItem", "removeItem", "clear", "size" ],
-        "title" : "Local Storage methods",
+        "type" : "Snippet",
         "signatureOnly" : true,
-        "type" : "Snippet"
+        "title" : "Local Storage methods",
+        "lang" : "java"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Local Storage",

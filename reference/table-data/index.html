@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>GUID</h1></header>
-<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 9547b73a-258d-49ff-b85f-7f973f01a58c true v1b a 6aa0126b-6e1b-4035-9dae-f02c5efe398b false v1b a 82c1923e-97b2-4b7b-9c6c-02cddeb77cb3 true v1b b 7a99a95e-c283-4008-b211-786df1efeab1 false v1b b 86e05f75-a76e-4f44-8743-85efa4ec2911 v2a 10 v2c 52fe8e0e-0af0-4361-a387-d5a6713eafdf v2a 20 v2c</p>
+<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 1303234d-de15-4735-8352-ba30360a2f81 true v1b a cb57be1b-3851-40ee-ab84-ad918f0ef817 false v1b a ed2d419c-aa87-4ffd-a4c6-e86004631a68 true v1b b 6629e124-e512-42fb-828e-d59d6516bab0 false v1b b eac5e18e-4753-45ac-ba60-cca1bda58c82 v2a 10 v2c 2b7ff315-b385-4002-b8a0-2ef1baa30101 v2a 20 v2c</p>
 </article>
 
 <article>
@@ -121,6 +121,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -143,9 +144,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Create",
       "id" : "create",
       "type" : "Section",
+      "title" : "Create",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -162,22 +163,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"Col A\" | \"Col B\" | \"Col C\"] {\n________________________________\n   \"v1a\" |   \"v1b\" | \"v1c\"\n   \"v2a\" |   \"v2b\" | \"v2c\" }",
             "entry" : "createTableWithUnderscore",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"Col A\", \"Col B\", \"Col C\",\n      ________________________________,\n        \"v1a\",   \"v1b\", \"v1c\",\n        \"v2a\",   \"v2b\", \"v2c\")",
+            "removeSemicolon" : true,
             "entry" : "createTableDataInOneGo",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -237,30 +238,30 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"Col A\" | \"Col B\" | \"Col C\"] {\n   \"v1a\" |   \"v1b\" | \"v1c\"\n   \"v2a\" |   \"v2b\" | \"v2c\" }",
             "entry" : "createTableWithoutUnderscore",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"Col A\", \"Col B\", \"Col C\").values(\n        \"v1a\",   \"v1b\", \"v1c\",\n        \"v2a\",   \"v2b\", \"v2c\")",
+            "removeSemicolon" : true,
             "entry" : "createTableDataSeparateValues",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Key Columns",
       "id" : "key-columns",
       "type" : "Section",
+      "title" : "Key Columns",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -277,22 +278,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"*id\" | \"Name\" | \"Type\"] {\n___________________________\n \"id1\" | \"N\"    | \"T\"\n \"id2\" | \"N2\"   | \"T2\"\n \"id3\" | \"N\"    | \"T\" }",
             "entry" : "createTableWithKeyColumns",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"*id\" , \"Name\" , \"Type\",\n      _______________________,\n      \"id1\" , \"N\"    , \"T\",\n      \"id2\" , \"N2\"   , \"T2\",\n      \"id3\" , \"N\"    , \"T\")",
+            "removeSemicolon" : true,
             "entry" : "createTableWithKeyColumns",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
@@ -306,20 +307,20 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "def found = tableData.find(key(\"id2\"))\nfound.Name.should == \"N2\"",
             "entry" : "findByKeyAndValidate",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "Record found = tableData.find(key(\"id2\"));\nactual(found.get(\"Name\")).should(equal(\"N2\"));",
             "entry" : "findByKeyAndValidate",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
@@ -333,22 +334,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "tableData.withNewKeyColumns(\"Name\", \"Type\")",
             "entry" : "changeKeyColumns",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "tableData.withNewKeyColumns(\"Name\", \"Type\")",
+            "removeSemicolon" : true,
             "entry" : "changeKeyColumns",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
@@ -366,9 +367,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Permutations",
       "id" : "permutations",
       "type" : "Section",
+      "title" : "Permutations",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -385,34 +386,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"Col A\"              | \"Col B\"         | \"Col C\"] {\n___________________________________________________________\n permute(true, false) | \"v1b\"           | permute('a', 'b')\n \"v2a\"                | permute(10, 20) | \"v2c\" }",
             "entry" : "createTableDataWithPermute",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"Col A\"              , \"Col B\"         , \"Col C\",\n      ________________________________________________________________,\n       permute(true, false), \"v1b\"           , permute('a', 'b'),\n       \"v2a\"               , permute(10, 20) , \"v2c\")",
+            "removeSemicolon" : true,
             "entry" : "createTableDataWithPermute",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "Col A"
-          }, {
-            "title" : "Col B"
-          }, {
-            "title" : "Col C"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -521,14 +516,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "v2c",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "Col A"
+          }, {
+            "title" : "Col B"
+          }, {
+            "title" : "Col C"
+          } ]
+        }
       } ]
     }, {
-      "title" : "GUID",
       "id" : "guid",
       "type" : "Section",
+      "title" : "GUID",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -545,40 +546,32 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"ID\"      | \"Col A\"              | \"Col B\"         | \"Col C\"] {\n________________________________________________________________________\n cell.guid | permute(true, false) | \"v1b\"           | permute('a', 'b')\n cell.guid | \"v2a\"                | permute(10, 20) | \"v2c\" }",
             "entry" : "createTableDataWithPermuteAndGuid",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"ID\"      , \"Col A\"              , \"Col B\"         , \"Col C\",\n      ______________________________________________________________________,\n       cell.guid, permute(true, false), \"v1b\"           , permute('a', 'b'),\n       cell.guid, \"v2a\"               , permute(10, 20) , \"v2c\")",
+            "removeSemicolon" : true,
             "entry" : "createTableDataWithPermuteAndGuid",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "ID"
-          }, {
-            "title" : "Col A"
-          }, {
-            "title" : "Col B"
-          }, {
-            "title" : "Col C"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "9547b73a-258d-49ff-b85f-7f973f01a58c",
+              "text" : "1303234d-de15-4735-8352-ba30360a2f81",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -602,7 +595,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "6aa0126b-6e1b-4035-9dae-f02c5efe398b",
+              "text" : "cb57be1b-3851-40ee-ab84-ad918f0ef817",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -626,7 +619,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "82c1923e-97b2-4b7b-9c6c-02cddeb77cb3",
+              "text" : "ed2d419c-aa87-4ffd-a4c6-e86004631a68",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -650,7 +643,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "7a99a95e-c283-4008-b211-786df1efeab1",
+              "text" : "6629e124-e512-42fb-828e-d59d6516bab0",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -674,7 +667,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "86e05f75-a76e-4f44-8743-85efa4ec2911",
+              "text" : "eac5e18e-4753-45ac-ba60-cca1bda58c82",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -698,7 +691,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "52fe8e0e-0af0-4361-a387-d5a6713eafdf",
+              "text" : "2b7ff315-b385-4002-b8a0-2ef1baa30101",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -719,14 +712,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "v2c",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "ID"
+          }, {
+            "title" : "Col A"
+          }, {
+            "title" : "Col B"
+          }, {
+            "title" : "Col C"
+          } ]
+        }
       } ]
     }, {
-      "title" : "Replace",
       "id" : "replace",
       "type" : "Section",
+      "title" : "Replace",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -743,48 +744,42 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"Col A\" | \"Col B\" | \"Col C\"] {\n________________________________\n   \"v1a\" |   \"v1b\" | \"v1c\"\n   \"v2a\" |   \"v2b\" | \"v2c\" }",
             "entry" : "createTableWithUnderscore",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           }, {
-            "lang" : "groovy",
             "snippet" : "tableData.replace(\"v1b\", \"v1b_\")",
             "entry" : "replaceValue",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"Col A\", \"Col B\", \"Col C\",\n      ________________________________,\n        \"v1a\",   \"v1b\", \"v1c\",\n        \"v2a\",   \"v2b\", \"v2c\")",
+            "removeSemicolon" : true,
             "entry" : "createTableDataInOneGo",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
-          }, {
+            "type" : "Snippet",
             "lang" : "java",
+            "removeReturn" : true
+          }, {
             "snippet" : "tableData.replace(\"v1b\", \"v1b_\")",
+            "removeSemicolon" : true,
             "entry" : "replaceValue",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "Col A"
-          }, {
-            "title" : "Col B"
-          }, {
-            "title" : "Col C"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -821,14 +816,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "v2c",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "Col A"
+          }, {
+            "title" : "Col B"
+          }, {
+            "title" : "Col C"
+          } ]
+        }
       } ]
     }, {
-      "title" : "Cell Above Value Reference",
       "id" : "cell-above-value-reference",
       "type" : "Section",
+      "title" : "Cell Above Value Reference",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -845,34 +846,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"Name\" | \"Start Date\"              | \"Games To Play\" ] {\n ______________________________________________________\n \"John\" | LocalDate.of(2016, 6, 20) | 10\n \"Bob\"  | cell.above                |  8\n \"Mike\" | cell.above                | 14\n\n \"Drew\" | LocalDate.of(2016, 6, 22) | 10\n \"Pete\" | cell.above                | 11\n \"Max\"  | cell.above                |  3 }",
             "entry" : "createTableDataWithAboveRef",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"Name\", \"Start Date\"             , \"Games To Play\",\n      __________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               ,  8,\n      \"Mike\", cell.above               , 14,\n\n      \"Drew\", LocalDate.of(2016, 6, 22), 10,\n      \"Pete\", cell.above               , 11,\n      \"Max\" , cell.above               ,  3)",
+            "removeSemicolon" : true,
             "entry" : "createTableDataWithAboveRef",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "Name"
-          }, {
-            "title" : "Start Date"
-          }, {
-            "title" : "Games To Play"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -981,14 +976,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "3",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "Name"
+          }, {
+            "title" : "Start Date"
+          }, {
+            "title" : "Games To Play"
+          } ]
+        }
       } ]
     }, {
-      "title" : "Cell Above Math",
       "id" : "cell-above-math",
       "type" : "Section",
+      "title" : "Cell Above Math",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -1005,34 +1006,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "[\"Name\" | \"Start Date\"              | \"Games To Play\" ] {\n ______________________________________________________\n \"John\" | LocalDate.of(2016, 6, 20) | 10\n \"Bob\"  | cell.above                | cell.above + 1\n \"Mike\" | cell.above                | cell.above + 1 }",
             "entry" : "createTableDataWithAboveRefAndMath",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "table(\"Name\", \"Start Date\"             , \"Games To Play\",\n     ________________________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               , cell.above.plus(1),\n      \"Mike\", cell.above               , cell.above.plus(1))",
+            "removeSemicolon" : true,
             "entry" : "createTableDataWithAboveRefAndMath",
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "type" : "Table",
         "table" : {
-          "columns" : [ {
-            "title" : "Name"
-          }, {
-            "title" : "Start Date"
-          }, {
-            "title" : "Games To Play"
-          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1087,9 +1082,15 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "12",
               "type" : "SimpleText"
             } ]
-          } ] ] ]
-        },
-        "type" : "Table"
+          } ] ] ],
+          "columns" : [ {
+            "title" : "Name"
+          }, {
+            "title" : "Start Date"
+          }, {
+            "title" : "Games To Play"
+          } ]
+        }
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -1106,28 +1107,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "def increment = cell.above + 1\n\n[\"Name\" | \"Start Date\"              | \"Games To Play\" ] {\n ______________________________________________________\n \"John\" | LocalDate.of(2016, 6, 20) | 10\n \"Bob\"  | cell.above                | increment\n \"Mike\" | cell.above                | increment }",
             "entry" : "createTableDataWithAboveRefAndMathExtracted",
             "bodyOnly" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "TableDataCellValueGenerator<?> increment = cell.above.plus(1)\n\ntable(\"Name\", \"Start Date\"             , \"Games To Play\",\n     ________________________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               , increment,\n      \"Mike\", cell.above               , increment)",
+            "removeSemicolon" : true,
             "entries" : [ "createIncrementExample", "createTableDataWithAboveRefAndMathExtracted" ],
             "bodyOnly" : true,
-            "removeReturn" : true,
-            "removeSemicolon" : true,
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java",
+            "removeReturn" : true
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Reference",
       "pageTitle" : "Table Data",

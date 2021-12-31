@@ -106,6 +106,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -128,9 +129,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "WebTau Runner",
       "id" : "webtau-runner",
       "type" : "Section",
+      "title" : "WebTau Runner",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -176,28 +177,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for DSL methods and props like http\n\n@RunWith(WebTauRunner)  // runner is required to have this test to be a part of generated html report\nclass CustomerCrudSingleGroovyTest {\n    private def customerPayload = [firstName: 'FN',\n                                   lastName: 'LN']\n    private def changedCustomerPayload = [*:customerPayload, lastName: 'NLN']\n\n    @Test\n    void crud() {\n        def id = http.post(\"/customers\", customerPayload) {\n            return id\n        }\n\n        http.get(\"/customers/$id\") {\n            body.should == customerPayload\n        }\n\n        http.put(\"/customers/$id\", changedCustomerPayload) {\n            body.should == changedCustomerPayload\n        }\n\n        http.get(\"/customers/$id\") {\n            body.should == changedCustomerPayload\n        }\n\n        http.delete(\"/customers/$id\") {\n            statusCode.should == 204\n        }\n\n        http.get(\"/customers/$id\") {\n            statusCode.should == 404\n        }\n    }\n}",
-            "title" : "CRUD test in a single method",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "CRUD test in a single method",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport java.util.Map;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for DSL methods and props like http and equal, aMapOf, etc\n\n@RunWith(WebTauRunner.class) // runner is required to have this test to be a part of generated html report\npublic class CustomerCrudSingleJavaTest {\n    private Map<String, Object> customerPayload = createCustomerPayload();\n    private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();\n\n    @Test\n    public void crud() {\n        int id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload));\n        }));\n\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode().should(equal(404));\n        }));\n    }\n\n    private Map<String, Object> createCustomerPayload() {\n        return aMapOf(\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\");\n    }\n\n    private Map<String, Object> createChangedCustomerPayload() {\n        Map<String, Object> payload = createCustomerPayload();\n        payload.put(\"lastName\", \"NLN\");\n\n        return payload;\n    }\n}",
-            "title" : "CRUD test in a single method",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "CRUD test in a single method",
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Before/After",
       "id" : "beforeafter",
       "type" : "Section",
+      "title" : "Before/After",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -226,28 +227,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.After\nimport org.junit.Before\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@RunWith(WebTauRunner.class)\nclass CustomerCrudBeforeAfterGroovyTest {\n    private def customerPayload = [firstName: 'FN',\n                                   lastName: 'LN']\n    private def changedCustomerPayload = [*:customerPayload, lastName: 'NLN']\n\n    private int customerId\n\n    @Before\n    void \"create customer\"() {\n        customerId = http.post(\"/customers\", customerPayload) {\n            return id // We deliberately named field as \"customerId\" to avoid conflict with response field. Alternatively you can use body.id to avoid the conflict\n        }\n    }\n\n    @Test\n    void \"query customer\"() {\n        http.get(\"/customers/$customerId\") {\n            body.should == customerPayload\n        }\n    }\n\n    @Test\n    void \"update customer\"() {\n        http.put(\"/customers/$customerId\", changedCustomerPayload) {\n            body.should == changedCustomerPayload\n        }\n\n        http.get(\"/customers/$customerId\") {\n            body.should == changedCustomerPayload\n        }\n    }\n\n    @After\n    void \"delete customer\"() {\n        http.delete(\"/customers/$customerId\") {\n            statusCode.should == 204\n        }\n\n        http.get(\"/customers/$customerId\") {\n            statusCode.should == 404\n        }\n    }\n}",
-            "title" : "CRUD test with @Before and @After annotations",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "CRUD test with @Before and @After annotations",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.After;\nimport org.junit.Before;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport java.util.Map;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class CustomerCrudBeforeAfterJavaTest {\n    private Map<String, Object> customerPayload = createCustomerPayload();\n    private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();\n    private int customerId;\n\n    @Before\n    public void createCustomer() {\n        customerId = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n    }\n\n    @Test\n    public void queryCustomer() {\n        http.get(\"/customers/\" + customerId, ((header, body) -> {\n            body.should(equal(customerPayload));\n        }));\n    }\n\n    @Test\n    public void updateCustomer() {\n        http.put(\"/customers/\" + customerId, changedCustomerPayload, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.get(\"/customers/\" + customerId, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n    }\n\n    @After\n    public void deleteCustomer() {\n        http.delete(\"/customers/\" + customerId, (header, body) -> {\n            header.statusCode().should(equal(204));\n        });\n\n        http.get(\"/customers/\" + customerId, ((header, body) -> {\n            header.statusCode().should(equal(404));\n        }));\n    }\n\n    private Map<String, Object> createCustomerPayload() {\n        return aMapOf(\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\");\n    }\n\n    private Map<String, Object> createChangedCustomerPayload() {\n        Map<String, Object> payload = createCustomerPayload();\n        payload.put(\"lastName\", \"NLN\");\n\n        return payload;\n    }\n}",
-            "title" : "CRUD test with @Before and @After annotations",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "CRUD test with @Before and @After annotations",
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "BeforeClass/AfterClass",
       "id" : "beforeclassafterclass",
       "type" : "Section",
+      "title" : "BeforeClass/AfterClass",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -270,33 +271,33 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "package com.example.tests.junit4\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport org.junit.AfterClass\nimport org.junit.BeforeClass\nimport org.junit.Test\nimport org.junit.runner.RunWith\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.http\n\n@RunWith(WebTauRunner.class)\nclass CustomerQueryGroovyTest {\n    private static def id1 // keep track of created ids to assert and cleanup later\n    private static def id2\n    private static def id3\n\n    @BeforeClass\n    static void createCustomers() {\n        id1 = createCustomer(\"CQ_FN1\", \"CQ_LN1\")\n        id2 = createCustomer(\"CQ_FN1\", \"CQ_LN2\")\n        id3 = createCustomer(\"CQ_FN2\", \"CQ_LN2\")\n    }\n\n    @Test\n    void queryByFirstName() {\n        http.get(\"/customers/search/first-name\", [name: \"CQ_FN1\"]) {\n            body.should == [\"*id\" | \"firstName\" | \"lastName\"] { // star(*) marks key column so assertion is order agnostic\n                            __________________________________\n                             id1  | \"CQ_FN1\"    | \"CQ_LN1\"\n                             id2  | \"CQ_FN1\"    | \"CQ_LN2\" }\n        }\n    }\n\n    @Test\n    void queryByLastName() {\n        http.get(\"/customers/search/last-name\", [name: \"CQ_LN2\"]) {\n           body.should == [\"*id\" | \"firstName\" | \"lastName\"] {\n                          __________________________________\n                            id2  | \"CQ_FN1\"    | \"CQ_LN2\"\n                            id3  | \"CQ_FN2\"    | \"CQ_LN2\" }\n        }\n    }\n\n    @AfterClass\n    static void cleanup() {\n        [id1, id2, id3].each { http.delete(\"/customers/$it\") }\n    }\n\n    private static def createCustomer(String firstName, String lastName) {\n        return http.post(\"/customers\", [firstName: firstName, lastName: lastName]) { id }\n    }\n}",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit4;\n\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport org.junit.AfterClass;\nimport org.junit.BeforeClass;\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\n\nimport java.util.Map;\nimport java.util.stream.Stream;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class CustomerQueryJavaTest {\n    private static Integer id1; // keep track of created ids to assert and cleanup later\n    private static Integer id2;\n    private static Integer id3;\n\n    @BeforeClass\n    public static void createCustomers() {\n        id1 = createCustomer(\"CQ_FN1\", \"CQ_LN1\");\n        id2 = createCustomer(\"CQ_FN1\", \"CQ_LN2\");\n        id3 = createCustomer(\"CQ_FN2\", \"CQ_LN2\");\n    }\n\n    @Test\n    public void queryByFirstName() {\n        http.get(\"/customers/search/first-name\", http.query(\"name\", \"CQ_FN1\"), (header, body) -> {\n            body.should(equal(table(\"*id\", \"firstName\", \"lastName\", // star(*) marks key column so assertion is order agnostic\n                                   ________________________________,\n                                      id1, \"CQ_FN1\"   , \"CQ_LN1\",\n                                      id2, \"CQ_FN1\"   , \"CQ_LN2\")));\n        });\n    }\n\n    @Test\n    public void queryByLastName() {\n        http.get(\"/customers/search/last-name\", http.query(\"name\", \"CQ_LN2\"), (header, body) -> {\n            body.should(equal(table(\"*id\", \"firstName\", \"lastName\",\n                                    ________________________________,\n                                      id2, \"CQ_FN1\"   , \"CQ_LN2\",\n                                      id3, \"CQ_FN2\"   , \"CQ_LN2\")));\n        });\n    }\n\n    @AfterClass\n    public static void cleanup() {\n        Stream.of(id1, id2, id3).forEach(id -> http.delete(\"/customers/\" + id));\n    }\n\n    private static int createCustomer(String firstName, String lastName) {\n        Map<String, Object> payload = aMapOf(\n                \"firstName\", firstName,\n                \"lastName\", lastName);\n\n        return http.post(\"/customers\", payload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n    }\n}",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Maven Import",
       "id" : "maven-import",
       "type" : "Section",
+      "title" : "Maven Import",
       "content" : [ {
-        "lang" : "xml",
         "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.44.1</version>\n</dependency>",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "xml"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Generic Runners",
       "pageTitle" : "JUnit 4",

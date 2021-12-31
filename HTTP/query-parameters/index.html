@@ -96,6 +96,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -118,9 +119,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Passing Query Parameters",
       "id" : "passing-query-parameters",
       "type" : "Section",
+      "title" : "Passing Query Parameters",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -128,12 +129,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"params?a=1&b=text\") {\n    // assertions go here\n}",
-        "title" : "embedding query params directly in url",
         "entry" : "query params in url example",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "embedding query params directly in url",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -153,12 +154,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"params\", [a: 1, b: 'text']) {\n    // assertions go here\n}",
-        "title" : "pass query parameters as Map",
         "entry" : "query params using query as map example",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "pass query parameters as Map",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -196,12 +197,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"params\", http.query([a: 1, b: 'text']), http.header(['x-param': 'value'])) {\n    // assertions go here\n}",
-        "title" : "pass query parameters using http.query",
         "entry" : "query params using query method example",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "pass query parameters using http.query",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -221,17 +222,17 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "http.get(\"params\", http.query('a', '1', 'b', 'text')) {\n    // assertions go here\n}",
-        "title" : "http.query vararg variant",
         "entry" : "query params using query method and comma example",
         "bodyOnly" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "http.query vararg variant",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Parameters Encoding",
       "id" : "parameters-encoding",
       "type" : "Section",
+      "title" : "Parameters Encoding",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -239,22 +240,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "http.get(\"params\", http.query([message: 'hello world !'])) {\n    // assertions go here\n}",
-        "title" : "query parameter with url forbidden characters",
-        "entry" : "query params encoding",
-        "startLine" : "query params encoding snippet start",
         "endLine" : "query params encoding snippet end",
+        "snippet" : "http.get(\"params\", http.query([message: 'hello world !'])) {\n    // assertions go here\n}",
+        "entry" : "query params encoding",
         "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "startLine" : "query params encoding snippet start",
+        "type" : "Snippet",
+        "title" : "query parameter with url forbidden characters",
+        "lang" : "groovy"
       }, {
-        "lang" : "txt",
         "snippet" : "params?message=hello+world+%21",
+        "type" : "Snippet",
         "title" : "automatic encoding",
-        "type" : "Snippet"
+        "lang" : "txt"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Query Parameters",

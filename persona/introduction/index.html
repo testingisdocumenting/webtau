@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,9 +124,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Persona Context",
       "id" : "persona-context",
       "type" : "Section",
+      "title" : "Persona Context",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -144,11 +145,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "scenario('context example') {\n    Alice {\n       step(\"do something in context of Alice\") {\n           customAction()\n       }\n    }\n\n    Bob {\n        step(\"do same thing in context of Bob\") {\n            customAction()\n        }\n    }\n}",
-        "title" : "context example",
         "surroundedBy" : "context-example-snippet",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "context example",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -167,17 +168,17 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def customAction() {\n    def id = Persona.currentPersona.id\n    def authId = Persona.currentPersona.payload.authId // from persona payload\n    def email = cfg.email // from persona associated config override\n    step(\"custom action\", [authId: authId, email: email]) {\n        println \"authenticating $id\"\n    }\n}",
-        "title" : "same action performed by two personas",
         "entry" : "customAction",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "same action performed by two personas",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Context Definition",
       "id" : "context-definition",
       "type" : "Section",
+      "title" : "Context Definition",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -196,10 +197,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package personas\n\nimport static org.testingisdocumenting.webtau.WebTauCore.persona\n\nclass Personas {\n    public static def Alice = persona(\"Alice\", [authId: \"alice-user-id\"])\n    public static def Bob = persona(\"Bob\", [authId: \"bob-user-id\"])\n}",
+        "type" : "Snippet",
         "title" : "centralized persona definition with payload",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -212,13 +213,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "email = \"default@email.send\"\ncustomValue = 100\n\npersonas {\n    Alice {\n        email = \"alice@email.send\"\n        customValue = 105\n    }\n\n    Bob {\n        email = \"bob@email.send\"\n        customValue = 110\n    }\n}",
-        "title" : "persona specific config",
-        "startLine" : "personas-cfg",
         "endLine" : "personas-cfg",
+        "snippet" : "email = \"default@email.send\"\ncustomValue = 100\n\npersonas {\n    Alice {\n        email = \"alice@email.send\"\n        customValue = 105\n    }\n\n    Bob {\n        email = \"bob@email.send\"\n        customValue = 110\n    }\n}",
         "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "startLine" : "personas-cfg",
+        "type" : "Snippet",
+        "title" : "persona specific config",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -226,18 +227,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def authId = Persona.currentPersona.payload.authId // from persona payload\ndef email = cfg.email // from persona associated config override",
-        "title" : "access payload and config example",
         "entry" : "customAction",
         "commentsType" : "inline",
-        "includeRegexp" : [ "def authId", "def email" ],
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "access payload and config example",
+        "lang" : "groovy",
+        "includeRegexp" : [ "def authId", "def email" ]
       } ]
     }, {
-      "title" : "Report",
       "id" : "report",
       "type" : "Section",
+      "title" : "Report",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -246,15 +247,15 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "fit" : true,
-        "imageSrc" : "/webtau/doc-artifacts/reports/persona-concept-steps.png",
-        "timestamp" : 1634267902039,
         "shapes" : [ ],
         "width" : 1200.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/persona-concept-steps.png",
+        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922726208
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Persona",
       "pageTitle" : "Introduction",

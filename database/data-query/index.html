@@ -121,6 +121,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -143,9 +144,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Full Table",
       "id" : "full-table",
       "type" : "Section",
+      "title" : "Full Table",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -153,55 +154,55 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "query whole table end",
         "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES.should == [\"ID\" | \"DESCRIPTION\" | \"PRICE\"] {\n                 ___________________________________\n                 \"id1\" | \"nice set\"    | 1000\n                 \"id2\" | \"another set\" | 2000 }",
         "entry" : "query method on table should be optional during comparison",
-        "title" : "validate whole table",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query whole table start",
-        "endLine" : "query whole table end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "validate whole table",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Custom Query",
       "id" : "custom-query",
       "type" : "Section",
+      "title" : "Custom Query",
       "content" : [ {
-        "lang" : "groovy",
+        "endLine" : "query with where clause end",
         "snippet" : "def prices = db.query(\"select * from PRICES where id=:id\", [id: \"id1\"])\nprices.should == [\"ID\" | \"DESCRIPTION\" | \"PRICE\"] {\n                 ___________________________________\n                 \"id1\" | \"nice set\"    | 1000     }",
         "entry" : "query table with select statement and param",
-        "title" : "validate parts of a table",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query with where clause start",
-        "endLine" : "query with where clause end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "validate parts of a table",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
+        "endLine" : "query with where clause end",
         "snippet" : "def prices = db.query(\"select * from PRICES where id=:id\", [id: \"id1\"])\nprices.should == [ID: \"id1\", \"DESCRIPTION\": \"nice set\", PRICE: 1000]",
         "entry" : "query table to match one row and assert against map",
-        "title" : "validate parts of a table against map",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query with where clause start",
-        "endLine" : "query with where clause end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "validate parts of a table against map",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
+        "endLine" : "query with where clause end",
         "snippet" : "def prices = db.query(\"select * from PRICES where id in (:ids)\", [ids: [\"id1\", \"id2\"]])\nprices.should == [\"ID\" | \"DESCRIPTION\" | \"PRICE\"] {\n                 ___________________________________\n                 \"id1\" | \"nice set\"    | 1000\n                 \"id2\" | \"another set\" | 2000     }",
         "entry" : "query table with select statement and array param",
-        "title" : "use array as input",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query with where clause start",
-        "endLine" : "query with where clause end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "use array as input",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Named Parameter Shortcut",
       "id" : "named-parameter-shortcut",
       "type" : "Section",
+      "title" : "Named Parameter Shortcut",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -212,20 +213,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "InlinedCode"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "query with where clause end",
         "snippet" : "def prices = db.query(\"select * from PRICES where id=:id or external_id=:id\", \"id1\")\nprices.should == [ID: \"id1\", \"DESCRIPTION\": \"nice set\", PRICE: 1000]",
         "entry" : "query table to match one row using single param shortcut and assert against map",
-        "title" : "use regular value in case of one unique placeholder name",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query with where clause start",
-        "endLine" : "query with where clause end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "use regular value in case of one unique placeholder name",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Lazy Declaration",
       "id" : "lazy-declaration",
       "type" : "Section",
+      "title" : "Lazy Declaration",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -236,45 +237,45 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "query with where clause end",
         "snippet" : "def prices = db.query(\"select * from PRICES\")\n\nprices.shouldNot == []\ndb.update(\"delete from PRICES\")\nprices.should == []",
         "entry" : "create query is lazy",
-        "title" : "create query is lazy",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query with where clause start",
-        "endLine" : "query with where clause end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "create query is lazy",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
+        "endLine" : "query with where clause end",
         "snippet" : "def PRICES = db.table(\"PRICES\")\ndef numberOfItems = PRICES.queryCount()\n\nnumberOfItems.shouldNot == 0\ndb.update(\"delete from PRICES\")\nnumberOfItems.should == 0",
         "entry" : "lazy count query",
-        "title" : "lazy count query",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query with where clause start",
-        "endLine" : "query with where clause end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "lazy count query",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Single Value",
       "id" : "single-value",
       "type" : "Section",
+      "title" : "Single Value",
       "content" : [ {
-        "lang" : "groovy",
+        "endLine" : "query single value params end",
         "snippet" : "def price = db.query(\"select price from PRICES where id=:id\", [id: 'id1'])\nprice.should == 1000\nprice.shouldNot == 2000",
         "entry" : "should query single value with params",
-        "title" : "validate single value",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query single value params start",
-        "endLine" : "query single value params end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "validate single value",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Wait On Result",
       "id" : "wait-on-result",
       "type" : "Section",
+      "title" : "Wait On Result",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -288,20 +289,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "query with where clause end",
         "snippet" : "def count = db.query(\"select count(*) from PRICES\")\ncount.should == 2\n\n// event happen somewhere to increase the number of rows...\ncount.waitTo == 3",
         "entry" : "wait for count to change",
-        "title" : "wait for count to change",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "query with where clause start",
-        "endLine" : "query with where clause end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "wait for count to change",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Query Result Value",
       "id" : "query-result-value",
       "type" : "Section",
+      "title" : "Query Result Value",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -349,15 +350,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
+        "endLine" : "single value access end",
         "snippet" : "def price = db.query(\"select price from PRICES where id=:id\", [id: 'id1'])\nif (price.singleValue() > 100) {\n    println(\"do something\")\n}",
         "entry" : "value returned from query is a special wrapper value",
-        "title" : "access single value",
+        "excludeStartEnd" : true,
         "bodyOnly" : true,
         "startLine" : "single value access start",
-        "endLine" : "single value access end",
-        "excludeStartEnd" : true,
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "access single value",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -372,7 +373,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Database",
       "pageTitle" : "Data Query",

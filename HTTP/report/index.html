@@ -111,6 +111,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -133,9 +134,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Location",
       "id" : "location",
       "type" : "Section",
+      "title" : "Location",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -156,9 +157,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Summary",
       "id" : "summary",
       "type" : "Section",
+      "title" : "Summary",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -167,17 +168,17 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "fit" : true,
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-summary.png",
-        "timestamp" : 1634267898231,
         "shapes" : [ ],
         "width" : 1200.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-summary.png",
+        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922721852
       } ]
     }, {
-      "title" : "Test Summary",
       "id" : "test-summary",
       "type" : "Section",
+      "title" : "Test Summary",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -186,17 +187,17 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "fit" : true,
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary.png",
-        "timestamp" : 1634267898579,
         "shapes" : [ ],
         "width" : 1200.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary.png",
+        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922722260
       } ]
     }, {
-      "title" : "Navigation",
       "id" : "navigation",
       "type" : "Section",
+      "title" : "Navigation",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -210,9 +211,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Additional Reports",
       "id" : "additional-reports",
       "type" : "Section",
+      "title" : "Additional Reports",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -226,11 +227,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8080\"\n\nreportGenerator = Report.&generateReport",
-        "title" : "webtau.cfg.groovy",
         "excludeRegexp" : "package",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -244,13 +245,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.rest.report\n\nimport org.testingisdocumenting.webtau.console.ConsoleOutputs\nimport org.testingisdocumenting.webtau.console.ansi.Color\nimport org.testingisdocumenting.webtau.reporter.WebTauReport\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.cfg\n\nclass Report {\n    static void generateReport(WebTauReport report) {\n        def reportPath = cfg.workingDir.resolve('report.txt')\n\n        ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath)\n        reportPath.toFile().text = report.tests.size()\n    }\n}",
+        "type" : "Snippet",
         "title" : "scenarios/rest/report/Report.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Report",

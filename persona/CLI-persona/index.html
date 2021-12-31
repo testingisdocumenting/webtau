@@ -91,6 +91,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -113,9 +114,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Environment Variables",
       "id" : "environment-variables",
       "type" : "Section",
+      "title" : "Environment Variables",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -135,11 +136,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cliEnv {\n    MY_VAR = \"webtau\"\n    PREFIX_VAR = \"__\"\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "default-my-var",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -147,11 +148,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "personas {\n    Alice {\n        cliEnv.MY_VAR = \"Alice!\"\n    }\n\n    Bob {\n        cliEnv.MY_VAR = \"Bob!\"\n    }\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "personas-my-var",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -159,11 +160,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "",
         "snippet" : "#!/bin/bash\necho \"hello $MY_VAR\"",
-        "autoTitle" : true,
+        "type" : "Snippet",
         "title" : "scripts/hello-env-var",
-        "type" : "Snippet"
+        "autoTitle" : true,
+        "lang" : ""
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -171,13 +172,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "Alice {\n    cli.run('scripts/hello-env-var') {\n        output.should == 'hello Alice!'\n    }\n}\n\nBob {\n    cli.run('scripts/hello-env-var') {\n        output.should == 'hello Bob!'\n    }\n}",
+        "type" : "Snippet",
         "title" : "use environment variable from persona config",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Persona",
       "pageTitle" : "CLI Persona",

@@ -106,6 +106,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -128,9 +129,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Runners",
       "id" : "runners",
       "type" : "Section",
+      "title" : "Runners",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -139,20 +140,20 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/installation#groovy-runner",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Standalone Groovy Runner",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/installation#groovy-runner"
             } ]
           } ]
         }, {
@@ -160,13 +161,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/installation#junit5",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "JUnit5",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/installation#junit5"
             } ]
           } ]
         }, {
@@ -174,78 +175,78 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/installation#junit4",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "JUnit4",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/installation#junit4"
             } ]
           } ]
         } ]
       } ]
     }, {
-      "title" : "Groovy Runner",
       "id" : "groovy-runner",
       "type" : "Section",
+      "title" : "Groovy Runner",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "If you have ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://brew.sh",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "brew",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "https://brew.sh"
         }, {
           "text" : " installed in your system use",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "",
         "snippet" : "brew install testingisdocumenting/brew/webtau\n",
+        "type" : "Snippet",
         "lineNumber" : "",
-        "type" : "Snippet"
+        "lang" : ""
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "If you have ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://sdkman.io",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "sdkman",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "https://sdkman.io"
         }, {
           "text" : " installed in your system use",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "",
         "snippet" : "sdk install webtau\n",
+        "type" : "Snippet",
         "lineNumber" : "",
-        "type" : "Snippet"
+        "lang" : ""
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Alternatively, download and unzip ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.44.1/webtau-dist-1.44.1-webtau.zip",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "webtau",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.44.1/webtau-dist-1.44.1-webtau.zip"
         }, {
           "text" : ".",
           "type" : "SimpleText"
@@ -262,9 +263,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "webtau --example",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "type" : "CliCommand",
+        "command" : "webtau --example"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -278,14 +279,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "cd examples/todo",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "type" : "CliCommand",
+        "command" : "cd examples/todo"
       }, {
-        "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch todo item') {\n    http.get('/todos/1') {\n        title.should == 'delectus aut autem'\n        completed.should == false\n    }\n}",
+        "type" : "Snippet",
         "title" : "todolist.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -293,9 +294,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "webtau todolist.groovy --url=https://jsonplaceholder.typicode.com",
         "paramsToHighlight" : [ "url" ],
-        "type" : "CliCommand"
+        "type" : "CliCommand",
+        "command" : "webtau todolist.groovy --url=https://jsonplaceholder.typicode.com"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -320,121 +321,121 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "xml",
         "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+        "type" : "Snippet",
         "title" : "Webtau Dependency",
-        "type" : "Snippet"
+        "lang" : "xml"
       }, {
-        "lang" : "xml",
         "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.44.1</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <env>integration</env>\n        <url>http://optional-base-url</url>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/simple*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
+        "type" : "Snippet",
         "title" : "Webtau Plugin",
-        "type" : "Snippet"
+        "lang" : "xml"
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "url" : "/webtau/groovy-standalone-runner/introduction",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Learn more about Groovy Runner features",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/groovy-standalone-runner/introduction"
         } ]
       } ]
     }, {
-      "title" : "JUnit5",
       "id" : "junit5",
       "type" : "Section",
+      "title" : "JUnit5",
       "content" : [ {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "Webtau Groovy Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit5</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "JUnit5 Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "groovy",
             "snippet" : "package com.example.tests.junit5\n\nimport org.junit.jupiter.api.Test\nimport org.testingisdocumenting.webtau.junit5.WebTau\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau\n\n@WebTau // annotation required for reports generation\nclass JUnit5ExampleGroovyTest {\n    @Test\n    void \"my test\"() {\n    }\n}",
-            "title" : "JUnit 5 example",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "JUnit 5 example",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "Webtau Java Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit5</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "JUnit5 Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau\n\n@WebTau // annotation required for reports generation\npublic class JUnit5ExampleJavaTest {\n    @Test\n    public void myTest() {\n    }\n}",
-            "title" : "JUnit 5 example",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "JUnit 5 example",
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "JUnit4",
       "id" : "junit4",
       "type" : "Section",
+      "title" : "JUnit4",
       "content" : [ {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "Webtau Groovy Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "JUnit4 Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "groovy",
             "snippet" : "package com.example.tests.junit4\n\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau\n\n@RunWith(WebTauRunner.class) // webtau runner to generate reports\nclass JUnit4ExampleGroovyTest {\n    @Test\n    void \"my test\"() {\n    }\n}",
-            "title" : "JUnit 4 example",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "JUnit 4 example",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "Webtau Java Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "xml",
             "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.44.1</version>\n</dependency>",
+            "type" : "Snippet",
             "title" : "JUnit4 Dependency",
-            "type" : "Snippet"
+            "lang" : "xml"
           }, {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau\n\n@RunWith(WebTauRunner.class) // webtau runner to generate reports\npublic class JUnit4ExampleJavaTest {\n    @Test\n    public void myTest() {\n    }\n}",
-            "title" : "JUnit 4 example",
             "commentsType" : "inline",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "JUnit 4 example",
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Getting Started",
       "pageTitle" : "Installation",

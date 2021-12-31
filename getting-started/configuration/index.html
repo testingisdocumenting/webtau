@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,9 +124,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Config File",
       "id" : "config-file",
       "type" : "Section",
+      "title" : "Config File",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -137,13 +138,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Depending on ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/getting-started/installation",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "runner",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/getting-started/installation"
         }, {
           "text" : " you use webtau will read data from a different place.",
           "type" : "SimpleText"
@@ -164,11 +165,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
-            "lang" : "groovy",
             "snippet" : "url = \"http://localhost:8080\"",
+            "type" : "Snippet",
             "title" : "webtau.cfg.groovy",
-            "includeRegexp" : "localhost",
-            "type" : "Snippet"
+            "lang" : "groovy",
+            "includeRegexp" : "localhost"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -184,13 +185,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "When you use JUnit like runners, e.g. ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/getting-started/installation#junit5",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "JUnit5",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/installation#junit5"
             }, {
               "text" : ", webtau expects file named",
               "type" : "SimpleText"
@@ -204,19 +205,19 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
-            "lang" : "properties",
             "snippet" : "url = http://localhost:8080",
+            "type" : "Snippet",
             "title" : "src/test/resources/webtau.properties",
-            "includeRegexp" : "localhost",
-            "type" : "Snippet"
+            "lang" : "properties",
+            "includeRegexp" : "localhost"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Environments",
       "id" : "environments",
       "type" : "Section",
+      "title" : "Environments",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -227,24 +228,24 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "url = \"http://localhost:8080\"\n\nenvironments {\n    qa {\n        url = \"http://server.qa:8080\"\n    }\n}",
-            "title" : "webtau.cfg.groovy",
             "excludeRegexp" : "package",
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "webtau.cfg.groovy",
+            "lang" : "groovy"
           }, {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "To select an active environment using ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/groovy-standalone-runner/introduction",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Groovy Standalone Runner",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/groovy-standalone-runner/introduction"
             }, {
               "text" : " you",
               "type" : "SimpleText"
@@ -261,9 +262,9 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
-            "command" : "webtau --env=qa",
             "paramsToHighlight" : [ ],
-            "type" : "CliCommand"
+            "type" : "CliCommand",
+            "command" : "webtau --env=qa"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -280,10 +281,10 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "properties",
             "snippet" : "url = http://localhost:8080\nenvironments.qa.url = http://server.qa:8080",
+            "type" : "Snippet",
             "title" : "src/test/resources/webtau.properties",
-            "type" : "Snippet"
+            "lang" : "properties"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -292,8 +293,8 @@ ReactDOM.render(React.createElement(Documentation, {
             } ]
           }, {
             "bulletMarker" : "*",
-            "tight" : true,
             "type" : "BulletList",
+            "tight" : true,
             "content" : [ {
               "type" : "ListItem",
               "content" : [ {
@@ -324,22 +325,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Overrides",
       "id" : "overrides",
       "type" : "Section",
+      "title" : "Overrides",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Webtau has a list of options you can specify using config file: ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/configuration/options",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "url, browserId, etc.",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/configuration/options"
         }, {
           "text" : ".",
           "type" : "SimpleText"
@@ -349,22 +350,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "You can override any value using ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/configuration/options#environment-variable-options",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "environment variables",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/configuration/options#environment-variable-options"
         }, {
           "text" : ":",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "",
         "snippet" : "export WEBTAU_URL=http://another-server\nexport WEBTAU_CHROME_DRIVER_PATH=/path/to/chrome/driver\n",
+        "type" : "Snippet",
         "lineNumber" : "",
-        "type" : "Snippet"
+        "lang" : ""
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -373,9 +374,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "level" : 2,
-        "title" : "Groovy Standalone Runner",
         "id" : "overrides-groovy-standalone-runner",
-        "type" : "SubHeading"
+        "type" : "SubHeading",
+        "title" : "Groovy Standalone Runner"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -389,14 +390,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "webtau --waitTimeout=25000 --url=http://another-server",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "type" : "CliCommand",
+        "command" : "webtau --waitTimeout=25000 --url=http://another-server"
       }, {
         "level" : 2,
-        "title" : "JUnit Like Runners",
         "id" : "overrides-junit-like-runners",
-        "type" : "SubHeading"
+        "type" : "SubHeading",
+        "title" : "JUnit Like Runners"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -410,13 +411,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "",
         "snippet" : "-Durl=http://another-server\n",
+        "type" : "Snippet",
         "lineNumber" : "",
-        "type" : "Snippet"
+        "lang" : ""
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Getting Started",
       "pageTitle" : "Configuration",

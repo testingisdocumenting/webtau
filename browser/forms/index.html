@@ -126,6 +126,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -148,9 +149,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Universal Set Value",
       "id" : "universal-set-value",
       "type" : "Section",
+      "title" : "Universal Set Value",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -187,10 +188,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "html",
         "snippet" : "<html>\n<body>\n<div id=\"form\">\n  <input id=\"name\" />\n  <input id=\"startDate\" type=\"date\" />\n  <input id=\"confirmation\" type=\"checkbox\" />\n  <div id=\"choice-group\" class=\"radio-group\">\n    <div>\n      <input type=\"radio\" id=\"one\" name=\"choice\" value=\"value-one\"/>\n      <label for=\"one\">one</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"two\" name=\"choice\" value=\"value-two\"/>\n      <label for=\"two\">two</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"three\" name=\"choice\" value=\"value-three\"/>\n      <label for=\"three\">three</label>\n    </div>\n  </div>\n  <select id=\"rank\">\n    <option />\n    <option value=\"A\">A</option>\n    <option value=\"B\">B</option>\n    <option value=\"C\">C</option>\n    <option value=\"D\">D</option>\n    <option value=\"E\">E</option>\n  </select>\n</div>\n</body>\n</html>",
+        "type" : "Snippet",
         "title" : "HTML form",
-        "type" : "Snippet"
+        "lang" : "html"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -198,65 +199,65 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass FormPage {\n    def name = $('#name')\n    def rank = $('#rank')\n    def confirmation = $('#confirmation')\n    def choice = $('[name=\"choice\"]')\n    def startDate = $('#startDate')\n}",
+        "type" : "Snippet",
         "title" : "Form page object",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Default Input",
       "id" : "default-input",
       "type" : "Section",
+      "title" : "Default Input",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "form.name.setValue('Full Automation')",
+        "type" : "Snippet",
         "title" : "set value to input",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Date Input",
       "id" : "date-input",
       "type" : "Section",
+      "title" : "Date Input",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "form.startDate.setValue('2016-06-21')",
+        "type" : "Snippet",
         "title" : "set value to date input",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Select",
       "id" : "select",
       "type" : "Section",
+      "title" : "Select",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "form.rank.setValue('B')",
+        "type" : "Snippet",
         "title" : "set value to select",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "CheckBox",
       "id" : "checkbox",
       "type" : "Section",
+      "title" : "CheckBox",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "form.confirmation.setValue(true)",
+        "type" : "Snippet",
         "title" : "set value to checkbox",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Radio Button",
       "id" : "radio-button",
       "type" : "Section",
+      "title" : "Radio Button",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "form.choice.setValue('value-two')",
+        "type" : "Snippet",
         "title" : "set value to radio button",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Universal Assert",
       "id" : "universal-assert",
       "type" : "Section",
+      "title" : "Universal Assert",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -269,15 +270,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "form.name.should == 'Full Automation'\nform.rank.should == 'B'\nform.confirmation.should == true\nform.choice.should == 'value-two'\nform.startDate.should == '2016-06-21'",
+        "type" : "Snippet",
         "title" : "universal assert",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Custom Form Elements",
       "id" : "custom-form-elements",
       "type" : "Section",
+      "title" : "Custom Form Elements",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -319,10 +320,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "html",
         "snippet" : "<div id=\"answer\" class=\"special-selector\" onclick=\"activate('answer')\"> \n <div class=\"current-value\">\n   current value \n </div> \n <input class=\"value-input\" value=\"\" onblur=\"valueEntered('answer')\"> \n</div>",
+        "type" : "Snippet",
         "title" : "Custom input",
-        "type" : "Snippet"
+        "lang" : "html"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -330,10 +331,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def customFormElement = $('#answer')\n\ncustomFormElement.setValue('hello')\ncustomFormElement.should == 'hello'",
+        "type" : "Snippet",
         "title" : "set value to custom component",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -341,18 +342,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('open forms') {\n    browser.open('/special-forms')\n}\n\nscenario('get set custom based on registered handler') {\n    def customFormElement = $('#answer')\n\n    customFormElement.setValue('hello')\n    customFormElement.should == 'hello'\n}",
+        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "package formHandlers\n\nimport org.openqa.selenium.Keys\nimport org.testingisdocumenting.webtau.browser.page.HtmlNode\nimport org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList\nimport org.testingisdocumenting.webtau.browser.page.PageElement\nimport org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor\nimport org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler\nimport org.testingisdocumenting.webtau.reporter.TokenizedMessage\n\nclass CustomInput implements PageElementGetSetValueHandler {\n    @Override\n    boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {\n        def htmlNode = htmlNodeAndWebElements.firstHtmlNode()\n        return htmlNode.attributes.class =~ /special-selector/\n    }\n\n    @Override\n    void setValue(PageElementStepExecutor stepExecutor,\n                  TokenizedMessage pathDescription,\n                  HtmlNodeAndWebElementList htmlNodeAndWebElements,\n                  PageElement pageElement,\n                  Object value) {\n        pageElement.click()\n        pageElement.find('input').sendKeys(\"${value}\" + Keys.TAB)\n    }\n\n    @Override\n    Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {\n        return pageElement.find('.current-value').getUnderlyingValue()\n    }\n}",
+        "type" : "Snippet",
         "title" : "Custom input handler",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Forms",

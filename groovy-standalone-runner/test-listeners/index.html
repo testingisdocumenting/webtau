@@ -96,6 +96,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -118,9 +119,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Test Listener Interface",
       "id" : "test-listener-interface",
       "type" : "Section",
+      "title" : "Test Listener Interface",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -134,15 +135,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "java",
         "snippet" : "/*\n * Copyright 2020 webtau maintainers\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\npackage org.testingisdocumenting.webtau;\n\nimport org.testingisdocumenting.webtau.reporter.WebTauTest;\n\n/**\n * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5\n */\npublic interface TestListener {\n    /**\n     * before any test is ran\n     */\n    default void beforeFirstTest() {}\n\n    /**\n     * before test code is invoked\n     * @param test test\n     */\n    default void beforeTestRun(WebTauTest test) {}\n\n    /**\n     * after test code is invoked\n     * @param test test\n     */\n    default void afterTestRun(WebTauTest test) {}\n\n    /**\n     * after all the tests are invoked\n     */\n    default void afterAllTests() {}\n\n    /**\n     * after test is ran but before its first statement.\n     * executed code in this listener is considered to be part of a test.\n     * @param test test\n     */\n    default void beforeFirstTestStatement(WebTauTest test) {}\n\n    /**\n     * right before test considered to be complete. May not be executed if the test didn't reach the last statement.\n     * executed code in this listener is considered to be part of a test.\n     * @param test test\n     */\n    default void afterLastTestStatement(WebTauTest test) {}\n}",
+        "type" : "Snippet",
         "title" : "TestListener.java",
-        "type" : "Snippet"
+        "lang" : "java"
       } ]
     }, {
-      "title" : "Config",
       "id" : "config",
       "type" : "Section",
+      "title" : "Config",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -156,18 +157,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "import listeners.MetadataValidationTestListener\n\ntestListeners = [MetadataValidationTestListener]",
+        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "package listeners\n\nimport org.testingisdocumenting.webtau.TestListener\nimport org.testingisdocumenting.webtau.reporter.WebTauTest\n\nclass MetadataValidationTestListener implements TestListener {\n    @Override\n    void afterLastTestStatement(WebTauTest test) {\n        if (!test.isSynthetic() && !test.metadata.has('owner')) {\n            throw new RuntimeException('owner for <' + test.scenario + '> is not set')\n        }\n    }\n}",
+        "type" : "Snippet",
         "title" : "listeners/MetadataValidationTestListener.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Test Listeners",

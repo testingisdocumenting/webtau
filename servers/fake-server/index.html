@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Fake Server</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Fake Server Creation</h1></header>
+<p>Use to create a server with controlled responses def router = server.router() // router-example .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } // router-example .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } // router-example // router-example def myServer = server.fake(&quot;my-rest-server&quot;, router) // router-example http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } http.get(&quot;${myServer.baseUrl}/bye/person&quot;) { message.should == &quot;bye person&quot; }</p>
+</article>
+
+<article>
+<header><h1>Server Slowdown</h1></header>
+<p>Use to mark server as unresponsive myServer.markUnresponsive() code { http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } } should throwException(~/Read timed out/)</p>
+</article>
+
+<article>
+<header><h1>Server Break</h1></header>
+<p>Use to mark server as broken myServer.markBroken() http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { statusCode.should == 500 body.should == null }</p>
+</article>
+
+<article>
+<header><h1>Server Fix</h1></header>
+<p>Use to remove broken and/or slowdown state myServer.fix() http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "fake-server-creation",
+      "type" : "Section",
+      "title" : "Fake Server Creation",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "server.fake",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to create a server with controlled responses",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
+        "commentsType" : "remove",
+        "type" : "Snippet",
+        "title" : "fake server creation example",
+        "lang" : "groovy",
+        "includeRegexp" : "router-example"
+      }, {
+        "snippet" : "http.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}\n\nhttp.get(\"${myServer.baseUrl}/bye/person\") {\n    message.should == \"bye person\"\n}",
+        "surroundedBy" : "fake-response-check",
+        "type" : "Snippet",
+        "title" : "fake server creation example",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-slowdown",
+      "type" : "Section",
+      "title" : "Server Slowdown",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "markUnresponsive",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to mark server as unresponsive",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "myServer.markUnresponsive()\n\ncode {\n    http.get(\"${myServer.baseUrl}/hello/person\") {\n        message.should == \"hello person\"\n    }\n} should throwException(~/Read timed out/)",
+        "surroundedBy" : "mark-unresponsive",
+        "type" : "Snippet",
+        "title" : "mark as unresponsive",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-break",
+      "type" : "Section",
+      "title" : "Server Break",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "markBroken",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to mark server as broken",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "myServer.markBroken()\n\nhttp.get(\"${myServer.baseUrl}/hello/person\") {\n    statusCode.should == 500\n    body.should == null\n}",
+        "surroundedBy" : "mark-broken",
+        "type" : "Snippet",
+        "title" : "mark as broken",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "server-fix",
+      "type" : "Section",
+      "title" : "Server Fix",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "fix",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to remove broken and/or slowdown state",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "myServer.fix()\n\nhttp.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}",
+        "surroundedBy" : "mark-fix",
+        "type" : "Snippet",
+        "title" : "fix server",
+        "lang" : "groovy"
+      } ]
+    } ],
+    "lastModifiedTime" : 1640922026336,
+    "tocItem" : {
+      "sectionTitle" : "Servers",
+      "pageTitle" : "Fake Server",
+      "pageMeta" : { },
+      "dirName" : "servers",
+      "fileName" : "fake-server",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Fake Server Creation",
+        "id" : "fake-server-creation"
+      }, {
+        "title" : "Server Slowdown",
+        "id" : "server-slowdown"
+      }, {
+        "title" : "Server Break",
+        "id" : "server-break"
+      }, {
+        "title" : "Server Fix",
+        "id" : "server-fix"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

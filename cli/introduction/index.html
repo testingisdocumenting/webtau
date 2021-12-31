@@ -84,12 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy doc-artifacts examples pom.xml pom.xml.versionsBackup scripts src target test-expectations webtau-reports</p>
+<p>Webtau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders doc-artifacts formHandlers listeners pages personas scenarios schemas scripts use-cases.csv</p>
 </article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -161,23 +162,23 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "SimpleText"
       } ]
     }, {
-      "lang" : "groovy",
       "snippet" : "scenario(\"example of ls run\") {\n    cli.run('ls') {\n        output.should contain('scripts')\n    }\n}",
-      "title" : "basicLs.groovy",
       "excludeRegexp" : [ "package", "import", "doc.capture" ],
-      "type" : "Snippet"
+      "type" : "Snippet",
+      "title" : "basicLs.groovy",
+      "lang" : "groovy"
     }, {
-      "command" : "webtau basicLs.groovy",
       "paramsToHighlight" : [ ],
-      "type" : "CliCommand"
+      "type" : "CliCommand",
+      "command" : "webtau basicLs.groovy"
     }, {
-      "lang" : "txt",
-      "snippet" : "doc-artifacts\nexamples\npom.xml\npom.xml.versionsBackup\nscripts\nsrc\ntarget\ntest-expectations\nwebtau-reports",
+      "snippet" : "data\ndbproviders\ndoc-artifacts\nformHandlers\nlisteners\npages\npersonas\nscenarios\nschemas\nscripts\nuse-cases.csv",
+      "highlight" : [ 9 ],
       "highlightPath" : "doc-artifacts/ls-run/out.matched.txt",
-      "highlight" : [ 4 ],
-      "type" : "Snippet"
+      "type" : "Snippet",
+      "lang" : "txt"
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Introduction",

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Steps</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Grouping Actions</h1></header>
+<p>Use step core method to wrap a set of actions into a group step(&quot;group of actions&quot;) { actionOne() actionTwo() } import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</p>
+</article>
+
+<article>
+<header><h1>Tracing Values</h1></header>
+<p>Use trace core method to render key, values pairs to console and to web report. From report point of view trace is an empty step. trace(&quot;trace label&quot;, [k1: &quot;v1&quot;, k2: &quot;v2&quot;]) import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</p>
+</article>
+
+<article>
+<header><h1>Grouping With Trace</h1></header>
+<p>Pass key values to step to combine step and `trace step(&quot;group of actions&quot;, [url: baseUrl, port: myPort]) { actionThree(myPort, baseUrl) }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "grouping-actions",
+      "type" : "Section",
+      "title" : "Grouping Actions",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "step",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " core method to wrap a set of actions into a group",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "step(\"group of actions\") {\n    actionOne()\n    actionTwo()\n}",
+        "surroundedBy" : "wrap-step",
+        "type" : "Snippet",
+        "title" : "step group",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+        "type" : "Snippet",
+        "title" : "core methods import",
+        "lang" : "groovy",
+        "includeRegexp" : "WebTauGroovyDsl"
+      } ]
+    }, {
+      "id" : "tracing-values",
+      "type" : "Section",
+      "title" : "Tracing Values",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "trace",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " core method to render key, values pairs to console and to web report.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "From report point of view ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "trace",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " is an empty step.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "trace(\"trace label\", [k1: \"v1\", k2: \"v2\"])",
+        "surroundedBy" : "trace-map",
+        "type" : "Snippet",
+        "title" : "trace key values",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+        "type" : "Snippet",
+        "title" : "core methods import",
+        "lang" : "groovy",
+        "includeRegexp" : "WebTauGroovyDsl"
+      } ]
+    }, {
+      "id" : "grouping-with-trace",
+      "type" : "Section",
+      "title" : "Grouping With Trace",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Pass key values to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "step",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to combine ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "step",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and `trace",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "step(\"group of actions\", [url: baseUrl, port: myPort]) {\n    actionThree(myPort, baseUrl)\n}",
+        "surroundedBy" : "wrap-step-key-value",
+        "type" : "Snippet",
+        "title" : "step group with key values",
+        "lang" : "groovy"
+      }, {
+        "fit" : true,
+        "border" : true,
+        "shapes" : [ ],
+        "width" : 1200.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-step-key-value.png",
+        "type" : "AnnotatedImage",
+        "height" : 802.0,
+        "timestamp" : 1640922743736
+      } ]
+    } ],
+    "lastModifiedTime" : 1640922026336,
+    "tocItem" : {
+      "sectionTitle" : "Report",
+      "pageTitle" : "Steps",
+      "pageMeta" : { },
+      "dirName" : "report",
+      "fileName" : "steps",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Grouping Actions",
+        "id" : "grouping-actions"
+      }, {
+        "title" : "Tracing Values",
+        "id" : "tracing-values"
+      }, {
+        "title" : "Grouping With Trace",
+        "id" : "grouping-with-trace"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -111,6 +111,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -133,9 +134,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Basic Properties",
       "id" : "basic-properties",
       "type" : "Section",
+      "title" : "Basic Properties",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -143,16 +144,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "email = 'hello'\ncliPath = ['p1', 'p2']",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "basic-properties",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Complex Properties",
       "id" : "complex-properties",
       "type" : "Section",
+      "title" : "Complex Properties",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -160,17 +161,17 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "complex.my_var.nested = 'webtau' // direct nested assignment\n\ncomplex { // scope definition for multiple assignment\n    abc = 'abc_value'\n    EDF = 'edf_value'\n    subNested {\n        nested = 'nested_nested'\n    }\n}\n\nanotherComplex = [nested: 'vn'] // map based assignment\nanotherComplex.anotherNested = 'an'",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "complex-properties",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Environments",
       "id" : "environments",
       "type" : "Section",
+      "title" : "Environments",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -184,11 +185,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "email = 'hello'\nserver = 'my-server'\nenvironments {\n    dev {\n        email = 'dev-hello'\n    }\n\n    beta {\n        email = 'beta'\n    }\n\n    prod {\n        server = 'prod-server'\n    }\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "environment-override",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -196,20 +197,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "complex = [id1: 'value1', id2: 'value2']\nenvironments {\n    dev {\n        complex.id1 = 'value1-dev'\n        complex.id3 = 'value3-dev'\n    }\n\n    beta {\n        complex.id3 = 'value3-beta'\n    }\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "environment-complex-override",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       }, {
-        "command" : "webtau --env=dev",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "type" : "CliCommand",
+        "command" : "webtau --env=dev"
       } ]
     }, {
-      "title" : "Personas",
       "id" : "personas",
       "type" : "Section",
+      "title" : "Personas",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -223,11 +224,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "email = 'hello'\npersonas {\n    Alice {\n        email = 'alice-email'\n    }\n\n    Bob {\n        email = 'bob-email'\n    }\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "persona-overrides",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -235,16 +236,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cliEnv = [\n        COMMON: 'common value',\n        ANOTHER_COMMON: 'another common value']\n\npersonas {\n    Alice {\n        cliEnv.CREDENTIALS = 'alice-token'\n        cliEnv.EXTRA_ALICE = 'extra alice'\n    }\n\n    Bob {\n        cliEnv.CREDENTIALS = 'bob-token'\n        cliEnv.EXTRA_BOB = 'extra bob'\n    }\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "persona-complex-overrides",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Persona Inside Environment",
       "id" : "persona-inside-environment",
       "type" : "Section",
+      "title" : "Persona Inside Environment",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -264,15 +265,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "cliEnv = [\n        COMMON: 'common value',\n        ANOTHER_COMMON: 'another common value']\n\npersonas {\n    Alice {\n        cliEnv.CREDENTIALS = 'alice-token' // default Alice's specific values\n        cliEnv.EXTRA_ALICE = 'extra alice'\n    }\n\n    Bob {\n        cliEnv.CREDENTIALS = 'bob-token'\n        cliEnv.EXTRA_BOB = 'extra bob'\n    }\n}\n\nenvironments {\n    dev {\n        personas {\n            Alice {\n                cliEnv.CREDENTIALS = 'alice-dev-token' // Alice's overrides for dev environment\n                cliEnv.EXTRA_ALICE = 'extra dev alice'\n                cliEnv.EXTRA_DEV_V = 'extra dev alice v'\n            }\n\n            Bob {\n                cliEnv.CREDENTIALS = 'bob-dev-token'\n                cliEnv.EXTRA_BOB = 'extra dev bob'\n            }\n        }\n    }\n\n    beta {\n        personas {\n            Alice {\n                cliEnv.CREDENTIALS = 'alice-beta-token'\n                cliEnv.EXTRA_ALICE = 'extra beta alice'\n                cliEnv.EXTRA_BETA_V = 'extra beta alice v'\n            }\n\n            Bob {\n                cliEnv.CREDENTIALS = 'bob-beta-token'\n                cliEnv.EXTRA_BOB = 'extra beta bob'\n            }\n        }\n    }\n}",
-        "title" : "webtau.cfg.groovy",
         "surroundedBy" : "complex-environment-persona",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Configuration",
       "pageTitle" : "Groovy Config File",

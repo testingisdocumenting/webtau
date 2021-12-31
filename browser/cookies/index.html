@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,42 +124,42 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Add Cookies",
       "id" : "add-cookies",
       "type" : "Section",
+      "title" : "Add Cookies",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "browser.cookies.add(\"cookie-a\", \"hello\")\nbrowser.cookies.add(\"cookie-b\", \"world\")",
+        "type" : "Snippet",
         "title" : "add cookies",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Get Cookies",
       "id" : "get-cookies",
       "type" : "Section",
+      "title" : "Get Cookies",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "browser.cookies.get(\"cookie-a\").should == \"hello\"\nbrowser.cookies.get(\"cookie-b\").should == \"world\"\n\nbrowser.cookies.getAll().should == [\"cookie-a\": \"hello\", \"cookie-b\": \"world\"]",
+        "type" : "Snippet",
         "title" : "get cookies",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Delete Cookies",
       "id" : "delete-cookies",
       "type" : "Section",
+      "title" : "Delete Cookies",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "browser.cookies.delete(\"cookie-b\")",
+        "type" : "Snippet",
         "title" : "delete cookie by name",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "browser.cookies.deleteAll()",
+        "type" : "Snippet",
         "title" : "delete all cookies",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Cookies",

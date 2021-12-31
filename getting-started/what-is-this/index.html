@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Webtau</h1></header>
-<p>Webtau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors.Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</p>
+<p>Webtau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors.Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</p>
 </article>
 
 <article>
@@ -116,6 +116,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -138,9 +139,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Webtau",
       "id" : "webtau",
       "type" : "Section",
+      "title" : "Webtau",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -175,13 +176,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "width" : 256.0,
-        "align" : "left",
-        "imageSrc" : "/webtau/webtau-logo.png",
-        "timestamp" : 1634267317648,
         "shapes" : [ ],
+        "width" : 256.0,
+        "imageSrc" : "/webtau/webtau-logo.png",
+        "type" : "AnnotatedImage",
+        "align" : "left",
         "height" : 256.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922026336
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -190,8 +191,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -264,34 +265,34 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Use powerful ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/REPL/experiments",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "REPL",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/REPL/experiments"
         }, {
           "text" : " mode to significantly speed up end-to-end tests development.",
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "trying css selectors",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m $(\"p\")", "\u001B[32melement is found: \u001B[35mby css \u001B[1m\u001B[35mp\u001B[0m", "\u001B[33m           getText(): \u001B[32mhello web page\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "trying css selectors"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/persona/introduction",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Persona",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "/webtau/persona/introduction"
         }, {
           "text" : " concept to test API Authorization and collaboration Web Apps like chats and editors.",
           "type" : "SimpleText"
@@ -305,17 +306,25 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Leverage out of the box rich reporting",
+          "text" : "Leverage out of the box ",
           "type" : "SimpleText"
+        }, {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "rich reporting",
+            "type" : "SimpleText"
+          } ],
+          "url" : "/webtau/report/introduction"
         } ]
       }, {
         "fit" : true,
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
-        "timestamp" : 1634267899319,
         "shapes" : [ ],
         "width" : 1200.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
+        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922723096
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -330,20 +339,20 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/what-is-this#rest-api-example",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "REST API example",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/what-is-this#rest-api-example"
             } ]
           } ]
         }, {
@@ -351,13 +360,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/what-is-this#graphql-api-example",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "GraphQL API example",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/what-is-this#graphql-api-example"
             } ]
           } ]
         }, {
@@ -365,13 +374,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/what-is-this#browser-example",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Browser example",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/what-is-this#browser-example"
             } ]
           } ]
         }, {
@@ -379,13 +388,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/what-is-this#db-example",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "DB example",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/what-is-this#db-example"
             } ]
           } ]
         }, {
@@ -393,21 +402,21 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "url" : "/webtau/getting-started/what-is-this#cli-example",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "CLI example",
                 "type" : "SimpleText"
-              } ]
+              } ],
+              "url" : "/webtau/getting-started/what-is-this#cli-example"
             } ]
           } ]
         } ]
       } ]
     }, {
-      "title" : "Rest API Example",
       "id" : "rest-api-example",
       "type" : "Section",
+      "title" : "Rest API Example",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -425,57 +434,57 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "columns" : [ {
               "content" : [ {
-                "lang" : "groovy",
                 "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe < 100\n    }\n}",
+                "type" : "Snippet",
                 "title" : "REST API test (Groovy runner)",
-                "type" : "Snippet"
+                "lang" : "groovy"
               }, {
-                "lang" : "groovy",
                 "snippet" : "package com.example.tests.junit5\n\nimport org.junit.jupiter.api.Test\nimport org.testingisdocumenting.webtau.junit5.WebTau\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@WebTau\nclass WeatherGroovyTest {\n    @Test\n    void checkWeather() {\n        http.get(\"/weather\") {\n            temperature.shouldBe < 100\n        }\n    }\n}",
+                "type" : "Snippet",
                 "title" : "REST API test (JUnit5)",
-                "type" : "Snippet"
+                "lang" : "groovy"
               } ]
             }, {
               "content" : [ {
-                "lang" : "json",
                 "snippet" : "{\n  \"temperature\": 88\n}\n",
-                "lineNumber" : "",
+                "type" : "Snippet",
                 "title" : "Server Response",
-                "type" : "Snippet"
+                "lineNumber" : "",
+                "lang" : "json"
               } ]
             } ],
-            "config" : { },
-            "type" : "Columns"
+            "type" : "Columns",
+            "config" : { }
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
             "columns" : [ {
               "content" : [ {
-                "lang" : "java",
                 "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class WeatherJavaTest {\n    @Test\n    public void checkWeather() {\n        http.get(\"/weather\", (header, body) -> {\n            body.get(\"temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+                "type" : "Snippet",
                 "title" : "REST API test (JUnit5 Java)",
-                "type" : "Snippet"
+                "lang" : "java"
               } ]
             }, {
               "content" : [ {
-                "lang" : "json",
                 "snippet" : "{\n  \"temperature\": 88\n}\n",
-                "lineNumber" : "",
+                "type" : "Snippet",
                 "title" : "Server Response",
-                "type" : "Snippet"
+                "lineNumber" : "",
+                "lang" : "json"
               } ]
             } ],
-            "config" : { },
-            "type" : "Columns"
+            "type" : "Columns",
+            "config" : { }
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "GraphQL API Example",
       "id" : "graphql-api-example",
       "type" : "Section",
+      "title" : "GraphQL API Example",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -488,125 +497,125 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "columns" : [ {
               "content" : [ {
-                "lang" : "groovy",
                 "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check weather\") {\n    def query = \"{ weather { temperature } }\";\n    graphql.execute(query) {\n        weather.temperature.shouldBe < 100\n    }\n}",
+                "type" : "Snippet",
                 "title" : "GraphQL API test (Groovy runner)",
-                "type" : "Snippet"
+                "lang" : "groovy"
               }, {
-                "lang" : "groovy",
                 "snippet" : "package com.example.tests.junit4\n\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.graphql\n\n@RunWith(WebTauRunner.class)\nclass GraphQLWeatherGroovyIT {\n    @Test\n    void checkWeather() {\n        def query = \"{ weather { temperature } }\";\n        graphql.execute(query) {\n            weather.temperature.shouldBe < 100\n        }\n    }\n}",
+                "type" : "Snippet",
                 "title" : "GraphQL API test (JUnit4)",
-                "type" : "Snippet"
+                "lang" : "groovy"
               } ]
             }, {
               "content" : [ {
-                "lang" : "json",
                 "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
-                "lineNumber" : "",
+                "type" : "Snippet",
                 "title" : "Server Response",
-                "type" : "Snippet"
+                "lineNumber" : "",
+                "lang" : "json"
               } ]
             } ],
-            "config" : { },
-            "type" : "Columns"
+            "type" : "Columns",
+            "config" : { }
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
             "columns" : [ {
               "content" : [ {
-                "lang" : "java",
                 "snippet" : "package com.example.tests.junit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@RunWith(WebTauRunner.class)\npublic class GraphQLWeatherJavaIT {\n    @Test\n    public void checkWeather() {\n        String query = \"{ weather { temperature } }\";\n        graphql.execute(query, (header, body) -> {\n            body.get(\"data.weather.temperature\").shouldBe(lessThan(100));\n        });\n    }\n}",
+                "type" : "Snippet",
                 "title" : "GraphQL API test (JUnit4 Java)",
-                "type" : "Snippet"
+                "lang" : "java"
               } ]
             }, {
               "content" : [ {
-                "lang" : "json",
                 "snippet" : "{\n \"data\": {\n   \"weather\": {\n     \"temperature\": 88\n   }\n }\n}\n",
-                "lineNumber" : "",
+                "type" : "Snippet",
                 "title" : "Server Response",
-                "type" : "Snippet"
+                "lineNumber" : "",
+                "lang" : "json"
               } ]
             } ],
-            "config" : { },
-            "type" : "Columns"
+            "type" : "Columns",
+            "config" : { }
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "Browser Example",
       "id" : "browser-example",
       "type" : "Section",
+      "title" : "Browser Example",
       "content" : [ {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
             "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.waitToBe > 1\n}",
+            "type" : "Snippet",
             "title" : "Browser test (Groovy runner)",
-            "type" : "Snippet"
+            "lang" : "groovy"
           }, {
-            "lang" : "groovy",
             "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def header = $(\"#header\")\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
+            "type" : "Snippet",
             "title" : "SearchPage.groovy",
-            "type" : "Snippet"
+            "lang" : "groovy"
           }, {
-            "lang" : "groovy",
             "snippet" : "package pages\n\nclass Pages {\n    static final def search = new SearchPage()\n}",
-            "title" : "Pages.groovy",
             "excludeRegexp" : [ "calculation", "form", "payments" ],
-            "type" : "Snippet"
+            "type" : "Snippet",
+            "title" : "Pages.groovy",
+            "lang" : "groovy"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static com.example.tests.junit5.pages.Pages.*;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class WebSearchJavaTest {\n    @Test\n    public void searchByQuery() {\n        search.submit(\"search this\");\n        search.numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
+            "type" : "Snippet",
             "title" : "Browser test (JUnit 5)",
-            "type" : "Snippet"
+            "lang" : "java"
           }, {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit5.pages;\n\nimport org.testingisdocumenting.webtau.browser.page.PageElement;\nimport org.testingisdocumenting.webtau.browser.page.PageElementValue;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\npublic class SearchPage {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    public final PageElementValue<Integer> numberOfResults = results.getCount();\n\n    public void submit(String query) {\n        browser.open(\"/search\");\n\n        box.setValue(query);\n        box.sendKeys(browser.keys.enter);\n    }\n}",
+            "type" : "Snippet",
             "title" : "SearchPage.java",
-            "type" : "Snippet"
+            "lang" : "java"
           }, {
-            "lang" : "java",
             "snippet" : "package com.example.tests.junit5.pages;\n\npublic class Pages {\n    public static SearchPage search = new SearchPage();\n}",
+            "type" : "Snippet",
             "title" : "Pages.java",
-            "type" : "Snippet"
+            "lang" : "java"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "title" : "DB Example",
       "id" : "db-example",
       "type" : "Section",
+      "title" : "DB Example",
       "content" : [ {
-        "lang" : "groovy",
+        "endLine" : "cell.above + 20",
         "snippet" : "def PRICES = db.table(\"PRICES\")\nPRICES << [     \"id\" | \"description\" |          \"available\" |                \"type\" |       \"price\" ] {\n           _____________________________________________________________________________________________\n           cell.guid | \"nice set\"    |                 true |                \"card\" |            1000 // cell.guid generates random guid that can be used for ids\n           cell.guid | \"nice set\"    |                 true |                \"card\" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations\n           cell.guid | \"another set\" | permute(true, false) | permute(\"rts\", \"fps\") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations",
         "entry" : "use table data permute, above and guid to generate rows",
-        "title" : "DB data setup example",
         "bodyOnly" : true,
         "startLine" : "def PRICES",
-        "endLine" : "cell.above + 20",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "DB data setup example",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "CLI Example",
       "id" : "cli-example",
       "type" : "Section",
+      "title" : "CLI Example",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "cli.run('echo hello world') {\n    output.should contain('hello')\n    output.should contain('world')\n}",
+        "type" : "Snippet",
         "title" : "output validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Getting Started",
       "pageTitle" : "What Is This",

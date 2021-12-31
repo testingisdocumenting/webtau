@@ -91,6 +91,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -113,9 +114,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "GET",
       "id" : "get",
       "type" : "Section",
+      "title" : "GET",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -147,18 +148,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "if (!http.ping(\"/weather\")) {\n    http.post(\"/cluster-master\", [restart: \"weather\"])\n}",
+        "type" : "Snippet",
         "title" : "Ping response to make reboot action",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "http.ping(\"/weather\")\nhttp.ping(\"/weather\", [\"query-param\": \"value\"])\nhttp.ping(\"/weather\", [\"query-param\": \"value\"], http.header([\"X-flag\": \"test\"]))",
+        "type" : "Snippet",
         "title" : "Ping with query params and header",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Ping",

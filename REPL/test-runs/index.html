@@ -121,6 +121,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -143,9 +144,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Incremental Tests Development",
       "id" : "incremental-tests-development",
       "type" : "Section",
+      "title" : "Incremental Tests Development",
       "content" : [ {
         "bulletListType" : "Steps",
         "type" : "Meta"
@@ -157,8 +158,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -209,14 +210,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "webtau testscipts/* repl",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "type" : "CliCommand",
+        "command" : "webtau testscipts/* repl"
       } ]
     }, {
-      "title" : "Test Files Listing",
       "id" : "test-files-listing",
       "type" : "Section",
+      "title" : "Test Files Listing",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -230,9 +231,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "listing available test files",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m ls", "\u001B[34mTest files:\u001B[0m", "\u001B[33m0\u001B[35m testscripts/dataDownload.groovy\u001B[0m", "\u001B[33m1\u001B[35m testscripts/downstreamValidation.groovy\u001B[0m", "\u001B[33m2\u001B[35m testscripts/resourceCreation.groovy\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "listing available test files"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -241,26 +242,26 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Test File Selection",
       "id" : "test-file-selection",
       "type" : "Section",
+      "title" : "Test File Selection",
       "content" : [ {
-        "title" : "select test file by index",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s 0", "\u001B[34mTest scenarios of \u001B[35mtestscripts/dataDownload.groovy\u001B[34m:\u001B[0m", "\u001B[33m0\u001B[35m clean data\u001B[0m", "\u001B[33m1\u001B[35m download data\u001B[0m", "\u001B[33m2\u001B[35m validate data\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "select test file by index"
       }, {
-        "title" : "get back to file selection",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m b", "\u001B[34mTest files:\u001B[0m", "\u001B[33m0\u001B[35m testscripts/dataDownload.groovy\u001B[0m", "\u001B[33m1\u001B[35m testscripts/downstreamValidation.groovy\u001B[0m", "\u001B[33m2\u001B[35m testscripts/resourceCreation.groovy\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "get back to file selection"
       }, {
-        "title" : "select test file by text",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s 'datadownload'", "\u001B[34mTest scenarios of \u001B[35mtestscripts/dataDownload.groovy\u001B[34m:\u001B[0m", "\u001B[33m0\u001B[35m clean data\u001B[0m", "\u001B[33m1\u001B[35m download data\u001B[0m", "\u001B[33m2\u001B[35m validate data\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "select test file by text"
       } ]
     }, {
-      "title" : "Single Test Scenario Run",
       "id" : "single-test-scenario-run",
       "type" : "Section",
+      "title" : "Single Test Scenario Run",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -268,10 +269,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package testscripts\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario\n\nscenario(\"clean data\") {\n    println \"cleaning...\"\n}\n\nscenario(\"download data\") {\n    println \"downloading...\"\n}\n\nscenario(\"validate data\") {\n    println \"validating...\"\n}",
+        "type" : "Snippet",
         "title" : "testscripts/dataDownload.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -279,9 +280,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run test scenario by an index",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 0", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m before first test \u001B[35m(Setup)\u001B[0m", "\u001B[32m[.] \u001B[34mbefore first test \u001B[35m(Setup)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run test scenario by an index"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -289,9 +290,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run test scenario by a negative index",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r -1", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m validate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run test scenario by a negative index"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -299,14 +300,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run test scenario by text",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'clean'", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run test scenario by text"
       } ]
     }, {
-      "title" : "Re-run Last Run",
       "id" : "re-run-last-run",
       "type" : "Section",
+      "title" : "Re-run Last Run",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -320,14 +321,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run test scenario by text",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run test scenario by text"
       } ]
     }, {
-      "title" : "Multiple Test Scenarios Run",
       "id" : "multiple-test-scenarios-run",
       "type" : "Section",
+      "title" : "Multiple Test Scenarios Run",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -335,13 +336,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run multiple scenario by indexes",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 0, 1", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m download data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run multiple scenario by indexes"
       }, {
-        "title" : "run multiple scenarios by partial text matches",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'download', 'clean'", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m download data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run multiple scenarios by partial text matches"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -373,23 +374,23 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run multiple scenarios by mixed range",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 0:'validate'", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m download data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m validate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run multiple scenarios by mixed range"
       }, {
-        "title" : "run multiple scenarios by range in reverse",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'validate':0", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m validate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m download data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run multiple scenarios by range in reverse"
       } ]
     }, {
-      "title" : "Select Scenarios Without Run",
       "id" : "select-scenarios-without-run",
       "type" : "Section",
+      "title" : "Select Scenarios Without Run",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "package testscripts\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario\n\nscenario(\"clean data\") {\n    println \"cleaning...\"\n}\n\nscenario(\"download data\") {\n    println \"downloading...\"\n}\n\nscenario(\"validate data\") {\n    println \"validating...\"\n}",
+        "type" : "Snippet",
         "title" : "testscripts/dataDownload.groovy",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -397,9 +398,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "run multiple scenarios by range in reverse",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m r 'validate':0", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mvalidate data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m validate data \u001B[35m(dataDownload.groovy)\u001B[0m", "validating...", "\u001B[32m[.] \u001B[34mvalidate data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mdownload data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m download data \u001B[35m(dataDownload.groovy)\u001B[0m", "downloading...", "\u001B[32m[.] \u001B[34mdownload data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m", "\u001B[34mrunning: \u001B[35mtestscripts/dataDownload.groovy \u001B[33mclean data\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean data \u001B[35m(dataDownload.groovy)\u001B[0m", "cleaning...", "\u001B[32m[.] \u001B[34mclean data \u001B[35m(dataDownload.groovy)\u001B[0m", "\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "run multiple scenarios by range in reverse"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -416,16 +417,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "InlinedCode"
         } ]
       }, {
-        "title" : "display selected scenarios",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s", "\u001B[34mSelected scenarios:\u001B[0m", "  validate data\u001B[0m", "  download data\u001B[0m", "  clean data\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "display selected scenarios"
       }, {
-        "title" : "select scenarios without run",
+        "type" : "CliOutput",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m s 0,2", "\u001B[34mSelected scenarios:\u001B[0m", "  clean data\u001B[0m", "  validate data\u001B[0m" ],
-        "type" : "CliOutput"
+        "title" : "select scenarios without run"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "REPL",
       "pageTitle" : "Test Runs",

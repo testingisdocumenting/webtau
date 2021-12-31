@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,21 +124,21 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "File Content",
       "id" : "file-content",
       "type" : "Section",
+      "title" : "File Content",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "def path = fs.writeText('my-test-file.txt', 'hello world')",
+        "type" : "Snippet",
         "title" : "write content to a file",
-        "includeRegexp" : [ "fs\\.writeText" ],
-        "type" : "Snippet"
-      }, {
         "lang" : "groovy",
+        "includeRegexp" : [ "fs\\.writeText" ]
+      }, {
         "snippet" : "fs.textContent('my-test-file.txt').should == 'hello world\\nid=15'",
-        "title" : "validate file content",
         "surroundedBy" : "assert-file",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "validate file content",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -153,11 +154,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def fileTextContent = fs.textContent('my-test-file.txt')\nfileTextContent.waitTo contain('id=15')",
-        "title" : "wait for file content",
         "surroundedBy" : "wait-for-id",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "wait for file content",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -171,11 +172,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def actualFileContent = fileTextContent.data",
-        "title" : "access file content",
         "surroundedBy" : "actual-file-content",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "access file content",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -189,12 +190,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def id = fileTextContent.extractByRegexp(\"id=(\\\\d+)\")\nhttp.get(\"/customers/${id}\") {\n    // ...\n}",
-        "title" : "extract file content",
-        "surroundedBy" : "extract-id",
         "excludeRegexp" : "statusCode",
-        "type" : "Snippet"
+        "surroundedBy" : "extract-id",
+        "type" : "Snippet",
+        "title" : "extract file content",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -208,78 +209,78 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "fs.replaceText(path, ~/(\\d+)/, '\"$1\"')",
-        "title" : "replace file content",
         "surroundedBy" : "replace-text",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "replace file content",
+        "lang" : "groovy"
       }, {
         "columns" : [ {
           "content" : [ {
-            "lang" : "txt",
             "snippet" : "a=1\nb=2",
+            "type" : "Snippet",
             "title" : "file to replace",
-            "type" : "Snippet"
+            "lang" : "txt"
           } ]
         }, {
           "content" : [ {
-            "lang" : "txt",
             "snippet" : "a=\"1\"\nb=\"2\"",
+            "type" : "Snippet",
             "title" : "result of replace",
-            "type" : "Snippet"
+            "lang" : "txt"
           } ]
         } ],
-        "config" : { },
-        "type" : "Columns"
+        "type" : "Columns",
+        "config" : { }
       } ]
     }, {
-      "title" : "Copy",
       "id" : "copy",
       "type" : "Section",
+      "title" : "Copy",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "def dir = fs.createDir(\"my-dir\")\nfs.copy(\"data/message.txt\", dir)",
+        "type" : "Snippet",
         "title" : "copy single file to a directory",
-        "includeRegexp" : [ "fs\\.copy", "createDir" ],
-        "type" : "Snippet"
-      }, {
         "lang" : "groovy",
+        "includeRegexp" : [ "fs\\.copy", "createDir" ]
+      }, {
         "snippet" : "def dir = fs.tempDir(\"fs-copy\")\nfs.copy(\"data/message.txt\", dir)",
+        "type" : "Snippet",
         "title" : "copy single file to a temp directory",
-        "includeRegexp" : [ "fs\\.copy", "tempDir" ],
-        "type" : "Snippet"
-      }, {
         "lang" : "groovy",
+        "includeRegexp" : [ "fs\\.copy", "tempDir" ]
+      }, {
         "snippet" : "fs.copy(\"data/message.txt\", \"data/new-message.txt\")",
+        "type" : "Snippet",
         "title" : "copy single file to a file",
-        "includeRegexp" : [ "fs\\.copy" ],
-        "type" : "Snippet"
+        "lang" : "groovy",
+        "includeRegexp" : [ "fs\\.copy" ]
       } ]
     }, {
-      "title" : "Archive",
       "id" : "archive",
       "type" : "Section",
+      "title" : "Archive",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "def dest = fs.tempDir(\"for-zip\").resolve(\"content.zip\")\nfs.zip('data/staticcontent', dest)",
-        "title" : "zip a directory",
         "surroundedBy" : "// zip",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "zip a directory",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir('for-unzip')\nfs.unzip('data/data.zip', dir)",
-        "title" : "unzip a file",
         "surroundedBy" : "// unzip",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "unzip a file",
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir('for-untar')\nfs.untar('data/data.tar', dir)",
-        "title" : "untar a file",
         "surroundedBy" : "// untar",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "untar a file",
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317648,
+    "lastModifiedTime" : 1640922026336,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "File System",

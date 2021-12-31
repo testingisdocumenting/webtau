@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:40837/params?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:46733/params?a=1&amp;b=text</p>
 </article>
 
 <article>
@@ -111,6 +111,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -133,9 +134,9 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Scenarios",
       "id" : "scenarios",
       "type" : "Section",
+      "title" : "Scenarios",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -161,9 +162,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Capturing Test Artifacts",
       "id" : "capturing-test-artifacts",
       "type" : "Section",
+      "title" : "Capturing Test Artifacts",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -183,11 +184,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.http\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario\n\nscenario(\"extracting id after POST to use inside GET request\") {\n    def id = http.post(\"/employee\", [firstName: 'FN', lastName: 'LN']) {\n        return id\n    }\n    http.doc.capture('employee-post')\n\n    http.get(\"/employee/$id\") {\n        firstName.should == 'FN'\n        lastName.should == 'LN'\n    }\n    http.doc.capture('employee-get') // capture previous HTTP call into <docDir>/employee-get\n}",
-        "title" : "test.groovy",
         "commentsType" : "inline",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "test.groovy",
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -202,9 +203,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Test Artifacts Location",
       "id" : "test-artifacts-location",
       "type" : "Section",
+      "title" : "Test Artifacts Location",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -229,16 +230,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8180\"\n\ndocPath = \"doc-artifacts\"",
-        "title" : "webtau.cfg.groovy",
         "excludeRegexp" : "package",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "webtau.cfg.groovy",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Test Artifacts",
       "id" : "test-artifacts",
       "type" : "Section",
+      "title" : "Test Artifacts",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -247,9 +248,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "level" : 2,
-        "title" : "Request and response payloads",
         "id" : "test-artifacts-request-and-response-payloads",
-        "type" : "SubHeading"
+        "type" : "SubHeading",
+        "title" : "Request and response payloads"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -275,13 +276,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "employee-post/request.json",
         "data" : {
-          "firstName" : "FN",
-          "lastName" : "LN"
+          "lastName" : "LN",
+          "firstName" : "FN"
         },
         "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "employee-post/request.json"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -307,18 +308,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "employee-get/response.json",
         "data" : {
-          "firstName" : "FN",
-          "lastName" : "LN"
+          "lastName" : "LN",
+          "firstName" : "FN"
         },
         "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "employee-get/response.json"
       }, {
         "level" : 2,
-        "title" : "Request and response headers",
         "id" : "test-artifacts-request-and-response-headers",
-        "type" : "SubHeading"
+        "type" : "SubHeading",
+        "title" : "Request and response headers"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -345,15 +346,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "redacted request.header.txt",
         "data" : "testheader: testValue\nauthorization: ................",
         "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "redacted request.header.txt"
       }, {
         "level" : 2,
-        "title" : "Response body assertions",
         "id" : "test-artifacts-response-body-assertions",
-        "type" : "SubHeading"
+        "type" : "SubHeading",
+        "title" : "Response body assertions"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -372,15 +373,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "title" : "employee-get/paths.json",
         "data" : [ "root.firstName", "root.lastName" ],
         "paths" : [ ],
-        "type" : "Json"
+        "type" : "Json",
+        "title" : "employee-get/paths.json"
       }, {
         "level" : 2,
-        "title" : "Request URLs",
         "id" : "test-artifacts-request-urls",
-        "type" : "SubHeading"
+        "type" : "SubHeading",
+        "title" : "Request URLs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -389,8 +390,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -417,20 +418,20 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ]
       }, {
-        "lang" : "txt",
         "snippet" : "/params?a=1&b=text",
+        "type" : "Snippet",
         "title" : "request.url.txt",
-        "type" : "Snippet"
+        "lang" : "txt"
       }, {
-        "lang" : "txt",
-        "snippet" : "http://localhost:40837/params?a=1&b=text",
+        "snippet" : "http://localhost:46733/params?a=1&b=text",
+        "type" : "Snippet",
         "title" : "request.fullurl.txt",
-        "type" : "Snippet"
+        "lang" : "txt"
       } ]
     }, {
-      "title" : "Document REST calls",
       "id" : "document-rest-calls",
       "type" : "Section",
+      "title" : "Document REST calls",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -451,10 +452,10 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           "id" : "dag1"
         },
-        "idsToHighlight" : [ ],
-        "wide" : false,
         "urls" : { },
-        "type" : "GraphVizDiagram"
+        "wide" : false,
+        "type" : "GraphVizDiagram",
+        "idsToHighlight" : [ ]
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -463,7 +464,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026328,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Documentation",

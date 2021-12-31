@@ -101,6 +101,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -123,34 +124,34 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Text",
       "id" : "text",
       "type" : "Section",
+      "title" : "Text",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "def message = $(\"#message\")\nmessage.should == \"Select option\"",
+        "type" : "Snippet",
         "title" : "exact text",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def message = $(\"#message\")\nmessage.should == ~/option/",
+        "type" : "Snippet",
         "title" : "regexp text",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def menu = $(\"#menu ul li\")\nmenu.should == [\"Hello\", \"Text\", \"World\"]",
+        "type" : "Snippet",
         "title" : "list of text",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def message = $(\"#message\")\nmessage.should contain(\"option\")",
+        "type" : "Snippet",
         "title" : "contain text in the first matched element",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def menu = $(\"#menu ul li\").all()\nmenu.should contain(\"Text\")",
+        "type" : "Snippet",
         "title" : "contain exact text in list of elements",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -169,171 +170,171 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "def menu = $(\"#menu ul li\")\nmenu.should == [\"Hello\", ~/T..t/, \"World\"]",
+        "type" : "Snippet",
         "title" : "list of text and regexp",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
+        "paths" : [ ],
         "meta" : {
           "rightSide" : true
         },
         "xmlAsJson" : {
-          "tagName" : "div",
-          "attributes" : [ ],
           "children" : [ {
-            "tagName" : "div",
+            "children" : [ {
+              "text" : "Select option",
+              "tagName" : ""
+            } ],
             "attributes" : [ {
               "name" : "id",
               "value" : "\"message\""
             } ],
-            "children" : [ {
-              "tagName" : "",
-              "text" : "Select option"
-            } ]
+            "tagName" : "div"
           }, {
-            "tagName" : "div",
+            "children" : [ {
+              "children" : [ {
+                "children" : [ {
+                  "text" : "Hello",
+                  "tagName" : ""
+                } ],
+                "attributes" : [ ],
+                "tagName" : "li"
+              }, {
+                "children" : [ {
+                  "text" : "Text",
+                  "tagName" : ""
+                } ],
+                "attributes" : [ ],
+                "tagName" : "li"
+              }, {
+                "children" : [ {
+                  "text" : "World",
+                  "tagName" : ""
+                } ],
+                "attributes" : [ ],
+                "tagName" : "li"
+              } ],
+              "attributes" : [ ],
+              "tagName" : "ul"
+            } ],
             "attributes" : [ {
               "name" : "id",
               "value" : "\"menu\""
             } ],
-            "children" : [ {
-              "tagName" : "ul",
-              "attributes" : [ ],
-              "children" : [ {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "Hello"
-                } ]
-              }, {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "Text"
-                } ]
-              }, {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "World"
-                } ]
-              } ]
-            } ]
-          } ]
+            "tagName" : "div"
+          } ],
+          "attributes" : [ ],
+          "tagName" : "div"
         },
-        "paths" : [ ],
         "type" : "Xml"
       } ]
     }, {
-      "title" : "Numbers",
       "id" : "numbers",
       "type" : "Section",
+      "title" : "Numbers",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "def total = $(\"#total\")\ntotal.should == 300.6",
+        "type" : "Snippet",
         "title" : "exact number",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def total = $(\"#total\")\ntotal.shouldBe > 200",
+        "type" : "Snippet",
         "title" : "greater than",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def total = $(\"#total\")\ntotal.shouldBe >= 300",
+        "type" : "Snippet",
         "title" : "greater than or equal",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, 28, 172.6]",
+        "type" : "Snippet",
         "title" : "list of numbers",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, lessThan(100), greaterThanOrEqual(150)]",
+        "type" : "Snippet",
         "title" : "list of exact and greater/less",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
+        "paths" : [ ],
         "meta" : {
           "rightSide" : true
         },
         "xmlAsJson" : {
-          "tagName" : "div",
-          "attributes" : [ ],
           "children" : [ {
-            "tagName" : "div",
+            "children" : [ {
+              "text" : "300.6",
+              "tagName" : ""
+            } ],
             "attributes" : [ {
               "name" : "id",
               "value" : "\"total\""
             } ],
-            "children" : [ {
-              "tagName" : "",
-              "text" : "300.6"
-            } ]
+            "tagName" : "div"
           }, {
-            "tagName" : "div",
+            "children" : [ {
+              "children" : [ {
+                "children" : [ {
+                  "text" : "100",
+                  "tagName" : ""
+                } ],
+                "attributes" : [ ],
+                "tagName" : "li"
+              }, {
+                "children" : [ {
+                  "text" : "28",
+                  "tagName" : ""
+                } ],
+                "attributes" : [ ],
+                "tagName" : "li"
+              }, {
+                "children" : [ {
+                  "text" : "172.6",
+                  "tagName" : ""
+                } ],
+                "attributes" : [ ],
+                "tagName" : "li"
+              } ],
+              "attributes" : [ ],
+              "tagName" : "ul"
+            } ],
             "attributes" : [ {
               "name" : "id",
               "value" : "\"split\""
             } ],
-            "children" : [ {
-              "tagName" : "ul",
-              "attributes" : [ ],
-              "children" : [ {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "100"
-                } ]
-              }, {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "28"
-                } ]
-              }, {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "172.6"
-                } ]
-              } ]
-            } ]
-          } ]
+            "tagName" : "div"
+          } ],
+          "attributes" : [ ],
+          "tagName" : "div"
         },
-        "paths" : [ ],
         "type" : "Xml"
       } ]
     }, {
-      "title" : "State",
       "id" : "state",
       "type" : "Section",
+      "title" : "State",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "def button = $(\"#action\")\nbutton.should beDisabled()\nbutton.shouldNot beEnabled()",
+        "type" : "Snippet",
         "title" : "enabled/disabled",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "def feedback = $(\"#feedback\")\nfeedback.should beHidden()\nfeedback.shouldNot beVisible()",
+        "type" : "Snippet",
         "title" : "visible/hidden",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "html",
         "snippet" : "<div> <button id=\"action\" disabled>Click me</button> \n <div id=\"feedback\" style=\"display: none;\"></div> \n</div>",
         "meta" : {
           "rightSide" : true
         },
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "lang" : "html"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Matchers",

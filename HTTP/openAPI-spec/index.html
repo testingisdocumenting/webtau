@@ -111,6 +111,7 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -133,22 +134,22 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "title" : "Validation",
       "id" : "validation",
       "type" : "Section",
+      "title" : "Validation",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Webtau supports validation of responses against an ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://www.openapis.org/",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "OpenAPI specification",
             "type" : "SimpleText"
-          } ]
+          } ],
+          "url" : "https://www.openapis.org/"
         }, {
           "text" : ".  This feature can",
           "type" : "SimpleText"
@@ -170,16 +171,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8080\"\nopenApiSpecUrl = \"scenarios/rest/springboot/api-spec.json\"",
-        "title" : "Configuration",
         "excludeRegexp" : "docPath",
-        "type" : "Snippet"
+        "type" : "Snippet",
+        "title" : "Configuration",
+        "lang" : "groovy"
       } ]
     }, {
-      "title" : "Current limitations",
       "id" : "current-limitations",
       "type" : "Section",
+      "title" : "Current limitations",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -193,8 +194,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "tight" : true,
         "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -230,9 +231,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Validations report",
       "id" : "validations-report",
       "type" : "Section",
+      "title" : "Validations report",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -245,10 +246,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "bash",
         "snippet" : "> executing HTTP POST http://localhost:8080/customers\n {\n  \"id\": 1,\n  \"firstName\": \"FN\",\n  \"lastName\": \"LN\",\n  \"_links\": {\n    \"self\": {\n      \"href\": \"http://localhost:8080/customers/1\"\n    },\n    \"customer\": {\n      \"href\": \"http://localhost:8080/customers/1\"\n    }\n  }\n }\nX failed executing HTTP POST http://localhost:8080/customers : \nAPI spec validation failure: ERROR - Response status 201 not defined for path ''.: []\n[x] failed\njava.lang.AssertionError: \nAPI spec validation failure: ERROR - Response status 201 not defined for path ''.: []\n\tat scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8)\n\tat scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy)\n\n\n\nTotal: 1,  Passed: 0,  Skipped: 0,  Failed: 1,  Errored: 0\n",
+        "type" : "Snippet",
         "lineNumber" : "",
-        "type" : "Snippet"
+        "lang" : "bash"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -257,17 +258,17 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "fit" : true,
-        "imageSrc" : "/webtau/img/rest-crud-openapi-spec-validation-error.png",
-        "timestamp" : 1634267317644,
         "shapes" : [ ],
         "width" : 2242.0,
+        "imageSrc" : "/webtau/img/rest-crud-openapi-spec-validation-error.png",
+        "type" : "AnnotatedImage",
         "height" : 620.0,
-        "type" : "AnnotatedImage"
+        "timestamp" : 1640922026332
       } ]
     }, {
-      "title" : "Validation Configuration",
       "id" : "validation-configuration",
       "type" : "Section",
+      "title" : "Validation Configuration",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -293,33 +294,33 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "title" : "Disable Validation",
       "id" : "disable-validation",
       "type" : "Section",
+      "title" : "Disable Validation",
       "content" : [ {
-        "lang" : "groovy",
         "snippet" : "import org.testingisdocumenting.webtau.openapi.OpenApi",
-        "includeRegexp" : "import.*Open",
+        "type" : "Snippet",
         "title" : "Additional import",
-        "type" : "Snippet"
-      }, {
         "lang" : "groovy",
+        "includeRegexp" : "import.*Open"
+      }, {
         "snippet" : "OpenApi.withoutValidation {\n    http.post(\"/employee\", [firstName: 'First']) {\n        // ...\n    }\n}",
+        "type" : "Snippet",
         "title" : "Disable request and response validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "OpenApi.responseOnlyValidation() {\n    http.post(\"/employee\", [firstName: 'First']) {\n        // ...\n    }\n}",
+        "type" : "Snippet",
         "title" : "Disable request validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       }, {
-        "lang" : "groovy",
         "snippet" : "OpenApi.requestOnlyValidation() {\n    http.post(\"/employee\", [firstName: 'First', lastName: 'Second']) {\n        // ...\n    }\n}",
+        "type" : "Snippet",
         "title" : "Disable response validation",
-        "type" : "Snippet"
+        "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1634267317644,
+    "lastModifiedTime" : 1640922026332,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "OpenAPI Spec",
