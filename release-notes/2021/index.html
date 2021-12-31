@@ -84,7 +84,12 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>1.45 (future release)</h1></header>
+<header><h1>1.45.1</h1></header>
+<p>Fix: report light theme HTTP response match color</p>
+</article>
+
+<article>
+<header><h1>1.45</h1></header>
 <p>Doc: document servers/introduction Servers Wrap deletion of all utilities/file-system temp files in a parent step Doc: document report report/steps step and trace core methods Move report tests status filter to the top and put theme switching to the bottom in its place Add trace core method to report values to console and web report Report color theme toggle and auto OS dark/light detection Improved code snippet rendering in web report Check element presence before browser/element-actions#scrolling scroll to provide better error message Add utilities/cache#presence-check cache exists method Fix: cli/foreground-command CLI run working dir matches config working dir if none specified for the process Fix: remove internal info of cli/foreground-command CLI run from web report Fix: servers/static-server static content server capture of browser page request Fix: remove call to open api schema end-point at the end of tests if no http calls were performed during tests Fix: missing files message to use only path but not container id Fix: report step with 0ms now shows elapsed time Fix: utilities/file-system waiting for non-existing file content is not throwing error anymore Fix: jansi Mac M1 exception Fix: report key-value color contrast Fix: report extra scroll bar on overall summary screen</p>
 </article>
 
@@ -154,9 +159,28 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "145-future-release",
+      "id" : "1451",
       "type" : "Section",
-      "title" : "1.45 (future release)",
+      "title" : "1.45.1",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report light theme HTTP response match color",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "145",
+      "type" : "Section",
+      "title" : "1.45",
       "content" : [ {
         "bulletMarker" : "*",
         "type" : "BulletList",
@@ -1751,7 +1775,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1640922026336,
+    "lastModifiedTime" : 1640975823038,
     "tocItem" : {
       "sectionTitle" : "Release Notes",
       "pageTitle" : "2021 Releases",
@@ -1762,8 +1786,11 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2021",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "1.45 (future release)",
-        "id" : "145-future-release"
+        "title" : "1.45.1",
+        "id" : "1451"
+      }, {
+        "title" : "1.45",
+        "id" : "145"
       }, {
         "title" : "1.44.1",
         "id" : "1441"
