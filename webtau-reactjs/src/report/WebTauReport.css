@@ -26,7 +26,22 @@
     --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
 }
 
+::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--webtau-scrollbar-thumb);
+}
+
+::-webkit-scrollbar-track {
+    background: none;
+}
+
 body {
+    margin: 0;
+    padding: 0;
     font-size: 14px;
     font-family: Helvetica, sans-serif
 }

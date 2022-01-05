@@ -106,4 +106,6 @@
     --webtau-step-preposition-color: #9a999b;
     --webtau-step-delimiter-color: var(--webtau-step-preposition-color);
     --webtau-step-selector-type-color: #c88fcb;
+
+    --webtau-scrollbar-thumb: #555;
 }
