@@ -44,6 +44,7 @@
     --webtau-card-border-color: none;
     --webtau-card-list-border-color: var(--webtau-background-color);
     --webtau-card-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
+    --webtau-card-warning-text-color: #333;
     --webtau-card-warning-background-color: #dcbe5a;
     --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
     --webtau-card-time-color: #a5a5a5;
