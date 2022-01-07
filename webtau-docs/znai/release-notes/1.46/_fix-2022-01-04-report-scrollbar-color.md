@@ -1,0 +1,1 @@
+* Fix: report scrollbar color in light theme
