@@ -53,7 +53,7 @@ public class WebtauProxyServer extends WebtauJettyServer {
     @Override
     protected Handler createJettyHandler() {
         ServletHolder proxyServletHolder = new ServletHolder(new WebtauProxyServlet(getJournal(), urlToProxy));
-        proxyServletHolder.setInitParameter("maxThreads", "16");
+        proxyServletHolder.setInitParameter("maxThreads", String.valueOf(WebtauServersConfig.getProxyMaxThreads()));
 
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(proxyServletHolder, "/*");
