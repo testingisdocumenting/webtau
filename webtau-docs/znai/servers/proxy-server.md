@@ -52,3 +52,7 @@ Use `:identifier: fix {validationPath: "scenarios/server/proxyServer.groovy"}` t
   title: "fix server",
   surroundedBy: "mark-fix"
 }
+
+# Max Threads 
+
+Use `serverProxyMaxThreads` to change max number of threads available for proxy server
