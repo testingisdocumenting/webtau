@@ -23,7 +23,7 @@
     --webtau-spacing-tripple: calc(var(--webtau-spacing-half-as-number) * 6px);
     --webtau-spacing-quadruple: calc(var(--webtau-spacing-half-as-number) * 8px);
 
-    --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
+    --webtau-monospace-font: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 ::-webkit-scrollbar {
