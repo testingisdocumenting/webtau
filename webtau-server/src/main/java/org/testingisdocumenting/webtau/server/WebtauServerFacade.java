@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.server.route.WebtauRouter;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 
 import static org.testingisdocumenting.webtau.server.WebtauServerResponseBuilder.*;
 
@@ -52,7 +53,8 @@ public class WebtauServerFacade {
      *
      * @see WebtauServerFacade#response
      * @see WebtauServerResponseBuilder#text
-     * @param body body to serialzie as response
+     * @param statusCode status code to return
+     * @param body body to serialize as response
      * @return response instance
      */
     public WebtauServerResponse response(int statusCode, Object body) {
@@ -65,6 +67,15 @@ public class WebtauServerFacade {
         }
 
         return response.json(statusCode, body);
+    }
+
+    /**
+     * creates response for a server with empty response, empty content type and empty header
+     * @param statusCode status code to return
+     * @return response instance
+     */
+    public WebtauServerResponse statusCode(int statusCode) {
+        return new WebtauServerResponse(statusCode, "", new byte[0], Collections.emptyMap());
     }
 
     /**
@@ -119,7 +130,7 @@ public class WebtauServerFacade {
      * @param port server port
      * @return server instance
      */
-    public WebtauServer proxy(String serverId, String urlToProxy, int port) {
+    public WebtauProxyServer proxy(String serverId, String urlToProxy, int port) {
         WebtauProxyServer server = new WebtauProxyServer(serverId, urlToProxy, port);
         server.start();
 
@@ -132,7 +143,7 @@ public class WebtauServerFacade {
      * @param urlToProxy url to proxy to
      * @return server instance
      */
-    public WebtauServer proxy(String serverId, String urlToProxy) {
+    public WebtauProxyServer proxy(String serverId, String urlToProxy) {
         return proxy(serverId, urlToProxy, 0);
     }
 
