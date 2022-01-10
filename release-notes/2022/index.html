@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Config</title>
+<title>WebTau: 2022 Releases</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,8 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>JDBC</h1></header>
-<p>Webtau is JVM based API and it uses https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity. JDBC interface behind the scenes to connect to a database.You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how to build JDBC connection url to be able to connect to a database.</p>
-</article>
-
-<article>
-<header><h1>Primary Database</h1></header>
-<p>Primary DB config used when execute operations using db.update , db.query , etc, without specifying data source name. import groovy.grape.Grape Grape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db) classLoader: ClassLoader.getSystemClassLoader()) dbUrl = &quot;jdbc:h2:file:~/h2db/test-db&quot; // primary DB JDBC connection url dbDriverClassName = &quot;org.h2.Driver&quot; // JDBC driver class name dbUserName = &quot;sa&quot; dbPassword = &quot;password&quot;</p>
+<header><h1>1.46</h1></header>
+<p>Add servers/proxy-server#preserve-original-call proxy server original call example and tweaks Add servers/proxy-server proxy server serverProxyMaxThreads config Fix: report failed code snippet font in light theme Fix: examples generation via webtau cli Fix: report HTTP warning call color in light theme Fix: report scrollbar color in light theme</p>
 </article>
 </section>
 </div>
@@ -119,85 +114,136 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "jdbc",
+      "id" : "146",
       "type" : "Section",
-      "title" : "JDBC",
+      "title" : "1.46",
       "content" : [ {
-        "type" : "Paragraph",
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
-          "text" : "Webtau is JVM based API and it uses ",
-          "type" : "SimpleText"
-        }, {
-          "isFile" : false,
-          "type" : "Link",
+          "type" : "ListItem",
           "content" : [ {
-            "text" : "JDBC",
-            "type" : "SimpleText"
-          } ],
-          "url" : "https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity."
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "interface behind the scenes to connect to a database.",
-          "type" : "SimpleText"
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "proxy server original call",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/servers/proxy-server#preserve-original-call"
+            }, {
+              "text" : " example and tweaks",
+              "type" : "SimpleText"
+            } ]
+          } ]
         } ]
       }, {
-        "type" : "Paragraph",
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
         "content" : [ {
-          "text" : "You don't need to know how to use JDBC API as webtau expose higher level APIs, but you will need to understand how",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "to build JDBC connection url to be able to connect to a database.",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
-      "id" : "primary-database",
-      "type" : "Section",
-      "title" : "Primary Database",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Primary DB config used when execute operations using ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "db.update",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "db.query",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", etc, without specifying data source name.",
-          "type" : "SimpleText"
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add ",
+              "type" : "SimpleText"
+            }, {
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "proxy server",
+                "type" : "SimpleText"
+              } ],
+              "url" : "/webtau/servers/proxy-server"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "serverProxyMaxThreads",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " config",
+              "type" : "SimpleText"
+            } ]
+          } ]
         } ]
       }, {
-        "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/h2db/test-db\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
-        "excludeRegexp" : "package",
-        "commentsType" : "inline",
-        "type" : "Snippet",
-        "title" : "Primary DB config",
-        "lang" : "groovy"
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report failed code snippet font in light theme",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: examples generation via webtau cli",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report HTTP warning call color in light theme",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report scrollbar color in light theme",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1641786403230,
     "tocItem" : {
-      "sectionTitle" : "Database",
-      "pageTitle" : "Config",
-      "pageMeta" : { },
-      "dirName" : "database",
-      "fileName" : "config",
+      "sectionTitle" : "Release Notes",
+      "pageTitle" : "2022 Releases",
+      "pageMeta" : {
+        "title" : [ "2022 Releases" ]
+      },
+      "dirName" : "release-notes",
+      "fileName" : "2022",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "JDBC",
-        "id" : "jdbc"
-      }, {
-        "title" : "Primary Database",
-        "id" : "primary-database"
+        "title" : "1.46",
+        "id" : "146"
       } ]
     }
   }

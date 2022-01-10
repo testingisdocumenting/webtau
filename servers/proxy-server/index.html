@@ -89,8 +89,13 @@
 </article>
 
 <article>
-<header><h1>Override Response</h1></header>
-<p>Use to modify response of a proxied server def router = server.router(&quot;router-id&quot;) router.get(&quot;/another/{id}&quot;, (request) -&gt; server.response([anotherId: request.param(&quot;id&quot;)])) proxyServer.addOverride(router)</p>
+<header><h1>Override Calls</h1></header>
+<p>Use to modify response of a proxied server def router = server.router(&quot;optional-router-id&quot;) router.get(&quot;/another/{id}&quot;, (request) -&gt; server.response([anotherId: request.param(&quot;id&quot;)])) proxyServer.addOverride(router) Note: override will not call proxied server, and will return a provided response</p>
+</article>
+
+<article>
+<header><h1>Preserve Original Call</h1></header>
+<p>Use HTTP/introduction HTTP Module to issue a call to a destination server with a possibility to change a request and provide a modified response.Example of a proxy server that makes original call, but returns an error def router = server.router().post(&quot;/hello&quot;, { request -&gt; def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri), http.header(request.header), request.contentAsMap) { return body.message } // optional logic with original response return server.statusCode(500) }) proxyServer.addOverride(router)</p>
 </article>
 
 <article>
@@ -106,6 +111,11 @@
 <article>
 <header><h1>Server Fix</h1></header>
 <p>Use to remove broken and/or slowdown state proxyServer.fix()</p>
+</article>
+
+<article>
+<header><h1>Max Threads</h1></header>
+<p>Use serverProxyMaxThreads to change max number of threads available for proxy server</p>
 </article>
 </section>
 </div>
@@ -157,9 +167,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy"
       } ]
     }, {
-      "id" : "override-response",
+      "id" : "override-calls",
       "type" : "Section",
-      "title" : "Override Response",
+      "title" : "Override Calls",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -173,10 +183,56 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "def router = server.router(\"router-id\")\nrouter.get(\"/another/{id}\", (request) -> server.response([anotherId: request.param(\"id\")]))\n\nproxyServer.addOverride(router)",
+        "snippet" : "def router = server.router(\"optional-router-id\")\nrouter.get(\"/another/{id}\", (request) -> server.response([anotherId: request.param(\"id\")]))\n\nproxyServer.addOverride(router)",
         "surroundedBy" : "proxy-add-override",
         "type" : "Snippet",
-        "title" : "content override",
+        "title" : "call override",
+        "lang" : "groovy"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: override will not call proxied server, and will return a provided response",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "preserve-original-call",
+      "type" : "Section",
+      "title" : "Preserve Original Call",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "HTTP Module",
+            "type" : "SimpleText"
+          } ],
+          "url" : "/webtau/HTTP/introduction"
+        }, {
+          "text" : " to issue a call to a destination server with a possibility to change a request and",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "provide a modified response.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Example of a proxy server that makes original call, but returns an error",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def router = server.router().post(\"/hello\", { request ->\n    def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri),\n            http.header(request.header), request.contentAsMap) {\n        return body.message\n    }\n\n    // optional logic with original response\n\n    return server.statusCode(500)\n})\n\nproxyServer.addOverride(router)",
+        "excludeRegexp" : "capturedMessages",
+        "surroundedBy" : "override-with-original-call",
+        "type" : "Snippet",
+        "title" : "original call and faked error response",
         "lang" : "groovy"
       } ]
     }, {
@@ -260,8 +316,25 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "fix server",
         "lang" : "groovy"
       } ]
+    }, {
+      "id" : "max-threads",
+      "type" : "Section",
+      "title" : "Max Threads",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "serverProxyMaxThreads",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to change max number of threads available for proxy server",
+          "type" : "SimpleText"
+        } ]
+      } ]
     } ],
-    "lastModifiedTime" : 1640994798818,
+    "lastModifiedTime" : 1641786403230,
     "tocItem" : {
       "sectionTitle" : "Servers",
       "pageTitle" : "Proxy Server",
@@ -273,8 +346,11 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Proxy Servers Creation",
         "id" : "proxy-servers-creation"
       }, {
-        "title" : "Override Response",
-        "id" : "override-response"
+        "title" : "Override Calls",
+        "id" : "override-calls"
+      }, {
+        "title" : "Preserve Original Call",
+        "id" : "preserve-original-call"
       }, {
         "title" : "Server Slowdown",
         "id" : "server-slowdown"
@@ -284,6 +360,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Server Fix",
         "id" : "server-fix"
+      }, {
+        "title" : "Max Threads",
+        "id" : "max-threads"
       } ]
     }
   }
