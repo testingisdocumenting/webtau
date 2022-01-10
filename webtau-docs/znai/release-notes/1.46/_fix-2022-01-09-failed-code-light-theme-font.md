@@ -1,0 +1,1 @@
+* Fix: report failed code snippet font in light theme

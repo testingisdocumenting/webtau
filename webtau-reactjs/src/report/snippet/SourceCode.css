@@ -20,7 +20,7 @@
 }
 
 .webtau-source-code pre {
-    font-family: var(--webtau-code-font-family) !important;
+    font-family: var(--webtau-monospace-font) !important;
     background-color: var(--webtau-code-background-color) !important;
     margin: 0;
     padding: var(--webtau-spacing);
