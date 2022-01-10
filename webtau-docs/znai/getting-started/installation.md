@@ -9,17 +9,23 @@ To run webtau tests you have a few options:
 
 :include-markdown: installation-groovy-runner.md
 
-:include-cli-command: webtau --example
+```cli
+webtau --example
+```
 
 Navigate into `todo` example
 
-:include-cli-command: cd examples/todo
+```cli
+cd examples/todo
+```
 
 :include-file: examples/todo/todolist.groovy {title: "todolist.groovy"}
 
 To run test
 
-:include-cli-command: webtau todolist.groovy --url=https://jsonplaceholder.typicode.com {paramsToHighlight: "url"}
+```cli {paramsToHighlight: "url"}
+webtau todolist.groovy --url=https://jsonplaceholder.typicode.com 
+```
 
 :include-markdown: common/note-package-import.md
 

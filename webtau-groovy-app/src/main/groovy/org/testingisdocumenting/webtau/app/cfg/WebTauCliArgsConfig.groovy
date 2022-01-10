@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.app.cfg
 
+import org.testingisdocumenting.webtau.app.examples.ExamplesScaffolder
 import org.testingisdocumenting.webtau.cfg.ConfigValue
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.apache.commons.cli.CommandLine
