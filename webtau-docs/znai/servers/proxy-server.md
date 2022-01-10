@@ -7,13 +7,28 @@ Use `:identifier: server.proxy {validationPath: "scenarios/server/proxyServer.gr
   surroundedBy: "proxy-server-creation",
 }
 
-# Override Response
+# Override Calls
 
 Use `:identifier: addOverride {validationPath: "scenarios/server/proxyServer.groovy"}` to modify response of a proxied server
 
 :include-file: scenarios/server/proxyServer.groovy {
-  title: "content override",
+  title: "call override",
   surroundedBy: "proxy-add-override",
+}
+
+Note: override will not call proxied server, and will return a provided response 
+
+# Preserve Original Call
+
+Use [HTTP Module](HTTP/introduction) to issue a call to a destination server with a possibility to change a request and
+provide a modified response.
+
+Example of a proxy server that makes original call, but returns an error 
+
+:include-file: scenarios/server/proxyServer.groovy {
+  title: "original call and faked error response",
+  surroundedBy: "override-with-original-call",
+  excludeRegexp: "capturedMessages"
 }
 
 # Server Slowdown 

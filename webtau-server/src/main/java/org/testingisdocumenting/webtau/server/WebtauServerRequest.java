@@ -37,11 +37,13 @@ public class WebtauServerRequest {
     private final String textContent;
     private final byte[] bytesContent;
     private final Map<String, CharSequence> header;
+    private final String fullUrl;
 
     public static WebtauServerRequest create(RouteParamsParser routeParamsParser, HttpServletRequest request) {
         try {
             return new WebtauServerRequest(routeParamsParser.parse(request.getRequestURI()),
                     request.getMethod(),
+                    request.getRequestURL().toString(),
                     request.getRequestURI(),
                     request.getContentType(),
                     IOUtils.toByteArray(request.getInputStream()),
@@ -53,16 +55,22 @@ public class WebtauServerRequest {
 
     public WebtauServerRequest(RouteParams routeParams,
                                String method,
+                               String fullUrl,
                                String uri,
                                String contentType, byte[] bytesContent,
                                Map<String, CharSequence> header) {
         this.routeParams = routeParams;
         this.method = method;
+        this.fullUrl = fullUrl;
         this.uri = uri;
         this.contentType = contentType;
         this.bytesContent = bytesContent;
         this.textContent = new String(bytesContent);
         this.header = header;
+    }
+
+    public String getFullUrl() {
+        return fullUrl;
     }
 
     public String getUri() {

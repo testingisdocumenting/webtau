@@ -3,7 +3,7 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 9
+      "numberOfSuccessful" : 11
     }
   }, {
     "scenario" : "parse/init",
@@ -48,6 +48,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 7,
       "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "proxy override response and make original call",
+    "shortContainerId" : "proxyServer.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
     }
   } ],
   "exitCode" : 0

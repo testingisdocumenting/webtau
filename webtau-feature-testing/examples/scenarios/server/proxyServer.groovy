@@ -86,7 +86,7 @@ scenario("proxy override") {
     def proxyServer = server.proxy("proxy-server-with-override", targetServer.baseUrl)
 
     // proxy-add-override
-    def router = server.router("router-id")
+    def router = server.router("optional-router-id")
     router.get("/another/{id}", (request) -> server.response([anotherId: request.param("id")]))
 
     proxyServer.addOverride(router)
@@ -140,4 +140,44 @@ scenario("proxy override and slow down") {
     http.get("${proxyServer.baseUrl}/another/hello") {
         body.should == [anotherId: "hello"]
     }
+}
+
+scenario("proxy override response and make original call") {
+    def receivedHeader = [:]
+    def receivedContent = [:]
+    def serverToProxy = server.fake("counting-server",
+            server.router().post("/hello", { request ->
+                receivedHeader.putAll(request.header)
+                receivedContent.putAll(request.contentAsMap)
+
+                return server.response(201, [message: "hello world"])
+            }))
+
+    def capturedMessages = []
+    def proxyServer = server.proxy("with-original-call", serverToProxy.baseUrl)
+    // override-with-original-call
+    def router = server.router().post("/hello", { request ->
+        def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri),
+                http.header(request.header), request.contentAsMap) {
+            return body.message
+        }
+
+        // optional logic with original response
+        capturedMessages << message
+
+        return server.statusCode(500)
+    })
+
+    proxyServer.addOverride(router)
+    // override-with-original-call
+
+    http.post(http.concatUrl(proxyServer.baseUrl, "/hello"),
+            http.header(["x-something": "b123"]),
+            [postBody: "100"]) {
+        statusCode.should == 500
+    }
+
+    receivedHeader["x-something"].should == "b123"
+    receivedContent.should == [postBody: "100"]
+    capturedMessages.should == ["hello world"]
 }

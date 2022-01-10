@@ -31,6 +31,10 @@ public class WebtauProxyServer extends WebtauJettyServer {
         this.urlToProxy = urlToProxy;
     }
 
+    public String getUrlToProxy() {
+        return urlToProxy;
+    }
+
     @Override
     public String getType() {
         return "proxy";
