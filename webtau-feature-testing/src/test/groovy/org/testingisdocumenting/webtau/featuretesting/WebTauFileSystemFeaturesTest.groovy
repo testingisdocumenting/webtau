@@ -50,6 +50,11 @@ class WebTauFileSystemFeaturesTest {
     }
 
     @Test
+    void "temp"() {
+        runCli('temp.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "extract snippets"() {
         extractCodeSnippets(
                 'fsCopy', 'examples/scenarios/fs/copy.groovy', [
