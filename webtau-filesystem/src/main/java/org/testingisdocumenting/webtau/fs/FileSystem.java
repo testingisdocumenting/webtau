@@ -22,10 +22,7 @@ import org.testingisdocumenting.webtau.ant.UntarTask;
 import org.testingisdocumenting.webtau.ant.UnzipTask;
 import org.testingisdocumenting.webtau.ant.ZipTask;
 import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
 import org.testingisdocumenting.webtau.utils.RegexpUtils.ReplaceResultWithMeta;
 
@@ -34,9 +31,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
@@ -254,19 +249,90 @@ public class FileSystem {
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    /**
+     * creates temp directory with a given prefix and marks it for deletion
+     * @param prefix prefix
+     * @return path of a created directory
+     */
     public Path tempDir(String prefix) {
         return tempDir((Path) null, prefix);
     }
 
+    /**
+     * creates temp directory with a given prefix in a specified directory and marks it for deletion
+     * @param dir directory to create in
+     * @param prefix prefix
+     * @return path of a created directory
+     */
     public Path tempDir(String dir, String prefix) {
         return tempDir(getCfg().getWorkingDir().resolve(dir), prefix);
     }
 
+    /**
+     * creates temp directory with a given prefix in a specified directory and marks it for deletion
+     * @param dir directory to create in
+     * @param prefix prefix
+     * @return path of a created directory
+     */
     public Path tempDir(Path dir, String prefix) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
+                tokenizedMessage(action("creating temp directory")),
                 (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
                 () -> createTempDir(getCfg().fullPath(dir), prefix));
+
+        Map<String, Object> stepInput = new LinkedHashMap<>();
+        if (dir != null) {
+            stepInput.put("dir", dir.toString());
+        }
+        stepInput.put("prefix", prefix);
+
+        step.setInput(WebTauStepInputKeyValue.stepInput(stepInput));
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    /**
+     * creates temp file with a given prefix and suffix and marks it for deletion
+     * @param prefix prefix
+     * @param suffix suffix
+     * @return path of a created file
+     */
+    public Path tempFile(String prefix, String suffix) {
+        return tempFile((Path) null, prefix, suffix);
+    }
+
+    /**
+     * creates temp file with a given prefix and suffix in a specified directory and marks it for deletion
+     * @param dir directory to create a temp file in
+     * @param prefix prefix
+     * @param suffix suffix
+     * @return path of a created file
+     */
+    public Path tempFile(String dir, String prefix, String suffix) {
+        return tempFile(getCfg().getWorkingDir().resolve(dir), prefix, suffix);
+    }
+
+    /**
+     * creates temp file with a given prefix and suffix in a specified directory and marks it for deletion
+     * @param dir directory to create a temp file in
+     * @param prefix prefix
+     * @param suffix suffix
+     * @return path of a created file
+     */
+    public Path tempFile(Path dir, String prefix, String suffix) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("creating temp file")),
+                (generatedPath) -> tokenizedMessage(action("crated temp file path"), urlValue(generatedPath.toString())),
+                () -> createTempFilePath(getCfg().fullPath(dir), prefix, suffix));
+
+        Map<String, Object> stepInput = new LinkedHashMap<>();
+        if (dir != null) {
+            stepInput.put("dir", dir.toString());
+        }
+        stepInput.put("prefix", prefix);
+        stepInput.put("suffix", suffix);
+
+        step.setInput(WebTauStepInputKeyValue.stepInput(stepInput));
 
         return step.execute(StepReportOptions.REPORT_ALL);
     }
@@ -314,6 +380,24 @@ public class FileSystem {
 
             Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
                     Files.createTempDirectory(prefix);
+
+            filesToDelete.add(path);
+            LazyCleanupRegistration.INSTANCE.noOp();
+
+            return path.toAbsolutePath();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private Path createTempFilePath(Path dir, String prefix, String suffix) {
+        try {
+            if (dir != null) {
+                Files.createDirectories(dir);
+            }
+
+            Path path = dir != null ? Files.createTempFile(dir, prefix, suffix) :
+                    Files.createTempFile(prefix, suffix);
 
             filesToDelete.add(path);
             LazyCleanupRegistration.INSTANCE.noOp();

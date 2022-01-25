@@ -44,8 +44,23 @@ class FileSystemTest implements ConsoleOutput {
     void "creating temp dir has dir path in completion step"() {
         fs.tempDir("custom-prefix")
 
-        output.should contain("> creating temp directory with prefix custom-prefix")
+        output.should contain("> creating temp directory")
+        output.should contain("prefix: custom-prefix")
         output.should == ~/\. created temp directory .*custom-prefix.+\s\(.+ms\)/
+    }
+
+    @Test
+    void "creating temp dir with dir specified has dir as step input"() {
+        fs.tempDir("my-dir", "custom-prefix")
+        output.should == ~/dir: .*my-dir/
+    }
+
+    @Test
+    void "creating temp file with dir specified has dir, prefix and suffix as step input"() {
+        fs.tempFile("my-dir", "custom-prefix", "my-suffix")
+        output.should contain("prefix: custom-prefix")
+        output.should contain("suffix: my-suffix")
+        output.should == ~/dir: .*my-dir/
     }
 
     @Test
