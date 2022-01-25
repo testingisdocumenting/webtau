@@ -153,7 +153,7 @@
         <jackson.version>2.11.3</jackson.version>
         <jackson.databind.version>2.11.3</jackson.databind.version>
         <slf4j.version>1.7.30</slf4j.version>
-        <spring.version>5.3.6</spring.version>
+        <spring.version>5.3.14</spring.version>
         <maven.api.version>3.6.3</maven.api.version>
         <tomcat.version>9.0.45</tomcat.version>
         <junit5.version>5.7.0-M1</junit5.version>
