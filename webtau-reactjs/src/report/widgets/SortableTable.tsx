@@ -21,12 +21,13 @@ import { useState } from 'react';
 import './Table.css';
 import './SortableTable.css';
 
-type CellType = string | number;
+export type CellType = string | number;
 
 interface Props {
   header: string[];
   data: CellType[][];
   className?: string;
+  renderConverter?: (columnName: string, value: CellType) => JSX.Element;
 }
 
 interface SortColumn {
@@ -34,7 +35,7 @@ interface SortColumn {
   ascending: boolean;
 }
 
-export function SortableTable({ header, data, className }: Props) {
+export function SortableTable({ className, header, data, renderConverter }: Props) {
   const [sortColumn, setSortColumn] = useState<SortColumn>({ name: '', ascending: false });
 
   const sortedData = sortColumn.name ? sortData(data, findSortColumnIdx(), sortColumn.ascending) : data;
@@ -57,7 +58,7 @@ export function SortableTable({ header, data, className }: Props) {
       </thead>
       <tbody>
         {sortedData.map((row, idx) => (
-          <RowEntry key={idx} row={row} />
+          <RowEntry key={idx} header={header} row={row} renderConverter={renderConverter} />
         ))}
       </tbody>
     </table>
@@ -118,14 +119,28 @@ function sortData(data: CellType[][], idx: number, isAscending: boolean) {
   }
 }
 
-function RowEntry({ row }: { row: CellType[] }) {
+interface RowEntryProps {
+  header: string[];
+  row: CellType[];
+  renderConverter?: (columnName: string, value: CellType) => JSX.Element;
+}
+
+function RowEntry({ header, row, renderConverter }: RowEntryProps) {
   return (
     <tr>
       {row.map((value, idx) => (
-        <td key={idx}>{value}</td>
+        <td key={idx}>{convertValue(idx, value)}</td>
       ))}
     </tr>
   );
+
+  function convertValue(idx: number, value: CellType) {
+    if (!renderConverter) {
+      return value;
+    }
+
+    return renderConverter(header[idx], value);
+  }
 }
 
 function SortIndicator({ ascending }: { ascending: boolean }) {

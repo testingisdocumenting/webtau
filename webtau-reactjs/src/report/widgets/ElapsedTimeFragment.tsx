@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,19 +15,25 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import './ElapsedTimeFragment.css'
+import './ElapsedTimeFragment.css';
 
-export default function ElapsedTimeFragment({value, label, allowZero}) {
-    if (value === 0 && !allowZero) {
-        return null
-    }
+interface Props {
+  value: number;
+  label: string;
+  allowZero?: boolean;
+}
 
-    return (
-        <React.Fragment>
-            <span className="elapsed-time-value">{value}</span>
-            <span className="elapsed-time-unit">{label}</span>
-        </React.Fragment>
-    )
+export default function ElapsedTimeFragment({ value, label, allowZero }: Props) {
+  if (value === 0 && !allowZero) {
+    return null;
+  }
+
+  return (
+    <React.Fragment>
+      <span className="elapsed-time-value">{value}</span>
+      <span className="elapsed-time-unit">{label}</span>
+    </React.Fragment>
+  );
 }

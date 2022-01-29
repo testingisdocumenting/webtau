@@ -17,9 +17,10 @@
 import React from 'react';
 import Report from '../Report';
 
-import { SortableTable } from '../widgets/SortableTable';
+import { CellType, SortableTable } from '../widgets/SortableTable';
 
 import '../widgets/Table.css';
+import ElapsedTime from '../widgets/ElapsedTime';
 
 interface Props {
   report: Report;
@@ -28,9 +29,17 @@ interface Props {
 export function TestsPerformance({ report }: Props) {
   return (
     <div className="webtau-overall-performance">
-      <SortableTable header={header()} data={prepareData(report)} />
+      <SortableTable header={header()} data={prepareData(report)} renderConverter={renderConverter} />
     </div>
   );
+
+  function renderConverter(columnName: string, value: CellType): JSX.Element {
+    if (columnName === 'Total Elapsed Time') {
+      return <ElapsedTime millis={value as number} />;
+    }
+
+    return <>value</>;
+  }
 }
 
 function header() {
