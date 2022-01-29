@@ -21,7 +21,7 @@ import ElapsedTimeFragment from './ElapsedTimeFragment';
 
 import './ElapsedTime.css';
 
-function ElapsedTime({ millis }) {
+function ElapsedTime({ millis }: { millis: number }) {
   const seconds = (millis / 1000) | 0;
   const remainingMs = millis % 1000;
 
