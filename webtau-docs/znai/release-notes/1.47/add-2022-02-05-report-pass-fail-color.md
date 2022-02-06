@@ -1,0 +1,1 @@
+* Brighter test status color in web report light theme  
