@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.runner.standalone
 
 import java.nio.file.Path
+import java.util.stream.Stream
 
 class RegisteredTests {
     private List<StandaloneTest> tests = []
@@ -55,6 +56,10 @@ class RegisteredTests {
 
     List<StandaloneTest> getTests() {
         return tests.asImmutable()
+    }
+
+    Stream<StandaloneTest> getTestsAndExclusiveTestsStream() {
+        return Stream.concat(exclusiveTests.stream(), tests.stream())
     }
 
     private List<StandaloneTest> testsToRun() {
