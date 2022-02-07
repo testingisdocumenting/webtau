@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "before first test",
+    "shortContainerId" : "Setup",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "first test",
+    "shortContainerId" : "setupFailSkipTests.groovy",
+    "stepsSummary" : { }
+  }, {
+    "scenario" : "second test",
+    "shortContainerId" : "setupFailSkipTests.groovy",
+    "stepsSummary" : { }
+  } ],
+  "exitCode" : 1
+}

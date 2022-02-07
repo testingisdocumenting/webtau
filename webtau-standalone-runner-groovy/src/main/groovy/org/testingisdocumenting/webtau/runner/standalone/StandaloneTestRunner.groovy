@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.runner.standalone
 
 import org.testingisdocumenting.webtau.TestFile
 import org.testingisdocumenting.webtau.TestListeners
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.reporter.WebTauReportName
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
@@ -189,7 +191,11 @@ class StandaloneTestRunner {
             startTime = Time.currentTimeMillis()
             webTauTestList = new WebTauTestList()
 
-            runBeforeFirstTestListenersAsTest()
+            boolean isSetupSuccessful = runBeforeFirstTestListenersAsTest()
+            if (!isSetupSuccessful) {
+                notifySetupErrorAndSkipAllTheTests()
+                return
+            }
 
             codeToRunTests()
         } finally {
@@ -209,9 +215,20 @@ class StandaloneTestRunner {
         return webTauTestList
     }
 
-    private void runBeforeFirstTestListenersAsTest() {
+    private void notifySetupErrorAndSkipAllTheTests() {
+        registeredTests.getTestsAndExclusiveTestsStream().each { standaloneTest ->
+            handleTestAndNotifyListeners(standaloneTest) {
+                webTauTestList.add(standaloneTest.test)
+            }
+        }
+
+        ConsoleOutputs.out(Color.RED, "Setup has failed, skipping all the tests")
+        ConsoleOutputs.out()
+    }
+
+    private boolean runBeforeFirstTestListenersAsTest() {
         if (isReplMode && isBeforeFirstRan) {
-            return
+            return true
         }
 
         def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
@@ -223,6 +240,8 @@ class StandaloneTestRunner {
         registerIfFailedOrHasSteps(beforeFirstTestAsTest)
 
         isBeforeFirstRan = true
+
+        return beforeFirstTestAsTest.isSucceeded()
     }
 
     private void runAfterAllTestListenersAsTest() {

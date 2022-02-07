@@ -1,0 +1,1 @@
+* Skip all the tests if [before fist test setup](groovy-standalone-runner/test-listeners) has failed

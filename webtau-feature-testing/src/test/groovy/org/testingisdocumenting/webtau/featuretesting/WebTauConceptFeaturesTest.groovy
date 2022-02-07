@@ -61,6 +61,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "setup fail all tests skip"() {
+        runCli('setupFailSkipTests.groovy', 'webtau-setup-fail-skip.cfg.groovy')
+    }
+
+    @Test
     void "run selected tests only"() {
         runCli('runOnlySelected.groovy', 'webtau.cfg.groovy')
     }
