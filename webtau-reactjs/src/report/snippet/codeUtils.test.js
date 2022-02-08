@@ -28,7 +28,7 @@ const tokens = [
   ' Test2 ',
   { type: 'punctuation', content: '{' },
   '\n',
-  { type: 'comment', content: '/*another \n comment line \nend of comment */' },
+  { type: 'comment', content: '/*another comment line end of comment */' },
   '\n    ',
   { type: 'keyword', content: 'var' },
   ' a  ',
@@ -166,6 +166,37 @@ describe('codeUtils', () => {
           ' ',
           { type: 'punctuation', content: '{' },
         ],
+      ]);
+    });
+
+    it('splits multi line comment into separate lines', () => {
+      const tokens = parseCode(
+        'java',
+        `  /** hello
+  multi line
+  comment
+  */
+
+class MyClass {
+}
+`
+      );
+      const lines = splitTokensIntoLines(tokens);
+
+      expect(lines).toEqual([
+        ['  ', { type: 'comment', content: '/** hello' }],
+        [{ type: 'comment', content: '  multi line' }],
+        [{ type: 'comment', content: '  comment' }],
+        [{ type: 'comment', content: '  */' }],
+        [],
+        [
+          { type: 'keyword', content: 'class' },
+          ' ',
+          { type: 'class-name', content: 'MyClass' },
+          ' ',
+          { type: 'punctuation', content: '{' },
+        ],
+        [{ type: 'punctuation', content: '}' }],
       ]);
     });
   });
