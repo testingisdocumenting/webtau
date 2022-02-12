@@ -6,16 +6,16 @@
       "numberOfSuccessful" : 1
     }
   }, {
-    "scenario" : "open browser",
-    "shortContainerId" : "dragAndDrop.groovy",
-    "stepsSummary" : {
-      "numberOfSuccessful" : 2
-    }
-  }, {
     "scenario" : "drag and drop on element",
     "shortContainerId" : "dragAndDrop.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "drag and drop by offset",
+    "shortContainerId" : "dragAndDrop.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
     }
   } ],
   "exitCode" : 0

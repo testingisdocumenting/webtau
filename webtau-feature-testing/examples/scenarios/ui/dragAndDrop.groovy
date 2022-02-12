@@ -18,17 +18,26 @@ package scenarios.ui
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-scenario("open browser") {
-    browser.open("/drag-and-drop-jquery")
-}
-
 scenario("drag and drop on element") {
-    // drag-and-drop
+    browser.reopen("/drag-and-drop-jquery")
+
+    // drag-and-drop-over
     def draggable = $("#draggable")
     def dropZone = $("#drop-zone")
 
     draggable.dragAndDropOver(dropZone)
-    // drag-and-drop
+    // drag-and-drop-over
+
+    $("#drop-zone").waitTo == "Dropped"
+}
+
+scenario("drag and drop by offset") {
+    browser.reopen("/drag-and-drop-jquery")
+
+    // drag-and-drop-by
+    def draggable = $("#draggable")
+    draggable.dragAndDropBy(50, 50)
+    // drag-and-drop-by
 
     $("#drop-zone").waitTo == "Dropped"
 }
