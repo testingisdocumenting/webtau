@@ -33,10 +33,13 @@ Generic way to set a form element value. Will be covered more in [forms](browser
 # Drag And Drop
 
 :include-file: scenarios/ui/dragAndDrop.groovy {
-  title: "drag element to other",
-  startLine: "// drag-and-drop",
-  endLine: "// drag-and-drop",
-  excludeStartEnd: true
+  title: "drag element over element",
+  surroundedBy: "// drag-and-drop-over"
+}
+
+:include-file: scenarios/ui/dragAndDrop.groovy {
+  title: "drag element by offset",
+  surroundedBy: "// drag-and-drop-by"
 }
 
 # Scrolling

@@ -33,6 +33,8 @@ import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHa
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 
 import java.util.*;
 import java.util.function.Function;
@@ -245,10 +247,18 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public void dragAndDropOver(PageElement pageElement) {
-        execute(tokenizedMessage(action("dragging")).add(pathDescription).add(OVER).add(pageElement.locationDescription()),
-                () -> tokenizedMessage(action("dropped")).add(pathDescription).add(OVER).add(pageElement.locationDescription()),
-                () -> dragAndDropOverStep(pageElement));
+    public void dragAndDropOver(PageElement target) {
+        execute(tokenizedMessage(action("dragging")).add(pathDescription).add(OVER).add(target.locationDescription()),
+                () -> tokenizedMessage(action("dropped")).add(pathDescription).add(OVER).add(target.locationDescription()),
+                () -> dragAndDropOverStep(target));
+    }
+
+    @Override
+    public void dragAndDropBy(int offsetX, int offsetY) {
+        execute(tokenizedMessage(action("dragging")).add(pathDescription),
+                aMapOf("offsetX", offsetX, "offsetY", offsetY),
+                () -> tokenizedMessage(action("dropped")).add(pathDescription),
+                () -> dragAndDropByStep(offsetX, offsetY));
     }
 
     @Override
@@ -450,7 +460,20 @@ public class GenericPageElement implements PageElement {
     private void execute(TokenizedMessage inProgressMessage,
                          Supplier<TokenizedMessage> completionMessageSupplier,
                          Runnable action) {
-        createAndExecuteStep(inProgressMessage, completionMessageSupplier,
+        execute(inProgressMessage, Collections.emptyMap(), completionMessageSupplier, action);
+    }
+
+    private void execute(TokenizedMessage inProgressMessage,
+                         Map<String, Object> stepInputData,
+                         Supplier<TokenizedMessage> completionMessageSupplier,
+                         Runnable action) {
+        WebTauStepInput stepInput = stepInputData.isEmpty() ?
+                WebTauStepInput.EMPTY :
+                WebTauStepInputKeyValue.stepInput(stepInputData);
+
+        createAndExecuteStep(inProgressMessage,
+                stepInput,
+                completionMessageSupplier,
                 () -> repeatForStaleElement(() -> {
                     action.run();
                     return null;
@@ -517,6 +540,14 @@ public class GenericPageElement implements PageElement {
 
         Actions actions = new Actions(driver);
         actions.dragAndDrop(source, target).build().perform();
+    }
+
+    private void dragAndDropByStep(int offsetX, int offsetY) {
+        WebElement source = findElement();
+        ensureNotNullElement(source, "drag source");
+
+        Actions actions = new Actions(driver);
+        actions.dragAndDropBy(source, offsetX, offsetY).build().perform();
     }
 
     private void ensureNotNullElement(WebElement element, String actionLabel) {

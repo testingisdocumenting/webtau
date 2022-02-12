@@ -68,7 +68,8 @@ public interface PageElement extends
     void hover();
     void clear();
 
-    void dragAndDropOver(PageElement pageElement);
+    void dragAndDropOver(PageElement target);
+    void dragAndDropBy(int offsetX, int offsetY);
 
     /**
      * uses command on mac os x, and control on other OSes
