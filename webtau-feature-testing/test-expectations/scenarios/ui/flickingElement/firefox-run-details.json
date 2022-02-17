@@ -6,13 +6,19 @@
       "numberOfSuccessful" : 1
     }
   }, {
-    "scenario" : "flicking element text handling",
+    "scenario" : "text",
     "shortContainerId" : "flickingElement.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
     }
   }, {
-    "scenario" : "flicking element visible handling",
+    "scenario" : "visible",
+    "shortContainerId" : "flickingElement.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 11
+    }
+  }, {
+    "scenario" : "count",
     "shortContainerId" : "flickingElement.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 11
