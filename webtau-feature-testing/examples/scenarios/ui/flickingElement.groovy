@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,17 +19,26 @@ package scenarios.ui
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-def el = $('#flicking-text')
+def flickingText = $('#flicking-text')
 
-scenario('flicking element text handling') {
-    browser.open('/flicking-element')
-    el.waitTo == 'done'
+scenario('text') {
+    browser.reopen('/flicking-element')
+    flickingText.waitTo == 'done'
 }
 
-scenario('flicking element visible handling') {
-    browser.open('/flicking-element')
+scenario('visible') {
+    browser.reopen('/flicking-element')
 
     10.times {
-        el.waitTo beVisible()
+        flickingText.waitTo beVisible()
+    }
+}
+
+scenario('count') {
+    browser.reopen('/flicking-element-collection')
+
+    def collection = $(".entry").get(~/e5/)
+    10.times {
+        collection.count.waitToBe > 0
     }
 }

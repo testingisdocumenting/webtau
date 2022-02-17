@@ -1,0 +1,1 @@
+* Fix: proper handling of `element.count` stale element Selenium exception 

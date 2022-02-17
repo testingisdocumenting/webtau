@@ -428,8 +428,10 @@ public class GenericPageElement implements PageElement {
     }
 
     private Integer getNumberOfElements() {
-        List<WebElement> webElements = path.find(driver);
-        return webElements.size();
+        return getValueForStaleElement(() -> {
+            List<WebElement> webElements = path.find(driver);
+            return webElements.size();
+        }, -1);
     }
 
     private PageElementValueFetcher<Integer> fetchIntElementPropertyFunc(String prop) {
