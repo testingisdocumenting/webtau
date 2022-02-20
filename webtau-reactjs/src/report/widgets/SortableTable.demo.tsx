@@ -16,11 +16,20 @@
  */
 
 import React from 'react';
-import { SortableTable } from './SortableTable';
+import { SortableTable, TableRow, TableValuesRenderer } from './SortableTable';
 import { Registry } from 'react-component-viewer';
 
 export function sortableTableDemo(registry: Registry) {
-  registry.add('no title', () => <SortableTable header={header()} data={data()} />);
+  registry
+    .add('no title', () => <SortableTable header={header()} data={data()} />)
+    .add('with expand', () => (
+      <SortableTable
+        header={header()}
+        data={data()}
+        renderer={renderer()}
+        rowKeyProvider={(row) => row[0].toString()}
+      />
+    ));
 }
 
 function header() {
@@ -29,7 +38,19 @@ function header() {
 
 function data() {
   return [
-    ['value a1', 20, 40],
-    ['value a2', 30, 50],
+    ['value a1', 20, 40, 'extra details one'],
+    ['value a2', 30, 50, 'extra details two'],
   ];
+}
+
+function renderer(): TableValuesRenderer {
+  return {
+    canBeExpanded() {
+      return true;
+    },
+
+    expandedRowRenderer(row: TableRow) {
+      return <div>{row[3]}</div>;
+    },
+  };
 }
