@@ -59,7 +59,7 @@ function keyProvider(row: TableRow): string {
 }
 
 function cellRenderer(columnName: string, value: TableCellType): JSX.Element {
-  if (columnName === 'Total Elapsed Time' || columnName == 'Elapsed Time') {
+  if (columnName === 'Total Elapsed Time' || columnName === 'Elapsed Time') {
     return <ElapsedTime millis={value as number} />;
   }
 
