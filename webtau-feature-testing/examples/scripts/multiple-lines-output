@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "hello"
+for idx in {1..50}
+do
+    echo $idx
+    sleep 0.1
+done
