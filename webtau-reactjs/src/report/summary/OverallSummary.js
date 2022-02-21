@@ -68,7 +68,7 @@ export default class OverallSummary extends React.Component {
         />
       );
     } else if (selectedTabName === testsPerformanceTabName) {
-      return <TestsPerformance report={report} />;
+      return <TestsPerformance tests={report.tests} />;
     } else if (selectedTabName === overallHttpPerformanceTabName) {
       return <OverallHttpPerformance report={report} />;
     } else if (selectedTabName === httpOperationsPerformanceTabName) {

@@ -35,3 +35,9 @@
 .webtau-sortable-table .column-with-indicator {
     display: flex;
 }
+
+.webtau-sorted-table-row-toggle {
+    width: var(--webtau-spacing-double);
+    cursor: pointer;
+    user-select: none;
+}
