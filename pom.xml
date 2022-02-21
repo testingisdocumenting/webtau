@@ -294,7 +294,7 @@
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
-                <version>5.1.0</version>
+                <version>4.4.3</version>
             </dependency>
 
             <dependency>
@@ -588,7 +588,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>7.0.2.Final</version>
+                <version>6.2.2.Final</version>
                 <exclusions>
                     <exclusion>
                         <groupId>javax.validation</groupId>
@@ -600,13 +600,13 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>6.0.0.CR1</version>
+                <version>5.6.5.Final</version>
             </dependency>
 
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>31.0.1-jre</version>
+                <version>29.0-jre</version>
             </dependency>
 
             <dependency>
