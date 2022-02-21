@@ -21,6 +21,7 @@ import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.TestListener
 import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
+import org.testingisdocumenting.webtau.app.cfg.WebTauNumberOfThreadsConfigHandler
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
 import org.testingisdocumenting.webtau.GroovyRunner
 import org.testingisdocumenting.webtau.app.cfg.WebTauCliArgsConfig
@@ -169,7 +170,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     }
 
     private void runTests() {
-        def numThreads = WebTauGroovyCliArgsConfigHandler.getNumberOfThreads()
+        def numThreads = WebTauNumberOfThreadsConfigHandler.getNumberOfThreads()
         if (numThreads > 1 || numThreads == -1) {
             runner.runTestsInParallel(numThreads)
         } else {
