@@ -191,7 +191,7 @@ class WebTauCliFeaturesTest {
 
     @Test
     void "parallel cli run execution"() {
-        runCli('parallel', 'webtau.parallel.cfg.groovy', "--numberOfThreads=-1")
+        runCli('parallel', 'webtau.parallel.cfg.groovy', "--parallel")
     }
 
     private static void runCli(String cliTestName, String configFileName, String... additionalArgs) {
