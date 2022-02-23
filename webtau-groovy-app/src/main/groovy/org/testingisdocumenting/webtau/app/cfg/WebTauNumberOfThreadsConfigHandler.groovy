@@ -26,12 +26,19 @@ class WebTauNumberOfThreadsConfigHandler implements WebTauConfigHandler {
             "number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files",
             { -> 1 })
 
+    private static final ConfigValue parallel = ConfigValue.declareBoolean("parallel",
+            "run tests in parallel using numberOfThreads equals to number of files", false)
+
     @Override
     Stream<ConfigValue> additionalConfigValues() {
-        return [numberOfThreads].stream()
+        return [numberOfThreads, parallel].stream()
     }
 
     static int getNumberOfThreads() {
+        if (numberOfThreads.isDefault()) {
+            return parallel.getAsBoolean() ? -1 : 1
+        }
+
         return numberOfThreads.getAsInt()
     }
 }
