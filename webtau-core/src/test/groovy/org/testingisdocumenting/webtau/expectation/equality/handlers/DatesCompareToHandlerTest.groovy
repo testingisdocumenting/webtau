@@ -20,15 +20,16 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 import org.junit.Test
 
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
-class DateAndStringCompareToHandlerTest {
+class DatesCompareToHandlerTest {
     @Test
     void "handles local date and zoned data time as expected and string as actual"() {
-        def handler = new DateAndStringCompareToHandler()
+        def handler = new DatesCompareToHandler()
         assert handler.handleEquality("2018-06-10", LocalDate.of(1, 1, 1))
         assert handler.handleEquality("2018-06-10", ZonedDateTime.of(2018, 10, 3,
             1, 1, 1, 1, ZoneId.of("UTC")))
@@ -133,5 +134,26 @@ class DateAndStringCompareToHandlerTest {
         } should throwException(~/cannot parse xyz
 available formats:
 .+/)
+    }
+
+    @Test
+    void "should compare local date against local date time"() {
+        def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4)
+        def withDate = LocalDate.of(2022, 3, 16)
+
+        actual(withTime).should(equal(withDate))
+    }
+
+    @Test
+    void "should report mismatch during local date against local date time"() {
+        def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4)
+        def withDate = LocalDate.of(2022, 4, 16)
+
+        code {
+            actual(withTime).should(equal(withDate))
+        } should throwException("\nmismatches:\n" +
+                "\n" +
+                "[value]:   actual: 2022-03-16T10:04:04 <java.time.LocalDateTime>\n" +
+                "         expected: 2022-04-16 <java.time.LocalDate>")
     }
 }
