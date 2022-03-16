@@ -22,10 +22,7 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.TypeUtils;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
@@ -38,7 +35,7 @@ import java.util.stream.Collectors;
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
 import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
 
-public class DateAndStringCompareToHandler implements CompareToHandler {
+public class DatesCompareToHandler implements CompareToHandler {
     private static final ZoneId UTC = ZoneId.of("UTC");
 
     private static final List<FormatParser> parsers = Arrays.asList(
@@ -68,9 +65,14 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
     }
 
     private boolean handle(Object actual, Object expected) {
-        return TypeUtils.isString(actual) && (expected instanceof LocalDate ||
-                expected instanceof ZonedDateTime ||
-                expected instanceof Instant) ;
+        return (TypeUtils.isString(actual) || isTime(actual)) && isTime(expected);
+    }
+
+    private boolean isTime(Object v) {
+        return v instanceof LocalDate ||
+                v instanceof LocalDateTime ||
+                v instanceof ZonedDateTime ||
+                v instanceof Instant;
     }
 
     private class Comparator {
@@ -90,7 +92,9 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
         }
 
         void compare() {
-            if (actual instanceof LocalDate && expected instanceof LocalDate) {
+            if (actual instanceof LocalDateTime && expected instanceof LocalDate) {
+                compareLocalDateTimeAndLocalDate((LocalDateTime) actual, (LocalDate) expected);
+            } else if (actual instanceof LocalDate && expected instanceof LocalDate) {
                 compareLocalDates((LocalDate) actual, (LocalDate) expected);
             } else if (actual instanceof ZonedDateTime && expected instanceof Instant) {
                 compareZonedDateTimeAndInstant((ZonedDateTime) actual, (Instant) expected);
@@ -102,6 +106,10 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
                 throw new UnsupportedOperationException("combination is not supported:\n" +
                         renderActualExpected(actual, expected));
             }
+        }
+
+        private void compareLocalDateTimeAndLocalDate(LocalDateTime actual, LocalDate expected) {
+            report(actual.toLocalDate().compareTo(expected), renderActualExpected(actual, expected));
         }
 
         private void compareZonedDateTimes(ZonedDateTime actual, ZonedDateTime expected) {
@@ -128,15 +136,19 @@ public class DateAndStringCompareToHandler implements CompareToHandler {
 
         private void report(int compareTo, String message) {
             if (isEqualOnly) {
-                compareToComparator.reportEqualOrNotEqual(DateAndStringCompareToHandler.this,
+                compareToComparator.reportEqualOrNotEqual(DatesCompareToHandler.this,
                         compareTo == 0, actualPath, message);
             } else {
-                compareToComparator.reportCompareToValue(DateAndStringCompareToHandler.this,
+                compareToComparator.reportCompareToValue(DatesCompareToHandler.this,
                         compareTo, actualPath, message);
             }
         }
 
         private TemporalAccessor actualToTemporalAccessor(Object actual) {
+            if (actual instanceof TemporalAccessor) {
+                return (TemporalAccessor) actual;
+            }
+
             String actualAsText = actual.toString();
 
             for (FormatParser parser: parsers) {
