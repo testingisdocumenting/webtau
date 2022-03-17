@@ -70,6 +70,8 @@ utilities
     data
     file-system
     cache
+matchers
+    universal-compare
 groovy-standalone-runner
     introduction
     data-driven-scenarios

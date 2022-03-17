@@ -24,4 +24,34 @@ class MatchersGroovyTest {
         def list = ["hello", "world"]
         list.shouldNot == ["help", "what"]
     }
+
+    @Test
+    void "string comparison example"() {
+        // string-string-example
+        def errorMessage = generateErrorMessage()
+        errorMessage.should == "insufficient disk space" // string and string equality comparison
+        // string-string-example
+    }
+
+    @Test
+    void "number and string example"() {
+        // string-number-example
+        def numberAsText = "200"
+        numberAsText.shouldBe > 150 // text and number relative comparison
+        // string-number-example
+    }
+
+    @Test
+    void "bean and map example"() {
+        // bean-map-example
+        def account = new Account("ac1", "My Account", "test account")
+        account.should == [
+                id: "ac1",
+                name: "My Account"] // only specified properties will be compared
+        // bean-map-example
+    }
+
+    private static String generateErrorMessage() {
+        return "insufficient disk space"
+    }
 }
