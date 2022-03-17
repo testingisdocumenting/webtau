@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +36,7 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
             return false;
         }
 
-        return ((Map) o).keySet().stream().allMatch(k -> k instanceof String);
+        return ((Map<?, Object>) o).keySet().stream().allMatch(k -> k instanceof String);
     }
 
     private boolean isBean(Object o) {

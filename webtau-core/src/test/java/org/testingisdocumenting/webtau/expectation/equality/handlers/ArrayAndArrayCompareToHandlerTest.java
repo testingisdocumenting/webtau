@@ -27,8 +27,8 @@ public class ArrayAndArrayCompareToHandlerTest {
     public void shouldHandleOnlyArrays() {
         ArrayAndArrayCompareToHandler handler = new ArrayAndArrayCompareToHandler();
 
-        int a[] = {1, 2, 3};
-        Boolean b[] = {true, false};
+        int[] a = {1, 2, 3};
+        Boolean[] b = {true, false};
 
         actual(handler.handleEquality(a, a)).should(equal(true));
         actual(handler.handleEquality(a, b)).should(equal(true));
@@ -36,24 +36,24 @@ public class ArrayAndArrayCompareToHandlerTest {
 
     @Test
     public void shouldCompareArraysOfPrimitive() {
-        int a[] = {1, 2, 3};
-        int b[] = {1, 2, 3};
+        int[] a = {1, 2, 3};
+        int[] b = {1, 2, 3};
 
         actual(a).should(equal(b));
     }
 
     @Test
     public void shouldDetectDifferenceWhenCompareArraysOfPrimitive() {
-        int a[] = {1, 2, 3};
-        int b[] = {1, 7, 3};
+        int[] a = {1, 2, 3};
+        int[] b = {1, 7, 3};
 
         code(() -> actual(a).should(equal(b))).should(throwException(Pattern.compile("expected: 7")));
     }
 
     @Test
     public void shouldCompareElementsOfDifferentType() {
-        int a[] = {1, 2, 3};
-        long b[] = {1L, 2L, 3L};
+        int[] a = {1, 2, 3};
+        long[] b = {1L, 2L, 3L};
 
         actual(a).should(equal(b));
     }
