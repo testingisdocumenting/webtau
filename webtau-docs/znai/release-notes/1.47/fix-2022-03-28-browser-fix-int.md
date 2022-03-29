@@ -1,0 +1,1 @@
+* Fix: browser fetch int value fails on newer browsers 

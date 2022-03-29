@@ -444,10 +444,14 @@ public class GenericPageElement implements PageElement {
             return null;
         }
 
-        Long scrollTop = (Long) ((JavascriptExecutor) driver).executeScript(
+        Object value = ((JavascriptExecutor) driver).executeScript(
                 "return arguments[0]." + prop + ";", elements.get(0));
+        if (value instanceof Long) {
+            Long scrollTop = (Long) value;
+            return Math.toIntExact(scrollTop);
+        }
 
-        return Math.toIntExact(scrollTop);
+        return ((Double) value).intValue();
     }
 
     private void setValueBasedOnType(Object value) {
