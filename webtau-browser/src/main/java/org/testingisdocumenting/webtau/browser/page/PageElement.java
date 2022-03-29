@@ -68,8 +68,15 @@ public interface PageElement extends
     void hover();
     void clear();
 
-    void dragAndDropOver(PageElement target);
-    void dragAndDropBy(int offsetX, int offsetY);
+    void dragAndDropOver(PageElement target, Runnable beforeDrop);
+    default void dragAndDropOver(PageElement target) {
+        dragAndDropOver(target, () -> {});
+    }
+
+    void dragAndDropBy(int offsetX, int offsetY, Runnable beforeDrop);
+    default void dragAndDropBy(int offsetX, int offsetY) {
+        dragAndDropBy(offsetX, offsetY, () -> {});
+    }
 
     /**
      * uses command on mac os x, and control on other OSes

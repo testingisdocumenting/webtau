@@ -247,18 +247,18 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public void dragAndDropOver(PageElement target) {
+    public void dragAndDropOver(PageElement target, Runnable beforeDrop) {
         execute(tokenizedMessage(action("dragging")).add(pathDescription).add(OVER).add(target.locationDescription()),
                 () -> tokenizedMessage(action("dropped")).add(pathDescription).add(OVER).add(target.locationDescription()),
-                () -> dragAndDropOverStep(target));
+                () -> dragAndDropOverStep(target, beforeDrop));
     }
 
     @Override
-    public void dragAndDropBy(int offsetX, int offsetY) {
+    public void dragAndDropBy(int offsetX, int offsetY, Runnable beforeDrop) {
         execute(tokenizedMessage(action("dragging")).add(pathDescription),
                 aMapOf("offsetX", offsetX, "offsetY", offsetY),
                 () -> tokenizedMessage(action("dropped")).add(pathDescription),
-                () -> dragAndDropByStep(offsetX, offsetY));
+                () -> dragAndDropByStep(offsetX, offsetY, beforeDrop));
     }
 
     @Override
@@ -533,7 +533,7 @@ public class GenericPageElement implements PageElement {
         builtAction.perform();
     }
 
-    private void dragAndDropOverStep(PageElement over) {
+    private void dragAndDropOverStep(PageElement over, Runnable beforeDrop) {
         WebElement source = findElement();
         ensureNotNullElement(source, "drag source");
 
@@ -544,7 +544,7 @@ public class GenericPageElement implements PageElement {
         actions.dragAndDrop(source, target).build().perform();
     }
 
-    private void dragAndDropByStep(int offsetX, int offsetY) {
+    private void dragAndDropByStep(int offsetX, int offsetY, Runnable beforeDrop) {
         WebElement source = findElement();
         ensureNotNullElement(source, "drag source");
 
