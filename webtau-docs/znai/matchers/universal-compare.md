@@ -45,4 +45,30 @@ Java:
 
 :include-file: org/testingisdocumenting/webtau/Account.java { surroundedBy: "account", title: "Account Bean" }
 
+# Dates
 
+Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. 
+
+```tabs
+Groovy: 
+:include-groovy: org/testingisdocumenting/webtau/expectation/equality/handlers/DatesCompareToHandlerGroovyExamplesTest.groovy {
+    title: "text and date",
+    entry: [
+        "actual local date string greater than expected local date instance",
+        "actual zoned date time string greater than expected local date instance",
+        "should compare local date against local date time"],
+    bodyOnly: true,
+    commentsType: "inline"
+}
+
+Java:
+:include-groovy: org/testingisdocumenting/webtau/expectation/equality/handlers/DatesCompareToHandlerJavaExamplesTest.java {
+    title: "text and date",
+    entry: [
+        "actualLocalDateStringGreaterThanExpectedLocalDateInstance", 
+        "actualZonedDateTimeStringGreaterThanExpectedLocalDateInstance",
+        "shouldCompareLocalDateAgainstLocalDateTime"],
+    bodyOnly: true,
+    commentsType: "inline"
+}
+ ``` 
