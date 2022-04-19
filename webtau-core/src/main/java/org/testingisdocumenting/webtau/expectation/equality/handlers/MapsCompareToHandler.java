@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,19 +33,19 @@ public class MapsCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
-        Map<?, ?> actualMap = (Map) actual;
-        Map<?, ?> expectedMap = (Map) expected;
+        Map<?, ?> actualMap = (Map<?, ?>) actual;
+        Map<?, ?> expectedMap = (Map<?, ?>) expected;
 
         Comparator comparator = new Comparator(compareToComparator, actualPath, actualMap, expectedMap);
         comparator.compare();
     }
 
     private class Comparator {
-        private CompareToComparator compareToComparator;
-        private ActualPath actualPath;
-        private Map<?, ?> actualMap;
-        private Map<?, ?> expectedMap;
-        private Set<Object> allKeys;
+        private final CompareToComparator compareToComparator;
+        private final ActualPath actualPath;
+        private final Map<?, ?> actualMap;
+        private final Map<?, ?> expectedMap;
+        private final Set<Object> allKeys;
 
         Comparator(CompareToComparator compareToComparator, ActualPath actualPath, Map<?, ?> actualMap, Map<?, ?> expectedMap) {
             this.compareToComparator = compareToComparator;
