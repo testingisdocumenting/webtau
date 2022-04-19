@@ -36,11 +36,6 @@ class DatesCompareToHandlerTest {
     }
 
     @Test
-    void "actual local date string greater than expected local date instance"() {
-        actual("2018-06-10").shouldBe(greaterThan(LocalDate.of(2018, 6, 9)))
-    }
-
-    @Test
     void "actual local date gstring greater than expected local date instance"() {
         def month = '06'
         actual("2018-${month}-10").shouldBe(greaterThan(LocalDate.of(2018, 6, 9)))
@@ -59,11 +54,6 @@ class DatesCompareToHandlerTest {
             "\n" +
             "[value]:   actual: 2018-06-10 <java.time.LocalDate>\n" +
             "         expected: 2018-06-09 <java.time.LocalDate>")
-    }
-
-    @Test
-    void "actual zoned date time string greater than expected local date instance"() {
-        actual("2018-01-02T00:00:00Z").shouldBe(greaterThan(LocalDate.of(2018, 1, 1)))
     }
 
     @Test
@@ -134,14 +124,6 @@ class DatesCompareToHandlerTest {
         } should throwException(~/cannot parse xyz
 available formats:
 .+/)
-    }
-
-    @Test
-    void "should compare local date against local date time"() {
-        def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4)
-        def withDate = LocalDate.of(2022, 3, 16)
-
-        actual(withTime).should(equal(withDate))
     }
 
     @Test
