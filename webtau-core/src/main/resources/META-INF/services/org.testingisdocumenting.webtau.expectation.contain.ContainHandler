@@ -15,4 +15,5 @@
 #
 
 org.testingisdocumenting.webtau.expectation.contain.handlers.StringContainHandler
+org.testingisdocumenting.webtau.expectation.contain.handlers.MapContainHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.LiveValueContainHandler
