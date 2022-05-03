@@ -116,6 +116,7 @@
         <module>webtau-cli-groovy</module>
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
+        <module>webtau-termui</module>
         <module>webtau-groovy-app</module>
         <module>webtau-repl</module>
         <module>webtau-reactjs</module>
