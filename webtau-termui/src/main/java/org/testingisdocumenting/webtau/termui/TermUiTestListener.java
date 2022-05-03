@@ -44,6 +44,10 @@ public class TermUiTestListener implements TestListener {
 
     @Override
     public void afterAllTests() {
+        if (!TermUiConfig.isTermUiEnabled()) {
+            return;
+        }
+
         termUi.stop();
     }
 }
