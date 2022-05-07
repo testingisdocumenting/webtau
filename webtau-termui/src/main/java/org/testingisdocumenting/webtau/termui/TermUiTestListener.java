@@ -37,6 +37,10 @@ public class TermUiTestListener implements TestListener {
 
     @Override
     public void afterTestRun(WebTauTest test) {
+        if (!TermUiConfig.isTermUiEnabled()) {
+            return;
+        }
+
         termUi.updateTest(test);
     }
 
