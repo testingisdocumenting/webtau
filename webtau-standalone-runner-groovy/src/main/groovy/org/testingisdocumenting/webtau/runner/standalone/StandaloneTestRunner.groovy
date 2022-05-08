@@ -187,11 +187,22 @@ class StandaloneTestRunner {
 
     void resetAndWithListeners(Closure codeToRunTests) {
         isTerminated.set(false)
+
+        def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
+        def afterAllTestsAsTest = createAfterAllTestListenersAsTest()
+
         try {
             startTime = Time.currentTimeMillis()
             webTauTestList = new WebTauTestList()
 
-            boolean isSetupSuccessful = runBeforeFirstTestListenersAsTest()
+            def allTestsToNotifyAbout = [
+                    beforeFirstTestAsTest.test,
+                    *getTests().collect { it.test },
+                    afterAllTestsAsTest.test]
+
+            TestListeners.afterTestsRegistration(allTestsToNotifyAbout)
+
+            boolean isSetupSuccessful = runBeforeFirstTestListenersAsTest(beforeFirstTestAsTest)
             if (!isSetupSuccessful) {
                 notifySetupErrorAndSkipAllTheTests()
                 return
@@ -200,7 +211,7 @@ class StandaloneTestRunner {
             codeToRunTests()
         } finally {
             endTime = Time.currentTimeMillis()
-            runAfterAllTestListenersAsTest()
+            runAfterAllTestListenersAsTest(afterAllTestsAsTest)
 
             report = new WebTauReport(new WebTauReportName(cfg.getReportName(), cfg.getReportNameUrl()),
                     webTauTestList, startTime, endTime)
@@ -226,12 +237,10 @@ class StandaloneTestRunner {
         ConsoleOutputs.out()
     }
 
-    private boolean runBeforeFirstTestListenersAsTest() {
+    private boolean runBeforeFirstTestListenersAsTest(StandaloneTest beforeFirstTestAsTest) {
         if (isReplMode && isBeforeFirstRan) {
             return true
         }
-
-        def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
 
         handleTestAndNotifyListeners(beforeFirstTestAsTest) {
             beforeFirstTestAsTest.run()
@@ -244,12 +253,10 @@ class StandaloneTestRunner {
         return beforeFirstTestAsTest.isSucceeded()
     }
 
-    private void runAfterAllTestListenersAsTest() {
+    private void runAfterAllTestListenersAsTest(StandaloneTest afterAllTestsAsTest) {
         if (isReplMode) {
             return
         }
-
-        def afterAllTestsAsTest = createAfterAllTestListenersAsTest()
 
         handleTestAndNotifyListeners(afterAllTestsAsTest) {
             afterAllTestsAsTest.run()
