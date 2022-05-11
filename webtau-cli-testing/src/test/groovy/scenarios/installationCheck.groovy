@@ -32,3 +32,14 @@ scenario('validates cli argument is listed') {
         exitCode.should == 1
     }
 }
+
+scenario('validate generation of examples') {
+    webtauCli.run('--example') {
+        output.should contain("examples/todo")
+        output.should contain("examples/graphql")
+    }
+
+    fs.textContent('examples/todo/todolist.groovy').should contain('scenario')
+
+    webtauCli.run('todolist.groovy', cli.workingDir("examples/todo"))
+}

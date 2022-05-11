@@ -48,6 +48,7 @@
 }
 
 .test-details > .tabs-details-area {
+    overflow: auto;
 }
 
 .test-details > .detail-area {

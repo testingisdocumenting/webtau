@@ -1,0 +1,1 @@
+* Fix: report light theme HTTP response match color  

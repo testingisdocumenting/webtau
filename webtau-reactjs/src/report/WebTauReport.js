@@ -35,7 +35,10 @@ import { HttpCallDetails } from './details/http/HttpCallDetails';
 import StatusEnum from './StatusEnum';
 
 import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload';
+import { WebtauPoweredBy } from './powered-and-theme/WebtauPoweredBy';
 
+import './webtau-dark.css';
+import './webtau-light.css';
 import './WebTauReport.css';
 
 class WebTauReport extends Component {
@@ -67,6 +70,15 @@ class WebTauReport extends Component {
           />
         </div>
 
+        <div className="status-filter-area">
+          <StatusFilter
+            summary={this.summary}
+            onTitleClick={this.onHeaderTitleClick}
+            selectedStatusFilter={statusFilter}
+            onStatusSelect={this.onEntriesStatusSelect}
+          />
+        </div>
+
         <div className="search-area">
           <DebounceInput
             value={filterText}
@@ -81,13 +93,8 @@ class WebTauReport extends Component {
 
         <div className="test-details-area">{this.renderDetailsArea()}</div>
 
-        <div className="status-filter-area">
-          <StatusFilter
-            summary={this.summary}
-            onTitleClick={this.onHeaderTitleClick}
-            selectedStatusFilter={statusFilter}
-            onStatusSelect={this.onEntriesStatusSelect}
-          />
+        <div className="znai-powered-and-theme-area">
+          <WebtauPoweredBy report={report} />
         </div>
 
         {this.renderPayloadPopup()}

@@ -16,6 +16,15 @@ Test your application across multiple layers:
 * Database
 * Business Logic (JVM only)
 
+[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
+```groovy
+scenario("check weather") {
+    http.get("/weather") {
+        temperature.shouldBe < 100
+    }
+}
+```
+
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
 to validate GraphQL API.
 
@@ -39,15 +48,6 @@ Tests can be written in any JVM language. Language specific syntactic sugar is a
 * [Multiple layers testing example blog](https://testingisdocumenting.org/blog/entry/ultimate-end-to-end-test)
 
 --------
-
-[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
-```groovy
-scenario("check weather") {
-    http.get("/weather") {
-        temperature.shouldBe < 100
-    }
-}
-```
 
 [Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
 ```java

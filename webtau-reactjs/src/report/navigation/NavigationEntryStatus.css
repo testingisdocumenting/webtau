@@ -19,17 +19,17 @@
 }
 
 .navigation-entry-status.failed {
-    color: #f88c27;
+    color: var(--webtau-navitation-entry-errored-color);
 }
 
 .navigation-entry-status.errored {
-    color: #f88c27;
+    color: var(--webtau-navitation-entry-errored-color);
 }
 
 .navigation-entry-status.passed {
-    color: #65bc0c;
+    color: var(--webtau-navitation-entry-passed-color);
 }
 
 .navigation-entry-status.skipped {
-    color: #ddd;
+    color: var(--webtau-navitation-entry-skipped-color);
 }

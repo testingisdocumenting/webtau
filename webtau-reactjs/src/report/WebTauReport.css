@@ -23,64 +23,25 @@
     --webtau-spacing-tripple: calc(var(--webtau-spacing-half-as-number) * 6px);
     --webtau-spacing-quadruple: calc(var(--webtau-spacing-half-as-number) * 8px);
 
-    --webtau-text-color: #bbb;
-    --webtau-text-light-color: #888;
-    --webtau-inversed-text-color: #333;
-    --webtau-background-color: #1e2529;
-    --webtau-selection-background-color: #272f33;
+    --webtau-monospace-font: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
 
-    --webtau-report-name-text-color: #8baac7;
+::-webkit-scrollbar {
+    width: 7px;
+    height: 5px;
+}
 
-    --webtau-panels-border-color: #1c2023;
+::-webkit-scrollbar-thumb {
+    background: var(--webtau-scrollbar-thumb);
+}
 
-    --webtau-search-background-color: #191f22;
-
-    --webtau-table-body-background-color: #1e2529;
-    --webtau-table-header-background-color: var(--webtau-selection-background-color);
-    --webtau-table-border-color: #474950;
-
-    --webtau-tabs-background-color: #24282a;
-    --webtau-tabs-text-color: #888;
-    --webtau-tabs-selected-text-color: #aaa;
-
-    --webtau-card-background-color: var(--webtau-selection-background-color);
-    --webtau-card-border-color: none;
-    --webtau-card-list-border-color: var(--webtau-background-color);
-    --webtau-card-shadow: 0 0 0 1px rgba(16, 22, 26, 0.4), 0 0 0 rgba(16, 22, 26, 0), 0 0 0 rgba(16, 22, 26, 0);
-    --webtau-card-warning-background-color: #dcbe5a;
-    --webtau-card-warning-shadow: 0 1px 2px 0 rgba(252, 164, 0, 0.05);
-    --webtau-card-time-color: #a5a5a5;
-    --webtau-card-date-color: #909090;
-    --webtau-card-number-color: #ccc;
-    --webtau-card-label-color: #969ba7;
-    --webtau-card-width: 170px;
-    --webtau-card-padding: var(--webtau-spacing-double);
-    --webtau-card-height: 120px;
-
-    --webtau-test-group-label-color: #bbb;
-    --webtau-test-group-label-background-color: #3b4348;
-    --webtau-report-name-area-background-color: #272f33;
-    --webtau-test-status-filter-background-color: #3e474b;
-    --webtau-selected-test-background: #111;
-    --webtau-selected-test-border-color: #000;
-
-    --webtau-list-items-color: #ddd;
-
-    --webtau-code-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    --webtau-source-code-background-color: #181e21;
-
-    --webtau-match-color: #eee;
-    --webtau-match-background-color: rgba(57, 215, 40, 0.2);
-    --webtau-table-row-problem-background-color: rgba(219, 17, 23, 0.2);
-
-    --webtau-property-key-color: #8c4e99;
-    --webtau-property-value-string-color: #5e853c;
-    --webtau-property-value-number-color: #8984ef;
-
-    --webtau-monospace-font: CentSchbook Mono BT, Bitstream Vera Sans Mono, monofont, monospace;
+::-webkit-scrollbar-track {
+    background: none;
 }
 
 body {
+    margin: 0;
+    padding: 0;
     font-size: 14px;
     font-family: Helvetica, sans-serif
 }
@@ -88,12 +49,13 @@ body {
 .report {
     display: grid;
     grid-template-columns: 350px 1fr;
-    grid-template-rows: auto 37px 1fr 30px;
+    grid-template-rows: auto 30px 30px 1fr 24px;
 
     grid-template-areas: "selection details"
+                         "   status details"
                          "   search details"
                          "     list details"
-                         "   status details";
+                         "    theme details";
 
     color: var(--webtau-text-color);
     background-color: var(--webtau-background-color);
@@ -107,18 +69,20 @@ body {
 
     background-color: var(--webtau-report-name-area-background-color);
     padding: var(--webtau-spacing);
+    border-right: 1px solid var(--webtau-panels-border-color);
     border-bottom: 1px solid var(--webtau-panels-border-color);
 }
 
 .report > .search-area {
     grid-area: search;
     background-color: var(--webtau-selection-background-color);
+    border-right: 1px solid var(--webtau-panels-border-color);
 }
 
 .search-area input {
     font-size: 14px;
     background-color: var(--webtau-search-background-color);
-    color: #ddd;
+    color: var(--webtau-search-text-color);
 
     width: 100%;
     height: 100%;
@@ -152,4 +116,8 @@ body {
     color: #eee;
     background-color: var(--webtau-test-status-filter-background-color);
     border-right: 1px solid var(--webtau-panels-border-color);
+}
+
+.report > .znai-powered-and-theme-area {
+    grid-area: theme;
 }

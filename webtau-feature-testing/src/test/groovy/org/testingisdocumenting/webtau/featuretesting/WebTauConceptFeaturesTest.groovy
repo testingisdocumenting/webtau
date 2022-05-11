@@ -61,6 +61,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "setup fail all tests skip"() {
+        runCli('setupFailSkipTests.groovy', 'webtau-setup-fail-skip.cfg.groovy')
+    }
+
+    @Test
     void "run selected tests only"() {
         runCli('runOnlySelected.groovy', 'webtau.cfg.groovy')
     }
@@ -118,6 +123,16 @@ class WebTauConceptFeaturesTest {
     @Test
     void "repeat step"() {
         runCli('repeatStep.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "trace"() {
+        runCli('trace.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "step group"() {
+        runCli('stepGroup.groovy', 'webtau.cfg.groovy')
     }
 
     @Test

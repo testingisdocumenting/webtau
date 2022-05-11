@@ -1,0 +1,1 @@
+* Add `trace` core method to report values to console and web report 

@@ -1,0 +1,1 @@
+* Fix: report HTTP warning call color in light theme

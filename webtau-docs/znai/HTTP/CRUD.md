@@ -32,6 +32,6 @@ If you don't have an explicit `statusCode` validation it will be automatically v
 
 After your test executions a report will be produced.
 
-:include-image: doc-artifacts/reports/report-crud-http-calls.png {fit: true}
+:include-image: doc-artifacts/reports/report-crud-http-calls.png {fit: true, annotate: false}
 
 Note: asserted values are being tracked and highlighted inside the report 

@@ -200,6 +200,7 @@ export const withCliDataReport = {
       disabled: false,
       cliCalls: [
         {
+          personaId: 'Alice',
           command: 'scripts/simple',
           out: 'welcome to my script\nversion: 12.43.2\n\n\n',
           err: '',
@@ -210,7 +211,9 @@ export const withCliDataReport = {
           elapsedTime: 25,
           mismatches: [],
           errorMessage: null,
-          config: {},
+          config: {
+            $MY_VAR: 'my-value',
+          },
         },
       ],
       cliBackground: [
@@ -295,6 +298,7 @@ export const withCliDataReport = {
         'java.lang.AssertionError: \nprocess output expect to contain "versian:"\nprocess output: mismatches:\n                \n                process output[0]:    actual string: welcome to my script\n                                   expected pattern: \\Qversian:\\E\n                process output[1]:    actual string: version: 12.43.2\n                                   expected pattern: \\Qversian:\\E\n\tat scenarios.cli.errorRuns$_run_closure1$_closure3.doCall(errorRuns.groovy:7)\n\tat scenarios.cli.errorRuns$_run_closure1$_closure3.doCall(errorRuns.groovy)\n\tat scenarios.cli.errorRuns$_run_closure1.doCall(errorRuns.groovy:6)\n\tat scenarios.cli.errorRuns$_run_closure1.doCall(errorRuns.groovy)',
       cliCalls: [
         {
+          personaId: 'Alice',
           command: 'scripts/simple',
           out: 'welcome to my script\nversion: 12.43.2',
           err: '',
@@ -384,6 +388,7 @@ export const withCliDataReport = {
         'org.testingisdocumenting.webtau.cli.CliException: error during running \'scripts/simplo\'\n\tat scenarios.cli.errorRuns$_run_closure2.doCall(errorRuns.groovy:12)\n\tat scenarios.cli.errorRuns$_run_closure2.doCall(errorRuns.groovy)\nCaused by: java.io.IOException: Cannot run program "scripts/simplo": error=2, No such file or directory\nCaused by: java.io.IOException: error=2, No such file or directory',
       cliCalls: [
         {
+          personaId: 'Alice',
           command: 'scripts/simplo',
           out: '',
           err: '',
@@ -442,6 +447,7 @@ export const withCliDataReport = {
 
 export const withRestDataReport = {
   version: '1.4',
+  name: 'my report name',
   summary: {
     total: 5,
     passed: 3,
@@ -504,8 +510,8 @@ export const withRestDataReport = {
           responseBody:
             '{\n  "id" : 1,\n  "firstName" : "FN",\n  "lastName" : "LN",\n  "_links" : {\n    "self" : {\n      "href" : "http://localhost:8080/customers/1"\n    },\n    "customer" : {\n      "href" : "http://localhost:8080/customers/1"\n    }\n  }\n}',
           responseBodyChecks: {
-            failedPaths: [],
-            passedPaths: ['root.firstName', 'root.lastName'],
+            failedPaths: ['root.lastName'],
+            passedPaths: ['root.firstName'],
           },
         },
       ],
@@ -841,6 +847,13 @@ export const withRestDataReport = {
       startTime: 1534456916784,
       elapsedTime: 32,
       exceptionMessage: 'error calling something',
+      failedCodeSnippets: [
+        {
+          filePath: 'scenarios/rest/jsonSchema/validateSchema.groovy',
+          lineNumbers: [1],
+          snippet: 'let a = 2\nlet b = 3',
+        },
+      ],
       httpCalls: [
         {
           id: '3',

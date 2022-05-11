@@ -16,17 +16,46 @@
 
 package org.testingisdocumenting.webtau.cache
 
+import org.junit.AfterClass
+import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
 
-import static org.testingisdocumenting.webtau.Matchers.code
-import static org.testingisdocumenting.webtau.Matchers.throwException
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
+import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.cache.Cache.cache
 
 class CacheTest {
+    static Path cachePath
+
+    @BeforeClass
+    static void init() {
+        cachePath = Files.createTempDirectory("webtau-cache")
+        WebTauConfig.getCfg().getCachePathValue().set("test", cachePath)
+    }
+
+    @AfterClass
+    static void cleanup() {
+        cachePath.deleteDir()
+    }
+
     @Test
     void "should throw assertion error when accessing value that is not present"() {
         code {
             cache.get("non-existing-cache-key")
         } should throwException("can't find cached value by key: non-existing-cache-key")
+    }
+
+    @Test
+    void "should convert Path to string and back"() {
+        def cachedValue = cache.value("path-to-string")
+        cachedValue.set(Paths.get("dir-name"))
+
+        cachedValue.get().should == ~/dir-name/
+        (cachedValue.getAsPath() instanceof Path).should == true
+        cachedValue.getAsPath().fileName.should == 'dir-name'
     }
 }

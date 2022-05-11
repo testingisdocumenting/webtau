@@ -1,0 +1,17 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "scroll into view using non existing element",
+    "shortContainerId" : "scrollsNoElement.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2,
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

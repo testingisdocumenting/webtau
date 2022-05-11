@@ -19,7 +19,7 @@ import React from 'react';
 import './KeyValueGrid.css';
 
 interface Props {
-  data: { [key: string]: object };
+  data: { [key: string]: string | number };
   parentClassName?: string;
   keyClassName?: string;
   valueClassName?: string;
@@ -38,7 +38,7 @@ export function KeyValueGrid({
         return (
           <React.Fragment key={key}>
             <div className={keyClassName}>{key}</div>
-            <div className={valueClassName + ' ' + valueClassifierClassName(value)}>{value}</div>
+            <div className={valueClassName + ' ' + valueClassifierClassName(value)}>{renderValue(value)}</div>
           </React.Fragment>
         );
       })}
@@ -52,4 +52,12 @@ function valueClassifierClassName(value: any) {
   }
 
   return 'number';
+}
+
+function renderValue(value: any) {
+  if (typeof value === 'string' || typeof value === 'number') {
+    return value;
+  }
+
+  return JSON.stringify(value);
 }

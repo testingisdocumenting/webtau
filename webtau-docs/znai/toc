@@ -41,6 +41,11 @@ browser
     page-open-handlers
     finders-and-filters
     matchers
+servers
+    introduction
+    static-server
+    proxy-server
+    fake-server
 cli
     introduction
     foreground-command
@@ -54,6 +59,9 @@ database
     data-setup
     data-query
     config
+report
+    introduction
+    steps
 REPL
     experiments
     test-runs
@@ -62,6 +70,9 @@ utilities
     data
     file-system
     cache
+matchers
+    universal-compare
+    custom-compare-to-handler
 groovy-standalone-runner
     introduction
     data-driven-scenarios
@@ -83,4 +94,5 @@ JVM-business-logic
 reference
     table-data
 release-notes
+    2022
     2021

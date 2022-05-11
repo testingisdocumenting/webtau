@@ -10,3 +10,12 @@ scenario("wait for output") {
 
     command.stop()
 }
+
+scenario("wait for output with local timeout") {
+    def command = cli.runInBackground("scripts/sleeps")
+    // local-timeout
+    command.output.waitTo(contain("line two"), 20_000)
+    // local-timeout
+
+    command.stop()
+}

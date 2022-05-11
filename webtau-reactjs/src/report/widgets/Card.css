@@ -22,7 +22,7 @@
 }
 
 .webtau-card.warning {
-    color: var(--webtau-inversed-text-color);
+    color: var(--webtau-card-warning-text-color);
     background-color: var(--webtau-card-warning-background-color);
     box-shadow: var(--webtau-card-warning-shadow);
 }

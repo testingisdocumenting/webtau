@@ -19,7 +19,7 @@
     justify-content: space-between;
     align-items: center;
 
-    color: #aaa;
+    color: var(--webtau-test-status-filter-text-color);
     font-size: 12px;
 
     height: 100%;
@@ -32,6 +32,6 @@
 }
 
 .test-summary.selected {
-    color: #eee;
+    color: var(--webtau-test-status-filter-selected-text-color);
     font-weight: bold;
 }

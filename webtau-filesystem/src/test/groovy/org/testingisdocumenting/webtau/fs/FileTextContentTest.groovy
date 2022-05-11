@@ -38,4 +38,10 @@ class FileTextContentTest {
             textContent.extractByRegexp("ID=([^&]+)")
         } should throwException(~/can't find content to extract using regexp </)
     }
+
+    @Test
+    void "non existing file should return null"() {
+        def textContent = new FileTextContent(Paths.get("non_existing_file_"))
+        textContent.getData().should == null
+    }
 }

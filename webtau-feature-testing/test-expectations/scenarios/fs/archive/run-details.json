@@ -3,7 +3,13 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "zip",
+    "shortContainerId" : "archive.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "unzip",

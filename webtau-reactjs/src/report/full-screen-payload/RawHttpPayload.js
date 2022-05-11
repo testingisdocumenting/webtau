@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,96 +15,80 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import ClipboardJS from 'clipboard'
+import ClipboardJS from 'clipboard';
 
-import Prism from 'prismjs'
+import { SourceCode } from '../snippet/SourceCode';
 
-import 'prismjs/components/prism-json'
-import 'prismjs/plugins/line-highlight/prism-line-highlight'
-
-import 'prismjs/themes/prism.css'
-import 'prismjs/plugins/line-highlight/prism-line-highlight.css'
-
-import './RawHttpPayload.css'
+import './RawHttpPayload.css';
 
 export default class RawHttpPayload extends React.Component {
-    state = { displayCopied: false }
+  state = { displayCopied: false };
 
-    render() {
-        const {payload} = this.props
-        const {displayCopied} = this.state
+  render() {
+    const { payload } = this.props;
+    const { displayCopied } = this.state;
 
-        const copyToClipboardText = displayCopied ? 'Copied' : 'Copy to clipboard'
-        const copyToClipboardClassName = 'raw-http-payload-copy-to-clipboard' +
-            (displayCopied ? ' copied' : '')
+    const copyToClipboardText = displayCopied ? 'Copied' : 'Copy to clipboard';
+    const copyToClipboardClassName = 'raw-http-payload-copy-to-clipboard' + (displayCopied ? ' copied' : '');
 
-        return (
-            <div className="raw-http-payload">
-                <div className={copyToClipboardClassName} ref={this.saveCopyToClipboardNode}>
-                    {copyToClipboardText}
-                </div>
+    return (
+      <div className="raw-http-payload">
+        <div className={copyToClipboardClassName} ref={this.saveCopyToClipboardNode}>
+          {copyToClipboardText}
+        </div>
 
-                <pre className="language-json">
-                    <code>
-                        {payload}
-                    </code>
-                </pre>
-            </div>
-        )
+        <SourceCode snippet={payload} lang="json" />
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    this.setupClipboard();
+  }
+
+  componentWillUnmount() {
+    this.clearTimer();
+    this.destroyClipboard();
+  }
+
+  saveCopyToClipboardNode = (node) => {
+    this.copyToClipboardNode = node;
+  };
+
+  setupClipboard() {
+    const { payload } = this.props;
+
+    if (!this.copyToClipboardNode) {
+      return;
     }
 
-    componentDidMount() {
-        Prism.highlightAll()
-        this.setupClipboard()
+    this.clipboard = new ClipboardJS(this.copyToClipboardNode, {
+      text: () => {
+        this.setState({ displayCopied: true });
+        this.startRemoveFeedbackTimer();
+
+        return payload;
+      },
+    });
+  }
+
+  destroyClipboard() {
+    if (this.clipboard) {
+      this.clipboard.destroy();
     }
+  }
 
-    componentDidUpdate() {
-        Prism.highlightAll()
+  startRemoveFeedbackTimer() {
+    this.removeFeedbackTimer = setTimeout(() => {
+      this.setState({ displayCopied: false });
+    }, 1000);
+  }
+
+  clearTimer() {
+    if (this.removeFeedbackTimer) {
+      clearTimeout(this.removeFeedbackTimer);
     }
-
-    componentWillUnmount() {
-        this.clearTimer()
-        this.destroyClipboard()
-    }
-
-    saveCopyToClipboardNode = (node) => {
-        this.copyToClipboardNode = node
-    }
-
-    setupClipboard() {
-        const {payload} = this.props
-
-        if (! this.copyToClipboardNode) {
-            return
-        }
-
-        this.clipboard = new ClipboardJS(this.copyToClipboardNode, {
-            text: trigger => {
-                this.setState({displayCopied: true})
-                this.startRemoveFeedbackTimer()
-
-                return payload
-            }
-        })
-    }
-
-    destroyClipboard() {
-        if (this.clipboard) {
-            this.clipboard.destroy()
-        }
-    }
-
-    startRemoveFeedbackTimer() {
-        this.removeFeedbackTimer = setTimeout(() => {
-            this.setState({displayCopied: false})
-        }, 1000)
-    }
-
-    clearTimer() {
-        if (this.removeFeedbackTimer) {
-            clearTimeout(this.removeFeedbackTimer)
-        }
-    }
+  }
 }

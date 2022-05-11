@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.server;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
-import org.testingisdocumenting.webtau.server.journal.WebtauServerJournal;
+import org.testingisdocumenting.webtau.server.registry.WebtauServerJournal;
 
 public interface WebtauServer extends AutoCloseable {
     String getId();
@@ -41,6 +41,10 @@ public interface WebtauServer extends AutoCloseable {
 
     default void setAsBaseUrl() {
         WebTauConfig.getCfg().setBaseUrl("server-" + getId(), getBaseUrl());
+    }
+
+    default boolean autoAddToJournal() {
+        return true;
     }
 
     @Override

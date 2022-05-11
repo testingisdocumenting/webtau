@@ -3,13 +3,13 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 5
+      "numberOfSuccessful" : 6
     }
   }, {
     "scenario" : "static content server",
     "shortContainerId" : "staticContent.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 11
+      "numberOfSuccessful" : 16
     }
   }, {
     "scenario" : "slow down",

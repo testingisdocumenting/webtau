@@ -20,11 +20,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.tools.ant.Task;
 import org.testingisdocumenting.webtau.ant.UntarTask;
 import org.testingisdocumenting.webtau.ant.UnzipTask;
+import org.testingisdocumenting.webtau.ant.ZipTask;
 import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
 import org.testingisdocumenting.webtau.utils.RegexpUtils.ReplaceResultWithMeta;
 
@@ -33,7 +31,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.*;
 import java.util.function.BiFunction;
 import java.util.regex.Pattern;
 
@@ -44,39 +42,57 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 public class FileSystem {
     public static final FileSystem fs = new FileSystem();
 
+    private final List<Path> filesToDelete = Collections.synchronizedList(new ArrayList<>());
+
     private FileSystem() {
     }
 
+    public void zip(Path src, Path dest) {
+        antTaskStep("zipping", "zipped", ZipTask::new, src, dest);
+    }
+
+    public void zip(String src, String dest) {
+        zip(getCfg().fullPath(src), getCfg().fullPath(dest));
+    }
+
+    public void zip(Path src, String dest) {
+        zip(src, getCfg().fullPath(dest));
+    }
+
+    public void zip(String src, Path dest) {
+        zip(getCfg().fullPath(src), dest);
+    }
+
     public void unzip(Path src, Path dest) {
-        unArchive("unzipping", "unzipped", UnzipTask::new, src, dest);
+        antTaskStep("unzipping", "unzipped", UnzipTask::new, src, dest);
     }
 
     public void unzip(String src, Path dest) {
-        unzip(Paths.get(src), dest);
+        unzip(getCfg().fullPath(src), dest);
     }
 
     public void unzip(String src, String dest) {
-        unzip(Paths.get(src), Paths.get(dest));
+        unzip(getCfg().fullPath(src), getCfg().fullPath(dest));
     }
 
     public void untar(Path src, Path dest) {
-        unArchive("untarring", "untarred", UntarTask::new, src, dest);
+        antTaskStep("untarring", "untarred", UntarTask::new, src, dest);
     }
 
     public void untar(String src, Path dest) {
-        untar(Paths.get(src), dest);
+        untar(getCfg().fullPath(src), dest);
     }
 
     public void untar(String src, String dest) {
-        untar(Paths.get(src), Paths.get(dest));
+        untar(getCfg().fullPath(src), getCfg().fullPath(dest));
     }
 
     public void copy(String src, Path dest) {
-        copy(Paths.get(src), dest);
+        copy(getCfg().fullPath(src), dest);
     }
 
     public void copy(String src, String dest) {
-        copy(Paths.get(src), Paths.get(dest));
+        copy(getCfg().fullPath(src), getCfg().fullPath(dest));
     }
 
     public void copy(Path src, Path dest) {
@@ -98,11 +114,11 @@ public class FileSystem {
     }
 
     public boolean exists(String path) {
-        return exists(Paths.get(path));
+        return exists(getCfg().fullPath(path));
     }
 
     public Path createDir(String dir) {
-        return createDir(Paths.get(dir));
+        return createDir(getCfg().fullPath(dir));
     }
 
     public Path createDir(Path dir) {
@@ -128,7 +144,7 @@ public class FileSystem {
      * @param fileOrDir path to delete
      */
     public void delete(String fileOrDir) {
-        delete(Paths.get(fileOrDir));
+        delete(getCfg().fullPath(fileOrDir));
     }
 
     /**
@@ -149,7 +165,7 @@ public class FileSystem {
     }
 
     public FileTextContent textContent(String path) {
-        return textContent(Paths.get(path));
+        return textContent(getCfg().fullPath(path));
     }
 
     public FileTextContent textContent(Path path) {
@@ -157,7 +173,7 @@ public class FileSystem {
     }
 
     public Path writeText(String path, String content) {
-        return writeText(Paths.get(path), content);
+        return writeText(getCfg().fullPath(path), content);
     }
 
     public Path writeText(Path path, String content) {
@@ -197,7 +213,7 @@ public class FileSystem {
      * @param replacement replacement string that can use captured groups e.g. $1, $2
      */
     public void replaceText(String path, String regexp, String replacement) {
-        replaceText(Paths.get(path), Pattern.compile(regexp), replacement);
+        replaceText(getCfg().fullPath(path), Pattern.compile(regexp), replacement);
     }
 
     /**
@@ -233,25 +249,96 @@ public class FileSystem {
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    /**
+     * creates temp directory with a given prefix and marks it for deletion
+     * @param prefix prefix
+     * @return path of a created directory
+     */
     public Path tempDir(String prefix) {
         return tempDir((Path) null, prefix);
     }
 
+    /**
+     * creates temp directory with a given prefix in a specified directory and marks it for deletion
+     * @param dir directory to create in
+     * @param prefix prefix
+     * @return path of a created directory
+     */
     public Path tempDir(String dir, String prefix) {
         return tempDir(getCfg().getWorkingDir().resolve(dir), prefix);
     }
 
+    /**
+     * creates temp directory with a given prefix in a specified directory and marks it for deletion
+     * @param dir directory to create in
+     * @param prefix prefix
+     * @return path of a created directory
+     */
     public Path tempDir(Path dir, String prefix) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("creating temp directory with prefix"), urlValue(prefix)),
+                tokenizedMessage(action("creating temp directory")),
                 (createdDir) -> tokenizedMessage(action("created temp directory"), urlValue(createdDir.toString())),
                 () -> createTempDir(getCfg().fullPath(dir), prefix));
+
+        Map<String, Object> stepInput = new LinkedHashMap<>();
+        if (dir != null) {
+            stepInput.put("dir", dir.toString());
+        }
+        stepInput.put("prefix", prefix);
+
+        step.setInput(WebTauStepInputKeyValue.stepInput(stepInput));
 
         return step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    private void unArchive(String action, String actionCompleted,
-                           BiFunction<Path, Path, Task> antTaskFactory, Path src, Path dest) {
+    /**
+     * creates temp file with a given prefix and suffix and marks it for deletion
+     * @param prefix prefix
+     * @param suffix suffix
+     * @return path of a created file
+     */
+    public Path tempFile(String prefix, String suffix) {
+        return tempFile((Path) null, prefix, suffix);
+    }
+
+    /**
+     * creates temp file with a given prefix and suffix in a specified directory and marks it for deletion
+     * @param dir directory to create a temp file in
+     * @param prefix prefix
+     * @param suffix suffix
+     * @return path of a created file
+     */
+    public Path tempFile(String dir, String prefix, String suffix) {
+        return tempFile(getCfg().getWorkingDir().resolve(dir), prefix, suffix);
+    }
+
+    /**
+     * creates temp file with a given prefix and suffix in a specified directory and marks it for deletion
+     * @param dir directory to create a temp file in
+     * @param prefix prefix
+     * @param suffix suffix
+     * @return path of a created file
+     */
+    public Path tempFile(Path dir, String prefix, String suffix) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("creating temp file")),
+                (generatedPath) -> tokenizedMessage(action("crated temp file path"), urlValue(generatedPath.toString())),
+                () -> createTempFilePath(getCfg().fullPath(dir), prefix, suffix));
+
+        Map<String, Object> stepInput = new LinkedHashMap<>();
+        if (dir != null) {
+            stepInput.put("dir", dir.toString());
+        }
+        stepInput.put("prefix", prefix);
+        stepInput.put("suffix", suffix);
+
+        step.setInput(WebTauStepInputKeyValue.stepInput(stepInput));
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private void antTaskStep(String action, String actionCompleted,
+                             BiFunction<Path, Path, Task> antTaskFactory, Path src, Path dest) {
         Path fullSrc = getCfg().fullPath(src);
         Path fullDest = getCfg().fullPath(dest);
 
@@ -262,8 +349,7 @@ public class FileSystem {
 
         step.execute(StepReportOptions.REPORT_ALL);
     }
-
-
+    
     private static CopyResult copyImpl(Path src, Path dest) {
         Path fullSrc = getCfg().fullPath(src);
         Path fullDest = getCfg().fullPath(dest);
@@ -286,7 +372,7 @@ public class FileSystem {
         }
     }
 
-    private static Path createTempDir(Path dir, String prefix) {
+    private Path createTempDir(Path dir, String prefix) {
         try {
             if (dir != null) {
                 Files.createDirectories(dir);
@@ -295,9 +381,26 @@ public class FileSystem {
             Path path = dir != null ? Files.createTempDirectory(dir, prefix) :
                     Files.createTempDirectory(prefix);
 
-            CleanupRegistration.registerForCleanup("deleting", "deleted", "temp dir " + path,
-                    () -> true,
-                    () -> FileUtils.deleteQuietly(path.toFile()));
+            filesToDelete.add(path);
+            LazyCleanupRegistration.INSTANCE.noOp();
+
+            return path.toAbsolutePath();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private Path createTempFilePath(Path dir, String prefix, String suffix) {
+        try {
+            if (dir != null) {
+                Files.createDirectories(dir);
+            }
+
+            Path path = dir != null ? Files.createTempFile(dir, prefix, suffix) :
+                    Files.createTempFile(prefix, suffix);
+
+            filesToDelete.add(path);
+            LazyCleanupRegistration.INSTANCE.noOp();
 
             return path.toAbsolutePath();
         } catch (IOException e) {
@@ -317,6 +420,17 @@ public class FileSystem {
         return "file";
     }
 
+    private void removeTempFiles() {
+        filesToDelete.forEach(this::deletePathStep);
+        filesToDelete.clear();
+    }
+
+    private void deletePathStep(Path path) {
+        WebTauStep.createAndExecuteStep(tokenizedMessage(action("deleting"), classifier("path"), urlValue(path)),
+                () -> tokenizedMessage(action("deleted"), classifier("path"), urlValue(path)),
+                () -> FileUtils.deleteQuietly(path.toFile()));
+    }
+
     static class CopyResult {
         private final String type;
         private final Path fullSrc;
@@ -326,6 +440,20 @@ public class FileSystem {
             this.type = type;
             this.fullSrc = fullSrc;
             this.fullDest = fullDest;
+        }
+    }
+
+    private static class LazyCleanupRegistration {
+        private static final LazyCleanupRegistration INSTANCE = new LazyCleanupRegistration();
+
+        private LazyCleanupRegistration() {
+            CleanupRegistration.registerForCleanup("removing", "removed", "temp files/dirs",
+                    () -> !fs.filesToDelete.isEmpty(),
+                    fs::removeTempFiles);
+        }
+
+        // to trigger class loading and shutdown hook registration
+        private void noOp() {
         }
     }
 }

@@ -19,6 +19,7 @@ import React from 'react';
 
 import TestCliCalls from './TestCliCalls';
 import { Registry, simulateState } from 'react-component-viewer';
+import { WebTauTest } from '../../WebTauTest';
 
 const [getUrlState, setUrlState] = simulateState({ cliCallIdxs: '0-1-2' });
 
@@ -26,10 +27,19 @@ export function testCliCallsDemo(registry: Registry) {
   registry.add('multiple cli calls', () => (
     <TestCliCalls test={createTestWithCliCalls()} urlState={getUrlState()} onInternalStateUpdate={setUrlState} />
   ));
+  registry.add('with persona', () => (
+    <TestCliCalls test={createTestWithCliCalls('Alice')} urlState={getUrlState()} onInternalStateUpdate={setUrlState} />
+  ));
 }
 
-function createTestWithCliCalls() {
+function createTestWithCliCalls(personaId?: string): WebTauTest {
   return {
+    id: 'testid',
+    containerId: '',
+    elapsedTime: 0,
+    scenario: 'my scenario',
+    startTime: 1034343434,
+    steps: [],
     cliCalls: [
       {
         command: 'ls -l',
@@ -49,6 +59,7 @@ function createTestWithCliCalls() {
         },
       },
       {
+        personaId,
         command: 'ls -lr',
         startTime: 100,
         exitCode: 2,

@@ -17,11 +17,17 @@
 .full-screen-http-payload {
     display: grid;
     grid-template-rows: auto 1fr;
+    background-color: var(--webtau-background-color);
 
     height: 100%;
 }
 
+.full-screen-http-payload .tab-names {
+    border: none;
+}
+
 .full-screen-http-payload-content {
+    background-color: var(--webtau-background-color);
     padding: var(--webtau-spacing-double);
     overflow: auto;
 }

@@ -1,0 +1,1 @@
+* Fix: proxy server captures request and response now 

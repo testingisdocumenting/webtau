@@ -154,6 +154,7 @@ class WebTauBrowserFeaturesTestBase {
                 'saveUrl.groovy': 'save url',
                 'loadUrl.groovy': 'load url',
                 'waitOnUrl.groovy': 'wait on url',
+                'backForward.groovy': 'back and forward',
         ])
     }
 
@@ -321,6 +322,11 @@ class WebTauBrowserFeaturesTestBase {
     @Test
     void "scrolling"() {
         runCli('scrolls.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "scrolling no element"() {
+        runCli('scrollsNoElement.groovy', 'webtau.cfg.groovy')
     }
 
     @Test

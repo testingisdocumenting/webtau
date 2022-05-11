@@ -127,6 +127,10 @@ public class CliCommand implements ResourceNameAware {
         return runInBackground(arg.toString(), config);
     }
 
+    public CliBackgroundCommand runInBackground(CliProcessConfig config) {
+        return runInBackground("", config);
+    }
+
     public CliBackgroundCommand runInBackground(String args, CliProcessConfig config) {
         CliBackgroundCommand backgroundCommand = new CliBackgroundCommand(fullCommand(args), config);
         backgroundCommand.run();

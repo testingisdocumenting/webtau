@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 
@@ -31,6 +32,7 @@ import java.util.Map;
 class CliProcessConfig {
     public static final CliProcessConfig SILENT = new CliProcessConfig().silent();
 
+    private final String personaId;
     private final Map<String, String> env;
     private File workingDir;
     private boolean isSilent;
@@ -43,6 +45,7 @@ class CliProcessConfig {
     }
 
     CliProcessConfig() {
+        this.personaId = Persona.getCurrentPersona().getId();
         this.env = new LinkedHashMap<>();
         CliConfig.getCliEnv().forEach((k, v) -> env.put(k, v.toString()));
     }
@@ -94,6 +97,10 @@ class CliProcessConfig {
         return timeoutSpecified;
     }
 
+    public String getPersonaId() {
+        return personaId;
+    }
+
     WebTauStepInput createStepInput() {
         Map<String, Object> input = new LinkedHashMap<>();
 
@@ -117,6 +124,8 @@ class CliProcessConfig {
 
         if (workingDir != null) {
             processBuilder.directory(workingDir);
+        } else {
+            processBuilder.directory(WebTauConfig.getCfg().getWorkingDir().toFile());
         }
     }
 
@@ -129,8 +138,7 @@ class CliProcessConfig {
             return workingDir.toFile();
         }
 
-        return WebTauConfig.getCfg().getWorkingDir()
-                .resolve(workingDir)
+        return WebTauConfig.getCfg().fullPath(workingDir)
                 .normalize()
                 .toAbsolutePath().toFile();
     }

@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import WebTauReport from './report/WebTauReport'
-import Loading from './report/loading/Loading'
-import Report from './report/Report'
+import WebTauReport from './report/WebTauReport';
+import Loading from './report/loading/Loading';
+import Report from './report/Report';
 
-import {decompressAndDecodeReportData} from './report/compression/reportDataCompression'
+import { decompressAndDecodeReportData } from './report/compression/reportDataCompression';
 
-import './index.css'
+if (process.env.NODE_ENV === 'production') {
+  const root = document.getElementById('root');
+  ReactDOM.render(<Loading />, root);
 
-if (process.env.NODE_ENV === "production") {
-    const root = document.getElementById('root')
-    ReactDOM.render(<Loading/>, root)
-
-    setTimeout(() => {
-        global.testReport = JSON.parse(decompressAndDecodeReportData(global.compressedTestReport))
-        ReactDOM.render(<WebTauReport report={new Report(global.testReport)}/>, root)
-    }, 50)
+  setTimeout(() => {
+    global.testReport = JSON.parse(decompressAndDecodeReportData(global.compressedTestReport));
+    ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, root);
+  }, 50);
 } else {
-    const {ReportComponentViewer} = require('./report/ReportComponentViewer')
-    ReactDOM.render(<ReportComponentViewer/>, document.getElementById('root'))
+  const { ReportComponentViewer } = require('./report/ReportComponentViewer');
+  ReactDOM.render(<ReportComponentViewer />, document.getElementById('root'));
 }
-

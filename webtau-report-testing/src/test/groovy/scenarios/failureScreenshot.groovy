@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +20,7 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
-scenario('http calls') {
+scenario('ui failed test screenshot') {
     report.openGroovyStandaloneReport('ui/failedAssertion-chrome-failed-webtau-report.html')
     report.selectTest('search and fail assertion')
     report.selectScreenshot()

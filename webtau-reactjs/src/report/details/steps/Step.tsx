@@ -22,9 +22,9 @@ import { Card } from '../../widgets/Card';
 import { StepMessage } from './StepMessage';
 import { StepTime } from './StepTime';
 
-import { WebTauStep, WebTauStepInput } from '../../WebTauTest';
+import { WebTauStep, WebTauStepInput, WebTauStepOutput } from '../../WebTauTest';
 
-import { StepInputKeyValue } from './StepInputKeyValue';
+import { StepInputOutputKeyValue } from './StepInputOutputKeyValue';
 
 import './Step.css';
 
@@ -49,15 +49,19 @@ export function Step({ step, isTopLevel }: Props) {
         <StepTime millis={step.elapsedTime} />
       </div>
 
-      {step.input && renderStepInput(step.input)}
+      {(step.input || step.output) && renderStepInputOutput(step.input, step.output)}
 
       {children && !collapsed && <div className="steps-children">{children}</div>}
     </ParentContainer>
   );
 
-  function renderStepInput(input: WebTauStepInput) {
-    if (input.type === 'WebTauStepInputKeyValue') {
-      return <StepInputKeyValue data={input.data} />;
+  function renderStepInputOutput(input?: WebTauStepInput, output?: WebTauStepOutput) {
+    const isInputKeyValue = input?.type === 'WebTauStepInputKeyValue';
+    const isOutputKeyValue = output?.type === 'WebTauStepOutputKeyValue';
+    if (isInputKeyValue || isOutputKeyValue) {
+      const inputData = isInputKeyValue ? input?.data : {};
+      const outputData = isOutputKeyValue ? output?.data : {};
+      return <StepInputOutputKeyValue inputData={inputData} outputData={outputData} />;
     }
   }
 

@@ -19,17 +19,44 @@ import React from 'react';
 import { Step } from './Step';
 import { Registry } from 'react-component-viewer';
 import { WebTauStep } from '../../WebTauTest';
+import { wrapInLightTheme } from '../../demoUtils';
 
 export function stepsDemo(registry: Registry) {
-  registry.add('no children', () => <Step step={noChildren()} isTopLevel={true} />);
-  registry.add('with children', () => <Step step={withChildren()} isTopLevel={true} />);
-  registry.add('rainbow', () => <Step step={rainbow()} isTopLevel={true} />);
-  registry.add('with key value input', () => <Step step={withKeyValueInput()} isTopLevel={true} />);
+  add('no children', <Step step={noChildren()} isTopLevel={true} />);
+  add('zero elapsed time', <Step step={zeroElapsedTime()} isTopLevel={true} />);
+  add('with children', <Step step={withChildren()} isTopLevel={true} />);
+  add('rainbow', <Step step={rainbow()} isTopLevel={true} />);
+  add('with key value input', <Step step={withKeyValueInput()} isTopLevel={true} />);
+  add('with key value output', <Step step={withKeyValueOutput()} isTopLevel={true} />);
+  add('with key value input output', <Step step={withKeyValueInputAndOutput()} isTopLevel={true} />);
+  add('with key value empty input output', <Step step={withKeyValueEmptyInputAndOutput()} isTopLevel={true} />);
+
+  function add(label: string, element: JSX.Element) {
+    registry.add(label + ' [dark]', () => element);
+    registry.add(label + ' [light]', wrapInLightTheme(element));
+  }
 }
 
 function noChildren() {
   return {
     elapsedTime: 200,
+    startTime: 0,
+    message: [
+      {
+        type: 'action',
+        value: 'executed HTTP GET',
+      },
+      {
+        type: 'url',
+        value: 'http://localhost:8080/customers/1',
+      },
+    ],
+  };
+}
+
+function zeroElapsedTime() {
+  return {
+    elapsedTime: 0,
     startTime: 0,
     message: [
       {
@@ -60,6 +87,10 @@ function rainbow() {
       {
         type: 'preposition',
         value: ' of',
+      },
+      {
+        type: 'id',
+        value: 'identifier',
       },
       {
         type: 'stringValue',
@@ -124,6 +155,32 @@ function withChildren(): WebTauStep {
   };
 }
 
+function withKeyValueInputAndOutput() {
+  return {
+    message: [
+      { type: 'action', value: 'set' },
+      { type: 'id', value: 'url' },
+    ],
+    startTime: 1621811973852,
+    elapsedTime: 0,
+    input: { type: 'WebTauStepInputKeyValue', data: { source: 'manual', url: 'http://localhost:64934', cost: 150 } },
+    output: { type: 'WebTauStepOutputKeyValue', data: { port: 3473 } },
+  };
+}
+
+function withKeyValueEmptyInputAndOutput() {
+  return {
+    message: [
+      { type: 'action', value: 'set' },
+      { type: 'id', value: 'url' },
+    ],
+    startTime: 1621811973852,
+    elapsedTime: 0,
+    input: { type: 'WebTauStepInputKeyValue', data: {} },
+    output: { type: 'WebTauStepOutputKeyValue', data: {} },
+  };
+}
+
 function withKeyValueInput() {
   return {
     message: [
@@ -133,5 +190,17 @@ function withKeyValueInput() {
     startTime: 1621811973852,
     elapsedTime: 0,
     input: { type: 'WebTauStepInputKeyValue', data: { source: 'manual', url: 'http://localhost:64934', cost: 150 } },
+  };
+}
+
+function withKeyValueOutput() {
+  return {
+    message: [
+      { type: 'action', value: 'set' },
+      { type: 'id', value: 'url' },
+    ],
+    startTime: 1621811973852,
+    elapsedTime: 0,
+    output: { type: 'WebTauStepOutputKeyValue', data: { port: 3473 } },
   };
 }

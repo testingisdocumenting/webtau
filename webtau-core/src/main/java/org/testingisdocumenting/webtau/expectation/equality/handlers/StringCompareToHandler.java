@@ -27,8 +27,7 @@ import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.ACTUAL_PREFIX;
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderType;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
+import static org.testingisdocumenting.webtau.utils.TraceUtils.*;
 
 public class StringCompareToHandler implements CompareToHandler {
     @Override
@@ -129,10 +128,15 @@ public class StringCompareToHandler implements CompareToHandler {
         private String renderActualExpected() {
             if (actualLines.length == 1 && expectedLines.length == 1) {
                 int indexOfFirstMismatch = indexOfFirstMismatch(actualString, expectedString);
-                return ACTUAL_PREFIX + renderValueAndType(actualString) + additionalTypeInfo(actual, actualString) + "\n" +
+
+                int assertionModePaddingSize = assertionModePaddingSize();
+                return ACTUAL_PREFIX + renderValueAndTypeWithPadding(
+                        assertionModePaddingSize,
+                        actualString) +
+                        additionalTypeInfo(actual, actualString) + "\n" +
                         expected(compareToComparator.getAssertionMode(), renderValueAndType(expectedString) +
                                 additionalTypeInfo(expected, expectedString)) +
-                        renderCaretIfRequired(ACTUAL_PREFIX, true, indexOfFirstMismatch);
+                        renderCaretIfRequired(ACTUAL_PREFIX, true, indexOfFirstMismatch + assertionModePaddingSize);
             } else {
                 return ACTUAL_PREFIX + renderType(actualString) + additionalTypeInfo(actual, actualString) + "\n" +
                         renderMultilineString(actualString) + "\n" +
@@ -140,6 +144,16 @@ public class StringCompareToHandler implements CompareToHandler {
                                 additionalTypeInfo(expected, expectedString)) +
                         renderMultilineString(expectedString);
             }
+        }
+
+        // we need to pad actual string to match number of spaces from expected assertionMode rendered
+        // to make caret that shows first mismatch aligned
+        //   actual:     "hello"
+        // expected: not "help"
+        //                   ^
+        private int assertionModePaddingSize() {
+            int modeLength = compareToComparator.getAssertionMode().getMessage().length();
+            return modeLength > 0 ? modeLength + 1 /* space */: 0;
         }
 
         private String renderFirstLineMismatch() {

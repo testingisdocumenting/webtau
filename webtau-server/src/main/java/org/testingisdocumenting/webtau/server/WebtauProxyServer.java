@@ -31,6 +31,10 @@ public class WebtauProxyServer extends WebtauJettyServer {
         this.urlToProxy = urlToProxy;
     }
 
+    public String getUrlToProxy() {
+        return urlToProxy;
+    }
+
     @Override
     public String getType() {
         return "proxy";
@@ -46,12 +50,17 @@ public class WebtauProxyServer extends WebtauJettyServer {
     }
 
     @Override
+    public boolean autoAddToJournal() {
+        return false;
+    }
+
+    @Override
     protected Handler createJettyHandler() {
+        ServletHolder proxyServletHolder = new ServletHolder(new WebtauProxyServlet(getJournal(), urlToProxy));
+        proxyServletHolder.setInitParameter("maxThreads", String.valueOf(WebtauServersConfig.getProxyMaxThreads()));
+
         ServletHandler handler = new ServletHandler();
-        ServletHolder servletHolder = handler.addServletWithMapping(WebtauProxyServlet.class, "/*");
-        servletHolder.setInitParameter("urlToProxy", urlToProxy);
-        servletHolder.setInitParameter("maxThreads", "16");
-        servletHolder.setInitParameter("serverId", serverId);
+        handler.addServletWithMapping(proxyServletHolder, "/*");
 
         return handler;
     }

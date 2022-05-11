@@ -43,3 +43,30 @@
 .table th {
     padding: 0.75rem;
 }
+
+.webtau-method-cell {
+    color: var(--webtau-text-light-color);
+    text-align: right;
+    margin-right: 15px;
+}
+
+.webtau-status-code-cell {
+    color: var(--webtau-property-key-color);
+    margin-right: var(--webtau-spacing-double);
+    text-align: right;
+}
+
+.webtau-url-cell {
+    color: var(--webtau-url-color);
+    max-width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: var(--webtau-spacing-double);
+    cursor: auto;
+}
+
+.expanded  > .webtau-url-cell {
+    white-space: normal;
+    overflow: visible;
+}

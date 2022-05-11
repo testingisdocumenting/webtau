@@ -52,6 +52,7 @@ public class CliForegroundCommand {
 
     private CliRunResult cliStep(String command, CliProcessConfig config, Consumer<CliValidationResult> validationCode) {
         CliValidationResult validationResult = new CliValidationResult(command);
+        validationResult.setConfig(config);
 
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("running cli command "), stringValue(command)),
@@ -79,8 +80,6 @@ public class CliForegroundCommand {
             long startTime = System.currentTimeMillis();
             ProcessRunResult runResult = ProcessUtils.run(command, config);
             long endTime = System.currentTimeMillis();
-
-            validationResult.setConfig(config);
 
             if (!runResult.isTimeOut()) {
                 validationResult.setExitCode(exitCode(runResult.getExitCode()));

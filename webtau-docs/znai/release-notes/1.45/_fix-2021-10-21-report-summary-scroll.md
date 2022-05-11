@@ -1,0 +1,1 @@
+* Fix: report extra scroll bar on overall summary screen
