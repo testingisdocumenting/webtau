@@ -42,6 +42,10 @@ public class TestListeners {
         }
     }
 
+    public static void afterTestsRegistration(List<WebTauTest> tests) {
+        listenersToUse().forEach(listener -> listener.afterTestsRegistration(tests));
+    }
+
     public static void beforeTestRun(WebTauTest test) {
         listenersToUse().forEach(listener -> listener.beforeTestRun(test));
     }

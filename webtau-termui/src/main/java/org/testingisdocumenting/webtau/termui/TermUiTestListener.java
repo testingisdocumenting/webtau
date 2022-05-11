@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.termui;
 import org.testingisdocumenting.webtau.TestListener;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 
+import java.util.List;
+
 public class TermUiTestListener implements TestListener {
     private final TermUi termUi = TermUi.INSTANCE;
 
@@ -31,23 +33,27 @@ public class TermUiTestListener implements TestListener {
 
     @Override
     public void beforeTestRun(WebTauTest test) {
-        if (!TermUiConfig.isTermUiEnabled()) {
-            return;
-        }
-
-        termUi.registerTest(test);
     }
 
     @Override
     public void afterTestRun(WebTauTest test) {
-    }
-
-    @Override
-    public void afterAllTests() {
         if (!TermUiConfig.isTermUiEnabled()) {
             return;
         }
 
-        termUi.stop();
+        termUi.updateTest(test);
+    }
+
+    @Override
+    public void afterTestsRegistration(List<WebTauTest> tests) {
+        if (!TermUiConfig.isTermUiEnabled()) {
+            return;
+        }
+
+        tests.forEach(termUi::registerTest);
+    }
+
+    @Override
+    public void afterAllTests() {
     }
 }

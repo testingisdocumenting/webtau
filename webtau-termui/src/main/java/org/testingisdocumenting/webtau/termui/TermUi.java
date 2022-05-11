@@ -16,26 +16,32 @@
 
 package org.testingisdocumenting.webtau.termui;
 
-import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
+import com.googlecode.lanterna.gui2.table.Table;
+import com.googlecode.lanterna.gui2.table.TableModel;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.apache.commons.lang3.StringUtils;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.reporter.TestStatus;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Arrays;
-
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TermUi {
     public static final TermUi INSTANCE = new TermUi();
 
     private MultiWindowTextGUI gui;
-    private ActionListBox listBox;
     private boolean isStarted;
     private BasicWindow window;
+    private Table<Object> table;
+
+    private final Map<String, Integer> rowIdxByTestId = new HashMap<>();
 
     public void start() {
         try {
@@ -47,15 +53,43 @@ public class TermUi {
     }
 
     public void stop() {
-        gui.waitForWindowToClose(window);
     }
 
-    public void registerTest(WebTauTest test) {
+    synchronized public void registerTest(WebTauTest test) {
         if (!isStarted) {
             start();
         }
 
-        listBox.addItem(test.getScenario(), () -> {});
+        TableModel<Object> model = table.getTableModel();
+        int lastIdx = model.getRowCount();
+        model.addRow(padStatus(""), test.getShortContainerId(), test.getScenario());
+
+        rowIdxByTestId.put(test.getId(), lastIdx);
+    }
+
+    synchronized public void updateTest(WebTauTest test) {
+        TableModel<Object> model = table.getTableModel();
+
+        Integer rowIdx = rowIdxByTestId.get(test.getId());
+
+        model.setCell(0, rowIdx, padStatus(statusToText(test.getTestStatus())));
+    }
+
+    private String statusToText(TestStatus testStatus) {
+        switch (testStatus) {
+            case Failed:
+                return Color.RED + "Failed" + FontStyle.NORMAL;
+            case Errored:
+                return Color.RED + "Errored" + FontStyle.NORMAL;
+            case Passed:
+                return Color.GREEN + "Passed" + FontStyle.NORMAL;
+        }
+
+        return testStatus.toString();
+    }
+
+    private String padStatus(String status) {
+        return StringUtils.leftPad(status, 8);
     }
 
     private void registerComponents() throws IOException {
@@ -68,26 +102,18 @@ public class TermUi {
         window = new BasicWindow("My Root Window");
         window.setHints(Arrays.asList(Window.Hint.FULL_SCREEN, Window.Hint.NO_DECORATIONS));
 
-        Panel contentPanel = new Panel(new GridLayout(2));
+        Panel contentPanel = new Panel(new GridLayout(1));
 
-        GridLayout gridLayout = (GridLayout)contentPanel.getLayoutManager();
-        gridLayout.setHorizontalSpacing(3);
-
-        TermUiWebtauStep step = new TermUiWebtauStep(TokenizedMessage.tokenizedMessage(
-                action("action"), OF, stringValue("hello world")));
-
-        Panel stepsPanel = new Panel(new LinearLayout());
-        stepsPanel.addComponent(step);
-        stepsPanel.setFillColorOverride(TextColor.ANSI.BLACK);
-
-        listBox = new ActionListBox();
-
-        contentPanel.addComponent(listBox);
-        contentPanel.addComponent(stepsPanel);
+        table = new Table<>("State", "Group", "Scenario");
+        table.setTableCellRenderer(new TermUiTestsTableCellRenderer());
+        table.setPreferredSize(screen.getTerminalSize());
+        contentPanel.addComponent(table);
 
         window.setComponent(contentPanel);
 
-        ((AsynchronousTextGUIThread)gui.getGUIThread()).start();
+        AsynchronousTextGUIThread guiThread = (AsynchronousTextGUIThread) gui.getGUIThread();
         gui.addWindow(window);
+
+        guiThread.start();
     }
 }

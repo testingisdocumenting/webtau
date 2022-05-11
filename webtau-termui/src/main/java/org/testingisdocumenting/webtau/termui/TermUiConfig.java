@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
 
 public class TermUiConfig implements WebTauConfigHandler {
-    static final ConfigValue termUi = declare("termui", "enable terminal UI to monitor tests", () -> false);
+    static final ConfigValue termUi = declare("termui", "enable terminal UI to monitor tests (experimental)", () -> false);
 
     public static boolean isTermUiEnabled() {
         return termUi.getAsBoolean();
