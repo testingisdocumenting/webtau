@@ -25,10 +25,11 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class CsvUtils {
     private CsvUtils() {
@@ -39,7 +40,7 @@ public class CsvUtils {
     }
 
     public static List<Map<String, Object>> parseWithAutoConversion(String content) {
-        return convertValues(parse(content));
+        return convertValues(NumberFormat.getNumberInstance(), parse(content));
     }
 
     public static List<Map<String, String>> parse(Collection<String> header, String content) {
@@ -59,7 +60,8 @@ public class CsvUtils {
     }
 
     public static List<Map<String, Object>> parseWithAutoConversion(List<String> header, String content) {
-        return convertValues(parse(header, content));
+        return convertValues(NumberFormat.getNumberInstance(),
+                parse(header, content));
     }
 
     public static String serialize(List<Map<String, Object>> rows) {
@@ -123,19 +125,19 @@ public class CsvUtils {
         return row;
     }
 
-    private static List<Map<String, Object>> convertValues(List<Map<String, String>> data) {
-        return data.stream().map(CsvUtils::convertRecord).collect(toList());
+    private static List<Map<String, Object>> convertValues(NumberFormat numberFormat, List<Map<String, String>> data) {
+        return data.stream().map((e) -> convertRecord(numberFormat, e)).collect(toList());
     }
 
-    private static Map<String, Object> convertRecord(Map<String, String> row) {
+    private static Map<String, Object> convertRecord(NumberFormat numberFormat, Map<String, String> row) {
         Map<String, Object> entry = new LinkedHashMap<>();
-        row.forEach((k, v) -> entry.put(k, convertValue(v)));
+        row.forEach((k, v) -> entry.put(k, convertValue(numberFormat, v)));
 
         return entry;
     }
 
-    private static Object convertValue(Object v) {
+    private static Object convertValue(NumberFormat numberFormat, Object v) {
         String s = v.toString();
-        return StringUtils.isNumeric(s) ? StringUtils.convertToNumber(s) : s;
+        return StringUtils.isNumeric(numberFormat, s) ? StringUtils.convertToNumber(numberFormat, s) : s;
     }
 }
