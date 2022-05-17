@@ -92,6 +92,7 @@
                                         <exclude>org.openqa.selenium.**</exclude>
                                         <exclude>org.mozilla.**</exclude>
                                         <exclude>org.xml.sax.**</exclude>
+                                        <exclude>org.asynchttpclient.**</exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>
