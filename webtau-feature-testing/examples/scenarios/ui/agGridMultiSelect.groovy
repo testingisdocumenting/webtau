@@ -18,8 +18,8 @@ package scenarios.ui
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-def rows = $('[role="rowgroup"] .ag-row')
-def selectedRows = $('[role="rowgroup"] .ag-row-selected')
+def rows = $('[role="rowgroup"]:not(.ag-hidden) .ag-row')
+def selectedRows = $('[role="rowgroup"]:not(.ag-hidden) .ag-row-selected')
 
 scenario('open grid') {
     browser.open('/ag-grid-multi-select')
