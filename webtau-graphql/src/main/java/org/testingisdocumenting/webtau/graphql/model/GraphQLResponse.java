@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.graphql.model;
 
-import org.checkerframework.checker.nullness.Opt;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
