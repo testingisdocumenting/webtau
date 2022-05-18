@@ -17,16 +17,25 @@
 package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @WebTau
-public class WeatherJavaTest {
+public class BrowserLocalStorageJavaTest {
     @Test
-    public void checkWeather() {
-        http.get("/weather", (header, body) -> {
-            body.get("temperature").shouldBe(lessThan(100));
-        });
+    public void modifyLocalStorage() {
+        browser.open("/local-storage");
+        browser.localStorage.setItem("favoriteColor", "clean");
+
+        PageElement color = $("#favorite-color");
+
+        browser.reopen("/local-storage");
+        color.should(equal("clean"));
+
+        browser.localStorage.clear();
+        browser.reopen("/local-storage");
+        color.should(equal(""));
     }
 }

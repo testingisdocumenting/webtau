@@ -22,11 +22,15 @@ import org.testingisdocumenting.webtau.junit5.WebTau;
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @WebTau
-public class WeatherJavaTest {
+public class BrowserCookieJavaTest {
     @Test
-    public void checkWeather() {
-        http.get("/weather", (header, body) -> {
-            body.get("temperature").shouldBe(lessThan(100));
-        });
+    public void modifyCookies() {
+        browser.open("/cookies");
+
+        browser.cookies.add("cookie-a", "hello");
+        browser.cookies.add("cookie-b", "world");
+
+        browser.reopen("/cookies");
+        $("#cookies").should(equal("cookie-a=hello; cookie-b=world"));
     }
 }

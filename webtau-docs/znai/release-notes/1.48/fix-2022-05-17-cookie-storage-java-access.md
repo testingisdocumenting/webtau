@@ -1,0 +1,1 @@
+* Fix: Java access modifier to [Cookies](browser/cookies) and [Local Storage](browser/local-storage)
