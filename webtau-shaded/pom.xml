@@ -67,6 +67,17 @@
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <shadedClassifierName>all</shadedClassifierName>
 
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+
                             <relocations>
                                 <relocation>
                                     <pattern>org.</pattern>
@@ -81,6 +92,7 @@
                                         <exclude>org.openqa.selenium.**</exclude>
                                         <exclude>org.mozilla.**</exclude>
                                         <exclude>org.xml.sax.**</exclude>
+                                        <exclude>org.asynchttpclient.**</exclude>
                                     </excludes>
                                 </relocation>
                                 <relocation>
