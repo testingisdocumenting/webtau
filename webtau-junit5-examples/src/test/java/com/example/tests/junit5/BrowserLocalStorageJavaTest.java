@@ -16,11 +16,13 @@
 
 package com.example.tests.junit5;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.junit5.WebTau;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
+@WebTau
 public class BrowserLocalStorageJavaTest {
     @Test
     public void modifyLocalStorage() {
