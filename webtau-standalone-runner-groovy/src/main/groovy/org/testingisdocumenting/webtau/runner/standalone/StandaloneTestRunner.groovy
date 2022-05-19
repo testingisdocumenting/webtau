@@ -311,13 +311,15 @@ class StandaloneTestRunner {
 
     private void handleDisabledByCondition(String scenarioDescription, Closure scenarioCode, Closure registrationCode) {
         def runCondition = runCondition.get()
-        if (runCondition.isConditionMet) {
+        def disabledByFileNameConvention = currentTestPath.fileName.toString().contains(".disabled.")
+
+        if (disabledByFileNameConvention || !runCondition.isConditionMet) {
+            dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)
+        } else {
             def test = createTest(scenarioDescription, scenarioCode)
             test.test.metadata.add(currentTestMetadata.get())
 
             registrationCode(test)
-        } else {
-            dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)
         }
     }
 

@@ -76,6 +76,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "disable tests by file name convention"() {
+        runCli('skipTestsByFileName.disabled.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "conditional tests custom condition skip"() {
         runCli('conditionalCustomRegistrationSkip.groovy', 'webtau.cfg.groovy')
     }
