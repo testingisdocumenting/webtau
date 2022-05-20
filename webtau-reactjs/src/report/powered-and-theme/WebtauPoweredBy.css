@@ -26,6 +26,19 @@
     border-right: 1px solid var(--webtau-panels-border-color);
 }
 
+.webtau-generated-by {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.webtau-generated-by a {
+    display: inline-block;
+    max-width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .webtau-generated-by a,
 .webtau-generated-by a:visited {
     color: var(--webtau-report-name-text-color);
