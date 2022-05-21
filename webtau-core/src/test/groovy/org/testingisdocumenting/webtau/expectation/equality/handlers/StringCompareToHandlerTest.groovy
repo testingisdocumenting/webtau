@@ -112,9 +112,9 @@ class StringCompareToHandlerTest {
                 '      _________________\n' +
                 '      \n' +
                 '      first mismatch at line idx 1:\n' +
-                '      hello again\n' +
-                '      hi again\n' +
-                '       ^',
+                '        actual: hello again\n' +
+                '      expected: hi again\n' +
+                '                 ^',
                 comparator.generateEqualMismatchReport())
     }
 
@@ -140,9 +140,9 @@ class StringCompareToHandlerTest {
                 '      ___________\n' +
                 '      \n' +
                 '      first mismatch at line idx 0:\n' +
-                '      single line\n' +
-                '      single lone\n' +
-                '              ^', comparator.generateEqualMismatchReport())
+                '        actual: single line\n' +
+                '      expected: single lone\n' +
+                '                        ^', comparator.generateEqualMismatchReport())
     }
 
     @Test
@@ -171,9 +171,9 @@ class StringCompareToHandlerTest {
                 '      ___________\n' +
                 '      \n' +
                 '      first mismatch at line idx 0:\n' +
-                '      single line\n' +
-                '      single lone\n' +
-                '              ^', comparator.generateEqualMismatchReport())
+                '        actual: single line\n' +
+                '      expected: single lone\n' +
+                '                        ^', comparator.generateEqualMismatchReport())
     }
 
     @Test
@@ -200,9 +200,9 @@ class StringCompareToHandlerTest {
                 '      _________________\n' +
                 '      \n' +
                 '      first mismatch at line idx 0:\n' +
-                '      \n' +
-                '      hello world world\n' +
-                '      ^',
+                '        actual: \n' +
+                '      expected: hello world world\n' +
+                '                ^',
                 comparator.generateEqualMismatchReport())
     }
 
