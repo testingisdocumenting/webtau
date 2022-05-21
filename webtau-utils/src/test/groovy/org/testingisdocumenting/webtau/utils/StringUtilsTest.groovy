@@ -92,4 +92,10 @@ line #_3\r""")
         assert StringUtils.stripTrailing("foo/", '/' as char) == "foo"
         assert StringUtils.stripTrailing("foo", '/' as char) == "foo"
     }
+
+    @Test
+    void "chat sequence to string or null"() {
+        assert StringUtils.toStringOrNull(null) == null
+        assert StringUtils.toStringOrNull("hello") == "hello"
+    }
 }

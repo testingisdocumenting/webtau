@@ -127,6 +127,10 @@ public class StringUtils {
         return str;
     }
 
+    public static String toStringOrNull(Object o) {
+        return o == null ? null : o.toString();
+    }
+
     private static String joinWithIndentAllButFirstLine(String indentation, String[] lines) {
         return Arrays.stream(lines).skip(1).map(l -> indentation + l).collect(joining("\n"));
     }

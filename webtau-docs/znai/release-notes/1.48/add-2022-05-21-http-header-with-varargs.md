@@ -1,0 +1,1 @@
+* Add `HttpHeader.with` vararg support to conveniently provide multiple header values in Java 
