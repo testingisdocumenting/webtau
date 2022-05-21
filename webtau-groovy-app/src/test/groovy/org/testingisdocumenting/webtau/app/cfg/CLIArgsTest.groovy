@@ -16,18 +16,19 @@
 
 package org.testingisdocumenting.webtau.app.cfg
 
+import org.junit.Test
 import org.testingisdocumenting.webtau.cfg.ConfigValue
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.utils.FileUtils
 import org.testingisdocumenting.webtau.utils.JsonUtils
-import org.junit.Test
 
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.stream.Collectors
 
 class CLIArgsTest {
     @Test
-    void "generate CLI docs"() {
+    void "generate and validate CLI docs"() {
         try {
             def handler = new WebTauGroovyCliArgsConfigHandler('--workingDir=${workingDir}', 'test.groovy')
 
@@ -36,13 +37,14 @@ class CLIArgsTest {
             def cfg = new WebTauConfig()
 
             def cfgValues = cfg.getEnumeratedCfgValuesStream()
-            def cfgList = cfgValues.map { cfgValue ->
+            def configPropsList = cfgValues.map { cfgValue ->
                 def defaultValue = getDefaultValue(cfgValue)
                 return [
-                        name                  : cfgValue.key,
-                        'environment variable': cfgValue.prefixedUpperCaseKey,
-                        description           : cfgValue.description,
-                        'default value'       : defaultValue,
+                        name: cfgValue.key,
+                        defaultValue: defaultValue,
+                        description: cfgValue.description + generateDefaultValueMarkdown(defaultValue),
+                        envVar: cfgValue.prefixedUpperCaseKey,
+                        type: "",
                 ]
             }
             .sorted { a, b ->
@@ -50,26 +52,63 @@ class CLIArgsTest {
             }
             .collect(Collectors.toList())
 
-            cfgList.stream().anyMatch {
+            configPropsList.stream().anyMatch {
                 it.name == "numberOfThreads"
             }.should == true
 
-            cfgList.forEach {
+            configPropsList.forEach {
                 if (it.name == 'workingDir') {
-                    it.'default value'.should == ""
+                    it.defaultValue.should == "<current-dir>"
                 } else if (it.name == 'docPath') {
-                    it.'default value'.should == '${workingDir}' + File.separator + 'doc-artifacts'
+                    it.defaultValue.should == '${workingDir}' + File.separator + 'doc-artifacts'
                 }
             }
 
-            FileUtils.writeTextContent(Paths.get('doc-artifacts/cfg/cli-args.json'),
-                    JsonUtils.serializePrettyPrint(cfgList))
+            def envVarsList = configPropsList.collect {
+                [
+                        name: it.envVar,
+                        description: it.description,
+                        type: "",
+                ]
+            }
+
+            // not using doc.captureJson as we modified <workingDir> to have predictable value for documentation
+            FileUtils.writeTextContent(Paths.get('doc-artifacts/cfg/props.json'),
+                    JsonUtils.serializePrettyPrint(configPropsList))
+            FileUtils.writeTextContent(Paths.get('doc-artifacts/cfg/envVars.json'),
+                    JsonUtils.serializePrettyPrint(envVarsList))
         } finally {
             WebTauConfig.resetConfigHandlers()
         }
     }
 
+    private static String generateDefaultValueMarkdown(String v) {
+        if (v.isEmpty()) {
+            return ""
+        }
+
+        return "\n\n*default value*: $v"
+    }
+
     private static String getDefaultValue(ConfigValue cfgValue) {
-        return cfgValue.key == 'workingDir' ? "" : (cfgValue.getAsString() ?: "")
+        if (cfgValue.key == 'workingDir') {
+            return "<current-dir>"
+        }
+
+        def defaultV = cfgValue.defaultValue
+        if (defaultV == null) {
+            return ""
+        }
+
+        if (defaultV instanceof Path) {
+            def idxOfWorkingDir = defaultV.toString().indexOf('${workingDir}')
+            if (idxOfWorkingDir == -1) {
+                return defaultV.toString()
+            }
+
+            return defaultV.toString().substring(idxOfWorkingDir)
+        }
+
+        return cfgValue.getAsString()
     }
 }

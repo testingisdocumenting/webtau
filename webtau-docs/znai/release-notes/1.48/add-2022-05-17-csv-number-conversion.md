@@ -1,1 +1,1 @@
-* speedup [CSV](utilities/data#csv-read) numbers auto conversion
+* Speedup [CSV](utilities/data#csv-read) numbers auto conversion
