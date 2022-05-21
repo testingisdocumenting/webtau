@@ -1,7 +1,7 @@
 # CLI and configuration file options
 
-:include-table: doc-artifacts/cfg/cli-args.json {columns: ["name", "description", "default value"]}
+:include-api-parameters: doc-artifacts/cfg/props.json 
 
 # Environment variable options
 
-:include-table: doc-artifacts/cfg/cli-args.json {columns: ["environment variable", "description", "default value"]}
+:include-api-parameters: doc-artifacts/cfg/envVars.json
