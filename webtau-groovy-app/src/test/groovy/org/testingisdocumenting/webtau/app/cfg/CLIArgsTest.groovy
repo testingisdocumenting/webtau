@@ -34,7 +34,7 @@ class CLIArgsTest {
 
             WebTauConfig.registerConfigHandlerAsFirstHandler(handler)
 
-            def cfg = WebTauConfig.cfg
+            def cfg = new WebTauConfig()
 
             def cfgValues = cfg.getEnumeratedCfgValuesStream()
             def configPropsList = cfgValues.map { cfgValue ->
