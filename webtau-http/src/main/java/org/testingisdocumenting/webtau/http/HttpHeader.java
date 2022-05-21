@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.http;
 
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
+
 import static java.util.stream.Collectors.joining;
 
 import java.util.Arrays;
@@ -89,12 +91,11 @@ public class HttpHeader {
      * was constructed.
      *
      * For that reason, this method is deprecated and you should use either
-     * <code>with(String key, String value)</code> or one of the <code>merge</code>
+     * <code>with("MY_HEADER", "my_value")</code> or one of the <code>merge</code>
      * methods which are non-mutating.
      *
-     * @deprecated use <code>with(String key, String value)</code>
-     *             or <code>merge(HttpHeader otherHeader)</code>
-     *             or <code>merge(Map&lt;String, String&gt; properties)</code>
+     * @deprecated use <code>with</code>
+     *             or <code>merge</code>
      */
     @Deprecated
     public void add(String key, String value) {
@@ -103,13 +104,14 @@ public class HttpHeader {
 
     /**
      * Creates a new header from the current one with an additional key-value
-     * @param key additional key
-     * @param value additional value
+     * @param keyValues vararg key value sequence, e.g. "HEADER_ONE", "value_one", "HEADER_TWO", "value_two"
      * @return new header
      */
-    public HttpHeader with(String key, CharSequence value) {
+    public HttpHeader with(CharSequence... keyValues) {
+        Map<Object, Object> mapFromVararg = CollectionUtils.aMapOf((Object[]) keyValues);
+
         Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
-        copy.put(key, value);
+        mapFromVararg.forEach((k, v) -> copy.put(k.toString(), v.toString()));
 
         return new HttpHeader(copy);
     }
