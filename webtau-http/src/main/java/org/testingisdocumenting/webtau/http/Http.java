@@ -65,10 +65,7 @@ import java.lang.reflect.Field;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.HttpsURLConnection;
@@ -792,12 +789,12 @@ public class Http {
         delete(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public HttpHeader header(String... properties) {
-        return new HttpHeader(CollectionUtils.aMapOf((Object[]) properties));
+    public HttpHeader header(CharSequence... properties) {
+        return new HttpHeader().with(properties);
     }
 
-    public HttpHeader header(Map<String, CharSequence> properties) {
-        return new HttpHeader(properties);
+    public HttpHeader header(Map<CharSequence, CharSequence> properties) {
+        return new HttpHeader().with(properties);
     }
 
     public HttpQueryParams query(String... params) {
@@ -1210,11 +1207,15 @@ public class Http {
     }
 
     private void populateResponseHeader(HttpResponse httpResponse, HttpURLConnection connection) {
+        Map<CharSequence, CharSequence> header = new LinkedHashMap<>();
+
         connection.getHeaderFields().forEach((key, values) -> {
             if (!values.isEmpty()) {
-                httpResponse.addHeader(key, values.get(0));
+                header.put(key, values.get(0));
             }
         });
+
+        httpResponse.addHeader(header);
     }
 
     /**
