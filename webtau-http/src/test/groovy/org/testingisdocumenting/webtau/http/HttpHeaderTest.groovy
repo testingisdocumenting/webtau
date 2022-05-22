@@ -91,6 +91,14 @@ class HttpHeaderTest {
     }
 
     @Test
+    void "build from empty header with multiple values"() {
+        def header = HttpHeader.EMPTY
+        def newHeader = header.with('h1', 'v1',
+                'h2', 'v2')
+        newHeader.should == new HttpHeader(['h1': 'v1', 'h2': 'v2'])
+    }
+
+    @Test
     void "build from existing header with a single new value"() {
         def header = new HttpHeader([k: 'v'])
         def newHeader = header.with('foo', 'bar')
