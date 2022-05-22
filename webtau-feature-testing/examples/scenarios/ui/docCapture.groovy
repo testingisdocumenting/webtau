@@ -15,7 +15,7 @@ scenario("search and capture with badges") {
             browser.doc.badge(search.results)).capture("search")
 }
 
-scenario("search and capture first result") {
+scenario("search and capture results area") {
     search.submit("search this")
 
     browser.doc.withRoot(search.resultsArea)

@@ -46,7 +46,7 @@ to limit screenshot to a specific element
 
 :include-image: doc-artifacts/search-results-area.png {annotationsPath: "doc-artifacts/search-results-area.json"}
 
-:include-file: doc-artifacts/snippets/doc-capture/captureFirstResult.groovy {title: "specific element"}
+:include-file: doc-artifacts/snippets/doc-capture/captureSpecificElement.groovy {title: "specific element"}
 
 
 # Inverted Colors

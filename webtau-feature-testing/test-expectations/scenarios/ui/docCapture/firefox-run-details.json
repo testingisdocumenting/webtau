@@ -18,7 +18,7 @@
       "numberOfSuccessful" : 8
     }
   }, {
-    "scenario" : "search and capture first result",
+    "scenario" : "search and capture results area",
     "shortContainerId" : "docCapture.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 8

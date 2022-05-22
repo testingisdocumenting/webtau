@@ -81,8 +81,8 @@ public class Screenshot {
             int imageWidth = bufferedImage.getWidth();
             int imageHeight = bufferedImage.getHeight();
 
-            int maxCropWidth = imageWidth - realX;
-            int maxCropHeight = imageHeight - realY;
+            int maxCropWidth = Math.max(0, imageWidth - realX);
+            int maxCropHeight = Math.max(0, imageHeight - realY);
 
             return bufferedImage.getSubimage(
                     Math.min(imageWidth, realX), Math.min(imageHeight, realY),
