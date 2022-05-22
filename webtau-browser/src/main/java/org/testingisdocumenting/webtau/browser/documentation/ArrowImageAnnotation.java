@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +19,6 @@ package org.testingisdocumenting.webtau.browser.documentation;
 
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
 
 import java.util.Map;
 
@@ -28,8 +28,8 @@ public class ArrowImageAnnotation extends ImageAnnotation {
     }
 
     @Override
-    public void addAnnotationData(Map<String, Object> data, WebElement webElement) {
-        Point location = position(webElement);
+    public void addAnnotationData(Map<String, Object> data, WebElementLocationAndSizeProvider locationAndSizeProvider) {
+        Point location = position(locationAndSizeProvider);
 
         data.put("beginX", location.getX() - 50);
         data.put("beginY", location.getY() + 90);
