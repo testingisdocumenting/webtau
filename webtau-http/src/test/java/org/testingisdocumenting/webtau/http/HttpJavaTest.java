@@ -36,6 +36,8 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpJavaTest extends HttpTestBase {
+    private static final byte[] sampleFile = {1, 2, 3};
+
     @Test
     public void ping() {
         actual(http.ping("/end-point-simple-object")).should(equal(true));
@@ -274,6 +276,69 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
         });
+    }
+
+    @Test
+    public void explicitHeaderPassingExample() {
+        http.get("/end-point", http.header("Accept", "application/octet-stream"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.get("/end-point", http.query("queryParam1", "queryParamValue1"),
+            http.header("Accept", "application/octet-stream"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.patch("/end-point", http.header("Accept", "application/octet-stream"),
+                aMapOf("fileId", "myFile"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.post("/end-point", http.header("Accept", "application/octet-stream"),
+                aMapOf("fileId", "myFile"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.put("/end-point", http.header("Accept", "application/octet-stream"),
+                aMapOf("fileId", "myFile", "file", sampleFile), (header, body) -> {
+            // assertions go here
+        });
+
+        http.delete("/end-point", http.header("Custom-Header", "special-value"));
+    }
+
+    @Test
+    public void headerCreation() {
+        HttpHeader varArgHeader = http.header(
+                "My-Header1", "Value1",
+                "My-Header2", "Value2");
+
+        Map<CharSequence, CharSequence> headerValues = new HashMap<>();
+        headerValues.put("My-Header1", "Value1");
+        headerValues.put("My-Header2", "Value2");
+        HttpHeader mapBasedHeader = http.header(headerValues);
+
+        actual(varArgHeader).should(equal(mapBasedHeader)); // doc-exclude
+    }
+
+    @Test
+    public void headerWith() {
+        HttpHeader header = http.header(
+                "My-Header1", "Value1",
+                "My-Header2", "Value2");
+
+        // example
+        HttpHeader newHeaderVarArg = header.with(
+                "Additional-1", "AdditionalValue1",
+                "Additional-2", "AdditionalValue2");
+
+        Map<CharSequence, CharSequence> additionalValues = new HashMap<>();
+        additionalValues.put("Additional-1", "AdditionalValue1");
+        additionalValues.put("Additional-2", "AdditionalValue2");
+        HttpHeader newHeaderMap = header.with(additionalValues);
+        // example
+
+        actual(newHeaderVarArg).should(equal(newHeaderMap));
     }
 
     @Test
