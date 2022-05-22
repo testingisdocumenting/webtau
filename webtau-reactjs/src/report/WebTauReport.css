@@ -118,6 +118,6 @@ body {
     border-right: 1px solid var(--webtau-panels-border-color);
 }
 
-.report > .znai-powered-and-theme-area {
+.report > .webtau-powered-and-theme-area {
     grid-area: theme;
 }

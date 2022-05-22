@@ -93,7 +93,7 @@ class WebTauReport extends Component {
 
         <div className="test-details-area">{this.renderDetailsArea()}</div>
 
-        <div className="znai-powered-and-theme-area">
+        <div className="webtau-powered-and-theme-area">
           <WebtauPoweredBy report={report} />
         </div>
 
