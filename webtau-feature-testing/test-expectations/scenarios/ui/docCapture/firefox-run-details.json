@@ -24,6 +24,13 @@
       "numberOfSuccessful" : 8
     }
   }, {
+    "scenario" : "capture element outside of viewport",
+    "shortContainerId" : "docCapture.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6,
+      "numberOfFailed" : 1
+    }
+  }, {
     "scenario" : "search and capture with badges placed in non center position",
     "shortContainerId" : "docCapture.groovy",
     "stepsSummary" : {

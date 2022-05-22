@@ -84,6 +84,10 @@ public class Screenshot {
             int maxCropWidth = Math.max(0, imageWidth - realX);
             int maxCropHeight = Math.max(0, imageHeight - realY);
 
+            if (maxCropWidth == 0 || maxCropHeight == 0) {
+                throw new IllegalArgumentException("element to crop from screenshot is outside of viewport");
+            }
+
             return bufferedImage.getSubimage(
                     Math.min(imageWidth, realX), Math.min(imageHeight, realY),
                     Math.min(maxCropWidth, realWidth), Math.min(maxCropHeight, realHeight));

@@ -23,6 +23,11 @@ scenario("search and capture results area") {
             .capture("search-results-area")
 }
 
+scenario("capture element outside of viewport") {
+    search.submit("search this")
+    browser.doc.withRoot($("#bottom")).capture("element-outside-viewport")
+}
+
 scenario("search and capture with badges placed in non center position") {
     search.submit("search this")
 
