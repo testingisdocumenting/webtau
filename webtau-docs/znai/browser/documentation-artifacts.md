@@ -41,7 +41,7 @@ Use `above`, `below`, `toTheLeft` and `toTheRight` to put an annotation outside 
 
 # Screenshot Of Specific Element 
 
-Use `:identifier: withRoot {validationPath: "doc-artifacts/snippets/doc-capture/captureFirstResult.groovy"}` 
+Use `:identifier: withRoot {validationPath: "doc-artifacts/snippets/doc-capture/captureSpecificElement.groovy"}` 
 to limit screenshot to a specific element
 
 :include-image: doc-artifacts/search-results-area.png {annotationsPath: "doc-artifacts/search-results-area.json"}
