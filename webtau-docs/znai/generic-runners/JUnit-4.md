@@ -1,6 +1,6 @@
 # WebTau Runner
 
-You can use webtau `http.`, `graphql.`, `browser.`, `cli.`, `db.` methods as in a junit 4 tests, but to enable reporting you need to use 
+You can use WebTau `http.`, `graphql.`, `browser.`, `cli.`, `db.` methods as in a junit 4 tests, but to enable reporting you need to use 
 `@RunWith(WebTauRunner.class)`
 
 ```tabs

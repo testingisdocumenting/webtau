@@ -1,6 +1,6 @@
 # Passing Query Parameters 
 
-Webtau offers a number of ways of specifying query parameters:
+WebTau offers a number of ways of specifying query parameters:
 
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
     title: "embedding query params directly in url",

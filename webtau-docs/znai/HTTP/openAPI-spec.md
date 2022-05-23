@@ -1,6 +1,6 @@
 # Validation
 
-Webtau supports validation of responses against an [OpenAPI specification](https://www.openapis.org/).  This feature can
+WebTau supports validation of responses against an [OpenAPI specification](https://www.openapis.org/).  This feature can
 be enabled by specifying the `openApiSpecUrl` configuration option.  This should be the URL to the specification against 
 which to validate.
 
@@ -13,7 +13,7 @@ which to validate.
 
 OpenAPI specification support is still in its early stage.  It is fully functional but there are a few limitations to be
 aware of:
-* webtau currently only supports OpenAPI specification v2
+* WebTau currently only supports OpenAPI specification v2
 * specification matching is currently done based on the path and method
 * any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning
 on the console
@@ -21,7 +21,7 @@ on the console
 # Validations report
 
 The validation errors are reported in the same manner as assertion errors.  They are available in the output from the 
-command line webtau runner:
+command line WebTau runner:
 ```bash
 > executing HTTP POST http://localhost:8080/customers
  {

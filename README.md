@@ -1,12 +1,12 @@
 ![build](https://github.com/testingisdocumenting/webtau/workflows/Build%20webtau/badge.svg)
 
-# Webtau
+# WebTau
 
 Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 
 ![logo](webtau-docs/znai/webtau-logo.png)
 
-Webtau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
+WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
 Test your application across multiple layers:
 * REST API
@@ -76,7 +76,7 @@ public class SearchPage {
 
 [GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
 ```groovy
-@Webtau
+@WebTau
 public class GraphQLWeatherJavaIT {
     @Test
     public void checkWeather() {

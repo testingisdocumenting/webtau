@@ -25,7 +25,7 @@ import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
-import org.testingisdocumenting.webtau.version.WebtauVersion
+import org.testingisdocumenting.webtau.version.WebTauVersion
 
 import java.nio.file.Paths
 
@@ -103,7 +103,7 @@ class WebTauCliArgsConfig {
     private void printHelp(Options options) {
         HelpFormatter helpFormatter = new HelpFormatter()
 
-        WebtauVersion.print()
+        WebTauVersion.print()
         helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", "", options, "")
         exitHandler.exit(1)
     }

@@ -39,7 +39,7 @@ mvn release:clean release:prepare
 ```
 
 This will do a number of things (let's assume you're trying to release version x.y.z):
-* build webtau
+* build WebTau
 * prompt you for a few version related things where you should generally accept the proposed values by pressing enter with no input
 * update the version number in all poms to x.y.z
 * git commit and push the change

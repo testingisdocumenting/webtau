@@ -14,7 +14,7 @@ The output looks as follows:
 
 ## Coverage and Timing Statistics
 
-Webtau will implicitly invoke your GraphQL server's introspection queries in order to fetch a subset of the schema.
+WebTau will implicitly invoke your GraphQL server's introspection queries in order to fetch a subset of the schema.
 It uses this schema in conjunction with the requests in tests to compute:
 
 * query coverage - which queries were invoked by tests and which were not as well as an overall summary of coverage

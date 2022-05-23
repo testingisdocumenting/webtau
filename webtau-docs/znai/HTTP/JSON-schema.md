@@ -1,6 +1,6 @@
 # Validation
 
-Webtau supports validation of objects against [JSON Schema](https://json-schema.org/).  It is possible to validate either
+WebTau supports validation of objects against [JSON Schema](https://json-schema.org/).  It is possible to validate either
 the entire body or just a specific field with the `complyWithSchema` matcher as shown in the two examples below:
 
 :include-groovy: doc-artifacts/snippets/json-schema/validateBody.groovy {title: "Validate entire body against JSON schema"}

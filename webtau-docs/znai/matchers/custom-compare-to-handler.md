@@ -28,7 +28,7 @@ Below is an existing implementation of handler to deal with Java Bean as actual 
 
 ## Registration
 
-Webtau uses [Service Loaders](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html) to discover implementations of handlers.
+WebTau uses [Service Loaders](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html) to discover implementations of handlers.
 To register an additional handler you need to create a file under resources 
 
 ```

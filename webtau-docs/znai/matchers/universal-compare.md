@@ -1,7 +1,7 @@
 # Cross Types Comparison
 
 
-In Webtau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations 
+In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations 
 using the same set of matchers. 
 
 ```tabs

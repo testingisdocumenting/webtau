@@ -1,7 +1,7 @@
 # WebTau Runner
 
-You can use webtau `http.`, `graphql.`, `browser.`, `cli.`, `db.` methods as in a junit 5 tests, but to enable reporting you need to use 
-`@Webtau` annotation
+You can use WebTau `http.`, `graphql.`, `browser.`, `cli.`, `db.` methods as in a junit 5 tests, but to enable reporting you need to use 
+`@WebTau` annotation
 
 ```tabs
 Groovy: :include-file: com/example/tests/junit5/CustomerCrudSeparatedGroovyTest.groovy {commentsType: "inline"}

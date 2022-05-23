@@ -1,0 +1,1 @@
+* Update documentation and implementation details classes to have consistent WebTau naming  

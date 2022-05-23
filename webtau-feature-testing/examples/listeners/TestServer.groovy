@@ -17,7 +17,7 @@
 package listeners
 
 import org.testingisdocumenting.webtau.cli.CliBackgroundCommand
-import org.testingisdocumenting.webtau.version.WebtauVersion
+import org.testingisdocumenting.webtau.version.WebTauVersion
 
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.WebTauDsl.cli
@@ -27,7 +27,7 @@ class TestServer {
     private CliBackgroundCommand server
 
     void start() {
-        def jarName = "webtau-testapp-${WebtauVersion.version}-exec.jar"
+        def jarName = "webtau-testapp-${WebTauVersion.version}-exec.jar"
         server = cli.runInBackground("java -jar ../../webtau-testapp/target/${jarName} " +
                 "--server.port=0 --spring.profiles.active=qa")
 

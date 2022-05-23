@@ -27,7 +27,7 @@ If you have a list of objects like `complexList` above, you can access all its c
 
 # Path based properties access
 
-Primarily for Java users, webtau supports the ability to query properties of a `DataNode` via a path instead of chaining
+Primarily for Java users, WebTau supports the ability to query properties of a `DataNode` via a path instead of chaining
 `get(String name)` calls.  For example, to obtain a simple property:
 
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "canQueryNodeByPath", bodyOnly: true}
