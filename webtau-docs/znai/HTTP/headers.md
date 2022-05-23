@@ -6,16 +6,37 @@ When no payload is present, it defaults to `application/json`.
 
 # Implicit Header
 
-If each http request requires the same header you can specify that header using `httpHeaderProvider`. 
-Common example is specifying authentication header.
- 
-:include-file: scenarios/rest/headers/webtau.cfg.groovy {title: "webtau.cfg.groovy"}
+Webtau has a way to provide headers for each call implicitly. 
+Use it to provide things like authentication, version, etc. header values.
+
+Implicit headers goal is to reduce expose to implementation details and make tests more robust.
+
+```tabs
+Groovy:
+
+:include-file: scenarios/rest/headers/webtau.cfg.groovy {
+  title: "webtau.cfg.groovy",
+  highlight: "authHeader"
+}
 
 Where `Auth.&authHeader` is implemented as follows:
 
 :include-file: scenarios/rest/headers/auth/Auth.groovy {title: "scenarios/rest/headers/auth/Auth.groovy"}
 
-Implicit headers help to clean up tests from implementation details
+Java:
+In case of JUnit like runners, webtau uses [Service Loaders](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html) 
+to locate header providers
+
+:include-file: src/test/resources/META-INF/services/org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration {
+  autoTitle: true
+}
+
+:include-file: src/test/java/com/example/tests/junit5/config/HttpAuthHeaderProvider.java {
+  autoTitle: true
+}
+```
+
+Note: Read [Persona Auth](persona/HTTP-persona) to learn about ways to streamline authentication 
 
 # Explicit Header
 

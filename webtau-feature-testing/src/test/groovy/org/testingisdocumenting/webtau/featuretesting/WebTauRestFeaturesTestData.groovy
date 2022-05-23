@@ -21,7 +21,9 @@ import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.http.testserver.TestServerJsonResponse
 import org.testingisdocumenting.webtau.http.testserver.TestServerRedirectResponse
+import org.testingisdocumenting.webtau.http.testserver.TestServerRequestFullEcho
 import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
+import org.testingisdocumenting.webtau.http.testserver.TestServerResponseEcho
 import org.testingisdocumenting.webtau.http.testserver.TestServerTextResponse
 import org.testingisdocumenting.webtau.utils.JsonUtils
 
@@ -40,6 +42,7 @@ class WebTauRestFeaturesTestData {
         handler.registerGet("/employee/id-generated-2", json([firstName: "FN", lastName: "LN"]))
         handler.registerGet("/text-message", new TestServerTextResponse("hello world"))
         handler.registerGet("/resource/generated-id-123", json([message: "hello"]))
+        handler.registerPut("/full-echo", new TestServerRequestFullEcho(200))
     }
 
     private static TestServerResponse json(Map response, statusCode = 200) {

@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration
+org.testingisdocumenting.webtau.http.config.WebTauCfgBasedUrlHttpConfiguration

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +17,11 @@
 
 package org.testingisdocumenting.webtau.http.config;
 
-import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
-public class WebTauHttpConfiguration implements HttpConfiguration {
+public class WebTauCfgBasedUrlHttpConfiguration implements WebTauHttpConfiguration {
     @Override
     public String fullUrl(String url) {
         if (UrlUtils.isFull(url)) {
@@ -29,10 +29,5 @@ public class WebTauHttpConfiguration implements HttpConfiguration {
         }
 
         return UrlUtils.concat(getCfg().getBaseUrl(), url);
-    }
-
-    @Override
-    public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
-        return given;
     }
 }

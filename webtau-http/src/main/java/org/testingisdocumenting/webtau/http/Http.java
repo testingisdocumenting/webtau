@@ -32,7 +32,7 @@ import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
@@ -98,7 +98,7 @@ public class Http {
     }
 
     public boolean ping(String url, HttpQueryParams queryParams, HttpHeader header) {
-        String fullUrl = HttpConfigurations.fullUrl(queryParams.attachToUrl(url));
+        String fullUrl = WebTauHttpConfigurations.fullUrl(queryParams.attachToUrl(url));
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
@@ -890,8 +890,8 @@ public class Http {
                                              HttpHeader requestHeader,
                                              HttpRequestBody requestBody,
                                              HttpResponseValidatorWithReturn validator) {
-        String fullUrl = HttpConfigurations.fullUrl(url);
-        HttpHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
+        String fullUrl = WebTauHttpConfigurations.fullUrl(url);
+        HttpHeader fullHeader = WebTauHttpConfigurations.fullHeader(fullUrl, url, requestHeader);
 
         HttpValidationResult validationResult = new HttpValidationResult(Persona.getCurrentPersona().getId(),
                 requestMethod, url, fullUrl, fullHeader, requestBody);
