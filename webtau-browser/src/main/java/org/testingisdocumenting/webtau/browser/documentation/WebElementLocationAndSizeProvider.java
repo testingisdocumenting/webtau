@@ -1,6 +1,5 @@
 /*
  * Copyright 2022 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +16,10 @@
 
 package org.testingisdocumenting.webtau.browser.documentation;
 
-import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 
-public class HighlighterImageAnnotation extends RectangleBasedImageAnnotation {
-    public HighlighterImageAnnotation(PageElement pageElement) {
-        super(pageElement, "highlight", "");
-    }
+public interface WebElementLocationAndSizeProvider {
+    Point getLocation();
+    Dimension getSize();
 }

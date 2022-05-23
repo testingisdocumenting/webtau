@@ -39,6 +39,16 @@ Use `above`, `below`, `toTheLeft` and `toTheRight` to put an annotation outside 
 
 :include-image: doc-artifacts/search.png {annotationsPath: "doc-artifacts/search-diff-placement.json"}
 
+# Screenshot Of Specific Element 
+
+Use `:identifier: withRoot {validationPath: "doc-artifacts/snippets/doc-capture/captureSpecificElement.groovy"}` 
+to limit screenshot to a specific element
+
+:include-image: doc-artifacts/search-results-area.png {annotationsPath: "doc-artifacts/search-results-area.json"}
+
+:include-file: doc-artifacts/snippets/doc-capture/captureSpecificElement.groovy {title: "specific element"}
+
+
 # Inverted Colors
 
 By default, annotation colors assume light theme of an UI you document. 

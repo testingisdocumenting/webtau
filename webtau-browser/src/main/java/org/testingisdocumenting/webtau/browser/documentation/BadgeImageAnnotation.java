@@ -29,8 +29,8 @@ public class BadgeImageAnnotation extends ImageAnnotation {
     }
 
     @Override
-    public void addAnnotationData(Map<String, Object> data, WebElement webElement) {
-        Point location = position(webElement);
+    public void addAnnotationData(Map<String, Object> data, WebElementLocationAndSizeProvider locationAndSizeProvider) {
+        Point location = position(locationAndSizeProvider);
 
         data.put("x", location.getX());
         data.put("y", location.getY());

@@ -7,6 +7,8 @@ class SearchPage {
     def welcomeMessage = $("#welcome")
     def searchMessage = $("#message")
     def box = $("#search-box")
+
+    def resultsArea = $("#results")
     def results = $("#results .result")
     def numberOfResults = results.count
 

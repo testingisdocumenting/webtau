@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,9 +30,9 @@ public class RectangleBasedImageAnnotation extends ImageAnnotation {
     }
 
     @Override
-    public void addAnnotationData(Map<String, Object> data, WebElement webElement) {
-        Point location = webElement.getLocation();
-        Dimension size = webElement.getSize();
+    public void addAnnotationData(Map<String, Object> data, WebElementLocationAndSizeProvider locationAndSizeProvider) {
+        Point location = locationAndSizeProvider.getLocation();
+        Dimension size = locationAndSizeProvider.getSize();
 
         data.put("x", location.getX());
         data.put("y", location.getY());
