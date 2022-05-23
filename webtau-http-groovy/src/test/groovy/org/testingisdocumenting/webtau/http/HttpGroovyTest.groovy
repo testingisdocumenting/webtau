@@ -306,7 +306,7 @@ class HttpGroovyTest extends HttpTestBase {
     void "custom user agent without webtau and its version"() {
         try {
             cfg.userAgent = "custom"
-            cfg.removeWebtauFromUserAgent = true
+            cfg.removeWebTauFromUserAgent = true
 
             http.get('/echo-header') {
                 body['User-Agent'].should == ~/^custom$/

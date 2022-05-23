@@ -47,7 +47,7 @@ import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
-import org.testingisdocumenting.webtau.version.WebtauVersion;
+import org.testingisdocumenting.webtau.version.WebTauVersion;
 
 public class WebTauConfig implements PrettyPrintable {
     private static final String SOURCE_MANUAL = "manual";
@@ -80,8 +80,8 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls", false);
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
-            () -> "webtau/" + WebtauVersion.getVersion());
-    private final ConfigValue removeWebtauFromUserAgent = declare("removeWebtauFromUserAgent",
+            () -> "webtau/" + WebTauVersion.getVersion());
+    private final ConfigValue removeWebTauFromUserAgent = declare("removeWebTauFromUserAgent",
             "By default webtau appends webtau and its version to the user-agent, this disables that part",
             () -> false);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
@@ -257,7 +257,7 @@ public class WebTauConfig implements PrettyPrintable {
         }
 
         String finalUserAgent = userAgent.getAsString();
-        if (!removeWebtauFromUserAgent.getAsBoolean()) {
+        if (!removeWebTauFromUserAgent.getAsBoolean()) {
             String defaultValue = userAgent.getDefaultValue().toString();
             finalUserAgent += " (" + defaultValue + ")";
         }
@@ -273,12 +273,12 @@ public class WebTauConfig implements PrettyPrintable {
         this.userAgent.set(SOURCE_MANUAL, userAgent);
     }
 
-    public void setRemoveWebtauFromUserAgent(boolean remove) {
-        this.removeWebtauFromUserAgent.set(SOURCE_MANUAL, remove);
+    public void setRemoveWebTauFromUserAgent(boolean remove) {
+        this.removeWebTauFromUserAgent.set(SOURCE_MANUAL, remove);
     }
 
     public ConfigValue getRemoveWebtauFromUserAgentConfigValue() {
-        return removeWebtauFromUserAgent;
+        return removeWebTauFromUserAgent;
     }
 
     public ConfigValue getDocArtifactsPathConfigValue() {
@@ -444,7 +444,7 @@ public class WebTauConfig implements PrettyPrintable {
                 disableFollowingRedirects,
                 maxRedirects,
                 userAgent,
-                removeWebtauFromUserAgent,
+                removeWebTauFromUserAgent,
                 docPath,
                 reportPath,
                 reportName,

@@ -35,7 +35,7 @@ Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {ent
 
 # Should and Should Not
 
-Matchers in webtau are triggered with `should` and `shouldNot` keywords.
+Matchers in WebTau are triggered with `should` and `shouldNot` keywords.
 Additionally `shouldBe` and `shouldNotBe` alias keywords are available to make certain matcher combinations easier to read.
 
 ```tabs {rightSide: true}
@@ -45,7 +45,7 @@ Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {ent
 
 # Equality
 
-Webtau defines its own set of equality rules to simplify testing. 
+WebTau defines its own set of equality rules to simplify testing. 
 :include-empty-block: {rightSide: true}
  
 :include-json: objectTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-object-equality-matchers/paths.json"}

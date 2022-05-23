@@ -15,7 +15,7 @@ type: two-sides
 :include-file: doc-artifacts/snippets/matchers/containTextInList.groovy {title: "contain exact text in list of elements"}
 
 Note: `all()` is used at element declaration time to disambiguate between contain text in the first element and in the list of elements.
-It is not required when you do an explicit comparison with the list on the right, since then webtau can deduce the desired outcome.
+It is not required when you do an explicit comparison with the list on the right, since then WebTau can deduce the desired outcome.
 
 :include-file: doc-artifacts/snippets/matchers/equalListOfTextAndRegexp.groovy {title: "list of text and regexp"}
 

@@ -35,12 +35,12 @@ import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
-import org.testingisdocumenting.webtau.repl.WebtauRepl
+import org.testingisdocumenting.webtau.repl.WebTauRepl
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
-import org.testingisdocumenting.webtau.version.WebtauVersion
+import org.testingisdocumenting.webtau.version.WebTauVersion
 
 import java.nio.file.Files
 import java.util.function.Consumer
@@ -109,7 +109,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
     void startReplExperimental() {
         prepareTestsAndRun() {
-            def repl = new WebtauRepl(runner)
+            def repl = new WebTauRepl(runner)
             repl.run()
         }
     }
@@ -181,7 +181,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             return
         }
 
-        WebtauVersion.print()
+        WebTauVersion.print()
     }
 
     @Override

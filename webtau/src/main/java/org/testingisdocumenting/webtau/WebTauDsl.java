@@ -35,7 +35,7 @@ import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
-import org.testingisdocumenting.webtau.server.WebtauServerFacade;
+import org.testingisdocumenting.webtau.server.WebTauServerFacade;
 
 /*
 Convenient class for static * import
@@ -50,7 +50,7 @@ public class WebTauDsl extends WebTauCore {
     public static final Cli cli = Cli.cli;
     public static final DatabaseFacade db = DatabaseFacade.db;
     public static final GraphQL graphql = GraphQL.graphql;
-    public static final WebtauServerFacade server = WebtauServerFacade.server;
+    public static final WebTauServerFacade server = WebTauServerFacade.server;
 
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();
