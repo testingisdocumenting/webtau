@@ -358,32 +358,52 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "explicit header passing example"() {
-        http.get("/end-point", http.header('Accept', 'application/octet-stream')) {
+        http.get("/end-point", http.header("Accept", "application/octet-stream")) {
             // assertions go here
         }
 
-        http.get("/end-point", [queryParam1: 'queryParamValue1'],
-                http.header('Accept', 'application/octet-stream')) {
+        http.get("/end-point", [queryParam1: "queryParamValue1"],
+                http.header("Accept", "application/octet-stream")) {
             // assertions go here
         }
 
-        http.patch("/end-point", http.header('Accept', 'application/octet-stream'),
-                [fileId: 'myFile']) {
+        http.patch("/end-point", http.header("Accept", "application/octet-stream"),
+                [fileId: "myFile"]) {
             // assertions go here
         }
 
-        http.post("/end-point", http.header('Accept', 'application/octet-stream'),
-                [fileId: 'myFile']) {
+        http.post("/end-point", http.header("Accept", "application/octet-stream"),
+                [fileId: "myFile"]) {
             // assertions go here
         }
 
-        http.put("/end-point", http.header('Accept', 'application/octet-stream'),
-                [fileId: 'myFile', file: sampleFile]) {
+        http.put("/end-point", http.header("Accept", "application/octet-stream"),
+                [fileId: "myFile", file: sampleFile]) {
             // assertions go here
         }
 
-        http.delete("/end-point", http.header('Custom-Header', 'special-value'))
+        http.delete("/end-point", http.header("Custom-Header", "special-value"))
     }
+
+    @Test
+    void "header with"() {
+        HttpHeader header = http.header(
+                "My-Header1", "Value1",
+                "My-Header2", "Value2")
+
+        // example
+        def newHeaderVarArg = header.with(
+                "Additional-1", "AdditionalValue1",
+                "Additional-2", "AdditionalValue2")
+
+        def newHeaderMap = header.with([
+                "Additional-1": "AdditionalValue1",
+                "Additional-2": "AdditionalValue2"])
+        // example
+
+        newHeaderVarArg.should == newHeaderMap
+    }
+
 
     @Test
     void "explicit binary mime types combined with request body"() {
@@ -428,14 +448,14 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "header creation"() {
         def varArgHeader = http.header(
-                'My-Header1', 'Value1',
-                'My-Header2', 'Value2')
+                "My-Header1", "Value1",
+                "My-Header2", "Value2")
 
         def mapBasedHeader = http.header([
-                'My-Header1': 'Value1',
-                'My-Header2': 'Value2'])
+                "My-Header1": "Value1",
+                "My-Header2": "Value2"])
 
-        assert varArgHeader == mapBasedHeader
+        assert varArgHeader == mapBasedHeader // doc-exclude
     }
 
     @Test

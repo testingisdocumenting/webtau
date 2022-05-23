@@ -21,11 +21,50 @@ Implicit headers help to clean up tests from implementation details
 
 To explicitly set header pass `http.header(values)` as an additional parameter.
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "explicit header passing example", bodyOnly: true}
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "explicit header passing example", 
+  bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  entry: "explicitHeaderPassingExample",
+  bodyOnly: true}
+```
 
 Additionally `http.header` accepts values as a map.
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "header creation", bodyOnly: true}
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "header creation",
+  excludeRegexp: "doc-exclude",
+  bodyOnly: true}
+  
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  entry: "headerCreation",
+  excludeRegexp: "doc-exclude",
+  bodyOnly: true}
+```
+
+Use `.with` to create a new instance of a header based on the existing one plus additional values
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "header with",
+  surroundedBy: "// example",
+  bodyOnly: true}
+  
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  entry: "headerWith",
+  surroundedBy: "// example",
+  bodyOnly: true}
+```
+
 
 # Mime Type Combined With Payload
 
