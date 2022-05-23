@@ -1,6 +1,6 @@
-# Webtau 
+# WebTau 
 
-Webtau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
+WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
 :include-image: webtau-logo.png {width: 256, align: "left"}
 
@@ -37,7 +37,7 @@ Tests can be written in any JVM language. Language specific syntactic sugar is a
 
 # Rest API Example 
 
-Webtau provides a succinct DSL for exercising HTTP end points (e.g. REST APIs) and provides simplified way to 
+WebTau provides a succinct DSL for exercising HTTP end points (e.g. REST APIs) and provides simplified way to 
 assert responses.
 
 ``````tabs
@@ -74,7 +74,7 @@ Java:
 
 # GraphQL API Example 
 
-Similar to HTTP APIs, Webtau also provides the ability to test GraphQL servers with its GraphQL DSL.
+Similar to HTTP APIs, WebTau also provides the ability to test GraphQL servers with its GraphQL DSL.
 
 ``````tabs
 

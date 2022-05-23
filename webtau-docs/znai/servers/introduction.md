@@ -1,4 +1,4 @@
-Webtau `server.` module lets you create and control static, fake and proxy servers:
+WebTau `server.` module lets you create and control static, fake and proxy servers:
 * Static servers to quickly host HTML, JSON, and similar content 
 * Fake servers to control response based request 
 * Proxy servers to simulate outages and record interactions for failures investigation

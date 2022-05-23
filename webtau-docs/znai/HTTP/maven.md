@@ -1,6 +1,6 @@
 # Dependency
 
-You can use maven to add webtau as a dependency to you project (for autocompletion or to use with JUnit like runners). 
+You can use maven to add WebTau as a dependency to you project (for autocompletion or to use with JUnit like runners). 
 
 ```tabs
 Groovy: :include-file: maven/groovy-dep.xml

@@ -26,17 +26,18 @@ import { CardWithTime } from '../../widgets/CardWithTime';
 
 import HttpCallHeaders from './HttpCallHeaders';
 
-import './HttpCallDetails.css';
-import { WebtauReportNavigation } from '../../WebtauReportNavigation';
+import { WebTauReportNavigation } from '../../WebTauReportNavigation';
 import { HttpCall } from '../../WebTauTest';
 import CardList from '../../widgets/CardList';
+
+import './HttpCallDetails.css';
 
 interface HttpCallProps {
   httpCall: HttpCall;
 }
 
 interface Props extends HttpCallProps {
-  reportNavigation: WebtauReportNavigation;
+  reportNavigation: WebTauReportNavigation;
 }
 
 export function HttpCallDetails({ httpCall, reportNavigation }: Props) {

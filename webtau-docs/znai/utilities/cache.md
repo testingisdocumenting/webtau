@@ -21,7 +21,7 @@ to run one scenario at a time.
 
 # FS Path type
 
-[File System module](utilities/file-system) return values of type `Path`. Webtau stores them as `String`.  
+[File System module](utilities/file-system) return values of type `Path`. WebTau stores them as `String`.  
 To retrieve as `Path` use `:identifier: getAsPath() {validationPath: "scenarios/cache/cachedPathValue.groovy"}`
 
 :include-file: scenarios/cache/cachedPathValue.groovy {

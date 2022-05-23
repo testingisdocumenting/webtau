@@ -1,10 +1,10 @@
 # Standalone CLI  
 
-Webtau has a standalone runner, so you can author and run tests without needing a build system or IDEs. 
+WebTau has a standalone runner, so you can author and run tests without needing a build system or IDEs. 
 You can fire your editor of choice and start creating automations without worrying about imports and packages
 to get your first result.
 
-In Enterprise setups webtau command line tool can be shared with everyone through mount drives or other similar 
+In Enterprise setups WebTau command line tool can be shared with everyone through mount drives or other similar 
 mechanisms which makes local testing and CI testing to be much more streamlined.
 
 # Setup 
@@ -25,7 +25,7 @@ To run test
 
 # REPL
 
-Webtau standalone runner comes with `repl` mode that let you experiment with API and write tests incrementally.
+WebTau standalone runner comes with `repl` mode that let you experiment with API and write tests incrementally.
 Repl mode preserves context of the runs which significantly speeds up tests development.
 
 Even if you don't want to use Groovy for your tests, you can still benefit from REPL mode as you experiment with APIs

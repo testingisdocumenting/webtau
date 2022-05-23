@@ -1,7 +1,7 @@
 # Config File
 
-Webtau let you specify services url, browser settings, DB url connections, etc in a config file.
-Depending on [runner](getting-started/installation) you use webtau will read data from a different place.
+WebTau let you specify services url, browser settings, DB url connections, etc in a config file.
+Depending on [runner](getting-started/installation) you use WebTau will read data from a different place.
 
 ```tabs
 Groovy:
@@ -12,11 +12,11 @@ When you use the Groovy runner, it will look for `webtau.cfg.groovy` file (defau
     includeRegexp: "localhost"
 }
 
- Note: webtau treats groovy config file as code
+ Note: WebTau treats groovy config file as code
 
 Java:
 
-When you use JUnit like runners, e.g. [JUnit5](getting-started/installation#junit5), webtau expects file named
+When you use JUnit like runners, e.g. [JUnit5](getting-started/installation#junit5), WebTau expects file named
 `webtau.properties` to be present in test classpath, e.g. test resources:
 
 :include-file: webtau-junit5-examples/src/test/resources/webtau.properties {
@@ -27,7 +27,7 @@ When you use JUnit like runners, e.g. [JUnit5](getting-started/installation#juni
 
 # Environments
 
-Webtau supports environment specific config values, and a way to select which environment to set active during tests run.
+WebTau supports environment specific config values, and a way to select which environment to set active during tests run.
 
 ```tabs
 Groovy:
@@ -55,7 +55,7 @@ To select an active environment you have two options:
 
 # Overrides
 
-Webtau has a list of options you can specify using config file: [url, browserId, etc.](configuration/options).
+WebTau has a list of options you can specify using config file: [url, browserId, etc.](configuration/options).
 You can override any value using [environment variables](configuration/options#environment-variable-options):
 
 ```

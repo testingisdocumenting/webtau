@@ -11,7 +11,7 @@
 }
 
 `fs.textContent` declares file content, but doesn't access it right away. 
-Webtau reads file content when validation happens. Here is an example of waiting on file content:
+WebTau reads file content when validation happens. Here is an example of waiting on file content:
 
 :include-file: doc-artifacts/snippets/fsFileContent/readFile.groovy {
   title: "wait for file content",

@@ -46,7 +46,7 @@ public class TermUiTestApp {
         Label title = new Label("This is a label that new line");
         Label anotherLabel = new Label("More text in\nmultiple lines");
 
-        TermUiWebtauStep step = new TermUiWebtauStep(TokenizedMessage.tokenizedMessage(
+        TermUiWebTauStep step = new TermUiWebTauStep(TokenizedMessage.tokenizedMessage(
                 action("action"), OF, stringValue("hello world")));
 
         Panel stepsPanel = new Panel(new LinearLayout());
