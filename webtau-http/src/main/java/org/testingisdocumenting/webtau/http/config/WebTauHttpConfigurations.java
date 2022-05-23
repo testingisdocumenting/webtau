@@ -24,17 +24,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class HttpConfigurations {
+public class WebTauHttpConfigurations {
     private static final ThreadLocal<Boolean> enabled = ThreadLocal.withInitial(() -> true);
 
-    private static final List<HttpConfiguration> configurations = Collections.synchronizedList(
-            ServiceLoaderUtils.load(HttpConfiguration.class));
+    private static final List<WebTauHttpConfiguration> configurations = Collections.synchronizedList(
+            ServiceLoaderUtils.load(WebTauHttpConfiguration.class));
 
-    public static void add(HttpConfiguration configuration) {
+    public static void add(WebTauHttpConfiguration configuration) {
         configurations.add(configuration);
     }
 
-    public static void remove(HttpConfiguration configuration) {
+    public static void remove(WebTauHttpConfiguration configuration) {
         configurations.remove(configuration);
     }
 
@@ -53,7 +53,7 @@ public class HttpConfigurations {
         }
 
         String finalUrl = url;
-        for (HttpConfiguration configuration : configurations) {
+        for (WebTauHttpConfiguration configuration : configurations) {
             finalUrl = configuration.fullUrl(finalUrl);
         }
 
@@ -66,7 +66,7 @@ public class HttpConfigurations {
         }
 
         HttpHeader finalHeaders = given;
-        for (HttpConfiguration configuration : configurations) {
+        for (WebTauHttpConfiguration configuration : configurations) {
             finalHeaders = configuration.fullHeader(fullUrl, passedUrl, finalHeaders);
         }
 

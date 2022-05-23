@@ -34,6 +34,7 @@
 ../../webtau-junit4-examples/src/test/java
 ../../webtau-junit5-examples/src/test/groovy
 ../../webtau-junit5-examples/src/test/java
+../../webtau-junit5-examples
 ../../webtau-report-testing/src/test/groovy
 ../../webtau-report-testing/target
 ../../webtau-db

@@ -18,8 +18,8 @@
 package org.testingisdocumenting.webtau.pdf
 
 import org.testingisdocumenting.webtau.http.HttpHeader
-import org.testingisdocumenting.webtau.http.config.HttpConfiguration
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.http.testserver.TestServerBinaryResponse
@@ -35,7 +35,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.contain
 import static org.testingisdocumenting.webtau.http.Http.http
 import static org.testingisdocumenting.webtau.pdf.Pdf.pdf
 
-class PdfHttpTest implements HttpConfiguration {
+class PdfHttpTest implements WebTauHttpConfiguration {
     static FixedResponsesHandler handler = new FixedResponsesHandler()
     static TestServer testServer = new TestServer(handler)
 
@@ -54,12 +54,12 @@ class PdfHttpTest implements HttpConfiguration {
 
     @Before
     void initCfg() {
-        HttpConfigurations.add(this)
+        WebTauHttpConfigurations.add(this)
     }
 
     @After
     void cleanCfg() {
-        HttpConfigurations.remove(this)
+        WebTauHttpConfigurations.remove(this)
     }
 
     @Test

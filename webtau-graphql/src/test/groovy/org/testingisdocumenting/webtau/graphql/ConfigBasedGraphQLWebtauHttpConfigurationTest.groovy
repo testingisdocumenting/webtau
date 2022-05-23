@@ -27,7 +27,7 @@ import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
-class ConfigBasedGraphQLHttpConfigurationTest {
+class ConfigBasedGraphQLWebtauHttpConfigurationTest {
     static final OVERRIDDEN_ENDPOINT_NAME = "/overridden-endpoint"
 
     def customConfig = new ConfigBasedGraphQLHttpConfiguration()

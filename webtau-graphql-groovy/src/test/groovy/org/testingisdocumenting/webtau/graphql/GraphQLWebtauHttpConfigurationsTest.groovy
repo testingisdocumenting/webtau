@@ -22,14 +22,14 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfiguration
 import org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfigurations
 import org.testingisdocumenting.webtau.http.HttpHeader
-import org.testingisdocumenting.webtau.http.config.HttpConfiguration
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations
 
 import static org.testingisdocumenting.webtau.graphql.CustomGraphQLHttpConfiguration.CUSTOM_GRAPHQL_ENDPOINT
 import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql
 
-class GraphQLHttpConfigurationsTest extends GraphQLTestBase {
-    private HttpConfiguration urlVerifier = new HttpConfiguration() {
+class GraphQLWebtauHttpConfigurationsTest extends GraphQLTestBase {
+    private WebTauHttpConfiguration urlVerifier = new WebTauHttpConfiguration() {
         List<String> urls = []
 
         @Override
@@ -49,12 +49,12 @@ class GraphQLHttpConfigurationsTest extends GraphQLTestBase {
     @Before
     void addGraphQLUrlVerifier() {
         urlVerifier.urls = []
-        HttpConfigurations.add(urlVerifier)
+        WebTauHttpConfigurations.add(urlVerifier)
     }
 
     @After
     void cleanUp() {
-        HttpConfigurations.remove(urlVerifier)
+        WebTauHttpConfigurations.remove(urlVerifier)
     }
 
     @Test

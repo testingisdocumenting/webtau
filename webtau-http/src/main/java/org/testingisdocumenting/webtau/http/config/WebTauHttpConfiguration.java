@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +19,12 @@ package org.testingisdocumenting.webtau.http.config;
 
 import org.testingisdocumenting.webtau.http.HttpHeader;
 
-public interface HttpConfiguration {
-    String fullUrl(String url);
-    HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given);
+public interface WebTauHttpConfiguration {
+    default String fullUrl(String url) {
+        return url;
+    }
+
+    default HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
+        return given;
+    }
 }
