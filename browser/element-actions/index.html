@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Drag And Drop</h1></header>
-<p>def draggable = $(&quot;#draggable&quot;) def dropZone = $(&quot;#drop-zone&quot;) draggable.dragAndDropOver(dropZone)</p>
+<p>def draggable = $(&quot;#draggable&quot;) def dropZone = $(&quot;#drop-zone&quot;) draggable.dragAndDropOver(dropZone) def draggable = $(&quot;#draggable&quot;) draggable.dragAndDropBy(50, 50)</p>
 </article>
 
 <article>
@@ -227,12 +227,16 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "title" : "Drag And Drop",
       "content" : [ {
-        "endLine" : "// drag-and-drop",
         "snippet" : "def draggable = $(\"#draggable\")\ndef dropZone = $(\"#drop-zone\")\n\ndraggable.dragAndDropOver(dropZone)",
-        "excludeStartEnd" : true,
-        "startLine" : "// drag-and-drop",
+        "surroundedBy" : "// drag-and-drop-over",
         "type" : "Snippet",
-        "title" : "drag element to other",
+        "title" : "drag element over element",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "def draggable = $(\"#draggable\")\ndraggable.dragAndDropBy(50, 50)",
+        "surroundedBy" : "// drag-and-drop-by",
+        "type" : "Snippet",
+        "title" : "drag element by offset",
         "lang" : "groovy"
       } ]
     }, {
@@ -297,7 +301,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Element Actions",

@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Path based properties access</h1></header>
-<p>Primarily for Java users, webtau supports the ability to query properties of a DataNode via a path instead of chaining get(String name) calls. For example, to obtain a simple property: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;object.k1&quot;).should(equal(&quot;v1&quot;)); }); It is also possible to query arrays, including the ability to query for the Nth element from the end: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList[0].k1&quot;).should(equal(&quot;v1&quot;)); body.get(&quot;complexList[-1].k1&quot;).should(equal(&quot;v11&quot;)); }); Similarly to the Groovy example in HTTP/data-node#properties-on-lists Properties On Lists, it is possible to access all children property values: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList.k1&quot;).should(equal(Arrays.asList(&quot;v1&quot;, &quot;v11&quot;))); });</p>
+<p>Primarily for Java users, WebTau supports the ability to query properties of a DataNode via a path instead of chaining get(String name) calls. For example, to obtain a simple property: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;object.k1&quot;).should(equal(&quot;v1&quot;)); }); It is also possible to query arrays, including the ability to query for the Nth element from the end: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList[0].k1&quot;).should(equal(&quot;v1&quot;)); body.get(&quot;complexList[-1].k1&quot;).should(equal(&quot;v11&quot;)); }); Similarly to the Groovy example in HTTP/data-node#properties-on-lists Properties On Lists, it is possible to access all children property values: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList.k1&quot;).should(equal(Arrays.asList(&quot;v1&quot;, &quot;v11&quot;))); });</p>
 </article>
 
 <article>
@@ -291,7 +291,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Primarily for Java users, webtau supports the ability to query properties of a ",
+          "text" : "Primarily for Java users, WebTau supports the ability to query properties of a ",
           "type" : "SimpleText"
         }, {
           "code" : "DataNode",
@@ -548,7 +548,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1641786403222,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Data Node",

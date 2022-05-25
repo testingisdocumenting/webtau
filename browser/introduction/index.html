@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Webtau browser. module lets you interact with a browser. It provides higher level abstractions to locate elements, encapsulate page implementation details and deal with async nature of modern UIs. Groovy package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.waitToBe &gt; 1 } package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def header = $(&quot;#header&quot;) def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(browser.keys.enter) } } package pages class Pages { static final def search = new SearchPage() } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static com.example.tests.junit5.pages.Pages.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WebSearchJavaTest { @Test public void searchByQuery() { search.submit(&quot;search this&quot;); search.numberOfResults.waitToBe(greaterThan(1)); } } package com.example.tests.junit5.pages; import org.testingisdocumenting.webtau.browser.page.PageElement; import org.testingisdocumenting.webtau.browser.page.PageElementValue; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class SearchPage { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); public final PageElementValue&lt;Integer&gt; numberOfResults = results.getCount(); public void submit(String query) { browser.open(&quot;/search&quot;); box.setValue(query); box.sendKeys(browser.keys.enter); } } package com.example.tests.junit5.pages; public class Pages { public static SearchPage search = new SearchPage(); }</p>
+<p>WebTau browser. module lets you interact with a browser. It provides higher level abstractions to locate elements, encapsulate page implementation details and deal with async nature of modern UIs. Groovy package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.waitToBe &gt; 1 } package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def header = $(&quot;#header&quot;) def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def resultsArea = $(&quot;#results&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(browser.keys.enter) } } package pages class Pages { static final def search = new SearchPage() } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static com.example.tests.junit5.pages.Pages.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WebSearchJavaTest { @Test public void searchByQuery() { search.submit(&quot;search this&quot;); search.numberOfResults.waitToBe(greaterThan(1)); } } package com.example.tests.junit5.pages; import org.testingisdocumenting.webtau.browser.page.PageElement; import org.testingisdocumenting.webtau.browser.page.PageElementValue; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class SearchPage { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); public final PageElementValue&lt;Integer&gt; numberOfResults = results.getCount(); public void submit(String query) { browser.open(&quot;/search&quot;); box.setValue(query); box.sendKeys(browser.keys.enter); } } package com.example.tests.junit5.pages; public class Pages { public static SearchPage search = new SearchPage(); }</p>
 </article>
 </section>
 </div>
@@ -115,7 +115,7 @@ ReactDOM.render(React.createElement(Documentation, {
     "content" : [ {
       "type" : "Paragraph",
       "content" : [ {
-        "text" : "Webtau ",
+        "text" : "WebTau ",
         "type" : "SimpleText"
       }, {
         "code" : "browser.",
@@ -143,7 +143,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "title" : "Browser test (Groovy runner)",
           "lang" : "groovy"
         }, {
-          "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def header = $(\"#header\")\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
+          "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def header = $(\"#header\")\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n\n    def resultsArea = $(\"#results\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
           "type" : "Snippet",
           "title" : "SearchPage.groovy",
           "lang" : "groovy"
@@ -175,7 +175,7 @@ ReactDOM.render(React.createElement(Documentation, {
       } ],
       "type" : "Tabs"
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Introduction",

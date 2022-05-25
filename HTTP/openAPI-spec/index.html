@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Validation</h1></header>
-<p>Webtau supports validation of responses against an https://www.openapis.org/ OpenAPI specification. This feature can be enabled by specifying the openApiSpecUrl configuration option. This should be the URL to the specification against which to validate. url = &quot;http://localhost:8080&quot; openApiSpecUrl = &quot;scenarios/rest/springboot/api-spec.json&quot;</p>
+<p>WebTau supports validation of responses against an https://www.openapis.org/ OpenAPI specification. This feature can be enabled by specifying the openApiSpecUrl configuration option. This should be the URL to the specification against which to validate. url = &quot;http://localhost:8080&quot; openApiSpecUrl = &quot;scenarios/rest/springboot/api-spec.json&quot;</p>
 </article>
 
 <article>
 <header><h1>Current limitations</h1></header>
-<p>OpenAPI specification support is still in its early stage. It is fully functional but there are a few limitations to be aware of:webtau currently only supports OpenAPI specification v2 specification matching is currently done based on the path and method any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning on the console</p>
+<p>OpenAPI specification support is still in its early stage. It is fully functional but there are a few limitations to be aware of:WebTau currently only supports OpenAPI specification v2 specification matching is currently done based on the path and method any HTTP requests which do not match any operation in the specification will not fail tests but will produce a warning on the console</p>
 </article>
 
 <article>
 <header><h1>Validations report</h1></header>
-<p>The validation errors are reported in the same manner as assertion errors. They are available in the output from the command line webtau runner: bash &gt; executing HTTP POST http://localhost:8080/customers { &quot;id&quot;: 1, &quot;firstName&quot;: &quot;FN&quot;, &quot;lastName&quot;: &quot;LN&quot;, &quot;_links&quot;: { &quot;self&quot;: { &quot;href&quot;: &quot;http://localhost:8080/customers/1&quot; }, &quot;customer&quot;: { &quot;href&quot;: &quot;http://localhost:8080/customers/1&quot; } } } X failed executing HTTP POST http://localhost:8080/customers : API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] [x] failed java.lang.AssertionError: API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8) at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy) Total: 1, Passed: 0, Skipped: 0, Failed: 1, Errored: 0 They are also available in the HTML report:</p>
+<p>The validation errors are reported in the same manner as assertion errors. They are available in the output from the command line WebTau runner: bash &gt; executing HTTP POST http://localhost:8080/customers { &quot;id&quot;: 1, &quot;firstName&quot;: &quot;FN&quot;, &quot;lastName&quot;: &quot;LN&quot;, &quot;_links&quot;: { &quot;self&quot;: { &quot;href&quot;: &quot;http://localhost:8080/customers/1&quot; }, &quot;customer&quot;: { &quot;href&quot;: &quot;http://localhost:8080/customers/1&quot; } } } X failed executing HTTP POST http://localhost:8080/customers : API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] [x] failed java.lang.AssertionError: API spec validation failure: ERROR - Response status 201 not defined for path ''.: [] at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy:8) at scenarios.rest.springboot.customerCrud$_run_closure1.doCall(customerCrud.groovy) Total: 1, Passed: 0, Skipped: 0, Failed: 1, Errored: 0 They are also available in the HTML report:</p>
 </article>
 
 <article>
@@ -140,7 +140,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau supports validation of responses against an ",
+          "text" : "WebTau supports validation of responses against an ",
           "type" : "SimpleText"
         }, {
           "isFile" : false,
@@ -201,7 +201,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau currently only supports OpenAPI specification v2",
+              "text" : "WebTau currently only supports OpenAPI specification v2",
               "type" : "SimpleText"
             } ]
           } ]
@@ -242,7 +242,7 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "command line webtau runner:",
+          "text" : "command line WebTau runner:",
           "type" : "SimpleText"
         } ]
       }, {
@@ -263,7 +263,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "imageSrc" : "/webtau/img/rest-crud-openapi-spec-validation-error.png",
         "type" : "AnnotatedImage",
         "height" : 620.0,
-        "timestamp" : 1641786403226
+        "timestamp" : 1653501103760
       } ]
     }, {
       "id" : "validation-configuration",
@@ -320,7 +320,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1641786403222,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "OpenAPI Spec",

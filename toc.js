@@ -21,7 +21,7 @@ toc = [ {
     "fileName" : "what-is-this",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Webtau",
+      "title" : "WebTau",
       "id" : "webtau"
     }, {
       "title" : "Rest API Example",
@@ -622,6 +622,9 @@ toc = [ {
       "title" : "Annotation Placement",
       "id" : "annotation-placement"
     }, {
+      "title" : "Screenshot Of Specific Element",
+      "id" : "screenshot-of-specific-element"
+    }, {
       "title" : "Inverted Colors",
       "id" : "inverted-colors"
     } ]
@@ -1186,6 +1189,9 @@ toc = [ {
     }, {
       "title" : "Archive",
       "id" : "archive"
+    }, {
+      "title" : "Temporary Dirs And Files",
+      "id" : "temporary-dirs-and-files"
     } ]
   }, {
     "sectionTitle" : "Utilities",
@@ -1203,6 +1209,44 @@ toc = [ {
     }, {
       "title" : "Presence Check",
       "id" : "presence-check"
+    } ]
+  } ]
+}, {
+  "sectionTitle" : "Matchers",
+  "dirName" : "matchers",
+  "items" : [ {
+    "sectionTitle" : "Matchers",
+    "pageTitle" : "Universal Compare",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "universal-compare",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Cross Types Comparison",
+      "id" : "cross-types-comparison"
+    }, {
+      "title" : "Static Import",
+      "id" : "static-import"
+    }, {
+      "title" : "Java Beans And Maps",
+      "id" : "java-beans-and-maps"
+    }, {
+      "title" : "Dates",
+      "id" : "dates"
+    } ]
+  }, {
+    "sectionTitle" : "Matchers",
+    "pageTitle" : "Custom Compare To Handler",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "custom-compare-to-handler",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Handler vs Matcher",
+      "id" : "handler-vs-matcher"
+    }, {
+      "title" : "CompareToHandler",
+      "id" : "comparetohandler"
     } ]
   } ]
 }, {
@@ -1505,6 +1549,12 @@ toc = [ {
     "fileName" : "2022",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "1.48",
+      "id" : "148"
+    }, {
+      "title" : "1.47",
+      "id" : "147"
+    }, {
       "title" : "1.46",
       "id" : "146"
     } ]

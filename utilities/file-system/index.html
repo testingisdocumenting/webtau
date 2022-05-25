@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>File Content</h1></header>
-<p>def path = fs.writeText('my-test-file.txt', 'hello world') fs.textContent('my-test-file.txt').should == 'hello world\nid=15' fs.textContent declares file content, but doesn't access it right away. Webtau reads file content when validation happens. Here is an example of waiting on file content: def fileTextContent = fs.textContent('my-test-file.txt') fileTextContent.waitTo contain('id=15') Use .data to access actual file content for further processing def actualFileContent = fileTextContent.data Use extractByRegexp to extract content from a file by regular expression def id = fileTextContent.extractByRegexp(&quot;id=(\\d+)&quot;) http.get(&quot;/customers/${id}&quot;) { // ... } Use replaceText to replace text in place fs.replaceText(path, ~/(\d+)/, '&quot;$1&quot;') a=1 b=2 a=&quot;1&quot; b=&quot;2&quot;</p>
+<p>def path = fs.writeText('my-test-file.txt', 'hello world') fs.textContent('my-test-file.txt').should == 'hello world\nid=15' fs.textContent declares file content, but doesn't access it right away. WebTau reads file content when validation happens. Here is an example of waiting on file content: def fileTextContent = fs.textContent('my-test-file.txt') fileTextContent.waitTo contain('id=15') Use .data to access actual file content for further processing def actualFileContent = fileTextContent.data Use extractByRegexp to extract content from a file by regular expression def id = fileTextContent.extractByRegexp(&quot;id=(\\d+)&quot;) http.get(&quot;/customers/${id}&quot;) { // ... } Use replaceText to replace text in place fs.replaceText(path, ~/(\d+)/, '&quot;$1&quot;') a=1 b=2 a=&quot;1&quot; b=&quot;2&quot;</p>
 </article>
 
 <article>
@@ -96,6 +96,11 @@
 <article>
 <header><h1>Archive</h1></header>
 <p>def dest = fs.tempDir(&quot;for-zip&quot;).resolve(&quot;content.zip&quot;) fs.zip('data/staticcontent', dest) def dir = fs.tempDir('for-unzip') fs.unzip('data/data.zip', dir) def dir = fs.tempDir('for-untar') fs.untar('data/data.tar', dir)</p>
+</article>
+
+<article>
+<header><h1>Temporary Dirs And Files</h1></header>
+<p>def dir = fs.tempDir(&quot;my-dir-prefix&quot;) def path = dir.resolve(&quot;my-file&quot;) fs.writeText(path, &quot;hello world&quot;) def parentDir = fs.tempDir(&quot;my-dir-prefix&quot;) def dir = fs.tempDir(parentDir, &quot;nested-temp-dir&quot;) def file = fs.tempFile(&quot;my-file-prefix&quot;, &quot;.txt&quot;) fs.writeText(file, &quot;hello world&quot;) def dir = fs.tempDir(&quot;temp-dir-prefix&quot;) def file = fs.tempFile(dir, &quot;my-file-prefix&quot;, &quot;.txt&quot;) /tmp/temp-dir-prefix3603251587456410109/my-file-prefix5817720589387327767.txt Note: temp files and temp directories will be automatically deleted at the end of run</p>
 </article>
 </section>
 </div>
@@ -150,7 +155,7 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "Webtau reads file content when validation happens. Here is an example of waiting on file content:",
+          "text" : "WebTau reads file content when validation happens. Here is an example of waiting on file content:",
           "type" : "SimpleText"
         } ]
       }, {
@@ -279,8 +284,48 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "untar a file",
         "lang" : "groovy"
       } ]
+    }, {
+      "id" : "temporary-dirs-and-files",
+      "type" : "Section",
+      "title" : "Temporary Dirs And Files",
+      "content" : [ {
+        "snippet" : "def dir = fs.tempDir(\"my-dir-prefix\")\ndef path = dir.resolve(\"my-file\")\nfs.writeText(path, \"hello world\")",
+        "surroundedBy" : "// temp-dir",
+        "type" : "Snippet",
+        "title" : "create temp directory",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "def parentDir = fs.tempDir(\"my-dir-prefix\")\ndef dir = fs.tempDir(parentDir, \"nested-temp-dir\")",
+        "surroundedBy" : "// temp-dir-parent",
+        "type" : "Snippet",
+        "title" : "create temp directory inside directory",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "def file = fs.tempFile(\"my-file-prefix\", \".txt\")\nfs.writeText(file, \"hello world\")",
+        "surroundedBy" : "// temp-file",
+        "type" : "Snippet",
+        "title" : "create temp file",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "def dir = fs.tempDir(\"temp-dir-prefix\")\ndef file = fs.tempFile(dir, \"my-file-prefix\", \".txt\")",
+        "surroundedBy" : "// temp-file-parent",
+        "type" : "Snippet",
+        "title" : "create temp file inside a directory",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "/tmp/temp-dir-prefix3603251587456410109/my-file-prefix5817720589387327767.txt",
+        "type" : "Snippet",
+        "title" : "example of temp file location",
+        "lang" : "txt"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: temp files and temp directories will be automatically deleted at the end of run",
+          "type" : "SimpleText"
+        } ]
+      } ]
     } ],
-    "lastModifiedTime" : 1641786403230,
+    "lastModifiedTime" : 1653501103764,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "File System",
@@ -297,6 +342,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Archive",
         "id" : "archive"
+      }, {
+        "title" : "Temporary Dirs And Files",
+        "id" : "temporary-dirs-and-files"
       } ]
     }
   }

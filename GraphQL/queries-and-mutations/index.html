@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Executing Queries and Mutations</h1></header>
-<p>Webtau follows GraphQL's https://graphql.org/learn/serving-over-http/ Serving over HTTP best practices when invoking GraphQL servers over HTTP.It therefore assumes the server responds to requests to /graphql so you do not need to specify that in the URL in your configuration. Requests allow providing:a query/mutation string variables an operation name Webtau will default to issuing POST requests according to the https://graphql.org/learn/serving-over-http/#post-request best practices and will expect a 200 status code and a response with a data or errors field.The following example demonstrates most of these query features: package scenarios.graphql import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def listAllQuery = ''' { allTasks(uncompletedOnly: false) { id description } } ''' def taskByIdQuery = ''' query taskById($id: ID!) { taskById(id: $id) { id description completed } } ''' def completeMutation = ''' mutation complete($id: ID!) { complete(id: $id) } ''' scenario(&quot;list all tasks&quot;) { graphql.execute(listAllQuery) { // Execute a simple query with no variables errors.should == null // Validate there were no errors body.data.allTasks.id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] // Access response data with the full path allTasks.id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] // Access response data via a shortcut allowing omitting of `body.data` id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] // For single query requests, access response data via a shortcut allowing omitting of `body.data` and the query name } } scenario(&quot;complete a task&quot;) { graphql.execute(completeMutation, [id: &quot;a&quot;]) { // Execute a mutation with a variables map errors.should == null complete.should == true } graphql.execute(taskByIdQuery, [id: &quot;a&quot;]) { errors.should == null taskById.id.should == &quot;a&quot; taskById.completed.should == true } } scenario(&quot;cannot complete a completed task&quot;) { graphql.execute(completeMutation, [id: &quot;b&quot;]) { // Execute a mutation with a variables map errors.should == null complete.should == true } graphql.execute(completeMutation, [id: &quot;b&quot;]) { // force an error errors[0].message.shouldNot == null complete.should == null } }</p>
+<p>WebTau follows GraphQL's https://graphql.org/learn/serving-over-http/ Serving over HTTP best practices when invoking GraphQL servers over HTTP.It therefore assumes the server responds to requests to /graphql so you do not need to specify that in the URL in your configuration. Requests allow providing:a query/mutation string variables an operation name WebTau will default to issuing POST requests according to the https://graphql.org/learn/serving-over-http/#post-request best practices and will expect a 200 status code and a response with a data or errors field.The following example demonstrates most of these query features: package scenarios.graphql import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def listAllQuery = ''' { allTasks(uncompletedOnly: false) { id description } } ''' def taskByIdQuery = ''' query taskById($id: ID!) { taskById(id: $id) { id description completed } } ''' def completeMutation = ''' mutation complete($id: ID!) { complete(id: $id) } ''' scenario(&quot;list all tasks&quot;) { graphql.execute(listAllQuery) { // Execute a simple query with no variables errors.should == null // Validate there were no errors body.data.allTasks.id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] // Access response data with the full path allTasks.id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] // Access response data via a shortcut allowing omitting of `body.data` id.should == [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;] // For single query requests, access response data via a shortcut allowing omitting of `body.data` and the query name } } scenario(&quot;complete a task&quot;) { graphql.execute(completeMutation, [id: &quot;a&quot;]) { // Execute a mutation with a variables map errors.should == null complete.should == true } graphql.execute(taskByIdQuery, [id: &quot;a&quot;]) { errors.should == null taskById.id.should == &quot;a&quot; taskById.completed.should == true } } scenario(&quot;cannot complete a completed task&quot;) { graphql.execute(completeMutation, [id: &quot;b&quot;]) { // Execute a mutation with a variables map errors.should == null complete.should == true } graphql.execute(completeMutation, [id: &quot;b&quot;]) { // force an error errors[0].message.shouldNot == null complete.should == null } }</p>
 </article>
 
 <article>
@@ -125,7 +125,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau follows GraphQL's ",
+          "text" : "WebTau follows GraphQL's ",
           "type" : "SimpleText"
         }, {
           "isFile" : false,
@@ -196,7 +196,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau will default to issuing ",
+          "text" : "WebTau will default to issuing ",
           "type" : "SimpleText"
         }, {
           "code" : "POST",
@@ -278,7 +278,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1641786403222,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "GraphQL",
       "pageTitle" : "Queries And Mutations",

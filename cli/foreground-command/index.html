@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Run</h1></header>
-<p>Webtau can run commands in foreground and in background . When command is ran in foreground webtau will wait for the command to finish.To run a command use cli.run with a single string parameter that includes a command and all its arguments: cli.run('echo hello world')</p>
+<p>WebTau can run commands in foreground and in background . When command is ran in foreground WebTau will wait for the command to finish.To run a command use cli.run with a single string parameter that includes a command and all its arguments: cli.run('echo hello world')</p>
 </article>
 
 <article>
@@ -95,12 +95,12 @@
 
 <article>
 <header><h1>Implicit Exit Code Validation</h1></header>
-<p>Webtau performs implicit exit code validation and adds exitCode equals zero when you don't specify explicit exitCode validation. cli.run('echo hello world') Example above is equivalent to cli.run('echo hello world') { exitCode.should == 0 }</p>
+<p>WebTau performs implicit exit code validation and adds exitCode equals zero when you don't specify explicit exitCode validation. cli.run('echo hello world') Example above is equivalent to cli.run('echo hello world') { exitCode.should == 0 }</p>
 </article>
 
 <article>
 <header><h1>Run Result</h1></header>
-<p>Use the result of cli.run if you need to process the output of the command. def result = cli.run('scripts/my-script') { exitCode.shouldNot == 0 } println result.output println result.error if (result.exitCode == 1) { // ... } Warning: Perform validation inside validation block so webtau can track what was checked. def result = cli.run('scripts/generate-id') def id = result.extractFromOutputByRegexp(&quot;id=(\\d+)&quot;) def result = cli.run('scripts/generate-id') def id = result.extractFromErrorByRegexp(&quot;id=(\\d+)&quot;)</p>
+<p>Use the result of cli.run if you need to process the output of the command. def result = cli.run('scripts/my-script') { exitCode.shouldNot == 0 } println result.output println result.error if (result.exitCode == 1) { // ... } Warning: Perform validation inside validation block so WebTau can track what was checked. def result = cli.run('scripts/generate-id') def id = result.extractFromOutputByRegexp(&quot;id=(\\d+)&quot;) def result = cli.run('scripts/generate-id') def id = result.extractFromErrorByRegexp(&quot;id=(\\d+)&quot;)</p>
 </article>
 
 <article>
@@ -161,7 +161,7 @@ ReactDOM.render(React.createElement(Documentation, {
     "content" : [ {
       "type" : "Paragraph",
       "content" : [ {
-        "text" : "Webtau can run commands in ",
+        "text" : "WebTau can run commands in ",
         "type" : "SimpleText"
       }, {
         "code" : "foreground",
@@ -179,7 +179,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "code" : "foreground",
         "type" : "InlinedCode"
       }, {
-        "text" : " webtau will",
+        "text" : " WebTau will",
         "type" : "SimpleText"
       }, {
         "type" : "SoftLineBreak"
@@ -241,7 +241,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau performs implicit exit code validation and adds ",
+          "text" : "WebTau performs implicit exit code validation and adds ",
           "type" : "SimpleText"
         }, {
           "code" : "exitCode",
@@ -275,7 +275,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "snippet" : "cli.run('echo hello world') {\n    exitCode.should == 0\n}",
         "type" : "Snippet",
-        "title" : "exit code check webtau performs if you don't write explicit validation",
+        "title" : "WebTau performs exit code check if you don't write explicit validation",
         "lang" : "groovy"
       } ]
     }, {
@@ -303,7 +303,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Warning: Perform validation inside validation block so webtau can track what was checked.",
+          "text" : "Warning: Perform validation inside validation block so WebTau can track what was checked.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -519,7 +519,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Foreground Command",

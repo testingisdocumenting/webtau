@@ -95,12 +95,12 @@
 
 <article>
 <header><h1>Should and Should Not</h1></header>
-<p>Matchers in webtau are triggered with should and shouldNot keywords. Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read. Groovy http.get(&quot;/example&quot;) { year.shouldNot == 2000 year.should != 2000 // alternative shortcut genres.should contain('RPG') rating.shouldBe &gt; 7 } Java http.get(&quot;/example&quot;, (header, body) -&gt; { body.get(&quot;year&quot;).shouldNot(equal(2000)); body.get(&quot;genres&quot;).should(contain(&quot;RPG&quot;)); body.get(&quot;rating&quot;).shouldBe(greaterThan(7)); });</p>
+<p>Matchers in WebTau are triggered with should and shouldNot keywords. Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read. Groovy http.get(&quot;/example&quot;) { year.shouldNot == 2000 year.should != 2000 // alternative shortcut genres.should contain('RPG') rating.shouldBe &gt; 7 } Java http.get(&quot;/example&quot;, (header, body) -&gt; { body.get(&quot;year&quot;).shouldNot(equal(2000)); body.get(&quot;genres&quot;).should(contain(&quot;RPG&quot;)); body.get(&quot;rating&quot;).shouldBe(greaterThan(7)); });</p>
 </article>
 
 <article>
 <header><h1>Equality</h1></header>
-<p>Webtau defines its own set of equality rules to simplify testing. Groovy http.get(&quot;/end-point&quot;) { id.should != 0 amount.should == 30 list.should == [1, 2, 3] object.k1.should == ~/v\d/ // regular expression matching object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { // matching only specified fields, but number of entries must be exact ________________ &quot;v1&quot; | 30 &quot;v11&quot; | 40 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldNot(equal(0)); body.get(&quot;amount&quot;).should(equal(30)); body.get(&quot;list&quot;).should(equal(Arrays.asList(1, 2, 3))); body.get(&quot;object&quot;).get(&quot;k1&quot;).should(equal( Pattern.compile(&quot;v\\d&quot;))); // regular expression matching body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, &quot;v3&quot;))); // matching only specified fields and can be nested multiple times body.get(&quot;complexList&quot;).should(equal(table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________, &quot;v1&quot; , 30, &quot;v11&quot;, 40))); }); Groovy http.get(&quot;/end-point&quot;) { complexList.should == [ &quot;*id&quot; | &quot;k1&quot; | &quot;k2&quot;] { // order agnostic key based match ________________________ &quot;id2&quot; | &quot;v11&quot; | 40 &quot;id1&quot; | &quot;v1&quot; | 30 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList&quot;).should(equal(table(&quot;*id&quot;, &quot;k1&quot; , &quot;k2&quot;, // order agnostic key based match ________________, &quot;id2&quot;, &quot;v11&quot;, 40, &quot;id1&quot;, &quot;v1&quot; , 30))); });</p>
+<p>WebTau defines its own set of equality rules to simplify testing. Groovy http.get(&quot;/end-point&quot;) { id.should != 0 amount.should == 30 list.should == [1, 2, 3] object.k1.should == ~/v\d/ // regular expression matching object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { // matching only specified fields, but number of entries must be exact ________________ &quot;v1&quot; | 30 &quot;v11&quot; | 40 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldNot(equal(0)); body.get(&quot;amount&quot;).should(equal(30)); body.get(&quot;list&quot;).should(equal(Arrays.asList(1, 2, 3))); body.get(&quot;object&quot;).get(&quot;k1&quot;).should(equal( Pattern.compile(&quot;v\\d&quot;))); // regular expression matching body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, &quot;v3&quot;))); // matching only specified fields and can be nested multiple times body.get(&quot;complexList&quot;).should(equal(table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________, &quot;v1&quot; , 30, &quot;v11&quot;, 40))); }); Groovy http.get(&quot;/end-point&quot;) { complexList.should == [ &quot;*id&quot; | &quot;k1&quot; | &quot;k2&quot;] { // order agnostic key based match ________________________ &quot;id2&quot; | &quot;v11&quot; | 40 &quot;id1&quot; | &quot;v1&quot; | 30 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList&quot;).should(equal(table(&quot;*id&quot;, &quot;k1&quot; , &quot;k2&quot;, // order agnostic key based match ________________, &quot;id2&quot;, &quot;v11&quot;, 40, &quot;id1&quot;, &quot;v1&quot; , 30))); });</p>
 </article>
 
 <article>
@@ -290,7 +290,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Matchers in webtau are triggered with ",
+          "text" : "Matchers in WebTau are triggered with ",
           "type" : "SimpleText"
         }, {
           "code" : "should",
@@ -354,7 +354,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau defines its own set of equality rules to simplify testing.",
+          "text" : "WebTau defines its own set of equality rules to simplify testing.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -894,7 +894,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1641786403222,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Matchers",

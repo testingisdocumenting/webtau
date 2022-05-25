@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Universal Compare</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Cross Types Comparison</h1></header>
+<p>In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations using the same set of matchers. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</p>
+</article>
+
+<article>
+<header><h1>Static Import</h1></header>
+<p>Examples assume static import. The class contains useful utility methods and matchers import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+</article>
+
+<article>
+<header><h1>Java Beans And Maps</h1></header>
+<p>Use map and bean comparison to validate individual java bean properties. Groovy def account = new Account(&quot;ac1&quot;, &quot;My Account&quot;, &quot;test account&quot;) account.should == [ id: &quot;ac1&quot;, name: &quot;My Account&quot;] // only specified properties will be compared Java Account account = new Account(&quot;ac1&quot;, &quot;My Account&quot;, &quot;test account&quot;); actual(account).should(equal(aMapOf( // utility function from WebTauCore static import &quot;id&quot;, &quot;ac1&quot;, &quot;name&quot;, &quot;My Account&quot;))); // only specified properties will be compared public class Account { private final String id; private final String name; private final String description; public Account(String id, String name, String description) { this.id = id; this.name = name; this.description = description; } public String getId() { return id; } public String getName() { return name; } public String getDescription() { return description; } }</p>
+</article>
+
+<article>
+<header><h1>Dates</h1></header>
+<p>Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.shouldBe &gt; LocalDate.of(2018, 6, 9) def timeAsText = &quot;2018-01-02T00:00:00Z&quot; timeAsText.shouldBe &gt; LocalDate.of(2018, 1, 1) // date/time will be converted to local timezone def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4) def dateOnly = LocalDate.of(2022, 3, 16) withTime.should == dateOnly // comparison ignores time portion Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(greaterThan(LocalDate.of(2018, 6, 9))); String timeAsText = &quot;2018-01-02T00:00:00Z&quot;; actual(timeAsText).shouldBe(greaterThan(LocalDate.of(2018, 1, 1))); // date/time will be converted to local timezone LocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4); LocalDate withDate = LocalDate.of(2022, 3, 16); actual(withTime).should(equal(withDate)); // comparison ignores time portion</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "cross-types-comparison",
+      "type" : "Section",
+      "title" : "Cross Types Comparison",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "using the same set of matchers.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def errorMessage = generateErrorMessage()\nerrorMessage.should == \"insufficient disk space\" // string and string equality comparison\n\ndef numberAsText = \"200\"\nnumberAsText.shouldBe > 150 // text and number relative comparison",
+            "surroundedBy" : [ "string-string-example", "string-number-example" ],
+            "commentsType" : "inline",
+            "type" : "Snippet",
+            "surroundedBySeparator" : "",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "String errorMessage = generateErrorMessage();\nactual(errorMessage).should(equal(\"insufficient disk space\")); // string and string equality comparison\n\nString numberAsText = \"200\";\nactual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison",
+            "surroundedBy" : [ "string-string-example", "string-number-example" ],
+            "commentsType" : "inline",
+            "type" : "Snippet",
+            "surroundedBySeparator" : "",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "static-import",
+      "type" : "Section",
+      "title" : "Static Import",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Examples assume ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauCore",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " static import.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "The class contains useful utility methods and matchers",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
+        "surroundedBy" : "import-dsl",
+        "type" : "Snippet",
+        "lang" : "java"
+      } ]
+    }, {
+      "id" : "java-beans-and-maps",
+      "type" : "Section",
+      "title" : "Java Beans And Maps",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use map and bean comparison to validate individual java bean properties.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def account = new Account(\"ac1\", \"My Account\", \"test account\")\naccount.should == [\n        id: \"ac1\",\n        name: \"My Account\"] // only specified properties will be compared",
+            "surroundedBy" : "bean-map-example",
+            "commentsType" : "inline",
+            "type" : "Snippet",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "Account account = new Account(\"ac1\", \"My Account\", \"test account\");\nactual(account).should(equal(aMapOf( // utility function from WebTauCore static import\n        \"id\", \"ac1\",\n        \"name\", \"My Account\"))); // only specified properties will be compared",
+            "surroundedBy" : "bean-map-example",
+            "commentsType" : "inline",
+            "type" : "Snippet",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "snippet" : "public class Account {\n    private final String id;\n    private final String name;\n    private final String description;\n\n    public Account(String id, String name, String description) {\n        this.id = id;\n        this.name = name;\n        this.description = description;\n    }\n\n    public String getId() {\n        return id;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getDescription() {\n        return description;\n    }\n}",
+        "surroundedBy" : "account",
+        "type" : "Snippet",
+        "title" : "Account Bean",
+        "lang" : "java"
+      } ]
+    }, {
+      "id" : "dates",
+      "type" : "Section",
+      "title" : "Dates",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Universal compare lets you compare dates, local dates, strings, and times with timezones against each other.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.shouldBe > LocalDate.of(2018, 6, 9)\n\ndef timeAsText = \"2018-01-02T00:00:00Z\"\ntimeAsText.shouldBe > LocalDate.of(2018, 1, 1) // date/time will be converted to local timezone\n\ndef withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4)\ndef dateOnly = LocalDate.of(2022, 3, 16)\nwithTime.should == dateOnly // comparison ignores time portion",
+            "entry" : [ "actual local date string greater than expected local date instance", "actual zoned date time string greater than expected local date instance", "should compare local date against local date time" ],
+            "bodyOnly" : true,
+            "commentsType" : "inline",
+            "type" : "Snippet",
+            "title" : "text and date",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(greaterThan(LocalDate.of(2018, 6, 9)));\n\nString timeAsText = \"2018-01-02T00:00:00Z\";\nactual(timeAsText).shouldBe(greaterThan(LocalDate.of(2018, 1, 1))); // date/time will be converted to local timezone\n\nLocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4);\nLocalDate withDate = LocalDate.of(2022, 3, 16);\nactual(withTime).should(equal(withDate)); // comparison ignores time portion",
+            "entry" : [ "actualLocalDateStringGreaterThanExpectedLocalDateInstance", "actualZonedDateTimeStringGreaterThanExpectedLocalDateInstance", "shouldCompareLocalDateAgainstLocalDateTime" ],
+            "bodyOnly" : true,
+            "commentsType" : "inline",
+            "type" : "Snippet",
+            "title" : "text and date",
+            "lang" : "groovy"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    } ],
+    "lastModifiedTime" : 1653501103764,
+    "tocItem" : {
+      "sectionTitle" : "Matchers",
+      "pageTitle" : "Universal Compare",
+      "pageMeta" : { },
+      "dirName" : "matchers",
+      "fileName" : "universal-compare",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Cross Types Comparison",
+        "id" : "cross-types-comparison"
+      }, {
+        "title" : "Static Import",
+        "id" : "static-import"
+      }, {
+        "title" : "Java Beans And Maps",
+        "id" : "java-beans-and-maps"
+      }, {
+        "title" : "Dates",
+        "id" : "dates"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

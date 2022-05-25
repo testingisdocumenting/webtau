@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Standalone CLI</h1></header>
-<p>Webtau has a standalone runner, so you can author and run tests without needing a build system or IDEs. You can fire your editor of choice and start creating automations without worrying about imports and packages to get your first result.In Enterprise setups webtau command line tool can be shared with everyone through mount drives or other similar mechanisms which makes local testing and CI testing to be much more streamlined.</p>
+<p>WebTau has a standalone runner, so you can author and run tests without needing a build system or IDEs. You can fire your editor of choice and start creating automations without worrying about imports and packages to get your first result.In Enterprise setups WebTau command line tool can be shared with everyone through mount drives or other similar mechanisms which makes local testing and CI testing to be much more streamlined.</p>
 </article>
 
 <article>
 <header><h1>Setup</h1></header>
-<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.46/webtau-dist-1.46-webtau.zip webtau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</p>
+<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.47/webtau-dist-1.47-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</p>
 </article>
 
 <article>
 <header><h1>REPL</h1></header>
-<p>Webtau standalone runner comes with repl mode that let you experiment with API and write tests incrementally. Repl mode preserves context of the runs which significantly speeds up tests development.Even if you don't want to use Groovy for your tests, you can still benefit from REPL mode as you experiment with APIs and system under tests. REPL/experiments Learn more about REPL</p>
+<p>WebTau standalone runner comes with repl mode that let you experiment with API and write tests incrementally. Repl mode preserves context of the runs which significantly speeds up tests development.Even if you don't want to use Groovy for your tests, you can still benefit from REPL mode as you experiment with APIs and system under tests. REPL/experiments Learn more about REPL</p>
 </article>
 </section>
 </div>
@@ -130,7 +130,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau has a standalone runner, so you can author and run tests without needing a build system or IDEs.",
+          "text" : "WebTau has a standalone runner, so you can author and run tests without needing a build system or IDEs.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
@@ -146,7 +146,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "In Enterprise setups webtau command line tool can be shared with everyone through mount drives or other similar",
+          "text" : "In Enterprise setups WebTau command line tool can be shared with everyone through mount drives or other similar",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
@@ -212,10 +212,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
-            "text" : "webtau",
+            "text" : "WebTau",
             "type" : "SimpleText"
           } ],
-          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.46/webtau-dist-1.46-webtau.zip"
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.47/webtau-dist-1.47-webtau.zip"
         }, {
           "text" : ".",
           "type" : "SimpleText"
@@ -274,7 +274,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau standalone runner comes with ",
+          "text" : "WebTau standalone runner comes with ",
           "type" : "SimpleText"
         }, {
           "code" : "repl",
@@ -312,7 +312,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Introduction",

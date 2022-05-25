@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Unconditionally Skipping Tests</h1></header>
-<p>Instead of scenario , use dscenario or disabledScenario to always skip a test. This is analogous to Junit's @Ignore or @Disabled . package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* dscenario('do not execute this scenario') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } } disabledScenario('do not execute this scenario either') { http.get('/new-endpoint') { price.shouldBe &gt; 0 } }</p>
+<p>Instead of scenario , use dscenario or disabledScenario to always skip a test. This is analogous to Junit's @Ignore or @Disabled . package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* dscenario('do not execute this scenario') { http.get('/non-existing-endpoint') { price.shouldBe &gt; 0 } } disabledScenario('do not execute this scenario either') { http.get('/non-existing-endpoint') { price.shouldBe &gt; 0 } } Alternatively, if you name file as &lt;fileName&gt;.disabled.groovy WebTau will skip all the scenarios inside.</p>
 </article>
 </section>
 </div>
@@ -258,13 +258,25 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndscenario('do not execute this scenario') {\n    http.get('/new-endpoint') {\n        price.shouldBe > 0\n    }\n}\n\ndisabledScenario('do not execute this scenario either') {\n    http.get('/new-endpoint') {\n        price.shouldBe > 0\n    }\n}",
+        "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndscenario('do not execute this scenario') {\n    http.get('/non-existing-endpoint') {\n        price.shouldBe > 0\n    }\n}\n\ndisabledScenario('do not execute this scenario either') {\n    http.get('/non-existing-endpoint') {\n        price.shouldBe > 0\n    }\n}",
         "type" : "Snippet",
         "title" : "Disable tests",
         "lang" : "groovy"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Alternatively, if you name file as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "<fileName>.disabled.groovy",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " WebTau will skip all the scenarios inside.",
+          "type" : "SimpleText"
+        } ]
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Skipping Tests",

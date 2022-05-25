@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Definition</h1></header>
-<p>To define PageObject create a class. package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def header = $(&quot;#header&quot;) def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(browser.keys.enter) } }</p>
+<p>To define PageObject create a class. package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def header = $(&quot;#header&quot;) def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def resultsArea = $(&quot;#results&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(browser.keys.enter) } }</p>
 </article>
 
 <article>
@@ -200,7 +200,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def header = $(\"#header\")\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
+        "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def header = $(\"#header\")\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n\n    def resultsArea = $(\"#results\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
         "type" : "Snippet",
         "lang" : "groovy"
       } ]
@@ -236,7 +236,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Page Object",

@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>CLI and configuration file options</h1></header>
-<p>name description default value browserAnnotationsDarkFriendly browser doc capture to use light colors annotations by default (for dark theme UI) false browserDisableExtensions run browser without extensions false browserHeadless run browser in headless mode false browserHeight browser window height 0 browserId browser to use: chrome, firefox chrome browserRemoteDriverUrl browser remote driver url browserStaleElementRetry number of times to automatically retry for browser stale element actions 5 browserStaleElementRetryWait wait time in between browser stale element retries 100 browserUrl browser base url for application under test. It is being used instead of url when provided browserVersion browser version for automatic driver download browserWidth browser window width 0 cachePath user driven cache base dir ${workingDir}/.webtau-cache chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary cliEnv cli common environment variables {} cliPath path items to append to path used for cli runs [] cliTimeout cli foreground command run timeout (ms) 30000 config config file path webtau.cfg.groovy consolePayloadOutputLimit max number of lines to display in console for outputs (e.g. http response) 500 dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP calls false docPath path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts env environment id local failedReportPath failed report file path firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary fullStackTrace print full stack trace to console false graphQLEndpoint override the default graphQL endpoint /graphql graphQLIgnoreIntrospectionFailures ignore graphQL introspection failures, introspection is required for coverage reporting true graphQLShowOperationAsQueryParam pass the graphQL operation as operation=&lt;operation&gt; query parameter if present true httpProxy http proxy host:port httpTimeout http connect and read timeout in milliseconds 30000 jsonSchemasDir url of directory containing JSON schemas /home/runner/work/webtau/webtau/webtau-groovy-app maxRedirects Maximum number of redirects to follow for an HTTP call 20 noColor disable ANSI colors false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI properties false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls removeWebtauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that part false reportName report name to show webtau report reportNameUrl report name url to navigate to when clicked reportPath report file path /home/runner/work/webtau/webtau/webtau-groovy-app/${workingDir}/webtau.report.html serverProxyMaxThreads max number of threads for proxy servers (default number of CPUs * 2) 4 url base url for application under test userAgent User agent to send on HTTP requests webtau/1.46 verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 waitTimeout wait timeout in milliseconds 5000 workingDir logical working dir</p>
+<p>browserAnnotationsDarkFriendly browser doc capture to use light colors annotations by default (for dark theme UI)default value: false browserDisableExtensions run browser without extensionsdefault value: false browserHeadless run browser in headless modedefault value: false browserHeight browser window heightdefault value: 0 browserId browser to use: chrome, firefoxdefault value: chrome browserRemoteDriverUrl browser remote driver url browserStaleElementRetry number of times to automatically retry for browser stale element actionsdefault value: 5 browserStaleElementRetryWait wait time in between browser stale element retriesdefault value: 100 browserUrl browser base url for application under test. It is being used instead of url when provided browserVersion browser version for automatic driver download browserWidth browser window widthdefault value: 0 cachePath user driven cache base dirdefault value: ${workingDir}/.webtau-cache chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary cliEnv cli common environment variablesdefault value: {} cliPath path items to append to path used for cli runsdefault value: [] cliTimeout cli foreground command run timeout (ms)default value: 30000 config config file pathdefault value: webtau.cfg.groovy consolePayloadOutputLimit max number of lines to display in console for outputs (e.g. http response)default value: 500 dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP callsdefault value: false docPath path for captured request/responses, screenshots and other generated artifacts for documentationdefault value: ${workingDir}/doc-artifacts env environment iddefault value: local failedReportPath failed report file path firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary fullStackTrace print full stack trace to consoledefault value: false graphQLEndpoint override the default graphQL endpointdefault value: /graphql graphQLIgnoreIntrospectionFailures ignore graphQL introspection failures, introspection is required for coverage reportingdefault value: true graphQLShowOperationAsQueryParam pass the graphQL operation as operation= query parameter if presentdefault value: true httpProxy http proxy host:port httpTimeout http connect and read timeout in millisecondsdefault value: 30000 jsonSchemasDir url of directory containing JSON schemasdefault value: /home/runner/work/webtau/webtau/webtau-groovy-app maxRedirects Maximum number of redirects to follow for an HTTP calldefault value: 20 noColor disable ANSI colorsdefault value: false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are filesdefault value: 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI propertiesdefault value: false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls parallel run tests in parallel using numberOfThreads equals to number of filesdefault value: false removeWebTauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that partdefault value: false reportName report name to showdefault value: webtau report reportNameUrl report name url to navigate to when clicked reportPath report file pathdefault value: ${workingDir}/webtau.report.html serverProxyMaxThreads max number of threads for proxy servers (default number of CPUs * 2)default value: 4 termui enable terminal UI to monitor tests (experimental)default value: false url base url for application under test userAgent User agent to send on HTTP requestsdefault value: webtau/1.47 verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etcdefault value: 2147483647 waitTimeout wait timeout in millisecondsdefault value: 5000 workingDir logical working dirdefault value:</p>
 </article>
 
 <article>
 <header><h1>Environment variable options</h1></header>
-<p>environment variable description default value WEBTAU_BROWSER_ANNOTATIONS_DARK_FRIENDLY browser doc capture to use light colors annotations by default (for dark theme UI) false WEBTAU_BROWSER_DISABLE_EXTENSIONS run browser without extensions false WEBTAU_BROWSER_HEADLESS run browser in headless mode false WEBTAU_BROWSER_HEIGHT browser window height 0 WEBTAU_BROWSER_ID browser to use: chrome, firefox chrome WEBTAU_BROWSER_REMOTE_DRIVER_URL browser remote driver url WEBTAU_BROWSER_STALE_ELEMENT_RETRY number of times to automatically retry for browser stale element actions 5 WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT wait time in between browser stale element retries 100 WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_BROWSER_VERSION browser version for automatic driver download WEBTAU_BROWSER_WIDTH browser window width 0 WEBTAU_CACHE_PATH user driven cache base dir ${workingDir}/.webtau-cache WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CLI_ENV cli common environment variables {} WEBTAU_CLI_PATH path items to append to path used for cli runs [] WEBTAU_CLI_TIMEOUT cli foreground command run timeout (ms) 30000 WEBTAU_CONFIG config file path webtau.cfg.groovy WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT max number of lines to display in console for outputs (e.g. http response) 500 WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP calls false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentation ${workingDir}/doc-artifacts WEBTAU_ENV environment id local WEBTAU_FAILED_REPORT_PATH failed report file path WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_FULL_STACK_TRACE print full stack trace to console false WEBTAU_GRAPH_QLENDPOINT override the default graphQL endpoint /graphql WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES ignore graphQL introspection failures, introspection is required for coverage reporting true WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM pass the graphQL operation as operation=&lt;operation&gt; query parameter if present true WEBTAU_HTTP_PROXY http proxy host:port WEBTAU_HTTP_TIMEOUT http connect and read timeout in milliseconds 30000 WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemas /home/runner/work/webtau/webtau/webtau-groovy-app WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP call 20 WEBTAU_NO_COLOR disable ANSI colors false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI properties false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that part false WEBTAU_REPORT_NAME report name to show webtau report WEBTAU_REPORT_NAME_URL report name url to navigate to when clicked WEBTAU_REPORT_PATH report file path /home/runner/work/webtau/webtau/webtau-groovy-app/${workingDir}/webtau.report.html WEBTAU_SERVER_PROXY_MAX_THREADS max number of threads for proxy servers (default number of CPUs * 2) 4 WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requests webtau/1.46 WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in milliseconds 5000 WEBTAU_WORKING_DIR logical working dir</p>
+<p>WEBTAU_BROWSER_ANNOTATIONS_DARK_FRIENDLY browser doc capture to use light colors annotations by default (for dark theme UI)default value: false WEBTAU_BROWSER_DISABLE_EXTENSIONS run browser without extensionsdefault value: false WEBTAU_BROWSER_HEADLESS run browser in headless modedefault value: false WEBTAU_BROWSER_HEIGHT browser window heightdefault value: 0 WEBTAU_BROWSER_ID browser to use: chrome, firefoxdefault value: chrome WEBTAU_BROWSER_REMOTE_DRIVER_URL browser remote driver url WEBTAU_BROWSER_STALE_ELEMENT_RETRY number of times to automatically retry for browser stale element actionsdefault value: 5 WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT wait time in between browser stale element retriesdefault value: 100 WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_BROWSER_VERSION browser version for automatic driver download WEBTAU_BROWSER_WIDTH browser window widthdefault value: 0 WEBTAU_CACHE_PATH user driven cache base dirdefault value: ${workingDir}/.webtau-cache WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CLI_ENV cli common environment variablesdefault value: {} WEBTAU_CLI_PATH path items to append to path used for cli runsdefault value: [] WEBTAU_CLI_TIMEOUT cli foreground command run timeout (ms)default value: 30000 WEBTAU_CONFIG config file pathdefault value: webtau.cfg.groovy WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT max number of lines to display in console for outputs (e.g. http response)default value: 500 WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP callsdefault value: false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentationdefault value: ${workingDir}/doc-artifacts WEBTAU_ENV environment iddefault value: local WEBTAU_FAILED_REPORT_PATH failed report file path WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_FULL_STACK_TRACE print full stack trace to consoledefault value: false WEBTAU_GRAPH_QLENDPOINT override the default graphQL endpointdefault value: /graphql WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES ignore graphQL introspection failures, introspection is required for coverage reportingdefault value: true WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM pass the graphQL operation as operation= query parameter if presentdefault value: true WEBTAU_HTTP_PROXY http proxy host:port WEBTAU_HTTP_TIMEOUT http connect and read timeout in millisecondsdefault value: 30000 WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemasdefault value: /home/runner/work/webtau/webtau/webtau-groovy-app WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP calldefault value: 20 WEBTAU_NO_COLOR disable ANSI colorsdefault value: false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are filesdefault value: 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI propertiesdefault value: false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_PARALLEL run tests in parallel using numberOfThreads equals to number of filesdefault value: false WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that partdefault value: false WEBTAU_REPORT_NAME report name to showdefault value: webtau report WEBTAU_REPORT_NAME_URL report name url to navigate to when clicked WEBTAU_REPORT_PATH report file pathdefault value: ${workingDir}/webtau.report.html WEBTAU_SERVER_PROXY_MAX_THREADS max number of threads for proxy servers (default number of CPUs * 2)default value: 4 WEBTAU_TERMUI enable terminal UI to monitor tests (experimental)default value: false WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requestsdefault value: webtau/1.47 WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etcdefault value: 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in millisecondsdefault value: 5000 WEBTAU_WORKING_DIR logical working dirdefault value:</p>
 </article>
 </section>
 </div>
@@ -123,519 +123,602 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "title" : "CLI and configuration file options",
       "content" : [ {
-        "type" : "Table",
-        "table" : {
-          "data" : [ [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserAnnotationsDarkFriendly",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+        "type" : "ApiParameters",
+        "parameters" : [ {
+          "name" : "browserAnnotationsDarkFriendly",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser doc capture to use light colors annotations by default (for dark theme UI)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserDisableExtensions",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserAnnotationsDarkFriendly",
+          "type" : [ ]
+        }, {
+          "name" : "browserDisableExtensions",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "run browser without extensions",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserHeadless",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserDisableExtensions",
+          "type" : [ ]
+        }, {
+          "name" : "browserHeadless",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "run browser in headless mode",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserHeight",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserHeadless",
+          "type" : [ ]
+        }, {
+          "name" : "browserHeight",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser window height",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "0",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserId",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserHeight",
+          "type" : [ ]
+        }, {
+          "name" : "browserId",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser to use: chrome, firefox",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "chrome",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": chrome",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserRemoteDriverUrl",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserId",
+          "type" : [ ]
+        }, {
+          "name" : "browserRemoteDriverUrl",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser remote driver url",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserStaleElementRetry",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserRemoteDriverUrl",
+          "type" : [ ]
+        }, {
+          "name" : "browserStaleElementRetry",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "number of times to automatically retry for browser stale element actions",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "5",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 5",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserStaleElementRetryWait",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserStaleElementRetry",
+          "type" : [ ]
+        }, {
+          "name" : "browserStaleElementRetryWait",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "wait time in between browser stale element retries",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "100",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 100",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserUrl",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserStaleElementRetryWait",
+          "type" : [ ]
+        }, {
+          "name" : "browserUrl",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser base url for application under test. It is being used instead of url when provided",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserVersion",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserUrl",
+          "type" : [ ]
+        }, {
+          "name" : "browserVersion",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser version for automatic driver download",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "browserWidth",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserVersion",
+          "type" : [ ]
+        }, {
+          "name" : "browserWidth",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser window width",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "0",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "cachePath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "browserWidth",
+          "type" : [ ]
+        }, {
+          "name" : "cachePath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "user driven cache base dir",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "${workingDir}/.webtau-cache",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ${workingDir}/.webtau-cache",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "chromeBinPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "cachePath",
+          "type" : [ ]
+        }, {
+          "name" : "chromeBinPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "chromeDriverPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "chromeBinPath",
+          "type" : [ ]
+        }, {
+          "name" : "chromeDriverPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome driver binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "cliEnv",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "chromeDriverPath",
+          "type" : [ ]
+        }, {
+          "name" : "cliEnv",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "cli common environment variables",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "{}",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": {}",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "cliPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "cliEnv",
+          "type" : [ ]
+        }, {
+          "name" : "cliPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path items to append to path used for cli runs",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "[]",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": []",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "cliTimeout",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "cliPath",
+          "type" : [ ]
+        }, {
+          "name" : "cliTimeout",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "cli foreground command run timeout (ms)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "30000",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "config",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "cliTimeout",
+          "type" : [ ]
+        }, {
+          "name" : "config",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "config file path",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau.cfg.groovy",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": webtau.cfg.groovy",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "consolePayloadOutputLimit",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "config",
+          "type" : [ ]
+        }, {
+          "name" : "consolePayloadOutputLimit",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "max number of lines to display in console for outputs (e.g. http response)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "500",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 500",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "dbDriverClassName",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "consolePayloadOutputLimit",
+          "type" : [ ]
+        }, {
+          "name" : "dbDriverClassName",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database driver class name",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "dbPassword",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "dbDriverClassName",
+          "type" : [ ]
+        }, {
+          "name" : "dbPassword",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database password",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "dbUrl",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "dbPassword",
+          "type" : [ ]
+        }, {
+          "name" : "dbUrl",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database url",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "dbUserName",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "dbUrl",
+          "type" : [ ]
+        }, {
+          "name" : "dbUserName",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database user name",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "disableRedirects",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "dbUserName",
+          "type" : [ ]
+        }, {
+          "name" : "disableRedirects",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "disable following of redirects from HTTP calls",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "docPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "disableRedirects",
+          "type" : [ ]
+        }, {
+          "name" : "docPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path for captured request/responses, screenshots and other generated artifacts for documentation",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "${workingDir}/doc-artifacts",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ${workingDir}/doc-artifacts",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "env",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "docPath",
+          "type" : [ ]
+        }, {
+          "name" : "env",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "environment id",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "local",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": local",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "failedReportPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "env",
+          "type" : [ ]
+        }, {
+          "name" : "failedReportPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "failed report file path",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "firefoxBinPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "failedReportPath",
+          "type" : [ ]
+        }, {
+          "name" : "firefoxBinPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "firefoxDriverPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "firefoxBinPath",
+          "type" : [ ]
+        }, {
+          "name" : "firefoxDriverPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox driver binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "fullStackTrace",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "firefoxDriverPath",
+          "type" : [ ]
+        }, {
+          "name" : "fullStackTrace",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "print full stack trace to console",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "graphQLEndpoint",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "fullStackTrace",
+          "type" : [ ]
+        }, {
+          "name" : "graphQLEndpoint",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "override the default graphQL endpoint",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "/graphql",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": /graphql",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "graphQLIgnoreIntrospectionFailures",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "graphQLEndpoint",
+          "type" : [ ]
+        }, {
+          "name" : "graphQLIgnoreIntrospectionFailures",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "ignore graphQL introspection failures, introspection is required for coverage reporting",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "true",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "graphQLShowOperationAsQueryParam",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "graphQLIgnoreIntrospectionFailures",
+          "type" : [ ]
+        }, {
+          "name" : "graphQLShowOperationAsQueryParam",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "pass the graphQL operation as operation=",
@@ -644,834 +727,1036 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " query parameter if present",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "true",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "httpProxy",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "graphQLShowOperationAsQueryParam",
+          "type" : [ ]
+        }, {
+          "name" : "httpProxy",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "http proxy host:port",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "httpTimeout",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "httpProxy",
+          "type" : [ ]
+        }, {
+          "name" : "httpTimeout",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "http connect and read timeout in milliseconds",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "30000",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "jsonSchemasDir",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "httpTimeout",
+          "type" : [ ]
+        }, {
+          "name" : "jsonSchemasDir",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "url of directory containing JSON schemas",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "/home/runner/work/webtau/webtau/webtau-groovy-app",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": /home/runner/work/webtau/webtau/webtau-groovy-app",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "maxRedirects",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "jsonSchemasDir",
+          "type" : [ ]
+        }, {
+          "name" : "maxRedirects",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "Maximum number of redirects to follow for an HTTP call",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "20",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 20",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "noColor",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "maxRedirects",
+          "type" : [ ]
+        }, {
+          "name" : "noColor",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "disable ANSI colors",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "numberOfThreads",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "noColor",
+          "type" : [ ]
+        }, {
+          "name" : "numberOfThreads",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "1",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 1",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "openApiIgnoreAdditionalProperties",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "numberOfThreads",
+          "type" : [ ]
+        }, {
+          "name" : "openApiIgnoreAdditionalProperties",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "ignore additional OpenAPI properties",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "openApiSpecUrl",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "openApiIgnoreAdditionalProperties",
+          "type" : [ ]
+        }, {
+          "name" : "openApiSpecUrl",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "url of OpenAPI 2 spec against which to validate http calls",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
+          } ],
+          "anchorId" : "openApiSpecUrl",
+          "type" : [ ]
+        }, {
+          "name" : "parallel",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "removeWebtauFromUserAgent",
+              "text" : "run tests in parallel using numberOfThreads equals to number of files",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
+              "type" : "SimpleText"
+            } ]
+          } ],
+          "anchorId" : "parallel",
+          "type" : [ ]
+        }, {
+          "name" : "removeWebTauFromUserAgent",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "By default webtau appends webtau and its version to the user-agent, this disables that part",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "reportName",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "removeWebTauFromUserAgent",
+          "type" : [ ]
+        }, {
+          "name" : "reportName",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report name to show",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau report",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": webtau report",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "reportNameUrl",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "reportName",
+          "type" : [ ]
+        }, {
+          "name" : "reportNameUrl",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report name url to navigate to when clicked",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "reportPath",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "reportNameUrl",
+          "type" : [ ]
+        }, {
+          "name" : "reportPath",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report file path",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "/home/runner/work/webtau/webtau/webtau-groovy-app/${workingDir}/webtau.report.html",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ${workingDir}/webtau.report.html",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "serverProxyMaxThreads",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "reportPath",
+          "type" : [ ]
+        }, {
+          "name" : "serverProxyMaxThreads",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "max number of threads for proxy servers (default number of CPUs * 2)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "4",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 4",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
+          } ],
+          "anchorId" : "serverProxyMaxThreads",
+          "type" : [ ]
+        }, {
+          "name" : "termui",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "url",
+              "text" : "enable terminal UI to monitor tests (experimental)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
+              "type" : "SimpleText"
+            } ]
+          } ],
+          "anchorId" : "termui",
+          "type" : [ ]
+        }, {
+          "name" : "url",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "base url for application under test",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "userAgent",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "url",
+          "type" : [ ]
+        }, {
+          "name" : "userAgent",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "User agent to send on HTTP requests",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau/1.46",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": webtau/1.47",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "verbosityLevel",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "userAgent",
+          "type" : [ ]
+        }, {
+          "name" : "verbosityLevel",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "2147483647",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 2147483647",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "waitTimeout",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "verbosityLevel",
+          "type" : [ ]
+        }, {
+          "name" : "waitTimeout",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "wait timeout in milliseconds",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "5000",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 5000",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "workingDir",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "waitTimeout",
+          "type" : [ ]
+        }, {
+          "name" : "workingDir",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "logical working dir",
               "type" : "SimpleText"
             } ]
-          } ], null ] ],
-          "columns" : [ {
-            "title" : "name"
           }, {
-            "title" : "description"
-          }, {
-            "title" : "default value"
-          } ]
-        }
+            "type" : "Paragraph",
+            "content" : [ {
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ",
+              "type" : "SimpleText"
+            } ]
+          } ],
+          "anchorId" : "workingDir",
+          "type" : [ ]
+        } ]
       } ]
     }, {
       "id" : "environment-variable-options",
       "type" : "Section",
       "title" : "Environment variable options",
       "content" : [ {
-        "type" : "Table",
-        "table" : {
-          "data" : [ [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_ANNOTATIONS_DARK_FRIENDLY",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+        "type" : "ApiParameters",
+        "parameters" : [ {
+          "name" : "WEBTAU_BROWSER_ANNOTATIONS_DARK_FRIENDLY",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser doc capture to use light colors annotations by default (for dark theme UI)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_DISABLE_EXTENSIONS",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_ANNOTATIONS_DARK_FRIENDLY",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_DISABLE_EXTENSIONS",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "run browser without extensions",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_HEADLESS",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_DISABLE_EXTENSIONS",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_HEADLESS",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "run browser in headless mode",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_HEIGHT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_HEADLESS",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_HEIGHT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser window height",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "0",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_ID",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_HEIGHT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_ID",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser to use: chrome, firefox",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "chrome",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": chrome",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_REMOTE_DRIVER_URL",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_ID",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_REMOTE_DRIVER_URL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser remote driver url",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_REMOTE_DRIVER_URL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "number of times to automatically retry for browser stale element actions",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "5",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 5",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "wait time in between browser stale element retries",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "100",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 100",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_URL",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_URL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser base url for application under test. It is being used instead of url when provided",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_VERSION",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_URL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_VERSION",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser version for automatic driver download",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_BROWSER_WIDTH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_VERSION",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_BROWSER_WIDTH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser window width",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "0",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CACHE_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_BROWSER_WIDTH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CACHE_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "user driven cache base dir",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "${workingDir}/.webtau-cache",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ${workingDir}/.webtau-cache",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CHROME_BIN_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CACHE_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CHROME_BIN_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CHROME_DRIVER_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CHROME_BIN_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CHROME_DRIVER_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome driver binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CLI_ENV",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CHROME_DRIVER_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CLI_ENV",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "cli common environment variables",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "{}",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": {}",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CLI_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CLI_ENV",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CLI_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path items to append to path used for cli runs",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "[]",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": []",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CLI_TIMEOUT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CLI_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CLI_TIMEOUT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "cli foreground command run timeout (ms)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "30000",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CONFIG",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CLI_TIMEOUT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CONFIG",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "config file path",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau.cfg.groovy",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": webtau.cfg.groovy",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CONFIG",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "max number of lines to display in console for outputs (e.g. http response)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "500",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 500",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_DB_DRIVER_CLASS_NAME",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_DB_DRIVER_CLASS_NAME",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database driver class name",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_DB_PASSWORD",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_DB_DRIVER_CLASS_NAME",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_DB_PASSWORD",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database password",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_DB_URL",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_DB_PASSWORD",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_DB_URL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database url",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_DB_USER_NAME",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_DB_URL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_DB_USER_NAME",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database user name",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_DISABLE_REDIRECTS",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_DB_USER_NAME",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_DISABLE_REDIRECTS",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "disable following of redirects from HTTP calls",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_DOC_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_DISABLE_REDIRECTS",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_DOC_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path for captured request/responses, screenshots and other generated artifacts for documentation",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "${workingDir}/doc-artifacts",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ${workingDir}/doc-artifacts",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_ENV",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_DOC_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_ENV",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "environment id",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "local",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": local",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_FAILED_REPORT_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_ENV",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_FAILED_REPORT_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "failed report file path",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_FIREFOX_BIN_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_FAILED_REPORT_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_FIREFOX_BIN_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_FIREFOX_DRIVER_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_FIREFOX_BIN_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_FIREFOX_DRIVER_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox driver binary",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_FULL_STACK_TRACE",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_FIREFOX_DRIVER_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_FULL_STACK_TRACE",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "print full stack trace to console",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_GRAPH_QLENDPOINT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_FULL_STACK_TRACE",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_GRAPH_QLENDPOINT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "override the default graphQL endpoint",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "/graphql",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": /graphql",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_GRAPH_QLENDPOINT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "ignore graphQL introspection failures, introspection is required for coverage reporting",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "true",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "pass the graphQL operation as operation=",
@@ -1480,318 +1765,437 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " query parameter if present",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "true",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_HTTP_PROXY",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_HTTP_PROXY",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "http proxy host:port",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_HTTP_TIMEOUT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_HTTP_PROXY",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_HTTP_TIMEOUT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "http connect and read timeout in milliseconds",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "30000",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_JSON_SCHEMAS_DIR",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_HTTP_TIMEOUT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_JSON_SCHEMAS_DIR",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "url of directory containing JSON schemas",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "/home/runner/work/webtau/webtau/webtau-groovy-app",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": /home/runner/work/webtau/webtau/webtau-groovy-app",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_MAX_REDIRECTS",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_JSON_SCHEMAS_DIR",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_MAX_REDIRECTS",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "Maximum number of redirects to follow for an HTTP call",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "20",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 20",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_NO_COLOR",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_MAX_REDIRECTS",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_NO_COLOR",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "disable ANSI colors",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_NUMBER_OF_THREADS",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_NO_COLOR",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_NUMBER_OF_THREADS",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "number of threads on which to run test files (one file per thread), -1 will use as many threads as there are files",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "1",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 1",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_NUMBER_OF_THREADS",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "ignore additional OpenAPI properties",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_OPEN_API_SPEC_URL",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_OPEN_API_SPEC_URL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "url of OpenAPI 2 spec against which to validate http calls",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
+          } ],
+          "anchorId" : "WEBTAU_OPEN_API_SPEC_URL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_PARALLEL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "WEBTAU_REMOVE_WEBTAU_FROM_USER_AGENT",
+              "text" : "run tests in parallel using numberOfThreads equals to number of files",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
+              "type" : "SimpleText"
+            } ]
+          } ],
+          "anchorId" : "WEBTAU_PARALLEL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "By default webtau appends webtau and its version to the user-agent, this disables that part",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "false",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_REPORT_NAME",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_REPORT_NAME",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report name to show",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau report",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": webtau report",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_REPORT_NAME_URL",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_REPORT_NAME",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_REPORT_NAME_URL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report name url to navigate to when clicked",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_REPORT_PATH",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_REPORT_NAME_URL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_REPORT_PATH",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report file path",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "/home/runner/work/webtau/webtau/webtau-groovy-app/${workingDir}/webtau.report.html",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ${workingDir}/webtau.report.html",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_SERVER_PROXY_MAX_THREADS",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_REPORT_PATH",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_SERVER_PROXY_MAX_THREADS",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "max number of threads for proxy servers (default number of CPUs * 2)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "4",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 4",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
+          } ],
+          "anchorId" : "WEBTAU_SERVER_PROXY_MAX_THREADS",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_TERMUI",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "WEBTAU_URL",
+              "text" : "enable terminal UI to monitor tests (experimental)",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": false",
+              "type" : "SimpleText"
+            } ]
+          } ],
+          "anchorId" : "WEBTAU_TERMUI",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_URL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "base url for application under test",
               "type" : "SimpleText"
             } ]
-          } ], null ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_USER_AGENT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_URL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_USER_AGENT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "User agent to send on HTTP requests",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "webtau/1.46",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": webtau/1.47",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_VERBOSITY_LEVEL",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_USER_AGENT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_VERBOSITY_LEVEL",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etc",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "2147483647",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 2147483647",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_WAIT_TIMEOUT",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_VERBOSITY_LEVEL",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_WAIT_TIMEOUT",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "wait timeout in milliseconds",
               "type" : "SimpleText"
             } ]
-          } ], [ {
+          }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "5000",
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": 5000",
               "type" : "SimpleText"
             } ]
-          } ] ], [ [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "WEBTAU_WORKING_DIR",
-              "type" : "SimpleText"
-            } ]
-          } ], [ {
+          } ],
+          "anchorId" : "WEBTAU_WAIT_TIMEOUT",
+          "type" : [ ]
+        }, {
+          "name" : "WEBTAU_WORKING_DIR",
+          "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "logical working dir",
               "type" : "SimpleText"
             } ]
-          } ], null ] ],
-          "columns" : [ {
-            "title" : "environment variable"
           }, {
-            "title" : "description"
-          }, {
-            "title" : "default value"
-          } ]
-        }
+            "type" : "Paragraph",
+            "content" : [ {
+              "type" : "Emphasis",
+              "content" : [ {
+                "text" : "default value",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ": ",
+              "type" : "SimpleText"
+            } ]
+          } ],
+          "anchorId" : "WEBTAU_WORKING_DIR",
+          "type" : [ ]
+        } ]
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Configuration",
       "pageTitle" : "Options",

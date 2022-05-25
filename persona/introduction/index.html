@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Persona Context</h1></header>
-<p>Webtau persona defines a user of your system with a context associated with that user. Example of context: authentication credentials, browser, custom config parameters. scenario('context example') { Alice { step(&quot;do something in context of Alice&quot;) { customAction() } } Bob { step(&quot;do same thing in context of Bob&quot;) { customAction() } } } Alice and Bob execute the same action. Within the action we can access who is the current persona and what is the payload of the persona. def customAction() { def id = Persona.currentPersona.id def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override step(&quot;custom action&quot;, [authId: authId, email: email]) { println &quot;authenticating $id&quot; } }</p>
+<p>WebTau persona defines a user of your system with a context associated with that user. Example of context: authentication credentials, browser, custom config parameters. scenario('context example') { Alice { step(&quot;do something in context of Alice&quot;) { customAction() } } Bob { step(&quot;do same thing in context of Bob&quot;) { customAction() } } } Alice and Bob execute the same action. Within the action we can access who is the current persona and what is the payload of the persona. def customAction() { def id = Persona.currentPersona.id def authId = Persona.currentPersona.payload.authId // from persona payload def email = cfg.email // from persona associated config override step(&quot;custom action&quot;, [authId: authId, email: email]) { println &quot;authenticating $id&quot; } }</p>
 </article>
 
 <article>
@@ -130,7 +130,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau ",
+          "text" : "WebTau ",
           "type" : "SimpleText"
         }, {
           "code" : "persona",
@@ -252,10 +252,10 @@ ReactDOM.render(React.createElement(Documentation, {
         "imageSrc" : "/webtau/doc-artifacts/reports/persona-concept-steps.png",
         "type" : "AnnotatedImage",
         "height" : 802.0,
-        "timestamp" : 1641787092300
+        "timestamp" : 1653501694727
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103764,
     "tocItem" : {
       "sectionTitle" : "Persona",
       "pageTitle" : "Introduction",

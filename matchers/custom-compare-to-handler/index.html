@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Custom Compare To Handler</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Handler vs Matcher</h1></header>
+<p>Adding new equality and greater/less rules is done by creating and registering new . Creating new matchers is not required in this case.</p>
+</article>
+
+<article>
+<header><h1>CompareToHandler</h1></header>
+<p>To add a new handler you need toimplement register new class using Java Services Interface public interface CompareToHandler { /** * determines whether supports equality comparison * @param actual actual value * @param expected expected value * @return true if comparison can be handled */ boolean handleEquality(Object actual, Object expected); /** * determines whether supports greater/less than comparison family * @param actual actual value * @param expected expected value * @return true if comparison can be handled */ default boolean handleGreaterLessEqual(Object actual, Object expected) { return false; } /** * determines whether handler can handle nulls. usually left unimplemented * @return true if handler can match nulls */ default boolean handleNulls() { return false; } /** * implementation logic of equality only * @param comparator comparator to delegate comparison to * @param actualPath path to use for reporting * @param actual actual value * @param expected expected value */ void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected); /** * implementation logic of greater/less than family * @param comparator comparator to delegate comparison to * @param actualPath path to use for reporting * @param actual actual value * @param expected expected value */ default void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) { throw new UnsupportedOperationException(&quot;greater-less comparison is not implemented&quot;); } } Example Implementation Below is an existing implementation of handler to deal with Java Bean as actual and Map as expected public class MapAndBeanCompareToHandler implements CompareToHandler { @Override public boolean handleEquality(Object actual, Object expected) { return isMapOfProps(expected) &amp;&amp; isBean(actual); // only handles equality if actual is a java bean and expected is a map } @SuppressWarnings(&quot;unchecked&quot;) private boolean isMapOfProps(Object o) { if (!(o instanceof Map)) { return false; } return ((Map&lt;?, Object&gt;) o).keySet().stream().allMatch(k -&gt; k instanceof String); // making sure all the keys are strings } private boolean isBean(Object o) { return !(o instanceof Iterable || o instanceof Map); } @Override @SuppressWarnings(&quot;unchecked&quot;) public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) { Map&lt;String, ?&gt; expectedMap = (Map&lt;String, ?&gt;) expected; Map&lt;String, ?&gt; actualAsMap = JavaBeanUtils.convertBeanToMap(actual); expectedMap.keySet().forEach(p -&gt; { // going only through expected keys, ignoring all other bean properties ActualPath propertyPath = actualPath.property(p); if (actualAsMap.containsKey(p)) { // use provided comparator to delegate comparison of properties comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedMap.get(p)); } else { // report missing properties comparator.reportMissing(this, propertyPath, expectedMap.get(p)); } }); } } Registration WebTau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to discover implementations of handlers. To register an additional handler you need to create a file under resources META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler with the content file containing a line per implementing class org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View On GitHub"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "allowedGroups" : [ "admin" ]
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "handler-vs-matcher",
+      "type" : "Section",
+      "title" : "Handler vs Matcher",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Adding new equality and greater/less rules is done by creating and registering new ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CompareToHandler",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Creating new matchers is not required in this case.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "style" : "api",
+      "id" : "comparetohandler",
+      "type" : "Section",
+      "title" : "CompareToHandler",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To add a new handler you need to",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "type" : "BulletList",
+        "tight" : true,
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "implement ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "CompareToHandler",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "register new class using Java Services",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "level" : 2,
+        "id" : "comparetohandler-interface",
+        "type" : "SubHeading",
+        "title" : "Interface"
+      }, {
+        "snippet" : "public interface CompareToHandler {\n    /**\n     * determines whether supports equality comparison\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    boolean handleEquality(Object actual, Object expected);\n\n    /**\n     * determines whether supports greater/less than comparison family\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    default boolean handleGreaterLessEqual(Object actual, Object expected) {\n        return false;\n    }\n\n    /**\n     * determines whether handler can handle nulls. usually left unimplemented\n     * @return true if handler can match nulls\n     */\n    default boolean handleNulls() {\n        return false;\n    }\n\n    /**\n     * implementation logic of equality only\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    void compareEqualOnly(CompareToComparator comparator,\n                          ActualPath actualPath, Object actual,\n                          Object expected);\n\n    /**\n     * implementation logic of greater/less than family\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    default void compareGreaterLessEqual(CompareToComparator comparator,\n                                         ActualPath actualPath, Object actual,\n                                         Object expected) {\n        throw new UnsupportedOperationException(\"greater-less comparison is not implemented\");\n    }\n}",
+        "entry" : "CompareToHandler",
+        "type" : "Snippet",
+        "title" : "interface to implement",
+        "lang" : "java"
+      }, {
+        "level" : 2,
+        "id" : "comparetohandler-example-implementation",
+        "type" : "SubHeading",
+        "title" : "Example Implementation"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Below is an existing implementation of handler to deal with Java Bean as actual and Map as expected",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "public class MapAndBeanCompareToHandler implements CompareToHandler {\n    @Override\n    public boolean handleEquality(Object actual, Object expected) {\n        return isMapOfProps(expected) && isBean(actual); // only handles equality if actual is a java bean and expected is a map\n    }\n\n    @SuppressWarnings(\"unchecked\")\n    private boolean isMapOfProps(Object o) {\n        if (!(o instanceof Map)) {\n            return false;\n        }\n\n        return ((Map<?, Object>) o).keySet().stream().allMatch(k -> k instanceof String); // making sure all the keys are strings\n    }\n\n    private boolean isBean(Object o) {\n        return !(o instanceof Iterable || o instanceof Map);\n    }\n\n    @Override\n    @SuppressWarnings(\"unchecked\")\n    public void compareEqualOnly(CompareToComparator comparator,\n                                 ActualPath actualPath, Object actual,\n                                 Object expected) {\n        Map<String, ?> expectedMap = (Map<String, ?>) expected;\n        Map<String, ?> actualAsMap = JavaBeanUtils.convertBeanToMap(actual);\n\n        expectedMap.keySet().forEach(p -> { // going only through expected keys, ignoring all other bean properties\n            ActualPath propertyPath = actualPath.property(p);\n\n            if (actualAsMap.containsKey(p)) {\n                // use provided comparator to delegate comparison of properties\n                comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedMap.get(p));\n            } else {\n                // report missing properties\n                comparator.reportMissing(this, propertyPath, expectedMap.get(p));\n            }\n        });\n    }\n}",
+        "entry" : "MapAndBeanCompareToHandler",
+        "commentsType" : "inline",
+        "type" : "Snippet",
+        "title" : "map and bean comparison handler",
+        "lang" : "java"
+      }, {
+        "level" : 2,
+        "id" : "comparetohandler-registration",
+        "type" : "SubHeading",
+        "title" : "Registration"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau uses ",
+          "type" : "SimpleText"
+        }, {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Service Loaders",
+            "type" : "SimpleText"
+          } ],
+          "url" : "https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html"
+        }, {
+          "text" : " to discover implementations of handlers.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "To register an additional handler you need to create a file under resources",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler\n",
+        "type" : "Snippet",
+        "lineNumber" : "",
+        "lang" : ""
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "with the content file containing a line per implementing class",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler",
+        "type" : "Snippet",
+        "title" : "src/main/resources/META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler",
+        "autoTitle" : true,
+        "lang" : "CompareToHandler",
+        "includeRegexp" : "MapAndBeanCompareToHandler"
+      } ]
+    } ],
+    "lastModifiedTime" : 1653501103764,
+    "tocItem" : {
+      "sectionTitle" : "Matchers",
+      "pageTitle" : "Custom Compare To Handler",
+      "pageMeta" : { },
+      "dirName" : "matchers",
+      "fileName" : "custom-compare-to-handler",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Handler vs Matcher",
+        "id" : "handler-vs-matcher"
+      }, {
+        "title" : "CompareToHandler",
+        "id" : "comparetohandler"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

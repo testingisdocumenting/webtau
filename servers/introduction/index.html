@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>Webtau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) def router = server.router() // router-example .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } // router-example .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } // router-example // router-example def myServer = server.fake(&quot;my-rest-server&quot;, router) // router-example def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a &quot;bad&quot; state. proxyServer.markUnresponsive() def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
+<p>WebTau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) def router = server.router() // router-example .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } // router-example .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } // router-example // router-example def myServer = server.fake(&quot;my-rest-server&quot;, router) // router-example def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a &quot;bad&quot; state. proxyServer.markUnresponsive() def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
 </article>
 </section>
 </div>
@@ -115,7 +115,7 @@ ReactDOM.render(React.createElement(Documentation, {
     "content" : [ {
       "type" : "Paragraph",
       "content" : [ {
-        "text" : "Webtau ",
+        "text" : "WebTau ",
         "type" : "SimpleText"
       }, {
         "code" : "server.",
@@ -194,7 +194,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "title" : "content override",
       "lang" : "groovy"
     } ],
-    "lastModifiedTime" : 1641786403230,
+    "lastModifiedTime" : 1653501103764,
     "tocItem" : {
       "sectionTitle" : "Servers",
       "pageTitle" : "Introduction",

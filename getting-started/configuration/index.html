@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Config File</h1></header>
-<p>Webtau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use webtau will read data from a different place. Groovy When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = &quot;http://localhost:8080&quot; Note: webtau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, webtau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080</p>
+<p>WebTau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use WebTau will read data from a different place. Groovy When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = &quot;http://localhost:8080&quot; Note: WebTau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080</p>
 </article>
 
 <article>
 <header><h1>Environments</h1></header>
-<p>Webtau supports environment specific config values, and a way to select which environment to set active during tests run. Groovy url = &quot;http://localhost:8080&quot; environments { qa { url = &quot;http://server.qa:8080&quot; } } To select an active environment using groovy-standalone-runner/introduction Groovy Standalone Runner you can pass env as cli parameter webtau --env=qa Additionally you can use environment varialbe to set an active environment: WEBTAU_ENV=qa . Java url = http://localhost:8080 environments.qa.url = http://server.qa:8080 To select an active environment you have two options:System property -Denv=qa Environment variable WEBTAU_ENV=qa</p>
+<p>WebTau supports environment specific config values, and a way to select which environment to set active during tests run. Groovy url = &quot;http://localhost:8080&quot; environments { qa { url = &quot;http://server.qa:8080&quot; } } To select an active environment using groovy-standalone-runner/introduction Groovy Standalone Runner you can pass env as cli parameter webtau --env=qa Additionally you can use environment varialbe to set an active environment: WEBTAU_ENV=qa . Java url = http://localhost:8080 environments.qa.url = http://server.qa:8080 To select an active environment you have two options:System property -Denv=qa Environment variable WEBTAU_ENV=qa</p>
 </article>
 
 <article>
 <header><h1>Overrides</h1></header>
-<p>Webtau has a list of options you can specify using config file: configuration/options url, browserId, etc.. You can override any value using configuration/options#environment-variable-options environment variables: export WEBTAU_URL=http://another-server export WEBTAU_CHROME_DRIVER_PATH=/path/to/chrome/driver In addition to environment variables, you can use a runner specific way to override: Groovy Standalone Runner In case of Groovy standalone runner, pass --&lt;option&gt;=&lt;value&gt; : webtau --waitTimeout=25000 --url=http://another-server JUnit Like Runners Pass system property via java -D option: -Durl=http://another-server</p>
+<p>WebTau has a list of options you can specify using config file: configuration/options url, browserId, etc.. You can override any value using configuration/options#environment-variable-options environment variables: export WEBTAU_URL=http://another-server export WEBTAU_CHROME_DRIVER_PATH=/path/to/chrome/driver In addition to environment variables, you can use a runner specific way to override: Groovy Standalone Runner In case of Groovy standalone runner, pass --&lt;option&gt;=&lt;value&gt; : webtau --waitTimeout=25000 --url=http://another-server JUnit Like Runners Pass system property via java -D option: -Durl=http://another-server</p>
 </article>
 </section>
 </div>
@@ -130,7 +130,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau let you specify services url, browser settings, DB url connections, etc in a config file.",
+          "text" : "WebTau let you specify services url, browser settings, DB url connections, etc in a config file.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
@@ -146,7 +146,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ],
           "url" : "/webtau/getting-started/installation"
         }, {
-          "text" : " you use webtau will read data from a different place.",
+          "text" : " you use WebTau will read data from a different place.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -173,7 +173,7 @@ ReactDOM.render(React.createElement(Documentation, {
           }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "Note: webtau treats groovy config file as code",
+              "text" : "Note: WebTau treats groovy config file as code",
               "type" : "SimpleText"
             } ]
           } ]
@@ -193,7 +193,7 @@ ReactDOM.render(React.createElement(Documentation, {
               } ],
               "url" : "/webtau/getting-started/installation#junit5"
             }, {
-              "text" : ", webtau expects file named",
+              "text" : ", WebTau expects file named",
               "type" : "SimpleText"
             }, {
               "type" : "SoftLineBreak"
@@ -221,7 +221,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau supports environment specific config values, and a way to select which environment to set active during tests run.",
+          "text" : "WebTau supports environment specific config values, and a way to select which environment to set active during tests run.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -331,7 +331,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau has a list of options you can specify using config file: ",
+          "text" : "WebTau has a list of options you can specify using config file: ",
           "type" : "SimpleText"
         }, {
           "isFile" : false,
@@ -417,7 +417,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : ""
       } ]
     } ],
-    "lastModifiedTime" : 1641786403226,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "Getting Started",
       "pageTitle" : "Configuration",

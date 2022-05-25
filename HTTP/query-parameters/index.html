@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Passing Query Parameters</h1></header>
-<p>Webtau offers a number of ways of specifying query parameters: http.get(&quot;params?a=1&amp;b=text&quot;) { // assertions go here } Use Map as a second parameter to pass query parameters. Suitable for languages that support in-line creation of Map . http.get(&quot;params&quot;, [a: 1, b: 'text']) { // assertions go here } Only http.get has a Map variant, for http.put , http.post , etc you must use http.query . http.get(&quot;params&quot;, http.query([a: 1, b: 'text']), http.header(['x-param': 'value'])) { // assertions go here } Additionally http.query has a vararg variant which is more convenient for Java . http.get(&quot;params&quot;, http.query('a', '1', 'b', 'text')) { // assertions go here }</p>
+<p>WebTau offers a number of ways of specifying query parameters: http.get(&quot;params?a=1&amp;b=text&quot;) { // assertions go here } Use Map as a second parameter to pass query parameters. Suitable for languages that support in-line creation of Map . http.get(&quot;params&quot;, [a: 1, b: 'text']) { // assertions go here } Only http.get has a Map variant, for http.put , http.post , etc you must use http.query . http.get(&quot;params&quot;, http.query([a: 1, b: 'text']), http.header(['x-param': 'value'])) { // assertions go here } Additionally http.query has a vararg variant which is more convenient for Java . http.get(&quot;params&quot;, http.query('a', '1', 'b', 'text')) { // assertions go here }</p>
 </article>
 
 <article>
@@ -125,7 +125,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Webtau offers a number of ways of specifying query parameters:",
+          "text" : "WebTau offers a number of ways of specifying query parameters:",
           "type" : "SimpleText"
         } ]
       }, {
@@ -255,7 +255,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "txt"
       } ]
     } ],
-    "lastModifiedTime" : 1641786403222,
+    "lastModifiedTime" : 1653501103760,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Query Parameters",
