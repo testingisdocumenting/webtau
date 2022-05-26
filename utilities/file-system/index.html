@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Temporary Dirs And Files</h1></header>
-<p>def dir = fs.tempDir(&quot;my-dir-prefix&quot;) def path = dir.resolve(&quot;my-file&quot;) fs.writeText(path, &quot;hello world&quot;) def parentDir = fs.tempDir(&quot;my-dir-prefix&quot;) def dir = fs.tempDir(parentDir, &quot;nested-temp-dir&quot;) def file = fs.tempFile(&quot;my-file-prefix&quot;, &quot;.txt&quot;) fs.writeText(file, &quot;hello world&quot;) def dir = fs.tempDir(&quot;temp-dir-prefix&quot;) def file = fs.tempFile(dir, &quot;my-file-prefix&quot;, &quot;.txt&quot;) /tmp/temp-dir-prefix3289999834325477623/my-file-prefix2768817879722067587.txt Note: temp files and temp directories will be automatically deleted at the end of run</p>
+<p>def dir = fs.tempDir(&quot;my-dir-prefix&quot;) def path = dir.resolve(&quot;my-file&quot;) fs.writeText(path, &quot;hello world&quot;) def parentDir = fs.tempDir(&quot;my-dir-prefix&quot;) def dir = fs.tempDir(parentDir, &quot;nested-temp-dir&quot;) def file = fs.tempFile(&quot;my-file-prefix&quot;, &quot;.txt&quot;) fs.writeText(file, &quot;hello world&quot;) def dir = fs.tempDir(&quot;temp-dir-prefix&quot;) def file = fs.tempFile(dir, &quot;my-file-prefix&quot;, &quot;.txt&quot;) /tmp/temp-dir-prefix7675520564015790378/my-file-prefix7250101212348748876.txt Note: temp files and temp directories will be automatically deleted at the end of run</p>
 </article>
 </section>
 </div>
@@ -313,7 +313,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "create temp file inside a directory",
         "lang" : "groovy"
       }, {
-        "snippet" : "/tmp/temp-dir-prefix3289999834325477623/my-file-prefix2768817879722067587.txt",
+        "snippet" : "/tmp/temp-dir-prefix7675520564015790378/my-file-prefix7250101212348748876.txt",
         "type" : "Snippet",
         "title" : "example of temp file location",
         "lang" : "txt"
@@ -325,7 +325,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1653577025322,
+    "lastModifiedTime" : 1653578199530,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "File System",

@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:42193/params?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /params?a=1&amp;b=text http://localhost:40791/params?a=1&amp;b=text</p>
 </article>
 
 <article>
@@ -423,7 +423,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "request.url.txt",
         "lang" : "txt"
       }, {
-        "snippet" : "http://localhost:42193/params?a=1&b=text",
+        "snippet" : "http://localhost:40791/params?a=1&b=text",
         "type" : "Snippet",
         "title" : "request.fullurl.txt",
         "lang" : "txt"
@@ -464,7 +464,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1653577025318,
+    "lastModifiedTime" : 1653578199518,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Documentation",
