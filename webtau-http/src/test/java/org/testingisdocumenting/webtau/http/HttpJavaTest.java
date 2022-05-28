@@ -234,7 +234,7 @@ public class HttpJavaTest extends HttpTestBase {
         maxRedirects.set("test", 3);
         try {
             http.get("/recursive", (header, body) -> {
-                header.statusCode().should(equal(302));
+                header.statusCode.should(equal(302));
             });
         } finally {
             maxRedirects.reset();
@@ -396,6 +396,20 @@ public class HttpJavaTest extends HttpTestBase {
 
         http.post("/end-point", http.text.plain(content), (header, body) -> {
             // assertions go here
+        });
+    }
+
+    @Test
+    public void headerAssertionWithShortcut() {
+        http.post("/end-point", (header, body) -> {
+            header.location.should(equal("http://www.example.org/url/23"));
+            header.get("Location").should(equal("http://www.example.org/url/23"));
+
+            header.contentLocation.should(equal("/url/23"));
+            header.get("Content-Location").should(equal("/url/23"));
+
+            header.contentLength.shouldBe(greaterThan(300));
+            header.get("Content-Length").shouldBe(greaterThan(300));
         });
     }
 

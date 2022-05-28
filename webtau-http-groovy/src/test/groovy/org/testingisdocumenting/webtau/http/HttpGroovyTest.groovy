@@ -461,14 +461,14 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "header assertion with shortcut"() {
         http.post("/end-point") {
-            header.location.should == 'http://www.example.org/url/23'
-            header['Location'].should == 'http://www.example.org/url/23'
+            header.location.should == "http://www.example.org/url/23"
+            header["Location"].should == "http://www.example.org/url/23"
 
-            header.contentLocation.should == '/url/23'
-            header['Content-Location'].should == '/url/23'
+            header.contentLocation.should == "/url/23"
+            header["Content-Location"].should == "/url/23"
 
             header.contentLength.shouldBe > 300
-            header['Content-Length'].shouldBe > 300
+            header["Content-Length"].shouldBe > 300
         }
     }
 

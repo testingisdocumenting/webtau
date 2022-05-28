@@ -152,8 +152,8 @@ public class GraphQL {
         return http.post(url, header, graphQLRequest.toHttpRequestBody(), (headerDataNode, body) -> {
             Object validatorReturnValue = validator.validate(headerDataNode, body);
 
-            if (headerDataNode.statusCode().getTraceableValue().getCheckLevel() == CheckLevel.None) {
-                headerDataNode.statusCode().should(equal(SUCCESS_CODE));
+            if (headerDataNode.statusCode.getTraceableValue().getCheckLevel() == CheckLevel.None) {
+                headerDataNode.statusCode.should(equal(SUCCESS_CODE));
             }
 
             return validatorReturnValue;

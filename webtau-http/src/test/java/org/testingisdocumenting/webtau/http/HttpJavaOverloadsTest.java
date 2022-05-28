@@ -795,7 +795,7 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
             headerValidation.accept(body);
             urlValidation.accept(body);
 
-            return header.statusCode();
+            return header.statusCode;
         });
         actual(number).should(equal(expected));
 
@@ -803,21 +803,21 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
             headerValidation.accept(body);
             pathValidation.accept(body);
 
-            return header.statusCode();
+            return header.statusCode;
         });
         actual(number).should(equal(expected));
 
         number = http.delete("/full-echo", query, (header, body) -> {
             urlValidation.accept(body);
 
-            return header.statusCode();
+            return header.statusCode;
         });
         actual(number).should(equal(expected));
 
         number = http.delete("/full-echo", (header, body) -> {
             pathValidation.accept(body);
 
-            return header.statusCode();
+            return header.statusCode;
         });
         actual(number).should(equal(expected));
     }

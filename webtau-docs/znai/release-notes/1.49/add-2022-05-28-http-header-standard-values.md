@@ -1,0 +1,1 @@
+* Add Java common header values as exposed properties: `statusCode`, `contentType`, `location`, `contentLocation`, `contentLength`, `contentEncoding` 
