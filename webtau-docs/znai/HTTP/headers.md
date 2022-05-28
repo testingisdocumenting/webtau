@@ -91,13 +91,25 @@ Java:
 
 Use `http.body` to combine `Content-Type` and payload.
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "Combined type and payload", entry: "explicit binary mime types combined with request body", bodyOnly: true}
+```tabs
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "combined type and payload", entry: "explicit binary mime types combined with request body", bodyOnly: true}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "explicitBinaryMimeTypesCombinedWithRequestBody", bodyOnly: true}
+```
 
-If you need a standard type consider using  
+Standard types have shortcuts  
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "Binary content shortuct", entry: "post implicit binary mime types combined with request body", bodyOnly: true}
+```tabs
+Groovy:
+ 
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "binary content shortuct", entry: "post implicit binary mime types combined with request body", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "text content shortcut", entry: "implicit text mime types combined with request body", bodyOnly: true}
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "Text content shortcut", entry: "implicit text mime types combined with request body", bodyOnly: true}
+Java: 
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "postImplicitBinaryMimeTypesCombinedWithRequestBody", bodyOnly: true}
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "postImplicitTextMimeTypesCombinedWithRequestBody", bodyOnly: true}
+```
+
   
 # Response Header
 

@@ -407,7 +407,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "explicit binary mime types combined with request body"() {
-        def content = binaryFile('path')
+        def content = binaryFileContent('path')
         http.post("/end-point", http.body("application/octet-stream", content)) {
             // assertions go here
         }
@@ -415,7 +415,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "explicit text mime types combined with request body"() {
-        def content = binaryFile('path')
+        def content = binaryFileContent('path')
         http.post("/end-point", http.body("application/octet-stream", content)) {
             // assertions go here
         }
@@ -423,7 +423,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "post implicit binary mime types combined with request body"() {
-        def content = binaryFile('path')
+        def content = binaryFileContent('path')
         http.post("/end-point", http.application.octetStream(content)) {
             // assertions go here
         }
@@ -431,7 +431,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "put implicit binary mime types combined with request body"() {
-        def content = binaryFile('path')
+        def content = binaryFileContent('path')
         http.put("/end-point", http.application.octetStream(content)) {
             // assertions go here
         }
@@ -1270,7 +1270,7 @@ class HttpGroovyTest extends HttpTestBase {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }
 
-    private static byte[] binaryFile(String path) {
+    private static byte[] binaryFileContent(String path) {
         return [1, 2, 3] as byte[]
     }
 

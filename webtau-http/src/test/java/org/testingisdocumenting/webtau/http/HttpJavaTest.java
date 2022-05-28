@@ -373,4 +373,33 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("complexList[-1].k1").should(equal("v11"));
         });
     }
+
+    @Test
+    public void explicitBinaryMimeTypesCombinedWithRequestBody() {
+        byte[] content = binaryFileContent("path");
+        http.post("/end-point", http.body("application/octet-stream", content), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
+    public void postImplicitBinaryMimeTypesCombinedWithRequestBody() {
+        byte[] content = binaryFileContent("path");
+        http.post("/end-point", http.application.octetStream(content), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
+    public void postImplicitTextMimeTypesCombinedWithRequestBody() {
+        String content = "text content";
+
+        http.post("/end-point", http.text.plain(content), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    private static byte[] binaryFileContent(String path) {
+        return new byte[]{1, 2, 3};
+    }
 }
