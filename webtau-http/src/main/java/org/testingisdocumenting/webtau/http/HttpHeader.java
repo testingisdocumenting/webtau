@@ -59,16 +59,15 @@ public class HttpHeader {
                 toStringOrNull(e.getValue())));
     }
 
+    /**
+     * This method is now deprecated use {@link HttpHeader#with(Map)} instead
+     * @deprecated
+     * @param properties properties to merge with
+     * @return new instance of header with merged properties
+     */
     public HttpHeader merge(Map<CharSequence, CharSequence> properties) {
         Map<String, String> copy = new LinkedHashMap<>(this.header);
         properties.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));
-
-        return new HttpHeader(copy);
-    }
-
-    public HttpHeader merge(HttpHeader otherHeaders) {
-        Map<String, String> copy = new LinkedHashMap<>(this.header);
-        copy.putAll(otherHeaders.header);
 
         return new HttpHeader(copy);
     }
@@ -123,11 +122,33 @@ public class HttpHeader {
     /**
      * Creates a new header from the current one with an additional key values
      * @param additionalValues additional values
-     * @return new header
+     * @return new header with combined values
      */
     public HttpHeader with(Map<CharSequence, CharSequence> additionalValues) {
         Map<String, String> copy = new LinkedHashMap<>(this.header);
         additionalValues.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));
+
+        return new HttpHeader(copy);
+    }
+
+    /**
+     * Creates a new header from the current one with an additional key values copied from a given header
+     * @deprecated use {@link HttpHeader#with(HttpHeader)}
+     * @param otherHeader other header to take values from
+     * @return new header with combined values
+     */
+    public HttpHeader merge(HttpHeader otherHeader) {
+        return with(otherHeader);
+    }
+
+    /**
+     * Creates a new header from the current one with an additional key values copied from a given header
+     * @param otherHeader other header to take values from
+     * @return new header with combined values
+     */
+    public HttpHeader with(HttpHeader otherHeader) {
+        Map<String, String> copy = new LinkedHashMap<>(this.header);
+        copy.putAll(otherHeader.header);
 
         return new HttpHeader(copy);
     }
