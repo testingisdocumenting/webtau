@@ -1,0 +1,1 @@
+* Deprecate `HttpHeader.merge` in favor of `HttpHeader.with` 
