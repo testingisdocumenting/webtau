@@ -30,7 +30,7 @@ import java.util.List;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-public interface DataNode extends DataNodeExpectations, Comparable, Iterable<DataNode>, PrettyPrintable {
+public interface DataNode extends DataNodeExpectations, Comparable<Object>, Iterable<DataNode>, PrettyPrintable {
     DataNodeId id();
 
     DataNode get(String pathOrName);

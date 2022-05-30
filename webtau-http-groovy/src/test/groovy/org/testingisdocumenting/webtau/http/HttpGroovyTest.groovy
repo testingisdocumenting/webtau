@@ -715,7 +715,7 @@ class HttpGroovyTest extends HttpTestBase {
             return addressType == "complex" ? address.zipCode : "NA"
         }
 
-        zipCode.should == "12345"
+        zipCode.should == "12345" // doc-exclude
     }
 
     @Test

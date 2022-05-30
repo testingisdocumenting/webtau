@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.http;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.junit.*;
 
@@ -37,6 +38,53 @@ import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpJavaTest extends HttpTestBase {
     private static final byte[] sampleFile = {1, 2, 3};
+
+    @Test
+    public void useClosureAsValidation() {
+        http.get("/end-point", ((header, body) -> {
+            DataNode price = body.get("price");
+            price.should(equal(100));
+        }));
+    }
+
+    @Test
+    public void canReturnSimpleValueFromGet() {
+        Integer id = http.get("/end-point", ((header, body) -> {
+            return body.get("id");
+        }));
+
+        assert id == 10;
+    }
+
+    @Test
+    public void childrenKeyShortcut() {
+        http.get("/end-point", ((header, body) -> {
+            body.get("complexList").get("k2").should(equal(Arrays.asList(30, 40)));
+        }));
+    }
+
+    @Test
+    public void ifElseLogic() {
+        String zipCode = http.get("/address", ((header, body) -> {
+            return body.get("addressType").get().equals("complex") ? body.get("address.zipCode") : "NA";
+        }));
+
+        actual(zipCode).should(equal("12345")); // doc-exclude
+    }
+
+    @Test
+    public void eachOnSimpleList() {
+        http.get("/end-point", (header, body) -> {
+            body.get("list").forEach(node -> node.shouldBe(greaterThan(0)));
+        });
+    }
+
+    @Test
+    public void eachOnComplexList() {
+        http.get("/end-point", (header, body) -> {
+            body.get("complexList").forEach(node -> node.get("k2").shouldBe(greaterThan(0)));
+        });
+    }
 
     @Test
     public void ping() {
