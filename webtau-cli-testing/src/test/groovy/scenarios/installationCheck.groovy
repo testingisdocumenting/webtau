@@ -29,7 +29,7 @@ scenario('shows help and exits') {
 scenario('validates cli argument is listed') {
     webtauCli.run('--wrongOption 3') {
         output.should contain('Unrecognized option: --wrongOption')
-        exitCode.should == 1
+        exitCode.should == 2
     }
 }
 
