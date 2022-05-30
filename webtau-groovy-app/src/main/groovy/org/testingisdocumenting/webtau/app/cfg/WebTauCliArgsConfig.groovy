@@ -34,8 +34,10 @@ class WebTauCliArgsConfig {
     private static final String REPL_EXPERIMENTAL = "replexp"
 
     private static final String CLI_SOURCE = "command line argument"
-    private static final String HELP_OPTION = "help"
-    private static final String EXAMPLE_OPTION = "example"
+
+    private static final String HELP_KEY = "help"
+    private static final String VERSION_KEY = "version"
+    private static final String EXAMPLE_KEY = "example"
 
     private static final Set<String> COMMANDS = [REPL, REPL_EXPERIMENTAL]
 
@@ -84,9 +86,11 @@ class WebTauCliArgsConfig {
         Options options = createOptions()
         commandLine = createCommandLine(args, options)
 
-        if (commandLine.hasOption(EXAMPLE_OPTION)) {
+        if (commandLine.hasOption(EXAMPLE_KEY)) {
             scaffoldExamples()
-        } else if (commandLine.hasOption(HELP_OPTION) ||
+        } else if (commandLine.hasOption(VERSION_KEY)) {
+            printVersion()
+        } else if (commandLine.hasOption(HELP_KEY) ||
                 commandLine.argList.isEmpty() &&
                 !isReplMode(args) && !isExperimentalReplMode(args)) {
             printHelp(options)
@@ -108,6 +112,11 @@ class WebTauCliArgsConfig {
         exitHandler.exit(1)
     }
 
+    private void printVersion() {
+        WebTauVersion.print()
+        exitHandler.exit(1)
+    }
+
     private static CommandLine createCommandLine(String[] args, Options options) {
         DefaultParser parser = new DefaultParser()
         try {
@@ -125,8 +134,9 @@ class WebTauCliArgsConfig {
 
     private Options createOptions() {
         def options = new Options()
-        options.addOption(null, HELP_OPTION, false, "print help")
-        options.addOption(null, EXAMPLE_OPTION, false, "generate basic examples")
+        options.addOption(null, HELP_KEY, false, "print help")
+        options.addOption(null, VERSION_KEY, false, "print version")
+        options.addOption(null, EXAMPLE_KEY, false, "generate basic examples")
 
         cfg.getEnumeratedCfgValuesStream().each {
             options.addOption(null, it.key, !it.isBoolean(), it.description)
